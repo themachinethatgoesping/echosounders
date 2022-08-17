@@ -23,11 +23,31 @@
 #endif
 
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_all = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_by_type = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_4 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_file_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_files = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_files_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_paths = R"doc()doc";
 
@@ -44,6 +64,12 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_4 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram = R"doc()doc";
 

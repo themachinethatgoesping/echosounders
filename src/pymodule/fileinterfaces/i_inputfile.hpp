@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <pybind11/stl.h>
 #include <pybind11/iostream.h>
+#include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
@@ -16,5 +16,12 @@
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::fileinterfaces;
 
-#define __INPUTFILE_INTERFACE__ //nothing to do yet
-
+#define __INPUTFILE_INTERFACE__(T_CLASS)                                                           \
+    // .def("append_file",                                                                            \
+    //      &T_CLASS::append_file,                                                                    \
+    //      DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),      \
+    //      py::arg("file_path"))                                                                     \
+    //     .def("append_files",                                                                       \
+    //          &T_CLASS::append_files,                                                                \
+    //          DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_files), \
+    //          py::arg("file_paths"))

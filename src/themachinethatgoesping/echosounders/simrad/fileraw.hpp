@@ -6,6 +6,10 @@
 
 #pragma once
 
+/* themachinethatgoesping includes */
+#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include "../fileinterfaces/i_inputfile.hpp"
 
 #include "ek60_types.hpp"
@@ -18,8 +22,23 @@ namespace simrad {
 class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>
 {
   public:
-    FileRaw(const std::string& filepath)
-        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(filepath)
+    FileRaw(const std::string& file_path)
+        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_path)
+    {
+    }
+
+    FileRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& pbar)
+        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_path, pbar)
+    {
+    }
+
+    FileRaw(const std::vector<std::string>& file_paths)
+        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_paths)
+    {
+    }
+
+    FileRaw(const std::vector<std::string>& file_paths, tools::progressbars::I_ProgressBar& pbar)
+        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_paths, pbar)
     {
     }
 

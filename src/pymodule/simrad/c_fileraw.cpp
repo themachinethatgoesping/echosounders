@@ -7,6 +7,7 @@
 #include <pybind11/iostream.h>
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
 #include "../docstrings.hpp"
@@ -17,6 +18,7 @@
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
+using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 void init_c_fileraw(pybind11::module& m)
 {
@@ -33,6 +35,35 @@ void init_c_fileraw(pybind11::module& m)
                  I_InputFile,
                  I_InputFile),
              py::arg("file_path"))
+
+        .def(py::init<const std::string&, I_ProgressBar& >(),
+             py::call_guard<py::scoped_ostream_redirect>(),
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 fileinterfaces,
+                 I_InputFile,
+                 I_InputFile_2),
+             py::arg("file_path"),
+             py::arg("progressbar"))
+
+        .def(py::init<const std::vector<std::string>&>(),
+             py::call_guard<py::scoped_ostream_redirect>(),
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 fileinterfaces,
+                 I_InputFile,
+                 I_InputFile_3),
+             py::arg("file_path"))
+
+        .def(py::init<const std::vector<std::string>&, I_ProgressBar& >(),
+             py::call_guard<py::scoped_ostream_redirect>(),
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 fileinterfaces,
+                 I_InputFile,
+                 I_InputFile_4),
+             py::arg("file_paths"),
+             py::arg("progressbar"))
         // .def("__call__",
         //      py::overload_cast<double>(&LinearInterpolator::operator()),
         //      DOC(themachinethatgoesping, tools, vectorinterpolators, I_Interpolator, operator_call),
@@ -46,7 +77,7 @@ void init_c_fileraw(pybind11::module& m)
         //          operator_call_2),
         //      py::arg("targets_x"))
         // I_InputFile Interface
-        __INPUTFILE_INTERFACE__
+        __INPUTFILE_INTERFACE__(FileRaw)
         // default copy functions
         // __PYCLASS_DEFAULT_COPY__(LinearInterpolator)
         // // default binary functions
