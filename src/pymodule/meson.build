@@ -7,7 +7,11 @@ module_name = 'echosounders'
         
 # -- sources
 sources = [
-    'module.cpp'
+    'module.cpp',
+    'simrad/module.cpp',
+    'simrad/datagrams/module.cpp',
+    'simrad/datagrams/c_ek60_datagram.cpp',
+    'simrad/c_fileraw.cpp'
 ]
 
 # define python module
