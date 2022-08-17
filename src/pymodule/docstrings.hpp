@@ -27,17 +27,17 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_path = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_good = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_paths = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_streams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_by_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_resetStream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_scan_for_packages = R"doc()doc";
 
