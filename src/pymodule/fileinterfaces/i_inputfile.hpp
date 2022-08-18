@@ -16,12 +16,54 @@
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::fileinterfaces;
 
+#define __INPUTFILE_DEFAULT_CONSTRUCTORS__(T_CLASS)                                                \
+    .def(py::init<const std::string&, bool>(),                                                     \
+         py::call_guard<py::scoped_ostream_redirect>(),                                            \
+         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile),      \
+         py::arg("file_path"),                                                                     \
+         py::arg("show_progress") = true)                                                          \
+        .def(                                                                                      \
+            py::init<const std::string&, I_ProgressBar&>(),                                        \
+            py::call_guard<py::scoped_ostream_redirect>(),                                         \
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_2), \
+            py::arg("file_path"),                                                                  \
+            py::arg("progress_bar"))                                                               \
+        .def(                                                                                      \
+            py::init<const std::vector<std::string>&, bool>(),                                     \
+            py::call_guard<py::scoped_ostream_redirect>(),                                         \
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_3), \
+            py::arg("file_path"),                                                                  \
+            py::arg("show_progress") = true)                                                       \
+        .def(                                                                                      \
+            py::init<const std::vector<std::string>&, I_ProgressBar&>(),                           \
+            py::call_guard<py::scoped_ostream_redirect>(),                                         \
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_4), \
+            py::arg("file_paths"),                                                                 \
+            py::arg("progress_bar"))
+
 #define __INPUTFILE_INTERFACE__(T_CLASS)                                                           \
-    // .def("append_file",                                                                            \
-    //      &T_CLASS::append_file,                                                                    \
-    //      DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),      \
-    //      py::arg("file_path"))                                                                     \
-    //     .def("append_files",                                                                       \
-    //          &T_CLASS::append_files,                                                                \
-    //          DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_files), \
-    //          py::arg("file_paths"))
+    .def("append_file",                                                                            \
+         py::overload_cast<const std::string&, bool>(&T_CLASS::append_file),                       \
+         py::call_guard<py::scoped_ostream_redirect>(),                                            \
+         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),      \
+         py::arg("file_path"),                                                                     \
+         py::arg("show_progress") = true)                                                          \
+        .def("append_file",                                                                        \
+             py::overload_cast<const std::string&, I_ProgressBar&>(&T_CLASS::append_file),         \
+             py::call_guard<py::scoped_ostream_redirect>(),                                        \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
+             py::arg("file_path"),                                                                 \
+             py::arg("progress_bar"))                                                              \
+        .def("append_files",                                                                       \
+             py::overload_cast<const std::vector<std::string>&, bool>(&T_CLASS::append_files),     \
+             py::call_guard<py::scoped_ostream_redirect>(),                                        \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
+             py::arg("file_path"),                                                                 \
+             py::arg("show_progress") = true)                                                      \
+        .def("append_files",                                                                       \
+             py::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(                   \
+                 &T_CLASS::append_files),                                                          \
+             py::call_guard<py::scoped_ostream_redirect>(),                                        \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
+             py::arg("file_path"),                                                                 \
+             py::arg("progress_bar"))

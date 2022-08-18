@@ -65,29 +65,43 @@ class I_InputFile
         _package_headers_by_type;
 
   public:
-    I_InputFile(const std::string& file_path) { append_file(file_path); }
-    I_InputFile(const std::string& file_path, tools::progressbars::I_ProgressBar& pbar)
+    I_InputFile(const std::string& file_path, bool show_progress = true)
     {
-        append_file(file_path, pbar);
+        append_file(file_path, show_progress);
+    }
+    I_InputFile(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
+    {
+        append_file(file_path, progress_bar);
     }
 
-    I_InputFile(const std::vector<std::string>& file_paths) { append_files(file_paths); }
-    I_InputFile(const std::vector<std::string>&     file_paths,
-                tools::progressbars::I_ProgressBar& pbar)
+    I_InputFile(const std::vector<std::string>& file_paths, bool show_progress)
     {
-        append_files(file_paths, pbar);
+        append_files(file_paths, show_progress);
+    }
+    I_InputFile(const std::vector<std::string>&     file_paths,
+                tools::progressbars::I_ProgressBar& progress_bar)
+    {
+        append_files(file_paths, progress_bar);
     }
 
     virtual ~I_InputFile() = default;
 
-    void append_files(const std::vector<std::string>& file_paths)
+    void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
-        tools::progressbars::ProgressIndicator pbar;
-        append_files(file_paths, pbar);
+        // defaults to no indicator
+        tools::progressbars::ProgressBar progress_bar;
+
+        if (show_progress)
+        {
+            progress_bar.emplace<tools::progressbars::ProgressIndicator>();
+        }
+
+        //auto pbar = tools::progressbars::ProgressIndicator();
+        append_files(file_paths, tools::progressbars::get_progress_bar(progress_bar));
     }
 
     void append_files(const std::vector<std::string>&     file_paths,
-                      tools::progressbars::I_ProgressBar& pbar)
+                      tools::progressbars::I_ProgressBar& progress_bar)
     {
         // get total file size of all files
         size_t total_file_size = 0;
@@ -97,33 +111,42 @@ class I_InputFile
         {
             total_file_size += std::filesystem::file_size(file_path);
         }
-        pbar.init(0, total_file_size, "indexing files");
+        progress_bar.init(0, total_file_size, "indexing files");
 
         for (const auto& file_path : file_paths)
         {
-            // pbar.set_postfix with the last 30 characters of the file path
+            // progress_bar.set_postfix with the last 30 characters of the file path
             if (file_path.size() > 23)
-                pbar.set_postfix(".." + file_path.substr(file_path.size() - 20) + " (" +
-                                 std::to_string(int(std::filesystem::file_size(file_path) / 1024 / 1024)) + "/" +
-                                 std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
+                progress_bar.set_postfix(
+                    ".." + file_path.substr(file_path.size() - 20) + " (" +
+                    std::to_string(int(std::filesystem::file_size(file_path) / 1024 / 1024)) + "/" +
+                    std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
             else
-                pbar.set_postfix(file_path);
-            append_file(file_path, pbar);
+                progress_bar.set_postfix(file_path);
+            append_file(file_path, progress_bar);
         }
 
-        pbar.close(std::string("Found: ") +
-                   std::to_string(_package_headers_all.size() - packages_old) + " packages in " +
-                   std::to_string(file_paths.size()) + " files (" +
-                   std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
+        progress_bar.close(std::string("Found: ") +
+                           std::to_string(_package_headers_all.size() - packages_old) +
+                           " packages in " + std::to_string(file_paths.size()) + " files (" +
+                           std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
     }
 
-    void append_file(const std::string& file_path)
+    void append_file(const std::string& file_path, bool show_progress = true)
     {
-        tools::progressbars::ProgressIndicator pbar;
-        append_file(file_path, pbar);
+        if (!show_progress)
+        {
+            auto pbar = tools::progressbars::NoIndicator();
+            append_file(file_path, pbar);
+        }
+        else
+        {
+            auto pbar = tools::progressbars::ProgressIndicator();
+            append_file(file_path, pbar);
+        }
     }
 
-    void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& pbar)
+    void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
         std::ifstream ifi(file_path, std::ios_base::binary);
 
@@ -132,7 +155,8 @@ class I_InputFile
                                         "\"!");
 
         // scan for package headers
-        DataFileInfo file_info = scan_for_packages(file_path, _file_paths.size(), ifi, pbar);
+        DataFileInfo file_info =
+            scan_for_packages(file_path, _file_paths.size(), ifi, progress_bar);
 
         _file_paths.push_back(file_path);
         _input_file_streams.push_back(std::move(ifi));
@@ -159,7 +183,7 @@ class I_InputFile
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
         std::ifstream&                      ifs,
-        tools::progressbars::I_ProgressBar& pbar) const
+        tools::progressbars::I_ProgressBar& progress_bar) const
     {
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier> file_info;
@@ -170,9 +194,9 @@ class I_InputFile
         auto fsize = std::filesystem::file_size(file_path);
         bool close_progressbar =
             false; ///< only close the progressbar if it was initialized within this function
-        if (!pbar.is_initialized())
+        if (!progress_bar.is_initialized())
         {
-            pbar.init(0, fsize, "indexing file");
+            progress_bar.init(0, fsize, "indexing file");
             close_progressbar = true;
         }
         auto pos = ifs.tellg();
@@ -191,7 +215,7 @@ class I_InputFile
                     // update using tick to allow progressbar that was initialized by append_files
                     // to work
                     auto pos_new = ifs.tellg();
-                    pbar.tick(pos_new - pos);
+                    progress_bar.tick(pos_new - pos);
                     pos = pos_new;
 
                     file_info.package_headers_all.push_back(std::make_pair(file_paths_cnt, pos));
@@ -213,8 +237,8 @@ class I_InputFile
         }
 
         if (close_progressbar)
-            pbar.close(std::string("Found: ") +
-                       std::to_string(file_info.package_headers_all.size()) + " packages");
+            progress_bar.close(std::string("Found: ") +
+                               std::to_string(file_info.package_headers_all.size()) + " packages");
 
         reset_stream(ifs);
         return file_info;

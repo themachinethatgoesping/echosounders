@@ -63,14 +63,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_4 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_DatagramType = R"doc(< Raw: Datagram type as)doc";

@@ -22,27 +22,12 @@ namespace simrad {
 class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>
 {
   public:
-    FileRaw(const std::string& file_path)
-        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_path)
-    {
-    }
-
-    FileRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& pbar)
-        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_path, pbar)
-    {
-    }
-
-    FileRaw(const std::vector<std::string>& file_paths)
-        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_paths)
-    {
-    }
-
-    FileRaw(const std::vector<std::string>& file_paths, tools::progressbars::I_ProgressBar& pbar)
-        : fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>(file_paths, pbar)
-    {
-    }
-
+    // inherit constructors
+    using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>::I_InputFile;
     ~FileRaw() =  default;
+
+    // using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>::append_file;
+    // using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>::append_files;
 
     // std::vector<FileDatagramEntry> GetDatagramEntries() const;
 
