@@ -89,15 +89,10 @@ class I_InputFile
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
         // defaults to no indicator
-        tools::progressbars::ProgressBar progress_bar;
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
 
-        if (show_progress)
-        {
-            progress_bar.emplace<tools::progressbars::ProgressIndicator>();
-        }
-
-        //auto pbar = tools::progressbars::ProgressIndicator();
-        append_files(file_paths, tools::progressbars::get_progress_bar(progress_bar));
+        // auto pbar = tools::progressbars::ProgressIndicator();
+        append_files(file_paths, progress_bar.get());
     }
 
     void append_files(const std::vector<std::string>&     file_paths,
@@ -134,16 +129,10 @@ class I_InputFile
 
     void append_file(const std::string& file_path, bool show_progress = true)
     {
-        if (!show_progress)
-        {
-            auto pbar = tools::progressbars::NoIndicator();
-            append_file(file_path, pbar);
-        }
-        else
-        {
-            auto pbar = tools::progressbars::ProgressIndicator();
-            append_file(file_path, pbar);
-        }
+
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
+
+        append_file(file_path, progress_bar.get());
     }
 
     void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
