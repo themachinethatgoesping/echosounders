@@ -24,6 +24,30 @@ namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
+enum class t_EK60_Datagram_Type : ek60_long
+{
+    XML0 = 810306904,
+    FIL1 = 827083078,
+    NME0 = 809848142,
+    MRU0 = 810897997,
+    RAW3 = 861356370
+};
+
+inline t_EK60_Datagram_Type peter()
+{
+    static std::unordered_map<t_EK60_Datagram_Type, int> test;
+
+    test[t_EK60_Datagram_Type::XML0] = 1;
+
+    t_EK60_Datagram_Type test2 = t_EK60_Datagram_Type::XML0;
+    test2 = t_EK60_Datagram_Type(0);
+
+    test2 = t_EK60_Datagram_Type(2);
+    test2 = t_EK60_Datagram_Type(6);
+
+    return test2;
+}
+
 struct EK60_Datagram
 {
     ek60_long _Length;       ///< Raw: Length of the datagram in bytes
@@ -79,7 +103,8 @@ struct EK60_Datagram
             tools::timeconv::unixtime_to_windows_filetime(unixtime);
     }
 
-    ek60_long get_datagram_type() const { return _DatagramType; }
+    ek60_long   get_datagram_type() const { return _DatagramType; }
+    std::string get_datagram_type_string() const { return DatagramTypeAsString(_DatagramType); }
 
     static std::string DatagramTypeAsString(const ek60_long& value)
     {

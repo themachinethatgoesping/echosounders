@@ -18,8 +18,7 @@ using datagrams::EK60_Datagram;
 
 void init_c_ek60_datagram(pybind11::module& m)
 {
-
-    py::class_<EK60_Datagram>(
+        py::class_<EK60_Datagram>(
         m,
         "EK60_Datagram",
         DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram))
@@ -49,6 +48,33 @@ void init_c_ek60_datagram(pybind11::module& m)
                           datagrams,
                           EK60_Datagram,
                           get_timestamp))
+        .def_property_readonly("datagram_type",
+                      &EK60_Datagram::get_datagram_type_string,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK60_Datagram,
+                          get_datagram_type_string))
+
+        .def_static("DatagramTypeAsString",
+                    &EK60_Datagram::DatagramTypeAsString,
+                    DOC(themachinethatgoesping,
+                        echosounders,
+                        simrad,
+                        datagrams,
+                        EK60_Datagram,
+                        DatagramTypeAsString),
+                        py::arg("type"))
+        .def_static("StringToDatagramType",
+                    &EK60_Datagram::StringToDatagramType,
+                    DOC(themachinethatgoesping,
+                        echosounders,
+                        simrad,
+                        datagrams,
+                        EK60_Datagram,
+                        StringToDatagramType),
+                        py::arg("type"))
 
         // --- raw data access ---
         .def_readwrite(
