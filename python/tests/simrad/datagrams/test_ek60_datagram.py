@@ -11,10 +11,10 @@ from themachinethatgoesping.echosounders.simrad.datagrams import EK60_Datagram
 class Test_echosounders_simrad_EK60_Datagram:
     def test_EK60_Datagram_should_support_common_functions(self):
         dat = EK60_Datagram()
-        dat._Length = 100
-        dat._DatagramType = 810306904
-        dat._LowDateTime = 10
-        dat._HighDateTime = 20
+        dat._raw_Length = 100
+        dat._raw_DatagramType = 810306904
+        dat._raw_LowDateTime = 10
+        dat._raw_HighDateTime = 20
 
         print(dat)
 
@@ -25,7 +25,7 @@ class Test_echosounders_simrad_EK60_Datagram:
         # copy
         dat2 = dat.copy()
         assert dat == dat2
-        dat2._Length = 12
+        dat2._raw_Length = 12
         assert dat != dat2
 
         # binary

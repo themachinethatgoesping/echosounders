@@ -81,6 +81,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_type = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_length =
+R"doc(length of the datagram in bytes (excluding the length fields at the
+beginning and end of the datagram))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_timestamp =
+R"doc(unix timestamp in seconds since epoch (1970-01-01). Data is converted
+to/from internal windows high/low timestamp representation.)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_operator_ne = R"doc()doc";
@@ -88,6 +96,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_serialize = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_length = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_timestamp = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_skip = R"doc()doc";
 

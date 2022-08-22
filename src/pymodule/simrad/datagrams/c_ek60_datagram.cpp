@@ -30,12 +30,32 @@ void init_c_ek60_datagram(pybind11::module& m)
                  datagrams,
                  EK60_Datagram,
                  EK60_Datagram))
+        // --- convenient data access ---
+        .def_property("length",
+                      &EK60_Datagram::get_length,
+                      &EK60_Datagram::set_length,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK60_Datagram,
+                          get_length))
+        .def_property("timestamp",
+                      &EK60_Datagram::get_timestamp,
+                      &EK60_Datagram::set_timestamp,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK60_Datagram,
+                          get_timestamp))
 
+        // --- raw data access ---
         .def_readwrite(
-            "_Length",
+            "_raw_Length",
             &EK60_Datagram::_Length,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram, Length))
-        .def_readwrite("_DatagramType",
+        .def_readwrite("_raw_DatagramType",
                        &EK60_Datagram::_DatagramType,
                        DOC(themachinethatgoesping,
                            echosounders,
@@ -43,7 +63,7 @@ void init_c_ek60_datagram(pybind11::module& m)
                            datagrams,
                            EK60_Datagram,
                            DatagramType))
-        .def_readwrite("_LowDateTime",
+        .def_readwrite("_raw_LowDateTime",
                        &EK60_Datagram::_LowDateTime,
                        DOC(themachinethatgoesping,
                            echosounders,
@@ -51,7 +71,7 @@ void init_c_ek60_datagram(pybind11::module& m)
                            datagrams,
                            EK60_Datagram,
                            LowDateTime))
-        .def_readwrite("_HighDateTime",
+        .def_readwrite("_raw_HighDateTime",
                        &EK60_Datagram::_HighDateTime,
                        DOC(themachinethatgoesping,
                            echosounders,
