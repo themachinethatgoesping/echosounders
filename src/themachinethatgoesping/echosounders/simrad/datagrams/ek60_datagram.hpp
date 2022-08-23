@@ -75,7 +75,7 @@ struct EK60_Datagram
 
         // (the packages are encapsulated by length)
         // if the lengths do not match the packages was not read correctly
-        if (length != _Length)
+        if (!is || length != _Length)
         {
             throw std::runtime_error("ERROR[EK60_Datagram::skip]: length mismatch");
         }

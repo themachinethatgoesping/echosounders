@@ -4,6 +4,7 @@
 
 # ignore pylint warning protected-access
 # pylint: disable=protected-access
+# pylint: disable=no-self-use
 
 from themachinethatgoesping.echosounders.simrad.datagrams import EK60_Datagram
 
