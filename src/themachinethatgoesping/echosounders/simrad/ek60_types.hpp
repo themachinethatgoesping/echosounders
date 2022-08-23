@@ -9,12 +9,12 @@
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
  * see also http://www.simrad.net/ek60_ref_english/default.htm
- * 
+ *
  * Note: these definitions are valid for EK60 and the EK80 files.
  */
 
 /*  */
-// 
+//
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
@@ -27,6 +27,46 @@ using ek60_long     = int32_t; // no error, long is specified as 32bit int in ma
 using ek60_float    = float;   // this must be 32bit!
 using ek60_double   = double;  // this must be 64bit!
 using ek60_DWORDLON = int64_t;
+
+enum class t_EK60_DatagramType : ek60_long
+{
+    XML0 = 810306904, ///< Unspecified (unknown) XML datagram
+    FIL1 = 827083078, ///< Filter datagram
+    NME0 = 809848142, ///< Unspecified (unknown) NMEA datagram
+    MRU0 = 810897997, ///< Motion datagram
+    RAW3 = 861356370 ///< Raw sample data datagram
+};
+
+inline std::string datagram_type_to_string(ek60_long value)
+{
+    std::string valueAsString;
+    valueAsString.resize(sizeof(value));
+    memcpy(&valueAsString[0], &value, sizeof(value));
+
+    return valueAsString;
+}
+
+inline ek60_long ek60_datagram_type_from_string(const std::string& value)
+{
+    ek60_long valueAsLong;
+    memcpy(&valueAsLong, &value[0], sizeof(valueAsLong));
+    return valueAsLong;
+}
+
+inline t_EK60_DatagramType peter()
+{
+    static std::unordered_map<t_EK60_DatagramType, int> test;
+
+    test[t_EK60_DatagramType::XML0] = 1;
+
+    t_EK60_DatagramType test2 = t_EK60_DatagramType::XML0;
+    test2                     = t_EK60_DatagramType(0);
+
+    test2 = t_EK60_DatagramType(2);
+    test2 = t_EK60_DatagramType(6);
+
+    return test2;
+}
 
 } // namespace simrad
 } // namespace echosounders

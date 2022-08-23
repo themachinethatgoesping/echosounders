@@ -66,4 +66,21 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
              py::call_guard<py::scoped_ostream_redirect>(),                                        \
              DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
              py::arg("file_path"),                                                                 \
-             py::arg("progress_bar"))
+             py::arg("progress_bar"))                                                              \
+                                                                                                   \
+        .def("static_datagram_identifier_to_string",                                                      \
+             &T_CLASS::datagram_identifier_to_string,                                              \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 datagram_identifier_to_string),                                                   \
+             py::arg("datagram_identifier"))                                                       \
+        .def("datagram_identifier_info",                                                 \
+             &T_CLASS::datagram_identifier_info,                                                  \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 datagram_identifier_info),                                              \
+             py::arg("datagram_identifier"))

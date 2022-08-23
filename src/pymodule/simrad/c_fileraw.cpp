@@ -19,7 +19,6 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
-using InputFileBase = I_InputFile<datagrams::EK60_Datagram, ek60_long>;
 
 void init_c_fileraw(pybind11::module& m)
 {
@@ -55,8 +54,8 @@ void init_c_fileraw(pybind11::module& m)
         // __PYCLASS_DEFAULT_COPY__(LinearInterpolator)
         // // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)
-        // // default printing functions
-        // __PYCLASS_DEFAULT_PRINTING__(LinearInterpolator)
-        // // end LinearInterpolator
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(FileRaw)
+        // end FileRaw
         ;
 }

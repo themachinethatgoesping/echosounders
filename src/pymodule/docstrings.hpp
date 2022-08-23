@@ -49,6 +49,10 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_files_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_datagram_identifier_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_datagram_identifier_to_string = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_streams = R"doc()doc";
@@ -63,11 +67,17 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_to_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagram_type_to_string = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_DatagramType = R"doc(< Raw: Datagram type as)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_DatagramTypeAsString = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_EK60_Datagram = R"doc()doc";
 
@@ -77,11 +87,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_StringToDatagramType = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_type_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_type = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_length =
 R"doc(length of the datagram in bytes (excluding the length fields at the
@@ -99,25 +105,29 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_serialize = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_datagram_type = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_length = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_timestamp = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_skip = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_peter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_ek60_datagram_type_from_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_peter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type_FIL1 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type_MRU0 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_FIL1 = R"doc(< Filter datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type_NME0 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_MRU0 = R"doc(< Motion datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type_RAW3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_t_EK60_Datagram_Type_XML0 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_RAW3 = R"doc(< Raw sample data datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -22,7 +22,7 @@ TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
 
     // set some variables
     dat._Length       = 100;
-    dat._DatagramType = EK60_Datagram::StringToDatagramType("XML0");
+    dat._DatagramType = ek60_long(t_EK60_DatagramType::XML0);
     dat._LowDateTime  = 1;
     dat._HighDateTime = 2;
 
@@ -42,14 +42,21 @@ TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
-}
 
+    //--- datagram concept ---
+    // length
+    REQUIRE(dat.get_length() == 100);
+    dat.set_length(123);
+    REQUIRE(dat.get_length() == 123);
 
-TEST_CASE("EK60_Datagram static functions", TESTTAG)
-{
-    SECTION("DatagramTypeAsString should be reversible")
-    {
-        REQUIRE(EK60_Datagram::DatagramTypeAsString(EK60_Datagram::StringToDatagramType("XML0")) == "XML0");
-        REQUIRE(EK60_Datagram::DatagramTypeAsString(EK60_Datagram::StringToDatagramType("FIL1")) == "FIL1");
-    }
+    // datagram type
+    dat.set_datagram_type(t_EK60_DatagramType::RAW3);
+    REQUIRE(dat.get_datagram_type() == t_EK60_DatagramType::RAW3);
+
+    // timestamp (unixtime)
+    dat.set_timestamp(123.123);
+    REQUIRE(dat.get_timestamp() == Approx(123.123));
+    REQUIRE(dat._HighDateTime == 27111903);
+    REQUIRE(dat._LowDateTime == 513905712);
+
 }

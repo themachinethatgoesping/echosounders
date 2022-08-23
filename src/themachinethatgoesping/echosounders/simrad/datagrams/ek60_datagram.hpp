@@ -8,8 +8,8 @@
 
 // std includes
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
@@ -24,30 +24,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-
-enum class t_EK60_Datagram_Type : ek60_long
-{
-    XML0 = 810306904,
-    FIL1 = 827083078,
-    NME0 = 809848142,
-    MRU0 = 810897997,
-    RAW3 = 861356370
-};
-
-inline t_EK60_Datagram_Type peter()
-{
-    static std::unordered_map<t_EK60_Datagram_Type, int> test;
-
-    test[t_EK60_Datagram_Type::XML0] = 1;
-
-    t_EK60_Datagram_Type test2 = t_EK60_Datagram_Type::XML0;
-    test2 = t_EK60_Datagram_Type(0);
-
-    test2 = t_EK60_Datagram_Type(2);
-    test2 = t_EK60_Datagram_Type(6);
-
-    return test2;
-}
 
 struct EK60_Datagram
 {
@@ -90,6 +66,16 @@ struct EK60_Datagram
     void      set_length(ek60_long length) { _Length = length; }
 
     /**
+     * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
+     *
+     */
+    t_EK60_DatagramType get_datagram_type() const { return t_EK60_DatagramType(_DatagramType); }
+    void                 set_datagram_type(t_EK60_DatagramType datagram_type)
+    {
+        _DatagramType = ek60_long(datagram_type);
+    }
+
+    /**
      * @brief unix timestamp in seconds since epoch (1970-01-01). Data is converted to/from internal
      * windows high/low timestamp representation.
      */
@@ -102,25 +88,6 @@ struct EK60_Datagram
     {
         std::tie(_HighDateTime, _LowDateTime) =
             tools::timeconv::unixtime_to_windows_filetime(unixtime);
-    }
-
-    ek60_long   get_datagram_type() const { return _DatagramType; }
-    std::string get_datagram_type_string() const { return DatagramTypeAsString(_DatagramType); }
-
-    static std::string DatagramTypeAsString(const ek60_long& value)
-    {
-        std::string valueAsString;
-        valueAsString.resize(sizeof(value));
-        memcpy(&valueAsString[0], &value, sizeof(value));
-
-        return valueAsString;
-    }
-
-    static ek60_long StringToDatagramType(const std::string& value)
-    {
-        ek60_long valueAsLong;
-        memcpy(&valueAsLong, &value[0], sizeof(valueAsLong));
-        return valueAsLong;
     }
 
     // ----- operators -----
@@ -157,7 +124,7 @@ struct EK60_Datagram
         tools::classhelpers::ObjectPrinter printer("Ek60_Datagram", float_precision);
 
         printer.register_value("length", _Length, "bytes");
-        printer.register_string("datagram_type", DatagramTypeAsString(_DatagramType));
+        printer.register_string("datagram_type", datagram_type_to_string(_DatagramType));
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");

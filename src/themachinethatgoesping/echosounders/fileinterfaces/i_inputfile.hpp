@@ -160,6 +160,9 @@ class I_InputFile
         }
     }
 
+    virtual std::string datagram_identifier_to_string(t_DatagramIdentifier datagram_identifier) const = 0;
+    virtual std::string datagram_identifier_info(t_DatagramIdentifier datagram_identifier) const = 0;
+
   protected:
     static void reset_stream(std::ifstream& ifs)
     {
