@@ -9,6 +9,7 @@
 // std includes
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
