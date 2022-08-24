@@ -27,6 +27,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_path = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_size = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_by_type = R"doc()doc";
@@ -61,9 +63,13 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_by_type = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_scan_for_packages = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_total_file_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
@@ -126,6 +132,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_Datag
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_RAW3 = R"doc(< Raw sample data datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_TAG0 = R"doc(< ???)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
 

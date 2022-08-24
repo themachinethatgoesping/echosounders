@@ -31,6 +31,7 @@ using ek60_DWORDLON = int64_t;
 enum class t_EK60_DatagramType : ek60_long
 {
     XML0 = 810306904, ///< Unspecified (unknown) XML datagram
+    TAG0 = 809976148, ///< ???
     FIL1 = 827083078, ///< Filter datagram
     NME0 = 809848142, ///< Unspecified (unknown) NMEA datagram
     MRU0 = 810897997, ///< Motion datagram

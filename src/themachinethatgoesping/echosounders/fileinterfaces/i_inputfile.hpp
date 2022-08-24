@@ -31,6 +31,7 @@ template<typename t_DatagramIdentifier>
 struct DataFileInfo
 {
     std::string file_path;
+    size_t      file_size;
 
     /* header positions */
     // std::vector<std::ifstream::pos_type> package_headers_all;
@@ -54,6 +55,7 @@ class I_InputFile
   protected:
     /* some file information */
     std::vector<std::string> _file_paths;
+    size_t                  _total_file_size = 0;
 
     /* the actual input file stream */
     std::vector<std::ifstream> _input_file_streams;
@@ -102,23 +104,24 @@ class I_InputFile
         size_t total_file_size = 0;
         size_t packages_old    = _package_headers_all.size();
 
-        for (const auto& file_path : file_paths)
-        {
-            total_file_size += std::filesystem::file_size(file_path);
-        }
         progress_bar.init(0, total_file_size, "indexing files");
+        for (unsigned int i = 0; i < file_paths.size(); ++i)
+        {
+            progress_bar.set_postfix(fmt::format("get file size {}/{}", i + 1, file_paths.size()));
+            total_file_size += std::filesystem::file_size(file_paths[i]);
+        }
 
-        for (const auto& file_path : file_paths)
+        progress_bar.init(0, total_file_size, "indexing files");
+        for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
             // progress_bar.set_postfix with the last 30 characters of the file path
-            if (file_path.size() > 23)
-                progress_bar.set_postfix(
-                    ".." + file_path.substr(file_path.size() - 20) + " (" +
-                    std::to_string(int(std::filesystem::file_size(file_path) / 1024 / 1024)) + "/" +
-                    std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
-            else
-                progress_bar.set_postfix(file_path);
-            append_file(file_path, progress_bar);
+            auto fp = file_paths[i];
+            if (fp.size() > 23)
+                fp = ".." + fp.substr(fp.size() - 20);
+
+            progress_bar.set_postfix(fmt::format("{} ({}/{})", fp, i + 1, file_paths.size()));
+
+            append_file(file_paths[i], progress_bar);
         }
 
         progress_bar.close(std::string("Found: ") +
@@ -147,6 +150,7 @@ class I_InputFile
         DataFileInfo file_info =
             scan_for_packages(file_path, _file_paths.size(), ifi, progress_bar);
 
+        _total_file_size += file_info.file_size;
         _file_paths.push_back(file_path);
         _input_file_streams.push_back(std::move(ifi));
         _package_headers_all.insert(_package_headers_all.end(),
@@ -160,8 +164,10 @@ class I_InputFile
         }
     }
 
-    virtual std::string datagram_identifier_to_string(t_DatagramIdentifier datagram_identifier) const = 0;
-    virtual std::string datagram_identifier_info(t_DatagramIdentifier datagram_identifier) const = 0;
+    virtual std::string datagram_identifier_to_string(
+        t_DatagramIdentifier datagram_identifier) const = 0;
+    virtual std::string datagram_identifier_info(
+        t_DatagramIdentifier datagram_identifier) const = 0;
 
   protected:
     static void reset_stream(std::ifstream& ifs)
@@ -183,19 +189,19 @@ class I_InputFile
         file_info.package_headers_by_type.clear();
         reset_stream(ifs);
 
-        auto fsize = std::filesystem::file_size(file_path);
+        file_info.file_size = std::filesystem::file_size(file_path);
         bool close_progressbar =
             false; ///< only close the progressbar if it was initialized within this function
         if (!progress_bar.is_initialized())
         {
-            progress_bar.init(0, fsize, "indexing file");
+            progress_bar.init(0, file_info.file_size, "indexing file");
             close_progressbar = true;
         }
         auto pos = ifs.tellg();
 
         try
         {
-            while (pos < signed(fsize))
+            while (pos < signed(file_info.file_size))
             {
                 //  this function may return nonsense...
                 auto header = t_DatagramBase::from_stream(ifs);
@@ -223,7 +229,7 @@ class I_InputFile
         catch (std::runtime_error& e)
         {
             std::cerr << "WARNING(InputFile): could not read the file entirely." << std::endl;
-            double percent = 100.0 * pos / fsize;
+            double percent = 100.0 * pos / file_info.file_size;
             std::cerr << fmt::format("Stopped after {:.2f} % of the file", percent) << std::endl;
             std::cerr << "Error message: " << e.what() << std::endl;
         }
@@ -234,6 +240,61 @@ class I_InputFile
 
         reset_stream(ifs);
         return file_info;
+    }
+
+  protected:
+    // ----- objectprinter -----
+    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelpers::ObjectPrinter printer("I_InputFile", float_precision);
+
+        if (_file_paths.size() > 1)
+        {
+            // find number of files per file ending in the file_paths vector
+            std::map<std::string, size_t> file_ending_counts;
+            for (const auto& file_path : _file_paths)
+            {
+                auto file_ending = file_path.substr(file_path.find_last_of(".") + 1);
+                file_ending_counts[file_ending]++;
+            }
+
+            for (const auto& [file_ending, count] : file_ending_counts)
+            {
+                printer.register_value(fmt::format("Number of loaded .{} files: ", file_ending),
+                                       count);
+            }
+        }
+        else // print the file path
+        {
+            // if size > 40, print only the last 40 characters
+            auto file_path = _file_paths[0];
+            if (file_path.size() > 40)
+                file_path = "..." + file_path.substr(file_path.size() - 40);
+
+            printer.register_value("File path", file_path);
+        }
+
+        if (_total_file_size > 1024 * 1024 * 1024)
+            printer.register_string("Total file size: ",
+                                   fmt::format("{:.2f} GB", _total_file_size / (1024.0 * 1024.0 * 1024.0)));
+        else if (_total_file_size > 1024 * 1024)
+            printer.register_string("Total file size: ",
+                                   fmt::format("{:.2f} MB", _total_file_size / (1024.0 * 1024.0)));
+        else if (_total_file_size > 1024)
+            printer.register_string("Total file size: ",
+                                   fmt::format("{:.2f} KB", _total_file_size / 1024.0));
+
+        printer.register_section("Detected datagrams");
+        printer.register_value("Total", _package_headers_all.size(), "");
+        for (const auto& kv : _package_headers_by_type)
+        {
+            std::string info = datagram_identifier_info(kv.first);
+
+            printer.register_value("Packages [" + datagram_identifier_to_string(kv.first) + "]",
+                                   kv.second.size(),
+                                   info);
+        }
+        return printer;
     }
 };
 

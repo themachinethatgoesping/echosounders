@@ -70,8 +70,10 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
                 [[fallthrough]];
             case t_EK60_DatagramType::MRU0:
                 [[fallthrough]];
+            case t_EK60_DatagramType::TAG0:
+                [[fallthrough]];
             case t_EK60_DatagramType::RAW3:
-                return "known / not implemented";
+                return "not implemented";
             default:
                 return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
         }
@@ -83,23 +85,28 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
     {
         tools::classhelpers::ObjectPrinter printer("FileSimradRaw", float_precision);
 
-        if (_file_paths.size() > 1)
-            printer.register_container("file paths", _file_paths, "");
-        else
-            printer.register_string("file path", _file_paths[0], "");
+        auto interface_printer =
+            fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType>::__printer__(
+                float_precision);
 
-        printer.register_value("Packages", _package_headers_all.size(), "");
-        for (const auto& kv : _package_headers_by_type)
-        {
-            std::string info = datagram_identifier_info(kv.first);
+        printer.append(interface_printer);
 
-            printer.register_value("Packages [" + datagram_identifier_to_string(kv.first) + "]",
-                                   kv.second.size(),
-                                   info);
-        }
+        // printer.register_section("File info");
+        // if (_file_paths.size() > 1)
+        //     printer.register_container("file paths", _file_paths, "");
+        // else
+        //     printer.register_string("file path", _file_paths[0], "");
 
-        // printer.append(GeoLocation::__printer__(float_precision));
+        // printer.register_section("Detected datagrams");
+        // printer.register_value("Total", _package_headers_all.size(), "");
+        // for (const auto& kv : _package_headers_by_type)
+        // {
+        //     std::string info = datagram_identifier_info(kv.first);
 
+        //     printer.register_value("Packages [" + datagram_identifier_to_string(kv.first) + "]",
+        //                            kv.second.size(),
+        //                            info);
+        // }
         return printer;
     }
 
@@ -112,4 +119,3 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
 } // namespace simrad
 } // namespace echosounders
 } // namespace themachinethatgoespingction macros --
-
