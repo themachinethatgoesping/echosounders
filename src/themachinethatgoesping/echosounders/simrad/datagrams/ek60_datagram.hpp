@@ -69,8 +69,8 @@ struct EK60_Datagram
      * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
      *
      */
-    t_EK60_DatagramType get_datagram_type() const { return t_EK60_DatagramType(_DatagramType); }
-    void                 set_datagram_type(t_EK60_DatagramType datagram_type)
+    t_EK60_DatagramType get_datagram_identifier() const { return t_EK60_DatagramType(_DatagramType); }
+    void                 set_datagram_identifier(t_EK60_DatagramType datagram_type)
     {
         _DatagramType = ek60_long(datagram_type);
     }

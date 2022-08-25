@@ -49,14 +49,14 @@ void init_c_ek60_datagram(pybind11::module& m)
                           EK60_Datagram,
                           get_timestamp))
         .def_property("datagram_type",
-                      &EK60_Datagram::get_datagram_type,
-                      &EK60_Datagram::set_datagram_type,
+                      &EK60_Datagram::get_datagram_identifier,
+                      &EK60_Datagram::set_datagram_identifier,
                       DOC(themachinethatgoesping,
                           echosounders,
                           simrad,
                           datagrams,
                           EK60_Datagram,
-                          get_datagram_type))
+                          get_datagram_identifier))
 
         
 

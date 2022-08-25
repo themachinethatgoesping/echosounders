@@ -50,8 +50,8 @@ TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
     REQUIRE(dat.get_length() == 123);
 
     // datagram type
-    dat.set_datagram_type(t_EK60_DatagramType::RAW3);
-    REQUIRE(dat.get_datagram_type() == t_EK60_DatagramType::RAW3);
+    dat.set_datagram_identifier(t_EK60_DatagramType::RAW3);
+    REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::RAW3);
 
     // timestamp (unixtime)
     dat.set_timestamp(123.123);

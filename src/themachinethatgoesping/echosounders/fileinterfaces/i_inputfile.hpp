@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 Peter Urban, Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
@@ -16,6 +17,7 @@
 #include <vector>
 
 #include <fmt/core.h>
+#include <boost/sort/sort.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -36,12 +38,10 @@ struct DataFileInfo
     /* header positions */
     // std::vector<std::ifstream::pos_type> package_headers_all;
 
-    // std::unordered_map<t_DatagramIdentifier, std::vector<std::ifstream::pos_type>>
-    //     package_headers_by_type;
-
-    std::vector<std::pair<size_t, std::ifstream::pos_type>> package_headers_all;
+    std::vector<std::tuple<size_t, std::ifstream::pos_type, double, t_DatagramIdentifier>>
+        package_headers_all;
     std::unordered_map<t_DatagramIdentifier,
-                       std::vector<std::pair<size_t, std::ifstream::pos_type>>>
+                       std::vector<std::tuple<size_t, std::ifstream::pos_type>>>
         package_headers_by_type;
 };
 
@@ -55,15 +55,16 @@ class I_InputFile
   protected:
     /* some file information */
     std::vector<std::string> _file_paths;
-    size_t                  _total_file_size = 0;
+    size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
     std::vector<std::ifstream> _input_file_streams;
 
     /* header positions */
-    std::vector<std::pair<size_t, std::ifstream::pos_type>> _package_headers_all;
+    std::vector<std::tuple<size_t, std::ifstream::pos_type, double, t_DatagramIdentifier>>
+        _package_headers_all;
     std::unordered_map<t_DatagramIdentifier,
-                       std::vector<std::pair<size_t, std::ifstream::pos_type>>>
+                       std::vector<std::tuple<size_t, std::ifstream::pos_type>>>
         _package_headers_by_type;
 
   public:
@@ -87,6 +88,76 @@ class I_InputFile
     }
 
     virtual ~I_InputFile() = default;
+
+    size_t number_of_packages() const
+    {
+        return _package_headers_all.size();
+    }
+
+    t_DatagramBase read_datagram_header(const long& python_index)
+    {
+        //convert from python index (can be negative) to C++ index
+        long index = python_index < 0 ? _package_headers_all.size() + python_index : python_index;
+
+        if (index < 0)
+            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " + (index - _package_headers_all.size()));
+
+        if (static_cast<uint>(index) >= _package_headers_all.size())
+                throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
+
+        //size_t, std::ifstream::pos_type double, t_DatagramIdentifier
+        const auto& package_info = _package_headers_all[index];
+        auto& ifs = _input_file_streams[std::get<0>(package_info)];
+
+        ifs.seekg(std::get<1>(package_info));
+
+        try{
+        auto header = t_DatagramBase::from_stream(ifs);
+        if (header.get_datagram_identifier() != std::get<3>(package_info))
+            throw std::runtime_error(fmt::format("Datagram identifier mismatch!"));
+        return header;
+        }
+        catch(std::exception& e){
+            
+            auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
+            msg += fmt::format("python_index: {}\n", python_index);
+            msg += fmt::format("index: {}\n", index);
+            msg += fmt::format("_package_headers_all.size(): {}\n", _package_headers_all.size());
+            msg += fmt::format("pos: {}\n", std::get<1>(package_info));
+            msg += fmt::format("size: {}\n", std::filesystem::file_size(_file_paths[std::get<0>(package_info)]));
+            throw std::runtime_error(msg);
+        }
+    }
+  
+    // sort _package_headers_all by timestamp in _package_timestamps
+    void sort_packages_by_time()
+    {
+        // sort _package_headers_all by third tuple element, then by second tuple element, then by
+        // first tuple element
+        // TODO: this is faster than std sort, but python sorting (timsort?) seems to be 10x faster for this use case
+        boost::sort::pdqsort(_package_headers_all.begin(), _package_headers_all.end(),
+                  [](const auto& lhs, const auto& rhs) {
+                      if (std::get<2>(lhs) < std::get<2>(rhs))
+                          return true;
+                      if (std::get<2>(lhs) > std::get<2>(rhs))
+                          return false;
+                      if (std::get<1>(lhs) < std::get<1>(rhs))
+                          return true;
+                      if (std::get<1>(lhs) > std::get<1>(rhs))
+                          return false;
+                      if (std::get<0>(lhs) < std::get<0>(rhs))
+                          return true;
+                      return false;
+                                            });
+
+        // reset _package_headers_by_type using the sorted _package_headers_all
+        _package_headers_by_type.clear();
+        for (const auto& header_info : _package_headers_all)
+        {
+            _package_headers_by_type[std::get<3>(header_info)].push_back(
+                std::make_tuple(std::get<0>(header_info), std::get<1>(header_info)));
+        }
+    }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
@@ -214,11 +285,15 @@ class I_InputFile
                     // to work
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(pos_new - pos);
-                    pos = pos_new;
 
-                    file_info.package_headers_all.push_back(std::make_pair(file_paths_cnt, pos));
-                    file_info.package_headers_by_type[header.get_datagram_type()].push_back(
-                        std::make_pair(file_paths_cnt, pos));
+                    auto datagram_identifier = header.get_datagram_identifier();
+
+                    file_info.package_headers_all.push_back(std::make_tuple(
+                        file_paths_cnt, pos, header.get_timestamp(), datagram_identifier));
+                    file_info.package_headers_by_type[datagram_identifier].push_back(
+                        std::make_tuple(file_paths_cnt, pos));
+
+                    pos = pos_new;
                 }
                 else
                 {
@@ -275,14 +350,15 @@ class I_InputFile
         }
 
         if (_total_file_size > 1024 * 1024 * 1024)
-            printer.register_string("Total file size: ",
-                                   fmt::format("{:.2f} GB", _total_file_size / (1024.0 * 1024.0 * 1024.0)));
+            printer.register_string(
+                "Total file size: ",
+                fmt::format("{:.2f} GB", _total_file_size / (1024.0 * 1024.0 * 1024.0)));
         else if (_total_file_size > 1024 * 1024)
             printer.register_string("Total file size: ",
-                                   fmt::format("{:.2f} MB", _total_file_size / (1024.0 * 1024.0)));
+                                    fmt::format("{:.2f} MB", _total_file_size / (1024.0 * 1024.0)));
         else if (_total_file_size > 1024)
             printer.register_string("Total file size: ",
-                                   fmt::format("{:.2f} KB", _total_file_size / 1024.0));
+                                    fmt::format("{:.2f} KB", _total_file_size / 1024.0));
 
         printer.register_section("Detected datagrams");
         printer.register_value("Total", _package_headers_all.size(), "");

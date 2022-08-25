@@ -68,7 +68,7 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
              py::arg("file_path"),                                                                 \
              py::arg("progress_bar"))                                                              \
                                                                                                    \
-        .def("static_datagram_identifier_to_string",                                                      \
+        .def("static_datagram_identifier_to_string",                                               \
              &T_CLASS::datagram_identifier_to_string,                                              \
              DOC(themachinethatgoesping,                                                           \
                  echosounders,                                                                     \
@@ -76,11 +76,72 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  I_InputFile,                                                                      \
                  datagram_identifier_to_string),                                                   \
              py::arg("datagram_identifier"))                                                       \
-        .def("datagram_identifier_info",                                                 \
-             &T_CLASS::datagram_identifier_info,                                                  \
+        .def("datagram_identifier_info",                                                           \
+             &T_CLASS::datagram_identifier_info,                                                   \
              DOC(themachinethatgoesping,                                                           \
                  echosounders,                                                                     \
                  fileinterfaces,                                                                   \
                  I_InputFile,                                                                      \
-                 datagram_identifier_info),                                              \
-             py::arg("datagram_identifier"))
+                 datagram_identifier_info),                                                        \
+             py::arg("datagram_identifier"))                                                       \
+        .def("sort_packages_by_time",                                                              \
+             &T_CLASS::sort_packages_by_time,                                                      \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 sort_packages_by_time))
+
+#define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_HEADER)                                           \
+    .def("number_of_packages",                                                                     \
+         &T_CLASS::number_of_packages,                                                             \
+         DOC(themachinethatgoesping,                                                               \
+             echosounders,                                                                         \
+             fileinterfaces,                                                                       \
+             I_InputFile,                                                                          \
+             number_of_packages))                                                                  \
+        .def("__len__",                                                                            \
+             &T_CLASS::number_of_packages,                                                         \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 number_of_packages))                                                              \
+        .def("read_datagram_header",                                                               \
+             &T_CLASS::read_datagram_header,                                                       \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 read_datagram_header),                                                            \
+             py::arg("index"))                                                                     \
+        .def("__getitem__",                                                                        \
+             &T_CLASS::read_datagram_header,                                                       \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFile,                                                                      \
+                 read_datagram_header),                                                            \
+             py::arg("index"))                                                                     \
+        .def(                                                                                      \
+            "read_datagram_headers",                                                               \
+            [](T_CLASS& self, const std::vector<size_t>& indices) {                                \
+                std::vector<T_HEADER> datagram_headers;                                            \
+                datagram_headers.reserve(indices.size());                                          \
+                auto pbar = themachinethatgoesping::tools::progressbars::ProgressIndicator();      \
+                pbar.init(0, indices.size(), "reading headers");                                   \
+                for (const auto& index : indices)                                                  \
+                {                                                                                  \
+                    datagram_headers.push_back(self.read_datagram_header(index));                  \
+                    pbar.tick();                                                                   \
+                }                                                                                  \
+                pbar.close();                                                                      \
+                return datagram_headers;                                                           \
+            },                                                                                     \
+            py::call_guard<py::scoped_ostream_redirect>(),                                         \
+            DOC(themachinethatgoesping,                                                            \
+                echosounders,                                                                      \
+                fileinterfaces,                                                                    \
+                I_InputFile,                                                                       \
+                read_datagram_header),                                                             \
+            py::arg("indices"))

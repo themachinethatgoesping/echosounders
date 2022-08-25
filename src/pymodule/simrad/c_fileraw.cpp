@@ -26,6 +26,7 @@ void init_c_fileraw(pybind11::module& m)
     py::class_<FileRaw>(m, "FileRaw", DOC(themachinethatgoesping, echosounders, simrad, FileRaw))
         __INPUTFILE_DEFAULT_CONSTRUCTORS__(FileRaw)
         __INPUTFILE_INTERFACE__(FileRaw)
+        __INPUTFILE_PACKAGE_READING__(FileRaw, datagrams::EK60_Datagram)
         
 
         // .def("append_file",

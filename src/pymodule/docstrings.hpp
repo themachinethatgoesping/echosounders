@@ -59,15 +59,21 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_streams = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_number_of_packages = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_by_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_read_datagram_header = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_scan_for_packages = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_sort_packages_by_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_total_file_size = R"doc()doc";
 
@@ -93,7 +99,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_type = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_length =
 R"doc(length of the datagram in bytes (excluding the length fields at the
@@ -111,7 +117,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_serialize = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_datagram_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_datagram_identifier = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_length = R"doc()doc";
 
