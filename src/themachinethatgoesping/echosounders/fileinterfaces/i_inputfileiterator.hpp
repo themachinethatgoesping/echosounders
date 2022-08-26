@@ -53,7 +53,7 @@ class I_InputFileIterator
 
 public:
     I_InputFileIterator(
-        const std::vector<std::string> file_paths,
+        const std::vector<std::string>& file_paths,
     const std::vector<PackageInfo<t_DatagramIdentifier>>& package_infos)
     : _file_paths(file_paths),
         _package_infos(package_infos)
