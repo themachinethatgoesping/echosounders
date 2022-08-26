@@ -20,8 +20,10 @@ py_navigation = pymod.extension_module(
     sources: sources,
     dependencies : [
         echosounders_dep,
+        xtensor_python_dep,
         pybind11_dep,
-        python3_dep],
+        python3_dep,
+        numpy_dep],
     link_language : 'cpp',
     override_options: [
         #'cpp_rtti=true',

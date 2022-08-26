@@ -122,26 +122,5 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  fileinterfaces,                                                                   \
                  I_InputFile,                                                                      \
                  read_datagram_header),                                                            \
-             py::arg("index"))                                                                     \
-        .def(                                                                                      \
-            "read_datagram_headers",                                                               \
-            [](T_CLASS& self, const std::vector<size_t>& indices) {                                \
-                std::vector<T_HEADER> datagram_headers;                                            \
-                datagram_headers.reserve(indices.size());                                          \
-                auto pbar = themachinethatgoesping::tools::progressbars::ProgressIndicator();      \
-                pbar.init(0, indices.size(), "reading headers");                                   \
-                for (const auto& index : indices)                                                  \
-                {                                                                                  \
-                    datagram_headers.push_back(self.read_datagram_header(index));                  \
-                    pbar.tick();                                                                   \
-                }                                                                                  \
-                pbar.close();                                                                      \
-                return datagram_headers;                                                           \
-            },                                                                                     \
-            py::call_guard<py::scoped_ostream_redirect>(),                                         \
-            DOC(themachinethatgoesping,                                                            \
-                echosounders,                                                                      \
-                fileinterfaces,                                                                    \
-                I_InputFile,                                                                       \
-                read_datagram_header),                                                             \
-            py::arg("indices"))
+             py::arg("index"))                                                                     
+             

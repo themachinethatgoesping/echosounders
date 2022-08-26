@@ -2,9 +2,12 @@
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
 //
 // SPDX-License-Identifier: MPL-2.0
-
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
+
+#include <xtensor/xmath.hpp>              // xtensor import for the C++ universal functions
+#define FORCE_IMPORT_ARRAY
+#include <xtensor-python/pyarray.hpp>     // Numpy bindings
 
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
@@ -20,37 +23,52 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
+struct A
+{
+    ek60_long a;
+    ek60_long b;
+
+    A() = default;
+};
+
 void init_c_fileraw(pybind11::module& m)
 {
+    xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
 
     py::class_<FileRaw>(m, "FileRaw", DOC(themachinethatgoesping, echosounders, simrad, FileRaw))
+        // constructors
         __INPUTFILE_DEFAULT_CONSTRUCTORS__(FileRaw)
+        // inputfile interface
         __INPUTFILE_INTERFACE__(FileRaw)
+        // package reading
         __INPUTFILE_PACKAGE_READING__(FileRaw, datagrams::EK60_Datagram)
-        
 
-        // .def("append_file",
-        //      py::overload_cast<const std::string&>(&FileRaw::append_file),
-        //      DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
-        //      py::arg("file_path"))
-        // .def("append_file",
-        //      py::overload_cast<const std::string&, I_ProgressBar&>(&InputFileBase::append_file),
-        //      DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file_2),
-        //      py::arg("file_path"),
-        //      py::arg("progressbar"))
-        // .def("__call__",
-        //      py::overload_cast<double>(&LinearInterpolator::operator()),
-        //      DOC(themachinethatgoesping, tools, vectorinterpolators, I_Interpolator,
-        //      operator_call), py::arg("target_x"))
-        // .def("__call__",
-        //      py::overload_cast<const std::vector<double>&>(&LinearInterpolator::operator()),
-        //      DOC(themachinethatgoesping,
-        //          tools,
-        //          vectorinterpolators,
-        //          I_Interpolator,
-        //          operator_call_2),
-        //      py::arg("targets_x"))
-        // I_InputFile Interface
+            // more methods
+            .def(
+                "read_datagram_headers",
+                [](FileRaw& self, const xt::pyarray<size_t> indices) {
+                    std::vector<datagrams::EK60_Datagram> datagram_headers;
+                    //xt::pyarray<datagrams::EK60_Datagram> datagram_headers_pyarray;
+
+                    datagram_headers.reserve(indices.size());
+                    themachinethatgoesping::tools::progressbars::ProgressIndicator pbar;
+                    pbar.init(0, indices.size(), "reading headers");
+                    for (const auto& index : indices)
+                    {
+                        datagram_headers.push_back(self.read_datagram_header(index));
+                        pbar.tick();
+                    }
+                    pbar.close();
+                    return datagram_headers;
+                },
+                py::call_guard<py::scoped_ostream_redirect>(),
+                DOC(themachinethatgoesping,
+                    echosounders,
+                    fileinterfaces,
+                    I_InputFile,
+                    read_datagram_header),
+                py::arg("indices"))
+
         // default copy functions
         // __PYCLASS_DEFAULT_COPY__(LinearInterpolator)
         // // default binary functions

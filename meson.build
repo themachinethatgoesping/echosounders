@@ -9,7 +9,7 @@ project(
   'cpp',
   license: 'MPL-2.0',
 
-  version: '0.1.6',
+  version: '0.2.0',
   default_options: ['warning_level=3', 'buildtype=release', 'cpp_std=c++17'],
   meson_version: '>=0.63' #0.63 added preserve_path for install headers option
 )
@@ -36,6 +36,12 @@ if not pugixml_dep.found()
     pugixml_dep = subproject('pugixml').get_variable('pugixml_dep')
 endif
 
+# xtensor_python
+xtensor_python_dep = dependency('xtensor-python', required: false)
+if not xtensor_python_dep.found()
+    xtensor_python_dep = subproject('xtensor-python').get_variable('xtensor_python_dep')
+endif
+
 # themachinethatgoesping
 # tools
 tools_dep = dependency('themachinethatgoesping_tools', required: false)
@@ -54,7 +60,6 @@ meta_dep = dependency('themachinethatgoesping_meta', required: false)
 if not meta_dep.found()
     meta_dep = subproject('meta').get_variable('meta_dep')
 endif
-
 
 # add src
 subdir('src')

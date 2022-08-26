@@ -27,6 +27,21 @@ pymod = import('python').find_installation(get_option('python_path'), required :
 if get_option('build_pythonmodule').enabled()
 
     if pymod.found()
+        #numpy (copied from https://github.com/mesonbuild/meson/issues/9598)
+        # NumPy include directory - needed in all submodules
+        py3 = find_program('python3', 'python')
+        incdir_numpy = run_command(py3,
+        [
+            '-c',
+            'import os; os.chdir(".."); import numpy; print(numpy.get_include())'
+        ],
+        check: true
+        ).stdout().strip()
+
+        inc_np = include_directories(incdir_numpy)
+        numpy_dep = declare_dependency(include_directories: inc_np)
+
+
         python3_dep = pymod.dependency()
 
         pybind11_dep = dependency('pybind11', required : false)
