@@ -35,9 +35,6 @@ struct PackageInfo
     std::ifstream::pos_type file_pos;             ///< file position of this package
     double                  timestamp;            ///< timestamp (unixtime) of this package
     t_DatagramIdentifier    datagram_identifier; ///< datagram type of this package
-    std::unordered_map<t_DatagramIdentifier, size_t>
-        previous_package_per_type; ///< position of the previous package of each
-                                   ///< type (in package_headers_all)
 };
 
 // TODO: explicitly derive t_ from i_ using concepts from c++20

@@ -85,10 +85,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos = R"doc(< file position of this package)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_previous_package_per_type =
-R"doc(< position of the previous package of each < type (in
-package_headers_all))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
