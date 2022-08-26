@@ -29,9 +29,9 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_all = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_all = R"doc(< all package headers)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_by_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_by_type = R"doc(< package headers sorted by type)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile = R"doc()doc";
 
@@ -76,6 +76,20 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_sort_packages_by_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_total_file_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_datagram_identifier = R"doc(< datagram type of this package)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_nr = R"doc(< file number of this package)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos = R"doc(< file position of this package)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_previous_package_per_type =
+R"doc(< position of the previous package of each < type (in
+package_headers_all))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 

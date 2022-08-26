@@ -1,6 +1,7 @@
-// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
-// SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
-// SPDX-FileCopyrightText: 2022 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean
+// Research Kiel SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz
+// Centre for Ocean Research Kiel SPDX-FileCopyrightText: 2022 Peter Urban,
+// Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
 
@@ -16,8 +17,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/core.h>
 #include <boost/sort/sort.hpp>
+#include <fmt/core.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -27,28 +28,38 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-// TODO: explicitly derive t_ from i_ using concepts from c++20
+template<typename t_DatagramIdentifier>
+struct PackageInfo
+{
+    size_t                  file_nr;              ///< file number of this package
+    std::ifstream::pos_type file_pos;             ///< file position of this package
+    double                  timestamp;            ///< timestamp (unixtime) of this package
+    t_DatagramIdentifier    datagram_identifier; ///< datagram type of this package
+    std::unordered_map<t_DatagramIdentifier, size_t>
+        previous_package_per_type; ///< position of the previous package of each
+                                   ///< type (in package_headers_all)
+};
 
+// TODO: explicitly derive t_ from i_ using concepts from c++20
 template<typename t_DatagramIdentifier>
 struct DataFileInfo
 {
+
     std::string file_path;
     size_t      file_size;
 
     /* header positions */
-    // std::vector<std::ifstream::pos_type> package_headers_all;
-
-    std::vector<std::tuple<size_t, std::ifstream::pos_type, double, t_DatagramIdentifier>>
-        package_headers_all;
-    std::unordered_map<t_DatagramIdentifier,
-                       std::vector<std::tuple<size_t, std::ifstream::pos_type>>>
-        package_headers_by_type;
+    std::vector<PackageInfo<t_DatagramIdentifier>> package_headers_all; ///< all package headers
+    std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
+        package_headers_by_type; ///< package headers sorted by type
 };
 
-template<typename t_DatagramBase, ///< the datagram base class which should contain the header and
-                                  ///< functions specified in the DatagramBase interface
-         typename t_DatagramIdentifier ///< the identifier of the datagram type. Must be hashable
-                                       ///< and comparable with ==
+template<typename t_DatagramBase,      ///< the datagram base class which should
+                                       ///< contain the header and functions
+                                       ///< specified in the DatagramBase interface
+         typename t_DatagramIdentifier ///< the identifier of the datagram type.
+                                       ///< Must be hashable and comparable with
+                                       ///< ==
          >
 class I_InputFile
 {
@@ -61,10 +72,8 @@ class I_InputFile
     std::vector<std::ifstream> _input_file_streams;
 
     /* header positions */
-    std::vector<std::tuple<size_t, std::ifstream::pos_type, double, t_DatagramIdentifier>>
-        _package_headers_all;
-    std::unordered_map<t_DatagramIdentifier,
-                       std::vector<std::tuple<size_t, std::ifstream::pos_type>>>
+    std::vector<PackageInfo<t_DatagramIdentifier>> _package_headers_all;
+    std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
         _package_headers_by_type;
 
   public:
@@ -89,73 +98,74 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
-    size_t number_of_packages() const
-    {
-        return _package_headers_all.size();
-    }
+    size_t number_of_packages() const { return _package_headers_all.size(); }
 
     t_DatagramBase read_datagram_header(const long& python_index)
     {
-        //convert from python index (can be negative) to C++ index
+        // convert from python index (can be negative) to C++ index
         long index = python_index < 0 ? _package_headers_all.size() + python_index : python_index;
 
         if (index < 0)
-            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " + (index - _package_headers_all.size()));
+            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
+                                        (index - _package_headers_all.size()));
 
-        if (static_cast<uint>(index) >= _package_headers_all.size())
-                throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
+        if (static_cast<size_t>(index) >= _package_headers_all.size())
+            throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
 
-        //size_t, std::ifstream::pos_type double, t_DatagramIdentifier
+        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_headers_all[index];
-        auto& ifs = _input_file_streams[std::get<0>(package_info)];
+        auto&       ifs          = _input_file_streams[package_info.file_nr];
 
-        ifs.seekg(std::get<1>(package_info));
+        ifs.seekg(package_info.file_pos);
 
-        try{
-        auto header = t_DatagramBase::from_stream(ifs);
-        if (header.get_datagram_identifier() != std::get<3>(package_info))
-            throw std::runtime_error(fmt::format("Datagram identifier mismatch!"));
-        return header;
+        try
+        {
+            auto header = t_DatagramBase::from_stream(ifs);
+            if (header.get_datagram_identifier() != package_info.datagram_identifier)
+                throw std::runtime_error(fmt::format("Datagram identifier mismatch!"));
+            return header;
         }
-        catch(std::exception& e){
-            
+        catch (std::exception& e)
+        {
+
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
             msg += fmt::format("python_index: {}\n", python_index);
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("_package_headers_all.size(): {}\n", _package_headers_all.size());
-            msg += fmt::format("pos: {}\n", std::get<1>(package_info));
-            msg += fmt::format("size: {}\n", std::filesystem::file_size(_file_paths[std::get<0>(package_info)]));
+            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("size: {}\n",
+                               std::filesystem::file_size(_file_paths[package_info.file_nr]));
             throw std::runtime_error(msg);
         }
     }
-  
+
     // sort _package_headers_all by timestamp in _package_timestamps
     void sort_packages_by_time()
     {
-        // sort _package_headers_all by third tuple element, then by second tuple element, then by
-        // first tuple element
-        // TODO: this is faster than std sort, but python sorting (timsort?) seems to be 10x faster for this use case
-        boost::sort::pdqsort(_package_headers_all.begin(), _package_headers_all.end(),
-                  [](const auto& lhs, const auto& rhs) {
-                      if (std::get<2>(lhs) < std::get<2>(rhs))
-                          return true;
-                      if (std::get<2>(lhs) > std::get<2>(rhs))
-                          return false;
-                      if (std::get<1>(lhs) < std::get<1>(rhs))
-                          return true;
-                      if (std::get<1>(lhs) > std::get<1>(rhs))
-                          return false;
-                      if (std::get<0>(lhs) < std::get<0>(rhs))
-                          return true;
-                      return false;
-                                            });
+        // sort _package_headers_all by  time, then file_pos then file number
+        // TODO: this is faster than std sort, but python sorting (timsort?) seems
+        // to be 10x faster for this use case
+        boost::sort::pdqsort(_package_headers_all.begin(),
+                             _package_headers_all.end(),
+                             [](const auto& lhs, const auto& rhs) {
+                                 if (lhs.timestamp < rhs.timestamp)
+                                     return true;
+                                 if (lhs.timestamp > rhs.timestamp)
+                                     return false;
+                                 if (lhs.file_pos < rhs.file_pos)
+                                     return true;
+                                 if (lhs.file_pos > rhs.file_pos)
+                                     return false;
+                                 if (lhs.file_nr < rhs.file_nr)
+                                     return true;
+                                 return false;
+                             });
 
         // reset _package_headers_by_type using the sorted _package_headers_all
         _package_headers_by_type.clear();
-        for (const auto& header_info : _package_headers_all)
+        for (const auto& package_info : _package_headers_all)
         {
-            _package_headers_by_type[std::get<3>(header_info)].push_back(
-                std::make_tuple(std::get<0>(header_info), std::get<1>(header_info)));
+            _package_headers_by_type[package_info.datagram_identifier].push_back(package_info);
         }
     }
 
@@ -260,9 +270,9 @@ class I_InputFile
         file_info.package_headers_by_type.clear();
         reset_stream(ifs);
 
-        file_info.file_size = std::filesystem::file_size(file_path);
-        bool close_progressbar =
-            false; ///< only close the progressbar if it was initialized within this function
+        file_info.file_size    = std::filesystem::file_size(file_path);
+        bool close_progressbar = false; ///< only close the progressbar if it was
+                                        ///< initialized within this function
         if (!progress_bar.is_initialized())
         {
             progress_bar.init(0, file_info.file_size, "indexing file");
@@ -281,17 +291,19 @@ class I_InputFile
                 // this function checks if the package content ifs senseful
                 if (ifs.good())
                 {
-                    // update using tick to allow progressbar that was initialized by append_files
-                    // to work
+                    // update using tick to allow progressbar that was initialized by
+                    // append_files to work
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(pos_new - pos);
 
-                    auto datagram_identifier = header.get_datagram_identifier();
+                    PackageInfo<t_DatagramIdentifier> package_info;
+                    package_info.file_nr = file_paths_cnt;
+                    package_info.file_pos = pos;
+                    package_info.timestamp = header.get_timestamp();
+                    package_info.datagram_identifier = header.get_datagram_identifier();
 
-                    file_info.package_headers_all.push_back(std::make_tuple(
-                        file_paths_cnt, pos, header.get_timestamp(), datagram_identifier));
-                    file_info.package_headers_by_type[datagram_identifier].push_back(
-                        std::make_tuple(file_paths_cnt, pos));
+                    file_info.package_headers_all.push_back(package_info);
+                    file_info.package_headers_by_type[package_info.datagram_identifier].push_back(package_info);
 
                     pos = pos_new;
                 }
