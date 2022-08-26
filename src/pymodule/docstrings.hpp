@@ -29,11 +29,23 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_all = R"doc(< all package headers)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_headers_by_type = R"doc(< package headers sorted by type)doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_infos_all = R"doc(< all package headers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_I_InputFileIterator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_file_paths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_getitem = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_input_file_streams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_len = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_package_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile = R"doc()doc";
 
@@ -61,9 +73,9 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_number_of_packages = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_all = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_infos_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_headers_by_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_infos_by_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
 
@@ -134,6 +146,20 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_timestamp = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_skip = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_EK60_Unknown = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_raw_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_serialize = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_ek60_datagram_type_from_string = R"doc()doc";
 

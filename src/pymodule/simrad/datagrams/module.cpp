@@ -18,7 +18,8 @@ namespace py = pybind11;
 #include <pybind11/pybind11.h>
 
 // -- submodule declarations --
-void init_c_ek60_datagram(pybind11::module& m); // init_c_ek60_datagram.cpp
+void init_c_ek60_datagram(pybind11::module& m); // c_ek60_datagram.cpp
+void init_c_ek60_unknown(pybind11::module& m); // c_ek60_unknown.cpp
 
 // -- create submodule --
 void init_m_simrad_datagrams(pybind11::module& m)
@@ -28,4 +29,5 @@ void init_m_simrad_datagrams(pybind11::module& m)
 
     // simrad classes
     init_c_ek60_datagram(subm);
+    init_c_ek60_unknown(subm);
 }

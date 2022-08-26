@@ -14,7 +14,8 @@ headers = [
   'fileinterfaces/i_inputfile.hpp',
   'simrad/fileraw.hpp',
   'simrad/ek60_types.hpp',
-  'simrad/datagrams/ek60_datagram.hpp'
+  'simrad/datagrams/ek60_datagram.hpp',
+  'simrad/datagrams/ek60_unknown.hpp'
 ]
 
 # -- targets --

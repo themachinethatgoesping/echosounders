@@ -11,6 +11,7 @@ sources = [
     'simrad/module.cpp',
     'simrad/datagrams/module.cpp',
     'simrad/datagrams/c_ek60_datagram.cpp',
+    'simrad/datagrams/c_ek60_unknown.cpp',
     'simrad/c_fileraw.cpp'
 ]
 
