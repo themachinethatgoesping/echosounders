@@ -29,6 +29,12 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
+// source: https://stackoverflow.com/questions/57134521/how-to-check-if-template-argument-is-stdvariant
+template<typename T> struct is_variant : std::false_type {};
+template<typename ...Args>
+struct is_variant<std::variant<Args...>> : std::true_type {};
+template<typename T>
+inline constexpr bool is_variant_v=is_variant<T>::value;
 
 
 template<typename t_DatagramBase,      ///< the datagram base class which should
@@ -76,6 +82,46 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     size_t number_of_packages() const { return _package_infos_all.size(); }
+
+    template<typename t_DatagramType, typename t_DatagramReader = t_DatagramType>
+    t_DatagramType get_datagram(const long python_index)
+    {
+        // convert from python index (can be negative) to C++ index
+        long index = python_index < 0 ? _package_infos_all.size() + python_index : python_index;
+
+        if (index < 0)
+            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
+                                        (index - _package_infos_all.size()));
+
+        if (static_cast<size_t>(index) >= _package_infos_all.size())
+            throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
+
+        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
+        const auto& package_info = _package_infos_all[index];
+        auto&       ifs          = _input_file_streams[package_info.file_nr];
+
+        ifs.seekg(package_info.file_pos);
+
+        try
+        {
+            // t_DatagramReader::from_stream must return t_datagramType
+            // this allows for defining the static function from_stream in a different class
+            // than the datagram type
+            return t_DatagramReader::from_stream(ifs,package_info.datagram_identifier);
+        }
+        catch (std::exception& e)
+        {
+
+            auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
+            msg += fmt::format("python_index: {}\n", python_index);
+            msg += fmt::format("index: {}\n", index);
+            msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all.size());
+            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("size: {}\n",
+                               std::filesystem::file_size(_file_paths[package_info.file_nr]));
+            throw std::runtime_error(msg);
+        }
+    }
     
     t_DatagramBase read_datagram_header(const long python_index)
     {
@@ -262,6 +308,7 @@ class I_InputFile
             while (pos < signed(file_info.file_size))
             {
                 //  this function may return nonsense...
+                //auto header = t_DatagramBase::from_stream(ifs);
                 auto header = t_DatagramBase::from_stream(ifs);
                 header.skip(ifs);
 

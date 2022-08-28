@@ -39,7 +39,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_file_paths = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_getitem = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_get = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_input_file_streams = R"doc()doc";
 
@@ -68,6 +68,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_datagram_identifier_to_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_paths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_streams = R"doc()doc";
 
@@ -99,6 +101,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_is_variant = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_info = R"doc()doc";
@@ -111,6 +115,28 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagram_typ
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_EK60_DatagramVariant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_EK60_DatagramVariant_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_datagram_variant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_operator_call =
+R"doc(This is the visitor function that tries to convert the internal
+variant to the specified type.
+
+Template parameter ``t_ProgressBar``:
+    $Parameter ``progress_bar``:
+
+ProgressBar class that is derived from I_ProgressBar
+
+Returns:
+    I_ProgressBar&)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_DatagramType = R"doc(< Raw: Datagram type as)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_EK60_Datagram = R"doc()doc";
@@ -120,6 +146,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_Length = R"doc(< Raw: Length of the datagram in bytes)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
 
@@ -151,6 +179,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_EK60_Unknown = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_from_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_ne = R"doc()doc";
@@ -178,6 +208,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_Datag
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_TAG0 = R"doc(< ???)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_ek60_header = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_ek60_invalid = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

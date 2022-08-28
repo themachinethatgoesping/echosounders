@@ -92,7 +92,7 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  I_InputFile,                                                                      \
                  sort_packages_by_time))
 
-#define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_HEADER)                                           \
+#define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_DATAGRAM_TYPE, T_DATAGRAM_READER)                 \
     .def("number_of_packages",                                                                     \
          &T_CLASS::number_of_packages,                                                             \
          DOC(themachinethatgoesping,                                                               \
@@ -116,11 +116,6 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  read_datagram_header),                                                            \
              py::arg("index"))                                                                     \
         .def("__getitem__",                                                                        \
-             &T_CLASS::read_datagram_header,                                                       \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFile,                                                                      \
-                 read_datagram_header),                                                            \
-             py::arg("index"))                                                                     
-             
+             &T_CLASS::get_datagram<T_DATAGRAM_TYPE, T_DATAGRAM_READER>,                           \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram), \
+             py::arg("index"))

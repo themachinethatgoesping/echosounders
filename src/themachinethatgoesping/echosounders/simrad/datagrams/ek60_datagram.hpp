@@ -10,6 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
@@ -32,6 +33,7 @@ struct EK60_Datagram
     ek60_long _LowDateTime; ///< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01)
     ek60_long
         _HighDateTime; ///< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01)
+
 
   public:
     EK60_Datagram()          = default;
@@ -107,6 +109,20 @@ struct EK60_Datagram
         s.value4b(_DatagramType);
         s.value4b(_LowDateTime);
         s.value4b(_HighDateTime);
+    }
+
+    
+    static EK60_Datagram from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
+    {
+        EK60_Datagram d;
+        is.read(reinterpret_cast<char*>(&d._Length), 4*sizeof(ek60_long));
+
+        if (d.get_datagram_identifier() != datagram_identifier)
+            throw std::runtime_error(fmt::format("EK60_Datagram: Datagram identifier mismatch!"));
+        // ifi.read(reinterpret_cast<char*>(&d._DatagramType), sizeof(ek60_long));
+        // ifi.read(reinterpret_cast<char*>(&d._LowDateTime), sizeof(ek60_long));
+        // ifi.read(reinterpret_cast<char*>(&d._HighDateTime), sizeof(ek60_long));
+        return d;
     }
 
     // ----- objectprinter -----

@@ -5,13 +5,14 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <xtensor/xmath.hpp>              // xtensor import for the C++ universal functions
+#include <xtensor/xmath.hpp> // xtensor import for the C++ universal functions
 #define FORCE_IMPORT_ARRAY
-#include <xtensor-python/pyarray.hpp>     // Numpy bindings
+#include <xtensor-python/pyarray.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
+#include "../../themachinethatgoesping/echosounders/simrad/ek60_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
@@ -35,20 +36,41 @@ void init_c_fileraw(pybind11::module& m)
 {
     xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
 
-    py::class_<FileRaw>(m, "FileRaw", DOC(themachinethatgoesping, echosounders, simrad, FileRaw))
+    py::class_<datagrams::EK60_DatagramVariant> (m, "EK60_DatagramVariant", DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_DatagramVariant));
+
+    py::class_<FileRaw> PyFileRaw(
+        m, "FileRaw", DOC(themachinethatgoesping, echosounders, simrad, FileRaw));
+    PyFileRaw
         // constructors
         __INPUTFILE_DEFAULT_CONSTRUCTORS__(FileRaw)
         // inputfile interface
         __INPUTFILE_INTERFACE__(FileRaw)
         // package reading
-        __INPUTFILE_PACKAGE_READING__(FileRaw, datagrams::EK60_Datagram)
+        //__INPUTFILE_PACKAGE_READING__(FileRaw, datagrams::EK60_DatagramVariant, datagrams::EK60_DatagramVariant)
+        __INPUTFILE_PACKAGE_READING__(FileRaw, datagrams::EK60_Unknown, datagrams::EK60_Unknown)
 
+            .def("get_header",
+                 &FileRaw::get_datagram<datagrams::EK60_Datagram>,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     fileinterfaces,
+                     I_InputFile,
+                     get_datagram),
+                 py::arg("index"))
+            .def("get_unknown",
+                 &FileRaw::get_datagram<datagrams::EK60_Unknown>,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     fileinterfaces,
+                     I_InputFile,
+                     get_datagram),
+                 py::arg("index"))
             // more methods
             .def(
                 "read_datagram_headers",
                 [](FileRaw& self, const xt::pyarray<size_t> indices) {
                     std::vector<datagrams::EK60_Datagram> datagram_headers;
-                    //xt::pyarray<datagrams::EK60_Datagram> datagram_headers_pyarray;
+                    // xt::pyarray<datagrams::EK60_Datagram> datagram_headers_pyarray;
 
                     datagram_headers.reserve(indices.size());
                     themachinethatgoesping::tools::progressbars::ProgressIndicator pbar;
@@ -77,4 +99,5 @@ void init_c_fileraw(pybind11::module& m)
         __PYCLASS_DEFAULT_PRINTING__(FileRaw)
         // end FileRaw
         ;
+
 }

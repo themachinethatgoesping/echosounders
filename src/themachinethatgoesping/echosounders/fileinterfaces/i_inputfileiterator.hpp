@@ -39,7 +39,7 @@ struct DataFileInfo
         package_infos_by_type; ///< package headers sorted by type
 };
 
-template<typename t_Datagram, typename t_DatagramIdentifier>
+template<typename t_DatagramType, typename t_DatagramIdentifier>
 class I_InputFileIterator
 {
     /* some file information */
@@ -76,7 +76,7 @@ public:
         return _file_paths.size();
     }
 
-    t_Datagram __getitem__(const long python_index)
+    t_DatagramType get(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
         long index = python_index < 0 ? _package_infos.size() + python_index : python_index;
@@ -90,7 +90,7 @@ public:
 
         const auto& package_info = _package_infos[index];
         _input_file_streams[package_info.file_nr(index)].seekg(package_info.file_pos(index));
-        return t_Datagram::from_stream(_input_file_streams, package_info.datagram_identifier);
+        return t_DatagramType::from_stream(_input_file_streams, package_info.datagram_identifier);
     }
 
 };
