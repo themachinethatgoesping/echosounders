@@ -38,7 +38,6 @@ enum class t_EK60_DatagramType : ek60_long
     NME0 = 809848142, ///< Unspecified (unknown) NMEA datagram
     MRU0 = 810897997, ///< Motion datagram
     RAW3 = 861356370, ///< Raw sample data datagram
-
 };
 
 inline std::string datagram_type_to_string(ek60_long value)

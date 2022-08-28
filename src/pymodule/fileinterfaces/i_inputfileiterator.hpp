@@ -42,13 +42,42 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                            PackageInfo,                                                            \
                            datagram_identifier))
 
-#define __INPUTFILEITERATOR_DEFAULT_CONSTRUCTORS__(T_CLASS)                                        \
-    .def(py::init<>(const std::vector<std::string>&,                                               \
-                    const std::vector<PackageInfo<t_DatagramIdentifier>>&),                        \
+#define __INPUTFILEITERATOR_PACKAGE_READING__(T_CLASS)                                             \
+    .def("number_of_packages",                                                                     \
+         &T_CLASS::number_of_packages,                                                             \
          DOC(themachinethatgoesping,                                                               \
              echosounders,                                                                         \
              fileinterfaces,                                                                       \
              I_InputFileIterator,                                                                  \
-             I_InputFileIterator),                                                                 \
-         py::arg("file_path"),                                                                     \
-         py::arg("package_infos"))
+             number_of_packages))                                                                  \
+        .def("__len__",                                                                            \
+             &T_CLASS::number_of_packages,                                                         \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFileIterator,                                                              \
+                 number_of_packages))                                                              \
+        .def("__getitem__",                                                                        \
+             &T_CLASS::get_datagram,                                                               \
+             DOC(themachinethatgoesping,                                                           \
+                 echosounders,                                                                     \
+                 fileinterfaces,                                                                   \
+                 I_InputFileIterator,                                                              \
+                 get_datagram),                                                                    \
+             py::arg("index"))
+
+#define ADD_ITERATOR(T_CLASS, T_DATAGRAM, T_DATAGRAM_TYPE, T_NAME)                                 \
+    .def_property_readonly(                                                                        \
+        (std::string("i_") + T_NAME).c_str(),                                                      \
+        [](const T_CLASS& self) { return self.get_iterator<T_DATAGRAM>(T_DATAGRAM_TYPE); },        \
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator))
+
+#define ADD_ITERATOR_TYPE(T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE)                  \
+    {                                                                                              \
+        using T_ITERATOR = I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE>;                       \
+        py::class_<I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE>>(                              \
+            T_MODULE,                                                                              \
+            T_ITERATOR_NAME,                                                                       \
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator))        \
+            __INPUTFILEITERATOR_PACKAGE_READING__(T_ITERATOR);                                     \
+    }

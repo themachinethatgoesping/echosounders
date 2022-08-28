@@ -7,10 +7,12 @@
 
 #pragma once
 
+#include <fstream>
+#include <vector>
+
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
-
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -42,41 +44,62 @@ struct DataFileInfo
 template<typename t_DatagramType, typename t_DatagramIdentifier>
 class I_InputFileIterator
 {
+  protected:
     /* some file information */
     std::vector<std::string> _file_paths;
 
-    /* the actual input file stream */
+    // /* the actual input file stream */
     std::vector<std::ifstream> _input_file_streams;
 
     /* header positions */
-    const std::vector<PackageInfo<t_DatagramIdentifier>> _package_infos;
+    std::vector<PackageInfo<t_DatagramIdentifier>> _package_infos;
 
-public:
-    I_InputFileIterator(
-        const std::vector<std::string>& file_paths,
-    const std::vector<PackageInfo<t_DatagramIdentifier>>& package_infos)
-    : _file_paths(file_paths),
-        _package_infos(package_infos)
-        {
-            _input_file_streams.reserve(_file_paths.size());
-            /* open all input files */
-            for (const auto& file_path : _file_paths)
-            {
-                _input_file_streams.emplace_back(file_path, std::ios::binary);
-
-                if (!_input_file_streams.back().is_open())
-                    throw std::invalid_argument("ERROR(InputFileIterator): Could not open file \"" + file_path +
-                                                "\"!");
-            }
-        }
-
-
-    size_t __len__() const
+  public:
+    I_InputFileIterator(const I_InputFileIterator& other)
+        : _file_paths(other._file_paths)
+        , _package_infos(other._package_infos)
     {
-        return _file_paths.size();
+        for (auto& file_path : _file_paths)
+        {
+            std::ifstream ifi(file_path, std::ios_base::binary);
+
+            if (!ifi.is_open())
+                throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path +
+                                            "\"!");
+
+            //_input_file_streams.emplace_back(file_path, std::ios::binary);
+            _input_file_streams.push_back(std::move(ifi));
+        }
     }
 
-    t_DatagramType get(const long python_index)
+    I_InputFileIterator(const std::vector<std::string>&                       file_paths,
+                        const std::vector<PackageInfo<t_DatagramIdentifier>>& package_infos)
+        : _file_paths(file_paths)
+        , _package_infos(package_infos)
+    {
+
+        /* open all input files */
+        for (const auto& file_path : _file_paths)
+        {
+
+            std::ifstream ifi(file_path, std::ios_base::binary);
+
+            if (!ifi.is_open())
+                throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path +
+                                            "\"!");
+
+            //_input_file_streams.emplace_back(file_path, std::ios::binary);
+            _input_file_streams.push_back(std::move(ifi));
+
+            if (!_input_file_streams.back().is_open())
+                throw std::invalid_argument("ERROR(InputFileIterator): Could not open file \"" +
+                                            file_path + "\"!");
+        }
+    }
+
+    size_t number_of_packages() const { return _package_infos.size(); }
+
+    t_DatagramType get_datagram(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
         long index = python_index < 0 ? _package_infos.size() + python_index : python_index;
@@ -88,14 +111,31 @@ public:
         if (static_cast<size_t>(index) >= _package_infos.size())
             throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
 
+        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos[index];
-        _input_file_streams[package_info.file_nr(index)].seekg(package_info.file_pos(index));
-        return t_DatagramType::from_stream(_input_file_streams, package_info.datagram_identifier);
-    }
+        auto&       ifs          = _input_file_streams[package_info.file_nr];
 
+        ifs.seekg(package_info.file_pos);
+
+        try
+        {
+            return t_DatagramType::from_stream(ifs, package_info.datagram_identifier);
+        }
+        catch (std::exception& e)
+        {
+
+            auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
+            msg += fmt::format("python_index: {}\n", python_index);
+            msg += fmt::format("index: {}\n", index);
+            msg += fmt::format("_package_infos.size(): {}\n", _package_infos.size());
+            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("size: {}\n",
+                               std::filesystem::file_size(_file_paths[package_info.file_nr]));
+            throw std::runtime_error(msg);
+        }
+    }
 };
 
 }
 }
 }
-

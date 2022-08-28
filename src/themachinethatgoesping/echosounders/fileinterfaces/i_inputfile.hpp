@@ -81,6 +81,13 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
+    
+    template<typename t_DatagramType>
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier> get_iterator(t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
+    {
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier>(_file_paths, _package_infos_by_type.at(datagram_identifier));
+    }
+
     size_t number_of_packages() const { return _package_infos_all.size(); }
 
     template<typename t_DatagramType, typename t_DatagramReader = t_DatagramType>
