@@ -101,7 +101,7 @@ class I_InputFile
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
 
-        auto ifs = _input_file_streams[package_info.file_nr];
+        auto& ifs = _input_file_streams[package_info.file_nr];
 
         ifs->seekg(package_info.file_pos);
 
