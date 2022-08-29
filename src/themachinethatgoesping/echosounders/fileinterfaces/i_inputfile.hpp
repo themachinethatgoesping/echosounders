@@ -29,13 +29,14 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_DatagramBase,      ///< the datagram base class which should
-                                       ///< contain the header and functions
-                                       ///< specified in the DatagramBase interface
-         typename t_DatagramIdentifier ///< the identifier of the datagram type.
-                                       ///< Must be hashable and comparable with
-                                       ///< ==
-         >
+
+template<typename t_DatagramBase,       ///< the datagram base class which should
+                                        ///< contain the header and functions
+                                        ///< specified in the DatagramBase interface
+         typename t_DatagramIdentifier, ///< the identifier of the datagram type.
+                                        ///< Must be hashable and comparable with
+                                        ///< ==
+         typename t_ifstream>
 class I_InputFile
 {
 
@@ -45,18 +46,12 @@ class I_InputFile
     size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
-    #ifdef USE_MEMORY_MAPPING
-    std::vector<boost::iostreams::mapped_file_source> _input_file_mappings;
-    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
-    #else
-    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
-    #endif
+    std::vector<std::shared_ptr<t_ifstream>> _input_file_streams;
 
     /* header positions */
-    std::vector<PackageInfo<t_DatagramIdentifier>> _package_infos_all;
-    std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
-        _package_infos_by_type;
-
+    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
+        std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
+    PackageInfoPtrByTypeMap<t_DatagramIdentifier> _package_infos_by_type;
 
   public:
     I_InputFile(const std::string& file_path, bool show_progress = true)
@@ -81,41 +76,41 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     template<typename t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier> get_iterator(
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream> get_iterator(
         t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier>(
-            _file_paths, _package_infos_by_type.at(datagram_identifier));
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream>(
+            _input_file_streams, _package_infos_by_type.get_const(datagram_identifier));
     }
 
-    size_t number_of_packages() const { return _package_infos_all.size(); }
+    size_t number_of_packages() const { return _package_infos_all->size(); }
 
     template<typename t_DatagramType, typename t_DatagramReader = t_DatagramType>
     t_DatagramType get_datagram(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
-        long index = python_index < 0 ? _package_infos_all.size() + python_index : python_index;
+        long index = python_index < 0 ? _package_infos_all->size() + python_index : python_index;
 
         if (index < 0)
             throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
-                                        (index - _package_infos_all.size()));
+                                        (index - _package_infos_all->size()));
 
-        if (static_cast<size_t>(index) >= _package_infos_all.size())
+        if (static_cast<size_t>(index) >= _package_infos_all->size())
             throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
 
-        // size_t, T_INPUT_FILE_STREAM::pos_type double, t_DatagramIdentifier
-        const auto& package_info = _package_infos_all[index];
+        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
+        const auto& package_info = _package_infos_all->at(index);
 
-        auto&       ifs          = *(_input_file_streams[package_info.file_nr]);
+        auto ifs = _input_file_streams[package_info.file_nr];
 
-        ifs.seekg(package_info.file_pos);
+        ifs->seekg(package_info.file_pos);
 
         try
         {
             // t_DatagramReader::from_stream must return t_datagramType
             // this allows for defining the static function from_stream in a different class
             // than the datagram type
-            return t_DatagramReader::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramReader::from_stream(*ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {
@@ -123,7 +118,7 @@ class I_InputFile
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
             msg += fmt::format("python_index: {}\n", python_index);
             msg += fmt::format("index: {}\n", index);
-            msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all.size());
+            msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all->size());
             msg += fmt::format("pos: {}\n", package_info.file_pos);
             msg += fmt::format("size: {}\n",
                                std::filesystem::file_size(_file_paths[package_info.file_nr]));
@@ -134,30 +129,40 @@ class I_InputFile
     // sort _package_infos_all by timestamp in _package_timestamps
     void sort_packages_by_time()
     {
+        auto& package_infos = *(_package_infos_all);
         // sort _package_infos_all by  time, then file_pos then file number
         // TODO: this is faster than std sort, but python sorting (timsort?) seems
         // to be 10x faster for this use case
-        boost::sort::pdqsort(_package_infos_all.begin(),
-                             _package_infos_all.end(),
-                             [](const auto& lhs, const auto& rhs) {
-                                 if (lhs.timestamp < rhs.timestamp)
-                                     return true;
-                                 if (lhs.timestamp > rhs.timestamp)
-                                     return false;
-                                 if (lhs.file_pos < rhs.file_pos)
-                                     return true;
-                                 if (lhs.file_pos > rhs.file_pos)
-                                     return false;
-                                 if (lhs.file_nr < rhs.file_nr)
-                                     return true;
-                                 return false;
-                             });
+        boost::sort::pdqsort(
+            package_infos.begin(), package_infos.end(), [](const auto& lhs, const auto& rhs) {
+                if (lhs.timestamp < rhs.timestamp)
+                    return true;
+                if (lhs.timestamp > rhs.timestamp)
+                    return false;
+                if (lhs.file_pos < rhs.file_pos)
+                    return true;
+                if (lhs.file_pos > rhs.file_pos)
+                    return false;
+                if (lhs.file_nr < rhs.file_nr)
+                    return true;
+                return false;
+            });
 
         // reset _package_infos_by_type using the sorted _package_infos_all
         _package_infos_by_type.clear();
-        for (const auto& package_info : _package_infos_all)
+        std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
+            package_infos_by_type;
+
+        for (const auto& package_info : package_infos)
         {
-            _package_infos_by_type[package_info.datagram_identifier].push_back(package_info);
+            package_infos_by_type[package_info.datagram_identifier].push_back(package_info);
+        }
+
+        for (const auto& [datagram_identifier, package_infos] : package_infos_by_type)
+        {
+            _package_infos_by_type[datagram_identifier] =
+                std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>(
+                    std::move(package_infos));
         }
     }
 
@@ -175,7 +180,8 @@ class I_InputFile
     {
         // get total file size of all files
         size_t total_file_size = 0;
-        size_t packages_old    = _package_infos_all.size();
+        size_t packages_old    = _package_infos_all->size();
+
 
         progress_bar.init(0, total_file_size, "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
@@ -198,7 +204,7 @@ class I_InputFile
         }
 
         progress_bar.close(std::string("Found: ") +
-                           std::to_string(_package_infos_all.size() - packages_old) +
+                           std::to_string(_package_infos_all->size() - packages_old) +
                            " packages in " + std::to_string(file_paths.size()) + " files (" +
                            std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
     }
@@ -213,17 +219,9 @@ class I_InputFile
 
     void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
-        // this opens a file stream and appends it to the _input_file_streams vector
-        #ifdef USE_MEMORY_MAPPING
-        boost::iostreams::mapped_file_source mmap(file_path);
-        auto ifi = std::make_shared<T_INPUT_FILE_STREAM>(mmap, std::ios::binary);
-        #else
-        auto ifi = std::make_shared<T_INPUT_FILE_STREAM>(file_path, std::ios::binary);
-        #endif
-
+        auto ifi = std::make_shared<t_ifstream>(file_path, std::ios::binary);
         if (!ifi->is_open())
-            throw std::invalid_argument("ERROR(InputFileIterator): Could not open file \"" +
-                                        file_path + "\"!");
+            throw std::runtime_error("Could not open file: " + file_path);
 
         // scan for package headers
         DataFileInfo file_info =
@@ -232,19 +230,23 @@ class I_InputFile
         _total_file_size += file_info.file_size;
         _file_paths.push_back(file_path);
 
-        #ifdef USE_MEMORY_MAPPING
-        _input_file_mappings.push_back(std::move(mmap));
-        #endif
         _input_file_streams.push_back(ifi);
 
-        _package_infos_all.insert(_package_infos_all.end(),
-                                  file_info.package_infos_all.begin(),
-                                  file_info.package_infos_all.end());
+        auto& package_infos_all     = *(_package_infos_all);
+        auto& package_infos_scanned = *(file_info.package_infos_all);
+
+        package_infos_all.insert(
+            package_infos_all.end(), package_infos_scanned.begin(), package_infos_scanned.end());
 
         for (const auto& [type, headers] : file_info.package_infos_by_type)
         {
-            _package_infos_by_type[type].insert(
-                _package_infos_by_type[type].end(), headers.begin(), headers.end());
+            auto& package_infos =
+                *(_package_infos_by_type.get(type));
+
+            auto& package_infos_scanned = *(headers);
+
+            package_infos.insert(
+                package_infos.end(), package_infos_scanned.begin(), package_infos_scanned.end());
         }
     }
 
@@ -254,7 +256,7 @@ class I_InputFile
         t_DatagramIdentifier datagram_identifier) const = 0;
 
   protected:
-    static void reset_input_file_stream(T_INPUT_FILE_STREAM& ifs)
+    static void reset_ifstream(t_ifstream& ifs)
     {
         ifs.clear();
         ifs.seekg(0);
@@ -264,14 +266,18 @@ class I_InputFile
     virtual DataFileInfo<t_DatagramIdentifier> scan_for_packages(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
-        T_INPUT_FILE_STREAM&                           ifs,
+        t_ifstream&                         ifs,
         tools::progressbars::I_ProgressBar& progress_bar) const
     {
+
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier> file_info;
-        file_info.package_infos_all.clear();
+        file_info.package_infos_all->clear();
         file_info.package_infos_by_type.clear();
-        reset_input_file_stream(ifs);
+
+        auto& package_infos_all = *(file_info.package_infos_all);
+
+        reset_ifstream(ifs);
 
         file_info.file_size    = std::filesystem::file_size(file_path);
         bool close_progressbar = false; ///< only close the progressbar if it was
@@ -306,9 +312,10 @@ class I_InputFile
                     package_info.timestamp           = header.get_timestamp();
                     package_info.datagram_identifier = header.get_datagram_identifier();
 
-                    file_info.package_infos_all.push_back(package_info);
-                    file_info.package_infos_by_type[package_info.datagram_identifier].push_back(
-                        package_info);
+                    package_infos_all.push_back(package_info);
+                    auto& package_infos_type = *(file_info.package_infos_by_type.get(package_info.datagram_identifier));
+
+                    package_infos_type.push_back(package_info);
 
                     pos = pos_new;
                 }
@@ -327,10 +334,11 @@ class I_InputFile
         }
 
         if (close_progressbar)
-            progress_bar.close(std::string("Found: ") +
-                               std::to_string(file_info.package_infos_all.size()) + " packages");
+            progress_bar.close(std::string("Found: ") + std::to_string(package_infos_all.size()) +
+                               " packages");
 
-        reset_input_file_stream(ifs);
+     
+        reset_ifstream(ifs);
         return file_info;
     }
 
@@ -376,23 +384,29 @@ class I_InputFile
         else if (_total_file_size > 1024)
             printer.register_string("Total file size: ",
                                     fmt::format("{:.2f} KB", _total_file_size / 1024.0));
-        else 
+        else
             printer.register_string("Total file size: ",
                                     fmt::format("{:d} Bytes", _total_file_size));
 
         printer.register_section("Detected datagrams");
-        printer.register_value("Total", _package_infos_all.size(), "");
+        printer.register_value("Total", _package_infos_all->size(), "");
         for (const auto& kv : _package_infos_by_type)
         {
             std::string info = datagram_identifier_info(kv.first);
 
             printer.register_value("Packages [" + datagram_identifier_to_string(kv.first) + "]",
-                                   kv.second.size(),
+                                   kv.second->size(),
                                    info);
         }
         return printer;
     }
 };
+
+// std::vector<boost::iostreams::mapped_file_source> _input_file_mappings;
+// std::vector<std::shared_ptr<t_ifstream>>          _input_file_streams;
+
+//     boost::iostreams::mapped_file_source mmap(file_path);
+//     auto ifi = std::make_shared<t_ifstream>(mmap, std::ios::binary);
 
 } // namespace fileinterfaces
 } // namespace echosounders

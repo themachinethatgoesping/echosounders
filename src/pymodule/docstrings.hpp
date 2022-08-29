@@ -29,7 +29,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_infos_all = R"doc(< all package headers)doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_infos_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_infos_by_type = R"doc(< package headers sorted by type)doc";
 
@@ -38,8 +38,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_I_InputFileIterator = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_file_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_get_datagram = R"doc()doc";
 
@@ -85,7 +83,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_input_file_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_ifstream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_scan_for_packages = R"doc()doc";
 
@@ -93,13 +91,27 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_total_file_size = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_MappedFileStream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_MappedFileStream_MappedFileStream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfoPtrByTypeMap = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfoPtrByTypeMap_PackageInfoPtrByTypeMap = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfoPtrByTypeMap_get = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfoPtrByTypeMap_get_const = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_datagram_identifier = R"doc(< datagram type of this package)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_nr = R"doc(< file number of this package)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos = R"doc(< file position of this package)doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos =
+R"doc(< file position of this package TODO: is this the same for ifstream
+and MappedFileStream?)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
 

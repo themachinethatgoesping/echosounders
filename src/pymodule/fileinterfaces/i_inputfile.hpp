@@ -42,12 +42,12 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
             py::arg("progress_bar"))
 
 #define __INPUTFILE_INTERFACE__(T_CLASS)                                                           \
-        .def("append_file",                                                                        \
-             py::overload_cast<const std::string&, bool>(&T_CLASS::append_file),                   \
-             py::call_guard<py::scoped_ostream_redirect>(),                                        \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
-             py::arg("file_path"),                                                                 \
-             py::arg("show_progress") = true)                                                      \
+    .def("append_file",                                                                            \
+         py::overload_cast<const std::string&, bool>(&T_CLASS::append_file),                       \
+         py::call_guard<py::scoped_ostream_redirect>(),                                            \
+         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),      \
+         py::arg("file_path"),                                                                     \
+         py::arg("show_progress") = true)                                                          \
         .def("append_file",                                                                        \
              py::overload_cast<const std::string&, I_ProgressBar&>(&T_CLASS::append_file),         \
              py::call_guard<py::scoped_ostream_redirect>(),                                        \
