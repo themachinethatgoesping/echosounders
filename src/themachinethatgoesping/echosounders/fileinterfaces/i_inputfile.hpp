@@ -52,10 +52,10 @@ class I_InputFile
     
 t_ifstream& get_active_stream(long file_nr)
     {
-        // if (file_nr < 0 || file_nr >= long(_file_paths.size()))
-        // {
-        //     throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
-        // }
+        if (file_nr < 0 || file_nr >= long(_file_paths.size()))
+        {
+            throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
+        }
         if (file_nr != active_file_nr)
         {
             active_file_nr = file_nr;
