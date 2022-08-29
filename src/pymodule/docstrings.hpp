@@ -39,8 +39,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_I_InputFileIterator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_I_InputFileIterator_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_file_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_get_datagram = R"doc()doc";
@@ -87,9 +85,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_read_datagram_header = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_reset_input_file_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_scan_for_packages = R"doc()doc";
 
@@ -106,8 +102,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos = R"doc(< file position of this package)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_is_variant = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 

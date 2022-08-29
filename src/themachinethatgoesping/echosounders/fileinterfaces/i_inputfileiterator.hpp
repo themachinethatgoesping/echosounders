@@ -10,9 +10,22 @@
 #include <fstream>
 #include <vector>
 
+/* memory mapping */
+#include <boost/iostreams/device/mapped_file.hpp> // for mmap
+#include <boost/iostreams/stream.hpp>             // for stream
+
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+
+#define USE_MEMORY_MAPPING
+
+#ifdef USE_MEMORY_MAPPING
+using T_INPUT_FILE_STREAM = boost::iostreams::stream<boost::iostreams::mapped_file_source>;
+#else
+using T_INPUT_FILE_STREAM = std::ifstream;
+#endif
+
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -22,7 +35,7 @@ template<typename t_DatagramIdentifier>
 struct PackageInfo
 {
     size_t                  file_nr;             ///< file number of this package
-    std::ifstream::pos_type file_pos;            ///< file position of this package
+    T_INPUT_FILE_STREAM::pos_type file_pos;            ///< file position of this package
     double                  timestamp;           ///< timestamp (unixtime) of this package
     t_DatagramIdentifier    datagram_identifier; ///< datagram type of this package
 };
@@ -48,30 +61,18 @@ class I_InputFileIterator
     /* some file information */
     std::vector<std::string> _file_paths;
 
-    // /* the actual input file stream */
-    std::vector<std::ifstream> _input_file_streams;
+    /* the actual input file stream */
+    #ifdef USE_MEMORY_MAPPING
+    std::vector<boost::iostreams::mapped_file_source> _input_file_mappings;
+    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
+    #else
+    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
+    #endif
 
     /* header positions */
     std::vector<PackageInfo<t_DatagramIdentifier>> _package_infos;
 
   public:
-    I_InputFileIterator(const I_InputFileIterator& other)
-        : _file_paths(other._file_paths)
-        , _package_infos(other._package_infos)
-    {
-        for (auto& file_path : _file_paths)
-        {
-            std::ifstream ifi(file_path, std::ios_base::binary);
-
-            if (!ifi.is_open())
-                throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path +
-                                            "\"!");
-
-            //_input_file_streams.emplace_back(file_path, std::ios::binary);
-            _input_file_streams.push_back(std::move(ifi));
-        }
-    }
-
     I_InputFileIterator(const std::vector<std::string>&                       file_paths,
                         const std::vector<PackageInfo<t_DatagramIdentifier>>& package_infos)
         : _file_paths(file_paths)
@@ -82,18 +83,16 @@ class I_InputFileIterator
         for (const auto& file_path : _file_paths)
         {
 
-            std::ifstream ifi(file_path, std::ios_base::binary);
+    #ifdef USE_MEMORY_MAPPING
+    _input_file_mappings.emplace_back(file_path);
+    _input_file_streams.push_back(std::make_shared<T_INPUT_FILE_STREAM>(_input_file_mappings.back(), std::ios_base::binary));
 
-            if (!ifi.is_open())
-                throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path +
-                                            "\"!");
+    #else
+            _input_file_streams.push_back(std::make_shared<T_INPUT_FILE_STREAM>(file_path, std::ios_base::binary));
 
-            //_input_file_streams.emplace_back(file_path, std::ios::binary);
-            _input_file_streams.push_back(std::move(ifi));
-
-            if (!_input_file_streams.back().is_open())
-                throw std::invalid_argument("ERROR(InputFileIterator): Could not open file \"" +
-                                            file_path + "\"!");
+    #endif
+            if (!_input_file_streams.back()->is_open())
+                throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path + "\"");
         }
     }
 
@@ -111,9 +110,9 @@ class I_InputFileIterator
         if (static_cast<size_t>(index) >= _package_infos.size())
             throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
 
-        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
+        // size_t, T_INPUT_FILE_STREAM::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos[index];
-        auto&       ifs          = _input_file_streams[package_info.file_nr];
+        auto&       ifs          = (*_input_file_streams[package_info.file_nr]);
 
         ifs.seekg(package_info.file_pos);
 

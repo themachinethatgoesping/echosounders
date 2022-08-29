@@ -9,7 +9,7 @@ project(
   'cpp',
   license: 'MPL-2.0',
 
-  version: '0.2.3',
+  version: '0.3.0',
   default_options: ['warning_level=3', 'buildtype=release', 'cpp_std=c++17'],
   meson_version: '>=0.63' #0.63 added preserve_path for install headers option
 )
@@ -28,7 +28,7 @@ else
 endif
 
 # boost
-boost_dep = dependency('boost', static: true)
+boost_dep = dependency('boost', modules: 'iostreams', static: true)
 
 # pugixml
 pugixml_dep = dependency('pugixml', required: false)

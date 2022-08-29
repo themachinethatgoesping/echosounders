@@ -29,14 +29,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-// source: https://stackoverflow.com/questions/57134521/how-to-check-if-template-argument-is-stdvariant
-template<typename T> struct is_variant : std::false_type {};
-template<typename ...Args>
-struct is_variant<std::variant<Args...>> : std::true_type {};
-template<typename T>
-inline constexpr bool is_variant_v=is_variant<T>::value;
-
-
 template<typename t_DatagramBase,      ///< the datagram base class which should
                                        ///< contain the header and functions
                                        ///< specified in the DatagramBase interface
@@ -46,18 +38,25 @@ template<typename t_DatagramBase,      ///< the datagram base class which should
          >
 class I_InputFile
 {
+
   protected:
     /* some file information */
     std::vector<std::string> _file_paths;
     size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
-    std::vector<std::ifstream> _input_file_streams;
+    #ifdef USE_MEMORY_MAPPING
+    std::vector<boost::iostreams::mapped_file_source> _input_file_mappings;
+    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
+    #else
+    std::vector<std::shared_ptr<T_INPUT_FILE_STREAM>> _input_file_streams;
+    #endif
 
     /* header positions */
     std::vector<PackageInfo<t_DatagramIdentifier>> _package_infos_all;
     std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
         _package_infos_by_type;
+
 
   public:
     I_InputFile(const std::string& file_path, bool show_progress = true)
@@ -81,11 +80,12 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
-    
     template<typename t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier> get_iterator(t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier> get_iterator(
+        t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier>(_file_paths, _package_infos_by_type.at(datagram_identifier));
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier>(
+            _file_paths, _package_infos_by_type.at(datagram_identifier));
     }
 
     size_t number_of_packages() const { return _package_infos_all.size(); }
@@ -103,9 +103,10 @@ class I_InputFile
         if (static_cast<size_t>(index) >= _package_infos_all.size())
             throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
 
-        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
+        // size_t, T_INPUT_FILE_STREAM::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all[index];
-        auto&       ifs          = _input_file_streams[package_info.file_nr];
+
+        auto&       ifs          = *(_input_file_streams[package_info.file_nr]);
 
         ifs.seekg(package_info.file_pos);
 
@@ -114,46 +115,7 @@ class I_InputFile
             // t_DatagramReader::from_stream must return t_datagramType
             // this allows for defining the static function from_stream in a different class
             // than the datagram type
-            return t_DatagramReader::from_stream(ifs,package_info.datagram_identifier);
-        }
-        catch (std::exception& e)
-        {
-
-            auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
-            msg += fmt::format("python_index: {}\n", python_index);
-            msg += fmt::format("index: {}\n", index);
-            msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all.size());
-            msg += fmt::format("pos: {}\n", package_info.file_pos);
-            msg += fmt::format("size: {}\n",
-                               std::filesystem::file_size(_file_paths[package_info.file_nr]));
-            throw std::runtime_error(msg);
-        }
-    }
-    
-    t_DatagramBase read_datagram_header(const long python_index)
-    {
-        // convert from python index (can be negative) to C++ index
-        long index = python_index < 0 ? _package_infos_all.size() + python_index : python_index;
-
-        if (index < 0)
-            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
-                                        (index - _package_infos_all.size()));
-
-        if (static_cast<size_t>(index) >= _package_infos_all.size())
-            throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
-
-        // size_t, std::ifstream::pos_type double, t_DatagramIdentifier
-        const auto& package_info = _package_infos_all[index];
-        auto&       ifs          = _input_file_streams[package_info.file_nr];
-
-        ifs.seekg(package_info.file_pos);
-
-        try
-        {
-            auto header = t_DatagramBase::from_stream(ifs);
-            if (header.get_datagram_identifier() != package_info.datagram_identifier)
-                throw std::runtime_error(fmt::format("Datagram identifier mismatch!"));
-            return header;
+            return t_DatagramReader::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {
@@ -251,22 +213,33 @@ class I_InputFile
 
     void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
-        std::ifstream ifi(file_path, std::ios_base::binary);
+        // this opens a file stream and appends it to the _input_file_streams vector
+        #ifdef USE_MEMORY_MAPPING
+        boost::iostreams::mapped_file_source mmap(file_path);
+        auto ifi = std::make_shared<T_INPUT_FILE_STREAM>(mmap, std::ios::binary);
+        #else
+        auto ifi = std::make_shared<T_INPUT_FILE_STREAM>(file_path, std::ios::binary);
+        #endif
 
-        if (!ifi.is_open())
-            throw std::invalid_argument("ERROR(InputFile): Could not open file \"" + file_path +
-                                        "\"!");
+        if (!ifi->is_open())
+            throw std::invalid_argument("ERROR(InputFileIterator): Could not open file \"" +
+                                        file_path + "\"!");
 
         // scan for package headers
         DataFileInfo file_info =
-            scan_for_packages(file_path, _file_paths.size(), ifi, progress_bar);
+            scan_for_packages(file_path, _file_paths.size(), *ifi, progress_bar);
 
         _total_file_size += file_info.file_size;
         _file_paths.push_back(file_path);
-        _input_file_streams.push_back(std::move(ifi));
+
+        #ifdef USE_MEMORY_MAPPING
+        _input_file_mappings.push_back(std::move(mmap));
+        #endif
+        _input_file_streams.push_back(ifi);
+
         _package_infos_all.insert(_package_infos_all.end(),
-                                    file_info.package_infos_all.begin(),
-                                    file_info.package_infos_all.end());
+                                  file_info.package_infos_all.begin(),
+                                  file_info.package_infos_all.end());
 
         for (const auto& [type, headers] : file_info.package_infos_by_type)
         {
@@ -281,7 +254,7 @@ class I_InputFile
         t_DatagramIdentifier datagram_identifier) const = 0;
 
   protected:
-    static void reset_stream(std::ifstream& ifs)
+    static void reset_input_file_stream(T_INPUT_FILE_STREAM& ifs)
     {
         ifs.clear();
         ifs.seekg(0);
@@ -291,14 +264,14 @@ class I_InputFile
     virtual DataFileInfo<t_DatagramIdentifier> scan_for_packages(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
-        std::ifstream&                      ifs,
+        T_INPUT_FILE_STREAM&                           ifs,
         tools::progressbars::I_ProgressBar& progress_bar) const
     {
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier> file_info;
         file_info.package_infos_all.clear();
         file_info.package_infos_by_type.clear();
-        reset_stream(ifs);
+        reset_input_file_stream(ifs);
 
         file_info.file_size    = std::filesystem::file_size(file_path);
         bool close_progressbar = false; ///< only close the progressbar if it was
@@ -315,7 +288,7 @@ class I_InputFile
             while (pos < signed(file_info.file_size))
             {
                 //  this function may return nonsense...
-                //auto header = t_DatagramBase::from_stream(ifs);
+                // auto header = t_DatagramBase::from_stream(ifs);
                 auto header = t_DatagramBase::from_stream(ifs);
                 header.skip(ifs);
 
@@ -337,7 +310,6 @@ class I_InputFile
                     file_info.package_infos_by_type[package_info.datagram_identifier].push_back(
                         package_info);
 
-
                     pos = pos_new;
                 }
                 else
@@ -358,7 +330,7 @@ class I_InputFile
             progress_bar.close(std::string("Found: ") +
                                std::to_string(file_info.package_infos_all.size()) + " packages");
 
-        reset_stream(ifs);
+        reset_input_file_stream(ifs);
         return file_info;
     }
 
@@ -387,7 +359,7 @@ class I_InputFile
         else // print the file path
         {
             // if size > 40, print only the last 40 characters
-            auto file_path = _file_paths[0];
+            auto file_path = _file_paths.at(0);
             if (file_path.size() > 40)
                 file_path = "..." + file_path.substr(file_path.size() - 40);
 
@@ -404,6 +376,9 @@ class I_InputFile
         else if (_total_file_size > 1024)
             printer.register_string("Total file size: ",
                                     fmt::format("{:.2f} KB", _total_file_size / 1024.0));
+        else 
+            printer.register_string("Total file size: ",
+                                    fmt::format("{:d} Bytes", _total_file_size));
 
         printer.register_section("Detected datagrams");
         printer.register_value("Total", _package_infos_all.size(), "");
