@@ -93,16 +93,38 @@ template<typename t_DatagramType, typename t_DatagramIdentifier, typename t_ifst
 class I_InputFileIterator
 {
   protected:
+std::vector<std::string> _file_paths;
+
     /* the opened input file stream */
-    std::vector<std::shared_ptr<t_ifstream>> _input_file_streams;
+    std::shared_ptr<t_ifstream> _input_file_stream;
+    long     active_file_nr = -1;
 
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
+t_ifstream& get_active_stream(long file_nr)
+    {
+        // if (file_nr < 0 || file_nr >= long(_file_paths.size()))
+        // {
+        //     throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
+        // }
+        if (file_nr != active_file_nr)
+        {
+            active_file_nr = file_nr;
+                //_input_file_streams[active_file_nr]->open(_file_paths[active_file_nr], std::ios_base::binary);
+                _input_file_stream= std::make_shared<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
+
+        }
+        return *(_input_file_stream);
+    }
+
+
   public:
-    I_InputFileIterator(const std::vector<std::shared_ptr<t_ifstream>>& input_file_streams,
+    I_InputFileIterator( const::std::vector<std::string>& file_paths,
+        std::shared_ptr<t_ifstream> input_file_stream,
                         std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
-        : _input_file_streams(input_file_streams)
+        : _file_paths(file_paths)
+        ,_input_file_stream(input_file_stream)
         , _package_infos(package_infos)
     {    }
 
@@ -122,13 +144,13 @@ class I_InputFileIterator
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos->at(index);
-        auto&       ifs          = _input_file_streams[package_info.file_nr];
+        auto&       ifs          = get_active_stream(package_info.file_nr);
 
-        ifs->seekg(package_info.file_pos);
+        ifs.seekg(package_info.file_pos);
 
         try
         {
-            return t_DatagramType::from_stream(*ifs, package_info.datagram_identifier);
+            return t_DatagramType::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {

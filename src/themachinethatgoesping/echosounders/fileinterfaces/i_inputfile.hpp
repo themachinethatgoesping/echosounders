@@ -46,7 +46,25 @@ class I_InputFile
     size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
-    std::vector<std::shared_ptr<t_ifstream>> _input_file_streams;
+    //std::vector<std::shared_ptr<t_ifstream>> _input_file_stream;
+    std::shared_ptr<t_ifstream> _input_file_stream;
+    long     active_file_nr = -1;
+    
+t_ifstream& get_active_stream(long file_nr)
+    {
+        // if (file_nr < 0 || file_nr >= long(_file_paths.size()))
+        // {
+        //     throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
+        // }
+        if (file_nr != active_file_nr)
+        {
+            active_file_nr = file_nr;
+                //_input_file_streams[active_file_nr]->open(_file_paths[active_file_nr], std::ios_base::binary);
+                _input_file_stream= std::make_shared<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
+
+        }
+        return *(_input_file_stream);
+    }
 
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
@@ -80,7 +98,7 @@ class I_InputFile
         t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
     {
         return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream>(
-            _input_file_streams, _package_infos_by_type.get_const(datagram_identifier));
+            _file_paths, _input_file_stream, _package_infos_by_type.get_const(datagram_identifier));
     }
 
     size_t number_of_packages() const { return _package_infos_all->size(); }
@@ -101,16 +119,17 @@ class I_InputFile
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
 
-        auto& ifs = _input_file_streams[package_info.file_nr];
+        //auto& ifs = _input_file_streams[package_info.file_nr];
+        auto& ifs = get_active_stream(package_info.file_nr);
 
-        ifs->seekg(package_info.file_pos);
+        ifs.seekg(package_info.file_pos);
 
         try
         {
             // t_DatagramReader::from_stream must return t_datagramType
             // this allows for defining the static function from_stream in a different class
             // than the datagram type
-            return t_DatagramReader::from_stream(*ifs, package_info.datagram_identifier);
+            return t_DatagramReader::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {
@@ -230,7 +249,8 @@ class I_InputFile
         _total_file_size += file_info.file_size;
         _file_paths.push_back(file_path);
 
-        _input_file_streams.push_back(ifi);
+        //_input_file_streams.push_back(ifi);
+        _input_file_stream = ifi;
 
         auto& package_infos_all     = *(_package_infos_all);
         auto& package_infos_scanned = *(file_info.package_infos_all);
@@ -248,6 +268,8 @@ class I_InputFile
             package_infos.insert(
                 package_infos.end(), package_infos_scanned.begin(), package_infos_scanned.end());
         }
+
+        ifi->close();
     }
 
     virtual std::string datagram_identifier_to_string(
@@ -402,11 +424,6 @@ class I_InputFile
     }
 };
 
-// std::vector<boost::iostreams::mapped_file_source> _input_file_mappings;
-// std::vector<std::shared_ptr<t_ifstream>>          _input_file_streams;
-
-//     boost::iostreams::mapped_file_source mmap(file_path);
-//     auto ifi = std::make_shared<t_ifstream>(mmap, std::ios::binary);
 
 } // namespace fileinterfaces
 } // namespace echosounders

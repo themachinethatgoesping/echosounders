@@ -39,9 +39,15 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_I_InputFileIterator = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_active_file_nr = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_file_paths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_get_active_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_get_datagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_input_file_streams = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_input_file_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_number_of_packages = R"doc()doc";
 
@@ -54,6 +60,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_4 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_active_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_file = R"doc()doc";
 
@@ -69,11 +77,13 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_file_paths = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_active_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_streams = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_number_of_packages = R"doc()doc";
 
