@@ -29,7 +29,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
 template<typename t_DatagramBase,       ///< the datagram base class which should
                                         ///< contain the header and functions
                                         ///< specified in the DatagramBase interface
@@ -46,24 +45,24 @@ class I_InputFile
     size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
-    //std::vector<std::shared_ptr<t_ifstream>> _input_file_stream;
-    std::shared_ptr<t_ifstream> _input_file_stream;
-    long     active_file_nr = -1;
-    
-t_ifstream& get_active_stream(long file_nr)
-    {
-        if (file_nr < 0 || file_nr >= long(_file_paths.size()))
-        {
-            throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
-        }
-        if (file_nr != active_file_nr)
-        {
-            active_file_nr = file_nr;
-                //_input_file_streams[active_file_nr]->open(_file_paths[active_file_nr], std::ios_base::binary);
-                _input_file_stream= std::make_shared<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
+    std::unique_ptr<t_ifstream> _input_file_stream;
+    long                        active_file_nr = -1;
 
+    t_ifstream& get_active_stream(size_t file_nr)
+    {
+        if (long(file_nr) != active_file_nr)
+        {
+
+            if (file_nr >= _file_paths.size())
+            {
+                throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
+            }
+
+            active_file_nr = file_nr;
+            _input_file_stream =
+                std::make_unique<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
         }
-        return *(_input_file_stream);
+        return *_input_file_stream;
     }
 
     /* header positions */
@@ -98,7 +97,7 @@ t_ifstream& get_active_stream(long file_nr)
         t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
     {
         return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream>(
-            _file_paths, _input_file_stream, _package_infos_by_type.get_const(datagram_identifier));
+            _file_paths, _package_infos_by_type.get_const(datagram_identifier));
     }
 
     size_t number_of_packages() const { return _package_infos_all->size(); }
@@ -119,7 +118,7 @@ t_ifstream& get_active_stream(long file_nr)
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
 
-        //auto& ifs = _input_file_streams[package_info.file_nr];
+        // auto& ifs = _input_file_streams[package_info.file_nr];
         auto& ifs = get_active_stream(package_info.file_nr);
 
         ifs.seekg(package_info.file_pos);
@@ -201,7 +200,6 @@ t_ifstream& get_active_stream(long file_nr)
         size_t total_file_size = 0;
         size_t packages_old    = _package_infos_all->size();
 
-
         progress_bar.init(0, total_file_size, "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
@@ -238,7 +236,7 @@ t_ifstream& get_active_stream(long file_nr)
 
     void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
-        auto ifi = std::make_shared<t_ifstream>(file_path, std::ios::binary);
+        auto ifi = std::make_unique<t_ifstream>(file_path, std::ios::binary);
         if (!ifi->is_open())
             throw std::runtime_error("Could not open file: " + file_path);
 
@@ -249,8 +247,8 @@ t_ifstream& get_active_stream(long file_nr)
         _total_file_size += file_info.file_size;
         _file_paths.push_back(file_path);
 
-        //_input_file_streams.push_back(ifi);
-        _input_file_stream = ifi;
+        // ifi is not be valid anymore after this point
+        _input_file_stream = std::move(ifi);
 
         auto& package_infos_all     = *(_package_infos_all);
         auto& package_infos_scanned = *(file_info.package_infos_all);
@@ -260,16 +258,13 @@ t_ifstream& get_active_stream(long file_nr)
 
         for (const auto& [type, headers] : file_info.package_infos_by_type)
         {
-            auto& package_infos =
-                *(_package_infos_by_type.get(type));
+            auto& package_infos = *(_package_infos_by_type.get(type));
 
             auto& package_infos_scanned = *(headers);
 
             package_infos.insert(
                 package_infos.end(), package_infos_scanned.begin(), package_infos_scanned.end());
         }
-
-        ifi->close();
     }
 
     virtual std::string datagram_identifier_to_string(
@@ -335,7 +330,8 @@ t_ifstream& get_active_stream(long file_nr)
                     package_info.datagram_identifier = header.get_datagram_identifier();
 
                     package_infos_all.push_back(package_info);
-                    auto& package_infos_type = *(file_info.package_infos_by_type.get(package_info.datagram_identifier));
+                    auto& package_infos_type =
+                        *(file_info.package_infos_by_type.get(package_info.datagram_identifier));
 
                     package_infos_type.push_back(package_info);
 
@@ -359,7 +355,6 @@ t_ifstream& get_active_stream(long file_nr)
             progress_bar.close(std::string("Found: ") + std::to_string(package_infos_all.size()) +
                                " packages");
 
-     
         reset_ifstream(ifs);
         return file_info;
     }
@@ -423,7 +418,6 @@ t_ifstream& get_active_stream(long file_nr)
         return printer;
     }
 };
-
 
 } // namespace fileinterfaces
 } // namespace echosounders

@@ -8,9 +8,9 @@
 #pragma once
 
 #include <fstream>
-#include <vector>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 /* memory mapping */
 #include <boost/iostreams/device/mapped_file.hpp> // for mmap
@@ -27,8 +27,11 @@ namespace fileinterfaces {
 class MappedFileStream : public boost::iostreams::stream<boost::iostreams::mapped_file_source>
 {
   public:
-    MappedFileStream(const std::string& file_path, std::ios_base::openmode mode = std::ios_base::binary)
-        : boost::iostreams::stream<boost::iostreams::mapped_file_source>(boost::iostreams::mapped_file_source(file_path), mode)
+    MappedFileStream(const std::string&      file_path,
+                     std::ios_base::openmode mode = std::ios_base::binary)
+        : boost::iostreams::stream<boost::iostreams::mapped_file_source>(
+              boost::iostreams::mapped_file_source(file_path),
+              mode)
     {
     }
 };
@@ -36,42 +39,48 @@ class MappedFileStream : public boost::iostreams::stream<boost::iostreams::mappe
 template<typename t_DatagramIdentifier>
 struct PackageInfo
 {
-    size_t                  file_nr;             ///< file number of this package
-    std::ifstream::pos_type file_pos;            ///< file position of this package TODO: is this the same for ifstream and MappedFileStream?
-    double                  timestamp;           ///< timestamp (unixtime) of this package
-    t_DatagramIdentifier    datagram_identifier; ///< datagram type of this package
+    size_t                  file_nr;  ///< file number of this package
+    std::ifstream::pos_type file_pos; ///< file position of this package TODO: is this the same for
+                                      ///< ifstream and MappedFileStream?
+    double               timestamp;   ///< timestamp (unixtime) of this package
+    t_DatagramIdentifier datagram_identifier; ///< datagram type of this package
 };
 
 template<typename t_DatagramIdentifier>
-class PackageInfoPtrByTypeMap : public std::unordered_map<t_DatagramIdentifier, std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>>
+class PackageInfoPtrByTypeMap
+    : public std::unordered_map<t_DatagramIdentifier,
+                                std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>>
 {
-    public:
-    // use all constructors of the base class    
+  public:
+    // use all constructors of the base class
     PackageInfoPtrByTypeMap() = default;
 
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>& get(const t_DatagramIdentifier& key)
-    {
-    auto it = this->find(key);
-
-    if (it == this->end())
-    {
-        this->operator[](key) = std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
-        return this->operator[](key);
-    }
-    return it->second;
-    }
-
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> get_const(const t_DatagramIdentifier& key) const
+    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>& get(
+        const t_DatagramIdentifier& key)
     {
         auto it = this->find(key);
 
-    if (it == this->end())
+        if (it == this->end())
+        {
+            this->operator[](key) =
+                std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
+
+            return this->operator[](key);
+        }
+        return it->second;
+    }
+
+    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> get_const(
+        const t_DatagramIdentifier& key) const
     {
-        return     std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
+        auto it = this->find(key);
+
+        if (it == this->end())
+        {
+            return std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
+        }
+        return it->second;
     }
-    return it->second;
-    }
-        
 };
 
 // TODO: explicitly derive t_ from i_ using concepts from c++20
@@ -89,44 +98,46 @@ struct DataFileInfo
         package_infos_by_type; ///< package headers sorted by type
 };
 
-template<typename t_DatagramType, typename t_DatagramIdentifier, typename t_ifstream = std::ifstream>
+template<typename t_DatagramType,
+         typename t_DatagramIdentifier,
+         typename t_ifstream = std::ifstream>
 class I_InputFileIterator
 {
   protected:
-std::vector<std::string> _file_paths;
+    const std::vector<std::string> _file_paths;
 
     /* the opened input file stream */
-    std::shared_ptr<t_ifstream> _input_file_stream;
-    long     active_file_nr = -1;
+    std::unique_ptr<t_ifstream> _input_file_stream;
+    long                        active_file_nr = -1;
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
+    const std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
-t_ifstream& get_active_stream(long file_nr)
+    t_ifstream& get_active_stream(size_t file_nr)
     {
-        if (file_nr < 0 || file_nr >= long(_file_paths.size()))
+        if (long(file_nr) != active_file_nr)
         {
-            throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
-        }
-        if (file_nr != active_file_nr)
-        {
-            active_file_nr = file_nr;
-                //_input_file_streams[active_file_nr]->open(_file_paths[active_file_nr], std::ios_base::binary);
-                _input_file_stream= std::make_shared<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
 
+            if (file_nr >= _file_paths.size())
+            {
+                throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
+            }
+
+            active_file_nr = file_nr;
+            _input_file_stream =
+                std::make_unique<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
         }
-        return *(_input_file_stream);
+        return *_input_file_stream;
     }
 
-
   public:
-    I_InputFileIterator( const::std::vector<std::string>& file_paths,
-        std::shared_ptr<t_ifstream> input_file_stream,
-                        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
+    I_InputFileIterator(
+        const ::std::vector<std::string>&                               file_paths,
+        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
-        ,_input_file_stream(input_file_stream)
         , _package_infos(package_infos)
-    {    }
+    {
+    }
 
     size_t number_of_packages() const { return _package_infos->size(); }
 
@@ -164,7 +175,6 @@ t_ifstream& get_active_stream(long file_nr)
         }
     }
 };
-
 
 }
 }

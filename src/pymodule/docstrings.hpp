@@ -120,7 +120,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_nr = R"doc(< file number of this package)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_file_pos =
-R"doc(< file position of this package TODO: is this the same for ifstream
+R"doc(< file position of this package TODO: is this the same for < ifstream
 and MappedFileStream?)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_PackageInfo_timestamp = R"doc(< timestamp (unixtime) of this package)doc";
