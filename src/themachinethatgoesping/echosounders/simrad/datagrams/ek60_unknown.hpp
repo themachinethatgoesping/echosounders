@@ -62,7 +62,7 @@ struct EK60_Unknown : public EK60_Datagram
         else
             throw std::runtime_error("ERROR[EK60_Unknown::serialize]: _Length is too small");
 
-        ek60_long length_check;
+        ek60_long length_check = _Length;
         s.value4b(length_check);
 
         //if (!is_input(s))
