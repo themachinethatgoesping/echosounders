@@ -27,7 +27,6 @@ py_navigation = pymod.extension_module(
         numpy_dep],
     link_language : 'cpp',
     override_options: [
-        #'cpp_rtti=true',
     ],
     cpp_args : '-DPYTHON_LIB='+module_name,
     install : true,
