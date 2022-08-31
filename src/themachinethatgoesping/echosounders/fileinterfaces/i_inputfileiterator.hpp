@@ -146,8 +146,8 @@ class I_InputFileIterator
         std::shared_ptr<std::vector<std::string>>                       file_paths,
         std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos,
         size_t                                                          index_min,
-        size_t index_max,
-        int    index_step)
+        size_t                                                          index_max,
+        int                                                             index_step)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
         , _is_slice(true)
@@ -172,11 +172,11 @@ class I_InputFileIterator
             // convert index to C++ index using _index_step, _index_min, _index_max
             python_index *= _index_step;
             index = python_index < long(_index_min)
-                           ? std::min({ _package_infos->size(), _index_max }) + python_index
-                           : python_index;
+                      ? std::min({ _package_infos->size(), _index_max }) + python_index
+                      : python_index;
             index += _index_min;
 
-            //TODO: fix error messages
+            // TODO: fix error messages
             if (size_t(index) >= _package_infos->size() || size_t(index) > _index_max)
                 throw std::out_of_range("Index [{}] is larger than length [{}]! " + index);
         }
@@ -185,7 +185,7 @@ class I_InputFileIterator
             // convert from python index (can be negative) to C++ index
             index = python_index < 0 ? _package_infos->size() + python_index : python_index;
 
-            if (size_t(index) >= _package_infos->size() )
+            if (size_t(index) >= _package_infos->size())
                 throw std::out_of_range("Index [{}] is larger than length [{}]! " + index);
         }
 
