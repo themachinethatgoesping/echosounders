@@ -8,6 +8,7 @@
 #pragma once
 
 #include <fstream>
+#include <limits>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -100,12 +101,12 @@ struct DataFileInfo
 
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
-         typename t_ifstream = std::ifstream,
+         typename t_ifstream            = std::ifstream,
          typename t_DatagramTypeFactory = t_DatagramType>
 class I_InputFileIterator
 {
   protected:
-    const std::vector<std::string> _file_paths;
+    const std::shared_ptr<std::vector<std::string>> _file_paths;
 
     /* the opened input file stream */
     std::unique_ptr<t_ifstream> _input_file_stream;
@@ -116,52 +117,90 @@ class I_InputFileIterator
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
+        // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
         if (long(file_nr) != active_file_nr)
         {
-
-            if (file_nr >= _file_paths.size())
-            {
-                throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
-            }
-
             active_file_nr = file_nr;
             _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
+                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
         }
         return *_input_file_stream;
     }
 
+    const bool   _is_slice   = false;
+    const size_t _index_min  = 0;
+    const size_t _index_max  = std::numeric_limits<size_t>::max();
+    const int    _index_step = 1;
+
   public:
     I_InputFileIterator(
-        const ::std::vector<std::string>&                               file_paths,
+        std::shared_ptr<std::vector<std::string>>                       file_paths,
         std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
+        , _is_slice(false)
     {
     }
 
-    size_t size() const { return _package_infos->size(); }
-
-    t_DatagramType get_datagram(const long python_index)
+    I_InputFileIterator(
+        std::shared_ptr<std::vector<std::string>>                       file_paths,
+        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos,
+        size_t                                                          index_min,
+        size_t index_max,
+        int    index_step)
+        : _file_paths(file_paths)
+        , _package_infos(package_infos)
+        , _is_slice(true)
+        , _index_min(index_min)
+        , _index_max(index_max)
+        , _index_step(index_step)
     {
-        // convert from python index (can be negative) to C++ index
-        long index = python_index < 0 ? _package_infos->size() + python_index : python_index;
+    }
 
-        if (index < 0)
-            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
-                                        (index - _package_infos->size()));
+    size_t size() const
+    {
+        if (_is_slice)
+            return (std::min({ _package_infos->size(), _index_max }) - _index_min) / _index_step;
+        return _package_infos->size();
+    }
 
-        if (static_cast<size_t>(index) >= _package_infos->size())
-            throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
+    t_DatagramType at(long python_index)
+    {
+        long index;
+        if (_is_slice)
+        {
+            // convert index to C++ index using _index_step, _index_min, _index_max
+            python_index *= _index_step;
+            index = python_index < long(_index_min)
+                           ? std::min({ _package_infos->size(), _index_max }) + python_index
+                           : python_index;
+            index += _index_min;
+
+            //TODO: fix error messages
+            if (size_t(index) >= _package_infos->size() || size_t(index) > _index_max)
+                throw std::out_of_range("Index [{}] is larger than length [{}]! " + index);
+        }
+        else
+        {
+            // convert from python index (can be negative) to C++ index
+            index = python_index < 0 ? _package_infos->size() + python_index : python_index;
+
+            if (size_t(index) >= _package_infos->size() )
+                throw std::out_of_range("Index [{}] is larger than length [{}]! " + index);
+        }
+
+        if (index < long(_index_min))
+            throw std::out_of_range("Negative Index [{}] is larger than length [{}]! " +
+                                    (index - _package_infos->size()));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
+
         const auto& package_info = _package_infos->at(index);
-        auto&       ifs          = get_active_stream(package_info.file_nr);
-
-        ifs.seekg(package_info.file_pos);
-
         try
         {
+            t_ifstream& ifs = get_active_stream(package_info.file_nr);
+            ifs.seekg(package_info.file_pos);
+
             return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)

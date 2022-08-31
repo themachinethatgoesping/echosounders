@@ -41,7 +41,7 @@ class I_InputFile
 
   protected:
     /* some file information */
-    std::vector<std::string> _file_paths;
+    std::shared_ptr<std::vector<std::string>> _file_paths = std::make_shared<std::vector<std::string>>();
     size_t                   _total_file_size = 0;
 
     /* the actual input file stream */
@@ -52,15 +52,9 @@ class I_InputFile
     {
         if (long(file_nr) != active_file_nr)
         {
-
-            if (file_nr >= _file_paths.size())
-            {
-                throw std::runtime_error(fmt::format("file number {} is out of range", file_nr));
-            }
-
             active_file_nr = file_nr;
             _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths[file_nr], std::ios_base::binary);
+                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
         }
         return *_input_file_stream;
     }
@@ -146,7 +140,7 @@ class I_InputFile
             msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all->size());
             msg += fmt::format("pos: {}\n", package_info.file_pos);
             msg += fmt::format("size: {}\n",
-                               std::filesystem::file_size(_file_paths[package_info.file_nr]));
+                               std::filesystem::file_size(_file_paths->at(package_info.file_nr)));
             throw std::runtime_error(msg);
         }
     }
@@ -206,6 +200,7 @@ class I_InputFile
         // get total file size of all files
         size_t total_file_size = 0;
         size_t packages_old    = _package_infos_all->size();
+        active_file_nr = -1; 
 
         progress_bar.init(0, total_file_size, "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
@@ -249,10 +244,10 @@ class I_InputFile
 
         // scan for package headers
         DataFileInfo file_info =
-            scan_for_packages(file_path, _file_paths.size(), *ifi, progress_bar);
+            scan_for_packages(file_path, _file_paths->size(), *ifi, progress_bar);
 
         _total_file_size += file_info.file_size;
-        _file_paths.push_back(file_path);
+        _file_paths->push_back(file_path);
 
         // ifi is not be valid anymore after this point
         _input_file_stream = std::move(ifi);
@@ -372,11 +367,11 @@ class I_InputFile
     {
         tools::classhelpers::ObjectPrinter printer("I_InputFile", float_precision);
 
-        if (_file_paths.size() > 1)
+        if (_file_paths->size() > 1)
         {
             // find number of files per file ending in the file_paths vector
             std::map<std::string, size_t> file_ending_counts;
-            for (const auto& file_path : _file_paths)
+            for (const auto& file_path : *_file_paths)
             {
                 auto file_ending = file_path.substr(file_path.find_last_of(".") + 1);
                 file_ending_counts[file_ending]++;
@@ -391,7 +386,7 @@ class I_InputFile
         else // print the file path
         {
             // if size > 40, print only the last 40 characters
-            auto file_path = _file_paths.at(0);
+            auto file_path = _file_paths->at(0);
             if (file_path.size() > 40)
                 file_path = "..." + file_path.substr(file_path.size() - 40);
 

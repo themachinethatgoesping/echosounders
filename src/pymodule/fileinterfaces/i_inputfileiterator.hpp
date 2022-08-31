@@ -58,12 +58,12 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  I_InputFileIterator,                                                              \
                  size))                                                              \
         .def("__getitem__",                                                                        \
-             &T_CLASS::get_datagram,                                                               \
+             &T_CLASS::at,                                                               \
              DOC(themachinethatgoesping,                                                           \
                  echosounders,                                                                     \
                  fileinterfaces,                                                                   \
                  I_InputFileIterator,                                                              \
-                 get_datagram),                                                                    \
+                 at),                                                                    \
              py::arg("index"))
 
 #define ADD_ITERATOR(T_CLASS, T_DATAGRAM, T_DATAGRAM_TYPE, T_NAME)                                 \

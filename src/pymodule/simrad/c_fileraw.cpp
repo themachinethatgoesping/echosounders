@@ -30,7 +30,7 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define CLASS_FILERAW(T_FILE_RAW, CLASS_NAME)                                                           \
+#define CLASS_FILERAW(T_FILE_RAW, CLASS_NAME)                                                      \
     py::class_<T_FILE_RAW>(                                                                             \
             m, CLASS_NAME, DOC(themachinethatgoesping, echosounders, simrad, FileRaw))                  \
         /* constructors */                                                                              \
@@ -48,16 +48,16 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
         ADD_ITERATOR(T_FILE_RAW, datagrams::EK60_Unknown, t_EK60_DatagramType::RAW3, "RAW3")            \
         ADD_ITERATOR(T_FILE_RAW, datagrams::EK60_Unknown, t_EK60_DatagramType::XML0, "XML0")            \
         ADD_ITERATOR(T_FILE_RAW, datagrams::EK60_Unknown, t_EK60_DatagramType::TAG0, "TAG0")            \
-        .def("__call__", [](const T_FILE_RAW& self, bool only_header) {                                 \
-            if(only_header)                                                                             \
+        .def("__call__", [](const T_FILE_RAW& self, bool read_content) {                                 \
+            if(!read_content)                                                                             \
                 return py::cast(self.get_iterator<datagrams::EK60_Datagram>());                         \
             return py::cast(self.get_iterator<datagrams::t_EK60_DatagramVariant, datagrams::EK60_DatagramVariant>());                    \
             },                                                                                          \
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),       \
-            py::arg("only_header") = false                                                              \
+            py::arg("read_content") = true                                                              \
             )                                                                                           \
-        .def("__call__", [](const T_FILE_RAW& self,t_EK60_DatagramType type, bool only_header) {        \
-            if(only_header)                                                                             \
+        .def("__call__", [](const T_FILE_RAW& self,t_EK60_DatagramType type, bool read_content) {        \
+            if(!read_content)                                                                             \
                 return py::cast(self.get_iterator<datagrams::EK60_Datagram>(type));                     \
             switch (type)                                                                               \
             {                                                                                           \
@@ -73,7 +73,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
             },                                                                                          \
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_2),     \
             py::arg("datagram_type"),                                                                   \
-            py::arg("only_header") = false                                                              \
+            py::arg("read_content") = true                                                              \
             )                                                                                           \
                                                                                                         \
         /* default copy functions */                                                                    \
@@ -87,83 +87,116 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 {
     // get current time
-    auto start = std::chrono::high_resolution_clock::now();
+    auto                    start = std::chrono::high_resolution_clock::now();
     datagrams::EK60_Unknown a;
-    
-    auto it = ifi.get_iterator<datagrams::EK60_Unknown>();
+
+    auto it  = ifi.get_iterator<datagrams::EK60_Unknown>();
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0,it.size(),"test reading");
+    prg.init(0, it.size(), "test reading");
 
     double t = 0;
-    for (size_t i=0; i < it.size(); ++i)
+    for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.get_datagram(i);
+        auto dg = it.at(i);
         t += dg.get_timestamp();
         prg.tick();
     }
 
-    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+    prg.close(fmt::format(
+        "time: {:3f}ms",
+        std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
+            .count()));
 }
 
 void test_speed(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     // get current time
-    auto start = std::chrono::high_resolution_clock::now();
+    auto                    start = std::chrono::high_resolution_clock::now();
     datagrams::EK60_Unknown a;
-    
-    auto it = ifi.get_iterator<datagrams::EK60_Unknown>(type);
+
+    auto it  = ifi.get_iterator<datagrams::EK60_Unknown>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0,it.size(),"test reading");
+    prg.init(0, it.size(), "test reading");
 
     double t = 0;
-    for (size_t i=0; i < it.size(); ++i)
+    for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.get_datagram(i);
+        auto dg = it.at(i);
         t += dg.get_timestamp();
         prg.tick();
     }
 
-    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+    prg.close(fmt::format(
+        "time: {:3f}ms",
+        std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
+            .count()));
 }
-
 
 void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     // get current time
-    auto start = std::chrono::high_resolution_clock::now();
+    auto                    start = std::chrono::high_resolution_clock::now();
     datagrams::EK60_Unknown a;
-    
-    auto it = ifi.get_iterator<datagrams::EK60_Datagram>(type);
+
+    auto it  = ifi.get_iterator<datagrams::EK60_Datagram>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0,it.size(),"test reading");
+    prg.init(0, it.size(), "test reading");
 
     double t = 0;
-    for (size_t i=0; i < it.size(); ++i)
+    for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.get_datagram(i);
+        auto dg = it.at(i);
         t += dg.get_timestamp();
         prg.tick();
     }
 
-    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+    prg.close(fmt::format(
+        "time: {:3f}ms",
+        std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
+            .count()));
 }
 
 void init_c_fileraw(pybind11::module& m)
 {
     xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
 
-    ADD_ITERATOR_TYPES(m, "FileRawIterator_Header", datagrams::EK60_Datagram, t_EK60_DatagramType, datagrams::EK60_Datagram);
-    ADD_ITERATOR_TYPES(m, "FileRawIterator_Unknown", datagrams::EK60_Unknown, t_EK60_DatagramType, datagrams::EK60_Unknown);
-    ADD_ITERATOR_TYPES(
-        m, "FileRawIterator_Variant", datagrams::t_EK60_DatagramVariant, t_EK60_DatagramType, datagrams::EK60_DatagramVariant);
+    ADD_ITERATOR_TYPES(m,
+                       "FileRawIterator_Header",
+                       datagrams::EK60_Datagram,
+                       t_EK60_DatagramType,
+                       datagrams::EK60_Datagram);
+    ADD_ITERATOR_TYPES(m,
+                       "FileRawIterator_Unknown",
+                       datagrams::EK60_Unknown,
+                       t_EK60_DatagramType,
+                       datagrams::EK60_Unknown);
+    ADD_ITERATOR_TYPES(m,
+                       "FileRawIterator_Variant",
+                       datagrams::t_EK60_DatagramVariant,
+                       t_EK60_DatagramType,
+                       datagrams::EK60_DatagramVariant);
 
-    CLASS_FILERAW(FileRaw<std::ifstream>, "FileRaw");
-    CLASS_FILERAW(FileRaw<MappedFileStream>, "FileRaw_mapped");
+    auto c_streamed = CLASS_FILERAW(FileRaw<std::ifstream>, "FileRaw");
+    auto c_mapped   = CLASS_FILERAW(FileRaw<MappedFileStream>, "FileRaw_mapped");
 
     m.def("test_speed", &test_speed, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
-    // m.def("test_speed", py::overload_cast<const FileRaw<MappedFileStream>&, t_EK60_DatagramType >(test_speed),
+    // m.def("test_speed", py::overload_cast<const FileRaw<MappedFileStream>&, t_EK60_DatagramType
+    // >(test_speed),
     //     py::call_guard<py::scoped_ostream_redirect>());
 
+    // c_mapped.def(
+    //     "__getitem__",
+    //     [](const FileRaw<MappedFileStream>& self, const py::slice& slice) {
+    //         py::print("slice", slice);
+    //         //slice.begin();
+    //         //return self.get_iterator<datagrams::EK60_Datagram>(slice);
+    //         // if (!read_content)
+    //         //     return py::cast(self.get_iterator<datagrams::EK60_Datagram>());
+    //         // return py::cast(self.get_iterator<datagrams::t_EK60_DatagramVariant,
+    //         //                                   datagrams::EK60_DatagramVariant>());
+    //     },
+    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
+    //     py::arg("slice") = true);
 }
