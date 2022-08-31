@@ -140,7 +140,7 @@ class I_InputFileIterator
     {
     }
 
-    size_t number_of_packages() const { return _package_infos->size(); }
+    size_t size() const { return _package_infos->size(); }
 
     t_DatagramType get_datagram(const long python_index)
     {

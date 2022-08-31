@@ -12,6 +12,8 @@
 #define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
 
+#include <chrono>
+
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
@@ -82,6 +84,70 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
         __PYCLASS_DEFAULT_PRINTING__(T_FILE_RAW)                                                        \
         /* end T_FILE_RAW */
 
+void test_speed_all(const FileRaw<MappedFileStream>& ifi)
+{
+    // get current time
+    auto start = std::chrono::high_resolution_clock::now();
+    datagrams::EK60_Unknown a;
+    
+    auto it = ifi.get_iterator<datagrams::EK60_Unknown>();
+    auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
+    prg.init(0,it.size(),"test reading");
+
+    double t = 0;
+    for (size_t i=0; i < it.size(); ++i)
+    {
+        auto dg = it.get_datagram(i);
+        t += dg.get_timestamp();
+        prg.tick();
+    }
+
+    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+}
+
+void test_speed(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+{
+    // get current time
+    auto start = std::chrono::high_resolution_clock::now();
+    datagrams::EK60_Unknown a;
+    
+    auto it = ifi.get_iterator<datagrams::EK60_Unknown>(type);
+    auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
+    prg.init(0,it.size(),"test reading");
+
+    double t = 0;
+    for (size_t i=0; i < it.size(); ++i)
+    {
+        auto dg = it.get_datagram(i);
+        t += dg.get_timestamp();
+        prg.tick();
+    }
+
+    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+}
+
+
+void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+{
+    // get current time
+    auto start = std::chrono::high_resolution_clock::now();
+    datagrams::EK60_Unknown a;
+    
+    auto it = ifi.get_iterator<datagrams::EK60_Datagram>(type);
+    auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
+    prg.init(0,it.size(),"test reading");
+
+    double t = 0;
+    for (size_t i=0; i < it.size(); ++i)
+    {
+        auto dg = it.get_datagram(i);
+        t += dg.get_timestamp();
+        prg.tick();
+    }
+
+    prg.close(fmt::format("time: {:3f}ms", std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start).count()));
+}
+
 void init_c_fileraw(pybind11::module& m)
 {
     xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
@@ -93,5 +159,11 @@ void init_c_fileraw(pybind11::module& m)
 
     CLASS_FILERAW(FileRaw<std::ifstream>, "FileRaw");
     CLASS_FILERAW(FileRaw<MappedFileStream>, "FileRaw_mapped");
+
+    m.def("test_speed", &test_speed, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
+    // m.def("test_speed", py::overload_cast<const FileRaw<MappedFileStream>&, t_EK60_DatagramType >(test_speed),
+    //     py::call_guard<py::scoped_ostream_redirect>());
 
 }

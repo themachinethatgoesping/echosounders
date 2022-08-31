@@ -107,7 +107,7 @@ class I_InputFile
             _file_paths, _package_infos_all);
     }
 
-    size_t number_of_packages() const { return _package_infos_all->size(); }
+    size_t size() const { return _package_infos_all->size(); }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType get_datagram(const long python_index)

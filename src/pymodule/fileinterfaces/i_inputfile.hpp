@@ -93,20 +93,20 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  sort_packages_by_time))
 
 #define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_DATAGRAM_TYPE, T_DATAGRAM_READER)                 \
-    .def("number_of_packages",                                                                     \
-         &T_CLASS::number_of_packages,                                                             \
+    .def("size",                                                                     \
+         &T_CLASS::size,                                                             \
          DOC(themachinethatgoesping,                                                               \
              echosounders,                                                                         \
              fileinterfaces,                                                                       \
              I_InputFile,                                                                          \
-             number_of_packages))                                                                  \
+             size))                                                                  \
         .def("__len__",                                                                            \
-             &T_CLASS::number_of_packages,                                                         \
+             &T_CLASS::size,                                                         \
              DOC(themachinethatgoesping,                                                           \
                  echosounders,                                                                     \
                  fileinterfaces,                                                                   \
                  I_InputFile,                                                                      \
-                 number_of_packages))                                                              \
+                 size))                                                              \
         .def("__getitem__",                                                                        \
              &T_CLASS::get_datagram<T_DATAGRAM_TYPE, T_DATAGRAM_READER>,                           \
              DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram), \
