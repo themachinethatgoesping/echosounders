@@ -100,7 +100,8 @@ struct DataFileInfo
 
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
-         typename t_ifstream = std::ifstream>
+         typename t_ifstream = std::ifstream,
+         typename t_DatagramTypeFactory = t_DatagramType>
 class I_InputFileIterator
 {
   protected:
@@ -161,7 +162,7 @@ class I_InputFileIterator
 
         try
         {
-            return t_DatagramType::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {

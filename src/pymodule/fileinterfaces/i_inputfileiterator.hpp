@@ -72,11 +72,11 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
         [](const T_CLASS& self) { return self.get_iterator<T_DATAGRAM>(T_DATAGRAM_TYPE); },        \
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator))
 
-#define ADD_ITERATOR_TYPES(T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE)                 \
+#define ADD_ITERATOR_TYPES(T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE, T_DATAGRAM_FACTORY)                 \
     {                                                                                              \
-        using T_ITERATOR = I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE>;                       \
+        using T_ITERATOR = I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, std::ifstream, T_DATAGRAM_FACTORY>;                       \
         using T_ITERATOR_MAPPED =                                                                  \
-            I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, MappedFileStream>;                    \
+            I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, MappedFileStream, T_DATAGRAM_FACTORY>;                    \
         py::class_<T_ITERATOR>(                                                                    \
             T_MODULE,                                                                              \
             T_ITERATOR_NAME,                                                                       \

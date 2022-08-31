@@ -83,6 +83,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_number_of_packages = R"doc()doc";
@@ -230,10 +232,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_Datag
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_TAG0 = R"doc(< ???)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_ek60_header = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_ek60_invalid = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

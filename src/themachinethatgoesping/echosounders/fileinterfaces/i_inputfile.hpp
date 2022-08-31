@@ -92,17 +92,24 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
-    template<typename t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream> get_iterator(
-        t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::ek60_header) const
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
+        t_DatagramIdentifier datagram_identifier) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream>(
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
             _file_paths, _package_infos_by_type.get_const(datagram_identifier));
+    }
+
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator() const
+    {
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
+            _file_paths, _package_infos_all);
     }
 
     size_t number_of_packages() const { return _package_infos_all->size(); }
 
-    template<typename t_DatagramType, typename t_DatagramReader = t_DatagramType>
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType get_datagram(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
@@ -125,10 +132,10 @@ class I_InputFile
 
         try
         {
-            // t_DatagramReader::from_stream must return t_datagramType
+            // t_DatagramTypeFactory::from_stream must return t_datagramType
             // this allows for defining the static function from_stream in a different class
             // than the datagram type
-            return t_DatagramReader::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
         }
         catch (std::exception& e)
         {
