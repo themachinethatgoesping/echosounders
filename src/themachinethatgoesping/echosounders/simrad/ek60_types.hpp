@@ -54,20 +54,6 @@ inline ek60_long ek60_datagram_type_from_string(const std::string& value)
     return valueAsLong;
 }
 
-inline t_EK60_DatagramType peter()
-{
-    static std::unordered_map<t_EK60_DatagramType, int> test;
-
-    test[t_EK60_DatagramType::XML0] = 1;
-
-    t_EK60_DatagramType test2 = t_EK60_DatagramType::XML0;
-    test2                     = t_EK60_DatagramType(0);
-
-    test2 = t_EK60_DatagramType(2);
-    test2 = t_EK60_DatagramType(6);
-
-    return test2;
-}
 
 } // namespace simrad
 } // namespace echosounders

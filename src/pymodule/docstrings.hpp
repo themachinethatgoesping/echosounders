@@ -217,8 +217,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_ek60_datagram_type_from_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_peter = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_FIL1 = R"doc(< Filter datagram)doc";

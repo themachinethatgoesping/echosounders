@@ -32,7 +32,6 @@ void init_m_simrad(pybind11::module& m)
     // module description
     auto subm = m.def_submodule("simrad", "Classes related to Simrad EK60 and EK80 data files");
 
-    subm.def("peter", &peter);
     py::enum_<t_EK60_DatagramType>(
         subm,
         "t_EK60_DatagramType",
