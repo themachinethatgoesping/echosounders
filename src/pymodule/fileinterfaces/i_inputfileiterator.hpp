@@ -43,28 +43,22 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                            datagram_identifier))
 
 #define __INPUTFILEITERATOR_PACKAGE_READING__(T_CLASS)                                             \
-    .def("size",                                                                     \
-         &T_CLASS::size,                                                             \
-         DOC(themachinethatgoesping,                                                               \
-             echosounders,                                                                         \
-             fileinterfaces,                                                                       \
-             I_InputFileIterator,                                                                  \
-             size))                                                                  \
+    .def("size",                                                                                   \
+         &T_CLASS::size,                                                                           \
+         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size))     \
         .def("__len__",                                                                            \
-             &T_CLASS::size,                                                         \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFileIterator,                                                              \
-                 size))                                                              \
+             &T_CLASS::size,                                                                       \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size)) \
         .def("__getitem__",                                                                        \
-             &T_CLASS::at,                                                               \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFileIterator,                                                              \
-                 at),                                                                    \
-             py::arg("index"))
+             &T_CLASS::at,                                                                         \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, at),   \
+             py::arg("index"))\
+        .def("__call__",                                                                        \
+             &T_CLASS::operator(),                                                                         \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, operator_call),   \
+             py::arg("index_min")=0,\
+             py::arg("index_max")=std::numeric_limits<size_t>::max(),\
+             py::arg("index_step")=1)
 
 #define ADD_ITERATOR(T_CLASS, T_DATAGRAM, T_DATAGRAM_TYPE, T_NAME)                                 \
     .def_property_readonly(                                                                        \
@@ -72,11 +66,15 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
         [](const T_CLASS& self) { return self.get_iterator<T_DATAGRAM>(T_DATAGRAM_TYPE); },        \
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator))
 
-#define ADD_ITERATOR_TYPES(T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE, T_DATAGRAM_FACTORY)                 \
+#define ADD_ITERATOR_TYPES(                                                                        \
+    T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE, T_DATAGRAM_FACTORY)                    \
     {                                                                                              \
-        using T_ITERATOR = I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, std::ifstream, T_DATAGRAM_FACTORY>;                       \
-        using T_ITERATOR_MAPPED =                                                                  \
-            I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, MappedFileStream, T_DATAGRAM_FACTORY>;                    \
+        using T_ITERATOR =                                                                         \
+            I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, std::ifstream, T_DATAGRAM_FACTORY>;   \
+        using T_ITERATOR_MAPPED = I_InputFileIterator<T_DATAGRAM,                                  \
+                                                      T_DATAGRAM_TYPE,                             \
+                                                      MappedFileStream,                            \
+                                                      T_DATAGRAM_FACTORY>;                         \
         py::class_<T_ITERATOR>(                                                                    \
             T_MODULE,                                                                              \
             T_ITERATOR_NAME,                                                                       \

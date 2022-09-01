@@ -9,12 +9,40 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_inputfile.hpp"
 //#include "../docstrings.hpp"
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::fileinterfaces;
+
+template<typename T_PyClass>
+void py_i_InputFile_DefaultConstructors(T_PyClass& cls)
+{
+    using namespace themachinethatgoesping::tools::progressbars;
+
+    cls.def(py::init<const std::string&, bool>(),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile),
+            py::arg("file_path"),
+            py::arg("show_progress") = true);
+    cls.def(py::init<const std::string&, I_ProgressBar&>(),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_2),
+            py::arg("file_path"),
+            py::arg("progress_bar"));
+    cls.def(py::init<const std::vector<std::string>&, bool>(),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_3),
+            py::arg("file_path"),
+            py::arg("show_progress") = true);
+    cls.def(py::init<const std::vector<std::string>&, I_ProgressBar&>(),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_4),
+            py::arg("file_paths"),
+            py::arg("progress_bar"));
+}
 
 #define __INPUTFILE_DEFAULT_CONSTRUCTORS__(T_CLASS)                                                \
     .def(py::init<const std::string&, bool>(),                                                     \
@@ -93,20 +121,12 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                  sort_packages_by_time))
 
 #define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_DATAGRAM_TYPE, T_DATAGRAM_READER)                 \
-    .def("size",                                                                     \
-         &T_CLASS::size,                                                             \
-         DOC(themachinethatgoesping,                                                               \
-             echosounders,                                                                         \
-             fileinterfaces,                                                                       \
-             I_InputFile,                                                                          \
-             size))                                                                  \
+    .def("size",                                                                                   \
+         &T_CLASS::size,                                                                           \
+         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size))             \
         .def("__len__",                                                                            \
-             &T_CLASS::size,                                                         \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFile,                                                                      \
-                 size))                                                              \
+             &T_CLASS::size,                                                                       \
+             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size))         \
         .def("__getitem__",                                                                        \
              &T_CLASS::get_datagram<T_DATAGRAM_TYPE, T_DATAGRAM_READER>,                           \
              DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram), \

@@ -59,6 +59,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_is_slice = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_operator_call = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_package_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFileIterator_size = R"doc()doc";
@@ -94,6 +96,10 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_get_iterator_4 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_input_file_stream = R"doc()doc";
 

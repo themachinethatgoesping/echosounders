@@ -95,10 +95,26 @@ class I_InputFile
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
+        t_DatagramIdentifier datagram_identifier, long index_min, long index_max, long index_step) const
+    {
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
+            _file_paths, _package_infos_by_type.get_const(datagram_identifier), index_min, index_max, index_step);
+    }
+
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator() const
     {
         return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
             _file_paths, _package_infos_all);
+    }
+
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
+        long index_min, long index_max, long index_step) const
+    {
+        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
+            _file_paths, _package_infos_all, index_min, index_max, index_step);
     }
 
     size_t size() const { return _package_infos_all->size(); }
