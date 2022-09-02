@@ -15,9 +15,8 @@
 #include <bitsery/ext/inheritance.h>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
-#include <themachinethatgoesping/tools/classhelpers/bitsery_helpers/nosizevector.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../ek60_types.hpp"
@@ -30,58 +29,27 @@ namespace datagrams {
 
 struct EK60_Unknown : public EK60_Datagram
 {
+    // ----- datagram content -----
     std::string raw_content;
 
+  private:
+    // ----- private constructors -----
+    explicit EK60_Unknown(EK60_Datagram&& header) 
+    : EK60_Datagram(std::move(header))
+    {}
+
   public:
+    // ----- public constructors -----
     EK60_Unknown()  = default;
     ~EK60_Unknown() = default;
 
     // ----- operators -----
-    bool operator==(const EK60_Unknown& other) const { return EK60_Datagram::operator==(other); }
+    bool operator==(const EK60_Unknown& other) const { return EK60_Datagram::operator==(other) && raw_content == other.raw_content; }
     bool operator!=(const EK60_Unknown& other) const { return !operator==(other); }
 
-    // ----- bitsery -----
-    friend bitsery::Access;
-    template<typename S>
-    void serialize(S& s)
+    static EK60_Unknown from_stream(std::istream& is, EK60_Datagram&& header)
     {
-        using themachinethatgoesping::tools::bitsery_helpers::is_input;
-        using themachinethatgoesping::tools::bitsery_helpers::NoSizeVector;
-
-        //if (!is_input(s))
-        {
-            _Length = raw_content.size() + 12;
-        }
-        // serialize base class
-        s.ext(*this, bitsery::ext::BaseClass<EK60_Datagram>{});
-
-        //-12 bytes for _DatagramType, _LowDateTime and _HighDateTime
-        if (_Length > 12)
-            s.ext1b(raw_content, NoSizeVector<std::string>{ size_t(_Length - 12) });
-            //s.ext(raw_content, NoSizeVector<std::string>{ size_t(_Length - 12) });
-        else
-            throw std::runtime_error("ERROR[EK60_Unknown::serialize]: _Length is too small");
-
-        ek60_long length_check = _Length;
-        s.value4b(length_check);
-
-        //if (!is_input(s))
-        {
-            if (length_check != _Length)
-            {
-                throw std::runtime_error("length check failed");
-            }
-        }
-    }
-
-    static EK60_Unknown from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
-    {
-        EK60_Unknown datagram;
-        // header
-        is.read(reinterpret_cast<char*>(&datagram._Length), 4 * sizeof(ek60_long));
-
-        if (datagram.get_datagram_identifier() != datagram_identifier)
-            throw std::runtime_error(fmt::format("EK60_Unknown: Datagram identifier mismatch!"));
+        EK60_Unknown datagram(std::move(header));
 
         if (datagram._Length > 12)
             datagram.raw_content.resize(size_t(datagram._Length - 12));
@@ -89,10 +57,6 @@ struct EK60_Unknown : public EK60_Datagram
             throw std::runtime_error("ERROR[EK60_Unknown::from_stream]: _Length is too small");
 
         is.read(datagram.raw_content.data(), datagram.raw_content.size());
-        // for (size_t i = 0; i < datagram.raw_content.size(); ++i)
-        // {
-        //     is.read(reinterpret_cast<char*>(&datagram.raw_content[i]), 1);
-        // }
 
         
         // verify that we are at the end of the datagram by reading the enclosing length field
@@ -110,6 +74,25 @@ struct EK60_Unknown : public EK60_Datagram
         return datagram;
     }
 
+    static EK60_Unknown from_stream(std::istream& is)
+    {
+        return from_stream(is, std::move(EK60_Datagram::from_stream(is)));
+    }
+
+    static EK60_Unknown from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
+    {
+        return from_stream(is, std::move(EK60_Datagram::from_stream(is, datagram_identifier)));
+    }
+
+    void to_stream(std::ostream& os)
+    {
+        _Length = 12 + raw_content.size();
+        EK60_Datagram::to_stream(os);
+
+        os.write(raw_content.data(), raw_content.size());
+        os.write(reinterpret_cast<char*>(&_Length), sizeof(_Length));
+    }
+
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -121,8 +104,8 @@ struct EK60_Unknown : public EK60_Datagram
     }
 
     // ----- class helper macros -----
-    __BITSERY_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_Unknown)
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_Unknown)
 };
 
 } // namespace datagrams

@@ -8,6 +8,7 @@
 
 #include "datagrams/ek60_datagram.hpp"
 #include "datagrams/ek60_unknown.hpp"
+#include "datagrams/ek80_MRU0.hpp"
 #include "ek60_types.hpp"
 
 #include <pybind11/pybind11.h>
@@ -27,7 +28,7 @@ namespace simrad {
 
 namespace datagrams {
 
-using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK60_Unknown>;
+using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK60_Unknown>;
 
 struct EK60_DatagramVariant
 {
@@ -44,9 +45,9 @@ struct EK60_DatagramVariant
     {
         switch (datagram_type)
         {
-            case t_EK60_DatagramType::FIL1:
-                [[fallthrough]];
             case t_EK60_DatagramType::MRU0:
+                return t_EK60_DatagramVariant(EK80_MRU0::from_stream(is));
+            case t_EK60_DatagramType::FIL1:
                 [[fallthrough]];
             case t_EK60_DatagramType::NME0:
                 [[fallthrough]];

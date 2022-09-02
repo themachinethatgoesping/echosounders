@@ -8,7 +8,9 @@ testcomponent = 'echosounders'
 
 sources = [
     'tutorial.test.cpp',
-    'simrad/datagrams/ek60_datagram.test.cpp'
+    'simrad/datagrams/ek60_datagram.test.cpp',
+    'simrad/datagrams/ek60_unknown.test.cpp',
+    'simrad/datagrams/ek80_MRU0.test.cpp',
 ]
 
 foreach source : sources

@@ -59,7 +59,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
 
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
         cls, t_EK60_DatagramType::FIL1, "FIL1");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_MRU0>(
         cls, t_EK60_DatagramType::MRU0, "MRU0");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
         cls, t_EK60_DatagramType::XML0, "XML0");
@@ -91,9 +91,10 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
            long                         index_step) {
             switch (type)
             {
-                case t_EK60_DatagramType::FIL1:
-                    [[fallthrough]];
                 case t_EK60_DatagramType::MRU0:
+                    return py::cast(self.template get_iterator<datagrams::EK80_MRU0>(
+                        type, index_min, index_max, index_step));
+                case t_EK60_DatagramType::FIL1:
                     [[fallthrough]];
                 case t_EK60_DatagramType::NME0:
                     [[fallthrough]];
@@ -229,6 +230,7 @@ void init_c_fileraw(pybind11::module& m)
 
     create_IteratorTypes<datagrams::EK60_Datagram,t_EK60_DatagramType>(m,"FileRawIterator_Header");
     create_IteratorTypes<datagrams::EK60_Unknown,t_EK60_DatagramType>(m,"FileRawIterator_Unknown");
+    create_IteratorTypes<datagrams::EK80_MRU0,t_EK60_DatagramType>(m,"FileRawIterator_MRU0");
     create_IteratorTypes<datagrams::t_EK60_DatagramVariant,t_EK60_DatagramType,datagrams::EK60_DatagramVariant>(m,"FileRawIterator_Variant");
 
 

@@ -13,8 +13,8 @@
 #include <iostream>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../ek60_types.hpp"
@@ -99,30 +99,28 @@ struct EK60_Datagram
                _LowDateTime == other._LowDateTime && _HighDateTime == other._HighDateTime;
     }
     bool operator!=(const EK60_Datagram& other) const { return !operator==(other); }
-
-    // ----- bitsery -----
-    friend bitsery::Access;
-    template<typename S>
-    void serialize(S& s)
-    {
-        s.value4b(_Length);
-        s.value4b(_DatagramType);
-        s.value4b(_LowDateTime);
-        s.value4b(_HighDateTime);
-    }
-
     
-    static EK60_Datagram from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
+    static EK60_Datagram from_stream(std::istream& is)
     {
         EK60_Datagram d;
         is.read(reinterpret_cast<char*>(&d._Length), 4*sizeof(ek60_long));
+        
+        return d;
+    }
+    
+    static EK60_Datagram from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
+    {
+        EK60_Datagram d = from_stream(is);
 
         if (d.get_datagram_identifier() != datagram_identifier)
             throw std::runtime_error(fmt::format("EK60_Datagram: Datagram identifier mismatch!"));
-        // ifi.read(reinterpret_cast<char*>(&d._DatagramType), sizeof(ek60_long));
-        // ifi.read(reinterpret_cast<char*>(&d._LowDateTime), sizeof(ek60_long));
-        // ifi.read(reinterpret_cast<char*>(&d._HighDateTime), sizeof(ek60_long));
+
         return d;
+    }
+
+    void to_stream(std::ostream& os)
+    {
+        os.write(reinterpret_cast<char*>(&_Length), 4*sizeof(ek60_long));
     }
 
     // ----- objectprinter -----
@@ -149,8 +147,8 @@ struct EK60_Datagram
     }
 
     // ----- class helper macros -----
-    __BITSERY_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_Datagram)
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_Datagram)
 };
 
 } // namespace datagrams
