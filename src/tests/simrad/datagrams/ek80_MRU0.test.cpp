@@ -44,6 +44,12 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
 
+    // --- test data access ---
+    REQUIRE(dat.get_heave() == 10);
+    REQUIRE(dat.get_roll() == 12);
+    REQUIRE(dat.get_pitch() == 13);
+    REQUIRE(dat.get_heading() == 14);
+
     //--- datagram concept ---
 
     // datagram type

@@ -28,14 +28,20 @@ namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
-// Binary Datagram: MRU0
+/**
+ * @brief Motion binary datagram (MRU0)
+ * This datagram holds heave, roll, pitch and heading as float values.
+ * Conveniently, these values can be used directly in themachinethatgoesping navigation processing
+ * because they are defined in the default coordinate system / value range.
+ *
+ */
 struct EK80_MRU0 : public EK60_Datagram
 {
     // ----- datagram content -----
-    ek60_float _Heave; // unit?
-    ek60_float _Roll; // unit?
-    ek60_float _Pitch; // unit?
-    ek60_float _Heading; // unit?
+    ek60_float _Heave;   ///< Heave in m, positive up
+    ek60_float _Roll;    ///< Roll in degrees, positive port up
+    ek60_float _Pitch;   ///< Pitch in degrees, positive nose up
+    ek60_float _Heading; ///< Heading in degrees, 0° north, 90° east
 
   private:
     // ----- public constructors -----
@@ -61,6 +67,16 @@ struct EK80_MRU0 : public EK60_Datagram
     }
     bool operator!=(const EK80_MRU0& other) const { return !operator==(other); }
 
+    // ----- getter setter -----
+    double get_heave() const { return _Heave; }
+    double get_roll() const { return _Roll; }
+    double get_pitch() const { return _Pitch; }
+    double get_heading() const { return _Heading; }
+    void   set_heave(double value) { _Heave = value; }
+    void   set_roll(double value) { _Roll = value; }
+    void   set_pitch(double value) { _Pitch = value; }
+    void   set_heading(double value) { _Heading = value; }
+
     // ----- file I/O -----
     static EK80_MRU0 from_stream(std::istream& is, EK60_Datagram&& header)
     {
@@ -80,7 +96,8 @@ struct EK80_MRU0 : public EK60_Datagram
         if (type != t_EK60_DatagramType::MRU0)
             throw std::runtime_error("EK80_MRU0::from_stream: wrong datagram type");
 
-        return from_stream(is, std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0)));
+        return from_stream(is,
+                           std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0)));
     }
 
     void to_stream(std::ostream& os)

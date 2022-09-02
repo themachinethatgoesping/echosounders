@@ -25,19 +25,31 @@ using datagrams::EK80_MRU0;
 
 void init_c_ek80_MRU0(pybind11::module& m)
 {
-        py::class_<EK80_MRU0, datagrams::EK60_Datagram>(
-        m,
-        "EK80_MRU0",
-        DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0))
+    py::class_<EK80_MRU0, datagrams::EK60_Datagram>(
+        m, "EK80_MRU0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0))
         .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 EK80_MRU0,
-                 EK80_MRU0))
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, EK80_MRU0))
         // --- convenient data access ---
-        
+        .def_property(
+            "heave",
+            &EK80_MRU0::get_heave,
+            &EK80_MRU0::set_heave,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, Heave))
+        .def_property("roll",
+                      &EK80_MRU0::get_roll,
+                      &EK80_MRU0::set_roll,
+                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, Roll))
+        .def_property(
+            "pitch",
+            &EK80_MRU0::get_pitch,
+            &EK80_MRU0::set_pitch,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, Pitch))
+        .def_property(
+            "heading",
+            &EK80_MRU0::get_heading,
+            &EK80_MRU0::set_heading,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, Heading))
+
         // --- raw data access ---
         .def_readwrite(
             "_raw_Heave",
@@ -55,19 +67,14 @@ void init_c_ek80_MRU0(pybind11::module& m)
             "_raw_Heading",
             &EK80_MRU0::_Heading,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, Heading))
-        
+
         // ----- operators -----
         .def("__eq__",
              &EK80_MRU0::operator==,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 EK80_MRU0,
-                 operator_eq),
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_MRU0, operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
-        //default copy functions 
+        // default copy functions
         __PYCLASS_DEFAULT_COPY__(EK80_MRU0)
         // default binary functions
         __PYCLASS_DEFAULT_BINARY__(EK80_MRU0)
