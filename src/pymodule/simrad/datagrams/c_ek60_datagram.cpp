@@ -12,6 +12,11 @@
 #include "../../docstrings.hpp"
 #include "module.hpp"
 
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+namespace py_simrad {
+namespace py_datagrams {
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::EK60_Datagram;
@@ -120,4 +125,10 @@ void init_c_ek60_datagram(pybind11::module& m)
         __PYCLASS_DEFAULT_PRINTING__(EK60_Datagram)
         // end LinearInterpolator
         ;
+}
+
+}
+}
+}
+}
 }

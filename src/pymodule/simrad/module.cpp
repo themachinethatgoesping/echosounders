@@ -21,13 +21,18 @@ namespace py = pybind11;
 
 #include <pybind11/pybind11.h>
 
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+namespace py_simrad {
+
 // -- submodule declarations --
 void init_c_fileraw(pybind11::module& m); // c_fileraw.cpp
 
 // -- create submodule --
 void init_m_simrad(pybind11::module& m)
 {
-    using namespace themachinethatgoesping::echosounders::simrad;
+    using namespace simrad;
 
     // module description
     auto subm = m.def_submodule("simrad", "Classes related to Simrad EK60 and EK80 data files");
@@ -53,32 +58,31 @@ void init_m_simrad(pybind11::module& m)
                DOC(themachinethatgoesping, echosounders, simrad, t_EK60_DatagramType, RAW3))
         .export_values()
         // pybind enum helpers
-        // unfortunately magic_enum only works for enums within a specific range that cannot exceed max(uint16_t)
-        // therefore we need to use a custom function
+        // unfortunately magic_enum only works for enums within a specific range that cannot exceed
+        // max(uint16_t) therefore we need to use a custom function
         //__PYENUM_FROM_STRING__(t_EK60_DatagramType)
-        .def(                                                                                          
-        py::init(                                                                                
-        [](const std::string& str) {
-        if (str == "XML0")
-            return t_EK60_DatagramType::XML0;
-        if (str == "FIL1")
-            return t_EK60_DatagramType::FIL1;
-        if (str == "NME0")
-            return t_EK60_DatagramType::NME0;
-        if (str == "MRU0")
-            return t_EK60_DatagramType::MRU0;
-        if (str == "RAW3")
-            return t_EK60_DatagramType::RAW3;
+        .def(py::init([](const std::string& str) {
+                 if (str == "XML0")
+                     return t_EK60_DatagramType::XML0;
+                 if (str == "FIL1")
+                     return t_EK60_DatagramType::FIL1;
+                 if (str == "NME0")
+                     return t_EK60_DatagramType::NME0;
+                 if (str == "MRU0")
+                     return t_EK60_DatagramType::MRU0;
+                 if (str == "RAW3")
+                     return t_EK60_DatagramType::RAW3;
 
-        std::string enum_info = "[XML0, FIL1, NME0, MRU0, RAW3]";
+                 std::string enum_info = "[XML0, FIL1, NME0, MRU0, RAW3]";
 
-        pybind11::print(fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));
+                 pybind11::print(
+                     fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));
 
-        throw std::invalid_argument(
-            fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));   
-              }) ,                                                                                         
-        "Construct this enum type from string",                                                    
-        py::arg("str"))
+                 throw std::invalid_argument(
+                     fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));
+             }),
+             "Construct this enum type from string",
+             py::arg("str"))
         //
         ;
 
@@ -94,8 +98,13 @@ void init_m_simrad(pybind11::module& m)
              py::arg("datagram_type"));
 
     // datagrams
-    init_m_simrad_datagrams(subm);
+    py_datagrams::init_m_simrad_datagrams(subm);
 
     // simrad classes
     init_c_fileraw(subm);
+}
+
+}
+}
+}
 }

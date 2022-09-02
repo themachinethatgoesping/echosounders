@@ -5,5 +5,16 @@
 
 #include <pybind11/pybind11.h>
 
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+
+    namespace py_simrad{
+
 // -- initialize module --
 void init_m_simrad(pybind11::module& m);
+
+    }
+}
+}
+}

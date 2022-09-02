@@ -10,6 +10,9 @@
 
 // declare modules
 //void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
 
 PYBIND11_MODULE(MODULE_NAME, m)
 {
@@ -19,5 +22,9 @@ PYBIND11_MODULE(MODULE_NAME, m)
     m.attr("__version__") = MODULE_VERSION;
 
     //init_m_navtools(m);
-    init_m_simrad(m);
+    py_simrad::init_m_simrad(m);
+}
+
+}
+}
 }

@@ -13,8 +13,11 @@
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_inputfileiterator.hpp"
 //#include "../docstrings.hpp"
 
-namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+namespace py_fileinterfaces {
+namespace py_i_InputFileIterator {
 
 #define __CLASS_PACKAGEINFO__(PYMODULE, t_DatagramIdentifier)                                      \
     py::class_<PackageInfo<t_DatagramIdentifier>>(                                                 \
@@ -42,47 +45,98 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
                            PackageInfo,                                                            \
                            datagram_identifier))
 
-#define __INPUTFILEITERATOR_PACKAGE_READING__(T_CLASS)                                             \
-    .def("size",                                                                                   \
-         &T_CLASS::size,                                                                           \
-         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size))     \
-        .def("__len__",                                                                            \
-             &T_CLASS::size,                                                                       \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size)) \
-        .def("__getitem__",                                                                        \
-             &T_CLASS::at,                                                                         \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, at),   \
-             py::arg("index"))\
-        .def("__call__",                                                                        \
-             &T_CLASS::operator(),                                                                         \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, operator_call),   \
-             py::arg("index_min")=0,\
-             py::arg("index_max")=std::numeric_limits<size_t>::max(),\
-             py::arg("index_step")=1)
+template<typename T_BaseClass, typename T_PyClass>
+void _iterator_add_PackageReading(T_PyClass& cls)
+{
+    namespace py = pybind11;
 
-#define ADD_ITERATOR(T_CLASS, T_DATAGRAM, T_DATAGRAM_TYPE, T_NAME)                                 \
-    .def_property_readonly(                                                                        \
-        (std::string("i_") + T_NAME).c_str(),                                                      \
-        [](const T_CLASS& self) { return self.get_iterator<T_DATAGRAM>(T_DATAGRAM_TYPE); },        \
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator))
+    cls.def("size",
+            &T_BaseClass::size,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size));
+    cls.def("__len__",
+            &T_BaseClass::size,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, size));
+    cls.def("__getitem__",
+            &T_BaseClass::at,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator, at),
+            py::arg("index"));
+    cls.def("__call__",
+            &T_BaseClass::operator(),
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_InputFileIterator,
+                operator_call),
+            py::arg("index_min")  = 0,
+            py::arg("index_max")  = std::numeric_limits<size_t>::max(),
+            py::arg("index_step") = 1);
+}
 
-#define ADD_ITERATOR_TYPES(                                                                        \
-    T_MODULE, T_ITERATOR_NAME, T_DATAGRAM, T_DATAGRAM_TYPE, T_DATAGRAM_FACTORY)                    \
-    {                                                                                              \
-        using T_ITERATOR =                                                                         \
-            I_InputFileIterator<T_DATAGRAM, T_DATAGRAM_TYPE, std::ifstream, T_DATAGRAM_FACTORY>;   \
-        using T_ITERATOR_MAPPED = I_InputFileIterator<T_DATAGRAM,                                  \
-                                                      T_DATAGRAM_TYPE,                             \
-                                                      MappedFileStream,                            \
-                                                      T_DATAGRAM_FACTORY>;                         \
-        py::class_<T_ITERATOR>(                                                                    \
-            T_MODULE,                                                                              \
-            T_ITERATOR_NAME,                                                                       \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator))        \
-            __INPUTFILEITERATOR_PACKAGE_READING__(T_ITERATOR);                                     \
-        py::class_<T_ITERATOR_MAPPED>(                                                             \
-            T_MODULE,                                                                              \
-            (T_ITERATOR_NAME + std::string("_mapped")).c_str(),                                    \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator))        \
-            __INPUTFILEITERATOR_PACKAGE_READING__(T_ITERATOR_MAPPED);                              \
-    }
+template<typename T_BaseClass,
+         typename T_DatagramType,
+         typename T_DatagramFactory = T_DatagramType,
+         typename T_DatagramIdentifier,
+         typename T_PyClass>
+void add_Iterator(T_PyClass&           cls,
+                  T_DatagramIdentifier datagram_identifier,
+                  const std::string    T_NAME)
+{
+    cls.def_property_readonly(
+        (std::string("i_") + T_NAME).c_str(),
+        [datagram_identifier](const T_BaseClass& self) {
+            return self.template get_iterator<T_DatagramType, T_DatagramFactory>(
+                datagram_identifier);
+        },
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator));
+}
+
+template<typename T_BaseClass,
+         typename T_DatagramType,
+         typename T_DatagramFactory = T_DatagramType,
+         typename T_PyClass>
+void add_Iterator(T_PyClass& cls, const std::string T_NAME)
+{
+    cls.def_property_readonly(
+        (std::string("i_") + T_NAME).c_str(),
+        [](const T_BaseClass& self) {
+            return self.template get_iterator<T_DatagramType, T_DatagramFactory>();
+        },
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator));
+}
+
+template<typename T_DatagramType,
+         typename T_DatagramIdentifier,
+         typename T_DatagramFactory = T_DatagramType>
+void create_IteratorTypes(pybind11::module& m, const std::string ITERATOR_NAME)
+{
+    using fileinterfaces::I_InputFileIterator;
+    using fileinterfaces::MappedFileStream;
+    namespace py = pybind11;
+
+    using T_ITERATOR =
+        I_InputFileIterator<T_DatagramType, T_DatagramIdentifier, std::ifstream, T_DatagramFactory>;
+    using T_ITERATOR_MAPPED = I_InputFileIterator<T_DatagramType,
+                                                  T_DatagramIdentifier,
+                                                  MappedFileStream,
+                                                  T_DatagramFactory>;
+
+    auto cls_stream         = py::class_<T_ITERATOR>(
+        m,
+        ITERATOR_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator));
+
+    auto cls_mapped = py::class_<T_ITERATOR_MAPPED>(
+        m,
+        (ITERATOR_NAME + "_mapped").c_str(),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator));
+
+
+    _iterator_add_PackageReading<T_ITERATOR>(cls_stream);
+    _iterator_add_PackageReading<T_ITERATOR_MAPPED>(cls_mapped);
+}
+
+}
+}
+}
+}
+}

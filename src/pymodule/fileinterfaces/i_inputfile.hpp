@@ -8,18 +8,23 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_inputfile.hpp"
 //#include "../docstrings.hpp"
 
-namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+
+namespace py_fileinterfaces {
+namespace py_i_InputFile {
 
 template<typename T_PyClass>
-void py_i_InputFile_DefaultConstructors(T_PyClass& cls)
+void add_DefaultConstructors(T_PyClass& cls)
 {
+    namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
 
     cls.def(py::init<const std::string&, bool>(),
@@ -44,90 +49,88 @@ void py_i_InputFile_DefaultConstructors(T_PyClass& cls)
             py::arg("progress_bar"));
 }
 
-#define __INPUTFILE_DEFAULT_CONSTRUCTORS__(T_CLASS)                                                \
-    .def(py::init<const std::string&, bool>(),                                                     \
-         py::call_guard<py::scoped_ostream_redirect>(),                                            \
-         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile),      \
-         py::arg("file_path"),                                                                     \
-         py::arg("show_progress") = true)                                                          \
-        .def(                                                                                      \
-            py::init<const std::string&, I_ProgressBar&>(),                                        \
-            py::call_guard<py::scoped_ostream_redirect>(),                                         \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_2), \
-            py::arg("file_path"),                                                                  \
-            py::arg("progress_bar"))                                                               \
-        .def(                                                                                      \
-            py::init<const std::vector<std::string>&, bool>(),                                     \
-            py::call_guard<py::scoped_ostream_redirect>(),                                         \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_3), \
-            py::arg("file_path"),                                                                  \
-            py::arg("show_progress") = true)                                                       \
-        .def(                                                                                      \
-            py::init<const std::vector<std::string>&, I_ProgressBar&>(),                           \
-            py::call_guard<py::scoped_ostream_redirect>(),                                         \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_4), \
-            py::arg("file_paths"),                                                                 \
-            py::arg("progress_bar"))
+template<typename T_BaseClass, typename T_PyClass>
+void add_FileOpenInterface(T_PyClass& cls)
+{
+    namespace py = pybind11;
+    using namespace themachinethatgoesping::tools::progressbars;
 
-#define __INPUTFILE_INTERFACE__(T_CLASS)                                                           \
-    .def("append_file",                                                                            \
-         py::overload_cast<const std::string&, bool>(&T_CLASS::append_file),                       \
-         py::call_guard<py::scoped_ostream_redirect>(),                                            \
-         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),      \
-         py::arg("file_path"),                                                                     \
-         py::arg("show_progress") = true)                                                          \
-        .def("append_file",                                                                        \
-             py::overload_cast<const std::string&, I_ProgressBar&>(&T_CLASS::append_file),         \
-             py::call_guard<py::scoped_ostream_redirect>(),                                        \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
-             py::arg("file_path"),                                                                 \
-             py::arg("progress_bar"))                                                              \
-        .def("append_files",                                                                       \
-             py::overload_cast<const std::vector<std::string>&, bool>(&T_CLASS::append_files),     \
-             py::call_guard<py::scoped_ostream_redirect>(),                                        \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
-             py::arg("file_path"),                                                                 \
-             py::arg("show_progress") = true)                                                      \
-        .def("append_files",                                                                       \
-             py::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(                   \
-                 &T_CLASS::append_files),                                                          \
-             py::call_guard<py::scoped_ostream_redirect>(),                                        \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),  \
-             py::arg("file_path"),                                                                 \
-             py::arg("progress_bar"))                                                              \
-                                                                                                   \
-        .def("static_datagram_identifier_to_string",                                               \
-             &T_CLASS::datagram_identifier_to_string,                                              \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFile,                                                                      \
-                 datagram_identifier_to_string),                                                   \
-             py::arg("datagram_identifier"))                                                       \
-        .def("datagram_identifier_info",                                                           \
-             &T_CLASS::datagram_identifier_info,                                                   \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFile,                                                                      \
-                 datagram_identifier_info),                                                        \
-             py::arg("datagram_identifier"))                                                       \
-        .def("sort_packages_by_time",                                                              \
-             &T_CLASS::sort_packages_by_time,                                                      \
-             DOC(themachinethatgoesping,                                                           \
-                 echosounders,                                                                     \
-                 fileinterfaces,                                                                   \
-                 I_InputFile,                                                                      \
-                 sort_packages_by_time))
+    cls.def("append_file",
+            py::overload_cast<const std::string&, bool>(&T_BaseClass::append_file),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            py::arg("file_path"),
+            py::arg("show_progress") = true);
+    cls.def("append_file",
+            py::overload_cast<const std::string&, I_ProgressBar&>(&T_BaseClass::append_file),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            py::arg("file_path"),
+            py::arg("progress_bar"));
+    cls.def("append_files",
+            py::overload_cast<const std::vector<std::string>&, bool>(&T_BaseClass::append_files),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            py::arg("file_path"),
+            py::arg("show_progress") = true);
+    cls.def("append_files",
+            py::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(
+                &T_BaseClass::append_files),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            py::arg("file_path"),
+            py::arg("progress_bar"));
+    cls.def("static_datagram_identifier_to_string",
+            &T_BaseClass::datagram_identifier_to_string,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_InputFile,
+                datagram_identifier_to_string),
+            py::arg("datagram_identifier"));
+    cls.def("datagram_identifier_info",
+            &T_BaseClass::datagram_identifier_info,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_InputFile,
+                datagram_identifier_info),
+            py::arg("datagram_identifier"));
+    cls.def("sort_packages_by_time",
+            &T_BaseClass::sort_packages_by_time,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_InputFile,
+                sort_packages_by_time));
+}
 
-#define __INPUTFILE_PACKAGE_READING__(T_CLASS, T_DATAGRAM_TYPE, T_DATAGRAM_READER)                 \
-    .def("size",                                                                                   \
-         &T_CLASS::size,                                                                           \
-         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size))             \
-        .def("__len__",                                                                            \
-             &T_CLASS::size,                                                                       \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size))         \
-        .def("__getitem__",                                                                        \
-             &T_CLASS::get_datagram<T_DATAGRAM_TYPE, T_DATAGRAM_READER>,                           \
-             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram), \
-             py::arg("index"))
+template<typename T_BaseClass,
+         typename T_DatagramType,
+         typename T_DatagramFactory,
+         typename T_PyClass>
+void add_PackageReading(T_PyClass& cls)
+{
+    namespace py = pybind11;
+    using namespace themachinethatgoesping::tools::progressbars;
+    cls.def("size",
+            &T_BaseClass::size,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size));
+    cls.def("__len__",
+            &T_BaseClass::size,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size));
+    cls.def(
+        "__getitem__",
+        &T_BaseClass::template get_datagram<T_DatagramType, T_DatagramFactory>,
+        // []( T_BaseClass& self, long index) {
+        //     return self.template get_datagram<T_DatagramType, T_DatagramFactory>(index);
+        // },
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram),
+        py::arg("index"));
+}
+
+}
+}
+}
+}
+}
