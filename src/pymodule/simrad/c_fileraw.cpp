@@ -43,6 +43,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_InputFile and py_i_InputFileIterator
 
+    // initialize class
     auto cls = py::class_<FileRaw<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, FileRaw));
 
@@ -54,9 +55,10 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
                                        datagrams::EK60_DatagramVariant>(cls);
 
     //----- iterators -----
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>,
-                                         datagrams::t_EK60_DatagramVariant,
-                                         datagrams::t_EK60_DatagramVariant>(cls, "all");
+    // this makes documentation crash. Ignore for now
+    // py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>,
+    //                                      datagrams::t_EK60_DatagramVariant,
+    //                                      datagrams::t_EK60_DatagramVariant>(cls, "all");
 
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
         cls, t_EK60_DatagramType::FIL1, "FIL1");
