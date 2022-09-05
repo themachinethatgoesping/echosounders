@@ -219,6 +219,50 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_to_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0 =
+R"doc(NMEA text datagram (NME0) This datagram contains NMEA sentences
+received by the EK60/EK80 transceiver.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_EK60_NME0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_EK60_NME0_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field_as_double = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field_as_int = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_nmea_structure = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sender = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sentence = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_nmea_sentence = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_parse_fields = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_to_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_EK60_Unknown = R"doc()doc";
@@ -244,10 +288,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0 =
-R"doc(Motion binary datagram (MRU0) This datagram holds heave, roll, pitch
-and heading as float values. Conveniently, these values can be used
-directly in themachinethatgoesping navigation processing because they
-are defined in the default coordinate system / value range.)doc";
+R"doc(Motion binary datagram (MRU0) This datagram contains heave, roll,
+pitch and heading as float values. Conveniently, these values can be
+used directly in themachinethatgoesping navigation processing because
+they are defined in the default coordinate system / value range.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_EK80_MRU0 = R"doc()doc";
 

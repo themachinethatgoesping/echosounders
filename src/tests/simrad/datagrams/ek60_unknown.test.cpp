@@ -47,7 +47,7 @@ TEST_CASE("EK60_Unknown should support common functions", TESTTAG)
 
     //--- datagram concept ---
     // length
-    REQUIRE(dat.get_length() == 12 + dat.raw_content.size());
+    REQUIRE(size_t(dat.get_length()) == 12 + dat.raw_content.size());
 
     // datagram type
     dat.set_datagram_identifier(t_EK60_DatagramType::RAW3);

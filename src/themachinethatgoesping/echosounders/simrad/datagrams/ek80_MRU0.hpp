@@ -11,12 +11,7 @@
 #include <unordered_map>
 #include <vector>
 
-// bitsery includes
-#include <bitsery/ext/inheritance.h>
-
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/bitsery.hpp>
-#include <themachinethatgoesping/tools/classhelpers/bitsery_helpers/nosizevector.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -30,7 +25,7 @@ namespace datagrams {
 
 /**
  * @brief Motion binary datagram (MRU0)
- * This datagram holds heave, roll, pitch and heading as float values.
+ * This datagram contains heave, roll, pitch and heading as float values.
  * Conveniently, these values can be used directly in themachinethatgoesping navigation processing
  * because they are defined in the default coordinate system / value range.
  *
@@ -115,7 +110,7 @@ struct EK80_MRU0 : public EK60_Datagram
 
         printer.append(EK60_Datagram::__printer__(float_precision));
 
-        printer.register_section("Data");
+        printer.register_section("Motion data");
         printer.register_value("Heave", _Heave, "m");
         printer.register_value("Roll", _Roll, "°");
         printer.register_value("Pitch", _Pitch, "°");

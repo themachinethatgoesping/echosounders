@@ -18,6 +18,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
+#include "../../themachinethatgoesping/echosounders/simrad/ek60_types.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/ek60_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
 #include "../docstrings.hpp"
@@ -63,7 +64,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         cls, t_EK60_DatagramType::MRU0, "MRU0");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
         cls, t_EK60_DatagramType::XML0, "XML0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_NME0>(
         cls, t_EK60_DatagramType::NME0, "NME0");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
         cls, t_EK60_DatagramType::TAG0, "TAG0");
@@ -94,9 +95,10 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
                 case t_EK60_DatagramType::MRU0:
                     return py::cast(self.template get_iterator<datagrams::EK80_MRU0>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::FIL1:
-                    [[fallthrough]];
                 case t_EK60_DatagramType::NME0:
+                    return py::cast(self.template get_iterator<datagrams::EK60_NME0>(
+                        type, index_min, index_max, index_step));
+                case t_EK60_DatagramType::FIL1:
                     [[fallthrough]];
                 case t_EK60_DatagramType::RAW3:
                     [[fallthrough]];
@@ -173,21 +175,21 @@ void test_speed_all(const FileRaw<MappedFileStream>& ifi)
             .count()));
 }
 
-void test_speed(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+template<typename T_DatagramType>
+void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     // get current time
     auto                    start = std::chrono::high_resolution_clock::now();
-    datagrams::EK60_Unknown a;
 
-    auto it  = ifi.get_iterator<datagrams::EK60_Unknown>(type);
+    auto it  = ifi.get_iterator<T_DatagramType>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
-    double t = 0;
+    //double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
         auto dg = it.at(i);
-        t += dg.get_timestamp();
+        //t += dg.get_timestamp();
         prg.tick();
     }
 
@@ -195,6 +197,31 @@ void test_speed(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
         "time: {:3f}ms",
         std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
             .count()));
+}
+
+
+void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+{
+    switch (type)
+    {
+        case t_EK60_DatagramType::MRU0:
+            test_speed_content<datagrams::EK80_MRU0>(ifi, type);
+            break;
+        case t_EK60_DatagramType::NME0:
+            test_speed_content<datagrams::EK60_NME0>(ifi, type);
+            break;
+        case t_EK60_DatagramType::FIL1:
+            [[fallthrough]];
+        case t_EK60_DatagramType::RAW3:
+            [[fallthrough]];
+        case t_EK60_DatagramType::XML0:
+            [[fallthrough]];
+        case t_EK60_DatagramType::TAG0:
+            [[fallthrough]];
+        default:
+            test_speed_content<datagrams::EK60_Unknown>(ifi, type);
+            break;
+    }
 }
 
 void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
@@ -207,11 +234,11 @@ void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
-    double t = 0;
+    //double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
         auto dg = it.at(i);
-        t += dg.get_timestamp();
+        //t += dg.get_timestamp();
         prg.tick();
     }
 
@@ -231,14 +258,16 @@ void init_c_fileraw(pybind11::module& m)
     create_IteratorTypes<datagrams::EK60_Datagram,t_EK60_DatagramType>(m,"FileRawIterator_Header");
     create_IteratorTypes<datagrams::EK60_Unknown,t_EK60_DatagramType>(m,"FileRawIterator_Unknown");
     create_IteratorTypes<datagrams::EK80_MRU0,t_EK60_DatagramType>(m,"FileRawIterator_MRU0");
+    create_IteratorTypes<datagrams::EK60_NME0,t_EK60_DatagramType>(m,"FileRawIterator_NME0");
     create_IteratorTypes<datagrams::t_EK60_DatagramVariant,t_EK60_DatagramType,datagrams::EK60_DatagramVariant>(m,"FileRawIterator_Variant");
 
 
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");
 
-    m.def("test_speed", &test_speed, py::call_guard<py::scoped_ostream_redirect>());
-    m.def("test_speed_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_raw", &test_speed_content<datagrams::EK60_Unknown>, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_type", &test_speed_type, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_raw_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
 }
 

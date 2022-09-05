@@ -65,11 +65,11 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
         {
             case t_EK60_DatagramType::MRU0:
                 return "Motion binary datagram";
+            case t_EK60_DatagramType::NME0:
+                return "NMEA text datagram";
             case t_EK60_DatagramType::XML0:
                 [[fallthrough]];
             case t_EK60_DatagramType::FIL1:
-                [[fallthrough]];
-            case t_EK60_DatagramType::NME0:
                 [[fallthrough]];
             case t_EK60_DatagramType::TAG0:
                 [[fallthrough]];
