@@ -14,7 +14,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
-#include <themachinethatgoesping/navigation/nmea_0183/nmeabase.hpp>
+#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 
 #include "../ek60_types.hpp"
 #include "ek60_datagram.hpp"
@@ -32,7 +32,7 @@ namespace datagrams {
 struct EK60_NME0 : public EK60_Datagram
 {
     // ----- datagram content -----
-    navigation::nmea_0183::NMEABase _nmea_sentence;
+    navigation::nmea_0183::NMEA_Base _nmea_base;
 
   private:
     // ----- public constructors -----
@@ -52,26 +52,27 @@ struct EK60_NME0 : public EK60_Datagram
     // ----- operators -----
     bool operator==(const EK60_NME0& other) const
     {
-        return EK60_Datagram::operator==(other) && _nmea_sentence == other._nmea_sentence;
+        return EK60_Datagram::operator==(other) && _nmea_base == other._nmea_base;
     }
     bool operator!=(const EK60_NME0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    std::string get_sender() const { return std::string(_nmea_sentence.get_sender()); }
-    std::string get_type() const { return std::string(_nmea_sentence.get_type()); }
-    std::string get_name() const { return std::string(_nmea_sentence.get_name()); }
-    std::string get_sentence() const { return std::string(_nmea_sentence.get_sentence()); }
-    std::string get_field(size_t index) const { return std::string(_nmea_sentence.get_field(index)); }
-    double get_field_as_double(size_t index) const { return _nmea_sentence.get_field_as_double(index); }
-    int get_field_as_int(size_t index) const { return _nmea_sentence.get_field_as_int(index); }
-    void parse_fields() { _nmea_sentence.parse_fields(); }
-    navigation::nmea_0183::NMEABase get_nmea_structure() const { return _nmea_sentence; }
+    std::string get_sender() const { return std::string(_nmea_base.get_sender()); }
+    std::string get_type() const { return std::string(_nmea_base.get_type()); }
+    std::string get_name() const { return std::string(_nmea_base.get_name()); }
+    std::string get_sentence() const { return std::string(_nmea_base.get_sentence()); }
+    std::string get_field(size_t index) const { return std::string(_nmea_base.get_field(index)); }
+    double get_field_as_double(size_t index) const { return _nmea_base.get_field_as_double(index); }
+    int get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
+    void parse_fields() { _nmea_base.parse_fields(); }
+    //navigation::nmea_0183::NMEA_Base get_nmea_structure() const { return _nmea_base; }
+    navigation::nmea_0183::NMEA_0183_type get_nmea_structure() const { return navigation::nmea_0183::NMEADecoder::decode(_nmea_base); }
 
     // ----- file I/O -----
     static EK60_NME0 from_stream(std::istream& is, EK60_Datagram&& header)
     {
         EK60_NME0 datagram(std::move(header));
-        datagram._nmea_sentence = navigation::nmea_0183::NMEABase::from_stream(is, datagram._Length-12);
+        datagram._nmea_base = navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length-12);
         return datagram;
     }
 
@@ -92,10 +93,10 @@ struct EK60_NME0 : public EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + _nmea_sentence.size();
+        _Length       = 12 + _nmea_base.size();
         _DatagramType = ek60_long(t_EK60_DatagramType::NME0);
         EK60_Datagram::to_stream(os);
-        _nmea_sentence.to_stream(os);
+        _nmea_base.to_stream(os);
     }
 
     // ----- objectprinter -----

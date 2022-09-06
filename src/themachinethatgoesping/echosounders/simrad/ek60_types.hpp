@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <themachinethatgoesping/tools/helper.hpp>
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
  * see also http://www.simrad.net/ek60_ref_english/default.htm
@@ -40,18 +41,12 @@ enum class t_EK60_DatagramType : ek60_long
 
 inline std::string datagram_type_to_string(ek60_long value)
 {
-    std::string valueAsString;
-    valueAsString.resize(sizeof(value));
-    memcpy(&valueAsString[0], &value, sizeof(value));
-
-    return valueAsString;
+    return tools::helper::int_as_string<ek60_long>(value);
 }
 
-inline ek60_long ek60_datagram_type_from_string(const std::string& value)
+inline ek60_long ek60_datagram_type_from_string(std::string_view value)
 {
-    ek60_long valueAsLong;
-    memcpy(&valueAsLong, &value[0], sizeof(valueAsLong));
-    return valueAsLong;
+    return tools::helper::string_as_int<ek60_long>(value);
 }
 
 

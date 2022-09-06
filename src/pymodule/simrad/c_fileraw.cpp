@@ -202,6 +202,30 @@ void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramTyp
 }
 
 
+void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
+{
+    // get current time
+    auto                    start = std::chrono::high_resolution_clock::now();
+
+    auto it  = ifi.get_iterator<datagrams::EK60_NME0>(t_EK60_DatagramType::NME0);
+    auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
+    prg.init(0, it.size(), "test reading");
+
+    //double t = 0;
+    for (size_t i = 0; i < it.size(); ++i)
+    {
+        auto dg = it.at(i);
+        dg.get_nmea_structure();
+        prg.tick();
+    }
+
+    prg.close(fmt::format(
+        "time: {:3f}ms",
+        std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
+            .count()));
+}
+
+
 void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     switch (type)
@@ -269,6 +293,7 @@ void init_c_fileraw(pybind11::module& m)
 
     m.def("test_speed_raw", &test_speed_content<datagrams::EK60_Unknown>, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_type", &test_speed_type, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_decode_nmea", &test_speed_decode_nmea, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_raw_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
 }
