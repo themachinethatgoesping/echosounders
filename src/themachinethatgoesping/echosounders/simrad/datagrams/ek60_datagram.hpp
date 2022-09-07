@@ -92,6 +92,11 @@ struct EK60_Datagram
             tools::timeconv::unixtime_to_windows_filetime(unixtime);
     }
 
+    std::string get_date_string(unsigned int fractionalSecondsDigits = 2, const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
+    {
+        return tools::timeconv::unixtime_to_datestring(get_timestamp(), fractionalSecondsDigits, format);
+    }
+
     // ----- operators -----
     bool operator==(const EK60_Datagram& other) const
     {

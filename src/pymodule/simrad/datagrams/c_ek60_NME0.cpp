@@ -32,16 +32,16 @@ void init_c_EK60_NME0(pybind11::module& m)
         // --- convenient data access ---
         .def_property_readonly(
             "sender",
-            &EK60_NME0::get_sender,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_sender))
+            &EK60_NME0::get_sender_id,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_sender_id))
         .def_property_readonly(
             "type",
-            &EK60_NME0::get_type,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_type))
+            &EK60_NME0::get_sentence_type,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_sentence_type))
         .def_property_readonly(
             "name",
-            &EK60_NME0::get_name,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_name))
+            &EK60_NME0::get_sentence_id,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_sentence_id))
 
         .def("field", &EK60_NME0::get_field, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_field))
         .def("field_double", &EK60_NME0::get_field_as_double, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_field_as_double))

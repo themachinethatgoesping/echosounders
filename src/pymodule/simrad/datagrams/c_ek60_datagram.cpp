@@ -23,7 +23,7 @@ using datagrams::EK60_Datagram;
 
 void init_c_ek60_datagram(pybind11::module& m)
 {
-        py::class_<EK60_Datagram>(
+    py::class_<EK60_Datagram>(
         m,
         "EK60_Datagram",
         DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram))
@@ -35,15 +35,11 @@ void init_c_ek60_datagram(pybind11::module& m)
                  EK60_Datagram,
                  EK60_Datagram))
         // --- convenient data access ---
-        .def_property("length",
-                      &EK60_Datagram::get_length,
-                      &EK60_Datagram::set_length,
-                      DOC(themachinethatgoesping,
-                          echosounders,
-                          simrad,
-                          datagrams,
-                          EK60_Datagram,
-                          get_length))
+        .def_property(
+            "length",
+            &EK60_Datagram::get_length,
+            &EK60_Datagram::set_length,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram, get_length))
         .def_property("timestamp",
                       &EK60_Datagram::get_timestamp,
                       &EK60_Datagram::set_timestamp,
@@ -62,8 +58,16 @@ void init_c_ek60_datagram(pybind11::module& m)
                           datagrams,
                           EK60_Datagram,
                           get_datagram_identifier))
-
-        
+        .def("get_date_string",
+             &EK60_Datagram::get_date_string,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 EK60_Datagram,
+                 get_date_string),
+             py::arg("fractional_seconds_digits") = 2,
+             py::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
 
         // --- raw data access ---
         .def_readwrite(
@@ -117,7 +121,7 @@ void init_c_ek60_datagram(pybind11::module& m)
                  operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
-        //default copy functions 
+        // default copy functions
         __PYCLASS_DEFAULT_COPY__(EK60_Datagram)
         // default binary functions
         __PYCLASS_DEFAULT_BINARY__(EK60_Datagram)

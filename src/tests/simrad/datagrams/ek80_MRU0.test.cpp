@@ -27,8 +27,11 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
     dat._Pitch = 13;
     dat._Heading = 14;
 
+    auto dat2 = dat;
+    dat2._Heading = 15;
+
     // test inequality
-    REQUIRE(dat != EK80_MRU0());
+    REQUIRE(dat != dat2);
 
     // test copy
     REQUIRE(dat == EK80_MRU0(dat));

@@ -57,16 +57,16 @@ struct EK60_NME0 : public EK60_Datagram
     bool operator!=(const EK60_NME0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    std::string get_sender() const { return std::string(_nmea_base.get_sender()); }
-    std::string get_type() const { return std::string(_nmea_base.get_type()); }
-    std::string get_name() const { return std::string(_nmea_base.get_name()); }
+    std::string get_sender_id() const { return std::string(_nmea_base.get_sender_id()); }
+    std::string get_sentence_type() const { return std::string(_nmea_base.get_sentence_type()); }
+    std::string get_sentence_id() const { return std::string(_nmea_base.get_sentence_id()); }
     std::string get_sentence() const { return std::string(_nmea_base.get_sentence()); }
     std::string get_field(size_t index) const { return std::string(_nmea_base.get_field(index)); }
     double get_field_as_double(size_t index) const { return _nmea_base.get_field_as_double(index); }
     int get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
     void parse_fields() { _nmea_base.parse_fields(); }
     //navigation::nmea_0183::NMEA_Base get_nmea_structure() const { return _nmea_base; }
-    navigation::nmea_0183::NMEA_0183_type get_nmea_structure() const { return navigation::nmea_0183::NMEADecoder::decode(_nmea_base); }
+    navigation::nmea_0183::NMEA_0183_type get_nmea_structure() const { return navigation::nmea_0183::decode(_nmea_base); }
 
     // ----- file I/O -----
     static EK60_NME0 from_stream(std::istream& is, EK60_Datagram&& header)
@@ -107,8 +107,8 @@ struct EK60_NME0 : public EK60_Datagram
         printer.append(EK60_Datagram::__printer__(float_precision));
 
         printer.register_section("Nmea sentence");
-        printer.register_value("Sender", get_sender(), "");
-        printer.register_value("Type", get_type(), "");
+        printer.register_value("Sender", get_sender_id(), "");
+        printer.register_value("Type", get_sentence_type(), "");
         printer.register_value("Full sentence", get_sentence(), "");
 
         return printer;
