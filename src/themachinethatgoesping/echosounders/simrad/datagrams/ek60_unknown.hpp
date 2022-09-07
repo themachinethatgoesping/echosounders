@@ -34,7 +34,7 @@ struct EK60_Unknown : public EK60_Datagram
 
   private:
     // ----- private constructors -----
-    explicit EK60_Unknown(EK60_Datagram&& header) 
+    explicit EK60_Unknown(EK60_Datagram header) 
     : EK60_Datagram(std::move(header))
     {}
 
@@ -47,7 +47,7 @@ struct EK60_Unknown : public EK60_Datagram
     bool operator==(const EK60_Unknown& other) const { return EK60_Datagram::operator==(other) && raw_content == other.raw_content; }
     bool operator!=(const EK60_Unknown& other) const { return !operator==(other); }
 
-    static EK60_Unknown from_stream(std::istream& is, EK60_Datagram&& header)
+    static EK60_Unknown from_stream(std::istream& is, EK60_Datagram header)
     {
         EK60_Unknown datagram(std::move(header));
 
@@ -76,7 +76,7 @@ struct EK60_Unknown : public EK60_Datagram
 
     static EK60_Unknown from_stream(std::istream& is)
     {
-        return from_stream(is, std::move(EK60_Datagram::from_stream(is)));
+        return from_stream(is, EK60_Datagram::from_stream(is));
     }
 
     static EK60_Unknown from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)

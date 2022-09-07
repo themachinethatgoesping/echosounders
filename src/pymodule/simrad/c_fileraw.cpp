@@ -216,6 +216,9 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
     {
         auto dg = it.at(i);
         dg.get_nmea_structure();
+
+        
+
         prg.tick();
     }
 

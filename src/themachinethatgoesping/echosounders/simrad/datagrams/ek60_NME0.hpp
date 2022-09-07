@@ -36,7 +36,7 @@ struct EK60_NME0 : public EK60_Datagram
 
   private:
     // ----- public constructors -----
-    explicit EK60_NME0(EK60_Datagram&& header)
+    explicit EK60_NME0(EK60_Datagram header)
         : EK60_Datagram(std::move(header))
     {
     }
@@ -69,7 +69,7 @@ struct EK60_NME0 : public EK60_Datagram
     navigation::nmea_0183::NMEA_0183_type get_nmea_structure() const { return navigation::nmea_0183::decode(_nmea_base); }
 
     // ----- file I/O -----
-    static EK60_NME0 from_stream(std::istream& is, EK60_Datagram&& header)
+    static EK60_NME0 from_stream(std::istream& is, EK60_Datagram header)
     {
         EK60_NME0 datagram(std::move(header));
         datagram._nmea_base = navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length-12);
@@ -78,8 +78,7 @@ struct EK60_NME0 : public EK60_Datagram
 
     static EK60_NME0 from_stream(std::istream& is)
     {
-        return from_stream(is,
-                           std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0)));
+        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
     }
 
     static EK60_NME0 from_stream(std::istream& is, t_EK60_DatagramType type)
@@ -87,8 +86,7 @@ struct EK60_NME0 : public EK60_Datagram
         if (type != t_EK60_DatagramType::NME0)
             throw std::runtime_error("EK60_NME0::from_stream: wrong datagram type");
 
-        return from_stream(is,
-                           std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0)));
+        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
     }
 
     void to_stream(std::ostream& os)

@@ -40,7 +40,7 @@ struct EK80_MRU0 : public EK60_Datagram
 
   private:
     // ----- public constructors -----
-    explicit EK80_MRU0(EK60_Datagram&& header)
+    explicit EK80_MRU0(EK60_Datagram header)
         : EK60_Datagram(std::move(header))
     {
     }
@@ -73,7 +73,7 @@ struct EK80_MRU0 : public EK60_Datagram
     void   set_heading(double value) { _Heading = value; }
 
     // ----- file I/O -----
-    static EK80_MRU0 from_stream(std::istream& is, EK60_Datagram&& header)
+    static EK80_MRU0 from_stream(std::istream& is, EK60_Datagram header)
     {
         EK80_MRU0 datagram(std::move(header));
         is.read(reinterpret_cast<char*>(&datagram._Heave), 4 * sizeof(ek60_float));
@@ -82,8 +82,7 @@ struct EK80_MRU0 : public EK60_Datagram
 
     static EK80_MRU0 from_stream(std::istream& is)
     {
-        return from_stream(is,
-                           std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0)));
+        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
     }
 
     static EK80_MRU0 from_stream(std::istream& is, t_EK60_DatagramType type)
@@ -91,8 +90,7 @@ struct EK80_MRU0 : public EK60_Datagram
         if (type != t_EK60_DatagramType::MRU0)
             throw std::runtime_error("EK80_MRU0::from_stream: wrong datagram type");
 
-        return from_stream(is,
-                           std::move(EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0)));
+        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
     }
 
     void to_stream(std::ostream& os)
