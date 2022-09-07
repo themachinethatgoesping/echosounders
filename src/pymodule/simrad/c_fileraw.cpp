@@ -17,9 +17,10 @@
 
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simrad/ek60_types.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/ek60_datagrams.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/ek60_types.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
@@ -78,7 +79,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         "__call__",
         [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
             return py::cast(self.template get_iterator<datagrams::t_EK60_DatagramVariant,
-                                              datagrams::EK60_DatagramVariant>(
+                                                       datagrams::EK60_DatagramVariant>(
                 index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
@@ -121,8 +122,8 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "headers",
         [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
-            return py::cast(
-                self.template get_iterator<datagrams::EK60_Datagram>(index_min, index_max, index_step));
+            return py::cast(self.template get_iterator<datagrams::EK60_Datagram>(
+                index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
         py::arg("index_min")  = 0,
@@ -181,17 +182,17 @@ template<typename T_DatagramType>
 void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     // get current time
-    auto                    start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
 
     auto it  = ifi.get_iterator<T_DatagramType>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
-    //double t = 0;
+    // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
         auto dg = it.at(i);
-        //t += dg.get_timestamp();
+        // t += dg.get_timestamp();
         prg.tick();
     }
 
@@ -201,23 +202,37 @@ void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramTyp
             .count()));
 }
 
-
 void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
 {
     // get current time
-    auto                    start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
 
     auto it  = ifi.get_iterator<datagrams::EK60_NME0>(t_EK60_DatagramType::NME0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
-    //double t = 0;
+    using namespace themachinethatgoesping::navigation::nmea_0183;
+
+    // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(i);
-        dg.get_nmea_structure();
+         NMEA_0183_type nmea_sentence = it.at(i).get_nmea_structure();
 
-        
+        if (std::holds_alternative<NMEA_ZDA>(nmea_sentence)){
+            std::get<NMEA_ZDA>(nmea_sentence).to_timestamp();
+        }
+        else if (std::holds_alternative<NMEA_GGA>(nmea_sentence)){
+            std::get<NMEA_GGA>(nmea_sentence).get_latitude();
+            std::get<NMEA_GGA>(nmea_sentence).get_longitude();
+        }
+        else if (std::holds_alternative<NMEA_GLL>(nmea_sentence)){
+            std::get<NMEA_GLL>(nmea_sentence).get_latitude();
+            std::get<NMEA_GLL>(nmea_sentence).get_longitude();
+        }
+        else if (std::holds_alternative<NMEA_RMC>(nmea_sentence)){
+            std::get<NMEA_RMC>(nmea_sentence).get_latitude();
+            std::get<NMEA_RMC>(nmea_sentence).get_longitude();
+        }
 
         prg.tick();
     }
@@ -227,7 +242,6 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
         std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
             .count()));
 }
-
 
 void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
@@ -263,11 +277,11 @@ void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
-    //double t = 0;
+    // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
         auto dg = it.at(i);
-        //t += dg.get_timestamp();
+        // t += dg.get_timestamp();
         prg.tick();
     }
 
@@ -284,19 +298,26 @@ void init_c_fileraw(pybind11::module& m)
     // add python iterator classes
     using py_fileinterfaces::py_i_InputFileIterator::create_IteratorTypes;
 
-    create_IteratorTypes<datagrams::EK60_Datagram,t_EK60_DatagramType>(m,"FileRawIterator_Header");
-    create_IteratorTypes<datagrams::EK60_Unknown,t_EK60_DatagramType>(m,"FileRawIterator_Unknown");
-    create_IteratorTypes<datagrams::EK80_MRU0,t_EK60_DatagramType>(m,"FileRawIterator_MRU0");
-    create_IteratorTypes<datagrams::EK60_NME0,t_EK60_DatagramType>(m,"FileRawIterator_NME0");
-    create_IteratorTypes<datagrams::t_EK60_DatagramVariant,t_EK60_DatagramType,datagrams::EK60_DatagramVariant>(m,"FileRawIterator_Variant");
-
+    create_IteratorTypes<datagrams::EK60_Datagram, t_EK60_DatagramType>(m,
+                                                                        "FileRawIterator_Header");
+    create_IteratorTypes<datagrams::EK60_Unknown, t_EK60_DatagramType>(m,
+                                                                       "FileRawIterator_Unknown");
+    create_IteratorTypes<datagrams::EK80_MRU0, t_EK60_DatagramType>(m, "FileRawIterator_MRU0");
+    create_IteratorTypes<datagrams::EK60_NME0, t_EK60_DatagramType>(m, "FileRawIterator_NME0");
+    create_IteratorTypes<datagrams::t_EK60_DatagramVariant,
+                         t_EK60_DatagramType,
+                         datagrams::EK60_DatagramVariant>(m, "FileRawIterator_Variant");
 
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");
 
-    m.def("test_speed_raw", &test_speed_content<datagrams::EK60_Unknown>, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_raw",
+          &test_speed_content<datagrams::EK60_Unknown>,
+          py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_type", &test_speed_type, py::call_guard<py::scoped_ostream_redirect>());
-    m.def("test_speed_decode_nmea", &test_speed_decode_nmea, py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_decode_nmea",
+          &test_speed_decode_nmea,
+          py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_raw_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
 }
