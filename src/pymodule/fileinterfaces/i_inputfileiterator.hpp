@@ -79,10 +79,10 @@ template<typename T_BaseClass,
          typename T_PyClass>
 void add_Iterator(T_PyClass&           cls,
                   T_DatagramIdentifier datagram_identifier,
-                  const std::string    T_NAME)
+                  const std::string&    T_NAME)
 {
     cls.def_property_readonly(
-        (std::string("i_") + T_NAME).c_str(),
+        ("i_" + T_NAME).c_str(),
         [datagram_identifier](const T_BaseClass& self) {
             return self.template get_iterator<T_DatagramType, T_DatagramFactory>(
                 datagram_identifier);
@@ -94,10 +94,10 @@ template<typename T_BaseClass,
          typename T_DatagramType,
          typename T_DatagramFactory = T_DatagramType,
          typename T_PyClass>
-void add_Iterator(T_PyClass& cls, const std::string T_NAME)
+void add_Iterator(T_PyClass& cls, const std::string& T_NAME)
 {
     cls.def_property_readonly(
-        (std::string("i_") + T_NAME).c_str(),
+        ("i_" + T_NAME).c_str(),
         [](const T_BaseClass& self) {
             return self.template get_iterator<T_DatagramType, T_DatagramFactory>();
         },
