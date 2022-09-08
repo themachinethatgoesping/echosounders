@@ -17,7 +17,8 @@ headers = [
   'simrad/datagrams/ek60_datagram.hpp',
   'simrad/datagrams/ek60_unknown.hpp',
   'simrad/datagrams/ek80_MRU0.hpp',
-  'simrad/datagrams/ek60_NME0.hpp'
+  'simrad/datagrams/ek60_NME0.hpp',
+  'simrad/datagrams/ek80_XML0.hpp'
 ]
 
 # -- targets --

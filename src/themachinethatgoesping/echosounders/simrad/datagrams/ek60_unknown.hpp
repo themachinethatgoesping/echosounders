@@ -58,18 +58,8 @@ struct EK60_Unknown : public EK60_Datagram
 
         is.read(datagram.raw_content.data(), datagram.raw_content.size());
 
-        
-        // verify that we are at the end of the datagram by reading the enclosing length field
-        // This should be the same as _Length if everything is ok
-        ek60_long length;
-        is.read(reinterpret_cast<char*>(&length), sizeof(length));
-
-        // (the packages are encapsulated by length)
-        // if the lengths do not match the packages was not read correctly
-        if (!is || length != datagram._Length)
-        {
-            throw std::runtime_error("ERROR[EK60_Unknown]: length mismatch");
-        }
+        // verify the datagram is read correctly by reading the length field at the end
+        datagram._verify_datagram_end(is);
 
         return datagram;
     }
@@ -90,7 +80,7 @@ struct EK60_Unknown : public EK60_Datagram
         EK60_Datagram::to_stream(os);
 
         os.write(raw_content.data(), raw_content.size());
-        os.write(reinterpret_cast<char*>(&_Length), sizeof(_Length));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
     }
 
     // ----- objectprinter -----

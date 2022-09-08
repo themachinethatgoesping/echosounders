@@ -23,7 +23,7 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::EK60_Datagram;
 using datagrams::EK60_NME0;
 
-void init_c_EK60_NME0(pybind11::module& m)
+void init_c_ek60_NME0(pybind11::module& m)
 {
     py::class_<EK60_NME0, datagrams::EK60_Datagram>(
         m, "EK60_NME0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0))

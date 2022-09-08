@@ -101,11 +101,12 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
                 case t_EK60_DatagramType::NME0:
                     return py::cast(self.template get_iterator<datagrams::EK60_NME0>(
                         type, index_min, index_max, index_step));
+                case t_EK60_DatagramType::XML0:
+                    return py::cast(self.template get_iterator<datagrams::EK80_XML0>(
+                        type, index_min, index_max, index_step));
                 case t_EK60_DatagramType::FIL1:
                     [[fallthrough]];
                 case t_EK60_DatagramType::RAW3:
-                    [[fallthrough]];
-                case t_EK60_DatagramType::XML0:
                     [[fallthrough]];
                 case t_EK60_DatagramType::TAG0:
                     [[fallthrough]];
@@ -243,6 +244,44 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
             .count()));
 }
 
+void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
+{
+    // get current time
+    auto start = std::chrono::high_resolution_clock::now();
+
+    auto it  = ifi.get_iterator<datagrams::EK80_XML0>(t_EK60_DatagramType::XML0);
+    auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
+    prg.init(0, it.size(), "test reading");
+
+    using namespace themachinethatgoesping::navigation::nmea_0183;
+
+    // double t = 0;
+    for (size_t i = 0; i < it.size(); ++i)
+    {
+         auto xml = it.at(i);
+         
+         if (level > 1){
+            if (level == 1)
+            {
+            auto type = xml.get_xml_datagram_type();
+            }
+         else
+            {
+                xml.get_xml_structure().parse_xml(level);
+
+            }
+         }
+
+
+        prg.tick();
+    }
+
+    prg.close(fmt::format(
+        "time: {:3f}ms",
+        std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - start)
+            .count()));
+}
+
 void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
 {
     switch (type)
@@ -253,11 +292,12 @@ void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType t
         case t_EK60_DatagramType::NME0:
             test_speed_content<datagrams::EK60_NME0>(ifi, type);
             break;
+        case t_EK60_DatagramType::XML0:
+            test_speed_content<datagrams::EK80_XML0>(ifi, type);
+            break;
         case t_EK60_DatagramType::FIL1:
             [[fallthrough]];
         case t_EK60_DatagramType::RAW3:
-            [[fallthrough]];
-        case t_EK60_DatagramType::XML0:
             [[fallthrough]];
         case t_EK60_DatagramType::TAG0:
             [[fallthrough]];
@@ -303,6 +343,7 @@ void init_c_fileraw(pybind11::module& m)
     create_IteratorTypes<datagrams::EK60_Unknown, t_EK60_DatagramType>(m,
                                                                        "FileRawIterator_Unknown");
     create_IteratorTypes<datagrams::EK80_MRU0, t_EK60_DatagramType>(m, "FileRawIterator_MRU0");
+    create_IteratorTypes<datagrams::EK80_XML0, t_EK60_DatagramType>(m, "FileRawIterator_XML0");
     create_IteratorTypes<datagrams::EK60_NME0, t_EK60_DatagramType>(m, "FileRawIterator_NME0");
     create_IteratorTypes<datagrams::t_EK60_DatagramVariant,
                          t_EK60_DatagramType,
@@ -318,6 +359,11 @@ void init_c_fileraw(pybind11::module& m)
     m.def("test_speed_decode_nmea",
           &test_speed_decode_nmea,
           py::call_guard<py::scoped_ostream_redirect>());
+    m.def("test_speed_decode_xml",
+          &test_speed_decode_xml,
+          py::call_guard<py::scoped_ostream_redirect>(),
+          py::arg("mapped_file_stream"),
+          py::arg("level") = 10);
     m.def("test_speed_raw_all", &test_speed_all, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_header", &test_speed_header, py::call_guard<py::scoped_ostream_redirect>());
 }

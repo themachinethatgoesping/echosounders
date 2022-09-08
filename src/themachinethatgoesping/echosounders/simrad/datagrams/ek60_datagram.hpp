@@ -7,10 +7,10 @@
 #pragma once
 
 // std includes
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <iostream>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -34,6 +34,27 @@ struct EK60_Datagram
     ek60_long
         _HighDateTime; ///< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01)
 
+  protected:
+    /**
+     * @brief verify the datagram is read correctly by reading the length field at the end
+     *
+     * @param is istream. Must be at the end position of the datagram. Pos will be incremented by 4
+     * bytes (ek60_long).
+     */
+    void _verify_datagram_end(std::istream& is) const
+    {
+        // verify that we are at the end of the datagram by reading the enclosing length field
+        // This should be the same as _Length if everything is ok
+        ek60_long length;
+        is.read(reinterpret_cast<char*>(&length), sizeof(length));
+
+        // (the packages are encapsulated by length)
+        // if the lengths do not match the packages was not read correctly
+        if (!is || length != _Length)
+        {
+            throw std::runtime_error("ERROR[EK80_MRU0]: length mismatch");
+        }
+    }
 
   public:
     EK60_Datagram()          = default;
@@ -46,17 +67,8 @@ struct EK60_Datagram
 
         is.seekg(_Length - tmp, std::ios::cur);
 
-        // verify that we are at the end of the datagram by reading the enclosing length field
-        // This should be the same as _Length if everything is ok
-        ek60_long length;
-        is.read(reinterpret_cast<char*>(&length), sizeof(length));
-
-        // (the packages are encapsulated by length)
-        // if the lengths do not match the packages was not read correctly
-        if (!is || length != _Length)
-        {
-            throw std::runtime_error("ERROR[EK60_Datagram::skip]: length mismatch");
-        }
+        // verify the datagram is read correctly by reading the length field at the end
+        _verify_datagram_end(is);
     }
 
     //----- convenient member access -----
@@ -71,8 +83,11 @@ struct EK60_Datagram
      * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
      *
      */
-    t_EK60_DatagramType get_datagram_identifier() const { return t_EK60_DatagramType(_DatagramType); }
-    void                 set_datagram_identifier(t_EK60_DatagramType datagram_type)
+    t_EK60_DatagramType get_datagram_identifier() const
+    {
+        return t_EK60_DatagramType(_DatagramType);
+    }
+    void set_datagram_identifier(t_EK60_DatagramType datagram_type)
     {
         _DatagramType = ek60_long(datagram_type);
     }
@@ -92,9 +107,11 @@ struct EK60_Datagram
             tools::timeconv::unixtime_to_windows_filetime(unixtime);
     }
 
-    std::string get_date_string(unsigned int fractionalSecondsDigits = 2, const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
+    std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
+                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
     {
-        return tools::timeconv::unixtime_to_datestring(get_timestamp(), fractionalSecondsDigits, format);
+        return tools::timeconv::unixtime_to_datestring(
+            get_timestamp(), fractionalSecondsDigits, format);
     }
 
     // ----- operators -----
@@ -104,15 +121,15 @@ struct EK60_Datagram
                _LowDateTime == other._LowDateTime && _HighDateTime == other._HighDateTime;
     }
     bool operator!=(const EK60_Datagram& other) const { return !operator==(other); }
-    
+
     static EK60_Datagram from_stream(std::istream& is)
     {
         EK60_Datagram d;
-        is.read(reinterpret_cast<char*>(&d._Length), 4*sizeof(ek60_long));
-        
+        is.read(reinterpret_cast<char*>(&d._Length), 4 * sizeof(ek60_long));
+
         return d;
     }
-    
+
     static EK60_Datagram from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
     {
         EK60_Datagram d = from_stream(is);
@@ -125,7 +142,7 @@ struct EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        os.write(reinterpret_cast<char*>(&_Length), 4*sizeof(ek60_long));
+        os.write(reinterpret_cast<char*>(&_Length), 4 * sizeof(ek60_long));
     }
 
     // ----- objectprinter -----

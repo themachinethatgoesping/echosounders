@@ -77,6 +77,10 @@ struct EK80_MRU0 : public EK60_Datagram
     {
         EK80_MRU0 datagram(std::move(header));
         is.read(reinterpret_cast<char*>(&datagram._Heave), 4 * sizeof(ek60_float));
+
+        // verify the datagram is read correctly by reading the length field at the end
+        datagram._verify_datagram_end(is);
+
         return datagram;
     }
 
@@ -99,6 +103,7 @@ struct EK80_MRU0 : public EK60_Datagram
         _DatagramType = ek60_long(t_EK60_DatagramType::MRU0);
         EK60_Datagram::to_stream(os);
         os.write(reinterpret_cast<const char*>(&_Heave), 4 * sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
     }
 
     // ----- objectprinter -----
