@@ -28,8 +28,6 @@ namespace simrad {
 namespace datagrams {
 namespace xml_datagrams {
 
-
-
 /**
  * @brief XML base datagram
  *
@@ -48,7 +46,6 @@ class XML_Datagram
     }
     ~XML_Datagram() = default;
 
-
     // ----- file I/O -----
     static XML_Datagram from_stream(std::istream& is, size_t length)
     {
@@ -62,10 +59,10 @@ class XML_Datagram
     {
         size_t length;
         is.read(reinterpret_cast<char*>(&length), sizeof(length));
-        return from_stream(is,length);
+        return from_stream(is, length);
     }
 
-    void to_stream(std::ostream& os) const 
+    void to_stream(std::ostream& os) const
     {
         size_t size = this->size();
         os.write(reinterpret_cast<char*>(&size), sizeof(size));
@@ -78,26 +75,20 @@ class XML_Datagram
     }
 
     // ----- operators -----
-    bool operator==(const XML_Datagram& other) const
-    {
-        return _xml_content == other._xml_content;
-    }
+    bool operator==(const XML_Datagram& other) const { return _xml_content == other._xml_content; }
     bool operator!=(const XML_Datagram& other) const { return !operator==(other); }
 
     size_t size() const { return _xml_content.size(); }
 
     // ----- getter setter -----
-    void set_xml_content(std::string xml_content)
-    {
-        _xml_content = std::move(xml_content);
-    }
+    void set_xml_content(std::string xml_content) { _xml_content = std::move(xml_content); }
     const std::string& get_xml_content() const { return _xml_content; }
 
     //----- raw xml parsing -----
     void parse_xml(int level)
     {
         pugi::xml_document doc;
-        auto               result = doc.load_buffer_inplace(
+        auto               result = doc.load_buffer(
             _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
         if (!result)
             throw std::runtime_error("Error parsing XML0 datagram: " +
@@ -106,15 +97,14 @@ class XML_Datagram
         if (level == 2)
         {
             auto xml_type = doc.first_child().name();
-            (void) xml_type;
+            (void)xml_type;
         }
         else if (level > 2)
         {
             // get root child (one per datagram)
-            //auto root_node = doc.first_child();
-            //auto xml_type  = root_node.name();
+            // auto root_node = doc.first_child();
+            // auto xml_type  = root_node.name();
 
-            
             // get all children of root node
             get_walker walker;
 
@@ -125,7 +115,7 @@ class XML_Datagram
     void test_xml()
     {
         pugi::xml_document doc;
-        auto               result = doc.load_buffer_inplace(
+        auto               result = doc.load_buffer(
             _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
         if (!result)
             throw std::runtime_error("Error parsing XML0 datagram: " +
@@ -165,10 +155,18 @@ class XML_Datagram
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
+
         tools::classhelpers::ObjectPrinter printer("EK80 XML0 base datagram", float_precision);
 
-        printer.register_section("XML data");
-        printer.register_value("Type", get_xml_datagram_type());
+        objectprint_walker walker(printer);
+
+        doc.traverse(walker);
 
         return printer;
     }
