@@ -31,10 +31,12 @@ endif
 boost_dep = dependency('boost', modules: 'iostreams', static: true)
 
 # pugixml
-pugixml_dep = dependency('pugixml', required: false)
+pugixml_dep = dependency('pugixml', required: false, static: true)
 if not pugixml_dep.found()
-    pugixml_dep = subproject('pugixml').get_variable('pugixml_dep')
+  pugixml_dep = subproject('pugixml', default_options: 'default_library=static').get_variable('pugixml_dep')
 endif
+
+pugixml_dep = subproject('pugixml', default_options: 'default_library=static').get_variable('pugixml_dep')
 
 # xtensor_python
 xtensor_python_dep = dependency('xtensor-python', required: false)

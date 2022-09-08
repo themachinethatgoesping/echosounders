@@ -97,7 +97,11 @@ struct objectprint_walker: pugi::xml_tree_walker
 
         _root_nodes[depth()] = node.name();
 
-        std::string section_name = indent + std::to_string(depth()) + ".: " + node.name() +" ";
+        std::string section_name = indent + std::to_string(depth()) + ".: " + node.name();
+        if (!std::string(node.value()).empty()) 
+            section_name += "(val: " + std::string(node.value()) + ")";
+        section_name += " ";
+
         for (int i = 0; i < depth(); ++i)
             section_name += "[" + _root_nodes[i] +"]";
 
