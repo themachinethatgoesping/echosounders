@@ -35,9 +35,13 @@ void init_c_ek80_XML0(pybind11::module& m)
             &EK80_XML0::get_xml_datagram_type,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))
 
-        .def("get_content",
-             &EK80_XML0::get_content,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, EK80_XML0))
+        .def("raw",
+             &EK80_XML0::raw,
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, raw))
+
+        .def("decode",
+             &EK80_XML0::decode,
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, decode))
         // --- convenient data access ---
         .def(
             "get_xml_datagram_type",

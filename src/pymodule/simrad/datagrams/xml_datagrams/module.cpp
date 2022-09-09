@@ -23,16 +23,21 @@ namespace py_datagrams {
 namespace py_datagrams_xml {
 
 // -- submodule declarations --
-void init_c_xml_datagram(pybind11::module& m); // c_ek60_datagram.cpp
+void init_c_xml_datagram(pybind11::module& m);         // c_ek60_datagram.cpp
+void init_c_xml_parameter_channel(pybind11::module& m); // c_xml_parameter_channel.cpp
+void init_c_xml_pingsequence(pybind11::module& m); // c_xml_pingsequence.cpp
 
 // -- create submodule --
 void init_m_simrad_datagrams_xml(pybind11::module& m)
 {
     // module description
-    auto subm = m.def_submodule("XML0 datagrams", "Simrad EK80 XML datagram classes (subtypes of XML0)");
+    auto subm =
+        m.def_submodule("XML0 datagrams", "Simrad EK80 XML datagram classes (subtypes of XML0)");
 
     // simrad classes
     init_c_xml_datagram(subm);
+    init_c_xml_parameter_channel(subm);
+    init_c_xml_pingsequence(subm);
 }
 
 }

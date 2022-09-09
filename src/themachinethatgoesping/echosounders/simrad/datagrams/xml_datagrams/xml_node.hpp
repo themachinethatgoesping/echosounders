@@ -47,7 +47,7 @@ class XML_Node
     }
     ~XML_Node() = default;
 
-    virtual void initialize(pugi::xml_node& node)
+    void initialize(pugi::xml_node& node)
     {
         _name = node.name();
         for (auto& child : node.children())
@@ -61,28 +61,90 @@ class XML_Node
     }
 
     // ----- getter/setter -----
-    const std::unordered_map<std::string, std::vector<XML_Node>>& get_children() const
+    const std::unordered_map<std::string, std::vector<XML_Node>>& children() const
     {
         return _children;
     }
-    const std::unordered_map<std::string, std::string>& get_attributes() const
+    const std::vector<XML_Node>& children(const std::string& key ) const
+    {
+        return _children.at(key);
+    }
+    const XML_Node& first_child(const std::string& key ) const
+    {
+        return _children.at(key).at(0);
+    }
+
+    const std::unordered_map<std::string, std::string>& attributes() const
     {
         return _attributes;
+    }
+    const std::string& attributes(const std::string& key ) const
+    {
+        return _attributes.at(key);
     }
 
 
     // ----- file I/O -----
     static XML_Node from_stream(std::istream& is)
     {
-        // size_t length;
-        // is.read(reinterpret_cast<char*>(&length), sizeof(length));
-        // return from_stream(is, length);
+        XML_Node datagram;
+
+        datagram._name = tools::classhelpers::stream::container_from_stream<std::string>(is);  
+
+        size_t size;
+        is.read(reinterpret_cast<char*>(&size), sizeof(size));
+
+        for (size_t i = 0; i < size; ++i)
+        {
+            std::string key = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            size_t size_sub;
+            is.read(reinterpret_cast<char*>(&size_sub), sizeof(size_sub));
+            for (size_t j = 0; j < size_sub; ++j)
+            {
+                datagram._children[key].emplace_back(XML_Node::from_stream(is));
+            }
+        }
+
+        is.read(reinterpret_cast<char*>(&size), sizeof(size));
+        for (size_t i = 0; i < size; ++i)
+        {
+            std::string key = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            std::string value = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            datagram._attributes.emplace(key, value);
+        }
+
+        return datagram;
+
     }
 
     void to_stream(std::ostream& os) const
     {
-        // size_t size = this->size();
-        // os.write(reinterpret_cast<char*>(&size), sizeof(size));
+        tools::classhelpers::stream::container_to_stream(os, _name);
+
+        size_t size = _children.size();
+        os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+        for (const auto& key_node : _children)
+        {
+            std::string key = key_node.first;
+            tools::classhelpers::stream::container_to_stream(os, key);
+
+            size_t size_sub = key_node.second.size();
+            os.write(reinterpret_cast<const char*>(&size_sub), sizeof(size_t));
+            for (const auto& node : key_node.second)
+            {
+                node.to_stream(os);
+            }
+        }
+
+        size = _attributes.size();
+        os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+        for (const auto& key_value : _attributes)
+        {
+            std::string key = key_value.first;
+            std::string value = key_value.second;
+            tools::classhelpers::stream::container_to_stream(os, key);
+            tools::classhelpers::stream::container_to_stream(os, value);
+        }
     }
 
 

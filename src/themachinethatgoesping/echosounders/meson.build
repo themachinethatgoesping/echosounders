@@ -18,7 +18,11 @@ headers = [
   'simrad/datagrams/ek60_unknown.hpp',
   'simrad/datagrams/ek80_MRU0.hpp',
   'simrad/datagrams/ek60_NME0.hpp',
-  'simrad/datagrams/ek80_XML0.hpp'
+  'simrad/datagrams/ek80_XML0.hpp',
+  'simrad/datagrams/xml_datagrams/helper.hpp',
+  'simrad/datagrams/xml_datagrams/xml_node.hpp',
+  'simrad/datagrams/xml_datagrams/xml_parameter_channel.hpp',
+  'simrad/datagrams/xml_datagrams/xml_pingsequence.hpp'
 ]
 
 # -- targets --

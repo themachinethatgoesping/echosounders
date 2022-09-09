@@ -23,11 +23,16 @@
 #include "ek60_datagram.hpp"
 #include "xml_datagrams/helper.hpp"
 #include "xml_datagrams/xml_node.hpp"
+#include "xml_datagrams/xml_parameter_channel.hpp"
+#include "xml_datagrams/xml_pingsequence.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
+
+using XML_Datagram_type =
+    std::variant<xml_datagrams::XML_Node, xml_datagrams::XML_Parameter_Channel, xml_datagrams::XML_PingSequence>;
 
 /**
  * @brief Motion binary datagram (XML0)
@@ -68,8 +73,8 @@ class EK80_XML0 : public EK60_Datagram
     bool operator!=(const EK80_XML0& other) const { return !operator==(other); }
 
     // ----- getter/setter
-    xml_datagrams::XML_Node get_content() 
-    { 
+    xml_datagrams::XML_Node raw()
+    {
         pugi::xml_document doc;
         auto               result = doc.load_buffer(
             _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
@@ -79,9 +84,33 @@ class EK80_XML0 : public EK60_Datagram
 
         auto root_node = doc.first_child();
         return xml_datagrams::XML_Node(root_node);
-        
+    }
+
+    XML_Datagram_type decode() const 
+    {
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
+
+        auto root_node = doc.first_child();
+        std::string type = get_xml_datagram_type();
+
+        if (type == "Parameter")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_Parameter_Channel(root_node));
         }
-    
+        else if (type == "PingSequence")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_PingSequence(root_node));
+        }
+        else
+        {
+            return XML_Datagram_type(xml_datagrams::XML_Node(root_node));
+        }
+    }
 
     void set_xml_content(std::string xml_content)
     {
@@ -210,7 +239,6 @@ class EK80_XML0 : public EK60_Datagram
         xml_datagrams::objectprint_walker walker(printer);
 
         doc.traverse(walker);
-
 
         return printer;
     }

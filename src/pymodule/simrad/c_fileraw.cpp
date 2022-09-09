@@ -272,9 +272,12 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
         case 3:
             xml.parse_xml(level);
             break;
+        case 4:
+            xml.raw();
+            break;
          
          default:
-            xml.get_content();
+            xml.decode();
             break;
          }
          
