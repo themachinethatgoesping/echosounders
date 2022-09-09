@@ -18,6 +18,7 @@ sources = [
     'simrad/datagrams/xml_datagrams/module.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_node.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_parameter_channel.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_initialparameter.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_pingsequence.cpp',
     'simrad/c_fileraw.cpp'
 ]

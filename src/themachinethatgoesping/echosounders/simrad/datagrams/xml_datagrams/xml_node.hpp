@@ -41,20 +41,20 @@ class XML_Node
   public:
     // ----- constructors -----
     XML_Node() = default;
-    XML_Node(pugi::xml_node& node)
+    XML_Node(const pugi::xml_node& node)
     {
         initialize(node);
     }
     ~XML_Node() = default;
 
-    void initialize(pugi::xml_node& node)
+    void initialize(const pugi::xml_node& node)
     {
         _name = node.name();
-        for (auto& child : node.children())
+        for (const auto& child : node.children())
         {
             _children[child.name()].emplace_back(XML_Node(child));
         }
-        for (auto& attribute : node.attributes())
+        for (const auto& attribute : node.attributes())
         {
             _attributes.emplace(attribute.name(), attribute.value());
         }

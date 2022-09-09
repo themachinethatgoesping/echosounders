@@ -38,27 +38,103 @@ struct XML_Parameter_Channel
 {
     std::string ChannelID;
     int64_t     ChannelMode    = -1;
-    double      PulseForm      = NAN; // 0 means cw, ?1 means chirp?
-    double      FrequencyStart = NAN; // used used for chirp pulse (PulseForm > 0)
-    double      FrequencyEnd   = NAN; // used used for chirp pulse (PulseForm > 0)
-    double      Frequency      = NAN; // used for cv ( PulseForm == 0)
-    double      PulseDuration  = NAN; // used used for chirp pulse (PulseForm > 0)
-    double      PulseLength    = NAN; // used for cv ( PulseForm == 0)
+    double      PulseForm      = NAN; ///< 0 means cw, ?1 means chirp?
+    double      FrequencyStart = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      FrequencyEnd   = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      Frequency      = NAN; ///< used for cv ( PulseForm == 0)
+    double      PulseDuration  = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      PulseLength    = NAN; ///< used for cv ( PulseForm == 0)
     double      SampleInterval = NAN;
     double      TransmitPower  = NAN;
     double      Slope          = NAN;
     double      SoundVelocity  = NAN;
+    std::string PingId; ///< this is used in the InitialParameter datagram
 
-    int32_t unknown_children  = 0;
+    int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
 
   public:
     // ----- constructors -----
     XML_Parameter_Channel() = default;
-    XML_Parameter_Channel(pugi::xml_node& node) { initialize(node); }
+    XML_Parameter_Channel(const pugi::xml_node& node) { initialize(node); }
     ~XML_Parameter_Channel() = default;
 
-    void initialize(pugi::xml_node& root_node)
+    void initialize_channel_structure(const pugi::xml_node& node)
+    {
+        for (const auto& attr : node.attributes())
+        {
+            std::string name = attr.name();
+            if (name == "ChannelID")
+            {
+                ChannelID = attr.value();
+                continue;
+            }
+            if (name == "ChannelMode")
+            {
+                ChannelMode = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "PulseForm")
+            {
+                PulseForm = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "FrequencyStart")
+            {
+                FrequencyStart = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "FrequencyEnd")
+            {
+                FrequencyEnd = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "Frequency")
+            {
+                Frequency = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "PulseDuration")
+            {
+                PulseDuration = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "PulseLength")
+            {
+                PulseLength = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "SampleInterval")
+            {
+                SampleInterval = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "TransmitPower")
+            {
+                TransmitPower = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "Slope")
+            {
+                Slope = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "SoundVelocity")
+            {
+                SoundVelocity = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "PingId")
+            {
+                PingId = attr.value();
+                continue;
+            }
+            std::cerr << "WARNING: [ParameterChannel] Unknown attribute: " << name << std::endl;
+            unknown_attributes += 1;
+        }
+    }
+
+    void initialize(const pugi::xml_node& root_node)
     {
         if (strcmp(root_node.name(), "Parameter"))
         {
@@ -66,8 +142,8 @@ struct XML_Parameter_Channel
                                      root_node.name() + "'");
         }
         unknown_attributes = 0;
-        unknown_children  = 0; // there should only be one child for this node
-        bool parsed       = false;
+        unknown_children   = 0; // there should only be one child for this node
+        bool parsed        = false;
 
         // there should only be one child for this node
         for (const auto& node : root_node.children())
@@ -83,73 +159,8 @@ struct XML_Parameter_Channel
             }
 
             parsed = true;
-            
-            for (auto& attr : node.attributes())
-            {
-                std::string name = attr.name();
-                if (name == "ChannelID")
-                {
-                    ChannelID = attr.value();
-                    continue;
-                }
-                if (name == "ChannelMode")
-                {
-                    ChannelMode = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "PulseForm")
-                {
-                    PulseForm = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "FrequencyStart")
-                {
-                    FrequencyStart = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "FrequencyEnd")
-                {
-                    FrequencyEnd = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "Frequency")
-                {
-                    Frequency = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "PulseDuration")
-                {
-                    PulseDuration = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "PulseLength")
-                {
-                    PulseLength = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "SampleInterval")
-                {
-                    SampleInterval = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "TransmitPower")
-                {
-                    TransmitPower = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "Slope")
-                {
-                    Slope = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                if (name == "SoundVelocity")
-                {
-                    SoundVelocity = tools::helper::string_to_double(attr.value());
-                    continue;
-                }
-                std::cerr << "WARNING: [ParameterChannel] Unknown attribute: " << name << std::endl;
-                unknown_attributes += 1;
-            }
+
+            initialize_channel_structure(node);
         }
     }
 
@@ -162,6 +173,7 @@ struct XML_Parameter_Channel
         xml.ChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.ChannelMode), sizeof(xml.ChannelMode));
         is.read(reinterpret_cast<char*>(&xml.PulseForm), sizeof(xml.PulseForm) * 10);
+        xml.PingId = tools::classhelpers::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -173,6 +185,7 @@ struct XML_Parameter_Channel
         tools::classhelpers::stream::container_to_stream(os, ChannelID);
         os.write(reinterpret_cast<const char*>(&ChannelMode), sizeof(ChannelMode));
         os.write(reinterpret_cast<const char*>(&PulseForm), sizeof(PulseForm) * 10);
+        tools::classhelpers::stream::container_to_stream(os, PingId);
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
     }
@@ -185,7 +198,7 @@ struct XML_Parameter_Channel
                FrequencyEnd == other.FrequencyEnd && Frequency == other.Frequency &&
                PulseDuration == other.PulseDuration && PulseLength == other.PulseLength &&
                SampleInterval == other.SampleInterval && TransmitPower == other.TransmitPower &&
-               Slope == other.Slope && SoundVelocity == other.SoundVelocity;
+               Slope == other.Slope && SoundVelocity == other.SoundVelocity && PingId == other.PingId;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
@@ -207,6 +220,7 @@ struct XML_Parameter_Channel
         printer.register_value("TransmitPower", TransmitPower);
         printer.register_value("Slope", Slope);
         printer.register_value("SoundVelocity", SoundVelocity);
+        printer.register_value("PingId", PingId);
         printer.register_value("unknown_children", unknown_children);
         printer.register_value("unknown_attributes", unknown_attributes);
 

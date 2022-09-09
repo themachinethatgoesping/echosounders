@@ -24,6 +24,7 @@
 #include "xml_datagrams/helper.hpp"
 #include "xml_datagrams/xml_node.hpp"
 #include "xml_datagrams/xml_parameter_channel.hpp"
+#include "xml_datagrams/xml_initialparameter.hpp"
 #include "xml_datagrams/xml_pingsequence.hpp"
 
 namespace themachinethatgoesping {
@@ -32,7 +33,7 @@ namespace simrad {
 namespace datagrams {
 
 using XML_Datagram_type =
-    std::variant<xml_datagrams::XML_Node, xml_datagrams::XML_Parameter_Channel, xml_datagrams::XML_PingSequence>;
+    std::variant<xml_datagrams::XML_Node, xml_datagrams::XML_Parameter_Channel, xml_datagrams::XML_InitialParameter, xml_datagrams::XML_PingSequence>;
 
 /**
  * @brief Motion binary datagram (XML0)
@@ -82,8 +83,7 @@ class EK80_XML0 : public EK60_Datagram
             throw std::runtime_error("Error parsing XML0 datagram: " +
                                      std::string(result.description()));
 
-        auto root_node = doc.first_child();
-        return xml_datagrams::XML_Node(root_node);
+        return xml_datagrams::XML_Node(doc.first_child());
     }
 
     XML_Datagram_type decode() const 
@@ -95,7 +95,7 @@ class EK80_XML0 : public EK60_Datagram
             throw std::runtime_error("Error parsing XML0 datagram: " +
                                      std::string(result.description()));
 
-        auto root_node = doc.first_child();
+        const auto& root_node = doc.first_child();
         std::string type = get_xml_datagram_type();
 
         if (type == "Parameter")
@@ -105,6 +105,10 @@ class EK80_XML0 : public EK60_Datagram
         else if (type == "PingSequence")
         {
             return XML_Datagram_type(xml_datagrams::XML_PingSequence(root_node));
+        }
+        else if (type == "InitialParameter")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_InitialParameter(root_node));
         }
         else
         {
@@ -157,7 +161,7 @@ class EK80_XML0 : public EK60_Datagram
                                      std::string(result.description()));
 
         // get root child (one per datagram)
-        auto root_node = doc.first_child();
+        const auto& root_node = doc.first_child();
         auto xml_type  = root_node.name();
         std::cout << "root node: " << xml_type << std::endl;
 

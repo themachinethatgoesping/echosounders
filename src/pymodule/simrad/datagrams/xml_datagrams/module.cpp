@@ -25,6 +25,7 @@ namespace py_datagrams_xml {
 // -- submodule declarations --
 void init_c_xml_datagram(pybind11::module& m);         // c_ek60_datagram.cpp
 void init_c_xml_parameter_channel(pybind11::module& m); // c_xml_parameter_channel.cpp
+void init_c_xml_initialparameter(pybind11::module& m); // c_xml_initialparameter.cpp
 void init_c_xml_pingsequence(pybind11::module& m); // c_xml_pingsequence.cpp
 
 // -- create submodule --
@@ -37,6 +38,7 @@ void init_m_simrad_datagrams_xml(pybind11::module& m)
     // simrad classes
     init_c_xml_datagram(subm);
     init_c_xml_parameter_channel(subm);
+    init_c_xml_initialparameter(subm);
     init_c_xml_pingsequence(subm);
 }
 
