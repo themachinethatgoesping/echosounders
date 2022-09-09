@@ -22,7 +22,7 @@
 #include "../ek60_types.hpp"
 #include "ek60_datagram.hpp"
 #include "xml_datagrams/helper.hpp"
-#include "xml_datagrams/xml_datagram.hpp"
+#include "xml_datagrams/xml_node.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -39,7 +39,9 @@ namespace datagrams {
 class EK80_XML0 : public EK60_Datagram
 {
     // ----- datagram content -----
-    xml_datagrams::XML_Datagram _xml_datagram; ///< parsed xml datagram
+    // xml_datagrams::XML_Node _xml_datagram; ///< parsed xml datagram
+    // ----- datagram content -----
+    std::string _xml_content; ///< raw xml string
 
   private:
     // ----- private constructors -----
@@ -51,9 +53,9 @@ class EK80_XML0 : public EK60_Datagram
   public:
     // ----- constructors -----
     EK80_XML0(std::string xml_content = "")
-        : _xml_datagram(std::move(xml_content))
+        : _xml_content(std::move(xml_content))
     {
-        _Length       = _xml_datagram.size() + 12;
+        _Length       = _xml_content.size() + 12;
         _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
     }
     ~EK80_XML0() = default;
@@ -61,33 +63,107 @@ class EK80_XML0 : public EK60_Datagram
     // ----- operators -----
     bool operator==(const EK80_XML0& other) const
     {
-        return EK60_Datagram::operator==(other) && _xml_datagram == other._xml_datagram;
+        return EK60_Datagram::operator==(other) && _xml_content == other._xml_content;
     }
     bool operator!=(const EK80_XML0& other) const { return !operator==(other); }
 
     // ----- getter/setter
-    xml_datagrams::XML_Datagram& get_xml_structure() { return _xml_datagram; }
-    void set_xml_structure(xml_datagrams::XML_Datagram xml_datagram)
-    {
-        _xml_datagram = xml_datagram;
-    }
+    xml_datagrams::XML_Node get_content() 
+    { 
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
 
-    // ----- convinient xml access -----
+        auto root_node = doc.first_child();
+        return xml_datagrams::XML_Node(root_node);
+        
+        }
+    
+
     void set_xml_content(std::string xml_content)
     {
-        _Length       = xml_content.size() + 12;
-        _xml_datagram = xml_datagrams::XML_Datagram(std::move(xml_content));
+        _Length      = xml_content.size() + 12;
+        _xml_content = std::move(xml_content);
     }
-    const std::string& get_xml_content() const { return _xml_datagram.get_xml_content(); }
+    const std::string& get_xml_content() const { return _xml_content; }
 
-    std::string get_xml_datagram_type() const { return _xml_datagram.get_xml_datagram_type(); }
+    //----- raw xml parsing -----
+    void parse_xml(int level)
+    {
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
+
+        if (level == 2)
+        {
+            auto xml_type = doc.first_child().name();
+            (void)xml_type;
+        }
+        else if (level > 2)
+        {
+            // get root child (one per datagram)
+            // auto root_node = doc.first_child();
+            // auto xml_type  = root_node.name();
+
+            // get all children of root node
+            xml_datagrams::get_walker walker;
+
+            doc.traverse(walker);
+        }
+    }
+
+    void test_xml()
+    {
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
+
+        // get root child (one per datagram)
+        auto root_node = doc.first_child();
+        auto xml_type  = root_node.name();
+        std::cout << "root node: " << xml_type << std::endl;
+
+        // get all children of root node
+        xml_datagrams::print_walker walker;
+
+        doc.traverse(walker);
+    }
+
+    // ----- public methods -----
+    std::string get_xml_datagram_type() const
+    {
+        // start at seven because the xml tag must be at least "<?xml?>"
+        unsigned int i = 7;
+        for (; i < _xml_content.size(); ++i)
+        {
+            if (_xml_content[i] == '<')
+                break;
+        }
+
+        for (unsigned int j = ++i; j < _xml_content.size(); ++j)
+        {
+            if (_xml_content[j] == ' ' || _xml_content[j] == '>')
+                return _xml_content.substr(i, j - i);
+        }
+
+        return "invalid";
+    }
 
     // ----- file I/O -----
     static EK80_XML0 from_stream(std::istream& is, EK60_Datagram header)
     {
         EK80_XML0 datagram(std::move(header));
-        datagram._xml_datagram =
-            xml_datagrams::XML_Datagram::from_stream(is, datagram._Length - 12);
+        datagram._xml_content.resize(datagram._Length - 12);
+        is.read(datagram._xml_content.data(), datagram._xml_content.size());
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -110,10 +186,10 @@ class EK80_XML0 : public EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + _xml_datagram.size();
+        _Length       = 12 + _xml_content.size();
         _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
         EK60_Datagram::to_stream(os);
-        _xml_datagram.to_stream_dont_write_size(os);
+        os.write(_xml_content.data(), _xml_content.size());
         os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
     }
 
@@ -121,11 +197,20 @@ class EK80_XML0 : public EK60_Datagram
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelpers::ObjectPrinter printer("EK80 XML0 datagram", float_precision);
-
         printer.append(EK60_Datagram::__printer__(float_precision));
+        printer.register_value("Type", get_xml_datagram_type());
 
-        printer.register_section("XML data");
-        printer.register_value("Type", _xml_datagram.get_xml_datagram_type());
+        pugi::xml_document doc;
+        auto               result = doc.load_buffer(
+            _xml_content.data(), _xml_content.size(), pugi::parse_default, pugi::encoding_utf8);
+        if (!result)
+            throw std::runtime_error("Error parsing XML0 datagram: " +
+                                     std::string(result.description()));
+
+        xml_datagrams::objectprint_walker walker(printer);
+
+        doc.traverse(walker);
+
 
         return printer;
     }

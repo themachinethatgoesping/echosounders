@@ -259,18 +259,25 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
     for (size_t i = 0; i < it.size(); ++i)
     {
          auto xml = it.at(i);
-         
-         if (level > 1){
-            if (level == 1)
-            {
-            auto type = xml.get_xml_datagram_type();
-            }
-         else
-            {
-                xml.get_xml_structure().parse_xml(level);
 
-            }
+         switch (level)
+         {
+         case 0:
+            break;
+        case 1:
+            xml.get_xml_datagram_type();
+            break;
+        case 2:
+            [[fallthrough]];
+        case 3:
+            xml.parse_xml(level);
+            break;
+         
+         default:
+            xml.get_content();
+            break;
          }
+         
 
 
         prg.tick();

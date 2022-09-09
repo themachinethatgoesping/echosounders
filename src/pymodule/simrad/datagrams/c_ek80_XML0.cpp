@@ -35,10 +35,27 @@ void init_c_ek80_XML0(pybind11::module& m)
             &EK80_XML0::get_xml_datagram_type,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))
 
-        .def("get_xml_structure",
-             &EK80_XML0::get_xml_structure,
-             py::return_value_policy::reference_internal,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, xml_datagram))
+        .def("get_content",
+             &EK80_XML0::get_content,
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, EK80_XML0))
+        // --- convenient data access ---
+        .def(
+            "get_xml_datagram_type",
+            &EK80_XML0::get_xml_datagram_type,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))
+
+        // xml testing
+        .def("test_xml",
+             &EK80_XML0::test_xml,
+             py::call_guard<py::scoped_ostream_redirect, py::scoped_estream_redirect>(),
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, test_xml))
+
+        // --- raw data access ---
+        .def_property(
+            "_raw_xml_content",
+            &EK80_XML0::get_xml_content,
+            &EK80_XML0::set_xml_content,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, xml_content))
 
         // --- raw data access ---
         .def_property(

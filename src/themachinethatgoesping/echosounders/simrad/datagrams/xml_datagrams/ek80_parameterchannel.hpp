@@ -21,6 +21,7 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
+#include "xml_node.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -32,57 +33,26 @@ namespace xml_datagrams {
  * @brief XML base datagram
  *
  */
-class XML_Datagram
+class EK80_ParameterChannel : public XML_Node
 {
-    // ----- datagram content -----
-    std::string _xml_content; ///< raw xml string
 
   public:
     // ----- constructors -----
-    XML_Datagram() = default;
-    XML_Datagram(std::string xml_content)
-        : _xml_content(std::move(xml_content))
+    EK80_ParameterChannel() = default;
+    EK80_ParameterChannel(XML_Node xml_content, bool check = false)
+        : XML_Node(std::move(xml_content))
     {
+        if (check) 
+            if (get_xml_datagram_type() != "Parameter") 
+                {throw std::runtime_error("Invalid datagram type");}}
     }
-    ~XML_Datagram() = default;
+    ~EK80_ParameterChannel() = default;
 
     // ----- file I/O -----
-    static XML_Datagram from_stream(std::istream& is, size_t length)
+    static EK80_ParameterChannel from_stream(std::istream& is)
     {
-        XML_Datagram datagram;
-        datagram._xml_content.resize(length);
-        is.read(datagram._xml_content.data(), datagram._xml_content.size());
-        return datagram;
+        EK80_ParameterChannel(XML_Node::from_stream(is), true);
     }
-
-    static XML_Datagram from_stream(std::istream& is)
-    {
-        size_t length;
-        is.read(reinterpret_cast<char*>(&length), sizeof(length));
-        return from_stream(is, length);
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        size_t size = this->size();
-        os.write(reinterpret_cast<char*>(&size), sizeof(size));
-        os.write(_xml_content.data(), _xml_content.size());
-    }
-
-    void to_stream_dont_write_size(std::ostream& os)
-    {
-        os.write(_xml_content.data(), _xml_content.size());
-    }
-
-    // ----- operators -----
-    bool operator==(const XML_Datagram& other) const { return _xml_content == other._xml_content; }
-    bool operator!=(const XML_Datagram& other) const { return !operator==(other); }
-
-    size_t size() const { return _xml_content.size(); }
-
-    // ----- getter setter -----
-    void set_xml_content(std::string xml_content) { _xml_content = std::move(xml_content); }
-    const std::string& get_xml_content() const { return _xml_content; }
 
     //----- raw xml parsing -----
     void parse_xml(int level)
@@ -173,7 +143,7 @@ class XML_Datagram
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Datagram)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK80_ParameterChannel)
 };
 
 }
