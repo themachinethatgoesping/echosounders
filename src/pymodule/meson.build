@@ -20,6 +20,15 @@ sources = [
     'simrad/datagrams/xml_datagrams/c_xml_parameter_channel.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_initialparameter.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_pingsequence.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_environment_transducer.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_environment.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_sensor.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_sensor_telegramvalue.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_sensor_telegram.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_sensor.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_transducer.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_activepingmode.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration.cpp',
     'simrad/c_fileraw.cpp'
 ]
 

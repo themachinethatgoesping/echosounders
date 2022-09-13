@@ -34,67 +34,65 @@ namespace xml_datagrams {
  * @brief XML base datagram
  *
  */
-struct XML_PingSequence
+struct XML_Configuration_Sensor_TelegramValue
 {
-    std::string ChannelID;
+    int        Priority    = 0;
+    std::string Name;
 
-    int32_t unknown_children  = 0;
+    int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
 
   public:
     // ----- constructors -----
-    XML_PingSequence() = default;
-    XML_PingSequence(const pugi::xml_node& node) { initialize(node); }
-    ~XML_PingSequence() = default;
+    XML_Configuration_Sensor_TelegramValue() = default;
+    XML_Configuration_Sensor_TelegramValue(const pugi::xml_node& node) { initialize(node); }
+    ~XML_Configuration_Sensor_TelegramValue() = default;
 
     void initialize(const pugi::xml_node& root_node)
     {
-        if (strcmp(root_node.name(), "PingSequence"))
+        if (strcmp(root_node.name(), "Value"))
         {
-            throw std::runtime_error(std::string("XML_PingSequence: wrong root node type '") +
+            throw std::runtime_error(std::string("XML_Configuration_Sensor_TelegramValue: wrong root node type '") +
                                      root_node.name() + "'");
         }
         unknown_attributes = 0;
-        unknown_children  = 0; // there should only be one child for this node
-        bool parsed       = false;
+        unknown_children   = 0; // there should be no child
 
         // there should only be one child for this node
         for (const auto& node : root_node.children())
         {
-            if (parsed || strcmp(node.name(), "Ping"))
+            std::cerr << "WARNING: [Value] Unknown child: " << node.name() << std::endl;
+
+            unknown_children = 1;
+        }
+
+        for (const auto& attr : root_node.attributes())
+        {
+            std::string_view name = attr.name();
+            if (name == "Priority")
             {
-                std::cerr << "WARNING: [PingSequence] Unknown child: " << node.name()
-                          << std::endl;
-
-                unknown_children = 1;
-
+                Priority = std::stoi(attr.value()); // TODO: is this only 0/1 or also false/true?
                 continue;
             }
-
-            parsed = true;
-            
-            for (auto& attr : node.attributes())
+            if (name == "Name")
             {
-                std::string_view name = attr.name();
-                if (name == "ChannelID")
-                {
-                    ChannelID = attr.value();
-                    continue;
-                }
-                
-                std::cerr << "WARNING: [PingSequence] Unknown attribute: " << name << std::endl;
-                unknown_attributes += 1;
+                Name = attr.value();
+                continue;
             }
+            std::cerr << "WARNING: [Value] Unknown attribute: " << name << std::endl;
+            unknown_attributes += 1;
         }
     }
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
 
     // ----- file I/O -----
-    static XML_PingSequence from_stream(std::istream& is)
+    static XML_Configuration_Sensor_TelegramValue from_stream(std::istream& is)
     {
-        XML_PingSequence xml;
-        xml.ChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        XML_Configuration_Sensor_TelegramValue xml;
+        is.read(reinterpret_cast<char*>(&xml.Priority), sizeof(xml.Priority));
+        xml.Name = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -103,34 +101,35 @@ struct XML_PingSequence
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, ChannelID);
+        os.write(reinterpret_cast<const char*>(&Priority), sizeof(Priority));
+        tools::classhelpers::stream::container_to_stream(os, Name);
+
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
     }
 
     // ----- operators -----
-    bool operator==(const XML_PingSequence& other) const
+    bool operator==(const XML_Configuration_Sensor_TelegramValue& other) const
     {
-        return ChannelID == other.ChannelID;
+        return Priority == other.Priority && Name == other.Name;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_PingSequence& other) const { return !operator==(other); }
+    bool operator!=(const XML_Configuration_Sensor_TelegramValue& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 PingSequence", float_precision);
-        printer.register_string("ChannelID", ChannelID);
-        printer.register_value("unknown_children", unknown_children);
-        printer.register_value("unknown_attributes", unknown_attributes);
+        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Value", float_precision);
+        printer.register_value("Priority", Priority);
+        printer.register_string("Name", Name);
 
         return printer;
     }
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_PingSequence)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor_TelegramValue)
 };
 
 }

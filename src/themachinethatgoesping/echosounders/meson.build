@@ -23,7 +23,16 @@ headers = [
   'simrad/datagrams/xml_datagrams/xml_node.hpp',
   'simrad/datagrams/xml_datagrams/xml_parameter_channel.hpp',
   'simrad/datagrams/xml_datagrams/xml_pingsequence.hpp',
-  'simrad/datagrams/xml_datagrams/xml_initialparameter.hpp'
+  'simrad/datagrams/xml_datagrams/xml_initialparameter.hpp',
+  'simrad/datagrams/xml_datagrams/xml_environment_transducer.hpp',
+  'simrad/datagrams/xml_datagrams/xml_environment.hpp',
+  'simrad/datagrams/xml_datagrams/xml_sensor.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_sensor_telegramvalue.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_sensor_telegram.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_sensor.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_transducer.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_activepingmode.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration.hpp',
 ]
 
 # -- targets --

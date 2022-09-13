@@ -47,7 +47,7 @@ void init_c_ek60_NME0(pybind11::module& m)
         .def("field_double", &EK60_NME0::get_field_as_double, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_field_as_double))
         .def("field_int", &EK60_NME0::get_field_as_int, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_field_as_int))
         .def("parse_fields", &EK60_NME0::parse_fields, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, parse_fields))
-        .def("get_nmea_structure", &EK60_NME0::get_nmea_structure, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, get_nmea_structure))
+        .def("decode", &EK60_NME0::decode, DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_NME0, decode))
 
         // --- raw data access ---
         .def_property_readonly(

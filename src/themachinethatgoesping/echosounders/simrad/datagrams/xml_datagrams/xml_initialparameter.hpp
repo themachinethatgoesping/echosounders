@@ -65,7 +65,7 @@ struct XML_InitialParameter
         {
             if (parsed || strcmp(sub_node.name(), "Channels"))
             {
-                std::cerr << "WARNING: [ParameterChannel] Unknown child: " << sub_node.name()
+                std::cerr << "WARNING: [InitialParameter] Unknown child: " << sub_node.name()
                           << std::endl;
 
                 unknown_children = 1;
@@ -80,7 +80,7 @@ struct XML_InitialParameter
             {
                 if (strcmp(node.name(), "Channel"))
                 {
-                    std::cerr << "WARNING: [ParameterChannel::Channels] Unknown child: " << node.name()
+                    std::cerr << "WARNING: [InitialParameter::Channels] Unknown child: " << node.name()
                             << std::endl;
 
                     unknown_children = 1;

@@ -65,8 +65,8 @@ struct EK60_NME0 : public EK60_Datagram
     double get_field_as_double(size_t index) const { return _nmea_base.get_field_as_double(index); }
     int get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
     void parse_fields() { _nmea_base.parse_fields(); }
-    //navigation::nmea_0183::NMEA_Base get_nmea_structure() const { return _nmea_base; }
-    navigation::nmea_0183::NMEA_0183_type get_nmea_structure() const { return navigation::nmea_0183::decode(_nmea_base); }
+    //navigation::nmea_0183::NMEA_Base decode() const { return _nmea_base; }
+    navigation::nmea_0183::NMEA_0183_type decode() const { return navigation::nmea_0183::decode(_nmea_base); }
 
     // ----- file I/O -----
     static EK60_NME0 from_stream(std::istream& is, EK60_Datagram header)

@@ -22,18 +22,26 @@
 #include "../ek60_types.hpp"
 #include "ek60_datagram.hpp"
 #include "xml_datagrams/helper.hpp"
+#include "xml_datagrams/xml_environment.hpp"
+#include "xml_datagrams/xml_initialparameter.hpp"
 #include "xml_datagrams/xml_node.hpp"
 #include "xml_datagrams/xml_parameter_channel.hpp"
-#include "xml_datagrams/xml_initialparameter.hpp"
 #include "xml_datagrams/xml_pingsequence.hpp"
+#include "xml_datagrams/xml_sensor.hpp"
+#include "xml_datagrams/xml_configuration.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
-using XML_Datagram_type =
-    std::variant<xml_datagrams::XML_Node, xml_datagrams::XML_Parameter_Channel, xml_datagrams::XML_InitialParameter, xml_datagrams::XML_PingSequence>;
+using XML_Datagram_type = std::variant<xml_datagrams::XML_Node,
+                                       xml_datagrams::XML_Parameter_Channel,
+                                       xml_datagrams::XML_InitialParameter,
+                                       xml_datagrams::XML_PingSequence,
+                                       xml_datagrams::XML_Environment,
+                                       xml_datagrams::XML_Sensor,
+                                       xml_datagrams::XML_Configuration>;
 
 /**
  * @brief Motion binary datagram (XML0)
@@ -86,7 +94,7 @@ class EK80_XML0 : public EK60_Datagram
         return xml_datagrams::XML_Node(doc.first_child());
     }
 
-    XML_Datagram_type decode() const 
+    XML_Datagram_type decode() const
     {
         pugi::xml_document doc;
         auto               result = doc.load_buffer(
@@ -96,7 +104,7 @@ class EK80_XML0 : public EK60_Datagram
                                      std::string(result.description()));
 
         const auto& root_node = doc.first_child();
-        std::string type = get_xml_datagram_type();
+        std::string type      = get_xml_datagram_type();
 
         if (type == "Parameter")
         {
@@ -109,6 +117,18 @@ class EK80_XML0 : public EK60_Datagram
         else if (type == "InitialParameter")
         {
             return XML_Datagram_type(xml_datagrams::XML_InitialParameter(root_node));
+        }
+        else if (type == "Environment")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_Environment(root_node));
+        }
+        else if (type == "Sensor")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_Sensor(root_node));
+        }
+        else if (type == "Configuration")
+        {
+            return XML_Datagram_type(xml_datagrams::XML_Configuration(root_node));
         }
         else
         {
@@ -162,7 +182,7 @@ class EK80_XML0 : public EK60_Datagram
 
         // get root child (one per datagram)
         const auto& root_node = doc.first_child();
-        auto xml_type  = root_node.name();
+        auto        xml_type  = root_node.name();
         std::cout << "root node: " << xml_type << std::endl;
 
         // get all children of root node

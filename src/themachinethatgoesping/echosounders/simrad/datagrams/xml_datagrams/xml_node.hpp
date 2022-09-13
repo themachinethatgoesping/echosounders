@@ -60,6 +60,13 @@ class XML_Node
         }
     }
 
+    // ----- operators -----
+    bool operator==(const XML_Node& other) const
+    {
+        return _name == other._name && _children == other._children && _attributes == other._attributes;
+    }
+    bool operator!=(const XML_Node& other) const { return !(*this == other); }
+
     // ----- getter/setter -----
     const std::unordered_map<std::string, std::vector<XML_Node>>& children() const
     {

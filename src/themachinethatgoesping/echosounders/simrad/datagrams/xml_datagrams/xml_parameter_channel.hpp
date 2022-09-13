@@ -63,7 +63,7 @@ struct XML_Parameter_Channel
     {
         for (const auto& attr : node.attributes())
         {
-            std::string name = attr.name();
+            std::string_view name = attr.name();
             if (name == "ChannelID")
             {
                 ChannelID = attr.value();

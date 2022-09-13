@@ -217,7 +217,7 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-         NMEA_0183_type nmea_sentence = it.at(i).get_nmea_structure();
+         NMEA_0183_type nmea_sentence = it.at(i).decode();
 
         if (std::holds_alternative<NMEA_ZDA>(nmea_sentence)){
             std::get<NMEA_ZDA>(nmea_sentence).to_timestamp();

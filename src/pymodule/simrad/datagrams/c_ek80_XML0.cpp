@@ -51,7 +51,7 @@ void init_c_ek80_XML0(pybind11::module& m)
         // xml testing
         .def("test_xml",
              &EK80_XML0::test_xml,
-             py::call_guard<py::scoped_ostream_redirect, py::scoped_estream_redirect>(),
+             py::call_guard<py::scoped_ostream_redirect, py::scoped_ostream_redirect>(),
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, test_xml))
 
         // --- raw data access ---
