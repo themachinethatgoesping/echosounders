@@ -69,7 +69,7 @@ class EK80_XML0 : public EK60_Datagram
     EK80_XML0(std::string xml_content = "")
         : _xml_content(std::move(xml_content))
     {
-        _Length       = _xml_content.size() + 12;
+        _Length       = ek60_long(_xml_content.size() + 12);
         _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
     }
     ~EK80_XML0() = default;
@@ -138,7 +138,7 @@ class EK80_XML0 : public EK60_Datagram
 
     void set_xml_content(std::string xml_content)
     {
-        _Length      = xml_content.size() + 12;
+        _Length      = ek60_long(xml_content.size() + 12);
         _xml_content = std::move(xml_content);
     }
     const std::string& get_xml_content() const { return _xml_content; }
@@ -239,7 +239,7 @@ class EK80_XML0 : public EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + _xml_content.size();
+        _Length       = ek60_long(12 + _xml_content.size());
         _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
         EK60_Datagram::to_stream(os);
         os.write(_xml_content.data(), _xml_content.size());

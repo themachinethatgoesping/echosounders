@@ -69,7 +69,7 @@ public:
         continue;
       }
       if (name == "ChannelMode") {
-        ChannelMode = tools::helper::string_to_double(attr.value());
+        ChannelMode = std::stoi(attr.value());
         continue;
       }
       if (name == "PulseForm") {

@@ -126,11 +126,12 @@ class I_InputFile
         long index = python_index < 0 ? _package_infos_all->size() + python_index : python_index;
 
         if (index < 0)
-            throw pybind11::index_error("Negative Index [{}] is larger than length [{}]! " +
-                                        (index - _package_infos_all->size()));
+            throw pybind11::index_error(fmt.format("Negative Index [{}] is larger than length [{}]! ",index,
+                                        (index - _package_infos_all->size())));
 
         if (static_cast<size_t>(index) >= _package_infos_all->size())
-            throw pybind11::index_error("Index [{}] is larger than length [{}]! " + index);
+            throw pybind11::index_error(fmt.format("Index [{}] is larger than length [{}]! ",index,
+                                        _package_infos_all->size()));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
