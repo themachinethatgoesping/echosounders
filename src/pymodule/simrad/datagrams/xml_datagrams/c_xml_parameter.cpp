@@ -8,7 +8,7 @@
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
-#include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_pingsequence.hpp"
+#include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_parameter.hpp"
 #include "../../../docstrings.hpp"
 #include "module.hpp"
 
@@ -21,75 +21,57 @@ namespace py_datagrams_xml {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using datagrams::xml_datagrams::XML_PingSequence;
+using datagrams::xml_datagrams::XML_Parameter;
 
-void init_c_xml_pingsequence(pybind11::module& m)
+void init_c_xml_parameter(pybind11::module& m)
 {
-    py::class_<XML_PingSequence>(m,
-                                      "XML_PingSequence",
+    py::class_<XML_Parameter>(m,
+                                      "XML_Parameter",
                                       DOC(themachinethatgoesping,
                                           echosounders,
                                           simrad,
                                           datagrams,
                                           xml_datagrams,
-                                          XML_PingSequence))
+                                          XML_Parameter))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_PingSequence,
-                 XML_PingSequence))
+                 XML_Parameter,
+                 XML_Parameter))
 
-        // ----- children -----
-        .def_readwrite("Pings",
-                       &XML_PingSequence::Pings,
+        // ----- attributes -----
+        .def_readwrite("Channels",
+                       &XML_Parameter::Channels,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_PingSequence,
-                           Pings))
+                           XML_Parameter,
+                           Channels))
         
-        .def_readwrite("unknown_children",
-                       &XML_PingSequence::unknown_children,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_PingSequence,
-                           unknown_children))
-        .def_readwrite("unknown_attributes",
-                       &XML_PingSequence::unknown_attributes,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_PingSequence,
-                           unknown_attributes))
 
         // ----- methods -----
         .def("parsed_completely",
-             &XML_PingSequence::parsed_completely,
+             &XML_Parameter::parsed_completely,
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_PingSequence,
+                 XML_Parameter,
                  parsed_completely))
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(XML_PingSequence)
+        __PYCLASS_DEFAULT_COPY__(XML_Parameter)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(XML_PingSequence)
+        __PYCLASS_DEFAULT_BINARY__(XML_Parameter)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(XML_PingSequence)
+        __PYCLASS_DEFAULT_PRINTING__(XML_Parameter)
         // end LinearInterpolator
         ;
 }

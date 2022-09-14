@@ -35,7 +35,7 @@ namespace xml_datagrams {
  * @brief XML base datagram
  *
  */
-struct XML_InitialParameter
+struct XML_Parameter
 {
     std::vector<XML_Parameter_Channel> Channels;
 
@@ -44,64 +44,46 @@ struct XML_InitialParameter
 
   public:
     // ----- constructors -----
-    XML_InitialParameter() = default;
-    XML_InitialParameter(const pugi::xml_node& node) { initialize(node); }
-    ~XML_InitialParameter() = default;
-
+    XML_Parameter() = default;
+    XML_Parameter(const pugi::xml_node& node) { initialize(node); }
+    ~XML_Parameter() = default;
 
     void initialize(const pugi::xml_node& root_node)
     {
-        if (strcmp(root_node.name(), "InitialParameter"))
+        if (strcmp(root_node.name(), "Parameter"))
         {
-            throw std::runtime_error(std::string("XML_InitialParameter: wrong root node type '") +
+            throw std::runtime_error(std::string("XML_Parameter: wrong root node type '") +
                                      root_node.name() + "'");
         }
         unknown_attributes = 0;
         unknown_children   = 0; // there should be one channels structure with multiple channels
-        bool parsed        = false;
 
         // there should only be one child for this node
-        for (const auto& sub_node : root_node.children())
+        for (const auto& node : root_node.children())
         {
-            if (parsed || strcmp(sub_node.name(), "Channels"))
+            if (strcmp(node.name(), "Channel"))
             {
-                std::cerr << "WARNING: [InitialParameter] Unknown child: " << sub_node.name()
+                std::cerr << "WARNING: [Parameter::Channels] Unknown child: " << node.name()
                           << std::endl;
 
                 unknown_children = 1;
 
                 continue;
             }
-
-            parsed = true;
-
-
-            for (const auto& node : sub_node.children())
-            {
-                if (strcmp(node.name(), "Channel"))
-                {
-                    std::cerr << "WARNING: [InitialParameter::Channels] Unknown child: " << node.name()
-                            << std::endl;
-
-                    unknown_children = 1;
-
-                    continue;
-                }
-                Channels.emplace_back();
-                Channels.back().initialize_channel_structure(node);
-            }
+            Channels.emplace_back();
+            Channels.back().initialize_channel_structure(node);
         }
     }
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
 
     // ----- file I/O -----
-    static XML_InitialParameter from_stream(std::istream& is)
+    static XML_Parameter from_stream(std::istream& is)
     {
-        XML_InitialParameter xml;
-        size_t size;
+        XML_Parameter xml;
+        size_t        size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
-        for (size_t i=0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
             xml.Channels.emplace_back(XML_Parameter_Channel::from_stream(is));
         }
@@ -124,20 +106,23 @@ struct XML_InitialParameter
     }
 
     // ----- operators -----
-    bool operator==(const XML_InitialParameter& other) const
+    bool operator==(const XML_Parameter& other) const
     {
-        if (Channels.size() != other.Channels.size()) return false;
+        if (Channels.size() != other.Channels.size())
+            return false;
 
         for (size_t i = 0; i < Channels.size(); ++i)
         {
-            if (Channels[i] != other.Channels[i]) return false;
+            if (Channels[i] != other.Channels[i])
+                return false;
         }
+
         return true;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_InitialParameter& other) const { return !operator==(other); }
+    bool operator!=(const XML_Parameter& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -154,7 +139,7 @@ struct XML_InitialParameter
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_InitialParameter)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter)
 };
 
 }

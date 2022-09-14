@@ -25,7 +25,7 @@
 #include "xml_datagrams/xml_environment.hpp"
 #include "xml_datagrams/xml_initialparameter.hpp"
 #include "xml_datagrams/xml_node.hpp"
-#include "xml_datagrams/xml_parameter_channel.hpp"
+#include "xml_datagrams/xml_parameter.hpp"
 #include "xml_datagrams/xml_pingsequence.hpp"
 #include "xml_datagrams/xml_sensor.hpp"
 #include "xml_datagrams/xml_configuration.hpp"
@@ -36,7 +36,7 @@ namespace simrad {
 namespace datagrams {
 
 using XML_Datagram_type = std::variant<xml_datagrams::XML_Node,
-                                       xml_datagrams::XML_Parameter_Channel,
+                                       xml_datagrams::XML_Parameter,
                                        xml_datagrams::XML_InitialParameter,
                                        xml_datagrams::XML_PingSequence,
                                        xml_datagrams::XML_Environment,
@@ -108,7 +108,7 @@ class EK80_XML0 : public EK60_Datagram
 
         if (type == "Parameter")
         {
-            return XML_Datagram_type(xml_datagrams::XML_Parameter_Channel(root_node));
+            return XML_Datagram_type(xml_datagrams::XML_Parameter(root_node));
         }
         else if (type == "PingSequence")
         {

@@ -22,8 +22,8 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
-#include "xml_node.hpp"
 #include "xml_environment_transducer.hpp"
+#include "xml_node.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -50,8 +50,8 @@ struct XML_Environment
     double              Temperature = NAN;
     double              Depth       = NAN;
 
-    bool                TowedBodyDepthIsManual = false;
-    double              TowedBodyDepth         = NAN;
+    bool   TowedBodyDepthIsManual = false;
+    double TowedBodyDepth         = NAN;
 
     XML_Environment_Transducer Transducer;
 
@@ -113,8 +113,7 @@ struct XML_Environment
             }
             if (name == "SoundVelocityProfile")
             {
-                SoundVelocityProfile =
-                    tools::helper::string_to_double_vector(attr.value(), ';');
+                SoundVelocityProfile = tools::helper::string_to_double_vector(attr.value(), ';');
                 continue;
             }
             if (name == "WaterLevelDraftIsManual")
@@ -183,20 +182,22 @@ struct XML_Environment
 
         is.read(reinterpret_cast<char*>(&xml.WaterLevelDraft), sizeof(xml.WaterLevelDraft));
         is.read(reinterpret_cast<char*>(&xml.DropKeelOffsetIsManual),
-                 sizeof(xml.DropKeelOffsetIsManual));
+                sizeof(xml.DropKeelOffsetIsManual));
         is.read(reinterpret_cast<char*>(&xml.DropKeelOffset), sizeof(xml.DropKeelOffset));
-        xml.SoundVelocityProfile = tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+        xml.SoundVelocityProfile =
+            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
         is.read(reinterpret_cast<char*>(&xml.WaterLevelDraftIsManual),
-                 sizeof(xml.WaterLevelDraftIsManual));
+                sizeof(xml.WaterLevelDraftIsManual));
         is.read(reinterpret_cast<char*>(&xml.Latitude), sizeof(xml.Latitude));
         is.read(reinterpret_cast<char*>(&xml.SoundSpeed), sizeof(xml.SoundSpeed));
         is.read(reinterpret_cast<char*>(&xml.Salinity), sizeof(xml.Salinity));
-        xml.SoundVelocitySource = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.SoundVelocitySource =
+            tools::classhelpers::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.Acidity), sizeof(xml.Acidity));
         is.read(reinterpret_cast<char*>(&xml.Temperature), sizeof(xml.Temperature));
         is.read(reinterpret_cast<char*>(&xml.Depth), sizeof(xml.Depth));
         is.read(reinterpret_cast<char*>(&xml.TowedBodyDepthIsManual),
-                 sizeof(xml.TowedBodyDepthIsManual));
+                sizeof(xml.TowedBodyDepthIsManual));
         is.read(reinterpret_cast<char*>(&xml.TowedBodyDepth), sizeof(xml.TowedBodyDepth));
 
         xml.Transducer = XML_Environment_Transducer::from_stream(is);
@@ -236,16 +237,19 @@ struct XML_Environment
     // ----- operators -----
     bool operator==(const XML_Environment& other) const
     {
-        return WaterLevelDraft == other.WaterLevelDraft &&
+        using namespace tools::helper;
+
+        return approx(WaterLevelDraft, other.WaterLevelDraft) &&
                DropKeelOffsetIsManual == other.DropKeelOffsetIsManual &&
-               DropKeelOffset == other.DropKeelOffset &&
-               SoundVelocityProfile == other.SoundVelocityProfile &&
+               approx(DropKeelOffset, other.DropKeelOffset) &&
+               approx_container(SoundVelocityProfile, other.SoundVelocityProfile) &&
                WaterLevelDraftIsManual == other.WaterLevelDraftIsManual &&
-               Latitude == other.Latitude && SoundSpeed == other.SoundSpeed &&
-               Salinity == other.Salinity && SoundVelocitySource == other.SoundVelocitySource &&
-               Acidity == other.Acidity && Temperature == other.Temperature &&
-               Depth == other.Depth && TowedBodyDepthIsManual == other.TowedBodyDepthIsManual &&
-               TowedBodyDepth == other.TowedBodyDepth && Transducer == Transducer;            
+               approx(Latitude, other.Latitude) && approx(SoundSpeed, other.SoundSpeed) &&
+               approx(Salinity, other.Salinity) &&
+               SoundVelocitySource == other.SoundVelocitySource && approx(Acidity, other.Acidity) &&
+               approx(Temperature, other.Temperature) && approx(Depth, other.Depth) &&
+               TowedBodyDepthIsManual == other.TowedBodyDepthIsManual &&
+               approx(TowedBodyDepth, other.TowedBodyDepth) && Transducer == other.Transducer;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
@@ -265,15 +269,16 @@ struct XML_Environment
         printer.register_value("WaterLevelDraft", WaterLevelDraft, "m");
         printer.register_value("DropKeelOffsetIsManual", DropKeelOffsetIsManual);
         printer.register_value("DropKeelOffset", DropKeelOffset, "m");
-        printer.register_container("SoundVelocityProfile", SoundVelocityProfile, "z[m], c[m/s], ...");
+        printer.register_container(
+            "SoundVelocityProfile", SoundVelocityProfile, "z[m], c[m/s], ...");
         printer.register_value("WaterLevelDraftIsManual", WaterLevelDraftIsManual);
-        printer.register_value("Latitude", Latitude , "°");
+        printer.register_value("Latitude", Latitude, "°");
         printer.register_value("SoundSpeed", SoundSpeed, "m/s");
         printer.register_value("Salinity", Salinity);
         printer.register_string("SoundVelocitySource", SoundVelocitySource);
         printer.register_value("Acidity", Acidity);
         printer.register_value("Temperature", Temperature, "C°");
-        printer.register_value("Depth", Depth, "m");       
+        printer.register_value("Depth", Depth, "m");
         printer.register_value("TowedBodyDepthIsManual", TowedBodyDepthIsManual);
         printer.register_value("TowedBodyDepth", TowedBodyDepth, "m");
 

@@ -159,8 +159,14 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
     // ----- operators -----
     bool operator==(const XML_Configuration_Transceiver_Channel_FrequencyPar& other) const
     {
-        return Frequency == other.Frequency && Gain == other.Gain && Impedance == other.Impedance && Phase == other.Phase && BeamWidthAlongship == other.BeamWidthAlongship && BeamWidthAthwartship == other.BeamWidthAthwartship && AngleOffsetAlongship == other.AngleOffsetAlongship && AngleOffsetAthwartship == other.AngleOffsetAthwartship;
-
+        using tools::helper::approx;
+        return approx(Frequency, other.Frequency) && approx(Gain, other.Gain) &&
+               approx(Impedance, other.Impedance) && approx(Phase, other.Phase) &&
+               approx(BeamWidthAlongship, other.BeamWidthAlongship) &&
+               approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
+               approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
+               approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship);
+        
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }

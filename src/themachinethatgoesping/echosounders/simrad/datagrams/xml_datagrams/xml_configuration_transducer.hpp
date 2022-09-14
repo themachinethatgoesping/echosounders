@@ -183,12 +183,14 @@ struct XML_Configuration_Transducer
     // ----- operators -----
     bool operator==(const XML_Configuration_Transducer& other) const
     {
-        return TransducerAlphaX == other.TransducerAlphaX &&
-               TransducerAlphaY == other.TransducerAlphaY &&
-               TransducerAlphaZ == other.TransducerAlphaZ &&
-               TransducerOffsetX == other.TransducerOffsetX &&
-               TransducerOffsetY == other.TransducerOffsetY &&
-               TransducerOffsetZ == other.TransducerOffsetZ &&
+        using tools::helper::approx;
+
+        return approx(TransducerAlphaX , other.TransducerAlphaX) &&
+               approx(TransducerAlphaY , other.TransducerAlphaY) &&
+               approx(TransducerAlphaZ , other.TransducerAlphaZ) &&
+               approx(TransducerOffsetX , other.TransducerOffsetX) &&
+               approx(TransducerOffsetY , other.TransducerOffsetY) &&
+               approx(TransducerOffsetZ , other.TransducerOffsetZ) &&
                TransducerSerialNumber == other.TransducerSerialNumber &&
                TransducerMounting == other.TransducerMounting &&
                TransducerOrientation == other.TransducerOrientation &&

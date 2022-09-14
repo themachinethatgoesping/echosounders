@@ -228,6 +228,8 @@ struct XML_Configuration_Transceiver
     // ----- operators -----
     bool operator==(const XML_Configuration_Transceiver& other) const
     {
+        using tools::helper::approx;
+
         return TransceiverName == other.TransceiverName &&
                TransceiverType == other.TransceiverType &&
                MarketSegment == other.MarketSegment &&
@@ -235,8 +237,8 @@ struct XML_Configuration_Transceiver
                IPAddress == other.IPAddress &&
                TransceiverSoftwareVersion == other.TransceiverSoftwareVersion &&
                Version == other.Version &&
-               Impedance == other.Impedance &&
-               RxSampleFrequency == other.RxSampleFrequency &&
+               approx(Impedance , other.Impedance) &&
+               approx(RxSampleFrequency , other.RxSampleFrequency) &&
                SerialNumber == other.SerialNumber &&
                TransceiverNumber == other.TransceiverNumber &&
                Multiplexing == other.Multiplexing &&

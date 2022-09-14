@@ -13,6 +13,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../ek60_types.hpp"
@@ -57,8 +58,11 @@ struct EK80_MRU0 : public EK60_Datagram
     // ----- operators -----
     bool operator==(const EK80_MRU0& other) const
     {
-        return EK60_Datagram::operator==(other) && _Heave == other._Heave && _Roll == other._Roll &&
-               _Pitch == other._Pitch && _Heading == other._Heading;
+        using tools::helper::approx;
+
+        return EK60_Datagram::operator==(other) && approx(_Heave, other._Heave) &&
+               approx(_Roll, other._Roll) && approx(_Pitch, other._Pitch) &&
+               approx(_Heading, other._Heading);
     }
     bool operator!=(const EK80_MRU0& other) const { return !operator==(other); }
 
@@ -86,7 +90,7 @@ struct EK80_MRU0 : public EK60_Datagram
 
     static EK80_MRU0 from_stream(std::istream& is)
     {
-        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
+        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
     }
 
     static EK80_MRU0 from_stream(std::istream& is, t_EK60_DatagramType type)
@@ -94,7 +98,7 @@ struct EK80_MRU0 : public EK60_Datagram
         if (type != t_EK60_DatagramType::MRU0)
             throw std::runtime_error("EK80_MRU0::from_stream: wrong datagram type");
 
-        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
+        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::MRU0));
     }
 
     void to_stream(std::ostream& os)

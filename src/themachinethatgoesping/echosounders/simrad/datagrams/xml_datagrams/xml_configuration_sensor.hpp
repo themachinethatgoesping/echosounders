@@ -219,7 +219,21 @@ struct XML_Configuration_Sensor
     // ----- operators -----
     bool operator==(const XML_Configuration_Sensor& other) const
     {
-        return Timeout == other.Timeout && Unique == other.Unique && AngleZ == other.AngleZ && AngleY == other.AngleY && AngleX == other.AngleX && Y == other.Y && X == other.X && Z == other.Z && Port == other.Port && Type == other.Type && Name == other.Name && TalkerID == other.TalkerID && Telegrams == other.Telegrams;
+        using tools::helper::approx;
+
+        return approx(Timeout, other.Timeout) && 
+        Unique == other.Unique && 
+        approx(AngleZ, other.AngleZ )&& 
+        approx(AngleY, other.AngleY )&& 
+        approx(AngleX , other.AngleX) && 
+        approx(Y , other.Y )&& 
+        approx(X , other.X) && 
+        approx(Z , other.Z) && 
+        Port == other.Port && 
+        Type == other.Type && 
+        Name == other.Name && 
+        TalkerID == other.TalkerID && 
+        Telegrams == other.Telegrams;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;

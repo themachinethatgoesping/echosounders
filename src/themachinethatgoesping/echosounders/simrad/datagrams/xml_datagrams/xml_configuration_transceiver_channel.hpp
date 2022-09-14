@@ -162,7 +162,7 @@ struct XML_Configuration_Transceiver_Channel
         tools::classhelpers::stream::container_to_stream(os, ChannelID);
         tools::classhelpers::stream::container_to_stream(os, LogicalChannelID);
         tools::classhelpers::stream::container_to_stream(os, ChannelIdShort);
-        tools::classhelpers::stream::container_to_stream(os, PulseDurationFM);
+        tools::classhelpers::stream::container_to_stream(os, PulseDuration);
         tools::classhelpers::stream::container_to_stream(os, PulseDurationFM);
 
         os.write(reinterpret_cast<const char*>(&MaxTxPowerTransceiver),
@@ -179,10 +179,13 @@ struct XML_Configuration_Transceiver_Channel
     // ----- operators -----
     bool operator==(const XML_Configuration_Transceiver_Channel& other) const
     {
+        using namespace tools::helper;
+        
         return ChannelID == other.ChannelID && LogicalChannelID == other.LogicalChannelID &&
-               ChannelIdShort == other.ChannelIdShort && PulseDuration == other.PulseDuration &&
-               PulseDurationFM == other.PulseDurationFM &&
-               MaxTxPowerTransceiver == other.MaxTxPowerTransceiver &&
+               ChannelIdShort == other.ChannelIdShort && 
+               approx_container(PulseDuration , other.PulseDuration) &&
+               approx_container(PulseDurationFM , other.PulseDurationFM) &&
+               approx(MaxTxPowerTransceiver , other.MaxTxPowerTransceiver) &&
                HWChannelConfiguration == other.HWChannelConfiguration &&
                Transducer == other.Transducer;
 

@@ -31,6 +31,15 @@ void init_c_ek80_XML0(pybind11::module& m)
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, EK80_XML0))
         // --- convenient data access ---
         .def(
+            "set_xml_content",
+            &EK80_XML0::set_xml_content,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, set_xml_content),
+            py::arg("xml_content"))
+        .def(
+            "get_xml_content",
+            &EK80_XML0::get_xml_content,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_content))
+        .def(
             "get_xml_datagram_type",
             &EK80_XML0::get_xml_datagram_type,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))

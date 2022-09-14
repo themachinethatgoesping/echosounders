@@ -68,6 +68,9 @@ class XML_Node
     bool operator!=(const XML_Node& other) const { return !(*this == other); }
 
     // ----- getter/setter -----
+    const std::string name() const { return _name; }
+    void name(std::string name) { _name = std::move(name); }
+
     const std::unordered_map<std::string, std::vector<XML_Node>>& children() const
     {
         return _children;

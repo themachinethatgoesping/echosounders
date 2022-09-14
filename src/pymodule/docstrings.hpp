@@ -971,6 +971,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_name = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_name_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_name_3 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_operator_ne = R"doc()doc";
@@ -978,6 +982,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter = R"doc(XML base datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel = R"doc(XML base datagram)doc";
 
@@ -1033,9 +1039,63 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_children = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channels = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_XML_Parameter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_XML_Parameter_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_initialize = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_parsed_completely = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_unknown_attributes = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_unknown_children = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence = R"doc(XML base datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_ChannelID = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping = R"doc(XML base datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_ChannelID = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_XML_PingSequence_Ping = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_XML_PingSequence_Ping_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_initialize = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_parsed_completely = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_unknown_attributes = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Ping_unknown_children = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_Pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_PingSequence_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 

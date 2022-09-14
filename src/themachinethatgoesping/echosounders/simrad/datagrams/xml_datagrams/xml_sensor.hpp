@@ -119,7 +119,7 @@ struct XML_Sensor
     // ----- operators -----
     bool operator==(const XML_Sensor& other) const
     {
-        return IsManual == other.IsManual && ManualValue == other.ManualValue && Type == other.Type;
+        return IsManual == other.IsManual && tools::helper::approx(ManualValue , other.ManualValue) && Type == other.Type;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }

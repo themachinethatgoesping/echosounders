@@ -37,6 +37,16 @@ void init_c_xml_datagram(pybind11::module& m)
                  xml_datagrams,
                  XML_Node,
                  XML_Node))
+        .def("name",
+             [](const XML_Node& self){ return self.name(); },
+             py::return_value_policy::reference_internal,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Node,
+                 name))
         .def("children",
              [](const XML_Node& self){ return self.children(); },
              py::return_value_policy::reference_internal,
