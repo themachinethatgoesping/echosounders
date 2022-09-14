@@ -28,6 +28,10 @@ sources = [
     'simrad/datagrams/xml_datagrams/c_xml_configuration_sensor.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_configuration_transducer.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_configuration_activepingmode.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver_channel_frequencypar.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver_channel_transducer.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver_channel.cpp',
+    'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_configuration.cpp',
     'simrad/c_fileraw.cpp'
 ]

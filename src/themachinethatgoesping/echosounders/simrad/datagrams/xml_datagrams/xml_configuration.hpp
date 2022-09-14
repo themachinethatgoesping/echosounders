@@ -25,6 +25,7 @@
 #include "xml_configuration_activepingmode.hpp"
 #include "xml_configuration_sensor.hpp"
 #include "xml_configuration_transducer.hpp"
+#include "xml_configuration_transceiver.hpp"
 #include "xml_node.hpp"
 
 namespace themachinethatgoesping {
@@ -48,7 +49,7 @@ struct XML_Configuration
 
     std::vector<XML_Configuration_Sensor>     ConfiguredSensors;
     std::vector<XML_Configuration_Transducer> Transducers;
-    std::vector<XML_Node>                     Transceivers;
+    std::vector<XML_Configuration_Transceiver>                     Transceivers;
     XML_Configuration_ActivePingMode          ActivePingMode;
 
     int32_t unknown_children   = 0;
@@ -115,7 +116,22 @@ struct XML_Configuration
             }
             else if (!strcmp(node.name(), "Transceivers"))
             {
-                Transceivers.emplace_back(node);
+                for (const auto& sensor_node : node.children())
+                {
+                    Transceivers.emplace_back(sensor_node);
+                }
+                for (const auto& attr : node.attributes())
+                {
+                    if (!strcmp(attr.name(), "MergeOperation"))
+                    {
+                        continue;
+                    }
+
+                    ++unknown_attributes;
+                    std::cerr << "WARNING: [Configuration/Transceivers] Unknown Attribute: "
+                              << attr.name() << std::endl;
+                }
+
                 continue;
             }
             else if (!strcmp(node.name(), "ActivePingMode"))
@@ -200,16 +216,23 @@ struct XML_Configuration
 
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
         xml.ConfiguredSensors.resize(size);
-        for (auto& sensor : xml.ConfiguredSensors)
+        for (auto& node : xml.ConfiguredSensors)
         {
-            sensor = XML_Configuration_Sensor::from_stream(is);
+            node = XML_Configuration_Sensor::from_stream(is);
         }
 
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
         xml.Transducers.resize(size);
-        for (auto& sensor : xml.Transducers)
+        for (auto& node : xml.Transducers)
         {
-            sensor = XML_Configuration_Transducer::from_stream(is);
+            node = XML_Configuration_Transducer::from_stream(is);
+        }
+
+        is.read(reinterpret_cast<char*>(&size), sizeof(size));
+        xml.Transceivers.resize(size);
+        for (auto& node : xml.Transceivers)
+        {
+            node = XML_Configuration_Transceiver::from_stream(is);
         }
 
         xml.ActivePingMode = XML_Configuration_ActivePingMode::from_stream(is);
@@ -229,16 +252,23 @@ struct XML_Configuration
 
         size = ConfiguredSensors.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size));
-        for (const auto& sensor : ConfiguredSensors)
+        for (const auto& node : ConfiguredSensors)
         {
-            sensor.to_stream(os);
+            node.to_stream(os);
         }
 
         size = Transducers.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size));
-        for (const auto& sensor : Transducers)
+        for (const auto& node : Transducers)
         {
-            sensor.to_stream(os);
+            node.to_stream(os);
+        }
+
+        size = Transceivers.size();
+        os.write(reinterpret_cast<const char*>(&size), sizeof(size));
+        for (const auto& node : Transceivers)
+        {
+            node.to_stream(os);
         }
 
         ActivePingMode.to_stream(os);

@@ -32,6 +32,10 @@ headers = [
   'simrad/datagrams/xml_datagrams/xml_configuration_sensor.hpp',
   'simrad/datagrams/xml_datagrams/xml_configuration_transducer.hpp',
   'simrad/datagrams/xml_datagrams/xml_configuration_activepingmode.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_frequencypar.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp',
+  'simrad/datagrams/xml_datagrams/xml_configuration_transceiver.hpp',
   'simrad/datagrams/xml_datagrams/xml_configuration.hpp',
 ]
 

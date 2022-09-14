@@ -8,6 +8,7 @@
 #include <tuple>
 #include <vector>
 
+#include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
 #include "../../../docstrings.hpp"
 #include <themachinethatgoesping/tools/pybind11_helpers/enumhelpers.hpp>
 
@@ -23,20 +24,33 @@ namespace py_datagrams {
 namespace py_datagrams_xml {
 
 // -- submodule declarations --
-void init_c_xml_datagram(pybind11::module& m);         // c_ek60_datagram.cpp
-void init_c_xml_parameter_channel(pybind11::module& m); // c_xml_parameter_channel.cpp
-void init_c_xml_initialparameter(pybind11::module& m); // c_xml_initialparameter.cpp
-void init_c_xml_pingsequence(pybind11::module& m); // c_xml_pingsequence.cpp
-void init_c_xml_environment(pybind11::module& m); // c_xml_environment.cpp
+void init_c_xml_datagram(pybind11::module& m);               // c_ek60_datagram.cpp
+void init_c_xml_parameter_channel(pybind11::module& m);      // c_xml_parameter_channel.cpp
+void init_c_xml_initialparameter(pybind11::module& m);       // c_xml_initialparameter.cpp
+void init_c_xml_pingsequence(pybind11::module& m);           // c_xml_pingsequence.cpp
+void init_c_xml_environment(pybind11::module& m);            // c_xml_environment.cpp
 void init_c_xml_environment_transducer(pybind11::module& m); // c_xml_environment_transducer.cpp
-void init_c_xml_sensor(pybind11::module& m); // c_xml_sensor.cpp
-void init_c_xml_sensor_transducer(pybind11::module& m); // c_xml_sensor_transducer.cpp
-void init_c_xml_configuration_sensor_telegramvalue(pybind11::module& m); // c_xml_configuration_sensor_telegramvalue.cpp
-void init_c_xml_configuration_sensor_telegram(pybind11::module& m); // c_xml_configuration_sensor_telegram.cpp
-void init_c_xml_configuration_sensor(pybind11::module& m); // c_xml_configuration_sensor.cpp
-void init_c_xml_configuration(pybind11::module& m); // c_xml_configuration.cpp
+void init_c_xml_sensor(pybind11::module& m);                 // c_xml_sensor.cpp
+void init_c_xml_sensor_transducer(pybind11::module& m);      // c_xml_sensor_transducer.cpp
+void init_c_xml_configuration_sensor_telegramvalue(
+    pybind11::module& m); // c_xml_configuration_sensor_telegramvalue.cpp
+void init_c_xml_configuration_sensor_telegram(
+    pybind11::module& m); // c_xml_configuration_sensor_telegram.cpp
+void init_c_xml_configuration_sensor(pybind11::module& m);     // c_xml_configuration_sensor.cpp
+void init_c_xml_configuration(pybind11::module& m);            // c_xml_configuration.cpp
 void init_c_xml_configuration_transducer(pybind11::module& m); // c_xml_configuration_transducer.cpp
-void init_c_xml_configuration_activepingmode(pybind11::module& m); // c_xml_configuration_activepingmode.cpp
+void init_c_xml_configuration_activepingmode(
+    pybind11::module& m); // c_xml_configuration_activepingmode.cpp
+void init_c_xml_configuration_transceiver(
+    pybind11::module& m); // c_xml_configuration_transceiver.cpp
+void init_c_xml_configuration_transceiver_channel(
+    pybind11::module& m); // c_xml_configuration_transceiver_channel.cpp
+void init_c_xml_configuration_transceiver_channel_transducer(
+    pybind11::module& m); // c_xml_configuration_transceiver_channel_transducer.cpp
+void init_c_xml_configuration_transceiver_channel_frequencypar(
+    pybind11::module& m); // c_xml_configuration_transceiver_channel_frequencypar.cpp
+
+using simrad::datagrams::xml_datagrams::t_BeamType;
 
 // -- create submodule --
 void init_m_simrad_datagrams_xml(pybind11::module& m)
@@ -44,6 +58,36 @@ void init_m_simrad_datagrams_xml(pybind11::module& m)
     // module description
     auto subm =
         m.def_submodule("XML0_datagrams", "Simrad EK80 XML datagram classes (subtypes of XML0)");
+
+#define DOC_ENUM_BEAMTYPE(ENUM_VALUE)                                                              \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simrad,                                                                                    \
+        datagrams,                                                                                 \
+        xml_datagrams,                                                                             \
+        t_BeamType,                                                                                \
+        ENUM_VALUE)
+
+    auto pyenum_BeamType =
+        pybind11::enum_<t_BeamType>(
+            subm,
+            "t_BeamType",
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, xml_datagrams, t_BeamType))
+            .value("BeamTypeSingle", t_BeamType::BeamTypeSingle, DOC_ENUM_BEAMTYPE(BeamTypeSingle))
+            .value("BeamTypeSplit", t_BeamType::BeamTypeSplit, DOC_ENUM_BEAMTYPE(BeamTypeSplit))
+            .value("BeamTypeRef", t_BeamType::BeamTypeRef, DOC_ENUM_BEAMTYPE(BeamTypeRef))
+            .value("BeamTypeRefB", t_BeamType::BeamTypeRefB, DOC_ENUM_BEAMTYPE(BeamTypeRefB))
+            .value("BeamTypeSplit3", t_BeamType::BeamTypeSplit3, DOC_ENUM_BEAMTYPE(BeamTypeSplit3))
+            .value("BeamTypeSplit2", t_BeamType::BeamTypeSplit2, DOC_ENUM_BEAMTYPE(BeamTypeSplit2))
+            .value("BeamTypeSplit3C", t_BeamType::BeamTypeSplit3C, DOC_ENUM_BEAMTYPE(BeamTypeSplit3C))
+            .value("BeamTypeSplit3CN", t_BeamType::BeamTypeSplit3CN, DOC_ENUM_BEAMTYPE(BeamTypeSplit3CN))
+            .value("BeamTypeSplit3CW", t_BeamType::BeamTypeSplit3CW, DOC_ENUM_BEAMTYPE(BeamTypeSplit3CW))
+            .export_values()
+        // pybind enum helpers
+        //
+        ;
+
+    tools::pybind_helpers::add_string_to_enum_conversion<t_BeamType>(pyenum_BeamType);
 
     // simrad classes
     init_c_xml_datagram(subm);
@@ -60,6 +104,10 @@ void init_m_simrad_datagrams_xml(pybind11::module& m)
     init_c_xml_configuration_sensor(subm);
     init_c_xml_configuration_transducer(subm);
     init_c_xml_configuration_activepingmode(subm);
+    init_c_xml_configuration_transceiver_channel_frequencypar(subm);
+    init_c_xml_configuration_transceiver_channel_transducer(subm);
+    init_c_xml_configuration_transceiver_channel(subm);
+    init_c_xml_configuration_transceiver(subm);
 
     init_c_xml_configuration(subm);
 }

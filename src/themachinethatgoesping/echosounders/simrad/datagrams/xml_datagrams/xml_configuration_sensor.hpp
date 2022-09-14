@@ -205,7 +205,7 @@ struct XML_Configuration_Sensor
         tools::classhelpers::stream::container_to_stream(os, Name);
         tools::classhelpers::stream::container_to_stream(os, TalkerID);
 
-        size_t size;
+        size_t size = Telegrams.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size));
         for (const auto& value : Telegrams)
         {

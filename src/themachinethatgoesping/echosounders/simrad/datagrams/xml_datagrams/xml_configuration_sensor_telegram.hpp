@@ -152,7 +152,7 @@ struct XML_Configuration_Sensor_Telegram
         tools::classhelpers::stream::container_to_stream(os, SensorType);
         tools::classhelpers::stream::container_to_stream(os, Name);
 
-        size_t size;
+        size_t size = Values.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size));
         for (const auto& value : Values)
         {
