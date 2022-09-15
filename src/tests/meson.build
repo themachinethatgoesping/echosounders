@@ -11,6 +11,7 @@ sources = [
     'simrad/datagrams/ek60_datagram.test.cpp',
     'simrad/datagrams/ek60_unknown.test.cpp',
     'simrad/datagrams/ek80_MRU0.test.cpp',
+    'simrad/datagrams/ek80_TAG0.test.cpp',
     'simrad/datagrams/ek80_XML0.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_node.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_environment.test.cpp',

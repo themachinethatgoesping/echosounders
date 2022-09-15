@@ -104,11 +104,12 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
                 case t_EK60_DatagramType::XML0:
                     return py::cast(self.template get_iterator<datagrams::EK80_XML0>(
                         type, index_min, index_max, index_step));
+                case t_EK60_DatagramType::TAG0:
+                    return py::cast(self.template get_iterator<datagrams::EK80_TAG0>(
+                        type, index_min, index_max, index_step));
                 case t_EK60_DatagramType::FIL1:
                     [[fallthrough]];
                 case t_EK60_DatagramType::RAW3:
-                    [[fallthrough]];
-                case t_EK60_DatagramType::TAG0:
                     [[fallthrough]];
                 default:
                     return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
@@ -138,6 +139,31 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
            long                         index_max,
            long                         index_step) {
             return py::cast(self.template get_iterator<datagrams::EK60_Datagram>(
+                type, index_min, index_max, index_step));
+        },
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_3),
+        py::arg("datagram_type"),
+        py::arg("index_min")  = 0,
+        py::arg("index_max")  = std::numeric_limits<long>::max(),
+        py::arg("index_step") = 1);
+    cls.def(
+        "raw",
+        [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
+            return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
+                index_min, index_max, index_step));
+        },
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
+        py::arg("index_min")  = 0,
+        py::arg("index_max")  = std::numeric_limits<long>::max(),
+        py::arg("index_step") = 1);
+    cls.def(
+        "raw",
+        [](const FileRaw<T_FileStream>& self,
+           t_EK60_DatagramType          type,
+           long                         index_min,
+           long                         index_max,
+           long                         index_step) {
+            return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
                 type, index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_3),
@@ -305,11 +331,12 @@ void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType t
         case t_EK60_DatagramType::XML0:
             test_speed_content<datagrams::EK80_XML0>(ifi, type);
             break;
+        case t_EK60_DatagramType::TAG0:
+            test_speed_content<datagrams::EK80_TAG0>(ifi, type);
+            break;
         case t_EK60_DatagramType::FIL1:
             [[fallthrough]];
         case t_EK60_DatagramType::RAW3:
-            [[fallthrough]];
-        case t_EK60_DatagramType::TAG0:
             [[fallthrough]];
         default:
             test_speed_content<datagrams::EK60_Unknown>(ifi, type);
@@ -353,6 +380,7 @@ void init_c_fileraw(pybind11::module& m)
     create_IteratorTypes<datagrams::EK60_Unknown, t_EK60_DatagramType>(m,
                                                                        "FileRawIterator_Unknown");
     create_IteratorTypes<datagrams::EK80_MRU0, t_EK60_DatagramType>(m, "FileRawIterator_MRU0");
+    create_IteratorTypes<datagrams::EK80_TAG0, t_EK60_DatagramType>(m, "FileRawIterator_TAG0");
     create_IteratorTypes<datagrams::EK80_XML0, t_EK60_DatagramType>(m, "FileRawIterator_XML0");
     create_IteratorTypes<datagrams::EK60_NME0, t_EK60_DatagramType>(m, "FileRawIterator_NME0");
     create_IteratorTypes<datagrams::t_EK60_DatagramVariant,

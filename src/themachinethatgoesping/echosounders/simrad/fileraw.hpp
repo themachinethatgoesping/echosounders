@@ -69,9 +69,9 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
                 return "NMEA text datagram";
             case t_EK60_DatagramType::XML0:
                 return "XML0 text datagram";
-            case t_EK60_DatagramType::FIL1:
-                [[fallthrough]];
             case t_EK60_DatagramType::TAG0:
+                return "Annotation datagram";
+            case t_EK60_DatagramType::FIL1:
                 [[fallthrough]];
             case t_EK60_DatagramType::RAW3:
                 return "not implemented";

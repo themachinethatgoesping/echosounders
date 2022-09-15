@@ -53,6 +53,9 @@ void init_m_simrad(pybind11::module& m)
         .value("MRU0",
                t_EK60_DatagramType::MRU0,
                DOC(themachinethatgoesping, echosounders, simrad, t_EK60_DatagramType, MRU0))
+        .value("TAG0",
+               t_EK60_DatagramType::TAG0,
+               DOC(themachinethatgoesping, echosounders, simrad, t_EK60_DatagramType, TAG0))
         .value("RAW3",
                t_EK60_DatagramType::RAW3,
                DOC(themachinethatgoesping, echosounders, simrad, t_EK60_DatagramType, RAW3))
@@ -70,10 +73,12 @@ void init_m_simrad(pybind11::module& m)
                      return t_EK60_DatagramType::NME0;
                  if (str == "MRU0")
                      return t_EK60_DatagramType::MRU0;
+                 if (str == "TAG0")
+                     return t_EK60_DatagramType::TAG0;
                  if (str == "RAW3")
                      return t_EK60_DatagramType::RAW3;
 
-                 std::string enum_info = "[XML0, FIL1, NME0, MRU0, RAW3]";
+                 std::string enum_info = "[XML0, FIL1, NME0, MRU0, TAG0, RAW3]";
 
                  pybind11::print(
                      fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));

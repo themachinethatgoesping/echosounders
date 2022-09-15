@@ -9,6 +9,7 @@
 #include "datagrams/ek60_datagram.hpp"
 #include "datagrams/ek60_unknown.hpp"
 #include "datagrams/ek80_MRU0.hpp"
+#include "datagrams/ek80_TAG0.hpp"
 #include "datagrams/ek80_XML0.hpp"
 #include "datagrams/ek60_NME0.hpp"
 #include "ek60_types.hpp"
@@ -30,7 +31,7 @@ namespace simrad {
 
 namespace datagrams {
 
-using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK80_XML0, EK60_NME0, EK60_Unknown>;
+using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK80_XML0, EK60_NME0, EK80_TAG0, EK60_Unknown>;
 
 struct EK60_DatagramVariant
 {
@@ -53,11 +54,11 @@ struct EK60_DatagramVariant
                 return t_EK60_DatagramVariant(EK60_NME0::from_stream(is));
             case t_EK60_DatagramType::XML0:
                 return t_EK60_DatagramVariant(EK80_XML0::from_stream(is));
+            case t_EK60_DatagramType::TAG0:
+                return t_EK60_DatagramVariant(EK80_TAG0::from_stream(is));
             case t_EK60_DatagramType::FIL1:
                 [[fallthrough]];
             case t_EK60_DatagramType::RAW3:
-                [[fallthrough]];
-            case t_EK60_DatagramType::TAG0:
                 [[fallthrough]];
             default:
                 return t_EK60_DatagramVariant(EK60_Unknown::from_stream(is, datagram_type));

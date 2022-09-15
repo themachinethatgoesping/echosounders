@@ -34,10 +34,10 @@ namespace datagrams {
 struct EK80_MRU0 : public EK60_Datagram
 {
     // ----- datagram content -----
-    ek60_float _Heave;   ///< Heave in m, positive up
-    ek60_float _Roll;    ///< Roll in degrees, positive port up
-    ek60_float _Pitch;   ///< Pitch in degrees, positive nose up
-    ek60_float _Heading; ///< Heading in degrees, 0° north, 90° east
+    ek60_float _Heave   = NAN; ///< Heave in m, positive up
+    ek60_float _Roll    = NAN; ///< Roll in degrees, positive port up
+    ek60_float _Pitch   = NAN; ///< Pitch in degrees, positive nose up
+    ek60_float _Heading = NAN; ///< Heading in degrees, 0° north, 90° east
 
   private:
     // ----- public constructors -----
@@ -49,9 +49,9 @@ struct EK80_MRU0 : public EK60_Datagram
   public:
     // ----- constructors -----
     EK80_MRU0()
+        : EK60_Datagram(12 + 4 * sizeof(ek60_float),
+                        ek60_long(t_EK60_DatagramType::MRU0))
     {
-        _Length       = 12 + 4 * sizeof(ek60_float);
-        _DatagramType = ek60_long(t_EK60_DatagramType::MRU0);
     }
     ~EK80_MRU0() = default;
 

@@ -52,11 +52,21 @@ struct EK60_Datagram
         // if the lengths do not match the packages was not read correctly
         if (!is || length != _Length)
         {
-            throw std::runtime_error("ERROR[EK80_MRU0]: length mismatch");
+            throw std::runtime_error("ERROR[EK60_Datagram]: length mismatch");
         }
     }
 
   public:
+    EK60_Datagram(ek60_long length,
+                  ek60_long datagram_type,
+                  ek60_long low_data_time  = 0,
+                  ek60_long high_date_time = 0)
+        : _Length(length)
+        , _DatagramType(datagram_type)
+        , _LowDateTime(low_data_time)
+        , _HighDateTime(high_date_time)
+    {
+    }
     EK60_Datagram()          = default;
     virtual ~EK60_Datagram() = default;
 

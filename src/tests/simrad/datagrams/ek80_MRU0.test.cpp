@@ -33,6 +33,9 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
     // test inequality
     REQUIRE(dat != dat2);
 
+    // test empty equality (check e.g. nan compare problems)
+    REQUIRE(EK80_MRU0() == EK80_MRU0());
+
     // test copy
     REQUIRE(dat == EK80_MRU0(dat));
 
