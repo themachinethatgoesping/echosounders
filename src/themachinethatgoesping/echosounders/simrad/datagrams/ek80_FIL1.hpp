@@ -11,6 +11,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/algorithm/string.hpp>
+
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
@@ -37,8 +39,7 @@ struct EK80_FIL1 : public EK60_Datagram
     ek60_char   _Spare_2 = '\x00';     ///< For future expansions
     std::string _ChannelID;            ///< Channel identification (size is always 128)
     ek60_short  _NoOfCoefficients = 0; ///< Number of complex filter coefficients
-    ek60_float  _DecimationFactor =
-        std::numeric_limits<float>::quiet_NaN(); ///< Filter decimation factor
+    ek60_short  _DecimationFactor = -1; ///< Filter decimation factor
 
     std::vector<ek60_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
                                            ///< size = _NoOfCoefficients * 2
@@ -53,7 +54,7 @@ struct EK80_FIL1 : public EK60_Datagram
   public:
     // ----- constructors -----
     EK80_FIL1()
-        : EK60_Datagram(12 + 138, ek60_long(t_EK60_DatagramType::FIL1))
+        : EK60_Datagram(148, ek60_long(t_EK60_DatagramType::FIL1))
     {
     }
     ~EK80_FIL1() = default;
@@ -111,9 +112,9 @@ struct EK80_FIL1 : public EK60_Datagram
         is.read(reinterpret_cast<char*>(&datagram._DecimationFactor), sizeof(datagram._DecimationFactor));
         
         int size = datagram._NoOfCoefficients * 2 * sizeof(ek60_float);
-        if (size + 150 != datagram._Length)
+        if (size + 148 != datagram._Length)
             throw std::runtime_error(
-                "EK80_FIL1: size mismatch (NoOfCoefficients vs datagram Length)");
+                fmt::format("EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",datagram._NoOfCoefficients,size, datagram._Length));
             
         datagram._Coefficients.resize(datagram._NoOfCoefficients * 2);
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()), size);
@@ -141,7 +142,7 @@ struct EK80_FIL1 : public EK60_Datagram
     {
         _NoOfCoefficients = _Coefficients.size() / 2;
 
-        _Length       = _Coefficients.size() * sizeof(ek60_float) + 150;
+        _Length       = _Coefficients.size() * sizeof(ek60_float) + 148;
         _DatagramType = ek60_long(t_EK60_DatagramType::FIL1);
         _ChannelID.resize(128,'\x00');
 
@@ -160,17 +161,25 @@ struct EK80_FIL1 : public EK60_Datagram
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Filter binary datagram", float_precision);
+        tools::classhelpers::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision);
 
         printer.append(EK60_Datagram::__printer__(float_precision));
 
+        std::string channel_id = _ChannelID;
+        //remove all non ascii characters
+        channel_id.erase(std::remove_if(channel_id.begin(), channel_id.end(), [](char c) { return !std::isprint(c); }), channel_id.end());
+        //remove all white spaces
+        channel_id.erase(std::remove_if(channel_id.begin(), channel_id.end(), [](char c) { return std::isspace(c); }), channel_id.end());
+
         printer.register_section("Filter datagram content");
         printer.register_value("Stage", _Stage);
-        printer.register_value("Spare_1", _Spare_1, "future use");
-        printer.register_value("Spare_2", _Spare_2, "future use");
-        printer.register_string("ChannelID", _ChannelID);
+        printer.register_value("Spare_1", _Spare_1);
+        printer.register_value("Spare_2", _Spare_2);
+        printer.register_string("ChannelID", channel_id);
         printer.register_value("NoOfCoefficients", _NoOfCoefficients);
         printer.register_value("DecimationFactor", _DecimationFactor);
+
+        printer.register_section("Filter coefficients");
         printer.register_container("Coefficients", _Coefficients);
 
         return printer;

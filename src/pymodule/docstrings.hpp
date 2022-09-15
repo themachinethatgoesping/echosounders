@@ -309,7 +309,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 R"doc(< Filter coefficients (real, imag, real, imag, ...) < size =
 _NoOfCoefficients * 2)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_DecimationFactor = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_DecimationFactor = R"doc(< Filter decimation factor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_EK80_FIL1 = R"doc()doc";
 
@@ -417,40 +417,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0 =
-R"doc(Motion binary datagram (TAG0) This datagram contains heave, roll,
-pitch and heading as float values. Conveniently, these values can be
-used directly in themachinethatgoesping navigation processing because
-they are defined in the default coordinate system / value range.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_EK80_TAG0 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_EK80_TAG0_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_EK80_TAG0_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_Text = R"doc(< _Text annotation string (e.g. interesting fish shoal in echogram))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_get_text = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_set_text = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_TAG0_to_stream = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0 =
 R"doc(Motion binary datagram (XML0) This datagram contains heave, roll,
 pitch and heading as float values. Conveniently, these values can be
@@ -492,6 +458,40 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_xml_content = R"doc(< raw xml string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0 =
+R"doc(Motion binary datagram (TAG0) This datagram contains heave, roll,
+pitch and heading as float values. Conveniently, these values can be
+used directly in themachinethatgoesping navigation processing because
+they are defined in the default coordinate system / value range.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_Text = R"doc(< _Text annotation string (e.g. interesting fish shoal in echogram))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_ek60_TAG0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_ek60_TAG0_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_ek60_TAG0_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_get_text = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_set_text = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_ek60_TAG0_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration = R"doc(XML base datagram)doc";
 

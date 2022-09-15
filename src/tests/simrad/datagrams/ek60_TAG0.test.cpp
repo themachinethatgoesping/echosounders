@@ -6,19 +6,19 @@
 
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_TAG0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek60_TAG0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_TAG0;
+using themachinethatgoesping::echosounders::simrad::datagrams::ek60_TAG0;
 
 #define TESTTAG "[simrad]"
 
-TEST_CASE("EK80_TAG0 should support common functions", TESTTAG)
+TEST_CASE("ek60_TAG0 should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_TAG0 dat("Hello");
+    ek60_TAG0 dat("Hello");
 
     // set some variables
     dat.set_timestamp(123);
@@ -30,20 +30,20 @@ TEST_CASE("EK80_TAG0 should support common functions", TESTTAG)
     REQUIRE(dat != dat2);
 
     // test empty equality (check e.g. nan compare problems)
-    REQUIRE(EK80_TAG0() == EK80_TAG0());
+    REQUIRE(ek60_TAG0() == ek60_TAG0());
 
     // test copy
-    REQUIRE(dat == EK80_TAG0(dat));
-    REQUIRE(dat2 == EK80_TAG0(dat2));
+    REQUIRE(dat == ek60_TAG0(dat));
+    REQUIRE(dat2 == ek60_TAG0(dat2));
 
     // test binary
-    REQUIRE(dat == EK80_TAG0::from_binary(dat.to_binary()));
-    REQUIRE(dat2 == EK80_TAG0::from_binary(dat2.to_binary()));
+    REQUIRE(dat == ek60_TAG0::from_binary(dat.to_binary()));
+    REQUIRE(dat2 == ek60_TAG0::from_binary(dat2.to_binary()));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == EK80_TAG0::from_stream(buffer));
+    REQUIRE(dat == ek60_TAG0::from_stream(buffer));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);

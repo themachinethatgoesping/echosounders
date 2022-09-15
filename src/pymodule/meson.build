@@ -13,7 +13,7 @@ sources = [
     'simrad/datagrams/c_ek60_datagram.cpp',
     'simrad/datagrams/c_ek60_unknown.cpp',
     'simrad/datagrams/c_ek80_MRU0.cpp',
-    'simrad/datagrams/c_ek80_TAG0.cpp',
+    'simrad/datagrams/c_ek60_TAG0.cpp',
     'simrad/datagrams/c_ek60_NME0.cpp',
     'simrad/datagrams/c_ek80_XML0.cpp',
     'simrad/datagrams/c_ek80_FIL1.cpp',

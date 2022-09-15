@@ -8,7 +8,7 @@
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/ek80_TAG0.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/ek60_TAG0.hpp"
 #include "../../docstrings.hpp"
 #include "module.hpp"
 
@@ -21,41 +21,41 @@ namespace py_datagrams {
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::EK60_Datagram;
-using datagrams::EK80_TAG0;
+using datagrams::ek60_TAG0;
 
-void init_c_ek80_TAG0(pybind11::module& m)
+void init_c_ek60_TAG0(pybind11::module& m)
 {
-    py::class_<EK80_TAG0, datagrams::EK60_Datagram>(
-        m, "EK80_TAG0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_TAG0))
+    py::class_<ek60_TAG0, datagrams::EK60_Datagram>(
+        m, "ek60_TAG0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, ek60_TAG0))
         .def(py::init<>(),
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_TAG0, EK80_TAG0))
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, ek60_TAG0, ek60_TAG0))
         // --- convenient data access ---
         .def_property(
             "text",
-            &EK80_TAG0::get_text,
-            &EK80_TAG0::set_text,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_TAG0, Text))
+            &ek60_TAG0::get_text,
+            &ek60_TAG0::set_text,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, ek60_TAG0, Text))
         
 
         // --- raw data access ---
         .def_readwrite(
             "_raw_Text",
-            &EK80_TAG0::_Text,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_TAG0, Text))
+            &ek60_TAG0::_Text,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, ek60_TAG0, Text))
        
 
         // ----- operators -----
         .def("__eq__",
-             &EK80_TAG0::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_TAG0, operator_eq),
+             &ek60_TAG0::operator==,
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, ek60_TAG0, operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(EK80_TAG0)
+        __PYCLASS_DEFAULT_COPY__(ek60_TAG0)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(EK80_TAG0)
+        __PYCLASS_DEFAULT_BINARY__(ek60_TAG0)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(EK80_TAG0)
+        __PYCLASS_DEFAULT_PRINTING__(ek60_TAG0)
         // end LinearInterpolator
         ;
 }

@@ -72,7 +72,7 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
             case t_EK60_DatagramType::TAG0:
                 return "Annotation datagram";
             case t_EK60_DatagramType::FIL1:
-                [[fallthrough]];
+                return "Filter binary datagram";
             case t_EK60_DatagramType::RAW3:
                 return "not implemented";
             default:

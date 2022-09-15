@@ -65,6 +65,6 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::FIL1);
-    REQUIRE(dat.get_length() == ek60_long(12 + 138 +  dat._NoOfCoefficients*2*sizeof(ek60_float)));
+    REQUIRE(dat.get_length() == ek60_long(12 + 136 +  dat._NoOfCoefficients*2*sizeof(ek60_float)));
 
 }
