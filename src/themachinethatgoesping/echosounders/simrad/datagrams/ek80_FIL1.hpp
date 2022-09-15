@@ -67,7 +67,7 @@ struct EK80_FIL1 : public EK60_Datagram
         return EK60_Datagram::operator==(other) && _Stage == other._Stage &&
                _Spare_1 == other._Spare_1 && _Spare_2 == other._Spare_2 &&
                _ChannelID == other._ChannelID && _NoOfCoefficients == other._NoOfCoefficients &&
-               approx(_DecimationFactor, other._DecimationFactor) &&
+               _DecimationFactor, other._DecimationFactor &&
                approx_container(_Coefficients, other._Coefficients);
     }
     bool operator!=(const EK80_FIL1& other) const { return !operator==(other); }
