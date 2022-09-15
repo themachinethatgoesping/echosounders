@@ -6,7 +6,9 @@
 
 #pragma once
 
+#include <complex>
 #include <themachinethatgoesping/tools/helper.hpp>
+
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
  * see also http://www.simrad.net/ek60_ref_english/default.htm
@@ -20,14 +22,15 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-using ek60_char     = char;
-using ek60_WORD     = uint16_t;
-using ek60_short    = int16_t;
-using ek60_Int      = int32_t;
-using ek60_long     = int32_t; // no error, long is specified as 32bit int in manual
-using ek60_float    = float;   // this must be 32bit!
-using ek60_double   = double;  // this must be 64bit!
-using ek60_DWORDLON = int64_t;
+using ek60_char          = char;
+using ek60_WORD          = uint16_t;
+using ek60_short         = int16_t;
+using ek60_Int           = int32_t;
+using ek60_long          = int32_t; // no error, long is specified as 32bit int in manual
+using ek60_float         = float;   // this must be 32bit!
+using ek60_complex_float = std::complex<ek60_float>; // complex real,imaginary (used in FIL1)
+using ek60_double       = double; // this must be 64bit!
+using ek60_DWORDLON      = int64_t;
 
 enum class t_EK60_DatagramType : ek60_long
 {
@@ -49,8 +52,6 @@ inline ek60_long ek60_datagram_type_from_string(std::string_view value)
     return tools::helper::string_as_int<ek60_long>(value);
 }
 
-
 } // namespace simrad
 } // namespace echosounders
 } // namespace themachinethatgoesping
-

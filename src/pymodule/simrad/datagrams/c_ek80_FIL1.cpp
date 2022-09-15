@@ -5,6 +5,7 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
+#include <pybind11/complex.h>
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 

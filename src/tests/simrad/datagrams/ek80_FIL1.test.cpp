@@ -23,8 +23,8 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
     // set some variables
     dat.set_timestamp(123);
     dat._Stage = 10;
-    dat._DecimationFactor = 1;
-    dat._ChannelID = "channel";
+    dat._DecimationFactor = 3;
+    dat._ChannelID = "channel1";
     dat._Coefficients = {1, 2, 3, 4};
 
     auto dat2 = dat;
@@ -32,6 +32,7 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
 
     // test inequality
     REQUIRE(dat != dat2);
+    REQUIRE(dat != EK80_FIL1());
 
     // test empty equality (check e.g. nan compare problems)
     REQUIRE(EK80_FIL1() == EK80_FIL1());
@@ -55,10 +56,10 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
     // --- test data access ---
     REQUIRE(dat.get_stage() == 10);
     REQUIRE(dat.get_channel_id().substr(0,7) == "channel");
-    REQUIRE(dat.get_decimation_factor() == 1);
-    REQUIRE(dat.get_no_of_coefficients() == 2);
+    REQUIRE(dat.get_decimation_factor() == 3);
+    REQUIRE(dat.get_no_of_coefficients() == 4);
     REQUIRE(dat.get_coefficients().size() == 4);
-    REQUIRE(dat.get_coefficients() == vector<float>{1, 2, 3, 4});
+    REQUIRE(dat.get_coefficients() == vector<std::complex<float>>{1, 2, 3, 4});
 
 
     //--- datagram concept ---

@@ -41,7 +41,7 @@ struct EK80_FIL1 : public EK60_Datagram
     ek60_short  _NoOfCoefficients = 0; ///< Number of complex filter coefficients
     ek60_short  _DecimationFactor = -1; ///< Filter decimation factor
 
-    std::vector<ek60_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
+    std::vector<ek60_complex_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
                                            ///< size = _NoOfCoefficients * 2
 
   private:
@@ -67,8 +67,7 @@ struct EK80_FIL1 : public EK60_Datagram
         return EK60_Datagram::operator==(other) && _Stage == other._Stage &&
                _Spare_1 == other._Spare_1 && _Spare_2 == other._Spare_2 &&
                _ChannelID == other._ChannelID && _NoOfCoefficients == other._NoOfCoefficients &&
-               _DecimationFactor, other._DecimationFactor &&
-               approx_container(_Coefficients, other._Coefficients);
+               _DecimationFactor == other._DecimationFactor && approx_container_complex(_Coefficients, other._Coefficients);
     }
     bool operator!=(const EK80_FIL1& other) const { return !operator==(other); }
 
@@ -79,7 +78,7 @@ struct EK80_FIL1 : public EK60_Datagram
     std::string             get_channel_id() const { return _ChannelID; }
     ek60_short              get_no_of_coefficients() const { return _NoOfCoefficients; }
     ek60_short              get_decimation_factor() const { return _DecimationFactor; }
-    std::vector<ek60_float> get_coefficients() const { return _Coefficients; }
+    std::vector<ek60_complex_float> get_coefficients() const { return _Coefficients; }
 
     void set_stage(ek60_short stage) { _Stage = stage; }
     void set_spare_1(ek60_char spare_1) { _Spare_1 = spare_1; }
@@ -93,7 +92,7 @@ struct EK80_FIL1 : public EK60_Datagram
     {
         _DecimationFactor = decimation_factor;
     }
-    void set_coefficients(std::vector<ek60_float> coefficients)
+    void set_coefficients(std::vector<ek60_complex_float> coefficients)
     {
         _Coefficients = std::move(coefficients);
     }
@@ -111,13 +110,24 @@ struct EK80_FIL1 : public EK60_Datagram
         is.read(reinterpret_cast<char*>(&datagram._NoOfCoefficients), sizeof(datagram._NoOfCoefficients));
         is.read(reinterpret_cast<char*>(&datagram._DecimationFactor), sizeof(datagram._DecimationFactor));
         
-        int size = datagram._NoOfCoefficients * 2 * sizeof(ek60_float);
+        int size = datagram._NoOfCoefficients * sizeof(ek60_complex_float);
         if (size + 148 != datagram._Length)
             throw std::runtime_error(
                 fmt::format("EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",datagram._NoOfCoefficients,size, datagram._Length));
             
-        datagram._Coefficients.resize(datagram._NoOfCoefficients * 2);
+        auto pos = is.tellg();
+        datagram._Coefficients.resize(datagram._NoOfCoefficients);
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()), size);
+
+        is.seekg(pos);
+        float real, imag;
+        for (int i = 0; i < datagram._NoOfCoefficients; i++) {
+            is.read(reinterpret_cast<char*>(&real), sizeof(real));
+            is.read(reinterpret_cast<char*>(&imag), sizeof(imag));
+            if (datagram._Coefficients[i] != ek60_complex_float(real, imag))
+                throw std::runtime_error(
+                    fmt::format("EK80_FIL1: coefficients mismatch ({} vs {})", datagram._Coefficients[i], ek60_complex_float(real, imag)));
+        }
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -140,9 +150,9 @@ struct EK80_FIL1 : public EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        _NoOfCoefficients = _Coefficients.size() / 2;
+        _NoOfCoefficients = _Coefficients.size();
 
-        _Length       = _Coefficients.size() * sizeof(ek60_float) + 148;
+        _Length       = _Coefficients.size() * sizeof(ek60_complex_float) + 148;
         _DatagramType = ek60_long(t_EK60_DatagramType::FIL1);
         _ChannelID.resize(128,'\x00');
 
@@ -154,7 +164,7 @@ struct EK80_FIL1 : public EK60_Datagram
         os.write(_ChannelID.data(), _ChannelID.size());
         os.write(reinterpret_cast<char*>(&_NoOfCoefficients), sizeof(_NoOfCoefficients));
         os.write(reinterpret_cast<char*>(&_DecimationFactor), sizeof(_DecimationFactor));
-        os.write(reinterpret_cast<char*>(_Coefficients.data()), _Coefficients.size() * sizeof(ek60_float));
+        os.write(reinterpret_cast<char*>(_Coefficients.data()), _Coefficients.size() * sizeof(ek60_complex_float));
         os.write(reinterpret_cast<char*>(&_Length), sizeof(_Length));
     }
 
