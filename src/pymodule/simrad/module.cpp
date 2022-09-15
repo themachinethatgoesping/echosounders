@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <pybind11/stl.h>
+#define FORCE_IMPORT_ARRAY
+#include <xtensor-python/pyarray.hpp> // Numpy bindings
 
 #include <sstream>
 #include <tuple>
@@ -32,6 +34,7 @@ void init_c_fileraw(pybind11::module& m); // c_fileraw.cpp
 // -- create submodule --
 void init_m_simrad(pybind11::module& m)
 {
+    xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
     using namespace simrad;
 
     // module description

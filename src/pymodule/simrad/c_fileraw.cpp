@@ -10,7 +10,6 @@
 #include <pybind11/stl.h>
 
 #include <xtensor/xmath.hpp> // xtensor import for the C++ universal functions
-#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
 
 #include <chrono>
@@ -372,7 +371,6 @@ void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType
 
 void init_c_fileraw(pybind11::module& m)
 {
-    xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
 
     // add python iterator classes
     using py_fileinterfaces::py_i_InputFileIterator::create_IteratorTypes;

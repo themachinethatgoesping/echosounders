@@ -13,6 +13,9 @@
 
 #include <boost/algorithm/string.hpp>
 
+//xtensor includes
+#include <xtensor/xarray.hpp>
+
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
@@ -41,8 +44,9 @@ struct EK80_FIL1 : public EK60_Datagram
     ek60_short  _NoOfCoefficients = 0; ///< Number of complex filter coefficients
     ek60_short  _DecimationFactor = -1; ///< Filter decimation factor
 
-    std::vector<ek60_complex_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
-                                           ///< size = _NoOfCoefficients * 2
+    xt::xarray<ek60_complex_float> _Coefficients; ///< Filter coefficients
+    // std::vector<ek60_complex_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
+    //                                        ///< size = _NoOfCoefficients * 2
 
   private:
     // ----- public constructors -----
@@ -78,7 +82,7 @@ struct EK80_FIL1 : public EK60_Datagram
     std::string             get_channel_id() const { return _ChannelID; }
     ek60_short              get_no_of_coefficients() const { return _NoOfCoefficients; }
     ek60_short              get_decimation_factor() const { return _DecimationFactor; }
-    std::vector<ek60_complex_float> get_coefficients() const { return _Coefficients; }
+    xt::xarray<ek60_complex_float> get_coefficients() const { return _Coefficients; }
 
     void set_stage(ek60_short stage) { _Stage = stage; }
     void set_spare_1(ek60_char spare_1) { _Spare_1 = spare_1; }
@@ -92,7 +96,7 @@ struct EK80_FIL1 : public EK60_Datagram
     {
         _DecimationFactor = decimation_factor;
     }
-    void set_coefficients(std::vector<ek60_complex_float> coefficients)
+    void set_coefficients(xt::xarray<ek60_complex_float> coefficients)
     {
         _Coefficients = std::move(coefficients);
     }
@@ -116,7 +120,7 @@ struct EK80_FIL1 : public EK60_Datagram
                 fmt::format("EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",datagram._NoOfCoefficients,size, datagram._Length));
             
         auto pos = is.tellg();
-        datagram._Coefficients.resize(datagram._NoOfCoefficients);
+        datagram._Coefficients.resize({size_t(datagram._NoOfCoefficients)});
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()), size);
 
         is.seekg(pos);
@@ -190,7 +194,7 @@ struct EK80_FIL1 : public EK60_Datagram
         printer.register_value("DecimationFactor", _DecimationFactor);
 
         printer.register_section("Filter coefficients");
-        printer.register_container("Coefficients", _Coefficients);
+        //printer.register_container("Coefficients", _Coefficients);
 
         return printer;
     }

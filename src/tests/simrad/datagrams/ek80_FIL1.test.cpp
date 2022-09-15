@@ -25,7 +25,7 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
     dat._Stage = 10;
     dat._DecimationFactor = 3;
     dat._ChannelID = "channel1";
-    dat._Coefficients = {1, 2, 3, 4};
+    dat._Coefficients = xt::xarray<ek60_complex_float>({1, 2, 3, 4});
 
     auto dat2 = dat;
     dat2._ChannelID = "channel2";
@@ -59,7 +59,7 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
     REQUIRE(dat.get_decimation_factor() == 3);
     REQUIRE(dat.get_no_of_coefficients() == 4);
     REQUIRE(dat.get_coefficients().size() == 4);
-    REQUIRE(dat.get_coefficients() == vector<std::complex<float>>{1, 2, 3, 4});
+    REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(dat.get_coefficients(), xt::xarray<ek60_complex_float>({1, 2, 3, 4})));
 
 
     //--- datagram concept ---
