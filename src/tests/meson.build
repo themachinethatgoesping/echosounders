@@ -17,7 +17,6 @@ sources = [
     'simrad/datagrams/xml_datagrams/xml_node.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_environment.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_parameter.test.cpp',
-    'simrad/datagrams/xml_datagrams/xml_initialparameter.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_sensor.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_pingsequence.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_configuration.test.cpp'
