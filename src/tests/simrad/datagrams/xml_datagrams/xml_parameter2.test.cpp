@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2022 Peter Urban, Ghent University
-//
+
 // SPDX-License-Identifier: MPL-2.0
 
 #include <catch2/catch.hpp>
@@ -12,61 +12,32 @@
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
-using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Parameter;
+using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_InitialParameter;
 
 #define TESTTAG "[simrad]"
 
 using Catch::Detail::Approx;
 
 std::string xml_string =
-    "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Parameter>\r\n  <Channel "
-    "ChannelID=\"WBT Mini 261197-15 ES38-7\" ChannelMode=\"0\" PulseForm=\"0\" "
-    "Frequency=\"38000\" PulseDuration=\"0.002048\" SampleInterval=\"5.2E-05\" "
-    "TransmitPower=\"1000\" Slope=\"0.5\" />\r\n</Parameter>\x00\x00\x00";
+    "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<InitialParameter>\n    <Channels>\n        "
+    "<Channel PingId=\"ES\" ChannelID=\"WBT 400040-15 ES38-7_ES\" ChannelMode=\"0\" "
+    "PulseForm=\"0\" Frequency=\"38000\" PulseDuration=\"0.000256\" SampleInterval=\"8e-06\" "
+    "TransmitPower=\"2000\" Slope=\"0.411184\" SoundVelocity=\"1484.5\" />\n        <Channel "
+    "PingId=\"ES\" ChannelID=\"WBT 400050-15 ES70-7C_ES\" ChannelMode=\"0\" PulseForm=\"0\" "
+    "Frequency=\"70000\" PulseDuration=\"0.000256\" SampleInterval=\"1.2e-05\" "
+    "TransmitPower=\"750\" Slope=\"0.111607\" SoundVelocity=\"1484.5\" />\n        <Channel "
+    "PingId=\"ES\" ChannelID=\"WBT 400051-15 ES120-7C_ES\" ChannelMode=\"0\" PulseForm=\"0\" "
+    "Frequency=\"120000\" PulseDuration=\"0.000256\" SampleInterval=\"1.2e-05\" "
+    "TransmitPower=\"250\" Slope=\"0.0651042\" SoundVelocity=\"1484.5\" />\n        <Channel "
+    "PingId=\"ES\" ChannelID=\"WBT 400052-15 ES200-7C_ES\" ChannelMode=\"0\" PulseForm=\"0\" "
+    "Frequency=\"200000\" PulseDuration=\"0.000256\" SampleInterval=\"1.2e-05\" "
+    "TransmitPower=\"150\" Slope=\"0.0390625\" SoundVelocity=\"1484.5\" />\n        <Channel "
+    "PingId=\"ES\" ChannelID=\"WBT 400058-15 ES333-7C_ES\" ChannelMode=\"0\" PulseForm=\"0\" "
+    "Frequency=\"333000\" PulseDuration=\"0.000256\" SampleInterval=\"8e-06\" TransmitPower=\"50\" "
+    "Slope=\"0.023461\" SoundVelocity=\"1484.5\" />\n    </Channels>\n</InitialParameter>\x00";
 
-TEST_CASE("XML_Parameter2 should support common functions", TESTTAG)
+TEST_CASE( "xml_parameter2", TESTTAG )
 {
-    // initialize class structure
-    EK80_XML0 dat, dat2;
-    dat.set_xml_content(xml_string);
 
-    XML_Parameter xml1         = std::get<XML_Parameter>(dat.decode());
-    XML_Parameter xml2         = xml1;
-    xml2.Channels[0].Frequency = 42000;
 
-    // test inequality
-    REQUIRE(xml1 != xml2);
-
-    // test equality for empty structure (this catches e.g. NAN/INF compare issues)
-    REQUIRE(XML_Parameter() == XML_Parameter());
-
-    // test copy
-    xml1.print(std::cerr);
-    XML_Parameter(xml1).print(std::cerr);
-    REQUIRE(xml1 == XML_Parameter(xml1));
-    REQUIRE(xml2 == XML_Parameter(xml2));
-
-    // test binary
-    REQUIRE(xml1 == XML_Parameter::from_binary(xml1.to_binary()));
-    REQUIRE(xml2 == XML_Parameter::from_binary(xml2.to_binary()));
-
-    // test stream
-    std::stringstream buffer;
-    xml1.to_stream(buffer);
-    REQUIRE(xml1 == XML_Parameter::from_stream(buffer));
-
-    // test print does not crash
-    REQUIRE(xml1.info_string().size() != 0);
-    REQUIRE(xml2.info_string().size() != 0);
-
-    // --- test data access ---
-    REQUIRE(xml1.Channels.size() == 1);
-    REQUIRE(xml1.Channels[0].ChannelID == "WBT Mini 261197-15 ES38-7");
-    REQUIRE(xml1.Channels[0].ChannelMode == 0);
-    REQUIRE(xml1.Channels[0].PulseForm == 0);
-    REQUIRE(xml1.Channels[0].Frequency == 38000);
-    REQUIRE(xml1.Channels[0].PulseDuration == Approx(0.002048));
-    REQUIRE(xml1.Channels[0].SampleInterval == Approx(5.2E-05));
-    REQUIRE(xml1.Channels[0].TransmitPower == 1000);
-    REQUIRE(xml1.Channels[0].Slope == Approx(0.5));
 }
