@@ -107,7 +107,7 @@ struct EK80_MRU0 : public EK60_Datagram
         _DatagramType = ek60_long(t_EK60_DatagramType::MRU0);
         EK60_Datagram::to_stream(os);
         os.write(reinterpret_cast<const char*>(&_Heave), 4 * sizeof(ek60_float));
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
 
     // ----- objectprinter -----

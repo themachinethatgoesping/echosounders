@@ -99,7 +99,7 @@ struct EK60_NME0 : public EK60_Datagram
         _DatagramType = ek60_long(t_EK60_DatagramType::NME0);
         EK60_Datagram::to_stream(os);
         _nmea_base.to_stream_dont_write_size(os);
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
 
     // ----- objectprinter -----

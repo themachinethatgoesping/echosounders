@@ -243,7 +243,7 @@ class EK80_XML0 : public EK60_Datagram
         _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
         EK60_Datagram::to_stream(os);
         os.write(_xml_content.data(), _xml_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
 
     // ----- objectprinter -----

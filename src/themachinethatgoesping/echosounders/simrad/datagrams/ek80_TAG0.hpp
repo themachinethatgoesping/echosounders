@@ -99,7 +99,7 @@ struct EK80_TAG0 : public EK60_Datagram
         _DatagramType = ek60_long(t_EK60_DatagramType::TAG0);
         EK60_Datagram::to_stream(os);
         os.write( _Text.data(), _Text.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
 
     // ----- objectprinter -----

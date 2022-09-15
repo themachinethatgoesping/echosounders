@@ -16,6 +16,7 @@ sources = [
     'simrad/datagrams/c_ek80_TAG0.cpp',
     'simrad/datagrams/c_ek60_NME0.cpp',
     'simrad/datagrams/c_ek80_XML0.cpp',
+    'simrad/datagrams/c_ek80_FIL1.cpp',
     'simrad/datagrams/xml_datagrams/module.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_node.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_parameter_channel.cpp',

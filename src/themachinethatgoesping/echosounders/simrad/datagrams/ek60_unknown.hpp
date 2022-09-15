@@ -80,7 +80,7 @@ struct EK60_Unknown : public EK60_Datagram
         EK60_Datagram::to_stream(os);
 
         os.write(raw_content.data(), raw_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_float));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
 
     // ----- objectprinter -----
