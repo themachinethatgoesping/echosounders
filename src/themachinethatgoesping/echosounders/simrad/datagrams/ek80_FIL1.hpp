@@ -15,6 +15,8 @@
 
 //xtensor includes
 #include <xtensor/xarray.hpp>
+#include <xtensor/xadapt.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -44,9 +46,7 @@ struct EK80_FIL1 : public EK60_Datagram
     ek60_short  _NoOfCoefficients = 0; ///< Number of complex filter coefficients
     ek60_short  _DecimationFactor = -1; ///< Filter decimation factor
 
-    xt::xarray<ek60_complex_float> _Coefficients; ///< Filter coefficients
-    // std::vector<ek60_complex_float> _Coefficients; ///< Filter coefficients (real, imag, real, imag, ...)
-    //                                        ///< size = _NoOfCoefficients * 2
+    xt::xarray<ek60_complex_float> _Coefficients; ///< Filter coefficientsg, ...)
 
   private:
     // ----- public constructors -----
@@ -82,7 +82,7 @@ struct EK80_FIL1 : public EK60_Datagram
     std::string             get_channel_id() const { return _ChannelID; }
     ek60_short              get_no_of_coefficients() const { return _NoOfCoefficients; }
     ek60_short              get_decimation_factor() const { return _DecimationFactor; }
-    xt::xarray<ek60_complex_float> get_coefficients() const { return _Coefficients; }
+    const xt::xarray<ek60_complex_float>& get_coefficients() const { return _Coefficients; }
 
     void set_stage(ek60_short stage) { _Stage = stage; }
     void set_spare_1(ek60_char spare_1) { _Spare_1 = spare_1; }
@@ -100,6 +100,8 @@ struct EK80_FIL1 : public EK60_Datagram
     {
         _Coefficients = std::move(coefficients);
     }
+
+
 
     // ----- file I/O -----
     static EK80_FIL1 from_stream(std::istream& is, EK60_Datagram header)
@@ -119,19 +121,21 @@ struct EK80_FIL1 : public EK60_Datagram
             throw std::runtime_error(
                 fmt::format("EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",datagram._NoOfCoefficients,size, datagram._Length));
             
-        auto pos = is.tellg();
+        //auto pos = is.tellg();
         datagram._Coefficients.resize({size_t(datagram._NoOfCoefficients)});
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()), size);
 
-        is.seekg(pos);
-        float real, imag;
-        for (int i = 0; i < datagram._NoOfCoefficients; i++) {
-            is.read(reinterpret_cast<char*>(&real), sizeof(real));
-            is.read(reinterpret_cast<char*>(&imag), sizeof(imag));
-            if (datagram._Coefficients[i] != ek60_complex_float(real, imag))
-                throw std::runtime_error(
-                    fmt::format("EK80_FIL1: coefficients mismatch ({} vs {})", datagram._Coefficients[i], ek60_complex_float(real, imag)));
-        }
+        // this can be enabled to check if the coefficients are correct (also activate the pos=... line above)
+        // is.seekg(pos);
+        // float real, imag;
+        // for (int i = 0; i < datagram._NoOfCoefficients; i++) {
+        //     is.read(reinterpret_cast<char*>(&real), sizeof(real));
+        //     is.read(reinterpret_cast<char*>(&imag), sizeof(imag));
+        //     if (datagram._Coefficients[i] != ek60_complex_float(real, imag))
+        //         throw std::runtime_error(
+        //             fmt::format("EK80_FIL1: coefficients mismatch ({} vs {})", datagram._Coefficients[i], ek60_complex_float(real, imag)));
+        // }
+
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);

@@ -6,6 +6,8 @@
 
 #include <filesystem>
 
+#include <xtensor/xio.hpp>
+
 #include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_FIL1.hpp"
 
 // using namespace testing;
@@ -60,6 +62,11 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
     REQUIRE(dat.get_no_of_coefficients() == 4);
     REQUIRE(dat.get_coefficients().size() == 4);
     REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(dat.get_coefficients(), xt::xarray<ek60_complex_float>({1, 2, 3, 4})));
+
+    auto xcoeff = dat.get_coefficients();
+    REQUIRE(xcoeff.shape()[0] == 4);    
+    REQUIRE(xcoeff[0].real() == 1);
+
 
 
     //--- datagram concept ---

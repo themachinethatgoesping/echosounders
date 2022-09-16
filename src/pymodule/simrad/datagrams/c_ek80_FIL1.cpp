@@ -8,6 +8,7 @@
 #include <pybind11/complex.h>
 //#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
@@ -57,8 +58,7 @@ void init_c_ek80_FIL1(pybind11::module& m)
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, DecimationFactor))
         .def_property(
             "coefficients",
-            //&EK80_FIL1::get_coefficients,
-            [](const EK80_FIL1& self){return xt::pyarray<std::complex<float>>(self._Coefficients);},
+            &EK80_FIL1::get_coefficients,
             &EK80_FIL1::set_coefficients,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, Coefficients))
 
