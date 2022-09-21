@@ -28,7 +28,7 @@ using ek60_short         = int16_t;
 using ek60_Int           = int32_t;
 using ek60_long          = int32_t; // no error, long is specified as 32bit int in manual
 using ek60_float         = float;   // this must be 32bit!
-using ek60_complex_float = std::complex<ek60_float>; // complex real,imaginary (used in FIL1)
+using ek60_complex_float = std::complex<ek60_float>; // complex real,imaginary (used in FIL1 and RAW3)
 using ek60_double       = double; // this must be 64bit!
 using ek60_DWORDLON      = int64_t;
 

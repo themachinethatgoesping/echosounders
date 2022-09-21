@@ -1,0 +1,113 @@
+// SPDX-FileCopyrightText: 2022 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+//
+// SPDX-License-Identifier: MPL-2.0
+
+#include <pybind11/iostream.h>
+#include <pybind11/stl.h>
+#include <pybind11/complex.h>
+//#define FORCE_IMPORT_ARRAY
+#include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
+
+
+#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+
+#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/ek80_RAW3.hpp"
+#include "../../docstrings.hpp"
+#include "module.hpp"
+
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+namespace py_simrad {
+namespace py_datagrams {
+
+namespace py = pybind11;
+using namespace themachinethatgoesping::echosounders::simrad;
+using datagrams::EK60_Datagram;
+using datagrams::EK80_RAW3;
+
+void init_c_ek80_RAW3(pybind11::module& m)
+{
+
+    py::class_<EK80_RAW3, datagrams::EK60_Datagram>(
+        m, "EK80_RAW3", DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3))
+        .def(py::init<>(),
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, EK80_RAW3))
+        // --- convenient data access ---
+        .def_property(
+            "channel_id",
+            &EK80_RAW3::get_channel_id,
+            &EK80_RAW3::set_channel_id,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, ChannelID))
+        .def_property(
+            "data_type",
+            &EK80_RAW3::get_data_type,
+            &EK80_RAW3::set_data_type,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, get_data_type))
+        .def_property(
+            "number_of_complex_samples",
+            &EK80_RAW3::get_number_of_complex_samples,
+            &EK80_RAW3::set_number_of_complex_samples,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, get_number_of_complex_samples))
+        .def_property(
+            "offset",
+            &EK80_RAW3::get_offset,
+            &EK80_RAW3::set_offset,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Offset))
+   .def_property(
+            "count",
+            &EK80_RAW3::get_count,
+            &EK80_RAW3::set_count,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Count))
+
+        // --- raw data access ---
+        .def_readwrite(
+            "_raw_ChannelID",
+            &EK80_RAW3::_ChannelID,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, ChannelID))
+        .def_readwrite(
+            "_raw_Datatype",
+            &EK80_RAW3::_Datatype,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Datatype))
+        .def_readwrite(
+            "_raw_NumberOfComplexSamples",
+            &EK80_RAW3::_NumberOfComplexSamples,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, NumberOfComplexSamples))
+        .def_readwrite(
+            "_raw_Spare_1",
+            &EK80_RAW3::_Spare_1,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Spare_1))
+        .def_readwrite(
+            "_raw_Spare_2",
+            &EK80_RAW3::_Spare_2,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Spare_2))
+        .def_readwrite(
+            "_raw_Offset",
+            &EK80_RAW3::_Offset,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Offset))
+        .def_readwrite(
+            "_raw_Count",
+            &EK80_RAW3::_Count,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Count))
+        // ----- operators -----
+        .def("__eq__",
+             &EK80_RAW3::operator==,
+             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, operator_eq),
+             py::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(EK80_RAW3)
+        // default binary functions
+        __PYCLASS_DEFAULT_BINARY__(EK80_RAW3)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(EK80_RAW3)
+        // end LinearInterpolator
+        ;
+}
+}
+}
+}
+}
+}

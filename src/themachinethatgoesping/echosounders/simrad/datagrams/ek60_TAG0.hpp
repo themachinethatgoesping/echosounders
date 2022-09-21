@@ -31,46 +31,46 @@ namespace datagrams {
  * because they are defined in the default coordinate system / value range.
  *
  */
-struct ek60_TAG0 : public EK60_Datagram
+struct EK60_TAG0 : public EK60_Datagram
 {
     // ----- datagram content -----
     std::string _Text; ///< _Text annotation string (e.g. interesting fish shoal in echogram)
 
   private:
     // ----- public constructors -----
-    explicit ek60_TAG0(EK60_Datagram header)
+    explicit EK60_TAG0(EK60_Datagram header)
         : EK60_Datagram(std::move(header))
     {
     }
 
   public:
     // ----- constructors -----
-    ek60_TAG0()
+    EK60_TAG0()
         : EK60_Datagram(12, ek60_long(t_EK60_DatagramType::TAG0))
     {
     }
-    ek60_TAG0(std::string text_anotation)
+    EK60_TAG0(std::string text_anotation)
         : EK60_Datagram(12 + text_anotation.size(), ek60_long(t_EK60_DatagramType::TAG0))
         , _Text(std::move(text_anotation))
     {
     }
-    ~ek60_TAG0() = default;
+    ~EK60_TAG0() = default;
 
     // ----- operators -----
-    bool operator==(const ek60_TAG0& other) const
+    bool operator==(const EK60_TAG0& other) const
     {
         return EK60_Datagram::operator==(other) && _Text == other._Text;
     }
-    bool operator!=(const ek60_TAG0& other) const { return !operator==(other); }
+    bool operator!=(const EK60_TAG0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
     const std::string& get_text() const { return _Text; }
     void               set_text(std::string text) { _Text = std::move(text); }
 
     // ----- file I/O -----
-    static ek60_TAG0 from_stream(std::istream& is, EK60_Datagram header)
+    static EK60_TAG0 from_stream(std::istream& is, EK60_Datagram header)
     {
-        ek60_TAG0 datagram(std::move(header));
+        EK60_TAG0 datagram(std::move(header));
         datagram._Text.resize(datagram._Length - 12);
         is.read(datagram._Text.data(), datagram._Text.size());
 
@@ -80,15 +80,15 @@ struct ek60_TAG0 : public EK60_Datagram
         return datagram;
     }
 
-    static ek60_TAG0 from_stream(std::istream& is)
+    static EK60_TAG0 from_stream(std::istream& is)
     {
         return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::TAG0));
     }
 
-    static ek60_TAG0 from_stream(std::istream& is, t_EK60_DatagramType type)
+    static EK60_TAG0 from_stream(std::istream& is, t_EK60_DatagramType type)
     {
         if (type != t_EK60_DatagramType::TAG0)
-            throw std::runtime_error("ek60_TAG0::from_stream: wrong datagram type");
+            throw std::runtime_error("EK60_TAG0::from_stream: wrong datagram type");
 
         return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::TAG0));
     }
@@ -117,7 +117,7 @@ struct ek60_TAG0 : public EK60_Datagram
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(ek60_TAG0)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_TAG0)
 };
 
 }

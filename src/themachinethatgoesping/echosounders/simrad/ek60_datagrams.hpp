@@ -13,6 +13,7 @@
 #include "datagrams/ek80_XML0.hpp"
 #include "datagrams/ek60_NME0.hpp"
 #include "datagrams/ek80_FIL1.hpp"
+#include "datagrams/ek80_RAW3.hpp"
 #include "ek60_types.hpp"
 
 #include <pybind11/pybind11.h>
@@ -32,7 +33,7 @@ namespace simrad {
 
 namespace datagrams {
 
-using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK80_XML0, EK60_NME0, EK80_FIL1, ek60_TAG0, EK60_Unknown>;
+using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK80_XML0, EK60_NME0, EK80_RAW3, EK80_FIL1, EK60_TAG0, EK60_Unknown>;
 
 struct EK60_DatagramVariant
 {
@@ -56,11 +57,11 @@ struct EK60_DatagramVariant
             case t_EK60_DatagramType::XML0:
                 return t_EK60_DatagramVariant(EK80_XML0::from_stream(is));
             case t_EK60_DatagramType::TAG0:
-                return t_EK60_DatagramVariant(ek60_TAG0::from_stream(is));
+                return t_EK60_DatagramVariant(EK60_TAG0::from_stream(is));
             case t_EK60_DatagramType::FIL1:
                 return t_EK60_DatagramVariant(EK80_FIL1::from_stream(is));
             case t_EK60_DatagramType::RAW3:
-                [[fallthrough]];
+                return t_EK60_DatagramVariant(EK80_RAW3::from_stream(is));
             default:
                 return t_EK60_DatagramVariant(EK60_Unknown::from_stream(is, datagram_type));
         }

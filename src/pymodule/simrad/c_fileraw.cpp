@@ -62,15 +62,17 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
 
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_FIL1>(
         cls, t_EK60_DatagramType::FIL1, "FIL1");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_RAW3>(
+        cls, t_EK60_DatagramType::RAW3, "RAW3");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_MRU0>(
         cls, t_EK60_DatagramType::MRU0, "MRU0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_XML0>(
         cls, t_EK60_DatagramType::XML0, "XML0");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_NME0>(
         cls, t_EK60_DatagramType::NME0, "NME0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_TAG0>(
         cls, t_EK60_DatagramType::TAG0, "TAG0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_Unknown>(
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_RAW3>(
         cls, t_EK60_DatagramType::RAW3, "RAW3");
 
     //----- iterators via () operator -----
@@ -104,13 +106,14 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
                     return py::cast(self.template get_iterator<datagrams::EK80_XML0>(
                         type, index_min, index_max, index_step));
                 case t_EK60_DatagramType::TAG0:
-                    return py::cast(self.template get_iterator<datagrams::ek60_TAG0>(
+                    return py::cast(self.template get_iterator<datagrams::EK60_TAG0>(
                         type, index_min, index_max, index_step));
                 case t_EK60_DatagramType::FIL1:
                     return py::cast(self.template get_iterator<datagrams::EK80_FIL1>(
                         type, index_min, index_max, index_step));
                 case t_EK60_DatagramType::RAW3:
-                    [[fallthrough]];
+                    return py::cast(self.template get_iterator<datagrams::EK80_RAW3>(
+                        type, index_min, index_max, index_step));
                 default:
                     return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
                         type, index_min, index_max, index_step));
@@ -332,13 +335,14 @@ void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType t
             test_speed_content<datagrams::EK80_XML0>(ifi, type);
             break;
         case t_EK60_DatagramType::TAG0:
-            test_speed_content<datagrams::ek60_TAG0>(ifi, type);
+            test_speed_content<datagrams::EK60_TAG0>(ifi, type);
             break;
         case t_EK60_DatagramType::FIL1:
             test_speed_content<datagrams::EK80_FIL1>(ifi, type);
             break;
         case t_EK60_DatagramType::RAW3:
-            [[fallthrough]];
+            test_speed_content<datagrams::EK80_RAW3>(ifi, type);
+            break;
         default:
             test_speed_content<datagrams::EK60_Unknown>(ifi, type);
             break;
@@ -380,8 +384,9 @@ void init_c_fileraw(pybind11::module& m)
     create_IteratorTypes<datagrams::EK60_Unknown, t_EK60_DatagramType>(m,
                                                                        "FileRawIterator_Unknown");
     create_IteratorTypes<datagrams::EK80_MRU0, t_EK60_DatagramType>(m, "FileRawIterator_MRU0");
-    create_IteratorTypes<datagrams::ek60_TAG0, t_EK60_DatagramType>(m, "FileRawIterator_TAG0");
+    create_IteratorTypes<datagrams::EK60_TAG0, t_EK60_DatagramType>(m, "FileRawIterator_TAG0");
     create_IteratorTypes<datagrams::EK80_FIL1, t_EK60_DatagramType>(m, "FileRawIterator_FIL1");
+    create_IteratorTypes<datagrams::EK80_RAW3, t_EK60_DatagramType>(m, "FileRawIterator_RAW3");
     create_IteratorTypes<datagrams::EK80_XML0, t_EK60_DatagramType>(m, "FileRawIterator_XML0");
     create_IteratorTypes<datagrams::EK60_NME0, t_EK60_DatagramType>(m, "FileRawIterator_NME0");
     create_IteratorTypes<datagrams::t_EK60_DatagramVariant,
