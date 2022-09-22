@@ -17,8 +17,8 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xio.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -49,7 +49,10 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     ~RAW3_DataComplexFloat32() = default;
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataComplexFloat32& other) const { return _complex_samples == other._complex_samples; }
+    bool operator==(const RAW3_DataComplexFloat32& other) const
+    {
+        return _complex_samples == other._complex_samples;
+    }
     bool operator!=(const RAW3_DataComplexFloat32& other) const { return !(operator==(other)); }
 
     static RAW3_DataComplexFloat32 from_stream(std::istream& is,
@@ -88,11 +91,11 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
                  _complex_samples.size() * sizeof(ek60_float));
     }
 
-
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Sample binary data (ComplexFloat32)", float_precision);
+        tools::classhelpers::ObjectPrinter printer("Sample binary data (ComplexFloat32)",
+                                                   float_precision);
 
         std::stringstream ss;
         ss << _complex_samples;

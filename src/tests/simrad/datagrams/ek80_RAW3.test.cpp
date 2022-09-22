@@ -48,11 +48,11 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         {
             case t_RAW3_DataType::ComplexFloat32:
                 dat._SampleData = RAW3_DataComplexFloat32(xt::xtensor<ek60_float, 3>::from_shape(
-                    { unsigned(dat._Count), 2, dat.get_number_of_complex_samples() }));
+                    { unsigned(dat._Count), dat.get_number_of_complex_samples(), 2 }));
                 break;
             case t_RAW3_DataType::PowerAndAngle:
                 dat._SampleData = RAW3_DataPowerAndAngle(
-                    xt::xtensor<ek60_short, 2>::from_shape({ unsigned(dat._Count),2 }));
+                    xt::xtensor<ek60_short, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
             case t_RAW3_DataType::Power:
                 dat._SampleData = RAW3_DataPower(
@@ -60,7 +60,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
                 break;
             case t_RAW3_DataType::Angle:
                 dat._SampleData = RAW3_DataAngle(
-                    xt::xtensor<uint8_t, 2>::from_shape({ unsigned(dat._Count),2 }));
+                    xt::xtensor<uint8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
@@ -87,7 +87,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         // dat.print(std::cerr);
 
         // test binary
-        if (type == t_RAW3_DataType::Angle)
+        if (type == t_RAW3_DataType::ComplexFloat32)
         {
             std::cerr << "-----" << std::endl;
             std::cerr << "dat" << std::endl;
