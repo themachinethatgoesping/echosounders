@@ -34,22 +34,25 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataAngle : public i_RAW3_Data
 {
-    xt::xarray<uint8_t> _angle; ///< Sample data
+    xt::xtensor<uint8_t, 2> _angle; ///< Sample data
 
     RAW3_DataAngle()
         : i_RAW3_Data("Angle")
     {
     }
+    RAW3_DataAngle(xt::xtensor<uint8_t, 2> angle)
+        : i_RAW3_Data("Angle")
+        , _angle(std::move(angle))
+    {
+    }
     ~RAW3_DataAngle() = default;
 
-    inline static RAW3_DataAngle from_stream(std::istream& is,
-                                             ek60_long     input_count,
-                                             ek60_long     output_count)
+    static RAW3_DataAngle from_stream(std::istream& is,
+                                      ek60_long     input_count,
+                                      ek60_long     output_count)
     {
-        // (void)(output_count);
-        RAW3_DataAngle data;
-
-        data._angle.resize({ 2, unsigned(output_count) }, 0);
+        using xt_shape = xt::xtensor<uint8_t, 2>::shape_type;
+        RAW3_DataAngle data(xt::empty<uint8_t>(xt_shape({ unsigned(output_count),2 })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)
@@ -60,14 +63,17 @@ struct RAW3_DataAngle : public i_RAW3_Data
         else
         {
             is.read(reinterpret_cast<char*>(data._angle.data()), input_count * sizeof(uint8_t) * 2);
-        }
 
+            // fill remaining samples with 0
+            std::fill(data._angle.begin() + input_count * 2, data._angle.end(), 0);
+        }
         return data;
     }
 
-    inline void to_stream(std::ostream& os) const
+    void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(_angle.data()), _angle.size() * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(_angle.data()),
+                 xt::flatten(_angle).size() * sizeof(uint8_t));
         return;
     }
 };

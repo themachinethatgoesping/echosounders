@@ -34,22 +34,26 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataPower : public i_RAW3_Data
 {
-    xt::xarray<ek60_short> _power; ///< Sample data
+    xt::xtensor<ek60_short, 1> _power; ///< Sample data
 
     RAW3_DataPower()
         : i_RAW3_Data("Power")
     {
     }
+    RAW3_DataPower(xt::xtensor<ek60_short, 1> power)
+        : i_RAW3_Data("Power")
+        , _power(std::move(power))
+    {
+    }
     ~RAW3_DataPower() = default;
 
-    inline static RAW3_DataPower from_stream(std::istream& is,
-                                             ek60_long     input_count,
-                                             ek60_long     output_count)
+    static RAW3_DataPower from_stream(std::istream& is,
+                                      ek60_long     input_count,
+                                      ek60_long     output_count)
     {
-        // (void)(output_count);
-        RAW3_DataPower data;
 
-        data._power.resize({ unsigned(output_count) }, 0);
+        using xt_shape = xt::xtensor<ek60_short, 1>::shape_type;
+        RAW3_DataPower data(xt::empty<ek60_short>(xt_shape({ unsigned(output_count) })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)
@@ -59,12 +63,15 @@ struct RAW3_DataPower : public i_RAW3_Data
         else
         {
             is.read(reinterpret_cast<char*>(data._power.data()), input_count * sizeof(ek60_short));
+
+            // fill remaining samples with 0
+            std::fill(data._power.begin() + input_count, data._power.end(), 0);
         }
 
         return data;
     }
 
-    inline void to_stream(std::ostream& os) const
+    void to_stream(std::ostream& os) const
     {
         os.write(reinterpret_cast<const char*>(_power.data()), _power.size() * sizeof(ek60_short));
         return;

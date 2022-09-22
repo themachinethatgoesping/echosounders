@@ -34,44 +34,53 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataComplexFloat32 : public i_RAW3_Data
 {
-    xt::xarray<ek60_complex_float> _complex_samples; ///< Sample data
+    xt::xtensor<ek60_float, 3> _complex_samples; ///< Sample data
 
     RAW3_DataComplexFloat32()
         : i_RAW3_Data("ComplexFloat32")
     {
     }
+    RAW3_DataComplexFloat32(xt::xtensor<ek60_float, 3> complex_samples)
+        : i_RAW3_Data("ComplexFloat32")
+        , _complex_samples(std::move(complex_samples))
+    {
+    }
     ~RAW3_DataComplexFloat32() = default;
 
-    inline static RAW3_DataComplexFloat32 from_stream(std::istream& is,
-                                                      ek60_long     input_count,
-                                                      ek60_long     output_count,
-                                                      uint8_t       number_of_complex_samples)
+    static RAW3_DataComplexFloat32 from_stream(std::istream& is,
+                                               ek60_long     input_count,
+                                               ek60_long     output_count,
+                                               uint8_t       number_of_complex_samples)
     {
-        // (void)(output_count);
-        RAW3_DataComplexFloat32 data;
-
-        data._complex_samples.resize({ number_of_complex_samples, unsigned(output_count) }, 0);
+        using xt_shape = xt::xtensor<ek60_float, 3>::shape_type;
+        RAW3_DataComplexFloat32 data(xt::empty<ek60_float>(
+            xt_shape({ unsigned(output_count), 2, number_of_complex_samples })));
 
         // initialize data_block using from_shape
-        if (output_count < input_count)
+        if (output_count <= input_count)
         {
             is.read(reinterpret_cast<char*>(data._complex_samples.data()),
-                    output_count * number_of_complex_samples * sizeof(ek60_complex_float));
+                    output_count * 2 * number_of_complex_samples * sizeof(ek60_float));
         }
         else
         {
             is.read(reinterpret_cast<char*>(data._complex_samples.data()),
-                    input_count * number_of_complex_samples * sizeof(ek60_complex_float));
+                    input_count * 2 * number_of_complex_samples * sizeof(ek60_float));
+
+            // fill remaining samples with quiet NaN
+            std::fill(data._complex_samples.begin() + input_count * 2 * number_of_complex_samples,
+                      data._complex_samples.end(),
+                      std::numeric_limits<ek60_float>::quiet_NaN());
         }
 
         return data;
     }
 
-    inline void to_stream(std::ostream& os) const
+    void to_stream(std::ostream& os) const
     {
+
         os.write(reinterpret_cast<const char*>(_complex_samples.data()),
-                 _complex_samples.size() * sizeof(ek60_complex_float));
-        return;
+                 _complex_samples.size() * sizeof(ek60_float));
     }
 };
 

@@ -40,7 +40,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     }
     ~RAW3_DataSkipped() = default;
 
-    inline static RAW3_DataSkipped from_stream(std::istream&   is,
+    static RAW3_DataSkipped from_stream(std::istream&   is,
                                                ek60_long       count,
                                                t_RAW3_DataType data_type,
                                                uint8_t         number_of_complex_samples)
@@ -71,7 +71,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
         return RAW3_DataSkipped();
     }
 
-    inline void to_stream(std::ostream&   os,
+    void to_stream(std::ostream&   os,
                           ek60_long       count,
                           t_RAW3_DataType data_type,
                           uint8_t         number_of_complex_samples) const

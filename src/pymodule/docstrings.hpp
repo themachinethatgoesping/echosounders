@@ -627,6 +627,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_RAW3_DataAngle = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_RAW3_DataAngle_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_angle = R"doc(< Sample data)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_from_stream = R"doc()doc";
@@ -636,6 +638,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_RAW3_DataComplexFloat32 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_RAW3_DataComplexFloat32_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_complex_samples = R"doc(< Sample data)doc";
 
@@ -649,6 +653,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_RAW3_DataPowerAndAngle = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_RAW3_DataPowerAndAngle_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_power_and_angle = R"doc(< Sample data)doc";
@@ -656,6 +662,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPower_RAW3_DataPower = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPower_RAW3_DataPower_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPower_from_stream = R"doc()doc";
 

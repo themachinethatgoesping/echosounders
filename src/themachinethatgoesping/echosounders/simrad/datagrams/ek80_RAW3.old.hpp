@@ -54,8 +54,8 @@ struct EK80_RAW3 : public EK60_Datagram
     ek60_long   _Offset   = 0;          ///< First sample number in the datagram
     ek60_long   _Count    = 0;          ///< Number of samples in the datagram
 
-    std::variant<xt::xarray<ek60_float>,
-                 xt::xarray<ek60_complex_float>> _Samples; ///< Sample data
+    std::variant<xt::xtensor<ek60_float>,
+                 xt::xtensor<ek60_complex_float>> _Samples; ///< Sample data
 
   private:
     // ----- public constructors -----

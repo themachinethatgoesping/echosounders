@@ -14,8 +14,10 @@
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::echosounders::simrad::datagrams::EK80_RAW3;
-using themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::RAW3_DataType_size;
-using themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::t_RAW3_DataType;
+// using
+// themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::RAW3_DataType_size;
+// using themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::t_RAW3_DataType;
+using namespace themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes;
 
 #define TESTTAG "[simrad]"
 
@@ -35,12 +37,39 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
 
     dat._NumberOfComplexSamples = 3;
     dat._Offset                 = 1;
-    dat._Count                  = 10;
+    dat._Count                  = 20;
 
     for (const auto type : types)
     {
         dat._Datatype = type;
         std::cerr << "Type: " << magic_enum::enum_name(type) << std::endl;
+
+        switch (type)
+        {
+            case t_RAW3_DataType::ComplexFloat32:
+                dat._SampleData =
+                    RAW3_DataComplexFloat32(xt::xtensor<ek60_float,3>::from_shape(
+                        { unsigned(dat._Count), 2, dat.get_number_of_complex_samples() }));
+                break;
+            case t_RAW3_DataType::PowerAndAngle:
+                dat._SampleData = RAW3_DataPowerAndAngle(
+                    xt::xtensor<ek60_short,2>::from_shape({ 2, unsigned(dat._Count) }));
+                break;
+            case t_RAW3_DataType::Power:
+                dat._SampleData = RAW3_DataPower(
+                    xt::xtensor<ek60_short,1>::from_shape({ unsigned(dat._Count) }));
+                break;
+            case t_RAW3_DataType::Angle:
+                dat._SampleData = RAW3_DataAngle(
+                    xt::xtensor<uint8_t,2>::from_shape({ 2, unsigned(dat._Count) }));
+                break;
+            default:
+                std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
+                                         magic_enum::enum_name(dat._Datatype))
+                          << std::endl;
+                dat._SampleData = RAW3_DataSkipped();
+                break;
+        }
 
         auto dat2 = dat;
         dat2.set_channel_id("channel2");
@@ -74,10 +103,10 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.get_channel_id().substr(0, 7) == "channel");
         REQUIRE(dat.get_data_type() == type);
         REQUIRE(dat.get_offset() == 1);
-        REQUIRE(dat.get_count() == 10);
+        REQUIRE(dat.get_count() == 20);
 
         // REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(dat.get_coefficients(),
-        // xt::xarray<ek60_complex_float>({1, 2, 3, 4})));
+        // xt::xtensor<ek60_complex_float>({1, 2, 3, 4})));
 
         //--- datagram concept ---
         REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::RAW3);

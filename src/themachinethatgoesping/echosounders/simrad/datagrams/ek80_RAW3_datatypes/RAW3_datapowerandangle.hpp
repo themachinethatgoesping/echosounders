@@ -34,58 +34,54 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataPowerAndAngle : public i_RAW3_Data
 {
-    xt::xarray<ek60_short> _power_and_angle;        ///< Sample data
-    // xt::xarray<uint8_t>    _angle_along;  ///< alongship angle
-    // xt::xarray<uint8_t>    _angle_across; ///< athwartship angle
+    xt::xtensor<ek60_short, 2> _power_and_angle; ///< Sample data
+    // xt::xtensor<uint8_t>    _angle_along;  ///< alongship angle
+    // xt::xtensor<uint8_t>    _angle_across; ///< athwartship angle
 
     RAW3_DataPowerAndAngle()
         : i_RAW3_Data("PowerAndAngle")
     {
     }
+    RAW3_DataPowerAndAngle(xt::xtensor<ek60_short, 2> power_and_angle)
+        : i_RAW3_Data("PowerAndAngle")
+        , _power_and_angle(std::move(power_and_angle))
+    {
+    }
     ~RAW3_DataPowerAndAngle() = default;
 
-    inline static RAW3_DataPowerAndAngle from_stream(std::istream& is,
-                                                  ek60_long     input_count,
-                                                  ek60_long     output_count)
+    static RAW3_DataPowerAndAngle from_stream(std::istream& is,
+                                              ek60_long     input_count,
+                                              ek60_long     output_count)
     {
-        // (void)(output_count);
-        RAW3_DataPowerAndAngle data;
-
-        data._power_and_angle.resize({ 2, unsigned(output_count) }, 0);
+        using xt_shape = xt::xtensor<ek60_short, 2>::shape_type;
+        RAW3_DataPowerAndAngle data(xt::empty<ek60_short>(xt_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
-        if (output_count < input_count){
-        is.read(reinterpret_cast<char*>(data._power_and_angle.data()), output_count * 2 * sizeof(ek60_short));
-        }        
-        else{
-        is.read(reinterpret_cast<char*>(data._power_and_angle.data()), input_count * 2* sizeof(ek60_short));
+        if (output_count <= input_count)
+        {
+            is.read(reinterpret_cast<char*>(data._power_and_angle.data()),
+                    output_count * 2 * sizeof(ek60_short));
+        }
+        else
+        {
+            is.read(reinterpret_cast<char*>(data._power_and_angle.data()),
+                    input_count * 2 * sizeof(ek60_short));
+
+            // fill remaining samples with quiet NaN
+            std::fill(data._power_and_angle.begin() + input_count * 2,
+                      data._power_and_angle.end(),
+                      0);
         }
 
-        // xt::xarray<ek60_short> power = xt::view(data_block, 0, xt::all());
-        // auto angle_view = xt::view(data_block, 1, xt::all());
-
-        // //reinterpret 16 bit angle array as two 8 bit arrays
-        // xt::xarray<uint8_t> angle_along = xt::view(angle_view, xt::range(0, angle_view.size(), 2));
-        // xt::xarray<uint8_t> angle_across = xt::view(angle_view, xt::range(1, angle_view.size(), 2));
-
-
+       
         return data;
     }
 
-    inline void to_stream(std::ostream& os) const
+    void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(_power_and_angle.data()), _power_and_angle.size() * sizeof(ek60_short));
-        return;
-
-        // if (_power.size() != _angle_along.size() || _power.size() != _angle_across.size())
-        //     throw std::runtime_error("RAW3_DataPowerAndAngle::to_stream: inconsistent data size");
-
-        // for (size_t i = 0; i < _power.size(); ++i)
-        // {
-        //     os.write(reinterpret_cast<const char*>(&_power[i]), sizeof(ek60_short));
-        //     os.write(reinterpret_cast<const char*>(&_angle_along[i]), sizeof(uint8_t));
-        //     os.write(reinterpret_cast<const char*>(&_angle_across[i]), sizeof(uint8_t));
-        // }
+        os.write(reinterpret_cast<const char*>(_power_and_angle.data()),
+                 xt::flatten(_power_and_angle).size() * sizeof(ek60_short));
+      
     }
 };
 

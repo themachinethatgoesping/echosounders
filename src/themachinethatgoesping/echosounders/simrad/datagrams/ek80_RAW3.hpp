@@ -18,6 +18,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xnoalias.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -53,8 +54,8 @@ struct EK80_RAW3 : public EK60_Datagram
 
     RAW3_datatypes::RAW3_DataVariant _SampleData; ///< Sample data
 
-    // std::variant<xt::xarray<ek60_float>,
-    //              xt::xarray<ek60_complex_float>> _Samples; ///< Sample data
+    // std::variant<xt::xtensor<ek60_float>,
+    //              xt::xtensor<ek60_complex_float,2>> _Samples; ///< Sample data
 
   private:
     // ----- public constructors -----
@@ -148,29 +149,72 @@ struct EK80_RAW3 : public EK60_Datagram
 
         is.read(datagram._ChannelID.data(), 140);
 
-        // is.read(datagram._ChannelID.data(), datagram._ChannelID.size());
-        // is.read(reinterpret_cast<char*>(&datagram._Datatype), 12);
+        // switch (datagram._Datatype)
+        // {
+        //     case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32: {
+        //         using xt_shape = xt::xtensor<ek60_float,3>::shape_type;
+        //         //using xt_shape = xt::xtensor<ek60_complex_float,2>::shape_type;
+        //         auto arr = xt::empty<ek60_float>(xt_shape(
+        //             { unsigned(datagram._Count), 2, datagram.get_number_of_complex_samples() }));
 
-        // is.read(reinterpret_cast<char*>(&datagram._Datatype), sizeof(datagram._Datatype));
-        // is.read(reinterpret_cast<char*>(&datagram._NumberOfComplexSamples),
-        //         sizeof(datagram._NumberOfComplexSamples));
-        // is.read(reinterpret_cast<char*>(&datagram._Spare_1), sizeof(datagram._Spare_1));
-        // is.read(reinterpret_cast<char*>(&datagram._Spare_2), sizeof(datagram._Spare_2));
-        // is.read(reinterpret_cast<char*>(&datagram._Offset), sizeof(datagram._Offset));
-        // is.read(reinterpret_cast<char*>(&datagram._Count), sizeof(datagram._Count));
+        //         is.read(reinterpret_cast<char*>(arr.data()),
+        //                 arr.size() * sizeof(ek60_float));
+        //         break;
+        //     }
+        //     case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle: {
+        //         std::vector<uint8_t> raw_content;
+        //         raw_content.resize(size_t(datagram._Length - 152));
+        //         is.read(reinterpret_cast<char*>(raw_content.data()), raw_content.size());
+        //         break;
+        //     }
+        //     case RAW3_datatypes::t_RAW3_DataType::Power: {
+        //         std::vector<uint8_t> raw_content;
+        //         raw_content.resize(size_t(datagram._Length - 152));
+        //         is.read(reinterpret_cast<char*>(raw_content.data()), raw_content.size());
+        //         break;
+        //     }
+        //     case RAW3_datatypes::t_RAW3_DataType::Angle: {
+        //         std::vector<uint8_t> raw_content;
+        //         raw_content.resize(size_t(datagram._Length - 152));
+        //         is.read(reinterpret_cast<char*>(raw_content.data()), raw_content.size());
+        //         break;
+        //     }
+        //     default: {
+        //         std::vector<uint8_t> raw_content;
+        //         raw_content.resize(size_t(datagram._Length - 152));
+        //         is.read(reinterpret_cast<char*>(raw_content.data()), raw_content.size());
+        //         break;
+        //     }
+        // }
+
+        // // verify the datagram is read correctly by reading the length field at the end
+        // datagram._verify_datagram_end(is);
+
+        // return datagram;
+
+        //
 
         using namespace RAW3_datatypes;
 
         switch (datagram._Datatype)
         {
-            case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32:
+            case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32: {
                 datagram._SampleData = RAW3_DataComplexFloat32::from_stream(
-                    is, datagram._Count, datagram._Count, datagram.get_number_of_complex_samples());
+                    is, datagram._Count, datagram._Count,
+                    datagram.get_number_of_complex_samples());
                 break;
-            case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle:
+            }
+            case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle: {
                 datagram._SampleData =
                     RAW3_DataPowerAndAngle::from_stream(is, datagram._Count, datagram._Count);
-                break;
+
+                // using xt_shape = xt::xtensor<ek60_short,2>::shape_type;
+
+                // xt::xtensor<ek60_short,2> arr(xt_shape({ 2, unsigned(datagram._Count) }));
+                // is.read(reinterpret_cast<char*>(arr.data()), arr.size() * sizeof(ek60_short));
+                // break;
+            }
+            break;
             case RAW3_datatypes::t_RAW3_DataType::Power:
                 datagram._SampleData =
                     RAW3_DataPower::from_stream(is, datagram._Count, datagram._Count);
@@ -190,6 +234,8 @@ struct EK80_RAW3 : public EK60_Datagram
                                                   datagram.get_number_of_complex_samples());
                 break;
         }
+
+        datagram._verify_datagram_end(is);
 
         return datagram;
     }
