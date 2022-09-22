@@ -18,6 +18,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xio.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -47,6 +48,10 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     }
     ~RAW3_DataComplexFloat32() = default;
 
+    // ----- operator overloads -----
+    bool operator==(const RAW3_DataComplexFloat32& other) const { return _complex_samples == other._complex_samples; }
+    bool operator!=(const RAW3_DataComplexFloat32& other) const { return !(operator==(other)); }
+
     static RAW3_DataComplexFloat32 from_stream(std::istream& is,
                                                ek60_long     input_count,
                                                ek60_long     output_count,
@@ -54,7 +59,7 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     {
         using xt_shape = xt::xtensor<ek60_float, 3>::shape_type;
         RAW3_DataComplexFloat32 data(xt::empty<ek60_float>(
-            xt_shape({ unsigned(output_count), 2, number_of_complex_samples })));
+            xt_shape({ unsigned(output_count), number_of_complex_samples, 2 })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)
@@ -81,6 +86,19 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
 
         os.write(reinterpret_cast<const char*>(_complex_samples.data()),
                  _complex_samples.size() * sizeof(ek60_float));
+    }
+
+
+    // ----- objectprinter -----
+    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelpers::ObjectPrinter printer("Sample binary data (ComplexFloat32)", float_precision);
+
+        std::stringstream ss;
+        ss << _complex_samples;
+        printer.register_string("complex_samples", ss.str());
+
+        return printer;
     }
 };
 

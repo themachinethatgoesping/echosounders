@@ -9,6 +9,7 @@
 // std includes
 #include <bitset>
 #include <string>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
@@ -18,6 +19,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xio.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -47,6 +49,10 @@ struct RAW3_DataPower : public i_RAW3_Data
     }
     ~RAW3_DataPower() = default;
 
+    // ----- operator overloads -----
+    bool operator==(const RAW3_DataPower& other) const { return _power == other._power; }
+    bool operator!=(const RAW3_DataPower& other) const { return !(operator==(other)); }
+
     static RAW3_DataPower from_stream(std::istream& is,
                                       ek60_long     input_count,
                                       ek60_long     output_count)
@@ -75,6 +81,19 @@ struct RAW3_DataPower : public i_RAW3_Data
     {
         os.write(reinterpret_cast<const char*>(_power.data()), _power.size() * sizeof(ek60_short));
         return;
+    }
+
+
+    // ----- objectprinter -----
+    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelpers::ObjectPrinter printer("Sample binary data (Power)", float_precision);
+
+        std::stringstream ss;
+        ss << _power;
+        printer.register_string("Power", ss.str());
+
+        return printer;
     }
 };
 

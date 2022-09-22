@@ -18,6 +18,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xio.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -48,6 +49,10 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     {
     }
     ~RAW3_DataPowerAndAngle() = default;
+
+    // ----- operator overloads -----
+    bool operator==(const RAW3_DataPowerAndAngle& other) const { return _power_and_angle == other._power_and_angle; }
+    bool operator!=(const RAW3_DataPowerAndAngle& other) const { return !(operator==(other)); }
 
     static RAW3_DataPowerAndAngle from_stream(std::istream& is,
                                               ek60_long     input_count,
@@ -82,6 +87,23 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
         os.write(reinterpret_cast<const char*>(_power_and_angle.data()),
                  xt::flatten(_power_and_angle).size() * sizeof(ek60_short));
       
+    }
+
+
+    // ----- objectprinter -----
+    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelpers::ObjectPrinter printer("Sample binary data (Power and Angle)", float_precision);
+
+        std::stringstream ss1,ss2;
+        ss1 << xt::col(_power_and_angle,0) * 10 * log10(2.0) / 256;
+        ss2 << xt::col(_power_and_angle,1);
+
+
+        printer.register_string("Power", ss1.str());
+        printer.register_string("Angle", ss2.str());
+
+        return printer;
     }
 };
 

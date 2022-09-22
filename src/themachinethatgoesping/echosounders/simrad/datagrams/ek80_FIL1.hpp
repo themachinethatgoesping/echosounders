@@ -17,6 +17,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xio.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -202,7 +203,9 @@ struct EK80_FIL1 : public EK60_Datagram
         printer.register_value("DecimationFactor", _DecimationFactor);
 
         printer.register_section("Filter coefficients");
-        // printer.register_container("Coefficients", _Coefficients);
+        std::stringstream ss;
+        ss << _Coefficients;
+        printer.register_string("Coefficients", ss.str());
 
         return printer;
     }

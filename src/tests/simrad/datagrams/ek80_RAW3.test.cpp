@@ -47,21 +47,20 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         switch (type)
         {
             case t_RAW3_DataType::ComplexFloat32:
-                dat._SampleData =
-                    RAW3_DataComplexFloat32(xt::xtensor<ek60_float,3>::from_shape(
-                        { unsigned(dat._Count), 2, dat.get_number_of_complex_samples() }));
+                dat._SampleData = RAW3_DataComplexFloat32(xt::xtensor<ek60_float, 3>::from_shape(
+                    { unsigned(dat._Count), 2, dat.get_number_of_complex_samples() }));
                 break;
             case t_RAW3_DataType::PowerAndAngle:
                 dat._SampleData = RAW3_DataPowerAndAngle(
-                    xt::xtensor<ek60_short,2>::from_shape({ 2, unsigned(dat._Count) }));
+                    xt::xtensor<ek60_short, 2>::from_shape({ unsigned(dat._Count),2 }));
                 break;
             case t_RAW3_DataType::Power:
                 dat._SampleData = RAW3_DataPower(
-                    xt::xtensor<ek60_short,1>::from_shape({ unsigned(dat._Count) }));
+                    xt::xtensor<ek60_short, 1>::from_shape({ unsigned(dat._Count) }));
                 break;
             case t_RAW3_DataType::Angle:
                 dat._SampleData = RAW3_DataAngle(
-                    xt::xtensor<uint8_t,2>::from_shape({ 2, unsigned(dat._Count) }));
+                    xt::xtensor<uint8_t, 2>::from_shape({ unsigned(dat._Count),2 }));
                 break;
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
@@ -88,6 +87,18 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         // dat.print(std::cerr);
 
         // test binary
+        if (type == t_RAW3_DataType::Angle)
+        {
+            std::cerr << "-----" << std::endl;
+            std::cerr << "dat" << std::endl;
+            std::cerr << "-----" << std::endl;
+            dat.print(std::cerr);
+            std::cerr << "-----" << std::endl;
+            std::cerr << "bin" << std::endl;
+            std::cerr << "-----" << std::endl;
+            EK80_RAW3::from_binary(dat.to_binary()).print(std::cerr);
+            std::cerr << "-----" << std::endl;
+        }
         REQUIRE(dat == EK80_RAW3::from_binary(dat.to_binary()));
         REQUIRE(dat2 == EK80_RAW3::from_binary(dat2.to_binary()));
 
