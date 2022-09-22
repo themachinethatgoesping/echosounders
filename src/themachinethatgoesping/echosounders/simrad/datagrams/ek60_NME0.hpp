@@ -12,9 +12,9 @@
 #include <vector>
 
 // themachinethatgoesping import
+#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
-#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 
 #include "../ek60_types.hpp"
 #include "ek60_datagram.hpp"
@@ -43,10 +43,7 @@ struct EK60_NME0 : public EK60_Datagram
 
   public:
     // ----- constructors -----
-    EK60_NME0()
-    {
-        _DatagramType = ek60_long(t_EK60_DatagramType::NME0);
-    }
+    EK60_NME0() { _DatagramType = ek60_long(t_EK60_DatagramType::NME0); }
     ~EK60_NME0() = default;
 
     // ----- operators -----
@@ -63,26 +60,30 @@ struct EK60_NME0 : public EK60_Datagram
     std::string get_sentence() const { return std::string(_nmea_base.get_sentence()); }
     std::string get_field(size_t index) const { return std::string(_nmea_base.get_field(index)); }
     double get_field_as_double(size_t index) const { return _nmea_base.get_field_as_double(index); }
-    int get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
-    void parse_fields() { _nmea_base.parse_fields(); }
-    //navigation::nmea_0183::NMEA_Base decode() const { return _nmea_base; }
-    navigation::nmea_0183::NMEA_0183_type decode() const { return navigation::nmea_0183::decode(_nmea_base); }
+    int    get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
+    void   parse_fields() { _nmea_base.parse_fields(); }
+    // navigation::nmea_0183::NMEA_Base decode() const { return _nmea_base; }
+    navigation::nmea_0183::NMEA_0183_type decode() const
+    {
+        return navigation::nmea_0183::decode(_nmea_base);
+    }
 
     // ----- file I/O -----
     static EK60_NME0 from_stream(std::istream& is, EK60_Datagram header)
     {
         EK60_NME0 datagram(std::move(header));
-        datagram._nmea_base = navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length-12);
-        
+        datagram._nmea_base =
+            navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length - 12);
+
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
-        
+
         return datagram;
     }
 
     static EK60_NME0 from_stream(std::istream& is)
     {
-        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
+        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
     }
 
     static EK60_NME0 from_stream(std::istream& is, t_EK60_DatagramType type)
@@ -90,7 +91,7 @@ struct EK60_NME0 : public EK60_Datagram
         if (type != t_EK60_DatagramType::NME0)
             throw std::runtime_error("EK60_NME0::from_stream: wrong datagram type");
 
-        return from_stream(is,EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
+        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
     }
 
     void to_stream(std::ostream& os)

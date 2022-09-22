@@ -58,5 +58,4 @@ TEST_CASE("EK60_Unknown should support common functions", TESTTAG)
     REQUIRE(dat.get_timestamp() == Approx(123.123));
     REQUIRE(dat._HighDateTime == 27111903);
     REQUIRE(dat._LowDateTime == 513905712);
-
 }

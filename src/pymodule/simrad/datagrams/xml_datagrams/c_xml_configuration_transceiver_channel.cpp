@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel;
 void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
 {
     py::class_<XML_Configuration_Transceiver_Channel>(m,
-                                      "XML_Configuration_Transceiver_Channel",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Transceiver_Channel))
+                                                      "XML_Configuration_Transceiver_Channel",
+                                                      DOC(themachinethatgoesping,
+                                                          echosounders,
+                                                          simrad,
+                                                          datagrams,
+                                                          xml_datagrams,
+                                                          XML_Configuration_Transceiver_Channel))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +52,6 @@ void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel,
                            Transducer))
-
 
         // ----- attributes -----
         .def_readwrite("ChannelID",
@@ -118,8 +117,7 @@ void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel,
                            HWChannelConfiguration))
-        
-        
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transceiver_Channel::unknown_children,
                        DOC(themachinethatgoesping,

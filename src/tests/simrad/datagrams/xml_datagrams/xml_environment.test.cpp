@@ -34,7 +34,7 @@ TEST_CASE("XML_Environment should support common functions", TESTTAG)
 
     XML_Environment xml1 = std::get<XML_Environment>(dat.decode());
     XML_Environment xml2 = xml1;
-    xml2.SoundSpeed = 1500;
+    xml2.SoundSpeed      = 1500;
 
     // test inequality
     REQUIRE(xml1 != xml2);
@@ -80,5 +80,4 @@ TEST_CASE("XML_Environment should support common functions", TESTTAG)
     REQUIRE(xml1.WaterLevelDraftIsManual == 0);
     REQUIRE(xml1.Transducer.TransducerName == "Unknown");
     REQUIRE(xml1.Transducer.SoundSpeed == 1475);
-
 }

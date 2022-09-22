@@ -24,7 +24,7 @@ using datagrams::EK60_Unknown;
 
 void init_c_ek60_unknown(pybind11::module& m)
 {
-        py::class_<EK60_Unknown, datagrams::EK60_Datagram>(
+    py::class_<EK60_Unknown, datagrams::EK60_Datagram>(
         m,
         "EK60_Unknown",
         DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Unknown))
@@ -40,25 +40,16 @@ void init_c_ek60_unknown(pybind11::module& m)
             "raw_content",
             [](const EK60_Unknown& self) { return py::bytes(self.raw_content); },
             [](EK60_Unknown& self, const py::bytes& value) { self.raw_content = value; },
-            DOC(themachinethatgoesping,
-                echosounders,
-                simrad,
-                datagrams,
-                EK60_Unknown,
-                raw_content))
-        
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Unknown, raw_content))
+
         // ----- operators -----
-        .def("__eq__",
-             &EK60_Unknown::operator==,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 EK60_Unknown,
-                 operator_eq),
-             py::arg("other"))
+        .def(
+            "__eq__",
+            &EK60_Unknown::operator==,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Unknown, operator_eq),
+            py::arg("other"))
         // ----- pybind macros -----
-        //default copy functions 
+        // default copy functions
         __PYCLASS_DEFAULT_COPY__(EK60_Unknown)
         // default binary functions
         __PYCLASS_DEFAULT_BINARY__(EK60_Unknown)

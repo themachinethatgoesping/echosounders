@@ -15,7 +15,6 @@ using themachinethatgoesping::echosounders::simrad::datagrams::EK60_Datagram;
 
 #define TESTTAG "[simrad]"
 
-
 TEST_CASE("EK60_Datagram static functions", TESTTAG)
 {
     SECTION("DatagramTypeAsString should be reversible")

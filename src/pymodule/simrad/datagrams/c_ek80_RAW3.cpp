@@ -3,13 +3,12 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <pybind11/complex.h>
 //#define FORCE_IMPORT_ARRAY
-#include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
-
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
@@ -46,17 +45,21 @@ void init_c_ek80_RAW3(pybind11::module& m)
             &EK80_RAW3::get_data_type,
             &EK80_RAW3::set_data_type,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, get_data_type))
-        .def_property(
-            "number_of_complex_samples",
-            &EK80_RAW3::get_number_of_complex_samples,
-            &EK80_RAW3::set_number_of_complex_samples,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, get_number_of_complex_samples))
+        .def_property("number_of_complex_samples",
+                      &EK80_RAW3::get_number_of_complex_samples,
+                      &EK80_RAW3::set_number_of_complex_samples,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK80_RAW3,
+                          get_number_of_complex_samples))
         .def_property(
             "offset",
             &EK80_RAW3::get_offset,
             &EK80_RAW3::set_offset,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Offset))
-   .def_property(
+        .def_property(
             "count",
             &EK80_RAW3::get_count,
             &EK80_RAW3::set_count,
@@ -71,10 +74,14 @@ void init_c_ek80_RAW3(pybind11::module& m)
             "_raw_Datatype",
             &EK80_RAW3::_Datatype,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Datatype))
-        .def_readwrite(
-            "_raw_NumberOfComplexSamples",
-            &EK80_RAW3::_NumberOfComplexSamples,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, NumberOfComplexSamples))
+        .def_readwrite("_raw_NumberOfComplexSamples",
+                       &EK80_RAW3::_NumberOfComplexSamples,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           EK80_RAW3,
+                           NumberOfComplexSamples))
         .def_readwrite(
             "_raw_Spare_1",
             &EK80_RAW3::_Spare_1,

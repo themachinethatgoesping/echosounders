@@ -42,15 +42,16 @@ namespace datagrams {
 struct EK80_RAW3 : public EK60_Datagram
 {
     // ----- datagram content -----
-    std::string                     _ChannelID; ///< Channel identification (size is always 128)
-    RAW3_datatypes::t_RAW3_DataType _Datatype =
-        RAW3_datatypes::t_RAW3_DataType(0b00000000); ///< Datatype
-    uint8_t _NumberOfComplexSamples =
-        0; ///< Number of transducer samples per sample (used when Datatype is complex)
-    ek60_char _Spare_1 = '\x00'; ///< Spare 1
-    ek60_char _Spare_2 = '\x00'; ///< Spare 2
-    ek60_long _Offset  = 0;      ///< First sample number in the datagram
-    ek60_long _Count   = 0;      ///< Number of samples in the datagram
+    std::array<char, 128>           _ChannelID; ///< Channel identification (size is always 128)
+    RAW3_datatypes::t_RAW3_DataType _Datatype;  ///< Datatype
+    uint8_t _NumberOfComplexSamples; ///< Number of transducer samples per sample (used when
+                                     ///< Datatype is complex)
+    ek60_char _Spare_1;              ///< Spare 1
+    ek60_char _Spare_2;              ///< Spare 2
+    ek60_long _Offset;               ///< First sample number in the datagram
+    ek60_long _Count;                ///< Number of samples in the datagram
+
+    RAW3_datatypes::RAW3_DataVariant _SampleData; ///< Sample data
 
     // std::variant<xt::xarray<ek60_float>,
     //              xt::xarray<ek60_complex_float>> _Samples; ///< Sample data
@@ -66,7 +67,16 @@ struct EK80_RAW3 : public EK60_Datagram
     // ----- constructors -----
     EK80_RAW3()
         : EK60_Datagram(152, ek60_long(t_EK60_DatagramType::RAW3))
+        , _ChannelID()
+        , _Datatype(RAW3_datatypes::t_RAW3_DataType(0b00000000))
+        , _NumberOfComplexSamples(0)
+        , _Spare_1('\x00')
+        , _Spare_2('\x00')
+        , _Offset(0)
+        , _Count(0)
+        , _SampleData()
     {
+        _ChannelID.fill('\x00');
     }
     ~EK80_RAW3() = default;
 
@@ -84,8 +94,16 @@ struct EK80_RAW3 : public EK60_Datagram
     bool operator!=(const EK80_RAW3& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    const std::string& get_channel_id() const { return _ChannelID; }
-    void               set_channel_id(const std::string& channel_id) { _ChannelID = channel_id; }
+    std::string_view get_channel_id() const { return std::string_view(_ChannelID.data(), 128); }
+    void             set_channel_id(std::string_view channel_id)
+    {
+        if (channel_id.size() > 128)
+            throw std::runtime_error("channel_id too long");
+
+        std::copy(channel_id.begin(), channel_id.end(), _ChannelID.begin());
+        // fill _ChannelID with \x00
+        std::fill(_ChannelID.begin() + channel_id.size(), _ChannelID.end(), '\x00');
+    }
     RAW3_datatypes::t_RAW3_DataType get_data_type() const
     {
         // set short to 0 except for the last 4 bits
@@ -105,7 +123,7 @@ struct EK80_RAW3 : public EK60_Datagram
         // complex data types set at least bit 3
         if (uint8_t(_Datatype) < 4)
             return 1;
-            
+
         // the number of samples is written in _Datatype bits 8-10
         return _NumberOfComplexSamples;
     }
@@ -122,29 +140,56 @@ struct EK80_RAW3 : public EK60_Datagram
     void      set_count(ek60_long count) { _Count = count; }
 
     // ----- file I/O -----
-    static EK80_RAW3 from_stream(std::istream& is, EK60_Datagram header, bool skip = true)
+    static EK80_RAW3 from_stream(std::istream& is, EK60_Datagram header)
     {
         auto      pos = is.tellg();
         EK80_RAW3 datagram(std::move(header));
-        datagram._ChannelID.resize(128);
+        // datagram._ChannelID.resize(128);
 
-        is.read(datagram._ChannelID.data(), datagram._ChannelID.size());
-        is.read(reinterpret_cast<char*>(&datagram._Datatype), sizeof(datagram._Datatype));
-        is.read(reinterpret_cast<char*>(&datagram._NumberOfComplexSamples),
-                sizeof(datagram._NumberOfComplexSamples));
-        is.read(reinterpret_cast<char*>(&datagram._Spare_1), sizeof(datagram._Spare_1));
-        is.read(reinterpret_cast<char*>(&datagram._Spare_2), sizeof(datagram._Spare_2));
-        is.read(reinterpret_cast<char*>(&datagram._Offset), sizeof(datagram._Offset));
-        is.read(reinterpret_cast<char*>(&datagram._Count), sizeof(datagram._Count));
+        is.read(datagram._ChannelID.data(), 140);
 
-        if (!skip)
-            return datagram;
+        // is.read(datagram._ChannelID.data(), datagram._ChannelID.size());
+        // is.read(reinterpret_cast<char*>(&datagram._Datatype), 12);
 
-        (void)RAW3_datatypes::RAW3_DataSkipped::from_stream(
-            is,
-            datagram._Count,
-            datagram.get_data_type(),
-            datagram.get_number_of_complex_samples());
+        // is.read(reinterpret_cast<char*>(&datagram._Datatype), sizeof(datagram._Datatype));
+        // is.read(reinterpret_cast<char*>(&datagram._NumberOfComplexSamples),
+        //         sizeof(datagram._NumberOfComplexSamples));
+        // is.read(reinterpret_cast<char*>(&datagram._Spare_1), sizeof(datagram._Spare_1));
+        // is.read(reinterpret_cast<char*>(&datagram._Spare_2), sizeof(datagram._Spare_2));
+        // is.read(reinterpret_cast<char*>(&datagram._Offset), sizeof(datagram._Offset));
+        // is.read(reinterpret_cast<char*>(&datagram._Count), sizeof(datagram._Count));
+
+        using namespace RAW3_datatypes;
+
+        switch (datagram._Datatype)
+        {
+            case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32:
+                datagram._SampleData = RAW3_DataComplexFloat32::from_stream(
+                    is, datagram._Count, datagram._Count, datagram.get_number_of_complex_samples());
+                break;
+            case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle:
+                datagram._SampleData =
+                    RAW3_DataPowerAndAngle::from_stream(is, datagram._Count, datagram._Count);
+                break;
+            case RAW3_datatypes::t_RAW3_DataType::Power:
+                datagram._SampleData =
+                    RAW3_DataPower::from_stream(is, datagram._Count, datagram._Count);
+                break;
+            case RAW3_datatypes::t_RAW3_DataType::Angle:
+                datagram._SampleData =
+                    RAW3_DataAngle::from_stream(is, datagram._Count, datagram._Count);
+                break;
+            default:
+                std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
+                                         magic_enum::enum_name(datagram._Datatype))
+                          << std::endl;
+                datagram._SampleData =
+                    RAW3_DataSkipped::from_stream(is,
+                                                  datagram._Count,
+                                                  datagram.get_data_type(),
+                                                  datagram.get_number_of_complex_samples());
+                break;
+        }
 
         return datagram;
     }
@@ -162,7 +207,7 @@ struct EK80_RAW3 : public EK60_Datagram
         return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::RAW3));
     }
 
-    void to_stream(std::ostream& os, bool skip = true)
+    void to_stream(std::ostream& os)
     {
         //_Count = _Samples.size();
         auto data_type_size = RAW3_DataType_size(_Datatype);
@@ -171,24 +216,30 @@ struct EK80_RAW3 : public EK60_Datagram
         _Length = _Count * data_type_size * get_number_of_complex_samples() + 152;
 
         _DatagramType = ek60_long(t_EK60_DatagramType::RAW3);
-        _ChannelID.resize(128, '\x00');
+        //_ChannelID.resize(128, '\x00');
 
         EK60_Datagram::to_stream(os);
 
-        os.write(_ChannelID.data(), _ChannelID.size());
-        os.write(reinterpret_cast<char*>(&_Datatype), sizeof(_Datatype));
-        os.write(reinterpret_cast<char*>(&_NumberOfComplexSamples),
-                 sizeof(_NumberOfComplexSamples));
-        os.write(reinterpret_cast<char*>(&_Spare_1), sizeof(_Spare_1));
-        os.write(reinterpret_cast<char*>(&_Spare_2), sizeof(_Spare_2));
-        os.write(reinterpret_cast<char*>(&_Offset), sizeof(_Offset));
-        os.write(reinterpret_cast<char*>(&_Count), sizeof(_Count));
+        os.write(_ChannelID.data(), 140);
 
-        if (!skip)
-            return;
+        // os.write(_ChannelID.data(), _ChannelID.size());
+        // os.write(reinterpret_cast<char*>(&_Datatype), 12);
 
-        RAW3_datatypes::RAW3_DataSkipped skipped;
-        skipped.to_stream(os, _Count, get_data_type(), get_number_of_complex_samples());
+        // os.write(reinterpret_cast<char*>(&_Datatype), sizeof(_Datatype));
+        // os.write(reinterpret_cast<char*>(&_NumberOfComplexSamples),
+        //          sizeof(_NumberOfComplexSamples));
+        // os.write(reinterpret_cast<char*>(&_Spare_1), sizeof(_Spare_1));
+        // os.write(reinterpret_cast<char*>(&_Spare_2), sizeof(_Spare_2));
+        // os.write(reinterpret_cast<char*>(&_Offset), sizeof(_Offset));
+        // os.write(reinterpret_cast<char*>(&_Count), sizeof(_Count));
+
+        tools::helper::visit_variant(
+            _SampleData,
+            [&os, this](RAW3_datatypes::RAW3_DataSkipped& data) {
+                data.to_stream(
+                    os, this->_Count, this->get_data_type(), this->get_number_of_complex_samples());
+            },
+            [&os](auto& data) { data.to_stream(os); });
 
         os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
     }
@@ -201,7 +252,7 @@ struct EK80_RAW3 : public EK60_Datagram
 
         printer.append(EK60_Datagram::__printer__(float_precision));
 
-        std::string channel_id = _ChannelID;
+        std::string channel_id = std::string(get_channel_id());
         // remove all non ascii characters
         channel_id.erase(std::remove_if(channel_id.begin(),
                                         channel_id.end(),

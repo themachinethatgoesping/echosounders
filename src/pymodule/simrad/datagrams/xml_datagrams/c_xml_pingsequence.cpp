@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_PingSequence;
 void init_c_xml_pingsequence(pybind11::module& m)
 {
     py::class_<XML_PingSequence>(m,
-                                      "XML_PingSequence",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_PingSequence))
+                                 "XML_PingSequence",
+                                 DOC(themachinethatgoesping,
+                                     echosounders,
+                                     simrad,
+                                     datagrams,
+                                     xml_datagrams,
+                                     XML_PingSequence))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +52,7 @@ void init_c_xml_pingsequence(pybind11::module& m)
                            xml_datagrams,
                            XML_PingSequence,
                            Pings))
-        
+
         .def_readwrite("unknown_children",
                        &XML_PingSequence::unknown_children,
                        DOC(themachinethatgoesping,

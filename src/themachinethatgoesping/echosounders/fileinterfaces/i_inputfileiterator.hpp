@@ -127,31 +127,34 @@ class I_InputFileIterator
         return *_input_file_stream;
     }
 
-    bool _is_slice   = false;
-    size_t     _index_min  = 0;
-    size_t     _index_max  = std::numeric_limits<long>::max();
-    long       _index_step = 1;
+    bool   _is_slice   = false;
+    size_t _index_min  = 0;
+    size_t _index_max  = std::numeric_limits<long>::max();
+    long   _index_step = 1;
 
   public:
-    I_InputFileIterator<t_DatagramType,t_DatagramIdentifier,t_ifstream,t_DatagramTypeFactory>& operator()(long index_min, long index_max, long index_step)
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>&
+    operator()(long index_min, long index_max, long index_step)
     {
 
-         if (index_step == 0)
+        if (index_step == 0)
             throw(std::out_of_range("InputFileIterator: index_step is zero!"));
 
         if (index_max == std::numeric_limits<long>::max())
-            index_max = _package_infos->size();            
+            index_max = _package_infos->size();
 
         bool ivn_max = false;
         bool ivn_min = false;
-        if (index_max < 0){
+        if (index_max < 0)
+        {
             index_max = _package_infos->size() + index_max;
-            ivn_max = true;
+            ivn_max   = true;
         }
 
-        if (index_min < 0){
+        if (index_min < 0)
+        {
             index_min = _package_infos->size() + index_min;
-            ivn_min = true;
+            ivn_min   = true;
         }
 
         if (index_min > index_max)
@@ -161,18 +164,18 @@ class I_InputFileIterator
             ivn_max = ivn_min;
         }
 
-        index_max = index_max -1 *(!ivn_max);
+        index_max = index_max - 1 * (!ivn_max);
 
         if (index_min < 0 || index_min >= long(_package_infos->size()))
             throw(std::out_of_range("InputFileIterator: index_min is out of bounds!"));
         if (index_max < 0 || index_max >= long(_package_infos->size()))
             throw(std::out_of_range("InputFileIterator: index_max is out of bounds!"));
-        if (index_min >= index_max )
+        if (index_min >= index_max)
             throw(std::out_of_range("InputFileIterator: _index_min >= _index_max!"));
 
-        _is_slice = true;
-        _index_min = index_min;
-        _index_max = index_max;
+        _is_slice   = true;
+        _index_min  = index_min;
+        _index_max  = index_max;
         _index_step = index_step;
 
         return *this;
@@ -202,8 +205,7 @@ class I_InputFileIterator
     size_t size() const
     {
         if (_is_slice)
-            return (_index_max - _index_min + 1) /
-                   std::abs(_index_step);
+            return (_index_max - _index_min + 1) / std::abs(_index_step);
         return _package_infos->size();
     }
 
@@ -217,29 +219,31 @@ class I_InputFileIterator
             // convert index to C++ index using _index_step, _index_min, _index_max
             index *= _index_step;
 
-            if(index < 0)
-                index += _index_max + std::abs(_index_step); //_index_max == _package_infos->size()-1
+            if (index < 0)
+                index +=
+                    _index_max + std::abs(_index_step); //_index_max == _package_infos->size()-1
             else
                 index += _index_min;
 
-
             // TODO: fix error messages
             if (size_t(index) > _index_max)
-                throw std::out_of_range(fmt::format("Index [{}] is > max [{}]! ",index- _index_min, _index_max));
+                throw std::out_of_range(
+                    fmt::format("Index [{}] is > max [{}]! ", index - _index_min, _index_max));
         }
         else
         {
             // convert from python index (can be negative) to C++ index
-            if(index < 0)
+            if (index < 0)
                 index += _package_infos->size();
-            //index = python_index < 0 ? _package_infos->size() + python_index : python_index;
+            // index = python_index < 0 ? _package_infos->size() + python_index : python_index;
 
             if (size_t(index) >= _package_infos->size())
-                throw std::out_of_range(fmt::format("Index [{}] is >= max [{}]! ",index, _package_infos->size()));
+                throw std::out_of_range(
+                    fmt::format("Index [{}] is >= max [{}]! ", index, _package_infos->size()));
         }
 
         if (index < long(_index_min))
-                throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ",index, _index_min));
+            throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
 

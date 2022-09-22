@@ -18,7 +18,8 @@ using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XM
 
 using Catch::Detail::Approx;
 
-std::string xml_string = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<PingSequence>\n    <Ping ChannelID=\"WBT 400058-15 ES333-7C_ES\" />\n</PingSequence>\x00\x00\x00";
+std::string xml_string = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<PingSequence>\n    <Ping "
+                         "ChannelID=\"WBT 400058-15 ES333-7C_ES\" />\n</PingSequence>\x00\x00\x00";
 
 TEST_CASE("XML_PingSequence should support common functions", TESTTAG)
 {
@@ -26,8 +27,8 @@ TEST_CASE("XML_PingSequence should support common functions", TESTTAG)
     EK80_XML0 dat, dat2;
     dat.set_xml_content(xml_string);
 
-    XML_PingSequence xml1         = std::get<XML_PingSequence>(dat.decode());
-    XML_PingSequence xml2         = xml1;
+    XML_PingSequence xml1   = std::get<XML_PingSequence>(dat.decode());
+    XML_PingSequence xml2   = xml1;
     xml2.Pings[0].ChannelID = "Different channel id :)";
 
     // test inequality
@@ -58,5 +59,4 @@ TEST_CASE("XML_PingSequence should support common functions", TESTTAG)
     // --- test data access ---
     REQUIRE(xml1.Pings.size() == 1);
     REQUIRE(xml1.Pings[0].ChannelID == "WBT 400058-15 ES333-7C_ES");
-
 }

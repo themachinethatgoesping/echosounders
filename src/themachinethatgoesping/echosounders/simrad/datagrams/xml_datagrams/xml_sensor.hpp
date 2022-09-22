@@ -99,7 +99,7 @@ struct XML_Sensor
         is.read(reinterpret_cast<char*>(&xml.IsManual), sizeof(xml.IsManual));
         is.read(reinterpret_cast<char*>(&xml.ManualValue), sizeof(xml.ManualValue));
         xml.Type = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        
+
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -119,7 +119,8 @@ struct XML_Sensor
     // ----- operators -----
     bool operator==(const XML_Sensor& other) const
     {
-        return IsManual == other.IsManual && tools::helper::approx(ManualValue , other.ManualValue) && Type == other.Type;
+        return IsManual == other.IsManual &&
+               tools::helper::approx(ManualValue, other.ManualValue) && Type == other.Type;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }

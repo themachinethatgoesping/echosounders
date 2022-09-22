@@ -81,9 +81,14 @@ void init_m_simrad_datagrams_xml(pybind11::module& m)
             .value("BeamTypeRefB", t_BeamType::BeamTypeRefB, DOC_ENUM_BEAMTYPE(BeamTypeRefB))
             .value("BeamTypeSplit3", t_BeamType::BeamTypeSplit3, DOC_ENUM_BEAMTYPE(BeamTypeSplit3))
             .value("BeamTypeSplit2", t_BeamType::BeamTypeSplit2, DOC_ENUM_BEAMTYPE(BeamTypeSplit2))
-            .value("BeamTypeSplit3C", t_BeamType::BeamTypeSplit3C, DOC_ENUM_BEAMTYPE(BeamTypeSplit3C))
-            .value("BeamTypeSplit3CN", t_BeamType::BeamTypeSplit3CN, DOC_ENUM_BEAMTYPE(BeamTypeSplit3CN))
-            .value("BeamTypeSplit3CW", t_BeamType::BeamTypeSplit3CW, DOC_ENUM_BEAMTYPE(BeamTypeSplit3CW))
+            .value(
+                "BeamTypeSplit3C", t_BeamType::BeamTypeSplit3C, DOC_ENUM_BEAMTYPE(BeamTypeSplit3C))
+            .value("BeamTypeSplit3CN",
+                   t_BeamType::BeamTypeSplit3CN,
+                   DOC_ENUM_BEAMTYPE(BeamTypeSplit3CN))
+            .value("BeamTypeSplit3CW",
+                   t_BeamType::BeamTypeSplit3CW,
+                   DOC_ENUM_BEAMTYPE(BeamTypeSplit3CW))
             .export_values()
         // pybind enum helpers
         //

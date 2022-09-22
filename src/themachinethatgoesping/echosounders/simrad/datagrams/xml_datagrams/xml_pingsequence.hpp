@@ -39,7 +39,7 @@ struct XML_PingSequence
 {
     std::vector<XML_PingSequence_Ping> Pings;
 
-    int32_t unknown_children  = 0;
+    int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
 
   public:
@@ -56,15 +56,14 @@ struct XML_PingSequence
                                      root_node.name() + "'");
         }
         unknown_attributes = 0;
-        unknown_children  = 0; 
+        unknown_children   = 0;
 
         // there should only be one child for this node
         for (const auto& node : root_node.children())
         {
             if (strcmp(node.name(), "Ping"))
             {
-                std::cerr << "WARNING: [PingSequence] Unknown child: " << node.name()
-                          << std::endl;
+                std::cerr << "WARNING: [PingSequence] Unknown child: " << node.name() << std::endl;
 
                 unknown_children = 1;
 
@@ -72,16 +71,14 @@ struct XML_PingSequence
             }
 
             Pings.emplace_back(node);
-
-           
         }
-         
-            for (auto& attr : root_node.attributes())
-            {
-                
-                std::cerr << "WARNING: [PingSequence] Unknown attribute: " << attr.name() << std::endl;
-                unknown_attributes += 1;
-            }
+
+        for (auto& attr : root_node.attributes())
+        {
+
+            std::cerr << "WARNING: [PingSequence] Unknown attribute: " << attr.name() << std::endl;
+            unknown_attributes += 1;
+        }
     }
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
@@ -90,7 +87,7 @@ struct XML_PingSequence
     static XML_PingSequence from_stream(std::istream& is)
     {
         XML_PingSequence xml;
-        size_t size;
+        size_t           size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
         for (size_t i = 0; i < size; ++i)
         {
@@ -131,7 +128,7 @@ struct XML_PingSequence
         printer.register_section("children");
         for (const auto& ping : Pings)
         {
-        printer.register_string("Ping ChannelID", ping.ChannelID);
+            printer.register_string("Ping ChannelID", ping.ChannelID);
         }
         printer.register_value("unknown_children", unknown_children);
         printer.register_value("unknown_attributes", unknown_attributes);

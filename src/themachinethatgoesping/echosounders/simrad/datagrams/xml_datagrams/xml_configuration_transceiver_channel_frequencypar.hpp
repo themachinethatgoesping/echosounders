@@ -30,7 +30,6 @@ namespace simrad {
 namespace datagrams {
 namespace xml_datagrams {
 
-
 /**
  * @brief XML base datagram
  *
@@ -38,8 +37,8 @@ namespace xml_datagrams {
 struct XML_Configuration_Transceiver_Channel_FrequencyPar
 {
 
- double Frequency;
- double Gain;
+    double Frequency;
+    double Gain;
     double Impedance;
     double Phase;
     double BeamWidthAlongship;
@@ -74,12 +73,10 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
         // there should only be one child for this node
         for (const auto& node : root_node.children())
         {
-                std::cerr
-                    << "WARNING: [Configuration_Transceiver_Channel_FrequencyPar] Unknown child: "
-                    << node.name() << std::endl;
+            std::cerr << "WARNING: [Configuration_Transceiver_Channel_FrequencyPar] Unknown child: "
+                      << node.name() << std::endl;
 
-                unknown_children = 1;
-
+            unknown_children = 1;
         }
 
         for (auto& attr : root_node.attributes())
@@ -166,7 +163,7 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
                approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
                approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
                approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship);
-        
+
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
@@ -181,7 +178,6 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
         tools::classhelpers::ObjectPrinter printer(
             "EK80 XML0 Configuration_Transceiver_Channel_FrequencyPar", float_precision);
 
-        
         printer.register_section("attributes");
         printer.register_value("Frequency", Frequency);
         printer.register_value("Gain", Gain);

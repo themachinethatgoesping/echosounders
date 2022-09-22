@@ -185,12 +185,12 @@ struct XML_Configuration_Transducer
     {
         using tools::helper::approx;
 
-        return approx(TransducerAlphaX , other.TransducerAlphaX) &&
-               approx(TransducerAlphaY , other.TransducerAlphaY) &&
-               approx(TransducerAlphaZ , other.TransducerAlphaZ) &&
-               approx(TransducerOffsetX , other.TransducerOffsetX) &&
-               approx(TransducerOffsetY , other.TransducerOffsetY) &&
-               approx(TransducerOffsetZ , other.TransducerOffsetZ) &&
+        return approx(TransducerAlphaX, other.TransducerAlphaX) &&
+               approx(TransducerAlphaY, other.TransducerAlphaY) &&
+               approx(TransducerAlphaZ, other.TransducerAlphaZ) &&
+               approx(TransducerOffsetX, other.TransducerOffsetX) &&
+               approx(TransducerOffsetY, other.TransducerOffsetY) &&
+               approx(TransducerOffsetZ, other.TransducerOffsetZ) &&
                TransducerSerialNumber == other.TransducerSerialNumber &&
                TransducerMounting == other.TransducerMounting &&
                TransducerOrientation == other.TransducerOrientation &&

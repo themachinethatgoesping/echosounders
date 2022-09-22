@@ -22,12 +22,12 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
 
     // set some variables
     dat.set_timestamp(123);
-    dat._Heave = 10;
-    dat._Roll = 12;
-    dat._Pitch = 13;
+    dat._Heave   = 10;
+    dat._Roll    = 12;
+    dat._Pitch   = 13;
     dat._Heading = 14;
 
-    auto dat2 = dat;
+    auto dat2     = dat;
     dat2._Heading = 15;
 
     // test inequality
@@ -60,6 +60,5 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::MRU0);
-    REQUIRE(dat.get_length() == 12 + 4 *sizeof(ek60_float));
-
+    REQUIRE(dat.get_length() == 12 + 4 * sizeof(ek60_float));
 }

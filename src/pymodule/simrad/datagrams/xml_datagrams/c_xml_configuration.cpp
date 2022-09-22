@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration;
 void init_c_xml_configuration(pybind11::module& m)
 {
     py::class_<XML_Configuration>(m,
-                                      "XML_Configuration",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration))
+                                  "XML_Configuration",
+                                  DOC(themachinethatgoesping,
+                                      echosounders,
+                                      simrad,
+                                      datagrams,
+                                      xml_datagrams,
+                                      XML_Configuration))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -80,7 +80,6 @@ void init_c_xml_configuration(pybind11::module& m)
                            XML_Configuration,
                            ActivePingMode))
 
-
         // ----- attributes (Header) -----
         .def_readwrite("FileFormatVersion",
                        &XML_Configuration::FileFormatVersion,
@@ -127,7 +126,6 @@ void init_c_xml_configuration(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration,
                            Copyright))
-        
 
         // ----- methods -----
         .def("parsed_completely",

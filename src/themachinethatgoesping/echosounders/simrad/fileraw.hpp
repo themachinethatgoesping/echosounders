@@ -23,11 +23,13 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream = std::ifstream>
-class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>
+class FileRaw
+    : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>
 {
   public:
     // inherit constructors
-    using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>::I_InputFile;
+    using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>::
+        I_InputFile;
     ~FileRaw() = default;
 
     // using fileinterfaces::I_InputFile<datagrams::EK60_Datagram, ek60_long>::append_file;
@@ -87,11 +89,11 @@ class FileRaw : public fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_E
         tools::classhelpers::ObjectPrinter printer("FileSimradRaw", float_precision);
 
         auto interface_printer =
-            fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>::__printer__(
-                float_precision);
+            fileinterfaces::I_InputFile<datagrams::EK60_Datagram, t_EK60_DatagramType, t_ifstream>::
+                __printer__(float_precision);
 
         printer.append(interface_printer);
-        
+
         return printer;
     }
 

@@ -41,8 +41,9 @@ class I_InputFile
 
   protected:
     /* some file information */
-    std::shared_ptr<std::vector<std::string>> _file_paths = std::make_shared<std::vector<std::string>>();
-    size_t                   _total_file_size = 0;
+    std::shared_ptr<std::vector<std::string>> _file_paths =
+        std::make_shared<std::vector<std::string>>();
+    size_t _total_file_size = 0;
 
     /* the actual input file stream */
     std::unique_ptr<t_ifstream> _input_file_stream;
@@ -87,33 +88,52 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
-        t_DatagramIdentifier datagram_identifier) const
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    get_iterator(t_DatagramIdentifier datagram_identifier) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
+        return I_InputFileIterator<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(
             _file_paths, _package_infos_by_type.get_const(datagram_identifier));
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
-        t_DatagramIdentifier datagram_identifier, long index_min, long index_max, long index_step) const
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    get_iterator(t_DatagramIdentifier datagram_identifier,
+                 long                 index_min,
+                 long                 index_max,
+                 long                 index_step) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
-            _file_paths, _package_infos_by_type.get_const(datagram_identifier), index_min, index_max, index_step);
+        return I_InputFileIterator<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(
+            _file_paths,
+            _package_infos_by_type.get_const(datagram_identifier),
+            index_min,
+            index_max,
+            index_step);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator() const
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    get_iterator() const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
-            _file_paths, _package_infos_all);
+        return I_InputFileIterator<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(_file_paths, _package_infos_all);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory> get_iterator(
-        long index_min, long index_max, long index_step) const
+    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    get_iterator(long index_min, long index_max, long index_step) const
     {
-        return I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>(
+        return I_InputFileIterator<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(
             _file_paths, _package_infos_all, index_min, index_max, index_step);
     }
 
@@ -126,12 +146,14 @@ class I_InputFile
         long index = python_index < 0 ? _package_infos_all->size() + python_index : python_index;
 
         if (index < 0)
-            throw pybind11::index_error(fmt::format("Negative Index [{}] is larger than length [{}]! ",index,
-                                        (index - _package_infos_all->size())));
+            throw pybind11::index_error(
+                fmt::format("Negative Index [{}] is larger than length [{}]! ",
+                            index,
+                            (index - _package_infos_all->size())));
 
         if (static_cast<size_t>(index) >= _package_infos_all->size())
-            throw pybind11::index_error(fmt::format("Index [{}] is larger than length [{}]! ",index,
-                                        _package_infos_all->size()));
+            throw pybind11::index_error(fmt::format(
+                "Index [{}] is larger than length [{}]! ", index, _package_infos_all->size()));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
@@ -217,7 +239,7 @@ class I_InputFile
         // get total file size of all files
         size_t total_file_size = 0;
         size_t packages_old    = _package_infos_all->size();
-        active_file_nr = -1; 
+        active_file_nr         = -1;
 
         progress_bar.init(0, total_file_size, "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)

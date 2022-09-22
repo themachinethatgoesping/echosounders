@@ -30,19 +30,16 @@ void init_c_EK60_TAG0(pybind11::module& m)
         .def(py::init<>(),
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_TAG0, EK60_TAG0))
         // --- convenient data access ---
-        .def_property(
-            "text",
-            &EK60_TAG0::get_text,
-            &EK60_TAG0::set_text,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_TAG0, Text))
-        
+        .def_property("text",
+                      &EK60_TAG0::get_text,
+                      &EK60_TAG0::set_text,
+                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_TAG0, Text))
 
         // --- raw data access ---
         .def_readwrite(
             "_raw_Text",
             &EK60_TAG0::_Text,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_TAG0, Text))
-       
 
         // ----- operators -----
         .def("__eq__",

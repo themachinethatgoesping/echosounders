@@ -30,19 +30,31 @@ void init_c_ek80_XML0(pybind11::module& m)
         .def(py::init<>(),
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, EK80_XML0))
         // --- convenient data access ---
-        .def(
-            "set_xml_content",
-            &EK80_XML0::set_xml_content,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, set_xml_content),
-            py::arg("xml_content"))
-        .def(
-            "get_xml_content",
-            &EK80_XML0::get_xml_content,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_content))
-        .def(
-            "get_xml_datagram_type",
-            &EK80_XML0::get_xml_datagram_type,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))
+        .def("set_xml_content",
+             &EK80_XML0::set_xml_content,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 EK80_XML0,
+                 set_xml_content),
+             py::arg("xml_content"))
+        .def("get_xml_content",
+             &EK80_XML0::get_xml_content,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 EK80_XML0,
+                 get_xml_content))
+        .def("get_xml_datagram_type",
+             &EK80_XML0::get_xml_datagram_type,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 EK80_XML0,
+                 get_xml_datagram_type))
 
         .def("raw",
              &EK80_XML0::raw,
@@ -52,10 +64,14 @@ void init_c_ek80_XML0(pybind11::module& m)
              &EK80_XML0::decode,
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, decode))
         // --- convenient data access ---
-        .def(
-            "get_xml_datagram_type",
-            &EK80_XML0::get_xml_datagram_type,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_datagram_type))
+        .def("get_xml_datagram_type",
+             &EK80_XML0::get_xml_datagram_type,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 EK80_XML0,
+                 get_xml_datagram_type))
 
         // xml testing
         .def("test_xml",
@@ -71,11 +87,15 @@ void init_c_ek80_XML0(pybind11::module& m)
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, xml_content))
 
         // --- raw data access ---
-        .def_property(
-            "_raw_xml_content",
-            &EK80_XML0::get_xml_content,
-            &EK80_XML0::set_xml_content,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_XML0, get_xml_content))
+        .def_property("_raw_xml_content",
+                      &EK80_XML0::get_xml_content,
+                      &EK80_XML0::set_xml_content,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK80_XML0,
+                          get_xml_content))
 
         // ----- operators -----
         .def("__eq__",

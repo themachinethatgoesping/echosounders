@@ -25,14 +25,10 @@ using datagrams::xml_datagrams::XML_Parameter;
 
 void init_c_xml_parameter(pybind11::module& m)
 {
-    py::class_<XML_Parameter>(m,
-                                      "XML_Parameter",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Parameter))
+    py::class_<XML_Parameter>(
+        m,
+        "XML_Parameter",
+        DOC(themachinethatgoesping, echosounders, simrad, datagrams, xml_datagrams, XML_Parameter))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +48,6 @@ void init_c_xml_parameter(pybind11::module& m)
                            xml_datagrams,
                            XML_Parameter,
                            Channels))
-        
 
         // ----- methods -----
         .def("parsed_completely",

@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_InitialParameter;
 void init_c_xml_initialparameter(pybind11::module& m)
 {
     py::class_<XML_InitialParameter>(m,
-                                      "XML_InitialParameter",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_InitialParameter))
+                                     "XML_InitialParameter",
+                                     DOC(themachinethatgoesping,
+                                         echosounders,
+                                         simrad,
+                                         datagrams,
+                                         xml_datagrams,
+                                         XML_InitialParameter))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +52,6 @@ void init_c_xml_initialparameter(pybind11::module& m)
                            xml_datagrams,
                            XML_InitialParameter,
                            Channels))
-        
 
         // ----- methods -----
         .def("parsed_completely",

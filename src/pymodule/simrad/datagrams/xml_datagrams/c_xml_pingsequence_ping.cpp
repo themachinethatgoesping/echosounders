@@ -52,7 +52,7 @@ void init_c_xml_pingsequence_ping(pybind11::module& m)
                            xml_datagrams,
                            XML_PingSequence_Ping,
                            ChannelID))
-        
+
         .def_readwrite("unknown_children",
                        &XML_PingSequence_Ping::unknown_children,
                        DOC(themachinethatgoesping,

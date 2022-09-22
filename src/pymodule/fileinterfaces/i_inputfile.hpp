@@ -119,14 +119,13 @@ void add_PackageReading(T_PyClass& cls)
     cls.def("__len__",
             &T_BaseClass::size,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size));
-    cls.def(
-        "__getitem__",
-        &T_BaseClass::template get_datagram<T_DatagramType, T_DatagramFactory>,
-        // []( T_BaseClass& self, long index) {
-        //     return self.template get_datagram<T_DatagramType, T_DatagramFactory>(index);
-        // },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram),
-        py::arg("index"));
+    cls.def("__getitem__",
+            &T_BaseClass::template get_datagram<T_DatagramType, T_DatagramFactory>,
+            // []( T_BaseClass& self, long index) {
+            //     return self.template get_datagram<T_DatagramType, T_DatagramFactory>(index);
+            // },
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram),
+            py::arg("index"));
 }
 
 }

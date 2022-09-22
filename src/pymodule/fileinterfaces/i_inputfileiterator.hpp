@@ -79,7 +79,7 @@ template<typename T_BaseClass,
          typename T_PyClass>
 void add_Iterator(T_PyClass&           cls,
                   T_DatagramIdentifier datagram_identifier,
-                  const std::string&    T_NAME)
+                  const std::string&   T_NAME)
 {
     cls.def_property_readonly(
         ("i_" + T_NAME).c_str(),
@@ -120,7 +120,7 @@ void create_IteratorTypes(pybind11::module& m, const std::string ITERATOR_NAME)
                                                   MappedFileStream,
                                                   T_DatagramFactory>;
 
-    auto cls_stream         = py::class_<T_ITERATOR>(
+    auto cls_stream = py::class_<T_ITERATOR>(
         m,
         ITERATOR_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator));
@@ -129,7 +129,6 @@ void create_IteratorTypes(pybind11::module& m, const std::string ITERATOR_NAME)
         m,
         (ITERATOR_NAME + "_mapped").c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFileIterator));
-
 
     _iterator_add_PackageReading<T_ITERATOR>(cls_stream);
     _iterator_add_PackageReading<T_ITERATOR_MAPPED>(cls_mapped);

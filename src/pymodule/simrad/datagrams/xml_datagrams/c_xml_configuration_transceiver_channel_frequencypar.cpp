@@ -25,14 +25,15 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel_FrequencyP
 
 void init_c_xml_configuration_transceiver_channel_frequencypar(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver_Channel_FrequencyPar>(m,
-                                      "XML_Configuration_Transceiver_Channel_FrequencyPar",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Transceiver_Channel_FrequencyPar))
+    py::class_<XML_Configuration_Transceiver_Channel_FrequencyPar>(
+        m,
+        "XML_Configuration_Transceiver_Channel_FrequencyPar",
+        DOC(themachinethatgoesping,
+            echosounders,
+            simrad,
+            datagrams,
+            xml_datagrams,
+            XML_Configuration_Transceiver_Channel_FrequencyPar))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -43,7 +44,6 @@ void init_c_xml_configuration_transceiver_channel_frequencypar(pybind11::module&
                  XML_Configuration_Transceiver_Channel_FrequencyPar))
 
         // ----- children -----
-
 
         // ----- attributes -----
         .def_readwrite("Frequency",
@@ -117,8 +117,8 @@ void init_c_xml_configuration_transceiver_channel_frequencypar(pybind11::module&
                            datagrams,
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel_FrequencyPar,
-                           AngleOffsetAthwartship))        
-        
+                           AngleOffsetAthwartship))
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transceiver_Channel_FrequencyPar::unknown_children,
                        DOC(themachinethatgoesping,

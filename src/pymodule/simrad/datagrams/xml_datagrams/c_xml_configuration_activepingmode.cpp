@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration_ActivePingMode;
 void init_c_xml_configuration_activepingmode(pybind11::module& m)
 {
     py::class_<XML_Configuration_ActivePingMode>(m,
-                                      "XML_Configuration_ActivePingMode",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_ActivePingMode))
+                                                 "XML_Configuration_ActivePingMode",
+                                                 DOC(themachinethatgoesping,
+                                                     echosounders,
+                                                     simrad,
+                                                     datagrams,
+                                                     xml_datagrams,
+                                                     XML_Configuration_ActivePingMode))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +52,7 @@ void init_c_xml_configuration_activepingmode(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_ActivePingMode,
                            Mode))
-        
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_ActivePingMode::unknown_children,
                        DOC(themachinethatgoesping,

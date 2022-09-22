@@ -26,7 +26,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
 
     // set some variables
     dat.set_timestamp(123);
-    dat._ChannelID                     = "channel1";
+    dat.set_channel_id("channel1");
     std::vector<t_RAW3_DataType> types = { t_RAW3_DataType::Power,
                                            t_RAW3_DataType::Angle,
                                            t_RAW3_DataType::PowerAndAngle,
@@ -42,8 +42,8 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         dat._Datatype = type;
         std::cerr << "Type: " << magic_enum::enum_name(type) << std::endl;
 
-        auto dat2       = dat;
-        dat2._ChannelID = "channel2";
+        auto dat2 = dat;
+        dat2.set_channel_id("channel2");
 
         // test inequality
         REQUIRE(dat != dat2);
@@ -56,7 +56,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         REQUIRE(dat == EK80_RAW3(dat));
         REQUIRE(dat2 == EK80_RAW3(dat2));
 
-        //dat.print(std::cerr);
+        // dat.print(std::cerr);
 
         // test binary
         REQUIRE(dat == EK80_RAW3::from_binary(dat.to_binary()));
@@ -75,6 +75,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.get_data_type() == type);
         REQUIRE(dat.get_offset() == 1);
         REQUIRE(dat.get_count() == 10);
+
         // REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(dat.get_coefficients(),
         // xt::xarray<ek60_complex_float>({1, 2, 3, 4})));
 

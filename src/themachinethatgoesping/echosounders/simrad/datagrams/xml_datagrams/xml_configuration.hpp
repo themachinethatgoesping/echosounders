@@ -24,8 +24,8 @@
 #include "helper.hpp"
 #include "xml_configuration_activepingmode.hpp"
 #include "xml_configuration_sensor.hpp"
-#include "xml_configuration_transducer.hpp"
 #include "xml_configuration_transceiver.hpp"
+#include "xml_configuration_transducer.hpp"
 #include "xml_node.hpp"
 
 namespace themachinethatgoesping {
@@ -47,10 +47,10 @@ struct XML_Configuration
     std::string ApplicationName;
     std::string Copyright;
 
-    std::vector<XML_Configuration_Sensor>     ConfiguredSensors;
-    std::vector<XML_Configuration_Transducer> Transducers;
-    std::vector<XML_Configuration_Transceiver>                     Transceivers;
-    XML_Configuration_ActivePingMode          ActivePingMode;
+    std::vector<XML_Configuration_Sensor>      ConfiguredSensors;
+    std::vector<XML_Configuration_Transducer>  Transducers;
+    std::vector<XML_Configuration_Transceiver> Transceivers;
+    XML_Configuration_ActivePingMode           ActivePingMode;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -139,14 +139,15 @@ struct XML_Configuration
                 if (!ActivePingMode.Mode.empty())
                 {
                     ++unknown_children;
-                    std::cerr << "WARNING: [Configuration/ActivePingMode] More than one ActivePingMode element!: "
+                    std::cerr << "WARNING: [Configuration/ActivePingMode] More than one "
+                                 "ActivePingMode element!: "
                               << node.name() << std::endl;
 
                     continue;
                 }
 
                 ActivePingMode = XML_Configuration_ActivePingMode(node);
-                
+
                 continue;
             }
             else if (!strcmp(node.name(), "Header"))
@@ -277,10 +278,10 @@ struct XML_Configuration
     // ----- operators -----
     bool operator==(const XML_Configuration& other) const
     {
-        return ConfiguredSensors == other.ConfiguredSensors && Transducers == other.Transducers
-            && Transceivers == other.Transceivers && ActivePingMode == other.ActivePingMode
-            && FileFormatVersion == other.FileFormatVersion && Version == other.Version
-            && TimeBias == other.TimeBias && ApplicationName == other.ApplicationName;
+        return ConfiguredSensors == other.ConfiguredSensors && Transducers == other.Transducers &&
+               Transceivers == other.Transceivers && ActivePingMode == other.ActivePingMode &&
+               FileFormatVersion == other.FileFormatVersion && Version == other.Version &&
+               TimeBias == other.TimeBias && ApplicationName == other.ApplicationName;
     }
     bool operator!=(const XML_Configuration& other) const { return !operator==(other); }
 
@@ -292,7 +293,7 @@ struct XML_Configuration
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
         printer.register_value("Transducers", Transducers.size());
         printer.register_value("Transceivers", Transceivers.size());
-        if(!ActivePingMode.Mode.empty())
+        if (!ActivePingMode.Mode.empty())
         {
             printer.register_value("ActivePingMode", ActivePingMode.Mode);
         }

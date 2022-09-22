@@ -18,7 +18,8 @@ using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XM
 
 using Catch::Detail::Approx;
 
-std::string xml_string = "'<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Sensor Type=\"CableLength\" ManualValue=\"0\" IsManual=\"0\" />\x00\x00'";
+std::string xml_string = "'<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Sensor "
+                         "Type=\"CableLength\" ManualValue=\"0\" IsManual=\"0\" />\x00\x00'";
 
 TEST_CASE("XML_Sensor should support common functions", TESTTAG)
 {
@@ -26,8 +27,8 @@ TEST_CASE("XML_Sensor should support common functions", TESTTAG)
     EK80_XML0 dat, dat2;
     dat.set_xml_content(xml_string);
 
-    XML_Sensor xml1         = std::get<XML_Sensor>(dat.decode());
-    XML_Sensor xml2         = xml1;
+    XML_Sensor xml1  = std::get<XML_Sensor>(dat.decode());
+    XML_Sensor xml2  = xml1;
     xml2.ManualValue = 1;
 
     // test inequality

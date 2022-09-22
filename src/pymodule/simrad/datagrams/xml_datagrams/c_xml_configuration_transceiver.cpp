@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver;
 void init_c_xml_configuration_transceiver(pybind11::module& m)
 {
     py::class_<XML_Configuration_Transceiver>(m,
-                                      "XML_Configuration_Transceiver",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Transceiver))
+                                              "XML_Configuration_Transceiver",
+                                              DOC(themachinethatgoesping,
+                                                  echosounders,
+                                                  simrad,
+                                                  datagrams,
+                                                  xml_datagrams,
+                                                  XML_Configuration_Transceiver))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +52,6 @@ void init_c_xml_configuration_transceiver(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver,
                            Channels))
-
 
         // ----- attributes -----
         .def_readwrite("TransceiverName",
@@ -163,8 +162,7 @@ void init_c_xml_configuration_transceiver(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver,
                            Multiplexing))
-        
-        
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transceiver::unknown_children,
                        DOC(themachinethatgoesping,

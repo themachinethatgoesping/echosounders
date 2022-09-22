@@ -92,10 +92,10 @@ struct XML_Configuration_Transceiver
                 continue;
             }
 
-                std::cerr << "WARNING: [Configuration/ConfiguredSensors] Unknown child: " << node.name()
-                          << std::endl;
+            std::cerr << "WARNING: [Configuration/ConfiguredSensors] Unknown child: " << node.name()
+                      << std::endl;
 
-                unknown_children = 1;
+            unknown_children = 1;
         }
 
         for (auto& attr : root_node.attributes())
@@ -161,7 +161,6 @@ struct XML_Configuration_Transceiver
                 Multiplexing = std::stoi(attr.value());
                 continue;
             }
-            
 
             std::cerr << "WARNING: [Configuration_Transceiver] Unknown attribute: " << name
                       << std::endl;
@@ -176,15 +175,16 @@ struct XML_Configuration_Transceiver
     {
         XML_Configuration_Transceiver xml;
 
-        xml.TransceiverName     = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TransceiverType     = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.MarketSegment     = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TransceiverName = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TransceiverType = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.MarketSegment   = tools::classhelpers::stream::container_from_stream<std::string>(is);
         xml.EthernetAddress = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.IPAddress = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TransceiverSoftwareVersion = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.IPAddress       = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TransceiverSoftwareVersion =
+            tools::classhelpers::stream::container_from_stream<std::string>(is);
         xml.Version = tools::classhelpers::stream::container_from_stream<std::string>(is);
 
-        is.read(reinterpret_cast<char*>(&xml.Impedance), sizeof(xml.Impedance)*2);
+        is.read(reinterpret_cast<char*>(&xml.Impedance), sizeof(xml.Impedance) * 2);
         is.read(reinterpret_cast<char*>(&xml.SerialNumber), sizeof(xml.SerialNumber) * 3);
 
         size_t size;
@@ -211,7 +211,7 @@ struct XML_Configuration_Transceiver
         tools::classhelpers::stream::container_to_stream(os, TransceiverSoftwareVersion);
         tools::classhelpers::stream::container_to_stream(os, Version);
 
-        os.write(reinterpret_cast<const char*>(&Impedance), sizeof(Impedance)*2);
+        os.write(reinterpret_cast<const char*>(&Impedance), sizeof(Impedance) * 2);
         os.write(reinterpret_cast<const char*>(&SerialNumber), sizeof(SerialNumber) * 3);
 
         size_t size = Channels.size();
@@ -231,18 +231,13 @@ struct XML_Configuration_Transceiver
         using tools::helper::approx;
 
         return TransceiverName == other.TransceiverName &&
-               TransceiverType == other.TransceiverType &&
-               MarketSegment == other.MarketSegment &&
-               EthernetAddress == other.EthernetAddress &&
-               IPAddress == other.IPAddress &&
+               TransceiverType == other.TransceiverType && MarketSegment == other.MarketSegment &&
+               EthernetAddress == other.EthernetAddress && IPAddress == other.IPAddress &&
                TransceiverSoftwareVersion == other.TransceiverSoftwareVersion &&
-               Version == other.Version &&
-               approx(Impedance , other.Impedance) &&
-               approx(RxSampleFrequency , other.RxSampleFrequency) &&
-               SerialNumber == other.SerialNumber &&
-               TransceiverNumber == other.TransceiverNumber &&
-               Multiplexing == other.Multiplexing &&
-               Channels == other.Channels;
+               Version == other.Version && approx(Impedance, other.Impedance) &&
+               approx(RxSampleFrequency, other.RxSampleFrequency) &&
+               SerialNumber == other.SerialNumber && TransceiverNumber == other.TransceiverNumber &&
+               Multiplexing == other.Multiplexing && Channels == other.Channels;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
@@ -258,7 +253,7 @@ struct XML_Configuration_Transceiver
         if (!Channels.empty())
         {
             printer.register_section("children (Channels)");
-            printer.register_value("Channels",Channels.size());
+            printer.register_value("Channels", Channels.size());
             // for (const auto& telegram : Telegrams)
             // {
             //     std::string values = "";

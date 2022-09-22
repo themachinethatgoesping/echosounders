@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration_Sensor_TelegramValue;
 void init_c_xml_configuration_sensor_telegramvalue(pybind11::module& m)
 {
     py::class_<XML_Configuration_Sensor_TelegramValue>(m,
-                                      "XML_Configuration_Sensor_TelegramValue",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Sensor_TelegramValue))
+                                                       "XML_Configuration_Sensor_TelegramValue",
+                                                       DOC(themachinethatgoesping,
+                                                           echosounders,
+                                                           simrad,
+                                                           datagrams,
+                                                           xml_datagrams,
+                                                           XML_Configuration_Sensor_TelegramValue))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -61,7 +61,7 @@ void init_c_xml_configuration_sensor_telegramvalue(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Sensor_TelegramValue,
                            Name))
-        
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Sensor_TelegramValue::unknown_children,
                        DOC(themachinethatgoesping,

@@ -23,10 +23,11 @@ std::string xml_string =
     "SoundVelocitySource=\"Manual\" DropKeelOffset=\"0\" DropKeelOffsetIsManual=\"0\" "
     "WaterLevelDraft=\"0\" WaterLevelDraftIsManual=\"0\">\r\n  <Transducer "
     "TransducerName=\"Unknown\" SoundSpeed=\"1475\" />\r\n</Environment>";
-std::string xml_string_2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Parameter>\r\n  <Channel "
-                   "ChannelID=\"WBT Mini 261197-15 ES38-7\" ChannelMode=\"0\" PulseForm=\"0\" "
-                   "Frequency=\"38000\" PulseDuration=\"0.002048\" SampleInterval=\"5.2E-05\" "
-                   "TransmitPower=\"1000\" Slope=\"0.5\" />\r\n</Parameter>\x00\x00\x00";
+std::string xml_string_2 =
+    "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Parameter>\r\n  <Channel "
+    "ChannelID=\"WBT Mini 261197-15 ES38-7\" ChannelMode=\"0\" PulseForm=\"0\" "
+    "Frequency=\"38000\" PulseDuration=\"0.002048\" SampleInterval=\"5.2E-05\" "
+    "TransmitPower=\"1000\" Slope=\"0.5\" />\r\n</Parameter>\x00\x00\x00";
 
 TEST_CASE("XML_Node should support common functions", TESTTAG)
 {
@@ -66,7 +67,8 @@ TEST_CASE("XML_Node should support common functions", TESTTAG)
     REQUIRE(xml1.attributes("SoundSpeed") == "1473.3");
     REQUIRE(xml1.attributes("Temperature") == "10");
     REQUIRE(xml1.attributes("Latitude") == "44");
-    REQUIRE(xml1.attributes("SoundVelocityProfile") == "1.000000;1473.300000;1000.000000;1473.300000");
+    REQUIRE(xml1.attributes("SoundVelocityProfile") ==
+            "1.000000;1473.300000;1000.000000;1473.300000");
     REQUIRE(xml1.attributes("SoundVelocitySource") == "Manual");
     REQUIRE(xml1.attributes("DropKeelOffset") == "0");
     REQUIRE(xml1.attributes("DropKeelOffsetIsManual") == "0");
@@ -86,5 +88,4 @@ TEST_CASE("XML_Node should support common functions", TESTTAG)
     REQUIRE(xml2.children("Channel")[0].attributes("SampleInterval") == "5.2E-05");
     REQUIRE(xml2.children("Channel")[0].attributes("TransmitPower") == "1000");
     REQUIRE(xml2.children("Channel")[0].attributes("Slope") == "0.5");
-
 }

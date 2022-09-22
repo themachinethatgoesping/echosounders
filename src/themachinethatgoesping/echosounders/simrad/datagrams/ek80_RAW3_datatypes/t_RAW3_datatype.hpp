@@ -60,7 +60,6 @@ inline size_t RAW3_DataType_size(t_RAW3_DataType data_type)
     }
 }
 
-
 }
 }
 }

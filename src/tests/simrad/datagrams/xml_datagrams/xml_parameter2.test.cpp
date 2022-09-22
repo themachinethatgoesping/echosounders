@@ -36,7 +36,7 @@ std::string xml_string =
     "Frequency=\"333000\" PulseDuration=\"0.000256\" SampleInterval=\"8e-06\" TransmitPower=\"50\" "
     "Slope=\"0.023461\" SoundVelocity=\"1484.5\" />\n    </Channels>\n</InitialParameter>\x00";
 
-TEST_CASE( "xml_parameter2", TESTTAG )
+TEST_CASE("xml_parameter2", TESTTAG)
 {
     // initialize class structure
     EK80_XML0 dat, dat2;
@@ -127,5 +127,4 @@ TEST_CASE( "xml_parameter2", TESTTAG )
     REQUIRE(xml1.Channels[4].TransmitPower == 50);
     REQUIRE(xml1.Channels[4].Slope == Approx(0.023461));
     REQUIRE(xml1.Channels[4].SoundVelocity == Approx(1484.5));
-
 }

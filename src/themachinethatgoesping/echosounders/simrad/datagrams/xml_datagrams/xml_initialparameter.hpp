@@ -48,7 +48,6 @@ struct XML_InitialParameter
     XML_InitialParameter(const pugi::xml_node& node) { initialize(node); }
     ~XML_InitialParameter() = default;
 
-
     void initialize(const pugi::xml_node& root_node)
     {
         if (strcmp(root_node.name(), "InitialParameter"))
@@ -75,13 +74,12 @@ struct XML_InitialParameter
 
             parsed = true;
 
-
             for (const auto& node : sub_node.children())
             {
                 if (strcmp(node.name(), "Channel"))
                 {
-                    std::cerr << "WARNING: [InitialParameter::Channels] Unknown child: " << node.name()
-                            << std::endl;
+                    std::cerr << "WARNING: [InitialParameter::Channels] Unknown child: "
+                              << node.name() << std::endl;
 
                     unknown_children = 1;
 
@@ -99,9 +97,9 @@ struct XML_InitialParameter
     static XML_InitialParameter from_stream(std::istream& is)
     {
         XML_InitialParameter xml;
-        size_t size;
+        size_t               size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
-        for (size_t i=0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
             xml.Channels.emplace_back(XML_Parameter_Channel::from_stream(is));
         }
@@ -126,11 +124,13 @@ struct XML_InitialParameter
     // ----- operators -----
     bool operator==(const XML_InitialParameter& other) const
     {
-        if (Channels.size() != other.Channels.size()) return false;
+        if (Channels.size() != other.Channels.size())
+            return false;
 
         for (size_t i = 0; i < Channels.size(); ++i)
         {
-            if (Channels[i] != other.Channels[i]) return false;
+            if (Channels[i] != other.Channels[i])
+                return false;
         }
         return true;
 

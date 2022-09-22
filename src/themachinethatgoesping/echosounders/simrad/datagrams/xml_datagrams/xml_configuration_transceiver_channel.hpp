@@ -22,8 +22,8 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
-#include "xml_node.hpp"
 #include "xml_configuration_transceiver_channel_transducer.hpp"
+#include "xml_node.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -180,12 +180,12 @@ struct XML_Configuration_Transceiver_Channel
     bool operator==(const XML_Configuration_Transceiver_Channel& other) const
     {
         using namespace tools::helper;
-        
+
         return ChannelID == other.ChannelID && LogicalChannelID == other.LogicalChannelID &&
-               ChannelIdShort == other.ChannelIdShort && 
-               approx_container(PulseDuration , other.PulseDuration) &&
-               approx_container(PulseDurationFM , other.PulseDurationFM) &&
-               approx(MaxTxPowerTransceiver , other.MaxTxPowerTransceiver) &&
+               ChannelIdShort == other.ChannelIdShort &&
+               approx_container(PulseDuration, other.PulseDuration) &&
+               approx_container(PulseDurationFM, other.PulseDurationFM) &&
+               approx(MaxTxPowerTransceiver, other.MaxTxPowerTransceiver) &&
                HWChannelConfiguration == other.HWChannelConfiguration &&
                Transducer == other.Transducer;
 
@@ -203,8 +203,8 @@ struct XML_Configuration_Transceiver_Channel
         tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver_Channel",
                                                    float_precision);
 
-            printer.register_section("children (Transducer)");
-                printer.register_value("Transducer", Transducer.TransducerName);
+        printer.register_section("children (Transducer)");
+        printer.register_value("Transducer", Transducer.TransducerName);
 
         printer.register_section("attributes");
         printer.register_string("ChannelID", ChannelID);

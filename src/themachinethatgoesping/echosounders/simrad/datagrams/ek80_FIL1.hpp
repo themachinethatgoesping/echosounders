@@ -13,9 +13,9 @@
 
 #include <boost/algorithm/string.hpp>
 
-//xtensor includes
-#include <xtensor/xarray.hpp>
+// xtensor includes
 #include <xtensor/xadapt.hpp>
+#include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
@@ -39,11 +39,11 @@ namespace datagrams {
 struct EK80_FIL1 : public EK60_Datagram
 {
     // ----- datagram content -----
-    ek60_short  _Stage   = '\x00';     ///< Filter stage number
-    ek60_char   _Spare_1 = '\x00';     ///< For future expansions
-    ek60_char   _Spare_2 = '\x00';     ///< For future expansions
-    std::string _ChannelID;            ///< Channel identification (size is always 128)
-    ek60_short  _NoOfCoefficients = 0; ///< Number of complex filter coefficients
+    ek60_short  _Stage   = '\x00';      ///< Filter stage number
+    ek60_char   _Spare_1 = '\x00';      ///< For future expansions
+    ek60_char   _Spare_2 = '\x00';      ///< For future expansions
+    std::string _ChannelID;             ///< Channel identification (size is always 128)
+    ek60_short  _NoOfCoefficients = 0;  ///< Number of complex filter coefficients
     ek60_short  _DecimationFactor = -1; ///< Filter decimation factor
 
     xt::xarray<ek60_complex_float> _Coefficients; ///< Filter coefficientsg, ...)
@@ -66,22 +66,23 @@ struct EK80_FIL1 : public EK60_Datagram
     // ----- operators -----
     bool operator==(const EK80_FIL1& other) const
     {
-        using namespace tools::helper; //approx and approx_container
+        using namespace tools::helper; // approx and approx_container
 
         return EK60_Datagram::operator==(other) && _Stage == other._Stage &&
                _Spare_1 == other._Spare_1 && _Spare_2 == other._Spare_2 &&
                _ChannelID == other._ChannelID && _NoOfCoefficients == other._NoOfCoefficients &&
-               _DecimationFactor == other._DecimationFactor && approx_container_complex(_Coefficients, other._Coefficients);
+               _DecimationFactor == other._DecimationFactor &&
+               approx_container_complex(_Coefficients, other._Coefficients);
     }
     bool operator!=(const EK80_FIL1& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    ek60_short              get_stage() const { return _Stage; }
-    ek60_char               get_spare_1() const { return _Spare_1; }
-    ek60_char               get_spare_2() const { return _Spare_2; }
-    std::string             get_channel_id() const { return _ChannelID; }
-    ek60_short              get_no_of_coefficients() const { return _NoOfCoefficients; }
-    ek60_short              get_decimation_factor() const { return _DecimationFactor; }
+    ek60_short  get_stage() const { return _Stage; }
+    ek60_char   get_spare_1() const { return _Spare_1; }
+    ek60_char   get_spare_2() const { return _Spare_2; }
+    std::string get_channel_id() const { return _ChannelID; }
+    ek60_short  get_no_of_coefficients() const { return _NoOfCoefficients; }
+    ek60_short  get_decimation_factor() const { return _DecimationFactor; }
     const xt::xarray<ek60_complex_float>& get_coefficients() const { return _Coefficients; }
 
     void set_stage(ek60_short stage) { _Stage = stage; }
@@ -101,8 +102,6 @@ struct EK80_FIL1 : public EK60_Datagram
         _Coefficients = std::move(coefficients);
     }
 
-
-
     // ----- file I/O -----
     static EK80_FIL1 from_stream(std::istream& is, EK60_Datagram header)
     {
@@ -113,29 +112,33 @@ struct EK80_FIL1 : public EK60_Datagram
         is.read(reinterpret_cast<char*>(&datagram._Spare_1), sizeof(datagram._Spare_1));
         is.read(reinterpret_cast<char*>(&datagram._Spare_2), sizeof(datagram._Spare_2));
         is.read(datagram._ChannelID.data(), datagram._ChannelID.size());
-        is.read(reinterpret_cast<char*>(&datagram._NoOfCoefficients), sizeof(datagram._NoOfCoefficients));
-        is.read(reinterpret_cast<char*>(&datagram._DecimationFactor), sizeof(datagram._DecimationFactor));
-        
+        is.read(reinterpret_cast<char*>(&datagram._NoOfCoefficients),
+                sizeof(datagram._NoOfCoefficients));
+        is.read(reinterpret_cast<char*>(&datagram._DecimationFactor),
+                sizeof(datagram._DecimationFactor));
+
         int size = datagram._NoOfCoefficients * sizeof(ek60_complex_float);
         if (size + 148 != datagram._Length)
-            throw std::runtime_error(
-                fmt::format("EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",datagram._NoOfCoefficients,size, datagram._Length));
-            
-        //auto pos = is.tellg();
-        datagram._Coefficients.resize({size_t(datagram._NoOfCoefficients)});
+            throw std::runtime_error(fmt::format(
+                "EK80_FIL1: size mismatch (NoOfCoefficients {}/{} vs datagram Length {})",
+                datagram._NoOfCoefficients,
+                size,
+                datagram._Length));
+
+        // auto pos = is.tellg();
+        datagram._Coefficients.resize({ size_t(datagram._NoOfCoefficients) });
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()), size);
 
-        // this can be enabled to check if the coefficients are correct (also activate the pos=... line above)
-        // is.seekg(pos);
-        // float real, imag;
-        // for (int i = 0; i < datagram._NoOfCoefficients; i++) {
+        // this can be enabled to check if the coefficients are correct (also activate the pos=...
+        // line above) is.seekg(pos); float real, imag; for (int i = 0; i <
+        // datagram._NoOfCoefficients; i++) {
         //     is.read(reinterpret_cast<char*>(&real), sizeof(real));
         //     is.read(reinterpret_cast<char*>(&imag), sizeof(imag));
         //     if (datagram._Coefficients[i] != ek60_complex_float(real, imag))
         //         throw std::runtime_error(
-        //             fmt::format("EK80_FIL1: coefficients mismatch ({} vs {})", datagram._Coefficients[i], ek60_complex_float(real, imag)));
+        //             fmt::format("EK80_FIL1: coefficients mismatch ({} vs {})",
+        //             datagram._Coefficients[i], ek60_complex_float(real, imag)));
         // }
-
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -162,32 +165,40 @@ struct EK80_FIL1 : public EK60_Datagram
 
         _Length       = _Coefficients.size() * sizeof(ek60_complex_float) + 148;
         _DatagramType = ek60_long(t_EK60_DatagramType::FIL1);
-        _ChannelID.resize(128,'\x00');
+        _ChannelID.resize(128, '\x00');
 
         EK60_Datagram::to_stream(os);
-        
+
         os.write(reinterpret_cast<char*>(&_Stage), sizeof(_Stage));
         os.write(reinterpret_cast<char*>(&_Spare_1), sizeof(_Spare_1));
         os.write(reinterpret_cast<char*>(&_Spare_2), sizeof(_Spare_2));
         os.write(_ChannelID.data(), _ChannelID.size());
         os.write(reinterpret_cast<char*>(&_NoOfCoefficients), sizeof(_NoOfCoefficients));
         os.write(reinterpret_cast<char*>(&_DecimationFactor), sizeof(_DecimationFactor));
-        os.write(reinterpret_cast<char*>(_Coefficients.data()), _Coefficients.size() * sizeof(ek60_complex_float));
+        os.write(reinterpret_cast<char*>(_Coefficients.data()),
+                 _Coefficients.size() * sizeof(ek60_complex_float));
         os.write(reinterpret_cast<char*>(&_Length), sizeof(_Length));
     }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision);
+        tools::classhelpers::ObjectPrinter printer("Filter binary datagram (FIL1)",
+                                                   float_precision);
 
         printer.append(EK60_Datagram::__printer__(float_precision));
 
         std::string channel_id = _ChannelID;
-        //remove all non ascii characters
-        channel_id.erase(std::remove_if(channel_id.begin(), channel_id.end(), [](char c) { return !std::isprint(c); }), channel_id.end());
-        //remove all white spaces
-        channel_id.erase(std::remove_if(channel_id.begin(), channel_id.end(), [](char c) { return std::isspace(c); }), channel_id.end());
+        // remove all non ascii characters
+        channel_id.erase(std::remove_if(channel_id.begin(),
+                                        channel_id.end(),
+                                        [](char c) { return !std::isprint(c); }),
+                         channel_id.end());
+        // remove all white spaces
+        channel_id.erase(std::remove_if(channel_id.begin(),
+                                        channel_id.end(),
+                                        [](char c) { return std::isspace(c); }),
+                         channel_id.end());
 
         printer.register_section("Filter datagram content");
         printer.register_value("Stage", _Stage);
@@ -198,7 +209,7 @@ struct EK80_FIL1 : public EK60_Datagram
         printer.register_value("DecimationFactor", _DecimationFactor);
 
         printer.register_section("Filter coefficients");
-        //printer.register_container("Coefficients", _Coefficients);
+        // printer.register_container("Coefficients", _Coefficients);
 
         return printer;
     }

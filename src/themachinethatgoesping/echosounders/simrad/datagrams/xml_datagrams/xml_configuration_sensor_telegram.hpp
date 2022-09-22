@@ -194,20 +194,20 @@ struct XML_Configuration_Sensor_Telegram
             }
         }
 
-            printer.register_section("attributes");
+        printer.register_section("attributes");
 
-            printer.register_value("Enabled", Enabled);
-            printer.register_string("SubscriptionPath", SubscriptionPath);
-            printer.register_string("Type", Type);
-            printer.register_string("Name", Name);
+        printer.register_value("Enabled", Enabled);
+        printer.register_string("SubscriptionPath", SubscriptionPath);
+        printer.register_string("Type", Type);
+        printer.register_string("Name", Name);
 
-            return printer;
-        }
+        return printer;
+    }
 
-        // ----- class helper macros -----
-        __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-        __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor_Telegram)
-    };
+    // ----- class helper macros -----
+    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor_Telegram)
+};
 
 }
 }

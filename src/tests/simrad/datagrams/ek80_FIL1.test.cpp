@@ -24,12 +24,12 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
 
     // set some variables
     dat.set_timestamp(123);
-    dat._Stage = 10;
+    dat._Stage            = 10;
     dat._DecimationFactor = 3;
-    dat._ChannelID = "channel1";
-    dat._Coefficients = xt::xarray<ek60_complex_float>({1, 2, 3, 4});
+    dat._ChannelID        = "channel1";
+    dat._Coefficients     = xt::xarray<ek60_complex_float>({ 1, 2, 3, 4 });
 
-    auto dat2 = dat;
+    auto dat2       = dat;
     dat2._ChannelID = "channel2";
 
     // test inequality
@@ -57,22 +57,21 @@ TEST_CASE("EK80_FIL1 should support common functions", TESTTAG)
 
     // --- test data access ---
     REQUIRE(dat.get_stage() == 10);
-    REQUIRE(dat.get_channel_id().substr(0,7) == "channel");
+    REQUIRE(dat.get_channel_id().substr(0, 7) == "channel");
     REQUIRE(dat.get_decimation_factor() == 3);
     REQUIRE(dat.get_no_of_coefficients() == 4);
     REQUIRE(dat.get_coefficients().size() == 4);
-    REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(dat.get_coefficients(), xt::xarray<ek60_complex_float>({1, 2, 3, 4})));
+    REQUIRE(themachinethatgoesping::tools::helper::approx_container_complex(
+        dat.get_coefficients(), xt::xarray<ek60_complex_float>({ 1, 2, 3, 4 })));
 
     auto xcoeff = dat.get_coefficients();
-    REQUIRE(xcoeff.shape()[0] == 4);    
+    REQUIRE(xcoeff.shape()[0] == 4);
     REQUIRE(xcoeff[0].real() == 1);
-
-
 
     //--- datagram concept ---
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::FIL1);
-    REQUIRE(dat.get_length() == ek60_long(12 + 136 +  dat._NoOfCoefficients*2*sizeof(ek60_float)));
-
+    REQUIRE(dat.get_length() ==
+            ek60_long(12 + 136 + dat._NoOfCoefficients * 2 * sizeof(ek60_float)));
 }

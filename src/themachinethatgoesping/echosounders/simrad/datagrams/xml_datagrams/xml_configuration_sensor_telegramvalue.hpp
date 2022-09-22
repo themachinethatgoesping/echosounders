@@ -36,7 +36,7 @@ namespace xml_datagrams {
  */
 struct XML_Configuration_Sensor_TelegramValue
 {
-    int        Priority    = 0;
+    int         Priority = 0;
     std::string Name;
 
     int32_t unknown_children   = 0;
@@ -52,8 +52,9 @@ struct XML_Configuration_Sensor_TelegramValue
     {
         if (strcmp(root_node.name(), "Value"))
         {
-            throw std::runtime_error(std::string("XML_Configuration_Sensor_TelegramValue: wrong root node type '") +
-                                     root_node.name() + "'");
+            throw std::runtime_error(
+                std::string("XML_Configuration_Sensor_TelegramValue: wrong root node type '") +
+                root_node.name() + "'");
         }
         unknown_attributes = 0;
         unknown_children   = 0; // there should be no child
@@ -92,7 +93,7 @@ struct XML_Configuration_Sensor_TelegramValue
         XML_Configuration_Sensor_TelegramValue xml;
         is.read(reinterpret_cast<char*>(&xml.Priority), sizeof(xml.Priority));
         xml.Name = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        
+
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -115,7 +116,10 @@ struct XML_Configuration_Sensor_TelegramValue
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_Configuration_Sensor_TelegramValue& other) const { return !operator==(other); }
+    bool operator!=(const XML_Configuration_Sensor_TelegramValue& other) const
+    {
+        return !operator==(other);
+    }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const

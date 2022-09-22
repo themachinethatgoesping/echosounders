@@ -66,8 +66,8 @@ struct XML_Configuration_Sensor
         if (strcmp(root_node.name(), "Sensor"))
         {
             throw std::runtime_error(
-                std::string("XML_Configuration_Sensor: wrong root node type '") +
-                root_node.name() + "'");
+                std::string("XML_Configuration_Sensor: wrong root node type '") + root_node.name() +
+                "'");
         }
         unknown_attributes = 0;
         unknown_children   = 0; // there should only be TelegramValue nodes
@@ -77,8 +77,8 @@ struct XML_Configuration_Sensor
         {
             if (strcmp(node.name(), "Telegram"))
             {
-                std::cerr << "WARNING: [Configuration_Sensor] Unknown child: "
-                          << node.name() << std::endl;
+                std::cerr << "WARNING: [Configuration_Sensor] Unknown child: " << node.name()
+                          << std::endl;
 
                 unknown_children = 1;
 
@@ -160,8 +160,7 @@ struct XML_Configuration_Sensor
                 continue;
             }
 
-            std::cerr << "WARNING: [Configuration_Sensor] Unknown attribute: " << name
-                      << std::endl;
+            std::cerr << "WARNING: [Configuration_Sensor] Unknown attribute: " << name << std::endl;
             unknown_attributes += 1;
         }
     }
@@ -176,10 +175,10 @@ struct XML_Configuration_Sensor
         is.read(reinterpret_cast<char*>(&xml.Timeout), sizeof(xml.Timeout));
         is.read(reinterpret_cast<char*>(&xml.Unique), sizeof(xml.Unique));
         is.read(reinterpret_cast<char*>(&xml.AngleZ), sizeof(xml.AngleZ) * 6);
-        xml.Port = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Type             = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Name       = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TalkerID             = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Port     = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Type     = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Name     = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TalkerID = tools::classhelpers::stream::container_from_stream<std::string>(is);
 
         size_t size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
@@ -199,7 +198,7 @@ struct XML_Configuration_Sensor
     {
         os.write(reinterpret_cast<const char*>(&Timeout), sizeof(Timeout));
         os.write(reinterpret_cast<const char*>(&Unique), sizeof(Unique));
-        os.write(reinterpret_cast<const char*>(&AngleZ), sizeof(AngleZ)*6);
+        os.write(reinterpret_cast<const char*>(&AngleZ), sizeof(AngleZ) * 6);
         tools::classhelpers::stream::container_to_stream(os, Port);
         tools::classhelpers::stream::container_to_stream(os, Type);
         tools::classhelpers::stream::container_to_stream(os, Name);
@@ -221,27 +220,16 @@ struct XML_Configuration_Sensor
     {
         using tools::helper::approx;
 
-        return approx(Timeout, other.Timeout) && 
-        Unique == other.Unique && 
-        approx(AngleZ, other.AngleZ )&& 
-        approx(AngleY, other.AngleY )&& 
-        approx(AngleX , other.AngleX) && 
-        approx(Y , other.Y )&& 
-        approx(X , other.X) && 
-        approx(Z , other.Z) && 
-        Port == other.Port && 
-        Type == other.Type && 
-        Name == other.Name && 
-        TalkerID == other.TalkerID && 
-        Telegrams == other.Telegrams;
+        return approx(Timeout, other.Timeout) && Unique == other.Unique &&
+               approx(AngleZ, other.AngleZ) && approx(AngleY, other.AngleY) &&
+               approx(AngleX, other.AngleX) && approx(Y, other.Y) && approx(X, other.X) &&
+               approx(Z, other.Z) && Port == other.Port && Type == other.Type &&
+               Name == other.Name && TalkerID == other.TalkerID && Telegrams == other.Telegrams;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_Configuration_Sensor& other) const
-    {
-        return !operator==(other);
-    }
+    bool operator!=(const XML_Configuration_Sensor& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -257,7 +245,7 @@ struct XML_Configuration_Sensor
                 std::string values = "";
                 for (const auto& value : telegram.Values)
                 {
-                    values += fmt::format("{} ({}),",value.Name,value.Priority);
+                    values += fmt::format("{} ({}),", value.Name, value.Priority);
                 }
                 // remove trailing ',' if there is one
                 if (!values.empty())
@@ -265,8 +253,7 @@ struct XML_Configuration_Sensor
                     values.pop_back();
                 }
 
-                printer.register_value(
-                    "Telegram", telegram.Name, values);
+                printer.register_value("Telegram", telegram.Name, values);
             }
         }
 
@@ -283,7 +270,6 @@ struct XML_Configuration_Sensor
         printer.register_value("Type", Type);
         printer.register_value("Name", Name);
         printer.register_value("TalkerID", TalkerID);
-
 
         return printer;
     }

@@ -23,15 +23,14 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "t_RAW3_datatype.hpp"
 #include "i_RAW3_data.hpp"
+#include "t_RAW3_datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
 namespace RAW3_datatypes {
-
 
 struct RAW3_DataSkipped : public i_RAW3_Data
 {
@@ -41,10 +40,10 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     }
     ~RAW3_DataSkipped() = default;
 
-    inline static RAW3_DataSkipped from_stream(std::istream&  is,
-                                               ek60_long      count,
+    inline static RAW3_DataSkipped from_stream(std::istream&   is,
+                                               ek60_long       count,
                                                t_RAW3_DataType data_type,
-                                               uint8_t        number_of_complex_samples)
+                                               uint8_t         number_of_complex_samples)
     {
         switch (data_type)
         {
@@ -72,41 +71,47 @@ struct RAW3_DataSkipped : public i_RAW3_Data
         return RAW3_DataSkipped();
     }
 
-    inline void to_stream(std::ostream&  os,
-                          ek60_long      count,
+    inline void to_stream(std::ostream&   os,
+                          ek60_long       count,
                           t_RAW3_DataType data_type,
-                          uint8_t        number_of_complex_samples) const
+                          uint8_t         number_of_complex_samples) const
     {
         switch (data_type)
         {
             case t_RAW3_DataType::PowerAndAngle: {
                 // write _Count.size() zeros
                 auto samples = std::vector<ek60_short>(count, 0);
-                os.write(reinterpret_cast<char*>(samples.data()), samples.size() * RAW3_DataType_size(data_type));
+                os.write(reinterpret_cast<char*>(samples.data()),
+                         samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             case t_RAW3_DataType::ComplexFloat32: {
                 // write _Count.size() zeros
-                auto samples = std::vector<ek60_complex_float>(count * number_of_complex_samples, 0);
-                os.write(reinterpret_cast<char*>(samples.data()), samples.size() * RAW3_DataType_size(data_type));
+                auto samples =
+                    std::vector<ek60_complex_float>(count * number_of_complex_samples, 0);
+                os.write(reinterpret_cast<char*>(samples.data()),
+                         samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             case t_RAW3_DataType::Power: {
                 // write _Count.size() zeros
                 auto samples = std::vector<ek60_short>(count, 0);
-                os.write(reinterpret_cast<char*>(samples.data()), samples.size() * RAW3_DataType_size(data_type));
+                os.write(reinterpret_cast<char*>(samples.data()),
+                         samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             case t_RAW3_DataType::Angle: {
                 // write _Count.size() zeros
                 auto samples = std::vector<uint8_t>(count * 2, 0);
-                os.write(reinterpret_cast<char*>(samples.data()), samples.size() * RAW3_DataType_size(data_type));
+                os.write(reinterpret_cast<char*>(samples.data()),
+                         samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             case t_RAW3_DataType::ComplexFloat16: {
                 // write _Count.size() zeros
                 auto samples = std::vector<ek60_float>(count * number_of_complex_samples, 0);
-                os.write(reinterpret_cast<char*>(samples.data()), samples.size() * RAW3_DataType_size(data_type));
+                os.write(reinterpret_cast<char*>(samples.data()),
+                         samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             default:

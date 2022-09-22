@@ -273,20 +273,22 @@ struct XML_Configuration_Transceiver_Channel_Transducer
         using namespace tools::helper;
 
         return TransducerName == other.TransducerName && ArticleNumber == other.ArticleNumber &&
-               approx_container(Gain, other.Gain) && approx_container(SaCorrection , other.SaCorrection) &&
+               approx_container(Gain, other.Gain) &&
+               approx_container(SaCorrection, other.SaCorrection) &&
                SerialNumber == other.SerialNumber && BeamType == other.BeamType &&
-               approx(Frequency, other.Frequency) && approx(FrequencyMinimum, other.FrequencyMinimum) &&
+               approx(Frequency, other.Frequency) &&
+               approx(FrequencyMinimum, other.FrequencyMinimum) &&
                approx(FrequencyMaximum, other.FrequencyMaximum) &&
                approx(EquivalentBeamAngle, other.EquivalentBeamAngle) &&
                approx(MaxTxPowerTransducer, other.MaxTxPowerTransducer) &&
-                approx(BeamWidthAlongship, other.BeamWidthAlongship) &&
-                approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
-                approx(AngleSensitivityAlongship, other.AngleSensitivityAlongship) &&
-                approx(AngleSensitivityAthwartship, other.AngleSensitivityAthwartship) &&
-                approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
-                approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship) &&
-                approx(DirectivityDropAt2XBeamWidth, other.DirectivityDropAt2XBeamWidth) &&
-                FrequencyPars == other.FrequencyPars;
+               approx(BeamWidthAlongship, other.BeamWidthAlongship) &&
+               approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
+               approx(AngleSensitivityAlongship, other.AngleSensitivityAlongship) &&
+               approx(AngleSensitivityAthwartship, other.AngleSensitivityAthwartship) &&
+               approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
+               approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship) &&
+               approx(DirectivityDropAt2XBeamWidth, other.DirectivityDropAt2XBeamWidth) &&
+               FrequencyPars == other.FrequencyPars;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;

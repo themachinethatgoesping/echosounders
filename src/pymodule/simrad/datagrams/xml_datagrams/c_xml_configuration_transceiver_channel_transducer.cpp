@@ -25,14 +25,15 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel_Transducer
 
 void init_c_xml_configuration_transceiver_channel_transducer(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver_Channel_Transducer>(m,
-                                      "XML_Configuration_Transceiver_Channel_Transducer",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Transceiver_Channel_Transducer))
+    py::class_<XML_Configuration_Transceiver_Channel_Transducer>(
+        m,
+        "XML_Configuration_Transceiver_Channel_Transducer",
+        DOC(themachinethatgoesping,
+            echosounders,
+            simrad,
+            datagrams,
+            xml_datagrams,
+            XML_Configuration_Transceiver_Channel_Transducer))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -52,7 +53,6 @@ void init_c_xml_configuration_transceiver_channel_transducer(pybind11::module& m
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel_Transducer,
                            FrequencyPars))
-
 
         // ----- attributes -----
         .def_readwrite("TransducerName",
@@ -181,15 +181,16 @@ void init_c_xml_configuration_transceiver_channel_transducer(pybind11::module& m
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel_Transducer,
                            AngleSensitivityAlongship))
-        .def_readwrite("AngleSensitivityAthwartship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::AngleSensitivityAthwartship,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
-                           AngleSensitivityAthwartship))
+        .def_readwrite(
+            "AngleSensitivityAthwartship",
+            &XML_Configuration_Transceiver_Channel_Transducer::AngleSensitivityAthwartship,
+            DOC(themachinethatgoesping,
+                echosounders,
+                simrad,
+                datagrams,
+                xml_datagrams,
+                XML_Configuration_Transceiver_Channel_Transducer,
+                AngleSensitivityAthwartship))
         .def_readwrite("AngleOffsetAlongship",
                        &XML_Configuration_Transceiver_Channel_Transducer::AngleOffsetAlongship,
                        DOC(themachinethatgoesping,
@@ -208,17 +209,17 @@ void init_c_xml_configuration_transceiver_channel_transducer(pybind11::module& m
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel_Transducer,
                            AngleOffsetAthwartship))
-        .def_readwrite("DirectivityDropAt2XBeamWidth",
-                       &XML_Configuration_Transceiver_Channel_Transducer::DirectivityDropAt2XBeamWidth,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
-                           DirectivityDropAt2XBeamWidth))
-        
-        
+        .def_readwrite(
+            "DirectivityDropAt2XBeamWidth",
+            &XML_Configuration_Transceiver_Channel_Transducer::DirectivityDropAt2XBeamWidth,
+            DOC(themachinethatgoesping,
+                echosounders,
+                simrad,
+                datagrams,
+                xml_datagrams,
+                XML_Configuration_Transceiver_Channel_Transducer,
+                DirectivityDropAt2XBeamWidth))
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transceiver_Channel_Transducer::unknown_children,
                        DOC(themachinethatgoesping,

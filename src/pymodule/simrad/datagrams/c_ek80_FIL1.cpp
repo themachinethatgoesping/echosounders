@@ -3,13 +3,12 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <pybind11/complex.h>
 //#define FORCE_IMPORT_ARRAY
-#include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
-
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
@@ -46,16 +45,24 @@ void init_c_ek80_FIL1(pybind11::module& m)
             &EK80_FIL1::get_channel_id,
             &EK80_FIL1::set_channel_id,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, ChannelID))
-        .def_property(
-            "no_of_coefficients",
-            &EK80_FIL1::get_no_of_coefficients,
-            &EK80_FIL1::set_no_of_coefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, NoOfCoefficients))
-        .def_property(
-            "decimation_factor",
-            &EK80_FIL1::get_decimation_factor,
-            &EK80_FIL1::set_decimation_factor,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, DecimationFactor))
+        .def_property("no_of_coefficients",
+                      &EK80_FIL1::get_no_of_coefficients,
+                      &EK80_FIL1::set_no_of_coefficients,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK80_FIL1,
+                          NoOfCoefficients))
+        .def_property("decimation_factor",
+                      &EK80_FIL1::get_decimation_factor,
+                      &EK80_FIL1::set_decimation_factor,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          EK80_FIL1,
+                          DecimationFactor))
         .def_property(
             "coefficients",
             &EK80_FIL1::get_coefficients,
@@ -79,14 +86,22 @@ void init_c_ek80_FIL1(pybind11::module& m)
             "_raw_ChannelID",
             &EK80_FIL1::_ChannelID,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, ChannelID))
-        .def_readwrite(
-            "_raw_NoOfCoefficients",
-            &EK80_FIL1::_NoOfCoefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, NoOfCoefficients))
-        .def_readwrite(
-            "_raw_DecimationFactor",
-            &EK80_FIL1::_DecimationFactor,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_FIL1, DecimationFactor))
+        .def_readwrite("_raw_NoOfCoefficients",
+                       &EK80_FIL1::_NoOfCoefficients,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           EK80_FIL1,
+                           NoOfCoefficients))
+        .def_readwrite("_raw_DecimationFactor",
+                       &EK80_FIL1::_DecimationFactor,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           EK80_FIL1,
+                           DecimationFactor))
         .def_readwrite(
             "_raw_Coefficients",
             &EK80_FIL1::_Coefficients,

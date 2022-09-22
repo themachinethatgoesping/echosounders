@@ -25,14 +25,10 @@ using datagrams::xml_datagrams::XML_Sensor;
 
 void init_c_xml_sensor(pybind11::module& m)
 {
-    py::class_<XML_Sensor>(m,
-                                      "XML_Sensor",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Sensor))
+    py::class_<XML_Sensor>(
+        m,
+        "XML_Sensor",
+        DOC(themachinethatgoesping, echosounders, simrad, datagrams, xml_datagrams, XML_Sensor))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -70,7 +66,7 @@ void init_c_xml_sensor(pybind11::module& m)
                            xml_datagrams,
                            XML_Sensor,
                            Type))
-        
+
         .def_readwrite("unknown_children",
                        &XML_Sensor::unknown_children,
                        DOC(themachinethatgoesping,

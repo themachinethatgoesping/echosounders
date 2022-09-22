@@ -9,14 +9,14 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
-#include <xtensor/xmath.hpp> // xtensor import for the C++ universal functions
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor/xmath.hpp>          // xtensor import for the C++ universal functions
 
 #include <chrono>
 
+#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
-#include <themachinethatgoesping/navigation/nmea_0183.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/ek60_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/ek60_types.hpp"
@@ -175,7 +175,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         py::arg("index_max")  = std::numeric_limits<long>::max(),
         py::arg("index_step") = 1);
 
-    // ----- ping convinience functions -----
+    // ----- ping convenience functions -----
     /* default copy functions */
     /* __PYCLASS_DEFAULT_COPY__(LinearInterpolator)*/
     /* default binary functions*/
@@ -246,20 +246,24 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-         NMEA_0183_type nmea_sentence = it.at(i).decode();
+        NMEA_0183_type nmea_sentence = it.at(i).decode();
 
-        if (std::holds_alternative<NMEA_ZDA>(nmea_sentence)){
+        if (std::holds_alternative<NMEA_ZDA>(nmea_sentence))
+        {
             std::get<NMEA_ZDA>(nmea_sentence).to_timestamp();
         }
-        else if (std::holds_alternative<NMEA_GGA>(nmea_sentence)){
+        else if (std::holds_alternative<NMEA_GGA>(nmea_sentence))
+        {
             std::get<NMEA_GGA>(nmea_sentence).get_latitude();
             std::get<NMEA_GGA>(nmea_sentence).get_longitude();
         }
-        else if (std::holds_alternative<NMEA_GLL>(nmea_sentence)){
+        else if (std::holds_alternative<NMEA_GLL>(nmea_sentence))
+        {
             std::get<NMEA_GLL>(nmea_sentence).get_latitude();
             std::get<NMEA_GLL>(nmea_sentence).get_longitude();
         }
-        else if (std::holds_alternative<NMEA_RMC>(nmea_sentence)){
+        else if (std::holds_alternative<NMEA_RMC>(nmea_sentence))
+        {
             std::get<NMEA_RMC>(nmea_sentence).get_latitude();
             std::get<NMEA_RMC>(nmea_sentence).get_longitude();
         }
@@ -287,30 +291,28 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-         auto xml = it.at(i);
+        auto xml = it.at(i);
 
-         switch (level)
-         {
-         case 0:
-            break;
-        case 1:
-            xml.get_xml_datagram_type();
-            break;
-        case 2:
-            [[fallthrough]];
-        case 3:
-            xml.parse_xml(level);
-            break;
-        case 4:
-            xml.raw();
-            break;
-         
-         default:
-            xml.decode();
-            break;
-         }
-         
+        switch (level)
+        {
+            case 0:
+                break;
+            case 1:
+                xml.get_xml_datagram_type();
+                break;
+            case 2:
+                [[fallthrough]];
+            case 3:
+                xml.parse_xml(level);
+                break;
+            case 4:
+                xml.raw();
+                break;
 
+            default:
+                xml.decode();
+                break;
+        }
 
         prg.tick();
     }

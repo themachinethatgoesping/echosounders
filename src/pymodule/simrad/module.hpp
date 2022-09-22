@@ -9,12 +9,12 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 
-    namespace py_simrad{
+namespace py_simrad {
 
 // -- initialize module --
 void init_m_simrad(pybind11::module& m);
 
-    }
+}
 }
 }
 }

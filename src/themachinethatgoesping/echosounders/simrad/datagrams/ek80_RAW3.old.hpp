@@ -93,11 +93,11 @@ struct EK80_RAW3 : public EK60_Datagram
         return _Datatype & 0b00001111;
     }
     /**
-     * @brief Get the number of complex samples. 
+     * @brief Get the number of complex samples.
      * This corresponds to the number of transducer elements.
      * This field is only valid for complex data types.
-     * 
-     * @return ek60_short 
+     *
+     * @return ek60_short
      */
     ek60_short get_number_of_complex_samples() const
     {
@@ -129,20 +129,19 @@ struct EK80_RAW3 : public EK60_Datagram
         switch (get_data_type())
         {
             case t_DataType::Power:
-                datagram._Samples = xt::adapt(reinterpret_cast<ek60_float*>(is.tellg()),
-                                              datagram._Count);
+                datagram._Samples =
+                    xt::adapt(reinterpret_cast<ek60_float*>(is.tellg()), datagram._Count);
                 break;
             case t_DataType::Angle:
                 datagram._Samples =
                     xt::adapt(reinterpret_cast<ek60_float*>(is.tellg()), datagram._Count);
                 break;
             case t_DataType::ComplexFloat32:
-                datagram._Samples =
-                    xt::adapt(reinterpret_cast<ek60_complex_float*>(is.tellg()), datagram._Count * number_of_transducers);
+                datagram._Samples = xt::adapt(reinterpret_cast<ek60_complex_float*>(is.tellg()),
+                                              datagram._Count * number_of_transducers);
                 datagram._Samples.reshape({ datagram._Count, number_of_transducers });
-                break
-            case t_DataType::ComplexFloat16:
-                throw std::runtime_error("Datatype ComplexFloat16 is not yet supported");
+                break case t_DataType::ComplexFloat16
+                    : throw std::runtime_error("Datatype ComplexFloat16 is not yet supported");
                 break;
             default:
                 throw std::runtime_error("Unknown data type");
@@ -169,15 +168,13 @@ struct EK80_RAW3 : public EK60_Datagram
 
     void to_stream(std::ostream& os)
     {
-        _Count = _Samples.size();
-        auto dtype = get_data_type();
-        auto samples_per_sample = 1
-        if (dtype == t_DataType::ComplexFloat32)
-            samples_per_sample = get_number_of_complex_samples();
+        _Count                  = _Samples.size();
+        auto dtype              = get_data_type();
+        auto samples_per_sample = 1 if (dtype == t_DataType::ComplexFloat32) samples_per_sample =
+            get_number_of_complex_samples();
 
-        //TODO: support 16 bit complex data
-        _Length       = _Count * sizeof(ek60_complex_float) * samples_per_sample + 140;
-
+        // TODO: support 16 bit complex data
+        _Length = _Count * sizeof(ek60_complex_float) * samples_per_sample + 140;
 
         _DatagramType = ek60_long(t_EK60_DatagramType::RAW3);
         _ChannelID.resize(128, '\x00');
@@ -188,9 +185,9 @@ struct EK80_RAW3 : public EK60_Datagram
         os.write(reinterpret_cast<char*>(&_Datatype), sizeof(_Datatype));
         os.write(reinterpret_cast<char*>(&_Spare_1), sizeof(_Spare_1));
         os.write(reinterpret_cast<char*>(&_Spare_2), sizeof(_Spare_2));
-        os.write(reinterpret_cast<char*>(&_Offset), sizeof(_Offset));        
+        os.write(reinterpret_cast<char*>(&_Offset), sizeof(_Offset));
         os.write(reinterpret_cast<char*>(&_Count), sizeof(_Count));
-        
+
         switch (dtype)
         {
             case t_DataType::Power:

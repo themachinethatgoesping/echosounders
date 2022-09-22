@@ -19,65 +19,63 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
 namespace xml_datagrams {
 
-struct get_walker: pugi::xml_tree_walker
+struct get_walker : pugi::xml_tree_walker
 {
     std::string _a;
     std::string _b;
 
     virtual bool for_each(pugi::xml_node& node)
     {
-        //for (int i = 0; i < depth(); ++i) std::cout << "  "; // indentation 
+        // for (int i = 0; i < depth(); ++i) std::cout << "  "; // indentation
 
         // print node name and value
         auto t = node.type();
-        auto n = node.name(); 
+        auto n = node.name();
         auto v = node.value();
 
-        (void) t;
-        (void) n;
-        (void) v;
+        (void)t;
+        (void)n;
+        (void)v;
 
         // print node attributes
-        for (pugi::xml_attribute attr: node.attributes()){
+        for (pugi::xml_attribute attr : node.attributes())
+        {
             _a = attr.name();
-            _b =  attr.value();
+            _b = attr.value();
         }
 
         return true; // continue traversal
-
     }
 };
-struct print_walker: pugi::xml_tree_walker
+struct print_walker : pugi::xml_tree_walker
 {
     virtual bool for_each(pugi::xml_node& node)
     {
         std::string indent;
-        for (int i = 0; i < depth(); ++i) 
+        for (int i = 0; i < depth(); ++i)
             indent += "  "; // indentation
 
         // print node name and value
-        std::cout << indent << node.type() << ": name='" << node.name() << "', value='" << node.value() << "'\n";
+        std::cout << indent << node.type() << ": name='" << node.name() << "', value='"
+                  << node.value() << "'\n";
 
         // print node attributes
-        for (pugi::xml_attribute attr: node.attributes())
+        for (pugi::xml_attribute attr : node.attributes())
             std::cout << indent << "  - " << attr.name() << " = '" << attr.value() << "'\n";
 
         return true; // continue traversal
-
     }
 };
 
-
-struct objectprint_walker: pugi::xml_tree_walker
+struct objectprint_walker : pugi::xml_tree_walker
 {
-    std::unordered_map< int, std::string > _root_nodes;
+    std::unordered_map<int, std::string> _root_nodes;
 
     tools::classhelpers::ObjectPrinter& _printer;
     objectprint_walker(tools::classhelpers::ObjectPrinter& printer)
@@ -88,31 +86,32 @@ struct objectprint_walker: pugi::xml_tree_walker
     virtual bool for_each(pugi::xml_node& node)
     {
         std::string indent;
-        for (int i = 0; i < depth(); ++i) 
+        for (int i = 0; i < depth(); ++i)
             indent += "  "; // indentation
 
         char underliner = '-';
-        if (depth() == 1) underliner = '^';
-        if (depth() > 1) underliner = '"';
+        if (depth() == 1)
+            underliner = '^';
+        if (depth() > 1)
+            underliner = '"';
 
         _root_nodes[depth()] = node.name();
 
         std::string section_name = indent + std::to_string(depth()) + ".: " + node.name();
-        if (!std::string(node.value()).empty()) 
+        if (!std::string(node.value()).empty())
             section_name += "(val: " + std::string(node.value()) + ")";
         section_name += " ";
 
         for (int i = 0; i < depth(); ++i)
-            section_name += "[" + _root_nodes[i] +"]";
+            section_name += "[" + _root_nodes[i] + "]";
 
-        _printer.register_section(section_name,underliner);
+        _printer.register_section(section_name, underliner);
 
         // print node attributes
-        for (pugi::xml_attribute attr: node.attributes())
-            _printer.register_string(attr.name(),attr.value(),node.name());
+        for (pugi::xml_attribute attr : node.attributes())
+            _printer.register_string(attr.name(), attr.value(), node.name());
 
         return true; // continue traversal
-
     }
 };
 

@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Environment_Transducer;
 void init_c_xml_environment_transducer(pybind11::module& m)
 {
     py::class_<XML_Environment_Transducer>(m,
-                                      "XML_Environment_Transducer",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Environment_Transducer))
+                                           "XML_Environment_Transducer",
+                                           DOC(themachinethatgoesping,
+                                               echosounders,
+                                               simrad,
+                                               datagrams,
+                                               xml_datagrams,
+                                               XML_Environment_Transducer))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -61,7 +61,7 @@ void init_c_xml_environment_transducer(pybind11::module& m)
                            xml_datagrams,
                            XML_Environment_Transducer,
                            TransducerName))
-        
+
         .def_readwrite("unknown_children",
                        &XML_Environment_Transducer::unknown_children,
                        DOC(themachinethatgoesping,

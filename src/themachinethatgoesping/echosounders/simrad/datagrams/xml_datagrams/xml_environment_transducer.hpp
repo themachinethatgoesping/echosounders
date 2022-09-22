@@ -114,7 +114,7 @@ struct XML_Environment_Transducer
     bool operator==(const XML_Environment_Transducer& other) const
     {
         using tools::helper::approx;
-        return approx(SoundSpeed , other.SoundSpeed) && TransducerName == other.TransducerName;
+        return approx(SoundSpeed, other.SoundSpeed) && TransducerName == other.TransducerName;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }

@@ -6,14 +6,14 @@
 
 #pragma once
 
+#include "datagrams/ek60_NME0.hpp"
+#include "datagrams/ek60_TAG0.hpp"
 #include "datagrams/ek60_datagram.hpp"
 #include "datagrams/ek60_unknown.hpp"
-#include "datagrams/ek80_MRU0.hpp"
-#include "datagrams/ek60_TAG0.hpp"
-#include "datagrams/ek80_XML0.hpp"
-#include "datagrams/ek60_NME0.hpp"
 #include "datagrams/ek80_FIL1.hpp"
+#include "datagrams/ek80_MRU0.hpp"
 #include "datagrams/ek80_RAW3.hpp"
+#include "datagrams/ek80_XML0.hpp"
 #include "ek60_types.hpp"
 
 #include <pybind11/pybind11.h>
@@ -33,7 +33,14 @@ namespace simrad {
 
 namespace datagrams {
 
-using t_EK60_DatagramVariant = std::variant<EK60_Datagram, EK80_MRU0, EK80_XML0, EK60_NME0, EK80_RAW3, EK80_FIL1, EK60_TAG0, EK60_Unknown>;
+using t_EK60_DatagramVariant = std::variant<EK60_Datagram,
+                                            EK80_MRU0,
+                                            EK80_XML0,
+                                            EK60_NME0,
+                                            EK80_RAW3,
+                                            EK80_FIL1,
+                                            EK60_TAG0,
+                                            EK60_Unknown>;
 
 struct EK60_DatagramVariant
 {

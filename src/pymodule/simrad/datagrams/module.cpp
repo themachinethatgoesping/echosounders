@@ -78,7 +78,6 @@ void init_m_simrad_datagrams(pybind11::module& m)
 
     tools::pybind_helpers::add_string_to_enum_conversion<t_RAW3_DataType>(pyenum_raw3_datatype);
 
-
     // init submodules
     py_datagrams_xml::init_m_simrad_datagrams_xml(subm);
 

@@ -26,13 +26,13 @@ using datagrams::xml_datagrams::XML_Configuration_Transducer;
 void init_c_xml_configuration_transducer(pybind11::module& m)
 {
     py::class_<XML_Configuration_Transducer>(m,
-                                      "XML_Configuration_Transducer",
-                                      DOC(themachinethatgoesping,
-                                          echosounders,
-                                          simrad,
-                                          datagrams,
-                                          xml_datagrams,
-                                          XML_Configuration_Transducer))
+                                             "XML_Configuration_Transducer",
+                                             DOC(themachinethatgoesping,
+                                                 echosounders,
+                                                 simrad,
+                                                 datagrams,
+                                                 xml_datagrams,
+                                                 XML_Configuration_Transducer))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
@@ -43,7 +43,6 @@ void init_c_xml_configuration_transducer(pybind11::module& m)
                  XML_Configuration_Transducer))
 
         // ----- children -----
-
 
         // ----- attributes -----
         .def_readwrite("TransducerAlphaX",
@@ -135,8 +134,8 @@ void init_c_xml_configuration_transducer(pybind11::module& m)
                            datagrams,
                            xml_datagrams,
                            XML_Configuration_Transducer,
-                           TransducerCustomName))        
-        
+                           TransducerCustomName))
+
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transducer::unknown_children,
                        DOC(themachinethatgoesping,

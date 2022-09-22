@@ -22,13 +22,13 @@
 #include "../ek60_types.hpp"
 #include "ek60_datagram.hpp"
 #include "xml_datagrams/helper.hpp"
+#include "xml_datagrams/xml_configuration.hpp"
 #include "xml_datagrams/xml_environment.hpp"
 #include "xml_datagrams/xml_initialparameter.hpp"
 #include "xml_datagrams/xml_node.hpp"
 #include "xml_datagrams/xml_parameter.hpp"
 #include "xml_datagrams/xml_pingsequence.hpp"
 #include "xml_datagrams/xml_sensor.hpp"
-#include "xml_datagrams/xml_configuration.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

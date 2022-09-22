@@ -49,8 +49,7 @@ struct EK80_MRU0 : public EK60_Datagram
   public:
     // ----- constructors -----
     EK80_MRU0()
-        : EK60_Datagram(12 + 4 * sizeof(ek60_float),
-                        ek60_long(t_EK60_DatagramType::MRU0))
+        : EK60_Datagram(12 + 4 * sizeof(ek60_float), ek60_long(t_EK60_DatagramType::MRU0))
     {
     }
     ~EK80_MRU0() = default;

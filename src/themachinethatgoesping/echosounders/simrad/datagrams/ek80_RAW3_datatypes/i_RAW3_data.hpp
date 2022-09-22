@@ -32,12 +32,11 @@ namespace simrad {
 namespace datagrams {
 namespace RAW3_datatypes {
 
-
-
-struct i_RAW3_Data
+class i_RAW3_Data
 {
-    const std::string _name;
+    std::string _name;
 
+  public:
     i_RAW3_Data(std::string_view name)
         : _name(name)
     {
