@@ -17,8 +17,8 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xio.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -47,6 +47,25 @@ struct RAW3_DataAngle : public i_RAW3_Data
     {
     }
     ~RAW3_DataAngle() = default;
+
+    // ----- i_RAW3_Data interface -----
+    bool has_power() const final { return false; }
+    bool has_angle() const final { return true; }
+
+    xt::xtensor<uint8_t, 2> get_angle() const final
+    {
+        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_along() const final
+    {
+        throw std::runtime_error("get_angle_along() not yet implemented for " +
+                                 std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_across() const final
+    {
+        throw std::runtime_error("get_angle_across() not yet implemented for " +
+                                 std::string(get_name()));
+    }
 
     // ----- operator overloads -----
     bool operator==(const RAW3_DataAngle& other) const { return _angle == other._angle; }
@@ -82,24 +101,22 @@ struct RAW3_DataAngle : public i_RAW3_Data
         return;
     }
 
-
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelpers::ObjectPrinter printer("Sample binary data (angle)", float_precision);
-        
-        std::stringstream ss1,ss2;
-        ss1 << xt::col(_angle,0);
-        ss2 << xt::col(_angle,1);
 
-        //printer.register_container("Angle along", xt::col(_angle,0));
-        //printer.register_container("Angle across", xt::col(_angle,1));
+        std::stringstream ss1, ss2;
+        ss1 << xt::col(_angle, 0);
+        ss2 << xt::col(_angle, 1);
+
+        // printer.register_container("Angle along", xt::col(_angle,0));
+        // printer.register_container("Angle across", xt::col(_angle,1));
         printer.register_string("Angle along", ss1.str());
         printer.register_string("Angle across", ss2.str());
 
         return printer;
     }
-
 };
 
 }

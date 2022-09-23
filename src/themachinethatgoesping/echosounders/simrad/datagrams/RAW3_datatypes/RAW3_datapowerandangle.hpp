@@ -17,8 +17,8 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xio.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -51,9 +51,40 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     ~RAW3_DataPowerAndAngle() = default;
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataPowerAndAngle& other) const { return _power_and_angle == other._power_and_angle; }
+    bool operator==(const RAW3_DataPowerAndAngle& other) const
+    {
+        return _power_and_angle == other._power_and_angle;
+    }
     bool operator!=(const RAW3_DataPowerAndAngle& other) const { return !(operator==(other)); }
 
+    // ----- i_RAW3_Data interface -----
+    bool has_power() const final { return true; }
+    bool has_angle() const final { return true; }
+
+    xt::xtensor<ek60_float, 1> get_power() const final
+    {
+        static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
+
+        auto r1 = xt::eval(xt::col(_power_and_angle, 0));
+
+        return xt::xtensor<ek60_float, 1>(xt::eval(r1 * conv_factor));
+    }
+    xt::xtensor<uint8_t, 2> get_angle() const final
+    {
+        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_along() const final
+    {
+        throw std::runtime_error("get_angle_along() not yet implemented for " +
+                                 std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_across() const final
+    {
+        throw std::runtime_error("get_angle_across() not yet implemented for " +
+                                 std::string(get_name()));
+    }
+
+    // ----- to/from stream -----
     static RAW3_DataPowerAndAngle from_stream(std::istream& is,
                                               ek60_long     input_count,
                                               ek60_long     output_count)
@@ -73,12 +104,10 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
                     input_count * 2 * sizeof(ek60_short));
 
             // fill remaining samples with quiet NaN
-            std::fill(data._power_and_angle.begin() + input_count * 2,
-                      data._power_and_angle.end(),
-                      0);
+            std::fill(
+                data._power_and_angle.begin() + input_count * 2, data._power_and_angle.end(), 0);
         }
 
-       
         return data;
     }
 
@@ -86,19 +115,17 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     {
         os.write(reinterpret_cast<const char*>(_power_and_angle.data()),
                  xt::flatten(_power_and_angle).size() * sizeof(ek60_short));
-      
     }
-
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Sample binary data (Power and Angle)", float_precision);
+        tools::classhelpers::ObjectPrinter printer("Sample binary data (Power and Angle)",
+                                                   float_precision);
 
-        std::stringstream ss1,ss2;
-        ss1 << xt::col(_power_and_angle,0) * 10 * log10(2.0) / 256;
-        ss2 << xt::col(_power_and_angle,1);
-
+        std::stringstream ss1, ss2;
+        ss1 << xt::col(_power_and_angle, 0) * 10 * log10(2.0) / 256;
+        ss2 << xt::col(_power_and_angle, 1);
 
         printer.register_string("Power", ss1.str());
         printer.register_string("Angle", ss2.str());

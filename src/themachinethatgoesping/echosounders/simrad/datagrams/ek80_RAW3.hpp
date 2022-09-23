@@ -26,8 +26,8 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../ek60_types.hpp"
+#include "RAW3_datatypes/RAW3_datatypes.hpp"
 #include "ek60_datagram.hpp"
-#include "ek80_RAW3_datatypes/ek80_RAW3_datatypes.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -141,6 +141,28 @@ struct EK80_RAW3 : public EK60_Datagram
     ek60_long get_count() const { return _Count; }
     void      set_count(ek60_long count) { _Count = count; }
 
+    /**
+     * @brief Get the sample data.
+     * The sample data is stored in a variant of xtensor containers.
+     * The exact type depends on the data type.
+     *
+     * @return RAW3_datatypes::RAW3_DataVariant
+     */
+    RAW3_datatypes::RAW3_DataVariant& sample_data() { return _SampleData; }
+
+    /**
+     * @brief Get the sample data.
+     * The sample data is stored in a variant of xtensor containers.
+     * The exact type depends on the data type.
+     *
+     * @return RAW3_datatypes::RAW3_DataVariant
+     */
+    const RAW3_datatypes::RAW3_DataVariant& get_sample_data() const { return _SampleData; }
+    void set_sample_data(RAW3_datatypes::RAW3_DataVariant sample_data)
+    {
+        _SampleData = sample_data;
+    }
+
     // ----- file I/O -----
     static EK80_RAW3 from_stream(std::istream& is, EK60_Datagram header)
     {
@@ -149,7 +171,6 @@ struct EK80_RAW3 : public EK60_Datagram
         // datagram._ChannelID.resize(128);
 
         is.read(datagram._ChannelID.data(), 140);
-
 
         using namespace RAW3_datatypes;
 
@@ -218,7 +239,6 @@ struct EK80_RAW3 : public EK60_Datagram
 
         os.write(_ChannelID.data(), 140);
 
-
         tools::helper::visit_variant(
             _SampleData,
             [&os, this](RAW3_datatypes::RAW3_DataSkipped& data) {
@@ -233,8 +253,7 @@ struct EK80_RAW3 : public EK60_Datagram
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Sample binary datagram",
-                                                   float_precision);
+        tools::classhelpers::ObjectPrinter printer("Sample binary datagram", float_precision);
 
         printer.append(EK60_Datagram::__printer__(float_precision));
 
@@ -267,10 +286,10 @@ struct EK80_RAW3 : public EK60_Datagram
         printer.register_value("_Offset", _Offset);
         printer.register_value("_Count", _Count);
 
-        printer.register_section(fmt::format("Sample data ({})",magic_enum::enum_name(_Datatype)));
-        printer.append(tools::helper::visit_variant(
-            _SampleData,
-            [float_precision](auto& data) { return data.__printer__(float_precision); }));
+        printer.register_section(fmt::format("Sample data ({})", magic_enum::enum_name(_Datatype)));
+        printer.append(tools::helper::visit_variant(_SampleData, [float_precision](auto& data) {
+            return data.__printer__(float_precision);
+        }));
 
         return printer;
     }

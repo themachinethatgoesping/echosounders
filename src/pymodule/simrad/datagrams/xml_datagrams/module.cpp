@@ -55,7 +55,7 @@ void init_c_xml_configuration_transceiver_channel_frequencypar(
 using simrad::datagrams::xml_datagrams::t_BeamType;
 
 // -- create submodule --
-void init_m_simrad_datagrams_xml(pybind11::module& m)
+void init_m_datagrams_xml(pybind11::module& m)
 {
     // module description
     auto subm =

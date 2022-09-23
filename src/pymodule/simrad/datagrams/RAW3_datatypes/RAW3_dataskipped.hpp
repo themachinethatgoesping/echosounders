@@ -41,13 +41,13 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     ~RAW3_DataSkipped() = default;
 
     // ----- operator overloads -----
-    bool operator==([[maybe_unused]] const RAW3_DataSkipped& other) const { return true;}
+    bool operator==([[maybe_unused]] const RAW3_DataSkipped& other) const { return true; }
     bool operator!=(const RAW3_DataSkipped& other) const { return !(operator==(other)); }
 
     static RAW3_DataSkipped from_stream(std::istream&   is,
-                                               ek60_long       count,
-                                               t_RAW3_DataType data_type,
-                                               uint8_t         number_of_complex_samples)
+                                        ek60_long       count,
+                                        t_RAW3_DataType data_type,
+                                        uint8_t         number_of_complex_samples)
     {
         switch (data_type)
         {
@@ -76,9 +76,9 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     }
 
     void to_stream(std::ostream&   os,
-                          ek60_long       count,
-                          t_RAW3_DataType data_type,
-                          uint8_t         number_of_complex_samples) const
+                   ek60_long       count,
+                   t_RAW3_DataType data_type,
+                   uint8_t         number_of_complex_samples) const
     {
         switch (data_type)
         {
@@ -122,7 +122,6 @@ struct RAW3_DataSkipped : public i_RAW3_Data
                 throw std::runtime_error("Unknown data type");
         }
     }
-
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const

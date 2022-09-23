@@ -37,11 +37,35 @@ class i_RAW3_Data
     std::string _name;
 
   public:
+    // ----- constructors -----
     i_RAW3_Data(std::string_view name)
         : _name(name)
     {
     }
     virtual ~i_RAW3_Data() = default;
+
+    // ----- class interface -----
+    std::string_view get_name() const { return _name; }
+
+    virtual bool has_power() const { return false; }
+    virtual bool has_angle() const { return false; }
+
+    virtual xt::xtensor<ek60_float, 1> get_power() const
+    {
+        throw std::runtime_error("get_power() not implemented for " + _name);
+    }
+    virtual xt::xtensor<uint8_t, 2> get_angle() const
+    {
+        throw std::runtime_error("get_angle() not implemented for " + _name);
+    }
+    virtual xt::xtensor<uint8_t, 1> get_angle_along() const
+    {
+        throw std::runtime_error("get_angle_along() not implemented for " + _name);
+    }
+    virtual xt::xtensor<uint8_t, 1> get_angle_across() const
+    {
+        throw std::runtime_error("get_angle_across() not implemented for " + _name);
+    }
 };
 
 }

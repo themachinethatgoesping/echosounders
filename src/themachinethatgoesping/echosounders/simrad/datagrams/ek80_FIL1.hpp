@@ -16,8 +16,8 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xio.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -132,7 +132,6 @@ struct EK80_FIL1 : public EK60_Datagram
 
         is.read(reinterpret_cast<char*>(datagram._Coefficients.data()),
                 datagram._Coefficients.size() * sizeof(ek60_float));
-
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);

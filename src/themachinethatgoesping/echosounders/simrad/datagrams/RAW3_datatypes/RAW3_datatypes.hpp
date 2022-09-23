@@ -12,15 +12,14 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "t_RAW3_datatype.hpp"
-#include "i_RAW3_data.hpp"
-#include "RAW3_dataskipped.hpp"
-#include "RAW3_datapower.hpp"
 #include "RAW3_dataangle.hpp"
+#include "RAW3_datapower.hpp"
 #include "RAW3_datapowerandangle.hpp"
+#include "RAW3_dataskipped.hpp"
+#include "i_RAW3_data.hpp"
+#include "t_RAW3_datatype.hpp"
 // #include "RAW3_datacomplexfloat16.hpp"
 #include "RAW3_datacomplexfloat32.hpp"
-
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -28,9 +27,11 @@ namespace simrad {
 namespace datagrams {
 namespace RAW3_datatypes {
 
-using RAW3_DataVariant = std::variant<RAW3_DataSkipped, RAW3_DataComplexFloat32, RAW3_DataPowerAndAngle, RAW3_DataPower, RAW3_DataAngle>;
-
-
+using RAW3_DataVariant = std::variant<RAW3_DataSkipped,
+                                      RAW3_DataComplexFloat32,
+                                      RAW3_DataPowerAndAngle,
+                                      RAW3_DataPower,
+                                      RAW3_DataAngle>;
 
 }
 }

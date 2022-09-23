@@ -64,6 +64,11 @@ void init_c_ek80_RAW3(pybind11::module& m)
             &EK80_RAW3::get_count,
             &EK80_RAW3::set_count,
             DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, Count))
+        .def_property(
+            "sample_data",
+            &EK80_RAW3::sample_data,
+            &EK80_RAW3::set_sample_data,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK80_RAW3, sample_data))
 
         // --- raw data access ---
         .def_readwrite(

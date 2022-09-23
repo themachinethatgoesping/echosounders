@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <catch2/catch.hpp>
+#include <xtensor/xtensor.hpp>
 
 // using namespace testing;
 using namespace std;

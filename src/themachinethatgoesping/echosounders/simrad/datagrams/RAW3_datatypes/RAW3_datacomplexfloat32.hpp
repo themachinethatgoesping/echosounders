@@ -48,6 +48,33 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     }
     ~RAW3_DataComplexFloat32() = default;
 
+    // ----- i_RAW3_Data interface -----
+    bool has_power() const final { return true; }
+    bool has_angle() const final { return true; }
+
+    xt::xtensor<ek60_float, 1> get_power() const final
+    {
+        //ToDo: can this be done faster? (it is pretty fast already, so benchmark first)
+        auto r1 = xt::eval(xt::sum(_complex_samples, 1));
+        auto r2 = xt::eval(r1*r1);
+        
+        return xt::xtensor<ek60_float, 1>(xt::eval(xt::sum(r2, 1)));
+    }
+    xt::xtensor<uint8_t, 2> get_angle() const final
+    {
+        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_along() const final
+    {
+        throw std::runtime_error("get_angle_along() not yet implemented for " +
+                                 std::string(get_name()));
+    }
+    xt::xtensor<uint8_t, 1> get_angle_across() const final
+    {
+        throw std::runtime_error("get_angle_across() not yet implemented for " +
+                                 std::string(get_name()));
+    }
+
     // ----- operator overloads -----
     bool operator==(const RAW3_DataComplexFloat32& other) const
     {

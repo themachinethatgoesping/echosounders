@@ -49,6 +49,17 @@ struct RAW3_DataPower : public i_RAW3_Data
     }
     ~RAW3_DataPower() = default;
 
+    // ----- i_RAW3_Data interface -----
+    bool has_power() const final { return true; }
+    bool has_angle() const final { return false; }
+
+    xt::xtensor<ek60_float, 1> get_power() const final
+    {
+        static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
+        
+        return xt::xtensor<ek60_float, 1>(xt::eval(_power * conv_factor));
+    }
+
     // ----- operator overloads -----
     bool operator==(const RAW3_DataPower& other) const { return _power == other._power; }
     bool operator!=(const RAW3_DataPower& other) const { return !(operator==(other)); }

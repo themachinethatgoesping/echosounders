@@ -9,10 +9,10 @@ namespace echosounders {
 namespace pymodule {
 namespace py_simrad {
 namespace py_datagrams {
-namespace py_datagrams_xml {
+namespace py_raw3_datatypes {
 
 // -- initialize module --
-void init_m_datagrams_xml(pybind11::module& m);
+void init_m_RAW3_datatypes(pybind11::module& m);
 
 }
 }
