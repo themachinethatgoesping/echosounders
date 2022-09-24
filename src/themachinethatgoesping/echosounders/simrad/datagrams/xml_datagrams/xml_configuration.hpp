@@ -288,7 +288,7 @@ struct XML_Configuration
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision);
+        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration Datagram", float_precision);
         printer.register_section("children");
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
         printer.register_value("Transducers", Transducers.size());

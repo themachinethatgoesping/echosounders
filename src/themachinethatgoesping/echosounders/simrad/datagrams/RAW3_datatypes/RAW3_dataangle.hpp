@@ -52,19 +52,9 @@ struct RAW3_DataAngle : public i_RAW3_Data
     bool has_power() const final { return false; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<uint8_t, 2> get_angle() const final
+    xt::xtensor<ek60_float, 2> get_angle() const final
     {
         throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
-    }
-    xt::xtensor<uint8_t, 1> get_angle_along() const final
-    {
-        throw std::runtime_error("get_angle_along() not yet implemented for " +
-                                 std::string(get_name()));
-    }
-    xt::xtensor<uint8_t, 1> get_angle_across() const final
-    {
-        throw std::runtime_error("get_angle_across() not yet implemented for " +
-                                 std::string(get_name()));
     }
 
     // ----- operator overloads -----

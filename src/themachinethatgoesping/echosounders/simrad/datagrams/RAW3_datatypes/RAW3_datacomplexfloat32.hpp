@@ -55,24 +55,15 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     xt::xtensor<ek60_float, 1> get_power() const final
     {
         //ToDo: can this be done faster? (it is pretty fast already, so benchmark first)
+        //auto r1 = xt::eval(xt::sum(_complex_samples, 0));
         auto r1 = xt::eval(xt::sum(_complex_samples, 1));
         auto r2 = xt::eval(r1*r1);
         
         return xt::xtensor<ek60_float, 1>(xt::eval(xt::sum(r2, 1)));
     }
-    xt::xtensor<uint8_t, 2> get_angle() const final
+    xt::xtensor<ek60_float, 2> get_angle() const final
     {
         throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
-    }
-    xt::xtensor<uint8_t, 1> get_angle_along() const final
-    {
-        throw std::runtime_error("get_angle_along() not yet implemented for " +
-                                 std::string(get_name()));
-    }
-    xt::xtensor<uint8_t, 1> get_angle_across() const final
-    {
-        throw std::runtime_error("get_angle_across() not yet implemented for " +
-                                 std::string(get_name()));
     }
 
     // ----- operator overloads -----
@@ -88,8 +79,10 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
                                                uint8_t       number_of_complex_samples)
     {
         using xt_shape = xt::xtensor<ek60_float, 3>::shape_type;
-        RAW3_DataComplexFloat32 data(xt::empty<ek60_float>(
-            xt_shape({ unsigned(output_count), number_of_complex_samples, 2 })));
+         RAW3_DataComplexFloat32 data(xt::empty<ek60_float>(
+             xt_shape({ unsigned(output_count), number_of_complex_samples, 2 })));
+        // RAW3_DataComplexFloat32 data(xt::empty<ek60_float>(
+        //     xt_shape({ number_of_complex_samples, 2, unsigned(output_count) })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)

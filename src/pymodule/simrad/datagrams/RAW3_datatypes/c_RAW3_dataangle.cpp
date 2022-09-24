@@ -54,12 +54,6 @@ void init_c_raw3_dataangle(pybind11::module& m)
         .def("__eq__", &RAW3_DataAngle::operator==, py::arg("other"))
 
         .def("get_angle", &RAW3_DataAngle::get_angle, DOC_RAW3_DataAngle(get_angle))
-        .def("get_angle_along",
-             &RAW3_DataAngle::get_angle_along,
-             DOC_RAW3_DataAngle(get_angle_along))
-        .def("get_angle_across",
-             &RAW3_DataAngle::get_angle_across,
-             DOC_RAW3_DataAngle(get_angle_across))
 
         // ----- properties -----
         .def_readwrite("angle", &RAW3_DataAngle::_angle, DOC_RAW3_DataAngle(angle))

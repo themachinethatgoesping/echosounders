@@ -39,8 +39,6 @@ void init_c_i_raw3_data(pybind11::module& m)
         .def("has_angle", &i_RAW3_Data::has_angle, DOC_i_RAW3_Data(has_angle))
         .def("get_power", &i_RAW3_Data::get_power, DOC_i_RAW3_Data(get_power))
         .def("get_angle", &i_RAW3_Data::get_angle, DOC_i_RAW3_Data(get_angle))
-        .def("get_angle_along", &i_RAW3_Data::get_angle_along, DOC_i_RAW3_Data(get_angle_along))
-        .def("get_angle_across", &i_RAW3_Data::get_angle_across, DOC_i_RAW3_Data(get_angle_across))
 
         // ----- pybind macros -----
         // default copy functions

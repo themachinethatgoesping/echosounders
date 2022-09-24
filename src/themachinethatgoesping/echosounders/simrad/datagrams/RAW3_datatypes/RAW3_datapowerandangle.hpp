@@ -65,23 +65,31 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     {
         static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
 
-        auto r1 = xt::eval(xt::col(_power_and_angle, 0));
+        auto r1 = xt::eval(xt::row(_power_and_angle, 0));
 
         return xt::xtensor<ek60_float, 1>(xt::eval(r1 * conv_factor));
     }
-    xt::xtensor<uint8_t, 2> get_angle() const final
+    xt::xtensor<ek60_float, 1> get_power2() const
     {
-        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+        static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
+
+        auto r1 = xt::eval(xt::row(_power_and_angle, 1));
+
+        return xt::xtensor<ek60_float, 1>(xt::eval(r1 * conv_factor));
     }
-    xt::xtensor<uint8_t, 1> get_angle_along() const final
+    xt::xtensor<ek60_float, 2> get_angle() const final
     {
-        throw std::runtime_error("get_angle_along() not yet implemented for " +
-                                 std::string(get_name()));
-    }
-    xt::xtensor<uint8_t, 1> get_angle_across() const final
-    {
-        throw std::runtime_error("get_angle_across() not yet implemented for " +
-                                 std::string(get_name()));
+        using xt_shape = xt::xtensor<uint8_t, 2>::shape_type;
+        const static float conv_factor = 180.f/128.f;
+
+        xt::xtensor<ek60_short, 1> angle1 = xt::eval(xt::row(_power_and_angle, 1));
+
+        xt::xtensor<int8_t, 2> angle2 = xt::empty<uint8_t>(xt_shape({ angle1.shape()[0],2 })); //0 is along, 1 athwart
+        memcpy(angle2.data(), angle1.data(), angle1.size() * sizeof(ek60_short));
+
+        auto angle2_float = xt::eval(xt::cast<ek60_float>(angle2)* conv_factor);
+
+        return xt::xtensor<ek60_float, 2>(angle2_float);
     }
 
     // ----- to/from stream -----
@@ -90,7 +98,7 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
                                               ek60_long     output_count)
     {
         using xt_shape = xt::xtensor<ek60_short, 2>::shape_type;
-        RAW3_DataPowerAndAngle data(xt::empty<ek60_short>(xt_shape({ unsigned(output_count), 2 })));
+        RAW3_DataPowerAndAngle data(xt::empty<ek60_short>(xt_shape({2,  unsigned(output_count) })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)
@@ -124,8 +132,8 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
                                                    float_precision);
 
         std::stringstream ss1, ss2;
-        ss1 << xt::col(_power_and_angle, 0) * 10 * log10(2.0) / 256;
-        ss2 << xt::col(_power_and_angle, 1);
+        ss1 << xt::row(_power_and_angle, 0) * 10 * log10(2.0) / 256;
+        ss2 << xt::row(_power_and_angle, 1);
 
         printer.register_string("Power", ss1.str());
         printer.register_string("Angle", ss2.str());

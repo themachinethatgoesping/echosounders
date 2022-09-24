@@ -54,13 +54,8 @@ void init_c_raw3_datapowerandangle(pybind11::module& m)
         .def("__eq__", &RAW3_DataPowerAndAngle::operator==, py::arg("other"))
 
         .def("get_power", &RAW3_DataPowerAndAngle::get_power, DOC_RAW3_DataPowerAndAngle(get_power))
+        .def("get_power2", &RAW3_DataPowerAndAngle::get_power2, DOC_RAW3_DataPowerAndAngle(get_power))
         .def("get_angle", &RAW3_DataPowerAndAngle::get_angle, DOC_RAW3_DataPowerAndAngle(get_angle))
-        .def("get_angle_along",
-             &RAW3_DataPowerAndAngle::get_angle_along,
-             DOC_RAW3_DataPowerAndAngle(get_angle_along))
-        .def("get_angle_across",
-             &RAW3_DataPowerAndAngle::get_angle_across,
-             DOC_RAW3_DataPowerAndAngle(get_angle_across))
 
         // ----- properties -----
         .def_readwrite("power_and_angle",

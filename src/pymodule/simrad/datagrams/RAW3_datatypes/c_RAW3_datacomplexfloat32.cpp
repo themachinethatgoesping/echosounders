@@ -59,12 +59,6 @@ void init_c_raw3_datacomplexfloat32(pybind11::module& m)
         .def("get_angle",
              &RAW3_DataComplexFloat32::get_angle,
              DOC_RAW3_DataComplexFloat32(get_angle))
-        .def("get_angle_along",
-             &RAW3_DataComplexFloat32::get_angle_along,
-             DOC_RAW3_DataComplexFloat32(get_angle_along))
-        .def("get_angle_across",
-             &RAW3_DataComplexFloat32::get_angle_across,
-             DOC_RAW3_DataComplexFloat32(get_angle_across))
 
         // ----- properties -----
         .def_readwrite("complex_samples",

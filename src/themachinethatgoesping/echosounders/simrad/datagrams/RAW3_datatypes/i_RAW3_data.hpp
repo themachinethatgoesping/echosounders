@@ -54,18 +54,11 @@ class i_RAW3_Data
     {
         throw std::runtime_error("get_power() not implemented for " + _name);
     }
-    virtual xt::xtensor<uint8_t, 2> get_angle() const
+    virtual xt::xtensor<ek60_float, 2> get_angle() const
     {
         throw std::runtime_error("get_angle() not implemented for " + _name);
     }
-    virtual xt::xtensor<uint8_t, 1> get_angle_along() const
-    {
-        throw std::runtime_error("get_angle_along() not implemented for " + _name);
-    }
-    virtual xt::xtensor<uint8_t, 1> get_angle_across() const
-    {
-        throw std::runtime_error("get_angle_across() not implemented for " + _name);
-    }
+    
 };
 
 }
