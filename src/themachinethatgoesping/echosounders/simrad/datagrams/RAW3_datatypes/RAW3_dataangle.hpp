@@ -35,13 +35,13 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataAngle : public i_RAW3_Data
 {
-    xt::xtensor<uint8_t, 2> _angle; ///< Sample data
+    xt::xtensor<int8_t, 2> _angle; ///< Sample data
 
     RAW3_DataAngle()
         : i_RAW3_Data("Angle")
     {
     }
-    RAW3_DataAngle(xt::xtensor<uint8_t, 2> angle)
+    RAW3_DataAngle(xt::xtensor<int8_t, 2> angle)
         : i_RAW3_Data("Angle")
         , _angle(std::move(angle))
     {
@@ -54,7 +54,9 @@ struct RAW3_DataAngle : public i_RAW3_Data
 
     xt::xtensor<ek60_float, 2> get_angle() const final
     {
-        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+        const static float conv_factor = 180.f/128.f;
+        
+        return xt::xtensor<ek60_float, 2>(xt::eval(_angle * conv_factor));
     }
 
     // ----- operator overloads -----
@@ -65,18 +67,18 @@ struct RAW3_DataAngle : public i_RAW3_Data
                                       ek60_long     input_count,
                                       ek60_long     output_count)
     {
-        using xt_shape = xt::xtensor<uint8_t, 2>::shape_type;
-        RAW3_DataAngle data(xt::empty<uint8_t>(xt_shape({ unsigned(output_count), 2 })));
+        using xt_shape = xt::xtensor<int8_t, 2>::shape_type;
+        RAW3_DataAngle data(xt::empty<int8_t>(xt_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)
         {
             is.read(reinterpret_cast<char*>(data._angle.data()),
-                    output_count * sizeof(uint8_t) * 2);
+                    output_count * sizeof(int8_t) * 2);
         }
         else
         {
-            is.read(reinterpret_cast<char*>(data._angle.data()), input_count * sizeof(uint8_t) * 2);
+            is.read(reinterpret_cast<char*>(data._angle.data()), input_count * sizeof(int8_t) * 2);
 
             // fill remaining samples with 0
             std::fill(data._angle.begin() + input_count * 2, data._angle.end(), 0);
@@ -87,7 +89,7 @@ struct RAW3_DataAngle : public i_RAW3_Data
     void to_stream(std::ostream& os) const
     {
         os.write(reinterpret_cast<const char*>(_angle.data()),
-                 xt::flatten(_angle).size() * sizeof(uint8_t));
+                 xt::flatten(_angle).size() * sizeof(int8_t));
         return;
     }
 

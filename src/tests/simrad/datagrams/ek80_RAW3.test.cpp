@@ -52,7 +52,8 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
                 break;
             case t_RAW3_DataType::PowerAndAngle:
                 dat._SampleData = RAW3_DataPowerAndAngle(
-                    xt::xtensor<ek60_short, 2>::from_shape({ unsigned(dat._Count), 2 }));
+                    xt::xtensor<ek60_short, 1>::from_shape({ unsigned(dat._Count) }),
+                    xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
             case t_RAW3_DataType::Power:
                 dat._SampleData = RAW3_DataPower(
@@ -60,7 +61,7 @@ TEST_CASE("EK80_RAW3 should support common functions", TESTTAG)
                 break;
             case t_RAW3_DataType::Angle:
                 dat._SampleData = RAW3_DataAngle(
-                    xt::xtensor<uint8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
+                    xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
