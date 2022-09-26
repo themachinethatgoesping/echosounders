@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <filesystem>
 
@@ -16,7 +16,7 @@ using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XM
 
 #define TESTTAG "[simrad]"
 
-using Catch::Detail::Approx;
+using Catch::Approx;
 
 std::string xml_string =
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Parameter>\r\n  <Channel "
@@ -65,8 +65,8 @@ TEST_CASE("XML_Parameter should support common functions", TESTTAG)
     REQUIRE(xml1.Channels[0].ChannelMode == 0);
     REQUIRE(xml1.Channels[0].PulseForm == 0);
     REQUIRE(xml1.Channels[0].Frequency == 38000);
-    REQUIRE(xml1.Channels[0].PulseDuration == Approx(0.002048));
-    REQUIRE(xml1.Channels[0].SampleInterval == Approx(5.2E-05));
+    REQUIRE(xml1.Channels[0].PulseDuration ==Catch::Approx(0.002048));
+    REQUIRE(xml1.Channels[0].SampleInterval ==Catch::Approx(5.2E-05));
     REQUIRE(xml1.Channels[0].TransmitPower == 1000);
-    REQUIRE(xml1.Channels[0].Slope == Approx(0.5));
+    REQUIRE(xml1.Channels[0].Slope ==Catch::Approx(0.5));
 }

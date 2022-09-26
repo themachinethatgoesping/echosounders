@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <filesystem>
 
@@ -55,7 +55,7 @@ TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
 
     // timestamp (unixtime)
     dat.set_timestamp(123.123);
-    REQUIRE(dat.get_timestamp() == Approx(123.123));
+    REQUIRE(dat.get_timestamp() ==Catch::Approx(123.123));
     REQUIRE(dat._HighDateTime == 27111903);
     REQUIRE(dat._LowDateTime == 513905712);
 }

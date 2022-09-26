@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <filesystem>
 
@@ -16,7 +16,7 @@ using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XM
 
 #define TESTTAG "[simrad]"
 
-using Catch::Detail::Approx;
+using Catch::Approx;
 
 std::string xml_string =
     "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<InitialParameter>\n    <Channels>\n        "
@@ -78,53 +78,53 @@ TEST_CASE("xml_parameter2", TESTTAG)
     REQUIRE(xml1.Channels[0].ChannelMode == 0);
     REQUIRE(xml1.Channels[0].PulseForm == 0);
     REQUIRE(xml1.Channels[0].Frequency == 38000);
-    REQUIRE(xml1.Channels[0].PulseDuration == Approx(0.000256));
-    REQUIRE(xml1.Channels[0].SampleInterval == Approx(8e-06));
+    REQUIRE(xml1.Channels[0].PulseDuration ==Catch::Approx(0.000256));
+    REQUIRE(xml1.Channels[0].SampleInterval ==Catch::Approx(8e-06));
     REQUIRE(xml1.Channels[0].TransmitPower == 2000);
-    REQUIRE(xml1.Channels[0].Slope == Approx(0.411184));
-    REQUIRE(xml1.Channels[0].SoundVelocity == Approx(1484.5));
+    REQUIRE(xml1.Channels[0].Slope ==Catch::Approx(0.411184));
+    REQUIRE(xml1.Channels[0].SoundVelocity ==Catch::Approx(1484.5));
 
     REQUIRE(xml1.Channels[1].PingId == "ES");
     REQUIRE(xml1.Channels[1].ChannelID == "WBT 400050-15 ES70-7C_ES");
     REQUIRE(xml1.Channels[1].ChannelMode == 0);
     REQUIRE(xml1.Channels[1].PulseForm == 0);
     REQUIRE(xml1.Channels[1].Frequency == 70000);
-    REQUIRE(xml1.Channels[1].PulseDuration == Approx(0.000256));
-    REQUIRE(xml1.Channels[1].SampleInterval == Approx(1.2e-05));
+    REQUIRE(xml1.Channels[1].PulseDuration ==Catch::Approx(0.000256));
+    REQUIRE(xml1.Channels[1].SampleInterval ==Catch::Approx(1.2e-05));
     REQUIRE(xml1.Channels[1].TransmitPower == 750);
-    REQUIRE(xml1.Channels[1].Slope == Approx(0.111607));
-    REQUIRE(xml1.Channels[1].SoundVelocity == Approx(1484.5));
+    REQUIRE(xml1.Channels[1].Slope ==Catch::Approx(0.111607));
+    REQUIRE(xml1.Channels[1].SoundVelocity ==Catch::Approx(1484.5));
 
     REQUIRE(xml1.Channels[2].PingId == "ES");
     REQUIRE(xml1.Channels[2].ChannelID == "WBT 400051-15 ES120-7C_ES");
     REQUIRE(xml1.Channels[2].ChannelMode == 0);
     REQUIRE(xml1.Channels[2].PulseForm == 0);
     REQUIRE(xml1.Channels[2].Frequency == 120000);
-    REQUIRE(xml1.Channels[2].PulseDuration == Approx(0.000256));
-    REQUIRE(xml1.Channels[2].SampleInterval == Approx(1.2e-05));
+    REQUIRE(xml1.Channels[2].PulseDuration ==Catch::Approx(0.000256));
+    REQUIRE(xml1.Channels[2].SampleInterval ==Catch::Approx(1.2e-05));
     REQUIRE(xml1.Channels[2].TransmitPower == 250);
-    REQUIRE(xml1.Channels[2].Slope == Approx(0.0651042));
-    REQUIRE(xml1.Channels[2].SoundVelocity == Approx(1484.5));
+    REQUIRE(xml1.Channels[2].Slope ==Catch::Approx(0.0651042));
+    REQUIRE(xml1.Channels[2].SoundVelocity ==Catch::Approx(1484.5));
 
     REQUIRE(xml1.Channels[3].PingId == "ES");
     REQUIRE(xml1.Channels[3].ChannelID == "WBT 400052-15 ES200-7C_ES");
     REQUIRE(xml1.Channels[3].ChannelMode == 0);
     REQUIRE(xml1.Channels[3].PulseForm == 0);
     REQUIRE(xml1.Channels[3].Frequency == 200000);
-    REQUIRE(xml1.Channels[3].PulseDuration == Approx(0.000256));
-    REQUIRE(xml1.Channels[3].SampleInterval == Approx(1.2e-05));
+    REQUIRE(xml1.Channels[3].PulseDuration ==Catch::Approx(0.000256));
+    REQUIRE(xml1.Channels[3].SampleInterval ==Catch::Approx(1.2e-05));
     REQUIRE(xml1.Channels[3].TransmitPower == 150);
-    REQUIRE(xml1.Channels[3].Slope == Approx(0.0390625));
-    REQUIRE(xml1.Channels[3].SoundVelocity == Approx(1484.5));
+    REQUIRE(xml1.Channels[3].Slope ==Catch::Approx(0.0390625));
+    REQUIRE(xml1.Channels[3].SoundVelocity ==Catch::Approx(1484.5));
 
     REQUIRE(xml1.Channels[4].PingId == "ES");
     REQUIRE(xml1.Channels[4].ChannelID == "WBT 400058-15 ES333-7C_ES");
     REQUIRE(xml1.Channels[4].ChannelMode == 0);
     REQUIRE(xml1.Channels[4].PulseForm == 0);
     REQUIRE(xml1.Channels[4].Frequency == 333000);
-    REQUIRE(xml1.Channels[4].PulseDuration == Approx(0.000256));
-    REQUIRE(xml1.Channels[4].SampleInterval == Approx(8e-06));
+    REQUIRE(xml1.Channels[4].PulseDuration ==Catch::Approx(0.000256));
+    REQUIRE(xml1.Channels[4].SampleInterval ==Catch::Approx(8e-06));
     REQUIRE(xml1.Channels[4].TransmitPower == 50);
-    REQUIRE(xml1.Channels[4].Slope == Approx(0.023461));
-    REQUIRE(xml1.Channels[4].SoundVelocity == Approx(1484.5));
+    REQUIRE(xml1.Channels[4].Slope ==Catch::Approx(0.023461));
+    REQUIRE(xml1.Channels[4].SoundVelocity ==Catch::Approx(1484.5));
 }

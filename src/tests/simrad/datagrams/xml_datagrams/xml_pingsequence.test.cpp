@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <filesystem>
 
@@ -16,7 +16,7 @@ using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XM
 
 #define TESTTAG "[simrad]"
 
-using Catch::Detail::Approx;
+using Catch::Approx;
 
 std::string xml_string = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<PingSequence>\n    <Ping "
                          "ChannelID=\"WBT 400058-15 ES333-7C_ES\" />\n</PingSequence>\x00\x00\x00";
