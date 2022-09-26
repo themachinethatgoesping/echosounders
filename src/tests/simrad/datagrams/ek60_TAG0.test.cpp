@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_all.hpp>
-
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 #include <filesystem>
 
 #include "../themachinethatgoesping/echosounders/simrad/datagrams/ek60_TAG0.hpp"

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_all.hpp>
-
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 #include <filesystem>
 
 #include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
@@ -64,15 +64,15 @@ TEST_CASE("XML_Environment should support common functions", TESTTAG)
     // --- test data access ---
     REQUIRE(xml1.Depth == 200);
     REQUIRE(xml1.Acidity == 8);
-    REQUIRE(xml1.Salinity ==Catch::Approx(20.9));
-    REQUIRE(xml1.SoundSpeed ==Catch::Approx(1473.3));
+    REQUIRE(xml1.Salinity == Catch::Approx(20.9));
+    REQUIRE(xml1.SoundSpeed == Catch::Approx(1473.3));
     REQUIRE(xml1.Temperature == 10);
     REQUIRE(xml1.Latitude == 44);
     REQUIRE(xml1.SoundVelocityProfile.size() == 4);
-    REQUIRE(xml1.SoundVelocityProfile[0] ==Catch::Approx(1.0));
-    REQUIRE(xml1.SoundVelocityProfile[1] ==Catch::Approx(1473.3));
-    REQUIRE(xml1.SoundVelocityProfile[2] ==Catch::Approx(1000.0));
-    REQUIRE(xml1.SoundVelocityProfile[3] ==Catch::Approx(1473.3));
+    REQUIRE(xml1.SoundVelocityProfile[0] == Catch::Approx(1.0));
+    REQUIRE(xml1.SoundVelocityProfile[1] == Catch::Approx(1473.3));
+    REQUIRE(xml1.SoundVelocityProfile[2] == Catch::Approx(1000.0));
+    REQUIRE(xml1.SoundVelocityProfile[3] == Catch::Approx(1473.3));
     REQUIRE(xml1.SoundVelocitySource == "Manual");
     REQUIRE(xml1.DropKeelOffset == 0);
     REQUIRE(xml1.DropKeelOffsetIsManual == 0);

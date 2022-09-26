@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_all.hpp>
-
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 #include <filesystem>
 
 #include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
@@ -1096,9 +1096,9 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[1].Type == "GPS");
     REQUIRE(xml1.ConfiguredSensors[1].Port == "Serial Port 3");
     REQUIRE(xml1.ConfiguredSensors[1].TalkerID == "");
-    REQUIRE(xml1.ConfiguredSensors[1].X ==Catch::Approx(5.32));
-    REQUIRE(xml1.ConfiguredSensors[1].Y ==Catch::Approx(-2.02));
-    REQUIRE(xml1.ConfiguredSensors[1].Z ==Catch::Approx(-24.36));
+    REQUIRE(xml1.ConfiguredSensors[1].X == Catch::Approx(5.32));
+    REQUIRE(xml1.ConfiguredSensors[1].Y == Catch::Approx(-2.02));
+    REQUIRE(xml1.ConfiguredSensors[1].Z == Catch::Approx(-24.36));
     REQUIRE(xml1.ConfiguredSensors[1].AngleX == 0.0);
     REQUIRE(xml1.ConfiguredSensors[1].AngleY == 0.0);
     REQUIRE(xml1.ConfiguredSensors[1].AngleZ == 0.0);
@@ -1148,9 +1148,9 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[2].Type == "MotionBinary");
     REQUIRE(xml1.ConfiguredSensors[2].Port == "Serial Port 4");
     REQUIRE(xml1.ConfiguredSensors[2].TalkerID == "");
-    REQUIRE(xml1.ConfiguredSensors[2].X ==Catch::Approx(0.0));
-    REQUIRE(xml1.ConfiguredSensors[2].Y ==Catch::Approx(0.0));
-    REQUIRE(xml1.ConfiguredSensors[2].Z ==Catch::Approx(0.0));
+    REQUIRE(xml1.ConfiguredSensors[2].X == Catch::Approx(0.0));
+    REQUIRE(xml1.ConfiguredSensors[2].Y == Catch::Approx(0.0));
+    REQUIRE(xml1.ConfiguredSensors[2].Z == Catch::Approx(0.0));
     REQUIRE(xml1.ConfiguredSensors[2].AngleX == 0.0);
     REQUIRE(xml1.ConfiguredSensors[2].AngleY == 0.0);
     REQUIRE(xml1.ConfiguredSensors[2].AngleZ == 0.0);
@@ -1288,48 +1288,48 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.Transducers[0].TransducerOrientation == "");
     REQUIRE(xml1.Transducers[0].TransducerMounting == "DropKeel");
     REQUIRE(xml1.Transducers[0].TransducerSerialNumber == 331);
-    REQUIRE(xml1.Transducers[0].TransducerAlphaX ==Catch::Approx(-0.5));
-    REQUIRE(xml1.Transducers[0].TransducerAlphaY ==Catch::Approx(1.5));
-    REQUIRE(xml1.Transducers[0].TransducerAlphaZ ==Catch::Approx(0.5));
-    REQUIRE(xml1.Transducers[0].TransducerOffsetX ==Catch::Approx(7.88));
-    REQUIRE(xml1.Transducers[0].TransducerOffsetY ==Catch::Approx(1.09));
-    REQUIRE(xml1.Transducers[0].TransducerOffsetZ ==Catch::Approx(5.87));
+    REQUIRE(xml1.Transducers[0].TransducerAlphaX == Catch::Approx(-0.5));
+    REQUIRE(xml1.Transducers[0].TransducerAlphaY == Catch::Approx(1.5));
+    REQUIRE(xml1.Transducers[0].TransducerAlphaZ == Catch::Approx(0.5));
+    REQUIRE(xml1.Transducers[0].TransducerOffsetX == Catch::Approx(7.88));
+    REQUIRE(xml1.Transducers[0].TransducerOffsetY == Catch::Approx(1.09));
+    REQUIRE(xml1.Transducers[0].TransducerOffsetZ == Catch::Approx(5.87));
 
     CHECK(xml1.Transducers[1].TransducerName == "ES70-7C");
     CHECK(xml1.Transducers[1].TransducerCustomName == "ES70-7C Serial No: 604");
     CHECK(xml1.Transducers[1].TransducerOrientation == "");
     CHECK(xml1.Transducers[1].TransducerMounting == "DropKeel");
     CHECK(xml1.Transducers[1].TransducerSerialNumber == 604);
-    CHECK(xml1.Transducers[1].TransducerAlphaX ==Catch::Approx(0.6));
-    CHECK(xml1.Transducers[1].TransducerAlphaY ==Catch::Approx(1.0));
-    CHECK(xml1.Transducers[1].TransducerAlphaZ ==Catch::Approx(0.0));
-    CHECK(xml1.Transducers[1].TransducerOffsetX ==Catch::Approx(8.22));
-    CHECK(xml1.Transducers[1].TransducerOffsetY ==Catch::Approx(1.47));
-    CHECK(xml1.Transducers[1].TransducerOffsetZ ==Catch::Approx(5.88));
+    CHECK(xml1.Transducers[1].TransducerAlphaX == Catch::Approx(0.6));
+    CHECK(xml1.Transducers[1].TransducerAlphaY == Catch::Approx(1.0));
+    CHECK(xml1.Transducers[1].TransducerAlphaZ == Catch::Approx(0.0));
+    CHECK(xml1.Transducers[1].TransducerOffsetX == Catch::Approx(8.22));
+    CHECK(xml1.Transducers[1].TransducerOffsetY == Catch::Approx(1.47));
+    CHECK(xml1.Transducers[1].TransducerOffsetZ == Catch::Approx(5.88));
 
     CHECK(xml1.Transducers[2].TransducerName == "ES120-7C");
     CHECK(xml1.Transducers[2].TransducerCustomName == "ES120-7C Serial No: 1969");
     CHECK(xml1.Transducers[2].TransducerOrientation == "");
     CHECK(xml1.Transducers[2].TransducerMounting == "DropKeel");
     CHECK(xml1.Transducers[2].TransducerSerialNumber == 1969);
-    CHECK(xml1.Transducers[2].TransducerAlphaX ==Catch::Approx(-0.5));
-    CHECK(xml1.Transducers[2].TransducerAlphaY ==Catch::Approx(0.9));
-    CHECK(xml1.Transducers[2].TransducerAlphaZ ==Catch::Approx(0.2));
-    CHECK(xml1.Transducers[2].TransducerOffsetX ==Catch::Approx(8.27));
-    CHECK(xml1.Transducers[2].TransducerOffsetY ==Catch::Approx(1.17));
-    CHECK(xml1.Transducers[2].TransducerOffsetZ ==Catch::Approx(5.87));
+    CHECK(xml1.Transducers[2].TransducerAlphaX == Catch::Approx(-0.5));
+    CHECK(xml1.Transducers[2].TransducerAlphaY == Catch::Approx(0.9));
+    CHECK(xml1.Transducers[2].TransducerAlphaZ == Catch::Approx(0.2));
+    CHECK(xml1.Transducers[2].TransducerOffsetX == Catch::Approx(8.27));
+    CHECK(xml1.Transducers[2].TransducerOffsetY == Catch::Approx(1.17));
+    CHECK(xml1.Transducers[2].TransducerOffsetZ == Catch::Approx(5.87));
 
     CHECK(xml1.Transducers[3].TransducerName == "ES200-7C");
     CHECK(xml1.Transducers[3].TransducerCustomName == "ES200-7C Serial No: 798");
     CHECK(xml1.Transducers[3].TransducerOrientation == "");
     CHECK(xml1.Transducers[3].TransducerMounting == "DropKeel");
     CHECK(xml1.Transducers[3].TransducerSerialNumber == 798);
-    CHECK(xml1.Transducers[3].TransducerAlphaX ==Catch::Approx(-1.2));
-    CHECK(xml1.Transducers[3].TransducerAlphaY ==Catch::Approx(0.9));
-    CHECK(xml1.Transducers[3].TransducerAlphaZ ==Catch::Approx(0.4));
-    CHECK(xml1.Transducers[3].TransducerOffsetX ==Catch::Approx(8.22));
-    CHECK(xml1.Transducers[3].TransducerOffsetY ==Catch::Approx(0.94));
-    CHECK(xml1.Transducers[3].TransducerOffsetZ ==Catch::Approx(5.88));
+    CHECK(xml1.Transducers[3].TransducerAlphaX == Catch::Approx(-1.2));
+    CHECK(xml1.Transducers[3].TransducerAlphaY == Catch::Approx(0.9));
+    CHECK(xml1.Transducers[3].TransducerAlphaZ == Catch::Approx(0.4));
+    CHECK(xml1.Transducers[3].TransducerOffsetX == Catch::Approx(8.22));
+    CHECK(xml1.Transducers[3].TransducerOffsetY == Catch::Approx(0.94));
+    CHECK(xml1.Transducers[3].TransducerOffsetZ == Catch::Approx(5.88));
 
     // skipping additional transducers for now
 
@@ -1345,7 +1345,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.Transceivers[0].IPAddress == "157.237.15.105");
     REQUIRE(xml1.Transceivers[0].TransceiverSoftwareVersion == "2.54");
     REQUIRE(xml1.Transceivers[0].Version.substr(0, 31) == "[0] Ethernet: 00:90:72:06:1A:A8");
-    REQUIRE(xml1.Transceivers[0].RxSampleFrequency ==Catch::Approx(1500000));
+    REQUIRE(xml1.Transceivers[0].RxSampleFrequency == Catch::Approx(1500000));
     REQUIRE(xml1.Transceivers[0].SerialNumber == 400040);
     REQUIRE(xml1.Transceivers[0].TransceiverNumber == 1);
     REQUIRE(xml1.Transceivers[0].Multiplexing == 0);
@@ -1360,7 +1360,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(themachinethatgoesping::tools::helper::approx_container(
         xml1.Transceivers[0].Channels[0].PulseDurationFM,
         { 0.000512, 0.001024, 0.002048, 0.004096, 0.008192 }));
-    REQUIRE(xml1.Transceivers[0].Channels[0].MaxTxPowerTransceiver ==Catch::Approx(2000));
+    REQUIRE(xml1.Transceivers[0].Channels[0].MaxTxPowerTransceiver == Catch::Approx(2000));
     REQUIRE(xml1.Transceivers[0].Channels[0].HWChannelConfiguration == 15);
 
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.TransducerName == "ES38-7");
@@ -1373,28 +1373,28 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamType ==
             themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::t_BeamType::
                 BeamTypeSplit3CN);
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.Frequency ==Catch::Approx(38000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMinimum ==Catch::Approx(34000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMaximum ==Catch::Approx(45000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.EquivalentBeamAngle ==Catch::Approx(-20.7));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.MaxTxPowerTransducer ==Catch::Approx(2000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAlongship ==Catch::Approx(7.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAthwartship ==Catch::Approx(7.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAlongship ==Catch::Approx(18.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.Frequency == Catch::Approx(38000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMinimum == Catch::Approx(34000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMaximum == Catch::Approx(45000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.EquivalentBeamAngle == Catch::Approx(-20.7));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.MaxTxPowerTransducer == Catch::Approx(2000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAlongship == Catch::Approx(7.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAthwartship == Catch::Approx(7.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAlongship == Catch::Approx(18.00));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAthwartship ==
            Catch::Approx(18.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAlongship ==Catch::Approx(0.0));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAthwartship ==Catch::Approx(0.0));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAlongship == Catch::Approx(0.0));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAthwartship == Catch::Approx(0.0));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.DirectivityDropAt2XBeamWidth ==
            Catch::Approx(0.0));
 
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars.size() == 112);
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Frequency ==
            Catch::Approx(43909));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Gain ==Catch::Approx(28.29));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Gain == Catch::Approx(28.29));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Impedance ==
            Catch::Approx(75.0));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Phase ==Catch::Approx(0.));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Phase == Catch::Approx(0.));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].BeamWidthAlongship ==
            Catch::Approx(6.02));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].BeamWidthAthwartship ==
