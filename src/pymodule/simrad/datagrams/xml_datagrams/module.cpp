@@ -51,6 +51,7 @@ void init_c_xml_configuration_transceiver_channel_transducer(
     pybind11::module& m); // c_xml_configuration_transceiver_channel_transducer.cpp
 void init_c_xml_configuration_transceiver_channel_frequencypar(
     pybind11::module& m); // c_xml_configuration_transceiver_channel_frequencypar.cpp
+    void init_c_channelconfiguration(pybind11::module& m); // c_channelconfiguration.cpp
 
 using simrad::datagrams::xml_datagrams::t_BeamType;
 
@@ -117,6 +118,9 @@ void init_m_datagrams_xml(pybind11::module& m)
     init_c_xml_configuration_transceiver_channel_transducer(subm);
     init_c_xml_configuration_transceiver_channel(subm);
     init_c_xml_configuration_transceiver(subm);
+
+    // derived datagrams
+    init_c_channelconfiguration(subm);
 
     init_c_xml_configuration(subm);
 }

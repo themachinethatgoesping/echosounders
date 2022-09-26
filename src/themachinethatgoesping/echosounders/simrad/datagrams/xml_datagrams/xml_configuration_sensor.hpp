@@ -21,6 +21,8 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
+#include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
+
 #include "helper.hpp"
 #include "xml_configuration_sensor_telegram.hpp"
 #include "xml_node.hpp"
@@ -60,6 +62,20 @@ struct XML_Configuration_Sensor
     XML_Configuration_Sensor() = default;
     XML_Configuration_Sensor(const pugi::xml_node& node) { initialize(node); }
     ~XML_Configuration_Sensor() = default;
+
+    // ----- methods -----
+    /**
+     * @brief Return the sensor offsets as navigation::datastructures::PositionalOffsets structure
+     * 
+     * @return navigation::datastructures::PositionalOffsets 
+     */
+    navigation::datastructures::PositionalOffsets get_sensor_offsets() const
+    {
+        // TODO: check angle directions
+        return navigation::datastructures::PositionalOffsets(X, Y, Z, AngleZ, AngleY, AngleX);
+    }
+
+    // ----- xml decode methods -----
 
     void initialize(const pugi::xml_node& root_node)
     {

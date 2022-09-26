@@ -42,6 +42,17 @@ void init_c_xml_configuration(pybind11::module& m)
                  XML_Configuration,
                  XML_Configuration))
 
+        // ----- children (derived) -----
+        .def_readwrite("ChannelConfigurations",
+                       &XML_Configuration::ChannelConfigurations,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XML_Configuration,
+                           ChannelConfigurations))
+
         // ----- children -----
         .def_readwrite("ConfiguredSensors",
                        &XML_Configuration::ConfiguredSensors,

@@ -7,6 +7,7 @@
 #pragma once
 
 // std includes
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -27,6 +28,8 @@
 #include "xml_configuration_transceiver.hpp"
 #include "xml_configuration_transducer.hpp"
 #include "xml_node.hpp"
+
+#include "channelconfiguration.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -55,11 +58,29 @@ struct XML_Configuration
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
 
+    std::map<std::string, ChannelConfiguration> ChannelConfigurations;
+
   public:
     // ----- constructors -----
     XML_Configuration() = default;
     XML_Configuration(const pugi::xml_node& node) { initialize(node); }
     ~XML_Configuration() = default;
+
+    void initialize_channelconfiguration()
+    {
+        std::map<std::string, XML_Configuration_Transducer> transducers;
+        for (const auto& tr : Transducers)
+            transducers[tr.TransducerName] = tr;
+
+        for (const auto& trc : Transceivers)
+        {
+            for (const auto& ch : trc.Channels)
+            {
+                ChannelConfigurations[ch.ChannelID] = ChannelConfiguration(
+                    ch.ChannelID, ch, trc, transducers[ch.Transducer.TransducerName]);
+            }
+        }
+    }
 
     void initialize(const pugi::xml_node& root_node)
     {
@@ -198,6 +219,8 @@ struct XML_Configuration
 
             ++unknown_children;
         }
+
+        initialize_channelconfiguration();
     }
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
@@ -288,7 +311,8 @@ struct XML_Configuration
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration Datagram", float_precision);
+        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
+                                                   float_precision);
         printer.register_section("children");
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
         printer.register_value("Transducers", Transducers.size());
@@ -296,6 +320,13 @@ struct XML_Configuration
         if (!ActivePingMode.Mode.empty())
         {
             printer.register_value("ActivePingMode", ActivePingMode.Mode);
+        }
+
+        printer.register_section("channels");
+        unsigned int i = 0;
+        for (const auto& ch : ChannelConfigurations)
+        {
+            printer.register_string(fmt::format("Channel ({})",i++), ch.first);
         }
 
         printer.register_section("attributes (Header)");

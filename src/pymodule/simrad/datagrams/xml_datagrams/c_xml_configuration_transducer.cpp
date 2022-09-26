@@ -42,6 +42,17 @@ void init_c_xml_configuration_transducer(pybind11::module& m)
                  XML_Configuration_Transducer,
                  XML_Configuration_Transducer))
 
+        // ----- methods -----
+        .def("get_sensor_offsets",
+             &XML_Configuration_Transducer::get_sensor_offsets,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration_Transducer,
+                 get_sensor_offsets))
+
         // ----- children -----
 
         // ----- attributes -----

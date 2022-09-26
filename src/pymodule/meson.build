@@ -38,6 +38,7 @@ sources = [
     'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver_channel.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_configuration_transceiver.cpp',
     'simrad/datagrams/xml_datagrams/c_xml_configuration.cpp',
+    'simrad/datagrams/xml_datagrams/c_channelconfiguration.cpp',
     'simrad/datagrams/RAW3_datatypes/module.cpp',
     'simrad/datagrams/RAW3_datatypes/c_i_RAW3_data.cpp',
     'simrad/datagrams/RAW3_datatypes/c_RAW3_datacomplexfloat32.cpp',

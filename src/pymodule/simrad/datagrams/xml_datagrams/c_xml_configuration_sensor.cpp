@@ -42,6 +42,17 @@ void init_c_xml_configuration_sensor(pybind11::module& m)
                  XML_Configuration_Sensor,
                  XML_Configuration_Sensor))
 
+        // ----- methods -----
+        .def("get_sensor_offsets",
+             &XML_Configuration_Sensor::get_sensor_offsets,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration_Sensor,
+                 get_sensor_offsets))
+
         // ----- children -----
         .def_readwrite("Telegrams",
                        &XML_Configuration_Sensor::Telegrams,
