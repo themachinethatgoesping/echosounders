@@ -72,7 +72,7 @@ struct XML_Configuration_Sensor
     navigation::datastructures::PositionalOffsets get_sensor_offsets() const
     {
         // TODO: check angle directions
-        return navigation::datastructures::PositionalOffsets(X, Y, Z, AngleZ, AngleY, AngleX);
+        return navigation::datastructures::PositionalOffsets(Name, X, Y, Z, AngleZ, AngleY, AngleX);
     }
 
     // ----- xml decode methods -----

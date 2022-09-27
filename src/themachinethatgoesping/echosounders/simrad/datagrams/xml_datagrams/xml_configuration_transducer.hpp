@@ -70,6 +70,7 @@ struct XML_Configuration_Transducer
         // TODO: check angle directions
         // TODO: include transducer mounting and transducer orientation?
         return navigation::datastructures::PositionalOffsets(
+            TransducerName,
             TransducerOffsetX,
             TransducerOffsetY,
             TransducerOffsetZ,

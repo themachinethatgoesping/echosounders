@@ -809,6 +809,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Sensor = R"doc(XML base datagram)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_SensorConfigurations = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Sensor_AngleX = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Sensor_AngleY = R"doc()doc";
@@ -1203,9 +1205,15 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_from_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_prioritized_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_sensor_configuration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_initialize = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_initialize_channelconfiguration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_initialize_channelconfigurations = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_initialize_sensorconfigurations = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_operator_eq = R"doc()doc";
 

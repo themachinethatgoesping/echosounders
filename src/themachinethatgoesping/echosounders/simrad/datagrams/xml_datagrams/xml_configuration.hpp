@@ -22,6 +22,8 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
+#include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
+
 #include "helper.hpp"
 #include "xml_configuration_activepingmode.hpp"
 #include "xml_configuration_sensor.hpp"
@@ -58,7 +60,8 @@ struct XML_Configuration
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
 
-    std::map<std::string, ChannelConfiguration> ChannelConfigurations;
+    std::map<std::string, ChannelConfiguration>                  ChannelConfigurations;
+    std::map<std::string, std::vector<XML_Configuration_Sensor>> SensorConfigurations;
 
   public:
     // ----- constructors -----
@@ -66,7 +69,67 @@ struct XML_Configuration
     XML_Configuration(const pugi::xml_node& node) { initialize(node); }
     ~XML_Configuration() = default;
 
-    void initialize_channelconfiguration()
+    navigation::SensorConfiguration get_sensor_configuration() const
+    {
+        navigation::SensorConfiguration sensor_configuration;
+        
+        sensor_configuration.set_position_source(get_prioritized_sensor({"Latitude", "Longitude"}).get_sensor_offsets());
+        sensor_configuration.set_depth_source(get_prioritized_sensor({"Latitude", "Longitude"}).get_sensor_offsets());
+        sensor_configuration.set_attitude_source(get_prioritized_sensor({"Roll", "Pitch", "Heave"}).get_sensor_offsets());
+        sensor_configuration.set_heading_source(get_prioritized_sensor({"Heading"}).get_sensor_offsets());
+
+        for (const auto& [channel_id, channel] : ChannelConfigurations)
+        {
+                sensor_configuration.add_target(channel_id, channel.get_sensor_offsets());
+        }
+
+        return sensor_configuration;
+    }
+
+    const XML_Configuration_Sensor& get_prioritized_sensor(
+        const std::vector<std::string_view>& prio_values) const
+    {
+        std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
+
+        // loop through SensorConfigurations
+        for (const auto& [key, sensors] : SensorConfigurations)
+        {
+            // loop through sensors
+            for (const auto& sensor : sensors)
+            {
+                sensor_priorities.push_back(std::make_pair(0, &sensor));
+
+                // loop through Telegrams
+                for (const auto& telegram : sensor.Telegrams)
+                {
+                    // loop through Values
+                    for (const auto& value : telegram.Values)
+                    {
+                        // summ prio if value.Name in prio_values
+                        if (std::find(prio_values.begin(), prio_values.end(), value.Name)
+                            != prio_values.end())
+                            sensor_priorities.back().first += value.Priority;
+                    }
+                }
+            }
+        }
+
+        // return sensor with highest priority
+        return *(std::max_element(sensor_priorities.begin(),
+                                sensor_priorities.end(),
+                                [](const auto& a, const auto& b) { return a.first < b.first; })
+            ->second);
+    }
+
+    void initialize_sensorconfigurations()
+    {
+        for (const auto& sensor : ConfiguredSensors)
+        {
+            SensorConfigurations[sensor.Type].push_back(sensor);
+        }
+    }
+
+    void initialize_channelconfigurations()
     {
         std::map<std::string, XML_Configuration_Transducer> transducers;
         for (const auto& tr : Transducers)
@@ -220,7 +283,8 @@ struct XML_Configuration
             ++unknown_children;
         }
 
-        initialize_channelconfiguration();
+        initialize_channelconfigurations();
+        initialize_sensorconfigurations();
     }
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
@@ -326,7 +390,7 @@ struct XML_Configuration
         unsigned int i = 0;
         for (const auto& ch : ChannelConfigurations)
         {
-            printer.register_string(fmt::format("Channel ({})",i++), ch.first);
+            printer.register_string(fmt::format("Channel ({})", i++), ch.first);
         }
 
         printer.register_section("attributes (Header)");
