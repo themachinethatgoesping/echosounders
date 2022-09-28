@@ -26,17 +26,17 @@ namespace py_simrad {
 namespace py_datagrams {
 
 // -- submodule declarations --
-void init_c_ek60_datagram(pybind11::module& m); // c_ek60_datagram.cpp
-void init_c_ek60_unknown(pybind11::module& m);  // c_ek60_unknown.cpp
-void init_c_ek80_MRU0(pybind11::module& m);     // c_EK80_MRU0.cpp
-void init_c_ek60_NME0(pybind11::module& m);     // c_ek60_nme0.cpp
-void init_c_ek80_XML0(pybind11::module& m);     // c_ek80_xml0.cpp
-void init_c_EK60_TAG0(pybind11::module& m);     // c_EK60_TAG0.cpp
-void init_c_ek80_FIL1(pybind11::module& m);     // c_ek80_FIL1.cpp
-void init_c_ek80_RAW3(pybind11::module& m);     // c_ek80_RAW3.cpp
+void init_c_SimradDatagram(pybind11::module& m); // c_SimradDatagram.cpp
+void init_c_simradunknown(pybind11::module& m);  // c_simradunknown.cpp
+void init_c_NME0(pybind11::module& m);           // c_NME0.cpp
+void init_c_MRU0(pybind11::module& m);           // c_MRU0.cpp
+void init_c_XML0(pybind11::module& m);           // c_XML0.cpp
+void init_c_TAG0(pybind11::module& m);           // c_TAG0.cpp
+void init_c_FIL1(pybind11::module& m);           // c_FIL1.cpp
+void init_c_RAW3(pybind11::module& m);           // c_RAW3.cpp
 
 // -- create submodule --
-void init_m_simrad_datagrams(pybind11::module& m)
+void init_m_SimradDatagrams(pybind11::module& m)
 {
     // module description
     auto subm = m.def_submodule("datagrams", "Simrad EK60 and EK80 datagram classes");
@@ -46,14 +46,14 @@ void init_m_simrad_datagrams(pybind11::module& m)
     py_raw3_datatypes::init_m_RAW3_datatypes(subm);
 
     // simrad classes
-    init_c_ek60_datagram(subm);
-    init_c_ek60_unknown(subm);
-    init_c_ek80_MRU0(subm);
-    init_c_ek60_NME0(subm);
-    init_c_ek80_XML0(subm);
-    init_c_EK60_TAG0(subm);
-    init_c_ek80_FIL1(subm);
-    init_c_ek80_RAW3(subm);
+    init_c_SimradDatagram(subm);
+    init_c_simradunknown(subm);
+    init_c_NME0(subm);
+    init_c_MRU0(subm);
+    init_c_XML0(subm);
+    init_c_TAG0(subm);
+    init_c_FIL1(subm);
+    init_c_RAW3(subm);
 }
 
 }

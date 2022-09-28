@@ -320,12 +320,27 @@ class I_InputFile
         ifs.seekg(0);
     }
 
+    virtual void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
+                                              [[maybe_unused]] size_t             file_paths_cnt)
+    {
+    }
+    virtual void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
+                                            [[maybe_unused]] size_t             file_paths_cnt)
+    {
+    }
+    virtual t_DatagramBase callback_scan_packet(t_ifstream& ifs)
+    {
+        auto header = t_DatagramBase::from_stream(ifs);
+        header.skip(ifs);
+        return header;
+    }
+
     // This function must be called at initialization!
     virtual DataFileInfo<t_DatagramIdentifier> scan_for_packages(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
         t_ifstream&                         ifs,
-        tools::progressbars::I_ProgressBar& progress_bar) const
+        tools::progressbars::I_ProgressBar& progress_bar)
     {
 
         /* Initialize internal structures */
@@ -336,6 +351,7 @@ class I_InputFile
         auto& package_infos_all = *(file_info.package_infos_all);
 
         reset_ifstream(ifs);
+        callback_scan_new_file_begin(file_path, file_paths_cnt);
 
         file_info.file_size    = std::filesystem::file_size(file_path);
         bool close_progressbar = false; ///< only close the progressbar if it was
@@ -353,10 +369,10 @@ class I_InputFile
             {
                 //  this function may return nonsense...
                 // auto header = t_DatagramBase::from_stream(ifs);
-                auto header = t_DatagramBase::from_stream(ifs);
-                header.skip(ifs);
+                // header.skip(ifs);
+                auto header = callback_scan_packet(ifs);
 
-                // this function checks if the package content ifs senseful
+                // this function checks if the package content is senseful
                 if (ifs.good())
                 {
                     // update using tick to allow progressbar that was initialized by
@@ -397,6 +413,8 @@ class I_InputFile
                                " packages");
 
         reset_ifstream(ifs);
+
+        callback_scan_new_file_end(file_path, file_paths_cnt);
         return file_info;
     }
 

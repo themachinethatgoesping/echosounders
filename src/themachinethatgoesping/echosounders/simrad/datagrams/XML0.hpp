@@ -19,8 +19,8 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../ek60_types.hpp"
-#include "ek60_datagram.hpp"
+#include "../simrad_types.hpp"
+#include "simraddatagram.hpp"
 #include "xml_datagrams/helper.hpp"
 #include "xml_datagrams/xml_configuration.hpp"
 #include "xml_datagrams/xml_environment.hpp"
@@ -50,7 +50,7 @@ using XML_Datagram_type = std::variant<xml_datagrams::XML_Node,
  * because they are defined in the default coordinate system / value range.
  *
  */
-class EK80_XML0 : public EK60_Datagram
+class XML0 : public SimradDatagram
 {
     // ----- datagram content -----
     // xml_datagrams::XML_Node _xml_datagram; ///< parsed xml datagram
@@ -59,27 +59,27 @@ class EK80_XML0 : public EK60_Datagram
 
   private:
     // ----- private constructors -----
-    explicit EK80_XML0(EK60_Datagram header)
-        : EK60_Datagram(std::move(header))
+    explicit XML0(SimradDatagram header)
+        : SimradDatagram(std::move(header))
     {
     }
 
   public:
     // ----- constructors -----
-    EK80_XML0(std::string xml_content = "")
+    XML0(std::string xml_content = "")
         : _xml_content(std::move(xml_content))
     {
-        _Length       = ek60_long(_xml_content.size() + 12);
-        _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
+        _Length       = simrad_long(_xml_content.size() + 12);
+        _DatagramType = simrad_long(t_SimradDatagramType::XML0);
     }
-    ~EK80_XML0() = default;
+    ~XML0() = default;
 
     // ----- operators -----
-    bool operator==(const EK80_XML0& other) const
+    bool operator==(const XML0& other) const
     {
-        return EK60_Datagram::operator==(other) && _xml_content == other._xml_content;
+        return SimradDatagram::operator==(other) && _xml_content == other._xml_content;
     }
-    bool operator!=(const EK80_XML0& other) const { return !operator==(other); }
+    bool operator!=(const XML0& other) const { return !operator==(other); }
 
     // ----- getter/setter
     xml_datagrams::XML_Node raw()
@@ -138,7 +138,7 @@ class EK80_XML0 : public EK60_Datagram
 
     void set_xml_content(std::string xml_content)
     {
-        _Length      = ek60_long(xml_content.size() + 12);
+        _Length      = simrad_long(xml_content.size() + 12);
         _xml_content = std::move(xml_content);
     }
     const std::string& get_xml_content() const { return _xml_content; }
@@ -212,9 +212,9 @@ class EK80_XML0 : public EK60_Datagram
     }
 
     // ----- file I/O -----
-    static EK80_XML0 from_stream(std::istream& is, EK60_Datagram header)
+    static XML0 from_stream(std::istream& is, SimradDatagram header)
     {
-        EK80_XML0 datagram(std::move(header));
+        XML0 datagram(std::move(header));
         datagram._xml_content.resize(datagram._Length - 12);
         is.read(datagram._xml_content.data(), datagram._xml_content.size());
 
@@ -224,33 +224,33 @@ class EK80_XML0 : public EK60_Datagram
         return datagram;
     }
 
-    static EK80_XML0 from_stream(std::istream& is)
+    static XML0 from_stream(std::istream& is)
     {
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::XML0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::XML0));
     }
 
-    static EK80_XML0 from_stream(std::istream& is, t_EK60_DatagramType type)
+    static XML0 from_stream(std::istream& is, t_SimradDatagramType type)
     {
-        if (type != t_EK60_DatagramType::XML0)
-            throw std::runtime_error("EK80_XML0::from_stream: wrong datagram type");
+        if (type != t_SimradDatagramType::XML0)
+            throw std::runtime_error("XML0::from_stream: wrong datagram type");
 
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::XML0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::XML0));
     }
 
     void to_stream(std::ostream& os)
     {
-        _Length       = ek60_long(12 + _xml_content.size());
-        _DatagramType = ek60_long(t_EK60_DatagramType::XML0);
-        EK60_Datagram::to_stream(os);
+        _Length       = simrad_long(12 + _xml_content.size());
+        _DatagramType = simrad_long(t_SimradDatagramType::XML0);
+        SimradDatagram::to_stream(os);
         os.write(_xml_content.data(), _xml_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelpers::ObjectPrinter printer("EK80 XML0 datagram", float_precision);
-        printer.append(EK60_Datagram::__printer__(float_precision));
+        printer.append(SimradDatagram::__printer__(float_precision));
         printer.register_value("Type", get_xml_datagram_type());
 
         pugi::xml_document doc;
@@ -269,7 +269,7 @@ class EK80_XML0 : public EK60_Datagram
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK80_XML0)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML0)
 };
 
 }

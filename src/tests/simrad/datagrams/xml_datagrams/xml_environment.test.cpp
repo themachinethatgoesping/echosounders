@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/XML0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
+using themachinethatgoesping::echosounders::simrad::datagrams::XML0;
 using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Environment;
 
 #define TESTTAG "[simrad]"
@@ -29,7 +29,7 @@ std::string xml_string =
 TEST_CASE("XML_Environment should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_XML0 dat, dat2;
+    XML0 dat, dat2;
     dat.set_xml_content(xml_string);
 
     XML_Environment xml1 = std::get<XML_Environment>(dat.decode());

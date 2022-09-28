@@ -35,8 +35,8 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataPowerAndAngle : public i_RAW3_Data
 {
-    xt::xtensor<ek60_short, 1> _power; ///< Sample data
-    xt::xtensor<int8_t, 2>     _angle; ///< [along, athwart] 180/128 electrical degrees
+    xt::xtensor<simrad_short, 1> _power; ///< Sample data
+    xt::xtensor<int8_t, 2>       _angle; ///< [along, athwart] 180/128 electrical degrees
     // xt::xtensor<int8_t>    _angle_along;  ///< alongship angle
     // xt::xtensor<int8_t>    _angle_across; ///< athwartship angle
 
@@ -44,7 +44,7 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
         : i_RAW3_Data("PowerAndAngle")
     {
     }
-    RAW3_DataPowerAndAngle(xt::xtensor<ek60_short, 1> power, xt::xtensor<int8_t, 2> angle)
+    RAW3_DataPowerAndAngle(xt::xtensor<simrad_short, 1> power, xt::xtensor<int8_t, 2> angle)
         : i_RAW3_Data("PowerAndAngle")
         , _power(std::move(power))
         , _angle(std::move(angle))
@@ -63,41 +63,46 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<ek60_float, 1> get_power() const final
+    xt::xtensor<simrad_float, 1> get_power() const final
     {
         static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
 
-        return xt::xtensor<ek60_float, 1>(xt::eval(_power * conv_factor));
+        return xt::xtensor<simrad_float, 1>(xt::eval(_power * conv_factor));
     }
-    xt::xtensor<ek60_float, 2> get_angle() const final
+    xt::xtensor<simrad_float, 2> get_angle() const final
     {
         const static float conv_factor = 180.f / 128.f;
 
-        return xt::xtensor<ek60_float, 2>(xt::eval(_angle * conv_factor));
+        return xt::xtensor<simrad_float, 2>(xt::eval(_angle * conv_factor));
     }
 
     // ----- to/from stream -----
     static RAW3_DataPowerAndAngle from_stream(std::istream& is,
-                                              ek60_long     input_count,
-                                              ek60_long     output_count)
+                                              simrad_long   input_count,
+                                              simrad_long   output_count)
     {
-        using power_shape = xt::xtensor<ek60_short, 1>::shape_type;
+        using power_shape = xt::xtensor<simrad_short, 1>::shape_type;
         using angle_shape = xt::xtensor<int8_t, 2>::shape_type;
-        RAW3_DataPowerAndAngle data(xt::empty<ek60_short>(power_shape({ unsigned(output_count) })),
-                                    xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
+        RAW3_DataPowerAndAngle data(
+            xt::empty<simrad_short>(power_shape({ unsigned(output_count) })),
+            xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)
         {
-            is.read(reinterpret_cast<char*>(data._power.data()), output_count * sizeof(ek60_short));
-            is.read(reinterpret_cast<char*>(data._angle.data()), output_count * sizeof(ek60_short));
+            is.read(reinterpret_cast<char*>(data._power.data()),
+                    output_count * sizeof(simrad_short));
+            is.read(reinterpret_cast<char*>(data._angle.data()),
+                    output_count * sizeof(simrad_short));
         }
         else
         {
-            is.read(reinterpret_cast<char*>(data._power.data()), input_count * sizeof(ek60_short));
-            is.seekg((output_count - input_count) * sizeof(ek60_short), std::ios_base::cur);
-            is.read(reinterpret_cast<char*>(data._angle.data()), input_count * sizeof(ek60_short));
-            is.seekg((output_count - input_count) * sizeof(ek60_short), std::ios_base::cur);
+            is.read(reinterpret_cast<char*>(data._power.data()),
+                    input_count * sizeof(simrad_short));
+            is.seekg((output_count - input_count) * sizeof(simrad_short), std::ios_base::cur);
+            is.read(reinterpret_cast<char*>(data._angle.data()),
+                    input_count * sizeof(simrad_short));
+            is.seekg((output_count - input_count) * sizeof(simrad_short), std::ios_base::cur);
 
             // fill remaining samples with quiet zeros
             std::fill(data._power.begin() + input_count, data._power.end(), 0);
@@ -111,7 +116,8 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
 
     void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(_power.data()), _power.size() * sizeof(ek60_short));
+        os.write(reinterpret_cast<const char*>(_power.data()),
+                 _power.size() * sizeof(simrad_short));
         os.write(reinterpret_cast<const char*>(_angle.data()), _angle.size() * sizeof(int8_t));
     }
 

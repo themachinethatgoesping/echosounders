@@ -48,7 +48,7 @@ void init_c_raw3_datapower(pybind11::module& m)
                                                 RAW3_datatypes,
                                                 RAW3_DataPower))
         .def(py::init<>(), DOC_RAW3_DataPower(RAW3_DataPower))
-        .def(py::init<xt::xtensor<ek60_short, 1>>(),
+        .def(py::init<xt::xtensor<simrad_short, 1>>(),
              DOC_RAW3_DataPower(RAW3_DataPower_2),
              py::arg("power_and_angle"))
         .def("__eq__", &RAW3_DataPower::operator==, py::arg("other"))

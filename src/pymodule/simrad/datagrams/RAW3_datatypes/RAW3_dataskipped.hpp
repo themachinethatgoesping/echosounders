@@ -45,7 +45,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     bool operator!=(const RAW3_DataSkipped& other) const { return !(operator==(other)); }
 
     static RAW3_DataSkipped from_stream(std::istream&   is,
-                                        ek60_long       count,
+                                        simrad_long     count,
                                         t_RAW3_DataType data_type,
                                         uint8_t         number_of_complex_samples)
     {
@@ -76,7 +76,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
     }
 
     void to_stream(std::ostream&   os,
-                   ek60_long       count,
+                   simrad_long     count,
                    t_RAW3_DataType data_type,
                    uint8_t         number_of_complex_samples) const
     {
@@ -84,7 +84,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
         {
             case t_RAW3_DataType::PowerAndAngle: {
                 // write _Count.size() zeros
-                auto samples = std::vector<ek60_short>(count, 0);
+                auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * RAW3_DataType_size(data_type));
                 break;
@@ -92,14 +92,14 @@ struct RAW3_DataSkipped : public i_RAW3_Data
             case t_RAW3_DataType::ComplexFloat32: {
                 // write _Count.size() zeros
                 auto samples =
-                    std::vector<ek60_complex_float>(count * number_of_complex_samples, 0);
+                    std::vector<simrad_complex_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * RAW3_DataType_size(data_type));
                 break;
             }
             case t_RAW3_DataType::Power: {
                 // write _Count.size() zeros
-                auto samples = std::vector<ek60_short>(count, 0);
+                auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * RAW3_DataType_size(data_type));
                 break;
@@ -113,7 +113,7 @@ struct RAW3_DataSkipped : public i_RAW3_Data
             }
             case t_RAW3_DataType::ComplexFloat16: {
                 // write _Count.size() zeros
-                auto samples = std::vector<ek60_float>(count * number_of_complex_samples, 0);
+                auto samples = std::vector<simrad_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * RAW3_DataType_size(data_type));
                 break;

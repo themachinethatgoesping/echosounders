@@ -19,46 +19,46 @@
 #include <themachinethatgoesping/tools/classhelpers/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../ek60_types.hpp"
-#include "ek60_datagram.hpp"
+#include "../simrad_types.hpp"
+#include "simraddatagram.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
-struct EK60_Unknown : public EK60_Datagram
+struct SimradUnknown : public SimradDatagram
 {
     // ----- datagram content -----
     std::string raw_content;
 
   private:
     // ----- private constructors -----
-    explicit EK60_Unknown(EK60_Datagram header)
-        : EK60_Datagram(std::move(header))
+    explicit SimradUnknown(SimradDatagram header)
+        : SimradDatagram(std::move(header))
     {
     }
 
   public:
     // ----- public constructors -----
-    EK60_Unknown()  = default;
-    ~EK60_Unknown() = default;
+    SimradUnknown()  = default;
+    ~SimradUnknown() = default;
 
     // ----- operators -----
-    bool operator==(const EK60_Unknown& other) const
+    bool operator==(const SimradUnknown& other) const
     {
-        return EK60_Datagram::operator==(other) && raw_content == other.raw_content;
+        return SimradDatagram::operator==(other) && raw_content == other.raw_content;
     }
-    bool operator!=(const EK60_Unknown& other) const { return !operator==(other); }
+    bool operator!=(const SimradUnknown& other) const { return !operator==(other); }
 
-    static EK60_Unknown from_stream(std::istream& is, EK60_Datagram header)
+    static SimradUnknown from_stream(std::istream& is, SimradDatagram header)
     {
-        EK60_Unknown datagram(std::move(header));
+        SimradUnknown datagram(std::move(header));
 
         if (datagram._Length > 12)
             datagram.raw_content.resize(size_t(datagram._Length - 12));
         else
-            throw std::runtime_error("ERROR[EK60_Unknown::from_stream]: _Length is too small");
+            throw std::runtime_error("ERROR[SimradUnknown::from_stream]: _Length is too small");
 
         is.read(datagram.raw_content.data(), datagram.raw_content.size());
 
@@ -68,38 +68,38 @@ struct EK60_Unknown : public EK60_Datagram
         return datagram;
     }
 
-    static EK60_Unknown from_stream(std::istream& is)
+    static SimradUnknown from_stream(std::istream& is)
     {
-        return from_stream(is, EK60_Datagram::from_stream(is));
+        return from_stream(is, SimradDatagram::from_stream(is));
     }
 
-    static EK60_Unknown from_stream(std::istream& is, t_EK60_DatagramType datagram_identifier)
+    static SimradUnknown from_stream(std::istream& is, t_SimradDatagramType datagram_identifier)
     {
-        return from_stream(is, std::move(EK60_Datagram::from_stream(is, datagram_identifier)));
+        return from_stream(is, std::move(SimradDatagram::from_stream(is, datagram_identifier)));
     }
 
     void to_stream(std::ostream& os)
     {
         _Length = 12 + raw_content.size();
-        EK60_Datagram::to_stream(os);
+        SimradDatagram::to_stream(os);
 
         os.write(raw_content.data(), raw_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK60_Unknown", float_precision);
+        tools::classhelpers::ObjectPrinter printer("SimradUnknown", float_precision);
 
-        printer.append(EK60_Datagram::__printer__(float_precision));
+        printer.append(SimradDatagram::__printer__(float_precision));
 
         return printer;
     }
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_Unknown)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SimradUnknown)
 };
 
 } // namespace datagrams

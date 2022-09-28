@@ -24,7 +24,7 @@ namespace py_datagrams {
 namespace py_datagrams_xml {
 
 // -- submodule declarations --
-void init_c_xml_datagram(pybind11::module& m);               // c_ek60_datagram.cpp
+void init_c_xml_datagram(pybind11::module& m);               // c_SimradDatagram.cpp
 void init_c_xml_parameter_channel(pybind11::module& m);      // c_xml_parameter_channel.cpp
 void init_c_xml_parameter(pybind11::module& m);              // c_xml_parameter.cpp
 void init_c_xml_initialparameter(pybind11::module& m);       // c_xml_initialparameter.cpp
@@ -51,7 +51,7 @@ void init_c_xml_configuration_transceiver_channel_transducer(
     pybind11::module& m); // c_xml_configuration_transceiver_channel_transducer.cpp
 void init_c_xml_configuration_transceiver_channel_frequencypar(
     pybind11::module& m); // c_xml_configuration_transceiver_channel_frequencypar.cpp
-    void init_c_channelconfiguration(pybind11::module& m); // c_channelconfiguration.cpp
+void init_c_channelconfiguration(pybind11::module& m); // c_channelconfiguration.cpp
 
 using simrad::datagrams::xml_datagrams::t_BeamType;
 

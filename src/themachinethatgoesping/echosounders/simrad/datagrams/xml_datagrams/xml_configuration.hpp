@@ -72,15 +72,19 @@ struct XML_Configuration
     navigation::SensorConfiguration get_sensor_configuration() const
     {
         navigation::SensorConfiguration sensor_configuration;
-        
-        sensor_configuration.set_position_source(get_prioritized_sensor({"Latitude", "Longitude"}).get_sensor_offsets());
-        sensor_configuration.set_depth_source(get_prioritized_sensor({"Latitude", "Longitude"}).get_sensor_offsets());
-        sensor_configuration.set_attitude_source(get_prioritized_sensor({"Roll", "Pitch", "Heave"}).get_sensor_offsets());
-        sensor_configuration.set_heading_source(get_prioritized_sensor({"Heading"}).get_sensor_offsets());
+
+        sensor_configuration.set_position_source(
+            get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
+        sensor_configuration.set_depth_source(
+            get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
+        sensor_configuration.set_attitude_source(
+            get_prioritized_sensor({ "Roll", "Pitch", "Heave" }).get_sensor_offsets());
+        sensor_configuration.set_heading_source(
+            get_prioritized_sensor({ "Heading" }).get_sensor_offsets());
 
         for (const auto& [channel_id, channel] : ChannelConfigurations)
         {
-                sensor_configuration.add_target(channel_id, channel.get_sensor_offsets());
+            sensor_configuration.add_target(channel_id, channel.get_sensor_offsets());
         }
 
         return sensor_configuration;
@@ -106,8 +110,8 @@ struct XML_Configuration
                     for (const auto& value : telegram.Values)
                     {
                         // summ prio if value.Name in prio_values
-                        if (std::find(prio_values.begin(), prio_values.end(), value.Name)
-                            != prio_values.end())
+                        if (std::find(prio_values.begin(), prio_values.end(), value.Name) !=
+                            prio_values.end())
                             sensor_priorities.back().first += value.Priority;
                     }
                 }
@@ -116,9 +120,9 @@ struct XML_Configuration
 
         // return sensor with highest priority
         return *(std::max_element(sensor_priorities.begin(),
-                                sensor_priorities.end(),
-                                [](const auto& a, const auto& b) { return a.first < b.first; })
-            ->second);
+                                  sensor_priorities.end(),
+                                  [](const auto& a, const auto& b) { return a.first < b.first; })
+                     ->second);
     }
 
     void initialize_sensorconfigurations()

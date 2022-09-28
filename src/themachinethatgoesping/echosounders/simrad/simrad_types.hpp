@@ -11,7 +11,7 @@
 
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
- * see also http://www.simrad.net/ek60_ref_english/default.htm
+ * see also http://www.simrad.net/simrad_ref_english/default.htm
  *
  * Note: these definitions are valid for EK60 and the EK80 files.
  */
@@ -22,18 +22,18 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-using ek60_char  = char;
-using ek60_WORD  = uint16_t;
-using ek60_short = int16_t;
-using ek60_Int   = int32_t;
-using ek60_long  = int32_t; // no error, long is specified as 32bit int in manual
-using ek60_float = float;   // this must be 32bit!
-using ek60_complex_float =
-    std::complex<ek60_float>; // complex real,imaginary (used in FIL1 and RAW3)
-using ek60_double   = double; // this must be 64bit!
-using ek60_DWORDLON = int64_t;
+using simrad_char  = char;
+using simrad_WORD  = uint16_t;
+using simrad_short = int16_t;
+using simrad_Int   = int32_t;
+using simrad_long  = int32_t; // no error, long is specified as 32bit int in manual
+using simrad_float = float;   // this must be 32bit!
+using simrad_complex_float =
+    std::complex<simrad_float>; // complex real,imaginary (used in FIL1 and RAW3)
+using simrad_double   = double; // this must be 64bit!
+using simrad_DWORDLON = int64_t;
 
-enum class t_EK60_DatagramType : ek60_long
+enum class t_SimradDatagramType : simrad_long
 {
     XML0 = 810306904, ///< Unspecified (unknown) XML datagram
     TAG0 = 809976148, ///< ???
@@ -43,14 +43,14 @@ enum class t_EK60_DatagramType : ek60_long
     RAW3 = 861356370  ///< Raw sample data datagram
 };
 
-inline std::string datagram_type_to_string(ek60_long value)
+inline std::string datagram_type_to_string(simrad_long value)
 {
-    return tools::helper::int_as_string<ek60_long>(value);
+    return tools::helper::int_as_string<simrad_long>(value);
 }
 
-inline ek60_long ek60_datagram_type_from_string(std::string_view value)
+inline simrad_long SimradDatagram_type_from_string(std::string_view value)
 {
-    return tools::helper::string_as_int<ek60_long>(value);
+    return tools::helper::string_as_int<simrad_long>(value);
 }
 
 } // namespace simrad

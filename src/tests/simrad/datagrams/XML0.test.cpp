@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/XML0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
+using themachinethatgoesping::echosounders::simrad::datagrams::XML0;
 
 #define TESTTAG "[simrad]"
 
@@ -27,10 +27,10 @@ std::string xml2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Parameter>\r\
                    "Frequency=\"38000\" PulseDuration=\"0.002048\" SampleInterval=\"5.2E-05\" "
                    "TransmitPower=\"1000\" Slope=\"0.5\" />\r\n</Parameter>\x00\x00\x00";
 
-TEST_CASE("EK80_XML0 should support common functions", TESTTAG)
+TEST_CASE("XML0 should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_XML0 dat;
+    XML0 dat;
 
     // set some variables
     dat.set_timestamp(123);
@@ -43,15 +43,15 @@ TEST_CASE("EK80_XML0 should support common functions", TESTTAG)
     REQUIRE(dat != dat2);
 
     // test copy
-    REQUIRE(dat == EK80_XML0(dat));
+    REQUIRE(dat == XML0(dat));
 
     // test binary
-    REQUIRE(dat == EK80_XML0(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat == XML0(dat.from_binary(dat.to_binary())));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == EK80_XML0(dat.from_stream(buffer)));
+    REQUIRE(dat == XML0(dat.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -63,7 +63,7 @@ TEST_CASE("EK80_XML0 should support common functions", TESTTAG)
     //--- datagram concept ---
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::XML0);
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::XML0);
     REQUIRE(dat.get_length() == 12 + long(xml1.size()));
     REQUIRE(dat2.get_length() == 12 + long(xml2.size()));
 }

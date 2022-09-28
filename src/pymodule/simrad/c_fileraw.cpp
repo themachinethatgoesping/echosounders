@@ -18,9 +18,9 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simrad/ek60_datagrams.hpp"
-#include "../../themachinethatgoesping/echosounders/simrad/ek60_types.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
@@ -51,36 +51,36 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     py_i_InputFile::add_DefaultConstructors(cls);
     py_i_InputFile::add_FileOpenInterface<FileRaw<T_FileStream>>(cls);
     py_i_InputFile::add_PackageReading<FileRaw<T_FileStream>,
-                                       datagrams::t_EK60_DatagramVariant,
-                                       datagrams::EK60_DatagramVariant>(cls);
+                                       datagrams::t_SimradDatagramVariant,
+                                       datagrams::SimradDatagramVariant>(cls);
 
     //----- iterators -----
     // this makes documentation crash. Ignore for now
     // py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>,
-    //                                      datagrams::t_EK60_DatagramVariant,
-    //                                      datagrams::t_EK60_DatagramVariant>(cls, "all");
+    //                                      datagrams::t_SimradDatagramVariant,
+    //                                      datagrams::t_SimradDatagramVariant>(cls, "all");
 
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_FIL1>(
-        cls, t_EK60_DatagramType::FIL1, "FIL1");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_RAW3>(
-        cls, t_EK60_DatagramType::RAW3, "RAW3");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_MRU0>(
-        cls, t_EK60_DatagramType::MRU0, "MRU0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_XML0>(
-        cls, t_EK60_DatagramType::XML0, "XML0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_NME0>(
-        cls, t_EK60_DatagramType::NME0, "NME0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK60_TAG0>(
-        cls, t_EK60_DatagramType::TAG0, "TAG0");
-    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::EK80_RAW3>(
-        cls, t_EK60_DatagramType::RAW3, "RAW3");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::FIL1>(
+        cls, t_SimradDatagramType::FIL1, "FIL1");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3>(
+        cls, t_SimradDatagramType::RAW3, "RAW3");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::MRU0>(
+        cls, t_SimradDatagramType::MRU0, "MRU0");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::XML0>(
+        cls, t_SimradDatagramType::XML0, "XML0");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::NME0>(
+        cls, t_SimradDatagramType::NME0, "NME0");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::TAG0>(
+        cls, t_SimradDatagramType::TAG0, "TAG0");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3>(
+        cls, t_SimradDatagramType::RAW3, "RAW3");
 
     //----- iterators via () operator -----
     cls.def(
         "__call__",
         [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
-            return py::cast(self.template get_iterator<datagrams::t_EK60_DatagramVariant,
-                                                       datagrams::EK60_DatagramVariant>(
+            return py::cast(self.template get_iterator<datagrams::t_SimradDatagramVariant,
+                                                       datagrams::SimradDatagramVariant>(
                 index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
@@ -90,32 +90,32 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "__call__",
         [](const FileRaw<T_FileStream>& self,
-           t_EK60_DatagramType          type,
+           t_SimradDatagramType         type,
            long                         index_min,
            long                         index_max,
            long                         index_step) {
             switch (type)
             {
-                case t_EK60_DatagramType::MRU0:
-                    return py::cast(self.template get_iterator<datagrams::EK80_MRU0>(
+                case t_SimradDatagramType::MRU0:
+                    return py::cast(self.template get_iterator<datagrams::MRU0>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::NME0:
-                    return py::cast(self.template get_iterator<datagrams::EK60_NME0>(
+                case t_SimradDatagramType::NME0:
+                    return py::cast(self.template get_iterator<datagrams::NME0>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::XML0:
-                    return py::cast(self.template get_iterator<datagrams::EK80_XML0>(
+                case t_SimradDatagramType::XML0:
+                    return py::cast(self.template get_iterator<datagrams::XML0>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::TAG0:
-                    return py::cast(self.template get_iterator<datagrams::EK60_TAG0>(
+                case t_SimradDatagramType::TAG0:
+                    return py::cast(self.template get_iterator<datagrams::TAG0>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::FIL1:
-                    return py::cast(self.template get_iterator<datagrams::EK80_FIL1>(
+                case t_SimradDatagramType::FIL1:
+                    return py::cast(self.template get_iterator<datagrams::FIL1>(
                         type, index_min, index_max, index_step));
-                case t_EK60_DatagramType::RAW3:
-                    return py::cast(self.template get_iterator<datagrams::EK80_RAW3>(
+                case t_SimradDatagramType::RAW3:
+                    return py::cast(self.template get_iterator<datagrams::RAW3>(
                         type, index_min, index_max, index_step));
                 default:
-                    return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
+                    return py::cast(self.template get_iterator<datagrams::SimradUnknown>(
                         type, index_min, index_max, index_step));
             }
         },
@@ -127,7 +127,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "headers",
         [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
-            return py::cast(self.template get_iterator<datagrams::EK60_Datagram>(
+            return py::cast(self.template get_iterator<datagrams::SimradDatagram>(
                 index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
@@ -137,11 +137,11 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "headers",
         [](const FileRaw<T_FileStream>& self,
-           t_EK60_DatagramType          type,
+           t_SimradDatagramType         type,
            long                         index_min,
            long                         index_max,
            long                         index_step) {
-            return py::cast(self.template get_iterator<datagrams::EK60_Datagram>(
+            return py::cast(self.template get_iterator<datagrams::SimradDatagram>(
                 type, index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_3),
@@ -152,7 +152,7 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "raw",
         [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
-            return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
+            return py::cast(self.template get_iterator<datagrams::SimradUnknown>(
                 index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator),
@@ -162,11 +162,11 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def(
         "raw",
         [](const FileRaw<T_FileStream>& self,
-           t_EK60_DatagramType          type,
+           t_SimradDatagramType         type,
            long                         index_min,
            long                         index_max,
            long                         index_step) {
-            return py::cast(self.template get_iterator<datagrams::EK60_Unknown>(
+            return py::cast(self.template get_iterator<datagrams::SimradUnknown>(
                 type, index_min, index_max, index_step));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_3),
@@ -187,10 +187,10 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
 void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 {
     // get current time
-    auto                    start = std::chrono::high_resolution_clock::now();
-    datagrams::EK60_Unknown a;
+    auto                     start = std::chrono::high_resolution_clock::now();
+    datagrams::SimradUnknown a;
 
-    auto it  = ifi.get_iterator<datagrams::EK60_Unknown>();
+    auto it  = ifi.get_iterator<datagrams::SimradUnknown>();
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
@@ -209,7 +209,7 @@ void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 }
 
 template<typename T_DatagramType>
-void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramType type)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
@@ -237,7 +237,7 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
 
-    auto it  = ifi.get_iterator<datagrams::EK60_NME0>(t_EK60_DatagramType::NME0);
+    auto it  = ifi.get_iterator<datagrams::NME0>(t_SimradDatagramType::NME0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
@@ -282,7 +282,7 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
 
-    auto it  = ifi.get_iterator<datagrams::EK80_XML0>(t_EK60_DatagramType::XML0);
+    auto it  = ifi.get_iterator<datagrams::XML0>(t_SimradDatagramType::XML0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
@@ -323,41 +323,41 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
             .count()));
 }
 
-void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramType type)
 {
     switch (type)
     {
-        case t_EK60_DatagramType::MRU0:
-            test_speed_content<datagrams::EK80_MRU0>(ifi, type);
+        case t_SimradDatagramType::MRU0:
+            test_speed_content<datagrams::MRU0>(ifi, type);
             break;
-        case t_EK60_DatagramType::NME0:
-            test_speed_content<datagrams::EK60_NME0>(ifi, type);
+        case t_SimradDatagramType::NME0:
+            test_speed_content<datagrams::NME0>(ifi, type);
             break;
-        case t_EK60_DatagramType::XML0:
-            test_speed_content<datagrams::EK80_XML0>(ifi, type);
+        case t_SimradDatagramType::XML0:
+            test_speed_content<datagrams::XML0>(ifi, type);
             break;
-        case t_EK60_DatagramType::TAG0:
-            test_speed_content<datagrams::EK60_TAG0>(ifi, type);
+        case t_SimradDatagramType::TAG0:
+            test_speed_content<datagrams::TAG0>(ifi, type);
             break;
-        case t_EK60_DatagramType::FIL1:
-            test_speed_content<datagrams::EK80_FIL1>(ifi, type);
+        case t_SimradDatagramType::FIL1:
+            test_speed_content<datagrams::FIL1>(ifi, type);
             break;
-        case t_EK60_DatagramType::RAW3:
-            test_speed_content<datagrams::EK80_RAW3>(ifi, type);
+        case t_SimradDatagramType::RAW3:
+            test_speed_content<datagrams::RAW3>(ifi, type);
             break;
         default:
-            test_speed_content<datagrams::EK60_Unknown>(ifi, type);
+            test_speed_content<datagrams::SimradUnknown>(ifi, type);
             break;
     }
 }
 
-void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_EK60_DatagramType type)
+void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramType type)
 {
     // get current time
-    auto                    start = std::chrono::high_resolution_clock::now();
-    datagrams::EK60_Unknown a;
+    auto                     start = std::chrono::high_resolution_clock::now();
+    datagrams::SimradUnknown a;
 
-    auto it  = ifi.get_iterator<datagrams::EK60_Datagram>(type);
+    auto it  = ifi.get_iterator<datagrams::SimradDatagram>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0, it.size(), "test reading");
 
@@ -381,25 +381,25 @@ void init_c_fileraw(pybind11::module& m)
     // add python iterator classes
     using py_fileinterfaces::py_i_InputFileIterator::create_IteratorTypes;
 
-    create_IteratorTypes<datagrams::EK60_Datagram, t_EK60_DatagramType>(m,
-                                                                        "FileRawIterator_Header");
-    create_IteratorTypes<datagrams::EK60_Unknown, t_EK60_DatagramType>(m,
-                                                                       "FileRawIterator_Unknown");
-    create_IteratorTypes<datagrams::EK80_MRU0, t_EK60_DatagramType>(m, "FileRawIterator_MRU0");
-    create_IteratorTypes<datagrams::EK60_TAG0, t_EK60_DatagramType>(m, "FileRawIterator_TAG0");
-    create_IteratorTypes<datagrams::EK80_FIL1, t_EK60_DatagramType>(m, "FileRawIterator_FIL1");
-    create_IteratorTypes<datagrams::EK80_RAW3, t_EK60_DatagramType>(m, "FileRawIterator_RAW3");
-    create_IteratorTypes<datagrams::EK80_XML0, t_EK60_DatagramType>(m, "FileRawIterator_XML0");
-    create_IteratorTypes<datagrams::EK60_NME0, t_EK60_DatagramType>(m, "FileRawIterator_NME0");
-    create_IteratorTypes<datagrams::t_EK60_DatagramVariant,
-                         t_EK60_DatagramType,
-                         datagrams::EK60_DatagramVariant>(m, "FileRawIterator_Variant");
+    create_IteratorTypes<datagrams::SimradDatagram, t_SimradDatagramType>(m,
+                                                                          "FileRawIterator_Header");
+    create_IteratorTypes<datagrams::SimradUnknown, t_SimradDatagramType>(m,
+                                                                         "FileRawIterator_Unknown");
+    create_IteratorTypes<datagrams::MRU0, t_SimradDatagramType>(m, "FileRawIterator_MRU0");
+    create_IteratorTypes<datagrams::TAG0, t_SimradDatagramType>(m, "FileRawIterator_TAG0");
+    create_IteratorTypes<datagrams::FIL1, t_SimradDatagramType>(m, "FileRawIterator_FIL1");
+    create_IteratorTypes<datagrams::RAW3, t_SimradDatagramType>(m, "FileRawIterator_RAW3");
+    create_IteratorTypes<datagrams::XML0, t_SimradDatagramType>(m, "FileRawIterator_XML0");
+    create_IteratorTypes<datagrams::NME0, t_SimradDatagramType>(m, "FileRawIterator_NME0");
+    create_IteratorTypes<datagrams::t_SimradDatagramVariant,
+                         t_SimradDatagramType,
+                         datagrams::SimradDatagramVariant>(m, "FileRawIterator_Variant");
 
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");
 
     m.def("test_speed_raw",
-          &test_speed_content<datagrams::EK60_Unknown>,
+          &test_speed_content<datagrams::SimradUnknown>,
           py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_type", &test_speed_type, py::call_guard<py::scoped_ostream_redirect>());
     m.def("test_speed_decode_nmea",

@@ -48,7 +48,7 @@ void init_c_raw3_datapowerandangle(pybind11::module& m)
                                                         RAW3_datatypes,
                                                         RAW3_DataPowerAndAngle))
         .def(py::init<>(), DOC_RAW3_DataPowerAndAngle(RAW3_DataPowerAndAngle))
-        .def(py::init<xt::xtensor<ek60_short, 1>,xt::xtensor<uint8_t, 2>>(),
+        .def(py::init<xt::xtensor<simrad_short, 1>, xt::xtensor<uint8_t, 2>>(),
              DOC_RAW3_DataPowerAndAngle(RAW3_DataPowerAndAngle_2),
              py::arg("power"),
              py::arg("angle"))
@@ -58,12 +58,8 @@ void init_c_raw3_datapowerandangle(pybind11::module& m)
         .def("get_angle", &RAW3_DataPowerAndAngle::get_angle, DOC_RAW3_DataPowerAndAngle(get_angle))
 
         // ----- properties -----
-        .def_readwrite("power",
-                       &RAW3_DataPowerAndAngle::_power,
-                       DOC_RAW3_DataPowerAndAngle(power))
-        .def_readwrite("angle",
-                       &RAW3_DataPowerAndAngle::_angle,
-                       DOC_RAW3_DataPowerAndAngle(angle))
+        .def_readwrite("power", &RAW3_DataPowerAndAngle::_power, DOC_RAW3_DataPowerAndAngle(power))
+        .def_readwrite("angle", &RAW3_DataPowerAndAngle::_angle, DOC_RAW3_DataPowerAndAngle(angle))
 
         // ----- pybind macros -----
         // default copy functions

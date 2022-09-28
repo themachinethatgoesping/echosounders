@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/XML0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
+using themachinethatgoesping::echosounders::simrad::datagrams::XML0;
 using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Configuration;
 
 #define TESTTAG "[simrad]"
@@ -996,7 +996,7 @@ std::string xml_string =
 TEST_CASE("XML_Configuration should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_XML0 dat, dat2;
+    XML0 dat, dat2;
     dat.set_xml_content(xml_string);
 
     XML_Configuration xml1 = std::get<XML_Configuration>(dat.decode());
@@ -1374,35 +1374,44 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
             themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::t_BeamType::
                 BeamTypeSplit3CN);
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.Frequency == Catch::Approx(38000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMinimum == Catch::Approx(34000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMaximum == Catch::Approx(45000.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.EquivalentBeamAngle == Catch::Approx(-20.7));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.MaxTxPowerTransducer == Catch::Approx(2000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMinimum ==
+            Catch::Approx(34000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyMaximum ==
+            Catch::Approx(45000.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.EquivalentBeamAngle ==
+            Catch::Approx(-20.7));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.MaxTxPowerTransducer ==
+            Catch::Approx(2000.00));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAlongship == Catch::Approx(7.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAthwartship == Catch::Approx(7.00));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAlongship == Catch::Approx(18.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.BeamWidthAthwartship ==
+            Catch::Approx(7.00));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAlongship ==
+            Catch::Approx(18.00));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleSensitivityAthwartship ==
-           Catch::Approx(18.00));
+            Catch::Approx(18.00));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAlongship == Catch::Approx(0.0));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAthwartship == Catch::Approx(0.0));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.AngleOffsetAthwartship ==
+            Catch::Approx(0.0));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.DirectivityDropAt2XBeamWidth ==
-           Catch::Approx(0.0));
+            Catch::Approx(0.0));
 
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars.size() == 112);
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Frequency ==
-           Catch::Approx(43909));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Gain == Catch::Approx(28.29));
+            Catch::Approx(43909));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Gain ==
+            Catch::Approx(28.29));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Impedance ==
-           Catch::Approx(75.0));
-    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Phase == Catch::Approx(0.));
+            Catch::Approx(75.0));
+    REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].Phase ==
+            Catch::Approx(0.));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].BeamWidthAlongship ==
-           Catch::Approx(6.02));
+            Catch::Approx(6.02));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].BeamWidthAthwartship ==
-           Catch::Approx(6.07));
+            Catch::Approx(6.07));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].AngleOffsetAlongship ==
-           Catch::Approx(0.1));
+            Catch::Approx(0.1));
     REQUIRE(xml1.Transceivers[0].Channels[0].Transducer.FrequencyPars[100].AngleOffsetAthwartship ==
-           Catch::Approx(0.04));
+            Catch::Approx(0.04));
 
     // ignore other Transceivers and Frequency pars for now
 }

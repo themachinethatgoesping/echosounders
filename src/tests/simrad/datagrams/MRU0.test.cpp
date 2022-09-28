@@ -2,23 +2,23 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_MRU0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/MRU0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_MRU0;
+using themachinethatgoesping::echosounders::simrad::datagrams::MRU0;
 
 #define TESTTAG "[simrad]"
 
-TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
+TEST_CASE("MRU0 should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_MRU0 dat;
+    MRU0 dat;
 
     // set some variables
     dat.set_timestamp(123);
@@ -34,18 +34,18 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
     REQUIRE(dat != dat2);
 
     // test empty equality (check e.g. nan compare problems)
-    REQUIRE(EK80_MRU0() == EK80_MRU0());
+    REQUIRE(MRU0() == MRU0());
 
     // test copy
-    REQUIRE(dat == EK80_MRU0(dat));
+    REQUIRE(dat == MRU0(dat));
 
     // test binary
-    REQUIRE(dat == EK80_MRU0(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat == MRU0(dat.from_binary(dat.to_binary())));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == EK80_MRU0(dat.from_stream(buffer)));
+    REQUIRE(dat == MRU0(dat.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -59,6 +59,6 @@ TEST_CASE("EK80_MRU0 should support common functions", TESTTAG)
     //--- datagram concept ---
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::MRU0);
-    REQUIRE(dat.get_length() == 12 + 4 * sizeof(ek60_float));
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::MRU0);
+    REQUIRE(dat.get_length() == 12 + 4 * sizeof(simrad_float));
 }

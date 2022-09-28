@@ -66,8 +66,8 @@ struct XML_Configuration_Sensor
     // ----- methods -----
     /**
      * @brief Return the sensor offsets as navigation::datastructures::PositionalOffsets structure
-     * 
-     * @return navigation::datastructures::PositionalOffsets 
+     *
+     * @return navigation::datastructures::PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_sensor_offsets() const
     {

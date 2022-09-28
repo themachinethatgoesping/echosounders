@@ -16,8 +16,8 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../ek60_types.hpp"
-#include "ek60_datagram.hpp"
+#include "../simrad_types.hpp"
+#include "simraddatagram.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -29,29 +29,29 @@ namespace datagrams {
  * This datagram contains NMEA sentences received by the EK60/EK80 transceiver.
  *
  */
-struct EK60_NME0 : public EK60_Datagram
+struct NME0 : public SimradDatagram
 {
     // ----- datagram content -----
     navigation::nmea_0183::NMEA_Base _nmea_base;
 
   private:
     // ----- public constructors -----
-    explicit EK60_NME0(EK60_Datagram header)
-        : EK60_Datagram(std::move(header))
+    explicit NME0(SimradDatagram header)
+        : SimradDatagram(std::move(header))
     {
     }
 
   public:
     // ----- constructors -----
-    EK60_NME0() { _DatagramType = ek60_long(t_EK60_DatagramType::NME0); }
-    ~EK60_NME0() = default;
+    NME0() { _DatagramType = simrad_long(t_SimradDatagramType::NME0); }
+    ~NME0() = default;
 
     // ----- operators -----
-    bool operator==(const EK60_NME0& other) const
+    bool operator==(const NME0& other) const
     {
-        return EK60_Datagram::operator==(other) && _nmea_base == other._nmea_base;
+        return SimradDatagram::operator==(other) && _nmea_base == other._nmea_base;
     }
-    bool operator!=(const EK60_NME0& other) const { return !operator==(other); }
+    bool operator!=(const NME0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
     std::string get_sender_id() const { return std::string(_nmea_base.get_sender_id()); }
@@ -69,9 +69,9 @@ struct EK60_NME0 : public EK60_Datagram
     }
 
     // ----- file I/O -----
-    static EK60_NME0 from_stream(std::istream& is, EK60_Datagram header)
+    static NME0 from_stream(std::istream& is, SimradDatagram header)
     {
-        EK60_NME0 datagram(std::move(header));
+        NME0 datagram(std::move(header));
         datagram._nmea_base =
             navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length - 12);
 
@@ -81,26 +81,26 @@ struct EK60_NME0 : public EK60_Datagram
         return datagram;
     }
 
-    static EK60_NME0 from_stream(std::istream& is)
+    static NME0 from_stream(std::istream& is)
     {
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::NME0));
     }
 
-    static EK60_NME0 from_stream(std::istream& is, t_EK60_DatagramType type)
+    static NME0 from_stream(std::istream& is, t_SimradDatagramType type)
     {
-        if (type != t_EK60_DatagramType::NME0)
-            throw std::runtime_error("EK60_NME0::from_stream: wrong datagram type");
+        if (type != t_SimradDatagramType::NME0)
+            throw std::runtime_error("NME0::from_stream: wrong datagram type");
 
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::NME0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::NME0));
     }
 
     void to_stream(std::ostream& os)
     {
         _Length       = 12 + _nmea_base.size();
-        _DatagramType = ek60_long(t_EK60_DatagramType::NME0);
-        EK60_Datagram::to_stream(os);
+        _DatagramType = simrad_long(t_SimradDatagramType::NME0);
+        SimradDatagram::to_stream(os);
         _nmea_base.to_stream_dont_write_size(os);
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
@@ -108,7 +108,7 @@ struct EK60_NME0 : public EK60_Datagram
     {
         tools::classhelpers::ObjectPrinter printer("NMEA text datagram", float_precision);
 
-        printer.append(EK60_Datagram::__printer__(float_precision));
+        printer.append(SimradDatagram::__printer__(float_precision));
 
         printer.register_section("Nmea sentence");
         printer.register_value("Sender", get_sender_id(), "");
@@ -120,7 +120,7 @@ struct EK60_NME0 : public EK60_Datagram
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK60_NME0)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(NME0)
 };
 
 }

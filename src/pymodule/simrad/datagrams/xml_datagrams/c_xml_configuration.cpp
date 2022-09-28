@@ -64,25 +64,25 @@ void init_c_xml_configuration(pybind11::module& m)
 
         // ----- methods -----
         .def("get_sensor_configuration",
-                       &XML_Configuration::get_sensor_configuration,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Configuration,
-                           get_sensor_configuration))
+             &XML_Configuration::get_sensor_configuration,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_sensor_configuration))
 
         .def("get_prioritized_sensor",
-                       &XML_Configuration::get_prioritized_sensor,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Configuration,
-                           get_prioritized_sensor),
-                           py::arg("prio_values"))
+             &XML_Configuration::get_prioritized_sensor,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_prioritized_sensor),
+             py::arg("prio_values"))
 
         // ----- children -----
         .def_readwrite("ConfiguredSensors",

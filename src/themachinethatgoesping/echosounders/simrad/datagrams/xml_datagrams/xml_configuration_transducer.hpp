@@ -62,23 +62,21 @@ struct XML_Configuration_Transducer
     // ----- methods -----
     /**
      * @brief Return the offsets as navigation::datastructures::PositionalOffsets structure
-     * 
-     * @return navigation::datastructures::PositionalOffsets 
+     *
+     * @return navigation::datastructures::PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_sensor_offsets() const
     {
         // TODO: check angle directions
         // TODO: include transducer mounting and transducer orientation?
-        return navigation::datastructures::PositionalOffsets(
-            TransducerName,
-            TransducerOffsetX,
-            TransducerOffsetY,
-            TransducerOffsetZ,
-            TransducerAlphaZ,
-            TransducerAlphaY,
-            TransducerAlphaX);
+        return navigation::datastructures::PositionalOffsets(TransducerName,
+                                                             TransducerOffsetX,
+                                                             TransducerOffsetY,
+                                                             TransducerOffsetZ,
+                                                             TransducerAlphaZ,
+                                                             TransducerAlphaY,
+                                                             TransducerAlphaX);
     }
-
 
     // ----- xml parsing -----
 

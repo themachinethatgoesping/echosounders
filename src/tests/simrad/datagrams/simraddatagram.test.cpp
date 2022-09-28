@@ -2,44 +2,44 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek60_datagram.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/simraddatagram.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK60_Datagram;
+using themachinethatgoesping::echosounders::simrad::datagrams::SimradDatagram;
 
 #define TESTTAG "[simrad]"
 
-TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
+TEST_CASE("SimradDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat = EK60_Datagram();
+    auto dat = SimradDatagram();
 
     // set some variables
     dat._Length       = 100;
-    dat._DatagramType = ek60_long(t_EK60_DatagramType::XML0);
+    dat._DatagramType = simrad_long(t_SimradDatagramType::XML0);
     dat._LowDateTime  = 1;
     dat._HighDateTime = 2;
 
     // test inequality
-    REQUIRE(dat != EK60_Datagram());
+    REQUIRE(dat != SimradDatagram());
 
     // test copy
-    REQUIRE(dat == EK60_Datagram(dat));
+    REQUIRE(dat == SimradDatagram(dat));
 
     // test binary
-    REQUIRE(dat == EK60_Datagram(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat == SimradDatagram(dat.from_binary(dat.to_binary())));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == EK60_Datagram(dat.from_stream(buffer)));
+    REQUIRE(dat == SimradDatagram(dat.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -51,8 +51,8 @@ TEST_CASE("EK60_Datagram should support common functions", TESTTAG)
     REQUIRE(dat.get_length() == 123);
 
     // datagram type
-    dat.set_datagram_identifier(t_EK60_DatagramType::RAW3);
-    REQUIRE(dat.get_datagram_identifier() == t_EK60_DatagramType::RAW3);
+    dat.set_datagram_identifier(t_SimradDatagramType::RAW3);
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::RAW3);
 
     // timestamp (unixtime)
     dat.set_timestamp(123.123);

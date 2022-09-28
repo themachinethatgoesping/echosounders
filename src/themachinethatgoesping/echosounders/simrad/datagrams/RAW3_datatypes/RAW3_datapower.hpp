@@ -8,8 +8,8 @@
 
 // std includes
 #include <bitset>
-#include <string>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -18,8 +18,8 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xio.hpp>
+#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
@@ -36,13 +36,13 @@ namespace RAW3_datatypes {
 
 struct RAW3_DataPower : public i_RAW3_Data
 {
-    xt::xtensor<ek60_short, 1> _power; ///< Sample data
+    xt::xtensor<simrad_short, 1> _power; ///< Sample data
 
     RAW3_DataPower()
         : i_RAW3_Data("Power")
     {
     }
-    RAW3_DataPower(xt::xtensor<ek60_short, 1> power)
+    RAW3_DataPower(xt::xtensor<simrad_short, 1> power)
         : i_RAW3_Data("Power")
         , _power(std::move(power))
     {
@@ -53,11 +53,11 @@ struct RAW3_DataPower : public i_RAW3_Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return false; }
 
-    xt::xtensor<ek60_float, 1> get_power() const final
+    xt::xtensor<simrad_float, 1> get_power() const final
     {
         static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
-        
-        return xt::xtensor<ek60_float, 1>(xt::eval(_power * conv_factor));
+
+        return xt::xtensor<simrad_float, 1>(xt::eval(_power * conv_factor));
     }
 
     // ----- operator overloads -----
@@ -65,21 +65,23 @@ struct RAW3_DataPower : public i_RAW3_Data
     bool operator!=(const RAW3_DataPower& other) const { return !(operator==(other)); }
 
     static RAW3_DataPower from_stream(std::istream& is,
-                                      ek60_long     input_count,
-                                      ek60_long     output_count)
+                                      simrad_long   input_count,
+                                      simrad_long   output_count)
     {
 
-        using xt_shape = xt::xtensor<ek60_short, 1>::shape_type;
-        RAW3_DataPower data(xt::empty<ek60_short>(xt_shape({ unsigned(output_count) })));
+        using xt_shape = xt::xtensor<simrad_short, 1>::shape_type;
+        RAW3_DataPower data(xt::empty<simrad_short>(xt_shape({ unsigned(output_count) })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)
         {
-            is.read(reinterpret_cast<char*>(data._power.data()), output_count * sizeof(ek60_short));
+            is.read(reinterpret_cast<char*>(data._power.data()),
+                    output_count * sizeof(simrad_short));
         }
         else
         {
-            is.read(reinterpret_cast<char*>(data._power.data()), input_count * sizeof(ek60_short));
+            is.read(reinterpret_cast<char*>(data._power.data()),
+                    input_count * sizeof(simrad_short));
 
             // fill remaining samples with 0
             std::fill(data._power.begin() + input_count, data._power.end(), 0);
@@ -90,10 +92,10 @@ struct RAW3_DataPower : public i_RAW3_Data
 
     void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(_power.data()), _power.size() * sizeof(ek60_short));
+        os.write(reinterpret_cast<const char*>(_power.data()),
+                 _power.size() * sizeof(simrad_short));
         return;
     }
-
 
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const

@@ -48,7 +48,7 @@ void init_c_raw3_datacomplexfloat32(pybind11::module& m)
                                                          RAW3_datatypes,
                                                          RAW3_DataComplexFloat32))
         .def(py::init<>(), DOC_RAW3_DataComplexFloat32(RAW3_DataComplexFloat32))
-        .def(py::init<xt::xtensor<ek60_float, 3>>(),
+        .def(py::init<xt::xtensor<simrad_float, 3>>(),
              DOC_RAW3_DataComplexFloat32(RAW3_DataComplexFloat32_2),
              py::arg("complex_samples"))
         .def("__eq__", &RAW3_DataComplexFloat32::operator==, py::arg("other"))

@@ -83,6 +83,12 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_files_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_callback_scan_new_file_begin = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_callback_scan_new_file_end = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_callback_scan_packet = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_datagram_identifier_to_string = R"doc()doc";
@@ -145,439 +151,218 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_callback_scan_new_file_begin = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_callback_scan_new_file_end = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_callback_scan_packet = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_configuration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_to_string = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_mru0_packets = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_nme0_packets = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_packet_buffer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagram_type_from_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagram_type_to_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_EK60_DatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_EK60_DatagramVariant_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_datagram_variant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_DatagramVariant_operator_call =
-R"doc(This is the visitor function that tries to convert the internal
-variant to the specified type.
-
-Template parameter ``t_ProgressBar``:
-    $Parameter ``progress_bar``:
-
-ProgressBar class that is derived from I_ProgressBar
-
-Returns:
-    I_ProgressBar&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_DatagramType = R"doc(< Raw: Datagram type as)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_EK60_Datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_EK60_Datagram_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_HighDateTime = R"doc(< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_Length = R"doc(< Raw: Length of the datagram in bytes)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_date_string = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_length =
-R"doc(length of the datagram in bytes (excluding the length fields at the
-beginning and end of the datagram))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_get_timestamp =
-R"doc(unix timestamp in seconds since epoch (1970-01-01). Data is converted
-to/from internal windows high/low timestamp representation.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_datagram_identifier = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_length = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_set_timestamp = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_skip = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Datagram_verify_datagram_end =
-R"doc(verify the datagram is read correctly by reading the length field at
-the end
-
-Parameter ``is``:
-    istream. Must be at the end position of the datagram. Pos will be
-    incremented by 4 bytes (ek60_long).)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0 =
-R"doc(NMEA text datagram (NME0) This datagram contains NMEA sentences
-received by the EK60/EK80 transceiver.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_EK60_NME0 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_EK60_NME0_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_decode = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field_as_double = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_field_as_int = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sender_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sentence = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sentence_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_get_sentence_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_nmea_base = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_parse_fields = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_NME0_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0 =
-R"doc(Motion binary datagram (TAG0) This datagram contains heave, roll,
-pitch and heading as float values. Conveniently, these values can be
-used directly in themachinethatgoesping navigation processing because
-they are defined in the default coordinate system / value range.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_EK60_TAG0 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_EK60_TAG0_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_EK60_TAG0_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_Text = R"doc(< _Text annotation string (e.g. interesting fish shoal in echogram))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_get_text = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_set_text = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_TAG0_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_EK60_Unknown = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_EK60_Unknown_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_raw_content = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK60_Unknown_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1 =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1 =
 R"doc(Filter binary datagram (FIL1) This datagram contains filter
 coefficients used by the EK80 to filter the received signal.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_ChannelID = R"doc(< Channel identification (size is always 128))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_ChannelID = R"doc(< Channel identification (size is always 128))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_Coefficients = R"doc(< Filter coefficients, ...))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Coefficients = R"doc(< Filter coefficients, ...))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_DecimationFactor = R"doc(< Filter decimation factor)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_DecimationFactor = R"doc(< Filter decimation factor)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_EK80_FIL1 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_FIL1 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_EK80_FIL1_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_FIL1_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_NoOfCoefficients = R"doc(< Number of complex filter coefficients)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_NoOfCoefficients = R"doc(< Number of complex filter coefficients)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_Spare_1 = R"doc(< For future expansions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Spare_1 = R"doc(< For future expansions)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_Spare_2 = R"doc(< For future expansions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Spare_2 = R"doc(< For future expansions)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_Stage = R"doc(< Filter stage number)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Stage = R"doc(< Filter stage number)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_from_stream_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_from_stream_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_from_stream_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_from_stream_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_channel_id = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_channel_id = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_coefficients = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_coefficients = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_decimation_factor = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_decimation_factor = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_no_of_coefficients = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_no_of_coefficients = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_spare_1 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_spare_1 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_spare_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_spare_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_get_stage = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_stage = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_operator_ne = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_channel_id = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_channel_id = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_coefficients = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_coefficients = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_decimation_factor = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_decimation_factor = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_no_of_coefficients = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_no_of_coefficients = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_spare_1 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_spare_1 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_spare_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_spare_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_set_stage = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_stage = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_FIL1_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0 =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0 =
 R"doc(Motion binary datagram (MRU0) This datagram contains heave, roll,
 pitch and heading as float values. Conveniently, these values can be
 used directly in themachinethatgoesping navigation processing because
 they are defined in the default coordinate system / value range.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_EK80_MRU0 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Heading = R"doc(< Heading in degrees, 0° north, 90° east)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_EK80_MRU0_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Heave = R"doc(< Heave in m, positive up)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_Heading = R"doc(< Heading in degrees, 0° north, 90° east)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_MRU0 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_Heave = R"doc(< Heave in m, positive up)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_MRU0_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_Pitch = R"doc(< Pitch in degrees, positive nose up)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Pitch = R"doc(< Pitch in degrees, positive nose up)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_Roll = R"doc(< Roll in degrees, positive port up)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Roll = R"doc(< Roll in degrees, positive port up)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_from_stream_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_from_stream_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_from_stream_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_from_stream_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_get_heading = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_get_heading = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_get_heave = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_get_heave = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_get_pitch = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_get_pitch = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_get_roll = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_get_roll = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_operator_ne = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_set_heading = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_set_heading = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_set_heave = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_set_heave = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_set_pitch = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_set_pitch = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_set_roll = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_set_roll = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_MRU0_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3 =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0 =
+R"doc(NMEA text datagram (NME0) This datagram contains NMEA sentences
+received by the EK60/EK80 transceiver.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_NME0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_NME0_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_decode = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_double = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_int = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sender_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sentence = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sentence_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sentence_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_nmea_base = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_parse_fields = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3 =
 R"doc(Sample binary datagram (RAW3) This datagram contains the sample data
 for each ping. The exact datatype and size depends on the Datatype
 field!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_ChannelID = R"doc(< Channel identification (size is always 128))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_ChannelID = R"doc(< Channel identification (size is always 128))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_Count = R"doc(< Number of samples in the datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Count = R"doc(< Number of samples in the datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_Datatype = R"doc(< Datatype)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Datatype = R"doc(< Datatype)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_EK80_RAW3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_EK80_RAW3_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_NumberOfComplexSamples =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_NumberOfComplexSamples =
 R"doc(< Number of transducer samples per sample (used when < Datatype is
 complex))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_Offset = R"doc(< First sample number in the datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Offset = R"doc(< First sample number in the datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_RAW3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_SampleData = R"doc(< Sample data)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_RAW3_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_Spare_1 = R"doc(< Spare 1)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_Spare_2 = R"doc(< Spare 2)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_SampleData = R"doc(< Sample data)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Spare_1 = R"doc(< Spare 1)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_channel_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_count = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_data_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_number_of_complex_samples =
-R"doc(Get the number of complex samples. This corresponds to the number of
-transducer elements. This field is only valid for complex data types.
-
-Returns:
-    ek60_short)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_offset = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_sample_data =
-R"doc(Get the sample data. The sample data is stored in a variant of xtensor
-containers. The exact type depends on the data type.
-
-Returns:
-    RAW3_datatypes::RAW3_DataVariant)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_spare_1 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_get_spare_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_sample_data =
-R"doc(Get the sample data. The sample data is stored in a variant of xtensor
-containers. The exact type depends on the data type.
-
-Returns:
-    RAW3_datatypes::RAW3_DataVariant)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_channel_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_count = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_data_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_number_of_complex_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_offset = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_set_sample_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_RAW3_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0 =
-R"doc(Motion binary datagram (XML0) This datagram contains heave, roll,
-pitch and heading as float values. Conveniently, these values can be
-used directly in themachinethatgoesping navigation processing because
-they are defined in the default coordinate system / value range.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_EK80_XML0 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_EK80_XML0_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_decode = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_get_xml_content = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_get_xml_datagram_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_parse_xml = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_raw = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_set_xml_content = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_test_xml = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_EK80_XML0_xml_content = R"doc(< raw xml string)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Spare_2 = R"doc(< Spare 2)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle = R"doc()doc";
 
@@ -724,6 +509,243 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_Power = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_PowerAndAngle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_channel_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_count = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_data_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_number_of_complex_samples =
+R"doc(Get the number of complex samples. This corresponds to the number of
+transducer elements. This field is only valid for complex data types.
+
+Returns:
+    simrad_short)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_sample_data =
+R"doc(Get the sample data. The sample data is stored in a variant of xtensor
+containers. The exact type depends on the data type.
+
+Returns:
+    RAW3_datatypes::RAW3_DataVariant)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_spare_1 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_spare_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data =
+R"doc(Get the sample data. The sample data is stored in a variant of xtensor
+containers. The exact type depends on the data type.
+
+Returns:
+    RAW3_datatypes::RAW3_DataVariant)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_channel_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_count = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_data_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_number_of_complex_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_sample_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant_SimradDatagramVariant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant_SimradDatagramVariant_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant_datagram_variant = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagramVariant_operator_call =
+R"doc(This is the visitor function that tries to convert the internal
+variant to the specified type.
+
+Template parameter ``t_ProgressBar``:
+    $Parameter ``progress_bar``:
+
+ProgressBar class that is derived from I_ProgressBar
+
+Returns:
+    I_ProgressBar&)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_DatagramType = R"doc(< Raw: Datagram type as)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_HighDateTime = R"doc(< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_Length = R"doc(< Raw: Length of the datagram in bytes)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_SimradDatagram = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_SimradDatagram_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_date_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_length =
+R"doc(length of the datagram in bytes (excluding the length fields at the
+beginning and end of the datagram))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_timestamp =
+R"doc(unix timestamp in seconds since epoch (1970-01-01). Data is converted
+to/from internal windows high/low timestamp representation.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_datagram_identifier = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_length = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_timestamp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_skip = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_verify_datagram_end =
+R"doc(verify the datagram is read correctly by reading the length field at
+the end
+
+Parameter ``is``:
+    istream. Must be at the end position of the datagram. Pos will be
+    incremented by 4 bytes (simrad_long).)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_SimradUnknown = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_SimradUnknown_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_raw_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0 =
+R"doc(Motion binary datagram (TAG0) This datagram contains heave, roll,
+pitch and heading as float values. Conveniently, these values can be
+used directly in themachinethatgoesping navigation processing because
+they are defined in the default coordinate system / value range.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_TAG0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_TAG0_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_TAG0_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_Text = R"doc(< _Text annotation string (e.g. interesting fish shoal in echogram))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_get_text = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_set_text = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0 =
+R"doc(Motion binary datagram (XML0) This datagram contains heave, roll,
+pitch and heading as float values. Conveniently, these values can be
+used directly in themachinethatgoesping navigation processing because
+they are defined in the default coordinate system / value range.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_XML0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_XML0_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_decode = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_datagram_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_operator_ne = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_parse_xml = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_raw = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_set_xml_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_test_xml = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_xml_content = R"doc(< raw xml string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_ChannelConfiguration = R"doc(XML base datagram)doc";
 
@@ -1595,21 +1617,19 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_t_BeamType_BeamTypeSplit3CW = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_ek60_datagram_type_from_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_FIL1 = R"doc(< Filter datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_FIL1 = R"doc(< Filter datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_MRU0 = R"doc(< Motion datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_MRU0 = R"doc(< Motion datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_RAW3 = R"doc(< Raw sample data datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_RAW3 = R"doc(< Raw sample data datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_TAG0 = R"doc(< ???)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_TAG0 = R"doc(< ???)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_t_EK60_DatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramType_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

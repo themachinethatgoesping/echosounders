@@ -24,7 +24,7 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../ek60_types.hpp"
+#include "../../simrad_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,15 +46,15 @@ inline size_t RAW3_DataType_size(t_RAW3_DataType data_type)
     switch (data_type)
     {
         case t_RAW3_DataType::PowerAndAngle:
-            return sizeof(ek60_short) * 2; // 1 short 2 bytes
+            return sizeof(simrad_short) * 2; // 1 short 2 bytes
         case t_RAW3_DataType::ComplexFloat32:
-            return sizeof(ek60_complex_float);
+            return sizeof(simrad_complex_float);
         case t_RAW3_DataType::Power:
-            return sizeof(ek60_short);
+            return sizeof(simrad_short);
         case t_RAW3_DataType::Angle: // 2 bytes
-            return sizeof(ek60_short);
+            return sizeof(simrad_short);
         case t_RAW3_DataType::ComplexFloat16:
-            return sizeof(ek60_float); // 2 times half
+            return sizeof(simrad_float); // 2 times half
         default:
             throw(std::runtime_error("Unknown data type"));
     }

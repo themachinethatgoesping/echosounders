@@ -52,11 +52,11 @@ struct RAW3_DataAngle : public i_RAW3_Data
     bool has_power() const final { return false; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<ek60_float, 2> get_angle() const final
+    xt::xtensor<simrad_float, 2> get_angle() const final
     {
-        const static float conv_factor = 180.f/128.f;
-        
-        return xt::xtensor<ek60_float, 2>(xt::eval(_angle * conv_factor));
+        const static float conv_factor = 180.f / 128.f;
+
+        return xt::xtensor<simrad_float, 2>(xt::eval(_angle * conv_factor));
     }
 
     // ----- operator overloads -----
@@ -64,8 +64,8 @@ struct RAW3_DataAngle : public i_RAW3_Data
     bool operator!=(const RAW3_DataAngle& other) const { return !(operator==(other)); }
 
     static RAW3_DataAngle from_stream(std::istream& is,
-                                      ek60_long     input_count,
-                                      ek60_long     output_count)
+                                      simrad_long   input_count,
+                                      simrad_long   output_count)
     {
         using xt_shape = xt::xtensor<int8_t, 2>::shape_type;
         RAW3_DataAngle data(xt::empty<int8_t>(xt_shape({ unsigned(output_count), 2 })));
@@ -73,8 +73,7 @@ struct RAW3_DataAngle : public i_RAW3_Data
         // initialize data_block using from_shape
         if (output_count < input_count)
         {
-            is.read(reinterpret_cast<char*>(data._angle.data()),
-                    output_count * sizeof(int8_t) * 2);
+            is.read(reinterpret_cast<char*>(data._angle.data()), output_count * sizeof(int8_t) * 2);
         }
         else
         {

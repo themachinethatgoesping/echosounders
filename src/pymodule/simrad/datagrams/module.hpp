@@ -11,7 +11,7 @@ namespace py_simrad {
 namespace py_datagrams {
 
 // -- initialize module --
-void init_m_simrad_datagrams(pybind11::module& m);
+void init_m_SimradDatagrams(pybind11::module& m);
 
 }
 }

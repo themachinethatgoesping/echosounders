@@ -25,9 +25,9 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../ek60_types.hpp"
+#include "../simrad_types.hpp"
 #include "RAW3_datatypes/RAW3_datatypes.hpp"
-#include "ek60_datagram.hpp"
+#include "simraddatagram.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -40,34 +40,34 @@ namespace datagrams {
  * Datatype field!
  *
  */
-struct EK80_RAW3 : public EK60_Datagram
+struct RAW3 : public SimradDatagram
 {
     // ----- datagram content -----
     std::array<char, 128>           _ChannelID; ///< Channel identification (size is always 128)
     RAW3_datatypes::t_RAW3_DataType _Datatype;  ///< Datatype
     uint8_t _NumberOfComplexSamples; ///< Number of transducer samples per sample (used when
                                      ///< Datatype is complex)
-    ek60_char _Spare_1;              ///< Spare 1
-    ek60_char _Spare_2;              ///< Spare 2
-    ek60_long _Offset;               ///< First sample number in the datagram
-    ek60_long _Count;                ///< Number of samples in the datagram
+    simrad_char _Spare_1;            ///< Spare 1
+    simrad_char _Spare_2;            ///< Spare 2
+    simrad_long _Offset;             ///< First sample number in the datagram
+    simrad_long _Count;              ///< Number of samples in the datagram
 
     RAW3_datatypes::RAW3_DataVariant _SampleData; ///< Sample data
 
-    // std::variant<xt::xtensor<ek60_float>,
-    //              xt::xtensor<ek60_complex_float,2>> _Samples; ///< Sample data
+    // std::variant<xt::xtensor<simrad_float>,
+    //              xt::xtensor<simrad_complex_float,2>> _Samples; ///< Sample data
 
   private:
     // ----- public constructors -----
-    explicit EK80_RAW3(EK60_Datagram header)
-        : EK60_Datagram(std::move(header))
+    explicit RAW3(SimradDatagram header)
+        : SimradDatagram(std::move(header))
     {
     }
 
   public:
     // ----- constructors -----
-    EK80_RAW3()
-        : EK60_Datagram(152, ek60_long(t_EK60_DatagramType::RAW3))
+    RAW3()
+        : SimradDatagram(152, simrad_long(t_SimradDatagramType::RAW3))
         , _ChannelID()
         , _Datatype(RAW3_datatypes::t_RAW3_DataType(0b00000000))
         , _NumberOfComplexSamples(0)
@@ -79,21 +79,21 @@ struct EK80_RAW3 : public EK60_Datagram
     {
         _ChannelID.fill('\x00');
     }
-    ~EK80_RAW3() = default;
+    ~RAW3() = default;
 
     // ----- operators -----
-    bool operator==(const EK80_RAW3& other) const
+    bool operator==(const RAW3& other) const
     {
         using namespace tools::helper; // approx and approx_container
 
-        return EK60_Datagram::operator==(other) && _ChannelID == other._ChannelID &&
+        return SimradDatagram::operator==(other) && _ChannelID == other._ChannelID &&
                _Datatype == other._Datatype &&
                _NumberOfComplexSamples == other._NumberOfComplexSamples &&
                _Spare_1 == other._Spare_1 && _Spare_2 == other._Spare_2 &&
                _Offset == other._Offset && _Count == other._Count &&
                _SampleData == other._SampleData;
     }
-    bool operator!=(const EK80_RAW3& other) const { return !operator==(other); }
+    bool operator!=(const RAW3& other) const { return !operator==(other); }
 
     // ----- getter setter -----
     std::string_view get_channel_id() const { return std::string_view(_ChannelID.data(), 128); }
@@ -118,7 +118,7 @@ struct EK80_RAW3 : public EK60_Datagram
      * This corresponds to the number of transducer elements.
      * This field is only valid for complex data types.
      *
-     * @return ek60_short
+     * @return simrad_short
      */
     uint8_t get_number_of_complex_samples() const
     {
@@ -134,12 +134,12 @@ struct EK80_RAW3 : public EK60_Datagram
         _NumberOfComplexSamples = number_of_complex_samples;
     }
 
-    ek60_char get_spare_1() const { return _Spare_1; }
-    ek60_char get_spare_2() const { return _Spare_2; }
-    ek60_long get_offset() const { return _Offset; }
-    void      set_offset(ek60_long offset) { _Offset = offset; }
-    ek60_long get_count() const { return _Count; }
-    void      set_count(ek60_long count) { _Count = count; }
+    simrad_char get_spare_1() const { return _Spare_1; }
+    simrad_char get_spare_2() const { return _Spare_2; }
+    simrad_long get_offset() const { return _Offset; }
+    void        set_offset(simrad_long offset) { _Offset = offset; }
+    simrad_long get_count() const { return _Count; }
+    void        set_count(simrad_long count) { _Count = count; }
 
     /**
      * @brief Get the sample data.
@@ -164,10 +164,10 @@ struct EK80_RAW3 : public EK60_Datagram
     }
 
     // ----- file I/O -----
-    static EK80_RAW3 from_stream(std::istream& is, EK60_Datagram header)
+    static RAW3 from_stream(std::istream& is, SimradDatagram header)
     {
-        auto      pos = is.tellg();
-        EK80_RAW3 datagram(std::move(header));
+        auto pos = is.tellg();
+        RAW3 datagram(std::move(header));
         // datagram._ChannelID.resize(128);
 
         is.read(datagram._ChannelID.data(), 140);
@@ -211,17 +211,17 @@ struct EK80_RAW3 : public EK60_Datagram
         return datagram;
     }
 
-    static EK80_RAW3 from_stream(std::istream& is)
+    static RAW3 from_stream(std::istream& is)
     {
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::RAW3));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3));
     }
 
-    static EK80_RAW3 from_stream(std::istream& is, t_EK60_DatagramType type)
+    static RAW3 from_stream(std::istream& is, t_SimradDatagramType type)
     {
-        if (type != t_EK60_DatagramType::RAW3)
-            throw std::runtime_error("EK80_RAW3::from_stream: wrong datagram type");
+        if (type != t_SimradDatagramType::RAW3)
+            throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
-        return from_stream(is, EK60_Datagram::from_stream(is, t_EK60_DatagramType::RAW3));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3));
     }
 
     void to_stream(std::ostream& os)
@@ -232,10 +232,10 @@ struct EK80_RAW3 : public EK60_Datagram
         // TODO: support 16 bit complex data
         _Length = _Count * data_type_size * get_number_of_complex_samples() + 152;
 
-        _DatagramType = ek60_long(t_EK60_DatagramType::RAW3);
+        _DatagramType = simrad_long(t_SimradDatagramType::RAW3);
         //_ChannelID.resize(128, '\x00');
 
-        EK60_Datagram::to_stream(os);
+        SimradDatagram::to_stream(os);
 
         os.write(_ChannelID.data(), 140);
 
@@ -247,7 +247,7 @@ struct EK80_RAW3 : public EK60_Datagram
             },
             [&os](auto& data) { data.to_stream(os); });
 
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(ek60_long));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
@@ -255,7 +255,7 @@ struct EK80_RAW3 : public EK60_Datagram
     {
         tools::classhelpers::ObjectPrinter printer("Sample binary datagram", float_precision);
 
-        printer.append(EK60_Datagram::__printer__(float_precision));
+        printer.append(SimradDatagram::__printer__(float_precision));
 
         std::string channel_id = std::string(get_channel_id());
         // remove all non ascii characters
@@ -296,7 +296,7 @@ struct EK80_RAW3 : public EK60_Datagram
 
     // ----- class helper macros -----
     __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EK80_RAW3)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RAW3)
 };
 
 }

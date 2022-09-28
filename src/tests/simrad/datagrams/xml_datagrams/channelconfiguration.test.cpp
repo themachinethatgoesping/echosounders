@@ -8,12 +8,12 @@
 
 #include <map>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/XML0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
+using themachinethatgoesping::echosounders::simrad::datagrams::XML0;
 using namespace themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams;
 
 #define TESTTAG "[simrad]"
@@ -998,7 +998,7 @@ std::string xml_string =
 TEST_CASE("ChannelConfiguration should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_XML0 dat;
+    XML0 dat;
     dat.set_xml_content(xml_string);
 
     XML_Configuration config = std::get<XML_Configuration>(dat.decode());
@@ -1007,11 +1007,10 @@ TEST_CASE("ChannelConfiguration should support common functions", TESTTAG)
     REQUIRE(config.ChannelConfigurations.size() == 5);
 
     // get channel 1 and channel 2
-    auto map_it = config.ChannelConfigurations.begin();
+    auto                 map_it   = config.ChannelConfigurations.begin();
     ChannelConfiguration channel1 = map_it->second;
     map_it++;
     ChannelConfiguration channel2 = map_it->second;
-
 
     // test inequality
     REQUIRE(channel1 != channel2);

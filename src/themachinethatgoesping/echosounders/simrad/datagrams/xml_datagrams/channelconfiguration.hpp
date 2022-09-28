@@ -114,7 +114,7 @@ class ChannelConfiguration
             "EK80 Channel Configuration (derived from XML Configuration Datagram)",
             float_precision);
         printer.register_string("Channel ID", _channel_id);
-        
+
         printer.register_section("children");
         printer.register_string("Channel", _channel.ChannelID);
         printer.register_string("Transceiver", _transceiver.TransceiverName);

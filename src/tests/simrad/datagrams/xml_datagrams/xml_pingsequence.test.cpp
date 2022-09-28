@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/simrad/datagrams/ek80_XML0.hpp"
+#include "../themachinethatgoesping/echosounders/simrad/datagrams/XML0.hpp"
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
-using themachinethatgoesping::echosounders::simrad::datagrams::EK80_XML0;
+using themachinethatgoesping::echosounders::simrad::datagrams::XML0;
 using themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_PingSequence;
 
 #define TESTTAG "[simrad]"
@@ -24,7 +24,7 @@ std::string xml_string = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<PingSequ
 TEST_CASE("XML_PingSequence should support common functions", TESTTAG)
 {
     // initialize class structure
-    EK80_XML0 dat, dat2;
+    XML0 dat, dat2;
     dat.set_xml_content(xml_string);
 
     XML_PingSequence xml1   = std::get<XML_PingSequence>(dat.decode());

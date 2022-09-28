@@ -8,7 +8,7 @@
 
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/ek60_datagram.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/simraddatagram.hpp"
 #include "../../docstrings.hpp"
 #include "module.hpp"
 
@@ -19,52 +19,56 @@ namespace py_simrad {
 namespace py_datagrams {
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using datagrams::EK60_Datagram;
+using datagrams::SimradDatagram;
 
-void init_c_ek60_datagram(pybind11::module& m)
+void init_c_SimradDatagram(pybind11::module& m)
 {
-    py::class_<EK60_Datagram>(
+    py::class_<SimradDatagram>(
         m,
-        "EK60_Datagram",
-        DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram))
+        "SimradDatagram",
+        DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradDatagram))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
-                 EK60_Datagram,
-                 EK60_Datagram))
+                 SimradDatagram,
+                 SimradDatagram))
         // --- convenient data access ---
-        .def_property(
-            "length",
-            &EK60_Datagram::get_length,
-            &EK60_Datagram::set_length,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram, get_length))
-        .def_property("timestamp",
-                      &EK60_Datagram::get_timestamp,
-                      &EK60_Datagram::set_timestamp,
+        .def_property("length",
+                      &SimradDatagram::get_length,
+                      &SimradDatagram::set_length,
                       DOC(themachinethatgoesping,
                           echosounders,
                           simrad,
                           datagrams,
-                          EK60_Datagram,
+                          SimradDatagram,
+                          get_length))
+        .def_property("timestamp",
+                      &SimradDatagram::get_timestamp,
+                      &SimradDatagram::set_timestamp,
+                      DOC(themachinethatgoesping,
+                          echosounders,
+                          simrad,
+                          datagrams,
+                          SimradDatagram,
                           get_timestamp))
         .def_property("datagram_type",
-                      &EK60_Datagram::get_datagram_identifier,
-                      &EK60_Datagram::set_datagram_identifier,
+                      &SimradDatagram::get_datagram_identifier,
+                      &SimradDatagram::set_datagram_identifier,
                       DOC(themachinethatgoesping,
                           echosounders,
                           simrad,
                           datagrams,
-                          EK60_Datagram,
+                          SimradDatagram,
                           get_datagram_identifier))
         .def("get_date_string",
-             &EK60_Datagram::get_date_string,
+             &SimradDatagram::get_date_string,
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
-                 EK60_Datagram,
+                 SimradDatagram,
                  get_date_string),
              py::arg("fractional_seconds_digits") = 2,
              py::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
@@ -72,31 +76,31 @@ void init_c_ek60_datagram(pybind11::module& m)
         // --- raw data access ---
         .def_readwrite(
             "_raw_Length",
-            &EK60_Datagram::_Length,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, EK60_Datagram, Length))
+            &SimradDatagram::_Length,
+            DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradDatagram, Length))
         .def_readwrite("_raw_DatagramType",
-                       &EK60_Datagram::_DatagramType,
+                       &SimradDatagram::_DatagramType,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
-                           EK60_Datagram,
+                           SimradDatagram,
                            DatagramType))
         .def_readwrite("_raw_LowDateTime",
-                       &EK60_Datagram::_LowDateTime,
+                       &SimradDatagram::_LowDateTime,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
-                           EK60_Datagram,
+                           SimradDatagram,
                            LowDateTime))
         .def_readwrite("_raw_HighDateTime",
-                       &EK60_Datagram::_HighDateTime,
+                       &SimradDatagram::_HighDateTime,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
-                           EK60_Datagram,
+                           SimradDatagram,
                            HighDateTime))
         // .def("__call__",
         //      py::overload_cast<double>(&LinearInterpolator::operator()),
@@ -112,21 +116,21 @@ void init_c_ek60_datagram(pybind11::module& m)
         //      py::arg("targets_x"))
         // ----- operators -----
         .def("__eq__",
-             &EK60_Datagram::operator==,
+             &SimradDatagram::operator==,
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
-                 EK60_Datagram,
+                 SimradDatagram,
                  operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(EK60_Datagram)
+        __PYCLASS_DEFAULT_COPY__(SimradDatagram)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(EK60_Datagram)
+        __PYCLASS_DEFAULT_BINARY__(SimradDatagram)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(EK60_Datagram)
+        __PYCLASS_DEFAULT_PRINTING__(SimradDatagram)
         // end LinearInterpolator
         ;
 }

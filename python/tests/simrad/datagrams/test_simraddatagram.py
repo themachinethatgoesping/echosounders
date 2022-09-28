@@ -6,12 +6,12 @@
 # pylint: disable=protected-access
 # pylint: disable=no-self-use
 
-from themachinethatgoesping.echosounders.simrad.datagrams import EK60_Datagram
+from themachinethatgoesping.echosounders.simrad.datagrams import SimradDatagram
 
 
-class Test_echosounders_simrad_EK60_Datagram:
-    def test_EK60_Datagram_should_support_common_functions(self):
-        dat = EK60_Datagram()
+class Test_echosounders_simrad_SimradDatagram:
+    def test_SimradDatagram_should_support_common_functions(self):
+        dat = SimradDatagram()
         dat._raw_Length = 100
         dat._raw_DatagramType = 810306904
         dat._raw_LowDateTime = 10
@@ -30,4 +30,4 @@ class Test_echosounders_simrad_EK60_Datagram:
         assert dat != dat2
 
         # binary
-        assert dat == EK60_Datagram.from_binary(dat.to_binary())
+        assert dat == SimradDatagram.from_binary(dat.to_binary())
