@@ -59,5 +59,5 @@ TEST_CASE("XML_Sensor should support common functions", TESTTAG)
     // --- test data access ---
     REQUIRE(xml1.Type == "CableLength");
     REQUIRE(xml1.ManualValue == 0);
-    REQUIRE(xml1.IsManual == 0);
+    REQUIRE(xml1.IsManual == false);
 }

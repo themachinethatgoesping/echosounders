@@ -75,9 +75,9 @@ TEST_CASE("XML_Environment should support common functions", TESTTAG)
     REQUIRE(xml1.SoundVelocityProfile[3] == Catch::Approx(1473.3));
     REQUIRE(xml1.SoundVelocitySource == "Manual");
     REQUIRE(xml1.DropKeelOffset == 0);
-    REQUIRE(xml1.DropKeelOffsetIsManual == 0);
+    REQUIRE(xml1.DropKeelOffsetIsManual == false);
     REQUIRE(xml1.WaterLevelDraft == 0);
-    REQUIRE(xml1.WaterLevelDraftIsManual == 0);
+    REQUIRE(xml1.WaterLevelDraftIsManual == false);
     REQUIRE(xml1.Transducer.TransducerName == "Unknown");
     REQUIRE(xml1.Transducer.SoundSpeed == 1475);
 }
