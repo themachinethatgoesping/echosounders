@@ -24,7 +24,7 @@ TEST_CASE("SimradUnknown should support common functions", TESTTAG)
     dat.raw_content = "this is raw test data :-)";
 
     // set some variables
-    dat._Length       = 12 + dat.raw_content.size();
+    dat._Length       = simrad_long(12 + dat.raw_content.size());
     dat._DatagramType = simrad_long(t_SimradDatagramType::XML0);
     dat._LowDateTime  = 1;
     dat._HighDateTime = 2;

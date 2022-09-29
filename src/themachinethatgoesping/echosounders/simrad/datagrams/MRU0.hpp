@@ -66,14 +66,14 @@ struct MRU0 : public SimradDatagram
     bool operator!=(const MRU0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    double get_heave() const { return _Heave; }
-    double get_roll() const { return _Roll; }
-    double get_pitch() const { return _Pitch; }
-    double get_heading() const { return _Heading; }
-    void   set_heave(double value) { _Heave = value; }
-    void   set_roll(double value) { _Roll = value; }
-    void   set_pitch(double value) { _Pitch = value; }
-    void   set_heading(double value) { _Heading = value; }
+    float get_heave() const { return _Heave; }
+    float get_roll() const { return _Roll; }
+    float get_pitch() const { return _Pitch; }
+    float get_heading() const { return _Heading; }
+    void   set_heave(float value) { _Heave = value; }
+    void   set_roll(float value) { _Roll = value; }
+    void   set_pitch(float value) { _Pitch = value; }
+    void   set_heading(float value) { _Heading = value; }
 
     // ----- file I/O -----
     static MRU0 from_stream(std::istream& is, SimradDatagram header)
@@ -102,7 +102,7 @@ struct MRU0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + 4 * sizeof(simrad_float);
+        _Length       = simrad_long(12 + 4 * sizeof(simrad_float));
         _DatagramType = simrad_long(t_SimradDatagramType::MRU0);
         SimradDatagram::to_stream(os);
         os.write(reinterpret_cast<const char*>(&_Heave), 4 * sizeof(simrad_float));

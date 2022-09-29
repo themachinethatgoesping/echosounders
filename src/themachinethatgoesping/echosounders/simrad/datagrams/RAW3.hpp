@@ -230,7 +230,7 @@ struct RAW3 : public SimradDatagram
         auto data_type_size = RAW3_DataType_size(_Datatype);
 
         // TODO: support 16 bit complex data
-        _Length = _Count * data_type_size * get_number_of_complex_samples() + 152;
+        _Length = simrad_long(_Count * data_type_size * get_number_of_complex_samples() + 152);
 
         _DatagramType = simrad_long(t_SimradDatagramType::RAW3);
         //_ChannelID.resize(128, '\x00');

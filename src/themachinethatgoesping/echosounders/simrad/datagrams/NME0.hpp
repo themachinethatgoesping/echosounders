@@ -96,11 +96,11 @@ struct NME0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + _nmea_base.size();
+        _Length       = simrad_long(12 + _nmea_base.size());
         _DatagramType = simrad_long(t_SimradDatagramType::NME0);
         SimradDatagram::to_stream(os);
         _nmea_base.to_stream_dont_write_size(os);
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
+        os.write(reinterpret_cast<const char*>(&_Length), sizeof(_Length));
     }
 
     // ----- objectprinter -----

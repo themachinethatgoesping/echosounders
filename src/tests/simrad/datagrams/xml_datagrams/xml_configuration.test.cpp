@@ -1059,7 +1059,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Type == "GGA");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].SubscriptionPath ==
             "GPS From Serial Port 2 Seapath 380-R3@GPS.Global.Position");
-    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Values.size() == 2);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Values[0].Name == "Latitude");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[0].Values[0].Priority == 1);
@@ -1072,7 +1072,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Type == "VTG");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].SubscriptionPath ==
             "GPS From Serial Port 2 Seapath 380-R3@GPS.Ground");
-    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Values.size() == 3);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Values[0].Name == "Course");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[1].Values[0].Priority == 3);
@@ -1087,7 +1087,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Type == "ZDA");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].SubscriptionPath ==
             "GPS From Serial Port 2 Seapath 380-R3@GPS.TimeInfo");
-    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Values.size() == 1);
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Values[0].Name == "TimeInfo");
     REQUIRE(xml1.ConfiguredSensors[0].Telegrams[2].Values[0].Priority == 1);
@@ -1111,7 +1111,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Type == "GGA");
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].SubscriptionPath ==
             "GPS From Serial Port 3 Veripos LD5 #1@GPS.Global.Position");
-    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Values.size() == 2);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Values[0].Name == "Latitude");
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[0].Values[0].Priority == 2);
@@ -1124,7 +1124,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].SubscriptionPath ==
             "GPS From Serial Port 3 Veripos LD5 #1@"
             "GPS.Ground");
-    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].Values.size() == 3);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].Values[0].Name == "Course");
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[1].Values[0].Priority == 4);
@@ -1139,7 +1139,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].SubscriptionPath ==
             "GPS From Serial Port 3 Veripos LD5 #1@"
             "GPS.TimeInfo");
-    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].Values.size() == 1);
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].Values[0].Name == "TimeInfo");
     REQUIRE(xml1.ConfiguredSensors[1].Telegrams[2].Values[0].Priority == 2);
@@ -1164,7 +1164,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].SubscriptionPath ==
             "MotionBinary From Serial Port 4 Seapath 380-R3@"
             "MotionBinary.MotionData");
-    REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].Values.size() == 4);
     REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].Values[0].Name == "Roll");
     REQUIRE(xml1.ConfiguredSensors[2].Telegrams[0].Values[0].Priority == 1);
@@ -1195,7 +1195,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].SubscriptionPath ==
             "MotionBinary From Serial Port 5 IMU-108 #1@"
             "MotionBinary.MotionData");
-    REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].Values.size() == 4);
     REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].Values[0].Name == "Roll");
     REQUIRE(xml1.ConfiguredSensors[3].Telegrams[0].Values[0].Priority == 2);
@@ -1226,7 +1226,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].SubscriptionPath ==
             "ITI-FS From LAN Port 3 (FX In)@"
             "ITI-FS.ITI-FS");
-    REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].Values.size() == 1);
     REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].Values[0].Name == "ITI-FS");
     REQUIRE(xml1.ConfiguredSensors[4].Telegrams[0].Values[0].Priority == 1);
@@ -1251,7 +1251,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].SubscriptionPath ==
             "PI50 From LAN Port 4 (PX In)@"
             "PI50.PI50");
-    REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].Values.size() == 1);
     REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].Values[0].Name == "PI50");
     REQUIRE(xml1.ConfiguredSensors[5].Telegrams[0].Values[0].Priority == 1);
@@ -1276,7 +1276,7 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
     REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].SubscriptionPath ==
             "Sound Speed From LAN Port 5 (SV SB DK In)@"
             "SoundVelocity.SoundVelocity");
-    REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].Enabled == 1);
+    REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].Enabled == true);
     REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].Values.size() == 1);
     REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].Values[0].Name == "SoundVelocityTransducer");
     REQUIRE(xml1.ConfiguredSensors[6].Telegrams[0].Values[0].Priority == 1);

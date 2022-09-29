@@ -50,7 +50,7 @@ struct TAG0 : public SimradDatagram
     {
     }
     TAG0(std::string text_anotation)
-        : SimradDatagram(12 + text_anotation.size(), simrad_long(t_SimradDatagramType::TAG0))
+        : SimradDatagram(simrad_long(12 + text_anotation.size()), simrad_long(t_SimradDatagramType::TAG0))
         , _Text(std::move(text_anotation))
     {
     }
@@ -95,7 +95,7 @@ struct TAG0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = 12 + _Text.size();
+        _Length       = simrad_long(12 + _Text.size());
         _DatagramType = simrad_long(t_SimradDatagramType::TAG0);
         SimradDatagram::to_stream(os);
         os.write(_Text.data(), _Text.size());

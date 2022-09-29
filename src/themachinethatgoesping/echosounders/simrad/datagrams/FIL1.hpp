@@ -154,9 +154,9 @@ struct FIL1 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _NoOfCoefficients = _Coefficients.size() / 2;
+        _NoOfCoefficients = simrad_short(_Coefficients.size() / 2);
 
-        _Length       = _Coefficients.size() * sizeof(simrad_float) + 148;
+        _Length       = simrad_long(_Coefficients.size() * sizeof(simrad_float) + 148);
         _DatagramType = simrad_long(t_SimradDatagramType::FIL1);
         _ChannelID.resize(128, '\x00');
 

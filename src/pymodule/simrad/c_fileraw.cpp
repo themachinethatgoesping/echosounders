@@ -192,12 +192,12 @@ void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 
     auto it  = ifi.get_iterator<datagrams::SimradUnknown>();
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0, it.size(), "test reading");
+    prg.init(0., double(it.size()), "test reading");
 
     double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(i);
+        auto dg = it.at(long(i));
         t += dg.get_timestamp();
         prg.tick();
     }
@@ -216,12 +216,12 @@ void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramTy
 
     auto it  = ifi.get_iterator<T_DatagramType>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0, it.size(), "test reading");
+    prg.init(0., double(it.size()), "test reading");
 
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(i);
+        auto dg = it.at(long(i));
         // t += dg.get_timestamp();
         prg.tick();
     }
@@ -239,7 +239,7 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
 
     auto it  = ifi.get_iterator<datagrams::NME0>(t_SimradDatagramType::NME0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0, it.size(), "test reading");
+    prg.init(0., double(it.size()), "test reading");
 
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
@@ -284,7 +284,7 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
 
     auto it  = ifi.get_iterator<datagrams::XML0>(t_SimradDatagramType::XML0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0, it.size(), "test reading");
+    prg.init(0., double(it.size()), "test reading");
 
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
@@ -359,12 +359,12 @@ void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramTyp
 
     auto it  = ifi.get_iterator<datagrams::SimradDatagram>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
-    prg.init(0, it.size(), "test reading");
+    prg.init(0., double(it.size()), "test reading");
 
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(i);
+        auto dg = it.at(long(i));
         // t += dg.get_timestamp();
         prg.tick();
     }

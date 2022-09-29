@@ -80,7 +80,7 @@ struct SimradUnknown : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length = 12 + raw_content.size();
+        _Length = simrad_long(12 + raw_content.size());
         SimradDatagram::to_stream(os);
 
         os.write(raw_content.data(), raw_content.size());
