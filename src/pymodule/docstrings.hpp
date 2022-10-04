@@ -73,6 +73,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_4 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_I_InputFile_5 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_active_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_append_file = R"doc()doc";
@@ -151,6 +153,14 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Pack
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_FileRaw_4 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_callback_scan_new_file_begin = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_callback_scan_new_file_end = R"doc()doc";
@@ -163,6 +173,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_data
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_to_string = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_mru0_packets = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_nme0_packets = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_mru0_packets = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_nme0_packets = R"doc()doc";
@@ -170,6 +186,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_nme0
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_packet_buffer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_process_navigation = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_process_navigation_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagram_type_from_string = R"doc()doc";
 

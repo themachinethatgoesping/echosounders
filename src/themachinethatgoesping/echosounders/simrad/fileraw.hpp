@@ -10,6 +10,7 @@
 #include <magic_enum.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
@@ -29,28 +30,31 @@ class FileRaw
 {
   public:
     // inherit constructors
-    using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>::
-        I_InputFile;
+    // This does not work, because I_InputFile calls append before the callback functions are overwritten
+    // Thus inheriting constructors would lead to calling the callback functions of the base class
+    // using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>::
+    //     I_InputFile;
+
+    FileRaw(const std::string& file_path, bool show_progress = true)
+    {
+        this->append_file(file_path, show_progress);
+    }
+    FileRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
+    {
+        this->append_file(file_path, progress_bar);
+    }
+
+    FileRaw(const std::vector<std::string>& file_paths, bool show_progress)
+    {
+        this->append_files(file_paths, show_progress);
+    }
+    FileRaw(const std::vector<std::string>&     file_paths,
+                tools::progressbars::I_ProgressBar& progress_bar)
+    {
+        this->append_files(file_paths, progress_bar);
+    }
     ~FileRaw() = default;
 
-    // using fileinterfaces::I_InputFile<datagrams::SimradDatagram, simrad_long>::append_file;
-    // using fileinterfaces::I_InputFile<datagrams::SimradDatagram, simrad_long>::append_files;
-
-    // std::vector<FileDatagramEntry> GetDatagramEntries() const;
-
-    // void                                         ScanFileStream(std::ifstream& stream);
-    // const Ek60::Datagram                         GetConfigurationDatagram(std::ifstream& stream);
-    // const std::shared_ptr<ConfigurationDatagram> GetConfiguration(std::ifstream& stream);
-    // bool FindFirstDatagramEntryForTime(unsigned long      highdate,
-    //                                    unsigned long      lowdate,
-    //                                    FileDatagramEntry& entry);
-    // bool FindNextSmallerDatagramEntryForTime(unsigned long      highdate,
-    //                                          unsigned long      lowdate,
-    //                                          FileDatagramEntry& entry);
-    // bool FindNextBiggerDatagramEntryForTime(unsigned long      highdate,
-    //                                         unsigned long      lowdate,
-    //                                         FileDatagramEntry& entry);
-    // bool FindDatagramEntryForPosition(unsigned int position, FileDatagramEntry& entry);
 
     // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_SimradDatagramType datagram_type) const final
@@ -83,6 +87,107 @@ class FileRaw
         }
     }
 
+    navigation::NavigationInterpolatorLatLon process_navigation(bool show_progress = true)
+    {
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
+        return process_navigation(progress_bar.get());
+    }
+
+    navigation::NavigationInterpolatorLatLon process_navigation(
+        tools::progressbars::I_ProgressBar& progress_bar)
+    {
+        auto sensor_configuration = _packet_buffer.configuration.get_sensor_configuration();
+
+        auto navi = navigation::NavigationInterpolatorLatLon(std::move(sensor_configuration));
+
+        progress_bar.init(
+            0.,
+            double(_packet_buffer.nme0_packets.size() + _packet_buffer.mru0_packets.size()),
+            "scanning navigation data");
+
+        progress_bar.set_postfix("scanning navigation data (NME0) ");
+        std::vector<double> lats, lons, gps_times, altitudes;
+
+        for (const auto& nme0 : _packet_buffer.nme0_packets)
+        {
+            if (nme0.get_sentence_type() == "GGA")
+            {
+                auto nmea_timestamp = nme0.get_timestamp();
+                if(!gps_times.empty())
+                    if (!(gps_times.back() < nmea_timestamp))
+                            continue;
+
+                auto gga = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
+                auto lat = gga.get_latitude();
+                auto lon = gga.get_longitude();
+                auto alt = gga.get_altitude();
+
+                if (!std::isfinite(lat) || !std::isfinite(lon) || !std::isfinite(alt))
+                    continue;
+
+                lats.push_back(lat);
+                lons.push_back(lon);
+                gps_times.push_back(nmea_timestamp);
+                altitudes.push_back(alt);
+            }
+
+            progress_bar.tick();
+        }
+
+        progress_bar.set_postfix("scanning navigation data (MRU0) ");
+        std::vector<double> headings, pitchs, rolls, heaves, mru0_times;
+
+        for (const auto& mru0 : _packet_buffer.mru0_packets)
+        {
+            auto mru_timestamp = mru0.get_timestamp();
+            if(!mru0_times.empty())
+                if (!(mru0_times.back() < mru_timestamp))
+                    continue;
+
+            auto heading = mru0.get_heading();
+            auto pitch = mru0.get_pitch();
+            auto roll = mru0.get_roll();
+            auto heave = mru0.get_heave();
+
+            if(!std::isfinite(heading) || !std::isfinite(pitch) || !std::isfinite(roll) || !std::isfinite(heave))
+                continue;
+
+            headings.push_back(heading);
+            pitchs.push_back(pitch);
+            rolls.push_back(roll);
+            heaves.push_back(heave);
+            mru0_times.push_back(mru_timestamp);
+
+            progress_bar.tick();
+        }
+
+        progress_bar.set_postfix("initializing navigation interpolator");
+        navi.set_data_attitude(mru0_times, pitchs, rolls);
+        navi.set_data_heading(mru0_times, headings);
+        navi.set_data_heave(mru0_times, heaves);
+        navi.set_data_position(gps_times, lats, lons);
+        // TODO: ALtitude / depth?
+
+        progress_bar.close(fmt::format("Processed {} NMEA packages and {} MRU0 packages",
+                                       _packet_buffer.nme0_packets.size(),
+                                       _packet_buffer.mru0_packets.size()));
+
+        return navi;
+    }
+
+    datagrams::xml_datagrams::XML_Configuration get_configuration()
+    {
+        return _packet_buffer.configuration;
+    }
+    std::vector<datagrams::NME0> get_nme0_packets()
+    {
+        return _packet_buffer.nme0_packets;
+    }
+    std::vector<datagrams::MRU0> get_mru0_packets()
+    {
+        return _packet_buffer.mru0_packets;
+    }
+
   protected:
     struct
     {
@@ -95,10 +200,13 @@ class FileRaw
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
+        _packet_buffer.nme0_packets.clear();
+        _packet_buffer.mru0_packets.clear();
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
     {
+        process_navigation(false);
     }
 
     datagrams::SimradDatagram callback_scan_packet(t_ifstream& ifs) final

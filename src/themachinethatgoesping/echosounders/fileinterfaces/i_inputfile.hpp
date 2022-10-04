@@ -65,6 +65,7 @@ class I_InputFile
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
     PackageInfoPtrByTypeMap<t_DatagramIdentifier> _package_infos_by_type;
 
+    I_InputFile() = default;
   public:
     I_InputFile(const std::string& file_path, bool show_progress = true)
     {
@@ -143,7 +144,8 @@ class I_InputFile
     t_DatagramType get_datagram(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
-        long index = python_index < 0 ? long(_package_infos_all->size()) + python_index : python_index;
+        long index =
+            python_index < 0 ? long(_package_infos_all->size()) + python_index : python_index;
 
         if (index < 0)
             throw pybind11::index_error(
