@@ -175,15 +175,9 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         py::arg("index_max")  = std::numeric_limits<long>::max(),
         py::arg("index_step") = 1);
 
-    cls.def("process_navigation", py::overload_cast<bool>(&FileRaw<T_FileStream>::process_navigation),
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, process_navigation),
-            py::arg("show_progress") = true);
-    cls.def("get_configuration", &FileRaw<T_FileStream>::get_configuration,
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, get_configuration));
-    cls.def("get_nme0_packets", &FileRaw<T_FileStream>::get_nme0_packets,
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, get_nme0_packets));
-    cls.def("get_mru0_packets", &FileRaw<T_FileStream>::get_mru0_packets,
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, get_mru0_packets));
+    cls.def("get_navigation_interpolators",
+            &FileRaw<T_FileStream>::get_navigation_interpolators,
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, navigation_interpolators));
 
     // ----- ping convenience functions -----
     /* default copy functions */

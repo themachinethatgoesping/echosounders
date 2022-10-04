@@ -177,9 +177,13 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_mru0_packets = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_navigation_interpolators = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_nme0_packets = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_mru0_packets = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_nme0_packets = R"doc()doc";
 

@@ -29,6 +29,13 @@ class FileRaw
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
   public:
+    std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>> _navigation_interpolators =
+        std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
+
+    const std::vector<navigation::NavigationInterpolatorLatLon>& get_navigation_interpolators() const
+    {
+        return *_navigation_interpolators;
+    }
     // inherit constructors
     // This does not work, because I_InputFile calls append before the callback functions are overwritten
     // Thus inheriting constructors would lead to calling the callback functions of the base class
@@ -206,7 +213,10 @@ class FileRaw
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
     {
-        process_navigation(false);
+        if (_navigation_interpolators->size() != file_paths_cnt)
+            throw std::runtime_error("Internal error: _navigation_interpolators.size() != file_paths_cnt");
+
+        _navigation_interpolators->push_back(process_navigation(false));
     }
 
     datagrams::SimradDatagram callback_scan_packet(t_ifstream& ifs) final
