@@ -23,7 +23,7 @@ sources = [
     'simrad/datagrams/xml_datagrams/xml_sensor.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_pingsequence.test.cpp',
     'simrad/datagrams/xml_datagrams/xml_configuration.test.cpp',
-    'simrad/datagrams/xml_datagrams/channelconfiguration.test.cpp'
+    'simrad/datagrams/xml_datagrams/channel_configuration.test.cpp'
 ]
 
 foreach source : sources
