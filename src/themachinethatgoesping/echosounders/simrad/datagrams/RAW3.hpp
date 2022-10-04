@@ -166,7 +166,6 @@ struct RAW3 : public SimradDatagram
     // ----- file I/O -----
     static RAW3 from_stream(std::istream& is, SimradDatagram header)
     {
-        auto pos = is.tellg();
         RAW3 datagram(std::move(header));
         // datagram._ChannelID.resize(128);
 
