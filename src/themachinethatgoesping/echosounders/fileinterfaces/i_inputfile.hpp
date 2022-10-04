@@ -53,7 +53,7 @@ class I_InputFile
     {
         if (long(file_nr) != active_file_nr)
         {
-            active_file_nr = file_nr;
+            active_file_nr = long(file_nr);
             _input_file_stream =
                 std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
         }
@@ -143,7 +143,7 @@ class I_InputFile
     t_DatagramType get_datagram(const long python_index)
     {
         // convert from python index (can be negative) to C++ index
-        long index = python_index < 0 ? _package_infos_all->size() + python_index : python_index;
+        long index = python_index < 0 ? long(_package_infos_all->size()) + python_index : python_index;
 
         if (index < 0)
             throw pybind11::index_error(
@@ -242,14 +242,14 @@ class I_InputFile
         size_t packages_old    = _package_infos_all->size();
         active_file_nr         = -1;
 
-        progress_bar.init(0, total_file_size, "indexing files");
+        progress_bar.init(0., double(total_file_size), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
             progress_bar.set_postfix(fmt::format("get file size {}/{}", i + 1, file_paths.size()));
             total_file_size += std::filesystem::file_size(file_paths[i]);
         }
 
-        progress_bar.init(0, total_file_size, "indexing files");
+        progress_bar.init(0, double(total_file_size), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
             // progress_bar.set_postfix with the last 30 characters of the file path
@@ -359,7 +359,7 @@ class I_InputFile
                                         ///< initialized within this function
         if (!progress_bar.is_initialized())
         {
-            progress_bar.init(0, file_info.file_size, "indexing file");
+            progress_bar.init(0., double(file_info.file_size), "indexing file");
             close_progressbar = true;
         }
         auto pos = ifs.tellg();
@@ -379,7 +379,7 @@ class I_InputFile
                     // update using tick to allow progressbar that was initialized by
                     // append_files to work
                     auto pos_new = ifs.tellg();
-                    progress_bar.tick(pos_new - pos);
+                    progress_bar.tick(double(pos_new - pos));
 
                     PackageInfo<t_DatagramIdentifier> package_info;
                     package_info.file_nr             = file_paths_cnt;

@@ -244,7 +244,7 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
     // double t = 0;
-    for (size_t i = 0; i < it.size(); ++i)
+    for (long i = 0; i < long(it.size()); ++i)
     {
         NMEA_0183_type nmea_sentence = it.at(i).decode();
 
@@ -289,7 +289,7 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
     // double t = 0;
-    for (size_t i = 0; i < it.size(); ++i)
+    for (long i = 0; i < long(it.size()); ++i)
     {
         auto xml = it.at(i);
 
@@ -362,9 +362,9 @@ void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramTyp
     prg.init(0., double(it.size()), "test reading");
 
     // double t = 0;
-    for (size_t i = 0; i < it.size(); ++i)
+    for (long i = 0; i < long(it.size()); ++i)
     {
-        auto dg = it.at(long(i));
+        auto dg = it.at(i);
         // t += dg.get_timestamp();
         prg.tick();
     }

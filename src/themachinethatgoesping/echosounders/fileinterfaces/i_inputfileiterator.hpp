@@ -120,7 +120,7 @@ class I_InputFileIterator
         // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
         if (long(file_nr) != active_file_nr)
         {
-            active_file_nr = file_nr;
+            active_file_nr = long(file_nr);
             _input_file_stream =
                 std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
         }
@@ -147,13 +147,13 @@ class I_InputFileIterator
         bool ivn_min = false;
         if (index_max < 0)
         {
-            index_max = _package_infos->size() + index_max;
+            index_max = long(_package_infos->size()) + index_max;
             ivn_max   = true;
         }
 
         if (index_min < 0)
         {
-            index_min = _package_infos->size() + index_min;
+            index_min = long(_package_infos->size()) + index_min;
             ivn_min   = true;
         }
 
@@ -205,7 +205,7 @@ class I_InputFileIterator
     size_t size() const
     {
         if (_is_slice)
-            return (_index_max - _index_min + 1) / std::abs(_index_step);
+            return size_t((_index_max - _index_min + 1) / std::abs(_index_step));
         return _package_infos->size();
     }
 
@@ -221,9 +221,9 @@ class I_InputFileIterator
 
             if (index < 0)
                 index +=
-                    _index_max + std::abs(_index_step); //_index_max == _package_infos->size()-1
+                    long(_index_max) + std::abs(_index_step); //_index_max == _package_infos->size()-1
             else
-                index += _index_min;
+                index += long(_index_min);
 
             // TODO: fix error messages
             if (size_t(index) > _index_max)
@@ -234,7 +234,7 @@ class I_InputFileIterator
         {
             // convert from python index (can be negative) to C++ index
             if (index < 0)
-                index += _package_infos->size();
+                index += long(_package_infos->size());
             // index = python_index < 0 ? _package_infos->size() + python_index : python_index;
 
             if (size_t(index) >= _package_infos->size())
