@@ -104,9 +104,18 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(dat2 == RAW3::from_binary(dat2.to_binary()));
 
         // test stream
-        std::stringstream buffer;
-        dat.to_stream(buffer);
-        REQUIRE(dat == RAW3(dat.from_stream(buffer)));
+        std::stringstream buffer1, buffer2;
+        dat.to_stream(buffer1);
+        REQUIRE(dat == RAW3(dat.from_stream(buffer1)));
+
+        // test reading header only
+        dat.to_stream(buffer2);
+        auto dat3 = RAW3::from_stream(buffer2, true);
+        if (!std::holds_alternative<RAW3_DataSkipped>(dat._SampleData))
+            REQUIRE(dat3 != dat);
+            
+        dat3.set_sample_data(dat.get_sample_data());
+        REQUIRE(dat3 == dat);
 
         // test print does not crash
         REQUIRE(dat.info_string().size() != 0);

@@ -37,6 +37,18 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
+struct RAW3HeaderFactory
+{
+    static datagrams::RAW3 from_stream(std::istream& is)
+    {
+        return datagrams::RAW3::from_stream(is, true);
+    }
+    static datagrams::RAW3 from_stream(std::istream& is, t_SimradDatagramType type)
+    {
+        return datagrams::RAW3::from_stream(is, type, true);
+    }
+};
+
 //#define CLASS_FILERAW(FileRaw<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
 void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
@@ -74,6 +86,8 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         cls, t_SimradDatagramType::TAG0, "TAG0");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3>(
         cls, t_SimradDatagramType::RAW3, "RAW3");
+    py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3, RAW3HeaderFactory>(
+        cls, t_SimradDatagramType::RAW3, "RAW3_header");
 
     //----- iterators via () operator -----
     cls.def(
@@ -393,6 +407,7 @@ void init_c_fileraw(pybind11::module& m)
     create_IteratorTypes<datagrams::TAG0, t_SimradDatagramType>(m, "FileRawIterator_TAG0");
     create_IteratorTypes<datagrams::FIL1, t_SimradDatagramType>(m, "FileRawIterator_FIL1");
     create_IteratorTypes<datagrams::RAW3, t_SimradDatagramType>(m, "FileRawIterator_RAW3");
+    create_IteratorTypes<datagrams::RAW3, t_SimradDatagramType, RAW3HeaderFactory>(m, "FileRawIterator_RAW3_header");
     create_IteratorTypes<datagrams::XML0, t_SimradDatagramType>(m, "FileRawIterator_XML0");
     create_IteratorTypes<datagrams::NME0, t_SimradDatagramType>(m, "FileRawIterator_NME0");
     create_IteratorTypes<datagrams::t_SimradDatagramVariant,

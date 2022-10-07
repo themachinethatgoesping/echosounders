@@ -164,45 +164,59 @@ struct RAW3 : public SimradDatagram
     }
 
     // ----- file I/O -----
-    static RAW3 from_stream(std::istream& is, SimradDatagram header)
+    static RAW3 from_stream(std::istream&  is,
+                            SimradDatagram header,
+                            bool           skip_sample_data = false)
     {
-        RAW3 datagram(std::move(header));
-        // datagram._ChannelID.resize(128);
-
-        is.read(datagram._ChannelID.data(), 140);
-
         using namespace RAW3_datatypes;
 
-        switch (datagram._Datatype)
+        RAW3 datagram(std::move(header));
+        is.read(datagram._ChannelID.data(), 140);
+
+        if (skip_sample_data)
         {
-            case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32: {
-                datagram._SampleData = RAW3_DataComplexFloat32::from_stream(
-                    is, datagram._Count, datagram._Count, datagram.get_number_of_complex_samples());
+            datagram._SampleData =
+                RAW3_DataSkipped::from_stream(is,
+                                              datagram._Count,
+                                              datagram.get_data_type(),
+                                              datagram.get_number_of_complex_samples());
+        }
+        else
+        {
+            switch (datagram._Datatype)
+            {
+                case RAW3_datatypes::t_RAW3_DataType::ComplexFloat32: {
+                    datagram._SampleData = RAW3_DataComplexFloat32::from_stream(
+                        is,
+                        datagram._Count,
+                        datagram._Count,
+                        datagram.get_number_of_complex_samples());
+                    break;
+                }
+                case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle: {
+                    datagram._SampleData =
+                        RAW3_DataPowerAndAngle::from_stream(is, datagram._Count, datagram._Count);
+                }
                 break;
+                case RAW3_datatypes::t_RAW3_DataType::Power:
+                    datagram._SampleData =
+                        RAW3_DataPower::from_stream(is, datagram._Count, datagram._Count);
+                    break;
+                case RAW3_datatypes::t_RAW3_DataType::Angle:
+                    datagram._SampleData =
+                        RAW3_DataAngle::from_stream(is, datagram._Count, datagram._Count);
+                    break;
+                default:
+                    std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
+                                             magic_enum::enum_name(datagram._Datatype))
+                              << std::endl;
+                    datagram._SampleData =
+                        RAW3_DataSkipped::from_stream(is,
+                                                      datagram._Count,
+                                                      datagram.get_data_type(),
+                                                      datagram.get_number_of_complex_samples());
+                    break;
             }
-            case RAW3_datatypes::t_RAW3_DataType::PowerAndAngle: {
-                datagram._SampleData =
-                    RAW3_DataPowerAndAngle::from_stream(is, datagram._Count, datagram._Count);
-            }
-            break;
-            case RAW3_datatypes::t_RAW3_DataType::Power:
-                datagram._SampleData =
-                    RAW3_DataPower::from_stream(is, datagram._Count, datagram._Count);
-                break;
-            case RAW3_datatypes::t_RAW3_DataType::Angle:
-                datagram._SampleData =
-                    RAW3_DataAngle::from_stream(is, datagram._Count, datagram._Count);
-                break;
-            default:
-                std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
-                                         magic_enum::enum_name(datagram._Datatype))
-                          << std::endl;
-                datagram._SampleData =
-                    RAW3_DataSkipped::from_stream(is,
-                                                  datagram._Count,
-                                                  datagram.get_data_type(),
-                                                  datagram.get_number_of_complex_samples());
-                break;
         }
 
         datagram._verify_datagram_end(is);
@@ -210,17 +224,23 @@ struct RAW3 : public SimradDatagram
         return datagram;
     }
 
-    static RAW3 from_stream(std::istream& is)
+    static RAW3 from_stream(std::istream& is, bool skip_sample_data = false)
     {
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3));
+        return from_stream(is,
+                           SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3),
+                           skip_sample_data);
     }
 
-    static RAW3 from_stream(std::istream& is, t_SimradDatagramType type)
+    static RAW3 from_stream(std::istream&        is,
+                            t_SimradDatagramType type,
+                            bool                 skip_sample_data = false)
     {
         if (type != t_SimradDatagramType::RAW3)
             throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3));
+        return from_stream(is,
+                           SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3),
+                           skip_sample_data);
     }
 
     void to_stream(std::ostream& os)

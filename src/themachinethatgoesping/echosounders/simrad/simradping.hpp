@@ -25,13 +25,15 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/ping.hpp"
+#include "../fileinterfaces/i_ping.hpp"
+#include "simradpinginterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-class SimradPing : public Ping
+template<typename t_ifstream = std::ifstream>
+class SimradPing : public fileinterfaces::I_Ping
 {
     double      timestamp;
     std::string channel;
@@ -39,13 +41,17 @@ class SimradPing : public Ping
     size_t      file_nr;
     size_t      ping_number;
 
-    std::shared_ptr<std::ifstream>                            file_stream;
-    std::
-    std::shared_ptr<navigation::NavigationInterpolatorLatLon> navigation_interpolator;
+    std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
 
   public:
-    Ping()          = default;
-    virtual ~Ping() = default;
+    SimradPing(std::shared_ptr<SimradPingInterface<t_ifstream>>         ping_interface,
+         const fileinterfaces::PackageInfo<t_SimradDatagramType>& package_info)
+        : _ping_interface(ping_interface)
+    {
+      timestamp = package_info.timestamp;
+
+    }
+    virtual ~SimradPing() = default;
 
     //------ interface ------//
     // virtual xt::xtensor<float, 2> get_SV() = 0;

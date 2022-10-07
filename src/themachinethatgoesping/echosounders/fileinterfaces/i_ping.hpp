@@ -29,11 +29,11 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-class Ping
+class I_Ping
 {
   public:
-    Ping() = default;
-    virtual ~Ping() = default;
+    I_Ping() = default;
+    virtual ~I_Ping() = default;
 
     //------ interface ------//
     //virtual xt::xtensor<float, 2> get_SV() = 0;

@@ -15,6 +15,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_inputfile.hpp"
+#include "simradping.hpp"
+#include "simradpinginterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -28,18 +30,31 @@ class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
-  public:
-    std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>> _navigation_interpolators =
-        std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
+    // std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
+    //     std::make_shared<SimradPingInterface<t_ifstream>>(
+    //         fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+    //                                     t_SimradDatagramType,
+    //                                     t_ifstream>::_package_infos_all,
+    //         fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+    //                                     t_SimradDatagramType,
+    //                                     t_ifstream>::_file_paths);
+    // std::shared_ptr<std::vector<SimradPing<t_ifstream>>> _pings;
 
-    const std::vector<navigation::NavigationInterpolatorLatLon>& get_navigation_interpolators() const
+  public:
+    std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
+        _navigation_interpolators =
+            std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
+
+    const std::vector<navigation::NavigationInterpolatorLatLon>& get_navigation_interpolators()
+        const
     {
         return *_navigation_interpolators;
     }
     // inherit constructors
-    // This does not work, because I_InputFile calls append before the callback functions are overwritten
-    // Thus inheriting constructors would lead to calling the callback functions of the base class
-    // using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>::
+    // This does not work, because I_InputFile calls append before the callback functions are
+    // overwritten Thus inheriting constructors would lead to calling the callback functions of the
+    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType,
+    // t_ifstream>::
     //     I_InputFile;
 
     FileRaw(const std::string& file_path, bool show_progress = true)
@@ -56,12 +71,11 @@ class FileRaw
         this->append_files(file_paths, show_progress);
     }
     FileRaw(const std::vector<std::string>&     file_paths,
-                tools::progressbars::I_ProgressBar& progress_bar)
+            tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
     }
     ~FileRaw() = default;
-
 
     // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_SimradDatagramType datagram_type) const final
@@ -120,9 +134,9 @@ class FileRaw
             if (nme0.get_sentence_type() == "GGA")
             {
                 auto nmea_timestamp = nme0.get_timestamp();
-                if(!gps_times.empty())
+                if (!gps_times.empty())
                     if (!(gps_times.back() < nmea_timestamp))
-                            continue;
+                        continue;
 
                 auto gga = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
                 auto lat = gga.get_latitude();
@@ -147,16 +161,17 @@ class FileRaw
         for (const auto& mru0 : _packet_buffer.mru0_packets)
         {
             auto mru_timestamp = mru0.get_timestamp();
-            if(!mru0_times.empty())
+            if (!mru0_times.empty())
                 if (!(mru0_times.back() < mru_timestamp))
                     continue;
 
             auto heading = mru0.get_heading();
-            auto pitch = mru0.get_pitch();
-            auto roll = mru0.get_roll();
-            auto heave = mru0.get_heave();
+            auto pitch   = mru0.get_pitch();
+            auto roll    = mru0.get_roll();
+            auto heave   = mru0.get_heave();
 
-            if(!std::isfinite(heading) || !std::isfinite(pitch) || !std::isfinite(roll) || !std::isfinite(heave))
+            if (!std::isfinite(heading) || !std::isfinite(pitch) || !std::isfinite(roll) ||
+                !std::isfinite(heave))
                 continue;
 
             headings.push_back(heading);
@@ -182,7 +197,6 @@ class FileRaw
         return navi;
     }
 
-
   protected:
     struct
     {
@@ -202,7 +216,8 @@ class FileRaw
                                     [[maybe_unused]] size_t             file_paths_cnt) final
     {
         if (_navigation_interpolators->size() != file_paths_cnt)
-            throw std::runtime_error("Internal error: _navigation_interpolators.size() != file_paths_cnt");
+            throw std::runtime_error(
+                "Internal error: _navigation_interpolators.size() != file_paths_cnt");
 
         _navigation_interpolators->push_back(process_navigation(false));
     }
@@ -230,6 +245,9 @@ class FileRaw
                     _packet_buffer.configuration =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
                 break;
+            }
+            case t_SimradDatagramType::RAW3: {
+                [[fallthrough]];
             }
             default: {
                 header.skip(ifs);
