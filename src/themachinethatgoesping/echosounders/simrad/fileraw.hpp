@@ -182,18 +182,6 @@ class FileRaw
         return navi;
     }
 
-    datagrams::xml_datagrams::XML_Configuration get_configuration()
-    {
-        return _packet_buffer.configuration;
-    }
-    std::vector<datagrams::NME0> get_nme0_packets()
-    {
-        return _packet_buffer.nme0_packets;
-    }
-    std::vector<datagrams::MRU0> get_mru0_packets()
-    {
-        return _packet_buffer.mru0_packets;
-    }
 
   protected:
     struct
