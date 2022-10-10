@@ -209,6 +209,7 @@ class I_InputFileIterator
         return _package_infos->size();
     }
 
+    template<typename t_ReturnDatagramType = t_DatagramType, typename t_ReturnDatagramTypeFactory = t_ReturnDatagramType>
     t_DatagramType at(long index)
     {
         if (_is_slice)

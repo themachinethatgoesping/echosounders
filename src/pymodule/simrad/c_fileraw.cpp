@@ -26,6 +26,7 @@
 
 #include "../fileinterfaces/i_inputfile.hpp"
 #include "../fileinterfaces/i_inputfileiterator.hpp"
+#include "../fileinterfaces/i_pingiterator.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -43,6 +44,7 @@ struct RAW3HeaderFactory
     {
         return datagrams::RAW3::from_stream(is, true);
     }
+    
     static datagrams::RAW3 from_stream(std::istream& is, t_SimradDatagramType type)
     {
         return datagrams::RAW3::from_stream(is, type, true);
@@ -88,6 +90,9 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         cls, t_SimradDatagramType::RAW3, "RAW3");
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3, RAW3HeaderFactory>(
         cls, t_SimradDatagramType::RAW3, "RAW3_header");
+
+    py_i_PingIterator::add_PingIterator<FileRaw<T_FileStream>, datagrams::RAW3>(
+        cls, "Pings");
 
     //----- iterators via () operator -----
     cls.def(
@@ -185,6 +190,16 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator_3),
         py::arg("datagram_type"),
+        py::arg("index_min")  = 0,
+        py::arg("index_max")  = std::numeric_limits<long>::max(),
+        py::arg("index_step") = 1);
+    cls.def(
+        "pings",
+        [](const FileRaw<T_FileStream>& self, long index_min, long index_max, long index_step) {
+            return py::cast(self.template pings(
+                index_min, index_max, index_step));
+        },
+        DOC(themachinethatgoesping, echosounders, simrad, FileRaw, pings_2),
         py::arg("index_min")  = 0,
         py::arg("index_max")  = std::numeric_limits<long>::max(),
         py::arg("index_step") = 1);
@@ -398,6 +413,7 @@ void init_c_fileraw(pybind11::module& m)
 
     // add python iterator classes
     using py_fileinterfaces::py_i_InputFileIterator::create_IteratorTypes;
+    using py_fileinterfaces::py_i_PingIterator::create_PingIteratorType;
 
     create_IteratorTypes<datagrams::SimradDatagram, t_SimradDatagramType>(m,
                                                                           "FileRawIterator_Header");
@@ -414,8 +430,12 @@ void init_c_fileraw(pybind11::module& m)
                          t_SimradDatagramType,
                          datagrams::SimradDatagramVariant>(m, "FileRawIterator_Variant");
 
+    create_PingIteratorType<SimradPing<std::ifstream>, std::ifstream>(m,"SimradPingIterator");
+    create_PingIteratorType<SimradPing<MappedFileStream>, MappedFileStream>(m,"SimradPingIterator_mapped");
+    
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");
+
 
     m.def("test_speed_raw",
           &test_speed_content<datagrams::SimradUnknown>,

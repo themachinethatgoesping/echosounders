@@ -28,10 +28,8 @@ namespace echosounders {
 namespace fileinterfaces {
 
 
-template<typename t_DatagramType,
-         typename t_DatagramIdentifier,
-         typename t_ifstream            = std::ifstream,
-         typename t_DatagramTypeFactory = t_DatagramType>
+template<typename t_DatagramIdentifier,
+         typename t_ifstream            = std::ifstream>
 class I_PingInterface
 {
   protected:
@@ -71,9 +69,9 @@ class I_PingInterface
         return _package_infos->size();
     }
 
-    t_DatagramType at(size_t index)
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    t_DatagramType at(const PackageInfo<t_DatagramIdentifier>& package_info)
     {
-        const auto& package_info = _package_infos->at(index);
         try
         {
             t_ifstream& ifs = get_active_stream(package_info.file_nr);
@@ -85,11 +83,15 @@ class I_PingInterface
         {
 
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
-            msg += fmt::format("index: {}\n", index);
-            msg += fmt::format("__package_infos->size(): {}\n", _package_infos->size());
             msg += fmt::format("pos: {}\n", package_info.file_pos);
             throw std::runtime_error(msg);
         }
+    }
+
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    t_DatagramType at(size_t index)
+    {
+        return this->at<t_DatagramType, t_DatagramTypeFactory>(_package_infos->at(index));
     }
 };
 

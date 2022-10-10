@@ -15,6 +15,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_inputfile.hpp"
+#include "../fileinterfaces/i_pingiterator.hpp"
 #include "simradping.hpp"
 #include "simradpinginterface.hpp"
 
@@ -30,15 +31,11 @@ class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
-    // std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
-    //     std::make_shared<SimradPingInterface<t_ifstream>>(
-    //         fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-    //                                     t_SimradDatagramType,
-    //                                     t_ifstream>::_package_infos_all,
-    //         fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-    //                                     t_SimradDatagramType,
-    //                                     t_ifstream>::_file_paths);
-    // std::shared_ptr<std::vector<SimradPing<t_ifstream>>> _pings;
+    const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
+        std::make_shared<SimradPingInterface<t_ifstream>>(this->_file_paths,
+                                                          this->_package_infos_all);
+    const std::shared_ptr<std::vector<SimradPing<t_ifstream>>> _pings =
+        std::make_shared<std::vector<SimradPing<t_ifstream>>>();
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -76,6 +73,15 @@ class FileRaw
         this->append_files(file_paths, progress_bar);
     }
     ~FileRaw() = default;
+
+    fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream> pings() const
+    {
+        return fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(this->_file_paths, _pings);
+    }
+    fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream> pings(long index_min, long index_max, long index_step) const
+    {
+        return fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(this->_file_paths, _pings, index_min, index_max, index_step);
+    }
 
     // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_SimradDatagramType datagram_type) const final
@@ -219,42 +225,69 @@ class FileRaw
             throw std::runtime_error(
                 "Internal error: _navigation_interpolators.size() != file_paths_cnt");
 
+        //TODO: this crashed for empty navigation data!
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
-    datagrams::SimradDatagram callback_scan_packet(t_ifstream& ifs) final
+    fileinterfaces::PackageInfo<t_SimradDatagramType> callback_scan_packet(
+        t_ifstream&                   ifs,
+        typename t_ifstream::pos_type pos,
+        size_t                        file_paths_cnt) final
     {
         auto header = datagrams::SimradDatagram::from_stream(ifs);
         auto type   = header.get_datagram_identifier();
+
+        fileinterfaces::PackageInfo<t_SimradDatagramType> package_info;
+        package_info.file_nr             = file_paths_cnt;
+        package_info.file_pos            = pos;
+        package_info.timestamp           = header.get_timestamp();
+        package_info.datagram_identifier = header.get_datagram_identifier();
 
         switch (type)
         {
             case t_SimradDatagramType::NME0: {
                 _packet_buffer.nme0_packets.emplace_back(datagrams::NME0::from_stream(ifs, header));
+
+                if (!ifs.good())
+                    _packet_buffer.nme0_packets.pop_back();
                 break;
             }
             case t_SimradDatagramType::MRU0: {
                 _packet_buffer.mru0_packets.emplace_back(datagrams::MRU0::from_stream(ifs, header));
+
+                if (!ifs.good())
+                    _packet_buffer.mru0_packets.pop_back();
                 break;
             }
             case t_SimradDatagramType::XML0: {
-                auto xml      = datagrams::XML0::from_stream(ifs, header);
+                auto xml = datagrams::XML0::from_stream(ifs, header);
+
+                if (!ifs.good())
+                    break;
+
                 auto xml_type = xml.get_xml_datagram_type();
 
                 if (xml_type == "Configuration")
                     _packet_buffer.configuration =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
+
                 break;
             }
             case t_SimradDatagramType::RAW3: {
-                [[fallthrough]];
+                _pings->emplace_back(
+                    _ping_interface, package_info, datagrams::RAW3::from_stream(ifs, header, true));
+
+                if (!ifs.good())
+                    _pings->pop_back();
+
+                break;
             }
             default: {
                 header.skip(ifs);
                 break;
             }
         }
-        return header;
+        return package_info;
     }
 
   public:

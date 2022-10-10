@@ -137,6 +137,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingInterface_at = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingInterface_at_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingInterface_file_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingInterface_get_active_stream = R"doc()doc";
@@ -239,6 +241,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_ping
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_pings = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_pings_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_pings_3 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_process_navigation = R"doc()doc";
@@ -259,7 +265,19 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIn
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingInterface_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_Ping = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_SimradPingRawData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_package_info_raw = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_data =
+R"doc(< when implementing EK60, this must become a variant type (RAW3 or
+RAW0))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_SimradPing = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_channel = R"doc()doc";
 
@@ -267,9 +285,11 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_f
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_ping_interface = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_ping_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_raw = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_raw_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_timestamp = R"doc()doc";
 

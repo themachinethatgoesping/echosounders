@@ -33,6 +33,29 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream = std::ifstream>
+class SimradPingRawData
+{
+    const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
+
+    fileinterfaces::PackageInfo<t_SimradDatagramType>
+        _package_info_raw; ///< this can be RAW3 (EK80) or RAW0 (EK60)
+
+  public:
+    datagrams::RAW3
+        _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
+
+  public:
+    SimradPingRawData(std::shared_ptr<SimradPingInterface<t_ifstream>>  ping_interface,
+                      fileinterfaces::PackageInfo<t_SimradDatagramType> package_info_raw,
+                      datagrams::RAW3                                   ping_data)
+        : _ping_interface(std::move(ping_interface))
+        , _package_info_raw(std::move(package_info_raw))
+        , _ping_data(std::move(ping_data))
+    {
+    }
+};
+
+template<typename t_ifstream = std::ifstream>
 class SimradPing : public fileinterfaces::I_Ping
 {
     double      timestamp;
@@ -41,17 +64,21 @@ class SimradPing : public fileinterfaces::I_Ping
     size_t      file_nr;
     size_t      ping_number;
 
-    std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
+    SimradPingRawData<t_ifstream> _raw;
 
   public:
-    SimradPing(std::shared_ptr<SimradPingInterface<t_ifstream>>         ping_interface,
-         const fileinterfaces::PackageInfo<t_SimradDatagramType>& package_info)
-        : _ping_interface(ping_interface)
+    SimradPing(std::shared_ptr<SimradPingInterface<t_ifstream>>  ping_interface,
+               fileinterfaces::PackageInfo<t_SimradDatagramType> package_info_raw,
+               datagrams::RAW3                                   ping_data)
+        : _raw(std::move(ping_interface), std::move(package_info_raw), std::move(ping_data))
     {
-      timestamp = package_info.timestamp;
-
+        //timestamp = package_info_raw.timestamp;
     }
     virtual ~SimradPing() = default;
+
+    const SimradPingRawData<t_ifstream>& raw() const { return _raw; }
+
+
 
     //------ interface ------//
     // virtual xt::xtensor<float, 2> get_SV() = 0;

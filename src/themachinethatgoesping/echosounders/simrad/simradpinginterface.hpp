@@ -26,7 +26,7 @@ namespace simrad {
 template<typename t_ifstream = std::ifstream>
 class SimradPingInterface
     : public fileinterfaces::
-          I_PingInterface<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
+          I_PingInterface<t_SimradDatagramType, t_ifstream>
 {
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>> _navigation_interpolators =
         std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
@@ -36,7 +36,7 @@ class SimradPingInterface
     SimradPingInterface(
         std::shared_ptr<std::vector<std::string>>                       file_paths,
         std::shared_ptr<std::vector<fileinterfaces::PackageInfo<t_SimradDatagramType>>> package_infos)
-        : SimradPingInterface(file_paths, package_infos)
+        : fileinterfaces::I_PingInterface<t_SimradDatagramType, t_ifstream>(file_paths, package_infos)
     {
     }
 
@@ -54,8 +54,7 @@ class SimradPingInterface
         tools::classhelpers::ObjectPrinter printer("SimradPingInterface", float_precision);
 
         auto interface_printer =
-            fileinterfaces::I_PingInterface<datagrams::SimradDatagram,
-                                        t_SimradDatagramType,
+            fileinterfaces::I_PingInterface<t_SimradDatagramType,
                                         t_ifstream>::__printer__(float_precision);
 
         printer.append(interface_printer);

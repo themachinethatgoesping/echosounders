@@ -41,7 +41,7 @@ class I_InputFile
 
   protected:
     /* some file information */
-    std::shared_ptr<std::vector<std::string>> _file_paths =
+    const std::shared_ptr<std::vector<std::string>> _file_paths =
         std::make_shared<std::vector<std::string>>();
     size_t _total_file_size = 0;
 
@@ -61,11 +61,12 @@ class I_InputFile
     }
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
+    const std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
     PackageInfoPtrByTypeMap<t_DatagramIdentifier> _package_infos_by_type;
 
     I_InputFile() = default;
+
   public:
     I_InputFile(const std::string& file_path, bool show_progress = true)
     {
@@ -331,11 +332,19 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual t_DatagramBase callback_scan_packet(t_ifstream& ifs)
+    virtual PackageInfo<t_DatagramIdentifier> callback_scan_packet(t_ifstream&          ifs,
+                                                                   typename t_ifstream::pos_type pos,
+                                                                   size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
-        return header;
+
+        PackageInfo<t_DatagramIdentifier> package_info;
+        package_info.file_nr             = file_paths_cnt;
+        package_info.file_pos            = pos;
+        package_info.timestamp           = header.get_timestamp();
+        package_info.datagram_identifier = header.get_datagram_identifier();
+        return package_info;
     }
 
     // This function must be called at initialization!
@@ -373,7 +382,8 @@ class I_InputFile
                 //  this function may return nonsense...
                 // auto header = t_DatagramBase::from_stream(ifs);
                 // header.skip(ifs);
-                auto header = callback_scan_packet(ifs);
+                // auto header = callback_scan_packet(ifs);
+                auto package_info = callback_scan_packet(ifs, pos, file_paths_cnt);
 
                 // this function checks if the package content is senseful
                 if (ifs.good())
@@ -382,12 +392,6 @@ class I_InputFile
                     // append_files to work
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));
-
-                    PackageInfo<t_DatagramIdentifier> package_info;
-                    package_info.file_nr             = file_paths_cnt;
-                    package_info.file_pos            = pos;
-                    package_info.timestamp           = header.get_timestamp();
-                    package_info.datagram_identifier = header.get_datagram_identifier();
 
                     package_infos_all.push_back(package_info);
                     auto& package_infos_type =

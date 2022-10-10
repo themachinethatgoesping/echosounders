@@ -27,17 +27,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_DatagramIdentifier>
-struct PackageInfo
-{
-    size_t                  file_nr;  ///< file number of this package
-    std::ifstream::pos_type file_pos; ///< file position of this package TODO: is this the same for
-                                      ///< ifstream and MappedFileStream?
-    double               timestamp;   ///< timestamp (unixtime) of this package
-    t_DatagramIdentifier datagram_identifier; ///< datagram type of this package
-};
-
-template<typename t_PingType typename t_ifstream = std::ifstream>
+template<typename t_PingType, typename t_ifstream = std::ifstream>
 class I_PingIterator
 {
   protected:
@@ -77,19 +67,19 @@ class I_PingIterator
             throw(std::out_of_range("InputFileIterator: index_step is zero!"));
 
         if (index_max == std::numeric_limits<long>::max())
-            index_max = _package_infos->size();
+            index_max = _pings->size();
 
         bool ivn_max = false;
         bool ivn_min = false;
         if (index_max < 0)
         {
-            index_max = long(_package_infos->size()) + index_max;
+            index_max = long(_pings->size()) + index_max;
             ivn_max   = true;
         }
 
         if (index_min < 0)
         {
-            index_min = long(_package_infos->size()) + index_min;
+            index_min = long(_pings->size()) + index_min;
             ivn_min   = true;
         }
 
@@ -102,9 +92,9 @@ class I_PingIterator
 
         index_max = index_max - 1 * (!ivn_max);
 
-        if (index_min < 0 || index_min >= long(_package_infos->size()))
+        if (index_min < 0 || index_min >= long(_pings->size()))
             throw(std::out_of_range("InputFileIterator: index_min is out of bounds!"));
-        if (index_max < 0 || index_max >= long(_package_infos->size()))
+        if (index_max < 0 || index_max >= long(_pings->size()))
             throw(std::out_of_range("InputFileIterator: index_max is out of bounds!"));
         if (index_min >= index_max)
             throw(std::out_of_range("InputFileIterator: _index_min >= _index_max!"));
@@ -140,10 +130,10 @@ class I_PingIterator
     {
         if (_is_slice)
             return size_t((_index_max - _index_min + 1) / std::abs(_index_step));
-        return _package_infos->size();
+        return _pings->size();
     }
 
-    t_DatagramType at(long index)
+    t_PingType at(long index)
     {
         if (_is_slice)
         {
@@ -155,7 +145,7 @@ class I_PingIterator
 
             if (index < 0)
                 index += long(_index_max) +
-                         std::abs(_index_step); //_index_max == _package_infos->size()-1
+                         std::abs(_index_step); //_index_max == _pings->size()-1
             else
                 index += long(_index_min);
 
@@ -168,12 +158,12 @@ class I_PingIterator
         {
             // convert from python index (can be negative) to C++ index
             if (index < 0)
-                index += long(_package_infos->size());
-            // index = python_index < 0 ? _package_infos->size() + python_index : python_index;
+                index += long(_pings->size());
+            // index = python_index < 0 ? _pings->size() + python_index : python_index;
 
-            if (size_t(index) >= _package_infos->size())
+            if (size_t(index) >= _pings->size())
                 throw std::out_of_range(
-                    fmt::format("Index [{}] is >= max [{}]! ", index, _package_infos->size()));
+                    fmt::format("Index [{}] is >= max [{}]! ", index, _pings->size()));
         }
 
         if (index < long(_index_min))
