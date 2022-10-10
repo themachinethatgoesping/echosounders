@@ -88,26 +88,26 @@ class SimradPing : public fileinterfaces::I_Ping
     const SimradPingRawData<t_ifstream>& raw() const { return _raw; }
 
     // ----- I_Ping interface -----
-    size_t max_number_of_samples() const final
+    size_t get_number_of_samples() const final
     {
         return _raw._ping_data.get_count();
     }
 
-    xt::xtensor<float, 2> get_sv() final
+    xt::xtensor<float, 2> get_sv(bool dB = false) final
     {
         auto                  sample_data = _raw.sample_data();
         xt::xtensor<float, 1> sv =
-            tools::helper::visit_variant(sample_data, [](auto& data) { return data.get_power(); });
+            tools::helper::visit_variant(sample_data, [dB](auto& data) { return data.get_power(dB); });
 
         // convert sv to 2d xtensor and return
         return xt::view(sv, xt::newaxis(), xt::all());
     }
 
-    xt::xtensor<float, 1> get_sv_stacked() final
+    xt::xtensor<float, 1> get_sv_stacked(bool dB = false) final
     {
         auto                  sample_data = _raw.sample_data();
         xt::xtensor<float, 1> sv =
-            tools::helper::visit_variant(sample_data, [](auto& data) { return data.get_power(); });
+            tools::helper::visit_variant(sample_data, [dB](auto& data) { return data.get_power(dB); });
 
         // convert sv to 2d xtensor and return
         return sv;

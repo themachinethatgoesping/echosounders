@@ -55,7 +55,8 @@ void init_c_raw3_datacomplexfloat32(pybind11::module& m)
 
         .def("get_power",
              &RAW3_DataComplexFloat32::get_power,
-             DOC_RAW3_DataComplexFloat32(get_power))
+             DOC_RAW3_DataComplexFloat32(get_power),
+             py::arg("dB") = false)
         .def("get_angle",
              &RAW3_DataComplexFloat32::get_angle,
              DOC_RAW3_DataComplexFloat32(get_angle))

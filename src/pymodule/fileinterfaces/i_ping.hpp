@@ -25,11 +25,10 @@ void add_ping_interface(T_PyClass& cls)
     namespace py = pybind11;
 
     cls.def(
-            "max_number_of_samples",
-            &T_BaseClass::max_number_of_samples,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, max_number_of_samples));
+        "get_number_of_samples",
+        &T_BaseClass::get_number_of_samples,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, get_number_of_samples));
 }
-
 
 }
 }

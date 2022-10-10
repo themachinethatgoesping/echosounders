@@ -129,11 +129,11 @@ class I_PingIterator
     size_t size() const
     {
         if (_is_slice)
-            return size_t((_index_max - _index_min + 1) / std::abs(_index_step));
+            return size_t((_index_max - _index_min) / std::abs(_index_step)) + 1; //TODO this needs to be checked
         return _pings->size();
     }
 
-    size_t find_max_samples() const
+    size_t max_number_of_samples() const
     {
         size_t max_samples = 0;
         for (const auto& ping : *_pings)

@@ -53,11 +53,19 @@ struct RAW3_DataPower : public i_RAW3_Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return false; }
 
-    xt::xtensor<simrad_float, 1> get_power() const final
+    xt::xtensor<simrad_float, 1> get_power(bool dB = false) const final
     {
         static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
 
-        return xt::xtensor<simrad_float, 1>(xt::eval(_power * conv_factor));
+        if (dB)
+        {
+            return xt::xtensor<simrad_float, 1>(xt::eval(_power * conv_factor));
+        }
+        else
+        {
+            auto r1 = xt::eval(_power * conv_factor);
+            return xt::xtensor<simrad_float, 1>(xt::eval(xt::pow(10.f, r1 / 10.f)));
+        }
     }
 
     // ----- operator overloads -----

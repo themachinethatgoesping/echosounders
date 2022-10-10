@@ -50,7 +50,7 @@ class i_RAW3_Data
     virtual bool has_power() const { return false; }
     virtual bool has_angle() const { return false; }
 
-    virtual xt::xtensor<simrad_float, 1> get_power() const
+    virtual xt::xtensor<simrad_float, 1> get_power([[maybe_unused]] bool dB = false) const
     {
         throw std::runtime_error("get_power() not implemented for " + std::string(_name));
     }

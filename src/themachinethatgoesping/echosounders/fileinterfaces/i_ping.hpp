@@ -41,18 +41,18 @@ class I_Ping
     virtual ~I_Ping() = default;
 
     //------ interface ------//
-    virtual size_t max_number_of_samples() const
+    virtual size_t get_number_of_samples() const
     {
         throw std::runtime_error(
             fmt::format("get_number_of_samples not implemented for this ping type ({})", _name));
     }
 
-    virtual xt::xtensor<float, 2> get_sv()
+    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
     {
         throw std::runtime_error(
             fmt::format("get_sv not implemented for this ping type ({})", _name));
     }
-    virtual xt::xtensor<float, 1> get_sv_stacked()
+    virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
         throw std::runtime_error(
             fmt::format("get_sv_stacked not implemented for this ping type ({})", _name));

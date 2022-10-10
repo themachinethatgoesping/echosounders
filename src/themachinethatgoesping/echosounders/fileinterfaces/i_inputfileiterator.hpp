@@ -205,7 +205,7 @@ class I_InputFileIterator
     size_t size() const
     {
         if (_is_slice)
-            return size_t((_index_max - _index_min + 1) / std::abs(_index_step));
+            return size_t((_index_max - _index_min) / std::abs(_index_step)) + 1; //TODO this needs to be checked
         return _package_infos->size();
     }
 

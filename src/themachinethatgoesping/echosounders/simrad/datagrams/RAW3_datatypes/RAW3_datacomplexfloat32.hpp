@@ -52,13 +52,22 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<simrad_float, 1> get_power() const final
+    xt::xtensor<simrad_float, 1> get_power(bool dB = false) const final
     {
         // ToDo: can this be done faster? (it is pretty fast already, so benchmark first)
         // auto r1 = xt::eval(xt::sum(_complex_samples, 0));
         auto r1 = xt::eval(xt::sum(_complex_samples, 1));
 
-        return xt::xtensor<simrad_float, 1>(xt::eval(xt::sum(xt::eval(r1 * r1), 1)));
+        if (!dB)
+        {
+            return xt::xtensor<simrad_float, 1>(xt::eval(xt::sum(xt::eval(r1 * r1), 1)));
+        }
+        else
+        {
+
+            auto r2 = xt::eval(xt::sum(xt::eval(r1 * r1), 1));
+            return xt::xtensor<simrad_float, 1>(xt::eval(10*xt::log10(r2)));
+        }
     }
     xt::xtensor<simrad_float, 2> get_angle() const final
     {
