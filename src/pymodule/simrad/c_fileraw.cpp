@@ -91,7 +91,8 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     py_i_InputFileIterator::add_Iterator<FileRaw<T_FileStream>, datagrams::RAW3, RAW3HeaderFactory>(
         cls, t_SimradDatagramType::RAW3, "RAW3_header");
 
-    py_i_PingIterator::add_PingIterator<FileRaw<T_FileStream>, datagrams::RAW3>(cls, "Pings");
+    // TODO: move this intp i_inptufile (after adding Pings to the inputfile interface)
+    py_i_PingIterator::add_PingIterator<FileRaw<T_FileStream>>(cls, "Pings");
 
     //----- iterators via () operator -----
     cls.def(
@@ -426,9 +427,6 @@ void init_c_fileraw(pybind11::module& m)
                          t_SimradDatagramType,
                          datagrams::SimradDatagramVariant>(m, "FileRawIterator_Variant");
 
-    create_PingIteratorType<SimradPing<std::ifstream>, std::ifstream>(m, "SimradPingIterator");
-    create_PingIteratorType<SimradPing<MappedFileStream>, MappedFileStream>(
-        m, "SimradPingIterator_mapped");
 
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");

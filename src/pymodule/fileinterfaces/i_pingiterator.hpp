@@ -44,13 +44,13 @@ void _PingIterator_add_PackageReading(T_PyClass& cls)
         py::arg("index_step") = 1);
 }
 
-template<typename T_BaseClass, typename T_PingType, typename T_PyClass>
+template<typename T_BaseClass, typename T_PyClass>
 void add_PingIterator(T_PyClass& cls, const std::string& T_NAME)
 {
     cls.def_property_readonly(
         ("i_" + T_NAME).c_str(),
         [](const T_BaseClass& self) { return self.pings(); },
-        DOC(themachinethatgoesping, echosounders, simrad, FileRaw, pings),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingIterator, pings),
         pybind11::return_value_policy::reference_internal);
 }
 

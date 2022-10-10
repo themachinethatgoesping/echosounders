@@ -29,7 +29,7 @@ namespace fileinterfaces {
 
 
 template<typename t_DatagramIdentifier,
-         typename t_ifstream            = std::ifstream>
+         typename t_ifstream            >
 class I_PingInterface
 {
   protected:
@@ -42,17 +42,6 @@ class I_PingInterface
     /* header positions */
     const std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
-    t_ifstream& get_active_stream(size_t file_nr)
-    {
-        // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
-        if (long(file_nr) != active_file_nr)
-        {
-            active_file_nr = long(file_nr);
-            _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
-        }
-        return *_input_file_stream;
-    }
 
   public:   
 
@@ -69,6 +58,18 @@ class I_PingInterface
         return _package_infos->size();
     }
 
+    t_ifstream& get_active_stream(size_t file_nr)
+    {
+        // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
+        if (long(file_nr) != active_file_nr)
+        {
+            active_file_nr = long(file_nr);
+            _input_file_stream =
+                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
+        }
+        return *_input_file_stream;
+    }
+    
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType at(const PackageInfo<t_DatagramIdentifier>& package_info)
     {

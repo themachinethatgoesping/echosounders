@@ -47,7 +47,8 @@ sources = [
     'simrad/datagrams/RAW3_datatypes/c_RAW3_dataangle.cpp',
     'simrad/datagrams/RAW3_datatypes/c_RAW3_dataskipped.cpp',
     'simrad/c_fileraw.cpp',
-    'simrad/c_simradping.cpp'
+    'simrad/c_simradping.cpp',
+    'simrad/c_simradpingiterator.cpp'
 ]
 
 # define python module

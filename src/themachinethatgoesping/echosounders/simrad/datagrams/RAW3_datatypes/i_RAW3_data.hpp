@@ -34,7 +34,7 @@ namespace RAW3_datatypes {
 
 class i_RAW3_Data
 {
-    std::string _name;
+    std::string_view _name;
 
   public:
     // ----- constructors -----
@@ -52,11 +52,11 @@ class i_RAW3_Data
 
     virtual xt::xtensor<simrad_float, 1> get_power() const
     {
-        throw std::runtime_error("get_power() not implemented for " + _name);
+        throw std::runtime_error("get_power() not implemented for " + std::string(_name));
     }
     virtual xt::xtensor<simrad_float, 2> get_angle() const
     {
-        throw std::runtime_error("get_angle() not implemented for " + _name);
+        throw std::runtime_error("get_angle() not implemented for " + std::string(_name));
     }
 };
 

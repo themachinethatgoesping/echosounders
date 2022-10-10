@@ -27,7 +27,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_PingType, typename t_ifstream = std::ifstream>
+template<typename t_PingType, typename t_ifstream >
 class I_PingIterator
 {
   protected:
@@ -131,6 +131,14 @@ class I_PingIterator
         if (_is_slice)
             return size_t((_index_max - _index_min + 1) / std::abs(_index_step));
         return _pings->size();
+    }
+
+    size_t find_max_samples() const
+    {
+        size_t max_samples = 0;
+        for (const auto& ping : *_pings)
+            max_samples = std::max(max_samples, ping.get_number_of_samples());
+        return max_samples;
     }
 
     t_PingType at(long index)

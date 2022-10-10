@@ -161,6 +161,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingIterator_file_paths = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingIterator_find_max_samples = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingIterator_get_active_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingIterator_index_max = R"doc()doc";
@@ -180,6 +182,16 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingIterator_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_I_Ping = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_get_angle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_get_sv = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_get_sv_stacked = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_max_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_MappedFileStream = R"doc()doc";
 
@@ -265,6 +277,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIn
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingInterface_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIterator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIterator_SimradPingIterator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIterator_SimradPingIterator_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingIterator_navigation_interpolators = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_SimradPingRawData = R"doc()doc";
@@ -277,6 +297,8 @@ RAW0))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_interface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_sample_data = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_SimradPing = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_channel = R"doc()doc";
@@ -284,6 +306,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_c
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_get_sv = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_get_sv_stacked = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_max_number_of_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_ping_number = R"doc()doc";
 
@@ -667,6 +695,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_read_sample_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_read_skipped_sample_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data =
 R"doc(Get the sample data. The sample data is stored in a variant of xtensor

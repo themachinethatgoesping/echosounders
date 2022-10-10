@@ -18,6 +18,7 @@
 #include "../fileinterfaces/i_pingiterator.hpp"
 #include "simradping.hpp"
 #include "simradpinginterface.hpp"
+#include "simradpingiterator.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -26,7 +27,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-template<typename t_ifstream = std::ifstream>
+template<typename t_ifstream >
 class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
@@ -74,13 +75,13 @@ class FileRaw
     }
     ~FileRaw() = default;
 
-    fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream> pings() const
+    SimradPingIterator<t_ifstream> pings() const
     {
-        return fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(this->_file_paths, _pings);
+        return SimradPingIterator<t_ifstream>(this->_file_paths, _pings);
     }
-    fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream> pings(long index_min, long index_max, long index_step) const
+    SimradPingIterator<t_ifstream> pings(long index_min, long index_max, long index_step) const
     {
-        return fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(this->_file_paths, _pings, index_min, index_max, index_step);
+        return SimradPingIterator<t_ifstream>(this->_file_paths, _pings, index_min, index_max, index_step);
     }
 
     // void print_fileinfo(std::ostream& os) const;

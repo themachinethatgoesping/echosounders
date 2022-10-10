@@ -32,7 +32,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-template<typename t_ifstream = std::ifstream>
+template<typename t_ifstream>
 class SimradPingRawData
 {
     const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
@@ -53,9 +53,17 @@ class SimradPingRawData
         , _ping_data(std::move(ping_data))
     {
     }
+
+    // ----- load skipped data -----
+    datagrams::RAW3_datatypes::RAW3_DataVariant sample_data()
+    {
+        return _ping_data.read_skipped_sample_data(
+            _ping_interface->get_active_stream(_package_info_raw.file_nr),
+            _package_info_raw.file_pos);
+    }
 };
 
-template<typename t_ifstream = std::ifstream>
+template<typename t_ifstream>
 class SimradPing : public fileinterfaces::I_Ping
 {
     double      timestamp;
@@ -70,16 +78,45 @@ class SimradPing : public fileinterfaces::I_Ping
     SimradPing(std::shared_ptr<SimradPingInterface<t_ifstream>>  ping_interface,
                fileinterfaces::PackageInfo<t_SimradDatagramType> package_info_raw,
                datagrams::RAW3                                   ping_data)
-        : _raw(std::move(ping_interface), std::move(package_info_raw), std::move(ping_data))
+        : fileinterfaces::I_Ping("SimradPing")
+        , _raw(std::move(ping_interface), std::move(package_info_raw), std::move(ping_data))
     {
-        //timestamp = package_info_raw.timestamp;
+        // timestamp = package_info_raw.timestamp;
     }
     virtual ~SimradPing() = default;
 
     const SimradPingRawData<t_ifstream>& raw() const { return _raw; }
 
+    // ----- I_Ping interface -----
+    size_t max_number_of_samples() const final
+    {
+        return _raw._ping_data.get_count();
+    }
 
+    xt::xtensor<float, 2> get_sv() final
+    {
+        auto                  sample_data = _raw.sample_data();
+        xt::xtensor<float, 1> sv =
+            tools::helper::visit_variant(sample_data, [](auto& data) { return data.get_power(); });
 
+        // convert sv to 2d xtensor and return
+        return xt::view(sv, xt::newaxis(), xt::all());
+    }
+
+    xt::xtensor<float, 1> get_sv_stacked() final
+    {
+        auto                  sample_data = _raw.sample_data();
+        xt::xtensor<float, 1> sv =
+            tools::helper::visit_variant(sample_data, [](auto& data) { return data.get_power(); });
+
+        // convert sv to 2d xtensor and return
+        return sv;
+    }
+
+    // xt::xtensor<float, 2> get_angle() const
+    // {
+
+    // }
     //------ interface ------//
     // virtual xt::xtensor<float, 2> get_SV() = 0;
 };

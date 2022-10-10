@@ -21,6 +21,7 @@ headers = [
   'simrad/simrad_datagrams.hpp',
   'simrad/simradping.hpp',
   'simrad/simradpinginterface.hpp',
+  'simrad/simradpingiterator.hpp',
   'simrad/datagrams/simraddatagram.hpp',
   'simrad/datagrams/simradunknown.hpp',
   'simrad/datagrams/FIL1.hpp',

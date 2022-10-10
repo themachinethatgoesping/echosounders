@@ -17,15 +17,13 @@
 #include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
-#include "../../themachinethatgoesping/echosounders/simrad/simradping.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/simradping.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_inputfile.hpp"
-#include "../fileinterfaces/i_inputfileiterator.hpp"
-
+#include "../fileinterfaces/i_ping.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -40,10 +38,12 @@ template<typename T_FileStream>
 void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
 {
     using t_SimradPingRawData = SimradPingRawData<T_FileStream>;
-    using t_SimradPing = SimradPing<T_FileStream>;
+    using t_SimradPing        = SimradPing<T_FileStream>;
 
     py::class_<t_SimradPingRawData>(
-        m, (CLASS_NAME + "_RawData").c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData))
+        m,
+        (CLASS_NAME + "_RawData").c_str(),
+        DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData))
 
         // --- raw data access ---
         .def_readonly(
@@ -52,31 +52,9 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, ping_data),
             py::return_value_policy::reference_internal)
 
-        // ----- operators -----
-        // .def("__eq__",
-        //      &SimradPing::operator==,
-        //      DOC(themachinethatgoesping, echosounders, simrad, SimradPing, operator_eq),
-        //      py::arg("other"))
-        // ----- pybind macros -----
-        // default copy functions
-        // __PYCLASS_DEFAULT_COPY__(SimradPing)
-        // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(SimradPing)
-        // default printing functions
-        //__PYCLASS_DEFAULT_PRINTING__(SimradPing)
-        // end SimradPing
-        ;
-
-
-    py::class_<t_SimradPing>(
-        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPing))
-
-        // --- raw data access ---
-        .def(
-            "raw",
-            &t_SimradPing::raw,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradPing, raw),
-            py::return_value_policy::reference_internal)
+        .def("sample_data",
+             &t_SimradPingRawData::sample_data,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, sample_data))
 
         // ----- operators -----
         // .def("__eq__",
@@ -93,6 +71,40 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         // end SimradPing
         ;
 
+    auto cls =
+        py::class_<t_SimradPing>(
+            m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPing))
+
+            // --- ping interface (with individual documentation) ---
+            .def("get_sv",
+                 &t_SimradPing::get_sv,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_sv))
+            .def("get_sv_stacked",
+                 &t_SimradPing::get_sv_stacked,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_sv_stacked))
+
+            // --- raw data access ---
+            .def("raw",
+                 &t_SimradPing::raw,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, raw),
+                 py::return_value_policy::reference_internal)
+
+        // ----- operators -----
+        // .def("__eq__",
+        //      &SimradPing::operator==,
+        //      DOC(themachinethatgoesping, echosounders, simrad, SimradPing, operator_eq),
+        //      py::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        // __PYCLASS_DEFAULT_COPY__(SimradPing)
+        // default binary functions
+        // __PYCLASS_DEFAULT_BINARY__(SimradPing)
+        // default printing functions
+        //__PYCLASS_DEFAULT_PRINTING__(SimradPing)
+        // end SimradPing
+        ;
+
+    py_fileinterfaces::py_i_Ping::add_ping_interface<t_SimradPing>(cls);
 }
 
 void init_c_SimradPing(pybind11::module& m)
@@ -100,8 +112,6 @@ void init_c_SimradPing(pybind11::module& m)
 
     py_create_class_SimradPing<std::ifstream>(m, "SimradPing");
     py_create_class_SimradPing<MappedFileStream>(m, "SimradPing_mapped");
-    
-
 }
 
 }

@@ -101,7 +101,7 @@ struct DataFileInfo
 
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
-         typename t_ifstream            = std::ifstream,
+         typename t_ifstream,
          typename t_DatagramTypeFactory = t_DatagramType>
 class I_InputFileIterator
 {

@@ -31,13 +31,38 @@ namespace fileinterfaces {
 
 class I_Ping
 {
+    std::string_view _name;
+
   public:
-    I_Ping() = default;
+    I_Ping(std::string_view name)
+        : _name(name)
+    {
+    }
     virtual ~I_Ping() = default;
 
     //------ interface ------//
-    //virtual xt::xtensor<float, 2> get_SV() = 0;
+    virtual size_t max_number_of_samples() const
+    {
+        throw std::runtime_error(
+            fmt::format("get_number_of_samples not implemented for this ping type ({})", _name));
+    }
 
+    virtual xt::xtensor<float, 2> get_sv()
+    {
+        throw std::runtime_error(
+            fmt::format("get_sv not implemented for this ping type ({})", _name));
+    }
+    virtual xt::xtensor<float, 1> get_sv_stacked()
+    {
+        throw std::runtime_error(
+            fmt::format("get_sv_stacked not implemented for this ping type ({})", _name));
+    }
+
+    virtual xt::xtensor<float, 2> get_angle()
+    {
+        throw std::runtime_error(
+            fmt::format("get_angle not implemented for this ping type ({})", _name));
+    }
 };
 
 } // namespace fileinterfaces

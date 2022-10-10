@@ -23,7 +23,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-template<typename t_ifstream = std::ifstream>
+template<typename t_ifstream >
 class SimradPingInterface
     : public fileinterfaces::
           I_PingInterface<t_SimradDatagramType, t_ifstream>
