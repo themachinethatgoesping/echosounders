@@ -136,12 +136,13 @@ class I_PingIterator
     size_t max_number_of_samples() const
     {
         size_t max_samples = 0;
-        for (const auto& ping : *_pings)
-            max_samples = std::max(max_samples, ping.get_number_of_samples());
+        auto len = long(size());
+        for(long i = 0; i < len; ++i)
+            max_samples = std::max(max_samples, at(i).get_number_of_samples());
         return max_samples;
     }
 
-    t_PingType at(long index)
+    const t_PingType& at(long index) const
     {
         if (_is_slice)
         {
@@ -178,7 +179,7 @@ class I_PingIterator
             throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
-        return _pings->at(index);
+            return (*_pings)[index];
     }
 };
 
