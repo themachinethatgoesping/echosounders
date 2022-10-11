@@ -51,10 +51,27 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
             &t_SimradPingRawData::_ping_data,
             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, ping_data),
             py::return_value_policy::reference_internal)
+        .def_readonly(
+            "ping_parameter",
+            &t_SimradPingRawData::_ping_parameter,
+            DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, ping_parameter),
+            py::return_value_policy::reference_internal)
+        .def_property_readonly(
+            "file_data",
+            &t_SimradPingRawData::file_data,
+            DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, file_data),
+            py::return_value_policy::reference_internal)
 
-        .def("sample_data",
-             &t_SimradPingRawData::sample_data,
-             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, sample_data))
+        .def("get_sample_data",
+             &t_SimradPingRawData::get_sample_data,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, get_sample_data))
+
+        .def("load_data",
+             &t_SimradPingRawData::load_data,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, load_data))
+        .def("release_data",
+             &t_SimradPingRawData::release_data,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, release_data))
 
         // ----- operators -----
         // .def("__eq__",
@@ -76,6 +93,9 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
             m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPing))
 
             // --- ping interface (with individual documentation) ---
+            .def("get_angle",
+                 &t_SimradPing::get_angle,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_angle))
             .def("get_sv",
                  &t_SimradPing::get_sv,
                  DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_sv),
@@ -90,6 +110,32 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                  &t_SimradPing::raw,
                  DOC(themachinethatgoesping, echosounders, simrad, SimradPing, raw),
                  py::return_value_policy::reference_internal)
+            .def("file_data",
+                 &t_SimradPing::file_data,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, file_data),
+                 py::return_value_policy::reference_internal)
+
+            // --- variable access ---
+
+            // --- variable access ---
+            .def("get_channel_id",
+                 &t_SimradPing::get_channel_id,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_channel_id),
+                 py::return_value_policy::reference_internal)
+            .def("get_timestamp",
+                 &t_SimradPing::get_timestamp,
+                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_timestamp),
+                 py::return_value_policy::reference_internal)
+        //   .def(
+        //      "get_file_path",
+        //      &t_SimradPing::get_file_path,
+        //      DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_file_path),
+        //        py::return_value_policy::reference_internal)
+        //   .def(
+        //      "get_ping_number",
+        //      &t_SimradPing::get_ping_number,
+        //      DOC(themachinethatgoesping, echosounders, simrad, SimradPing, get_ping_number),
+        //        py::return_value_policy::reference_internal)
 
         // ----- operators -----
         // .def("__eq__",

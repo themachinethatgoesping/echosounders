@@ -97,7 +97,12 @@ struct RAW3 : public SimradDatagram
 
     // ----- getter setter -----
     std::string_view get_channel_id() const { return std::string_view(_ChannelID.data(), 128); }
-    void             set_channel_id(std::string_view channel_id)
+    std::string_view get_channel_id_stripped() const
+    {
+        auto channel_id = get_channel_id();
+        return channel_id.substr(0, channel_id.find('\x00'));
+    }
+    void set_channel_id(std::string_view channel_id)
     {
         if (channel_id.size() > 128)
             throw std::runtime_error("channel_id too long");
@@ -164,45 +169,40 @@ struct RAW3 : public SimradDatagram
     }
 
     // ----- file I/O -----
-    RAW3_datatypes::RAW3_DataVariant read_skipped_sample_data(std::istream&  is, std::istream::pos_type header_pos) const
+    RAW3_datatypes::RAW3_DataVariant read_skipped_sample_data(
+        std::istream&          is,
+        std::istream::pos_type header_pos) const
     {
         is.seekg(header_pos + std::istream::pos_type(152));
         return read_sample_data(is);
     }
 
-    RAW3_datatypes::RAW3_DataVariant read_sample_data(std::istream&  is) const
+    RAW3_datatypes::RAW3_DataVariant read_sample_data(std::istream& is) const
     {
         using namespace RAW3_datatypes;
 
         switch (this->_Datatype)
-            {
-                case t_RAW3_DataType::ComplexFloat32: 
-                    return RAW3_DataComplexFloat32::from_stream(
-                        is,
-                        this->_Count,
-                        this->_Count,
-                        this->get_number_of_complex_samples());
-                case t_RAW3_DataType::PowerAndAngle: 
-                    return RAW3_DataPowerAndAngle::from_stream(is, this->_Count, this->_Count);
-                
-                case t_RAW3_DataType::Power:
-                    return RAW3_DataPower::from_stream(is, this->_Count, this->_Count);
-                case t_RAW3_DataType::Angle:
-                    return RAW3_DataAngle::from_stream(is, this->_Count, this->_Count);
-                default:
-                    std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
-                                             magic_enum::enum_name(this->_Datatype))
-                              << std::endl;
-                    return RAW3_DataSkipped::from_stream(is,
-                                                      this->_Count,
-                                                      this->get_data_type(),
-                                                      this->get_number_of_complex_samples());
-            }
+        {
+            case t_RAW3_DataType::ComplexFloat32:
+                return RAW3_DataComplexFloat32::from_stream(
+                    is, this->_Count, this->_Count, this->get_number_of_complex_samples());
+            case t_RAW3_DataType::PowerAndAngle:
+                return RAW3_DataPowerAndAngle::from_stream(is, this->_Count, this->_Count);
+
+            case t_RAW3_DataType::Power:
+                return RAW3_DataPower::from_stream(is, this->_Count, this->_Count);
+            case t_RAW3_DataType::Angle:
+                return RAW3_DataAngle::from_stream(is, this->_Count, this->_Count);
+            default:
+                std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
+                                         magic_enum::enum_name(this->_Datatype))
+                          << std::endl;
+                return RAW3_DataSkipped::from_stream(
+                    is, this->_Count, this->get_data_type(), this->get_number_of_complex_samples());
+        }
     }
 
-    static RAW3 from_stream(std::istream&  is,
-                            SimradDatagram header,
-                            bool           skip_sample_data = false)
+    static RAW3 from_stream(std::istream& is, SimradDatagram header, bool skip_sample_data = false)
     {
         using namespace RAW3_datatypes;
 
@@ -229,9 +229,8 @@ struct RAW3 : public SimradDatagram
 
     static RAW3 from_stream(std::istream& is, bool skip_sample_data = false)
     {
-        return from_stream(is,
-                           SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3),
-                           skip_sample_data);
+        return from_stream(
+            is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3), skip_sample_data);
     }
 
     static RAW3 from_stream(std::istream&        is,
@@ -241,9 +240,8 @@ struct RAW3 : public SimradDatagram
         if (type != t_SimradDatagramType::RAW3)
             throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
-        return from_stream(is,
-                           SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3),
-                           skip_sample_data);
+        return from_stream(
+            is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3), skip_sample_data);
     }
 
     void to_stream(std::ostream& os)

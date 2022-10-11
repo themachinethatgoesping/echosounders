@@ -69,6 +69,44 @@ struct XML_Configuration
     XML_Configuration(const pugi::xml_node& node) { initialize(node); }
     ~XML_Configuration() = default;
 
+    const XML_Configuration_Transceiver& get_transceiver(std::string_view channel_id) const
+    {
+        for (const auto& transceiver : Transceivers)
+            for (const auto& channel : transceiver.Channels)
+                if (channel.ChannelID == channel_id) return transceiver;
+
+        throw std::runtime_error("[XML_Configuration_Transceiver]: No transceiver found for channel " + std::string(channel_id));
+    }
+
+    std::map<std::string, XML_Configuration_Transceiver> get_transceivers() const
+    {
+        std::map<std::string, XML_Configuration_Transceiver> transceivers;
+        for (const auto& transceiver : Transceivers)
+            for (const auto& channel : transceiver.Channels)
+                transceivers[channel.ChannelID] = transceiver;
+
+        return transceivers;
+    }
+
+    const XML_Configuration_Transceiver_Channel& get_transceiver_channel(std::string_view channel_id) const
+    {
+        for (const auto& transceiver : Transceivers)
+            for (const auto& channel : transceiver.Channels)
+                if (channel.ChannelID == channel_id) return channel;
+
+        throw std::runtime_error("[XML_Configuration_Transceiver]: No transceiver channel found for channel " + std::string(channel_id));
+    }
+
+    std::map<std::string, XML_Configuration_Transceiver_Channel> get_transceiver_channels() const
+    {
+        std::map<std::string, XML_Configuration_Transceiver_Channel> channels;
+        for (const auto& transceiver : Transceivers)
+            for (const auto& channel : transceiver.Channels)
+                channels[channel.ChannelID] = channel;
+
+        return channels;
+    }
+
     navigation::SensorConfiguration get_sensor_configuration() const
     {
         navigation::SensorConfiguration sensor_configuration;

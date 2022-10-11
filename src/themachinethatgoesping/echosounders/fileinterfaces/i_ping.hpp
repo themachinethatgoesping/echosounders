@@ -41,28 +41,30 @@ class I_Ping
     virtual ~I_Ping() = default;
 
     //------ interface ------//
-    virtual size_t get_number_of_samples() const
-    {
-        throw std::runtime_error(
-            fmt::format("get_number_of_samples not implemented for this ping type ({})", _name));
-    }
+    virtual void load_data() { throw not_implemented("load_data", _name); }
+    virtual void release_data() { throw not_implemented("release_data", _name); }
+
+    virtual size_t get_number_of_samples() const { throw not_implemented("get_number_of_samples", _name); }
 
     virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
     {
-        throw std::runtime_error(
-            fmt::format("get_sv not implemented for this ping type ({})", _name));
+        throw not_implemented("get_sv", _name);
     }
     virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
-        throw std::runtime_error(
-            fmt::format("get_sv_stacked not implemented for this ping type ({})", _name));
+        throw not_implemented("get_sv_stacked", _name);
     }
 
-    virtual xt::xtensor<float, 2> get_angle()
+    virtual xt::xtensor<float, 2> get_angle() { throw not_implemented("get_angle", _name); }
+
+  private:
+    struct not_implemented : public std::runtime_error
     {
-        throw std::runtime_error(
-            fmt::format("get_angle not implemented for this ping type ({})", _name));
-    }
+        not_implemented(std::string_view method_name, std::string_view name)
+            : std::runtime_error(fmt::format("method {} not implemented for ping type '{}'", method_name, name))
+        {
+        }
+    };
 };
 
 } // namespace fileinterfaces

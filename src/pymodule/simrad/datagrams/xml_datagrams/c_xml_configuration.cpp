@@ -63,6 +63,48 @@ void init_c_xml_configuration(pybind11::module& m)
                            SensorConfigurations))
 
         // ----- methods -----
+        .def("get_transceiver",
+             &XML_Configuration::get_transceiver,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_transceiver),
+             py::arg("channel_id"))
+             
+        .def("get_transceivers",
+             &XML_Configuration::get_transceivers,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_transceivers))
+
+        .def("get_transceiver_channel",
+             &XML_Configuration::get_transceiver_channel,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_transceiver_channel),
+             py::arg("channel_id"))
+
+        .def("get_transceiver_channels",
+             &XML_Configuration::get_transceiver_channels,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_transceiver_channels))
+
         .def("get_sensor_configuration",
              &XML_Configuration::get_sensor_configuration,
              DOC(themachinethatgoesping,

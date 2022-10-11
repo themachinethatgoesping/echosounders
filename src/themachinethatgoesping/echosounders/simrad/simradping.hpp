@@ -10,6 +10,7 @@
 /* std includes */
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -37,12 +38,14 @@ class SimradPingRawData
 {
     const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
 
+  public:
     fileinterfaces::PackageInfo<t_SimradDatagramType>
         _package_info_raw; ///< this can be RAW3 (EK80) or RAW0 (EK60)
 
-  public:
     datagrams::RAW3
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
+        
+    datagrams::xml_datagrams::XML_Parameter_Channel _ping_parameter;
 
   public:
     SimradPingRawData(std::shared_ptr<SimradPingInterface<t_ifstream>>  ping_interface,
@@ -53,24 +56,53 @@ class SimradPingRawData
         , _ping_data(std::move(ping_data))
     {
     }
+    ~SimradPingRawData() = default;
+
+    void add_parameter(const datagrams::xml_datagrams::XML_Parameter_Channel& parameter)
+    {
+        _ping_parameter = parameter;
+    }
+
+    SimradFileData& file_data()
+    {
+        return *_ping_interface->file_data(_package_info_raw.file_nr);
+    }
 
     // ----- load skipped data -----
-    datagrams::RAW3_datatypes::RAW3_DataVariant sample_data()
+    datagrams::RAW3_datatypes::RAW3_DataVariant get_sample_data()
     {
-        return _ping_data.read_skipped_sample_data(
+        if (std::holds_alternative<datagrams::RAW3_datatypes::RAW3_DataSkipped>(_ping_data.sample_data()))
+            return read_sample_data();
+        
+        return _ping_data.sample_data();
+    }
+
+
+    datagrams::RAW3_datatypes::RAW3_DataVariant read_sample_data()
+    {
+        return  _ping_data.read_skipped_sample_data(
             _ping_interface->get_active_stream(_package_info_raw.file_nr),
             _package_info_raw.file_pos);
+    }
+
+    void load_data()
+    {
+        _ping_data.sample_data() =  read_sample_data();
+    }
+
+    void release_data ()
+    {
+        _ping_data.sample_data() = datagrams::RAW3_datatypes::RAW3_DataSkipped();
     }
 };
 
 template<typename t_ifstream>
 class SimradPing : public fileinterfaces::I_Ping
 {
+    std::string channel_id;
     double      timestamp;
-    std::string channel;
-    std::string file_path;
-    size_t      file_nr;
-    size_t      ping_number;
+    //std::string file_path;
+    //size_t      ping_number;
 
     SimradPingRawData<t_ifstream> _raw;
 
@@ -81,23 +113,39 @@ class SimradPing : public fileinterfaces::I_Ping
         : fileinterfaces::I_Ping("SimradPing")
         , _raw(std::move(ping_interface), std::move(package_info_raw), std::move(ping_data))
     {
-        // timestamp = package_info_raw.timestamp;
+        //substring of channel_id until the first \x00 character
+        channel_id = _raw._ping_data.get_channel_id();
+        channel_id = channel_id.substr(0, channel_id.find('\x00'));
+
+        timestamp = _raw._package_info_raw.timestamp;
     }
     virtual ~SimradPing() = default;
 
-    const SimradPingRawData<t_ifstream>& raw() const { return _raw; }
+    SimradPingRawData<t_ifstream>& raw() { return _raw; }
+
+    SimradFileData& file_data()
+    {
+        return _raw.file_data();
+    }
+
+    // ----- accessors -----
+    const std::string& get_channel_id() const { return channel_id; }
+    double             get_timestamp() const { return timestamp; }
+    //const std::string& get_file_path() const { return file_path; }
+    //size_t             get_ping_number() const { return ping_number; }
+
 
     // ----- I_Ping interface -----
-    size_t get_number_of_samples() const final
-    {
-        return _raw._ping_data.get_count();
-    }
+    size_t get_number_of_samples() const final { return _raw._ping_data.get_count(); }
+
+    // void load_data() final { _raw.load_data(); }
+    // void release_data() final { _raw.release_data(); }
 
     xt::xtensor<float, 2> get_sv(bool dB = false) final
     {
-        auto                  sample_data = _raw.sample_data();
-        xt::xtensor<float, 1> sv =
-            tools::helper::visit_variant(sample_data, [dB](auto& data) { return data.get_power(dB); });
+        auto                  sample_data = _raw.get_sample_data();
+        xt::xtensor<float, 1> sv          = tools::helper::visit_variant(
+            sample_data, [dB](auto& data) { return data.get_power(dB); });
 
         // convert sv to 2d xtensor and return
         return xt::view(sv, xt::newaxis(), xt::all());
@@ -105,20 +153,25 @@ class SimradPing : public fileinterfaces::I_Ping
 
     xt::xtensor<float, 1> get_sv_stacked(bool dB = false) final
     {
-        auto                  sample_data = _raw.sample_data();
-        xt::xtensor<float, 1> sv =
-            tools::helper::visit_variant(sample_data, [dB](auto& data) { return data.get_power(dB); });
+        auto                  sample_data = _raw.get_sample_data();
+        xt::xtensor<float, 1> sv          = tools::helper::visit_variant(
+            sample_data, [dB](auto& data) { return data.get_power(dB); });
 
         // convert sv to 2d xtensor and return
         return sv;
     }
 
-    // xt::xtensor<float, 2> get_angle() const
-    // {
+    xt::xtensor<float, 2> get_angle() final
+    {
+        auto                  sample_data = _raw.get_sample_data();
+        xt::xtensor<float, 2> angle =
+            tools::helper::visit_variant(sample_data, [](auto& data) { return data.get_angle(); });
 
-    // }
+        return angle;
+    }
     //------ interface ------//
-    // virtual xt::xtensor<float, 2> get_SV() = 0;
+    void load_data() final { _raw.load_data(); }
+    void release_data() final { _raw.release_data(); }
 };
 
 } // namespace fileinterfaces

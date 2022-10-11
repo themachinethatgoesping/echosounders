@@ -210,6 +210,7 @@ class FileRaw
         datagrams::xml_datagrams::XML_Configuration configuration;
         std::vector<datagrams::NME0>                nme0_packets;
         std::vector<datagrams::MRU0>                mru0_packets;
+        std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel> channel_parameters;
 
     } _packet_buffer;
 
@@ -266,9 +267,23 @@ class FileRaw
                 if (!ifs.good())
                     break;
 
+                _ping_interface->add_datagram(xml, file_paths_cnt);
+
                 auto xml_type = xml.get_xml_datagram_type();
 
-                if (xml_type == "Configuration")
+                if (xml_type == "Parameter")
+                {
+                    auto channel = std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
+                    _packet_buffer.channel_parameters[channel.ChannelID] = channel;
+
+                }
+                else if (xml_type == "InitialParameter")
+                {
+                    auto channels = std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode()).Channels;
+                    for (const auto& channel : channels)
+                        _packet_buffer.channel_parameters[channel.ChannelID] = channel;
+                }
+                else if (xml_type == "Configuration")
                     _packet_buffer.configuration =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
 
@@ -281,6 +296,22 @@ class FileRaw
                 if (!ifs.good())
                     _pings->pop_back();
 
+                _pings->back().raw().add_parameter(_packet_buffer.channel_parameters[_pings->back().get_channel_id()]);
+
+                break;
+            }
+            case t_SimradDatagramType::FIL1: {
+                auto datagram = datagrams::FIL1::from_stream(ifs, header);
+
+                if (ifs.good())
+                    _ping_interface->add_datagram(datagram, file_paths_cnt);
+                break;
+            }
+            case t_SimradDatagramType::TAG0: {
+                auto datagram = datagrams::TAG0::from_stream(ifs, header);
+
+                if (ifs.good())
+                    _ping_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
             default: {

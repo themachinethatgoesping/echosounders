@@ -20,6 +20,7 @@ headers = [
   'simrad/simrad_types.hpp',
   'simrad/simrad_datagrams.hpp',
   'simrad/simradping.hpp',
+  'simrad/simradfiledata.hpp',
   'simrad/simradpinginterface.hpp',
   'simrad/simradpingiterator.hpp',
   'simrad/datagrams/simraddatagram.hpp',

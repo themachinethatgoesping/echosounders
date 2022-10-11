@@ -53,6 +53,11 @@ class I_PingInterface
     {
     }
 
+    // const std::string& get_file_path(size_t file_nr)
+    // {
+    //    return  _file_paths->at(file_nr);
+    // }
+
     size_t size() const
     {
         return _package_infos->size();
