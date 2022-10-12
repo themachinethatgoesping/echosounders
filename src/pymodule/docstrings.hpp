@@ -133,9 +133,17 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_add_ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_at = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_break_by_time_diff = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_filter_by_channel_ids = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_find_channel_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_iterator = R"doc()doc";
 
@@ -148,6 +156,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_operator_call = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_operator_call_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings = R"doc()doc";
 

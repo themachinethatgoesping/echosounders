@@ -31,7 +31,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
 template<typename t_Ping>
 using PingVector = std::vector<std::shared_ptr<t_Ping>>;
 
@@ -51,12 +50,15 @@ class I_PingContainer
         , _iterator(_pings)
     {
     }
+    I_PingContainer(std::shared_ptr<PingVector<t_Ping>> pings, std::string_view name = "Default")
+        : _name(name)
+        , _pings(pings)
+        , _iterator(_pings)
+    {
+    }
     ~I_PingContainer() = default;
 
-    void add_ping(const std::shared_ptr<t_Ping> ping)
-    {
-        this->_pings->push_back(ping);
-    }
+    void add_ping(const std::shared_ptr<t_Ping> ping) { this->_pings->push_back(ping); }
 
     const std::shared_ptr<PingVector<t_Ping>>& get_pings() const { return _pings; }
 
@@ -74,7 +76,7 @@ class I_PingContainer
     I_PingContainer<t_Ping> operator()(long index_min, long index_max, long index_step) const
     {
         I_PingContainer<t_Ping> slice(*this);
-        auto it = slice.get_iterator();
+        auto                    it = slice.get_iterator();
         it.set_slice(index_min, index_max, index_step);
 
         auto pings = std::make_shared<PingVector<t_Ping>>();
@@ -89,14 +91,84 @@ class I_PingContainer
         return slice;
     }
 
-    const I_PingIterator<t_Ping>& get_iterator()
-{
-    return _iterator;
-}
+    I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
+    {
+        I_PingContainer<t_Ping> filtered(*this);
+
+        auto pings = std::make_shared<PingVector<t_Ping>>();
+
+        for (const auto& ping : *_pings)
+        {
+            if (ping->get_channel_id() == channel_id)
+                pings->push_back(ping);
+        }
+
+        filtered.set_pings(pings);
+
+        return filtered;
+    }
+
+    I_PingContainer<t_Ping> filter_by_channel_ids(const std::vector<std::string>& channel_ids)
+    {
+        I_PingContainer<t_Ping> filtered(*this);
+
+        auto pings = std::make_shared<PingVector<t_Ping>>();
+
+        for (const auto& ping : *_pings)
+        {
+            if (std::find(channel_ids.begin(), channel_ids.end(), ping->get_channel_id()) !=
+                channel_ids.end())
+                pings->push_back(ping);
+        }
+
+        filtered.set_pings(pings);
+
+        return filtered;
+    }
+
+    std::vector<std::string> find_channel_ids()
+    {
+        std::set<std::string> channel_ids;
+
+        for (const auto& ping : *_pings)
+        {
+            channel_ids.insert(ping->get_channel_id());
+        }
+
+        std::vector<std::string> vec;
+        std::copy(channel_ids.begin(), channel_ids.end(), std::back_inserter(vec));
+        return vec;
+    }
+
+    std::vector<I_PingContainer<t_Ping>> break_by_time_diff(double max_time_diff_seconds)
+    {
+        std::vector<I_PingContainer<t_Ping>> containers;
+
+        auto pings = std::make_shared<PingVector<t_Ping>>();
+
+        for (const auto& ping : *_pings)
+        {
+            if (!pings->empty())
+            {
+                if (ping->get_timestamp() - pings->back()->get_timestamp() > max_time_diff_seconds)
+                {
+                    containers.push_back(I_PingContainer<t_Ping>(pings));
+                    pings = std::make_shared<PingVector<t_Ping>>();
+                }
+            }
+            pings->push_back(ping);
+        }
+                    
+        containers.push_back(I_PingContainer<t_Ping>(pings));
+
+        return containers;
+    }
+
+    const I_PingIterator<t_Ping>& get_iterator() { return _iterator; }
 
     void set_pings(std::shared_ptr<PingVector<t_Ping>> pings)
     {
-        _pings = pings;
+        _pings    = pings;
         _iterator = I_PingIterator<t_Ping>(_pings);
     }
 
