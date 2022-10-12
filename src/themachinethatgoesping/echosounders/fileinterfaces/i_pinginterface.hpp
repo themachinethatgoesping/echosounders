@@ -33,14 +33,14 @@ template<typename t_DatagramIdentifier,
 class I_PingInterface
 {
   protected:
-    const std::shared_ptr<std::vector<std::string>> _file_paths;
+    std::shared_ptr<std::vector<std::string>> _file_paths;
 
     /* the opened input file stream */
     std::unique_ptr<t_ifstream> _input_file_stream;
     long                        active_file_nr = -1;
 
     /* header positions */
-    const std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
 
   public:   

@@ -41,7 +41,7 @@ class I_InputFile
 
   protected:
     /* some file information */
-    const std::shared_ptr<std::vector<std::string>> _file_paths =
+    std::shared_ptr<std::vector<std::string>> _file_paths =
         std::make_shared<std::vector<std::string>>();
     size_t _total_file_size = 0;
 
@@ -61,9 +61,9 @@ class I_InputFile
     }
 
     /* header positions */
-    const std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
+    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
-    PackageInfoPtrByTypeMap<t_DatagramIdentifier> _package_infos_by_type;
+    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_by_type;
 
     I_InputFile() = default;
 

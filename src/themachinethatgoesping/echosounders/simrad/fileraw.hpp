@@ -12,14 +12,14 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_inputfile.hpp"
 #include "../fileinterfaces/i_pingcontainer.hpp"
-#include "../fileinterfaces/i_pingiterator.hpp"
+
 #include "simradping.hpp"
 #include "simradpinginterface.hpp"
-#include "simradpingiterator.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -29,15 +29,20 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
+using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstream>>;
+
+template<typename t_ifstream>
 class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
-    const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
+    std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
         std::make_shared<SimradPingInterface<t_ifstream>>(this->_file_paths,
                                                           this->_package_infos_all);
 
-    fileinterfaces::I_PingContainer<SimradPing<t_ifstream>> _ping_container;
+    SimradPingContainer<t_ifstream> _ping_container;
+    tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
+        _ping_container_by_channel;
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -76,13 +81,34 @@ class FileRaw
     }
     ~FileRaw() = default;
 
-    SimradPingIterator<t_ifstream> pings() const
+    SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
+    SimradPingContainer<t_ifstream> pings(long index_min, long index_max, long index_step) const
     {
-        return SimradPingIterator<t_ifstream>(_ping_container.get_pings());
+        return _ping_container(index_min, index_max, index_step);
     }
-    SimradPingIterator<t_ifstream> pings(long index_min, long index_max, long index_step) const
+
+    SimradPingContainer<t_ifstream> pings(const std::string& channel_id) const
     {
-        return SimradPingIterator<t_ifstream>(_ping_container.get_pings(), index_min, index_max, index_step);
+        return *_ping_container_by_channel.get_const(channel_id);
+    }
+    SimradPingContainer<t_ifstream> pings(const std::string& channel_id,
+                                          long               index_min,
+                                          long               index_max,
+                                          long               index_step) const
+    {
+        return _ping_container_by_channel.get_const(channel_id)
+            ->
+            operator()(index_min, index_max, index_step);
+    }
+    std::vector<std::string> channel_ids() const
+    {
+        std::vector<std::string> channel_ids;
+        for (const auto& [k, v] : _ping_container_by_channel)
+        {
+            channel_ids.push_back(k);
+        }
+
+        return channel_ids;
     }
 
     // void print_fileinfo(std::ostream& os) const;
@@ -299,8 +325,10 @@ class FileRaw
                 if (!ifs.good())
                     break;
 
-                ping->raw().add_parameter(_packet_buffer.channel_parameters[ping->get_channel_id()]);
+                ping->raw().add_parameter(
+                    _packet_buffer.channel_parameters[ping->get_channel_id()]);
                 _ping_container.add_ping(ping);
+                _ping_container_by_channel.get(ping->get_channel_id())->add_ping(ping);
 
                 break;
             }

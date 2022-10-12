@@ -27,13 +27,12 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_PingType>
+template<typename t_Ping>
 class I_PingIterator
 {
   protected:
     /* header positions */
-    const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>> _pings;
-
+    std::shared_ptr<std::vector<std::shared_ptr<t_Ping>>> _pings;
 
     bool   _is_slice   = false;
     size_t _index_min  = 0;
@@ -41,13 +40,34 @@ class I_PingIterator
     long   _index_step = 1;
 
   public:
-    I_PingIterator<t_PingType>& operator()(long index_min,
-                                                       long index_max,
-                                                       long index_step)
-    {
 
+    I_PingIterator(std::shared_ptr<std::vector<std::shared_ptr<t_Ping>>> pings)
+        : _pings(pings)
+        , _is_slice(false)
+    {
+    }
+
+    I_PingIterator(std::shared_ptr<std::vector<std::shared_ptr<t_Ping>>> pings,
+                   long                                                        index_min,
+                   long                                                        index_max,
+                   long                                                        index_step)
+        : _pings(pings)
+    {
+        set_slice(index_min, index_max, index_step);
+    }
+
+    void reset_slice()
+    {
+        _is_slice   = false;
+        _index_min  = 0;
+        _index_max  = std::numeric_limits<long>::max();
+        _index_step = 1;
+    }
+
+    void set_slice(long index_min, long index_max, long index_step)
+    {
         if (index_step == 0)
-            throw(std::out_of_range("InputFileIterator: index_step is zero!"));
+            throw(std::out_of_range("InputFileIterator slice: index_step is zero!"));
 
         if (index_max == std::numeric_limits<long>::max())
             index_max = _pings->size();
@@ -86,42 +106,17 @@ class I_PingIterator
         _index_min  = index_min;
         _index_max  = index_max;
         _index_step = index_step;
-
-        return *this;
-    }
-
-    I_PingIterator(const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>>  pings)
-        : _pings(pings)
-        , _is_slice(false)
-    {
-    }
-
-    I_PingIterator(const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>>  pings,
-                   long                                      index_min,
-                   long                                      index_max,
-                   long                                      index_step)
-        : _pings(pings)
-    {
-        this->operator()(index_min, index_max, index_step);
     }
 
     size_t size() const
     {
         if (_is_slice)
-            return size_t((_index_max - _index_min) / std::abs(_index_step)) + 1; //TODO this needs to be checked
+            return size_t((_index_max - _index_min) / std::abs(_index_step)) +
+                   1; // TODO this needs to be checked
         return _pings->size();
     }
 
-    size_t max_number_of_samples() const
-    {
-        size_t max_samples = 0;
-        auto len = long(size());
-        for(long i = 0; i < len; ++i)
-            max_samples = std::max(max_samples, at(i).get_number_of_samples());
-        return max_samples;
-    }
-
-    const t_PingType& at(long index) const
+    size_t compute_index(long index) const
     {
         if (_is_slice)
         {
@@ -132,8 +127,7 @@ class I_PingIterator
             index *= _index_step;
 
             if (index < 0)
-                index += long(_index_max) +
-                         std::abs(_index_step); //_index_max == _pings->size()-1
+                index += long(_index_max) + std::abs(_index_step); //_index_max == _pings->size()-1
             else
                 index += long(_index_min);
 
@@ -157,9 +151,21 @@ class I_PingIterator
         if (index < long(_index_min))
             throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
-        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
-            return *(*_pings)[index];
+        return size_t (index);
+
     }
+
+    const t_Ping& at(long index) const
+    {
+        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
+        return *(*_pings)[compute_index(index)];
+    }
+    const std::shared_ptr<t_Ping>& at_ptr(long index) const
+    {
+        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
+        return (*_pings)[compute_index(index)];
+    }
+    
 };
 
 }

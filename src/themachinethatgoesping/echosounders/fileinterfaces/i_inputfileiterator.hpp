@@ -20,6 +20,7 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/helper.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -47,42 +48,6 @@ struct PackageInfo
     t_DatagramIdentifier datagram_identifier; ///< datagram type of this package
 };
 
-template<typename t_DatagramIdentifier>
-class PackageInfoPtrByTypeMap
-    : public std::unordered_map<t_DatagramIdentifier,
-                                std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>>
-{
-  public:
-    // use all constructors of the base class
-    PackageInfoPtrByTypeMap() = default;
-
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>>& get(
-        const t_DatagramIdentifier& key)
-    {
-        auto it = this->find(key);
-
-        if (it == this->end())
-        {
-            this->operator[](key) =
-                std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
-
-            return this->operator[](key);
-        }
-        return it->second;
-    }
-
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> get_const(
-        const t_DatagramIdentifier& key) const
-    {
-        auto it = this->find(key);
-
-        if (it == this->end())
-        {
-            return std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
-        }
-        return it->second;
-    }
-};
 
 // TODO: explicitly derive t_ from i_ using concepts from c++20
 template<typename t_DatagramIdentifier>
@@ -95,7 +60,7 @@ struct DataFileInfo
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos_all =
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>(); ///< all package headers
-    PackageInfoPtrByTypeMap<t_DatagramIdentifier>
+    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
         package_infos_by_type; ///< package headers sorted by type
 };
 
@@ -106,14 +71,14 @@ template<typename t_DatagramType,
 class I_InputFileIterator
 {
   protected:
-    const std::shared_ptr<std::vector<std::string>> _file_paths;
+    std::shared_ptr<std::vector<std::string>> _file_paths;
 
     /* the opened input file stream */
     std::unique_ptr<t_ifstream> _input_file_stream;
     long                        active_file_nr = -1;
 
     /* header positions */
-    const std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
     t_ifstream& get_active_stream(size_t file_nr)
     {

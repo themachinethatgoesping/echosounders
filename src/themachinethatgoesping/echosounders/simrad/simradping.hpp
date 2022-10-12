@@ -36,7 +36,7 @@ namespace simrad {
 template<typename t_ifstream>
 class SimradPingRawData
 {
-    const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
+    std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
 
   public:
     fileinterfaces::PackageInfo<t_SimradDatagramType>

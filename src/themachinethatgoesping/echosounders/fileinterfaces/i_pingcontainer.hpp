@@ -25,42 +25,12 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
+#include "i_pingiterator.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
-template<typename t_key, typename t_value>
-class DefaultSharedPointerMap : public std::map<t_key, std::shared_ptr<t_value>>
-{
-  public:
-    // use all constructors of the base class
-    DefaultSharedPointerMap() = default;
-
-    std::shared_ptr<t_value>& get(const t_key& key)
-    {
-        auto it = this->find(key);
-
-        if (it == this->end())
-        {
-            this->operator[](key) = std::make_shared<t_value>();
-
-            return this->operator[](key);
-        }
-        return it->second;
-    }
-
-    std::shared_ptr<t_value> get_const(const t_key& key) const
-    {
-        auto it = this->find(key);
-
-        if (it == this->end())
-        {
-            std::make_shared<t_value>();
-        }
-        return it->second;
-    }
-};
 
 template<typename t_Ping>
 using PingVector = std::vector<std::shared_ptr<t_Ping>>;
@@ -70,30 +40,69 @@ class I_PingContainer
 {
     std::string _name;
 
-    const std::shared_ptr<PingVector<t_Ping>> _pings = std::make_shared<PingVector<t_Ping>>();
+    std::shared_ptr<PingVector<t_Ping>> _pings;
 
-    DefaultSharedPointerMap<std::string, PingVector<t_Ping>> _pings_by_channel;
+    I_PingIterator<t_Ping> _iterator;
 
   public:
     I_PingContainer(std::string_view name = "Default")
         : _name(name)
+        , _pings(std::make_shared<PingVector<t_Ping>>())
+        , _iterator(_pings)
     {
     }
-    virtual ~I_PingContainer() = default;
+    ~I_PingContainer() = default;
 
     void add_ping(const std::shared_ptr<t_Ping> ping)
-    { 
-        _pings->push_back(ping);
-        _pings_by_channel.get(ping->get_channel_id())->push_back(ping);
+    {
+        this->_pings->push_back(ping);
     }
 
     const std::shared_ptr<PingVector<t_Ping>>& get_pings() const { return _pings; }
-    const std::shared_ptr<PingVector<t_Ping>>& get_pings_by_channel(std::string_view channel_id) const
+
+    // ----- compute ping information -----
+    size_t max_number_of_samples() const
     {
-        return _pings_by_channel.get_const(channel_id); 
+        size_t max_samples = 0;
+        auto   len         = long(size());
+        for (long i = 0; i < len; ++i)
+            max_samples = std::max(max_samples, _iterator.at(i).get_number_of_samples());
+        return max_samples;
     }
 
+    // ----- iterator interface -----
+    I_PingContainer<t_Ping> operator()(long index_min, long index_max, long index_step) const
+    {
+        I_PingContainer<t_Ping> slice(*this);
+        auto it = slice.get_iterator();
+        it.set_slice(index_min, index_max, index_step);
 
+        auto pings = std::make_shared<PingVector<t_Ping>>();
+
+        for (size_t i = 0; i < it.size(); ++i)
+        {
+            pings->push_back(it.at_ptr(i));
+        }
+
+        slice.set_pings(pings);
+
+        return slice;
+    }
+
+    const I_PingIterator<t_Ping>& get_iterator()
+{
+    return _iterator;
+}
+
+    void set_pings(std::shared_ptr<PingVector<t_Ping>> pings)
+    {
+        _pings = pings;
+        _iterator = I_PingIterator<t_Ping>(_pings);
+    }
+
+    size_t size() const { return _iterator.size(); }
+
+    const t_Ping& at(long index) const { return _iterator.at(index); }
 };
 
 } // namespace fileinterfaces
