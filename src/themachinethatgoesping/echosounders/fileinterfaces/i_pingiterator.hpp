@@ -27,30 +27,13 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_PingType, typename t_ifstream >
+template<typename t_PingType>
 class I_PingIterator
 {
   protected:
-    const std::shared_ptr<std::vector<std::string>> _file_paths;
-
-    /* the opened input file stream */
-    std::shared_ptr<t_ifstream> _input_file_stream;
-    long                        active_file_nr = -1;
-
     /* header positions */
-    const std::shared_ptr<const std::vector<t_PingType>> _pings;
+    const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>> _pings;
 
-    t_ifstream& get_active_stream(size_t file_nr)
-    {
-        // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
-        if (long(file_nr) != active_file_nr)
-        {
-            active_file_nr = long(file_nr);
-            _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
-        }
-        return *_input_file_stream;
-    }
 
     bool   _is_slice   = false;
     size_t _index_min  = 0;
@@ -58,7 +41,7 @@ class I_PingIterator
     long   _index_step = 1;
 
   public:
-    I_PingIterator<t_PingType, t_ifstream>& operator()(long index_min,
+    I_PingIterator<t_PingType>& operator()(long index_min,
                                                        long index_max,
                                                        long index_step)
     {
@@ -107,21 +90,17 @@ class I_PingIterator
         return *this;
     }
 
-    I_PingIterator(std::shared_ptr<std::vector<std::string>> file_paths,
-                   std::shared_ptr<std::vector<t_PingType>>  pings)
-        : _file_paths(file_paths)
-        , _pings(pings)
+    I_PingIterator(const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>>  pings)
+        : _pings(pings)
         , _is_slice(false)
     {
     }
 
-    I_PingIterator(std::shared_ptr<std::vector<std::string>> file_paths,
-                   std::shared_ptr<std::vector<t_PingType>>  pings,
+    I_PingIterator(const std::shared_ptr<std::vector<std::shared_ptr<t_PingType>>>  pings,
                    long                                      index_min,
                    long                                      index_max,
                    long                                      index_step)
-        : _file_paths(file_paths)
-        , _pings(pings)
+        : _pings(pings)
     {
         this->operator()(index_min, index_max, index_step);
     }
@@ -179,7 +158,7 @@ class I_PingIterator
             throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
-            return (*_pings)[index];
+            return *(*_pings)[index];
     }
 };
 

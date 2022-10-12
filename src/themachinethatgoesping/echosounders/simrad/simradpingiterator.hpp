@@ -24,26 +24,27 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradPingIterator : public fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>
+class SimradPingIterator : public fileinterfaces::I_PingIterator<SimradPing<t_ifstream>>
 {
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
         _navigation_interpolators =
             std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
 
   public:
-    SimradPingIterator(std::shared_ptr<std::vector<std::string>>            file_paths,
-                       std::shared_ptr<std::vector<SimradPing<t_ifstream>>> pings)
-        : fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(file_paths, pings)
+    SimradPingIterator(
+        const std::shared_ptr<std::vector<std::shared_ptr<SimradPing<t_ifstream>>>>
+            pings)
+        : fileinterfaces::I_PingIterator<SimradPing<t_ifstream>>( pings)
     {
     }
 
-    SimradPingIterator(std::shared_ptr<std::vector<std::string>>            file_paths,
-                       std::shared_ptr<std::vector<SimradPing<t_ifstream>>> pings,
-                       long                                                 index_min,
-                       long                                                 index_max,
-                       long                                                 index_step)
-        : fileinterfaces::I_PingIterator<SimradPing<t_ifstream>, t_ifstream>(file_paths,
-                                                                             pings,
+    SimradPingIterator(
+        const std::shared_ptr<std::vector<std::shared_ptr<SimradPing<t_ifstream>>>>
+             pings,
+        long index_min,
+        long index_max,
+        long index_step)
+        : fileinterfaces::I_PingIterator<SimradPing<t_ifstream>>(pings,
                                                                              index_min,
                                                                              index_max,
                                                                              index_step)

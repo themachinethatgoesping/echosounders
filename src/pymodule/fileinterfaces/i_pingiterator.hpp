@@ -59,13 +59,13 @@ void add_PingIterator(T_PyClass& cls, const std::string& T_NAME)
         pybind11::return_value_policy::reference_internal);
 }
 
-template<typename T_PingType, typename t_ifstream>
+template<typename T_PingType>
 void create_PingIteratorType(pybind11::module& m, const std::string ITERATOR_NAME)
 {
     using fileinterfaces::I_PingIterator;
     namespace py = pybind11;
 
-    using T_ITERATOR        = I_PingIterator<T_PingType, t_ifstream>;
+    using T_ITERATOR        = I_PingIterator<T_PingType>;
 
     auto cls_stream = py::class_<T_ITERATOR>(
         m,

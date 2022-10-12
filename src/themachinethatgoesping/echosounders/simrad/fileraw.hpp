@@ -15,6 +15,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_inputfile.hpp"
+#include "../fileinterfaces/i_pingcontainer.hpp"
 #include "../fileinterfaces/i_pingiterator.hpp"
 #include "simradping.hpp"
 #include "simradpinginterface.hpp"
@@ -27,7 +28,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
-template<typename t_ifstream >
+template<typename t_ifstream>
 class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
@@ -35,8 +36,8 @@ class FileRaw
     const std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
         std::make_shared<SimradPingInterface<t_ifstream>>(this->_file_paths,
                                                           this->_package_infos_all);
-    const std::shared_ptr<std::vector<SimradPing<t_ifstream>>> _pings =
-        std::make_shared<std::vector<SimradPing<t_ifstream>>>();
+
+    fileinterfaces::I_PingContainer<SimradPing<t_ifstream>> _ping_container;
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -77,11 +78,11 @@ class FileRaw
 
     SimradPingIterator<t_ifstream> pings() const
     {
-        return SimradPingIterator<t_ifstream>(this->_file_paths, _pings);
+        return SimradPingIterator<t_ifstream>(_ping_container.get_pings());
     }
     SimradPingIterator<t_ifstream> pings(long index_min, long index_max, long index_step) const
     {
-        return SimradPingIterator<t_ifstream>(this->_file_paths, _pings, index_min, index_max, index_step);
+        return SimradPingIterator<t_ifstream>(_ping_container.get_pings(), index_min, index_max, index_step);
     }
 
     // void print_fileinfo(std::ostream& os) const;
@@ -207,9 +208,9 @@ class FileRaw
   protected:
     struct
     {
-        datagrams::xml_datagrams::XML_Configuration configuration;
-        std::vector<datagrams::NME0>                nme0_packets;
-        std::vector<datagrams::MRU0>                mru0_packets;
+        datagrams::xml_datagrams::XML_Configuration                            configuration;
+        std::vector<datagrams::NME0>                                           nme0_packets;
+        std::vector<datagrams::MRU0>                                           mru0_packets;
         std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel> channel_parameters;
 
     } _packet_buffer;
@@ -227,7 +228,7 @@ class FileRaw
             throw std::runtime_error(
                 "Internal error: _navigation_interpolators.size() != file_paths_cnt");
 
-        //TODO: this crashed for empty navigation data!
+        // TODO: this crashed for empty navigation data!
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
@@ -273,13 +274,15 @@ class FileRaw
 
                 if (xml_type == "Parameter")
                 {
-                    auto channel = std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
+                    auto channel =
+                        std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
                     _packet_buffer.channel_parameters[channel.ChannelID] = channel;
-
                 }
                 else if (xml_type == "InitialParameter")
                 {
-                    auto channels = std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode()).Channels;
+                    auto channels =
+                        std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
+                            .Channels;
                     for (const auto& channel : channels)
                         _packet_buffer.channel_parameters[channel.ChannelID] = channel;
                 }
@@ -290,13 +293,14 @@ class FileRaw
                 break;
             }
             case t_SimradDatagramType::RAW3: {
-                _pings->emplace_back(
+                auto ping = std::make_shared<SimradPing<t_ifstream>>(
                     _ping_interface, package_info, datagrams::RAW3::from_stream(ifs, header, true));
 
                 if (!ifs.good())
-                    _pings->pop_back();
+                    break;
 
-                _pings->back().raw().add_parameter(_packet_buffer.channel_parameters[_pings->back().get_channel_id()]);
+                ping->raw().add_parameter(_packet_buffer.channel_parameters[ping->get_channel_id()]);
+                _ping_container.add_ping(ping);
 
                 break;
             }
