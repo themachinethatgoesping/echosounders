@@ -112,8 +112,8 @@ void init_m_simrad(pybind11::module& m)
     py_datagrams::init_m_SimradDatagrams(subm);
 
     // simrad classes
-    init_c_SimradPing(subm);
     init_c_SimradFileData(subm);
+    init_c_SimradPing(subm);
     init_c_SimradPingIterator(subm);
     init_c_fileraw(subm);
 }
