@@ -38,6 +38,7 @@ class SimradPingRawData
 {
     std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface;
 
+    std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
   public:
     fileinterfaces::PackageInfo<t_SimradDatagramType>
         _package_info_raw; ///< this can be RAW3 (EK80) or RAW0 (EK60)
@@ -45,7 +46,6 @@ class SimradPingRawData
     datagrams::RAW3
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
         
-    datagrams::xml_datagrams::XML_Parameter_Channel _ping_parameter;
 
   public:
     SimradPingRawData(std::shared_ptr<SimradPingInterface<t_ifstream>>  ping_interface,
@@ -58,9 +58,14 @@ class SimradPingRawData
     }
     ~SimradPingRawData() = default;
 
-    void add_parameter(const datagrams::xml_datagrams::XML_Parameter_Channel& parameter)
+    void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
-        _ping_parameter = parameter;
+        _ping_parameter = std::move(parameter);
+    }
+
+    const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const
+    {
+        return *_ping_parameter;
     }
 
     SimradFileData& file_data()

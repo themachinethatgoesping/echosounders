@@ -369,6 +369,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_file_data = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_get_parameter = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_get_sample_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_load_data = R"doc()doc";

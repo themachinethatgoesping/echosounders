@@ -221,6 +221,72 @@ struct XML_Parameter_Channel
     }
     bool operator!=(const XML_Parameter_Channel& other) const { return !operator==(other); }
 
+    bool operator<(const XML_Parameter_Channel& other) const
+    {
+        if(ChannelID < other.ChannelID)
+            return true;
+        if(ChannelID > other.ChannelID)
+            return false;
+        if(ChannelMode < other.ChannelMode)
+            return true;
+        if(ChannelMode > other.ChannelMode)
+            return false;
+        if(PulseForm < other.PulseForm)
+            return true;
+        if(PulseForm > other.PulseForm)
+            return false;
+        if(FrequencyStart < other.FrequencyStart)
+            return true;
+        if(FrequencyStart > other.FrequencyStart)
+            return false;
+        if(FrequencyEnd < other.FrequencyEnd)
+            return true;
+        if(FrequencyEnd > other.FrequencyEnd)
+            return false;
+        if(BandWidth < other.BandWidth)
+            return true;
+        if(BandWidth > other.BandWidth)
+            return false;
+        if(Frequency < other.Frequency)
+            return true;
+        if(Frequency > other.Frequency)
+            return false;
+        if(PulseDuration < other.PulseDuration)
+            return true;
+        if(PulseDuration > other.PulseDuration)
+            return false;
+        if(PulseLength < other.PulseLength)
+            return true;
+        if(PulseLength > other.PulseLength)
+            return false;
+        if(SampleInterval < other.SampleInterval)
+            return true;
+        if(SampleInterval > other.SampleInterval)
+            return false;
+        if(TransducerDepth < other.TransducerDepth)
+            return true;
+        if(TransducerDepth > other.TransducerDepth)
+            return false;
+        if(TransmitPower < other.TransmitPower)
+            return true;
+        if(TransmitPower > other.TransmitPower)
+            return false;
+        if(Slope < other.Slope)
+            return true;
+        if(Slope > other.Slope)
+            return false;
+        if(SoundVelocity < other.SoundVelocity)
+            return true;
+        if(SoundVelocity > other.SoundVelocity)
+            return false;
+        if(PingId < other.PingId)
+            return true;
+        if(PingId > other.PingId)
+            return false;
+
+        return false;
+    }
+
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {

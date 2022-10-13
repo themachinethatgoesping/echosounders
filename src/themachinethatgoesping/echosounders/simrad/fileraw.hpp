@@ -156,7 +156,6 @@ class FileRaw
 
         auto navi = navigation::NavigationInterpolatorLatLon(std::move(sensor_configuration));
 
-
         progress_bar.init(
             0.,
             double(_packet_buffer.nme0_packets.size() + _packet_buffer.mru0_packets.size()),
@@ -236,10 +235,16 @@ class FileRaw
   protected:
     struct
     {
-        datagrams::xml_datagrams::XML_Configuration                            configuration;
-        std::vector<datagrams::NME0>                                           nme0_packets;
-        std::vector<datagrams::MRU0>                                           mru0_packets;
-        std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel> channel_parameters;
+        datagrams::xml_datagrams::XML_Configuration configuration;
+        std::vector<datagrams::NME0>                nme0_packets;
+        std::vector<datagrams::MRU0>                mru0_packets;
+        // std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel>
+        // channel_parameters;
+        std::map<std::string, std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
+            channel_parameters_per_channel_id;
+        std::map<datagrams::xml_datagrams::XML_Parameter_Channel,
+                 std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
+            channel_parameters;
 
     } _packet_buffer;
 
@@ -251,7 +256,7 @@ class FileRaw
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
-    { 
+    {
         if (_navigation_interpolators->size() != file_paths_cnt)
             throw std::runtime_error(
                 "Internal error: _navigation_interpolators.size() != file_paths_cnt");
@@ -277,6 +282,7 @@ class FileRaw
         switch (type)
         {
             case t_SimradDatagramType::NME0: {
+
                 _packet_buffer.nme0_packets.emplace_back(datagrams::NME0::from_stream(ifs, header));
 
                 if (!ifs.good())
@@ -284,6 +290,7 @@ class FileRaw
                 break;
             }
             case t_SimradDatagramType::MRU0: {
+
                 _packet_buffer.mru0_packets.emplace_back(datagrams::MRU0::from_stream(ifs, header));
 
                 if (!ifs.good())
@@ -291,6 +298,7 @@ class FileRaw
                 break;
             }
             case t_SimradDatagramType::XML0: {
+
                 auto xml = datagrams::XML0::from_stream(ifs, header);
 
                 if (!ifs.good())
@@ -304,15 +312,62 @@ class FileRaw
                 {
                     auto channel =
                         std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
-                    _packet_buffer.channel_parameters[channel.ChannelID] = channel;
+
+                    // add channel_ptr if channel is not in in _packet_buffer.channel_parameters
+                    // keys
+                    if (_packet_buffer.channel_parameters.find(channel) ==
+                        _packet_buffer.channel_parameters.end())
+                    {
+                        auto channel_ptr =
+                            std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                channel);
+                        _packet_buffer.channel_parameters[channel] = channel_ptr;
+                        _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
+                            channel_ptr;
+                    }
+                    else
+                    {
+                        // update channel_ptr if channel is in in _packet_buffer.channel_parameters
+                        // keys
+                        auto channel_ptr = _packet_buffer.channel_parameters[channel];
+                        _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
+                            channel_ptr;
+                    }
                 }
                 else if (xml_type == "InitialParameter")
                 {
                     auto channels =
                         std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
                             .Channels;
+
                     for (const auto& channel : channels)
-                        _packet_buffer.channel_parameters[channel.ChannelID] = channel;
+                    {
+                        // add channel_ptr if channel is not in in _packet_buffer.channel_parameters
+                        // keys
+                        if (_packet_buffer.channel_parameters.find(channel) ==
+                            _packet_buffer.channel_parameters.end())
+                        {
+                            auto channel_ptr =
+                                std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                    channel);
+                            _packet_buffer.channel_parameters[channel] = channel_ptr;
+                            _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
+                                channel_ptr;
+                        }
+                        else
+                        {
+                            // update channel_ptr if channel is in in
+                            // _packet_buffer.channel_parameters keys
+                            auto channel_ptr = _packet_buffer.channel_parameters[channel];
+                            _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
+                                channel_ptr;
+                        }
+                    }
+
+                    // for (const auto& channel : channels)
+                    //     _packet_buffer.channel_parameters[channel.ChannelID] =
+                    //         std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
+                    //             std::move(channel));
                 }
                 else if (xml_type == "Configuration")
                     _packet_buffer.configuration =
@@ -328,7 +383,8 @@ class FileRaw
                     break;
 
                 ping->raw().add_parameter(
-                    _packet_buffer.channel_parameters[ping->get_channel_id()]);
+                    _packet_buffer.channel_parameters_per_channel_id[ping->get_channel_id()]);
+
                 _ping_container.add_ping(ping);
                 _ping_container_by_channel.get(ping->get_channel_id())->add_ping(ping);
 
