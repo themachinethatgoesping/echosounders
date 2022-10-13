@@ -38,12 +38,12 @@ namespace xml_datagrams {
  */
 struct XML_Configuration_Transducer
 {
-    double      TransducerAlphaX       = NAN;
-    double      TransducerAlphaY       = NAN;
-    double      TransducerAlphaZ       = NAN;
-    double      TransducerOffsetX      = NAN;
-    double      TransducerOffsetY      = NAN;
-    double      TransducerOffsetZ      = NAN;
+    double      TransducerAlphaX       = 0.;
+    double      TransducerAlphaY       = 0.;
+    double      TransducerAlphaZ       = 0.;
+    double      TransducerOffsetX      = 0.;
+    double      TransducerOffsetY      = 0.;
+    double      TransducerOffsetZ      = 0.;
     int         TransducerSerialNumber = -1;
     std::string TransducerMounting;
     std::string TransducerOrientation;

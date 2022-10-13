@@ -61,7 +61,9 @@ struct XML_Configuration
     int32_t unknown_attributes = 0;
 
     std::map<std::string, ChannelConfiguration>                  ChannelConfigurations;
-    std::map<std::string, std::vector<XML_Configuration_Sensor>> SensorConfigurations;
+    std::map<std::string, std::vector<XML_Configuration_Sensor>> SensorConfigurations = {
+        { "fallback", { XML_Configuration_Sensor() } }
+    };
 
   public:
     // ----- constructors -----
@@ -73,9 +75,12 @@ struct XML_Configuration
     {
         for (const auto& transceiver : Transceivers)
             for (const auto& channel : transceiver.Channels)
-                if (channel.ChannelID == channel_id) return transceiver;
+                if (channel.ChannelID == channel_id)
+                    return transceiver;
 
-        throw std::runtime_error("[XML_Configuration_Transceiver]: No transceiver found for channel " + std::string(channel_id));
+        throw std::runtime_error(
+            "[XML_Configuration_Transceiver]: No transceiver found for channel " +
+            std::string(channel_id));
     }
 
     std::map<std::string, XML_Configuration_Transceiver> get_transceivers() const
@@ -88,13 +93,17 @@ struct XML_Configuration
         return transceivers;
     }
 
-    const XML_Configuration_Transceiver_Channel& get_transceiver_channel(std::string_view channel_id) const
+    const XML_Configuration_Transceiver_Channel& get_transceiver_channel(
+        std::string_view channel_id) const
     {
         for (const auto& transceiver : Transceivers)
             for (const auto& channel : transceiver.Channels)
-                if (channel.ChannelID == channel_id) return channel;
+                if (channel.ChannelID == channel_id)
+                    return channel;
 
-        throw std::runtime_error("[XML_Configuration_Transceiver]: No transceiver channel found for channel " + std::string(channel_id));
+        throw std::runtime_error(
+            "[XML_Configuration_Transceiver]: No transceiver channel found for channel " +
+            std::string(channel_id));
     }
 
     std::map<std::string, XML_Configuration_Transceiver_Channel> get_transceiver_channels() const
@@ -133,13 +142,16 @@ struct XML_Configuration
     {
         std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
 
+        // add fallback sensor with priority 0
+        sensor_priorities.push_back(std::make_pair(0, &(SensorConfigurations.at("fallback")[0])));
+
         // loop through SensorConfigurations
         for (const auto& [key, sensors] : SensorConfigurations)
         {
             // loop through sensors
             for (const auto& sensor : sensors)
             {
-                sensor_priorities.push_back(std::make_pair(0, &sensor));
+                int prio = 0;
 
                 // loop through Telegrams
                 for (const auto& telegram : sensor.Telegrams)
@@ -150,9 +162,12 @@ struct XML_Configuration
                         // summ prio if value.Name in prio_values
                         if (std::find(prio_values.begin(), prio_values.end(), value.Name) !=
                             prio_values.end())
-                            sensor_priorities.back().first += value.Priority;
+                            prio += value.Priority;
                     }
                 }
+
+                if (prio > 0)
+                    sensor_priorities.push_back(std::make_pair(prio, &sensor));
             }
         }
 

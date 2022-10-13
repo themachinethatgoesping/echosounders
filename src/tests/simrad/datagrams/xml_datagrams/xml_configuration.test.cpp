@@ -1415,3 +1415,13 @@ TEST_CASE("XML_Configuration should support common functions", TESTTAG)
 
     // ignore other Transceivers and Frequency pars for now
 }
+
+TEST_CASE("XML_Configuration functions should not crash for empty data", TESTTAG)
+{
+    // initialize class structure
+    XML_Configuration c;
+    
+    c.get_prioritized_sensor({"Latitude"});
+    c.get_sensor_configuration();
+
+}

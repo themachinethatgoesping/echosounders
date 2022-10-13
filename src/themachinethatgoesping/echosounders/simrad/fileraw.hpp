@@ -151,9 +151,11 @@ class FileRaw
     navigation::NavigationInterpolatorLatLon process_navigation(
         tools::progressbars::I_ProgressBar& progress_bar)
     {
+
         auto sensor_configuration = _packet_buffer.configuration.get_sensor_configuration();
 
         auto navi = navigation::NavigationInterpolatorLatLon(std::move(sensor_configuration));
+
 
         progress_bar.init(
             0.,
@@ -249,14 +251,13 @@ class FileRaw
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
-    {
-        
-        // if (_navigation_interpolators->size() != file_paths_cnt)
-        //     throw std::runtime_error(
-        //         "Internal error: _navigation_interpolators.size() != file_paths_cnt");
+    { 
+        if (_navigation_interpolators->size() != file_paths_cnt)
+            throw std::runtime_error(
+                "Internal error: _navigation_interpolators.size() != file_paths_cnt");
 
-        // // TODO: this crashed for empty navigation data!
-        // _navigation_interpolators->push_back(process_navigation(false));
+        // TODO: this crashed for empty navigation data!
+        _navigation_interpolators->push_back(process_navigation(false));
     }
 
     fileinterfaces::PackageInfo<t_SimradDatagramType> callback_scan_packet(
@@ -272,11 +273,6 @@ class FileRaw
         package_info.file_pos            = pos;
         package_info.timestamp           = header.get_timestamp();
         package_info.datagram_identifier = header.get_datagram_identifier();
-
-        if (true){        
-        header.skip(ifs);
-        return package_info;
-        }
 
         switch (type)
         {

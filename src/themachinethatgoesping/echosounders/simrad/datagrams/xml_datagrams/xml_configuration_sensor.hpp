@@ -41,12 +41,12 @@ struct XML_Configuration_Sensor
 {
     double      Timeout = 20;
     int         Unique  = 0; // TODO: value type?
-    double      AngleZ  = NAN;
-    double      AngleY  = NAN;
-    double      AngleX  = NAN;
-    double      Y       = NAN;
-    double      X       = NAN;
-    double      Z       = NAN;
+    double      AngleZ  = 0.;
+    double      AngleY  = 0.;
+    double      AngleX  = 0.;
+    double      Y       = 0.;
+    double      X       = 0.;
+    double      Z       = 0.;
     std::string Port;
     std::string Type;
     std::string Name;
