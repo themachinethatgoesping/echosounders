@@ -38,17 +38,19 @@ namespace xml_datagrams {
 struct XML_Parameter_Channel
 {
     std::string ChannelID;
-    int64_t     ChannelMode    = -1;
-    double      PulseForm      = NAN; ///< 0 means cw, ?1 means chirp?
-    double      FrequencyStart = NAN; ///< used used for chirp pulse (PulseForm > 0)
-    double      FrequencyEnd   = NAN; ///< used used for chirp pulse (PulseForm > 0)
-    double      Frequency      = NAN; ///< used for cv ( PulseForm == 0)
-    double      PulseDuration  = NAN; ///< used used for chirp pulse (PulseForm > 0)
-    double      PulseLength    = NAN; ///< used for cv ( PulseForm == 0)
-    double      SampleInterval = NAN;
-    double      TransmitPower  = NAN;
-    double      Slope          = NAN;
-    double      SoundVelocity  = NAN;
+    int64_t     ChannelMode     = -1;
+    double      PulseForm       = NAN; ///< 0 means cw, ?1 means chirp?
+    double      FrequencyStart  = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      FrequencyEnd    = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      BandWidth       = NAN; ///< TODO: when is this one used
+    double      Frequency       = NAN; ///< used for cv ( PulseForm == 0)
+    double      PulseDuration   = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      PulseLength     = NAN; ///< used for cv ( PulseForm == 0)
+    double      SampleInterval  = NAN;
+    double      TransducerDepth = NAN; ///< when is this one used? only old format?
+    double      TransmitPower   = NAN;
+    double      Slope           = NAN;
+    double      SoundVelocity   = NAN;
     std::string PingId; ///< this is used in the InitialParameter datagram
 
     int32_t unknown_children   = 0;
@@ -90,6 +92,11 @@ struct XML_Parameter_Channel
                 FrequencyEnd = tools::helper::string_to_double(attr.value());
                 continue;
             }
+            if (name == "BandWidth")
+            {
+                BandWidth = tools::helper::string_to_double(attr.value());
+                continue;
+            }
             if (name == "Frequency")
             {
                 Frequency = tools::helper::string_to_double(attr.value());
@@ -108,6 +115,11 @@ struct XML_Parameter_Channel
             if (name == "SampleInterval")
             {
                 SampleInterval = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "TransducerDepth")
+            {
+                TransducerDepth = tools::helper::string_to_double(attr.value());
                 continue;
             }
             if (name == "TransmitPower")
@@ -173,7 +185,7 @@ struct XML_Parameter_Channel
         XML_Parameter_Channel xml;
         xml.ChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.ChannelMode), sizeof(xml.ChannelMode));
-        is.read(reinterpret_cast<char*>(&xml.PulseForm), sizeof(xml.PulseForm) * 10);
+        is.read(reinterpret_cast<char*>(&xml.PulseForm), sizeof(xml.PulseForm) * 12);
         xml.PingId = tools::classhelpers::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
@@ -185,7 +197,7 @@ struct XML_Parameter_Channel
     {
         tools::classhelpers::stream::container_to_stream(os, ChannelID);
         os.write(reinterpret_cast<const char*>(&ChannelMode), sizeof(ChannelMode));
-        os.write(reinterpret_cast<const char*>(&PulseForm), sizeof(PulseForm) * 10);
+        os.write(reinterpret_cast<const char*>(&PulseForm), sizeof(PulseForm) * 12);
         tools::classhelpers::stream::container_to_stream(os, PingId);
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
@@ -197,10 +209,11 @@ struct XML_Parameter_Channel
         using tools::helper::approx;
         return ChannelID == other.ChannelID && ChannelMode == other.ChannelMode &&
                approx(PulseForm, other.PulseForm) && approx(FrequencyStart, other.FrequencyStart) &&
-               approx(FrequencyEnd, other.FrequencyEnd) && approx(Frequency, other.Frequency) &&
+               approx(FrequencyEnd, other.FrequencyEnd) &&approx(BandWidth, other.BandWidth) && approx(Frequency, other.Frequency) &&
                approx(PulseDuration, other.PulseDuration) &&
                approx(PulseLength, other.PulseLength) &&
                approx(SampleInterval, other.SampleInterval) &&
+               approx(TransducerDepth, other.TransducerDepth) &&
                approx(TransmitPower, other.TransmitPower) && approx(Slope, other.Slope) &&
                approx(SoundVelocity, other.SoundVelocity) && PingId == other.PingId;
         // && unknown_children == other.unknown_children &&
@@ -217,10 +230,12 @@ struct XML_Parameter_Channel
         printer.register_value("PulseForm", PulseForm);
         printer.register_value("FrequencyStart", FrequencyStart);
         printer.register_value("FrequencyEnd", FrequencyEnd);
+        printer.register_value("BandWidth", BandWidth);
         printer.register_value("Frequency", Frequency);
         printer.register_value("PulseDuration", PulseDuration);
         printer.register_value("PulseLength", PulseLength);
         printer.register_value("SampleInterval", SampleInterval);
+        printer.register_value("TransducerDepth", TransducerDepth);
         printer.register_value("TransmitPower", TransmitPower);
         printer.register_value("Slope", Slope);
         printer.register_value("SoundVelocity", SoundVelocity);

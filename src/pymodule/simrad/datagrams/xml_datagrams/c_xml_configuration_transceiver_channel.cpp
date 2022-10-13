@@ -81,6 +81,15 @@ void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel,
                            ChannelIdShort))
+        .def_readwrite("PulseLength",
+                       &XML_Configuration_Transceiver_Channel::PulseLength,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XML_Configuration_Transceiver_Channel,
+                           PulseLength))
         .def_readwrite("PulseDuration",
                        &XML_Configuration_Transceiver_Channel::PulseDuration,
                        DOC(themachinethatgoesping,
@@ -117,6 +126,15 @@ void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Configuration_Transceiver_Channel,
                            HWChannelConfiguration))
+        .def_readwrite("ChannelNumber",
+                       &XML_Configuration_Transceiver_Channel::ChannelNumber,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XML_Configuration_Transceiver_Channel,
+                           ChannelNumber))
 
         .def_readwrite("unknown_children",
                        &XML_Configuration_Transceiver_Channel::unknown_children,

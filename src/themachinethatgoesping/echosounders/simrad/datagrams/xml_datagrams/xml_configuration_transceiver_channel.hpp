@@ -41,10 +41,12 @@ struct XML_Configuration_Transceiver_Channel
     std::string         ChannelID;
     std::string         LogicalChannelID;
     std::string         ChannelIdShort;
+    std::vector<double> PulseLength;
     std::vector<double> PulseDuration;
     std::vector<double> PulseDurationFM;
     double              MaxTxPowerTransceiver  = NAN;
     int                 HWChannelConfiguration = -1;
+    int                 ChannelNumber              = -1;
 
     XML_Configuration_Transceiver_Channel_Transducer Transducer;
 
@@ -102,6 +104,11 @@ struct XML_Configuration_Transceiver_Channel
                 ChannelIdShort = attr.value();
                 continue;
             }
+            else if (name == "PulseLength")
+            {
+                PulseLength = tools::helper::string_to_double_vector(attr.value(), ';');
+                continue;
+            }
             else if (name == "PulseDuration")
             {
                 PulseDuration = tools::helper::string_to_double_vector(attr.value(), ';');
@@ -122,6 +129,11 @@ struct XML_Configuration_Transceiver_Channel
                 HWChannelConfiguration = std::stoi(attr.value());
                 continue;
             }
+            else if (name == "ChannelNumber")
+            {
+                ChannelNumber = std::stoi(attr.value());
+                continue;
+            }
 
             std::cerr << "WARNING: [Configuration_Transceiver_Channel] Unknown attribute: " << name
                       << std::endl;
@@ -139,6 +151,8 @@ struct XML_Configuration_Transceiver_Channel
         xml.ChannelID        = tools::classhelpers::stream::container_from_stream<std::string>(is);
         xml.LogicalChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
         xml.ChannelIdShort   = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.PulseLength =
+            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
         xml.PulseDuration =
             tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
         xml.PulseDurationFM =
@@ -148,6 +162,8 @@ struct XML_Configuration_Transceiver_Channel
                 sizeof(xml.MaxTxPowerTransceiver));
         is.read(reinterpret_cast<char*>(&xml.HWChannelConfiguration),
                 sizeof(xml.HWChannelConfiguration));
+        is.read(reinterpret_cast<char*>(&xml.ChannelNumber),
+                sizeof(xml.ChannelNumber));
 
         xml.Transducer = XML_Configuration_Transceiver_Channel_Transducer::from_stream(is);
 
@@ -162,6 +178,7 @@ struct XML_Configuration_Transceiver_Channel
         tools::classhelpers::stream::container_to_stream(os, ChannelID);
         tools::classhelpers::stream::container_to_stream(os, LogicalChannelID);
         tools::classhelpers::stream::container_to_stream(os, ChannelIdShort);
+        tools::classhelpers::stream::container_to_stream(os, PulseLength);
         tools::classhelpers::stream::container_to_stream(os, PulseDuration);
         tools::classhelpers::stream::container_to_stream(os, PulseDurationFM);
 
@@ -169,6 +186,8 @@ struct XML_Configuration_Transceiver_Channel
                  sizeof(MaxTxPowerTransceiver));
         os.write(reinterpret_cast<const char*>(&HWChannelConfiguration),
                  sizeof(HWChannelConfiguration));
+        os.write(reinterpret_cast<const char*>(&ChannelNumber),
+                 sizeof(ChannelNumber));
 
         Transducer.to_stream(os);
 
@@ -183,10 +202,12 @@ struct XML_Configuration_Transceiver_Channel
 
         return ChannelID == other.ChannelID && LogicalChannelID == other.LogicalChannelID &&
                ChannelIdShort == other.ChannelIdShort &&
+               approx_container(PulseLength, other.PulseLength) &&
                approx_container(PulseDuration, other.PulseDuration) &&
                approx_container(PulseDurationFM, other.PulseDurationFM) &&
                approx(MaxTxPowerTransceiver, other.MaxTxPowerTransceiver) &&
                HWChannelConfiguration == other.HWChannelConfiguration &&
+               ChannelNumber == other.ChannelNumber &&
                Transducer == other.Transducer;
 
         // && unknown_children == other.unknown_children &&
@@ -211,11 +232,13 @@ struct XML_Configuration_Transceiver_Channel
         printer.register_string("LogicalChannelID", LogicalChannelID);
         printer.register_string("ChannelIdShort", ChannelIdShort);
 
+        printer.register_container("PulseLength", PulseLength);
         printer.register_container("PulseDuration", PulseDuration);
         printer.register_container("PulseDurationFM", PulseDurationFM);
 
         printer.register_value("MaxTxPowerTransceiver", MaxTxPowerTransceiver);
         printer.register_value("HWChannelConfiguration", HWChannelConfiguration);
+        printer.register_value("ChannelNumber", ChannelNumber);
 
         printer.register_value("unknown_children", unknown_children);
         printer.register_value("unknown_attributes", unknown_attributes);

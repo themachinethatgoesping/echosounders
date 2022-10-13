@@ -88,6 +88,15 @@ void init_c_xml_parameter_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Parameter_Channel,
                            FrequencyEnd))
+        .def_readwrite("BandWidth",
+                       &XML_Parameter_Channel::BandWidth,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XML_Parameter_Channel,
+                           BandWidth))
         .def_readwrite("Frequency",
                        &XML_Parameter_Channel::Frequency,
                        DOC(themachinethatgoesping,
@@ -124,6 +133,15 @@ void init_c_xml_parameter_channel(pybind11::module& m)
                            xml_datagrams,
                            XML_Parameter_Channel,
                            SampleInterval))
+        .def_readwrite("TransducerDepth",
+                       &XML_Parameter_Channel::TransducerDepth,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XML_Parameter_Channel,
+                           TransducerDepth))
         .def_readwrite("TransmitPower",
                        &XML_Parameter_Channel::TransmitPower,
                        DOC(themachinethatgoesping,
