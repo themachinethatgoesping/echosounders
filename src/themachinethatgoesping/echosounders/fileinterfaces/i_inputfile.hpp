@@ -61,10 +61,10 @@ class I_InputFile
     }
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
-        std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos_all =
+        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>();
     tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo<t_DatagramIdentifier>>>
+                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>
         _package_infos_by_type;
 
     I_InputFile() = default;
@@ -163,17 +163,17 @@ class I_InputFile
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         const auto& package_info = _package_infos_all->at(index);
 
-        // auto& ifs = _input_file_streams[package_info.file_nr];
-        auto& ifs = get_active_stream(package_info.file_nr);
+        // auto& ifs = _input_file_streams[package_info->file_nr];
+        auto& ifs = get_active_stream(package_info->file_nr);
 
-        ifs.seekg(package_info.file_pos);
+        ifs.seekg(package_info->file_pos);
 
         try
         {
             // t_DatagramTypeFactory::from_stream must return t_datagramType
             // this allows for defining the static function from_stream in a different class
             // than the datagram type
-            return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info->datagram_identifier);
         }
         catch (std::exception& e)
         {
@@ -182,9 +182,9 @@ class I_InputFile
             msg += fmt::format("python_index: {}\n", python_index);
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all->size());
-            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("pos: {}\n", package_info->file_pos);
             msg += fmt::format("size: {}\n",
-                               std::filesystem::file_size(_file_paths->at(package_info.file_nr)));
+                               std::filesystem::file_size(_file_paths->at(package_info->file_nr)));
             throw std::runtime_error(msg);
         }
     }
@@ -199,33 +199,33 @@ class I_InputFile
         // to be 10x faster for this use case
         boost::sort::pdqsort(
             package_infos.begin(), package_infos.end(), [](const auto& lhs, const auto& rhs) {
-                if (lhs.timestamp < rhs.timestamp)
+                if (lhs->timestamp < rhs->timestamp)
                     return true;
-                if (lhs.timestamp > rhs.timestamp)
+                if (lhs->timestamp > rhs->timestamp)
                     return false;
-                if (lhs.file_pos < rhs.file_pos)
+                if (lhs->file_pos < rhs->file_pos)
                     return true;
-                if (lhs.file_pos > rhs.file_pos)
+                if (lhs->file_pos > rhs->file_pos)
                     return false;
-                if (lhs.file_nr < rhs.file_nr)
+                if (lhs->file_nr < rhs->file_nr)
                     return true;
                 return false;
             });
 
         // reset _package_infos_by_type using the sorted _package_infos_all
         _package_infos_by_type.clear();
-        std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
+        std::unordered_map<t_DatagramIdentifier, std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>
             package_infos_by_type;
 
         for (const auto& package_info : package_infos)
         {
-            package_infos_by_type[package_info.datagram_identifier].push_back(package_info);
+            package_infos_by_type[package_info->datagram_identifier].push_back(package_info);
         }
 
         for (const auto& [datagram_identifier, package_infos] : package_infos_by_type)
         {
             _package_infos_by_type[datagram_identifier] =
-                std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>(
+                std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>(
                     std::move(package_infos));
         }
     }
@@ -334,17 +334,17 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual PackageInfo<t_DatagramIdentifier>
+    virtual PackageInfo_ptr<t_DatagramIdentifier>
     callback_scan_packet(t_ifstream& ifs, typename t_ifstream::pos_type pos, size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
 
-        PackageInfo<t_DatagramIdentifier> package_info;
-        package_info.file_nr             = file_paths_cnt;
-        package_info.file_pos            = pos;
-        package_info.timestamp           = header.get_timestamp();
-        package_info.datagram_identifier = header.get_datagram_identifier();
+        auto package_info = std::make_shared<PackageInfo<t_DatagramIdentifier>>();
+        package_info->file_nr             = file_paths_cnt;
+        package_info->file_pos            = pos;
+        package_info->timestamp           = header.get_timestamp();
+        package_info->datagram_identifier = header.get_datagram_identifier();
         return package_info;
     }
 
@@ -396,7 +396,7 @@ class I_InputFile
 
                     package_infos_all.push_back(package_info);
                     auto& package_infos_type =
-                        *(file_info.package_infos_by_type.get(package_info.datagram_identifier));
+                        *(file_info.package_infos_by_type.get(package_info->datagram_identifier));
 
                     package_infos_type.push_back(package_info);
 

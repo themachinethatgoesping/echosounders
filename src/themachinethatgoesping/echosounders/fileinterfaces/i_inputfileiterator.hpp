@@ -48,6 +48,9 @@ struct PackageInfo
     t_DatagramIdentifier datagram_identifier; ///< datagram type of this package
 };
 
+template<typename t_DatagramIdentifier>
+using PackageInfo_ptr = std::shared_ptr<PackageInfo<t_DatagramIdentifier>>;
+
 // TODO: explicitly derive t_ from i_ using concepts from c++20
 template<typename t_DatagramIdentifier>
 struct DataFileInfo
@@ -57,10 +60,10 @@ struct DataFileInfo
     size_t      file_size;
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos_all =
-        std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>(); ///< all package headers
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos_all =
+        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>(); ///< all package headers
     tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo<t_DatagramIdentifier>>>
+                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>
         package_infos_by_type; ///< package headers sorted by type
 };
 
@@ -78,7 +81,7 @@ class I_InputFileIterator
     long                        active_file_nr = -1;
 
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
@@ -148,7 +151,7 @@ class I_InputFileIterator
 
     I_InputFileIterator(
         std::shared_ptr<std::vector<std::string>>                       file_paths,
-        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
         , _is_slice(false)
@@ -157,7 +160,7 @@ class I_InputFileIterator
 
     I_InputFileIterator(
         std::shared_ptr<std::vector<std::string>>                       file_paths,
-        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos,
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos,
         long                                                            index_min,
         long                                                            index_max,
         long                                                            index_step)
@@ -216,10 +219,10 @@ class I_InputFileIterator
         const auto& package_info = _package_infos->at(index);
         try
         {
-            t_ifstream& ifs = get_active_stream(package_info.file_nr);
-            ifs.seekg(package_info.file_pos);
+            t_ifstream& ifs = get_active_stream(package_info->file_nr);
+            ifs.seekg(package_info->file_pos);
 
-            return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info->datagram_identifier);
         }
         catch (std::exception& e)
         {
@@ -227,7 +230,7 @@ class I_InputFileIterator
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("__package_infos->size(): {}\n", _package_infos->size());
-            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("pos: {}\n", package_info->file_pos);
             throw std::runtime_error(msg);
         }
     }

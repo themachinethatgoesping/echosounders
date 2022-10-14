@@ -38,11 +38,11 @@ class I_PingInterface
     long                        active_file_nr = -1;
 
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
 
   public:
     I_PingInterface(std::shared_ptr<std::vector<std::string>>                       file_paths,
-                    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
+                    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
     {
@@ -68,20 +68,20 @@ class I_PingInterface
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    t_DatagramType at(const PackageInfo<t_DatagramIdentifier>& package_info)
+    t_DatagramType at(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
     {
         try
         {
-            t_ifstream& ifs = get_active_stream(package_info.file_nr);
-            ifs.seekg(package_info.file_pos);
+            t_ifstream& ifs = get_active_stream(package_info->file_nr);
+            ifs.seekg(package_info->file_pos);
 
-            return t_DatagramTypeFactory::from_stream(ifs, package_info.datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info->datagram_identifier);
         }
         catch (std::exception& e)
         {
 
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
-            msg += fmt::format("pos: {}\n", package_info.file_pos);
+            msg += fmt::format("pos: {}\n", package_info->file_pos);
             throw std::runtime_error(msg);
         }
     }

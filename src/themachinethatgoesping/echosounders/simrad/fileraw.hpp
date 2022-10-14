@@ -265,7 +265,7 @@ class FileRaw
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
-    fileinterfaces::PackageInfo<t_SimradDatagramType> callback_scan_packet(
+    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> callback_scan_packet(
         t_ifstream&                   ifs,
         typename t_ifstream::pos_type pos,
         size_t                        file_paths_cnt) final
@@ -273,11 +273,11 @@ class FileRaw
         auto header = datagrams::SimradDatagram::from_stream(ifs);
         auto type   = header.get_datagram_identifier();
 
-        fileinterfaces::PackageInfo<t_SimradDatagramType> package_info;
-        package_info.file_nr             = file_paths_cnt;
-        package_info.file_pos            = pos;
-        package_info.timestamp           = header.get_timestamp();
-        package_info.datagram_identifier = header.get_datagram_identifier();
+        auto package_info = std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType>>();
+        package_info->file_nr             = file_paths_cnt;
+        package_info->file_pos            = pos;
+        package_info->timestamp           = header.get_timestamp();
+        package_info->datagram_identifier = header.get_datagram_identifier();
 
         switch (type)
         {
