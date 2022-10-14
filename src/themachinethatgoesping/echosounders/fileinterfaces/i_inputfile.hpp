@@ -24,7 +24,9 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
+#include "i_package_info_types.hpp"
 #include "i_inputfileiterator.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {

@@ -149,20 +149,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Na
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_package_infos_by_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_I_NavigationInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_add_package_info = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_data_ptr = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_name = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationInterface_navigation_data_interfaces = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer = R"doc()doc";
@@ -316,6 +302,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_navi
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_ping_container = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_ping_container_by_channel = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_ping_data_interface = R"doc()doc";
 

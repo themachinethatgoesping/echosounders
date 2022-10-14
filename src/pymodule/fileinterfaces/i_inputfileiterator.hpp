@@ -19,31 +19,6 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_InputFileIterator {
 
-#define __CLASS_PACKAGEINFO__(PYMODULE, t_DatagramIdentifier)                                      \
-    py::class_<PackageInfo<t_DatagramIdentifier>>(                                                 \
-        PYMODULE,                                                                                  \
-        #t_DatagramIdentifier "_PackageInfo",                                                      \
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, PackageInfo))                    \
-        .def(py::init<>())                                                                         \
-        .def_readwrite(                                                                            \
-            "file_nr",                                                                             \
-            &PackageInfo<t_DatagramIdentifier>::file_nr,                                           \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, PackageInfo, file_nr))       \
-        .def_readwrite(                                                                            \
-            "file_pos",                                                                            \
-            &PackageInfo<t_DatagramIdentifier>::file_pos,                                          \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, PackageInfo, file_pos))      \
-        .def_readwrite(                                                                            \
-            "timestamp",                                                                           \
-            &PackageInfo<t_DatagramIdentifier>::timestamp,                                         \
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, PackageInfo, timestamp))     \
-        .def_readwrite("datagram_identifier",                                                      \
-                       &PackageInfo<t_DatagramIdentifier>::datagram_identifier,                    \
-                       DOC(themachinethatgoesping,                                                 \
-                           echosounders,                                                           \
-                           fileinterfaces,                                                         \
-                           PackageInfo,                                                            \
-                           datagram_identifier))
 
 template<typename T_BaseClass, typename T_PyClass>
 void _iterator_add_PackageReading(T_PyClass& cls)
