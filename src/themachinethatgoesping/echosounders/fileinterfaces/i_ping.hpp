@@ -44,7 +44,10 @@ class I_Ping
     virtual void load_data() { throw not_implemented("load_data", _name); }
     virtual void release_data() { throw not_implemented("release_data", _name); }
 
-    virtual size_t get_number_of_samples() const { throw not_implemented("get_number_of_samples", _name); }
+    virtual size_t get_number_of_samples() const
+    {
+        throw not_implemented("get_number_of_samples", _name);
+    }
 
     virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
     {
@@ -61,7 +64,8 @@ class I_Ping
     struct not_implemented : public std::runtime_error
     {
         not_implemented(std::string_view method_name, std::string_view name)
-            : std::runtime_error(fmt::format("method {} not implemented for ping type '{}'", method_name, name))
+            : std::runtime_error(
+                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
         {
         }
     };

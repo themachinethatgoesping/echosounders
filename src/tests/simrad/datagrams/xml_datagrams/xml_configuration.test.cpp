@@ -1420,8 +1420,7 @@ TEST_CASE("XML_Configuration functions should not crash for empty data", TESTTAG
 {
     // initialize class structure
     XML_Configuration c;
-    
-    c.get_prioritized_sensor({"Latitude"});
-    c.get_sensor_configuration();
 
+    c.get_prioritized_sensor({ "Latitude" });
+    c.get_sensor_configuration();
 }

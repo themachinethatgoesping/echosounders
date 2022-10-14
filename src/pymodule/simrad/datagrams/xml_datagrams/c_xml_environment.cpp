@@ -23,175 +23,59 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::xml_datagrams::XML_Environment;
 
+#define LOCAL_CLASS_DOC_PREFIX                                                                     \
+    themachinethatgoesping, echosounders, simrad, datagrams, xml_datagrams, XML_Environment
+
 void init_c_xml_environment(pybind11::module& m)
 {
-    py::class_<XML_Environment>(m,
-                                "XML_Environment",
-                                DOC(themachinethatgoesping,
-                                    echosounders,
-                                    simrad,
-                                    datagrams,
-                                    xml_datagrams,
-                                    XML_Environment))
-        .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 xml_datagrams,
-                 XML_Environment,
-                 XML_Environment))
+    py::class_<XML_Environment>(m, "XML_Environment", DOC(LOCAL_CLASS_DOC_PREFIX))
+        .def(py::init<>(), DOC(LOCAL_CLASS_DOC_PREFIX, XML_Environment))
 
         // ----- children -----
-        .def_readwrite("Transducer",
-                       &XML_Environment::Transducer,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Transducer))
+        .def_readwrite(
+            "Transducers", &XML_Environment::Transducers, DOC(LOCAL_CLASS_DOC_PREFIX, Transducers))
 
         // ----- attributes -----
         .def_readwrite("WaterLevelDraft",
                        &XML_Environment::WaterLevelDraft,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           WaterLevelDraft))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, WaterLevelDraft))
         .def_readwrite("DropKeelOffsetIsManual",
                        &XML_Environment::DropKeelOffsetIsManual,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           DropKeelOffsetIsManual))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, DropKeelOffsetIsManual))
         .def_readwrite("DropKeelOffset",
                        &XML_Environment::DropKeelOffset,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           DropKeelOffset))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, DropKeelOffset))
         .def_readwrite("SoundVelocityProfile",
                        &XML_Environment::SoundVelocityProfile,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           SoundVelocityProfile))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, SoundVelocityProfile))
         .def_readwrite("WaterLevelDraftIsManual",
                        &XML_Environment::WaterLevelDraftIsManual,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           WaterLevelDraftIsManual))
-        .def_readwrite("Latitude",
-                       &XML_Environment::Latitude,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Latitude))
-        .def_readwrite("SoundSpeed",
-                       &XML_Environment::SoundSpeed,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           SoundSpeed))
-        .def_readwrite("Salinity",
-                       &XML_Environment::Salinity,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Salinity))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, WaterLevelDraftIsManual))
+        .def_readwrite(
+            "Latitude", &XML_Environment::Latitude, DOC(LOCAL_CLASS_DOC_PREFIX, Latitude))
+        .def_readwrite(
+            "SoundSpeed", &XML_Environment::SoundSpeed, DOC(LOCAL_CLASS_DOC_PREFIX, SoundSpeed))
+        .def_readwrite(
+            "Salinity", &XML_Environment::Salinity, DOC(LOCAL_CLASS_DOC_PREFIX, Salinity))
         .def_readwrite("SoundVelocitySource",
                        &XML_Environment::SoundVelocitySource,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           SoundVelocitySource))
-        .def_readwrite("Acidity",
-                       &XML_Environment::Acidity,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Acidity))
-        .def_readwrite("Temperature",
-                       &XML_Environment::Temperature,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Temperature))
-        .def_readwrite("Depth",
-                       &XML_Environment::Depth,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           Depth))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, SoundVelocitySource))
+        .def_readwrite("Acidity", &XML_Environment::Acidity, DOC(LOCAL_CLASS_DOC_PREFIX, Acidity))
+        .def_readwrite(
+            "Temperature", &XML_Environment::Temperature, DOC(LOCAL_CLASS_DOC_PREFIX, Temperature))
+        .def_readwrite("Depth", &XML_Environment::Depth, DOC(LOCAL_CLASS_DOC_PREFIX, Depth))
 
         .def_readwrite("unknown_children",
                        &XML_Environment::unknown_children,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           unknown_children))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, unknown_children))
         .def_readwrite("unknown_attributes",
                        &XML_Environment::unknown_attributes,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Environment,
-                           unknown_attributes))
+                       DOC(LOCAL_CLASS_DOC_PREFIX, unknown_attributes))
 
         // ----- methods -----
         .def("parsed_completely",
              &XML_Environment::parsed_completely,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 xml_datagrams,
-                 XML_Environment,
-                 parsed_completely))
+             DOC(LOCAL_CLASS_DOC_PREFIX, parsed_completely))
 
         // ----- pybind macros -----
         // default copy functions

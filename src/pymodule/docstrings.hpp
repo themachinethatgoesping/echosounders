@@ -269,6 +269,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_chan
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_channel_parameters = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_channel_parameters_per_channel_id = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileRaw_datagram_identifier_info = R"doc()doc";
@@ -1276,6 +1278,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_SampleInterval = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_Transducer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_Transducer_2 = R"doc(XML base datagram)doc";
@@ -1418,6 +1422,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transducer = R"doc(XML base datagram)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transducer_HeadingQuickCalibration = R"doc(< Seems to be used seldomly?)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transducer_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_Transducer_TransducerAlphaX = R"doc()doc";
@@ -1541,9 +1547,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_TowedBodyDepthIsManual = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer_2 = R"doc(XML base datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer = R"doc(XML base datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
@@ -1572,6 +1576,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer_unknown_attributes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducer_unknown_children = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_Transducers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Environment_WaterLevelDraft = R"doc()doc";
 
@@ -1714,6 +1720,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_initialize_channel_structure = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_operator_lt = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_operator_ne = R"doc()doc";
 

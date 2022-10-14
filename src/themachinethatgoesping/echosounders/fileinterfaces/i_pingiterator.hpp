@@ -40,7 +40,6 @@ class I_PingIterator
     long   _index_step = 1;
 
   public:
-
     I_PingIterator(std::shared_ptr<std::vector<std::shared_ptr<t_Ping>>> pings)
         : _pings(pings)
         , _is_slice(false)
@@ -48,9 +47,9 @@ class I_PingIterator
     }
 
     I_PingIterator(std::shared_ptr<std::vector<std::shared_ptr<t_Ping>>> pings,
-                   long                                                        index_min,
-                   long                                                        index_max,
-                   long                                                        index_step)
+                   long                                                  index_min,
+                   long                                                  index_max,
+                   long                                                  index_step)
         : _pings(pings)
     {
         set_slice(index_min, index_max, index_step);
@@ -151,8 +150,7 @@ class I_PingIterator
         if (index < long(_index_min))
             throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
-        return size_t (index);
-
+        return size_t(index);
     }
 
     const t_Ping& at(long index) const
@@ -165,7 +163,6 @@ class I_PingIterator
         // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
         return (*_pings)[compute_index(index)];
     }
-    
 };
 
 }

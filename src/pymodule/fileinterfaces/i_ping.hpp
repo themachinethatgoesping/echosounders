@@ -28,14 +28,12 @@ void add_ping_interface(T_PyClass& cls)
         "get_number_of_samples",
         &T_BaseClass::get_number_of_samples,
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, get_number_of_samples));
-    cls.def(
-        "load_data",
-        &T_BaseClass::load_data,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, load_data));
-    cls.def(
-        "release_data",
-        &T_BaseClass::release_data,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, release_data));
+    cls.def("load_data",
+            &T_BaseClass::load_data,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, load_data));
+    cls.def("release_data",
+            &T_BaseClass::release_data,
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, release_data));
 }
 
 }

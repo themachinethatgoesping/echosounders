@@ -209,8 +209,8 @@ struct XML_Parameter_Channel
         using tools::helper::approx;
         return ChannelID == other.ChannelID && ChannelMode == other.ChannelMode &&
                approx(PulseForm, other.PulseForm) && approx(FrequencyStart, other.FrequencyStart) &&
-               approx(FrequencyEnd, other.FrequencyEnd) &&approx(BandWidth, other.BandWidth) && approx(Frequency, other.Frequency) &&
-               approx(PulseDuration, other.PulseDuration) &&
+               approx(FrequencyEnd, other.FrequencyEnd) && approx(BandWidth, other.BandWidth) &&
+               approx(Frequency, other.Frequency) && approx(PulseDuration, other.PulseDuration) &&
                approx(PulseLength, other.PulseLength) &&
                approx(SampleInterval, other.SampleInterval) &&
                approx(TransducerDepth, other.TransducerDepth) &&
@@ -223,65 +223,65 @@ struct XML_Parameter_Channel
 
     bool operator<(const XML_Parameter_Channel& other) const
     {
-        if(ChannelID < other.ChannelID)
+        if (ChannelID < other.ChannelID)
             return true;
-        if(ChannelID > other.ChannelID)
+        if (ChannelID > other.ChannelID)
             return false;
-        if(ChannelMode < other.ChannelMode)
+        if (ChannelMode < other.ChannelMode)
             return true;
-        if(ChannelMode > other.ChannelMode)
+        if (ChannelMode > other.ChannelMode)
             return false;
-        if(PulseForm < other.PulseForm)
+        if (PulseForm < other.PulseForm)
             return true;
-        if(PulseForm > other.PulseForm)
+        if (PulseForm > other.PulseForm)
             return false;
-        if(FrequencyStart < other.FrequencyStart)
+        if (FrequencyStart < other.FrequencyStart)
             return true;
-        if(FrequencyStart > other.FrequencyStart)
+        if (FrequencyStart > other.FrequencyStart)
             return false;
-        if(FrequencyEnd < other.FrequencyEnd)
+        if (FrequencyEnd < other.FrequencyEnd)
             return true;
-        if(FrequencyEnd > other.FrequencyEnd)
+        if (FrequencyEnd > other.FrequencyEnd)
             return false;
-        if(BandWidth < other.BandWidth)
+        if (BandWidth < other.BandWidth)
             return true;
-        if(BandWidth > other.BandWidth)
+        if (BandWidth > other.BandWidth)
             return false;
-        if(Frequency < other.Frequency)
+        if (Frequency < other.Frequency)
             return true;
-        if(Frequency > other.Frequency)
+        if (Frequency > other.Frequency)
             return false;
-        if(PulseDuration < other.PulseDuration)
+        if (PulseDuration < other.PulseDuration)
             return true;
-        if(PulseDuration > other.PulseDuration)
+        if (PulseDuration > other.PulseDuration)
             return false;
-        if(PulseLength < other.PulseLength)
+        if (PulseLength < other.PulseLength)
             return true;
-        if(PulseLength > other.PulseLength)
+        if (PulseLength > other.PulseLength)
             return false;
-        if(SampleInterval < other.SampleInterval)
+        if (SampleInterval < other.SampleInterval)
             return true;
-        if(SampleInterval > other.SampleInterval)
+        if (SampleInterval > other.SampleInterval)
             return false;
-        if(TransducerDepth < other.TransducerDepth)
+        if (TransducerDepth < other.TransducerDepth)
             return true;
-        if(TransducerDepth > other.TransducerDepth)
+        if (TransducerDepth > other.TransducerDepth)
             return false;
-        if(TransmitPower < other.TransmitPower)
+        if (TransmitPower < other.TransmitPower)
             return true;
-        if(TransmitPower > other.TransmitPower)
+        if (TransmitPower > other.TransmitPower)
             return false;
-        if(Slope < other.Slope)
+        if (Slope < other.Slope)
             return true;
-        if(Slope > other.Slope)
+        if (Slope > other.Slope)
             return false;
-        if(SoundVelocity < other.SoundVelocity)
+        if (SoundVelocity < other.SoundVelocity)
             return true;
-        if(SoundVelocity > other.SoundVelocity)
+        if (SoundVelocity > other.SoundVelocity)
             return false;
-        if(PingId < other.PingId)
+        if (PingId < other.PingId)
             return true;
-        if(PingId > other.PingId)
+        if (PingId > other.PingId)
             return false;
 
         return false;

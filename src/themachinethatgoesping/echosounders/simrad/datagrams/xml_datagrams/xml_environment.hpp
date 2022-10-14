@@ -53,7 +53,7 @@ struct XML_Environment
     bool   TowedBodyDepthIsManual = false;
     double TowedBodyDepth         = NAN;
 
-    XML_Environment_Transducer Transducer;
+    std::vector<XML_Environment_Transducer> Transducers;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -73,12 +73,11 @@ struct XML_Environment
         }
         unknown_attributes = 0;
         unknown_children   = 0; // there should only be one child for this node
-        bool parsed        = false;
 
         // there should only be one child for this node
         for (const auto& node : root_node.children())
         {
-            if (parsed || strcmp(node.name(), "Transducer"))
+            if (strcmp(node.name(), "Transducer"))
             {
                 std::cerr << "WARNING: [Environment] Unknown child: " << node.name() << std::endl;
 
@@ -87,9 +86,7 @@ struct XML_Environment
                 continue;
             }
 
-            parsed = true;
-
-            Transducer = XML_Environment_Transducer(node);
+            Transducers.emplace_back(node);
         }
 
         for (auto& attr : root_node.attributes())
@@ -200,7 +197,13 @@ struct XML_Environment
                 sizeof(xml.TowedBodyDepthIsManual));
         is.read(reinterpret_cast<char*>(&xml.TowedBodyDepth), sizeof(xml.TowedBodyDepth));
 
-        xml.Transducer = XML_Environment_Transducer::from_stream(is);
+        size_t size;
+        is.read(reinterpret_cast<char*>(&size), sizeof(size));
+        xml.Transducers.resize(size);
+        for (auto& value : xml.Transducers)
+        {
+            value = XML_Environment_Transducer::from_stream(is);
+        }
 
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
@@ -228,7 +231,12 @@ struct XML_Environment
                  sizeof(TowedBodyDepthIsManual));
         os.write(reinterpret_cast<const char*>(&TowedBodyDepth), sizeof(TowedBodyDepth));
 
-        Transducer.to_stream(os);
+        size_t size = Transducers.size();
+        os.write(reinterpret_cast<const char*>(&size), sizeof(size));
+        for (const auto& value : Transducers)
+        {
+            value.to_stream(os);
+        }
 
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
@@ -249,7 +257,7 @@ struct XML_Environment
                SoundVelocitySource == other.SoundVelocitySource && approx(Acidity, other.Acidity) &&
                approx(Temperature, other.Temperature) && approx(Depth, other.Depth) &&
                TowedBodyDepthIsManual == other.TowedBodyDepthIsManual &&
-               approx(TowedBodyDepth, other.TowedBodyDepth) && Transducer == other.Transducer;
+               approx(TowedBodyDepth, other.TowedBodyDepth) && Transducers == other.Transducers;
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
@@ -261,8 +269,8 @@ struct XML_Environment
     {
         tools::classhelpers::ObjectPrinter printer("EK80 XML0 Environment", float_precision);
 
-        printer.register_section("children (Transducer / Future use)");
-        printer.append(Transducer.__printer__(float_precision));
+        printer.register_section("children (Transducers / Future use)");
+        printer.register_value("Transducers", Transducers.size());
 
         printer.register_section("attributes");
 

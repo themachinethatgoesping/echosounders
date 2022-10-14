@@ -39,8 +39,13 @@ void init_c_RAW3(pybind11::module& m)
                       &RAW3::set_channel_id,
                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, ChannelID))
         .def_property_readonly("channel_id_stripped",
-                      &RAW3::get_channel_id,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, get_channel_id_stripped))
+                               &RAW3::get_channel_id,
+                               DOC(themachinethatgoesping,
+                                   echosounders,
+                                   simrad,
+                                   datagrams,
+                                   RAW3,
+                                   get_channel_id_stripped))
         .def_property(
             "data_type",
             &RAW3::get_data_type,

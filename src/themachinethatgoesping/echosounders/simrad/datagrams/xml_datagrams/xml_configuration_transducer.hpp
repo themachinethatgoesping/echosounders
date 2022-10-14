@@ -38,13 +38,14 @@ namespace xml_datagrams {
  */
 struct XML_Configuration_Transducer
 {
-    double      TransducerAlphaX       = 0.;
-    double      TransducerAlphaY       = 0.;
-    double      TransducerAlphaZ       = 0.;
-    double      TransducerOffsetX      = 0.;
-    double      TransducerOffsetY      = 0.;
-    double      TransducerOffsetZ      = 0.;
-    int         TransducerSerialNumber = -1;
+    double      TransducerAlphaX        = 0.;
+    double      TransducerAlphaY        = 0.;
+    double      TransducerAlphaZ        = 0.;
+    double      TransducerOffsetX       = 0.;
+    double      TransducerOffsetY       = 0.;
+    double      TransducerOffsetZ       = 0.;
+    double      HeadingQuickCalibration = 0.; ///< Seems to be used seldomly?
+    int         TransducerSerialNumber  = -1;
     std::string TransducerMounting;
     std::string TransducerOrientation;
     std::string TransducerName;
@@ -69,6 +70,7 @@ struct XML_Configuration_Transducer
     {
         // TODO: check angle directions
         // TODO: include transducer mounting and transducer orientation?
+        // TODO: do we need HeadingQuickCalibration? And if so how to use it?
         return navigation::datastructures::PositionalOffsets(TransducerName,
                                                              TransducerOffsetX,
                                                              TransducerOffsetY,
@@ -131,6 +133,11 @@ struct XML_Configuration_Transducer
             if (name == "TransducerOffsetZ")
             {
                 TransducerOffsetZ = tools::helper::string_to_double(attr.value());
+                continue;
+            }
+            if (name == "HeadingQuickCalibration")
+            {
+                HeadingQuickCalibration = tools::helper::string_to_double(attr.value());
                 continue;
             }
             if (name == "TransducerSerialNumber")
@@ -214,6 +221,7 @@ struct XML_Configuration_Transducer
                approx(TransducerOffsetX, other.TransducerOffsetX) &&
                approx(TransducerOffsetY, other.TransducerOffsetY) &&
                approx(TransducerOffsetZ, other.TransducerOffsetZ) &&
+               approx(HeadingQuickCalibration, other.HeadingQuickCalibration) &&
                TransducerSerialNumber == other.TransducerSerialNumber &&
                TransducerMounting == other.TransducerMounting &&
                TransducerOrientation == other.TransducerOrientation &&
@@ -238,6 +246,8 @@ struct XML_Configuration_Transducer
         printer.register_value("TransducerOffsetX", TransducerOffsetX);
         printer.register_value("TransducerOffsetY", TransducerOffsetY);
         printer.register_value("TransducerOffsetZ", TransducerOffsetZ);
+        printer.register_value(
+            "HeadingQuickCalibration", HeadingQuickCalibration, "not used so far");
         printer.register_value("TransducerSerialNumber", TransducerSerialNumber);
         printer.register_value("TransducerMounting", TransducerMounting);
         printer.register_value("TransducerOrientation", TransducerOrientation);

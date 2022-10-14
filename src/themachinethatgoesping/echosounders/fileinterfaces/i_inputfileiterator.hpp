@@ -19,8 +19,8 @@
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
+#include <themachinethatgoesping/tools/progressbars.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -48,7 +48,6 @@ struct PackageInfo
     t_DatagramIdentifier datagram_identifier; ///< datagram type of this package
 };
 
-
 // TODO: explicitly derive t_ from i_ using concepts from c++20
 template<typename t_DatagramIdentifier>
 struct DataFileInfo
@@ -60,7 +59,8 @@ struct DataFileInfo
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos_all =
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>(); ///< all package headers
-    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>>
+    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
+                                           std::vector<PackageInfo<t_DatagramIdentifier>>>
         package_infos_by_type; ///< package headers sorted by type
 };
 
@@ -170,7 +170,8 @@ class I_InputFileIterator
     size_t size() const
     {
         if (_is_slice)
-            return size_t((_index_max - _index_min) / std::abs(_index_step)) + 1; //TODO this needs to be checked
+            return size_t((_index_max - _index_min) / std::abs(_index_step)) +
+                   1; // TODO this needs to be checked
         return _package_infos->size();
     }
 
@@ -185,8 +186,8 @@ class I_InputFileIterator
             index *= _index_step;
 
             if (index < 0)
-                index +=
-                    long(_index_max) + std::abs(_index_step); //_index_max == _package_infos->size()-1
+                index += long(_index_max) +
+                         std::abs(_index_step); //_index_max == _package_infos->size()-1
             else
                 index += long(_index_min);
 

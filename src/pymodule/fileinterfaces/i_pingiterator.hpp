@@ -43,10 +43,13 @@ void _PingIterator_add_PackageReading(T_PyClass& cls)
         py::arg("index_max")  = std::numeric_limits<size_t>::max(),
         py::arg("index_step") = 1);
 
-    cls.def(
-        "max_number_of_samples",
-        &T_BaseClass::max_number_of_samples,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingIterator, max_number_of_samples));
+    cls.def("max_number_of_samples",
+            &T_BaseClass::max_number_of_samples,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_PingIterator,
+                max_number_of_samples));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -65,13 +68,12 @@ void create_PingIteratorType(pybind11::module& m, const std::string ITERATOR_NAM
     using fileinterfaces::I_PingIterator;
     namespace py = pybind11;
 
-    using T_ITERATOR        = I_PingIterator<T_PingType>;
+    using T_ITERATOR = I_PingIterator<T_PingType>;
 
     auto cls_stream = py::class_<T_ITERATOR>(
         m,
         ITERATOR_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingIterator));
-
 
     _PingIterator_add_PackageReading<T_ITERATOR>(cls_stream);
 }

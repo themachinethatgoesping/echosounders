@@ -158,7 +158,7 @@ class I_PingContainer
             }
             pings->push_back(ping);
         }
-                    
+
         containers.push_back(I_PingContainer<t_Ping>(pings));
 
         return containers;

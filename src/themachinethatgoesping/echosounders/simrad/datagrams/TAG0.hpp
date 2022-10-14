@@ -50,7 +50,8 @@ struct TAG0 : public SimradDatagram
     {
     }
     TAG0(std::string text_anotation)
-        : SimradDatagram(simrad_long(12 + text_anotation.size()), simrad_long(t_SimradDatagramType::TAG0))
+        : SimradDatagram(simrad_long(12 + text_anotation.size()),
+                         simrad_long(t_SimradDatagramType::TAG0))
         , _Text(std::move(text_anotation))
     {
     }

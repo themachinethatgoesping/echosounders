@@ -53,7 +53,10 @@ void init_c_raw3_datapower(pybind11::module& m)
              py::arg("power_and_angle"))
         .def("__eq__", &RAW3_DataPower::operator==, py::arg("other"))
 
-        .def("get_power", &RAW3_DataPower::get_power, DOC_RAW3_DataPower(get_power), py::arg("dB") = false)
+        .def("get_power",
+             &RAW3_DataPower::get_power,
+             DOC_RAW3_DataPower(get_power),
+             py::arg("dB") = false)
 
         // ----- properties -----
         .def_readwrite("power", &RAW3_DataPower::_power, DOC_RAW3_DataPower(power))

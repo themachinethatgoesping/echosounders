@@ -51,10 +51,9 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
             &t_SimradPingRawData::_ping_data,
             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, ping_data),
             py::return_value_policy::reference_internal)
-        .def(
-            "get_parameter",
-            &t_SimradPingRawData::get_parameter,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, get_parameter))
+        .def("get_parameter",
+             &t_SimradPingRawData::get_parameter,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, get_parameter))
         .def_property_readonly(
             "file_data",
             &t_SimradPingRawData::file_data,

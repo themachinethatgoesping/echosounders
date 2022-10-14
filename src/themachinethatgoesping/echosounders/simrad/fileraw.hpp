@@ -425,6 +425,9 @@ class FileRaw
 
         printer.append(interface_printer);
 
+        printer.register_section("Pings");
+        printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
+
         return printer;
     }
 

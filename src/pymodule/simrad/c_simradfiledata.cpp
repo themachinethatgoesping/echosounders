@@ -40,37 +40,34 @@ void init_c_SimradFileData(pybind11::module& m)
         m, "SimradFileData", DOC(themachinethatgoesping, echosounders, simrad, SimradFileData))
 
         // --- raw data access ---
-        .def(
-            "FIL1",
-            &SimradFileData::FIL1,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, FIL1),
-            py::return_value_policy::reference_internal)
-        .def(
-            "TAG0",
-            &SimradFileData::TAG0,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, TAG0),
-            py::return_value_policy::reference_internal)
-        .def(
-            "XML0_Configuration",
-            &SimradFileData::XML0_Configuration,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Configuration),
-            py::return_value_policy::reference_internal)
-        .def(
-            "XML0_Environment",
-            &SimradFileData::XML0_Environment,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Environment),
-            py::return_value_policy::reference_internal)
-        .def(
-            "XML0_InitialParameter",
-            &SimradFileData::XML0_InitialParameter,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_InitialParameter),
-            py::return_value_policy::reference_internal)
-        .def(
-            "XML0_Other",
-            &SimradFileData::XML0_Other,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Other),
-            py::return_value_policy::reference_internal)
-
+        .def("FIL1",
+             &SimradFileData::FIL1,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, FIL1),
+             py::return_value_policy::reference_internal)
+        .def("TAG0",
+             &SimradFileData::TAG0,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, TAG0),
+             py::return_value_policy::reference_internal)
+        .def("XML0_Configuration",
+             &SimradFileData::XML0_Configuration,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Configuration),
+             py::return_value_policy::reference_internal)
+        .def("XML0_Environment",
+             &SimradFileData::XML0_Environment,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Environment),
+             py::return_value_policy::reference_internal)
+        .def("XML0_InitialParameter",
+             &SimradFileData::XML0_InitialParameter,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 SimradFileData,
+                 XML0_InitialParameter),
+             py::return_value_policy::reference_internal)
+        .def("XML0_Other",
+             &SimradFileData::XML0_Other,
+             DOC(themachinethatgoesping, echosounders, simrad, SimradFileData, XML0_Other),
+             py::return_value_policy::reference_internal)
 
         // ----- operators -----
         // .def("__eq__",

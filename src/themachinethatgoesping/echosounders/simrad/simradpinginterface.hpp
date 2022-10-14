@@ -62,9 +62,8 @@ class SimradPingInterface : public fileinterfaces::I_PingInterface<t_SimradDatag
             // TODO: this makes everything crash. Why?
             // if (file_cnt >= this->_file_paths->size())
             //     throw std::runtime_error(fmt::format(
-            //         "ERROR[SimradPingInterface::file_data()]: file_cnt {} >= _file_paths.size() {}",
-            //         file_cnt,
-            //         this->_file_paths->size()));
+            //         "ERROR[SimradPingInterface::file_data()]: file_cnt {} >= _file_paths.size()
+            //         {}", file_cnt, this->_file_paths->size()));
 
             _file_data.push_back(std::make_shared<SimradFileData>());
         }

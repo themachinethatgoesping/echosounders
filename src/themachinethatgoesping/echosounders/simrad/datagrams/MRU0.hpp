@@ -70,10 +70,10 @@ struct MRU0 : public SimradDatagram
     float get_roll() const { return _Roll; }
     float get_pitch() const { return _Pitch; }
     float get_heading() const { return _Heading; }
-    void   set_heave(float value) { _Heave = value; }
-    void   set_roll(float value) { _Roll = value; }
-    void   set_pitch(float value) { _Pitch = value; }
-    void   set_heading(float value) { _Heading = value; }
+    void  set_heave(float value) { _Heave = value; }
+    void  set_roll(float value) { _Roll = value; }
+    void  set_pitch(float value) { _Pitch = value; }
+    void  set_heading(float value) { _Heading = value; }
 
     // ----- file I/O -----
     static MRU0 from_stream(std::istream& is, SimradDatagram header)

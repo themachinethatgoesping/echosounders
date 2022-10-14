@@ -27,9 +27,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
-template<typename t_DatagramIdentifier,
-         typename t_ifstream            >
+template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_PingInterface
 {
   protected:
@@ -42,12 +40,9 @@ class I_PingInterface
     /* header positions */
     std::shared_ptr<const std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos;
 
-
-  public:   
-
-    I_PingInterface(
-        std::shared_ptr<std::vector<std::string>>                       file_paths,
-        std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
+  public:
+    I_PingInterface(std::shared_ptr<std::vector<std::string>>                       file_paths,
+                    std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
     {
@@ -58,10 +53,7 @@ class I_PingInterface
     //    return  _file_paths->at(file_nr);
     // }
 
-    size_t size() const
-    {
-        return _package_infos->size();
-    }
+    size_t size() const { return _package_infos->size(); }
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
@@ -74,7 +66,7 @@ class I_PingInterface
         }
         return *_input_file_stream;
     }
-    
+
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType at(const PackageInfo<t_DatagramIdentifier>& package_info)
     {

@@ -63,7 +63,9 @@ class I_InputFile
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_all =
         std::make_shared<std::vector<PackageInfo<t_DatagramIdentifier>>>();
-    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier, std::vector<PackageInfo<t_DatagramIdentifier>>> _package_infos_by_type;
+    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
+                                           std::vector<PackageInfo<t_DatagramIdentifier>>>
+        _package_infos_by_type;
 
     I_InputFile() = default;
 
@@ -332,9 +334,8 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual PackageInfo<t_DatagramIdentifier> callback_scan_packet(t_ifstream&          ifs,
-                                                                   typename t_ifstream::pos_type pos,
-                                                                   size_t file_paths_cnt)
+    virtual PackageInfo<t_DatagramIdentifier>
+    callback_scan_packet(t_ifstream& ifs, typename t_ifstream::pos_type pos, size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
@@ -409,7 +410,12 @@ class I_InputFile
         }
         catch (std::runtime_error& e)
         {
-            std::cerr << "WARNING(InputFile): could not read the file entirely." << std::endl;
+            std::cerr << "WARNING(InputFile): File read incompletely. ";
+            //print last 100 characters of file_path
+            if (file_path.size() > 53)
+                std::cerr << fmt::format("[...{}]", file_path.substr(file_path.size() - 50)) << std::endl;
+            else
+                std::cerr << fmt::format("[{}]", file_path) << std::endl;
             double percent = 100.0 * pos / file_info.file_size;
             std::cerr << fmt::format("Stopped after {:.2f} % of the file", percent) << std::endl;
             std::cerr << "Error message: " << e.what() << std::endl;

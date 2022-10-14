@@ -73,7 +73,7 @@ void init_c_xml_configuration(pybind11::module& m)
                  XML_Configuration,
                  get_transceiver),
              py::arg("channel_id"))
-             
+
         .def("get_transceivers",
              &XML_Configuration::get_transceivers,
              DOC(themachinethatgoesping,

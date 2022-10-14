@@ -78,6 +78,6 @@ TEST_CASE("XML_Environment should support common functions", TESTTAG)
     REQUIRE(xml1.DropKeelOffsetIsManual == false);
     REQUIRE(xml1.WaterLevelDraft == 0);
     REQUIRE(xml1.WaterLevelDraftIsManual == false);
-    REQUIRE(xml1.Transducer.TransducerName == "Unknown");
-    REQUIRE(xml1.Transducer.SoundSpeed == 1475);
+    REQUIRE(xml1.Transducers[0].TransducerName == "Unknown");
+    REQUIRE(xml1.Transducers[0].SoundSpeed == 1475);
 }
