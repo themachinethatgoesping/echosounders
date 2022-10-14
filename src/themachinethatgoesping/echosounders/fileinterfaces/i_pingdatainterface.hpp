@@ -28,7 +28,7 @@ namespace echosounders {
 namespace fileinterfaces {
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
-class I_PingInterface
+class I_PingDataInterface
 {
   protected:
     std::shared_ptr<std::vector<std::string>> _file_paths;
@@ -41,7 +41,7 @@ class I_PingInterface
     std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
 
   public:
-    I_PingInterface(std::shared_ptr<std::vector<std::string>>                       file_paths,
+    I_PingDataInterface(std::shared_ptr<std::vector<std::string>>                       file_paths,
                     std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)

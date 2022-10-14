@@ -150,7 +150,7 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         // end SimradPing
         ;
 
-    py_fileinterfaces::py_i_Ping::add_ping_interface<t_SimradPing>(cls);
+    py_fileinterfaces::py_i_Ping::add_ping_data_interface<t_SimradPing>(cls);
 }
 
 void init_c_SimradPing(pybind11::module& m)

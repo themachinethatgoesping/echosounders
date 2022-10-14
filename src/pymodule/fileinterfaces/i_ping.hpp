@@ -20,7 +20,7 @@ namespace py_fileinterfaces {
 namespace py_i_Ping {
 
 template<typename T_BaseClass, typename T_PyClass>
-void add_ping_interface(T_PyClass& cls)
+void add_ping_data_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 

@@ -13,7 +13,7 @@ sources = [
 headers = [
   'fileinterfaces/i_inputfile.hpp',
   'fileinterfaces/i_inputfileiterator.hpp',
-  'fileinterfaces/i_pinginterface.hpp',
+  'fileinterfaces/i_pingdatainterface.hpp',
   'fileinterfaces/i_pingiterator.hpp',
   'fileinterfaces/i_ping.hpp',
   'simrad/fileraw.hpp',
@@ -21,7 +21,7 @@ headers = [
   'simrad/simrad_datagrams.hpp',
   'simrad/simradping.hpp',
   'simrad/simradfiledata.hpp',
-  'simrad/simradpinginterface.hpp',
+  'simrad/simradpingdatainterface.hpp',
   'simrad/datagrams/simraddatagram.hpp',
   'simrad/datagrams/simradunknown.hpp',
   'simrad/datagrams/FIL1.hpp',

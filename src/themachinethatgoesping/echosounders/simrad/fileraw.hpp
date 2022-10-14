@@ -18,8 +18,9 @@
 #include "../fileinterfaces/i_inputfile.hpp"
 #include "../fileinterfaces/i_pingcontainer.hpp"
 
+#include "simradnavigationdatainterface.hpp"
 #include "simradping.hpp"
-#include "simradpinginterface.hpp"
+#include "simradpingdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -36,9 +37,12 @@ class FileRaw
     : public fileinterfaces::
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
-    std::shared_ptr<SimradPingInterface<t_ifstream>> _ping_interface =
-        std::make_shared<SimradPingInterface<t_ifstream>>(this->_file_paths,
-                                                          this->_package_infos_all);
+    std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
+        std::make_shared<SimradPingDataInterface<t_ifstream>>(this->_file_paths,
+                                                              this->_package_infos_all);
+
+    std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
+        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(this->_file_paths);
 
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
@@ -81,6 +85,8 @@ class FileRaw
     }
     ~FileRaw() = default;
 
+    SimradNavigationDataInterface<t_ifstream> navigation() const { return *_navigation_interface; }
+
     SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
     SimradPingContainer<t_ifstream> pings(long index_min, long index_max, long index_step) const
     {
@@ -89,14 +95,14 @@ class FileRaw
 
     SimradPingContainer<t_ifstream> pings(const std::string& channel_id) const
     {
-        return *_ping_container_by_channel.get_const(channel_id);
+        return *_ping_container_by_channel.at_const(channel_id);
     }
     SimradPingContainer<t_ifstream> pings(const std::string& channel_id,
                                           long               index_min,
                                           long               index_max,
                                           long               index_step) const
     {
-        return _ping_container_by_channel.get_const(channel_id)
+        return _ping_container_by_channel.at_const(channel_id)
             ->
             operator()(index_min, index_max, index_step);
     }
@@ -114,7 +120,7 @@ class FileRaw
     // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_SimradDatagramType datagram_type) const final
     {
-        return datagram_type_to_string(simrad_long(datagram_type));
+        return datagram_type_to_string(datagram_type);
         // return std::string(magic_enum::enum_name(datagram_type));
     }
 
@@ -283,18 +289,23 @@ class FileRaw
         {
             case t_SimradDatagramType::NME0: {
 
-                _packet_buffer.nme0_packets.emplace_back(datagrams::NME0::from_stream(ifs, header));
+                auto datagram = datagrams::NME0::from_stream(ifs, header);
 
                 if (!ifs.good())
-                    _packet_buffer.nme0_packets.pop_back();
+                    break;
+
+                _packet_buffer.nme0_packets.push_back(datagram);
+                _navigation_interface->add_datagram(datagram, package_info);
                 break;
             }
             case t_SimradDatagramType::MRU0: {
-
-                _packet_buffer.mru0_packets.emplace_back(datagrams::MRU0::from_stream(ifs, header));
+                auto datagram = datagrams::MRU0::from_stream(ifs, header);
 
                 if (!ifs.good())
-                    _packet_buffer.mru0_packets.pop_back();
+                    break;
+
+                _packet_buffer.mru0_packets.push_back(datagram);
+                _navigation_interface->add_datagram(datagram, package_info);
                 break;
             }
             case t_SimradDatagramType::XML0: {
@@ -304,7 +315,7 @@ class FileRaw
                 if (!ifs.good())
                     break;
 
-                _ping_interface->add_datagram(xml, file_paths_cnt);
+                _ping_data_interface->add_datagram(xml, file_paths_cnt);
 
                 auto xml_type = xml.get_xml_datagram_type();
 
@@ -370,14 +381,21 @@ class FileRaw
                     //             std::move(channel));
                 }
                 else if (xml_type == "Configuration")
-                    _packet_buffer.configuration =
+                {
+                    auto xml_datagram =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
+
+                    //_navigation_interface->add_datagram(xml_datagram, package_info);
+                    _packet_buffer.configuration = xml_datagram;
+                }
 
                 break;
             }
             case t_SimradDatagramType::RAW3: {
                 auto ping = std::make_shared<SimradPing<t_ifstream>>(
-                    _ping_interface, package_info, datagrams::RAW3::from_stream(ifs, header, true));
+                    _ping_data_interface,
+                    package_info,
+                    datagrams::RAW3::from_stream(ifs, header, true));
 
                 if (!ifs.good())
                     break;
@@ -386,7 +404,7 @@ class FileRaw
                     _packet_buffer.channel_parameters_per_channel_id[ping->get_channel_id()]);
 
                 _ping_container.add_ping(ping);
-                _ping_container_by_channel.get(ping->get_channel_id())->add_ping(ping);
+                _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
 
                 break;
             }
@@ -394,14 +412,14 @@ class FileRaw
                 auto datagram = datagrams::FIL1::from_stream(ifs, header);
 
                 if (ifs.good())
-                    _ping_interface->add_datagram(datagram, file_paths_cnt);
+                    _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
             case t_SimradDatagramType::TAG0: {
                 auto datagram = datagrams::TAG0::from_stream(ifs, header);
 
                 if (ifs.good())
-                    _ping_interface->add_datagram(datagram, file_paths_cnt);
+                    _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
             default: {

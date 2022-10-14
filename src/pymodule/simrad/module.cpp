@@ -30,8 +30,10 @@ namespace py_simrad {
 
 // -- submodule declarations --
 void init_c_fileraw(pybind11::module& m);        // c_fileraw.cpp
-void init_c_SimradPing(pybind11::module& m);     // c_SimradPing.cpp
 void init_c_SimradFileData(pybind11::module& m); // c_SimradFileData.cpp
+void init_c_SimradNavigationDataInterface(pybind11::module& m); // c_simradnavigationdatainterface.cpp
+void init_c_SimradPing(pybind11::module& m);     // c_SimradPing.cpp
+void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
 // -- create submodule --
 void init_m_simrad(pybind11::module& m)
@@ -99,8 +101,12 @@ void init_m_simrad(pybind11::module& m)
     py::implicitly_convertible<std::string, t_SimradDatagramType>();
 
     subm.def("datagram_type_to_string",
-             &datagram_type_to_string,
+             py::overload_cast<simrad_long>(&datagram_type_to_string),
              DOC(themachinethatgoesping, echosounders, simrad, datagram_type_to_string),
+             py::arg("datagram_type"));
+    subm.def("datagram_type_to_string",
+             py::overload_cast<t_SimradDatagramType>(&datagram_type_to_string),
+             DOC(themachinethatgoesping, echosounders, simrad, datagram_type_to_string_2),
              py::arg("datagram_type"));
     subm.def("SimradDatagram_type_from_string",
              &SimradDatagram_type_from_string,
@@ -112,8 +118,11 @@ void init_m_simrad(pybind11::module& m)
 
     // simrad classes
     init_c_SimradFileData(subm);
+    init_c_SimradNavigationDataInterface(subm);
     init_c_SimradPing(subm);
     init_c_fileraw(subm);
+
+    init_c_file_test_functions(subm);
 }
 
 }

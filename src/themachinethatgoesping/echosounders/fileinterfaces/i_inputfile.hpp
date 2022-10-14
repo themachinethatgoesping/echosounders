@@ -99,7 +99,7 @@ class I_InputFile
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _file_paths, _package_infos_by_type.get_const(datagram_identifier));
+            _file_paths, _package_infos_by_type.at_const(datagram_identifier));
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -114,7 +114,7 @@ class I_InputFile
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
             _file_paths,
-            _package_infos_by_type.get_const(datagram_identifier),
+            _package_infos_by_type.at_const(datagram_identifier),
             index_min,
             index_max,
             index_step);
@@ -305,7 +305,7 @@ class I_InputFile
 
         for (const auto& [type, headers] : file_info.package_infos_by_type)
         {
-            auto& package_infos = *(_package_infos_by_type.get(type));
+            auto& package_infos = *(_package_infos_by_type.at(type));
 
             auto& package_infos_scanned = *(headers);
 
@@ -396,7 +396,7 @@ class I_InputFile
 
                     package_infos_all.push_back(package_info);
                     auto& package_infos_type =
-                        *(file_info.package_infos_by_type.get(package_info->datagram_identifier));
+                        *(file_info.package_infos_by_type.at(package_info->datagram_identifier));
 
                     package_infos_type.push_back(package_info);
 

@@ -14,7 +14,7 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_pinginterface.hpp"
+#include "../fileinterfaces/i_pingdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -25,7 +25,7 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradPingInterface : public fileinterfaces::I_PingInterface<t_SimradDatagramType, t_ifstream>
+class SimradPingDataInterface : public fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>
 {
     std::vector<std::shared_ptr<SimradFileData>> _file_data;
 
@@ -34,11 +34,11 @@ class SimradPingInterface : public fileinterfaces::I_PingInterface<t_SimradDatag
             std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
 
   public:
-    SimradPingInterface(
+    SimradPingDataInterface(
         std::shared_ptr<std::vector<std::string>> file_paths,
         std::shared_ptr<std::vector<fileinterfaces::PackageInfo_ptr<t_SimradDatagramType>>>
             package_infos)
-        : fileinterfaces::I_PingInterface<t_SimradDatagramType, t_ifstream>(file_paths,
+        : fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>(file_paths,
                                                                             package_infos)
     {
     }
@@ -62,7 +62,7 @@ class SimradPingInterface : public fileinterfaces::I_PingInterface<t_SimradDatag
             // TODO: this makes everything crash. Why?
             // if (file_cnt >= this->_file_paths->size())
             //     throw std::runtime_error(fmt::format(
-            //         "ERROR[SimradPingInterface::file_data()]: file_cnt {} >= _file_paths.size()
+            //         "ERROR[SimradPingDataInterface::file_data()]: file_cnt {} >= _file_paths.size()
             //         {}", file_cnt, this->_file_paths->size()));
 
             _file_data.push_back(std::make_shared<SimradFileData>());
@@ -75,10 +75,10 @@ class SimradPingInterface : public fileinterfaces::I_PingInterface<t_SimradDatag
     // ----- objectprinter -----
     tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("SimradPingInterface", float_precision);
+        tools::classhelpers::ObjectPrinter printer("SimradPingDataInterface", float_precision);
 
         auto interface_printer =
-            fileinterfaces::I_PingInterface<t_SimradDatagramType, t_ifstream>::__printer__(
+            fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>::__printer__(
                 float_precision);
 
         printer.append(interface_printer);

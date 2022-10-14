@@ -48,6 +48,11 @@ inline std::string datagram_type_to_string(simrad_long value)
     return tools::helper::int_as_string<simrad_long>(value);
 }
 
+inline std::string datagram_type_to_string(t_SimradDatagramType value)
+{
+    return tools::helper::int_as_string<simrad_long>(simrad_long(value));
+}
+
 inline simrad_long SimradDatagram_type_from_string(std::string_view value)
 {
     return tools::helper::string_as_int<simrad_long>(value);
