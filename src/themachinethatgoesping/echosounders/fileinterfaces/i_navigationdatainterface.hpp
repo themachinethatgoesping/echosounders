@@ -34,8 +34,7 @@ namespace fileinterfaces {
 
 using NavInterpolator_ptr = std::shared_ptr<navigation::NavigationInterpolatorLatLon>;
 
-template<typename t_DatagramIdentifier,
-         typename t_ifstream>
+template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_NavigationDataInterface
 {
     std::string _name;
@@ -52,7 +51,7 @@ class I_NavigationDataInterface
         _package_infos_by_type;
 
   protected:
-    void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info) 
+    void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
     {
         _package_infos_all->push_back(package_info);
         _package_infos_by_type.at(package_info->datagram_identifier)->push_back(package_info);
@@ -60,7 +59,7 @@ class I_NavigationDataInterface
 
   public:
     I_NavigationDataInterface(std::shared_ptr<std::vector<std::string>> file_paths,
-                          std::string_view                          name = "Default")
+                              std::string_view                          name = "Default")
         : _name(name)
         , _file_paths(std::move(file_paths))
     {
@@ -124,7 +123,6 @@ class I_NavigationDataInterface
             _file_paths, _package_infos_all, index_min, index_max, index_step);
     }
 };
-
 
 } // namespace fileinterfaces
 } // namespace echosounders

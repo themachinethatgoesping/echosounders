@@ -24,8 +24,8 @@
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "i_package_info_types.hpp"
 #include "i_inputfileiterator.hpp"
+#include "i_package_info_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -342,7 +342,7 @@ class I_InputFile
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
 
-        auto package_info = std::make_shared<PackageInfo<t_DatagramIdentifier>>();
+        auto package_info                 = std::make_shared<PackageInfo<t_DatagramIdentifier>>();
         package_info->file_nr             = file_paths_cnt;
         package_info->file_pos            = pos;
         package_info->timestamp           = header.get_timestamp();
@@ -413,9 +413,10 @@ class I_InputFile
         catch (std::runtime_error& e)
         {
             std::cerr << "WARNING(InputFile): File read incompletely. ";
-            //print last 100 characters of file_path
+            // print last 100 characters of file_path
             if (file_path.size() > 53)
-                std::cerr << fmt::format("[...{}]", file_path.substr(file_path.size() - 50)) << std::endl;
+                std::cerr << fmt::format("[...{}]", file_path.substr(file_path.size() - 50))
+                          << std::endl;
             else
                 std::cerr << fmt::format("[{}]", file_path) << std::endl;
             double percent = 100.0 * pos / file_info.file_size;

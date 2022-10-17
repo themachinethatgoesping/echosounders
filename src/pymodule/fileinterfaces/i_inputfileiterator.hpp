@@ -19,7 +19,6 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_InputFileIterator {
 
-
 template<typename T_BaseClass, typename T_PyClass>
 void _iterator_add_PackageReading(T_PyClass& cls)
 {

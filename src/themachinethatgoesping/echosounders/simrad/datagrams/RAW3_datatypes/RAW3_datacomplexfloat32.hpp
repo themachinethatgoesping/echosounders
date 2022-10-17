@@ -64,7 +64,6 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
         }
         else
         {
-
             auto r2 = xt::eval(xt::sum(xt::eval(r1 * r1), 1));
             return xt::xtensor<simrad_float, 1>(xt::eval(10.f * xt::log10(r2)));
         }

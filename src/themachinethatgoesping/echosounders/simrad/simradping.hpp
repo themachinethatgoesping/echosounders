@@ -50,7 +50,7 @@ class SimradPingRawData
   public:
     SimradPingRawData(std::shared_ptr<SimradPingDataInterface<t_ifstream>>  ping_data_interface,
                       fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> package_info_raw,
-                      datagrams::RAW3                                   ping_data)
+                      datagrams::RAW3                                       ping_data)
         : _ping_data_interface(std::move(ping_data_interface))
         , _package_info_raw(std::move(package_info_raw))
         , _ping_data(std::move(ping_data))
@@ -68,7 +68,10 @@ class SimradPingRawData
         return *_ping_parameter;
     }
 
-    SimradFileData& file_data() { return *_ping_data_interface->file_data(_package_info_raw->file_nr); }
+    SimradFileData& file_data()
+    {
+        return *_ping_data_interface->file_data(_package_info_raw->file_nr);
+    }
 
     // ----- load skipped data -----
     datagrams::RAW3_datatypes::RAW3_DataVariant get_sample_data()
@@ -108,7 +111,7 @@ class SimradPing : public fileinterfaces::I_Ping
   public:
     SimradPing(std::shared_ptr<SimradPingDataInterface<t_ifstream>>  ping_data_interface,
                fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> package_info_raw,
-               datagrams::RAW3                                   ping_data)
+               datagrams::RAW3                                       ping_data)
         : fileinterfaces::I_Ping("SimradPing")
         , _raw(std::move(ping_data_interface), std::move(package_info_raw), std::move(ping_data))
     {

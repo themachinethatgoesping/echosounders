@@ -41,8 +41,9 @@ class I_PingDataInterface
     std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
 
   public:
-    I_PingDataInterface(std::shared_ptr<std::vector<std::string>>                       file_paths,
-                    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
+    I_PingDataInterface(
+        std::shared_ptr<std::vector<std::string>>                           file_paths,
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
     {

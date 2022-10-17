@@ -226,7 +226,6 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls __PYCLASS_DEFAULT_PRINTING__(FileRaw<T_FileStream>);
 }
 
-
 void init_c_fileraw(pybind11::module& m)
 {
 
@@ -255,7 +254,6 @@ void init_c_fileraw(pybind11::module& m)
 
     py_create_class_FileRaw<std::ifstream>(m, "FileRaw");
     py_create_class_FileRaw<MappedFileStream>(m, "FileRaw_mapped");
-
 }
 
 }

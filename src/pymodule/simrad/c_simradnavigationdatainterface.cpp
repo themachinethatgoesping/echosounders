@@ -53,9 +53,9 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
     cls.def(
         "packages",
         [](const SimradNavigationDataInterface<T_FileStream>& self,
-           long                                           index_min,
-           long                                           index_max,
-           long                                           index_step) {
+           long                                               index_min,
+           long                                               index_max,
+           long                                               index_step) {
             return py::cast(self.template get_iterator<datagrams::t_SimradDatagramVariant,
                                                        datagrams::SimradDatagramVariant>(
                 index_min, index_max, index_step));
@@ -67,10 +67,10 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
     cls.def(
         "packages",
         [](const SimradNavigationDataInterface<T_FileStream>& self,
-           t_SimradDatagramType                           type,
-           long                                           index_min,
-           long                                           index_max,
-           long                                           index_step) {
+           t_SimradDatagramType                               type,
+           long                                               index_min,
+           long                                               index_max,
+           long                                               index_step) {
             switch (type)
             {
                 case t_SimradDatagramType::MRU0:
@@ -103,9 +103,10 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
 void init_c_SimradNavigationDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradNavigationDataInterface<std::ifstream>(m, "SimradNavigationDataInterface");
-    py_create_class_SimradNavigationDataInterface<MappedFileStream>(m,
-                                                                "SimradNavigationDataInterface_mapped");
+    py_create_class_SimradNavigationDataInterface<std::ifstream>(m,
+                                                                 "SimradNavigationDataInterface");
+    py_create_class_SimradNavigationDataInterface<MappedFileStream>(
+        m, "SimradNavigationDataInterface_mapped");
 }
 
 }

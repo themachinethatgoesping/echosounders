@@ -21,7 +21,6 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_NavigationDataInterface {
 
-
 }
 }
 }

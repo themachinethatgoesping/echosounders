@@ -40,10 +40,11 @@ namespace fileinterfaces {
 // class I_NavigationInterface
 // {
 //     std::string _name;
-//     std::vector<std::shared_ptr<I_NavigationDataInterface<t_DatagramIdentifier,t_ifstream>>> _navigation_data_interfaces;
+//     std::vector<std::shared_ptr<I_NavigationDataInterface<t_DatagramIdentifier,t_ifstream>>>
+//     _navigation_data_interfaces;
 
 // protected:
-//     void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info) 
+//     void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
 //     {
 //         file_data(package_info->file_nr)->add_package_info(package_info);
 //     }
@@ -57,7 +58,8 @@ namespace fileinterfaces {
 //     }
 //     virtual ~I_NavigationInterface() = default;
 
-//     const std::shared_ptr<I_NavigationDataInterface<t_DatagramIdentifier,t_ifstream>>& data_ptr(size_t file_cnt)
+//     const std::shared_ptr<I_NavigationDataInterface<t_DatagramIdentifier,t_ifstream>>&
+//     data_ptr(size_t file_cnt)
 //     {
 //         while (file_cnt >= _navigation_data_interfaces.size())
 //         {
@@ -71,7 +73,6 @@ namespace fileinterfaces {
 //     {
 //         return *data_ptr(file_cnt);
 //     }
-
 
 // };
 

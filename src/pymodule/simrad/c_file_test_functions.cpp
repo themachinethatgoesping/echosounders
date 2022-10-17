@@ -38,7 +38,6 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-
 void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 {
     // get current time

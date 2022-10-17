@@ -28,7 +28,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
          typename t_ifstream,
@@ -112,7 +111,7 @@ class I_InputFileIterator
     }
 
     I_InputFileIterator(
-        std::shared_ptr<std::vector<std::string>>                       file_paths,
+        std::shared_ptr<std::vector<std::string>>                           file_paths,
         std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
@@ -121,11 +120,11 @@ class I_InputFileIterator
     }
 
     I_InputFileIterator(
-        std::shared_ptr<std::vector<std::string>>                       file_paths,
+        std::shared_ptr<std::vector<std::string>>                           file_paths,
         std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos,
-        long                                                            index_min,
-        long                                                            index_max,
-        long                                                            index_step)
+        long                                                                index_min,
+        long                                                                index_max,
+        long                                                                index_step)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
     {

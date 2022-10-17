@@ -53,13 +53,12 @@ struct SimradDatagram
         // if the lengths do not match the packages was not read correctly
         if (!is || length != _Length)
         {
-            auto error = fmt::format("ERROR[SimradDatagram]: Package length check failed (read). Expected: {}, got: {}",
-                            _Length,
-                            length);
+            auto error = fmt::format(
+                "ERROR[SimradDatagram]: Package length check failed (read). Expected: {}, got: {}",
+                _Length,
+                length);
             [[maybe_unused]] auto error_verbose =
-                fmt::format("{}\n--- read header ---\n{}\n---",
-                            error,
-                            info_string());
+                fmt::format("{}\n--- read header ---\n{}\n---", error, info_string());
 
             throw std::runtime_error(error);
             // std::cerr << error << std::endl;
