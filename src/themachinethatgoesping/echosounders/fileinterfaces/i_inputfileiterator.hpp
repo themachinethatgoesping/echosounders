@@ -35,26 +35,9 @@ template<typename t_DatagramType,
 class I_InputFileIterator
 {
   protected:
-    std::shared_ptr<std::vector<std::string>> _file_paths;
-
-    /* the opened input file stream */
-    std::unique_ptr<t_ifstream> _input_file_stream;
-    long                        active_file_nr = -1;
-
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
-
-    t_ifstream& get_active_stream(size_t file_nr)
-    {
-        // TODO: active_file_nr is currently not updated when _file_paths is changed in the master
-        if (long(file_nr) != active_file_nr)
-        {
-            active_file_nr = long(file_nr);
-            _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
-        }
-        return *_input_file_stream;
-    }
+    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+        _package_infos;
 
     bool   _is_slice   = false;
     size_t _index_min  = 0;
@@ -111,22 +94,20 @@ class I_InputFileIterator
     }
 
     I_InputFileIterator(
-        std::shared_ptr<std::vector<std::string>>                           file_paths,
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos)
-        : _file_paths(file_paths)
-        , _package_infos(package_infos)
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+            package_infos)
+        : _package_infos(package_infos)
         , _is_slice(false)
     {
     }
 
     I_InputFileIterator(
-        std::shared_ptr<std::vector<std::string>>                           file_paths,
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos,
-        long                                                                index_min,
-        long                                                                index_max,
-        long                                                                index_step)
-        : _file_paths(file_paths)
-        , _package_infos(package_infos)
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+             package_infos,
+        long index_min,
+        long index_max,
+        long index_step)
+        : _package_infos(package_infos)
     {
         this->operator()(index_min, index_max, index_step);
     }
@@ -175,13 +156,9 @@ class I_InputFileIterator
         if (index < long(_index_min))
             throw std::out_of_range(fmt::format("Index [{}] is < min [{}]! ", index, _index_min));
 
-        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
-
         const auto& package_info = _package_infos->at(index);
         try
         {
-            // t_ifstream& ifs = get_active_stream(package_info->file_nr);
-            // ifs.seekg(package_info->file_pos);
             auto& ifs = package_info->get_stream_and_seek();
 
             return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());

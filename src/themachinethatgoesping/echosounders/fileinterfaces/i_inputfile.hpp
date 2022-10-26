@@ -43,25 +43,6 @@ class I_InputFile
 {
 
   protected:
-    // /* some file information */
-    // std::shared_ptr<std::vector<std::string>> _file_paths =
-    //     std::make_shared<std::vector<std::string>>();
-    // size_t _total_file_size = 0;
-
-    // /* the actual input file stream */
-    // std::unique_ptr<t_ifstream> _input_file_stream;
-    // long                        active_file_nr = -1;
-
-    // t_ifstream& get_active_stream(size_t file_nr)
-    // {
-    //     if (long(file_nr) != active_file_nr)
-    //     {
-    //         active_file_nr = long(file_nr);
-    //         _input_file_stream =
-    //             std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
-    //     }
-    //     return *_input_file_stream;
-    // }
     std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<InputFileManager<t_ifstream>>();
 
@@ -106,7 +87,6 @@ class I_InputFile
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _input_file_manager->get_file_paths(),
             _package_infos_by_type.at_const(datagram_identifier));
     }
 
@@ -121,7 +101,6 @@ class I_InputFile
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _input_file_manager->get_file_paths(),
             _package_infos_by_type.at_const(datagram_identifier),
             index_min,
             index_max,
@@ -135,8 +114,7 @@ class I_InputFile
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
-                                   t_DatagramTypeFactory>(_input_file_manager->get_file_paths(),
-                                                          _package_infos_all);
+                                   t_DatagramTypeFactory>(_package_infos_all);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -146,8 +124,7 @@ class I_InputFile
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
-                                   t_DatagramTypeFactory>(_input_file_manager->get_file_paths(),
-                                                          _package_infos_all,
+                                   t_DatagramTypeFactory>( _package_infos_all,
                                                           index_min,
                                                           index_max,
                                                           index_step);

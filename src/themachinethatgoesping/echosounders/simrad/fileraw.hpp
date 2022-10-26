@@ -39,7 +39,6 @@ class FileRaw
 {
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
-            this->_input_file_manager->get_file_paths(),
             this->_package_infos_all);
 
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =

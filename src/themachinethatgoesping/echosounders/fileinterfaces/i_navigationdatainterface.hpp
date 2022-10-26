@@ -95,7 +95,6 @@ class I_NavigationDataInterface
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _file_paths,
             _package_infos_by_type.at_const(datagram_identifier),
             index_min,
             index_max,
@@ -120,7 +119,7 @@ class I_NavigationDataInterface
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _file_paths, _package_infos_all, index_min, index_max, index_step);
+            _package_infos_all, index_min, index_max, index_step);
     }
 };
 
