@@ -108,6 +108,37 @@ class I_PingContainer
         return filtered;
     }
 
+    I_PingContainer<t_Ping> get_linspaced(long index_min, long index_max, long max_pings) const
+    {
+        I_PingContainer<t_Ping> slice(*this);
+        auto                    it = slice.get_iterator();
+
+        it.set_slice(index_min, index_max, 1);
+        if (it.size() > max_pings)
+        {
+            it.set_slice(index_min, index_max, size_t(it.size() / max_pings));
+        }
+
+        auto pings = std::make_shared<PingVector<t_Ping>>();
+
+        for (size_t i = 0; i < it.size(); ++i)
+        {
+            pings->push_back(it.at_ptr(i));
+        }
+
+        if ((index_max - index_min) > max_pings)
+        {
+            if (pings->size() < max_pings)
+            {
+                pings->push_back(this->_iterator.at_ptr(index_max));
+            }
+        }
+
+        slice.set_pings(pings);
+
+        return slice;
+    }
+
     I_PingContainer<t_Ping> filter_by_channel_ids(const std::vector<std::string>& channel_ids)
     {
         I_PingContainer<t_Ping> filtered(*this);
@@ -162,6 +193,24 @@ class I_PingContainer
         containers.push_back(I_PingContainer<t_Ping>(pings));
 
         return containers;
+    }
+
+    // sort _package_infos_all by timestamp in _package_timestamps
+    I_PingContainer<t_Ping> get_sorted_by_time()
+    {
+        I_PingContainer<t_Ping> sorted(*this);
+        // Your function
+        auto& pings = *(sorted._pings);
+        // sort _package_infos_all by  time, then file_pos then file number
+        // TODO: this is faster than std sort, but python sorting (timsort?) seems
+        // to be 10x faster for this use case
+        boost::sort::pdqsort(pings.begin(), pings.end(), [](const auto& lhs, const auto& rhs) {
+            if (lhs->get_timestamp() < rhs->get_timestamp())
+                return true;
+            return false;
+        });
+
+        return sorted;
     }
 
     const I_PingIterator<t_Ping>& get_iterator() { return _iterator; }
