@@ -41,16 +41,17 @@ class SimradPingRawData
     std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
 
   public:
-    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType>
+    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream>
         _package_info_raw; ///< this can be RAW3 (EK80) or RAW0 (EK60)
 
     datagrams::RAW3
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
 
   public:
-    SimradPingRawData(std::shared_ptr<SimradPingDataInterface<t_ifstream>>  ping_data_interface,
-                      fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> package_info_raw,
-                      datagrams::RAW3                                       ping_data)
+    SimradPingRawData(
+        std::shared_ptr<SimradPingDataInterface<t_ifstream>>              ping_data_interface,
+        fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream> package_info_raw,
+        datagrams::RAW3                                                   ping_data)
         : _ping_data_interface(std::move(ping_data_interface))
         , _package_info_raw(std::move(package_info_raw))
         , _ping_data(std::move(ping_data))
@@ -70,7 +71,7 @@ class SimradPingRawData
 
     SimradFileData& file_data()
     {
-        return *_ping_data_interface->file_data(_package_info_raw->file_nr);
+        return *_ping_data_interface->file_data(_package_info_raw->get_file_nr());
     }
 
     // ----- load skipped data -----
@@ -85,9 +86,8 @@ class SimradPingRawData
 
     datagrams::RAW3_datatypes::RAW3_DataVariant read_sample_data()
     {
-        return _ping_data.read_skipped_sample_data(
-            _ping_data_interface->get_active_stream(_package_info_raw->file_nr),
-            _package_info_raw->file_pos);
+        return _ping_data.read_skipped_sample_data(_package_info_raw->get_stream(),
+                                                   _package_info_raw->get_file_pos());
     }
 
     void load_data() { _ping_data.sample_data() = read_sample_data(); }
@@ -109,9 +109,9 @@ class SimradPing : public fileinterfaces::I_Ping
     SimradPingRawData<t_ifstream> _raw;
 
   public:
-    SimradPing(std::shared_ptr<SimradPingDataInterface<t_ifstream>>  ping_data_interface,
-               fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> package_info_raw,
-               datagrams::RAW3                                       ping_data)
+    SimradPing(std::shared_ptr<SimradPingDataInterface<t_ifstream>> ping_data_interface,
+               fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream> package_info_raw,
+               datagrams::RAW3                                                   ping_data)
         : fileinterfaces::I_Ping("SimradPing")
         , _raw(std::move(ping_data_interface), std::move(package_info_raw), std::move(ping_data))
     {
@@ -119,7 +119,7 @@ class SimradPing : public fileinterfaces::I_Ping
         channel_id = _raw._ping_data.get_channel_id();
         channel_id = channel_id.substr(0, channel_id.find('\x00'));
 
-        timestamp = _raw._package_info_raw->timestamp;
+        timestamp = _raw._package_info_raw->get_timestamp();
     }
     virtual ~SimradPing() = default;
 

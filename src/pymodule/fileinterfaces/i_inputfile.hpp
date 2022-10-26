@@ -96,13 +96,6 @@ void add_FileOpenInterface(T_PyClass& cls)
                 I_InputFile,
                 datagram_identifier_info),
             py::arg("datagram_identifier"));
-    cls.def("sort_packages_by_time",
-            &T_BaseClass::sort_packages_by_time,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_InputFile,
-                sort_packages_by_time));
 }
 
 template<typename T_BaseClass,

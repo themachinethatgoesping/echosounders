@@ -38,11 +38,13 @@ class FileRaw
           I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
 {
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
-        std::make_shared<SimradPingDataInterface<t_ifstream>>(this->_file_paths,
-                                                              this->_package_infos_all);
+        std::make_shared<SimradPingDataInterface<t_ifstream>>(
+            this->_input_file_manager->get_file_paths(),
+            this->_package_infos_all);
 
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
-        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(this->_file_paths);
+        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(
+            this->_input_file_manager->get_file_paths());
 
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
@@ -271,7 +273,7 @@ class FileRaw
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
-    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType> callback_scan_packet(
+    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream> callback_scan_packet(
         t_ifstream&                   ifs,
         typename t_ifstream::pos_type pos,
         size_t                        file_paths_cnt) final
@@ -279,11 +281,20 @@ class FileRaw
         auto header = datagrams::SimradDatagram::from_stream(ifs);
         auto type   = header.get_datagram_identifier();
 
-        auto package_info = std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType>>();
-        package_info->file_nr             = file_paths_cnt;
-        package_info->file_pos            = pos;
-        package_info->timestamp           = header.get_timestamp();
-        package_info->datagram_identifier = header.get_datagram_identifier();
+        auto package_info =
+            std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType, t_ifstream>>(
+                file_paths_cnt,
+                pos,
+                this->_input_file_manager,
+                header.get_timestamp(),
+                header.get_datagram_identifier());
+
+        // auto package_info =
+        // std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType>>();
+        // package_info->file_nr             = file_paths_cnt;
+        // package_info->file_pos            = pos;
+        // package_info->timestamp           = header.get_timestamp();
+        // package_info->datagram_identifier = header.get_datagram_identifier();
 
         switch (type)
         {

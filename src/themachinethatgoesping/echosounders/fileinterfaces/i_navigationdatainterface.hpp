@@ -44,17 +44,17 @@ class I_NavigationDataInterface
         std::make_shared<std::vector<std::string>>();
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos_all =
-        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>();
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos_all =
+        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
     tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier>>>
+                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _package_infos_by_type;
 
   protected:
-    void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
+    void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>& package_info)
     {
         _package_infos_all->push_back(package_info);
-        _package_infos_by_type.at(package_info->datagram_identifier)->push_back(package_info);
+        _package_infos_by_type.at(package_info->get_datagram_identifier())->push_back(package_info);
     }
 
   public:

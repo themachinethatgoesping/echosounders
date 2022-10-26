@@ -57,13 +57,6 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_PingContainer,
                 get_sorted_by_time));
-    cls.def("get_linspaced",
-            &T_BaseClass::get_linspaced,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_PingContainer,
-                get_linspaced));
 
     /* implement info functions */
     cls.def("find_channel_ids",

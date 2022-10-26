@@ -42,7 +42,7 @@ class I_InputFileIterator
     long                        active_file_nr = -1;
 
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
@@ -112,7 +112,7 @@ class I_InputFileIterator
 
     I_InputFileIterator(
         std::shared_ptr<std::vector<std::string>>                           file_paths,
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
         , _is_slice(false)
@@ -121,7 +121,7 @@ class I_InputFileIterator
 
     I_InputFileIterator(
         std::shared_ptr<std::vector<std::string>>                           file_paths,
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos,
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos,
         long                                                                index_min,
         long                                                                index_max,
         long                                                                index_step)
@@ -180,18 +180,18 @@ class I_InputFileIterator
         const auto& package_info = _package_infos->at(index);
         try
         {
-            t_ifstream& ifs = get_active_stream(package_info->file_nr);
-            ifs.seekg(package_info->file_pos);
+            // t_ifstream& ifs = get_active_stream(package_info->file_nr);
+            // ifs.seekg(package_info->file_pos);
+            auto& ifs = package_info->get_stream();
 
-            return t_DatagramTypeFactory::from_stream(ifs, package_info->datagram_identifier);
+            return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());
         }
         catch (std::exception& e)
         {
-
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("__package_infos->size(): {}\n", _package_infos->size());
-            msg += fmt::format("pos: {}\n", package_info->file_pos);
+            msg += fmt::format("pos: {}\n", package_info->get_file_pos());
             throw std::runtime_error(msg);
         }
     }

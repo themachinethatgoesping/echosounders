@@ -108,36 +108,6 @@ class I_PingContainer
         return filtered;
     }
 
-    I_PingContainer<t_Ping> get_linspaced(long index_min, long index_max, long max_pings) const
-    {
-        I_PingContainer<t_Ping> slice(*this);
-        auto                    it = slice.get_iterator();
-
-        it.set_slice(index_min, index_max, 1);
-        if (it.size() > max_pings)
-        {
-            it.set_slice(index_min, index_max, size_t(it.size() / max_pings));
-        }
-
-        auto pings = std::make_shared<PingVector<t_Ping>>();
-
-        for (size_t i = 0; i < it.size(); ++i)
-        {
-            pings->push_back(it.at_ptr(i));
-        }
-
-        if ((index_max - index_min) > max_pings)
-        {
-            if (pings->size() < max_pings)
-            {
-                pings->push_back(this->_iterator.at_ptr(index_max));
-            }
-        }
-
-        slice.set_pings(pings);
-
-        return slice;
-    }
 
     I_PingContainer<t_Ping> filter_by_channel_ids(const std::vector<std::string>& channel_ids)
     {

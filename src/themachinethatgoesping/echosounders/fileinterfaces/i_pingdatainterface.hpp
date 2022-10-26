@@ -38,12 +38,12 @@ class I_PingDataInterface
     long                        active_file_nr = -1;
 
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> _package_infos;
+    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
 
   public:
     I_PingDataInterface(
         std::shared_ptr<std::vector<std::string>>                           file_paths,
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier>>> package_infos)
+        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos)
         : _file_paths(file_paths)
         , _package_infos(package_infos)
     {
@@ -69,7 +69,7 @@ class I_PingDataInterface
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    t_DatagramType at(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
+    t_DatagramType at(const PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>& package_info)
     {
         try
         {

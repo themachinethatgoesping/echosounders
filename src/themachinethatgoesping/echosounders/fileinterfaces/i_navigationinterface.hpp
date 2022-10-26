@@ -44,7 +44,7 @@ namespace fileinterfaces {
 //     _navigation_data_interfaces;
 
 // protected:
-//     void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier>& package_info)
+//     void add_package_info(const PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>& package_info)
 //     {
 //         file_data(package_info->file_nr)->add_package_info(package_info);
 //     }

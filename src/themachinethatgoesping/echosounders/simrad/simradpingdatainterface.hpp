@@ -37,7 +37,7 @@ class SimradPingDataInterface
   public:
     SimradPingDataInterface(
         std::shared_ptr<std::vector<std::string>> file_paths,
-        std::shared_ptr<std::vector<fileinterfaces::PackageInfo_ptr<t_SimradDatagramType>>>
+        std::shared_ptr<std::vector<fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream>>>
             package_infos)
         : fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>(file_paths,
                                                                                 package_infos)
