@@ -69,6 +69,12 @@ class PackageInfo
     t_ifstream& get_stream()
     {
         auto& ifs = _input_file_manager->get_active_stream(_file_nr);
+
+        return ifs;
+    }
+    t_ifstream& get_stream_and_seek()
+    {
+        auto& ifs = get_stream();
         ifs.seekg(_file_pos);
 
         return ifs;

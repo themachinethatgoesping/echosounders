@@ -176,7 +176,7 @@ class I_InputFile
         const auto& package_info = _package_infos_all->at(index);
 
         // auto& ifs = _input_file_streams[package_info->file_nr];
-        auto& ifs = package_info->get_stream();
+        auto& ifs = package_info->get_stream_and_seek();
 
         try
         {

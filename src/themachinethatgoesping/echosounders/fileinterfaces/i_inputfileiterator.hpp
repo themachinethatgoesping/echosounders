@@ -182,7 +182,7 @@ class I_InputFileIterator
         {
             // t_ifstream& ifs = get_active_stream(package_info->file_nr);
             // ifs.seekg(package_info->file_pos);
-            auto& ifs = package_info->get_stream();
+            auto& ifs = package_info->get_stream_and_seek();
 
             return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());
         }
