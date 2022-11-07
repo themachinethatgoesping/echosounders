@@ -6,7 +6,7 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
 
 #include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel.hpp"
 #include "../../../docstrings.hpp"

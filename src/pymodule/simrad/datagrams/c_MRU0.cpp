@@ -6,7 +6,7 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simrad/datagrams/MRU0.hpp"
 #include "../../docstrings.hpp"

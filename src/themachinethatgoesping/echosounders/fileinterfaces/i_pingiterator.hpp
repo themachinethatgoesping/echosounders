@@ -7,21 +7,12 @@
 
 #pragma once
 
-#include <fstream>
 #include <limits>
 #include <memory>
-#include <unordered_map>
 #include <vector>
-
-/* memory mapping */
-#include <boost/iostreams/device/mapped_file.hpp> // for mmap
-#include <boost/iostreams/stream.hpp>             // for stream
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
-
-#include "i_inputfileiterator.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -59,10 +59,9 @@ py_navigation = pymod.extension_module(
     sources: sources,
     dependencies : [
         echosounders_dep,
-        xtensor_python_dep,
+        tools_pybind_dep,
         pybind11_dep,
-        python3_dep,
-        numpy_dep],
+        python3_dep],
     link_language : 'cpp',
     override_options: [
     ],

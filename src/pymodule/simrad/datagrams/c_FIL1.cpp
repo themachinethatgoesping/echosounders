@@ -10,7 +10,7 @@
 #include <xtensor-python/pyarray.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
-#include <themachinethatgoesping/tools/pybind11_helpers/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simrad/datagrams/FIL1.hpp"
 #include "../../docstrings.hpp"

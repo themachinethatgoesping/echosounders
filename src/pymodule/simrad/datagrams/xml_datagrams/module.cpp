@@ -10,7 +10,7 @@
 
 #include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
 #include "../../../docstrings.hpp"
-#include <themachinethatgoesping/tools/pybind11_helpers/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
 
 #include "module.hpp"
 

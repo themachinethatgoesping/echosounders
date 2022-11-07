@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "../../docstrings.hpp"
-#include <themachinethatgoesping/tools/pybind11_helpers/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp"
 

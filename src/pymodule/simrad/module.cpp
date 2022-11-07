@@ -10,7 +10,7 @@
 #include <tuple>
 #include <vector>
 
-#include <themachinethatgoesping/tools/pybind11_helpers/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../docstrings.hpp"
