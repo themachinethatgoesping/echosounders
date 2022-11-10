@@ -46,12 +46,12 @@ struct TAG0 : public SimradDatagram
   public:
     // ----- constructors -----
     TAG0()
-        : SimradDatagram(12, simrad_long(t_SimradDatagramType::TAG0))
+        : SimradDatagram(12, simrad_long(t_SimradDatagramIdentifier::TAG0))
     {
     }
     TAG0(std::string text_anotation)
         : SimradDatagram(simrad_long(12 + text_anotation.size()),
-                         simrad_long(t_SimradDatagramType::TAG0))
+                         simrad_long(t_SimradDatagramIdentifier::TAG0))
         , _Text(std::move(text_anotation))
     {
     }
@@ -83,21 +83,21 @@ struct TAG0 : public SimradDatagram
 
     static TAG0 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::TAG0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::TAG0));
     }
 
-    static TAG0 from_stream(std::istream& is, t_SimradDatagramType type)
+    static TAG0 from_stream(std::istream& is, t_SimradDatagramIdentifier type)
     {
-        if (type != t_SimradDatagramType::TAG0)
+        if (type != t_SimradDatagramIdentifier::TAG0)
             throw std::runtime_error("TAG0::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::TAG0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::TAG0));
     }
 
     void to_stream(std::ostream& os)
     {
         _Length       = simrad_long(12 + _Text.size());
-        _DatagramType = simrad_long(t_SimradDatagramType::TAG0);
+        _DatagramType = simrad_long(t_SimradDatagramIdentifier::TAG0);
         SimradDatagram::to_stream(os);
         os.write(_Text.data(), _Text.size());
         os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));

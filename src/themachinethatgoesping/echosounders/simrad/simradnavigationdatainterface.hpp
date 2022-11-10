@@ -25,26 +25,26 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradNavigationDataInterface
-    : public fileinterfaces::I_NavigationDataInterface<t_SimradDatagramType, t_ifstream>
+    : public fileinterfaces::I_NavigationDataInterface<t_SimradDatagramIdentifier, t_ifstream>
 {
 
   public:
     // use base class constructors
 
     SimradNavigationDataInterface(const std::shared_ptr<std::vector<std::string>>& file_paths)
-        : fileinterfaces::I_NavigationDataInterface<t_SimradDatagramType, t_ifstream>(
+        : fileinterfaces::I_NavigationDataInterface<t_SimradDatagramIdentifier, t_ifstream>(
               file_paths,
               "SimradNavigationDataInterface")
     {
     }
 
     void add_datagram([[maybe_unused]] const datagrams::NME0&                      datagram,
-                      const fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream>& package_info)
+                      const fileinterfaces::PackageInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>& package_info)
     {
         this->add_package_info(package_info);
     }
     void add_datagram([[maybe_unused]] const datagrams::MRU0&                      datagram,
-                      const fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream>& package_info)
+                      const fileinterfaces::PackageInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>& package_info)
     {
         this->add_package_info(package_info);
     }

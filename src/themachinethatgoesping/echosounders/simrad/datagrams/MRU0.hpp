@@ -49,7 +49,7 @@ struct MRU0 : public SimradDatagram
   public:
     // ----- constructors -----
     MRU0()
-        : SimradDatagram(12 + 4 * sizeof(simrad_float), simrad_long(t_SimradDatagramType::MRU0))
+        : SimradDatagram(12 + 4 * sizeof(simrad_float), simrad_long(t_SimradDatagramIdentifier::MRU0))
     {
     }
     ~MRU0() = default;
@@ -89,21 +89,21 @@ struct MRU0 : public SimradDatagram
 
     static MRU0 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::MRU0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::MRU0));
     }
 
-    static MRU0 from_stream(std::istream& is, t_SimradDatagramType type)
+    static MRU0 from_stream(std::istream& is, t_SimradDatagramIdentifier type)
     {
-        if (type != t_SimradDatagramType::MRU0)
+        if (type != t_SimradDatagramIdentifier::MRU0)
             throw std::runtime_error("MRU0::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::MRU0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::MRU0));
     }
 
     void to_stream(std::ostream& os)
     {
         _Length       = simrad_long(12 + 4 * sizeof(simrad_float));
-        _DatagramType = simrad_long(t_SimradDatagramType::MRU0);
+        _DatagramType = simrad_long(t_SimradDatagramIdentifier::MRU0);
         SimradDatagram::to_stream(os);
         os.write(reinterpret_cast<const char*>(&_Heave), 4 * sizeof(simrad_float));
         os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));

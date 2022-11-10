@@ -27,6 +27,7 @@
 #include "i_inputfileiterator.hpp"
 #include "i_package_info_types.hpp"
 #include "inputfilemanager.hpp"
+#include "i_packagecontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -38,6 +39,7 @@ template<typename t_DatagramBase,       ///< the datagram base class which shoul
          typename t_DatagramIdentifier, ///< the identifier of the datagram type.
                                         ///< Must be hashable and comparable with
                                         ///< ==
+         typename t_PackageContainer,
          typename t_ifstream>
 class I_InputFile
 {
@@ -46,14 +48,8 @@ class I_InputFile
     std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<InputFileManager<t_ifstream>>();
 
-    /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        _package_infos_all =
-            std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
-    tools::helper::DefaultSharedPointerMap<
-        t_DatagramIdentifier,
-        std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        _package_infos_by_type;
+    /* package container */
+    t_PackageContainer _package_container;
 
     I_InputFile() = default;
 
@@ -79,103 +75,13 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(t_DatagramIdentifier datagram_identifier) const
+    /* access containers */
+    const t_PackageContainer& packages() const
     {
-        return I_InputFileIterator<t_DatagramType,
-                                   t_DatagramIdentifier,
-                                   t_ifstream,
-                                   t_DatagramTypeFactory>(
-            _package_infos_by_type.at_const(datagram_identifier));
+        return _package_container;
     }
 
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(t_DatagramIdentifier datagram_identifier,
-                 long                 index_min,
-                 long                 index_max,
-                 long                 index_step) const
-    {
-        return I_InputFileIterator<t_DatagramType,
-                                   t_DatagramIdentifier,
-                                   t_ifstream,
-                                   t_DatagramTypeFactory>(
-            _package_infos_by_type.at_const(datagram_identifier),
-            index_min,
-            index_max,
-            index_step);
-    }
-
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator() const
-    {
-        return I_InputFileIterator<t_DatagramType,
-                                   t_DatagramIdentifier,
-                                   t_ifstream,
-                                   t_DatagramTypeFactory>(_package_infos_all);
-    }
-
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(long index_min, long index_max, long index_step) const
-    {
-        return I_InputFileIterator<t_DatagramType,
-                                   t_DatagramIdentifier,
-                                   t_ifstream,
-                                   t_DatagramTypeFactory>( _package_infos_all,
-                                                          index_min,
-                                                          index_max,
-                                                          index_step);
-    }
-
-    size_t size() const { return _package_infos_all->size(); }
-
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    t_DatagramType get_datagram(const long python_index)
-    {
-        // convert from python index (can be negative) to C++ index
-        long index =
-            python_index < 0 ? long(_package_infos_all->size()) + python_index : python_index;
-
-        if (index < 0)
-            throw pybind11::index_error(
-                fmt::format("Negative Index [{}] is larger than length [{}]! ",
-                            index,
-                            (index - _package_infos_all->size())));
-
-        if (static_cast<size_t>(index) >= _package_infos_all->size())
-            throw pybind11::index_error(fmt::format(
-                "Index [{}] is larger than length [{}]! ", index, _package_infos_all->size()));
-
-        // size_t, t_ifstream::pos_type double, t_DatagramIdentifier
-        const auto& package_info = _package_infos_all->at(index);
-
-        // auto& ifs = _input_file_streams[package_info->file_nr];
-        auto& ifs = package_info->get_stream_and_seek();
-
-        try
-        {
-            // t_DatagramTypeFactory::from_stream must return t_datagramType
-            // this allows for defining the static function from_stream in a different class
-            // than the datagram type
-            return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());
-        }
-        catch (std::exception& e)
-        {
-
-            auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
-            msg += fmt::format("python_index: {}\n", python_index);
-            msg += fmt::format("index: {}\n", index);
-            msg += fmt::format("_package_infos_all.size(): {}\n", _package_infos_all->size());
-            msg += fmt::format("pos: {}\n", package_info->get_file_pos());
-            msg += fmt::format("size: {}\n",
-                               std::filesystem::file_size(_input_file_manager->get_file_paths()->at(
-                                   package_info->get_file_nr())));
-            throw std::runtime_error(msg);
-        }
-    }
+    
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
@@ -191,7 +97,7 @@ class I_InputFile
     {
         // get total file size of all files
         size_t total_file_size = 0;
-        size_t packages_old    = _package_infos_all->size();
+        size_t packages_old    = _package_container.size();
 
         progress_bar.init(0., double(file_paths.size()), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
@@ -214,7 +120,7 @@ class I_InputFile
         }
 
         progress_bar.close(std::string("Found: ") +
-                           std::to_string(_package_infos_all->size() - packages_old) +
+                           std::to_string(_package_container.size() - packages_old) +
                            " packages in " + std::to_string(file_paths.size()) + " files (" +
                            std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
     }
@@ -235,27 +141,8 @@ class I_InputFile
         DataFileInfo file_info = scan_for_packages(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
-        auto& package_infos_all     = *(_package_infos_all);
-        auto& package_infos_scanned = *(file_info.package_infos_all);
-
-        package_infos_all.insert(
-            package_infos_all.end(), package_infos_scanned.begin(), package_infos_scanned.end());
-
-        for (const auto& [type, headers] : file_info.package_infos_by_type)
-        {
-            auto& package_infos = *(_package_infos_by_type.at(type));
-
-            auto& package_infos_scanned = *(headers);
-
-            package_infos.insert(
-                package_infos.end(), package_infos_scanned.begin(), package_infos_scanned.end());
-        }
+        _package_container.add_package_infos(file_info);
     }
-
-    virtual std::string datagram_identifier_to_string(
-        t_DatagramIdentifier datagram_identifier) const = 0;
-    virtual std::string datagram_identifier_info(
-        t_DatagramIdentifier datagram_identifier) const = 0;
 
   protected:
     static void reset_ifstream(t_ifstream& ifs)
@@ -301,10 +188,7 @@ class I_InputFile
 
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier, t_ifstream> file_info;
-        file_info.package_infos_all->clear();
-        file_info.package_infos_by_type.clear();
-
-        auto& package_infos_all = *(file_info.package_infos_all);
+        file_info.package_infos->clear();
 
         reset_ifstream(ifs);
         callback_scan_new_file_begin(file_path, file_paths_cnt);
@@ -337,11 +221,7 @@ class I_InputFile
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));
 
-                    package_infos_all.push_back(package_info);
-                    auto& package_infos_type =
-                        *(file_info.package_infos_by_type.at(package_info->get_datagram_identifier()));
-
-                    package_infos_type.push_back(package_info);
+                    file_info.package_infos->push_back(package_info);
 
                     pos = pos_new;
                 }
@@ -366,7 +246,7 @@ class I_InputFile
         }
 
         if (close_progressbar)
-            progress_bar.close(std::string("Found: ") + std::to_string(package_infos_all.size()) +
+            progress_bar.close(std::string("Found: ") + std::to_string(_package_container.size()) +
                                " packages");
 
         reset_ifstream(ifs);
@@ -375,7 +255,7 @@ class I_InputFile
         return file_info;
     }
 
-  protected:
+  public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -385,17 +265,14 @@ class I_InputFile
         printer.append(_input_file_manager->__printer__(float_precision));
 
         printer.register_section("Detected datagrams");
-        printer.register_value("Total", _package_infos_all->size(), "");
-        for (const auto& kv : _package_infos_by_type)
-        {
-            std::string info = datagram_identifier_info(kv.first);
-
-            printer.register_value("Packages [" + datagram_identifier_to_string(kv.first) + "]",
-                                   kv.second->size(),
-                                   info);
-        }
+        printer.append(_package_container.__printer__(float_precision));
         return printer;
     }
+
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 } // namespace fileinterfaces

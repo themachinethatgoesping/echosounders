@@ -74,7 +74,7 @@ TEST_CASE("FIL1 should support common functions", TESTTAG)
     //--- datagram concept ---
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::FIL1);
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::FIL1);
     REQUIRE(dat.get_length() ==
             simrad_long(12 + 136 + dat._NoOfCoefficients * 2 * sizeof(simrad_float)));
 }

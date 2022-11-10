@@ -102,11 +102,11 @@ struct SimradDatagram
      * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
      *
      */
-    t_SimradDatagramType get_datagram_identifier() const
+    t_SimradDatagramIdentifier get_datagram_identifier() const
     {
-        return t_SimradDatagramType(_DatagramType);
+        return t_SimradDatagramIdentifier(_DatagramType);
     }
-    void set_datagram_identifier(t_SimradDatagramType datagram_type)
+    void set_datagram_identifier(t_SimradDatagramIdentifier datagram_type)
     {
         _DatagramType = simrad_long(datagram_type);
     }
@@ -149,7 +149,7 @@ struct SimradDatagram
         return d;
     }
 
-    static SimradDatagram from_stream(std::istream& is, t_SimradDatagramType datagram_identifier)
+    static SimradDatagram from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_identifier)
     {
         SimradDatagram d = from_stream(is);
 

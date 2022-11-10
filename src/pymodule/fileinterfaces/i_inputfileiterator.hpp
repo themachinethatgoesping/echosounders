@@ -41,42 +41,11 @@ void _iterator_add_PackageReading(T_PyClass& cls)
                 fileinterfaces,
                 I_InputFileIterator,
                 operator_call),
-            py::arg("index_min")  = 0,
-            py::arg("index_max")  = std::numeric_limits<size_t>::max(),
-            py::arg("index_step") = 1);
+            py::arg("start")  = 0,
+            py::arg("end")  = std::numeric_limits<size_t>::max(),
+            py::arg("step") = 1);
 }
 
-template<typename T_BaseClass,
-         typename T_DatagramType,
-         typename T_DatagramFactory = T_DatagramType,
-         typename T_DatagramIdentifier,
-         typename T_PyClass>
-void add_Iterator(T_PyClass&           cls,
-                  T_DatagramIdentifier datagram_identifier,
-                  const std::string&   T_NAME)
-{
-    cls.def_property_readonly(
-        ("i_" + T_NAME).c_str(),
-        [datagram_identifier](const T_BaseClass& self) {
-            return self.template get_iterator<T_DatagramType, T_DatagramFactory>(
-                datagram_identifier);
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator));
-}
-
-template<typename T_BaseClass,
-         typename T_DatagramType,
-         typename T_DatagramFactory = T_DatagramType,
-         typename T_PyClass>
-void add_Iterator(T_PyClass& cls, const std::string& T_NAME)
-{
-    cls.def_property_readonly(
-        ("i_" + T_NAME).c_str(),
-        [](const T_BaseClass& self) {
-            return self.template get_iterator<T_DatagramType, T_DatagramFactory>();
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_iterator));
-}
 
 template<typename T_DatagramType,
          typename T_DatagramIdentifier,

@@ -80,45 +80,18 @@ void add_FileOpenInterface(T_PyClass& cls)
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
             py::arg("file_path"),
             py::arg("progress_bar"));
-    cls.def("static_datagram_identifier_to_string",
-            &T_BaseClass::datagram_identifier_to_string,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_InputFile,
-                datagram_identifier_to_string),
-            py::arg("datagram_identifier"));
-    cls.def("datagram_identifier_info",
-            &T_BaseClass::datagram_identifier_info,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_InputFile,
-                datagram_identifier_info),
-            py::arg("datagram_identifier"));
 }
 
-template<typename T_BaseClass,
-         typename T_DatagramType,
-         typename T_DatagramFactory,
-         typename T_PyClass>
-void add_PackageReading(T_PyClass& cls)
+template<typename T_BaseClass, typename T_PyClass>
+void add_DefaultContainers(T_PyClass& cls)
 {
     namespace py = pybind11;
-    using namespace themachinethatgoesping::tools::progressbars;
-    cls.def("size",
-            &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size));
-    cls.def("__len__",
-            &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, size));
-    cls.def("__getitem__",
-            &T_BaseClass::template get_datagram<T_DatagramType, T_DatagramFactory>,
-            // []( T_BaseClass& self, long index) {
-            //     return self.template get_datagram<T_DatagramType, T_DatagramFactory>(index);
-            // },
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, get_datagram),
-            py::arg("index"));
+    
+    cls.def_property_readonly("packages",
+            py::overload_cast<>(&T_BaseClass::packages, py::const_),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, packages)
+            );
+            
 }
 
 }

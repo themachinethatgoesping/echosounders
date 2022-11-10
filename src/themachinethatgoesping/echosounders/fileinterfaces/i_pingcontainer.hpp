@@ -73,11 +73,11 @@ class I_PingContainer
     }
 
     // ----- iterator interface -----
-    I_PingContainer<t_Ping> operator()(long index_min, long index_max, long index_step) const
+    I_PingContainer<t_Ping> operator()(long start, long end, long step) const
     {
         I_PingContainer<t_Ping> slice(*this);
         auto                    it = slice.get_iterator();
-        it.set_slice(index_min, index_max, index_step);
+        it.set_slice(start, end, step);
 
         auto pings = std::make_shared<PingVector<t_Ping>>();
 

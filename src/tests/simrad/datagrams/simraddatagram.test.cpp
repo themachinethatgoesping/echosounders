@@ -23,7 +23,7 @@ TEST_CASE("SimradDatagram should support common functions", TESTTAG)
 
     // set some variables
     dat._Length       = 100;
-    dat._DatagramType = simrad_long(t_SimradDatagramType::XML0);
+    dat._DatagramType = simrad_long(t_SimradDatagramIdentifier::XML0);
     dat._LowDateTime  = 1;
     dat._HighDateTime = 2;
 
@@ -51,8 +51,8 @@ TEST_CASE("SimradDatagram should support common functions", TESTTAG)
     REQUIRE(dat.get_length() == 123);
 
     // datagram type
-    dat.set_datagram_identifier(t_SimradDatagramType::RAW3);
-    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::RAW3);
+    dat.set_datagram_identifier(t_SimradDatagramIdentifier::RAW3);
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::RAW3);
 
     // timestamp (unixtime)
     dat.set_timestamp(123.123);

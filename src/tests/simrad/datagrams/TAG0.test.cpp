@@ -56,7 +56,7 @@ TEST_CASE("TAG0 should support common functions", TESTTAG)
     //--- datagram concept ---
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::TAG0);
+    REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::TAG0);
     REQUIRE(dat.get_length() == 12 + 5);
     REQUIRE(dat2.get_length() == 12 + 3);
 }

@@ -29,6 +29,7 @@ namespace pymodule {
 namespace py_simrad {
 
 // -- submodule declarations --
+void init_c_packagecontainer( py::module& m ); // c_packagecontainer.cpp
 void init_c_fileraw(pybind11::module& m);        // c_fileraw.cpp
 void init_c_SimradFileData(pybind11::module& m); // c_SimradFileData.cpp
 void init_c_SimradNavigationDataInterface(
@@ -45,46 +46,46 @@ void init_m_simrad(pybind11::module& m)
     // module description
     auto subm = m.def_submodule("simrad", "Classes related to Simrad EK60 and EK80 data files");
 
-    py::enum_<t_SimradDatagramType>(
+    py::enum_<t_SimradDatagramIdentifier>(
         subm,
-        "t_SimradDatagramType",
-        DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType))
+        "t_SimradDatagramIdentifier",
+        DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier))
         .value("XML0",
-               t_SimradDatagramType::XML0,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, XML0))
+               t_SimradDatagramIdentifier::XML0,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, XML0))
         .value("FIL1",
-               t_SimradDatagramType::FIL1,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, FIL1))
+               t_SimradDatagramIdentifier::FIL1,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, FIL1))
         .value("NME0",
-               t_SimradDatagramType::NME0,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, NME0))
+               t_SimradDatagramIdentifier::NME0,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, NME0))
         .value("MRU0",
-               t_SimradDatagramType::MRU0,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, MRU0))
+               t_SimradDatagramIdentifier::MRU0,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, MRU0))
         .value("TAG0",
-               t_SimradDatagramType::TAG0,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, TAG0))
+               t_SimradDatagramIdentifier::TAG0,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, TAG0))
         .value("RAW3",
-               t_SimradDatagramType::RAW3,
-               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, RAW3))
+               t_SimradDatagramIdentifier::RAW3,
+               DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramIdentifier, RAW3))
         .export_values()
         // pybind enum helper
         // unfortunately magic_enum only works for enums within a specific range that cannot exceed
         // max(uint16_t) therefore we need to use a custom function
-        //__PYENUM_FROM_STRING__(t_SimradDatagramType)
+        //__PYENUM_FROM_STRING__(t_SimradDatagramIdentifier)
         .def(py::init([](const std::string& str) {
                  if (str == "XML0")
-                     return t_SimradDatagramType::XML0;
+                     return t_SimradDatagramIdentifier::XML0;
                  if (str == "FIL1")
-                     return t_SimradDatagramType::FIL1;
+                     return t_SimradDatagramIdentifier::FIL1;
                  if (str == "NME0")
-                     return t_SimradDatagramType::NME0;
+                     return t_SimradDatagramIdentifier::NME0;
                  if (str == "MRU0")
-                     return t_SimradDatagramType::MRU0;
+                     return t_SimradDatagramIdentifier::MRU0;
                  if (str == "TAG0")
-                     return t_SimradDatagramType::TAG0;
+                     return t_SimradDatagramIdentifier::TAG0;
                  if (str == "RAW3")
-                     return t_SimradDatagramType::RAW3;
+                     return t_SimradDatagramIdentifier::RAW3;
 
                  std::string enum_info = "[XML0, FIL1, NME0, MRU0, TAG0, RAW3]";
 
@@ -99,14 +100,14 @@ void init_m_simrad(pybind11::module& m)
         //
         ;
 
-    py::implicitly_convertible<std::string, t_SimradDatagramType>();
+    py::implicitly_convertible<std::string, t_SimradDatagramIdentifier>();
 
     subm.def("datagram_type_to_string",
              py::overload_cast<simrad_long>(&datagram_type_to_string),
              DOC(themachinethatgoesping, echosounders, simrad, datagram_type_to_string),
              py::arg("datagram_type"));
     subm.def("datagram_type_to_string",
-             py::overload_cast<t_SimradDatagramType>(&datagram_type_to_string),
+             py::overload_cast<t_SimradDatagramIdentifier>(&datagram_type_to_string),
              DOC(themachinethatgoesping, echosounders, simrad, datagram_type_to_string_2),
              py::arg("datagram_type"));
     subm.def("SimradDatagram_type_from_string",
@@ -118,6 +119,7 @@ void init_m_simrad(pybind11::module& m)
     py_datagrams::init_m_SimradDatagrams(subm);
 
     // simrad classes
+    init_c_packagecontainer(subm);
     init_c_SimradFileData(subm);
     init_c_SimradNavigationDataInterface(subm);
     init_c_SimradPing(subm);

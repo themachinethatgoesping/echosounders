@@ -67,7 +67,7 @@ struct RAW3 : public SimradDatagram
   public:
     // ----- constructors -----
     RAW3()
-        : SimradDatagram(152, simrad_long(t_SimradDatagramType::RAW3))
+        : SimradDatagram(152, simrad_long(t_SimradDatagramIdentifier::RAW3))
         , _ChannelID()
         , _Datatype(RAW3_datatypes::t_RAW3_DataType(0b00000000))
         , _NumberOfComplexSamples(0)
@@ -230,18 +230,18 @@ struct RAW3 : public SimradDatagram
     static RAW3 from_stream(std::istream& is, bool skip_sample_data = false)
     {
         return from_stream(
-            is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3), skip_sample_data);
+            is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3), skip_sample_data);
     }
 
     static RAW3 from_stream(std::istream&        is,
-                            t_SimradDatagramType type,
+                            t_SimradDatagramIdentifier type,
                             bool                 skip_sample_data = false)
     {
-        if (type != t_SimradDatagramType::RAW3)
+        if (type != t_SimradDatagramIdentifier::RAW3)
             throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
         return from_stream(
-            is, SimradDatagram::from_stream(is, t_SimradDatagramType::RAW3), skip_sample_data);
+            is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3), skip_sample_data);
     }
 
     void to_stream(std::ostream& os)
@@ -252,7 +252,7 @@ struct RAW3 : public SimradDatagram
         // TODO: support 16 bit complex data
         _Length = simrad_long(_Count * data_type_size * get_number_of_complex_samples() + 152);
 
-        _DatagramType = simrad_long(t_SimradDatagramType::RAW3);
+        _DatagramType = simrad_long(t_SimradDatagramIdentifier::RAW3);
         //_ChannelID.resize(128, '\x00');
 
         SimradDatagram::to_stream(os);

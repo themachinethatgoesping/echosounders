@@ -32,7 +32,7 @@ class I_PingDataInterface
 {
   protected:
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
+    std::shared_ptr< std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
 
   public:
     I_PingDataInterface(

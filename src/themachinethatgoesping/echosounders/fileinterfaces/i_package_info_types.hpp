@@ -96,12 +96,9 @@ struct DataFileInfo
     size_t      file_size;
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos_all =
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos =
         std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all package
-                                                                                ///< headers
-    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        package_infos_by_type; ///< package headers sorted by type
+                                                                    
 };
 
 }

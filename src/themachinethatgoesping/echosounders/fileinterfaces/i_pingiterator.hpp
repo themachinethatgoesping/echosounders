@@ -46,7 +46,7 @@ class I_PingIterator
 
     void reset_slice()
     {
-        _pyindexer.reset_slice_indexing();
+        _pyindexer.reset(_pings->size());
     }
 
     void set_slice(long start, long end, long step)

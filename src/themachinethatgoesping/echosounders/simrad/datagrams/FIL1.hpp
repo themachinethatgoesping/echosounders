@@ -59,7 +59,7 @@ struct FIL1 : public SimradDatagram
   public:
     // ----- constructors -----
     FIL1()
-        : SimradDatagram(148, simrad_long(t_SimradDatagramType::FIL1))
+        : SimradDatagram(148, simrad_long(t_SimradDatagramIdentifier::FIL1))
     {
     }
     ~FIL1() = default;
@@ -141,15 +141,15 @@ struct FIL1 : public SimradDatagram
 
     static FIL1 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::FIL1));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::FIL1));
     }
 
-    static FIL1 from_stream(std::istream& is, t_SimradDatagramType type)
+    static FIL1 from_stream(std::istream& is, t_SimradDatagramIdentifier type)
     {
-        if (type != t_SimradDatagramType::FIL1)
+        if (type != t_SimradDatagramIdentifier::FIL1)
             throw std::runtime_error("FIL1::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::FIL1));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::FIL1));
     }
 
     void to_stream(std::ostream& os)
@@ -157,7 +157,7 @@ struct FIL1 : public SimradDatagram
         _NoOfCoefficients = simrad_short(_Coefficients.size() / 2);
 
         _Length       = simrad_long(_Coefficients.size() * sizeof(simrad_float) + 148);
-        _DatagramType = simrad_long(t_SimradDatagramType::FIL1);
+        _DatagramType = simrad_long(t_SimradDatagramIdentifier::FIL1);
         _ChannelID.resize(128, '\x00');
 
         SimradDatagram::to_stream(os);

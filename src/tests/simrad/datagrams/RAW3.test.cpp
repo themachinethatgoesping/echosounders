@@ -130,7 +130,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         // xt::xtensor<simrad_complex_float>({1, 2, 3, 4})));
 
         //--- datagram concept ---
-        REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramType::RAW3);
+        REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::RAW3);
         REQUIRE(dat.get_length() ==
                 simrad_long(12 + 140 +
                             dat._Count * RAW3_DataType_size(dat.get_data_type()) *

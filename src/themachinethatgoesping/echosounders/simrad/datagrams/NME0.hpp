@@ -43,7 +43,7 @@ struct NME0 : public SimradDatagram
 
   public:
     // ----- constructors -----
-    NME0() { _DatagramType = simrad_long(t_SimradDatagramType::NME0); }
+    NME0() { _DatagramType = simrad_long(t_SimradDatagramIdentifier::NME0); }
     ~NME0() = default;
 
     // ----- operators -----
@@ -83,21 +83,21 @@ struct NME0 : public SimradDatagram
 
     static NME0 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::NME0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::NME0));
     }
 
-    static NME0 from_stream(std::istream& is, t_SimradDatagramType type)
+    static NME0 from_stream(std::istream& is, t_SimradDatagramIdentifier type)
     {
-        if (type != t_SimradDatagramType::NME0)
+        if (type != t_SimradDatagramIdentifier::NME0)
             throw std::runtime_error("NME0::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramType::NME0));
+        return from_stream(is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::NME0));
     }
 
     void to_stream(std::ostream& os)
     {
         _Length       = simrad_long(12 + _nmea_base.size());
-        _DatagramType = simrad_long(t_SimradDatagramType::NME0);
+        _DatagramType = simrad_long(t_SimradDatagramIdentifier::NME0);
         SimradDatagram::to_stream(os);
         _nmea_base.to_stream_dont_write_size(os);
         os.write(reinterpret_cast<const char*>(&_Length), sizeof(_Length));

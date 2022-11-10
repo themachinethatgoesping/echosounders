@@ -33,7 +33,7 @@ using simrad_complex_float =
 using simrad_double   = double; // this must be 64bit!
 using simrad_DWORDLON = int64_t;
 
-enum class t_SimradDatagramType : simrad_long
+enum class t_SimradDatagramIdentifier : simrad_long
 {
     XML0 = 810306904, ///< Unspecified (unknown) XML datagram
     TAG0 = 809976148, ///< ???
@@ -48,7 +48,7 @@ inline std::string datagram_type_to_string(simrad_long value)
     return tools::helper::int_as_string<simrad_long>(value);
 }
 
-inline std::string datagram_type_to_string(t_SimradDatagramType value)
+inline std::string datagram_type_to_string(t_SimradDatagramIdentifier value)
 {
     return tools::helper::int_as_string<simrad_long>(simrad_long(value));
 }

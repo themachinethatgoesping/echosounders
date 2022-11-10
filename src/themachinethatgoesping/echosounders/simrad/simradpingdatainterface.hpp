@@ -26,7 +26,7 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradPingDataInterface
-    : public fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>
+    : public fileinterfaces::I_PingDataInterface<t_SimradDatagramIdentifier, t_ifstream>
 {
     std::vector<std::shared_ptr<SimradFileData>> _file_data;
 
@@ -36,9 +36,9 @@ class SimradPingDataInterface
 
   public:
     SimradPingDataInterface(
-        std::shared_ptr<std::vector<fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream>>>
+        std::shared_ptr<std::vector<fileinterfaces::PackageInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>>>
             package_infos)
-        : fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>(package_infos)
+        : fileinterfaces::I_PingDataInterface<t_SimradDatagramIdentifier, t_ifstream>(package_infos)
     {
     }
 
@@ -78,7 +78,7 @@ class SimradPingDataInterface
         tools::classhelper::ObjectPrinter printer("SimradPingDataInterface", float_precision);
 
         auto interface_printer =
-            fileinterfaces::I_PingDataInterface<t_SimradDatagramType, t_ifstream>::__printer__(
+            fileinterfaces::I_PingDataInterface<t_SimradDatagramIdentifier, t_ifstream>::__printer__(
                 float_precision);
 
         printer.append(interface_printer);

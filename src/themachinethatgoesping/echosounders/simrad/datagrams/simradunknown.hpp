@@ -73,7 +73,7 @@ struct SimradUnknown : public SimradDatagram
         return from_stream(is, SimradDatagram::from_stream(is));
     }
 
-    static SimradUnknown from_stream(std::istream& is, t_SimradDatagramType datagram_identifier)
+    static SimradUnknown from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, std::move(SimradDatagram::from_stream(is, datagram_identifier)));
     }

@@ -21,6 +21,7 @@
 #include "simradnavigationdatainterface.hpp"
 #include "simradping.hpp"
 #include "simradpingdatainterface.hpp"
+#include "simradpackagecontainer.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -35,11 +36,11 @@ using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstrea
 template<typename t_ifstream>
 class FileRaw
     : public fileinterfaces::
-          I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType, t_ifstream>
+          I_InputFile<datagrams::SimradDatagram, t_SimradDatagramIdentifier, SimradPackageContainer<t_ifstream>, t_ifstream>
 {
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
-            this->_package_infos_all);
+            this->_package_container.get_package_infos_all());
 
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
         std::make_shared<SimradNavigationDataInterface<t_ifstream>>(
@@ -62,7 +63,7 @@ class FileRaw
     // inherit constructors
     // This does not work, because I_InputFile calls append before the callback functions are
     // overwritten Thus inheriting constructors would lead to calling the callback functions of the
-    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramType,
+    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramIdentifier,
     // t_ifstream>::
     //     I_InputFile;
 
@@ -89,9 +90,9 @@ class FileRaw
     SimradNavigationDataInterface<t_ifstream> navigation() const { return *_navigation_interface; }
 
     SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
-    SimradPingContainer<t_ifstream> pings(long index_min, long index_max, long index_step) const
+    SimradPingContainer<t_ifstream> pings(long start, long end, long step) const
     {
-        return _ping_container(index_min, index_max, index_step);
+        return _ping_container(start, end, step);
     }
 
     SimradPingContainer<t_ifstream> pings(const std::string& channel_id) const
@@ -99,13 +100,13 @@ class FileRaw
         return *_ping_container_by_channel.at_const(channel_id);
     }
     SimradPingContainer<t_ifstream> pings(const std::string& channel_id,
-                                          long               index_min,
-                                          long               index_max,
-                                          long               index_step) const
+                                          long               start,
+                                          long               end,
+                                          long               step) const
     {
         return _ping_container_by_channel.at_const(channel_id)
             ->
-            operator()(index_min, index_max, index_step);
+            operator()(start, end, step);
     }
     std::vector<std::string> channel_ids() const
     {
@@ -118,36 +119,7 @@ class FileRaw
         return channel_ids;
     }
 
-    // void print_fileinfo(std::ostream& os) const;
-    std::string datagram_identifier_to_string(t_SimradDatagramType datagram_type) const final
-    {
-        return datagram_type_to_string(datagram_type);
-        // return std::string(magic_enum::enum_name(datagram_type));
-    }
-
-    std::string datagram_identifier_info(t_SimradDatagramType datagram_type) const final
-    {
-        // this should work, but doesn't
-        // return magic_enum::enum_contains(datagram_type);
-
-        switch (datagram_type)
-        {
-            case t_SimradDatagramType::MRU0:
-                return "Motion binary datagram";
-            case t_SimradDatagramType::NME0:
-                return "NMEA text datagram";
-            case t_SimradDatagramType::XML0:
-                return "XML0 text datagram";
-            case t_SimradDatagramType::TAG0:
-                return "Annotation datagram";
-            case t_SimradDatagramType::FIL1:
-                return "Filter binary datagram";
-            case t_SimradDatagramType::RAW3:
-                return "Sample binary datagram";
-            default:
-                return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
-        }
-    }
+   
 
     navigation::NavigationInterpolatorLatLon process_navigation(bool show_progress = true)
     {
@@ -272,7 +244,7 @@ class FileRaw
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
-    fileinterfaces::PackageInfo_ptr<t_SimradDatagramType, t_ifstream> callback_scan_packet(
+    fileinterfaces::PackageInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
         t_ifstream&                   ifs,
         typename t_ifstream::pos_type pos,
         size_t                        file_paths_cnt) final
@@ -281,7 +253,7 @@ class FileRaw
         auto type   = header.get_datagram_identifier();
 
         auto package_info =
-            std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType, t_ifstream>>(
+            std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramIdentifier, t_ifstream>>(
                 file_paths_cnt,
                 pos,
                 this->_input_file_manager,
@@ -289,7 +261,7 @@ class FileRaw
                 header.get_datagram_identifier());
 
         // auto package_info =
-        // std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramType>>();
+        // std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramIdentifier>>();
         // package_info->file_nr             = file_paths_cnt;
         // package_info->file_pos            = pos;
         // package_info->timestamp           = header.get_timestamp();
@@ -297,7 +269,7 @@ class FileRaw
 
         switch (type)
         {
-            case t_SimradDatagramType::NME0: {
+            case t_SimradDatagramIdentifier::NME0: {
 
                 auto datagram = datagrams::NME0::from_stream(ifs, header);
 
@@ -308,7 +280,7 @@ class FileRaw
                 _navigation_interface->add_datagram(datagram, package_info);
                 break;
             }
-            case t_SimradDatagramType::MRU0: {
+            case t_SimradDatagramIdentifier::MRU0: {
                 auto datagram = datagrams::MRU0::from_stream(ifs, header);
 
                 if (!ifs.good())
@@ -318,7 +290,7 @@ class FileRaw
                 _navigation_interface->add_datagram(datagram, package_info);
                 break;
             }
-            case t_SimradDatagramType::XML0: {
+            case t_SimradDatagramIdentifier::XML0: {
 
                 auto xml = datagrams::XML0::from_stream(ifs, header);
 
@@ -401,7 +373,7 @@ class FileRaw
 
                 break;
             }
-            case t_SimradDatagramType::RAW3: {
+            case t_SimradDatagramIdentifier::RAW3: {
                 auto ping = std::make_shared<SimradPing<t_ifstream>>(
                     _ping_data_interface,
                     package_info,
@@ -418,14 +390,14 @@ class FileRaw
 
                 break;
             }
-            case t_SimradDatagramType::FIL1: {
+            case t_SimradDatagramIdentifier::FIL1: {
                 auto datagram = datagrams::FIL1::from_stream(ifs, header);
 
                 if (ifs.good())
                     _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
-            case t_SimradDatagramType::TAG0: {
+            case t_SimradDatagramIdentifier::TAG0: {
                 auto datagram = datagrams::TAG0::from_stream(ifs, header);
 
                 if (ifs.good())
@@ -448,7 +420,8 @@ class FileRaw
 
         auto interface_printer =
             fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-                                        t_SimradDatagramType,
+                                        t_SimradDatagramIdentifier,
+                                        SimradPackageContainer<t_ifstream>,
                                         t_ifstream>::__printer__(float_precision);
 
         printer.append(interface_printer);

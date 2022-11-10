@@ -39,9 +39,9 @@ void _PingIterator_add_PackageReading(T_PyClass& cls)
         "__call__",
         &T_BaseClass::operator(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingIterator, operator_call),
-        py::arg("index_min")  = 0,
-        py::arg("index_max")  = std::numeric_limits<size_t>::max(),
-        py::arg("index_step") = 1);
+        py::arg("start")  = 0,
+        py::arg("end")  = std::numeric_limits<size_t>::max(),
+        py::arg("step") = 1);
 
     cls.def("max_number_of_samples",
             &T_BaseClass::max_number_of_samples,

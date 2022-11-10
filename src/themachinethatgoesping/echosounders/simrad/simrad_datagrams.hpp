@@ -47,21 +47,21 @@ struct SimradDatagramVariant
     {
     }
 
-    static t_SimradDatagramVariant from_stream(std::istream& is, t_SimradDatagramType datagram_type)
+    static t_SimradDatagramVariant from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_type)
     {
         switch (datagram_type)
         {
-            case t_SimradDatagramType::MRU0:
+            case t_SimradDatagramIdentifier::MRU0:
                 return t_SimradDatagramVariant(MRU0::from_stream(is));
-            case t_SimradDatagramType::NME0:
+            case t_SimradDatagramIdentifier::NME0:
                 return t_SimradDatagramVariant(NME0::from_stream(is));
-            case t_SimradDatagramType::XML0:
+            case t_SimradDatagramIdentifier::XML0:
                 return t_SimradDatagramVariant(XML0::from_stream(is));
-            case t_SimradDatagramType::TAG0:
+            case t_SimradDatagramIdentifier::TAG0:
                 return t_SimradDatagramVariant(TAG0::from_stream(is));
-            case t_SimradDatagramType::FIL1:
+            case t_SimradDatagramIdentifier::FIL1:
                 return t_SimradDatagramVariant(FIL1::from_stream(is));
-            case t_SimradDatagramType::RAW3:
+            case t_SimradDatagramIdentifier::RAW3:
                 return t_SimradDatagramVariant(RAW3::from_stream(is));
             default:
                 return t_SimradDatagramVariant(SimradUnknown::from_stream(is, datagram_type));

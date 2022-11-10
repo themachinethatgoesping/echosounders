@@ -37,7 +37,7 @@ class I_InputFileIterator
 {
   protected:
     /* header positions */
-    std::shared_ptr<const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+    std::shared_ptr< std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _package_infos;
 
     tools::pyhelper::PyIndexer _pyindexer;
