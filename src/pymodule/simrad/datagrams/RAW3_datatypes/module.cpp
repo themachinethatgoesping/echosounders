@@ -10,7 +10,7 @@
 
 #include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp"
 #include "../../../docstrings.hpp"
-#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"
 
@@ -74,7 +74,7 @@ void init_m_RAW3_datatypes(pybind11::module& m)
         //
         ;
 
-    tools::pybind_helpers::add_string_to_enum_conversion<t_RAW3_DataType>(pyenum_raw3_datatype);
+    tools::pybind_helper::add_string_to_enum_conversion<t_RAW3_DataType>(pyenum_raw3_datatype);
 
     // RAW datatype structures
     init_c_i_raw3_data(subm);

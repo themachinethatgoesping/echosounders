@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -87,7 +87,7 @@ struct XML_Configuration_ActivePingMode
     static XML_Configuration_ActivePingMode from_stream(std::istream& is)
     {
         XML_Configuration_ActivePingMode xml;
-        xml.Mode = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Mode = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
@@ -97,7 +97,7 @@ struct XML_Configuration_ActivePingMode
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, Mode);
+        tools::classhelper::stream::container_to_stream(os, Mode);
 
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
@@ -116,9 +116,9 @@ struct XML_Configuration_ActivePingMode
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration_ActivePingMode",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_ActivePingMode",
                                                    float_precision);
         printer.register_string("Mode", Mode);
 
@@ -126,7 +126,7 @@ struct XML_Configuration_ActivePingMode
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_ActivePingMode)
 };
 

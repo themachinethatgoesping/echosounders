@@ -17,7 +17,7 @@
 #include <fmt/core.h>
 
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -89,9 +89,9 @@ class InputFileManager
 
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("InputFileManager", float_precision);
+        tools::classhelper::ObjectPrinter printer("InputFileManager", float_precision);
 
         if (_file_paths->size() > 1)
         {

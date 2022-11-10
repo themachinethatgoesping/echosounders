@@ -22,7 +22,7 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 namespace themachinethatgoesping {

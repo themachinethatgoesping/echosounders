@@ -17,8 +17,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -183,10 +183,10 @@ struct XML_Parameter_Channel
     static XML_Parameter_Channel from_stream(std::istream& is)
     {
         XML_Parameter_Channel xml;
-        xml.ChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.ChannelID = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.ChannelMode), sizeof(xml.ChannelMode));
         is.read(reinterpret_cast<char*>(&xml.PulseForm), sizeof(xml.PulseForm) * 12);
-        xml.PingId = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.PingId = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -195,10 +195,10 @@ struct XML_Parameter_Channel
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, ChannelID);
+        tools::classhelper::stream::container_to_stream(os, ChannelID);
         os.write(reinterpret_cast<const char*>(&ChannelMode), sizeof(ChannelMode));
         os.write(reinterpret_cast<const char*>(&PulseForm), sizeof(PulseForm) * 12);
-        tools::classhelpers::stream::container_to_stream(os, PingId);
+        tools::classhelper::stream::container_to_stream(os, PingId);
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
     }
@@ -288,9 +288,9 @@ struct XML_Parameter_Channel
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision);
         printer.register_string("ChannelID", ChannelID);
         printer.register_value("ChannelMode", ChannelMode);
         printer.register_value("PulseForm", PulseForm);
@@ -313,7 +313,7 @@ struct XML_Parameter_Channel
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter_Channel)
 };
 

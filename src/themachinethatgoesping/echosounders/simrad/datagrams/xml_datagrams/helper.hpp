@@ -16,7 +16,7 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
@@ -77,8 +77,8 @@ struct objectprint_walker : pugi::xml_tree_walker
 {
     std::unordered_map<int, std::string> _root_nodes;
 
-    tools::classhelpers::ObjectPrinter& _printer;
-    objectprint_walker(tools::classhelpers::ObjectPrinter& printer)
+    tools::classhelper::ObjectPrinter& _printer;
+    objectprint_walker(tools::classhelper::ObjectPrinter& printer)
         : _printer(printer)
     {
     }

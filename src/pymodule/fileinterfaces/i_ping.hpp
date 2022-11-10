@@ -8,7 +8,7 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_ping.hpp"
 //#include "../docstrings.hpp"

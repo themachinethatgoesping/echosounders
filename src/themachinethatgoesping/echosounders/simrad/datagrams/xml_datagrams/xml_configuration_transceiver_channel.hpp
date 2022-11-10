@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -158,17 +158,17 @@ struct XML_Configuration_Transceiver_Channel
     {
         XML_Configuration_Transceiver_Channel xml;
 
-        xml.ChannelID        = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.LogicalChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.ChannelIdShort   = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.ChannelID        = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.LogicalChannelID = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.ChannelIdShort   = tools::classhelper::stream::container_from_stream<std::string>(is);
         xml.PulseLength =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
         xml.PulseDuration =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
         xml.PulseDurationFM =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
         xml.SampleInterval =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
 
         is.read(reinterpret_cast<char*>(&xml.MaxTxPowerTransceiver),
                 sizeof(xml.MaxTxPowerTransceiver));
@@ -186,13 +186,13 @@ struct XML_Configuration_Transceiver_Channel
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, ChannelID);
-        tools::classhelpers::stream::container_to_stream(os, LogicalChannelID);
-        tools::classhelpers::stream::container_to_stream(os, ChannelIdShort);
-        tools::classhelpers::stream::container_to_stream(os, PulseLength);
-        tools::classhelpers::stream::container_to_stream(os, PulseDuration);
-        tools::classhelpers::stream::container_to_stream(os, PulseDurationFM);
-        tools::classhelpers::stream::container_to_stream(os, SampleInterval);
+        tools::classhelper::stream::container_to_stream(os, ChannelID);
+        tools::classhelper::stream::container_to_stream(os, LogicalChannelID);
+        tools::classhelper::stream::container_to_stream(os, ChannelIdShort);
+        tools::classhelper::stream::container_to_stream(os, PulseLength);
+        tools::classhelper::stream::container_to_stream(os, PulseDuration);
+        tools::classhelper::stream::container_to_stream(os, PulseDurationFM);
+        tools::classhelper::stream::container_to_stream(os, SampleInterval);
 
         os.write(reinterpret_cast<const char*>(&MaxTxPowerTransceiver),
                  sizeof(MaxTxPowerTransceiver));
@@ -230,9 +230,9 @@ struct XML_Configuration_Transceiver_Channel
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver_Channel",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver_Channel",
                                                    float_precision);
 
         printer.register_section("children (Transducer)");
@@ -259,7 +259,7 @@ struct XML_Configuration_Transceiver_Channel
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transceiver_Channel)
 };
 

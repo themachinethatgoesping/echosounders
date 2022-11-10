@@ -10,7 +10,7 @@
 
 #include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
 #include "../../../docstrings.hpp"
-#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"
 
@@ -91,11 +91,11 @@ void init_m_datagrams_xml(pybind11::module& m)
                    t_BeamType::BeamTypeSplit3CW,
                    DOC_ENUM_BEAMTYPE(BeamTypeSplit3CW))
             .export_values()
-        // pybind enum helpers
+        // pybind enum helper
         //
         ;
 
-    tools::pybind_helpers::add_string_to_enum_conversion<t_BeamType>(pyenum_BeamType);
+    tools::pybind_helper::add_string_to_enum_conversion<t_BeamType>(pyenum_BeamType);
 
     // simrad classes
     init_c_xml_datagram(subm);

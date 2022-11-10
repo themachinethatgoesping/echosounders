@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -97,7 +97,7 @@ struct XML_Environment_Transducer
     {
         XML_Environment_Transducer xml;
         is.read(reinterpret_cast<char*>(&xml.SoundSpeed), sizeof(xml.SoundSpeed));
-        xml.TransducerName = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TransducerName = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         return xml;
     }
@@ -105,7 +105,7 @@ struct XML_Environment_Transducer
     void to_stream(std::ostream& os) const
     {
         os.write(reinterpret_cast<const char*>(&SoundSpeed), sizeof(SoundSpeed));
-        tools::classhelpers::stream::container_to_stream(os, TransducerName);
+        tools::classhelper::stream::container_to_stream(os, TransducerName);
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
     }
@@ -121,9 +121,9 @@ struct XML_Environment_Transducer
     bool operator!=(const XML_Environment_Transducer& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Transducer [Environment]",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Transducer [Environment]",
                                                    float_precision);
         printer.register_value("SoundSpeed", SoundSpeed, "m/s");
         printer.register_string("TransducerName", TransducerName, "future use");
@@ -134,7 +134,7 @@ struct XML_Environment_Transducer
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Environment_Transducer)
 };
 

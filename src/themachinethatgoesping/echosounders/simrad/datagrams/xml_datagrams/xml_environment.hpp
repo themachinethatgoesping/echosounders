@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -182,14 +182,14 @@ struct XML_Environment
                 sizeof(xml.DropKeelOffsetIsManual));
         is.read(reinterpret_cast<char*>(&xml.DropKeelOffset), sizeof(xml.DropKeelOffset));
         xml.SoundVelocityProfile =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
         is.read(reinterpret_cast<char*>(&xml.WaterLevelDraftIsManual),
                 sizeof(xml.WaterLevelDraftIsManual));
         is.read(reinterpret_cast<char*>(&xml.Latitude), sizeof(xml.Latitude));
         is.read(reinterpret_cast<char*>(&xml.SoundSpeed), sizeof(xml.SoundSpeed));
         is.read(reinterpret_cast<char*>(&xml.Salinity), sizeof(xml.Salinity));
         xml.SoundVelocitySource =
-            tools::classhelpers::stream::container_from_stream<std::string>(is);
+            tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.Acidity), sizeof(xml.Acidity));
         is.read(reinterpret_cast<char*>(&xml.Temperature), sizeof(xml.Temperature));
         is.read(reinterpret_cast<char*>(&xml.Depth), sizeof(xml.Depth));
@@ -217,13 +217,13 @@ struct XML_Environment
         os.write(reinterpret_cast<const char*>(&DropKeelOffsetIsManual),
                  sizeof(DropKeelOffsetIsManual));
         os.write(reinterpret_cast<const char*>(&DropKeelOffset), sizeof(DropKeelOffset));
-        tools::classhelpers::stream::container_to_stream(os, SoundVelocityProfile);
+        tools::classhelper::stream::container_to_stream(os, SoundVelocityProfile);
         os.write(reinterpret_cast<const char*>(&WaterLevelDraftIsManual),
                  sizeof(WaterLevelDraftIsManual));
         os.write(reinterpret_cast<const char*>(&Latitude), sizeof(Latitude));
         os.write(reinterpret_cast<const char*>(&SoundSpeed), sizeof(SoundSpeed));
         os.write(reinterpret_cast<const char*>(&Salinity), sizeof(Salinity));
-        tools::classhelpers::stream::container_to_stream(os, SoundVelocitySource);
+        tools::classhelper::stream::container_to_stream(os, SoundVelocitySource);
         os.write(reinterpret_cast<const char*>(&Acidity), sizeof(Acidity));
         os.write(reinterpret_cast<const char*>(&Temperature), sizeof(Temperature));
         os.write(reinterpret_cast<const char*>(&Depth), sizeof(Depth));
@@ -265,9 +265,9 @@ struct XML_Environment
     bool operator!=(const XML_Environment& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Environment", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Environment", float_precision);
 
         printer.register_section("children (Transducers / Future use)");
         printer.register_value("Transducers", Transducers.size());
@@ -297,7 +297,7 @@ struct XML_Environment
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Environment)
 };
 

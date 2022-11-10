@@ -11,7 +11,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
@@ -442,9 +442,9 @@ class FileRaw
 
   public:
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("FileSimradRaw", float_precision);
+        tools::classhelper::ObjectPrinter printer("FileSimradRaw", float_precision);
 
         auto interface_printer =
             fileinterfaces::I_InputFile<datagrams::SimradDatagram,
@@ -462,7 +462,7 @@ class FileRaw
   public:
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 } // namespace simrad

@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -87,7 +87,7 @@ struct XML_PingSequence_Ping
     static XML_PingSequence_Ping from_stream(std::istream& is)
     {
         XML_PingSequence_Ping xml;
-        xml.ChannelID = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.ChannelID = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
 
@@ -96,7 +96,7 @@ struct XML_PingSequence_Ping
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, ChannelID);
+        tools::classhelper::stream::container_to_stream(os, ChannelID);
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
     }
@@ -111,9 +111,9 @@ struct XML_PingSequence_Ping
     bool operator!=(const XML_PingSequence_Ping& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 PingSequence_Ping", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 PingSequence_Ping", float_precision);
         printer.register_string("ChannelID", ChannelID);
         printer.register_value("unknown_children", unknown_children);
         printer.register_value("unknown_attributes", unknown_attributes);
@@ -122,7 +122,7 @@ struct XML_PingSequence_Ping
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_PingSequence_Ping)
 };
 

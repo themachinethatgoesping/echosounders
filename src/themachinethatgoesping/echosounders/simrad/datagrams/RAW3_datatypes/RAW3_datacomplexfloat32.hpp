@@ -21,7 +21,7 @@
 #include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
 #include "i_RAW3_data.hpp"
@@ -119,9 +119,9 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("Sample binary data (ComplexFloat32)",
+        tools::classhelper::ObjectPrinter printer("Sample binary data (ComplexFloat32)",
                                                    float_precision);
 
         std::stringstream ss;

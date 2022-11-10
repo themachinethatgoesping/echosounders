@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -175,14 +175,14 @@ struct XML_Configuration_Transceiver
     {
         XML_Configuration_Transceiver xml;
 
-        xml.TransceiverName = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TransceiverType = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.MarketSegment   = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.EthernetAddress = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.IPAddress       = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.TransceiverName = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.TransceiverType = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.MarketSegment   = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.EthernetAddress = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.IPAddress       = tools::classhelper::stream::container_from_stream<std::string>(is);
         xml.TransceiverSoftwareVersion =
-            tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Version = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Version = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         is.read(reinterpret_cast<char*>(&xml.Impedance), sizeof(xml.Impedance) * 2);
         is.read(reinterpret_cast<char*>(&xml.SerialNumber), sizeof(xml.SerialNumber) * 3);
@@ -203,13 +203,13 @@ struct XML_Configuration_Transceiver
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, TransceiverName);
-        tools::classhelpers::stream::container_to_stream(os, TransceiverType);
-        tools::classhelpers::stream::container_to_stream(os, MarketSegment);
-        tools::classhelpers::stream::container_to_stream(os, EthernetAddress);
-        tools::classhelpers::stream::container_to_stream(os, IPAddress);
-        tools::classhelpers::stream::container_to_stream(os, TransceiverSoftwareVersion);
-        tools::classhelpers::stream::container_to_stream(os, Version);
+        tools::classhelper::stream::container_to_stream(os, TransceiverName);
+        tools::classhelper::stream::container_to_stream(os, TransceiverType);
+        tools::classhelper::stream::container_to_stream(os, MarketSegment);
+        tools::classhelper::stream::container_to_stream(os, EthernetAddress);
+        tools::classhelper::stream::container_to_stream(os, IPAddress);
+        tools::classhelper::stream::container_to_stream(os, TransceiverSoftwareVersion);
+        tools::classhelper::stream::container_to_stream(os, Version);
 
         os.write(reinterpret_cast<const char*>(&Impedance), sizeof(Impedance) * 2);
         os.write(reinterpret_cast<const char*>(&SerialNumber), sizeof(SerialNumber) * 3);
@@ -245,9 +245,9 @@ struct XML_Configuration_Transceiver
     bool operator!=(const XML_Configuration_Transceiver& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver",
                                                    float_precision);
 
         if (!Channels.empty())
@@ -293,7 +293,7 @@ struct XML_Configuration_Transceiver
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transceiver)
 };
 

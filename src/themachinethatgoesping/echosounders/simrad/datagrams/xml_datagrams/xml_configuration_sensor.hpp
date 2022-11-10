@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -191,10 +191,10 @@ struct XML_Configuration_Sensor
         is.read(reinterpret_cast<char*>(&xml.Timeout), sizeof(xml.Timeout));
         is.read(reinterpret_cast<char*>(&xml.Unique), sizeof(xml.Unique));
         is.read(reinterpret_cast<char*>(&xml.AngleZ), sizeof(xml.AngleZ) * 6);
-        xml.Port     = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Type     = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Name     = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TalkerID = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Port     = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Type     = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Name     = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.TalkerID = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         size_t size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
@@ -215,10 +215,10 @@ struct XML_Configuration_Sensor
         os.write(reinterpret_cast<const char*>(&Timeout), sizeof(Timeout));
         os.write(reinterpret_cast<const char*>(&Unique), sizeof(Unique));
         os.write(reinterpret_cast<const char*>(&AngleZ), sizeof(AngleZ) * 6);
-        tools::classhelpers::stream::container_to_stream(os, Port);
-        tools::classhelpers::stream::container_to_stream(os, Type);
-        tools::classhelpers::stream::container_to_stream(os, Name);
-        tools::classhelpers::stream::container_to_stream(os, TalkerID);
+        tools::classhelper::stream::container_to_stream(os, Port);
+        tools::classhelper::stream::container_to_stream(os, Type);
+        tools::classhelper::stream::container_to_stream(os, Name);
+        tools::classhelper::stream::container_to_stream(os, TalkerID);
 
         size_t size = Telegrams.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size));
@@ -248,9 +248,9 @@ struct XML_Configuration_Sensor
     bool operator!=(const XML_Configuration_Sensor& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration_Sensor",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Sensor",
                                                    float_precision);
 
         if (!Telegrams.empty())
@@ -291,7 +291,7 @@ struct XML_Configuration_Sensor
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor)
 };
 

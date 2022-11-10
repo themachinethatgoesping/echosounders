@@ -13,8 +13,8 @@
 #include <vector>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../simrad_types.hpp"
@@ -165,7 +165,7 @@ struct SimradDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         using tools::timeconv::unixtime_to_datestring;
 
@@ -176,7 +176,7 @@ struct SimradDatagram
         auto date = unixtime_to_datestring(timestamp, 0, format_data);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
-        tools::classhelpers::ObjectPrinter printer("SimradDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("SimradDatagram", float_precision);
 
         printer.register_value("length", _Length, "bytes");
         printer.register_string("datagram_type", datagram_type_to_string(_DatagramType));
@@ -188,7 +188,7 @@ struct SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SimradDatagram)
 };
 

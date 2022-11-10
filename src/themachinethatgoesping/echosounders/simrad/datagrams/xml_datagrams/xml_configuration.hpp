@@ -17,8 +17,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -351,11 +351,11 @@ struct XML_Configuration
     {
         XML_Configuration xml;
 
-        xml.FileFormatVersion = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Version           = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.TimeBias          = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.ApplicationName   = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Copyright         = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.FileFormatVersion = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Version           = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.TimeBias          = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.ApplicationName   = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Copyright         = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         size_t size;
 
@@ -387,11 +387,11 @@ struct XML_Configuration
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, FileFormatVersion);
-        tools::classhelpers::stream::container_to_stream(os, Version);
-        tools::classhelpers::stream::container_to_stream(os, TimeBias);
-        tools::classhelpers::stream::container_to_stream(os, ApplicationName);
-        tools::classhelpers::stream::container_to_stream(os, Copyright);
+        tools::classhelper::stream::container_to_stream(os, FileFormatVersion);
+        tools::classhelper::stream::container_to_stream(os, Version);
+        tools::classhelper::stream::container_to_stream(os, TimeBias);
+        tools::classhelper::stream::container_to_stream(os, ApplicationName);
+        tools::classhelper::stream::container_to_stream(os, Copyright);
 
         size_t size;
 
@@ -430,9 +430,9 @@ struct XML_Configuration
     bool operator!=(const XML_Configuration& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
                                                    float_precision);
         printer.register_section("children");
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
@@ -461,7 +461,7 @@ struct XML_Configuration
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration)
 };
 

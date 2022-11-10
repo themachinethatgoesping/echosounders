@@ -16,7 +16,7 @@
 
 #include <themachinethatgoesping/navigation/nmea_0183.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
-#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"

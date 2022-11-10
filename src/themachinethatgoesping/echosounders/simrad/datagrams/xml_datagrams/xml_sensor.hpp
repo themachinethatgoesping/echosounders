@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -98,7 +98,7 @@ struct XML_Sensor
         XML_Sensor xml;
         is.read(reinterpret_cast<char*>(&xml.IsManual), sizeof(xml.IsManual));
         is.read(reinterpret_cast<char*>(&xml.ManualValue), sizeof(xml.ManualValue));
-        xml.Type = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        xml.Type = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
@@ -110,7 +110,7 @@ struct XML_Sensor
     {
         os.write(reinterpret_cast<const char*>(&IsManual), sizeof(IsManual));
         os.write(reinterpret_cast<const char*>(&ManualValue), sizeof(ManualValue));
-        tools::classhelpers::stream::container_to_stream(os, Type);
+        tools::classhelper::stream::container_to_stream(os, Type);
 
         os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
         os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
@@ -127,9 +127,9 @@ struct XML_Sensor
     bool operator!=(const XML_Sensor& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 Sensor", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Sensor", float_precision);
         printer.register_value("IsManual", IsManual);
         printer.register_value("ManualValue", ManualValue);
         printer.register_string("Type", Type);
@@ -138,7 +138,7 @@ struct XML_Sensor
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Sensor)
 };
 

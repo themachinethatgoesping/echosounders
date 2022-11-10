@@ -21,7 +21,7 @@
 #include <fmt/core.h>
 
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "i_inputfileiterator.hpp"
@@ -377,9 +377,9 @@ class I_InputFile
 
   protected:
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("I_InputFile", float_precision);
+        tools::classhelper::ObjectPrinter printer("I_InputFile", float_precision);
 
         printer.register_section("File infos");
         printer.append(_input_file_manager->__printer__(float_precision));

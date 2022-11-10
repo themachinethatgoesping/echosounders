@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -221,11 +221,11 @@ struct XML_Configuration_Transceiver_Channel_Transducer
     {
         XML_Configuration_Transceiver_Channel_Transducer xml;
 
-        xml.TransducerName = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.ArticleNumber  = tools::classhelpers::stream::container_from_stream<std::string>(is);
-        xml.Gain = tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+        xml.TransducerName = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.ArticleNumber  = tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.Gain = tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
         xml.SaCorrection =
-            tools::classhelpers::stream::container_from_stream<std::vector<double>>(is);
+            tools::classhelper::stream::container_from_stream<std::vector<double>>(is);
 
         is.read(reinterpret_cast<char*>(&xml.SerialNumber), sizeof(xml.SerialNumber));
         is.read(reinterpret_cast<char*>(&xml.BeamType), sizeof(xml.BeamType));
@@ -247,10 +247,10 @@ struct XML_Configuration_Transceiver_Channel_Transducer
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, TransducerName);
-        tools::classhelpers::stream::container_to_stream(os, ArticleNumber);
-        tools::classhelpers::stream::container_to_stream(os, Gain);
-        tools::classhelpers::stream::container_to_stream(os, SaCorrection);
+        tools::classhelper::stream::container_to_stream(os, TransducerName);
+        tools::classhelper::stream::container_to_stream(os, ArticleNumber);
+        tools::classhelper::stream::container_to_stream(os, Gain);
+        tools::classhelper::stream::container_to_stream(os, SaCorrection);
 
         os.write(reinterpret_cast<const char*>(&SerialNumber), sizeof(SerialNumber));
         os.write(reinterpret_cast<const char*>(&BeamType), sizeof(BeamType));
@@ -299,9 +299,9 @@ struct XML_Configuration_Transceiver_Channel_Transducer
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer(
+        tools::classhelper::ObjectPrinter printer(
             "EK80 XML0 Configuration_Transceiver_Channel_Transducer", float_precision);
 
         if (!FrequencyPars.empty())
@@ -349,7 +349,7 @@ struct XML_Configuration_Transceiver_Channel_Transducer
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transceiver_Channel_Transducer)
 };
 

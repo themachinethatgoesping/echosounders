@@ -18,7 +18,7 @@
 #include <boost/iostreams/stream.hpp>             // for stream
 
 #include <fmt/core.h>
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "i_inputfileiterator.hpp"

@@ -13,7 +13,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/nmea_0183.hpp>
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../simrad_types.hpp"
@@ -104,9 +104,9 @@ struct NME0 : public SimradDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("NMEA text datagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("NMEA text datagram", float_precision);
 
         printer.append(SimradDatagram::__printer__(float_precision));
 
@@ -119,7 +119,7 @@ struct NME0 : public SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(NME0)
 };
 

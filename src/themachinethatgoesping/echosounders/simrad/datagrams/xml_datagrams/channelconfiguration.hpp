@@ -17,8 +17,8 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
@@ -80,7 +80,7 @@ class ChannelConfiguration
     {
         ChannelConfiguration channel;
 
-        channel._channel_id = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        channel._channel_id = tools::classhelper::stream::container_from_stream<std::string>(is);
         channel._sensor_offsets = navigation::datastructures::PositionalOffsets::from_stream(is);
         channel._channel        = XML_Configuration_Transceiver_Channel::from_stream(is);
         channel._transceiver    = XML_Configuration_Transceiver::from_stream(is);
@@ -91,7 +91,7 @@ class ChannelConfiguration
 
     void to_stream(std::ostream& os)
     {
-        tools::classhelpers::stream::container_to_stream(os, _channel_id);
+        tools::classhelper::stream::container_to_stream(os, _channel_id);
         _sensor_offsets.to_stream(os);
         _channel.to_stream(os);
         _transceiver.to_stream(os);
@@ -108,9 +108,9 @@ class ChannelConfiguration
     bool operator!=(const ChannelConfiguration& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer(
+        tools::classhelper::ObjectPrinter printer(
             "EK80 Channel Configuration (derived from XML Configuration Datagram)",
             float_precision);
         printer.register_string("Channel ID", _channel_id);
@@ -127,7 +127,7 @@ class ChannelConfiguration
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(ChannelConfiguration)
 };
 

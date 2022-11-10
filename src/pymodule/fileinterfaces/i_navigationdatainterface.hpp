@@ -9,7 +9,7 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools/progressbars.hpp>
-#include <themachinethatgoesping/tools_pybind/classhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_navigationinterface.hpp"
 //#include "../docstrings.hpp"

@@ -10,7 +10,7 @@
 #include <tuple>
 #include <vector>
 
-#include <themachinethatgoesping/tools_pybind/enumhelpers.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../docstrings.hpp"
@@ -68,7 +68,7 @@ void init_m_simrad(pybind11::module& m)
                t_SimradDatagramType::RAW3,
                DOC(themachinethatgoesping, echosounders, simrad, t_SimradDatagramType, RAW3))
         .export_values()
-        // pybind enum helpers
+        // pybind enum helper
         // unfortunately magic_enum only works for enums within a specific range that cannot exceed
         // max(uint16_t) therefore we need to use a custom function
         //__PYENUM_FROM_STRING__(t_SimradDatagramType)

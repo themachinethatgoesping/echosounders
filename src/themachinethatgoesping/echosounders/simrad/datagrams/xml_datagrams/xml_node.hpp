@@ -16,8 +16,8 @@
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelpers/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelpers/stream.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
@@ -87,14 +87,14 @@ class XML_Node
     {
         XML_Node datagram;
 
-        datagram._name = tools::classhelpers::stream::container_from_stream<std::string>(is);
+        datagram._name = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         size_t size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
 
         for (size_t i = 0; i < size; ++i)
         {
-            std::string key = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            std::string key = tools::classhelper::stream::container_from_stream<std::string>(is);
             size_t      size_sub;
             is.read(reinterpret_cast<char*>(&size_sub), sizeof(size_sub));
             for (size_t j = 0; j < size_sub; ++j)
@@ -106,8 +106,8 @@ class XML_Node
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
         for (size_t i = 0; i < size; ++i)
         {
-            std::string key   = tools::classhelpers::stream::container_from_stream<std::string>(is);
-            std::string value = tools::classhelpers::stream::container_from_stream<std::string>(is);
+            std::string key   = tools::classhelper::stream::container_from_stream<std::string>(is);
+            std::string value = tools::classhelper::stream::container_from_stream<std::string>(is);
             datagram._attributes.emplace(key, value);
         }
 
@@ -116,14 +116,14 @@ class XML_Node
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelpers::stream::container_to_stream(os, _name);
+        tools::classhelper::stream::container_to_stream(os, _name);
 
         size_t size = _children.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
         for (const auto& key_node : _children)
         {
             std::string key = key_node.first;
-            tools::classhelpers::stream::container_to_stream(os, key);
+            tools::classhelper::stream::container_to_stream(os, key);
 
             size_t size_sub = key_node.second.size();
             os.write(reinterpret_cast<const char*>(&size_sub), sizeof(size_t));
@@ -139,8 +139,8 @@ class XML_Node
         {
             std::string key   = key_value.first;
             std::string value = key_value.second;
-            tools::classhelpers::stream::container_to_stream(os, key);
-            tools::classhelpers::stream::container_to_stream(os, value);
+            tools::classhelper::stream::container_to_stream(os, key);
+            tools::classhelper::stream::container_to_stream(os, value);
         }
     }
 
@@ -149,9 +149,9 @@ class XML_Node
     // bool operator!=(const XML_Node& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelpers::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelpers::ObjectPrinter printer("EK80 XML0 node '" + _name + "'",
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 node '" + _name + "'",
                                                    float_precision);
 
         if (!_children.empty())
@@ -173,7 +173,7 @@ class XML_Node
     }
 
     // ----- class helper macros -----
-    __CLASSHELPERS_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Node)
 };
 
