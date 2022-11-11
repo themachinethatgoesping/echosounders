@@ -24,6 +24,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_pingiterator.hpp"
 
@@ -40,25 +41,27 @@ class I_PingContainer
     std::string _name;
 
     std::shared_ptr<PingVector<t_Ping>> _pings;
-
-    I_PingIterator<t_Ping> _iterator;
+    tools::pyhelper::PyIndexer                   _pyindexer;
 
   public:
     I_PingContainer(std::string_view name = "Default")
         : _name(name)
         , _pings(std::make_shared<PingVector<t_Ping>>())
-        , _iterator(_pings)
+        , _pyindexer(_pings->size())
     {
     }
     I_PingContainer(std::shared_ptr<PingVector<t_Ping>> pings, std::string_view name = "Default")
         : _name(name)
         , _pings(pings)
-        , _iterator(_pings)
+        , _pyindexer(_pings->size())
     {
     }
     ~I_PingContainer() = default;
 
-    void add_ping(const std::shared_ptr<t_Ping> ping) { this->_pings->push_back(ping); }
+    void add_ping(const std::shared_ptr<t_Ping> ping) { 
+        this->_pings->push_back(ping); 
+        this->_pyindexer.reset(this->_pings->size());
+        }
 
     const std::shared_ptr<PingVector<t_Ping>>& get_pings() const { return _pings; }
 
@@ -68,7 +71,8 @@ class I_PingContainer
         size_t max_samples = 0;
         auto   len         = long(size());
         for (long i = 0; i < len; ++i)
-            max_samples = std::max(max_samples, _iterator.at(i).get_number_of_samples());
+            max_samples = std::max(max_samples, _pings->operator[](_pyindexer(i))->get_number_of_samples());
+            
         return max_samples;
     }
 
@@ -76,14 +80,14 @@ class I_PingContainer
     I_PingContainer<t_Ping> operator()(long start, long end, long step) const
     {
         I_PingContainer<t_Ping> slice(*this);
-        auto                    it = slice.get_iterator();
-        it.set_slice(start, end, step);
+
+        tools::pyhelper::PyIndexer pyindexer(_pings->size(), start, end, step);
 
         auto pings = std::make_shared<PingVector<t_Ping>>();
 
-        for (size_t i = 0; i < it.size(); ++i)
+        for (size_t i = 0; i < _pings->size(); ++i)
         {
-            pings->push_back(it.at_ptr(i));
+            pings->push_back(_pings->operator[](_pyindexer(i)));
         }
 
         slice.set_pings(pings);
@@ -183,17 +187,19 @@ class I_PingContainer
         return sorted;
     }
 
-    const I_PingIterator<t_Ping>& get_iterator() { return _iterator; }
+    I_PingIterator<t_Ping> get_iterator() { 
+        return fileinterfaces::I_PingIterator<t_Ping>(_pings); 
+    }
 
     void set_pings(std::shared_ptr<PingVector<t_Ping>> pings)
     {
         _pings    = pings;
-        _iterator = I_PingIterator<t_Ping>(_pings);
+        _pyindexer.reset(_pings->size());
     }
 
-    size_t size() const { return _iterator.size(); }
+    size_t size() const { return _pings->size(); }
 
-    const t_Ping& at(long index) const { return _iterator.at(index); }
+    const t_Ping& at(long index) const { return *_pings->operator[](_pyindexer(index)); }
 };
 
 } // namespace fileinterfaces
