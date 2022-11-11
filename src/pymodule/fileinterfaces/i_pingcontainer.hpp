@@ -83,9 +83,9 @@ void _PingContainer_add_interface(T_PyClass& cls)
         "__call__",
         py::overload_cast<long, long, long>(&T_BaseClass::operator(), py::const_),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call),
-        py::arg("start")  = 0,
-        py::arg("end")  = std::numeric_limits<size_t>::max(),
-        py::arg("step") = 1);
+        py::arg("start") = 0,
+        py::arg("end")   = std::numeric_limits<size_t>::max(),
+        py::arg("step")  = 1);
     cls.def(
         "__call__",
         py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),

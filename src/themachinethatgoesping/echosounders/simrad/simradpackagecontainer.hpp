@@ -15,8 +15,8 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../fileinterfaces/i_packagecontainer.hpp"
 #include "simrad_types.hpp"
@@ -26,17 +26,19 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradPackageContainer : public fileinterfaces::I_PackageContainer<t_SimradDatagramIdentifier, t_ifstream>
+class SimradPackageContainer
+    : public fileinterfaces::I_PackageContainer<t_SimradDatagramIdentifier, t_ifstream>
 {
   public:
     SimradPackageContainer()
-        : fileinterfaces::I_PackageContainer<t_SimradDatagramIdentifier, t_ifstream>("SimradPackageContainer")
+        : fileinterfaces::I_PackageContainer<t_SimradDatagramIdentifier, t_ifstream>(
+              "SimradPackageContainer")
     {
     }
     virtual ~SimradPackageContainer() = default;
 
     /* virtual function implementations */
-     // void print_fileinfo(std::ostream& os) const;
+    // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_SimradDatagramIdentifier datagram_type) const final
     {
         return datagram_type_to_string(datagram_type);

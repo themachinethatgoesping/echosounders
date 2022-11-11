@@ -122,8 +122,8 @@ struct XML_PingSequence_Ping
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_PingSequence_Ping)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_PingSequence_Ping)
 };
 
 }

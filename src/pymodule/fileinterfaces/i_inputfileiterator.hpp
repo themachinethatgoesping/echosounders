@@ -41,11 +41,10 @@ void _iterator_add_PackageReading(T_PyClass& cls)
                 fileinterfaces,
                 I_InputFileIterator,
                 operator_call),
-            py::arg("start")  = 0,
-            py::arg("end")  = std::numeric_limits<size_t>::max(),
-            py::arg("step") = 1);
+            py::arg("start") = 0,
+            py::arg("end")   = std::numeric_limits<size_t>::max(),
+            py::arg("step")  = 1);
 }
-
 
 template<typename T_DatagramType,
          typename T_DatagramIdentifier,

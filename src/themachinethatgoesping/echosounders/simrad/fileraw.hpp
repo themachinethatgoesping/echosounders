@@ -19,9 +19,9 @@
 #include "../fileinterfaces/i_pingcontainer.hpp"
 
 #include "simradnavigationdatainterface.hpp"
+#include "simradpackagecontainer.hpp"
 #include "simradping.hpp"
 #include "simradpingdatainterface.hpp"
-#include "simradpackagecontainer.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -35,8 +35,10 @@ using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstrea
 
 template<typename t_ifstream>
 class FileRaw
-    : public fileinterfaces::
-          I_InputFile<datagrams::SimradDatagram, t_SimradDatagramIdentifier, SimradPackageContainer<t_ifstream>, t_ifstream>
+    : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+                                         t_SimradDatagramIdentifier,
+                                         SimradPackageContainer<t_ifstream>,
+                                         t_ifstream>
 {
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
@@ -63,8 +65,8 @@ class FileRaw
     // inherit constructors
     // This does not work, because I_InputFile calls append before the callback functions are
     // overwritten Thus inheriting constructors would lead to calling the callback functions of the
-    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram, t_SimradDatagramIdentifier,
-    // t_ifstream>::
+    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+    // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
     FileRaw(const std::string& file_path, bool show_progress = true)
@@ -104,9 +106,7 @@ class FileRaw
                                           long               end,
                                           long               step) const
     {
-        return _ping_container_by_channel.at_const(channel_id)
-            ->
-            operator()(start, end, step);
+        return _ping_container_by_channel.at_const(channel_id)->operator()(start, end, step);
     }
     std::vector<std::string> channel_ids() const
     {
@@ -118,8 +118,6 @@ class FileRaw
 
         return channel_ids;
     }
-
-   
 
     navigation::NavigationInterpolatorLatLon process_navigation(bool show_progress = true)
     {

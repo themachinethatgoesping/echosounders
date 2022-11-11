@@ -124,7 +124,7 @@ struct XML_Environment_Transducer
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Transducer [Environment]",
-                                                   float_precision);
+                                                  float_precision);
         printer.register_value("SoundSpeed", SoundSpeed, "m/s");
         printer.register_string("TransducerName", TransducerName, "future use");
         printer.register_value("unknown_children", unknown_children);
@@ -134,8 +134,8 @@ struct XML_Environment_Transducer
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Environment_Transducer)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Environment_Transducer)
 };
 
 }

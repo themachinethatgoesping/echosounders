@@ -49,7 +49,8 @@ struct MRU0 : public SimradDatagram
   public:
     // ----- constructors -----
     MRU0()
-        : SimradDatagram(12 + 4 * sizeof(simrad_float), simrad_long(t_SimradDatagramIdentifier::MRU0))
+        : SimradDatagram(12 + 4 * sizeof(simrad_float),
+                         simrad_long(t_SimradDatagramIdentifier::MRU0))
     {
     }
     ~MRU0() = default;
@@ -126,8 +127,7 @@ struct MRU0 : public SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(MRU0)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(MRU0)
 };
 
 }

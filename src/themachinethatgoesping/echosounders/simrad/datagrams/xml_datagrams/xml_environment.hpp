@@ -297,8 +297,8 @@ struct XML_Environment
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Environment)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Environment)
 };
 
 }

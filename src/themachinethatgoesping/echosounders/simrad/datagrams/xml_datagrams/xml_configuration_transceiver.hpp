@@ -248,7 +248,7 @@ struct XML_Configuration_Transceiver
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver",
-                                                   float_precision);
+                                                  float_precision);
 
         if (!Channels.empty())
         {
@@ -293,8 +293,8 @@ struct XML_Configuration_Transceiver
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transceiver)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration_Transceiver)
 };
 
 }

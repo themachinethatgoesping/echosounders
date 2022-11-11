@@ -37,8 +37,7 @@ class I_InputFileIterator
 {
   protected:
     /* header positions */
-    std::shared_ptr< std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        _package_infos;
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
 
     tools::pyhelper::PyIndexer _pyindexer;
 
@@ -70,13 +69,10 @@ class I_InputFileIterator
         return *this;
     }
 
-    size_t size() const
-    {
-        return _pyindexer.size();
-    }
+    size_t size() const { return _pyindexer.size(); }
 
     t_DatagramType at(long index)
-    {       
+    {
         const auto& package_info = _package_infos->at(_pyindexer(index));
         try
         {

@@ -47,7 +47,8 @@ struct SimradDatagramVariant
     {
     }
 
-    static t_SimradDatagramVariant from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_type)
+    static t_SimradDatagramVariant from_stream(std::istream&              is,
+                                               t_SimradDatagramIdentifier datagram_type)
     {
         switch (datagram_type)
         {

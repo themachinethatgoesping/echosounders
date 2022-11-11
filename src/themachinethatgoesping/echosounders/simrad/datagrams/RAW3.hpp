@@ -229,19 +229,21 @@ struct RAW3 : public SimradDatagram
 
     static RAW3 from_stream(std::istream& is, bool skip_sample_data = false)
     {
-        return from_stream(
-            is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3), skip_sample_data);
+        return from_stream(is,
+                           SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3),
+                           skip_sample_data);
     }
 
-    static RAW3 from_stream(std::istream&        is,
+    static RAW3 from_stream(std::istream&              is,
                             t_SimradDatagramIdentifier type,
-                            bool                 skip_sample_data = false)
+                            bool                       skip_sample_data = false)
     {
         if (type != t_SimradDatagramIdentifier::RAW3)
             throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
-        return from_stream(
-            is, SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3), skip_sample_data);
+        return from_stream(is,
+                           SimradDatagram::from_stream(is, t_SimradDatagramIdentifier::RAW3),
+                           skip_sample_data);
     }
 
     void to_stream(std::ostream& os)
@@ -315,8 +317,7 @@ struct RAW3 : public SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RAW3)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RAW3)
 };
 
 }

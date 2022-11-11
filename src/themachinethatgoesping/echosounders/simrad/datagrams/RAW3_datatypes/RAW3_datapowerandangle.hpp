@@ -133,7 +133,7 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("Sample binary data (Power and Angle)",
-                                                   float_precision);
+                                                  float_precision);
 
         std::stringstream ss1, ss2, ss3;
         ss1 << _power * 10 * log10(2.0) / 256;

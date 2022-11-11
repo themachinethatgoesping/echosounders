@@ -176,8 +176,7 @@ struct FIL1 : public SimradDatagram
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("Filter binary datagram (FIL1)",
-                                                   float_precision);
+        tools::classhelper::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision);
 
         printer.append(SimradDatagram::__printer__(float_precision));
 
@@ -210,8 +209,7 @@ struct FIL1 : public SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FIL1)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FIL1)
 };
 
 }

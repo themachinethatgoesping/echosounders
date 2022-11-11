@@ -37,16 +37,13 @@ class InputFileManager
     std::unique_ptr<t_ifstream> _input_file_stream;
     long                        active_file_nr = -1;
 
-
-    //PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>
-
+    // PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>
 
   public:
-    InputFileManager() = default;
+    InputFileManager()  = default;
     ~InputFileManager() = default;
 
     size_t get_total_file_size() const { return _total_file_size; }
-
 
     t_ifstream& append_file(const std::string& file_path)
     {
@@ -55,14 +52,13 @@ class InputFileManager
             throw std::runtime_error("Could not open file: " + file_path);
 
         _input_file_stream = std::move(ifi);
-        active_file_nr = _file_paths->size()-1;
+        active_file_nr     = _file_paths->size() - 1;
 
         _total_file_size += std::filesystem::file_size(file_path);
         _file_paths->push_back(file_path);
 
         return *_input_file_stream;
     }
-
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
@@ -75,18 +71,13 @@ class InputFileManager
         return *_input_file_stream;
     }
 
-    std::shared_ptr<std::vector<std::string>> get_file_paths() const
-    {
-        return _file_paths;
-    }
-
+    std::shared_ptr<std::vector<std::string>> get_file_paths() const { return _file_paths; }
 
     // static void reset_ifstream(t_ifstream& ifs)
     // {
     //     ifs.clear();
     //     ifs.seekg(0);
     // }
-
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -133,7 +124,6 @@ class InputFileManager
             printer.register_string("Total file size: ",
                                     fmt::format("{:d} Bytes", _total_file_size));
 
-    
         return printer;
     }
 };

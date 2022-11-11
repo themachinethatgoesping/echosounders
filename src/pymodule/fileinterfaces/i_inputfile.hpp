@@ -86,12 +86,11 @@ template<typename T_BaseClass, typename T_PyClass>
 void add_DefaultContainers(T_PyClass& cls)
 {
     namespace py = pybind11;
-    
-    cls.def_property_readonly("packages",
-            py::overload_cast<>(&T_BaseClass::packages, py::const_),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, packages)
-            );
-            
+
+    cls.def_property_readonly(
+        "packages",
+        py::overload_cast<>(&T_BaseClass::packages, py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, packages));
 }
 
 }

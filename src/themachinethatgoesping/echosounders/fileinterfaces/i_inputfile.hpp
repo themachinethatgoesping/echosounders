@@ -26,8 +26,8 @@
 
 #include "i_inputfileiterator.hpp"
 #include "i_package_info_types.hpp"
-#include "inputfilemanager.hpp"
 #include "i_packagecontainer.hpp"
+#include "inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -76,12 +76,7 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     /* access containers */
-    const t_PackageContainer& packages() const
-    {
-        return _package_container;
-    }
-
-    
+    const t_PackageContainer& packages() const { return _package_container; }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
@@ -268,7 +263,6 @@ class I_InputFile
         printer.append(_package_container.__printer__(float_precision));
         return printer;
     }
-
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)

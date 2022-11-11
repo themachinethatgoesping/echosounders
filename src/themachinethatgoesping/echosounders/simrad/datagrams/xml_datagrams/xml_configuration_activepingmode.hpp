@@ -119,15 +119,15 @@ struct XML_Configuration_ActivePingMode
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_ActivePingMode",
-                                                   float_precision);
+                                                  float_precision);
         printer.register_string("Mode", Mode);
 
         return printer;
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_ActivePingMode)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration_ActivePingMode)
 };
 
 }

@@ -56,29 +56,29 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
            long                                               start,
            long                                               end,
            long                                               step) {
-            return py::cast(self.template get_iterator<datagrams::t_SimradDatagramVariant,
-                                                       datagrams::SimradDatagramVariant>(
-                start, end, step));
+            return py::cast(
+                self.template get_iterator<datagrams::t_SimradDatagramVariant,
+                                           datagrams::SimradDatagramVariant>(start, end, step));
         },
         DOC(INTERFACE_DOC_PREFIX, get_iterator),
-        py::arg("start")  = 0,
-        py::arg("end")  = std::numeric_limits<long>::max(),
-        py::arg("step") = 1);
+        py::arg("start") = 0,
+        py::arg("end")   = std::numeric_limits<long>::max(),
+        py::arg("step")  = 1);
     cls.def(
         "packages",
         [](const SimradNavigationDataInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                               type,
+           t_SimradDatagramIdentifier                         type,
            long                                               start,
            long                                               end,
            long                                               step) {
             switch (type)
             {
                 case t_SimradDatagramIdentifier::MRU0:
-                    return py::cast(self.template get_iterator<datagrams::MRU0>(
-                        type, start, end, step));
+                    return py::cast(
+                        self.template get_iterator<datagrams::MRU0>(type, start, end, step));
                 case t_SimradDatagramIdentifier::NME0:
-                    return py::cast(self.template get_iterator<datagrams::NME0>(
-                        type, start, end, step));
+                    return py::cast(
+                        self.template get_iterator<datagrams::NME0>(type, start, end, step));
                 default:
                     throw std::runtime_error(fmt::format(
                         "This package type should not exist in a SimradNavigationDataInterface: {}",
@@ -87,9 +87,9 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
         },
         DOC(INTERFACE_DOC_PREFIX, get_iterator_3),
         py::arg("datagram_type"),
-        py::arg("start")  = 0,
-        py::arg("end")  = std::numeric_limits<long>::max(),
-        py::arg("step") = 1);
+        py::arg("start") = 0,
+        py::arg("end")   = std::numeric_limits<long>::max(),
+        py::arg("step")  = 1);
 
     // ----- ping convenience functions -----
     /* default copy functions */

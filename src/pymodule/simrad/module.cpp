@@ -29,7 +29,7 @@ namespace pymodule {
 namespace py_simrad {
 
 // -- submodule declarations --
-void init_c_packagecontainer( py::module& m ); // c_packagecontainer.cpp
+void init_c_packagecontainer(py::module& m);     // c_packagecontainer.cpp
 void init_c_fileraw(pybind11::module& m);        // c_fileraw.cpp
 void init_c_SimradFileData(pybind11::module& m); // c_SimradFileData.cpp
 void init_c_SimradNavigationDataInterface(

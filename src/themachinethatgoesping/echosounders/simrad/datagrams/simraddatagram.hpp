@@ -149,7 +149,8 @@ struct SimradDatagram
         return d;
     }
 
-    static SimradDatagram from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_identifier)
+    static SimradDatagram from_stream(std::istream&              is,
+                                      t_SimradDatagramIdentifier datagram_identifier)
     {
         SimradDatagram d = from_stream(is);
 
@@ -188,8 +189,8 @@ struct SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SimradDatagram)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        SimradDatagram)
 };
 
 } // namespace datagrams

@@ -152,7 +152,7 @@ class XML_Node
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 node '" + _name + "'",
-                                                   float_precision);
+                                                  float_precision);
 
         if (!_children.empty())
         {
@@ -173,8 +173,7 @@ class XML_Node
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Node)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Node)
 };
 
 }

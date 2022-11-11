@@ -40,8 +40,8 @@ class I_PingContainer
 {
     std::string _name;
 
-    PingVector<t_Ping> _pings;
-    tools::pyhelper::PyIndexer          _pyindexer;
+    PingVector<t_Ping>         _pings;
+    tools::pyhelper::PyIndexer _pyindexer;
 
   public:
     I_PingContainer(std::string_view name = "Default")
@@ -57,10 +57,11 @@ class I_PingContainer
     }
     ~I_PingContainer() = default;
 
-    void add_ping(std::shared_ptr<t_Ping> ping) { 
-        this->_pings.push_back(std::move(ping)); 
+    void add_ping(std::shared_ptr<t_Ping> ping)
+    {
+        this->_pings.push_back(std::move(ping));
         this->_pyindexer.reset(this->_pings.size());
-        }
+    }
 
     const PingVector<t_Ping>& get_pings() const { return _pings; }
 
@@ -70,7 +71,7 @@ class I_PingContainer
         size_t max_samples = 0;
         for (size_t i : _pyindexer)
             max_samples = std::max(max_samples, _pings[i]->get_number_of_samples());
-            
+
         return max_samples;
     }
 
@@ -110,7 +111,6 @@ class I_PingContainer
 
         return filtered;
     }
-
 
     I_PingContainer<t_Ping> filter_by_channel_ids(const std::vector<std::string>& channel_ids)
     {
@@ -188,7 +188,7 @@ class I_PingContainer
 
     void set_pings(PingVector<t_Ping> pings)
     {
-        _pings    = std::move(pings);
+        _pings = std::move(pings);
         _pyindexer.reset(_pings.size());
     }
 

@@ -15,8 +15,8 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_inputfileiterator.hpp"
 
@@ -34,11 +34,13 @@ class I_PackageContainer
 
     /* package infos */
     std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        _package_infos_all = std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
+        _package_infos_all =
+            std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
 
     /* package infos (sorted by datagram identifier) */
-    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+    tools::helper::DefaultSharedPointerMap<
+        t_DatagramIdentifier,
+        std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _package_infos_by_type;
 
   public:
@@ -49,11 +51,14 @@ class I_PackageContainer
         _pyindexer.reset(_package_infos_all->size());
     }
 
-    void add_package_infos(const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>& package_info)
+    void add_package_infos(
+        const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>& package_info)
     {
-        for (const auto& package_info : package_info){
-        _package_infos_all->push_back(package_info);
-        _package_infos_by_type.at(package_info->get_datagram_identifier())->push_back(package_info);
+        for (const auto& package_info : package_info)
+        {
+            _package_infos_all->push_back(package_info);
+            _package_infos_by_type.at(package_info->get_datagram_identifier())
+                ->push_back(package_info);
         }
 
         _pyindexer.reset(_package_infos_all->size());
@@ -61,27 +66,31 @@ class I_PackageContainer
 
     void add_package_infos(const DataFileInfo<t_DatagramIdentifier, t_ifstream>& file_info)
     {
-        for (const auto& package_info : *file_info.package_infos){
-        _package_infos_all->push_back(package_info);
-        _package_infos_by_type.at(package_info->get_datagram_identifier())->push_back(package_info);
+        for (const auto& package_info : *file_info.package_infos)
+        {
+            _package_infos_all->push_back(package_info);
+            _package_infos_by_type.at(package_info->get_datagram_identifier())
+                ->push_back(package_info);
         }
 
         _pyindexer.reset(_package_infos_all->size());
     }
 
   public:
-    I_PackageContainer(std::string_view                          name = "Default")
+    I_PackageContainer(std::string_view name = "Default")
         : _name(name)
     {
     }
     virtual ~I_PackageContainer() = default;
 
     // ----- container access -----
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> get_package_infos_all() const
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+    get_package_infos_all() const
     {
         return _package_infos_all;
     }
-    const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>& get_package_infos_by_type(t_DatagramIdentifier type) const
+    const std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>& get_package_infos_by_type(
+        t_DatagramIdentifier type) const
     {
         return _package_infos_by_type.at(type);
     }
@@ -94,7 +103,6 @@ class I_PackageContainer
         t_DatagramIdentifier datagram_identifier) const = 0;
     virtual std::string datagram_identifier_info(
         t_DatagramIdentifier datagram_identifier) const = 0;
-
 
     // ----- iterator interface -----
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -110,19 +118,13 @@ class I_PackageContainer
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(t_DatagramIdentifier datagram_identifier,
-                 long                 start,
-                 long                 end,
-                 long                 step) const
+    get_iterator(t_DatagramIdentifier datagram_identifier, long start, long end, long step) const
     {
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _package_infos_by_type.at_const(datagram_identifier),
-            start,
-            end,
-            step);
+            _package_infos_by_type.at_const(datagram_identifier), start, end, step);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -142,8 +144,7 @@ class I_PackageContainer
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
-                                   t_DatagramTypeFactory>(
-            _package_infos_all, start, end, step);
+                                   t_DatagramTypeFactory>(_package_infos_all, start, end, step);
     }
 
     // ----- printing interface -----

@@ -73,7 +73,8 @@ struct SimradUnknown : public SimradDatagram
         return from_stream(is, SimradDatagram::from_stream(is));
     }
 
-    static SimradUnknown from_stream(std::istream& is, t_SimradDatagramIdentifier datagram_identifier)
+    static SimradUnknown from_stream(std::istream&              is,
+                                     t_SimradDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, std::move(SimradDatagram::from_stream(is, datagram_identifier)));
     }
@@ -98,8 +99,8 @@ struct SimradUnknown : public SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SimradUnknown)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        SimradUnknown)
 };
 
 } // namespace datagrams

@@ -433,7 +433,7 @@ struct XML_Configuration
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
-                                                   float_precision);
+                                                  float_precision);
         printer.register_section("children");
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
         printer.register_value("Transducers", Transducers.size());
@@ -461,8 +461,8 @@ struct XML_Configuration
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration)
 };
 
 }

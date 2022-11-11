@@ -79,8 +79,8 @@ class PackageInfo
 
         return ifs;
     }
-    double               get_timestamp() const { return _timestamp; }
-    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
+    double                        get_timestamp() const { return _timestamp; }
+    t_DatagramIdentifier          get_datagram_identifier() const { return _datagram_identifier; }
     typename t_ifstream::pos_type get_file_pos() const { return _file_pos; }
 };
 
@@ -97,8 +97,8 @@ struct DataFileInfo
 
     /* header positions */
     std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos =
-        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all package
-                                                                    
+        std::make_shared<
+            std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all package
 };
 
 }

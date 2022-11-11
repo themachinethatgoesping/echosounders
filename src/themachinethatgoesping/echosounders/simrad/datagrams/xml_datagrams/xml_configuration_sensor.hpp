@@ -251,7 +251,7 @@ struct XML_Configuration_Sensor
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Sensor",
-                                                   float_precision);
+                                                  float_precision);
 
         if (!Telegrams.empty())
         {
@@ -291,8 +291,8 @@ struct XML_Configuration_Sensor
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration_Sensor)
 };
 
 }

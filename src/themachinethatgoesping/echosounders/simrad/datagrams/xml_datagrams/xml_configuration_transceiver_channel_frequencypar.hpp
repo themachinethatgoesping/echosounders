@@ -192,8 +192,8 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transceiver_Channel_FrequencyPar)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration_Transceiver_Channel_FrequencyPar)
 };
 
 }

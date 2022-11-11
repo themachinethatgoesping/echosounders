@@ -44,10 +44,12 @@ class I_NavigationDataInterface
         std::make_shared<std::vector<std::string>>();
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos_all =
-        std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
-    tools::helper::DefaultSharedPointerMap<t_DatagramIdentifier,
-                                           std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+        _package_infos_all =
+            std::make_shared<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>();
+    tools::helper::DefaultSharedPointerMap<
+        t_DatagramIdentifier,
+        std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _package_infos_by_type;
 
   protected:
@@ -86,19 +88,13 @@ class I_NavigationDataInterface
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(t_DatagramIdentifier datagram_identifier,
-                 long                 start,
-                 long                 end,
-                 long                 step) const
+    get_iterator(t_DatagramIdentifier datagram_identifier, long start, long end, long step) const
     {
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
                                    t_DatagramTypeFactory>(
-            _package_infos_by_type.at_const(datagram_identifier),
-            start,
-            end,
-            step);
+            _package_infos_by_type.at_const(datagram_identifier), start, end, step);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -118,8 +114,7 @@ class I_NavigationDataInterface
         return I_InputFileIterator<t_DatagramType,
                                    t_DatagramIdentifier,
                                    t_ifstream,
-                                   t_DatagramTypeFactory>(
-            _package_infos_all, start, end, step);
+                                   t_DatagramTypeFactory>(_package_infos_all, start, end, step);
     }
 };
 

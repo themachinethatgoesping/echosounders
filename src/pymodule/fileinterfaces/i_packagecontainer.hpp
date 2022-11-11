@@ -21,12 +21,11 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_PackageContainer {
 
-
 template<typename T_BaseClass, typename T_PyClass>
 void add_InterfaceFunctions(T_PyClass& cls)
 {
     namespace py = pybind11;
-    
+
     cls.def("static_datagram_identifier_to_string",
             &T_BaseClass::datagram_identifier_to_string,
             DOC(themachinethatgoesping,
@@ -60,7 +59,11 @@ void add_Iterator(T_PyClass&           cls,
             return self.template get_iterator<T_DatagramType, T_DatagramFactory>(
                 datagram_identifier);
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PackageContainer, get_iterator));
+        DOC(themachinethatgoesping,
+            echosounders,
+            fileinterfaces,
+            I_PackageContainer,
+            get_iterator));
 }
 
 template<typename T_BaseClass,
@@ -74,9 +77,12 @@ void add_Iterator(T_PyClass& cls, const std::string& T_NAME)
         [](const T_BaseClass& self) {
             return self.template get_iterator<T_DatagramType, T_DatagramFactory>();
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PackageContainer, get_iterator));
+        DOC(themachinethatgoesping,
+            echosounders,
+            fileinterfaces,
+            I_PackageContainer,
+            get_iterator));
 }
-
 
 }
 }

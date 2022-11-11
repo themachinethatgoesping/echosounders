@@ -182,8 +182,7 @@ struct XML_Configuration_Transducer
         is.read(reinterpret_cast<char*>(&xml.TransducerAlphaX), sizeof(xml.TransducerAlphaX) * 6);
         is.read(reinterpret_cast<char*>(&xml.TransducerSerialNumber),
                 sizeof(xml.TransducerSerialNumber));
-        xml.TransducerMounting =
-            tools::classhelper::stream::container_from_stream<std::string>(is);
+        xml.TransducerMounting = tools::classhelper::stream::container_from_stream<std::string>(is);
         xml.TransducerOrientation =
             tools::classhelper::stream::container_from_stream<std::string>(is);
         xml.TransducerName = tools::classhelper::stream::container_from_stream<std::string>(is);
@@ -237,7 +236,7 @@ struct XML_Configuration_Transducer
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transducer",
-                                                   float_precision);
+                                                  float_precision);
 
         printer.register_section("attributes");
         printer.register_value("TransducerAlphaX", TransducerAlphaX);
@@ -258,8 +257,8 @@ struct XML_Configuration_Transducer
     }
 
     // ----- class helper macros -----
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Transducer)
+    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
+        XML_Configuration_Transducer)
 };
 
 }

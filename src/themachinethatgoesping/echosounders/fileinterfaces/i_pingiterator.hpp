@@ -39,25 +39,19 @@ class I_PingIterator
                    long                                                  start,
                    long                                                  end,
                    long                                                  step)
-        : _pings(pings),
-        _pyindexer(pings->size(), start, end, step)
+        : _pings(pings)
+        , _pyindexer(pings->size(), start, end, step)
     {
     }
 
-    void reset_slice()
-    {
-        _pyindexer.reset(_pings->size());
-    }
+    void reset_slice() { _pyindexer.reset(_pings->size()); }
 
     void set_slice(long start, long end, long step)
     {
         _pyindexer.set_slice_indexing(start, end, step);
     }
 
-    size_t size() const
-    {
-        return _pyindexer.size();
-    }
+    size_t size() const { return _pyindexer.size(); }
 
     const t_Ping& at(long index) const
     {

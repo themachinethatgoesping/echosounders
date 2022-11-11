@@ -58,12 +58,11 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
 
     //----- containers  -----
 
-
     // TODO: move this intp i_inptufile (after adding Pings to the inputfile interface)
     py_i_PingContainer::add_PingContainer<FileRaw<T_FileStream>>(cls, "Pings");
 
     //----- iterators via () operator -----
-    
+
     cls.def("navigation",
             py::overload_cast<>(&FileRaw<T_FileStream>::navigation, py::const_),
             DOC(themachinethatgoesping, echosounders, simrad, FileRaw, navigation));
@@ -73,9 +72,9 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     cls.def("pings",
             py::overload_cast<long, long, long>(&FileRaw<T_FileStream>::pings, py::const_),
             DOC(themachinethatgoesping, echosounders, simrad, FileRaw, pings_2),
-            py::arg("start")  = 0,
-            py::arg("end")  = std::numeric_limits<long>::max(),
-            py::arg("step") = 1);
+            py::arg("start") = 0,
+            py::arg("end")   = std::numeric_limits<long>::max(),
+            py::arg("step")  = 1);
     cls.def("pings",
             py::overload_cast<const std::string&>(&FileRaw<T_FileStream>::pings, py::const_),
             DOC(themachinethatgoesping, echosounders, simrad, FileRaw, pings_3),
