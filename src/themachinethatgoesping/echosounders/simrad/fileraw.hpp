@@ -18,6 +18,7 @@
 #include "../fileinterfaces/i_inputfile.hpp"
 #include "../fileinterfaces/i_pingcontainer.hpp"
 
+#include "simradconfigurationdatainterface.hpp"
 #include "simradnavigationdatainterface.hpp"
 #include "simradpackagecontainer.hpp"
 #include "simradping.hpp"
@@ -43,6 +44,9 @@ class FileRaw
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
         _ping_container_by_channel;
+
+    std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> _configuration_data =
+        std::make_shared<SimradConfigurationDataInterface<t_ifstream>>();
 
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
@@ -88,6 +92,11 @@ class FileRaw
         this->append_files(file_paths, progress_bar);
     }
     ~FileRaw() = default;
+
+    SimradConfigurationDataInterface<t_ifstream>& configuration_data()
+    {
+        return *_configuration_data;
+    }
 
     SimradNavigationDataInterface<t_ifstream> navigation() const { return *_navigation_interface; }
 
@@ -367,6 +376,8 @@ class FileRaw
 
                     //_navigation_interface->add_datagram(xml_datagram, package_info);
                     _packet_buffer.configuration = xml_datagram;
+
+                    _configuration_data->add_package_info(package_info);
                 }
 
                 break;
@@ -391,7 +402,10 @@ class FileRaw
             case t_SimradDatagramIdentifier::FIL1: {
                 auto datagram = datagrams::FIL1::from_stream(ifs, header);
 
-                if (ifs.good())
+                if (!ifs.good())
+                break;
+
+                    _configuration_data->add_package_info(package_info);
                     _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }

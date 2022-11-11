@@ -35,6 +35,40 @@ static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_DataFileInfo_package_infos =
         R"doc()doc";
 
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface =
+        R"doc()doc";
+
+static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface =
+    R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_I_FileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_add_package_info =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_name = R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_packages_per_file =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_packages_per_file_2 =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_pyindexer =
+        R"doc()doc";
+
 static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile =
     R"doc()doc";
 
@@ -530,6 +564,12 @@ static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_call
 static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_channel_ids =
     R"doc()doc";
 
+static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_configuration_data =
+    R"doc()doc";
+
+static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_configuration_data_2 =
+    R"doc()doc";
+
 static const char*
     __doc_themachinethatgoesping_echosounders_simrad_FileRaw_get_navigation_interpolators =
         R"doc()doc";
@@ -562,6 +602,13 @@ static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_ping
 static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_pings_4 = R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_simrad_FileRaw_printer = R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface = R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface_SimradConfigurationDataInterface =
+        R"doc()doc";
 
 static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradDatagram_type_from_string = R"doc()doc";

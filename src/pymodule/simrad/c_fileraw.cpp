@@ -62,6 +62,9 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     py_i_PingContainer::add_PingContainer<FileRaw<T_FileStream>>(cls, "Pings");
 
     //----- iterators via () operator -----
+    cls.def_property_readonly("configuration_data",
+            py::overload_cast<>(&FileRaw<T_FileStream>::configuration_data),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, configuration_data));
 
     cls.def("navigation",
             py::overload_cast<>(&FileRaw<T_FileStream>::navigation, py::const_),

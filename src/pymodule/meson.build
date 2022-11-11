@@ -47,6 +47,7 @@ sources = [
     'simrad/datagrams/RAW3_datatypes/c_RAW3_dataangle.cpp',
     'simrad/datagrams/RAW3_datatypes/c_RAW3_dataskipped.cpp',
     'simrad/c_fileraw.cpp',
+    'simrad/c_simradconfigurationdatainterface.cpp',
     'simrad/c_simradpackagecontainer.cpp',
     'simrad/c_simradping.cpp',
     'simrad/c_simradfiledata.cpp',
