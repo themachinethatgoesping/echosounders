@@ -95,4 +95,4 @@ class SimradPingDataInterface
 
 } // namespace simrad
 } // namespace echosounders
-} // namespace themachinethatgoespingction macros --
+} // namespace themachinethatgoesping

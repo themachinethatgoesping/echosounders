@@ -62,13 +62,22 @@ void py_create_class_FileRaw(py::module& m, const std::string& CLASS_NAME)
     py_i_PingContainer::add_PingContainer<FileRaw<T_FileStream>>(cls, "Pings");
 
     //----- iterators via () operator -----
-    cls.def_property_readonly("configuration_data",
-            py::overload_cast<>(&FileRaw<T_FileStream>::configuration_data),
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, configuration_data));
+    cls.def_property_readonly("configuration_interface",
+            py::overload_cast<>(&FileRaw<T_FileStream>::configuration_interface),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, configuration_interface));
+    cls.def_property_readonly("navigation_interface",
+            py::overload_cast<>(&FileRaw<T_FileStream>::navigation_interface),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, navigation_interface));
+    cls.def_property_readonly("environment_interface",
+            py::overload_cast<>(&FileRaw<T_FileStream>::environment_interface),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, environment_interface));
+    cls.def_property_readonly("annotation_interface",
+            py::overload_cast<>(&FileRaw<T_FileStream>::annotation_interface),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, annotation_interface));
+    cls.def_property_readonly("otherdata_interface",
+            py::overload_cast<>(&FileRaw<T_FileStream>::otherdata_interface),
+            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, otherdata_interface));
 
-    cls.def("navigation",
-            py::overload_cast<>(&FileRaw<T_FileStream>::navigation, py::const_),
-            DOC(themachinethatgoesping, echosounders, simrad, FileRaw, navigation));
     cls.def("pings",
             py::overload_cast<>(&FileRaw<T_FileStream>::pings, py::const_),
             DOC(themachinethatgoesping, echosounders, simrad, FileRaw, pings));

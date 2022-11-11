@@ -29,9 +29,6 @@ class I_PackageContainer
 {
     std::string _name; ///< name of the package container (useful for debugging derived classes)
 
-    /* pyiterator access */
-    tools::pyhelper::PyIndexer _pyindexer = tools::pyhelper::PyIndexer(0);
-
     /* package infos */
     std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _package_infos_all =
@@ -48,7 +45,6 @@ class I_PackageContainer
     {
         _package_infos_all->push_back(package_info);
         _package_infos_by_type.at(package_info->get_datagram_identifier())->push_back(package_info);
-        _pyindexer.reset(_package_infos_all->size());
     }
 
     void add_package_infos(
@@ -60,8 +56,6 @@ class I_PackageContainer
             _package_infos_by_type.at(package_info->get_datagram_identifier())
                 ->push_back(package_info);
         }
-
-        _pyindexer.reset(_package_infos_all->size());
     }
 
     void add_package_infos(const DataFileInfo<t_DatagramIdentifier, t_ifstream>& file_info)
@@ -72,8 +66,6 @@ class I_PackageContainer
             _package_infos_by_type.at(package_info->get_datagram_identifier())
                 ->push_back(package_info);
         }
-
-        _pyindexer.reset(_package_infos_all->size());
     }
 
   public:

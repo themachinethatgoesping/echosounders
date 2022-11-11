@@ -18,12 +18,12 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simrad/simradnavigationdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/simradotherdatainterface.hpp"
 
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_navigationdatainterface.hpp"
+#include "../fileinterfaces/i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -35,19 +35,19 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradNavigationDataInterface
+#define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradOtherDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_fileinterfaces::py_i_NavigationDataInterface::NavigationDataInterface_add_interface; 
+    using py_fileinterfaces::py_i_FileDataInterface::FileDataInterface_add_interface; 
 
     // initialize class
-    auto cls = py::class_<SimradNavigationDataInterface<T_FileStream>>(
+    auto cls = py::class_<SimradOtherDataInterface<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
-    //----- inherit functions from I_NavigationDataInterface -----
-    NavigationDataInterface_add_interface<SimradNavigationDataInterface<T_FileStream>>(cls);
+    //----- inherit functions from I_OtherDataInterface -----
+    FileDataInterface_add_interface<SimradOtherDataInterface<T_FileStream>>(cls);
 
 
     // ----- ping convenience functions -----
@@ -56,16 +56,16 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
     /* default binary functions*/
     /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
     /* default printing functions */
-    // cls __PYCLASS_DEFAULT_PRINTING__(SimradNavigationDataInterface<T_FileStream>);
+    // cls __PYCLASS_DEFAULT_PRINTING__(SimradOtherDataInterface<T_FileStream>);
 }
 
-void init_c_SimradNavigationDataInterface(pybind11::module& m)
+void init_c_SimradOtherDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradNavigationDataInterface<std::ifstream>(m,
-                                                                 "SimradNavigationDataInterface");
-    py_create_class_SimradNavigationDataInterface<MappedFileStream>(
-        m, "SimradNavigationDataInterface_mapped");
+    py_create_class_SimradOtherDataInterface<std::ifstream>(m,
+                                                                 "SimradOtherDataInterface");
+    py_create_class_SimradOtherDataInterface<MappedFileStream>(
+        m, "SimradOtherDataInterface_mapped");
 }
 
 }

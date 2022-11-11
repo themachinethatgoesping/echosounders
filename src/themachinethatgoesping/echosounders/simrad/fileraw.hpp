@@ -18,8 +18,12 @@
 #include "../fileinterfaces/i_inputfile.hpp"
 #include "../fileinterfaces/i_pingcontainer.hpp"
 
+#include "simradannotationdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
+#include "simradenvironmentdatainterface.hpp"
 #include "simradnavigationdatainterface.hpp"
+#include "simradotherdatainterface.hpp"
+
 #include "simradpackagecontainer.hpp"
 #include "simradping.hpp"
 #include "simradpingdatainterface.hpp"
@@ -45,16 +49,20 @@ class FileRaw
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
         _ping_container_by_channel;
 
-    std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> _configuration_data =
+    std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> _configuration_interface =
         std::make_shared<SimradConfigurationDataInterface<t_ifstream>>();
+    std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
+        std::make_shared<SimradNavigationDataInterface<t_ifstream>>();
+    std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> _environment_interface =
+        std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>();
+    std::shared_ptr<SimradAnnotationDataInterface<t_ifstream>> _annotation_interface =
+        std::make_shared<SimradAnnotationDataInterface<t_ifstream>>();
+    std::shared_ptr<SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
+        std::make_shared<SimradOtherDataInterface<t_ifstream>>();
 
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
             this->_package_container.get_package_infos_all());
-
-    std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
-        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(
-            this->_input_file_manager->get_file_paths());
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -93,12 +101,23 @@ class FileRaw
     }
     ~FileRaw() = default;
 
-    SimradConfigurationDataInterface<t_ifstream>& configuration_data()
+    SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
     {
-        return *_configuration_data;
+        return *_configuration_interface;
     }
-
-    SimradNavigationDataInterface<t_ifstream> navigation() const { return *_navigation_interface; }
+    SimradNavigationDataInterface<t_ifstream>& navigation_interface()
+    {
+        return *_navigation_interface;
+    }
+    SimradEnvironmentDataInterface<t_ifstream>& environment_interface()
+    {
+        return *_environment_interface;
+    }
+    SimradAnnotationDataInterface<t_ifstream>& annotation_interface()
+    {
+        return *_annotation_interface;
+    }
+    SimradOtherDataInterface<t_ifstream>& otherdata_interface() { return *_otherdata_interface; }
 
     SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
     SimradPingContainer<t_ifstream> pings(long start, long end, long step) const
@@ -284,7 +303,7 @@ class FileRaw
                     break;
 
                 _packet_buffer.nme0_packets.push_back(datagram);
-                _navigation_interface->add_datagram(datagram, package_info);
+                _navigation_interface->add_package_info(package_info);
                 break;
             }
             case t_SimradDatagramIdentifier::MRU0: {
@@ -294,7 +313,7 @@ class FileRaw
                     break;
 
                 _packet_buffer.mru0_packets.push_back(datagram);
-                _navigation_interface->add_datagram(datagram, package_info);
+                _navigation_interface->add_package_info(package_info);
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
@@ -374,10 +393,20 @@ class FileRaw
                     auto xml_datagram =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
 
-                    //_navigation_interface->add_datagram(xml_datagram, package_info);
                     _packet_buffer.configuration = xml_datagram;
 
-                    _configuration_data->add_package_info(package_info);
+                    _configuration_interface->add_package_info(package_info);
+                }
+                else if (xml_type == "Environment")
+                {
+                    auto xml_datagram =
+                        std::get<datagrams::xml_datagrams::XML_Environment>(xml.decode());
+
+                    _environment_interface->add_package_info(package_info);
+                }
+                else
+                {
+                    _otherdata_interface->add_package_info(package_info);
                 }
 
                 break;
@@ -403,20 +432,25 @@ class FileRaw
                 auto datagram = datagrams::FIL1::from_stream(ifs, header);
 
                 if (!ifs.good())
-                break;
+                    break;
 
-                    _configuration_data->add_package_info(package_info);
-                    _ping_data_interface->add_datagram(datagram, file_paths_cnt);
+                _configuration_interface->add_package_info(package_info);
+                _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
             case t_SimradDatagramIdentifier::TAG0: {
                 auto datagram = datagrams::TAG0::from_stream(ifs, header);
 
-                if (ifs.good())
-                    _ping_data_interface->add_datagram(datagram, file_paths_cnt);
+                if (!ifs.good())
+                    break;
+
+                _ping_data_interface->add_datagram(datagram, file_paths_cnt);
+
+                _annotation_interface->add_package_info(package_info);
                 break;
             }
             default: {
+                _otherdata_interface->add_package_info(package_info);
                 header.skip(ifs);
                 break;
             }
@@ -452,4 +486,4 @@ class FileRaw
 
 } // namespace simrad
 } // namespace echosounders
-} // namespace themachinethatgoespingction macros --
+} // namespace themachinethatgoesping

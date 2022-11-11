@@ -35,15 +35,15 @@ namespace fileinterfaces {
 
 
 template<typename t_packagecontainer>
-class I_NavigationDataInterface : public I_FileDataInterface<t_packagecontainer>
+class I_EnvironmentDataInterface : public I_FileDataInterface<t_packagecontainer>
 {
 
   public:
-    I_NavigationDataInterface(std::string_view name = "I_NavigationDataInterface")
+    I_EnvironmentDataInterface(std::string_view name = "I_EnvironmentDataInterface")
         : I_FileDataInterface<t_packagecontainer>(name)
     {
     }
-    virtual ~I_NavigationDataInterface() = default;
+    virtual ~I_EnvironmentDataInterface() = default;
 
     //void add_package_info(PackageInfo_ptr<t_DatagramIdentifier, t_ifstream> package)
 

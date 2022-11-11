@@ -64,7 +64,7 @@ class I_InputFileIterator
     I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>&
     operator()(long start, long end, long step = 1)
     {
-        _pyindexer.set_slice_indexing(start, end, step);
+        _pyindexer = tools::pyhelper::PyIndexer(_package_infos->size(), start, end, step);
 
         return *this;
     }

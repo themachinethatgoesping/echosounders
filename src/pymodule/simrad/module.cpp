@@ -29,12 +29,19 @@ namespace pymodule {
 namespace py_simrad {
 
 // -- submodule declarations --
-void init_c_packagecontainer(py::module& m);     // c_packagecontainer.cpp
-void init_c_fileraw(pybind11::module& m);        // c_fileraw.cpp
-void init_c_SimradConfigurationDataInterface(pybind11::module& m); // c_simradconfigurationdatainterface.cpp
-void init_c_SimradFileData(pybind11::module& m); // c_SimradFileData.cpp
+void init_c_packagecontainer(py::module& m); // c_packagecontainer.cpp
+void init_c_fileraw(pybind11::module& m);    // c_fileraw.cpp
+void init_c_SimradConfigurationDataInterface(
+    pybind11::module& m); // c_simradconfigurationdatainterface.cpp
 void init_c_SimradNavigationDataInterface(
-    pybind11::module& m);                             // c_simradnavigationdatainterface.cpp
+    pybind11::module& m); // c_simradnavigationdatainterface.cpp
+void init_c_SimradEnvironmentDataInterface(
+    pybind11::module& m); // c_simradenvironmentdatainterface.cpp
+void init_c_SimradAnnotationDataInterface(
+    pybind11::module& m);                                  // c_simradannotationdatainterface.cpp
+void init_c_SimradOtherDataInterface(pybind11::module& m); // c_simradotherdatainterface.cpp
+
+void init_c_SimradFileData(pybind11::module& m);      // c_SimradFileData.cpp
 void init_c_SimradPing(pybind11::module& m);          // c_SimradPing.cpp
 void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
@@ -122,8 +129,12 @@ void init_m_simrad(pybind11::module& m)
     // simrad classes
     init_c_packagecontainer(subm);
     init_c_SimradConfigurationDataInterface(subm);
-    init_c_SimradFileData(subm);
     init_c_SimradNavigationDataInterface(subm);
+    init_c_SimradEnvironmentDataInterface(subm);
+    init_c_SimradAnnotationDataInterface(subm);
+    init_c_SimradOtherDataInterface(subm);
+
+    init_c_SimradFileData(subm);
     init_c_SimradPing(subm);
     init_c_fileraw(subm);
 

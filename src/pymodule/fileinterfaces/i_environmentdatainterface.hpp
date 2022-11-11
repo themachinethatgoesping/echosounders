@@ -10,17 +10,17 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_navigationdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_environmentdatainterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_fileinterfaces {
-namespace py_i_NavigationDataInterface {
+namespace py_i_EnvironmentDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void NavigationDataInterface_add_interface(T_PyClass& cls)
+void EnvironmentDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 

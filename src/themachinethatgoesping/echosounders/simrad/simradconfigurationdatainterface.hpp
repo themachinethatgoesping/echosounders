@@ -39,4 +39,4 @@ class SimradConfigurationDataInterface : public fileinterfaces::I_ConfigurationD
 
 } // namespace simrad
 } // namespace echosounders
-} // namespace themachinethatgoespingction macros --
+} // namespace themachinethatgoesping

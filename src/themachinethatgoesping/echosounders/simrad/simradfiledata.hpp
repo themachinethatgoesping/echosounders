@@ -96,4 +96,4 @@ class SimradFileData
 
 } // namespace simrad
 } // namespace echosounders
-} // namespace themachinethatgoespingction macros --
+} // namespace themachinethatgoesping

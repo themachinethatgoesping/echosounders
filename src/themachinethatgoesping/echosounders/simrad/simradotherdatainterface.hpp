@@ -14,7 +14,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_navigationdatainterface.hpp"
+#include "../fileinterfaces/i_filedatainterface.hpp"
 
 #include "simradpackagecontainer.hpp"
 #include "simrad_datagrams.hpp"
@@ -25,15 +25,15 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradNavigationDataInterface : public fileinterfaces::I_NavigationDataInterface<SimradPackageContainer<t_ifstream>>
+class SimradOtherDataInterface : public fileinterfaces::I_FileDataInterface<SimradPackageContainer<t_ifstream>>
 {
 
   public:
-    SimradNavigationDataInterface()
-        : fileinterfaces::I_NavigationDataInterface<SimradPackageContainer<t_ifstream>>("SimradNavigationDataInterface")
+    SimradOtherDataInterface()
+        : fileinterfaces::I_FileDataInterface<SimradPackageContainer<t_ifstream>>("SimradOtherDataInterface")
     {
     }
-    ~SimradNavigationDataInterface() = default;
+    ~SimradOtherDataInterface() = default;
 
 };
 
