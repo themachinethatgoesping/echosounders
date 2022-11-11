@@ -40,6 +40,10 @@ class FileRaw
                                          SimradPackageContainer<t_ifstream>,
                                          t_ifstream>
 {
+    SimradPingContainer<t_ifstream> _ping_container;
+    tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
+        _ping_container_by_channel;
+
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
             this->_package_container.get_package_infos_all());
@@ -47,10 +51,6 @@ class FileRaw
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
         std::make_shared<SimradNavigationDataInterface<t_ifstream>>(
             this->_input_file_manager->get_file_paths());
-
-    SimradPingContainer<t_ifstream> _ping_container;
-    tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
-        _ping_container_by_channel;
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
