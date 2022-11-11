@@ -40,38 +40,36 @@ class I_PingContainer
 {
     std::string _name;
 
-    std::shared_ptr<PingVector<t_Ping>> _pings;
-    tools::pyhelper::PyIndexer                   _pyindexer;
+    PingVector<t_Ping> _pings;
+    tools::pyhelper::PyIndexer          _pyindexer;
 
   public:
     I_PingContainer(std::string_view name = "Default")
         : _name(name)
-        , _pings(std::make_shared<PingVector<t_Ping>>())
-        , _pyindexer(_pings->size())
+        , _pyindexer(0)
     {
     }
-    I_PingContainer(std::shared_ptr<PingVector<t_Ping>> pings, std::string_view name = "Default")
+    I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "Default")
         : _name(name)
-        , _pings(pings)
-        , _pyindexer(_pings->size())
+        , _pings(std::move(pings))
+        , _pyindexer(0)
     {
     }
     ~I_PingContainer() = default;
 
-    void add_ping(const std::shared_ptr<t_Ping> ping) { 
-        this->_pings->push_back(ping); 
-        this->_pyindexer.reset(this->_pings->size());
+    void add_ping(std::shared_ptr<t_Ping> ping) { 
+        this->_pings.push_back(std::move(ping)); 
+        this->_pyindexer.reset(this->_pings.size());
         }
 
-    const std::shared_ptr<PingVector<t_Ping>>& get_pings() const { return _pings; }
+    const PingVector<t_Ping>& get_pings() const { return _pings; }
 
     // ----- compute ping information -----
     size_t max_number_of_samples() const
     {
         size_t max_samples = 0;
-        auto   len         = long(size());
-        for (long i = 0; i < len; ++i)
-            max_samples = std::max(max_samples, _pings->operator[](_pyindexer(i))->get_number_of_samples());
+        for (size_t i : _pyindexer)
+            max_samples = std::max(max_samples, _pings[i]->get_number_of_samples());
             
         return max_samples;
     }
@@ -81,16 +79,17 @@ class I_PingContainer
     {
         I_PingContainer<t_Ping> slice(*this);
 
-        tools::pyhelper::PyIndexer pyindexer(_pings->size(), start, end, step);
+        tools::pyhelper::PyIndexer pyindexer(_pings.size(), start, end, step);
 
-        auto pings = std::make_shared<PingVector<t_Ping>>();
+        PingVector<t_Ping> pings;
+        pings.reserve(pyindexer.size());
 
-        for (size_t i = 0; i < _pings->size(); ++i)
+        for (size_t i : pyindexer)
         {
-            pings->push_back(_pings->operator[](_pyindexer(i)));
+            pings.push_back(_pings[i]);
         }
 
-        slice.set_pings(pings);
+        slice.set_pings(std::move(pings));
 
         return slice;
     }
@@ -99,15 +98,15 @@ class I_PingContainer
     {
         I_PingContainer<t_Ping> filtered(*this);
 
-        auto pings = std::make_shared<PingVector<t_Ping>>();
+        PingVector<t_Ping> pings;
 
-        for (const auto& ping : *_pings)
+        for (const auto& ping : _pings)
         {
             if (ping->get_channel_id() == channel_id)
-                pings->push_back(ping);
+                pings.push_back(ping);
         }
 
-        filtered.set_pings(pings);
+        filtered.set_pings(std::move(pings));
 
         return filtered;
     }
@@ -117,16 +116,16 @@ class I_PingContainer
     {
         I_PingContainer<t_Ping> filtered(*this);
 
-        auto pings = std::make_shared<PingVector<t_Ping>>();
+        PingVector<t_Ping> pings;
 
-        for (const auto& ping : *_pings)
+        for (const auto& ping : _pings)
         {
             if (std::find(channel_ids.begin(), channel_ids.end(), ping->get_channel_id()) !=
                 channel_ids.end())
-                pings->push_back(ping);
+                pings.push_back(ping);
         }
 
-        filtered.set_pings(pings);
+        filtered.set_pings(std::move(pings));
 
         return filtered;
     }
@@ -135,7 +134,7 @@ class I_PingContainer
     {
         std::set<std::string> channel_ids;
 
-        for (const auto& ping : *_pings)
+        for (const auto& ping : _pings)
         {
             channel_ids.insert(ping->get_channel_id());
         }
@@ -149,19 +148,19 @@ class I_PingContainer
     {
         std::vector<I_PingContainer<t_Ping>> containers;
 
-        auto pings = std::make_shared<PingVector<t_Ping>>();
+        PingVector<t_Ping> pings;
 
-        for (const auto& ping : *_pings)
+        for (const auto& ping : _pings)
         {
-            if (!pings->empty())
+            if (!pings.empty())
             {
-                if (ping->get_timestamp() - pings->back()->get_timestamp() > max_time_diff_seconds)
+                if (ping->get_timestamp() - pings.back()->get_timestamp() > max_time_diff_seconds)
                 {
                     containers.push_back(I_PingContainer<t_Ping>(pings));
-                    pings = std::make_shared<PingVector<t_Ping>>();
+                    pings = PingVector<t_Ping>();
                 }
             }
-            pings->push_back(ping);
+            pings.push_back(ping);
         }
 
         containers.push_back(I_PingContainer<t_Ping>(pings));
@@ -174,7 +173,7 @@ class I_PingContainer
     {
         I_PingContainer<t_Ping> sorted(*this);
         // Your function
-        auto& pings = *(sorted._pings);
+        auto& pings = sorted._pings;
         // sort _package_infos_all by  time, then file_pos then file number
         // TODO: this is faster than std sort, but python sorting (timsort?) seems
         // to be 10x faster for this use case
@@ -187,19 +186,15 @@ class I_PingContainer
         return sorted;
     }
 
-    I_PingIterator<t_Ping> get_iterator() { 
-        return fileinterfaces::I_PingIterator<t_Ping>(_pings); 
-    }
-
-    void set_pings(std::shared_ptr<PingVector<t_Ping>> pings)
+    void set_pings(PingVector<t_Ping> pings)
     {
-        _pings    = pings;
-        _pyindexer.reset(_pings->size());
+        _pings    = std::move(pings);
+        _pyindexer.reset(_pings.size());
     }
 
-    size_t size() const { return _pings->size(); }
+    size_t size() const { return _pyindexer.size(); }
 
-    const t_Ping& at(long index) const { return *_pings->operator[](_pyindexer(index)); }
+    const t_Ping& at(long index) const { return *_pings[_pyindexer(index)]; }
 };
 
 } // namespace fileinterfaces

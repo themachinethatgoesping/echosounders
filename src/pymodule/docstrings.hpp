@@ -153,8 +153,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_add_ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_at = R"doc()doc";
@@ -165,13 +163,9 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_find_channel_ids = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_iterator = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_sorted_by_time = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_iterator = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_max_number_of_samples = R"doc()doc";
 
@@ -182,6 +176,12 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_operator_call_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_set_pings = R"doc()doc";
 
