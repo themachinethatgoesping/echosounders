@@ -16,7 +16,7 @@
 
 #include "../fileinterfaces/i_environmentdatainterface.hpp"
 
-#include "simradpackagecontainer.hpp"
+#include "simradpackagedatainterface.hpp"
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
 
@@ -25,12 +25,12 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradEnvironmentDataInterface : public fileinterfaces::I_EnvironmentDataInterface<SimradPackageContainer<t_ifstream>>
+class SimradEnvironmentDataInterface : public fileinterfaces::I_EnvironmentDataInterface<SimradPackageDataInterface<t_ifstream>>
 {
 
   public:
     SimradEnvironmentDataInterface()
-        : fileinterfaces::I_EnvironmentDataInterface<SimradPackageContainer<t_ifstream>>("SimradEnvironmentDataInterface")
+        : fileinterfaces::I_EnvironmentDataInterface<SimradPackageDataInterface<t_ifstream>>("SimradEnvironmentDataInterface")
     {
     }
     ~SimradEnvironmentDataInterface() = default;

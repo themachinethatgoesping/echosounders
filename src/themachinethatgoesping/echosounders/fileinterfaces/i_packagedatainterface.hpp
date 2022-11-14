@@ -25,7 +25,7 @@ namespace echosounders {
 namespace fileinterfaces {
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
-class I_PackageContainer
+class I_PackageDataInterface
 {
     std::string _name; ///< name of the package container (useful for debugging derived classes)
 
@@ -69,11 +69,11 @@ class I_PackageContainer
     }
 
   public:
-    I_PackageContainer(std::string_view name = "Default")
+    I_PackageDataInterface(std::string_view name = "Default")
         : _name(name)
     {
     }
-    virtual ~I_PackageContainer() = default;
+    virtual ~I_PackageDataInterface() = default;
 
     // ----- container access -----
     std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
@@ -142,7 +142,7 @@ class I_PackageContainer
     // ----- printing interface -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("I_PackageContainer", float_precision);
+        tools::classhelper::ObjectPrinter printer("I_PackageDataInterface", float_precision);
 
         printer.register_section("Datagrams");
         printer.register_value("Total", _package_infos_all->size(), "");

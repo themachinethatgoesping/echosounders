@@ -26,21 +26,21 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "i_packagecontainer.hpp"
+#include "i_packagedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
 
-template<typename t_packagecontainer>
+template<typename t_packagedatainterface>
 class I_FileDataInterface
 {
     std::string _name;
 
   protected:
 
-    std::vector<t_packagecontainer>        _packages_per_file;
+    std::vector<t_packagedatainterface>        _package_data_interface_per_file;
     tools::pyhelper::PyIndexer _pyindexer;
 
   public:
@@ -57,18 +57,18 @@ class I_FileDataInterface
     {
         auto file_nr = package_info->get_file_nr();
 
-        if (file_nr >= _packages_per_file.size())
+        if (file_nr >= _package_data_interface_per_file.size())
         {
-            _packages_per_file.resize(file_nr + 1);
-            this->_pyindexer.reset(this->_packages_per_file.size());
+            _package_data_interface_per_file.resize(file_nr + 1);
+            this->_pyindexer.reset(this->_package_data_interface_per_file.size());
         }
 
-        this->_packages_per_file[file_nr].add_package_info(package_info);
+        this->_package_data_interface_per_file[file_nr].add_package_info(package_info);
     }
 
-    const std::vector<t_packagecontainer>& packages_per_file() const { return _packages_per_file; }
-    // const t_packagecontainer& packages_per_file(long index) const { return _packages_per_file[_pyindexer(index)]; }
-    // size_t size() const { return _packages_per_file.size(); }
+    const std::vector<t_packagedatainterface>& package_data_interface_per_file() const { return _package_data_interface_per_file; }
+    // const t_packagedatainterface& package_data_interface_per_file(long index) const { return _package_data_interface_per_file[_pyindexer(index)]; }
+    // size_t size() const { return _package_data_interface_per_file.size(); }
 
 };
 

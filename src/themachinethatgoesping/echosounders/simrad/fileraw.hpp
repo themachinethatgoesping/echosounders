@@ -24,7 +24,7 @@
 #include "simradnavigationdatainterface.hpp"
 #include "simradotherdatainterface.hpp"
 
-#include "simradpackagecontainer.hpp"
+#include "simradpackagedatainterface.hpp"
 #include "simradping.hpp"
 #include "simradpingdatainterface.hpp"
 
@@ -42,7 +42,7 @@ template<typename t_ifstream>
 class FileRaw
     : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
                                          t_SimradDatagramIdentifier,
-                                         SimradPackageContainer<t_ifstream>,
+                                         SimradPackageDataInterface<t_ifstream>,
                                          t_ifstream>
 {
     SimradPingContainer<t_ifstream> _ping_container;
@@ -467,7 +467,7 @@ class FileRaw
         auto interface_printer =
             fileinterfaces::I_InputFile<datagrams::SimradDatagram,
                                         t_SimradDatagramIdentifier,
-                                        SimradPackageContainer<t_ifstream>,
+                                        SimradPackageDataInterface<t_ifstream>,
                                         t_ifstream>::__printer__(float_precision);
 
         printer.append(interface_printer);

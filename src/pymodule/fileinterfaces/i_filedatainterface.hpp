@@ -25,13 +25,13 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     namespace py = pybind11;
 
     /* package access */
-    cls.def_property_readonly("packages_per_file",
-                              &T_BaseClass::packages_per_file,
+    cls.def_property_readonly("package_data_interface_per_file",
+                              &T_BaseClass::package_data_interface_per_file,
                               DOC(themachinethatgoesping,
                                   echosounders,
                                   fileinterfaces,
                                   I_FileDataInterface,
-                                  packages_per_file),
+                                  package_data_interface_per_file),
                               pybind11::return_value_policy::reference_internal);
 }
 

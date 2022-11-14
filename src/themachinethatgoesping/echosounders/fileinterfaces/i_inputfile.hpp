@@ -26,7 +26,7 @@
 
 #include "i_inputfileiterator.hpp"
 #include "i_package_info_types.hpp"
-#include "i_packagecontainer.hpp"
+#include "i_packagedatainterface.hpp"
 #include "inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -39,7 +39,7 @@ template<typename t_DatagramBase,       ///< the datagram base class which shoul
          typename t_DatagramIdentifier, ///< the identifier of the datagram type.
                                         ///< Must be hashable and comparable with
                                         ///< ==
-         typename t_PackageContainer,
+         typename t_PackageDataInterface,
          typename t_ifstream>
 class I_InputFile
 {
@@ -49,7 +49,7 @@ class I_InputFile
         std::make_shared<InputFileManager<t_ifstream>>();
 
     /* package container */
-    t_PackageContainer _package_container;
+    t_PackageDataInterface _package_container;
 
     I_InputFile() = default;
 
@@ -76,7 +76,7 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     /* access containers */
-    const t_PackageContainer& packages() const { return _package_container; }
+    const t_PackageDataInterface& package_data_interface() const { return _package_container; }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {

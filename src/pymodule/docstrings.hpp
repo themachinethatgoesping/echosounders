@@ -51,9 +51,9 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Fi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_packages_per_file = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_package_data_interface_per_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_packages_per_file_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_package_data_interface_per_file_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
 
@@ -103,7 +103,7 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_In
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_container = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_packages = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_package_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile_printer = R"doc()doc";
 
@@ -115,43 +115,43 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Na
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_I_NavigationDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_I_PackageContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_I_PackageDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_add_package_info = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_add_package_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_add_package_infos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_add_package_infos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_add_package_infos_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_add_package_infos_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_datagram_identifier_info = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_datagram_identifier_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_datagram_identifier_to_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_datagram_identifier_to_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_iterator = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_iterator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_iterator_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_iterator_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_iterator_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_iterator_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_iterator_4 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_iterator_4 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_package_infos_all = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_package_infos_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_get_package_infos_by_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_get_package_infos_by_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_name = R"doc(< name of the package container (useful for debugging derived classes))doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_name = R"doc(< name of the package container (useful for debugging derived classes))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_package_infos_all = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_package_infos_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_package_infos_by_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_package_infos_by_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageContainer_size_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PackageDataInterface_size_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping = R"doc()doc";
 
@@ -431,13 +431,13 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradOtherD
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataInterface_SimradOtherDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageContainer_SimradPackageContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageDataInterface_SimradPackageDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageContainer_datagram_identifier_info = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageDataInterface_datagram_identifier_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageContainer_datagram_identifier_to_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPackageDataInterface_datagram_identifier_to_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing = R"doc()doc";
 

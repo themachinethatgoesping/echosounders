@@ -19,7 +19,7 @@ namespace echosounders {
 namespace pymodule {
 
 namespace py_fileinterfaces {
-namespace py_i_PackageContainer {
+namespace py_i_PackageDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
 void add_InterfaceFunctions(T_PyClass& cls)
@@ -31,7 +31,7 @@ void add_InterfaceFunctions(T_PyClass& cls)
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_PackageContainer,
+                I_PackageDataInterface,
                 datagram_identifier_to_string),
             py::arg("datagram_identifier"));
     cls.def("datagram_identifier_info",
@@ -39,7 +39,7 @@ void add_InterfaceFunctions(T_PyClass& cls)
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_PackageContainer,
+                I_PackageDataInterface,
                 datagram_identifier_info),
             py::arg("datagram_identifier"));
 }
@@ -62,7 +62,7 @@ void add_Iterator(T_PyClass&           cls,
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
-            I_PackageContainer,
+            I_PackageDataInterface,
             get_iterator));
 }
 
@@ -80,7 +80,7 @@ void add_Iterator(T_PyClass& cls, const std::string& T_NAME)
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
-            I_PackageContainer,
+            I_PackageDataInterface,
             get_iterator));
 }
 
