@@ -52,7 +52,7 @@ class I_PingContainer
     I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "Default")
         : _name(name)
         , _pings(std::move(pings))
-        , _pyindexer(0)
+        , _pyindexer(_pings.size())
     {
     }
     ~I_PingContainer() = default;
