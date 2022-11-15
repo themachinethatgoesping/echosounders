@@ -97,39 +97,12 @@ class I_PingContainer
 
     I_PingContainer<t_Ping> reversed() const
     {
-        I_PingContainer<t_Ping> ping_container(*this);
-        tools::pyhelper::PyIndexer pyindexer = _pyindexer.reversed();
-
-        PingVector<t_Ping> pings;
-        pings.reserve(pyindexer.size());
-
-        for (size_t i : pyindexer)
-        {
-            pings.push_back(_pings[i]);
-        }
-
-        ping_container.set_pings(std::move(pings));
-
-        return ping_container;
+        return this->operator()(_pyindexer.reversed().to_slice());
     }
 
     I_PingContainer<t_Ping> operator()(long start, long end, long step) const
     {
-        I_PingContainer<t_Ping> slice(*this);
-
-        tools::pyhelper::PyIndexer pyindexer(_pings.size(), start, end, step);
-
-        PingVector<t_Ping> pings;
-        pings.reserve(pyindexer.size());
-
-        for (size_t i : pyindexer)
-        {
-            pings.push_back(_pings[i]);
-        }
-
-        slice.set_pings(std::move(pings));
-
-        return slice;
+        return this->operator()(tools::pyhelper::PyIndexer::Slice(start, end, step));
     }
 
     I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
