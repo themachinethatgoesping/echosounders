@@ -181,6 +181,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_operator_call_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_operator_call_3 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings_2 = R"doc()doc";
@@ -188,6 +190,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_reversed = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_set_pings = R"doc()doc";
 

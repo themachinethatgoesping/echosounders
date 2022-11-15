@@ -57,7 +57,7 @@ void py_create_class_SimradPackageDataInterface(py::module& m, const std::string
 
     // initialize class
     auto cls = py::class_<SimradPackageDataInterface<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, FileRaw));
+        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPackageDataInterface));
 
     //----- inherit functions from I_PackageDataInterface -----
 

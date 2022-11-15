@@ -76,6 +76,43 @@ class I_PingContainer
     }
 
     // ----- iterator interface -----
+    I_PingContainer<t_Ping> operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
+    {
+        I_PingContainer<t_Ping> ping_container(*this);
+
+        tools::pyhelper::PyIndexer pyindexer(_pings.size(), slice);
+
+        PingVector<t_Ping> pings;
+        pings.reserve(pyindexer.size());
+
+        for (size_t i : pyindexer)
+        {
+            pings.push_back(_pings[i]);
+        }
+
+        ping_container.set_pings(std::move(pings));
+
+        return ping_container;
+    }
+
+    I_PingContainer<t_Ping> reversed() const
+    {
+        I_PingContainer<t_Ping> ping_container(*this);
+        tools::pyhelper::PyIndexer pyindexer = _pyindexer.reversed();
+
+        PingVector<t_Ping> pings;
+        pings.reserve(pyindexer.size());
+
+        for (size_t i : pyindexer)
+        {
+            pings.push_back(_pings[i]);
+        }
+
+        ping_container.set_pings(std::move(pings));
+
+        return ping_container;
+    }
+
     I_PingContainer<t_Ping> operator()(long start, long end, long step) const
     {
         I_PingContainer<t_Ping> slice(*this);
