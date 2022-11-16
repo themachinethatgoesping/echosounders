@@ -119,7 +119,11 @@ void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NA
     auto cls_stream = py::class_<T_ITERATOR>(
         m,
         ITERATOR_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer));
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer))
+        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
+        .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
+        /// end
+        ;
 
     _PingContainer_add_interface<T_ITERATOR>(cls_stream);
 }

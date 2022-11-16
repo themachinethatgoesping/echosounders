@@ -42,18 +42,29 @@ class I_PingContainer
     tools::pyhelper::PyIndexer _pyindexer;
 
   public:
+    /**
+     * @brief Construct a new empty PingContainer object
+     * 
+     */
     I_PingContainer(std::string_view name = "Default")
         : _name(name)
         , _pyindexer(0)
     {
     }
+
+    /**
+     * @brief Construct a new PingContainer object from a vector of pings
+     * 
+     * @param pings: vector of pings
+     */ 
     I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "Default")
         : _name(name)
         , _pings(std::move(pings))
         , _pyindexer(_pings.size())
     {
     }
-    ~I_PingContainer() = default;
+
+    virtual ~I_PingContainer() = default;
 
     void add_ping(std::shared_ptr<t_Ping> ping)
     {
@@ -63,7 +74,7 @@ class I_PingContainer
 
     void add_pings(const PingVector<t_Ping>& ping)
     {
-        this->_pings.push_back(std::move(ping));
+        this->_pings.insert(this->_pings.end(), ping.begin(), ping.end());
         this->_pyindexer.reset(this->_pings.size());
     }
 
@@ -113,7 +124,19 @@ class I_PingContainer
 
     I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
     {
-        return this->operator()({channel_id});
+        I_PingContainer<t_Ping> filtered(*this);
+
+        PingVector<t_Ping> pings;
+
+        for (const auto& ping : _pings)
+        {
+            if (ping->get_channel_id() == channel_id)
+                pings.push_back(ping);
+        }
+
+        filtered.set_pings(std::move(pings));
+
+        return filtered;
     }
 
     I_PingContainer<t_Ping> operator()(const std::vector<std::string>& channel_ids) const

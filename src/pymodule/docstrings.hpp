@@ -187,9 +187,11 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_I_PingContainer = R"doc(Construct a new empty PingContainer object)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_add_ping = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_add_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_at = R"doc()doc";
 
@@ -213,11 +215,19 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pings_2 =
+R"doc(Construct a new PingContainer object from a vector of pings
+
+Parameter ``pings:``:
+    vector of pings)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer_2 =
+R"doc(Construct a new PingContainer object from a vector of pings
+
+Parameter ``pings:``:
+    vector of pings)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_reversed = R"doc()doc";
 
