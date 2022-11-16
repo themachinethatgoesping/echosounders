@@ -61,6 +61,18 @@ class I_PingContainer
         this->_pyindexer.reset(this->_pings.size());
     }
 
+    void add_pings(const PingVector<t_Ping>& ping)
+    {
+        this->_pings.push_back(std::move(ping));
+        this->_pyindexer.reset(this->_pings.size());
+    }
+
+    void set_pings(PingVector<t_Ping> pings)
+    {
+        _pings = std::move(pings);
+        _pyindexer.reset(_pings.size());
+    }
+
     const PingVector<t_Ping>& get_pings() const { return _pings; }
 
     // ----- compute ping information -----
@@ -74,6 +86,12 @@ class I_PingContainer
     }
 
     // ----- iterator interface -----
+
+    I_PingContainer<t_Ping> reversed() const
+    {
+        return this->operator()(_pyindexer.reversed().to_slice());
+    }
+
     I_PingContainer<t_Ping> operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
     {
         I_PingContainer<t_Ping> ping_container(*this);
@@ -93,34 +111,12 @@ class I_PingContainer
         return ping_container;
     }
 
-    I_PingContainer<t_Ping> reversed() const
-    {
-        return this->operator()(_pyindexer.reversed().to_slice());
-    }
-
-    I_PingContainer<t_Ping> operator()(long start, long end, long step) const
-    {
-        return this->operator()(tools::pyhelper::PyIndexer::Slice(start, end, step));
-    }
-
     I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
     {
-        I_PingContainer<t_Ping> filtered(*this);
-
-        PingVector<t_Ping> pings;
-
-        for (const auto& ping : _pings)
-        {
-            if (ping->get_channel_id() == channel_id)
-                pings.push_back(ping);
-        }
-
-        filtered.set_pings(std::move(pings));
-
-        return filtered;
+        return this->operator()({channel_id});
     }
 
-    I_PingContainer<t_Ping> filter_by_channel_ids(const std::vector<std::string>& channel_ids)
+    I_PingContainer<t_Ping> operator()(const std::vector<std::string>& channel_ids) const
     {
         I_PingContainer<t_Ping> filtered(*this);
 
@@ -138,7 +134,7 @@ class I_PingContainer
         return filtered;
     }
 
-    std::vector<std::string> find_channel_ids()
+    std::vector<std::string> find_channel_ids() const
     {
         std::set<std::string> channel_ids;
 
@@ -152,7 +148,7 @@ class I_PingContainer
         return vec;
     }
 
-    std::vector<I_PingContainer<t_Ping>> break_by_time_diff(double max_time_diff_seconds)
+    std::vector<I_PingContainer<t_Ping>> break_by_time_diff(double max_time_diff_seconds) const
     {
         std::vector<I_PingContainer<t_Ping>> containers;
 
@@ -177,7 +173,7 @@ class I_PingContainer
     }
 
     // sort _datagram_infos_all by timestamp in _datagram_timestamps
-    I_PingContainer<t_Ping> get_sorted_by_time()
+    I_PingContainer<t_Ping> get_sorted_by_time() const
     {
         I_PingContainer<t_Ping> sorted(*this);
         // Your function
@@ -192,12 +188,6 @@ class I_PingContainer
         });
 
         return sorted;
-    }
-
-    void set_pings(PingVector<t_Ping> pings)
-    {
-        _pings = std::move(pings);
-        _pyindexer.reset(_pings.size());
     }
 
     size_t size() const { return _pyindexer.size(); }

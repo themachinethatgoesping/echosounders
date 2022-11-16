@@ -33,15 +33,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 I_PingContainer,
                 max_number_of_samples));
 
-    /* implement filters */
-    cls.def("filter_by_channel_ids",
-            &T_BaseClass::filter_by_channel_ids,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_PingContainer,
-                filter_by_channel_ids),
-            py::arg("channel_ids"));
+    /* implement breakers */
     cls.def("break_by_time_diff",
             &T_BaseClass::break_by_time_diff,
             DOC(themachinethatgoesping,
@@ -50,6 +42,8 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 I_PingContainer,
                 break_by_time_diff),
             py::arg("max_time_diff_seconds"));
+
+    /* implement sorters */
     cls.def("get_sorted_by_time",
             &T_BaseClass::get_sorted_by_time,
             DOC(themachinethatgoesping,
@@ -58,7 +52,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 I_PingContainer,
                 get_sorted_by_time));
 
-    /* implement info functions */
+    /* implement find info functions */
     cls.def("find_channel_ids",
             &T_BaseClass::find_channel_ids,
             DOC(themachinethatgoesping,
@@ -66,6 +60,18 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_PingContainer,
                 find_channel_ids));
+
+    /* ping filters */
+    cls.def(
+        "__call__",
+        py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_2),
+        py::arg("channel_id"));
+    cls.def(
+        "__call__",
+        py::overload_cast<const std::vector<std::string>&>(&T_BaseClass::operator(), py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_3),
+        py::arg("channel_ids"));
 
     /* datagram reading */
     cls.def("size",
@@ -90,18 +96,6 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::reversed,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, reversed),
             pybind11::return_value_policy::reference_internal);
-    cls.def(
-        "__call__",
-        py::overload_cast<long, long, long>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_2),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<size_t>::max(),
-        py::arg("step")  = 1);
-    cls.def(
-        "__call__",
-        py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_3),
-        py::arg("channel_id"));
 }
 
 template<typename T_BaseClass, typename T_PyClass>

@@ -87,23 +87,16 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
             py::overload_cast<>(&FileSimradRaw<T_FileStream>::pings, py::const_),
             DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, pings));
     cls.def("pings",
-            py::overload_cast<long, long, long>(&FileSimradRaw<T_FileStream>::pings, py::const_),
-            DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, pings_2),
-            py::arg("start") = 0,
-            py::arg("end")   = std::numeric_limits<long>::max(),
-            py::arg("step")  = 1);
-    cls.def("pings",
             py::overload_cast<const std::string&>(&FileSimradRaw<T_FileStream>::pings, py::const_),
-            DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, pings_3),
+            DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, pings_2),
             py::arg("channel_id"));
+    cls.def("pings",
+            py::overload_cast<const std::vector<std::string>&>(&FileSimradRaw<T_FileStream>::pings, py::const_),
+            DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, pings_3),
+            py::arg("channel_ids"));
     cls.def("channel_ids",
             &FileSimradRaw<T_FileStream>::channel_ids,
             DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, channel_ids));
-
-    cls.def(
-        "get_navigation_interpolators",
-        &FileSimradRaw<T_FileStream>::get_navigation_interpolators,
-        DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, navigation_interpolators));
 
     // ----- ping convenience functions -----
     /* default copy functions */

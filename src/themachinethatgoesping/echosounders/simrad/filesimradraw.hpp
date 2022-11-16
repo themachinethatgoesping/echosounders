@@ -120,21 +120,14 @@ class FileSimradRaw
     SimradOtherDataInterface<t_ifstream>& otherdata_interface() { return *_otherdata_interface; }
 
     SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
-    SimradPingContainer<t_ifstream> pings(long start, long end, long step) const
-    {
-        return _ping_container(start, end, step);
-    }
 
     SimradPingContainer<t_ifstream> pings(const std::string& channel_id) const
     {
         return *_ping_container_by_channel.at_const(channel_id);
     }
-    SimradPingContainer<t_ifstream> pings(const std::string& channel_id,
-                                          long               start,
-                                          long               end,
-                                          long               step) const
+    SimradPingContainer<t_ifstream> pings(const std::vector<std::string>& channel_ids) const
     {
-        return _ping_container_by_channel.at_const(channel_id)->operator()(start, end, step);
+        return _ping_container(channel_ids);
     }
     std::vector<std::string> channel_ids() const
     {
