@@ -18,14 +18,14 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
+#include "../fileinterfaces/i_datagramcontainer.hpp"
 #include "../fileinterfaces/i_inputfile.hpp"
-#include "../fileinterfaces/i_inputfileiterator.hpp"
 #include "../fileinterfaces/i_pingcontainer.hpp"
 
 namespace themachinethatgoesping {
@@ -38,13 +38,13 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-void test_speed_all(const FileRaw<MappedFileStream>& ifi)
+void test_speed_all(const FileSimradRaw<MappedFileStream>& ifi)
 {
     // get current time
     auto                     start = std::chrono::high_resolution_clock::now();
     datagrams::SimradUnknown a;
 
-    auto it  = ifi.package_data_interface().get_iterator<datagrams::SimradUnknown>();
+    auto it  = ifi.datagram_interface().get_iterator<datagrams::SimradUnknown>();
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 
@@ -63,12 +63,12 @@ void test_speed_all(const FileRaw<MappedFileStream>& ifi)
 }
 
 template<typename T_DatagramType>
-void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
+void test_speed_content(const FileSimradRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
 
-    auto it  = ifi.package_data_interface().get_iterator<T_DatagramType>(type);
+    auto it  = ifi.datagram_interface().get_iterator<T_DatagramType>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 
@@ -86,12 +86,13 @@ void test_speed_content(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramId
             .count()));
 }
 
-void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
+void test_speed_decode_nmea(const FileSimradRaw<MappedFileStream>& ifi)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
 
-    auto it  = ifi.package_data_interface().get_iterator<datagrams::NME0>(t_SimradDatagramIdentifier::NME0);
+    auto it =
+        ifi.datagram_interface().get_iterator<datagrams::NME0>(t_SimradDatagramIdentifier::NME0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 
@@ -131,12 +132,13 @@ void test_speed_decode_nmea(const FileRaw<MappedFileStream>& ifi)
             .count()));
 }
 
-void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
+void test_speed_decode_xml(const FileSimradRaw<MappedFileStream>& ifi, int level = 10)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
 
-    auto it  = ifi.package_data_interface().get_iterator<datagrams::XML0>(t_SimradDatagramIdentifier::XML0);
+    auto it =
+        ifi.datagram_interface().get_iterator<datagrams::XML0>(t_SimradDatagramIdentifier::XML0);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 
@@ -177,7 +179,7 @@ void test_speed_decode_xml(const FileRaw<MappedFileStream>& ifi, int level = 10)
             .count()));
 }
 
-void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
+void test_speed_type(const FileSimradRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
 {
     switch (type)
     {
@@ -205,13 +207,13 @@ void test_speed_type(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramIdent
     }
 }
 
-void test_speed_header(const FileRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
+void test_speed_header(const FileSimradRaw<MappedFileStream>& ifi, t_SimradDatagramIdentifier type)
 {
     // get current time
     auto                     start = std::chrono::high_resolution_clock::now();
     datagrams::SimradUnknown a;
 
-    auto it  = ifi.package_data_interface().get_iterator<datagrams::SimradDatagram>(type);
+    auto it  = ifi.datagram_interface().get_iterator<datagrams::SimradDatagram>(type);
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 

@@ -23,7 +23,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "i_package_info_types.hpp"
+#include "datagram_info_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -33,38 +33,39 @@ template<typename t_DatagramType,
          typename t_DatagramIdentifier,
          typename t_ifstream,
          typename t_DatagramTypeFactory = t_DatagramType>
-class I_InputFileIterator
+class I_DatagramContainer
 {
   protected:
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
+    std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+        _datagram_infos;
 
     tools::pyhelper::PyIndexer _pyindexer;
 
   public:
-    I_InputFileIterator(
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-            package_infos)
-        : _package_infos(package_infos)
-        , _pyindexer(package_infos->size())
+    I_DatagramContainer(
+        std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+            datagram_infos)
+        : _datagram_infos(datagram_infos)
+        , _pyindexer(datagram_infos->size())
     {
     }
 
-    I_InputFileIterator(
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-             package_infos,
+    I_DatagramContainer(
+        std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+             datagram_infos,
         long start,
         long end,
         long step = 1)
-        : _package_infos(package_infos)
-        , _pyindexer(package_infos->size(), start, end, step)
+        : _datagram_infos(datagram_infos)
+        , _pyindexer(datagram_infos->size(), start, end, step)
     {
     }
 
-    I_InputFileIterator<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>&
+    I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>&
     operator()(long start, long end, long step = 1)
     {
-        _pyindexer = tools::pyhelper::PyIndexer(_package_infos->size(), start, end, step);
+        _pyindexer = tools::pyhelper::PyIndexer(_datagram_infos->size(), start, end, step);
 
         return *this;
     }
@@ -73,20 +74,21 @@ class I_InputFileIterator
 
     t_DatagramType at(long index)
     {
-        const auto& package_info = _package_infos->at(_pyindexer(index));
+        const auto& datagram_info = _datagram_infos->at(_pyindexer(index));
         try
         {
-            auto& ifs = package_info->get_stream_and_seek();
+            auto& ifs = datagram_info->get_stream_and_seek();
 
-            return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());
+            return t_DatagramTypeFactory::from_stream(ifs,
+                                                      datagram_info->get_datagram_identifier());
         }
         catch (std::exception& e)
         {
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("pyindex: {}\n", _pyindexer(index));
-            msg += fmt::format("__package_infos->size(): {}\n", _package_infos->size());
-            msg += fmt::format("pos: {}\n", package_info->get_file_pos());
+            msg += fmt::format("__datagram_infos->size(): {}\n", _datagram_infos->size());
+            msg += fmt::format("pos: {}\n", datagram_info->get_file_pos());
             throw std::runtime_error(msg);
         }
     }

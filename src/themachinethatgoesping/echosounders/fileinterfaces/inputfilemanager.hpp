@@ -37,7 +37,7 @@ class InputFileManager
     std::unique_ptr<t_ifstream> _input_file_stream;
     long                        active_file_nr = -1;
 
-    // PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>
+    // DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
 
   public:
     InputFileManager()  = default;

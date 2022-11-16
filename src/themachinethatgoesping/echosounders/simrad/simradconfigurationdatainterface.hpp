@@ -16,25 +16,26 @@
 
 #include "../fileinterfaces/i_configurationdatainterface.hpp"
 
-#include "simradpackagedatainterface.hpp"
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
+#include "simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradConfigurationDataInterface : public fileinterfaces::I_ConfigurationDataInterface<SimradPackageDataInterface<t_ifstream>>
+class SimradConfigurationDataInterface
+    : public fileinterfaces::I_ConfigurationDataInterface<SimradDatagramInterface<t_ifstream>>
 {
 
   public:
     SimradConfigurationDataInterface()
-        : fileinterfaces::I_ConfigurationDataInterface<SimradPackageDataInterface<t_ifstream>>("SimradConfigurationDataInterface")
+        : fileinterfaces::I_ConfigurationDataInterface<SimradDatagramInterface<t_ifstream>>(
+              "SimradConfigurationDataInterface")
     {
     }
     ~SimradConfigurationDataInterface() = default;
-
 };
 
 } // namespace simrad

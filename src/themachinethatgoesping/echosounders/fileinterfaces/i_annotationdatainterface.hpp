@@ -26,28 +26,25 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "i_packagedatainterface.hpp"
+#include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
-template<typename t_packagedatainterface>
-class I_AnnotationDataInterface : public I_FileDataInterface<t_packagedatainterface>
+template<typename t_datagraminterface>
+class I_AnnotationDataInterface : public I_FileDataInterface<t_datagraminterface>
 {
 
   public:
     I_AnnotationDataInterface(std::string_view name = "I_AnnotationDataInterface")
-        : I_FileDataInterface<t_packagedatainterface>(name)
+        : I_FileDataInterface<t_datagraminterface>(name)
     {
     }
     virtual ~I_AnnotationDataInterface() = default;
 
-    //void add_package_info(PackageInfo_ptr<t_DatagramIdentifier, t_ifstream> package)
-
-
+    // void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram)
 };
 
 } // namespace fileinterfaces

@@ -21,7 +21,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "i_inputfileiterator.hpp"
+#include "i_datagramcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -32,13 +32,14 @@ class I_PingDataInterface
 {
   protected:
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> _package_infos;
+    std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+        _datagram_infos;
 
   public:
     I_PingDataInterface(
-        std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-            package_infos)
-        : _package_infos(package_infos)
+        std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+            datagram_infos)
+        : _datagram_infos(datagram_infos)
     {
     }
 
@@ -47,22 +48,23 @@ class I_PingDataInterface
     //    return  _file_paths->at(file_nr);
     // }
 
-    size_t size() const { return _package_infos->size(); }
+    size_t size() const { return _datagram_infos->size(); }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    t_DatagramType at(const PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>& package_info)
+    t_DatagramType at(const DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>& datagram_info)
     {
         try
         {
-            t_ifstream& ifs = package_info->get_stream_and_seek();
+            t_ifstream& ifs = datagram_info->get_stream_and_seek();
 
-            return t_DatagramTypeFactory::from_stream(ifs, package_info->get_datagram_identifier());
+            return t_DatagramTypeFactory::from_stream(ifs,
+                                                      datagram_info->get_datagram_identifier());
         }
         catch (std::exception& e)
         {
 
             auto msg = fmt::format("Error reading datagram header: {}\n", e.what());
-            msg += fmt::format("pos: {}\n", package_info->file_pos);
+            msg += fmt::format("pos: {}\n", datagram_info->file_pos);
             throw std::runtime_error(msg);
         }
     }
@@ -70,7 +72,7 @@ class I_PingDataInterface
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType at(size_t index)
     {
-        return this->at<t_DatagramType, t_DatagramTypeFactory>(_package_infos->at(index));
+        return this->at<t_DatagramType, t_DatagramTypeFactory>(_datagram_infos->at(index));
     }
 };
 

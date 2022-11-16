@@ -16,7 +16,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simrad/fileraw.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simradfiledata.hpp"

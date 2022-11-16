@@ -18,7 +18,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "../fileinterfaces/i_packagedatainterface.hpp"
+#include "../fileinterfaces/i_datagraminterface.hpp"
 #include "simrad_types.hpp"
 
 namespace themachinethatgoesping {
@@ -26,16 +26,16 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradPackageDataInterface
-    : public fileinterfaces::I_PackageDataInterface<t_SimradDatagramIdentifier, t_ifstream>
+class SimradDatagramInterface
+    : public fileinterfaces::I_DatagramInterface<t_SimradDatagramIdentifier, t_ifstream>
 {
   public:
-    SimradPackageDataInterface()
-        : fileinterfaces::I_PackageDataInterface<t_SimradDatagramIdentifier, t_ifstream>(
-              "SimradPackageDataInterface")
+    SimradDatagramInterface()
+        : fileinterfaces::I_DatagramInterface<t_SimradDatagramIdentifier, t_ifstream>(
+              "SimradDatagramInterface")
     {
     }
-    virtual ~SimradPackageDataInterface() = default;
+    virtual ~SimradDatagramInterface() = default;
 
     /* virtual function implementations */
     // void print_fileinfo(std::ostream& os) const;

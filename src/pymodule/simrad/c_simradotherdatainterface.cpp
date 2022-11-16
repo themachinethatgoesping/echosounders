@@ -40,7 +40,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_fileinterfaces::py_i_FileDataInterface::FileDataInterface_add_interface; 
+    using py_fileinterfaces::py_i_FileDataInterface::FileDataInterface_add_interface;
 
     // initialize class
     auto cls = py::class_<SimradOtherDataInterface<T_FileStream>>(
@@ -48,7 +48,6 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
 
     //----- inherit functions from I_OtherDataInterface -----
     FileDataInterface_add_interface<SimradOtherDataInterface<T_FileStream>>(cls);
-
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -62,10 +61,9 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
 void init_c_SimradOtherDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradOtherDataInterface<std::ifstream>(m,
-                                                                 "SimradOtherDataInterface");
-    py_create_class_SimradOtherDataInterface<MappedFileStream>(
-        m, "SimradOtherDataInterface_mapped");
+    py_create_class_SimradOtherDataInterface<std::ifstream>(m, "SimradOtherDataInterface");
+    py_create_class_SimradOtherDataInterface<MappedFileStream>(m,
+                                                               "SimradOtherDataInterface_mapped");
 }
 
 }

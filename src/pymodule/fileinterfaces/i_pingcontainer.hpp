@@ -67,7 +67,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 I_PingContainer,
                 find_channel_ids));
 
-    /* package reading */
+    /* datagram reading */
     cls.def("size",
             &T_BaseClass::size,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, size));
@@ -79,11 +79,13 @@ void _PingContainer_add_interface(T_PyClass& cls)
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, at),
             py::arg("index"),
             pybind11::return_value_policy::reference_internal);
-    cls.def("__getitem__",
-            py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(), py::const_),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call),
-            py::arg("slice"),
-            pybind11::return_value_policy::reference_internal);
+    cls.def(
+        "__getitem__",
+        py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(),
+                                                                    py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call),
+        py::arg("slice"),
+        pybind11::return_value_policy::reference_internal);
     cls.def("__reversed__",
             &T_BaseClass::reversed,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, reversed),

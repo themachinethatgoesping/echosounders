@@ -20,12 +20,12 @@
 
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
-#include "../../themachinethatgoesping/echosounders/simrad/simradpackagedatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/simrad/simraddatagraminterface.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_inputfileiterator.hpp"
-#include "../fileinterfaces/i_packagedatainterface.hpp"
+#include "../fileinterfaces/i_datagramcontainer.hpp"
+#include "../fileinterfaces/i_datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -51,59 +51,66 @@ struct RAW3HeaderFactory
 };
 
 template<typename T_FileStream>
-void py_create_class_SimradPackageDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradDatagramInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_fileinterfaces; // this holds py_i_PackageDataInterface and py_i_PackageDataInterface
+    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+                                       // py_i_DatagramInterface
 
     // initialize class
-    auto cls = py::class_<SimradPackageDataInterface<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, SimradPackageDataInterface));
+    auto cls = py::class_<SimradDatagramInterface<T_FileStream>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simrad, SimradDatagramInterface));
 
-    //----- inherit functions from I_PackageDataInterface -----
+    //----- inherit functions from I_DatagramInterface -----
 
     //----- iterators -----
     // this makes documentation crash. Ignore for now
-    // py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>,
+    // py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>,
     //                                      datagrams::t_SimradDatagramVariant,
     //                                      datagrams::t_SimradDatagramVariant>(cls, "all");
 
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::FIL1>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::FIL1>(
         cls, t_SimradDatagramIdentifier::FIL1, "FIL1");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::RAW3>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::RAW3>(
         cls, t_SimradDatagramIdentifier::RAW3, "RAW3");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::MRU0>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::MRU0>(
         cls, t_SimradDatagramIdentifier::MRU0, "MRU0");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::XML0>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::XML0>(
         cls, t_SimradDatagramIdentifier::XML0, "XML0");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::NME0>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::NME0>(
         cls, t_SimradDatagramIdentifier::NME0, "NME0");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::TAG0>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::TAG0>(
         cls, t_SimradDatagramIdentifier::TAG0, "TAG0");
-    py_i_PackageDataInterface::add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::RAW3>(
+    py_i_DatagramInterface::add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::RAW3>(
         cls, t_SimradDatagramIdentifier::RAW3, "RAW3");
-    py_i_PackageDataInterface::
-        add_Iterator<SimradPackageDataInterface<T_FileStream>, datagrams::RAW3, RAW3HeaderFactory>(
+    py_i_DatagramInterface::
+        add_Iterator<SimradDatagramInterface<T_FileStream>, datagrams::RAW3, RAW3HeaderFactory>(
             cls, t_SimradDatagramIdentifier::RAW3, "RAW3_header");
 
     //----- iterators via () operator -----
     cls.def(
         "__call__",
-        [](const SimradPackageDataInterface<T_FileStream>& self, long start, long end, long step) {
+        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
             return py::cast(
                 self.template get_iterator<datagrams::t_SimradDatagramVariant,
                                            datagrams::SimradDatagramVariant>(start, end, step));
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PackageDataInterface, get_iterator),
+        DOC(themachinethatgoesping,
+            echosounders,
+            fileinterfaces,
+            I_DatagramInterface,
+            get_iterator),
         py::arg("start") = 0,
         py::arg("end")   = std::numeric_limits<long>::max(),
         py::arg("step")  = 1);
     cls.def(
         "__call__",
-        [](const SimradPackageDataInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                  type,
-           long                                        start,
-           long                                        end,
-           long                                        step) {
+        [](const SimradDatagramInterface<T_FileStream>& self,
+           t_SimradDatagramIdentifier                   type,
+           long                                         start,
+           long                                         end,
+           long                                         step) {
             switch (type)
             {
                 case t_SimradDatagramIdentifier::MRU0:
@@ -132,7 +139,7 @@ void py_create_class_SimradPackageDataInterface(py::module& m, const std::string
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
-            I_PackageDataInterface,
+            I_DatagramInterface,
             get_iterator_3),
         py::arg("datagram_type"),
         py::arg("start") = 0,
@@ -140,28 +147,32 @@ void py_create_class_SimradPackageDataInterface(py::module& m, const std::string
         py::arg("step")  = 1);
     cls.def(
         "headers",
-        [](const SimradPackageDataInterface<T_FileStream>& self, long start, long end, long step) {
+        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
             return py::cast(
                 self.template get_iterator<datagrams::SimradDatagram>(start, end, step));
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PackageDataInterface, get_iterator),
+        DOC(themachinethatgoesping,
+            echosounders,
+            fileinterfaces,
+            I_DatagramInterface,
+            get_iterator),
         py::arg("start") = 0,
         py::arg("end")   = std::numeric_limits<long>::max(),
         py::arg("step")  = 1);
     cls.def(
         "headers",
-        [](const SimradPackageDataInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                  type,
-           long                                        start,
-           long                                        end,
-           long                                        step) {
+        [](const SimradDatagramInterface<T_FileStream>& self,
+           t_SimradDatagramIdentifier                   type,
+           long                                         start,
+           long                                         end,
+           long                                         step) {
             return py::cast(
                 self.template get_iterator<datagrams::SimradDatagram>(type, start, end, step));
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
-            I_PackageDataInterface,
+            I_DatagramInterface,
             get_iterator_3),
         py::arg("datagram_type"),
         py::arg("start") = 0,
@@ -169,27 +180,31 @@ void py_create_class_SimradPackageDataInterface(py::module& m, const std::string
         py::arg("step")  = 1);
     cls.def(
         "raw",
-        [](const SimradPackageDataInterface<T_FileStream>& self, long start, long end, long step) {
+        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
             return py::cast(self.template get_iterator<datagrams::SimradUnknown>(start, end, step));
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PackageDataInterface, get_iterator),
+        DOC(themachinethatgoesping,
+            echosounders,
+            fileinterfaces,
+            I_DatagramInterface,
+            get_iterator),
         py::arg("start") = 0,
         py::arg("end")   = std::numeric_limits<long>::max(),
         py::arg("step")  = 1);
     cls.def(
         "raw",
-        [](const SimradPackageDataInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                  type,
-           long                                        start,
-           long                                        end,
-           long                                        step) {
+        [](const SimradDatagramInterface<T_FileStream>& self,
+           t_SimradDatagramIdentifier                   type,
+           long                                         start,
+           long                                         end,
+           long                                         step) {
             return py::cast(
                 self.template get_iterator<datagrams::SimradUnknown>(type, start, end, step));
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
-            I_PackageDataInterface,
+            I_DatagramInterface,
             get_iterator_3),
         py::arg("datagram_type"),
         py::arg("start") = 0,
@@ -202,33 +217,39 @@ void py_create_class_SimradPackageDataInterface(py::module& m, const std::string
     /* default binary functions*/
     /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
     /* default printing functions */
-    cls __PYCLASS_DEFAULT_PRINTING__(SimradPackageDataInterface<T_FileStream>);
+    cls __PYCLASS_DEFAULT_PRINTING__(SimradDatagramInterface<T_FileStream>);
 }
 
-void init_c_packagedatainterface(pybind11::module& m)
+void init_c_datagraminterface(pybind11::module& m)
 {
 
     // add python iterator classes
-    using py_fileinterfaces::py_i_InputFileIterator::create_IteratorTypes;
+    using py_fileinterfaces::py_i_DatagramContainer::create_IteratorTypes;
 
     create_IteratorTypes<datagrams::SimradDatagram, t_SimradDatagramIdentifier>(
-        m, "FileRawIterator_Header");
+        m, "FileSimradRawIterator_Header");
     create_IteratorTypes<datagrams::SimradUnknown, t_SimradDatagramIdentifier>(
-        m, "FileRawIterator_Unknown");
-    create_IteratorTypes<datagrams::MRU0, t_SimradDatagramIdentifier>(m, "FileRawIterator_MRU0");
-    create_IteratorTypes<datagrams::TAG0, t_SimradDatagramIdentifier>(m, "FileRawIterator_TAG0");
-    create_IteratorTypes<datagrams::FIL1, t_SimradDatagramIdentifier>(m, "FileRawIterator_FIL1");
-    create_IteratorTypes<datagrams::RAW3, t_SimradDatagramIdentifier>(m, "FileRawIterator_RAW3");
+        m, "FileSimradRawIterator_Unknown");
+    create_IteratorTypes<datagrams::MRU0, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_MRU0");
+    create_IteratorTypes<datagrams::TAG0, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_TAG0");
+    create_IteratorTypes<datagrams::FIL1, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_FIL1");
+    create_IteratorTypes<datagrams::RAW3, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_RAW3");
     create_IteratorTypes<datagrams::RAW3, t_SimradDatagramIdentifier, RAW3HeaderFactory>(
-        m, "FileRawIterator_RAW3_header");
-    create_IteratorTypes<datagrams::XML0, t_SimradDatagramIdentifier>(m, "FileRawIterator_XML0");
-    create_IteratorTypes<datagrams::NME0, t_SimradDatagramIdentifier>(m, "FileRawIterator_NME0");
+        m, "FileSimradRawIterator_RAW3_header");
+    create_IteratorTypes<datagrams::XML0, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_XML0");
+    create_IteratorTypes<datagrams::NME0, t_SimradDatagramIdentifier>(m,
+                                                                      "FileSimradRawIterator_NME0");
     create_IteratorTypes<datagrams::t_SimradDatagramVariant,
                          t_SimradDatagramIdentifier,
-                         datagrams::SimradDatagramVariant>(m, "FileRawIterator_Variant");
+                         datagrams::SimradDatagramVariant>(m, "FileSimradRawIterator_Variant");
 
-    py_create_class_SimradPackageDataInterface<std::ifstream>(m, "SimradPackageDataInterface");
-    py_create_class_SimradPackageDataInterface<MappedFileStream>(m, "SimradPackageDataInterface_mapped");
+    py_create_class_SimradDatagramInterface<std::ifstream>(m, "SimradDatagramInterface");
+    py_create_class_SimradDatagramInterface<MappedFileStream>(m, "SimradDatagramInterface_mapped");
 }
 
 }

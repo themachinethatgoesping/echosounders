@@ -49,12 +49,12 @@ struct SimradDatagram
         simrad_long length;
         is.read(reinterpret_cast<char*>(&length), sizeof(length));
 
-        // (the packages are encapsulated by length)
-        // if the lengths do not match the packages was not read correctly
+        // (the datagrams are encapsulated by length)
+        // if the lengths do not match the datagrams was not read correctly
         if (!is || length != _Length)
         {
             auto error = fmt::format(
-                "ERROR[SimradDatagram]: Package length check failed (read). Expected: {}, got: {}",
+                "ERROR[SimradDatagram]: Datagram length check failed (read). Expected: {}, got: {}",
                 _Length,
                 length);
             [[maybe_unused]] auto error_verbose =

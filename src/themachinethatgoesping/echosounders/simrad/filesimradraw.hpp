@@ -24,7 +24,7 @@
 #include "simradnavigationdatainterface.hpp"
 #include "simradotherdatainterface.hpp"
 
-#include "simradpackagedatainterface.hpp"
+#include "simraddatagraminterface.hpp"
 #include "simradping.hpp"
 #include "simradpingdatainterface.hpp"
 
@@ -39,10 +39,10 @@ template<typename t_ifstream>
 using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstream>>;
 
 template<typename t_ifstream>
-class FileRaw
+class FileSimradRaw
     : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
                                          t_SimradDatagramIdentifier,
-                                         SimradPackageDataInterface<t_ifstream>,
+                                         SimradDatagramInterface<t_ifstream>,
                                          t_ifstream>
 {
     SimradPingContainer<t_ifstream> _ping_container;
@@ -62,7 +62,7 @@ class FileRaw
 
     std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
         std::make_shared<SimradPingDataInterface<t_ifstream>>(
-            this->_package_container.get_package_infos_all());
+            this->_datagram_interface.get_datagram_infos_all());
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -81,25 +81,25 @@ class FileRaw
     // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileRaw(const std::string& file_path, bool show_progress = true)
+    FileSimradRaw(const std::string& file_path, bool show_progress = true)
     {
         this->append_file(file_path, show_progress);
     }
-    FileRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
+    FileSimradRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_file(file_path, progress_bar);
     }
 
-    FileRaw(const std::vector<std::string>& file_paths, bool show_progress)
+    FileSimradRaw(const std::vector<std::string>& file_paths, bool show_progress)
     {
         this->append_files(file_paths, show_progress);
     }
-    FileRaw(const std::vector<std::string>&     file_paths,
+    FileSimradRaw(const std::vector<std::string>&     file_paths,
             tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
     }
-    ~FileRaw() = default;
+    ~FileSimradRaw() = default;
 
     SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
     {
@@ -230,7 +230,7 @@ class FileRaw
         navi.set_data_position(gps_times, lats, lons);
         // TODO: ALtitude / depth?
 
-        progress_bar.close(fmt::format("Processed {} NMEA packages and {} MRU0 packages",
+        progress_bar.close(fmt::format("Processed {} NMEA datagrams and {} MRU0 datagrams",
                                        _packet_buffer.nme0_packets.size(),
                                        _packet_buffer.mru0_packets.size()));
 
@@ -270,7 +270,7 @@ class FileRaw
         _navigation_interpolators->push_back(process_navigation(false));
     }
 
-    fileinterfaces::PackageInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
+    fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
         t_ifstream&                   ifs,
         typename t_ifstream::pos_type pos,
         size_t                        file_paths_cnt) final
@@ -278,20 +278,20 @@ class FileRaw
         auto header = datagrams::SimradDatagram::from_stream(ifs);
         auto type   = header.get_datagram_identifier();
 
-        auto package_info =
-            std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramIdentifier, t_ifstream>>(
+        auto datagram_info =
+            std::make_shared<fileinterfaces::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
                 file_paths_cnt,
                 pos,
                 this->_input_file_manager,
                 header.get_timestamp(),
                 header.get_datagram_identifier());
 
-        // auto package_info =
-        // std::make_shared<fileinterfaces::PackageInfo<t_SimradDatagramIdentifier>>();
-        // package_info->file_nr             = file_paths_cnt;
-        // package_info->file_pos            = pos;
-        // package_info->timestamp           = header.get_timestamp();
-        // package_info->datagram_identifier = header.get_datagram_identifier();
+        // auto datagram_info =
+        // std::make_shared<fileinterfaces::DatagramInfo<t_SimradDatagramIdentifier>>();
+        // datagram_info->file_nr             = file_paths_cnt;
+        // datagram_info->file_pos            = pos;
+        // datagram_info->timestamp           = header.get_timestamp();
+        // datagram_info->datagram_identifier = header.get_datagram_identifier();
 
         switch (type)
         {
@@ -303,7 +303,7 @@ class FileRaw
                     break;
 
                 _packet_buffer.nme0_packets.push_back(datagram);
-                _navigation_interface->add_package_info(package_info);
+                _navigation_interface->add_datagram_info(datagram_info);
                 break;
             }
             case t_SimradDatagramIdentifier::MRU0: {
@@ -313,7 +313,7 @@ class FileRaw
                     break;
 
                 _packet_buffer.mru0_packets.push_back(datagram);
-                _navigation_interface->add_package_info(package_info);
+                _navigation_interface->add_datagram_info(datagram_info);
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
@@ -395,18 +395,18 @@ class FileRaw
 
                     _packet_buffer.configuration = xml_datagram;
 
-                    _configuration_interface->add_package_info(package_info);
+                    _configuration_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "Environment")
                 {
                     auto xml_datagram =
                         std::get<datagrams::xml_datagrams::XML_Environment>(xml.decode());
 
-                    _environment_interface->add_package_info(package_info);
+                    _environment_interface->add_datagram_info(datagram_info);
                 }
                 else
                 {
-                    _otherdata_interface->add_package_info(package_info);
+                    _otherdata_interface->add_datagram_info(datagram_info);
                 }
 
                 break;
@@ -414,7 +414,7 @@ class FileRaw
             case t_SimradDatagramIdentifier::RAW3: {
                 auto ping = std::make_shared<SimradPing<t_ifstream>>(
                     _ping_data_interface,
-                    package_info,
+                    datagram_info,
                     datagrams::RAW3::from_stream(ifs, header, true));
 
                 if (!ifs.good())
@@ -434,7 +434,7 @@ class FileRaw
                 if (!ifs.good())
                     break;
 
-                _configuration_interface->add_package_info(package_info);
+                _configuration_interface->add_datagram_info(datagram_info);
                 _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
@@ -446,16 +446,16 @@ class FileRaw
 
                 _ping_data_interface->add_datagram(datagram, file_paths_cnt);
 
-                _annotation_interface->add_package_info(package_info);
+                _annotation_interface->add_datagram_info(datagram_info);
                 break;
             }
             default: {
-                _otherdata_interface->add_package_info(package_info);
+                _otherdata_interface->add_datagram_info(datagram_info);
                 header.skip(ifs);
                 break;
             }
         }
-        return package_info;
+        return datagram_info;
     }
 
   public:
@@ -467,7 +467,7 @@ class FileRaw
         auto interface_printer =
             fileinterfaces::I_InputFile<datagrams::SimradDatagram,
                                         t_SimradDatagramIdentifier,
-                                        SimradPackageDataInterface<t_ifstream>,
+                                        SimradDatagramInterface<t_ifstream>,
                                         t_ifstream>::__printer__(float_precision);
 
         printer.append(interface_printer);

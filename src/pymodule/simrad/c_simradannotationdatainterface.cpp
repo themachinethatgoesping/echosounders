@@ -40,7 +40,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_SimradAnnotationDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_fileinterfaces::py_i_AnnotationDataInterface::AnnotationDataInterface_add_interface; 
+    using py_fileinterfaces::py_i_AnnotationDataInterface::AnnotationDataInterface_add_interface;
 
     // initialize class
     auto cls = py::class_<SimradAnnotationDataInterface<T_FileStream>>(
@@ -48,7 +48,6 @@ void py_create_class_SimradAnnotationDataInterface(py::module& m, const std::str
 
     //----- inherit functions from I_AnnotationDataInterface -----
     AnnotationDataInterface_add_interface<SimradAnnotationDataInterface<T_FileStream>>(cls);
-
 
     // ----- ping convenience functions -----
     /* default copy functions */

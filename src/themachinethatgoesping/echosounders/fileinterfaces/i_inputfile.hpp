@@ -24,9 +24,9 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "i_inputfileiterator.hpp"
-#include "i_package_info_types.hpp"
-#include "i_packagedatainterface.hpp"
+#include "datagram_info_types.hpp"
+#include "i_datagramcontainer.hpp"
+#include "i_datagraminterface.hpp"
 #include "inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -39,7 +39,7 @@ template<typename t_DatagramBase,       ///< the datagram base class which shoul
          typename t_DatagramIdentifier, ///< the identifier of the datagram type.
                                         ///< Must be hashable and comparable with
                                         ///< ==
-         typename t_PackageDataInterface,
+         typename t_DatagramInterface,
          typename t_ifstream>
 class I_InputFile
 {
@@ -48,8 +48,8 @@ class I_InputFile
     std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<InputFileManager<t_ifstream>>();
 
-    /* package container */
-    t_PackageDataInterface _package_container;
+    /* datagram container */
+    t_DatagramInterface _datagram_interface;
 
     I_InputFile() = default;
 
@@ -76,7 +76,7 @@ class I_InputFile
     virtual ~I_InputFile() = default;
 
     /* access containers */
-    const t_PackageDataInterface& package_data_interface() const { return _package_container; }
+    const t_DatagramInterface& datagram_interface() const { return _datagram_interface; }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
@@ -92,7 +92,7 @@ class I_InputFile
     {
         // get total file size of all files
         size_t total_file_size = 0;
-        size_t packages_old    = _package_container.size();
+        size_t datagrams_old   = _datagram_interface.size();
 
         progress_bar.init(0., double(file_paths.size()), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
@@ -115,8 +115,8 @@ class I_InputFile
         }
 
         progress_bar.close(std::string("Found: ") +
-                           std::to_string(_package_container.size() - packages_old) +
-                           " packages in " + std::to_string(file_paths.size()) + " files (" +
+                           std::to_string(_datagram_interface.size() - datagrams_old) +
+                           " datagrams in " + std::to_string(file_paths.size()) + " files (" +
                            std::to_string(int(total_file_size / 1024 / 1024)) + "MB)");
     }
 
@@ -132,11 +132,11 @@ class I_InputFile
     {
         auto& ifi = _input_file_manager->append_file(file_path);
 
-        // scan for package headers
-        DataFileInfo file_info = scan_for_packages(
+        // scan for datagram headers
+        DataFileInfo file_info = scan_fo_datagrams(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
-        _package_container.add_package_infos(file_info);
+        _datagram_interface.add_datagram_infos(file_info);
     }
 
   protected:
@@ -154,27 +154,27 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>
+    virtual DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
     callback_scan_packet(t_ifstream& ifs, typename t_ifstream::pos_type pos, size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
 
-        auto package_info = std::make_shared<PackageInfo<t_DatagramIdentifier, t_ifstream>>(
+        auto datagram_info = std::make_shared<DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
             file_paths_cnt,
             pos,
             _input_file_manager,
             header.get_timestamp(),
             header.get_datagram_identifier());
-        // package_info->file_nr             = file_paths_cnt;
-        // package_info->file_pos            = pos;
-        // package_info->timestamp           = header.get_timestamp();
-        // package_info->datagram_identifier = header.get_datagram_identifier();
-        return package_info;
+        // datagram_info->file_nr             = file_paths_cnt;
+        // datagram_info->file_pos            = pos;
+        // datagram_info->timestamp           = header.get_timestamp();
+        // datagram_info->datagram_identifier = header.get_datagram_identifier();
+        return datagram_info;
     }
 
     // This function must be called at initialization!
-    virtual DataFileInfo<t_DatagramIdentifier, t_ifstream> scan_for_packages(
+    virtual DataFileInfo<t_DatagramIdentifier, t_ifstream> scan_fo_datagrams(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
         t_ifstream&                         ifs,
@@ -183,7 +183,7 @@ class I_InputFile
 
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier, t_ifstream> file_info;
-        file_info.package_infos->clear();
+        file_info.datagram_infos->clear();
 
         reset_ifstream(ifs);
         callback_scan_new_file_begin(file_path, file_paths_cnt);
@@ -206,9 +206,9 @@ class I_InputFile
                 // auto header = t_DatagramBase::from_stream(ifs);
                 // header.skip(ifs);
                 // auto header = callback_scan_packet(ifs);
-                auto package_info = callback_scan_packet(ifs, pos, file_paths_cnt);
+                auto datagram_info = callback_scan_packet(ifs, pos, file_paths_cnt);
 
-                // this function checks if the package content is senseful
+                // this function checks if the datagram content is senseful
                 if (ifs.good())
                 {
                     // update using tick to allow progressbar that was initialized by
@@ -216,7 +216,7 @@ class I_InputFile
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));
 
-                    file_info.package_infos->push_back(package_info);
+                    file_info.datagram_infos->push_back(datagram_info);
 
                     pos = pos_new;
                 }
@@ -241,8 +241,8 @@ class I_InputFile
         }
 
         if (close_progressbar)
-            progress_bar.close(std::string("Found: ") + std::to_string(_package_container.size()) +
-                               " packages");
+            progress_bar.close(std::string("Found: ") + std::to_string(_datagram_interface.size()) +
+                               " datagrams");
 
         reset_ifstream(ifs);
 
@@ -260,7 +260,7 @@ class I_InputFile
         printer.append(_input_file_manager->__printer__(float_precision));
 
         printer.register_section("Detected datagrams");
-        printer.append(_package_container.__printer__(float_precision));
+        printer.append(_datagram_interface.__printer__(float_precision));
         return printer;
     }
 

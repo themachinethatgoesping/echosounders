@@ -35,12 +35,13 @@ using namespace themachinethatgoesping::echosounders::fileinterfaces;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataInterface
+#define LOCAL_DOC_PREFIX                                                                           \
+    themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataInterface
 
 template<typename T_FileStream>
 void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_fileinterfaces::py_i_EnvironmentDataInterface::EnvironmentDataInterface_add_interface; 
+    using py_fileinterfaces::py_i_EnvironmentDataInterface::EnvironmentDataInterface_add_interface;
 
     // initialize class
     auto cls = py::class_<SimradEnvironmentDataInterface<T_FileStream>>(
@@ -48,7 +49,6 @@ void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::st
 
     //----- inherit functions from I_EnvironmentDataInterface -----
     EnvironmentDataInterface_add_interface<SimradEnvironmentDataInterface<T_FileStream>>(cls);
-
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -63,7 +63,7 @@ void init_c_SimradEnvironmentDataInterface(pybind11::module& m)
 {
 
     py_create_class_SimradEnvironmentDataInterface<std::ifstream>(m,
-                                                                 "SimradEnvironmentDataInterface");
+                                                                  "SimradEnvironmentDataInterface");
     py_create_class_SimradEnvironmentDataInterface<MappedFileStream>(
         m, "SimradEnvironmentDataInterface_mapped");
 }

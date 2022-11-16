@@ -26,8 +26,6 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "i_pingiterator.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
@@ -178,13 +176,13 @@ class I_PingContainer
         return containers;
     }
 
-    // sort _package_infos_all by timestamp in _package_timestamps
+    // sort _datagram_infos_all by timestamp in _datagram_timestamps
     I_PingContainer<t_Ping> get_sorted_by_time()
     {
         I_PingContainer<t_Ping> sorted(*this);
         // Your function
         auto& pings = sorted._pings;
-        // sort _package_infos_all by  time, then file_pos then file number
+        // sort _datagram_infos_all by  time, then file_pos then file number
         // TODO: this is faster than std sort, but python sorting (timsort?) seems
         // to be 10x faster for this use case
         boost::sort::pdqsort(pings.begin(), pings.end(), [](const auto& lhs, const auto& rhs) {

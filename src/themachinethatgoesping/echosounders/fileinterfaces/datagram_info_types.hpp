@@ -41,22 +41,22 @@ class MappedFileStream : public boost::iostreams::stream<boost::iostreams::mappe
 };
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
-class PackageInfo
+class DatagramInfo
 {
-    size_t                        _file_nr;  ///< file number of this package
-    typename t_ifstream::pos_type _file_pos; ///< file position of this package TODO: is this the
+    size_t                        _file_nr;  ///< file number of this datagram
+    typename t_ifstream::pos_type _file_pos; ///< file position of this datagram TODO: is this the
                                              ///< same for ifstream and MappedFileStream?
     std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager; ///< input file manager
 
-    double               _timestamp;           ///< timestamp (unixtime) of this package
-    t_DatagramIdentifier _datagram_identifier; ///< datagram type of this package
+    double               _timestamp;           ///< timestamp (unixtime) of this datagram
+    t_DatagramIdentifier _datagram_identifier; ///< datagram type of this datagram
 
   public:
-    PackageInfo(size_t                                        file_nr,
-                typename t_ifstream::pos_type                 file_pos,
-                std::shared_ptr<InputFileManager<t_ifstream>> input_file_manager,
-                double                                        timestamp,
-                t_DatagramIdentifier                          datagram_identifier)
+    DatagramInfo(size_t                                        file_nr,
+                 typename t_ifstream::pos_type                 file_pos,
+                 std::shared_ptr<InputFileManager<t_ifstream>> input_file_manager,
+                 double                                        timestamp,
+                 t_DatagramIdentifier                          datagram_identifier)
         : _file_nr(file_nr)
         , _file_pos(file_pos)
         , _input_file_manager(input_file_manager)
@@ -85,7 +85,7 @@ class PackageInfo
 };
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
-using PackageInfo_ptr = std::shared_ptr<PackageInfo<t_DatagramIdentifier, t_ifstream>>;
+using DatagramInfo_ptr = std::shared_ptr<DatagramInfo<t_DatagramIdentifier, t_ifstream>>;
 
 // TODO: explicitly derive t_ from i_ using concepts from c++20
 template<typename t_DatagramIdentifier, typename t_ifstream>
@@ -96,9 +96,9 @@ struct DataFileInfo
     size_t      file_size;
 
     /* header positions */
-    std::shared_ptr<std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>> package_infos =
-        std::make_shared<
-            std::vector<PackageInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all package
+    std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+        datagram_infos = std::make_shared<
+            std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all datagrams
 };
 
 }

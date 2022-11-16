@@ -88,9 +88,9 @@ void add_DefaultContainers(T_PyClass& cls)
     namespace py = pybind11;
 
     cls.def_property_readonly(
-        "package_data_interface",
-        py::overload_cast<>(&T_BaseClass::package_data_interface, py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, package_data_interface));
+        "datagram_interface",
+        py::overload_cast<>(&T_BaseClass::datagram_interface, py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, datagram_interface));
 }
 
 }
