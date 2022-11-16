@@ -259,8 +259,8 @@ class I_InputFile
         printer.register_section("File infos");
         printer.append(_input_file_manager->__printer__(float_precision));
 
-        printer.register_section("Detected datagrams");
-        printer.append(_datagram_interface.__printer__(float_precision));
+        printer.register_section("Detected datagrams", '^');
+        printer.append(_datagram_interface.__printer__(float_precision), true);
         return printer;
     }
 

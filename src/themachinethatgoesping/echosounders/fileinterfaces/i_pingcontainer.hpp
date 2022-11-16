@@ -279,7 +279,7 @@ class I_PingContainer
     {
         tools::classhelper::ObjectPrinter printer("I_PingContainer", float_precision);
 
-        printer.register_section("Infos");
+        printer.register_section("Time info");
         double min_time, max_time;
         int is_sorted;
         std::tie(min_time, max_time, is_sorted) = timeinfo();
@@ -290,14 +290,15 @@ class I_PingContainer
         printer.register_value("End time", time_str_max);
         printer.register_value("Sorted", is_sorted_str);
 
-        printer.register_section("Pings");
+        printer.register_section("Contained pings");
         auto channel_ids = find_channel_ids();
+
+        if (channel_ids.size() > 1)
+            printer.register_value("Total", size());
 
         for (const auto& channel_id : channel_ids)
             printer.register_value(channel_id, (*this)(channel_id).size());
 
-        if (channel_ids.size() > 1)
-            printer.register_value("Total", size());
 
         return printer;
     }

@@ -465,8 +465,9 @@ class FileSimradRaw
 
         printer.append(interface_printer);
 
-        printer.register_section("Pings");
-        printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
+        printer.register_section("Detected Pings");
+        printer.append(_ping_container.__printer__(float_precision), false, '^');
+        //printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
 
         return printer;
     }
