@@ -122,6 +122,14 @@ void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NA
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer))
         .def(py::init<>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
         .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(T_ITERATOR)
+        // default binary functions
+        //__PYCLASS_DEFAULT_BINARY__(FIL1)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(T_ITERATOR)
+        // end LinearInterpolator
         /// end
         ;
 

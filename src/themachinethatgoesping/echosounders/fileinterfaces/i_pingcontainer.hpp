@@ -23,6 +23,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
@@ -216,6 +217,90 @@ class I_PingContainer
     size_t size() const { return _pyindexer.size(); }
 
     const t_Ping& at(long index) const { return *_pings[_pyindexer(index)]; }
+
+    // ----- common info functions -----
+
+    /**
+     * @brief Compute some time statistics for the pings in the container
+     * The is_sorted variable is interpreted as follos:
+     *  - 1: the pings are sorted by time (ascending)
+     *  - 0: the pings are not sorted by time
+     * - -1: the pings are sorted by time (descending)
+     * 
+     * @return std::tuple<min_timestamp, max_timestamp, is_sorted()> 
+     */
+    std::tuple<double, double, int> timeinfo() const
+    {
+        double min_time = std::numeric_limits<double>::max();
+        double max_time = std::numeric_limits<double>::min();
+        int is_sorted = 1;
+
+        for (size_t i : _pyindexer)
+        {
+            const auto& ping = _pings[i];
+            min_time = std::min(min_time, ping->get_timestamp());
+            max_time = std::max(max_time, ping->get_timestamp());
+
+            if (i > 1)
+            {
+                if (is_sorted == 1)
+                {
+                    if (ping->get_timestamp() < _pings[i - 1]->get_timestamp())
+                        is_sorted = 0;
+                }
+                else if (is_sorted == -1)
+                {
+                    if (ping->get_timestamp() > _pings[i - 1]->get_timestamp())
+                        is_sorted = 0;
+                }
+            }
+            else if (i == 1)
+            {
+                if (ping->get_timestamp() < _pings[i - 1]->get_timestamp())
+                    is_sorted = -1;
+            }
+        }
+
+        return std::make_tuple(min_time, max_time, is_sorted);
+    }
+
+    double get_max_timestamp() const
+    {
+        double max_time = std::numeric_limits<double>::lowest();
+        for (size_t i : _pyindexer)
+            max_time = std::max(max_time, _pings[i]->get_timestamp());
+
+        return max_time;
+    }
+
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer("I_PingContainer", float_precision);
+
+        printer.register_section("Infos");
+        double min_time, max_time;
+        int is_sorted;
+        std::tie(min_time, max_time, is_sorted) = timeinfo();
+        std::string is_sorted_str = is_sorted == 1 ? "ascending" : is_sorted == -1 ? "descending" : "no";
+        std::string time_str_min = tools::timeconv::unixtime_to_datestring(min_time, 2, "%d/%m/%Y %H:%M:%S");
+        std::string time_str_max = tools::timeconv::unixtime_to_datestring(max_time, 2, "%d/%m/%Y %H:%M:%S");
+        printer.register_value("Start time", time_str_min);
+        printer.register_value("End time", time_str_max);
+        printer.register_value("Sorted", is_sorted_str);
+
+        printer.register_section("Pings");
+        auto channel_ids = find_channel_ids();
+
+        for (const auto& channel_id : channel_ids)
+            printer.register_value(channel_id, (*this)(channel_id).size());
+
+        if (channel_ids.size() > 1)
+            printer.register_value("Total", size());
+
+        return printer;
+    }
 };
 
 } // namespace fileinterfaces

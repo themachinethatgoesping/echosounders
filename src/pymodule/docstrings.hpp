@@ -199,6 +199,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_find_channel_ids = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_max_timestamp = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_get_sorted_by_time = R"doc()doc";
@@ -221,6 +223,8 @@ R"doc(Construct a new PingContainer object from a vector of pings
 Parameter ``pings:``:
     vector of pings)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_pyindexer_2 =
@@ -234,6 +238,15 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_set_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_timeinfo =
+R"doc(Compute some time statistics for the pings in the container The
+is_sorted variable is interpreted as follos: - 1: the pings are sorted
+by time (ascending) - 0: the pings are not sorted by time - -1: the
+pings are sorted by time (descending)
+
+Returns:
+    std::tuple<min_timestamp, max_timestamp, is_sorted()>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface = R"doc()doc";
 
