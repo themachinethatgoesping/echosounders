@@ -20,7 +20,7 @@ namespace py_fileinterfaces {
 namespace py_i_DatagramContainer {
 
 template<typename T_BaseClass, typename T_PyClass>
-void _iterator_add_DatagramReading(T_PyClass& cls)
+void _container_add_DatagramReading(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -49,31 +49,31 @@ void _iterator_add_DatagramReading(T_PyClass& cls)
 template<typename T_DatagramType,
          typename T_DatagramIdentifier,
          typename T_DatagramFactory = T_DatagramType>
-void create_IteratorTypes(pybind11::module& m, const std::string ITERATOR_NAME)
+void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAINER_NAME)
 {
     using fileinterfaces::I_DatagramContainer;
     using fileinterfaces::MappedFileStream;
     namespace py = pybind11;
 
-    using T_ITERATOR =
+    using T_CONTAINER =
         I_DatagramContainer<T_DatagramType, T_DatagramIdentifier, std::ifstream, T_DatagramFactory>;
-    using T_ITERATOR_MAPPED = I_DatagramContainer<T_DatagramType,
+    using T_CONTAINER_MAPPED = I_DatagramContainer<T_DatagramType,
                                                   T_DatagramIdentifier,
                                                   MappedFileStream,
                                                   T_DatagramFactory>;
 
-    auto cls_stream = py::class_<T_ITERATOR>(
+    auto cls_stream = py::class_<T_CONTAINER>(
         m,
-        ITERATOR_NAME.c_str(),
+        CONTAINER_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer));
 
-    auto cls_mapped = py::class_<T_ITERATOR_MAPPED>(
+    auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(
         m,
-        (ITERATOR_NAME + "_mapped").c_str(),
+        (CONTAINER_NAME + "_mapped").c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer));
 
-    _iterator_add_DatagramReading<T_ITERATOR>(cls_stream);
-    _iterator_add_DatagramReading<T_ITERATOR_MAPPED>(cls_mapped);
+    _container_add_DatagramReading<T_CONTAINER>(cls_stream);
+    _container_add_DatagramReading<T_CONTAINER_MAPPED>(cls_mapped);
 }
 
 }

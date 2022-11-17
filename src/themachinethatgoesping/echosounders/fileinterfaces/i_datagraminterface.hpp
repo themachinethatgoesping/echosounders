@@ -96,7 +96,7 @@ class I_DatagramInterface
     // ----- iterator interface -----
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator() const
+    datagrams() const
     {
         return I_DatagramContainer<t_DatagramType,
                                    t_DatagramIdentifier,
@@ -106,7 +106,7 @@ class I_DatagramInterface
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    get_iterator(t_DatagramIdentifier datagram_identifier) const
+    datagrams(t_DatagramIdentifier datagram_identifier) const
     {
         return I_DatagramContainer<t_DatagramType,
                                    t_DatagramIdentifier,

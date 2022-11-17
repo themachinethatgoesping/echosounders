@@ -174,11 +174,11 @@ static const char*
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_iterator =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagrams =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_iterator_2 =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagrams_2 =
         R"doc()doc";
 
 static const char*

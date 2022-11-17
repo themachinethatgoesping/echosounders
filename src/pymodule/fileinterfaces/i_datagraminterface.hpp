@@ -56,14 +56,14 @@ void add_Iterator(T_PyClass&           cls,
     cls.def_property_readonly(
         ("i_" + T_NAME).c_str(),
         [datagram_identifier](const T_BaseClass& self) {
-            return self.template get_iterator<T_DatagramType, T_DatagramFactory>(
+            return self.template datagrams<T_DatagramType, T_DatagramFactory>(
                 datagram_identifier);
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator));
+            datagrams));
 }
 
 template<typename T_BaseClass,
@@ -75,13 +75,13 @@ void add_Iterator(T_PyClass& cls, const std::string& T_NAME)
     cls.def_property_readonly(
         ("i_" + T_NAME).c_str(),
         [](const T_BaseClass& self) {
-            return self.template get_iterator<T_DatagramType, T_DatagramFactory>();
+            return self.template datagrams<T_DatagramType, T_DatagramFactory>();
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator));
+            datagrams));
 }
 
 }
