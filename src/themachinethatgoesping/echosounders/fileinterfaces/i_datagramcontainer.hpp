@@ -30,8 +30,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-
-
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
          typename t_ifstream,
@@ -67,7 +65,6 @@ class I_DatagramContainer
 
     ~I_DatagramContainer() = default;
 
-
     void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram_info)
     {
         this->_datagram_infos.push_back(std::move(datagram_info));
@@ -89,7 +86,8 @@ class I_DatagramContainer
         _pyindexer.reset(_datagram_infos.size());
     }
 
-    const std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>& get_datagram_infos() const
+    const std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>& get_datagram_infos()
+        const
     {
         return _datagram_infos;
     }
@@ -136,7 +134,8 @@ class I_DatagramContainer
         return filtered;
     }
 
-    I_DatagramContainer operator()(const std::vector<t_DatagramIdentifier>& datagram_identifiers) const
+    I_DatagramContainer operator()(
+        const std::vector<t_DatagramIdentifier>& datagram_identifiers) const
     {
         I_DatagramContainer filtered(*this);
 
@@ -144,8 +143,9 @@ class I_DatagramContainer
 
         for (const auto& datagram_info : _datagram_infos)
         {
-            if (std::find(datagram_identifiers.begin(), datagram_identifiers.end(), datagram_info->get_datagram_identifier()) !=
-                datagram_identifiers.end())
+            if (std::find(datagram_identifiers.begin(),
+                          datagram_identifiers.end(),
+                          datagram_info->get_datagram_identifier()) != datagram_identifiers.end())
                 datagram_infos.push_back(datagram_info);
         }
 
@@ -154,9 +154,9 @@ class I_DatagramContainer
         return filtered;
     }
 
-    std::map<t_DatagramIdentifier,size_t> count_datagrams_per_type() const
+    std::map<t_DatagramIdentifier, size_t> count_datagrams_per_type() const
     {
-        std::map<t_DatagramIdentifier,size_t> datagram_identifiers;
+        std::map<t_DatagramIdentifier, size_t> datagram_identifiers;
 
         for (const auto& datagram_info : _datagram_infos)
         {
@@ -165,7 +165,6 @@ class I_DatagramContainer
 
         return datagram_identifiers;
     }
-
 
     std::vector<t_DatagramIdentifier> find_datagram_types() const
     {
@@ -177,7 +176,8 @@ class I_DatagramContainer
         }
 
         std::vector<t_DatagramIdentifier> vec;
-        std::copy(datagram_identifiers.begin(), datagram_identifiers.end(), std::back_inserter(vec));
+        std::copy(
+            datagram_identifiers.begin(), datagram_identifiers.end(), std::back_inserter(vec));
         return vec;
     }
 
@@ -191,7 +191,8 @@ class I_DatagramContainer
         {
             if (!datagram_infos.empty())
             {
-                if (datagram_info->get_timestamp() - datagram_infos.back()->get_timestamp() > max_time_diff_seconds)
+                if (datagram_info->get_timestamp() - datagram_infos.back()->get_timestamp() >
+                    max_time_diff_seconds)
                 {
                     containers.push_back(I_DatagramContainer(datagram_infos));
                     datagram_infos.clear();
@@ -205,8 +206,6 @@ class I_DatagramContainer
         return containers;
     }
 
-    
-
     // sort _datagram_infos by timestamp in _datagram_timestamps
     I_DatagramContainer get_sorted_by_time() const
     {
@@ -216,11 +215,12 @@ class I_DatagramContainer
         // sort _datagram_infos by  time, then file_pos then file number
         // TODO: this is faster than std sort, but python sorting (timsort?) seems
         // to be 10x faster for this use case
-        boost::sort::pdqsort(datagram_infos.begin(), datagram_infos.end(), [](const auto& lhs, const auto& rhs) {
-            if (lhs->get_timestamp() < rhs->get_timestamp())
-                return true;
-            return false;
-        });
+        boost::sort::pdqsort(
+            datagram_infos.begin(), datagram_infos.end(), [](const auto& lhs, const auto& rhs) {
+                if (lhs->get_timestamp() < rhs->get_timestamp())
+                    return true;
+                return false;
+            });
 
         return sorted;
     }
@@ -242,8 +242,8 @@ class I_DatagramContainer
         for (size_t i : _pyindexer)
         {
             const auto& datagram_info = _datagram_infos[i];
-            min_time         = std::min(min_time, datagram_info->get_timestamp());
-            max_time         = std::max(max_time, datagram_info->get_timestamp());
+            min_time                  = std::min(min_time, datagram_info->get_timestamp());
+            max_time                  = std::max(max_time, datagram_info->get_timestamp());
 
             if (i > 1)
             {
@@ -291,7 +291,6 @@ class I_DatagramContainer
         }
     }
 
-
     // ----- printing interface -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -318,12 +317,13 @@ class I_DatagramContainer
         {
             printer.register_value("Total", _datagram_infos.size(), "");
         }
-        // for (const auto& [type, count] : datagram_identifiers)
-        // {
-        //     printer.register_value("Datagrams [" + datagram_identifier_to_string(type) + "]",
-        //                            count,
-        //                            datagram_identifier_info(type));
-        // }
+        for (const auto& [type, count] : datagram_identifiers)
+        {
+            printer.register_value("Datagrams [" +
+                                       t_DatagramType::datagram_identifier_to_string(type) + "]",
+                                   count,
+                                   t_DatagramType::datagram_identifier_info(type));
+        }
 
         return printer;
     }

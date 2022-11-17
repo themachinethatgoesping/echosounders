@@ -44,7 +44,6 @@ void add_InterfaceFunctions(T_PyClass& cls)
             py::arg("datagram_identifier"));
 }
 
-
 }
 }
 }

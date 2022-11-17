@@ -30,8 +30,8 @@ namespace py_simrad {
 
 // -- submodule declarations --
 void init_c_simraddatagramcontainer(py::module& m); // c_simraddatagramcontainer.cpp
-void init_c_simraddatagraminterface(py::module& m);   // c_simraddatagraminterface.cpp
-void init_c_filesimradraw(pybind11::module& m); // c_filesimradraw.cpp
+void init_c_simraddatagraminterface(py::module& m); // c_simraddatagraminterface.cpp
+void init_c_filesimradraw(pybind11::module& m);     // c_filesimradraw.cpp
 void init_c_SimradConfigurationDataInterface(
     pybind11::module& m); // c_simradconfigurationdatainterface.cpp
 void init_c_SimradNavigationDataInterface(

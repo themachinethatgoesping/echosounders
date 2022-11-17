@@ -27,7 +27,7 @@ namespace fileinterfaces {
 template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_DatagramInterface
 {
-    protected:
+  protected:
     std::string _name; ///< name of the datagram container (useful for debugging derived classes)
 
     /* datagram infos */
@@ -97,26 +97,26 @@ class I_DatagramInterface
         t_DatagramIdentifier datagram_identifier) const = 0;
 
     // ----- iterator interface -----
-    // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    // I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    // datagrams() const
-    // {
-    //     return I_DatagramContainer<t_DatagramType,
-    //                                t_DatagramIdentifier,
-    //                                t_ifstream,
-    //                                t_DatagramTypeFactory>(_datagram_infos_all);
-    // }
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    datagrams() const
+    {
+        return I_DatagramContainer<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(_datagram_infos_all);
+    }
 
-    // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    // I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
-    // datagrams(t_DatagramIdentifier datagram_identifier) const
-    // {
-    //     return I_DatagramContainer<t_DatagramType,
-    //                                t_DatagramIdentifier,
-    //                                t_ifstream,
-    //                                t_DatagramTypeFactory>(
-    //         _datagram_infos_by_type.at_const(datagram_identifier));
-    // }
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+    datagrams(t_DatagramIdentifier datagram_identifier) const
+    {
+        return I_DatagramContainer<t_DatagramType,
+                                   t_DatagramIdentifier,
+                                   t_ifstream,
+                                   t_DatagramTypeFactory>(
+            _datagram_infos_by_type.at_const(datagram_identifier));
+    }
 
     // ----- printing interface -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

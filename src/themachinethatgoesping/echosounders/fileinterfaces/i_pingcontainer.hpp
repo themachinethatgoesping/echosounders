@@ -22,7 +22,7 @@
 #include <xtensor/xview.hpp>
 
 // boost includes
-#include <boost/sort/sort.hpp>                    // for sort
+#include <boost/sort/sort.hpp> // for sort
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -162,9 +162,9 @@ class I_PingContainer
         return filtered;
     }
 
-    std::map<std::string,size_t> count_pings_per_channel_id() const
+    std::map<std::string, size_t> count_pings_per_channel_id() const
     {
-        std::map<std::string,size_t> channel_ids;
+        std::map<std::string, size_t> channel_ids;
 
         for (const auto& ping : _pings)
         {
@@ -279,7 +279,6 @@ class I_PingContainer
 
         return std::make_tuple(min_time, max_time, is_sorted);
     }
-
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

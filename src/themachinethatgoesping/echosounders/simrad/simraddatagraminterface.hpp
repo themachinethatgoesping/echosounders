@@ -68,34 +68,6 @@ class SimradDatagramInterface
                 return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
         }
     }
-
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    fileinterfaces::I_DatagramContainer<t_DatagramType,
-                                        t_SimradDatagramIdentifier,
-                                        t_ifstream,
-                                        t_DatagramTypeFactory>
-    datagrams() const
-    {
-        return fileinterfaces::I_DatagramContainer<t_DatagramType,
-                                                   t_SimradDatagramIdentifier,
-                                                   t_ifstream,
-                                                   t_DatagramTypeFactory>(
-            this->_datagram_infos_all);
-    }
-
-    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
-    fileinterfaces::I_DatagramContainer<t_DatagramType,
-                                        t_SimradDatagramIdentifier,
-                                        t_ifstream,
-                                        t_DatagramTypeFactory>
-    datagrams(t_SimradDatagramIdentifier datagram_identifier) const
-    {
-        return fileinterfaces::I_DatagramContainer<t_DatagramType,
-                                                   t_SimradDatagramIdentifier,
-                                                   t_ifstream,
-                                                   t_DatagramTypeFactory>(
-            this->_datagram_infos_by_type.at_const(datagram_identifier));
-    }
 };
 
 } // namespace fileinterfaces

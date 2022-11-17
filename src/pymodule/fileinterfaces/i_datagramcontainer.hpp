@@ -63,16 +63,23 @@ void _add_DatagramReading(T_PyClass& cls)
                 find_datagram_types));
 
     /* datagram infos filters */
-    cls.def(
-        "__call__",
-        py::overload_cast<T_DatagramIdentifier>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
-        operator_call), py::arg("datagram_identifier"));
-    cls.def(
-        "__call__",
-        py::overload_cast<const std::vector<T_DatagramIdentifier>&>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
-        operator_call_2), py::arg("datagram_identifiers"));
+    cls.def("__call__",
+            py::overload_cast<T_DatagramIdentifier>(&T_BaseClass::operator(), py::const_),
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                operator_call),
+            py::arg("datagram_identifier"));
+    cls.def("__call__",
+            py::overload_cast<const std::vector<T_DatagramIdentifier>&>(&T_BaseClass::operator(),
+                                                                        py::const_),
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                operator_call_2),
+            py::arg("datagram_identifiers"));
 
     /* datagram reading */
     cls.def("size",
