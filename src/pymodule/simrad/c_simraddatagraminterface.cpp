@@ -91,125 +91,84 @@ void py_create_class_SimradDatagramInterface(py::module& m, const std::string& C
     //----- iterators via () operator -----
     cls.def(
         "__call__",
-        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
-            return py::cast(
-                self.template get_iterator<datagrams::t_SimradDatagramVariant,
-                                           datagrams::SimradDatagramVariant>(start, end, step));
+        [](const SimradDatagramInterface<T_FileStream>& self) {
+            return py::cast(self.template get_iterator<datagrams::t_SimradDatagramVariant,
+                                                       datagrams::SimradDatagramVariant>());
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator));
     cls.def(
         "__call__",
-        [](const SimradDatagramInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                   type,
-           long                                         start,
-           long                                         end,
-           long                                         step) {
+        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
             switch (type)
             {
                 case t_SimradDatagramIdentifier::MRU0:
-                    return py::cast(
-                        self.template get_iterator<datagrams::MRU0>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::MRU0>(type));
                 case t_SimradDatagramIdentifier::NME0:
-                    return py::cast(
-                        self.template get_iterator<datagrams::NME0>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::NME0>(type));
                 case t_SimradDatagramIdentifier::XML0:
-                    return py::cast(
-                        self.template get_iterator<datagrams::XML0>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::XML0>(type));
                 case t_SimradDatagramIdentifier::TAG0:
-                    return py::cast(
-                        self.template get_iterator<datagrams::TAG0>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::TAG0>(type));
                 case t_SimradDatagramIdentifier::FIL1:
-                    return py::cast(
-                        self.template get_iterator<datagrams::FIL1>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::FIL1>(type));
                 case t_SimradDatagramIdentifier::RAW3:
-                    return py::cast(
-                        self.template get_iterator<datagrams::RAW3>(type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::RAW3>(type));
                 default:
-                    return py::cast(self.template get_iterator<datagrams::SimradUnknown>(
-                        type, start, end, step));
+                    return py::cast(self.template get_iterator<datagrams::SimradUnknown>(type));
             }
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator_3),
-        py::arg("datagram_type"),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator_2),
+        py::arg("datagram_type"));
     cls.def(
         "headers",
-        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
-            return py::cast(
-                self.template get_iterator<datagrams::SimradDatagram>(start, end, step));
+        [](const SimradDatagramInterface<T_FileStream>& self) {
+            return py::cast(self.template get_iterator<datagrams::SimradDatagram>());
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator));
     cls.def(
         "headers",
-        [](const SimradDatagramInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                   type,
-           long                                         start,
-           long                                         end,
-           long                                         step) {
-            return py::cast(
-                self.template get_iterator<datagrams::SimradDatagram>(type, start, end, step));
+        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
+            return py::cast(self.template get_iterator<datagrams::SimradDatagram>(type));
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator_3),
-        py::arg("datagram_type"),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator_2),
+        py::arg("datagram_type"));
     cls.def(
         "raw",
-        [](const SimradDatagramInterface<T_FileStream>& self, long start, long end, long step) {
-            return py::cast(self.template get_iterator<datagrams::SimradUnknown>(start, end, step));
+        [](const SimradDatagramInterface<T_FileStream>& self) {
+            return py::cast(self.template get_iterator<datagrams::SimradUnknown>());
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator));
     cls.def(
         "raw",
-        [](const SimradDatagramInterface<T_FileStream>& self,
-           t_SimradDatagramIdentifier                   type,
-           long                                         start,
-           long                                         end,
-           long                                         step) {
-            return py::cast(
-                self.template get_iterator<datagrams::SimradUnknown>(type, start, end, step));
+        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
+            return py::cast(self.template get_iterator<datagrams::SimradUnknown>(type));
         },
         DOC(themachinethatgoesping,
             echosounders,
             fileinterfaces,
             I_DatagramInterface,
-            get_iterator_3),
-        py::arg("datagram_type"),
-        py::arg("start") = 0,
-        py::arg("end")   = std::numeric_limits<long>::max(),
-        py::arg("step")  = 1);
+            get_iterator_2),
+        py::arg("datagram_type"));
 
     // ----- ping convenience functions -----
     /* default copy functions */

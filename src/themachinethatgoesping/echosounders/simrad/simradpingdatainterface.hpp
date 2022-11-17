@@ -30,17 +30,12 @@ class SimradPingDataInterface
 {
     std::vector<std::shared_ptr<SimradFileData>> _file_data;
 
-    std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
-        _navigation_interpolators =
-            std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
-
   public:
     SimradPingDataInterface(
-        std::shared_ptr<
-            std::vector<fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>>>
+        std::vector<fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>>
             datagram_infos)
         : fileinterfaces::I_PingDataInterface<t_SimradDatagramIdentifier, t_ifstream>(
-              datagram_infos)
+              std::move(datagram_infos))
     {
     }
 
@@ -48,12 +43,6 @@ class SimradPingDataInterface
     void add_datagram(const t_datagram& datagram, size_t file_cnt)
     {
         file_data(file_cnt)->add_datagram(datagram);
-    }
-
-    const std::vector<navigation::NavigationInterpolatorLatLon>& get_navigation_interpolators()
-        const
-    {
-        return *_navigation_interpolators;
     }
 
     const std::shared_ptr<SimradFileData>& file_data(size_t file_cnt)

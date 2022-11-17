@@ -95,7 +95,7 @@ class FileSimradRaw
         this->append_files(file_paths, show_progress);
     }
     FileSimradRaw(const std::vector<std::string>&     file_paths,
-            tools::progressbars::I_ProgressBar& progress_bar)
+                  tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
     }
@@ -467,7 +467,7 @@ class FileSimradRaw
 
         printer.register_section("Detected Pings");
         printer.append(_ping_container.__printer__(float_precision), false, '^');
-        //printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
+        // printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
 
         return printer;
     }

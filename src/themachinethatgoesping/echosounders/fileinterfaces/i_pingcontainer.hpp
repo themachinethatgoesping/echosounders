@@ -23,9 +23,9 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -37,6 +37,7 @@ using PingVector = std::vector<std::shared_ptr<t_Ping>>;
 template<typename t_Ping>
 class I_PingContainer
 {
+  protected:
     std::string _name;
 
     PingVector<t_Ping>         _pings;
@@ -45,9 +46,9 @@ class I_PingContainer
   public:
     /**
      * @brief Construct a new empty PingContainer object
-     * 
+     *
      */
-    I_PingContainer(std::string_view name = "Default")
+    I_PingContainer(std::string_view name = "I_PingContainer")
         : _name(name)
         , _pyindexer(0)
     {
@@ -55,10 +56,10 @@ class I_PingContainer
 
     /**
      * @brief Construct a new PingContainer object from a vector of pings
-     * 
+     *
      * @param pings: vector of pings
-     */ 
-    I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "Default")
+     */
+    I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "I_PingContainer")
         : _name(name)
         , _pings(std::move(pings))
         , _pyindexer(_pings.size())
@@ -226,20 +227,20 @@ class I_PingContainer
      *  - 1: the pings are sorted by time (ascending)
      *  - 0: the pings are not sorted by time
      * - -1: the pings are sorted by time (descending)
-     * 
-     * @return std::tuple<min_timestamp, max_timestamp, is_sorted()> 
+     *
+     * @return std::tuple<min_timestamp, max_timestamp, is_sorted()>
      */
     std::tuple<double, double, int> timeinfo() const
     {
-        double min_time = std::numeric_limits<double>::max();
-        double max_time = std::numeric_limits<double>::min();
-        int is_sorted = 1;
+        double min_time  = std::numeric_limits<double>::max();
+        double max_time  = std::numeric_limits<double>::min();
+        int    is_sorted = 1;
 
         for (size_t i : _pyindexer)
         {
             const auto& ping = _pings[i];
-            min_time = std::min(min_time, ping->get_timestamp());
-            max_time = std::max(max_time, ping->get_timestamp());
+            min_time         = std::min(min_time, ping->get_timestamp());
+            max_time         = std::max(max_time, ping->get_timestamp());
 
             if (i > 1)
             {
@@ -273,19 +274,22 @@ class I_PingContainer
         return max_time;
     }
 
-
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("I_PingContainer", float_precision);
+        tools::classhelper::ObjectPrinter printer(_name, float_precision);
 
         printer.register_section("Time info");
         double min_time, max_time;
-        int is_sorted;
+        int    is_sorted;
         std::tie(min_time, max_time, is_sorted) = timeinfo();
-        std::string is_sorted_str = is_sorted == 1 ? "ascending" : is_sorted == -1 ? "descending" : "no";
-        std::string time_str_min = tools::timeconv::unixtime_to_datestring(min_time, 2, "%d/%m/%Y %H:%M:%S");
-        std::string time_str_max = tools::timeconv::unixtime_to_datestring(max_time, 2, "%d/%m/%Y %H:%M:%S");
+        std::string is_sorted_str               = is_sorted == 1    ? "ascending"
+                                                  : is_sorted == -1 ? "descending"
+                                                                    : "no";
+        std::string time_str_min =
+            tools::timeconv::unixtime_to_datestring(min_time, 2, "%d/%m/%Y %H:%M:%S");
+        std::string time_str_max =
+            tools::timeconv::unixtime_to_datestring(max_time, 2, "%d/%m/%Y %H:%M:%S");
         printer.register_value("Start time", time_str_min);
         printer.register_value("End time", time_str_max);
         printer.register_value("Sorted", is_sorted_str);
@@ -298,7 +302,6 @@ class I_PingContainer
 
         for (const auto& channel_id : channel_ids)
             printer.register_value(channel_id, (*this)(channel_id).size());
-
 
         return printer;
     }

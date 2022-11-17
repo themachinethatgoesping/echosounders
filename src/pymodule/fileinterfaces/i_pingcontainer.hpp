@@ -116,12 +116,23 @@ void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NA
 
     using T_ITERATOR = I_PingContainer<T_PingType>;
 
-    auto cls_stream = py::class_<T_ITERATOR>(
-        m,
-        ITERATOR_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
-        .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(), DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, I_PingContainer))
+    auto cls_stream =
+        py::class_<T_ITERATOR>(
+            m,
+            ITERATOR_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer))
+            .def(py::init<>(),
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     fileinterfaces,
+                     I_PingContainer,
+                     I_PingContainer))
+            .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(),
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     fileinterfaces,
+                     I_PingContainer,
+                     I_PingContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_ITERATOR)

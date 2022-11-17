@@ -32,14 +32,12 @@ class I_PingDataInterface
 {
   protected:
     /* header positions */
-    std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        _datagram_infos;
+    std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> _datagram_infos;
 
   public:
     I_PingDataInterface(
-        std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-            datagram_infos)
-        : _datagram_infos(datagram_infos)
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos)
+        : _datagram_infos(std::move(datagram_infos))
     {
     }
 
