@@ -475,7 +475,7 @@ class FileSimradRaw
   public:
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
-    __CLASShelper_DEFAULT_PRINTING_FUNCTIONS__
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 } // namespace simrad
