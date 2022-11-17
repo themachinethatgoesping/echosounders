@@ -21,6 +21,9 @@
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
+// boost includes
+#include <boost/sort/sort.hpp>                    // for sort
+
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
@@ -265,14 +268,6 @@ class I_PingContainer
         return std::make_tuple(min_time, max_time, is_sorted);
     }
 
-    double get_max_timestamp() const
-    {
-        double max_time = std::numeric_limits<double>::lowest();
-        for (size_t i : _pyindexer)
-            max_time = std::max(max_time, _pings[i]->get_timestamp());
-
-        return max_time;
-    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

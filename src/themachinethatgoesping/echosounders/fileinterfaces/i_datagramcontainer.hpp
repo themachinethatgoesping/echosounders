@@ -16,6 +16,7 @@
 /* memory mapping */
 #include <boost/iostreams/device/mapped_file.hpp> // for mmap
 #include <boost/iostreams/stream.hpp>             // for stream
+#include <boost/sort/sort.hpp>                    // for sort
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -40,12 +41,11 @@ class I_DatagramContainer
 
     /* header positions */
     std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> _datagram_infos;
-
-    tools::pyhelper::PyIndexer _pyindexer;
+    tools::pyhelper::PyIndexer                                      _pyindexer;
 
   public:
     /**
-     * @brief Construct a new empty PingContainer object
+     * @brief Construct a new empty I_DatagramContainer object
      *
      */
     I_DatagramContainer(std::string_view name = "I_DatagramContainer")
@@ -56,19 +56,198 @@ class I_DatagramContainer
 
     I_DatagramContainer(
         std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos,
-        std::string_view                                                name = "I_DatagramContainer")
+        std::string_view name = "I_DatagramContainer")
         : _name(name)
         , _datagram_infos(datagram_infos)
         , _pyindexer(datagram_infos.size())
     {
     }
 
-    I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>&
-    operator()(long start, long end, long step = 1)
+    void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram_info)
     {
-        _pyindexer = tools::pyhelper::PyIndexer(_datagram_infos.size(), start, end, step);
+        this->_datagram_infos.push_back(std::move(datagram_info));
+        _pyindexer.reset(_datagram_infos.size());
+    }
 
-        return *this;
+    void add_datagram_infos(
+        const std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>& datagram_infos)
+    {
+        this->_datagram_infos.insert(
+            this->_datagram_infos.end(), datagram_infos.begin(), datagram_infos.end());
+        _pyindexer.reset(_datagram_infos.size());
+    }
+
+    void set_datagram_infos(
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos)
+    {
+        _datagram_infos = std::move(datagram_infos);
+        _pyindexer.reset(_datagram_infos.size());
+    }
+
+    const std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>& get_datagram_infos() const
+    {
+        return _datagram_infos;
+    }
+
+    // ----- iterator interface -----
+    I_DatagramContainer reversed() const
+    {
+        return this->operator()(_pyindexer.reversed().to_slice());
+    }
+
+    I_DatagramContainer operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
+    {
+        I_DatagramContainer sliced_container(*this);
+
+        tools::pyhelper::PyIndexer pyindexer(_datagram_infos.size(), slice);
+
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
+        datagram_infos.reserve(pyindexer.size());
+
+        for (size_t i : pyindexer)
+        {
+            datagram_infos.push_back(_datagram_infos[i]);
+        }
+
+        sliced_container.set_datagram_infos(std::move(datagram_infos));
+
+        return sliced_container;
+    }
+
+    // I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
+    // {
+    //     I_PingContainer<t_Ping> filtered(*this);
+
+    //     PingVector<t_Ping> pings;
+
+    //     for (const auto& ping : _pings)
+    //     {
+    //         if (ping->get_channel_id() == channel_id)
+    //             pings.push_back(ping);
+    //     }
+
+    //     filtered.set_pings(std::move(pings));
+
+    //     return filtered;
+    // }
+
+    // I_PingContainer<t_Ping> operator()(const std::vector<std::string>& channel_ids) const
+    // {
+    //     I_PingContainer<t_Ping> filtered(*this);
+
+    //     PingVector<t_Ping> pings;
+
+    //     for (const auto& ping : _pings)
+    //     {
+    //         if (std::find(channel_ids.begin(), channel_ids.end(), ping->get_channel_id()) !=
+    //             channel_ids.end())
+    //             pings.push_back(ping);
+    //     }
+
+    //     filtered.set_pings(std::move(pings));
+
+    //     return filtered;
+    // }
+
+    // std::vector<std::string> find_channel_ids() const
+    // {
+    //     std::set<std::string> channel_ids;
+
+    //     for (const auto& ping : _pings)
+    //     {
+    //         channel_ids.insert(ping->get_channel_id());
+    //     }
+
+    //     std::vector<std::string> vec;
+    //     std::copy(channel_ids.begin(), channel_ids.end(), std::back_inserter(vec));
+    //     return vec;
+    // }
+
+    std::vector<I_DatagramContainer> break_by_time_diff(double max_time_diff_seconds) const
+    {
+        std::vector<I_DatagramContainer> containers;
+
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
+
+        for (const auto& datagram_info : _datagram_infos)
+        {
+            if (!datagram_infos.empty())
+            {
+                if (datagram_info->get_timestamp() - datagram_infos.back()->get_timestamp() > max_time_diff_seconds)
+                {
+                    containers.push_back(I_DatagramContainer(datagram_infos));
+                    datagram_infos.clear();
+                }
+            }
+            datagram_infos.push_back(datagram_info);
+        }
+
+        containers.push_back(I_DatagramContainer(datagram_infos));
+
+        return containers;
+    }
+
+    
+
+    // sort _datagram_infos by timestamp in _datagram_timestamps
+    I_DatagramContainer get_sorted_by_time() const
+    {
+        I_DatagramContainer sorted(*this);
+        // Your function
+        auto& datagram_infos = sorted._datagram_infos;
+        // sort _datagram_infos by  time, then file_pos then file number
+        // TODO: this is faster than std sort, but python sorting (timsort?) seems
+        // to be 10x faster for this use case
+        boost::sort::pdqsort(datagram_infos.begin(), datagram_infos.end(), [](const auto& lhs, const auto& rhs) {
+            if (lhs->get_timestamp() < rhs->get_timestamp())
+                return true;
+            return false;
+        });
+
+        return sorted;
+    }
+    /**
+     * @brief Compute some time statistics for the datagram_infos in the container
+     * The is_sorted variable is interpreted as follos:
+     *  - 1: the datagram_infos are sorted by time (ascending)
+     *  - 0: the datagram_infos are not sorted by time
+     * - -1: the datagram_infos are sorted by time (descending)
+     *
+     * @return std::tuple<min_timestamp, max_timestamp, is_sorted()>
+     */
+    std::tuple<double, double, int> timeinfo() const
+    {
+        double min_time  = std::numeric_limits<double>::max();
+        double max_time  = std::numeric_limits<double>::min();
+        int    is_sorted = 1;
+
+        for (size_t i : _pyindexer)
+        {
+            const auto& datagram_info = _datagram_infos[i];
+            min_time         = std::min(min_time, datagram_info->get_timestamp());
+            max_time         = std::max(max_time, datagram_info->get_timestamp());
+
+            if (i > 1)
+            {
+                if (is_sorted == 1)
+                {
+                    if (datagram_info->get_timestamp() < _datagram_infos[i - 1]->get_timestamp())
+                        is_sorted = 0;
+                }
+                else if (is_sorted == -1)
+                {
+                    if (datagram_info->get_timestamp() > _datagram_infos[i - 1]->get_timestamp())
+                        is_sorted = 0;
+                }
+            }
+            else if (i == 1)
+            {
+                if (datagram_info->get_timestamp() < _datagram_infos[i - 1]->get_timestamp())
+                    is_sorted = -1;
+            }
+        }
+
+        return std::make_tuple(min_time, max_time, is_sorted);
     }
 
     size_t size() const { return _pyindexer.size(); }
@@ -93,6 +272,45 @@ class I_DatagramContainer
             throw std::runtime_error(msg);
         }
     }
+
+
+    // ----- printing interface -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer(_name, float_precision);
+
+        printer.register_section("Time info (Datagrams)");
+        double min_time, max_time;
+        int    is_sorted;
+        std::tie(min_time, max_time, is_sorted) = timeinfo();
+        std::string is_sorted_str               = is_sorted == 1    ? "ascending"
+                                                  : is_sorted == -1 ? "descending"
+                                                                    : "no";
+        std::string time_str_min =
+            tools::timeconv::unixtime_to_datestring(min_time, 2, "%d/%m/%Y %H:%M:%S");
+        std::string time_str_max =
+            tools::timeconv::unixtime_to_datestring(max_time, 2, "%d/%m/%Y %H:%M:%S");
+        printer.register_value("Start time", time_str_min);
+        printer.register_value("End time", time_str_max);
+        printer.register_value("Sorted", is_sorted_str);
+
+        printer.register_section("Contained datagrams");
+        // printer.register_value("Total", _datagram_infos.size(), "");
+        // for (const auto& kv : _datagram_infos_by_type)
+        // {
+        //     std::string info = datagram_identifier_info(kv.first);
+
+        //     printer.register_value("Datagrams [" + datagram_identifier_to_string(kv.first) + "]",
+        //                            kv.second.size(),
+        //                            info);
+        // }
+
+        return printer;
+    }
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 }

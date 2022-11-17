@@ -24,6 +24,54 @@ void _container_add_DatagramReading(T_PyClass& cls)
 {
     namespace py = pybind11;
 
+    /* get datagram infos */
+
+    /* implement breakers */
+    cls.def("break_by_time_diff",
+            &T_BaseClass::break_by_time_diff,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                break_by_time_diff),
+            py::arg("max_time_diff_seconds"));
+
+    /* implement sorters */
+    cls.def("get_sorted_by_time",
+            &T_BaseClass::get_sorted_by_time,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                get_sorted_by_time));
+
+    /* implement find info functions */
+    // cls.def("find_channel_ids",
+    //         &T_BaseClass::find_channel_ids,
+    //         DOC(themachinethatgoesping,
+    //             echosounders,
+    //             fileinterfaces,
+    //             I_DatagramContainer,
+    //             find_channel_ids));
+
+    /* ping filters */
+    // cls.def(
+    //     "__call__",
+    //     py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
+    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
+    //     operator_call_2), py::arg("channel_id"));
+    // cls.def(
+    //     "__call__",
+    //     py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
+    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
+    //     operator_call_2), py::arg("channel_id"));
+    // cls.def(
+    //     "__call__",
+    //     py::overload_cast<const std::vector<std::string>&>(&T_BaseClass::operator(), py::const_),
+    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
+    //     operator_call_3), py::arg("channel_ids"));
+
+    /* datagram reading */
     cls.def("size",
             &T_BaseClass::size,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, size));
@@ -33,17 +81,23 @@ void _container_add_DatagramReading(T_PyClass& cls)
     cls.def("__getitem__",
             &T_BaseClass::at,
             DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, at),
-            py::arg("index"));
-    cls.def("__call__",
-            &T_BaseClass::operator(),
+            py::arg("index"),
+            pybind11::return_value_policy::reference_internal);
+    cls.def("__getitem__",
+            py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(),
+                                                                        py::const_),
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
                 I_DatagramContainer,
                 operator_call),
-            py::arg("start") = 0,
-            py::arg("end")   = std::numeric_limits<size_t>::max(),
-            py::arg("step")  = 1);
+            py::arg("slice"),
+            pybind11::return_value_policy::reference_internal);
+    cls.def(
+        "__reversed__",
+        &T_BaseClass::reversed,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, reversed),
+        pybind11::return_value_policy::reference_internal);
 }
 
 template<typename T_DatagramType,
@@ -58,9 +112,9 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
     using T_CONTAINER =
         I_DatagramContainer<T_DatagramType, T_DatagramIdentifier, std::ifstream, T_DatagramFactory>;
     using T_CONTAINER_MAPPED = I_DatagramContainer<T_DatagramType,
-                                                  T_DatagramIdentifier,
-                                                  MappedFileStream,
-                                                  T_DatagramFactory>;
+                                                   T_DatagramIdentifier,
+                                                   MappedFileStream,
+                                                   T_DatagramFactory>;
 
     auto cls_stream = py::class_<T_CONTAINER>(
         m,

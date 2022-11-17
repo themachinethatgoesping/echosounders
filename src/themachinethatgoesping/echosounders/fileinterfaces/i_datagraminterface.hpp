@@ -120,7 +120,7 @@ class I_DatagramInterface
     // ----- printing interface -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("I_DatagramInterface", float_precision);
+        tools::classhelper::ObjectPrinter printer(_name, float_precision);
 
         printer.register_section("Datagrams");
         printer.register_value("Total", _datagram_infos_all.size(), "");
