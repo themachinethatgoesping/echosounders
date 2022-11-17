@@ -123,7 +123,7 @@ class I_DatagramInterface
     {
         tools::classhelper::ObjectPrinter printer(_name, float_precision);
 
-        printer.register_section("Datagrams");
+        printer.register_section("Detected datagrams");
         printer.register_value("Total", _datagram_infos_all.size(), "");
         for (const auto& kv : _datagram_infos_by_type)
         {

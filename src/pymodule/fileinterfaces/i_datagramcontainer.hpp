@@ -129,12 +129,30 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
     auto cls_stream = py::class_<T_CONTAINER>(
         m,
         CONTAINER_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer));
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
+        // default binary functions
+        // __PYCLASS_DEFAULT_BINARY__(T_CONTAINER)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER)
+        // end LinearInterpolator
+        ;
 
     auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(
         m,
         (CONTAINER_NAME + "_mapped").c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer));
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(T_CONTAINER_MAPPED)
+        // default binary functions
+        // __PYCLASS_DEFAULT_BINARY__(T_CONTAINER_MAPPED)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER_MAPPED)
+        // end LinearInterpolator
+        ;
 
     _add_DatagramReading<T_CONTAINER, T_DatagramIdentifier>(cls_stream);
     _add_DatagramReading<T_CONTAINER_MAPPED, T_DatagramIdentifier>(cls_mapped);

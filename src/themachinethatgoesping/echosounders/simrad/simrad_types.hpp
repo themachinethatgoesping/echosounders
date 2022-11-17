@@ -59,5 +59,40 @@ inline simrad_long SimradDatagram_type_from_string(std::string_view value)
 }
 
 } // namespace simrad
+
+// ----- interface? -----
+
+inline std::string datagram_identifier_to_string(simrad::t_SimradDatagramIdentifier value)
+{
+    return tools::helper::int_as_string<simrad::simrad_long>(simrad::simrad_long(value));
+}
+
+inline std::string datagram_identifier_info(simrad::t_SimradDatagramIdentifier datagram_type)
+{
+    // this should work, but doesn't
+    // return magic_enum::enum_contains(datagram_type);
+    using simrad::t_SimradDatagramIdentifier;
+
+    switch (datagram_type)
+    {
+        case t_SimradDatagramIdentifier::MRU0:
+            return "Motion binary datagram";
+        case t_SimradDatagramIdentifier::NME0:
+            return "NMEA text datagram";
+        case t_SimradDatagramIdentifier::XML0:
+            return "XML0 text datagram";
+        case t_SimradDatagramIdentifier::TAG0:
+            return "Annotation datagram";
+        case t_SimradDatagramIdentifier::FIL1:
+            return "Filter binary datagram";
+        case t_SimradDatagramIdentifier::RAW3:
+            return "Sample binary datagram";
+        default:
+            return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
+    }
+}
+
+
+
 } // namespace echosounders
 } // namespace themachinethatgoesping

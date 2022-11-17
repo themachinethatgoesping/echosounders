@@ -165,46 +165,6 @@ struct SimradDatagram
         os.write(reinterpret_cast<char*>(&_Length), 4 * sizeof(simrad_long));
     }
 
-    // ----- interface? -----
-
-    static std::string datagram_type_to_string(simrad_long value)
-    {
-        return tools::helper::int_as_string<simrad_long>(value);
-    }
-
-    static std::string datagram_type_to_string(t_SimradDatagramIdentifier value)
-    {
-        return tools::helper::int_as_string<simrad_long>(simrad_long(value));
-    }
-
-    static simrad_long SimradDatagram_type_from_string(std::string_view value)
-    {
-        return tools::helper::string_as_int<simrad_long>(value);
-    }
-
-    static std::string datagram_identifier_info(t_SimradDatagramIdentifier datagram_type)
-    {
-        // this should work, but doesn't
-        // return magic_enum::enum_contains(datagram_type);
-
-        switch (datagram_type)
-        {
-            case t_SimradDatagramIdentifier::MRU0:
-                return "Motion binary datagram";
-            case t_SimradDatagramIdentifier::NME0:
-                return "NMEA text datagram";
-            case t_SimradDatagramIdentifier::XML0:
-                return "XML0 text datagram";
-            case t_SimradDatagramIdentifier::TAG0:
-                return "Annotation datagram";
-            case t_SimradDatagramIdentifier::FIL1:
-                return "Filter binary datagram";
-            case t_SimradDatagramIdentifier::RAW3:
-                return "Sample binary datagram";
-            default:
-                return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
-        }
-    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -221,7 +181,7 @@ struct SimradDatagram
         tools::classhelper::ObjectPrinter printer("SimradDatagram", float_precision);
 
         printer.register_value("length", _Length, "bytes");
-        printer.register_string("datagram_type", datagram_type_to_string(_DatagramType));
+        printer.register_string("datagram_type", datagram_identifier_to_string(t_SimradDatagramIdentifier(_DatagramType)));
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");

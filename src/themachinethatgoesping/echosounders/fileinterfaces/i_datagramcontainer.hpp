@@ -25,6 +25,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "datagram_info_types.hpp"
+#include "datagram_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -319,10 +320,9 @@ class I_DatagramContainer
         }
         for (const auto& [type, count] : datagram_identifiers)
         {
-            printer.register_value("Datagrams [" +
-                                       t_DatagramType::datagram_identifier_to_string(type) + "]",
+            printer.register_value("Datagrams [" + datagram_identifier_to_string(type) + "]",
                                    count,
-                                   t_DatagramType::datagram_identifier_info(type));
+                                   datagram_identifier_info(type));
         }
 
         return printer;
