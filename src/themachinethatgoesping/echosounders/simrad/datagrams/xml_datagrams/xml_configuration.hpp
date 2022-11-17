@@ -142,8 +142,8 @@ struct XML_Configuration
     {
         std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
 
-        // add fallback sensor with priority 0
-        sensor_priorities.push_back(std::make_pair(0, &(SensorConfigurations.at("fallback")[0])));
+        // add fallback sensor with priority 99
+        sensor_priorities.push_back(std::make_pair(99, &(SensorConfigurations.at("fallback")[0])));
 
         // loop through SensorConfigurations
         for (const auto& [key, sensors] : SensorConfigurations)
@@ -151,7 +151,7 @@ struct XML_Configuration
             // loop through sensors
             for (const auto& sensor : sensors)
             {
-                int prio = 0;
+                int prio = 99;
 
                 // loop through Telegrams
                 for (const auto& telegram : sensor.Telegrams)
@@ -162,16 +162,16 @@ struct XML_Configuration
                         // summ prio if value.Name in prio_values
                         if (std::find(prio_values.begin(), prio_values.end(), value.Name) !=
                             prio_values.end())
-                            prio += value.Priority;
+                            prio -= value.Priority;
                     }
                 }
 
-                if (prio > 0)
+                if (prio < 99)
                     sensor_priorities.push_back(std::make_pair(prio, &sensor));
             }
         }
 
-        // return sensor with highest priority
+        // return sensor with highest priority (lowest prio values)
         return *(std::max_element(sensor_priorities.begin(),
                                   sensor_priorities.end(),
                                   [](const auto& a, const auto& b) { return a.first < b.first; })
