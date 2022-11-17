@@ -30,6 +30,8 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
+
+
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,
          typename t_ifstream,
@@ -58,10 +60,13 @@ class I_DatagramContainer
         std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos,
         std::string_view name = "I_DatagramContainer")
         : _name(name)
-        , _datagram_infos(datagram_infos)
-        , _pyindexer(datagram_infos.size())
+        , _datagram_infos(std::move(datagram_infos))
+        , _pyindexer(_datagram_infos.size())
     {
     }
+
+    ~I_DatagramContainer() = default;
+
 
     void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram_info)
     {
@@ -114,54 +119,67 @@ class I_DatagramContainer
         return sliced_container;
     }
 
-    // I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
-    // {
-    //     I_PingContainer<t_Ping> filtered(*this);
+    I_DatagramContainer operator()(t_DatagramIdentifier datagram_identifier) const
+    {
+        I_DatagramContainer filtered(*this);
 
-    //     PingVector<t_Ping> pings;
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
 
-    //     for (const auto& ping : _pings)
-    //     {
-    //         if (ping->get_channel_id() == channel_id)
-    //             pings.push_back(ping);
-    //     }
+        for (const auto& datagram_info : _datagram_infos)
+        {
+            if (datagram_info->get_datagram_identifier() == datagram_identifier)
+                datagram_infos.push_back(datagram_info);
+        }
 
-    //     filtered.set_pings(std::move(pings));
+        filtered.set_datagram_infos(std::move(datagram_infos));
 
-    //     return filtered;
-    // }
+        return filtered;
+    }
 
-    // I_PingContainer<t_Ping> operator()(const std::vector<std::string>& channel_ids) const
-    // {
-    //     I_PingContainer<t_Ping> filtered(*this);
+    I_DatagramContainer operator()(const std::vector<t_DatagramIdentifier>& datagram_identifiers) const
+    {
+        I_DatagramContainer filtered(*this);
 
-    //     PingVector<t_Ping> pings;
+        std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
 
-    //     for (const auto& ping : _pings)
-    //     {
-    //         if (std::find(channel_ids.begin(), channel_ids.end(), ping->get_channel_id()) !=
-    //             channel_ids.end())
-    //             pings.push_back(ping);
-    //     }
+        for (const auto& datagram_info : _datagram_infos)
+        {
+            if (std::find(datagram_identifiers.begin(), datagram_identifiers.end(), datagram_info->get_datagram_identifier()) !=
+                datagram_identifiers.end())
+                datagram_infos.push_back(datagram_info);
+        }
 
-    //     filtered.set_pings(std::move(pings));
+        filtered.set_datagram_infos(std::move(datagram_infos));
 
-    //     return filtered;
-    // }
+        return filtered;
+    }
 
-    // std::vector<std::string> find_channel_ids() const
-    // {
-    //     std::set<std::string> channel_ids;
+    std::map<t_DatagramIdentifier,size_t> count_datagrams_per_type() const
+    {
+        std::map<t_DatagramIdentifier,size_t> datagram_identifiers;
 
-    //     for (const auto& ping : _pings)
-    //     {
-    //         channel_ids.insert(ping->get_channel_id());
-    //     }
+        for (const auto& datagram_info : _datagram_infos)
+        {
+            datagram_identifiers[datagram_info->get_datagram_identifier()] += 1;
+        }
 
-    //     std::vector<std::string> vec;
-    //     std::copy(channel_ids.begin(), channel_ids.end(), std::back_inserter(vec));
-    //     return vec;
-    // }
+        return datagram_identifiers;
+    }
+
+
+    std::vector<t_DatagramIdentifier> find_datagram_types() const
+    {
+        std::set<t_DatagramIdentifier> datagram_identifiers;
+
+        for (const auto& datagram_info : _datagram_infos)
+        {
+            datagram_identifiers.insert(datagram_info->get_datagram_identifier());
+        }
+
+        std::vector<t_DatagramIdentifier> vec;
+        std::copy(datagram_identifiers.begin(), datagram_identifiers.end(), std::back_inserter(vec));
+        return vec;
+    }
 
     std::vector<I_DatagramContainer> break_by_time_diff(double max_time_diff_seconds) const
     {
@@ -295,14 +313,16 @@ class I_DatagramContainer
         printer.register_value("Sorted", is_sorted_str);
 
         printer.register_section("Contained datagrams");
-        // printer.register_value("Total", _datagram_infos.size(), "");
-        // for (const auto& kv : _datagram_infos_by_type)
+        auto datagram_identifiers = count_datagrams_per_type();
+        if (datagram_identifiers.size() > 1)
+        {
+            printer.register_value("Total", _datagram_infos.size(), "");
+        }
+        // for (const auto& [type, count] : datagram_identifiers)
         // {
-        //     std::string info = datagram_identifier_info(kv.first);
-
-        //     printer.register_value("Datagrams [" + datagram_identifier_to_string(kv.first) + "]",
-        //                            kv.second.size(),
-        //                            info);
+        //     printer.register_value("Datagrams [" + datagram_identifier_to_string(type) + "]",
+        //                            count,
+        //                            datagram_identifier_info(type));
         // }
 
         return printer;

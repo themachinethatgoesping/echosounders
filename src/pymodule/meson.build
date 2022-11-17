@@ -52,6 +52,7 @@ sources = [
     'simrad/c_simradenvironmentdatainterface.cpp',
     'simrad/c_simradannotationdatainterface.cpp',
     'simrad/c_simradotherdatainterface.cpp',
+    'simrad/c_simraddatagramcontainer.cpp',
     'simrad/c_simraddatagraminterface.cpp',
     'simrad/c_simradping.cpp',
     'simrad/c_simradfiledata.cpp',

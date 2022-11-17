@@ -81,7 +81,11 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Da
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_break_by_time_diff = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_count_datagrams_per_type = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_datagram_infos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_find_datagram_types = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_get_datagram_infos = R"doc()doc";
 
@@ -90,6 +94,10 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Da
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_operator_call = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_operator_call_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_operator_call_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_printer = R"doc()doc";
 
@@ -126,10 +134,6 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Da
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagram_infos_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagram_infos_by_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagrams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagrams_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_datagram_infos_all = R"doc()doc";
 
@@ -220,6 +224,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Pi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_at = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_break_by_time_diff = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_count_pings_per_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingContainer_find_channel_ids = R"doc()doc";
 
@@ -415,6 +421,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagr
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface_datagram_identifier_to_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface_datagrams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface_datagrams_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagram_type_from_string = R"doc()doc";
 

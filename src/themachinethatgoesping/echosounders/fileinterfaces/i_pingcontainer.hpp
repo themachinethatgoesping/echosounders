@@ -162,6 +162,18 @@ class I_PingContainer
         return filtered;
     }
 
+    std::map<std::string,size_t> count_pings_per_channel_id() const
+    {
+        std::map<std::string,size_t> channel_ids;
+
+        for (const auto& ping : _pings)
+        {
+            channel_ids[ping->get_channel_id()] += 1;
+        }
+
+        return channel_ids;
+    }
+
     std::vector<std::string> find_channel_ids() const
     {
         std::set<std::string> channel_ids;

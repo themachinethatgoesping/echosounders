@@ -19,8 +19,8 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_DatagramContainer {
 
-template<typename T_BaseClass, typename T_PyClass>
-void _container_add_DatagramReading(T_PyClass& cls)
+template<typename T_BaseClass, typename T_DatagramIdentifier, typename T_PyClass>
+void _add_DatagramReading(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -46,30 +46,33 @@ void _container_add_DatagramReading(T_PyClass& cls)
                 get_sorted_by_time));
 
     /* implement find info functions */
-    // cls.def("find_channel_ids",
-    //         &T_BaseClass::find_channel_ids,
-    //         DOC(themachinethatgoesping,
-    //             echosounders,
-    //             fileinterfaces,
-    //             I_DatagramContainer,
-    //             find_channel_ids));
+    cls.def("count_datagrams_per_type",
+            &T_BaseClass::count_datagrams_per_type,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                count_datagrams_per_type));
 
-    /* ping filters */
-    // cls.def(
-    //     "__call__",
-    //     py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
-    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
-    //     operator_call_2), py::arg("channel_id"));
-    // cls.def(
-    //     "__call__",
-    //     py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
-    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
-    //     operator_call_2), py::arg("channel_id"));
-    // cls.def(
-    //     "__call__",
-    //     py::overload_cast<const std::vector<std::string>&>(&T_BaseClass::operator(), py::const_),
-    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
-    //     operator_call_3), py::arg("channel_ids"));
+    cls.def("find_datagram_types",
+            &T_BaseClass::find_datagram_types,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_DatagramContainer,
+                find_datagram_types));
+
+    /* datagram infos filters */
+    cls.def(
+        "__call__",
+        py::overload_cast<T_DatagramIdentifier>(&T_BaseClass::operator(), py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
+        operator_call), py::arg("datagram_identifier"));
+    cls.def(
+        "__call__",
+        py::overload_cast<const std::vector<T_DatagramIdentifier>&>(&T_BaseClass::operator(), py::const_),
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer,
+        operator_call_2), py::arg("datagram_identifiers"));
 
     /* datagram reading */
     cls.def("size",
@@ -126,8 +129,8 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
         (CONTAINER_NAME + "_mapped").c_str(),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer));
 
-    _container_add_DatagramReading<T_CONTAINER>(cls_stream);
-    _container_add_DatagramReading<T_CONTAINER_MAPPED>(cls_mapped);
+    _add_DatagramReading<T_CONTAINER, T_DatagramIdentifier>(cls_stream);
+    _add_DatagramReading<T_CONTAINER_MAPPED, T_DatagramIdentifier>(cls_mapped);
 }
 
 }

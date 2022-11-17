@@ -53,6 +53,14 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 get_sorted_by_time));
 
     /* implement find info functions */
+    cls.def("count_pings_per_channel_id",
+            &T_BaseClass::count_pings_per_channel_id,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_PingContainer,
+                count_pings_per_channel_id));
+
     cls.def("find_channel_ids",
             &T_BaseClass::find_channel_ids,
             DOC(themachinethatgoesping,
