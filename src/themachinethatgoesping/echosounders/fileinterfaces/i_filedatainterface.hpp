@@ -42,7 +42,7 @@ class I_FileDataInterface
     tools::pyhelper::PyIndexer       _pyindexer;
 
   public:
-    I_FileDataInterface(std::string_view name = "Default")
+    I_FileDataInterface(std::string_view name = "I_FileDataInterface")
         : _name(name)
         , _pyindexer(0)
     {

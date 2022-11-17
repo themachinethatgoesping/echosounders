@@ -96,9 +96,8 @@ struct DataFileInfo
     size_t      file_size;
 
     /* header positions */
-    std::shared_ptr<std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
-        datagram_infos = std::make_shared<
-            std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>(); ///< all datagrams
+    std::vector < DatagramInfo_ptr < t_DatagramIdentifier,
+        t_ifstream >> datagram_infos; ///< all datagrams
 };
 
 }

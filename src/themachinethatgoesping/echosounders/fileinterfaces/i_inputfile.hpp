@@ -136,7 +136,7 @@ class I_InputFile
         DataFileInfo file_info = scan_fo_datagrams(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
-        _datagram_interface.add_datagram_infos(file_info);
+        _datagram_interface.add_datagram_infos(file_info.datagram_infos);
     }
 
   protected:
@@ -183,7 +183,7 @@ class I_InputFile
 
         /* Initialize internal structures */
         DataFileInfo<t_DatagramIdentifier, t_ifstream> file_info;
-        file_info.datagram_infos->clear();
+        file_info.datagram_infos.clear();
 
         reset_ifstream(ifs);
         callback_scan_new_file_begin(file_path, file_paths_cnt);
@@ -216,7 +216,7 @@ class I_InputFile
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));
 
-                    file_info.datagram_infos->push_back(datagram_info);
+                    file_info.datagram_infos.push_back(datagram_info);
 
                     pos = pos_new;
                 }

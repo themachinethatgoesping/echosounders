@@ -48,7 +48,7 @@ class I_DatagramContainer
      * @brief Construct a new empty PingContainer object
      *
      */
-    I_DatagramContainer(std::string_view name = "Default")
+    I_DatagramContainer(std::string_view name = "I_DatagramContainer")
         : _name(name)
         , _pyindexer(0)
     {
@@ -56,7 +56,7 @@ class I_DatagramContainer
 
     I_DatagramContainer(
         std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos,
-        std::string_view                                                name = "Default")
+        std::string_view                                                name = "I_DatagramContainer")
         : _name(name)
         , _datagram_infos(datagram_infos)
         , _pyindexer(datagram_infos.size())

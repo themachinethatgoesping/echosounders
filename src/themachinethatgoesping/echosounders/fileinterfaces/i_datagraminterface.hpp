@@ -56,18 +56,9 @@ class I_DatagramInterface
         }
     }
 
-    void add_datagram_infos(const DataFileInfo<t_DatagramIdentifier, t_ifstream>& file_info)
-    {
-        for (const auto& datagram_info : *file_info.datagram_infos)
-        {
-            _datagram_infos_all.push_back(datagram_info);
-            _datagram_infos_by_type.at(datagram_info->get_datagram_identifier())
-                .push_back(datagram_info);
-        }
-    }
 
   public:
-    I_DatagramInterface(std::string_view name = "Default")
+    I_DatagramInterface(std::string_view name = "I_DatagramInterface")
         : _name(name)
     {
     }
