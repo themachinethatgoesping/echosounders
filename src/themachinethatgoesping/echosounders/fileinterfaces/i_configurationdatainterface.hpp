@@ -26,6 +26,9 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
+/* themachinethatgoesping navigation includes */
+#include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
+
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -43,6 +46,12 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_datagraminterf
     {
     }
     virtual ~I_ConfigurationDataInterface() = default;
+
+    virtual navigation::SensorConfiguration get_sensor_configuration(long file_nr)
+    {
+        throw std::runtime_error(
+            fmt::format("get_sensor_configuration not implemented for {}", this->get_name()));
+    }
 
     // void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram)
 };

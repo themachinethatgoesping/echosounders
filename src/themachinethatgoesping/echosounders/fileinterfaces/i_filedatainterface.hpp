@@ -36,8 +36,9 @@ template<typename t_datagraminterface>
 class I_FileDataInterface
 {
     std::string _name;
-
   protected:
+    std::string get_name() const { return _name; }
+
     std::vector<t_datagraminterface> _datagram_interface_per_file;
     tools::pyhelper::PyIndexer       _pyindexer;
 

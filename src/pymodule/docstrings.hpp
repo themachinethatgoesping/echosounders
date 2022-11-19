@@ -71,6 +71,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Co
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer_I_DatagramContainer = R"doc(Construct a new empty I_DatagramContainer object)doc";
@@ -284,18 +286,6 @@ pings are sorted by time (descending)
 Returns:
     std::tuple<min_timestamp, max_timestamp, is_sorted()>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface_I_PingDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface_at = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface_at_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface_datagram_infos = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_PingDataInterface_size = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_I_Ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping_get_angle = R"doc()doc";
@@ -400,8 +390,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_container_by_channel = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_data_interface = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_pings_2 = R"doc()doc";
@@ -436,42 +424,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradEnviro
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataInterface_SimradEnvironmentDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_FIL1 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_SimradFileData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_TAG0 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_XML0_Configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_XML0_Environment = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_XML0_InitialParameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_XML0_Other = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_add_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_add_datagram_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_add_datagram_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_configuration_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_environment_datagrams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_fil1_datagrams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_initial_paramater_datagrams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_other_xml0_datagrams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradFileData_tag0_datagrams = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataInterface_SimradNavigationDataInterface = R"doc()doc";
@@ -482,18 +434,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradOtherD
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_SimradPingDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_add_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_file_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_file_data_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_printer = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_SimradPingRawData = R"doc()doc";
@@ -502,7 +442,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_datagram_info_raw = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_file_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_datagram_info_raw_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_get_parameter = R"doc()doc";
 
@@ -514,7 +454,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 R"doc(< when implementing EK60, this must become a variant type (RAW3 or
 RAW0))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_data_interface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_parameter = R"doc()doc";
 
@@ -525,8 +465,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_SimradPing = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_channel_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_file_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing_get_angle = R"doc()doc";
 
@@ -1623,6 +1561,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_prioritized_sensor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_sensors_sorted_by_priority = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Configuration_get_transceiver = R"doc()doc";
 

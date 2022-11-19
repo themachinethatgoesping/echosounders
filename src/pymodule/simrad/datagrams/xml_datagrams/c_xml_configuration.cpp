@@ -125,6 +125,16 @@ void init_c_xml_configuration(pybind11::module& m)
                  XML_Configuration,
                  get_prioritized_sensor),
              py::arg("prio_values"))
+        .def("get_sensors_sorted_by_priority",
+             &XML_Configuration::get_sensors_sorted_by_priority,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 xml_datagrams,
+                 XML_Configuration,
+                 get_prioritized_sensor),
+             py::arg("prio_values"))
 
         // ----- children -----
         .def_readwrite("ConfiguredSensors",

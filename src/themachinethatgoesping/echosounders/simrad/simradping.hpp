@@ -27,7 +27,6 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_ping.hpp"
-#include "simradpingdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -36,8 +35,6 @@ namespace simrad {
 template<typename t_ifstream>
 class SimradPingRawData
 {
-    std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface;
-
     std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
 
   public:
@@ -49,11 +46,9 @@ class SimradPingRawData
 
   public:
     SimradPingRawData(
-        std::shared_ptr<SimradPingDataInterface<t_ifstream>> ping_data_interface,
         fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
         datagrams::RAW3                                                          ping_data)
-        : _ping_data_interface(std::move(ping_data_interface))
-        , _datagram_info_raw(std::move(datagram_info_raw))
+        : _datagram_info_raw(std::move(datagram_info_raw))
         , _ping_data(std::move(ping_data))
     {
     }
@@ -69,10 +64,6 @@ class SimradPingRawData
         return *_ping_parameter;
     }
 
-    SimradFileData& file_data()
-    {
-        return *_ping_data_interface->file_data(_datagram_info_raw->get_file_nr());
-    }
 
     // ----- load skipped data -----
     datagrams::RAW3_datatypes::RAW3_DataVariant get_sample_data()
@@ -110,11 +101,10 @@ class SimradPing : public fileinterfaces::I_Ping
 
   public:
     SimradPing(
-        std::shared_ptr<SimradPingDataInterface<t_ifstream>> ping_data_interface,
         fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
         datagrams::RAW3                                                          ping_data)
         : fileinterfaces::I_Ping("SimradPing")
-        , _raw(std::move(ping_data_interface), std::move(datagram_info_raw), std::move(ping_data))
+        , _raw(std::move(datagram_info_raw), std::move(ping_data))
     {
         // substring of channel_id until the first \x00 character
         channel_id = _raw._ping_data.get_channel_id();
@@ -125,8 +115,6 @@ class SimradPing : public fileinterfaces::I_Ping
     virtual ~SimradPing() = default;
 
     SimradPingRawData<t_ifstream>& raw() { return _raw; }
-
-    SimradFileData& file_data() { return _raw.file_data(); }
 
     // ----- accessors -----
     const std::string& get_channel_id() const { return channel_id; }

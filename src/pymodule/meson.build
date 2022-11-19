@@ -55,7 +55,6 @@ sources = [
     'simrad/c_simraddatagramcontainer.cpp',
     'simrad/c_simraddatagraminterface.cpp',
     'simrad/c_simradping.cpp',
-    'simrad/c_simradfiledata.cpp',
     'simrad/c_file_test_functions.cpp',
 ]
 

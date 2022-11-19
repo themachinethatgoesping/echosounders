@@ -26,7 +26,6 @@
 
 #include "simraddatagraminterface.hpp"
 #include "simradping.hpp"
-#include "simradpingdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -59,10 +58,6 @@ class FileSimradRaw
         std::make_shared<SimradAnnotationDataInterface<t_ifstream>>();
     std::shared_ptr<SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
         std::make_shared<SimradOtherDataInterface<t_ifstream>>();
-
-    std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_data_interface =
-        std::make_shared<SimradPingDataInterface<t_ifstream>>(
-            this->_datagram_interface.get_datagram_infos_all());
 
   public:
     std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
@@ -316,8 +311,6 @@ class FileSimradRaw
                 if (!ifs.good())
                     break;
 
-                _ping_data_interface->add_datagram(xml, file_paths_cnt);
-
                 auto xml_type = xml.get_xml_datagram_type();
 
                 if (xml_type == "Parameter")
@@ -406,7 +399,6 @@ class FileSimradRaw
             }
             case t_SimradDatagramIdentifier::RAW3: {
                 auto ping = std::make_shared<SimradPing<t_ifstream>>(
-                    _ping_data_interface,
                     datagram_info,
                     datagrams::RAW3::from_stream(ifs, header, true));
 
@@ -428,7 +420,6 @@ class FileSimradRaw
                     break;
 
                 _configuration_interface->add_datagram_info(datagram_info);
-                _ping_data_interface->add_datagram(datagram, file_paths_cnt);
                 break;
             }
             case t_SimradDatagramIdentifier::TAG0: {
@@ -436,8 +427,6 @@ class FileSimradRaw
 
                 if (!ifs.good())
                     break;
-
-                _ping_data_interface->add_datagram(datagram, file_paths_cnt);
 
                 _annotation_interface->add_datagram_info(datagram_info);
                 break;

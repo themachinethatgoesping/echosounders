@@ -137,7 +137,13 @@ struct XML_Configuration
         return sensor_configuration;
     }
 
-    const XML_Configuration_Sensor& get_prioritized_sensor(
+    XML_Configuration_Sensor get_prioritized_sensor(
+        const std::vector<std::string_view>& prio_values) const
+    {
+        return get_sensors_sorted_by_priority(prio_values).front();
+    }
+
+     std::vector<XML_Configuration_Sensor> get_sensors_sorted_by_priority(
         const std::vector<std::string_view>& prio_values) const
     {
         std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
@@ -171,11 +177,18 @@ struct XML_Configuration
             }
         }
 
-        // return sensor with highest priority (lowest prio values)
-        return *(std::max_element(sensor_priorities.begin(),
-                                  sensor_priorities.end(),
-                                  [](const auto& a, const auto& b) { return a.first < b.first; })
-                     ->second);
+        // return vector of sensors sorted by priority (lowest prio values)
+        //std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
+        std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
+
+        std::sort(sensor_priorities.begin(),
+                  sensor_priorities.end(),
+                  [](const auto& a, const auto& b) { return a.first < b.first; });
+                  
+        for (const auto& sensor : sensor_priorities)
+            sensors_sorted_by_priority.push_back(*sensor.second);
+
+        return sensors_sorted_by_priority;
     }
 
     void initialize_sensorconfigurations()

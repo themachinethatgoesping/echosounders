@@ -54,11 +54,6 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         .def("get_parameter",
              &t_SimradPingRawData::get_parameter,
              DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, get_parameter))
-        .def_property_readonly(
-            "file_data",
-            &t_SimradPingRawData::file_data,
-            DOC(themachinethatgoesping, echosounders, simrad, SimradPingRawData, file_data),
-            py::return_value_policy::reference_internal)
 
         .def("get_sample_data",
              &t_SimradPingRawData::get_sample_data,
@@ -107,10 +102,6 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
             .def("raw",
                  &t_SimradPing::raw,
                  DOC(themachinethatgoesping, echosounders, simrad, SimradPing, raw),
-                 py::return_value_policy::reference_internal)
-            .def("file_data",
-                 &t_SimradPing::file_data,
-                 DOC(themachinethatgoesping, echosounders, simrad, SimradPing, file_data),
                  py::return_value_policy::reference_internal)
 
             // --- variable access ---
