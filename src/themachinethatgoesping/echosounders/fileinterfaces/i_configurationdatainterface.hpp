@@ -122,14 +122,32 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     virtual ~I_ConfigurationDataInterface() = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("ConfigurationData");
+        //printer.register_section("ConfigurationData");
+        std::unordered_map<navigation::SensorConfiguration, size_t> configurations_with;
+        for (auto& config_collection : this->_interface_per_file)
+        {
+            try{
+                configurations_with[config_collection.read_sensor_configuration()]++;
+            }
+            catch(...)
+            {
+                configurations_with[navigation::SensorConfiguration()]++;
+            }
+        }
+        printer.register_section(fmt::format("Unique sensor configurations ({})", configurations_with.size()));
+
+        for (auto& config_with : configurations_with)
+        {
+            printer.register_value(fmt::format("Files using this configuration"), config_with.second);
+        }
+
         return printer;
     }
 

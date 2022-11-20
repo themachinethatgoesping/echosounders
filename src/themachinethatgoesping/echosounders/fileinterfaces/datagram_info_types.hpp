@@ -65,8 +65,11 @@ class DatagramInfo
     {
     }
 
-    size_t      get_file_nr() const { return _file_nr; }
-    const std::string& get_file_path() const { return _input_file_manager->get_file_path(_file_nr); }
+    size_t             get_file_nr() const { return _file_nr; }
+    const std::string& get_file_path() const
+    {
+        return _input_file_manager->get_file_path(_file_nr);
+    }
     t_ifstream& get_stream()
     {
         auto& ifs = _input_file_manager->get_active_stream(_file_nr);
@@ -84,8 +87,7 @@ class DatagramInfo
     t_DatagramIdentifier          get_datagram_identifier() const { return _datagram_identifier; }
     typename t_ifstream::pos_type get_file_pos() const { return _file_pos; }
 
-    template<typename t_DatagramType,
-            typename t_DatagramTypeFactory = t_DatagramType>
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType read_datagram_from_file()
     {
         auto& ifs = this->get_stream_and_seek();

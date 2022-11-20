@@ -73,9 +73,7 @@ class I_FileDataInterface
     // _interface_per_file[_pyindexer(index)]; } size_t size() const { return
     // _interface_per_file.size(); }
 
-    
-
-  public:
+    public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {

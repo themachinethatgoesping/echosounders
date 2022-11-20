@@ -165,7 +165,6 @@ struct SimradDatagram
         os.write(reinterpret_cast<char*>(&_Length), 4 * sizeof(simrad_long));
     }
 
-
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -181,7 +180,9 @@ struct SimradDatagram
         tools::classhelper::ObjectPrinter printer("SimradDatagram", float_precision);
 
         printer.register_value("length", _Length, "bytes");
-        printer.register_string("datagram_type", datagram_identifier_to_string(t_SimradDatagramIdentifier(_DatagramType)));
+        printer.register_string(
+            "datagram_type",
+            datagram_identifier_to_string(t_SimradDatagramIdentifier(_DatagramType)));
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");
@@ -190,8 +191,8 @@ struct SimradDatagram
     }
 
     // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
-        SimradDatagram)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(SimradDatagram)
 };
 
 } // namespace datagrams

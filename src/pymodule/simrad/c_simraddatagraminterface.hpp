@@ -3,9 +3,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-#include <pybind11/pybind11.h>
 #include <chrono>
+#include <pybind11/pybind11.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
@@ -16,7 +15,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_simrad {
-
 
 template<typename T_BaseClass, typename T_PyClass>
 void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)

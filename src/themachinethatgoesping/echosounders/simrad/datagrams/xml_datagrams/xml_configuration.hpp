@@ -143,7 +143,7 @@ struct XML_Configuration
         return get_sensors_sorted_by_priority(prio_values).front();
     }
 
-     std::vector<XML_Configuration_Sensor> get_sensors_sorted_by_priority(
+    std::vector<XML_Configuration_Sensor> get_sensors_sorted_by_priority(
         const std::vector<std::string_view>& prio_values) const
     {
         std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
@@ -175,19 +175,19 @@ struct XML_Configuration
         }
 
         // return vector of sensors sorted by priority (lowest prio values)
-        //std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
+        // std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
         std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
 
         std::sort(sensor_priorities.begin(),
                   sensor_priorities.end(),
                   [](const auto& a, const auto& b) { return a.first > b.first; });
-                  
+
         for (const auto& sensor : sensor_priorities)
             sensors_sorted_by_priority.push_back(*sensor.second);
 
         if (sensors_sorted_by_priority.empty())
         {
-            sensors_sorted_by_priority = {XML_Configuration_Sensor()};
+            sensors_sorted_by_priority = { XML_Configuration_Sensor() };
 
             sensors_sorted_by_priority[0].Type = "fallback";
             sensors_sorted_by_priority[0].Name = "fallback";

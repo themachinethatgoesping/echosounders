@@ -48,38 +48,55 @@ void py_create_class_SimradConfigurationDataCollection(py::module& m, const std:
     using T_BaseClass = SimradConfigurationDataCollection<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection))
-        
-    .def(
-        "get_configuration_datagram",
-        &T_BaseClass::get_configuration_datagram,
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection, get_configuration_datagram))
-    .def(
-        "get_position_sources",
-        &T_BaseClass::get_position_sources,
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection, get_position_sources))
-    .def(
-        "get_depth_sources",
-        &T_BaseClass::get_depth_sources,
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection, get_depth_sources))
-    .def(
-        "get_attitude_sources",
-        &T_BaseClass::get_attitude_sources,
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection, get_attitude_sources))
-    .def(
-        "get_heading_sources",
-        &T_BaseClass::get_heading_sources,
-        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection, get_heading_sources))
+    auto cls =
+        py::class_<T_BaseClass>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection))
+
+            .def("get_configuration_datagram",
+                 &T_BaseClass::get_configuration_datagram,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradConfigurationDataCollection,
+                     get_configuration_datagram))
+            .def("get_position_sources",
+                 &T_BaseClass::get_position_sources,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradConfigurationDataCollection,
+                     get_position_sources))
+            .def("get_depth_sources",
+                 &T_BaseClass::get_depth_sources,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradConfigurationDataCollection,
+                     get_depth_sources))
+            .def("get_attitude_sources",
+                 &T_BaseClass::get_attitude_sources,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradConfigurationDataCollection,
+                     get_attitude_sources))
+            .def("get_heading_sources",
+                 &T_BaseClass::get_heading_sources,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradConfigurationDataCollection,
+                     get_heading_sources))
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
     py_i_ConfigurationDataInterface::ConfigurationDataCollection_add_interface<
         SimradConfigurationDataCollection<T_FileStream>>(cls);
-    SimradDatagramInterface_add_interface_functions<SimradConfigurationDataCollection<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<
+        SimradConfigurationDataCollection<T_FileStream>>(cls);
 }
 
 template<typename T_FileStream>

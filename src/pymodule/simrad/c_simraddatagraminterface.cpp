@@ -54,7 +54,6 @@ void py_create_class_SimradDatagramInterface(py::module& m, const std::string& C
     SimradDatagramInterface_add_interface_functions<SimradDatagramInterface<T_FileStream>>(cls);
 }
 
-
 void init_c_simraddatagraminterface(pybind11::module& m)
 {
 

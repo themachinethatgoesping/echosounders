@@ -586,7 +586,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FI
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_NoOfCoefficients = R"doc(< Number of complex filter coefficients)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Spare_1 = R"doc(< For future expansions)doc";
 
@@ -654,7 +654,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MR
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Roll = R"doc(< Roll in degrees, positive port up)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_from_stream = R"doc()doc";
 
@@ -694,7 +694,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_NME0_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_decode = R"doc()doc";
 
@@ -751,7 +751,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_RAW3_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_SampleData = R"doc(< Sample data)doc";
 
@@ -1002,7 +1002,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_SimradDatagram = R"doc()doc";
 
@@ -1050,7 +1050,7 @@ Parameter ``is``:
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_SimradUnknown = R"doc()doc";
 
@@ -1078,7 +1078,7 @@ pitch and heading as float values. Conveniently, these values can be
 used directly in themachinethatgoesping navigation processing because
 they are defined in the default coordinate system / value range.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_TAG0 = R"doc()doc";
 
@@ -1112,7 +1112,7 @@ pitch and heading as float values. Conveniently, these values can be
 used directly in themachinethatgoesping navigation processing because
 they are defined in the default coordinate system / value range.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_XML0 = R"doc()doc";
 

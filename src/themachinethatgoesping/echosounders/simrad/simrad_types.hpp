@@ -92,7 +92,5 @@ inline std::string datagram_identifier_info(simrad::t_SimradDatagramIdentifier d
     }
 }
 
-
-
 } // namespace echosounders
 } // namespace themachinethatgoesping

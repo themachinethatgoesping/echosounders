@@ -141,17 +141,24 @@ class SimradConfigurationDataCollection
 
         printer.register_string("Position source",
                                 fmt::format("'{}'", position_sources[0].Name),
-                                position_sources.size() < 2 ? "" : fmt::format("Alternatives: {}", position_sources.size() - 1));
+                                position_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", position_sources.size() - 1));
         printer.register_string("Heading source",
                                 fmt::format("'{}'", heading_sources[0].Name),
-                                heading_sources.size() < 2 ? "" : fmt::format("Alternatives: {}", heading_sources.size() - 1));
+                                heading_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", heading_sources.size() - 1));
         printer.register_string("Attitude source",
                                 fmt::format("'{}'", attitude_sources[0].Name),
-                                attitude_sources.size() < 2 ? "" : fmt::format("Alternatives: {}", attitude_sources.size() - 1));
+                                attitude_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", attitude_sources.size() - 1));
         printer.register_string("Depth source",
                                 fmt::format("'{}'", depth_sources[0].Name),
-                                depth_sources.size() < 2 ? "" : fmt::format("Alternatives: {}", depth_sources.size() - 1));
-                                
+                                depth_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", depth_sources.size() - 1));
 
         return printer;
     }
@@ -173,7 +180,7 @@ class SimradConfigurationDataInterface
     ~SimradConfigurationDataInterface() = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 

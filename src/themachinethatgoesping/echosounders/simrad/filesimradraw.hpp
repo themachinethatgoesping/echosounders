@@ -399,8 +399,7 @@ class FileSimradRaw
             }
             case t_SimradDatagramIdentifier::RAW3: {
                 auto ping = std::make_shared<SimradPing<t_ifstream>>(
-                    datagram_info,
-                    datagrams::RAW3::from_stream(ifs, header, true));
+                    datagram_info, datagrams::RAW3::from_stream(ifs, header, true));
 
                 if (!ifs.good())
                     break;

@@ -276,11 +276,13 @@ class I_DatagramContainer
         const auto& datagram_info = _datagram_infos.at(_pyindexer(index));
         try
         {
-            return datagram_info->template read_datagram_from_file<t_DatagramType, t_DatagramTypeFactory>();
+            return datagram_info
+                ->template read_datagram_from_file<t_DatagramType, t_DatagramTypeFactory>();
 
             // auto& ifs = datagram_info->get_stream_and_seek();
 
-            // return t_DatagramTypeFactory::from_stream(ifs, datagram_info->get_datagram_identifier());
+            // return t_DatagramTypeFactory::from_stream(ifs,
+            // datagram_info->get_datagram_identifier());
         }
         catch (std::exception& e)
         {

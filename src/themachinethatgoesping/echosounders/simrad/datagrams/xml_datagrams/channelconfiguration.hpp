@@ -89,7 +89,7 @@ class ChannelConfiguration
         return channel;
     }
 
-    void to_stream(std::ostream& os)
+    void to_stream(std::ostream& os) const
     {
         tools::classhelper::stream::container_to_stream(os, _channel_id);
         _sensor_offsets.to_stream(os);

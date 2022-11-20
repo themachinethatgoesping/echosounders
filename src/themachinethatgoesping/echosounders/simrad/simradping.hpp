@@ -64,7 +64,6 @@ class SimradPingRawData
         return *_ping_parameter;
     }
 
-
     // ----- load skipped data -----
     datagrams::RAW3_datatypes::RAW3_DataVariant get_sample_data()
     {

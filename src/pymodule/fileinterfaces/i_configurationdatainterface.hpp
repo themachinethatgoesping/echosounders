@@ -11,8 +11,8 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_configurationdatainterface.hpp"
-#include "i_filedatainterface.hpp"
 #include "i_datagraminterface.hpp"
+#include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -25,20 +25,29 @@ void ConfigurationDataCollection_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    cls.def(
-        "read_sensor_configuration",
-        &T_BaseClass::read_sensor_configuration,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, read_sensor_configuration));
+    cls.def("read_sensor_configuration",
+            &T_BaseClass::read_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_ConfigurationDataCollection,
+                read_sensor_configuration));
 
-    cls.def(
-        "get_sensor_configuration",
-        &T_BaseClass::get_sensor_configuration,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, get_sensor_configuration));
-    cls.def(
-        "set_sensor_configuration",
-        &T_BaseClass::set_sensor_configuration,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, set_sensor_configuration),
-        py::arg("sensor_configuration"));
+    cls.def("get_sensor_configuration",
+            &T_BaseClass::get_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_ConfigurationDataCollection,
+                get_sensor_configuration));
+    cls.def("set_sensor_configuration",
+            &T_BaseClass::set_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_ConfigurationDataCollection,
+                set_sensor_configuration),
+            py::arg("sensor_configuration"));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
