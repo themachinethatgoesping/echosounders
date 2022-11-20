@@ -11,9 +11,6 @@
 #include <unordered_map>
 #include <vector>
 
-// bitsery includes
-#include <bitsery/ext/inheritance.h>
-
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
