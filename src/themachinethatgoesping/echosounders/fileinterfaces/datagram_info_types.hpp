@@ -84,7 +84,8 @@ class DatagramInfo
     t_DatagramIdentifier          get_datagram_identifier() const { return _datagram_identifier; }
     typename t_ifstream::pos_type get_file_pos() const { return _file_pos; }
 
-    template <typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    template<typename t_DatagramType,
+            typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType read_datagram_from_file()
     {
         auto& ifs = this->get_stream_and_seek();

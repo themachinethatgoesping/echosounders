@@ -38,19 +38,30 @@ class SimradConfigurationDataCollection
     }
     ~SimradConfigurationDataCollection() = default;
 
-    void read_sensor_configuration() final
+    navigation::SensorConfiguration read_sensor_configuration() final
     {
+        // get datagram infos for XML0 packets
+        const auto& datagram_infos = this->_datagram_infos_by_type.at_const(t_SimradDatagramIdentifier::XML0);
+
         // check that there is a configuration datagram
-        if (this->_datagram_infos_by_type.at_const(t_SimradDatagramIdentifier::XML0).empty())
+        if (datagram_infos.empty())
             throw std::runtime_error(fmt::format(
                 "read_sensor_configuration: No XML0 datagram found in {}!", this->get_file_path()));
 
-        // check that this datagram is a simrad configuration datagram
+        // read first xml datagram (this should be the configuration datagram)) 
+        auto xml0_datagram = datagram_infos[0]->template read_datagram_from_file<datagrams::XML0>();
 
-        // auto config_datagram datagram_info->read_datagram_from_file<t_DatagramType,
-        // t_DatagramTypeFactory>();
-        throw std::runtime_error(
-            fmt::format("read_sensor_configuration not implemented for {}", this->get_name()));
+        // check that this datagram is a configuration datagram
+        if (xml0_datagram.get_xml_datagram_type() != "Configuration")
+            throw std::runtime_error(fmt::format(
+                "read_sensor_configuration: First XML0 datagram in {} is not a configuration datagram! ['{}' != 'Configuration']",
+                this->get_file_path(), xml0_datagram.get_xml_datagram_type()));
+
+        // decode configuration datagram
+        auto configuration_datagram = std::get<datagrams::xml_datagrams::XML_Configuration>(xml0_datagram.decode());
+
+        // get sensor configuration
+        return configuration_datagram.get_sensor_configuration();
     }
 };
 

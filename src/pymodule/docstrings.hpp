@@ -89,11 +89,13 @@ for all datagrams in the file
 Returns:
     std::string)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_sensor_configuration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_set_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface = R"doc()doc";
 

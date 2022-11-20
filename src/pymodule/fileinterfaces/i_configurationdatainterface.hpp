@@ -31,9 +31,14 @@ void ConfigurationDataCollection_add_interface(T_PyClass& cls)
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, read_sensor_configuration));
 
     cls.def(
-        "sensor_configuration",
-        &T_BaseClass::sensor_configuration,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, sensor_configuration));
+        "get_sensor_configuration",
+        &T_BaseClass::get_sensor_configuration,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, get_sensor_configuration));
+    cls.def(
+        "set_sensor_configuration",
+        &T_BaseClass::set_sensor_configuration,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, set_sensor_configuration),
+        py::arg("sensor_configuration"));
 }
 
 template<typename T_BaseClass, typename T_PyClass>

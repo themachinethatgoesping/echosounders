@@ -51,13 +51,20 @@ class I_ConfigurationDataCollection : public t_datagraminterface
     }
     virtual ~I_ConfigurationDataCollection() = default;
 
-    virtual void read_sensor_configuration()
+    virtual navigation::SensorConfiguration read_sensor_configuration()
     {
         throw std::runtime_error(
             fmt::format("read_sensor_configuration not implemented for {}", this->get_name()));
     }
 
-    navigation::SensorConfiguration& sensor_configuration() { return _sensor_configuration; }
+    void set_sensor_configuration(navigation::SensorConfiguration sensor_configuration)
+    {
+        _sensor_configuration = std::move(sensor_configuration);
+    }
+    const navigation::SensorConfiguration& get_sensor_configuration()
+    {
+        return _sensor_configuration;
+    }
 
     /**
      * @brief Get the file nr
