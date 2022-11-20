@@ -37,6 +37,14 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file_2),
     //     pybind11::return_value_policy::reference_internal,
     //     py::arg("file_nr"));
+
+    // ----- ping convenience functions -----
+    /* default copy functions */
+    /* __PYCLASS_DEFAULT_COPY__(LinearInterpolator)*/
+    /* default binary functions*/
+    /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
+    /* default printing functions */
+    cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
 }

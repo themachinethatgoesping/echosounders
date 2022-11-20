@@ -77,6 +77,20 @@ class I_FileDataInterface
     // const t_datagraminterface& per_file(long index) const { return
     // _interface_per_file[_pyindexer(index)]; } size_t size() const { return
     // _interface_per_file.size(); }
+
+    public:
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        printer.register_value("Registered files:", _interface_per_file.size());
+        return printer;
+    }
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 } // namespace fileinterfaces

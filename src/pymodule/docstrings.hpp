@@ -211,6 +211,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Fi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_per_file_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_InputFile = R"doc()doc";
@@ -445,6 +447,36 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradAnnota
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_SimradConfigurationDataCollection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_attitude_sources =
+R"doc(Return all attitude sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_configuration_datagram = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_depth_sources =
+R"doc(Return all depth sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_heading_sources =
+R"doc(Return all heading sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_position_sources =
+R"doc(Return all position sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
 

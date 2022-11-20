@@ -18,7 +18,7 @@ namespace pymodule {
 namespace py_simrad {
 
 
-template<typename T_BASE_CLASS, typename T_PyClass>
+template<typename T_BaseClass, typename T_PyClass>
 void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
 {
     namespace py = pybind11;
@@ -31,14 +31,14 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
     //----- iterators via () operator -----
     cls.def(
         "datagrams",
-        [](const T_BASE_CLASS& self) {
+        [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::t_SimradDatagramVariant,
                                                     datagrams::SimradDatagramVariant>());
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
     cls.def(
         "datagrams",
-        [](const T_BASE_CLASS& self, t_SimradDatagramIdentifier type) {
+        [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             switch (type)
             {
                 case t_SimradDatagramIdentifier::MRU0:
@@ -61,26 +61,26 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
         py::arg("datagram_type"));
     cls.def(
         "datagram_headers",
-        [](const T_BASE_CLASS& self) {
+        [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>());
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
     cls.def(
         "datagram_headers",
-        [](const T_BASE_CLASS& self, t_SimradDatagramIdentifier type) {
+        [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>(type));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
         py::arg("datagram_type"));
     cls.def(
         "datagrams_raw",
-        [](const T_BASE_CLASS& self) {
+        [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>());
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
     cls.def(
         "datagrams_raw",
-        [](const T_BASE_CLASS& self, t_SimradDatagramIdentifier type) {
+        [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
         },
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
@@ -92,7 +92,7 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
     /* default binary functions*/
     /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
     /* default printing functions */
-    cls __PYCLASS_DEFAULT_PRINTING__(T_BASE_CLASS);
+    cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
 }

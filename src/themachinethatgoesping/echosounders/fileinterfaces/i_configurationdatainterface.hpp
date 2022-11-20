@@ -107,7 +107,8 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     }
     virtual ~I_ConfigurationDataInterface() = default;
 
-    // void add_datagram_info(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram)
+    
+
 };
 
 } // namespace fileinterfaces
