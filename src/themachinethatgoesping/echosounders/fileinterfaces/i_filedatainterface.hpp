@@ -36,6 +36,7 @@ template<typename t_datagraminterface>
 class I_FileDataInterface
 {
     std::string_view _name;
+
   protected:
     std::string_view get_name() const { return _name; }
 
@@ -65,26 +66,22 @@ class I_FileDataInterface
         this->_interface_per_file[file_nr].add_datagram_info(datagram_info);
     }
 
-    const std::vector<t_datagraminterface>& per_file()
-    {
-        return _interface_per_file;
-    }
+    const std::vector<t_datagraminterface>& per_file() { return _interface_per_file; }
 
-    t_datagraminterface& per_file(long pyindex)
-    {
-        return _interface_per_file[_pyindexer(pyindex)];
-    }
+    t_datagraminterface& per_file(long pyindex) { return _interface_per_file[_pyindexer(pyindex)]; }
     // const t_datagraminterface& per_file(long index) const { return
     // _interface_per_file[_pyindexer(index)]; } size_t size() const { return
     // _interface_per_file.size(); }
 
-    public:
+    
+
+  public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        printer.register_value("Registered files:", _interface_per_file.size());
+        printer.register_value("Registered files", _interface_per_file.size());
         return printer;
     }
 

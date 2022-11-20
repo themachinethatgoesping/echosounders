@@ -92,6 +92,20 @@ class I_ConfigurationDataCollection : public t_datagraminterface
             throw std::runtime_error("get_file_name: no datagrams in file");
         return this->_datagram_infos_all[0]->get_file_path();
     }
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        //printer.register_section("DatagramInterface");
+        printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("ConfigurationDataCollection");
+        printer.register_string("File", this->get_file_path(), std::to_string(this->get_file_nr()));
+        return printer;
+    }
+
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
@@ -107,7 +121,21 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     }
     virtual ~I_ConfigurationDataInterface() = default;
 
-    
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        printer.register_section("FileData");
+        printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("ConfigurationData");
+        return printer;
+    }
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
 };
 

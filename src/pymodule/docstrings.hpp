@@ -91,6 +91,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_sensor_configuration = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration = R"doc()doc";
@@ -100,6 +102,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Co
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer = R"doc()doc";
 
@@ -478,11 +482,15 @@ R"doc(Return all position sources registered in the configuration datagram
 Returns:
     std::vector<XML_Configuration_Sensor>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface_SimradConfigurationDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface = R"doc()doc";
 
