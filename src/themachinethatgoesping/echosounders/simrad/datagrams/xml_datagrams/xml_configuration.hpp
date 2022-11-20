@@ -183,7 +183,7 @@ struct XML_Configuration
 
         std::sort(sensor_priorities.begin(),
                   sensor_priorities.end(),
-                  [](const auto& a, const auto& b) { return a.first < b.first; });
+                  [](const auto& a, const auto& b) { return a.first > b.first; });
                   
         for (const auto& sensor : sensor_priorities)
             sensors_sorted_by_priority.push_back(*sensor.second);
