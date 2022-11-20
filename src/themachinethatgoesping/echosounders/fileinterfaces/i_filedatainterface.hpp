@@ -35,11 +35,11 @@ namespace fileinterfaces {
 template<typename t_datagraminterface>
 class I_FileDataInterface
 {
-    std::string _name;
+    std::string_view _name;
   protected:
-    std::string get_name() const { return _name; }
+    std::string_view get_name() const { return _name; }
 
-    std::vector<t_datagraminterface> _datagram_interface_per_file;
+    std::vector<t_datagraminterface> _interface_per_file;
     tools::pyhelper::PyIndexer       _pyindexer;
 
   public:
@@ -56,22 +56,27 @@ class I_FileDataInterface
     {
         auto file_nr = datagram_info->get_file_nr();
 
-        if (file_nr >= _datagram_interface_per_file.size())
+        if (file_nr >= _interface_per_file.size())
         {
-            _datagram_interface_per_file.resize(file_nr + 1);
-            this->_pyindexer.reset(this->_datagram_interface_per_file.size());
+            _interface_per_file.resize(file_nr + 1);
+            this->_pyindexer.reset(this->_interface_per_file.size());
         }
 
-        this->_datagram_interface_per_file[file_nr].add_datagram_info(datagram_info);
+        this->_interface_per_file[file_nr].add_datagram_info(datagram_info);
     }
 
-    const std::vector<t_datagraminterface>& datagram_interface_per_file() const
+    const std::vector<t_datagraminterface>& per_file()
     {
-        return _datagram_interface_per_file;
+        return _interface_per_file;
     }
-    // const t_datagraminterface& datagram_interface_per_file(long index) const { return
-    // _datagram_interface_per_file[_pyindexer(index)]; } size_t size() const { return
-    // _datagram_interface_per_file.size(); }
+
+    t_datagraminterface& per_file(long pyindex)
+    {
+        return _interface_per_file[_pyindexer(pyindex)];
+    }
+    // const t_datagraminterface& per_file(long index) const { return
+    // _interface_per_file[_pyindexer(index)]; } size_t size() const { return
+    // _interface_per_file.size(); }
 };
 
 } // namespace fileinterfaces

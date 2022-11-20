@@ -25,14 +25,44 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradConfigurationDataInterface
-    : public fileinterfaces::I_ConfigurationDataInterface<SimradDatagramInterface<t_ifstream>>
+class SimradConfigurationDataCollection
+    : public fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>
 {
+    using t_base = fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>;
+
+  public:
+    SimradConfigurationDataCollection()
+        : t_base("SimradConfigurationDataCollection")
+    {
+    }
+    ~SimradConfigurationDataCollection() = default;
+
+    void read_sensor_configuration() final
+    {
+        // check that there is a configuration datagram
+        if (this->_datagram_infos_by_type.at_const(t_SimradDatagramIdentifier::XML0).empty())
+            throw std::runtime_error(fmt::format(
+                "read_sensor_configuration: No XML0 datagram found in {}!", this->get_file_path()));
+
+        // check that this datagram is a simrad configuration datagram
+
+        // auto config_datagram datagram_info->read_datagram_from_file<t_DatagramType,
+        // t_DatagramTypeFactory>();
+        fmt::format("read_sensor_configuration not implemented for {}", this->get_name());
+    }
+};
+
+template<typename t_ifstream>
+class SimradConfigurationDataInterface
+    : public fileinterfaces::I_ConfigurationDataInterface<
+          SimradConfigurationDataCollection<t_ifstream>>
+{
+    using t_base =
+        fileinterfaces::I_ConfigurationDataInterface<SimradConfigurationDataCollection<t_ifstream>>;
 
   public:
     SimradConfigurationDataInterface()
-        : fileinterfaces::I_ConfigurationDataInterface<SimradDatagramInterface<t_ifstream>>(
-              "SimradConfigurationDataInterface")
+        : t_base("SimradConfigurationDataInterface")
     {
     }
     ~SimradConfigurationDataInterface() = default;

@@ -30,9 +30,8 @@ class SimradDatagramInterface
     : public fileinterfaces::I_DatagramInterface<t_SimradDatagramIdentifier, t_ifstream>
 {
   public:
-    SimradDatagramInterface()
-        : fileinterfaces::I_DatagramInterface<t_SimradDatagramIdentifier, t_ifstream>(
-              "SimradDatagramInterface")
+    SimradDatagramInterface(std::string_view name = "SimradDatagramInterface")
+        : fileinterfaces::I_DatagramInterface<t_SimradDatagramIdentifier, t_ifstream>(name)
     {
     }
     virtual ~SimradDatagramInterface() = default;

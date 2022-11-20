@@ -51,6 +51,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_get_file_nr = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_get_file_path = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_get_file_pos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_get_stream = R"doc()doc";
@@ -61,17 +63,41 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Data
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_input_file_manager = R"doc(< input file manager)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_read_datagram_from_file = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_DatagramInfo_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataInterface_I_AnnotationDataInterface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_I_ConfigurationDataCollection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_file_nr =
+R"doc(Get the file nr This function assumes that the file nr is the same for
+all datagrams in the file
+
+Returns:
+    size_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_file_path =
+R"doc(Get the file name This function assumes that the file name is the same
+for all datagrams in the file
+
+Returns:
+    std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer = R"doc()doc";
 
@@ -149,6 +175,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Da
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_datagram_infos_by_type = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_name = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_name =
 R"doc(< name of the datagram container (useful for debugging derived
 classes))doc";
@@ -171,11 +199,15 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Fi
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_add_datagram_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_datagram_interface_per_file = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_get_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_datagram_interface_per_file_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_interface_per_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_per_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_per_file_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
 
@@ -318,6 +350,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Inpu
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_InputFileManager_get_active_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_InputFileManager_get_file_path = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_InputFileManager_get_file_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_InputFileManager_get_total_file_size = R"doc()doc";
@@ -406,6 +440,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradAnnota
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationDataInterface_SimradAnnotationDataInterface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_SimradConfigurationDataCollection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface_SimradConfigurationDataInterface = R"doc()doc";
@@ -442,8 +482,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_datagram_info_raw = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_datagram_info_raw_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_get_parameter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_get_sample_data = R"doc()doc";
@@ -453,8 +491,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRa
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_data =
 R"doc(< when implementing EK60, this must become a variant type (RAW3 or
 RAW0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingRawData_ping_parameter = R"doc()doc";
 

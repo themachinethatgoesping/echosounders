@@ -72,6 +72,10 @@ class InputFileManager
     }
 
     std::shared_ptr<std::vector<std::string>> get_file_paths() const { return _file_paths; }
+    const std::string&                       get_file_path(size_t file_nr) const
+    {
+        return _file_paths->at(file_nr);
+    }
 
     // static void reset_ifstream(t_ifstream& ifs)
     // {
