@@ -20,13 +20,21 @@ namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_ConfigurationDataInterface {
 
-// template<typename T_BaseClass, typename T_PyClass>
-// void ConfigurationDataCollection_add_interface(T_PyClass& cls)
-// {
-//     namespace py = pybind11;
+template<typename T_BaseClass, typename T_PyClass>
+void ConfigurationDataCollection_add_interface(T_PyClass& cls)
+{
+    namespace py = pybind11;
 
-//     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
-// }
+    cls.def(
+        "read_sensor_configuration",
+        &T_BaseClass::read_sensor_configuration,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, read_sensor_configuration));
+
+    cls.def(
+        "sensor_configuration",
+        &T_BaseClass::sensor_configuration,
+        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_ConfigurationDataCollection, sensor_configuration));
+}
 
 template<typename T_BaseClass, typename T_PyClass>
 void ConfigurationDataInterface_add_interface(T_PyClass& cls)

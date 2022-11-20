@@ -52,6 +52,8 @@ void py_create_class_SimradConfigurationDataCollection(py::module& m, const std:
         DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection));
 
     //----- inherit functions from I_DatagramInterface -----
+    py_i_ConfigurationDataInterface::ConfigurationDataCollection_add_interface<
+        SimradConfigurationDataCollection<T_FileStream>>(cls);
     SimradDatagramInterface_add_interface_functions<SimradConfigurationDataCollection<T_FileStream>>(cls);
 }
 

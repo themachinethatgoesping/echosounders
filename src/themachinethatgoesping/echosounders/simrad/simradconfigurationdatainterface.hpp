@@ -28,7 +28,8 @@ template<typename t_ifstream>
 class SimradConfigurationDataCollection
     : public fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>;
 
   public:
     SimradConfigurationDataCollection()
@@ -48,7 +49,8 @@ class SimradConfigurationDataCollection
 
         // auto config_datagram datagram_info->read_datagram_from_file<t_DatagramType,
         // t_DatagramTypeFactory>();
-        fmt::format("read_sensor_configuration not implemented for {}", this->get_name());
+        throw std::runtime_error(
+            fmt::format("read_sensor_configuration not implemented for {}", this->get_name()));
     }
 };
 
