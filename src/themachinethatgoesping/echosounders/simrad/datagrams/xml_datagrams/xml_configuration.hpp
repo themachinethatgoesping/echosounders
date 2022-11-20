@@ -148,9 +148,6 @@ struct XML_Configuration
     {
         std::vector<std::pair<unsigned int, const XML_Configuration_Sensor*>> sensor_priorities;
 
-        // add fallback sensor with priority 99
-        sensor_priorities.push_back(std::make_pair(99, &(SensorConfigurations.at("fallback")[0])));
-
         // loop through SensorConfigurations
         for (const auto& [key, sensors] : SensorConfigurations)
         {
@@ -187,6 +184,14 @@ struct XML_Configuration
                   
         for (const auto& sensor : sensor_priorities)
             sensors_sorted_by_priority.push_back(*sensor.second);
+
+        if (sensors_sorted_by_priority.empty())
+        {
+            sensors_sorted_by_priority = {XML_Configuration_Sensor()};
+
+            sensors_sorted_by_priority[0].Type = "fallback";
+            sensors_sorted_by_priority[0].Name = "fallback";
+        }
 
         return sensors_sorted_by_priority;
     }
