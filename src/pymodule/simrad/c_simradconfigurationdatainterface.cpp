@@ -24,6 +24,7 @@
 #include "module.hpp"
 
 #include "../fileinterfaces/i_configurationdatainterface.hpp"
+#include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -37,6 +38,22 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
     themachinethatgoesping, echosounders, simrad, SimradConfigurationDataInterface
+
+template<typename T_FileStream>
+void py_create_class_SimradConfigurationDataCollection(py::module& m, const std::string& CLASS_NAME)
+{
+    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+                                       // py_i_DatagramInterface
+
+    // initialize class
+    auto cls = py::class_<SimradConfigurationDataCollection<T_FileStream>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection));
+
+    //----- inherit functions from I_DatagramInterface -----
+    SimradDatagramInterface_add_interface_functions<SimradConfigurationDataCollection<T_FileStream>>(cls);
+}
 
 template<typename T_FileStream>
 void py_create_class_SimradConfigurationDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -62,6 +79,11 @@ void py_create_class_SimradConfigurationDataInterface(py::module& m, const std::
 
 void init_c_SimradConfigurationDataInterface(pybind11::module& m)
 {
+
+    py_create_class_SimradConfigurationDataCollection<std::ifstream>(
+        m, "SimradConfigurationDataCollection");
+    py_create_class_SimradConfigurationDataCollection<MappedFileStream>(
+        m, "SimradConfigurationDataCollection_mapped");
 
     py_create_class_SimradConfigurationDataInterface<std::ifstream>(
         m, "SimradConfigurationDataInterface");

@@ -26,6 +26,7 @@
 
 #include "../fileinterfaces/i_datagramcontainer.hpp"
 #include "../fileinterfaces/i_datagraminterface.hpp"
+#include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -50,73 +51,9 @@ void py_create_class_SimradDatagramInterface(py::module& m, const std::string& C
         DOC(themachinethatgoesping, echosounders, simrad, SimradDatagramInterface));
 
     //----- inherit functions from I_DatagramInterface -----
-
-    //----- iterators via () operator -----
-    cls.def(
-        "datagrams",
-        [](const SimradDatagramInterface<T_FileStream>& self) {
-            return py::cast(self.template datagrams<datagrams::t_SimradDatagramVariant,
-                                                    datagrams::SimradDatagramVariant>());
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
-    cls.def(
-        "datagrams",
-        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
-            switch (type)
-            {
-                case t_SimradDatagramIdentifier::MRU0:
-                    return py::cast(self.template datagrams<datagrams::MRU0>(type));
-                case t_SimradDatagramIdentifier::NME0:
-                    return py::cast(self.template datagrams<datagrams::NME0>(type));
-                case t_SimradDatagramIdentifier::XML0:
-                    return py::cast(self.template datagrams<datagrams::XML0>(type));
-                case t_SimradDatagramIdentifier::TAG0:
-                    return py::cast(self.template datagrams<datagrams::TAG0>(type));
-                case t_SimradDatagramIdentifier::FIL1:
-                    return py::cast(self.template datagrams<datagrams::FIL1>(type));
-                case t_SimradDatagramIdentifier::RAW3:
-                    return py::cast(self.template datagrams<datagrams::RAW3>(type));
-                default:
-                    return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
-            }
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
-        py::arg("datagram_type"));
-    cls.def(
-        "datagram_headers",
-        [](const SimradDatagramInterface<T_FileStream>& self) {
-            return py::cast(self.template datagrams<datagrams::SimradDatagram>());
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
-    cls.def(
-        "datagram_headers",
-        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
-            return py::cast(self.template datagrams<datagrams::SimradDatagram>(type));
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
-        py::arg("datagram_type"));
-    cls.def(
-        "datagrams_raw",
-        [](const SimradDatagramInterface<T_FileStream>& self) {
-            return py::cast(self.template datagrams<datagrams::SimradUnknown>());
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
-    cls.def(
-        "datagrams_raw",
-        [](const SimradDatagramInterface<T_FileStream>& self, t_SimradDatagramIdentifier type) {
-            return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
-        },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
-        py::arg("datagram_type"));
-
-    // ----- ping convenience functions -----
-    /* default copy functions */
-    /* __PYCLASS_DEFAULT_COPY__(LinearInterpolator)*/
-    /* default binary functions*/
-    /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
-    /* default printing functions */
-    cls __PYCLASS_DEFAULT_PRINTING__(SimradDatagramInterface<T_FileStream>);
+    SimradDatagramInterface_add_interface_functions<SimradDatagramInterface<T_FileStream>>(cls);
 }
+
 
 void init_c_simraddatagraminterface(pybind11::module& m)
 {

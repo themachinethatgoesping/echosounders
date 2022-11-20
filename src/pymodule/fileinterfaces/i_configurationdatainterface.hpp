@@ -12,12 +12,21 @@
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_configurationdatainterface.hpp"
 #include "i_filedatainterface.hpp"
+#include "i_datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_fileinterfaces {
 namespace py_i_ConfigurationDataInterface {
+
+// template<typename T_BaseClass, typename T_PyClass>
+// void ConfigurationDataCollection_add_interface(T_PyClass& cls)
+// {
+//     namespace py = pybind11;
+
+//     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
+// }
 
 template<typename T_BaseClass, typename T_PyClass>
 void ConfigurationDataInterface_add_interface(T_PyClass& cls)

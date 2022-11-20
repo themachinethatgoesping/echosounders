@@ -31,12 +31,12 @@ void FileDataInterface_add_interface(T_PyClass& cls)
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file),
         pybind11::return_value_policy::reference_internal);
 
-    cls.def(
-        "per_file",
-        py::overload_cast<long>(&T_BaseClass::per_file),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file_2),
-        pybind11::return_value_policy::reference_internal,
-        py::arg("file_nr"));
+    // cls.def(
+    //     "per_file",
+    //     py::overload_cast<long>(&T_BaseClass::per_file),
+    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file_2),
+    //     pybind11::return_value_policy::reference_internal,
+    //     py::arg("file_nr"));
 }
 
 }
