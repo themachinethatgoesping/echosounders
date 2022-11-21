@@ -35,16 +35,16 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_NavigationDataCollection : public I_FileDataCollection<t_datagraminterface>
+class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
 {
-    using t_base = I_FileDataCollection<t_datagraminterface>;
+    using t_base = I_PerFileDataInterface<t_datagraminterface>;
 
   public:
-    I_NavigationDataCollection(std::string_view name = "I_NavigationDataCollection")
+    I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
     {
     }
-    virtual ~I_NavigationDataCollection() = default;
+    virtual ~I_NavigationPerFileDataInterface() = default;
 
     // void init_from_file() final
     // {
@@ -85,7 +85,7 @@ class I_NavigationDataCollection : public I_FileDataCollection<t_datagraminterfa
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("NavigationDataCollection");
+        printer.register_section("NavigationPerFileDataInterface");
         return printer;
     }
 };

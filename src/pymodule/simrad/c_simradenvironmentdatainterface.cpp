@@ -40,35 +40,36 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
     themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradEnvironmentDataCollection(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradEnvironmentPerFileDataInterface(py::module&        m,
+                                                           const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
-    using T_BaseClass = SimradEnvironmentDataCollection<T_FileStream>;
+    using T_BaseClass = SimradEnvironmentPerFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataCollection))
+        DOC(themachinethatgoesping, echosounders, simrad, SimradEnvironmentPerFileDataInterface))
 
         // .def("get_environment_datagram",
         //      &T_BaseClass::get_environment_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          simrad,
-        //          SimradEnvironmentDataCollection,
+        //          SimradEnvironmentPerFileDataInterface,
         //          get_environment_datagram))
 
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
-    py_i_EnvironmentDataInterface::EnvironmentDataCollection_add_interface<
-        SimradEnvironmentDataCollection<T_FileStream>>(cls);
-    SimradDatagramInterface_add_interface_functions<SimradEnvironmentDataCollection<T_FileStream>>(
-        cls);
+    py_i_EnvironmentDataInterface::EnvironmentPerFileDataInterface_add_interface<
+        SimradEnvironmentPerFileDataInterface<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<
+        SimradEnvironmentPerFileDataInterface<T_FileStream>>(cls);
 }
 
 template<typename T_FileStream>
@@ -95,10 +96,10 @@ void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::st
 void init_c_SimradEnvironmentDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradEnvironmentDataCollection<std::ifstream>(
-        m, "SimradEnvironmentDataCollection");
-    py_create_class_SimradEnvironmentDataCollection<MappedFileStream>(
-        m, "SimradEnvironmentDataCollection_mapped");
+    py_create_class_SimradEnvironmentPerFileDataInterface<std::ifstream>(
+        m, "SimradEnvironmentPerFileDataInterface");
+    py_create_class_SimradEnvironmentPerFileDataInterface<MappedFileStream>(
+        m, "SimradEnvironmentPerFileDataInterface_mapped");
 
     py_create_class_SimradEnvironmentDataInterface<std::ifstream>(m,
                                                                   "SimradEnvironmentDataInterface");

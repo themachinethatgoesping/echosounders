@@ -39,35 +39,36 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradNavigationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradNavigationDataCollection(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
+                                                          const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
-    using T_BaseClass = SimradNavigationDataCollection<T_FileStream>;
+    using T_BaseClass = SimradNavigationPerFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradNavigationDataCollection))
+        DOC(themachinethatgoesping, echosounders, simrad, SimradNavigationPerFileDataInterface))
 
         // .def("get_navigation_datagram",
         //      &T_BaseClass::get_navigation_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          simrad,
-        //          SimradNavigationDataCollection,
+        //          SimradNavigationPerFileDataInterface,
         //          get_navigation_datagram))
 
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
-    py_i_NavigationDataInterface::NavigationDataCollection_add_interface<
-        SimradNavigationDataCollection<T_FileStream>>(cls);
-    SimradDatagramInterface_add_interface_functions<SimradNavigationDataCollection<T_FileStream>>(
-        cls);
+    py_i_NavigationDataInterface::NavigationPerFileDataInterface_add_interface<
+        SimradNavigationPerFileDataInterface<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<
+        SimradNavigationPerFileDataInterface<T_FileStream>>(cls);
 }
 
 template<typename T_FileStream>
@@ -94,10 +95,10 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
 void init_c_SimradNavigationDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradNavigationDataCollection<std::ifstream>(m,
-                                                                  "SimradNavigationDataCollection");
-    py_create_class_SimradNavigationDataCollection<MappedFileStream>(
-        m, "SimradNavigationDataCollection_mapped");
+    py_create_class_SimradNavigationPerFileDataInterface<std::ifstream>(
+        m, "SimradNavigationPerFileDataInterface");
+    py_create_class_SimradNavigationPerFileDataInterface<MappedFileStream>(
+        m, "SimradNavigationPerFileDataInterface_mapped");
 
     py_create_class_SimradNavigationDataInterface<std::ifstream>(m,
                                                                  "SimradNavigationDataInterface");

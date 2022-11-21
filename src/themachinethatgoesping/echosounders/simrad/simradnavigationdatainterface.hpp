@@ -25,17 +25,18 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradNavigationDataCollection
-    : public fileinterfaces::I_NavigationDataCollection<SimradDatagramInterface<t_ifstream>>
+class SimradNavigationPerFileDataInterface
+    : public fileinterfaces::I_NavigationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_NavigationDataCollection<SimradDatagramInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_NavigationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradNavigationDataCollection()
-        : t_base("SimradNavigationDataCollection")
+    SimradNavigationPerFileDataInterface()
+        : t_base("SimradNavigationPerFileDataInterface")
     {
     }
-    ~SimradNavigationDataCollection() = default;
+    ~SimradNavigationPerFileDataInterface() = default;
 
     // --------------------- simrad specific functions ---------------------
     /* get infos */
@@ -48,7 +49,7 @@ class SimradNavigationDataCollection
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradNavigationDataCollection");
+        printer.register_section("SimradNavigationPerFileDataInterface");
 
         return printer;
     }
@@ -56,10 +57,11 @@ class SimradNavigationDataCollection
 
 template<typename t_ifstream>
 class SimradNavigationDataInterface
-    : public fileinterfaces::I_NavigationDataInterface<SimradNavigationDataCollection<t_ifstream>>
+    : public fileinterfaces::I_NavigationDataInterface<
+          SimradNavigationPerFileDataInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_NavigationDataInterface<SimradNavigationDataCollection<t_ifstream>>;
+        fileinterfaces::I_NavigationDataInterface<SimradNavigationPerFileDataInterface<t_ifstream>>;
 
   public:
     SimradNavigationDataInterface()

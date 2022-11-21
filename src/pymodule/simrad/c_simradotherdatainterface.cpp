@@ -39,34 +39,35 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradOtherDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradOtherDataCollection(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
-    using T_BaseClass = SimradOtherDataCollection<T_FileStream>;
+    using T_BaseClass = SimradOtherPerFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradOtherDataCollection))
+        DOC(themachinethatgoesping, echosounders, simrad, SimradOtherPerFileDataInterface))
 
         // .def("get_other_datagram",
         //      &T_BaseClass::get_other_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          simrad,
-        //          SimradOtherDataCollection,
+        //          SimradOtherPerFileDataInterface,
         //          get_other_datagram))
 
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
-    py_i_FileDataInterface::FileDataCollection_add_interface<
-        SimradOtherDataCollection<T_FileStream>>(cls);
-    SimradDatagramInterface_add_interface_functions<SimradOtherDataCollection<T_FileStream>>(cls);
+    py_i_FileDataInterface::PerFileDataInterface_add_interface<
+        SimradOtherPerFileDataInterface<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<SimradOtherPerFileDataInterface<T_FileStream>>(
+        cls);
 }
 
 template<typename T_FileStream>
@@ -93,9 +94,10 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
 void init_c_SimradOtherDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradOtherDataCollection<std::ifstream>(m, "SimradOtherDataCollection");
-    py_create_class_SimradOtherDataCollection<MappedFileStream>(m,
-                                                                "SimradOtherDataCollection_mapped");
+    py_create_class_SimradOtherPerFileDataInterface<std::ifstream>(
+        m, "SimradOtherPerFileDataInterface");
+    py_create_class_SimradOtherPerFileDataInterface<MappedFileStream>(
+        m, "SimradOtherPerFileDataInterface_mapped");
 
     py_create_class_SimradOtherDataInterface<std::ifstream>(m, "SimradOtherDataInterface");
     py_create_class_SimradOtherDataInterface<MappedFileStream>(m,

@@ -96,18 +96,6 @@ static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_Data
     R"doc(< timestamp (unixtime) of this datagram)doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataCollection_I_AnnotationDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataCollection_printer =
-        R"doc()doc";
-
-static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationDataInterface =
         R"doc()doc";
 
@@ -120,35 +108,15 @@ static const char*
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_I_ConfigurationDataCollection =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationPerFileDataInterface_I_AnnotationPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_sensor_configuration =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_init_from_file =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_printer =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_read_sensor_configuration =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_sensor_configuration =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_set_sensor_configuration =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_AnnotationPerFileDataInterface_printer =
         R"doc()doc";
 
 static const char*
@@ -165,6 +133,38 @@ static const char*
 
 static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_printer =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_I_ConfigurationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_get_sensor_configuration =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_init_from_file =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_printer =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_read_sensor_configuration =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_sensor_configuration =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationPerFileDataInterface_set_sensor_configuration =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramContainer =
@@ -338,18 +338,6 @@ static const char*
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentDataCollection_I_EnvironmentDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentDataCollection_printer =
-        R"doc()doc";
-
-static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentDataInterface =
         R"doc()doc";
 
@@ -361,35 +349,16 @@ static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentDataInterface_printer =
         R"doc()doc";
 
-static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection =
-    R"doc()doc";
-
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection_I_FileDataCollection =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection_get_file_nr =
-        R"doc(Get the file nr This function assumes that the file nr is the same for
-all datagrams in the file
-
-Returns:
-    size_t)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection_get_file_path =
-        R"doc(Get the file name This function assumes that the file name is the same
-for all datagrams in the file
-
-Returns:
-    std::string)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection_init_from_file =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentPerFileDataInterface_I_EnvironmentPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataCollection_printer =
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_EnvironmentPerFileDataInterface_printer =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface =
@@ -510,18 +479,6 @@ static const char*
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataCollection_I_NavigationDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataCollection_printer =
-        R"doc()doc";
-
-static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface =
         R"doc()doc";
 
@@ -531,6 +488,49 @@ static const char*
 
 static const char*
     __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_printer =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationPerFileDataInterface_I_NavigationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationPerFileDataInterface_printer =
+        R"doc()doc";
+
+static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface =
+    R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface_I_PerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface_get_file_nr =
+        R"doc(Get the file nr This function assumes that the file nr is the same for
+all datagrams in the file
+
+Returns:
+    size_t)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface_get_file_path =
+        R"doc(Get the file name This function assumes that the file name is the same
+for all datagrams in the file
+
+Returns:
+    std::string)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface_init_from_file =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_fileinterfaces_I_PerFileDataInterface_printer =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_fileinterfaces_I_Ping = R"doc()doc";
@@ -842,17 +842,6 @@ static const char*
     __doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_process_navigation_2 =
         R"doc()doc";
 
-static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationDataCollection =
-    R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationDataCollection_SimradAnnotationDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationDataCollection_printer =
-        R"doc()doc";
-
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationDataInterface =
     R"doc()doc";
 
@@ -865,55 +854,15 @@ static const char*
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_SimradConfigurationDataCollection =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationPerFileDataInterface_SimradAnnotationPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_attitude_sources =
-        R"doc(Return all attitude sources registered in the configuration datagram
-(sorted by priority)
-
-Returns:
-    std::vector<XML_Configuration_Sensor>)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_configuration_datagram =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_depth_sources =
-        R"doc(Return all depth sources registered in the configuration datagram
-(sorted by priority)
-
-Returns:
-    std::vector<XML_Configuration_Sensor>)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_heading_sources =
-        R"doc(Return all heading sources registered in the configuration datagram
-(sorted by priority)
-
-Returns:
-    std::vector<XML_Configuration_Sensor>)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_get_position_sources =
-        R"doc(Return all position sources registered in the configuration datagram
-(sorted by priority)
-
-Returns:
-    std::vector<XML_Configuration_Sensor>)doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_printer =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataCollection_read_sensor_configuration =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradAnnotationPerFileDataInterface_printer =
         R"doc()doc";
 
 static const char*
@@ -925,6 +874,58 @@ static const char*
 
 static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationDataInterface_printer =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_SimradConfigurationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_get_attitude_sources =
+        R"doc(Return all attitude sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_get_configuration_datagram =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_get_depth_sources =
+        R"doc(Return all depth sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_get_heading_sources =
+        R"doc(Return all heading sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_get_position_sources =
+        R"doc(Return all position sources registered in the configuration datagram
+(sorted by priority)
+
+Returns:
+    std::vector<XML_Configuration_Sensor>)doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_printer =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradConfigurationPerFileDataInterface_read_sensor_configuration =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradDatagramInterface =
@@ -945,17 +946,6 @@ static const char*
 static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradDatagram_type_from_string = R"doc()doc";
 
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataCollection = R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataCollection_SimradEnvironmentDataCollection =
-        R"doc()doc";
-
-static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataCollection_printer =
-        R"doc()doc";
-
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataInterface =
     R"doc()doc";
 
@@ -967,15 +957,16 @@ static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentDataInterface_printer =
         R"doc()doc";
 
-static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataCollection =
-    R"doc()doc";
-
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataCollection_SimradNavigationDataCollection =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataCollection_printer =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentPerFileDataInterface_SimradEnvironmentPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradEnvironmentPerFileDataInterface_printer =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataInterface =
@@ -989,15 +980,16 @@ static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationDataInterface_printer =
         R"doc()doc";
 
-static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataCollection =
-    R"doc()doc";
-
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataCollection_SimradOtherDataCollection =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationPerFileDataInterface =
         R"doc()doc";
 
 static const char*
-    __doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataCollection_printer =
+    __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationPerFileDataInterface_SimradNavigationPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradNavigationPerFileDataInterface_printer =
         R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataInterface =
@@ -1009,6 +1001,17 @@ static const char*
 
 static const char*
     __doc_themachinethatgoesping_echosounders_simrad_SimradOtherDataInterface_printer = R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradOtherPerFileDataInterface = R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradOtherPerFileDataInterface_SimradOtherPerFileDataInterface =
+        R"doc()doc";
+
+static const char*
+    __doc_themachinethatgoesping_echosounders_simrad_SimradOtherPerFileDataInterface_printer =
+        R"doc()doc";
 
 static const char* __doc_themachinethatgoesping_echosounders_simrad_SimradPing = R"doc()doc";
 

@@ -25,18 +25,19 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradConfigurationDataCollection
-    : public fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>
+class SimradConfigurationPerFileDataInterface
+    : public fileinterfaces::I_ConfigurationPerFileDataInterface<
+          SimradDatagramInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_ConfigurationDataCollection<SimradDatagramInterface<t_ifstream>>;
+        fileinterfaces::I_ConfigurationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradConfigurationDataCollection()
-        : t_base("SimradConfigurationDataCollection")
+    SimradConfigurationPerFileDataInterface()
+        : t_base("SimradConfigurationPerFileDataInterface")
     {
     }
-    ~SimradConfigurationDataCollection() = default;
+    ~SimradConfigurationPerFileDataInterface() = default;
 
     navigation::SensorConfiguration read_sensor_configuration() final
     {
@@ -133,7 +134,7 @@ class SimradConfigurationDataCollection
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradConfigurationDataCollection");
+        printer.register_section("SimradConfigurationPerFileDataInterface");
         auto position_sources = this->get_position_sources();
         auto heading_sources  = this->get_heading_sources();
         auto attitude_sources = this->get_attitude_sources();
@@ -167,10 +168,10 @@ class SimradConfigurationDataCollection
 template<typename t_ifstream>
 class SimradConfigurationDataInterface
     : public fileinterfaces::I_ConfigurationDataInterface<
-          SimradConfigurationDataCollection<t_ifstream>>
+          SimradConfigurationPerFileDataInterface<t_ifstream>>
 {
-    using t_base =
-        fileinterfaces::I_ConfigurationDataInterface<SimradConfigurationDataCollection<t_ifstream>>;
+    using t_base = fileinterfaces::I_ConfigurationDataInterface<
+        SimradConfigurationPerFileDataInterface<t_ifstream>>;
 
   public:
     SimradConfigurationDataInterface()

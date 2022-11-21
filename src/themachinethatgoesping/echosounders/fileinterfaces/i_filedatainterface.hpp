@@ -27,13 +27,13 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_datagraminterface.hpp"
-#include "i_filedatacollection.hpp"
+#include "i_perfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_filedatacollection>
+template<typename t_perfiledatainterface>
 class I_FileDataInterface
 {
     std::string_view _name;
@@ -41,8 +41,8 @@ class I_FileDataInterface
   protected:
     std::string_view get_name() const { return _name; }
 
-    std::vector<t_filedatacollection> _interface_per_file;
-    tools::pyhelper::PyIndexer        _pyindexer;
+    std::vector<t_perfiledatainterface> _interface_per_file;
+    tools::pyhelper::PyIndexer          _pyindexer;
 
   public:
     I_FileDataInterface(std::string_view name = "I_FileDataInterface")
@@ -71,9 +71,9 @@ class I_FileDataInterface
         this->_interface_per_file[file_nr].add_datagram_info(datagram_info);
     }
 
-    const std::vector<t_filedatacollection>& per_file() { return _interface_per_file; }
+    const std::vector<t_perfiledatainterface>& per_file() { return _interface_per_file; }
 
-    t_filedatacollection& per_file(long pyindex)
+    t_perfiledatainterface& per_file(long pyindex)
     {
         return _interface_per_file[_pyindexer(pyindex)];
     }

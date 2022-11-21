@@ -20,7 +20,7 @@ namespace py_fileinterfaces {
 namespace py_i_FileDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void FileDataCollection_add_interface(T_PyClass& cls)
+void PerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -29,21 +29,21 @@ void FileDataCollection_add_interface(T_PyClass& cls)
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_FileDataCollection,
+                I_PerFileDataInterface,
                 init_from_file));
     cls.def("get_file_nr",
             &T_BaseClass::get_file_nr,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_FileDataCollection,
+                I_PerFileDataInterface,
                 get_file_nr));
     cls.def("get_file_path",
             &T_BaseClass::get_file_path,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_FileDataCollection,
+                I_PerFileDataInterface,
                 get_file_path));
 }
 

@@ -35,16 +35,16 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_AnnotationDataCollection : public I_FileDataCollection<t_datagraminterface>
+class I_AnnotationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
 {
-    using t_base = I_FileDataCollection<t_datagraminterface>;
+    using t_base = I_PerFileDataInterface<t_datagraminterface>;
 
   public:
-    I_AnnotationDataCollection(std::string_view name = "I_AnnotationDataCollection")
+    I_AnnotationPerFileDataInterface(std::string_view name = "I_AnnotationPerFileDataInterface")
         : t_base(name)
     {
     }
-    virtual ~I_AnnotationDataCollection() = default;
+    virtual ~I_AnnotationPerFileDataInterface() = default;
 
     // void init_from_file() final
     // {
@@ -85,7 +85,7 @@ class I_AnnotationDataCollection : public I_FileDataCollection<t_datagraminterfa
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("AnnotationDataCollection");
+        printer.register_section("AnnotationPerFileDataInterface");
         return printer;
     }
 };

@@ -40,63 +40,65 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
     themachinethatgoesping, echosounders, simrad, SimradConfigurationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradConfigurationDataCollection(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradConfigurationPerFileDataInterface(py::module&        m,
+                                                             const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
-    using T_BaseClass = SimradConfigurationDataCollection<T_FileStream>;
+    using T_BaseClass = SimradConfigurationPerFileDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls =
-        py::class_<T_BaseClass>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, simrad, SimradConfigurationDataCollection))
+    auto cls = py::class_<T_BaseClass>(m,
+                                       CLASS_NAME.c_str(),
+                                       DOC(themachinethatgoesping,
+                                           echosounders,
+                                           simrad,
+                                           SimradConfigurationPerFileDataInterface))
 
-            .def("get_configuration_datagram",
-                 &T_BaseClass::get_configuration_datagram,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     SimradConfigurationDataCollection,
-                     get_configuration_datagram))
-            .def("get_position_sources",
-                 &T_BaseClass::get_position_sources,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     SimradConfigurationDataCollection,
-                     get_position_sources))
-            .def("get_depth_sources",
-                 &T_BaseClass::get_depth_sources,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     SimradConfigurationDataCollection,
-                     get_depth_sources))
-            .def("get_attitude_sources",
-                 &T_BaseClass::get_attitude_sources,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     SimradConfigurationDataCollection,
-                     get_attitude_sources))
-            .def("get_heading_sources",
-                 &T_BaseClass::get_heading_sources,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     SimradConfigurationDataCollection,
-                     get_heading_sources))
+                   .def("get_configuration_datagram",
+                        &T_BaseClass::get_configuration_datagram,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradConfigurationPerFileDataInterface,
+                            get_configuration_datagram))
+                   .def("get_position_sources",
+                        &T_BaseClass::get_position_sources,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradConfigurationPerFileDataInterface,
+                            get_position_sources))
+                   .def("get_depth_sources",
+                        &T_BaseClass::get_depth_sources,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradConfigurationPerFileDataInterface,
+                            get_depth_sources))
+                   .def("get_attitude_sources",
+                        &T_BaseClass::get_attitude_sources,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradConfigurationPerFileDataInterface,
+                            get_attitude_sources))
+                   .def("get_heading_sources",
+                        &T_BaseClass::get_heading_sources,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradConfigurationPerFileDataInterface,
+                            get_heading_sources))
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
-    py_i_ConfigurationDataInterface::ConfigurationDataCollection_add_interface<
-        SimradConfigurationDataCollection<T_FileStream>>(cls);
+    py_i_ConfigurationDataInterface::ConfigurationPerFileDataInterface_add_interface<
+        SimradConfigurationPerFileDataInterface<T_FileStream>>(cls);
     SimradDatagramInterface_add_interface_functions<
-        SimradConfigurationDataCollection<T_FileStream>>(cls);
+        SimradConfigurationPerFileDataInterface<T_FileStream>>(cls);
 }
 
 template<typename T_FileStream>
@@ -124,10 +126,10 @@ void py_create_class_SimradConfigurationDataInterface(py::module& m, const std::
 void init_c_SimradConfigurationDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradConfigurationDataCollection<std::ifstream>(
-        m, "SimradConfigurationDataCollection");
-    py_create_class_SimradConfigurationDataCollection<MappedFileStream>(
-        m, "SimradConfigurationDataCollection_mapped");
+    py_create_class_SimradConfigurationPerFileDataInterface<std::ifstream>(
+        m, "SimradConfigurationPerFileDataInterface");
+    py_create_class_SimradConfigurationPerFileDataInterface<MappedFileStream>(
+        m, "SimradConfigurationPerFileDataInterface_mapped");
 
     py_create_class_SimradConfigurationDataInterface<std::ifstream>(
         m, "SimradConfigurationDataInterface");

@@ -21,18 +21,18 @@ namespace py_fileinterfaces {
 namespace py_i_EnvironmentDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentDataCollection_add_interface(T_PyClass& cls)
+void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+    py_i_FileDataInterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
 
     // cls.def("read_sensor_environment",
     //         &T_BaseClass::read_sensor_environment,
     //         DOC(themachinethatgoesping,
     //             echosounders,
     //             fileinterfaces,
-    //             I_EnvironmentDataCollection,
+    //             I_EnvironmentPerFileDataInterface,
     //             read_sensor_environment));
 }
 

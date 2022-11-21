@@ -21,18 +21,18 @@ namespace py_fileinterfaces {
 namespace py_i_NavigationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void NavigationDataCollection_add_interface(T_PyClass& cls)
+void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+    py_i_FileDataInterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
 
     // cls.def("read_sensor_navigation",
     //         &T_BaseClass::read_sensor_navigation,
     //         DOC(themachinethatgoesping,
     //             echosounders,
     //             fileinterfaces,
-    //             I_NavigationDataCollection,
+    //             I_NavigationPerFileDataInterface,
     //             read_sensor_navigation));
 }
 

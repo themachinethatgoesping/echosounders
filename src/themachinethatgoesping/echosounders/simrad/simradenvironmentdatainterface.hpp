@@ -25,17 +25,18 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradEnvironmentDataCollection
-    : public fileinterfaces::I_EnvironmentDataCollection<SimradDatagramInterface<t_ifstream>>
+class SimradEnvironmentPerFileDataInterface
+    : public fileinterfaces::I_EnvironmentPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentDataCollection<SimradDatagramInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_EnvironmentPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentDataCollection()
-        : t_base("SimradEnvironmentDataCollection")
+    SimradEnvironmentPerFileDataInterface()
+        : t_base("SimradEnvironmentPerFileDataInterface")
     {
     }
-    ~SimradEnvironmentDataCollection() = default;
+    ~SimradEnvironmentPerFileDataInterface() = default;
 
     // --------------------- simrad specific functions ---------------------
     /* get infos */
@@ -48,7 +49,7 @@ class SimradEnvironmentDataCollection
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradEnvironmentDataCollection");
+        printer.register_section("SimradEnvironmentPerFileDataInterface");
 
         return printer;
     }
@@ -56,10 +57,11 @@ class SimradEnvironmentDataCollection
 
 template<typename t_ifstream>
 class SimradEnvironmentDataInterface
-    : public fileinterfaces::I_EnvironmentDataInterface<SimradEnvironmentDataCollection<t_ifstream>>
+    : public fileinterfaces::I_EnvironmentDataInterface<
+          SimradEnvironmentPerFileDataInterface<t_ifstream>>
 {
-    using t_base =
-        fileinterfaces::I_EnvironmentDataInterface<SimradEnvironmentDataCollection<t_ifstream>>;
+    using t_base = fileinterfaces::I_EnvironmentDataInterface<
+        SimradEnvironmentPerFileDataInterface<t_ifstream>>;
 
   public:
     SimradEnvironmentDataInterface()

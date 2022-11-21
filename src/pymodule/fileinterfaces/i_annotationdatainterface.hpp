@@ -21,18 +21,18 @@ namespace py_fileinterfaces {
 namespace py_i_AnnotationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void AnnotationDataCollection_add_interface(T_PyClass& cls)
+void AnnotationPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+    py_i_FileDataInterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
 
     // cls.def("read_sensor_annotation",
     //         &T_BaseClass::read_sensor_annotation,
     //         DOC(themachinethatgoesping,
     //             echosounders,
     //             fileinterfaces,
-    //             I_AnnotationDataCollection,
+    //             I_AnnotationPerFileDataInterface,
     //             read_sensor_annotation));
 }
 

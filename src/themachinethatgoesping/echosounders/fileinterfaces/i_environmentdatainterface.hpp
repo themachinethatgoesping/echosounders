@@ -35,16 +35,16 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_EnvironmentDataCollection : public I_FileDataCollection<t_datagraminterface>
+class I_EnvironmentPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
 {
-    using t_base = I_FileDataCollection<t_datagraminterface>;
+    using t_base = I_PerFileDataInterface<t_datagraminterface>;
 
   public:
-    I_EnvironmentDataCollection(std::string_view name = "I_EnvironmentDataCollection")
+    I_EnvironmentPerFileDataInterface(std::string_view name = "I_EnvironmentPerFileDataInterface")
         : t_base(name)
     {
     }
-    virtual ~I_EnvironmentDataCollection() = default;
+    virtual ~I_EnvironmentPerFileDataInterface() = default;
 
     // void init_from_file() final
     // {
@@ -86,7 +86,7 @@ class I_EnvironmentDataCollection : public I_FileDataCollection<t_datagraminterf
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("EnvironmentDataCollection");
+        printer.register_section("EnvironmentPerFileDataInterface");
         return printer;
     }
 };

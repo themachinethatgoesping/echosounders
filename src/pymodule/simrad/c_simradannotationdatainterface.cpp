@@ -39,35 +39,36 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradAnnotationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradAnnotationDataCollection(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradAnnotationPerFileDataInterface(py::module&        m,
+                                                          const std::string& CLASS_NAME)
 {
     using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
-    using T_BaseClass = SimradAnnotationDataCollection<T_FileStream>;
+    using T_BaseClass = SimradAnnotationPerFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradAnnotationDataCollection))
+        DOC(themachinethatgoesping, echosounders, simrad, SimradAnnotationPerFileDataInterface))
 
         // .def("get_annotation_datagram",
         //      &T_BaseClass::get_annotation_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          simrad,
-        //          SimradAnnotationDataCollection,
+        //          SimradAnnotationPerFileDataInterface,
         //          get_annotation_datagram))
 
         //
         ;
 
     //----- inherit functions from I_DatagramInterface -----
-    py_i_AnnotationDataInterface::AnnotationDataCollection_add_interface<
-        SimradAnnotationDataCollection<T_FileStream>>(cls);
-    SimradDatagramInterface_add_interface_functions<SimradAnnotationDataCollection<T_FileStream>>(
-        cls);
+    py_i_AnnotationDataInterface::AnnotationPerFileDataInterface_add_interface<
+        SimradAnnotationPerFileDataInterface<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<
+        SimradAnnotationPerFileDataInterface<T_FileStream>>(cls);
 }
 
 template<typename T_FileStream>
@@ -94,10 +95,10 @@ void py_create_class_SimradAnnotationDataInterface(py::module& m, const std::str
 void init_c_SimradAnnotationDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradAnnotationDataCollection<std::ifstream>(m,
-                                                                  "SimradAnnotationDataCollection");
-    py_create_class_SimradAnnotationDataCollection<MappedFileStream>(
-        m, "SimradAnnotationDataCollection_mapped");
+    py_create_class_SimradAnnotationPerFileDataInterface<std::ifstream>(
+        m, "SimradAnnotationPerFileDataInterface");
+    py_create_class_SimradAnnotationPerFileDataInterface<MappedFileStream>(
+        m, "SimradAnnotationPerFileDataInterface_mapped");
 
     py_create_class_SimradAnnotationDataInterface<std::ifstream>(m,
                                                                  "SimradAnnotationDataInterface");
