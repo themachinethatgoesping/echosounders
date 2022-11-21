@@ -11,6 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_annotationdatainterface.hpp"
+#include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
@@ -20,11 +21,36 @@ namespace py_fileinterfaces {
 namespace py_i_AnnotationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
+void AnnotationDataCollection_add_interface(T_PyClass& cls)
+{
+    namespace py = pybind11;
+
+    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+
+    // cls.def("read_sensor_annotation",
+    //         &T_BaseClass::read_sensor_annotation,
+    //         DOC(themachinethatgoesping,
+    //             echosounders,
+    //             fileinterfaces,
+    //             I_AnnotationDataCollection,
+    //             read_sensor_annotation));
+}
+
+template<typename T_BaseClass, typename T_PyClass>
 void AnnotationDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
+
+    // cls.def("get_sensor_annotation",
+    //         &T_BaseClass::get_sensor_annotation,
+    //         DOC(themachinethatgoesping,
+    //             echosounders,
+    //             fileinterfaces,
+    //             I_AnnotationDataInterface,
+    //             get_sensor_annotation),
+    //             py::arg("index"));
 }
 
 }

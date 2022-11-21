@@ -25,17 +25,57 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradAnnotationDataInterface
-    : public fileinterfaces::I_AnnotationDataInterface<SimradDatagramInterface<t_ifstream>>
+class SimradAnnotationDataCollection
+    : public fileinterfaces::I_AnnotationDataCollection<SimradDatagramInterface<t_ifstream>>
 {
+    using t_base = fileinterfaces::I_AnnotationDataCollection<SimradDatagramInterface<t_ifstream>>;
+
+  public:
+    SimradAnnotationDataCollection()
+        : t_base("SimradAnnotationDataCollection")
+    {
+    }
+    ~SimradAnnotationDataCollection() = default;
+
+    // --------------------- simrad specific functions ---------------------
+    /* get infos */
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        // printer.register_section("DatagramInterface");
+        printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("SimradAnnotationDataCollection");
+
+        return printer;
+    }
+};
+
+template<typename t_ifstream>
+class SimradAnnotationDataInterface
+    : public fileinterfaces::I_AnnotationDataInterface<SimradAnnotationDataCollection<t_ifstream>>
+{
+    using t_base =
+        fileinterfaces::I_AnnotationDataInterface<SimradAnnotationDataCollection<t_ifstream>>;
 
   public:
     SimradAnnotationDataInterface()
-        : fileinterfaces::I_AnnotationDataInterface<SimradDatagramInterface<t_ifstream>>(
-              "SimradAnnotationDataInterface")
+        : t_base("SimradAnnotationDataInterface")
     {
     }
     ~SimradAnnotationDataInterface() = default;
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        printer.append(t_base::__printer__(float_precision));
+        return printer;
+    }
 };
 
 } // namespace simrad

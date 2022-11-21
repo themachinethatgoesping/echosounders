@@ -25,17 +25,56 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradOtherDataInterface
-    : public fileinterfaces::I_FileDataInterface<SimradDatagramInterface<t_ifstream>>
+class SimradOtherDataCollection
+    : public fileinterfaces::I_FileDataCollection<SimradDatagramInterface<t_ifstream>>
 {
+    using t_base = fileinterfaces::I_FileDataCollection<SimradDatagramInterface<t_ifstream>>;
+
+  public:
+    SimradOtherDataCollection()
+        : t_base("SimradOtherDataCollection")
+    {
+    }
+    ~SimradOtherDataCollection() = default;
+
+    // --------------------- simrad specific functions ---------------------
+    /* get infos */
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        // printer.register_section("DatagramInterface");
+        printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("SimradOtherDataCollection");
+
+        return printer;
+    }
+};
+
+template<typename t_ifstream>
+class SimradOtherDataInterface
+    : public fileinterfaces::I_FileDataInterface<SimradOtherDataCollection<t_ifstream>>
+{
+    using t_base = fileinterfaces::I_FileDataInterface<SimradOtherDataCollection<t_ifstream>>;
 
   public:
     SimradOtherDataInterface()
-        : fileinterfaces::I_FileDataInterface<SimradDatagramInterface<t_ifstream>>(
-              "SimradOtherDataInterface")
+        : t_base("SimradOtherDataInterface")
     {
     }
     ~SimradOtherDataInterface() = default;
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        printer.append(t_base::__printer__(float_precision));
+        return printer;
+    }
 };
 
 } // namespace simrad

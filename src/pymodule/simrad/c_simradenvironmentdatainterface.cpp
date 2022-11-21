@@ -24,6 +24,7 @@
 #include "module.hpp"
 
 #include "../fileinterfaces/i_environmentdatainterface.hpp"
+#include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -37,6 +38,38 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
     themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataInterface
+
+template<typename T_FileStream>
+void py_create_class_SimradEnvironmentDataCollection(py::module& m, const std::string& CLASS_NAME)
+{
+    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+                                       // py_i_DatagramInterface
+
+    using T_BaseClass = SimradEnvironmentDataCollection<T_FileStream>;
+
+    // initialize class
+    auto cls = py::class_<T_BaseClass>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simrad, SimradEnvironmentDataCollection))
+
+        // .def("get_environment_datagram",
+        //      &T_BaseClass::get_environment_datagram,
+        //      DOC(themachinethatgoesping,
+        //          echosounders,
+        //          simrad,
+        //          SimradEnvironmentDataCollection,
+        //          get_environment_datagram))
+
+        //
+        ;
+
+    //----- inherit functions from I_DatagramInterface -----
+    py_i_EnvironmentDataInterface::EnvironmentDataCollection_add_interface<
+        SimradEnvironmentDataCollection<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<SimradEnvironmentDataCollection<T_FileStream>>(
+        cls);
+}
 
 template<typename T_FileStream>
 void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -61,6 +94,11 @@ void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::st
 
 void init_c_SimradEnvironmentDataInterface(pybind11::module& m)
 {
+
+    py_create_class_SimradEnvironmentDataCollection<std::ifstream>(
+        m, "SimradEnvironmentDataCollection");
+    py_create_class_SimradEnvironmentDataCollection<MappedFileStream>(
+        m, "SimradEnvironmentDataCollection_mapped");
 
     py_create_class_SimradEnvironmentDataInterface<std::ifstream>(m,
                                                                   "SimradEnvironmentDataInterface");

@@ -24,6 +24,7 @@
 #include "module.hpp"
 
 #include "../fileinterfaces/i_navigationdatainterface.hpp"
+#include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -36,6 +37,38 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX themachinethatgoesping, echosounders, simrad, SimradNavigationDataInterface
+
+template<typename T_FileStream>
+void py_create_class_SimradNavigationDataCollection(py::module& m, const std::string& CLASS_NAME)
+{
+    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+                                       // py_i_DatagramInterface
+
+    using T_BaseClass = SimradNavigationDataCollection<T_FileStream>;
+
+    // initialize class
+    auto cls = py::class_<T_BaseClass>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simrad, SimradNavigationDataCollection))
+
+        // .def("get_navigation_datagram",
+        //      &T_BaseClass::get_navigation_datagram,
+        //      DOC(themachinethatgoesping,
+        //          echosounders,
+        //          simrad,
+        //          SimradNavigationDataCollection,
+        //          get_navigation_datagram))
+
+        //
+        ;
+
+    //----- inherit functions from I_DatagramInterface -----
+    py_i_NavigationDataInterface::NavigationDataCollection_add_interface<
+        SimradNavigationDataCollection<T_FileStream>>(cls);
+    SimradDatagramInterface_add_interface_functions<SimradNavigationDataCollection<T_FileStream>>(
+        cls);
+}
 
 template<typename T_FileStream>
 void py_create_class_SimradNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -60,6 +93,11 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
 
 void init_c_SimradNavigationDataInterface(pybind11::module& m)
 {
+
+    py_create_class_SimradNavigationDataCollection<std::ifstream>(m,
+                                                                  "SimradNavigationDataCollection");
+    py_create_class_SimradNavigationDataCollection<MappedFileStream>(
+        m, "SimradNavigationDataCollection_mapped");
 
     py_create_class_SimradNavigationDataInterface<std::ifstream>(m,
                                                                  "SimradNavigationDataInterface");

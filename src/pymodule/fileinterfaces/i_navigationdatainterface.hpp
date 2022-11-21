@@ -11,6 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_navigationdatainterface.hpp"
+#include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
@@ -20,11 +21,36 @@ namespace py_fileinterfaces {
 namespace py_i_NavigationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
+void NavigationDataCollection_add_interface(T_PyClass& cls)
+{
+    namespace py = pybind11;
+
+    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+
+    // cls.def("read_sensor_navigation",
+    //         &T_BaseClass::read_sensor_navigation,
+    //         DOC(themachinethatgoesping,
+    //             echosounders,
+    //             fileinterfaces,
+    //             I_NavigationDataCollection,
+    //             read_sensor_navigation));
+}
+
+template<typename T_BaseClass, typename T_PyClass>
 void NavigationDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
+
+    // cls.def("get_sensor_navigation",
+    //         &T_BaseClass::get_sensor_navigation,
+    //         DOC(themachinethatgoesping,
+    //             echosounders,
+    //             fileinterfaces,
+    //             I_NavigationDataInterface,
+    //             get_sensor_navigation),
+    //             py::arg("index"));
 }
 
 }

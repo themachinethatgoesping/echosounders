@@ -38,9 +38,9 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_ConfigurationDataCollection : public t_datagraminterface
+class I_ConfigurationDataCollection : public I_FileDataCollection<t_datagraminterface>
 {
-    using t_base = t_datagraminterface;
+    using t_base = I_FileDataCollection<t_datagraminterface>;
 
     navigation::SensorConfiguration _sensor_configuration;
 
@@ -66,7 +66,7 @@ class I_ConfigurationDataCollection : public t_datagraminterface
         return _sensor_configuration;
     }
 
-    void init_from_file()
+    void init_from_file() final
     {
         try
         {
@@ -97,33 +97,6 @@ class I_ConfigurationDataCollection : public t_datagraminterface
         }
     }
 
-    /**
-     * @brief Get the file nr
-     * This function assumes that the file nr is the same for all datagrams in the file
-     *
-     * @return size_t
-     */
-    size_t get_file_nr() const
-    {
-        if (this->_datagram_infos_all.empty())
-            throw std::runtime_error("get_file_nr: no datagrams in file");
-
-        return this->_datagram_infos_all[0]->get_file_nr();
-    }
-
-    /**
-     * @brief Get the file name
-     * This function assumes that the file name is the same for all datagrams in the file
-     *
-     * @return std::string
-     */
-    std::string get_file_path() const
-    {
-        if (this->_datagram_infos_all.empty())
-            throw std::runtime_error("get_file_name: no datagrams in file");
-        return this->_datagram_infos_all[0]->get_file_path();
-    }
-
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -133,7 +106,6 @@ class I_ConfigurationDataCollection : public t_datagraminterface
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("ConfigurationDataCollection");
-        printer.register_string("File", this->get_file_path(), std::to_string(this->get_file_nr()));
         return printer;
     }
 };
@@ -154,12 +126,6 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     const navigation::SensorConfiguration& get_sensor_configuration(long pyindex)
     {
         return this->per_file(pyindex).get_sensor_configuration();
-    }
-
-    void init_from_file()
-    {
-        for (auto& interface : this->_interface_per_file)
-            interface.init_from_file();
     }
 
     // ----- objectprinter -----

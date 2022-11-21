@@ -78,6 +78,8 @@ class I_DatagramInterface
     }
     virtual ~I_DatagramInterface() = default;
 
+    // void init_from_file() {};
+
     // ----- direct container access -----
     std::vector<DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> get_datagram_infos_all() const
     {
@@ -91,7 +93,7 @@ class I_DatagramInterface
 
     size_t size() const { return _datagram_infos_all.size(); }
     size_t size(t_DatagramIdentifier type) const { return _datagram_infos_by_type.at(type).size(); }
-    bool empty() const { return _datagram_infos_all.empty(); }
+    bool   empty() const { return _datagram_infos_all.empty(); }
     bool empty(t_DatagramIdentifier type) const { return _datagram_infos_by_type.at(type).empty(); }
 
     // ----- virtual interface -----

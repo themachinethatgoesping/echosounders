@@ -20,6 +20,34 @@ namespace py_fileinterfaces {
 namespace py_i_FileDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
+void FileDataCollection_add_interface(T_PyClass& cls)
+{
+    namespace py = pybind11;
+
+    cls.def("init_from_file",
+            &T_BaseClass::init_from_file,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_FileDataCollection,
+                init_from_file));
+    cls.def("get_file_nr",
+            &T_BaseClass::get_file_nr,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_FileDataCollection,
+                get_file_nr));
+    cls.def("get_file_path",
+            &T_BaseClass::get_file_path,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_FileDataCollection,
+                get_file_path));
+}
+
+template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
@@ -30,6 +58,14 @@ void FileDataInterface_add_interface(T_PyClass& cls)
         py::overload_cast<>(&T_BaseClass::per_file),
         DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file),
         pybind11::return_value_policy::reference_internal);
+
+    cls.def("init_from_file",
+            &T_BaseClass::init_from_file,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_FileDataInterface,
+                init_from_file));
 
     // cls.def(
     //     "per_file",

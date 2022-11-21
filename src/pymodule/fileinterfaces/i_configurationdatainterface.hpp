@@ -25,6 +25,8 @@ void ConfigurationDataCollection_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
+    py_i_FileDataInterface::FileDataCollection_add_interface<T_BaseClass>(cls);
+
     cls.def("read_sensor_configuration",
             &T_BaseClass::read_sensor_configuration,
             DOC(themachinethatgoesping,
@@ -32,13 +34,6 @@ void ConfigurationDataCollection_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_ConfigurationDataCollection,
                 read_sensor_configuration));
-    cls.def("init_from_file",
-            &T_BaseClass::init_from_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_ConfigurationDataCollection,
-                init_from_file));
 
     cls.def("get_sensor_configuration",
             &T_BaseClass::get_sensor_configuration,
@@ -64,7 +59,6 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
 
     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
 
-
     cls.def("get_sensor_configuration",
             &T_BaseClass::get_sensor_configuration,
             DOC(themachinethatgoesping,
@@ -72,15 +66,7 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_ConfigurationDataInterface,
                 get_sensor_configuration),
-                py::arg("index"));
-
-    cls.def("init_from_file",
-            &T_BaseClass::init_from_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                fileinterfaces,
-                I_ConfigurationDataInterface,
-                init_from_file));
+            py::arg("index"));
 }
 
 }
