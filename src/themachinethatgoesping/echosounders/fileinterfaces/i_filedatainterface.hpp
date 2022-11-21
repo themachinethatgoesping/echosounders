@@ -90,8 +90,10 @@ class I_FileDataInterface
 
     virtual void init_from_file()
     {
-        for (std::shared_ptr<t_perfiledatainterface>& interface : this->_interface_per_file)
-            interface->init_from_file();
+        // const auto just means that the shared_ptr does not get copied
+        // but the object it points is not const
+        for (const auto& inter : _interface_per_file)
+            inter->init_from_file();
     }
 
   public:
