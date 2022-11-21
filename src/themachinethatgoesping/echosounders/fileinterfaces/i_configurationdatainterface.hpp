@@ -139,11 +139,11 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
 
         // printer.register_section("ConfigurationData");
         std::unordered_map<navigation::SensorConfiguration, size_t> configurations_with;
-        for (auto& config_collection : this->_interface_per_file)
+        for (auto& config_interface : this->_interface_per_file)
         {
             try
             {
-                configurations_with[config_collection.read_sensor_configuration()]++;
+                configurations_with[config_interface->read_sensor_configuration()]++;
             }
             catch (...)
             {

@@ -26,6 +26,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
+#include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -34,48 +35,53 @@ namespace echosounders {
 namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
-template<typename t_datagraminterface>
+template<typename t_datagraminterface, typename t_ConfigurationPerFileDataInterface>
 class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
 {
     using t_base = I_PerFileDataInterface<t_datagraminterface>;
+
+  protected:
+    std::shared_ptr<t_ConfigurationPerFileDataInterface> _configuration_data_interface;
 
   public:
     I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
     {
+        throw std::runtime_error(
+            fmt::format("I_NavigationPerFileDataInterface({}): cannot be initialized without "
+                        "existing configuration_data_interface",
+                        this->get_name()));
+    }
+
+    I_NavigationPerFileDataInterface(
+        std::shared_ptr<t_ConfigurationPerFileDataInterface> configuration_interface,
+        std::string_view name = "I_NavigationPerFileDataInterface")
+        : t_base(name)
+        , _configuration_data_interface(configuration_interface)
+    {
     }
     virtual ~I_NavigationPerFileDataInterface() = default;
 
-    // void init_from_file() final
-    // {
-    //     try
-    //     {
-    //         _sensor_navigation = this->read_sensor_navigation();
-    //     }
-    //     catch (std::exception& e)
-    //     {
-    //         try
-    //         {
-    //             std::cerr
-    //                 << fmt::format(
-    //                        "Warning[init_from_file]: Could not read sensor navigation from file "
-    //                        "{}: {}. Using empty fallback navigation. Error was: {}",
-    //                        this->get_file_nr(),
-    //                        this->get_file_path(),
-    //                        e.what())
-    //                 << std::endl;
-    //         }
-    //         catch (std::exception& e2)
-    //         {
-    //             std::cerr << fmt::format("Warning[init_from_file]: Could not read sensor "
-    //                                      "navigation nor any other information file. "
-    //                                      "Error was: {}",
-    //                                      e2.what())
-    //                       << std::endl;
-    //         }
-    //         _sensor_navigation = navigation::SensorNavigation();
-    //     }
-    // }
+    t_ConfigurationPerFileDataInterface& get_configuration_data_interface() const
+    {
+        return *_configuration_data_interface;
+    }
+
+    void init_from_file() final
+    {
+        try
+        {
+            //_sensor_navigation = this->read_sensor_navigation();
+        }
+        catch (std::exception& e)
+        {
+            std::cerr << fmt::format(
+                             "Warning[init_from_file]: Could not read navigation data from file. "
+                             "Error was: {}",
+                             e.what())
+                      << std::endl;
+        }
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -91,17 +97,46 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
-template<typename t_navigationdatagraminterface>
-class I_NavigationDataInterface : public I_FileDataInterface<t_navigationdatagraminterface>
+template<typename t_NavigationPerFileDataInterface, typename t_ConfigurationDataInterface>
+class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFileDataInterface>
 {
-    using t_base = I_FileDataInterface<t_navigationdatagraminterface>;
+    using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
+
+  protected:
+    std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
-    I_NavigationDataInterface(std::string_view name = "I_NavigationDataInterface")
+    I_NavigationDataInterface(
+        std::shared_ptr<t_ConfigurationDataInterface> configuration_data_interface,
+        std::string_view                              name = "I_NavigationDataInterface")
         : t_base(name)
+        , _configuration_data_interface(configuration_data_interface)
     {
     }
     virtual ~I_NavigationDataInterface() = default;
+
+    t_ConfigurationDataInterface& get_configuration_data_interface() const
+    {
+        return *_configuration_data_interface;
+    }
+
+    void add_file_interface(size_t file_nr) final
+    {
+        if (file_nr >= this->_interface_per_file.size())
+        {
+            this->_configuration_data_interface->add_file_interface(file_nr);
+
+            this->_interface_per_file.reserve(file_nr + 1);
+
+            for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
+            {
+                this->_interface_per_file.push_back(
+                    std::make_shared<t_NavigationPerFileDataInterface>(
+                        this->_configuration_data_interface->per_file_ptr(i)));
+            }
+            this->_pyindexer.reset(this->_interface_per_file.size());
+        }
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)

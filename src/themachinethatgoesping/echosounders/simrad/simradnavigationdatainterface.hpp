@@ -15,6 +15,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_navigationdatainterface.hpp"
+#include "simradconfigurationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -26,14 +27,23 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradNavigationPerFileDataInterface
-    : public fileinterfaces::I_NavigationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
+    : public fileinterfaces::I_NavigationPerFileDataInterface<
+          SimradDatagramInterface<t_ifstream>,
+          SimradConfigurationPerFileDataInterface<t_ifstream>>
 {
-    using t_base =
-        fileinterfaces::I_NavigationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
+    using t_base = fileinterfaces::I_NavigationPerFileDataInterface<
+        SimradDatagramInterface<t_ifstream>,
+        SimradConfigurationPerFileDataInterface<t_ifstream>>;
 
   public:
     SimradNavigationPerFileDataInterface()
         : t_base("SimradNavigationPerFileDataInterface")
+    {
+    }
+    SimradNavigationPerFileDataInterface(
+        std::shared_ptr<SimradConfigurationPerFileDataInterface<t_ifstream>>
+            configuration_interface)
+        : t_base(std::move(configuration_interface), "SimradNavigationPerFileDataInterface")
     {
     }
     ~SimradNavigationPerFileDataInterface() = default;
@@ -58,14 +68,17 @@ class SimradNavigationPerFileDataInterface
 template<typename t_ifstream>
 class SimradNavigationDataInterface
     : public fileinterfaces::I_NavigationDataInterface<
-          SimradNavigationPerFileDataInterface<t_ifstream>>
+          SimradNavigationPerFileDataInterface<t_ifstream>,
+          SimradConfigurationDataInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_NavigationDataInterface<SimradNavigationPerFileDataInterface<t_ifstream>>;
+        fileinterfaces::I_NavigationDataInterface<SimradNavigationPerFileDataInterface<t_ifstream>,
+                                                  SimradConfigurationDataInterface<t_ifstream>>;
 
   public:
-    SimradNavigationDataInterface()
-        : t_base("SimradNavigationDataInterface")
+    SimradNavigationDataInterface(
+        std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> configuration_data_interface)
+        : t_base(std::move(configuration_data_interface), "SimradNavigationDataInterface")
     {
     }
     ~SimradNavigationDataInterface() = default;

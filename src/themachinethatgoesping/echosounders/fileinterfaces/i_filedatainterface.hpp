@@ -41,8 +41,8 @@ class I_FileDataInterface
   protected:
     std::string_view get_name() const { return _name; }
 
-    std::vector<t_perfiledatainterface> _interface_per_file;
-    tools::pyhelper::PyIndexer          _pyindexer;
+    std::vector<std::shared_ptr<t_perfiledatainterface>> _interface_per_file;
+    tools::pyhelper::PyIndexer                           _pyindexer;
 
   public:
     I_FileDataInterface(std::string_view name = "I_FileDataInterface")
@@ -52,11 +52,16 @@ class I_FileDataInterface
     }
     virtual ~I_FileDataInterface() = default;
 
-    void add_file_interface(size_t file_nr)
+    virtual void add_file_interface(size_t file_nr)
     {
-        if (file_nr >= _interface_per_file.size())
+        if (file_nr >= this->_interface_per_file.size())
         {
-            _interface_per_file.resize(file_nr + 1);
+            this->_interface_per_file.reserve(file_nr + 1);
+
+            for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
+            {
+                this->_interface_per_file.push_back(std::make_shared<t_perfiledatainterface>());
+            }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }
     }
@@ -68,20 +73,25 @@ class I_FileDataInterface
         auto file_nr = datagram_info->get_file_nr();
         add_file_interface(file_nr);
 
-        this->_interface_per_file[file_nr].add_datagram_info(datagram_info);
+        this->_interface_per_file[file_nr]->add_datagram_info(datagram_info);
     }
 
-    const std::vector<t_perfiledatainterface>& per_file() { return _interface_per_file; }
+    // const std::vector<std::shared_ptr<t_perfiledatainterface>>& per_file() { return
+    // _interface_per_file; }
 
     t_perfiledatainterface& per_file(long pyindex)
+    {
+        return *_interface_per_file[_pyindexer(pyindex)];
+    }
+    std::shared_ptr<t_perfiledatainterface> per_file_ptr(long pyindex)
     {
         return _interface_per_file[_pyindexer(pyindex)];
     }
 
-    void init_from_file()
+    virtual void init_from_file()
     {
         for (auto& interface : this->_interface_per_file)
-            interface.init_from_file();
+            interface->init_from_file();
     }
 
   public:

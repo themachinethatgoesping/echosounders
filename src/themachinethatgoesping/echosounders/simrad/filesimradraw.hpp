@@ -51,7 +51,7 @@ class FileSimradRaw
     std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> _configuration_interface =
         std::make_shared<SimradConfigurationDataInterface<t_ifstream>>();
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
-        std::make_shared<SimradNavigationDataInterface<t_ifstream>>();
+        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(_configuration_interface);
     std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> _environment_interface =
         std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>();
     std::shared_ptr<SimradAnnotationDataInterface<t_ifstream>> _annotation_interface =
@@ -245,6 +245,7 @@ class FileSimradRaw
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
         _configuration_interface->add_file_interface(file_paths_cnt);
+        _navigation_interface->add_file_interface(file_paths_cnt);
         _packet_buffer.nme0_packets.clear();
         _packet_buffer.mru0_packets.clear();
     }
@@ -260,11 +261,19 @@ class FileSimradRaw
 
         if (_configuration_interface->per_file(file_paths_cnt).empty())
             fmt::print(std::cerr,
-                       "WARNING: No configuration datagram found in file {}: {}\n",
+                       "WARNING: No configuration datagrams found in file {}: {}\n",
                        file_paths_cnt,
                        file_path);
         else
             _configuration_interface->per_file(file_paths_cnt).init_from_file();
+
+        if (_navigation_interface->per_file(file_paths_cnt).empty())
+            fmt::print(std::cerr,
+                       "WARNING: No navigation datagrams found in file {}: {}\n",
+                       file_paths_cnt,
+                       file_path);
+        else
+            _navigation_interface->per_file(file_paths_cnt).init_from_file();
     }
 
     fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
