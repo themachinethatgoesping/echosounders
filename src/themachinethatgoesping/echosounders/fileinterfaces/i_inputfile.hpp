@@ -240,13 +240,14 @@ class I_InputFile
             std::cerr << "Error message: " << e.what() << std::endl;
         }
 
-        if (close_progressbar)
-            progress_bar.close(std::string("Found: ") + std::to_string(_datagram_interface.size()) +
-                               " datagrams");
-
         reset_ifstream(ifs);
 
         callback_scan_new_file_end(file_path, file_paths_cnt);
+
+        if (close_progressbar)
+            progress_bar.close(std::string("Found: ") + std::to_string(file_info.datagram_infos.size()) +
+                               " datagrams");
+
         return file_info;
     }
 
