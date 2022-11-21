@@ -51,17 +51,21 @@ class I_FileDataInterface
     }
     virtual ~I_FileDataInterface() = default;
 
-    // void add_datagram(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram)
-    template<typename t_DatagramInfo_ptr>
-    void add_datagram_info(const t_DatagramInfo_ptr& datagram_info)
+    void add_file_interface(size_t file_nr)
     {
-        auto file_nr = datagram_info->get_file_nr();
-
         if (file_nr >= _interface_per_file.size())
         {
             _interface_per_file.resize(file_nr + 1);
             this->_pyindexer.reset(this->_interface_per_file.size());
         }
+    }
+
+    // void add_datagram(DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram)
+    template<typename t_DatagramInfo_ptr>
+    void add_datagram_info(const t_DatagramInfo_ptr& datagram_info)
+    {
+        auto file_nr = datagram_info->get_file_nr();
+        add_file_interface(file_nr);
 
         this->_interface_per_file[file_nr].add_datagram_info(datagram_info);
     }

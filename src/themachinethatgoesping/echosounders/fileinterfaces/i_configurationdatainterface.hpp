@@ -66,6 +66,37 @@ class I_ConfigurationDataCollection : public t_datagraminterface
         return _sensor_configuration;
     }
 
+    void init_from_file()
+    {
+        try
+        {
+            _sensor_configuration = this->read_sensor_configuration();
+        }
+        catch (std::exception& e)
+        {
+            try
+            {
+                std::cerr
+                    << fmt::format(
+                           "Warning[init_from_file]: Could not read sensor configuration from file "
+                           "{}: {}. Using empty fallback configuration. Error was: {}",
+                           this->get_file_nr(),
+                           this->get_file_path(),
+                           e.what())
+                    << std::endl;
+            }
+            catch (std::exception& e2)
+            {
+                std::cerr << fmt::format("Warning[init_from_file]: Could not read sensor "
+                                         "configuration nor any other information file. "
+                                         "Error was: {}",
+                                         e2.what())
+                          << std::endl;
+            }
+            _sensor_configuration = navigation::SensorConfiguration();
+        }
+    }
+
     /**
      * @brief Get the file nr
      * This function assumes that the file nr is the same for all datagrams in the file
@@ -98,14 +129,13 @@ class I_ConfigurationDataCollection : public t_datagraminterface
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        //printer.register_section("DatagramInterface");
+        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("ConfigurationDataCollection");
         printer.register_string("File", this->get_file_path(), std::to_string(this->get_file_nr()));
         return printer;
     }
-
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
@@ -121,6 +151,17 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     }
     virtual ~I_ConfigurationDataInterface() = default;
 
+    const navigation::SensorConfiguration& get_sensor_configuration(long pyindex)
+    {
+        return this->per_file(pyindex).get_sensor_configuration();
+    }
+
+    void init_from_file()
+    {
+        for (auto& interface : this->_interface_per_file)
+            interface.init_from_file();
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
@@ -129,23 +170,26 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));
 
-        //printer.register_section("ConfigurationData");
+        // printer.register_section("ConfigurationData");
         std::unordered_map<navigation::SensorConfiguration, size_t> configurations_with;
         for (auto& config_collection : this->_interface_per_file)
         {
-            try{
+            try
+            {
                 configurations_with[config_collection.read_sensor_configuration()]++;
             }
-            catch(...)
+            catch (...)
             {
                 configurations_with[navigation::SensorConfiguration()]++;
             }
         }
-        printer.register_section(fmt::format("Unique sensor configurations ({})", configurations_with.size()));
+        printer.register_section(
+            fmt::format("Unique sensor configurations ({})", configurations_with.size()));
 
         for (auto& config_with : configurations_with)
         {
-            printer.register_value(fmt::format("Files using this configuration"), config_with.second);
+            printer.register_value(fmt::format("Files using this configuration"),
+                                   config_with.second);
         }
 
         return printer;
@@ -154,7 +198,6 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-
 };
 
 } // namespace fileinterfaces

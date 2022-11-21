@@ -244,6 +244,7 @@ class FileSimradRaw
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
+        _configuration_interface->add_file_interface(file_paths_cnt);
         _packet_buffer.nme0_packets.clear();
         _packet_buffer.mru0_packets.clear();
     }
@@ -256,6 +257,14 @@ class FileSimradRaw
 
         // TODO: this crashed for empty navigation data!
         _navigation_interpolators->push_back(process_navigation(false));
+
+        if (_configuration_interface->per_file(file_paths_cnt).empty())
+            fmt::print(std::cerr,
+                       "WARNING: No configuration datagram found in file {}: {}\n",
+                       file_paths_cnt,
+                       file_path);
+        else
+            _configuration_interface->per_file(file_paths_cnt).init_from_file();
     }
 
     fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(

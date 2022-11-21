@@ -91,6 +91,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_get_sensor_configuration = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_init_from_file = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataCollection_read_sensor_configuration = R"doc()doc";
@@ -102,6 +104,10 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Co
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_init_from_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_ConfigurationDataInterface_printer = R"doc()doc";
 
@@ -177,6 +183,10 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Da
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_datagrams_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_empty = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_empty_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_datagram_infos_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_DatagramInterface_get_datagram_infos_by_type = R"doc()doc";
@@ -204,6 +214,8 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Fi
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_I_FileDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_add_datagram_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_add_file_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_FileDataInterface_get_name = R"doc()doc";
 
