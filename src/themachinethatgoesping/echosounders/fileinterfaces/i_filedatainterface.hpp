@@ -90,7 +90,7 @@ class I_FileDataInterface
 
     virtual void init_from_file()
     {
-        for (auto& interface : this->_interface_per_file)
+        for (std::shared_ptr<t_perfiledatainterface>& interface : this->_interface_per_file)
             interface->init_from_file();
     }
 
