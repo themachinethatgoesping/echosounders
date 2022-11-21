@@ -43,6 +43,10 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
   protected:
     std::shared_ptr<t_ConfigurationPerFileDataInterface> _configuration_data_interface;
 
+    navigation::NavigationInterpolatorLatLon _navigation_interpolator{
+        navigation::SensorConfiguration()
+    };
+
   public:
     I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
@@ -54,10 +58,10 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
     }
 
     I_NavigationPerFileDataInterface(
-        std::shared_ptr<t_ConfigurationPerFileDataInterface> configuration_interface,
+        std::shared_ptr<t_ConfigurationPerFileDataInterface> configuration_data_interface,
         std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
-        , _configuration_data_interface(configuration_interface)
+        , _configuration_data_interface(configuration_data_interface)
     {
     }
     virtual ~I_NavigationPerFileDataInterface() = default;
@@ -67,11 +71,34 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
         return *_configuration_data_interface;
     }
 
+    virtual navigation::NavigationInterpolatorLatLon read_navigation_data() const
+    {
+        throw std::runtime_error(
+            fmt::format("I_NavigationPerFileDataInterface({}): read_navigation_data() not "
+                        "implemented",
+                        this->get_name()));
+    }
+
+    void update_configuration()
+    {
+        _navigation_interpolator.set_sensor_configuration(
+            _configuration_data_interface->get_sensor_configuration());
+    }
+
+    navigation::NavigationInterpolatorLatLon& get_navigation_data()
+    {
+        return _navigation_interpolator;
+    }
+    void set_navigation_data(navigation::NavigationInterpolatorLatLon navigation_interpolator)
+    {
+        _navigation_interpolator = std::move(navigation_interpolator);
+    }
+
     void init_from_file() final
     {
         try
         {
-            //_sensor_navigation = this->read_sensor_navigation();
+            _navigation_interpolator = this->read_navigation_data();
         }
         catch (std::exception& e)
         {

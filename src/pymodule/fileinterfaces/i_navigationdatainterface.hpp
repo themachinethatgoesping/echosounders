@@ -34,6 +34,36 @@ void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_NavigationPerFileDataInterface,
                 get_configuration_data_interface));
+    cls.def("update_configuration",
+            &T_BaseClass::update_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_NavigationPerFileDataInterface,
+                update_configuration));
+    cls.def("read_navigation_data",
+            &T_BaseClass::read_navigation_data,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_NavigationPerFileDataInterface,
+                read_navigation_data));
+    cls.def("set_navigation_data",
+            &T_BaseClass::set_navigation_data,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_NavigationPerFileDataInterface,
+                set_navigation_data),
+            py::arg("navigation_interpolator_latlon"));
+    cls.def("get_navigation_data",
+            &T_BaseClass::get_navigation_data,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_NavigationPerFileDataInterface,
+                get_navigation_data),
+            py::return_value_policy::reference_internal);
 }
 
 template<typename T_BaseClass, typename T_PyClass>

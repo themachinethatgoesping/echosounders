@@ -42,11 +42,19 @@ class SimradNavigationPerFileDataInterface
     }
     SimradNavigationPerFileDataInterface(
         std::shared_ptr<SimradConfigurationPerFileDataInterface<t_ifstream>>
-            configuration_interface)
-        : t_base(std::move(configuration_interface), "SimradNavigationPerFileDataInterface")
+            configuration_data_interface)
+        : t_base(std::move(configuration_data_interface), "SimradNavigationPerFileDataInterface")
     {
     }
     ~SimradNavigationPerFileDataInterface() = default;
+
+    navigation::NavigationInterpolatorLatLon read_navigation_data() const final
+    {
+        navigation::NavigationInterpolatorLatLon navint(
+            this->_configuration_data_interface->get_sensor_configuration());
+
+        return navint;
+    }
 
     // --------------------- simrad specific functions ---------------------
     /* get infos */
