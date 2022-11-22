@@ -48,18 +48,27 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
     using T_BaseClass = SimradNavigationPerFileDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simrad, SimradNavigationPerFileDataInterface))
+    auto cls =
+        py::class_<T_BaseClass>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, simrad, SimradNavigationPerFileDataInterface))
 
-        // .def("get_navigation_datagram",
-        //      &T_BaseClass::get_navigation_datagram,
-        //      DOC(themachinethatgoesping,
-        //          echosounders,
-        //          simrad,
-        //          SimradNavigationPerFileDataInterface,
-        //          get_navigation_datagram))
+            .def("set_min_gga_quality",
+                 &T_BaseClass::set_min_gga_quality,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradNavigationPerFileDataInterface,
+                     set_min_gga_quality),
+                 py::arg("min_gga_quality"))
+            .def("get_min_gga_quality",
+                 &T_BaseClass::get_min_gga_quality,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradNavigationPerFileDataInterface,
+                     get_min_gga_quality))
 
         //
         ;
@@ -75,21 +84,23 @@ template<typename T_FileStream>
 void py_create_class_SimradNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_fileinterfaces::py_i_NavigationDataInterface::NavigationDataInterface_add_interface;
+    using T_BaseClass = SimradNavigationDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<SimradNavigationDataInterface<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+                   .def("set_min_gga_quality",
+                        &T_BaseClass::set_min_gga_quality,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradNavigationDataInterface,
+                            set_min_gga_quality),
+                        py::arg("min_gga_quality"))
+        //
+        ;
 
     //----- inherit functions from I_NavigationDataInterface -----
-    NavigationDataInterface_add_interface<SimradNavigationDataInterface<T_FileStream>>(cls);
-
-    // ----- ping convenience functions -----
-    /* default copy functions */
-    /* __PYCLASS_DEFAULT_COPY__(LinearInterpolator)*/
-    /* default binary functions*/
-    /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
-    /* default printing functions */
-    // cls __PYCLASS_DEFAULT_PRINTING__(SimradNavigationDataInterface<T_FileStream>);
+    NavigationDataInterface_add_interface<T_BaseClass>(cls);
 }
 
 void init_c_SimradNavigationDataInterface(pybind11::module& m)
