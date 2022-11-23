@@ -36,6 +36,7 @@ class SimradNavigationPerFileDataInterface
         SimradConfigurationPerFileDataInterface<t_ifstream>>;
 
     int _min_gga_quality = 1;
+    int _max_gga_quality = 5;
 
   public:
     SimradNavigationPerFileDataInterface()
@@ -51,7 +52,9 @@ class SimradNavigationPerFileDataInterface
     ~SimradNavigationPerFileDataInterface() = default;
 
     void set_min_gga_quality(int min_gga_quality) { _min_gga_quality = min_gga_quality; }
+    void set_max_gga_quality(int max_gga_quality) { _max_gga_quality = max_gga_quality; }
     int  get_min_gga_quality() const { return _min_gga_quality; }
+    int  get_max_gga_quality() const { return _max_gga_quality; }
 
     navigation::NavigationInterpolatorLatLon read_navigation_data() const final
     {
@@ -69,11 +72,10 @@ class SimradNavigationPerFileDataInterface
             if (nme0.get_sentence_type() == "GGA")
             {
                 auto gga = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
+                auto quality = gga.get_quality();
 
-                if (gga.get_quality() < _min_gga_quality)
-                {
+                if (quality < _min_gga_quality || quality > _max_gga_quality)
                     continue;
-                }
 
                 // TODO: correct with gps time
                 auto packet_timestamp = nme0.get_timestamp();
@@ -174,6 +176,13 @@ class SimradNavigationDataInterface
         // but the object it points is not const
         for (const auto& inter : this->_interface_per_file)
             inter->set_min_gga_quality(min_gga_quality);
+    }
+    void set_max_gga_quality(int max_gga_quality)
+    {
+        // const auto just means that the shared_ptr does not get copied
+        // but the object it points is not const
+        for (const auto& inter : this->_interface_per_file)
+            inter->set_max_gga_quality(max_gga_quality);
     }
 
     // ----- objectprinter -----

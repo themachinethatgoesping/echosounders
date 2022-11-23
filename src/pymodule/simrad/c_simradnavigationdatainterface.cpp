@@ -62,6 +62,14 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                      SimradNavigationPerFileDataInterface,
                      set_min_gga_quality),
                  py::arg("min_gga_quality"))
+            .def("set_max_gga_quality",
+                 &T_BaseClass::set_max_gga_quality,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradNavigationPerFileDataInterface,
+                     set_max_gga_quality),
+                 py::arg("max_gga_quality"))
             .def("get_min_gga_quality",
                  &T_BaseClass::get_min_gga_quality,
                  DOC(themachinethatgoesping,
@@ -69,6 +77,13 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                      simrad,
                      SimradNavigationPerFileDataInterface,
                      get_min_gga_quality))
+            .def("get_max_gga_quality",
+                 &T_BaseClass::get_max_gga_quality,
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     simrad,
+                     SimradNavigationPerFileDataInterface,
+                     get_max_gga_quality))
 
         //
         ;

@@ -43,10 +43,6 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
   protected:
     std::shared_ptr<t_ConfigurationPerFileDataInterface> _configuration_data_interface;
 
-    navigation::NavigationInterpolatorLatLon _navigation_interpolator{
-        navigation::SensorConfiguration()
-    };
-
   public:
     I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
@@ -79,35 +75,9 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
                         this->get_name()));
     }
 
-    void update_configuration()
-    {
-        _navigation_interpolator.set_sensor_configuration(
-            _configuration_data_interface->get_sensor_configuration());
-    }
-
-    navigation::NavigationInterpolatorLatLon& get_navigation_data()
-    {
-        return _navigation_interpolator;
-    }
-    void set_navigation_data(navigation::NavigationInterpolatorLatLon navigation_interpolator)
-    {
-        _navigation_interpolator = std::move(navigation_interpolator);
-    }
-
     void init_from_file() final
     {
-        try
-        {
-            _navigation_interpolator = this->read_navigation_data();
-        }
-        catch (std::exception& e)
-        {
-            std::cerr << fmt::format(
-                             "Warning[init_from_file]: Could not read navigation data from file. "
-                             "Error was: {}",
-                             e.what())
-                      << std::endl;
-        }
+        return;
     }
 
     // ----- objectprinter -----
