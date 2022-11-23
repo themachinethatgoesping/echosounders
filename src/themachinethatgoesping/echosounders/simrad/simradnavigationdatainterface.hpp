@@ -91,7 +91,7 @@ class SimradNavigationPerFileDataInterface
                 lats.push_back(lat);
                 lons.push_back(lon);
                 gps_times.push_back(packet_timestamp);
-                //depths.push_back(-alt); ?
+                // depths.push_back(-alt); ?
                 depths.push_back(alt);
             }
         }

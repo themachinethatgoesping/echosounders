@@ -281,6 +281,12 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_Na
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_get_configuration_data_interface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_get_navigation_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_init_from_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_navigation_interpolator = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_I_NavigationPerFileDataInterface = R"doc()doc";

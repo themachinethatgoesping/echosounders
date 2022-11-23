@@ -130,6 +130,10 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
 
   protected:
+    navigation::NavigationInterpolatorLatLon _navigation_interpolator{
+        navigation::SensorConfiguration()
+    };
+
     std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
@@ -146,6 +150,31 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     {
         return *_configuration_data_interface;
     }
+
+    void init_from_file() final
+    {
+        if (this->_interface_per_file.empty())
+        {
+            return;
+        }
+
+        this->_interface_per_file.front()->init_from_file();
+        _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
+
+        for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
+        {
+            this->_interface_per_file[i]->init_from_file();
+
+            _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data());
+        }
+    }
+
+    navigation::NavigationInterpolatorLatLon& get_navigation_data()
+    {
+        return _navigation_interpolator;
+    }
+
+    // ----- old -----
 
     void add_file_interface(size_t file_nr) final
     {

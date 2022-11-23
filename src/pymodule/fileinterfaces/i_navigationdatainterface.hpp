@@ -80,6 +80,13 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 fileinterfaces,
                 I_NavigationDataInterface,
                 get_configuration_data_interface));
+    cls.def("get_navigation_data",
+            &T_BaseClass::get_navigation_data,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_NavigationDataInterface,
+                get_navigation_data));
 }
 
 }
