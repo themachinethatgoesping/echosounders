@@ -60,15 +60,6 @@ class FileSimradRaw
         std::make_shared<SimradOtherDataInterface<t_ifstream>>();
 
   public:
-    std::shared_ptr<std::vector<navigation::NavigationInterpolatorLatLon>>
-        _navigation_interpolators =
-            std::make_shared<std::vector<navigation::NavigationInterpolatorLatLon>>();
-
-    const std::vector<navigation::NavigationInterpolatorLatLon>& get_navigation_interpolators()
-        const
-    {
-        return *_navigation_interpolators;
-    }
     // inherit constructors
     // This does not work, because I_InputFile calls append before the callback functions are
     // overwritten Thus inheriting constructors would lead to calling the callback functions of the
@@ -252,13 +243,6 @@ class FileSimradRaw
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
     {
-        if (_navigation_interpolators->size() != file_paths_cnt)
-            throw std::runtime_error(
-                "Internal error: _navigation_interpolators.size() != file_paths_cnt");
-
-        // TODO: this crashed for empty navigation data!
-        _navigation_interpolators->push_back(process_navigation(false));
-
         if (_configuration_interface->per_file(file_paths_cnt).empty())
             fmt::print(std::cerr,
                        "WARNING: No configuration datagrams found in file {}: {}\n",

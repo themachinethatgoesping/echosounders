@@ -71,7 +71,7 @@ class SimradNavigationPerFileDataInterface
 
             if (nme0.get_sentence_type() == "GGA")
             {
-                auto gga = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
+                auto gga     = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
                 auto quality = gga.get_quality();
 
                 if (quality < _min_gga_quality || quality > _max_gga_quality)

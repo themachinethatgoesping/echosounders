@@ -111,6 +111,14 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
                             SimradNavigationDataInterface,
                             set_min_gga_quality),
                         py::arg("min_gga_quality"))
+                   .def("set_max_gga_quality",
+                        &T_BaseClass::set_max_gga_quality,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradNavigationDataInterface,
+                            set_max_gga_quality),
+                        py::arg("max_gga_quality"))
         //
         ;
 

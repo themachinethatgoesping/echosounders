@@ -88,12 +88,30 @@ class I_FileDataInterface
         return _interface_per_file[_pyindexer(pyindex)];
     }
 
-    virtual void init_from_file()
+    void init_from_file(bool show_progress = true)
+    {
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
+        this->init_from_file(progress_bar.get());
+    }
+
+    virtual void init_from_file(tools::progressbars::I_ProgressBar& progress_bar)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
+
+        progress_bar.init(0.,
+                          double(_interface_per_file.size()-1),
+                          fmt::format("Initializing {} from file data", _name));
+
         for (const auto& inter : _interface_per_file)
+        {
+            progress_bar.set_postfix(
+                fmt::format("{}/{}", inter->get_file_nr(), _interface_per_file.size()));
             inter->init_from_file();
+            progress_bar.tick();
+        }
+
+        progress_bar.close(std::string("Done"));
     }
 
   public:

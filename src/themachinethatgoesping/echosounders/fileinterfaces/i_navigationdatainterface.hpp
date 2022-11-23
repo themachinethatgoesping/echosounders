@@ -75,10 +75,7 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
                         this->get_name()));
     }
 
-    void init_from_file() final
-    {
-        return;
-    }
+    void init_from_file() final { return; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -121,22 +118,30 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         return *_configuration_data_interface;
     }
 
-    void init_from_file() final
+    using I_FileDataInterface<t_NavigationPerFileDataInterface>::init_from_file;
+    void init_from_file(tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
         {
             return;
         }
+        progress_bar.init(0.,
+                          double(this->_interface_per_file.size()-1),
+                          fmt::format("Initializing {} from file data", this->get_name()));
 
         this->_interface_per_file.front()->init_from_file();
         _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
 
         for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
         {
+            progress_bar.set_postfix(fmt::format("{}/{}", i, this->_interface_per_file.size()));
             this->_interface_per_file[i]->init_from_file();
 
             _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data());
+            progress_bar.tick();
         }
+
+        progress_bar.close(std::string("Done"));
     }
 
     navigation::NavigationInterpolatorLatLon& get_navigation_data()

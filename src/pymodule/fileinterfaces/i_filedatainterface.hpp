@@ -51,6 +51,7 @@ template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
+    using namespace themachinethatgoesping::tools::progressbars;
 
     /* datagram access */
     cls.def(
@@ -61,12 +62,23 @@ void FileDataInterface_add_interface(T_PyClass& cls)
         py::arg("file_nr"));
 
     cls.def("init_from_file",
-            &T_BaseClass::init_from_file,
+            py::overload_cast<bool>(&T_BaseClass::init_from_file),
+            py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
                 I_FileDataInterface,
-                init_from_file));
+                init_from_file),
+            py::arg("show_progress") = true);
+    cls.def("init_from_file",
+            py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_FileDataInterface,
+                init_from_file_2),
+            py::arg("progress_bar"));
 
     // cls.def(
     //     "per_file",
