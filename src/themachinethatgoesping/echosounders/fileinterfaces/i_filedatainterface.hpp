@@ -87,9 +87,9 @@ class I_FileDataInterface
     {
         return *_interface_per_file[_pyindexer(pyindex)];
     }
-    std::shared_ptr<t_perfiledatainterface> per_file_ptr(long pyindex)
+    const t_perfiledatainterface& per_file_const(long pyindex) const
     {
-        return _interface_per_file[_pyindexer(pyindex)];
+        return *_interface_per_file[_pyindexer(pyindex)];
     }
 
     void init_from_file(bool show_progress = true)

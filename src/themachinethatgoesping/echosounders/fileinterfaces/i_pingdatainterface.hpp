@@ -64,7 +64,7 @@ class I_PingPerFileDataInterface : public I_PerFileDataInterface<t_datagraminter
     }
     virtual ~I_PingPerFileDataInterface() = default;
 
-    t_ConfigurationDataInterface& get_configuration_data_interface() const
+    t_ConfigurationDataInterface& configuration_data_interface() const
     {
         return *_configuration_data_interface;
     }
@@ -115,7 +115,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
     }
     virtual ~I_PingDataInterface() = default;
 
-    t_ConfigurationDataInterface& get_configuration_data_interface() const
+    t_ConfigurationDataInterface& configuration_data_interface() const
     {
         return *_configuration_data_interface;
     }

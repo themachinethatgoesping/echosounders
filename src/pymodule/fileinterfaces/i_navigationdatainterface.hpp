@@ -27,13 +27,13 @@ void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
 
     py_i_FileDataInterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
 
-    cls.def("get_configuration_data_interface",
-            &T_BaseClass::get_configuration_data_interface,
+    cls.def("configuration_data_interface",
+            &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
                 I_NavigationPerFileDataInterface,
-                get_configuration_data_interface));
+                configuration_data_interface));
     cls.def("read_navigation_data",
             &T_BaseClass::read_navigation_data,
             DOC(themachinethatgoesping,
@@ -50,13 +50,13 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
 
     py_i_FileDataInterface::FileDataInterface_add_interface<T_BaseClass>(cls);
 
-    cls.def("get_configuration_data_interface",
-            &T_BaseClass::get_configuration_data_interface,
+    cls.def("configuration_data_interface",
+            &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
                 I_NavigationDataInterface,
-                get_configuration_data_interface));
+                configuration_data_interface));
     cls.def("get_navigation_data",
             &T_BaseClass::get_navigation_data,
             DOC(themachinethatgoesping,

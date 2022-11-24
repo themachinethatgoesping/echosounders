@@ -62,7 +62,7 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
     {
         _sensor_configuration = std::move(sensor_configuration);
     }
-    const navigation::SensorConfiguration& get_sensor_configuration()
+    const navigation::SensorConfiguration& get_sensor_configuration() const
     {
         return _sensor_configuration;
     }
@@ -124,9 +124,9 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     }
     virtual ~I_ConfigurationDataInterface() = default;
 
-    const navigation::SensorConfiguration& get_sensor_configuration(long pyindex)
+    const navigation::SensorConfiguration& get_sensor_configuration(long pyindex) const
     {
-        return this->per_file(pyindex).get_sensor_configuration();
+        return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
     // ----- objectprinter -----

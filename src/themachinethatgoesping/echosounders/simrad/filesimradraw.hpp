@@ -54,7 +54,7 @@ class FileSimradRaw
     std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
         std::make_shared<SimradNavigationDataInterface<t_ifstream>>(_configuration_interface);
     std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> _environment_interface =
-        std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>();
+        std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>(_navigation_interface);
     std::shared_ptr<SimradAnnotationDataInterface<t_ifstream>> _annotation_interface =
         std::make_shared<SimradAnnotationDataInterface<t_ifstream>>();
     std::shared_ptr<SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
@@ -144,6 +144,7 @@ class FileSimradRaw
     {
         _configuration_interface->add_file_interface(file_paths_cnt);
         _navigation_interface->add_file_interface(file_paths_cnt);
+        _environment_interface->add_file_interface(file_paths_cnt);
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final

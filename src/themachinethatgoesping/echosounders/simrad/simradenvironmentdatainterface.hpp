@@ -10,15 +10,16 @@
 #include <magic_enum.hpp>
 
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_environmentdatainterface.hpp"
+#include "simradconfigurationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
+#include "simradnavigationdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -26,17 +27,31 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradEnvironmentPerFileDataInterface
-    : public fileinterfaces::I_EnvironmentPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
+    : public fileinterfaces::I_EnvironmentPerFileDataInterface<
+          SimradDatagramInterface<t_ifstream>,
+          SimradNavigationDataInterface<t_ifstream>>
 {
-    using t_base =
-        fileinterfaces::I_EnvironmentPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
+    using t_base = fileinterfaces::I_EnvironmentPerFileDataInterface<
+        SimradDatagramInterface<t_ifstream>,
+        SimradNavigationDataInterface<t_ifstream>>;
 
   public:
     SimradEnvironmentPerFileDataInterface()
         : t_base("SimradEnvironmentPerFileDataInterface")
     {
     }
+    SimradEnvironmentPerFileDataInterface(
+        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
+        : t_base(std::move(navigation_data_interface), "SimradEnvironmentPerFileDataInterface")
+    {
+    }
     ~SimradEnvironmentPerFileDataInterface() = default;
+
+
+    // environment::EnvironmentInterpolatorLatLon read_environment_data() const final
+    // {
+    //     return navi;
+    // }
 
     // --------------------- simrad specific functions ---------------------
     /* get infos */
@@ -60,12 +75,13 @@ class SimradEnvironmentDataInterface
     : public fileinterfaces::I_EnvironmentDataInterface<
           SimradEnvironmentPerFileDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentDataInterface<
-        SimradEnvironmentPerFileDataInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_EnvironmentDataInterface<SimradEnvironmentPerFileDataInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentDataInterface()
-        : t_base("SimradEnvironmentDataInterface")
+    SimradEnvironmentDataInterface(
+        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
+        : t_base(std::move(navigation_data_interface), "SimradEnvironmentDataInterface")
     {
     }
     ~SimradEnvironmentDataInterface() = default;

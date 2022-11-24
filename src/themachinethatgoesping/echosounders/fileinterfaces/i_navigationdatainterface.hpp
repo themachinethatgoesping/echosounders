@@ -45,7 +45,7 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
     using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
 
   protected:
-    std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
+    std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
     I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
@@ -58,7 +58,7 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
     }
 
     I_NavigationPerFileDataInterface(
-        std::shared_ptr<t_ConfigurationDataInterface> configuration_data_interface,
+        std::shared_ptr<type_ConfigurationDataInterface> configuration_data_interface,
         std::string_view name = "I_NavigationPerFileDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
@@ -66,7 +66,11 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
     }
     virtual ~I_NavigationPerFileDataInterface() = default;
 
-    t_ConfigurationDataInterface& get_configuration_data_interface() const
+    type_ConfigurationDataInterface& configuration_data_interface()
+    {
+        return *_configuration_data_interface;
+    }
+    const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
         return *_configuration_data_interface;
     }
@@ -95,24 +99,24 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
-template<typename t_NavigationPerFileDataInterface, typename t_ConfigurationDataInterface>
+template<typename t_NavigationPerFileDataInterface>
 class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFileDataInterface>
 {
     using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
 
   public:
-    using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
+    using type_ConfigurationDataInterface = typename t_NavigationPerFileDataInterface::type_ConfigurationDataInterface;
 
   protected:
     navigation::NavigationInterpolatorLatLon _navigation_interpolator{
         navigation::SensorConfiguration()
     };
 
-    std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
+    std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
     I_NavigationDataInterface(
-        std::shared_ptr<t_ConfigurationDataInterface> configuration_data_interface,
+        std::shared_ptr<type_ConfigurationDataInterface> configuration_data_interface,
         std::string_view                              name = "I_NavigationDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
@@ -120,7 +124,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     }
     virtual ~I_NavigationDataInterface() = default;
 
-    t_ConfigurationDataInterface& get_configuration_data_interface() const
+    type_ConfigurationDataInterface& configuration_data_interface()
+    {
+        return *_configuration_data_interface;
+    }
+    const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
         return *_configuration_data_interface;
     }
