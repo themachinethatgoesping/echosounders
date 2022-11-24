@@ -23,6 +23,7 @@
 #include "simradenvironmentdatainterface.hpp"
 #include "simradnavigationdatainterface.hpp"
 #include "simradotherdatainterface.hpp"
+#include "simradpingdatainterface.hpp"
 
 #include "simraddatagraminterface.hpp"
 #include "simradping.hpp"
@@ -42,8 +43,8 @@ class FileSimradRaw
     : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
                                          SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-                                               SimradDatagramInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_InputFile<datagrams::SimradDatagram, SimradDatagramInterface<t_ifstream>>;
 
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
@@ -55,6 +56,9 @@ class FileSimradRaw
         std::make_shared<SimradNavigationDataInterface<t_ifstream>>(_configuration_interface);
     std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> _environment_interface =
         std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>(_navigation_interface);
+    std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_interface =
+        std::make_shared<SimradPingDataInterface<t_ifstream>>(_environment_interface);
+
     std::shared_ptr<SimradAnnotationDataInterface<t_ifstream>> _annotation_interface =
         std::make_shared<SimradAnnotationDataInterface<t_ifstream>>();
     std::shared_ptr<SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
@@ -100,6 +104,7 @@ class FileSimradRaw
     {
         return *_environment_interface;
     }
+    SimradPingDataInterface<t_ifstream>&       ping_interface() { return *_ping_interface; }
     SimradAnnotationDataInterface<t_ifstream>& annotation_interface()
     {
         return *_annotation_interface;
@@ -145,6 +150,7 @@ class FileSimradRaw
         _configuration_interface->add_file_interface(file_paths_cnt);
         _navigation_interface->add_file_interface(file_paths_cnt);
         _environment_interface->add_file_interface(file_paths_cnt);
+        _ping_interface->add_file_interface(file_paths_cnt);
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
@@ -191,23 +197,11 @@ class FileSimradRaw
 
         switch (type)
         {
-            case t_SimradDatagramIdentifier::NME0: {
-
-                auto datagram = datagrams::NME0::from_stream(ifs, header);
-
-                if (!ifs.good())
-                    break;
-
-                _navigation_interface->add_datagram_info(datagram_info);
-                break;
-            }
+            case t_SimradDatagramIdentifier::NME0:
+                [[fallthrough]];
             case t_SimradDatagramIdentifier::MRU0: {
-                auto datagram = datagrams::MRU0::from_stream(ifs, header);
-
-                if (!ifs.good())
-                    break;
-
                 _navigation_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
@@ -244,6 +238,8 @@ class FileSimradRaw
                         _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
                             channel_ptr;
                     }
+
+                    _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "InitialParameter")
                 {
@@ -274,6 +270,7 @@ class FileSimradRaw
                                 channel_ptr;
                         }
                     }
+                    _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "Configuration")
                 {
@@ -286,9 +283,6 @@ class FileSimradRaw
                 }
                 else if (xml_type == "Environment")
                 {
-                    auto xml_datagram =
-                        std::get<datagrams::xml_datagrams::XML_Environment>(xml.decode());
-
                     _environment_interface->add_datagram_info(datagram_info);
                 }
                 else
@@ -311,6 +305,7 @@ class FileSimradRaw
                 _ping_container.add_ping(ping);
                 _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
 
+                _ping_interface->add_datagram_info(datagram_info);
                 break;
             }
             case t_SimradDatagramIdentifier::FIL1: {

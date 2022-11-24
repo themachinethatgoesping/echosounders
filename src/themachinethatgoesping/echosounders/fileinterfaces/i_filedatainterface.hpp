@@ -39,9 +39,9 @@ class I_FileDataInterface
     std::string_view _name;
 
   public:
-  //member types
+    // member types
     using type_PerFileDataInterface = t_perfiledatainterface;
-    using type_DatagramInterface = typename type_PerFileDataInterface::type_DatagramInterface;
+    using type_DatagramInterface    = typename type_PerFileDataInterface::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }
@@ -105,7 +105,7 @@ class I_FileDataInterface
         // but the object it points is not const
 
         progress_bar.init(0.,
-                          double(_interface_per_file.size()-1),
+                          double(_interface_per_file.size() - 1),
                           fmt::format("Initializing {} from file data", _name));
 
         for (const auto& inter : _interface_per_file)

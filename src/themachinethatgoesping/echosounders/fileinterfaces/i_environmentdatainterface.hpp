@@ -36,10 +36,11 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_NavigationDataInterface>
-class I_EnvironmentPerFileDataInterface : public I_PerFileDataInterface<typename t_NavigationDataInterface::type_DatagramInterface>
+class I_EnvironmentPerFileDataInterface
+    : public I_PerFileDataInterface<typename t_NavigationDataInterface::type_DatagramInterface>
 {
     using t_datagraminterface = typename t_NavigationDataInterface::type_DatagramInterface;
-    using t_base = I_PerFileDataInterface<t_datagraminterface>;
+    using t_base              = I_PerFileDataInterface<t_datagraminterface>;
 
   public:
     // member types
@@ -71,11 +72,11 @@ class I_EnvironmentPerFileDataInterface : public I_PerFileDataInterface<typename
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return _navigation_data_interface._configuration_data_interface();
+        return _navigation_data_interface->configuration_data_interface();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return _navigation_data_interface.configuration_data_interface_const();
+        return _navigation_data_interface->configuration_data_interface_const();
     }
 
     type_NavigationDataInterface& navigation_data_interface()
@@ -141,11 +142,11 @@ class I_EnvironmentDataInterface : public I_FileDataInterface<t_EnvironmentPerFi
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return _navigation_data_interface._configuration_data_interface();
+        return _navigation_data_interface->configuration_data_interface();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return _navigation_data_interface.configuration_data_interface_const();
+        return _navigation_data_interface->configuration_data_interface_const();
     }
 
     type_NavigationDataInterface& navigation_data_interface()

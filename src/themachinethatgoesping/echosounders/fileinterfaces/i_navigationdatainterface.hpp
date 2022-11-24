@@ -36,10 +36,11 @@ namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_ConfigurationDataInterface>
-class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<typename t_ConfigurationDataInterface::type_DatagramInterface>
+class I_NavigationPerFileDataInterface
+    : public I_PerFileDataInterface<typename t_ConfigurationDataInterface::type_DatagramInterface>
 {
     using t_datagraminterface = typename t_ConfigurationDataInterface::type_DatagramInterface;
-    using t_base = I_PerFileDataInterface<t_datagraminterface>;
+    using t_base              = I_PerFileDataInterface<t_datagraminterface>;
 
   public:
     // member types
@@ -60,7 +61,7 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<typename 
 
     I_NavigationPerFileDataInterface(
         std::shared_ptr<type_ConfigurationDataInterface> configuration_data_interface,
-        std::string_view name = "I_NavigationPerFileDataInterface")
+        std::string_view                                 name = "I_NavigationPerFileDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
     {
@@ -106,7 +107,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
 
   public:
-    using type_ConfigurationDataInterface = typename t_NavigationPerFileDataInterface::type_ConfigurationDataInterface;
+    using type_ConfigurationDataInterface =
+        typename t_NavigationPerFileDataInterface::type_ConfigurationDataInterface;
 
   protected:
     navigation::NavigationInterpolatorLatLon _navigation_interpolator{
@@ -118,7 +120,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
   public:
     I_NavigationDataInterface(
         std::shared_ptr<type_ConfigurationDataInterface> configuration_data_interface,
-        std::string_view                              name = "I_NavigationDataInterface")
+        std::string_view                                 name = "I_NavigationDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
     {
@@ -155,7 +157,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             try
             {
                 this->_interface_per_file[i]->init_from_file();
-                _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data());
+                _navigation_interpolator.merge(
+                    this->_interface_per_file[i]->read_navigation_data());
             }
             catch (std::exception& e)
             {

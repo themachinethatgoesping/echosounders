@@ -13,39 +13,38 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_environmentdatainterface.hpp"
+#include "../fileinterfaces/i_pingdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradnavigationdatainterface.hpp"
+#include "simradenvironmentdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-class SimradEnvironmentPerFileDataInterface
-    : public fileinterfaces::I_EnvironmentPerFileDataInterface<
-          SimradNavigationDataInterface<t_ifstream>>
+class SimradPingPerFileDataInterface
+    : public fileinterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentPerFileDataInterface<
-        SimradNavigationDataInterface<t_ifstream>>;
+    using t_base =
+        fileinterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentPerFileDataInterface()
-        : t_base("SimradEnvironmentPerFileDataInterface")
+    SimradPingPerFileDataInterface()
+        : t_base("SimradPingPerFileDataInterface")
     {
     }
-    SimradEnvironmentPerFileDataInterface(
-        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
-        : t_base(std::move(navigation_data_interface), "SimradEnvironmentPerFileDataInterface")
+    SimradPingPerFileDataInterface(
+        std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> environment_data_interface)
+        : t_base(std::move(environment_data_interface), "SimradPingPerFileDataInterface")
     {
     }
-    ~SimradEnvironmentPerFileDataInterface() = default;
+    ~SimradPingPerFileDataInterface() = default;
 
-    // environment::EnvironmentInterpolatorLatLon read_environment_data() const final
+    // ping::PingInterpolatorLatLon read_ping_data() const final
     // {
     //     return navi;
     // }
@@ -61,27 +60,25 @@ class SimradEnvironmentPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradEnvironmentPerFileDataInterface");
+        printer.register_section("SimradPingPerFileDataInterface");
 
         return printer;
     }
 };
 
 template<typename t_ifstream>
-class SimradEnvironmentDataInterface
-    : public fileinterfaces::I_EnvironmentDataInterface<
-          SimradEnvironmentPerFileDataInterface<t_ifstream>>
+class SimradPingDataInterface
+    : public fileinterfaces::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentDataInterface<
-        SimradEnvironmentPerFileDataInterface<t_ifstream>>;
+    using t_base = fileinterfaces::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentDataInterface(
-        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
-        : t_base(std::move(navigation_data_interface), "SimradEnvironmentDataInterface")
+    SimradPingDataInterface(
+        std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> environment_data_interface)
+        : t_base(std::move(environment_data_interface), "SimradPingDataInterface")
     {
     }
-    ~SimradEnvironmentDataInterface() = default;
+    ~SimradPingDataInterface() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)

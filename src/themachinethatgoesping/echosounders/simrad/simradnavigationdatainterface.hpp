@@ -56,7 +56,8 @@ class SimradNavigationPerFileDataInterface
     navigation::NavigationInterpolatorLatLon read_navigation_data() const final
     {
         navigation::NavigationInterpolatorLatLon navi(
-            this->configuration_data_interface_const().get_sensor_configuration(this->get_file_nr()));
+            this->configuration_data_interface_const().get_sensor_configuration(
+                this->get_file_nr()));
 
         /* scan through NMEA data */
         std::vector<double> lats, lons, gps_times, depths;

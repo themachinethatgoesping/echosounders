@@ -30,7 +30,7 @@ class I_DatagramInterface
   public:
     // member types
     using type_DatagramIdentifier = t_DatagramIdentifier;
-    using type_ifstream = t_ifstream;
+    using type_ifstream           = t_ifstream;
 
   private:
     std::string_view

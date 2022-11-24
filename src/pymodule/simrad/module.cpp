@@ -37,7 +37,8 @@ void init_c_SimradConfigurationDataInterface(
 void init_c_SimradNavigationDataInterface(
     pybind11::module& m); // c_simradnavigationdatainterface.cpp
 void init_c_SimradEnvironmentDataInterface(
-    pybind11::module& m); // c_simradenvironmentdatainterface.cpp
+    pybind11::module& m);                                 // c_simradenvironmentdatainterface.cpp
+void init_c_SimradPingDataInterface(pybind11::module& m); // c_simradpingdatainterface.cpp
 void init_c_SimradAnnotationDataInterface(
     pybind11::module& m);                                  // c_simradannotationdatainterface.cpp
 void init_c_SimradOtherDataInterface(pybind11::module& m); // c_simradotherdatainterface.cpp
@@ -132,6 +133,7 @@ void init_m_simrad(pybind11::module& m)
     init_c_SimradConfigurationDataInterface(subm);
     init_c_SimradNavigationDataInterface(subm);
     init_c_SimradEnvironmentDataInterface(subm);
+    init_c_SimradPingDataInterface(subm);
     init_c_SimradAnnotationDataInterface(subm);
     init_c_SimradOtherDataInterface(subm);
 

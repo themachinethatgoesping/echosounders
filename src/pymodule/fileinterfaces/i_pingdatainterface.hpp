@@ -10,7 +10,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_environmentdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_pingdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -18,10 +18,10 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_fileinterfaces {
-namespace py_i_EnvironmentDataInterface {
+namespace py_i_PingDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
+void PingPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -32,19 +32,26 @@ void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_EnvironmentPerFileDataInterface,
+                I_PingPerFileDataInterface,
                 configuration_data_interface));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_EnvironmentPerFileDataInterface,
+                I_PingPerFileDataInterface,
                 navigation_data_interface));
+    cls.def("environment_data_interface",
+            &T_BaseClass::environment_data_interface,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_PingPerFileDataInterface,
+                environment_data_interface));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentDataInterface_add_interface(T_PyClass& cls)
+void PingDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -55,15 +62,22 @@ void EnvironmentDataInterface_add_interface(T_PyClass& cls)
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_EnvironmentDataInterface,
+                I_PingDataInterface,
                 configuration_data_interface));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
                 fileinterfaces,
-                I_EnvironmentDataInterface,
+                I_PingDataInterface,
                 navigation_data_interface));
+    cls.def("environment_data_interface",
+            &T_BaseClass::environment_data_interface,
+            DOC(themachinethatgoesping,
+                echosounders,
+                fileinterfaces,
+                I_PingDataInterface,
+                environment_data_interface));
 }
 
 }
