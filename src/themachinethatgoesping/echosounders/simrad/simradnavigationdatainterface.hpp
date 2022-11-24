@@ -28,11 +28,9 @@ namespace simrad {
 template<typename t_ifstream>
 class SimradNavigationPerFileDataInterface
     : public fileinterfaces::I_NavigationPerFileDataInterface<
-          SimradDatagramInterface<t_ifstream>,
           SimradConfigurationDataInterface<t_ifstream>>
 {
     using t_base = fileinterfaces::I_NavigationPerFileDataInterface<
-        SimradDatagramInterface<t_ifstream>,
         SimradConfigurationDataInterface<t_ifstream>>;
 
     int _min_gga_quality = 1;

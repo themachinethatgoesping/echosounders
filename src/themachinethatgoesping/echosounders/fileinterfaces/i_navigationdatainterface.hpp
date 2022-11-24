@@ -35,9 +35,10 @@ namespace echosounders {
 namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
-template<typename t_datagraminterface, typename t_ConfigurationDataInterface>
-class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
+template<typename t_ConfigurationDataInterface>
+class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<typename t_ConfigurationDataInterface::type_DatagramInterface>
 {
+    using t_datagraminterface = typename t_ConfigurationDataInterface::type_DatagramInterface;
     using t_base = I_PerFileDataInterface<t_datagraminterface>;
 
   public:

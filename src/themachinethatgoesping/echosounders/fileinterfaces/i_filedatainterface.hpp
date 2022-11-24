@@ -41,6 +41,7 @@ class I_FileDataInterface
   public:
   //member types
     using type_PerFileDataInterface = t_perfiledatainterface;
+    using type_DatagramInterface = typename type_PerFileDataInterface::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }

@@ -40,6 +40,9 @@ class I_PerFileDataInterface : public t_datagraminterface
     using t_base = t_datagraminterface;
 
   public:
+    using type_DatagramInterface = t_datagraminterface;
+
+  public:
     I_PerFileDataInterface(std::string_view name = "I_PerFileDataInterface")
         : t_base(name)
     {

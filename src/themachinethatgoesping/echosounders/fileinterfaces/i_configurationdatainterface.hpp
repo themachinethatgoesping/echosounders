@@ -42,6 +42,7 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
 {
     using t_base = I_PerFileDataInterface<t_datagraminterface>;
 
+  private:
     navigation::SensorConfiguration _sensor_configuration;
 
   public:
