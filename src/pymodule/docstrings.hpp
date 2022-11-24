@@ -23,6 +23,10 @@
 #endif
 
 
+static const char *__doc_std_hash = R"doc()doc";
+
+static const char *__doc_std_hash_operator_call = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string = R"doc()doc";
@@ -518,6 +522,20 @@ static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_Mapp
 
 static const char *__doc_themachinethatgoesping_echosounders_fileinterfaces_MappedFileStream_MappedFileStream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_DeduplicateBuffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_add = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_datagrams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_get = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_get_all = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_DeduplicateBuffer_last_datagram_per_channel_id = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_FileSimradRaw = R"doc()doc";
@@ -543,8 +561,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_channel_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_channel_parameters_per_channel_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_configuration_interface = R"doc()doc";
 
@@ -709,6 +725,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPing =
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_SimradPingDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_add_channel_parameter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_channel_parameter_buffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_get_channel_parameter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_get_deduplicated = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_SimradPingDataInterface_printer = R"doc()doc";
 
@@ -2052,7 +2076,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_PulseLength = R"doc(< used for cv ( PulseForm == 0))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_SampleInterval = R"doc()doc";
 
@@ -2083,6 +2107,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_parsed_completely = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_slow_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream = R"doc()doc";
 

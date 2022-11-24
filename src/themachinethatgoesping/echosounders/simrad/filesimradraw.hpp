@@ -135,13 +135,11 @@ class FileSimradRaw
   protected:
     struct
     {
-        datagrams::xml_datagrams::XML_Configuration configuration;
         std::map<std::string, std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
             channel_parameters_per_channel_id;
-        std::map<datagrams::xml_datagrams::XML_Parameter_Channel,
-                 std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
+        std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
+                           std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
             channel_parameters;
-
     } _packet_buffer;
 
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
@@ -239,6 +237,7 @@ class FileSimradRaw
                             channel_ptr;
                     }
 
+                    _ping_interface->add_channel_parameter(channel, channel.ChannelID);
                     _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "InitialParameter")
@@ -269,6 +268,7 @@ class FileSimradRaw
                             _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
                                 channel_ptr;
                         }
+                        _ping_interface->add_channel_parameter(channel, channel.ChannelID);
                     }
                     _ping_interface->add_datagram_info(datagram_info);
                 }
@@ -276,8 +276,6 @@ class FileSimradRaw
                 {
                     auto xml_datagram =
                         std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
-
-                    _packet_buffer.configuration = xml_datagram;
 
                     _configuration_interface->add_datagram_info(datagram_info);
                 }

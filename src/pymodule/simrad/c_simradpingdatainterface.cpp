@@ -74,13 +74,23 @@ template<typename T_FileStream>
 void py_create_class_SimradPingDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_fileinterfaces::py_i_PingDataInterface::PingDataInterface_add_interface;
+    using T_BaseClass = SimradPingDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<SimradPingDataInterface<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+
+                   .def("get_deduplicated",
+                        &T_BaseClass::get_deduplicated,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            SimradPingDataInterface,
+                            get_deduplicated))
+        //
+        ;
 
     //----- inherit functions from I_PingDataInterface -----
-    PingDataInterface_add_interface<SimradPingDataInterface<T_FileStream>>(cls);
+    PingDataInterface_add_interface<T_BaseClass>(cls);
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -88,7 +98,7 @@ void py_create_class_SimradPingDataInterface(py::module& m, const std::string& C
     /* default binary functions*/
     /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
     /* default printing functions */
-    // cls __PYCLASS_DEFAULT_PRINTING__(SimradPingDataInterface<T_FileStream>);
+    // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
 void init_c_SimradPingDataInterface(pybind11::module& m)
