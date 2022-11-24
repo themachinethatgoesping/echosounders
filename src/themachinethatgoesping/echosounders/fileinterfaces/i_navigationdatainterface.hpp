@@ -139,8 +139,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             try
             {
                 this->_interface_per_file[i]->init_from_file();
-                _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data(),
-                                               get_force_merge());
+                _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data());
             }
             catch (std::exception& e)
             {
