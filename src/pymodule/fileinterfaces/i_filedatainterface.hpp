@@ -62,7 +62,10 @@ void FileDataInterface_add_interface(T_PyClass& cls)
         py::arg("file_nr"));
 
     cls.def("init_from_file",
-            py::overload_cast<bool>(&T_BaseClass::init_from_file),
+            // py::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //
+            // compiler error on windows, but cstyle cast works
+            // (https://github.com/pybind/pybind11/issues/1153)
+            (void(T_BaseClass::*)(bool))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
