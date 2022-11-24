@@ -126,104 +126,10 @@ class FileSimradRaw
         return channel_ids;
     }
 
-    navigation::NavigationInterpolatorLatLon process_navigation(bool show_progress = true)
-    {
-        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        return process_navigation(progress_bar.get());
-    }
-
-    navigation::NavigationInterpolatorLatLon process_navigation(
-        tools::progressbars::I_ProgressBar& progress_bar)
-    {
-
-        auto sensor_configuration = _packet_buffer.configuration.get_sensor_configuration();
-
-        auto navi = navigation::NavigationInterpolatorLatLon(std::move(sensor_configuration));
-
-        progress_bar.init(
-            0.,
-            double(_packet_buffer.nme0_packets.size() + _packet_buffer.mru0_packets.size()),
-            "scanning navigation data");
-
-        progress_bar.set_postfix("scanning navigation data (NME0) ");
-        std::vector<double> lats, lons, gps_times, altitudes;
-
-        for (const auto& nme0 : _packet_buffer.nme0_packets)
-        {
-            if (nme0.get_sentence_type() == "GGA")
-            {
-                auto nmea_timestamp = nme0.get_timestamp();
-                if (!gps_times.empty())
-                    if (!(gps_times.back() < nmea_timestamp))
-                        continue;
-
-                auto gga = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
-                auto lat = gga.get_latitude();
-                auto lon = gga.get_longitude();
-                auto alt = gga.get_altitude();
-
-                if (!std::isfinite(lat) || !std::isfinite(lon) || !std::isfinite(alt))
-                    continue;
-
-                lats.push_back(lat);
-                lons.push_back(lon);
-                gps_times.push_back(nmea_timestamp);
-                altitudes.push_back(alt);
-            }
-
-            progress_bar.tick();
-        }
-
-        progress_bar.set_postfix("scanning navigation data (MRU0) ");
-        std::vector<double> headings, pitchs, rolls, heaves, mru0_times;
-
-        for (const auto& mru0 : _packet_buffer.mru0_packets)
-        {
-            auto mru_timestamp = mru0.get_timestamp();
-            if (!mru0_times.empty())
-                if (!(mru0_times.back() < mru_timestamp))
-                    continue;
-
-            auto heading = mru0.get_heading();
-            auto pitch   = mru0.get_pitch();
-            auto roll    = mru0.get_roll();
-            auto heave   = mru0.get_heave();
-
-            if (!std::isfinite(heading) || !std::isfinite(pitch) || !std::isfinite(roll) ||
-                !std::isfinite(heave))
-                continue;
-
-            headings.push_back(heading);
-            pitchs.push_back(pitch);
-            rolls.push_back(roll);
-            heaves.push_back(heave);
-            mru0_times.push_back(mru_timestamp);
-
-            progress_bar.tick();
-        }
-
-        progress_bar.set_postfix("initializing navigation interpolator");
-        navi.set_data_attitude(mru0_times, pitchs, rolls);
-        navi.set_data_heading(mru0_times, headings);
-        navi.set_data_heave(mru0_times, heaves);
-        navi.set_data_position(gps_times, lats, lons);
-        // TODO: ALtitude / depth?
-
-        progress_bar.close(fmt::format("Processed {} NMEA datagrams and {} MRU0 datagrams",
-                                       _packet_buffer.nme0_packets.size(),
-                                       _packet_buffer.mru0_packets.size()));
-
-        return navi;
-    }
-
   protected:
     struct
     {
         datagrams::xml_datagrams::XML_Configuration configuration;
-        std::vector<datagrams::NME0>                nme0_packets;
-        std::vector<datagrams::MRU0>                mru0_packets;
-        // std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel>
-        // channel_parameters;
         std::map<std::string, std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
             channel_parameters_per_channel_id;
         std::map<datagrams::xml_datagrams::XML_Parameter_Channel,
@@ -237,8 +143,6 @@ class FileSimradRaw
     {
         _configuration_interface->add_file_interface(file_paths_cnt);
         _navigation_interface->add_file_interface(file_paths_cnt);
-        _packet_buffer.nme0_packets.clear();
-        _packet_buffer.mru0_packets.clear();
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
@@ -292,7 +196,6 @@ class FileSimradRaw
                 if (!ifs.good())
                     break;
 
-                _packet_buffer.nme0_packets.push_back(datagram);
                 _navigation_interface->add_datagram_info(datagram_info);
                 break;
             }
@@ -302,7 +205,6 @@ class FileSimradRaw
                 if (!ifs.good())
                     break;
 
-                _packet_buffer.mru0_packets.push_back(datagram);
                 _navigation_interface->add_datagram_info(datagram_info);
                 break;
             }
@@ -370,11 +272,6 @@ class FileSimradRaw
                                 channel_ptr;
                         }
                     }
-
-                    // for (const auto& channel : channels)
-                    //     _packet_buffer.channel_parameters[channel.ChannelID] =
-                    //         std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
-                    //             std::move(channel));
                 }
                 else if (xml_type == "Configuration")
                 {
