@@ -74,7 +74,8 @@ void FileDataInterface_add_interface(T_PyClass& cls)
                 init_from_file),
             py::arg("show_progress") = true);
     cls.def("init_from_file",
-            py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
+            //py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(I_ProgressBar&))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
