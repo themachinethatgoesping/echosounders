@@ -135,20 +135,21 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
         {
             progress_bar.set_postfix(fmt::format("{}/{}", i, this->_interface_per_file.size()));
-            
+
             try
             {
-                this->_interface_per_file[i]->init_from_file(); 
-                _navigation_interpolator.merge(
-                    this->_interface_per_file[i]->read_navigation_data(), get_force_merge());
+                this->_interface_per_file[i]->init_from_file();
+                _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data(),
+                                               get_force_merge());
             }
             catch (std::exception& e)
             {
-                fmt::print(std::cerr,
-                           "{}::init_from_file. Could not merge file navigation ({}): {}\n",
-                           this->get_name(),
-                           i,
-                           e.what());
+                fmt::print(
+                    std::cerr,
+                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}): {}\n",
+                    this->get_name(),
+                    i,
+                    e.what());
             }
             progress_bar.tick();
         }
