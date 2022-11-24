@@ -38,6 +38,10 @@ class I_FileDataInterface
 {
     std::string_view _name;
 
+  public:
+  //member types
+    using type_PerFileDataInterface = t_perfiledatainterface;
+
   protected:
     std::string_view get_name() const { return _name; }
 

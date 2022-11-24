@@ -40,10 +40,11 @@ using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstrea
 template<typename t_ifstream>
 class FileSimradRaw
     : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-                                         t_SimradDatagramIdentifier,
-                                         SimradDatagramInterface<t_ifstream>,
-                                         t_ifstream>
+                                         SimradDatagramInterface<t_ifstream>>
 {
+    using t_base = fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+                                               SimradDatagramInterface<t_ifstream>>;
+
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
         _ping_container_by_channel;
@@ -344,11 +345,7 @@ class FileSimradRaw
     {
         tools::classhelper::ObjectPrinter printer("FileSimradRaw", float_precision);
 
-        auto interface_printer =
-            fileinterfaces::I_InputFile<datagrams::SimradDatagram,
-                                        t_SimradDatagramIdentifier,
-                                        SimradDatagramInterface<t_ifstream>,
-                                        t_ifstream>::__printer__(float_precision);
+        auto interface_printer = t_base::__printer__(float_precision);
 
         printer.append(interface_printer);
 

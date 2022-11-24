@@ -29,11 +29,11 @@ template<typename t_ifstream>
 class SimradNavigationPerFileDataInterface
     : public fileinterfaces::I_NavigationPerFileDataInterface<
           SimradDatagramInterface<t_ifstream>,
-          SimradConfigurationPerFileDataInterface<t_ifstream>>
+          SimradConfigurationDataInterface<t_ifstream>>
 {
     using t_base = fileinterfaces::I_NavigationPerFileDataInterface<
         SimradDatagramInterface<t_ifstream>,
-        SimradConfigurationPerFileDataInterface<t_ifstream>>;
+        SimradConfigurationDataInterface<t_ifstream>>;
 
     int _min_gga_quality = 1;
     int _max_gga_quality = 5;
@@ -44,7 +44,7 @@ class SimradNavigationPerFileDataInterface
     {
     }
     SimradNavigationPerFileDataInterface(
-        std::shared_ptr<SimradConfigurationPerFileDataInterface<t_ifstream>>
+        std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>>
             configuration_data_interface)
         : t_base(std::move(configuration_data_interface), "SimradNavigationPerFileDataInterface")
     {
@@ -59,7 +59,7 @@ class SimradNavigationPerFileDataInterface
     navigation::NavigationInterpolatorLatLon read_navigation_data() const final
     {
         navigation::NavigationInterpolatorLatLon navi(
-            this->_configuration_data_interface->get_sensor_configuration());
+            this->_configuration_data_interface->get_sensor_configuration(this->get_file_nr()));
 
         /* scan through NMEA data */
         std::vector<double> lats, lons, gps_times, depths;

@@ -27,6 +27,12 @@ namespace fileinterfaces {
 template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_DatagramInterface
 {
+  public:
+    // member types
+    using type_DatagramIdentifier = t_DatagramIdentifier;
+    using type_ifstream = t_ifstream;
+
+  private:
     std::string_view
         _name; ///< name of the datagram container (useful for debugging derived classes)
   protected:

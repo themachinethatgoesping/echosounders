@@ -35,46 +35,44 @@ namespace echosounders {
 namespace fileinterfaces {
 
 // TODO: this should be a c++20 concept
-template<typename t_datagraminterface, typename t_ConfigurationDataInterface>
-class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
+template<typename t_datagraminterface, 
+typename t_ConfigurationDataInterface,
+typename t_NavigationDataInterface>
+class I_PingPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
 {
     using t_base = I_PerFileDataInterface<t_datagraminterface>;
-
-  public:
-    // member types
-    using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
 
   protected:
     std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
-    I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
+    I_PingPerFileDataInterface(std::string_view name = "I_PingPerFileDataInterface")
         : t_base(name)
     {
         throw std::runtime_error(
-            fmt::format("I_NavigationPerFileDataInterface({}): cannot be initialized without "
+            fmt::format("I_PingPerFileDataInterface({}): cannot be initialized without "
                         "existing configuration_data_interface",
                         this->get_name()));
     }
 
-    I_NavigationPerFileDataInterface(
+    I_PingPerFileDataInterface(
         std::shared_ptr<t_ConfigurationDataInterface> configuration_data_interface,
-        std::string_view name = "I_NavigationPerFileDataInterface")
+        std::string_view name = "I_PingPerFileDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
     {
     }
-    virtual ~I_NavigationPerFileDataInterface() = default;
+    virtual ~I_PingPerFileDataInterface() = default;
 
     t_ConfigurationDataInterface& get_configuration_data_interface() const
     {
         return *_configuration_data_interface;
     }
 
-    virtual navigation::NavigationInterpolatorLatLon read_navigation_data() const
+    virtual ping::PingInterpolatorLatLon read_ping_data() const
     {
         throw std::runtime_error(
-            fmt::format("I_NavigationPerFileDataInterface({}): read_navigation_data() not "
+            fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
                         "implemented",
                         this->get_name()));
     }
@@ -89,43 +87,40 @@ class I_NavigationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("NavigationPerFileDataInterface");
+        printer.register_section("PingPerFileDataInterface");
         return printer;
     }
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
-template<typename t_NavigationPerFileDataInterface, typename t_ConfigurationDataInterface>
-class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFileDataInterface>
+template<typename t_PingPerFileDataInterface, typename t_ConfigurationDataInterface>
+class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterface>
 {
-    using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
-
-  public:
-    using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
+    using t_base = I_FileDataInterface<t_PingPerFileDataInterface>;
 
   protected:
-    navigation::NavigationInterpolatorLatLon _navigation_interpolator{
-        navigation::SensorConfiguration()
+    ping::PingInterpolatorLatLon _ping_interpolator{
+        ping::SensorConfiguration()
     };
 
     std::shared_ptr<t_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
-    I_NavigationDataInterface(
+    I_PingDataInterface(
         std::shared_ptr<t_ConfigurationDataInterface> configuration_data_interface,
-        std::string_view                              name = "I_NavigationDataInterface")
+        std::string_view                              name = "I_PingDataInterface")
         : t_base(name)
         , _configuration_data_interface(configuration_data_interface)
     {
     }
-    virtual ~I_NavigationDataInterface() = default;
+    virtual ~I_PingDataInterface() = default;
 
     t_ConfigurationDataInterface& get_configuration_data_interface() const
     {
         return *_configuration_data_interface;
     }
 
-    using I_FileDataInterface<t_NavigationPerFileDataInterface>::init_from_file;
+    using I_FileDataInterface<t_PingPerFileDataInterface>::init_from_file;
     void init_from_file(tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
@@ -137,7 +132,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
                           fmt::format("Initializing {} from file data", this->get_name()));
 
         this->_interface_per_file.front()->init_from_file();
-        _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
+        _ping_interpolator = this->_interface_per_file.front()->read_ping_data();
 
         for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
         {
@@ -146,13 +141,13 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             try
             {
                 this->_interface_per_file[i]->init_from_file();
-                _navigation_interpolator.merge(this->_interface_per_file[i]->read_navigation_data());
+                _ping_interpolator.merge(this->_interface_per_file[i]->read_ping_data());
             }
             catch (std::exception& e)
             {
                 fmt::print(
                     std::cerr,
-                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}): {}\n",
+                    "WARNING[{}::init_from_file]: Could not merge file ping ({}): {}\n",
                     this->get_name(),
                     i,
                     e.what());
@@ -163,9 +158,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         progress_bar.close(std::string("Done"));
     }
 
-    navigation::NavigationInterpolatorLatLon& get_navigation_data()
+    ping::PingInterpolatorLatLon& get_ping_data()
     {
-        return _navigation_interpolator;
+        return _ping_interpolator;
     }
 
     // ----- old -----
@@ -181,8 +176,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
                 this->_interface_per_file.push_back(
-                    std::make_shared<t_NavigationPerFileDataInterface>(
-                        this->_configuration_data_interface));
+                    std::make_shared<t_PingPerFileDataInterface>(
+                        this->_configuration_data_interface->per_file_ptr(i)));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }
@@ -196,7 +191,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("NavigationDataInterface");
+        printer.register_section("PingDataInterface");
 
         return printer;
     }

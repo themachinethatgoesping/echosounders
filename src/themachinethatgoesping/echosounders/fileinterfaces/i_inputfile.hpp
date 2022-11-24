@@ -33,16 +33,16 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-template<typename t_DatagramBase,       ///< the datagram base class which should
-                                        ///< contain the header and functions
-                                        ///< specified in the DatagramBase interface
-         typename t_DatagramIdentifier, ///< the identifier of the datagram type.
-                                        ///< Must be hashable and comparable with
-                                        ///< ==
-         typename t_DatagramInterface,
-         typename t_ifstream>
+template<typename t_DatagramBase, ///< the datagram base class which should
+                                  ///< contain the header and functions
+                                  ///< specified in the DatagramBase interface
+         typename t_DatagramInterface>
 class I_InputFile
 {
+  public:
+    // member types
+    using t_DatagramIdentifier = typename t_DatagramInterface::type_DatagramIdentifier;
+    using t_ifstream           = typename t_DatagramInterface::type_ifstream;
 
   protected:
     std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager =

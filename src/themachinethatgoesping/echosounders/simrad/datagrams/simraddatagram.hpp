@@ -28,6 +28,8 @@ namespace datagrams {
 
 struct SimradDatagram
 {
+    using t_DatagramIdentifier = t_SimradDatagramIdentifier;
+
     simrad_long _Length;       ///< Raw: Length of the datagram in bytes
     simrad_long _DatagramType; ///< Raw: Datagram type as
     simrad_long
