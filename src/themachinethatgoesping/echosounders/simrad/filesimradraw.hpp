@@ -133,14 +133,6 @@ class FileSimradRaw
     }
 
   protected:
-    struct
-    {
-        std::map<std::string, std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
-            channel_parameters_per_channel_id;
-        std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
-                           std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>>
-            channel_parameters;
-    } _packet_buffer;
 
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
@@ -216,27 +208,6 @@ class FileSimradRaw
                     auto channel =
                         std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
 
-                    // add channel_ptr if channel is not in in _packet_buffer.channel_parameters
-                    // keys
-                    if (_packet_buffer.channel_parameters.find(channel) ==
-                        _packet_buffer.channel_parameters.end())
-                    {
-                        auto channel_ptr =
-                            std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
-                                channel);
-                        _packet_buffer.channel_parameters[channel] = channel_ptr;
-                        _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
-                            channel_ptr;
-                    }
-                    else
-                    {
-                        // update channel_ptr if channel is in in _packet_buffer.channel_parameters
-                        // keys
-                        auto channel_ptr = _packet_buffer.channel_parameters[channel];
-                        _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
-                            channel_ptr;
-                    }
-
                     _ping_interface->add_channel_parameter(channel, channel.ChannelID);
                     _ping_interface->add_datagram_info(datagram_info);
                 }
@@ -248,26 +219,6 @@ class FileSimradRaw
 
                     for (const auto& channel : channels)
                     {
-                        // add channel_ptr if channel is not in in _packet_buffer.channel_parameters
-                        // keys
-                        if (_packet_buffer.channel_parameters.find(channel) ==
-                            _packet_buffer.channel_parameters.end())
-                        {
-                            auto channel_ptr =
-                                std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
-                                    channel);
-                            _packet_buffer.channel_parameters[channel] = channel_ptr;
-                            _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
-                                channel_ptr;
-                        }
-                        else
-                        {
-                            // update channel_ptr if channel is in in
-                            // _packet_buffer.channel_parameters keys
-                            auto channel_ptr = _packet_buffer.channel_parameters[channel];
-                            _packet_buffer.channel_parameters_per_channel_id[channel.ChannelID] =
-                                channel_ptr;
-                        }
                         _ping_interface->add_channel_parameter(channel, channel.ChannelID);
                     }
                     _ping_interface->add_datagram_info(datagram_info);
@@ -297,8 +248,7 @@ class FileSimradRaw
                 if (!ifs.good())
                     break;
 
-                ping->raw().add_parameter(
-                    _packet_buffer.channel_parameters_per_channel_id[ping->get_channel_id()]);
+                ping->raw().add_parameter(_ping_interface->get_channel_parameter(ping->get_channel_id()));
 
                 _ping_container.add_ping(ping);
                 _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);

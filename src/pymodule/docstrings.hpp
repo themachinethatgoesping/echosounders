@@ -558,10 +558,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_channel_ids = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_channel_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_channel_parameters_per_channel_id = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_configuration_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_configuration_interface_2 = R"doc()doc";
@@ -577,8 +573,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_packet_buffer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_container = R"doc()doc";
 
