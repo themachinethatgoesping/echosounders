@@ -10,14 +10,14 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_annotationdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_annotationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_AnnotationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -31,7 +31,7 @@ void AnnotationPerFileDataInterface_add_interface(T_PyClass& cls)
     //         &T_BaseClass::read_sensor_annotation,
     //         DOC(themachinethatgoesping,
     //             echosounders,
-    //             fileinterfaces,
+    //             filetemplates,
     //             I_AnnotationPerFileDataInterface,
     //             read_sensor_annotation));
 }
@@ -47,7 +47,7 @@ void AnnotationDataInterface_add_interface(T_PyClass& cls)
     //         &T_BaseClass::get_sensor_annotation,
     //         DOC(themachinethatgoesping,
     //             echosounders,
-    //             fileinterfaces,
+    //             filetemplates,
     //             I_AnnotationDataInterface,
     //             get_sensor_annotation),
     //             py::arg("index"));

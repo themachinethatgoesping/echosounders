@@ -32,7 +32,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 template<typename t_Ping>
 using PingVector = std::vector<std::shared_ptr<t_Ping>>;
@@ -316,6 +316,6 @@ class I_PingContainer
     }
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

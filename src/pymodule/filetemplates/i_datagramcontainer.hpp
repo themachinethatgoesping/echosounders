@@ -10,14 +10,14 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_datagramcontainer.hpp"
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/mappedfilestream.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_datagramcontainer.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/mappedfilestream.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_DatagramContainer {
 
 template<typename T_BaseClass, typename T_DatagramIdentifier, typename T_PyClass>
@@ -32,7 +32,7 @@ void _add_DatagramReading(T_PyClass& cls)
             &T_BaseClass::break_by_time_diff,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 break_by_time_diff),
             py::arg("max_time_diff_seconds"));
@@ -42,7 +42,7 @@ void _add_DatagramReading(T_PyClass& cls)
             &T_BaseClass::get_sorted_by_time,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 get_sorted_by_time));
 
@@ -51,7 +51,7 @@ void _add_DatagramReading(T_PyClass& cls)
             &T_BaseClass::count_datagrams_per_type,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 count_datagrams_per_type));
 
@@ -59,7 +59,7 @@ void _add_DatagramReading(T_PyClass& cls)
             &T_BaseClass::find_datagram_types,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 find_datagram_types));
 
@@ -68,7 +68,7 @@ void _add_DatagramReading(T_PyClass& cls)
             py::overload_cast<T_DatagramIdentifier>(&T_BaseClass::operator(), py::const_),
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 operator_call),
             py::arg("datagram_identifier"));
@@ -77,7 +77,7 @@ void _add_DatagramReading(T_PyClass& cls)
                                                                         py::const_),
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 operator_call_2),
             py::arg("datagram_identifiers"));
@@ -85,13 +85,13 @@ void _add_DatagramReading(T_PyClass& cls)
     /* datagram reading */
     cls.def("size",
             &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, size));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer, size));
     cls.def("__len__",
             &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, size));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer, size));
     cls.def("__getitem__",
             &T_BaseClass::at,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, at),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer, at),
             py::arg("index"),
             pybind11::return_value_policy::reference_internal);
     cls.def("__getitem__",
@@ -99,7 +99,7 @@ void _add_DatagramReading(T_PyClass& cls)
                                                                         py::const_),
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramContainer,
                 operator_call),
             py::arg("slice"),
@@ -107,7 +107,7 @@ void _add_DatagramReading(T_PyClass& cls)
     cls.def(
         "__reversed__",
         &T_BaseClass::reversed,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer, reversed),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer, reversed),
         pybind11::return_value_policy::reference_internal);
 }
 
@@ -116,8 +116,8 @@ template<typename T_DatagramType,
          typename T_DatagramFactory = T_DatagramType>
 void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAINER_NAME)
 {
-    using fileinterfaces::I_DatagramContainer;
-    using fileinterfaces::MappedFileStream;
+    using filetemplates::I_DatagramContainer;
+    using filetemplates::MappedFileStream;
     namespace py = pybind11;
 
     using T_CONTAINER =
@@ -130,7 +130,7 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
     auto cls_stream = py::class_<T_CONTAINER>(
         m,
         CONTAINER_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer))
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
@@ -144,7 +144,7 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
     auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(
         m,
         (CONTAINER_NAME + "_mapped").c_str(),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramContainer))
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER_MAPPED)

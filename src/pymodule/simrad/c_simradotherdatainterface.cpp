@@ -23,7 +23,7 @@
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_filedatainterface.hpp"
+#include "../filetemplates/i_filedatainterface.hpp"
 #include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -32,7 +32,7 @@ namespace pymodule {
 namespace py_simrad {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
@@ -41,7 +41,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+    using namespace py_filetemplates; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
 
     using T_BaseClass = SimradOtherPerFileDataInterface<T_FileStream>;
@@ -73,7 +73,7 @@ void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::s
 template<typename T_FileStream>
 void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_fileinterfaces::py_i_FileDataInterface::FileDataInterface_add_interface;
+    using py_filetemplates::py_i_FileDataInterface::FileDataInterface_add_interface;
 
     // initialize class
     auto cls = py::class_<SimradOtherDataInterface<T_FileStream>>(

@@ -11,14 +11,14 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_inputfile.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_inputfile.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_InputFile {
 
 template<typename T_PyClass>
@@ -29,22 +29,22 @@ void add_DefaultConstructors(T_PyClass& cls)
 
     cls.def(py::init<const std::string&, bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile),
             py::arg("file_path"),
             py::arg("show_progress") = true);
     cls.def(py::init<const std::string&, I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_2),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_2),
             py::arg("file_path"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&, bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_3),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_3),
             py::arg("file_path"),
             py::arg("show_progress") = true);
     cls.def(py::init<const std::vector<std::string>&, I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, I_InputFile_4),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_4),
             py::arg("file_paths"),
             py::arg("progress_bar"));
 }
@@ -58,26 +58,26 @@ void add_FileOpenInterface(T_PyClass& cls)
     cls.def("append_file",
             py::overload_cast<const std::string&, bool>(&T_BaseClass::append_file),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, append_file),
             py::arg("file_path"),
             py::arg("show_progress") = true);
     cls.def("append_file",
             py::overload_cast<const std::string&, I_ProgressBar&>(&T_BaseClass::append_file),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, append_file),
             py::arg("file_path"),
             py::arg("progress_bar"));
     cls.def("append_files",
             py::overload_cast<const std::vector<std::string>&, bool>(&T_BaseClass::append_files),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, append_file),
             py::arg("file_path"),
             py::arg("show_progress") = true);
     cls.def("append_files",
             py::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(
                 &T_BaseClass::append_files),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, append_file),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, append_file),
             py::arg("file_path"),
             py::arg("progress_bar"));
 }
@@ -90,7 +90,7 @@ void add_DefaultContainers(T_PyClass& cls)
     cls.def_property_readonly(
         "datagram_interface",
         py::overload_cast<>(&T_BaseClass::datagram_interface, py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_InputFile, datagram_interface));
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, datagram_interface));
 }
 
 }

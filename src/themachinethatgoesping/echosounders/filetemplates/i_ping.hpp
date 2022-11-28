@@ -27,7 +27,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 class I_Ping
 {
@@ -71,6 +71,6 @@ class I_Ping
     };
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

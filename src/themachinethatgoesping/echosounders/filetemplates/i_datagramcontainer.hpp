@@ -28,7 +28,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 template<typename t_DatagramType,
          typename t_DatagramIdentifier,

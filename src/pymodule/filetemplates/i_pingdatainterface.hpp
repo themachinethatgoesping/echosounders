@@ -10,18 +10,18 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_navigationdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_pingdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
-namespace py_i_NavigationDataInterface {
+namespace py_filetemplates {
+namespace py_i_PingDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
+void PingPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -31,20 +31,27 @@ void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_NavigationPerFileDataInterface,
+                filetemplates,
+                I_PingPerFileDataInterface,
                 configuration_data_interface));
-    cls.def("read_navigation_data",
-            &T_BaseClass::read_navigation_data,
+    cls.def("navigation_data_interface",
+            &T_BaseClass::navigation_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_NavigationPerFileDataInterface,
-                read_navigation_data));
+                filetemplates,
+                I_PingPerFileDataInterface,
+                navigation_data_interface));
+    cls.def("environment_data_interface",
+            &T_BaseClass::environment_data_interface,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_PingPerFileDataInterface,
+                environment_data_interface));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
-void NavigationDataInterface_add_interface(T_PyClass& cls)
+void PingDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -54,16 +61,23 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_NavigationDataInterface,
+                filetemplates,
+                I_PingDataInterface,
                 configuration_data_interface));
-    cls.def("get_navigation_data",
-            &T_BaseClass::get_navigation_data,
+    cls.def("navigation_data_interface",
+            &T_BaseClass::navigation_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_NavigationDataInterface,
-                get_navigation_data));
+                filetemplates,
+                I_PingDataInterface,
+                navigation_data_interface));
+    cls.def("environment_data_interface",
+            &T_BaseClass::environment_data_interface,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_PingDataInterface,
+                environment_data_interface));
 }
 
 }

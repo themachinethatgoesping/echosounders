@@ -11,14 +11,14 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_inputfile.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_inputfile.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_DatagramInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -30,7 +30,7 @@ void add_InterfaceFunctions(T_PyClass& cls)
             &T_BaseClass::datagram_identifier_to_string,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramInterface,
                 datagram_identifier_to_string),
             py::arg("datagram_identifier"));
@@ -38,7 +38,7 @@ void add_InterfaceFunctions(T_PyClass& cls)
             &T_BaseClass::datagram_identifier_info,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_DatagramInterface,
                 datagram_identifier_info),
             py::arg("datagram_identifier"));

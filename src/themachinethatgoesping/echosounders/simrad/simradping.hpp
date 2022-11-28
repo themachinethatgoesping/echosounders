@@ -26,7 +26,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_ping.hpp"
+#include "../filetemplates/i_ping.hpp"
 #include "simrad_datagrams.hpp"
 
 namespace themachinethatgoesping {
@@ -39,7 +39,7 @@ class SimradPingRawData
     std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
 
   public:
-    fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
+    filetemplates::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
         _datagram_info_raw; ///< this can be RAW3 (EK80) or RAW0 (EK60)
 
     datagrams::RAW3
@@ -47,7 +47,7 @@ class SimradPingRawData
 
   public:
     SimradPingRawData(
-        fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
+        filetemplates::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
         datagrams::RAW3                                                          ping_data)
         : _datagram_info_raw(std::move(datagram_info_raw))
         , _ping_data(std::move(ping_data))
@@ -90,7 +90,7 @@ class SimradPingRawData
 };
 
 template<typename t_ifstream>
-class SimradPing : public fileinterfaces::I_Ping
+class SimradPing : public filetemplates::I_Ping
 {
     std::string channel_id;
     double      timestamp;
@@ -101,9 +101,9 @@ class SimradPing : public fileinterfaces::I_Ping
 
   public:
     SimradPing(
-        fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
+        filetemplates::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> datagram_info_raw,
         datagrams::RAW3                                                          ping_data)
-        : fileinterfaces::I_Ping("SimradPing")
+        : filetemplates::I_Ping("SimradPing")
         , _raw(std::move(datagram_info_raw), std::move(ping_data))
     {
         // substring of channel_id until the first \x00 character
@@ -161,6 +161,6 @@ class SimradPing : public fileinterfaces::I_Ping
     void release_data() final { _raw.release_data(); }
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

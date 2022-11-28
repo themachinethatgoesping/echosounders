@@ -10,13 +10,13 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_ping.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_ping.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_Ping {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -27,13 +27,13 @@ void add_ping_data_interface(T_PyClass& cls)
     cls.def(
         "get_number_of_samples",
         &T_BaseClass::get_number_of_samples,
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, get_number_of_samples));
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_Ping, get_number_of_samples));
     cls.def("load_data",
             &T_BaseClass::load_data,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, load_data));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_Ping, load_data));
     cls.def("release_data",
             &T_BaseClass::release_data,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_Ping, release_data));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_Ping, release_data));
 }
 
 }

@@ -14,7 +14,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_annotationdatainterface.hpp"
+#include "../filetemplates/i_annotationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -26,10 +26,10 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradAnnotationPerFileDataInterface
-    : public fileinterfaces::I_AnnotationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
+    : public filetemplates::I_AnnotationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_AnnotationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
+        filetemplates::I_AnnotationPerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
 
   public:
     SimradAnnotationPerFileDataInterface()
@@ -57,11 +57,11 @@ class SimradAnnotationPerFileDataInterface
 
 template<typename t_ifstream>
 class SimradAnnotationDataInterface
-    : public fileinterfaces::I_AnnotationDataInterface<
+    : public filetemplates::I_AnnotationDataInterface<
           SimradAnnotationPerFileDataInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_AnnotationDataInterface<SimradAnnotationPerFileDataInterface<t_ifstream>>;
+        filetemplates::I_AnnotationDataInterface<SimradAnnotationPerFileDataInterface<t_ifstream>>;
 
   public:
     SimradAnnotationDataInterface()

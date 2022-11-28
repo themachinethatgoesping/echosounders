@@ -23,8 +23,8 @@
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_datagramcontainer.hpp"
-#include "../fileinterfaces/i_datagraminterface.hpp"
+#include "../filetemplates/i_datagramcontainer.hpp"
+#include "../filetemplates/i_datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -32,7 +32,7 @@ namespace pymodule {
 namespace py_simrad {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
@@ -52,7 +52,7 @@ struct RAW3HeaderFactory
 void init_c_simraddatagramcontainer(pybind11::module& m)
 {
 
-    using namespace py_fileinterfaces;
+    using namespace py_filetemplates;
 
     py_i_DatagramContainer::create_DatagramContainerTypes<datagrams::SimradDatagram,
                                                           t_SimradDatagramIdentifier>(

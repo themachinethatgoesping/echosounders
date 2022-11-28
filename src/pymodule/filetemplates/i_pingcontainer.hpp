@@ -10,13 +10,13 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_pingcontainer.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_pingcontainer.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_PingContainer {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -29,7 +29,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::max_number_of_samples,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PingContainer,
                 max_number_of_samples));
 
@@ -38,7 +38,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::break_by_time_diff,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PingContainer,
                 break_by_time_diff),
             py::arg("max_time_diff_seconds"));
@@ -48,7 +48,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::get_sorted_by_time,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PingContainer,
                 get_sorted_by_time));
 
@@ -57,7 +57,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::count_pings_per_channel_id,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PingContainer,
                 count_pings_per_channel_id));
 
@@ -65,7 +65,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
             &T_BaseClass::find_channel_ids,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PingContainer,
                 find_channel_ids));
 
@@ -73,36 +73,36 @@ void _PingContainer_add_interface(T_PyClass& cls)
     cls.def(
         "__call__",
         py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_2),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, operator_call_2),
         py::arg("channel_id"));
     cls.def(
         "__call__",
         py::overload_cast<const std::vector<std::string>&>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call_3),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, operator_call_3),
         py::arg("channel_ids"));
 
     /* datagram reading */
     cls.def("size",
             &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, size));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, size));
     cls.def("__len__",
             &T_BaseClass::size,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, size));
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, size));
     cls.def("__getitem__",
             &T_BaseClass::at,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, at),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, at),
             py::arg("index"),
             pybind11::return_value_policy::reference_internal);
     cls.def(
         "__getitem__",
         py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(),
                                                                     py::const_),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, operator_call),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, operator_call),
         py::arg("slice"),
         pybind11::return_value_policy::reference_internal);
     cls.def("__reversed__",
             &T_BaseClass::reversed,
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, reversed),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer, reversed),
             pybind11::return_value_policy::reference_internal);
 }
 
@@ -110,7 +110,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
 template<typename T_PingType>
 void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NAME)
 {
-    using fileinterfaces::I_PingContainer;
+    using filetemplates::I_PingContainer;
     namespace py = pybind11;
 
     using T_ITERATOR = I_PingContainer<T_PingType>;
@@ -119,17 +119,17 @@ void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NA
         py::class_<T_ITERATOR>(
             m,
             ITERATOR_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer))
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_PingContainer))
             .def(py::init<>(),
                  DOC(themachinethatgoesping,
                      echosounders,
-                     fileinterfaces,
+                     filetemplates,
                      I_PingContainer,
                      I_PingContainer))
             .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(),
                  DOC(themachinethatgoesping,
                      echosounders,
-                     fileinterfaces,
+                     filetemplates,
                      I_PingContainer,
                      I_PingContainer))
         // ----- pybind macros -----

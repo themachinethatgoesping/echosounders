@@ -11,9 +11,9 @@ sources = [
 ]
 
 headers = [
-  'fileinterfaces/i_inputfile.hpp',
-  'fileinterfaces/i_datagramcontainer.hpp',
-  'fileinterfaces/i_ping.hpp',
+  'filetemplates/i_inputfile.hpp',
+  'filetemplates/i_datagramcontainer.hpp',
+  'filetemplates/i_ping.hpp',
   'simrad/filesimradraw.hpp',
   'simrad/simrad_types.hpp',
   'simrad/simrad_datagrams.hpp',

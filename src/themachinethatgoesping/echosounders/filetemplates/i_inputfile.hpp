@@ -31,7 +31,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 template<typename t_DatagramBase, ///< the datagram base class which should
                                   ///< contain the header and functions
@@ -270,6 +270,6 @@ class I_InputFile
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

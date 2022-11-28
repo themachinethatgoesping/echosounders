@@ -31,7 +31,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 template<typename t_perfiledatainterface>
 class I_FileDataInterface
@@ -134,6 +134,6 @@ class I_FileDataInterface
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

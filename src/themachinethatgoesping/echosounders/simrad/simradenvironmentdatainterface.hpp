@@ -13,7 +13,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_environmentdatainterface.hpp"
+#include "../filetemplates/i_environmentdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
@@ -27,10 +27,10 @@ namespace simrad {
 
 template<typename t_ifstream>
 class SimradEnvironmentPerFileDataInterface
-    : public fileinterfaces::I_EnvironmentPerFileDataInterface<
+    : public filetemplates::I_EnvironmentPerFileDataInterface<
           SimradNavigationDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentPerFileDataInterface<
+    using t_base = filetemplates::I_EnvironmentPerFileDataInterface<
         SimradNavigationDataInterface<t_ifstream>>;
 
   public:
@@ -69,10 +69,10 @@ class SimradEnvironmentPerFileDataInterface
 
 template<typename t_ifstream>
 class SimradEnvironmentDataInterface
-    : public fileinterfaces::I_EnvironmentDataInterface<
+    : public filetemplates::I_EnvironmentDataInterface<
           SimradEnvironmentPerFileDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_EnvironmentDataInterface<
+    using t_base = filetemplates::I_EnvironmentDataInterface<
         SimradEnvironmentPerFileDataInterface<t_ifstream>>;
 
   public:

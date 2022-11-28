@@ -8,8 +8,8 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../fileinterfaces/i_datagramcontainer.hpp"
-#include "../fileinterfaces/i_datagraminterface.hpp"
+#include "../filetemplates/i_datagramcontainer.hpp"
+#include "../filetemplates/i_datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -20,11 +20,11 @@ template<typename T_BaseClass, typename T_PyClass>
 void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
 {
     namespace py = pybind11;
-    using namespace themachinethatgoesping::echosounders::fileinterfaces;
+    using namespace themachinethatgoesping::echosounders::filetemplates;
     using namespace themachinethatgoesping::echosounders::simrad;
     using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-    using namespace py_fileinterfaces; // this holds py_i_DatagramInterface and
+    using namespace py_filetemplates; // this holds py_i_DatagramInterface and
                                        // py_i_DatagramInterface
     //----- iterators via () operator -----
     cls.def(
@@ -33,7 +33,7 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
             return py::cast(self.template datagrams<datagrams::t_SimradDatagramVariant,
                                                     datagrams::SimradDatagramVariant>());
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams));
     cls.def(
         "datagrams",
         [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
@@ -55,33 +55,33 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
             }
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams_2),
         py::arg("datagram_type"));
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>());
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams));
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>(type));
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams_2),
         py::arg("datagram_type"));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>());
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams));
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
         },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_DatagramInterface, datagrams_2),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_DatagramInterface, datagrams_2),
         py::arg("datagram_type"));
 
     // ----- ping convenience functions -----

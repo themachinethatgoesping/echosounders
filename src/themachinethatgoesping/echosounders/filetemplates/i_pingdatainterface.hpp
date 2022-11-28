@@ -32,7 +32,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 // TODO: this should be a c++20 concept
 template<typename t_EnvironmentDataInterface>
@@ -221,6 +221,6 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

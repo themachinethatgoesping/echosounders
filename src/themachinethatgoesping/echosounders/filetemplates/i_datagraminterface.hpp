@@ -22,7 +22,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_DatagramInterface
@@ -154,6 +154,6 @@ class I_DatagramInterface
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

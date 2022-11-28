@@ -10,13 +10,13 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_filedatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_filedatainterface.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_FileDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -28,21 +28,21 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::init_from_file,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PerFileDataInterface,
                 init_from_file));
     cls.def("get_file_nr",
             &T_BaseClass::get_file_nr,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PerFileDataInterface,
                 get_file_nr));
     cls.def("get_file_path",
             &T_BaseClass::get_file_path,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_PerFileDataInterface,
                 get_file_path));
 }
@@ -57,7 +57,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     cls.def(
         "per_file",
         py::overload_cast<long>(&T_BaseClass::per_file),
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface, per_file),
+        DOC(themachinethatgoesping, echosounders, filetemplates, I_FileDataInterface, per_file),
         pybind11::return_value_policy::reference_internal,
         py::arg("file_nr"));
 
@@ -69,7 +69,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_FileDataInterface,
                 init_from_file),
             py::arg("show_progress") = true);
@@ -79,7 +79,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_FileDataInterface,
                 init_from_file_2),
             py::arg("progress_bar"));
@@ -87,7 +87,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     // cls.def(
     //     "per_file",
     //     py::overload_cast<long>(&T_BaseClass::per_file),
-    //     DOC(themachinethatgoesping, echosounders, fileinterfaces, I_FileDataInterface,
+    //     DOC(themachinethatgoesping, echosounders, filetemplates, I_FileDataInterface,
     //     per_file_2), pybind11::return_value_policy::reference_internal, py::arg("file_nr"));
 
     // ----- ping convenience functions -----

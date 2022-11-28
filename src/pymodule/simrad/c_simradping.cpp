@@ -16,7 +16,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/mappedfilestream.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/mappedfilestream.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
@@ -24,7 +24,7 @@
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_ping.hpp"
+#include "../filetemplates/i_ping.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -33,7 +33,7 @@ namespace py_simrad {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+using namespace themachinethatgoesping::echosounders::filetemplates;
 
 template<typename T_FileStream>
 void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
@@ -142,7 +142,7 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         // end SimradPing
         ;
 
-    py_fileinterfaces::py_i_Ping::add_ping_data_interface<t_SimradPing>(cls);
+    py_filetemplates::py_i_Ping::add_ping_data_interface<t_SimradPing>(cls);
 }
 
 void init_c_SimradPing(pybind11::module& m)

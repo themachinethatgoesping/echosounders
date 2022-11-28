@@ -10,18 +10,18 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_environmentdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_navigationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
-namespace py_i_EnvironmentDataInterface {
+namespace py_filetemplates {
+namespace py_i_NavigationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
+void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -31,20 +31,20 @@ void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_EnvironmentPerFileDataInterface,
+                filetemplates,
+                I_NavigationPerFileDataInterface,
                 configuration_data_interface));
-    cls.def("navigation_data_interface",
-            &T_BaseClass::navigation_data_interface,
+    cls.def("read_navigation_data",
+            &T_BaseClass::read_navigation_data,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_EnvironmentPerFileDataInterface,
-                navigation_data_interface));
+                filetemplates,
+                I_NavigationPerFileDataInterface,
+                read_navigation_data));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentDataInterface_add_interface(T_PyClass& cls)
+void NavigationDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -54,16 +54,16 @@ void EnvironmentDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::configuration_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_EnvironmentDataInterface,
+                filetemplates,
+                I_NavigationDataInterface,
                 configuration_data_interface));
-    cls.def("navigation_data_interface",
-            &T_BaseClass::navigation_data_interface,
+    cls.def("get_navigation_data",
+            &T_BaseClass::get_navigation_data,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
-                I_EnvironmentDataInterface,
-                navigation_data_interface));
+                filetemplates,
+                I_NavigationDataInterface,
+                get_navigation_data));
 }
 
 }

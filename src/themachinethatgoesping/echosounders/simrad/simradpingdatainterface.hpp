@@ -13,7 +13,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_pingdatainterface.hpp"
+#include "../filetemplates/i_pingdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
 
 #include "simrad_datagrams.hpp"
@@ -69,10 +69,10 @@ class DeduplicateBuffer
 
 template<typename t_ifstream>
 class SimradPingPerFileDataInterface
-    : public fileinterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>
+    : public filetemplates::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>;
+        filetemplates::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>;
 
   public:
 
@@ -112,9 +112,9 @@ class SimradPingPerFileDataInterface
 
 template<typename t_ifstream>
 class SimradPingDataInterface
-    : public fileinterfaces::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>
+    : public filetemplates::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>
 {
-    using t_base = fileinterfaces::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>;
+    using t_base = filetemplates::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>;
 
     DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel> _channel_parameter_buffer;
   public:

@@ -16,14 +16,14 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/mappedfilestream.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/mappedfilestream.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_pingcontainer.hpp"
+#include "../filetemplates/i_pingcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -32,12 +32,12 @@ namespace py_simrad {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+using namespace themachinethatgoesping::echosounders::filetemplates;
 
 void init_c_specialized_python_types(pybind11::module& m)
 {
-    py_fileinterfaces::py_i_PingContainer::create_PingContainerType<SimradPing<std::ifstream>>(m, "SimradPingContainer");
-    py_fileinterfaces::py_i_PingContainer::create_PingContainerType<SimradPing<MappedFileStream>>(m, "SimradPingContainer_mapped");
+    py_filetemplates::py_i_PingContainer::create_PingContainerType<SimradPing<std::ifstream>>(m, "SimradPingContainer");
+    py_filetemplates::py_i_PingContainer::create_PingContainerType<SimradPing<MappedFileStream>>(m, "SimradPingContainer_mapped");
 }
 
 }

@@ -15,8 +15,8 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../fileinterfaces/i_inputfile.hpp"
-#include "../fileinterfaces/i_pingcontainer.hpp"
+#include "../filetemplates/i_inputfile.hpp"
+#include "../filetemplates/i_pingcontainer.hpp"
 
 #include "simradannotationdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
@@ -36,15 +36,15 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-using SimradPingContainer = fileinterfaces::I_PingContainer<SimradPing<t_ifstream>>;
+using SimradPingContainer = filetemplates::I_PingContainer<SimradPing<t_ifstream>>;
 
 template<typename t_ifstream>
 class FileSimradRaw
-    : public fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+    : public filetemplates::I_InputFile<datagrams::SimradDatagram,
                                          SimradDatagramInterface<t_ifstream>>
 {
     using t_base =
-        fileinterfaces::I_InputFile<datagrams::SimradDatagram, SimradDatagramInterface<t_ifstream>>;
+        filetemplates::I_InputFile<datagrams::SimradDatagram, SimradDatagramInterface<t_ifstream>>;
 
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
@@ -68,7 +68,7 @@ class FileSimradRaw
     // inherit constructors
     // This does not work, because I_InputFile calls append before the callback functions are
     // overwritten Thus inheriting constructors would lead to calling the callback functions of the
-    // base class using fileinterfaces::I_InputFile<datagrams::SimradDatagram,
+    // base class using filetemplates::I_InputFile<datagrams::SimradDatagram,
     // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
@@ -162,7 +162,7 @@ class FileSimradRaw
             _navigation_interface->per_file(file_paths_cnt).init_from_file();
     }
 
-    fileinterfaces::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
+    filetemplates::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
         t_ifstream&                   ifs,
         typename t_ifstream::pos_type pos,
         size_t                        file_paths_cnt) final
@@ -171,7 +171,7 @@ class FileSimradRaw
         auto type   = header.get_datagram_identifier();
 
         auto datagram_info =
-            std::make_shared<fileinterfaces::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
+            std::make_shared<filetemplates::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
                 file_paths_cnt,
                 pos,
                 this->_input_file_manager,
@@ -179,7 +179,7 @@ class FileSimradRaw
                 header.get_datagram_identifier());
 
         // auto datagram_info =
-        // std::make_shared<fileinterfaces::DatagramInfo<t_SimradDatagramIdentifier>>();
+        // std::make_shared<filetemplates::DatagramInfo<t_SimradDatagramIdentifier>>();
         // datagram_info->file_nr             = file_paths_cnt;
         // datagram_info->file_pos            = pos;
         // datagram_info->timestamp           = header.get_timestamp();

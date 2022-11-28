@@ -31,7 +31,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
@@ -112,6 +112,6 @@ class I_PerFileDataInterface : public t_datagraminterface
 };
 // void add_datagram(DatagramInfo_ptr<t_Datagram
 
-} // namespace fileinterfaces
+} // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

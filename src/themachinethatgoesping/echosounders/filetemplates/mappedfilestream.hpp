@@ -15,7 +15,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace fileinterfaces {
+namespace filetemplates {
 
 class MappedFileStream : public boost::iostreams::stream<boost::iostreams::mapped_file_source>
 {

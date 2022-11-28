@@ -10,14 +10,14 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/fileinterfaces/i_configurationdatainterface.hpp"
+#include "../../themachinethatgoesping/echosounders/filetemplates/i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_fileinterfaces {
+namespace py_filetemplates {
 namespace py_i_ConfigurationDataInterface {
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -31,7 +31,7 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::read_sensor_configuration,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_ConfigurationPerFileDataInterface,
                 read_sensor_configuration));
 
@@ -39,14 +39,14 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::get_sensor_configuration,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_ConfigurationPerFileDataInterface,
                 get_sensor_configuration));
     cls.def("set_sensor_configuration",
             &T_BaseClass::set_sensor_configuration,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_ConfigurationPerFileDataInterface,
                 set_sensor_configuration),
             py::arg("sensor_configuration"));
@@ -63,7 +63,7 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::get_sensor_configuration,
             DOC(themachinethatgoesping,
                 echosounders,
-                fileinterfaces,
+                filetemplates,
                 I_ConfigurationDataInterface,
                 get_sensor_configuration),
             py::arg("index"));

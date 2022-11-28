@@ -24,8 +24,8 @@
 #include "../docstrings.hpp"
 #include "module.hpp"
 
-#include "../fileinterfaces/i_datagramcontainer.hpp"
-#include "../fileinterfaces/i_inputfile.hpp"
+#include "../filetemplates/i_datagramcontainer.hpp"
+#include "../filetemplates/i_inputfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -33,7 +33,7 @@ namespace pymodule {
 namespace py_simrad {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::fileinterfaces;
+using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
@@ -41,7 +41,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_fileinterfaces; // this holds py_i_InputFile and py_i_DatagramContainer
+    using namespace py_filetemplates; // this holds py_i_InputFile and py_i_DatagramContainer
 
     // initialize class
     auto cls = py::class_<FileSimradRaw<T_FileStream>>(
