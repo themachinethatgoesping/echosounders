@@ -125,16 +125,19 @@ class FileSimradRaw
         return *_otherdata_interface;
     }
 
-    filedatacontainers::SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
+    filedatacontainers::SimradPingContainer<t_ifstream> pings() const
+    {
+        return _ping_interface->get_pings();
+    }
 
     filedatacontainers::SimradPingContainer<t_ifstream> pings(const std::string& channel_id) const
     {
-        return *_ping_container_by_channel.at_const(channel_id);
+        return _ping_interface->get_pings(channel_id);
     }
     filedatacontainers::SimradPingContainer<t_ifstream> pings(
         const std::vector<std::string>& channel_ids) const
     {
-        return _ping_container(channel_ids);
+        return _ping_interface->get_pings()(channel_ids);
     }
     std::vector<std::string> channel_ids() const
     {
