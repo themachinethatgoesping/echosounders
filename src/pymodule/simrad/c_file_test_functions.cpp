@@ -26,7 +26,6 @@
 
 #include "../fileinterfaces/i_datagramcontainer.hpp"
 #include "../fileinterfaces/i_inputfile.hpp"
-#include "../fileinterfaces/i_pingcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -106,15 +106,6 @@ void _PingContainer_add_interface(T_PyClass& cls)
             pybind11::return_value_policy::reference_internal);
 }
 
-template<typename T_BaseClass, typename T_PyClass>
-void add_PingContainer(T_PyClass& cls, const std::string& T_NAME)
-{
-    cls.def_property_readonly(
-        ("i_" + T_NAME).c_str(),
-        [](const T_BaseClass& self) { return self.pings(); },
-        DOC(themachinethatgoesping, echosounders, fileinterfaces, I_PingContainer, pings),
-        pybind11::return_value_policy::reference_internal);
-}
 
 template<typename T_PingType>
 void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NAME)

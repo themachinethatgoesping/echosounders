@@ -26,7 +26,6 @@
 
 #include "../fileinterfaces/i_datagramcontainer.hpp"
 #include "../fileinterfaces/i_inputfile.hpp"
-#include "../fileinterfaces/i_pingcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -57,9 +56,6 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
     //                                    datagrams::SimradDatagramVariant>(cls);
 
     //----- containers  -----
-
-    // TODO: move this intp i_inptufile (after adding Pings to the inputfile interface)
-    py_i_PingContainer::add_PingContainer<FileSimradRaw<T_FileStream>>(cls, "Pings");
 
     //----- iterators via () operator -----
     cls.def_property_readonly(
@@ -114,13 +110,6 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 
 void init_c_filesimradraw(pybind11::module& m)
 {
-
-    // add python iterator classes
-    using py_fileinterfaces::py_i_PingContainer::create_PingContainerType;
-
-    create_PingContainerType<SimradPing<std::ifstream>>(m, "SimradPingContainer");
-    create_PingContainerType<SimradPing<MappedFileStream>>(m, "SimradPingContainer_mapped");
-
     py_create_class_FileSimradRaw<std::ifstream>(m, "FileSimradRaw");
     py_create_class_FileSimradRaw<MappedFileStream>(m, "FileSimradRaw_mapped");
 }

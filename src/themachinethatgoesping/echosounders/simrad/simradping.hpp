@@ -27,6 +27,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../fileinterfaces/i_ping.hpp"
+#include "simrad_datagrams.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -187,9 +187,9 @@ class FileSimradRaw
 
         switch (type)
         {
-            case t_SimradDatagramIdentifier::NME0:
+            case t_SimradDatagramIdentifier::MRU0:
                 [[fallthrough]];
-            case t_SimradDatagramIdentifier::MRU0: {
+            case t_SimradDatagramIdentifier::NME0: {
                 _navigation_interface->add_datagram_info(datagram_info);
                 header.skip(ifs);
                 break;
@@ -205,10 +205,8 @@ class FileSimradRaw
 
                 if (xml_type == "Parameter")
                 {
-                    auto channel =
-                        std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
-
-                    _ping_interface->add_channel_parameter(channel, channel.ChannelID);
+                    auto channel = std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
+                    _ping_interface->add_channel_parameter(std::move(channel));
                     _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "InitialParameter")
@@ -216,18 +214,12 @@ class FileSimradRaw
                     auto channels =
                         std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
                             .Channels;
-
                     for (const auto& channel : channels)
-                    {
-                        _ping_interface->add_channel_parameter(channel, channel.ChannelID);
-                    }
+                        _ping_interface->add_channel_parameter(channel);
                     _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "Configuration")
                 {
-                    auto xml_datagram =
-                        std::get<datagrams::xml_datagrams::XML_Configuration>(xml.decode());
-
                     _configuration_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "Environment")
@@ -238,7 +230,7 @@ class FileSimradRaw
                 {
                     _otherdata_interface->add_datagram_info(datagram_info);
                 }
-
+                // don't skip here, because the XML datagram was read already
                 break;
             }
             case t_SimradDatagramIdentifier::RAW3: {
@@ -257,21 +249,13 @@ class FileSimradRaw
                 break;
             }
             case t_SimradDatagramIdentifier::FIL1: {
-                auto datagram = datagrams::FIL1::from_stream(ifs, header);
-
-                if (!ifs.good())
-                    break;
-
                 _configuration_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::TAG0: {
-                auto datagram = datagrams::TAG0::from_stream(ifs, header);
-
-                if (!ifs.good())
-                    break;
-
                 _annotation_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
                 break;
             }
             default: {

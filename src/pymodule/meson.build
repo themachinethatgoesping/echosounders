@@ -57,6 +57,7 @@ sources = [
     'simrad/c_simraddatagraminterface.cpp',
     'simrad/c_simradping.cpp',
     'simrad/c_file_test_functions.cpp',
+    'simrad/c_simrad_specialized_types.cpp',
 ]
 
 # define python module

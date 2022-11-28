@@ -40,10 +40,13 @@ using PingVector = std::vector<std::shared_ptr<t_Ping>>;
 template<typename t_Ping>
 class I_PingContainer
 {
+  public:
+    using type_Ping = t_Ping;
+
   protected:
     std::string _name;
 
-    PingVector<t_Ping>         _pings;
+    PingVector<type_Ping>      _pings;
     tools::pyhelper::PyIndexer _pyindexer;
 
   public:
@@ -62,7 +65,7 @@ class I_PingContainer
      *
      * @param pings: vector of pings
      */
-    I_PingContainer(PingVector<t_Ping> pings, std::string_view name = "I_PingContainer")
+    I_PingContainer(PingVector<type_Ping> pings, std::string_view name = "I_PingContainer")
         : _name(name)
         , _pings(std::move(pings))
         , _pyindexer(_pings.size())
@@ -71,25 +74,25 @@ class I_PingContainer
 
     virtual ~I_PingContainer() = default;
 
-    void add_ping(std::shared_ptr<t_Ping> ping)
+    void add_ping(std::shared_ptr<type_Ping> ping)
     {
         this->_pings.push_back(std::move(ping));
         this->_pyindexer.reset(this->_pings.size());
     }
 
-    void add_pings(const PingVector<t_Ping>& ping)
+    void add_pings(const PingVector<type_Ping>& ping)
     {
         this->_pings.insert(this->_pings.end(), ping.begin(), ping.end());
         this->_pyindexer.reset(this->_pings.size());
     }
 
-    void set_pings(PingVector<t_Ping> pings)
+    void set_pings(PingVector<type_Ping> pings)
     {
         _pings = std::move(pings);
         _pyindexer.reset(_pings.size());
     }
 
-    const PingVector<t_Ping>& get_pings() const { return _pings; }
+    const PingVector<type_Ping>& get_pings() const { return _pings; }
 
     // ----- compute ping information -----
     size_t max_number_of_samples() const
@@ -103,18 +106,18 @@ class I_PingContainer
 
     // ----- iterator interface -----
 
-    I_PingContainer<t_Ping> reversed() const
+    I_PingContainer<type_Ping> reversed() const
     {
         return this->operator()(_pyindexer.reversed().to_slice());
     }
 
-    I_PingContainer<t_Ping> operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
+    I_PingContainer<type_Ping> operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
     {
-        I_PingContainer<t_Ping> ping_container(*this);
+        I_PingContainer<type_Ping> ping_container(*this);
 
         tools::pyhelper::PyIndexer pyindexer(_pings.size(), slice);
 
-        PingVector<t_Ping> pings;
+        PingVector<type_Ping> pings;
         pings.reserve(pyindexer.size());
 
         for (size_t i : pyindexer)
@@ -127,11 +130,11 @@ class I_PingContainer
         return ping_container;
     }
 
-    I_PingContainer<t_Ping> operator()(const std::string& channel_id) const
+    I_PingContainer<type_Ping> operator()(const std::string& channel_id) const
     {
-        I_PingContainer<t_Ping> filtered(*this);
+        I_PingContainer<type_Ping> filtered(*this);
 
-        PingVector<t_Ping> pings;
+        PingVector<type_Ping> pings;
 
         for (const auto& ping : _pings)
         {
@@ -144,11 +147,11 @@ class I_PingContainer
         return filtered;
     }
 
-    I_PingContainer<t_Ping> operator()(const std::vector<std::string>& channel_ids) const
+    I_PingContainer<type_Ping> operator()(const std::vector<std::string>& channel_ids) const
     {
-        I_PingContainer<t_Ping> filtered(*this);
+        I_PingContainer<type_Ping> filtered(*this);
 
-        PingVector<t_Ping> pings;
+        PingVector<type_Ping> pings;
 
         for (const auto& ping : _pings)
         {
@@ -188,11 +191,11 @@ class I_PingContainer
         return vec;
     }
 
-    std::vector<I_PingContainer<t_Ping>> break_by_time_diff(double max_time_diff_seconds) const
+    std::vector<I_PingContainer<type_Ping>> break_by_time_diff(double max_time_diff_seconds) const
     {
-        std::vector<I_PingContainer<t_Ping>> containers;
+        std::vector<I_PingContainer<type_Ping>> containers;
 
-        PingVector<t_Ping> pings;
+        PingVector<type_Ping> pings;
 
         for (const auto& ping : _pings)
         {
@@ -200,22 +203,22 @@ class I_PingContainer
             {
                 if (ping->get_timestamp() - pings.back()->get_timestamp() > max_time_diff_seconds)
                 {
-                    containers.push_back(I_PingContainer<t_Ping>(pings));
-                    pings = PingVector<t_Ping>();
+                    containers.push_back(I_PingContainer<type_Ping>(pings));
+                    pings = PingVector<type_Ping>();
                 }
             }
             pings.push_back(ping);
         }
 
-        containers.push_back(I_PingContainer<t_Ping>(pings));
+        containers.push_back(I_PingContainer<type_Ping>(pings));
 
         return containers;
     }
 
     // sort _datagram_infos_all by timestamp in _datagram_timestamps
-    I_PingContainer<t_Ping> get_sorted_by_time() const
+    I_PingContainer<type_Ping> get_sorted_by_time() const
     {
-        I_PingContainer<t_Ping> sorted(*this);
+        I_PingContainer<type_Ping> sorted(*this);
         // Your function
         auto& pings = sorted._pings;
         // sort _datagram_infos_all by  time, then file_pos then file number
@@ -232,7 +235,7 @@ class I_PingContainer
 
     size_t size() const { return _pyindexer.size(); }
 
-    const t_Ping& at(long index) const { return *_pings[_pyindexer(index)]; }
+    const type_Ping& at(long index) const { return *_pings[_pyindexer(index)]; }
 
     // ----- common info functions -----
 
