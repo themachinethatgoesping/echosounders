@@ -89,20 +89,6 @@ class DatagramInfo
 template<typename t_DatagramIdentifier, typename t_ifstream>
 using DatagramInfo_ptr = std::shared_ptr<DatagramInfo<t_DatagramIdentifier, t_ifstream>>;
 
-// TODO: explicitly derive t_ from i_ using concepts from c++20
-template<typename t_DatagramIdentifier, typename t_ifstream>
-struct FileInfos
-{
-
-    std::string file_path;
-    size_t      file_size;
-
-    /* header positions */
-    std::vector<DatagramInfo_ptr<t_DatagramIdentifier,
-                                 t_ifstream>>
-        datagram_infos; ///< all datagrams
-};
-
 }
 }
 }

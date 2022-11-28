@@ -44,6 +44,22 @@ class I_InputFile
     using t_DatagramIdentifier = typename t_DatagramInterface::type_DatagramIdentifier;
     using t_ifstream           = typename t_DatagramInterface::type_ifstream;
 
+  /**
+   * @brief struct for storing the file infos (returned by scan_for_datagrams)
+   * 
+   */
+    struct FileInfos
+    {
+
+        std::string file_path;
+        size_t      file_size;
+
+        /* header positions */
+        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
+                                     t_ifstream>>
+            datagram_infos; ///< all datagrams
+    };
+
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
@@ -133,7 +149,7 @@ class I_InputFile
         auto& ifi = _input_file_manager->append_file(file_path);
 
         // scan for datagram headers
-        datatypes::FileInfos file_info = scan_fo_datagrams(
+        FileInfos file_info = scan_for_datagrams(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
         _datagram_interface.add_datagram_infos(file_info.datagram_infos);
@@ -175,7 +191,7 @@ class I_InputFile
     }
 
     // This function must be called at initialization!
-    virtual datatypes::FileInfos<t_DatagramIdentifier, t_ifstream> scan_fo_datagrams(
+    virtual FileInfos scan_for_datagrams(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
         t_ifstream&                         ifs,
@@ -183,7 +199,7 @@ class I_InputFile
     {
 
         /* Initialize internal structures */
-        datatypes::FileInfos<t_DatagramIdentifier, t_ifstream> file_info;
+        FileInfos file_info;
         file_info.datagram_infos.clear();
 
         reset_ifstream(ifs);
@@ -269,6 +285,8 @@ class I_InputFile
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  public:
 };
 
 } // namespace filetemplates
