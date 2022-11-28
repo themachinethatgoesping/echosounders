@@ -11,7 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_filedatainterface.hpp"
-//#include "../docstrings.hpp"
+#include "i_perfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -20,36 +20,6 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_filedatainterface {
 
-template<typename T_BaseClass, typename T_PyClass>
-void PerFileDataInterface_add_interface(T_PyClass& cls)
-{
-    namespace py = pybind11;
-
-    cls.def("init_from_file",
-            &T_BaseClass::init_from_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PerFileDataInterface,
-                init_from_file));
-    cls.def("get_file_nr",
-            &T_BaseClass::get_file_nr,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PerFileDataInterface,
-                get_file_nr));
-    cls.def("get_file_path",
-            &T_BaseClass::get_file_path,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PerFileDataInterface,
-                get_file_path));
-}
 
 template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterface_add_interface(T_PyClass& cls)

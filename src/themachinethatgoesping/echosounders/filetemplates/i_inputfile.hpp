@@ -44,22 +44,6 @@ class I_InputFile
     using t_DatagramIdentifier = typename t_DatagramInterface::type_DatagramIdentifier;
     using t_ifstream           = typename t_DatagramInterface::type_ifstream;
 
-  /**
-   * @brief struct for storing the file infos (returned by scan_for_datagrams)
-   * 
-   */
-    struct FileInfos
-    {
-
-        std::string file_path;
-        size_t      file_size;
-
-        /* header positions */
-        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
-                                     t_ifstream>>
-            datagram_infos; ///< all datagrams
-    };
-
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
@@ -190,12 +174,27 @@ class I_InputFile
         return datagram_info;
     }
 
+    /**
+     * @brief struct for storing the file infos (returned by scan_for_datagrams)
+     *
+     */
+    struct FileInfos
+    {
+
+        std::string file_path;
+        size_t      file_size;
+
+        /* header positions */
+        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
+                                                t_ifstream>>
+            datagram_infos; ///< all datagrams
+    };
+
     // This function must be called at initialization!
-    virtual FileInfos scan_for_datagrams(
-        const std::string&                  file_path,
-        size_t                              file_paths_cnt,
-        t_ifstream&                         ifs,
-        tools::progressbars::I_ProgressBar& progress_bar)
+    virtual FileInfos scan_for_datagrams(const std::string&                  file_path,
+                                         size_t                              file_paths_cnt,
+                                         t_ifstream&                         ifs,
+                                         tools::progressbars::I_ProgressBar& progress_bar)
     {
 
         /* Initialize internal structures */

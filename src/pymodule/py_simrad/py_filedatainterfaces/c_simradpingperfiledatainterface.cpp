@@ -18,14 +18,11 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simraddatagraminterface.hpp"
-#include "../../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradpingdatainterface.hpp"
 
 #include "../../docstrings.hpp"
 
-#include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
-#include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"
+#include "../../py_filetemplates/py_datainterfaces/i_pingdatainterface.hpp"
 #include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -39,12 +36,16 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
+#define LOCAL_DOC_PREFIX                                                                           \
+    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradPingDataInterface
+
 template<typename T_FileStream>
-void py_create_class_SimradDatagramInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradPingPerFileDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
-                                                         // py_i_DatagramInterface
-    using T_BaseClass = filedatainterfaces::SimradDatagramInterface<T_FileStream>;
+    using namespace py_filetemplates; // this holds py_i_DatagramInterface and
+                                      // py_i_DatagramInterface
+
+    using T_BaseClass = filedatainterfaces::SimradPingPerFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m,
@@ -53,18 +54,34 @@ void py_create_class_SimradDatagramInterface(py::module& m, const std::string& C
                                            echosounders,
                                            simrad,
                                            filedatainterfaces,
-                                           SimradDatagramInterface));
+                                           SimradPingPerFileDataInterface))
+
+        // .def("get_ping_datagram",
+        //      &T_BaseClass::get_ping_datagram,
+        //      DOC(themachinethatgoesping,
+        //          echosounders,
+        //          simrad, filedatainterfaces,
+        //          SimradPingPerFileDataInterface,
+        //          get_ping_datagram))
+
+        //
+        ;
 
     //----- inherit functions from I_DatagramInterface -----
+    py_filetemplates::py_datainterfaces::py_i_pingdatainterface::
+        PingPerFileDataInterface_add_interface<T_BaseClass>(cls);
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradDatagramInterface(pybind11::module& m)
+
+void init_c_SimradPingPerFileDataInterface(pybind11::module& m)
 {
 
-    py_create_class_SimradDatagramInterface<std::ifstream>(m, "SimradDatagramInterface");
-    py_create_class_SimradDatagramInterface<datastreams::MappedFileStream>(
-        m, "SimradDatagramInterface_mapped");
+    py_create_class_SimradPingPerFileDataInterface<std::ifstream>(m,
+                                                                  "SimradPingPerFileDataInterface");
+    py_create_class_SimradPingPerFileDataInterface<datastreams::MappedFileStream>(
+        m, "SimradPingPerFileDataInterface_mapped");
+
 }
 
 }

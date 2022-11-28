@@ -29,78 +29,12 @@
 #include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
+#include "i_navigationperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
-
-// TODO: this should be a c++20 concept
-template<typename t_ConfigurationDataInterface>
-class I_NavigationPerFileDataInterface
-    : public I_PerFileDataInterface<typename t_ConfigurationDataInterface::type_DatagramInterface>
-{
-    using t_datagraminterface = typename t_ConfigurationDataInterface::type_DatagramInterface;
-    using t_base              = I_PerFileDataInterface<t_datagraminterface>;
-
-  public:
-    // member types
-    using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
-
-  protected:
-    std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
-
-  public:
-    I_NavigationPerFileDataInterface(std::string_view name = "I_NavigationPerFileDataInterface")
-        : t_base(name)
-    {
-        throw std::runtime_error(
-            fmt::format("I_NavigationPerFileDataInterface({}): cannot be initialized without "
-                        "existing configuration_data_interface",
-                        this->get_name()));
-    }
-
-    I_NavigationPerFileDataInterface(
-        std::shared_ptr<type_ConfigurationDataInterface> configuration_data_interface,
-        std::string_view                                 name = "I_NavigationPerFileDataInterface")
-        : t_base(name)
-        , _configuration_data_interface(configuration_data_interface)
-    {
-    }
-    virtual ~I_NavigationPerFileDataInterface() = default;
-
-    type_ConfigurationDataInterface& configuration_data_interface()
-    {
-        return *_configuration_data_interface;
-    }
-    const type_ConfigurationDataInterface& configuration_data_interface_const() const
-    {
-        return *_configuration_data_interface;
-    }
-
-    virtual navigation::NavigationInterpolatorLatLon read_navigation_data() const
-    {
-        throw std::runtime_error(
-            fmt::format("I_NavigationPerFileDataInterface({}): read_navigation_data() not "
-                        "implemented",
-                        this->get_name()));
-    }
-
-    void init_from_file() final { return; }
-
-    // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
-    {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
-
-        // printer.register_section("DatagramInterface");
-        printer.append(t_base::__printer__(float_precision));
-
-        printer.register_section("NavigationPerFileDataInterface");
-        return printer;
-    }
-};
-// void add_datagram(datatypes::DatagramInfo_ptr<t_Datagram
 
 template<typename t_NavigationPerFileDataInterface>
 class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFileDataInterface>

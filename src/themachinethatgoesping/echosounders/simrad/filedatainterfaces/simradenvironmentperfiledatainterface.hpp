@@ -20,7 +20,6 @@
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
 #include "simradnavigationdatainterface.hpp"
-#include "simradenvironmentperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -28,27 +27,43 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradEnvironmentDataInterface
-    : public filetemplates::datainterfaces::I_EnvironmentDataInterface<
-          SimradEnvironmentPerFileDataInterface<t_ifstream>>
+class SimradEnvironmentPerFileDataInterface
+    : public filetemplates::datainterfaces::I_EnvironmentPerFileDataInterface<
+          SimradNavigationDataInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_EnvironmentDataInterface<
-        SimradEnvironmentPerFileDataInterface<t_ifstream>>;
+    using t_base = filetemplates::datainterfaces::I_EnvironmentPerFileDataInterface<
+        SimradNavigationDataInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentDataInterface(
-        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
-        : t_base(std::move(navigation_data_interface), "SimradEnvironmentDataInterface")
+    SimradEnvironmentPerFileDataInterface()
+        : t_base("SimradEnvironmentPerFileDataInterface")
     {
     }
-    ~SimradEnvironmentDataInterface() = default;
+    SimradEnvironmentPerFileDataInterface(
+        std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
+        : t_base(std::move(navigation_data_interface), "SimradEnvironmentPerFileDataInterface")
+    {
+    }
+    ~SimradEnvironmentPerFileDataInterface() = default;
+
+    // environment::EnvironmentInterpolatorLatLon read_environment_data() const final
+    // {
+    //     return navi;
+    // }
+
+    // --------------------- simrad specific functions ---------------------
+    /* get infos */
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
+        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("SimradEnvironmentPerFileDataInterface");
+
         return printer;
     }
 };

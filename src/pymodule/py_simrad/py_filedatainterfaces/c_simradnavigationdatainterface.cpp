@@ -39,67 +39,6 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX                                                                           \
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradNavigationDataInterface
 
-template<typename T_FileStream>
-void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
-                                                          const std::string& CLASS_NAME)
-{
-    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
-                                                         // py_i_DatagramInterface
-
-    using T_BaseClass = filedatainterfaces::SimradNavigationPerFileDataInterface<T_FileStream>;
-
-    // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradNavigationPerFileDataInterface))
-
-                   .def("set_min_gga_quality",
-                        &T_BaseClass::set_min_gga_quality,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simrad,
-                            filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
-                            set_min_gga_quality),
-                        py::arg("min_gga_quality"))
-                   .def("set_max_gga_quality",
-                        &T_BaseClass::set_max_gga_quality,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simrad,
-                            filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
-                            set_max_gga_quality),
-                        py::arg("max_gga_quality"))
-                   .def("get_min_gga_quality",
-                        &T_BaseClass::get_min_gga_quality,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simrad,
-                            filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
-                            get_min_gga_quality))
-                   .def("get_max_gga_quality",
-                        &T_BaseClass::get_max_gga_quality,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simrad,
-                            filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
-                            get_max_gga_quality))
-
-        //
-        ;
-
-    //----- inherit functions from I_DatagramInterface -----
-    py_filetemplates::py_datainterfaces::py_i_navigationdatainterface::
-        NavigationPerFileDataInterface_add_interface<T_BaseClass>(cls);
-    SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
-}
 
 template<typename T_FileStream>
 void py_create_class_SimradNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -137,11 +76,6 @@ void py_create_class_SimradNavigationDataInterface(py::module& m, const std::str
 
 void init_c_SimradNavigationDataInterface(pybind11::module& m)
 {
-
-    py_create_class_SimradNavigationPerFileDataInterface<std::ifstream>(
-        m, "SimradNavigationPerFileDataInterface");
-    py_create_class_SimradNavigationPerFileDataInterface<datastreams::MappedFileStream>(
-        m, "SimradNavigationPerFileDataInterface_mapped");
 
     py_create_class_SimradNavigationDataInterface<std::ifstream>(m,
                                                                  "SimradNavigationDataInterface");

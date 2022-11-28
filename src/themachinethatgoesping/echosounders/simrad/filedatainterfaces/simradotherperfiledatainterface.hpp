@@ -19,7 +19,6 @@
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradotherperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -27,26 +26,33 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradOtherDataInterface
-    : public filetemplates::datainterfaces::I_FileDataInterface<
-          SimradOtherPerFileDataInterface<t_ifstream>>
+class SimradOtherPerFileDataInterface
+    : public filetemplates::datainterfaces::I_PerFileDataInterface<
+          SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_FileDataInterface<
-        SimradOtherPerFileDataInterface<t_ifstream>>;
+    using t_base =
+        filetemplates::datainterfaces::I_PerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradOtherDataInterface()
-        : t_base("SimradOtherDataInterface")
+    SimradOtherPerFileDataInterface()
+        : t_base("SimradOtherPerFileDataInterface")
     {
     }
-    ~SimradOtherDataInterface() = default;
+    ~SimradOtherPerFileDataInterface() = default;
+
+    // --------------------- simrad specific functions ---------------------
+    /* get infos */
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
+        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("SimradOtherPerFileDataInterface");
+
         return printer;
     }
 };

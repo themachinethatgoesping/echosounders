@@ -39,39 +39,6 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX                                                                           \
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradOtherDataInterface
 
-template<typename T_FileStream>
-void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::string& CLASS_NAME)
-{
-
-    using T_BaseClass = filedatainterfaces::SimradOtherPerFileDataInterface<T_FileStream>;
-
-    // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradOtherPerFileDataInterface))
-
-        // .def("get_other_datagram",
-        //      &T_BaseClass::get_other_datagram,
-        //      DOC(themachinethatgoesping,
-        //          echosounders,
-        //          simrad, filedatainterfaces,
-        //          SimradOtherPerFileDataInterface,
-        //          get_other_datagram))
-
-        //
-        ;
-
-    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
-                                                         // py_i_DatagramInterface
-
-    //----- inherit functions from I_DatagramInterface -----
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
-    SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
-}
 
 template<typename T_FileStream>
 void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -98,11 +65,6 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
 
 void init_c_SimradOtherDataInterface(pybind11::module& m)
 {
-
-    py_create_class_SimradOtherPerFileDataInterface<std::ifstream>(
-        m, "SimradOtherPerFileDataInterface");
-    py_create_class_SimradOtherPerFileDataInterface<datastreams::MappedFileStream>(
-        m, "SimradOtherPerFileDataInterface_mapped");
 
     py_create_class_SimradOtherDataInterface<std::ifstream>(m, "SimradOtherDataInterface");
     py_create_class_SimradOtherDataInterface<datastreams::MappedFileStream>(

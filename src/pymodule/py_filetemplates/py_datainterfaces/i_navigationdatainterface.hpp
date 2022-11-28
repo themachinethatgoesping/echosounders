@@ -13,6 +13,7 @@
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_navigationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
+#include "i_navigationperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -20,31 +21,6 @@ namespace pymodule {
 namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_navigationdatainterface {
-
-template<typename T_BaseClass, typename T_PyClass>
-void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
-{
-    namespace py = pybind11;
-
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
-
-    cls.def("configuration_data_interface",
-            &T_BaseClass::configuration_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationPerFileDataInterface,
-                configuration_data_interface));
-    cls.def("read_navigation_data",
-            &T_BaseClass::read_navigation_data,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationPerFileDataInterface,
-                read_navigation_data));
-}
 
 template<typename T_BaseClass, typename T_PyClass>
 void NavigationDataInterface_add_interface(T_PyClass& cls)

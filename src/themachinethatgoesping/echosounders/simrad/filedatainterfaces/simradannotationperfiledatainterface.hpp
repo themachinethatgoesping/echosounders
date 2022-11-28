@@ -14,12 +14,11 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
+#include "../../filetemplates/datainterfaces/i_annotationdatainterface.hpp"
 
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradotherperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -27,29 +26,37 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradOtherDataInterface
-    : public filetemplates::datainterfaces::I_FileDataInterface<
-          SimradOtherPerFileDataInterface<t_ifstream>>
+class SimradAnnotationPerFileDataInterface
+    : public filetemplates::datainterfaces::I_AnnotationPerFileDataInterface<
+          SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_FileDataInterface<
-        SimradOtherPerFileDataInterface<t_ifstream>>;
+    using t_base = filetemplates::datainterfaces::I_AnnotationPerFileDataInterface<
+        SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradOtherDataInterface()
-        : t_base("SimradOtherDataInterface")
+    SimradAnnotationPerFileDataInterface()
+        : t_base("SimradAnnotationPerFileDataInterface")
     {
     }
-    ~SimradOtherDataInterface() = default;
+    ~SimradAnnotationPerFileDataInterface() = default;
+
+    // --------------------- simrad specific functions ---------------------
+    /* get infos */
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
+        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
+
+        printer.register_section("SimradAnnotationPerFileDataInterface");
+
         return printer;
     }
 };
+
 
 }
 } // namespace simrad

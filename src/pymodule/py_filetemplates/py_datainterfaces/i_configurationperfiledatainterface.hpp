@@ -13,7 +13,6 @@
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_configurationperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -23,11 +22,20 @@ namespace py_datainterfaces {
 namespace py_i_configurationdatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void ConfigurationDataInterface_add_interface(T_PyClass& cls)
+void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_filedatainterface::FileDataInterface_add_interface<T_BaseClass>(cls);
+    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
+
+    cls.def("read_sensor_configuration",
+            &T_BaseClass::read_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_ConfigurationPerFileDataInterface,
+                read_sensor_configuration));
 
     cls.def("get_sensor_configuration",
             &T_BaseClass::get_sensor_configuration,
@@ -35,10 +43,19 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_ConfigurationDataInterface,
-                get_sensor_configuration),
-            py::arg("index"));
+                I_ConfigurationPerFileDataInterface,
+                get_sensor_configuration));
+    cls.def("set_sensor_configuration",
+            &T_BaseClass::set_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_ConfigurationPerFileDataInterface,
+                set_sensor_configuration),
+            py::arg("sensor_configuration"));
 }
+
 
 }
 }

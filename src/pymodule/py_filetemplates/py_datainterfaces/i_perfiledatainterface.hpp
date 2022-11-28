@@ -10,41 +10,45 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_environmentdatainterface.hpp"
-#include "i_datagraminterface.hpp"
-#include "i_filedatainterface.hpp"
-#include "i_environmentperfiledatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_filedatainterface.hpp"
+//#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_filetemplates {
 namespace py_datainterfaces {
-namespace py_i_environmentdatainterface {
+namespace py_i_filedatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void EnvironmentDataInterface_add_interface(T_PyClass& cls)
+void PerFileDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_filedatainterface::FileDataInterface_add_interface<T_BaseClass>(cls);
-
-    cls.def("configuration_data_interface",
-            &T_BaseClass::configuration_data_interface,
+    cls.def("init_from_file",
+            &T_BaseClass::init_from_file,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_EnvironmentDataInterface,
-                configuration_data_interface));
-    cls.def("navigation_data_interface",
-            &T_BaseClass::navigation_data_interface,
+                I_PerFileDataInterface,
+                init_from_file));
+    cls.def("get_file_nr",
+            &T_BaseClass::get_file_nr,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_EnvironmentDataInterface,
-                navigation_data_interface));
+                I_PerFileDataInterface,
+                get_file_nr));
+    cls.def("get_file_path",
+            &T_BaseClass::get_file_path,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PerFileDataInterface,
+                get_file_path));
 }
 
 }
