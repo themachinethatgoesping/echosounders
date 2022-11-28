@@ -48,15 +48,6 @@ void py_create_class_SimradPingDataInterface(py::module& m, const std::string& C
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
-
-                   .def("get_deduplicated",
-                        &T_BaseClass::get_deduplicated,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simrad,
-                            filedatainterfaces,
-                            SimradPingDataInterface,
-                            get_deduplicated))
         //
         ;
 
@@ -74,7 +65,6 @@ void py_create_class_SimradPingDataInterface(py::module& m, const std::string& C
 
 void init_c_SimradPingDataInterface(pybind11::module& m)
 {
-
     py_create_class_SimradPingDataInterface<std::ifstream>(m, "SimradPingDataInterface");
     py_create_class_SimradPingDataInterface<datastreams::MappedFileStream>(
         m, "SimradPingDataInterface_mapped");

@@ -2222,14 +2222,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainte
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_SimradPingDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_add_channel_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_channel_parameter_buffer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_get_channel_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_get_deduplicated = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface = R"doc()doc";
