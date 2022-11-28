@@ -12,14 +12,14 @@
 // #include "i_datagramheader.h"
 
 /* std includes */
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace helper {
-    
+
 template<typename t_datagram>
 class DeduplicateBuffer
 {

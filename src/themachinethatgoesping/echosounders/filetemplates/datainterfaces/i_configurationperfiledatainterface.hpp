@@ -114,7 +114,6 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
 };
 // void add_datagram(datatypes::DatagramInfo_ptr<t_Datagram
 
-
 } // namespace datainterfaces
 } // namespace filetemplates
 } // namespace echosounders

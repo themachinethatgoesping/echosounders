@@ -39,7 +39,6 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 #define LOCAL_DOC_PREFIX                                                                           \
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradPingDataInterface
 
-
 template<typename T_FileStream>
 void py_create_class_SimradPingDataInterface(py::module& m, const std::string& CLASS_NAME)
 {

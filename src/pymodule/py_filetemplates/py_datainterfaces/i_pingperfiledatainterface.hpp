@@ -54,7 +54,6 @@ void PingPerFileDataInterface_add_interface(T_PyClass& cls)
                 environment_data_interface));
 }
 
-
 }
 }
 }

@@ -56,7 +56,6 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
             py::arg("sensor_configuration"));
 }
 
-
 }
 }
 }

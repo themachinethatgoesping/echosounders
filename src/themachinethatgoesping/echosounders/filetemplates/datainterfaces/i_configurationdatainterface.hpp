@@ -29,9 +29,9 @@
 /* themachinethatgoesping navigation includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 
+#include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_configurationdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

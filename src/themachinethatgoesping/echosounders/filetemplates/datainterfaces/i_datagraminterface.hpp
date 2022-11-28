@@ -120,9 +120,9 @@ class I_DatagramInterface
         datagrams() const
     {
         return datacontainers::DatagramContainer<t_DatagramType,
-                                                   t_DatagramIdentifier,
-                                                   t_ifstream,
-                                                   t_DatagramTypeFactory>(_datagram_infos_all);
+                                                 t_DatagramIdentifier,
+                                                 t_ifstream,
+                                                 t_DatagramTypeFactory>(_datagram_infos_all);
     }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -131,9 +131,9 @@ class I_DatagramInterface
         datagrams(t_DatagramIdentifier datagram_identifier) const
     {
         return datacontainers::DatagramContainer<t_DatagramType,
-                                                   t_DatagramIdentifier,
-                                                   t_ifstream,
-                                                   t_DatagramTypeFactory>(
+                                                 t_DatagramIdentifier,
+                                                 t_ifstream,
+                                                 t_DatagramTypeFactory>(
             _datagram_infos_by_type.at_const(datagram_identifier));
     }
 

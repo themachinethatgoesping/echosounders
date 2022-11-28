@@ -26,8 +26,8 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
+#include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../simrad_datagrams.hpp"
 
 namespace themachinethatgoesping {

@@ -8,9 +8,9 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_pingsequence_ping.hpp>
 #include "../../../docstrings.hpp"
 #include "module.hpp"
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_pingsequence_ping.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {

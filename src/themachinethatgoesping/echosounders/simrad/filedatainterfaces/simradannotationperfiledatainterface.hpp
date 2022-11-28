@@ -57,7 +57,6 @@ class SimradAnnotationPerFileDataInterface
     }
 };
 
-
 }
 } // namespace simrad
 } // namespace echosounders

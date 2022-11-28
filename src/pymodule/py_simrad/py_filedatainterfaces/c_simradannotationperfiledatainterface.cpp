@@ -73,7 +73,6 @@ void py_create_class_SimradAnnotationPerFileDataInterface(py::module&        m,
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-
 void init_c_SimradAnnotationPerFileDataInterface(pybind11::module& m)
 {
 
@@ -81,7 +80,6 @@ void init_c_SimradAnnotationPerFileDataInterface(pybind11::module& m)
         m, "SimradAnnotationPerFileDataInterface");
     py_create_class_SimradAnnotationPerFileDataInterface<datastreams::MappedFileStream>(
         m, "SimradAnnotationPerFileDataInterface_mapped");
-
 }
 
 }

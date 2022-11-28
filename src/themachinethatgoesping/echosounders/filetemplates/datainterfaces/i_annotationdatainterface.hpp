@@ -26,15 +26,14 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
+#include "i_annotationperfiledatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_annotationperfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
-
 
 template<typename t_annotationperfiledatainterface>
 class I_AnnotationDataInterface : public I_FileDataInterface<t_annotationperfiledatainterface>

@@ -28,14 +28,13 @@ namespace filedatainterfaces {
 
 template<typename t_ifstream>
 class SimradPingPerFileDataInterface
-    : public filetemplates::datainterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>
+    : public filetemplates::datainterfaces::I_PingPerFileDataInterface<
+          SimradEnvironmentDataInterface<t_ifstream>>
 {
-    using t_base =
-        filetemplates::datainterfaces::I_PingPerFileDataInterface<SimradEnvironmentDataInterface<t_ifstream>>;
+    using t_base = filetemplates::datainterfaces::I_PingPerFileDataInterface<
+        SimradEnvironmentDataInterface<t_ifstream>>;
 
   public:
-
-
     SimradPingPerFileDataInterface()
         : t_base("SimradPingPerFileDataInterface")
     {
@@ -68,7 +67,6 @@ class SimradPingPerFileDataInterface
         return printer;
     }
 };
-
 
 }
 } // namespace simrad

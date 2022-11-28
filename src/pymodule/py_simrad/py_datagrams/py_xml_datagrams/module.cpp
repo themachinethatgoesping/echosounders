@@ -8,9 +8,10 @@
 #include <tuple>
 #include <vector>
 
-//#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp>
+//#include
+//<themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
 #include "../../../docstrings.hpp"
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"

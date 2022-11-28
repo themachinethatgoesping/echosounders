@@ -123,7 +123,6 @@ class I_PingPerFileDataInterface
 };
 // void add_datagram(datatypes::DatagramInfo_ptr<t_Datagram
 
-
 }
 } // namespace filetemplates
 } // namespace echosounders

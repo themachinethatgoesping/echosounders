@@ -19,8 +19,8 @@
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradnavigationdatainterface.hpp"
 #include "simradenvironmentperfiledatainterface.hpp"
+#include "simradnavigationdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

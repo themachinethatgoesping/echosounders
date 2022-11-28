@@ -54,36 +54,36 @@ void init_c_simraddatagramcontainer(pybind11::module& m)
     using namespace py_filetemplates::py_datacontainers;
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SimradDatagram,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_Header");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SimradUnknown,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_Unknown");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::MRU0,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_MRU0");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::TAG0,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_TAG0");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::FIL1,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_FIL1");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::RAW3,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_RAW3");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::RAW3,
-                                                          t_SimradDatagramIdentifier,
-                                                          RAW3HeaderFactory>(
+                                                        t_SimradDatagramIdentifier,
+                                                        RAW3HeaderFactory>(
         m, "SimradRawDatagramContainer_RAW3_header");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::XML0,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_XML0");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::NME0,
-                                                          t_SimradDatagramIdentifier>(
+                                                        t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_NME0");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_SimradDatagramVariant,
-                                                          t_SimradDatagramIdentifier,
-                                                          datagrams::SimradDatagramVariant>(
+                                                        t_SimradDatagramIdentifier,
+                                                        datagrams::SimradDatagramVariant>(
         m, "SimradRawDatagramContainer_Variant");
 }
 

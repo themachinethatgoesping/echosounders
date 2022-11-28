@@ -20,7 +20,6 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_filedatainterface {
 
-
 template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterface_add_interface(T_PyClass& cls)
 {

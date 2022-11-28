@@ -46,7 +46,6 @@ void EnvironmentPerFileDataInterface_add_interface(T_PyClass& cls)
                 navigation_data_interface));
 }
 
-
 }
 }
 }

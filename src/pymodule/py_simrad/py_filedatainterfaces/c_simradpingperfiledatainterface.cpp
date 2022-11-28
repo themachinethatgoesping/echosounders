@@ -73,7 +73,6 @@ void py_create_class_SimradPingPerFileDataInterface(py::module& m, const std::st
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-
 void init_c_SimradPingPerFileDataInterface(pybind11::module& m)
 {
 
@@ -81,7 +80,6 @@ void init_c_SimradPingPerFileDataInterface(pybind11::module& m)
                                                                   "SimradPingPerFileDataInterface");
     py_create_class_SimradPingPerFileDataInterface<datastreams::MappedFileStream>(
         m, "SimradPingPerFileDataInterface_mapped");
-
 }
 
 }

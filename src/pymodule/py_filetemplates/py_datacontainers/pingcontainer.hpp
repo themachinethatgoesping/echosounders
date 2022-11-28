@@ -113,16 +113,12 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 datacontainers,
                 PingContainer,
                 size));
-    cls.def("__getitem__",
-            &T_BaseClass::at,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                at),
-            py::arg("index"),
-            pybind11::return_value_policy::reference_internal);
+    cls.def(
+        "__getitem__",
+        &T_BaseClass::at,
+        DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer, at),
+        py::arg("index"),
+        pybind11::return_value_policy::reference_internal);
     cls.def("__getitem__",
             py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(),
                                                                         py::const_),
@@ -153,34 +149,32 @@ void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NA
 
     using T_CONTAINER = PingContainer<T_PingType>;
 
-    auto cls_stream = py::class_<T_CONTAINER>(m,
-                                              ITERATOR_NAME.c_str(),
-                                              DOC(themachinethatgoesping,
-                                                  echosounders,
-                                                  filetemplates,
-                                                  datacontainers,
-                                                  PingContainer))
-                          .def(py::init<>(),
-                               DOC(themachinethatgoesping,
-                                   echosounders,
-                                   filetemplates,
-                                   datacontainers,
-                                   PingContainer,
-                                   PingContainer))
-                          .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(),
-                               DOC(themachinethatgoesping,
-                                   echosounders,
-                                   filetemplates,
-                                   datacontainers,
-                                   PingContainer,
-                                   PingContainer))
-                      // ----- pybind macros -----
-                      // default copy functions
-                      __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
-                      // default binary functions
-                      //__PYCLASS_DEFAULT_BINARY__(FIL1)
-                      // default printing functions
-                      __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER)
+    auto cls_stream =
+        py::class_<T_CONTAINER>(
+            m,
+            ITERATOR_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer))
+            .def(py::init<>(),
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     filetemplates,
+                     datacontainers,
+                     PingContainer,
+                     PingContainer))
+            .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(),
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     filetemplates,
+                     datacontainers,
+                     PingContainer,
+                     PingContainer))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
+        // default binary functions
+        //__PYCLASS_DEFAULT_BINARY__(FIL1)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER)
         // end LinearInterpolator
         /// end
         ;

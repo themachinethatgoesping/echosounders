@@ -150,17 +150,14 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
     using T_CONTAINER =
         DatagramContainer<T_DatagramType, T_DatagramIdentifier, std::ifstream, T_DatagramFactory>;
     using T_CONTAINER_MAPPED = DatagramContainer<T_DatagramType,
-                                                   T_DatagramIdentifier,
-                                                   MappedFileStream,
-                                                   T_DatagramFactory>;
+                                                 T_DatagramIdentifier,
+                                                 MappedFileStream,
+                                                 T_DatagramFactory>;
 
-    auto cls_stream = py::class_<T_CONTAINER>(m,
-                                              CONTAINER_NAME.c_str(),
-                                              DOC(themachinethatgoesping,
-                                                  echosounders,
-                                                  filetemplates,
-                                                  datacontainers,
-                                                  DatagramContainer))
+    auto cls_stream = py::class_<T_CONTAINER>(
+        m,
+        CONTAINER_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
@@ -171,13 +168,10 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAI
         // end LinearInterpolator
         ;
 
-    auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(m,
-                                                     (CONTAINER_NAME + "_mapped").c_str(),
-                                                     DOC(themachinethatgoesping,
-                                                         echosounders,
-                                                         filetemplates,
-                                                         datacontainers,
-                                                         DatagramContainer))
+    auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(
+        m,
+        (CONTAINER_NAME + "_mapped").c_str(),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER_MAPPED)

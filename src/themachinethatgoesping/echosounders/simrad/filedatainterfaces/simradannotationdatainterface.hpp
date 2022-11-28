@@ -18,8 +18,8 @@
 
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
-#include "simraddatagraminterface.hpp"
 #include "simradannotationperfiledatainterface.hpp"
+#include "simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
