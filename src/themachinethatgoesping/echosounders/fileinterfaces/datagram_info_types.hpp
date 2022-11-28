@@ -28,18 +28,6 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace fileinterfaces {
 
-class MappedFileStream : public boost::iostreams::stream<boost::iostreams::mapped_file_source>
-{
-  public:
-    MappedFileStream(const std::string&      file_path,
-                     std::ios_base::openmode mode = std::ios_base::binary)
-        : boost::iostreams::stream<boost::iostreams::mapped_file_source>(
-              boost::iostreams::mapped_file_source(file_path),
-              mode)
-    {
-    }
-};
-
 template<typename t_DatagramIdentifier, typename t_ifstream>
 class DatagramInfo
 {

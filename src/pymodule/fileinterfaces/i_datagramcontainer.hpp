@@ -11,6 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/fileinterfaces/i_datagramcontainer.hpp"
+#include "../../themachinethatgoesping/echosounders/fileinterfaces/mappedfilestream.hpp"
 //#include "../docstrings.hpp"
 
 namespace themachinethatgoesping {

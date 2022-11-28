@@ -25,7 +25,6 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "datagram_info_types.hpp"
-#include "datagram_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
