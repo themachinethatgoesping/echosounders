@@ -24,7 +24,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "datagram_info_types.hpp"
+#include "datagraminfo.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

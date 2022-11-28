@@ -24,7 +24,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "datagram_info_types.hpp"
+#include "datagraminfo.hpp"
 #include "i_datagramcontainer.hpp"
 #include "i_datagraminterface.hpp"
 #include "inputfilemanager.hpp"
