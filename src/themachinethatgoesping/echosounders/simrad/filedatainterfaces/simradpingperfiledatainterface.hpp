@@ -37,6 +37,9 @@ class SimradPingPerFileDataInterface
         SimradEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::SimradPingContainer<t_ifstream>>;
 
+    filetemplates::helper::DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel>
+        _channel_parameter_buffer;
+
   public:
     SimradPingPerFileDataInterface()
         : t_base("SimradPingPerFileDataInterface")
@@ -49,11 +52,95 @@ class SimradPingPerFileDataInterface
     }
     ~SimradPingPerFileDataInterface() = default;
 
-    // ping::PingInterpolatorLatLon read_ping_data() const final
-    // {
-    //     return navi;
-    // }
+    std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
+                       datagrams::xml_datagrams::XML_Parameter_Channel>
+    get_deduplicated_parameters()
+    {
+        return _channel_parameter_buffer.get_all();
+    }
 
+    filedatacontainers::SimradPingContainer<t_ifstream> read_pings()
+    {
+        filedatacontainers::SimradPingContainer<t_ifstream> pings;
+
+        for (const auto& datagram_ptr : this->_datagram_infos_all)
+        {
+            auto type = datagram_ptr->get_datagram_identifier();
+
+            switch (type)
+            {
+                case t_SimradDatagramIdentifier::XML0: {
+
+                    auto& ifs = datagram_ptr->get_stream_and_seek();
+                    auto  xml = datagrams::XML0::from_stream(ifs);
+
+                    if (!ifs.good())
+                    {
+                        fmt::print(std::cerr, "Error reading XML0 datagram");
+                        break;
+                    }
+
+                    auto xml_type = xml.get_xml_datagram_type();
+
+                    if (xml_type == "Parameter")
+                    {
+                        auto channel =
+                            std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
+                                .Channels[0];
+                        _channel_parameter_buffer.add(channel, channel.ChannelID);
+                        break;
+                    }
+                    else if (xml_type == "InitialParameter")
+                    {
+                        auto channels =
+                            std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
+                                .Channels;
+                        for (const auto& channel : channels)
+                            _channel_parameter_buffer.add(channel, channel.ChannelID);
+                        break;
+                    }
+
+                    fmt::print(std::cerr, "WARNING: unexpected xml datagram type: {}\n", xml_type);
+                    break;
+                }
+                case t_SimradDatagramIdentifier::RAW3: {
+                    auto& ifs  = datagram_ptr->get_stream_and_seek();
+                    auto  raw3 = datagrams::RAW3::from_stream(ifs, true);
+
+                    auto ping = std::make_shared<filedatatypes::SimradPing<t_ifstream>>(
+                        datagram_ptr, std::move(raw3));
+
+                    auto channel_id = ping->get_channel_id();
+
+                    if (!ifs.good())
+                    {
+                        fmt::print(std::cerr, "Error reading RAW3 datagram");
+                        break;
+                    }
+
+                    ping->raw().add_parameter(_channel_parameter_buffer.get(channel_id));
+
+                    pings.add_ping(ping);
+                    break;
+                }
+                case t_SimradDatagramIdentifier::FIL1:
+                    [[fallthrough]];
+                case t_SimradDatagramIdentifier::TAG0:
+                    [[fallthrough]];
+                case t_SimradDatagramIdentifier::MRU0:
+                    [[fallthrough]];
+                case t_SimradDatagramIdentifier::NME0:
+                    [[fallthrough]];
+                default: {
+                    fmt::print(std::cerr,
+                               "WARNING: unexpected datagram type: {}\n",
+                               datagram_type_to_string(type));
+                }
+            }
+        }
+
+        return pings;
+    }
     // --------------------- simrad specific functions ---------------------
     /* get infos */
 

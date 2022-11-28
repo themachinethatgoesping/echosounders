@@ -426,9 +426,19 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_environment_data_interface_const = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_get_pings = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_get_pings_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_init_from_file = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_navigation_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_navigation_data_interface_const = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_ping_container = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_ping_container_by_channel = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_printer = R"doc()doc";
 
@@ -2230,7 +2240,13 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainte
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface_SimradPingPerFileDataInterface_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface_channel_parameter_buffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface_get_deduplicated_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradPingPerFileDataInterface_read_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing = R"doc()doc";
 

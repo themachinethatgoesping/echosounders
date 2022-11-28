@@ -42,6 +42,8 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
     using t_base = I_FileDataInterface<t_PingPerFileDataInterface>;
 
   public:
+    // member types
+    using type_PingPerFileDataInterface = t_PingPerFileDataInterface;
     using type_ConfigurationDataInterface =
         typename t_PingPerFileDataInterface::type_ConfigurationDataInterface;
     using type_NavigationDataInterface =
@@ -49,10 +51,13 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
     using type_EnvironmentDataInterface =
         typename t_PingPerFileDataInterface::type_EnvironmentDataInterface;
 
+    using type_PingContainer = typename t_PingPerFileDataInterface::type_PingContainer;
+    using type_Ping          = typename t_PingPerFileDataInterface::type_Ping;
+
   protected:
-    // ping::PingInterpolatorLatLon _ping_interpolator{
-    //     ping::SensorConfiguration()
-    // };
+    type_PingContainer _ping_container;
+    tools::helper::DefaultSharedPointerMap<std::string, type_PingContainer>
+        _ping_container_by_channel;
 
     std::shared_ptr<type_EnvironmentDataInterface> _environment_data_interface;
 
@@ -91,12 +96,53 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         return *_environment_data_interface;
     }
 
-    using I_FileDataInterface<t_PingPerFileDataInterface>::init_from_file;
+    const type_PingContainer& get_pings() const { return _ping_container; }
+    const type_PingContainer& get_pings(const std::string& channel_id) const
+    {
+        return *_ping_container_by_channel.at_const(channel_id);
+    }
 
-    // ping::PingInterpolatorLatLon& get_ping_data()
-    // {
-    //     return _ping_interpolator;
-    // }
+    using I_FileDataInterface<t_PingPerFileDataInterface>::init_from_file;
+    void init_from_file(tools::progressbars::I_ProgressBar& progress_bar) final
+    {
+        if (this->_interface_per_file.empty())
+        {
+            return;
+        }
+        progress_bar.init(0.,
+                          double(this->_interface_per_file.size() - 1),
+                          fmt::format("Initializing {} from file data", this->get_name()));
+
+        this->_interface_per_file.front()->init_from_file();
+        _ping_container = this->_interface_per_file.front()->read_pings();
+
+        for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
+        {
+            progress_bar.set_postfix(fmt::format("{}/{}", i, this->_interface_per_file.size()));
+
+            try
+            {
+                this->_interface_per_file[i]->init_from_file();
+                _ping_container.add_pings(this->_interface_per_file[i]->read_pings().get_pings());
+
+                for (const auto& ping : _ping_container.get_pings())
+                {
+                    _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
+                }
+            }
+            catch (std::exception& e)
+            {
+                fmt::print(std::cerr,
+                           "WARNING[{}::init_from_file]: Could not merge file ping data ({}): {}\n",
+                           this->get_name(),
+                           i,
+                           e.what());
+            }
+            progress_bar.tick();
+        }
+
+        progress_bar.close(std::string("Done"));
+    }
 
     // ----- old -----
 

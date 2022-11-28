@@ -51,6 +51,7 @@ class I_PingPerFileDataInterface
     using type_ConfigurationDataInterface =
         typename t_EnvironmentDataInterface::type_ConfigurationDataInterface;
     using type_PingContainer = t_PingContainer;
+    using type_Ping = typename t_PingContainer::type_Ping;
 
   protected:
     std::shared_ptr<t_EnvironmentDataInterface> _environment_data_interface;
@@ -100,7 +101,7 @@ class I_PingPerFileDataInterface
         return *_environment_data_interface;
     }
 
-    virtual t_PingContainer read_pings() const
+    virtual t_PingContainer read_pings()
     {
         throw std::runtime_error(
             fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "

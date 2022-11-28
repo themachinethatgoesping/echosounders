@@ -113,6 +113,14 @@ void _PingContainer_add_interface(T_PyClass& cls)
                 datacontainers,
                 PingContainer,
                 size));
+    cls.def("get_pings",
+            &T_BaseClass::get_pings,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datacontainers,
+                PingContainer,
+                get_pings));
     cls.def(
         "__getitem__",
         &T_BaseClass::at,

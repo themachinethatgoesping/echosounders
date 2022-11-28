@@ -56,13 +56,14 @@ void py_create_class_SimradPingPerFileDataInterface(py::module& m, const std::st
                                            filedatainterfaces,
                                            SimradPingPerFileDataInterface))
 
-        // .def("get_ping_datagram",
-        //      &T_BaseClass::get_ping_datagram,
-        //      DOC(themachinethatgoesping,
-        //          echosounders,
-        //          simrad, filedatainterfaces,
-        //          SimradPingPerFileDataInterface,
-        //          get_ping_datagram))
+                   .def("get_deduplicated_parameters",
+                        &T_BaseClass::get_deduplicated_parameters,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            filedatainterfaces,
+                            SimradPingPerFileDataInterface,
+                            get_deduplicated_parameters))
 
         //
         ;
