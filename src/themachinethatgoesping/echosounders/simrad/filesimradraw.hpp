@@ -15,18 +15,18 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
+#include "../filetemplates/datacontainers/i_pingcontainer.hpp"
 #include "../filetemplates/i_inputfile.hpp"
-#include "../filetemplates/i_pingcontainer.hpp"
 
-#include "simradannotationdatainterface.hpp"
-#include "simradconfigurationdatainterface.hpp"
-#include "simradenvironmentdatainterface.hpp"
-#include "simradnavigationdatainterface.hpp"
-#include "simradotherdatainterface.hpp"
-#include "simradpingdatainterface.hpp"
+#include "filedatainterfaces/simradannotationdatainterface.hpp"
+#include "filedatainterfaces/simradconfigurationdatainterface.hpp"
+#include "filedatainterfaces/simradenvironmentdatainterface.hpp"
+#include "filedatainterfaces/simradnavigationdatainterface.hpp"
+#include "filedatainterfaces/simradotherdatainterface.hpp"
+#include "filedatainterfaces/simradpingdatainterface.hpp"
 
-#include "simraddatagraminterface.hpp"
-#include "simradping.hpp"
+#include "filedatainterfaces/simraddatagraminterface.hpp"
+#include "filedatatypes/simradping.hpp"
 
 #include "simrad_datagrams.hpp"
 #include "simrad_types.hpp"
@@ -36,33 +36,42 @@ namespace echosounders {
 namespace simrad {
 
 template<typename t_ifstream>
-using SimradPingContainer = filetemplates::I_PingContainer<SimradPing<t_ifstream>>;
+using SimradPingContainer =
+    filetemplates::datacontainers::I_PingContainer<filedatatypes::SimradPing<t_ifstream>>;
 
 template<typename t_ifstream>
 class FileSimradRaw
     : public filetemplates::I_InputFile<datagrams::SimradDatagram,
-                                         SimradDatagramInterface<t_ifstream>>
+                                        filedatainterfaces::SimradDatagramInterface<t_ifstream>>
 {
     using t_base =
-        filetemplates::I_InputFile<datagrams::SimradDatagram, SimradDatagramInterface<t_ifstream>>;
+        filetemplates::I_InputFile<datagrams::SimradDatagram,
+                                   filedatainterfaces::SimradDatagramInterface<t_ifstream>>;
 
     SimradPingContainer<t_ifstream> _ping_container;
     tools::helper::DefaultSharedPointerMap<std::string, SimradPingContainer<t_ifstream>>
         _ping_container_by_channel;
 
-    std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> _configuration_interface =
-        std::make_shared<SimradConfigurationDataInterface<t_ifstream>>();
-    std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> _navigation_interface =
-        std::make_shared<SimradNavigationDataInterface<t_ifstream>>(_configuration_interface);
-    std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> _environment_interface =
-        std::make_shared<SimradEnvironmentDataInterface<t_ifstream>>(_navigation_interface);
-    std::shared_ptr<SimradPingDataInterface<t_ifstream>> _ping_interface =
-        std::make_shared<SimradPingDataInterface<t_ifstream>>(_environment_interface);
+    std::shared_ptr<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>
+        _configuration_interface =
+            std::make_shared<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::SimradNavigationDataInterface<t_ifstream>>
+        _navigation_interface =
+            std::make_shared<filedatainterfaces::SimradNavigationDataInterface<t_ifstream>>(
+                _configuration_interface);
+    std::shared_ptr<filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>>
+        _environment_interface =
+            std::make_shared<filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>>(
+                _navigation_interface);
+    std::shared_ptr<filedatainterfaces::SimradPingDataInterface<t_ifstream>> _ping_interface =
+        std::make_shared<filedatainterfaces::SimradPingDataInterface<t_ifstream>>(
+            _environment_interface);
 
-    std::shared_ptr<SimradAnnotationDataInterface<t_ifstream>> _annotation_interface =
-        std::make_shared<SimradAnnotationDataInterface<t_ifstream>>();
-    std::shared_ptr<SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
-        std::make_shared<SimradOtherDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>
+        _annotation_interface =
+            std::make_shared<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
+        std::make_shared<filedatainterfaces::SimradOtherDataInterface<t_ifstream>>();
 
   public:
     // inherit constructors
@@ -92,24 +101,30 @@ class FileSimradRaw
     }
     ~FileSimradRaw() = default;
 
-    SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
+    filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
     {
         return *_configuration_interface;
     }
-    SimradNavigationDataInterface<t_ifstream>& navigation_interface()
+    filedatainterfaces::SimradNavigationDataInterface<t_ifstream>& navigation_interface()
     {
         return *_navigation_interface;
     }
-    SimradEnvironmentDataInterface<t_ifstream>& environment_interface()
+    filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>& environment_interface()
     {
         return *_environment_interface;
     }
-    SimradPingDataInterface<t_ifstream>&       ping_interface() { return *_ping_interface; }
-    SimradAnnotationDataInterface<t_ifstream>& annotation_interface()
+    filedatainterfaces::SimradPingDataInterface<t_ifstream>& ping_interface()
+    {
+        return *_ping_interface;
+    }
+    filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>& annotation_interface()
     {
         return *_annotation_interface;
     }
-    SimradOtherDataInterface<t_ifstream>& otherdata_interface() { return *_otherdata_interface; }
+    filedatainterfaces::SimradOtherDataInterface<t_ifstream>& otherdata_interface()
+    {
+        return *_otherdata_interface;
+    }
 
     SimradPingContainer<t_ifstream> pings() const { return _ping_container; }
 
@@ -133,7 +148,6 @@ class FileSimradRaw
     }
 
   protected:
-
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
@@ -162,24 +176,24 @@ class FileSimradRaw
             _navigation_interface->per_file(file_paths_cnt).init_from_file();
     }
 
-    filetemplates::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream> callback_scan_packet(
-        t_ifstream&                   ifs,
-        typename t_ifstream::pos_type pos,
-        size_t                        file_paths_cnt) final
+    filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
+    callback_scan_packet(t_ifstream&                   ifs,
+                         typename t_ifstream::pos_type pos,
+                         size_t                        file_paths_cnt) final
     {
         auto header = datagrams::SimradDatagram::from_stream(ifs);
         auto type   = header.get_datagram_identifier();
 
-        auto datagram_info =
-            std::make_shared<filetemplates::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
-                file_paths_cnt,
-                pos,
-                this->_input_file_manager,
-                header.get_timestamp(),
-                header.get_datagram_identifier());
+        auto datagram_info = std::make_shared<
+            filetemplates::datatypes::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
+            file_paths_cnt,
+            pos,
+            this->_input_file_manager,
+            header.get_timestamp(),
+            header.get_datagram_identifier());
 
         // auto datagram_info =
-        // std::make_shared<filetemplates::DatagramInfo<t_SimradDatagramIdentifier>>();
+        // std::make_shared<filetemplates::datatypes::DatagramInfo<t_SimradDatagramIdentifier>>();
         // datagram_info->file_nr             = file_paths_cnt;
         // datagram_info->file_pos            = pos;
         // datagram_info->timestamp           = header.get_timestamp();
@@ -205,7 +219,8 @@ class FileSimradRaw
 
                 if (xml_type == "Parameter")
                 {
-                    auto channel = std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
+                    auto channel =
+                        std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
                     _ping_interface->add_channel_parameter(std::move(channel));
                     _ping_interface->add_datagram_info(datagram_info);
                 }
@@ -234,13 +249,14 @@ class FileSimradRaw
                 break;
             }
             case t_SimradDatagramIdentifier::RAW3: {
-                auto ping = std::make_shared<SimradPing<t_ifstream>>(
+                auto ping = std::make_shared<filedatatypes::SimradPing<t_ifstream>>(
                     datagram_info, datagrams::RAW3::from_stream(ifs, header, true));
 
                 if (!ifs.good())
                     break;
 
-                ping->raw().add_parameter(_ping_interface->get_channel_parameter(ping->get_channel_id()));
+                ping->raw().add_parameter(
+                    _ping_interface->get_channel_parameter(ping->get_channel_id()));
 
                 _ping_container.add_ping(ping);
                 _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);

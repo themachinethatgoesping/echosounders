@@ -6,7 +6,7 @@
 #include <pybind11/pybind11.h>
 
 // larger submodules
-#include "simrad/module.hpp"
+#include "py_simrad/module.hpp"
 
 // declare modules
 // void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp

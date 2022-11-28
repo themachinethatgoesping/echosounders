@@ -315,8 +315,8 @@ struct XML_Parameter_Channel
     xxh::hash_t<64> slow_hash() const
     {
         // hash streaming
-        xxh::hash3_state_t<64> hash_stream; 
-        
+        xxh::hash3_state_t<64> hash_stream;
+
         hash_stream.update(ChannelID);
         hash_stream.update(&ChannelMode, sizeof(ChannelMode) + 12 * sizeof(double));
         hash_stream.update(PingId);
@@ -336,11 +336,14 @@ struct XML_Parameter_Channel
 }
 
 namespace std {
-  template <> struct hash<themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Parameter_Channel>
-  {
-    size_t operator()(const themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Parameter_Channel & arg) const
+template<>
+struct hash<
+    themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::XML_Parameter_Channel>
+{
+    size_t operator()(const themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::
+                          XML_Parameter_Channel& arg) const
     {
         return arg.slow_hash();
     }
-  };
+};
 }

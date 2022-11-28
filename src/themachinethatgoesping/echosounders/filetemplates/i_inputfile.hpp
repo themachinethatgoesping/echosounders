@@ -24,10 +24,10 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "datagraminfo.hpp"
-#include "i_datagramcontainer.hpp"
-#include "i_datagraminterface.hpp"
-#include "inputfilemanager.hpp"
+#include "datacontainers/i_datagramcontainer.hpp"
+#include "datainterfaces/i_datagraminterface.hpp"
+#include "datatypes/datagraminfo.hpp"
+#include "internal/inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -45,8 +45,8 @@ class I_InputFile
     using t_ifstream           = typename t_DatagramInterface::type_ifstream;
 
   protected:
-    std::shared_ptr<InputFileManager<t_ifstream>> _input_file_manager =
-        std::make_shared<InputFileManager<t_ifstream>>();
+    std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
+        std::make_shared<internal::InputFileManager<t_ifstream>>();
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -133,7 +133,7 @@ class I_InputFile
         auto& ifi = _input_file_manager->append_file(file_path);
 
         // scan for datagram headers
-        DataFileInfo file_info = scan_fo_datagrams(
+        datatypes::FileInfos file_info = scan_fo_datagrams(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
         _datagram_interface.add_datagram_infos(file_info.datagram_infos);
@@ -154,18 +154,19 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
+    virtual datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
     callback_scan_packet(t_ifstream& ifs, typename t_ifstream::pos_type pos, size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
 
-        auto datagram_info = std::make_shared<DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
-            file_paths_cnt,
-            pos,
-            _input_file_manager,
-            header.get_timestamp(),
-            header.get_datagram_identifier());
+        auto datagram_info =
+            std::make_shared<datatypes::DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
+                file_paths_cnt,
+                pos,
+                _input_file_manager,
+                header.get_timestamp(),
+                header.get_datagram_identifier());
         // datagram_info->file_nr             = file_paths_cnt;
         // datagram_info->file_pos            = pos;
         // datagram_info->timestamp           = header.get_timestamp();
@@ -174,7 +175,7 @@ class I_InputFile
     }
 
     // This function must be called at initialization!
-    virtual DataFileInfo<t_DatagramIdentifier, t_ifstream> scan_fo_datagrams(
+    virtual datatypes::FileInfos<t_DatagramIdentifier, t_ifstream> scan_fo_datagrams(
         const std::string&                  file_path,
         size_t                              file_paths_cnt,
         t_ifstream&                         ifs,
@@ -182,7 +183,7 @@ class I_InputFile
     {
 
         /* Initialize internal structures */
-        DataFileInfo<t_DatagramIdentifier, t_ifstream> file_info;
+        datatypes::FileInfos<t_DatagramIdentifier, t_ifstream> file_info;
         file_info.datagram_infos.clear();
 
         reset_ifstream(ifs);
