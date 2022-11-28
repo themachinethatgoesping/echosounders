@@ -12,7 +12,7 @@ sources = [
 
 headers = [
   'filetemplates/i_inputfile.hpp',
-  'filetemplates/datacontainers/i_datagramcontainer.hpp',
+  'filetemplates/datacontainers/datagramcontainer.hpp',
   'filetemplates/datatypes/i_ping.hpp',
   'simrad/filesimradraw.hpp',
   'simrad/simrad_types.hpp',

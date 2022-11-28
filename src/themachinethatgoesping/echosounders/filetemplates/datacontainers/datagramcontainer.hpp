@@ -35,7 +35,7 @@ template<typename t_DatagramType,
          typename t_DatagramIdentifier,
          typename t_ifstream,
          typename t_DatagramTypeFactory = t_DatagramType>
-class I_DatagramContainer
+class DatagramContainer
 {
   protected:
     std::string _name;
@@ -46,25 +46,25 @@ class I_DatagramContainer
 
   public:
     /**
-     * @brief Construct a new empty I_DatagramContainer object
+     * @brief Construct a new empty DatagramContainer object
      *
      */
-    I_DatagramContainer(std::string_view name = "I_DatagramContainer")
+    DatagramContainer(std::string_view name = "DatagramContainer")
         : _name(name)
         , _pyindexer(0)
     {
     }
 
-    I_DatagramContainer(
+    DatagramContainer(
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos,
-        std::string_view name = "I_DatagramContainer")
+        std::string_view name = "DatagramContainer")
         : _name(name)
         , _datagram_infos(std::move(datagram_infos))
         , _pyindexer(_datagram_infos.size())
     {
     }
 
-    ~I_DatagramContainer() = default;
+    ~DatagramContainer() = default;
 
     void add_datagram_info(
         datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> datagram_info)
@@ -96,14 +96,14 @@ class I_DatagramContainer
     }
 
     // ----- iterator interface -----
-    I_DatagramContainer reversed() const
+    DatagramContainer reversed() const
     {
         return this->operator()(_pyindexer.reversed().to_slice());
     }
 
-    I_DatagramContainer operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
+    DatagramContainer operator()(const tools::pyhelper::PyIndexer::Slice& slice) const
     {
-        I_DatagramContainer sliced_container(*this);
+        DatagramContainer sliced_container(*this);
 
         tools::pyhelper::PyIndexer pyindexer(_datagram_infos.size(), slice);
 
@@ -120,9 +120,9 @@ class I_DatagramContainer
         return sliced_container;
     }
 
-    I_DatagramContainer operator()(t_DatagramIdentifier datagram_identifier) const
+    DatagramContainer operator()(t_DatagramIdentifier datagram_identifier) const
     {
-        I_DatagramContainer filtered(*this);
+        DatagramContainer filtered(*this);
 
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
 
@@ -137,10 +137,10 @@ class I_DatagramContainer
         return filtered;
     }
 
-    I_DatagramContainer operator()(
+    DatagramContainer operator()(
         const std::vector<t_DatagramIdentifier>& datagram_identifiers) const
     {
-        I_DatagramContainer filtered(*this);
+        DatagramContainer filtered(*this);
 
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
 
@@ -184,9 +184,9 @@ class I_DatagramContainer
         return vec;
     }
 
-    std::vector<I_DatagramContainer> break_by_time_diff(double max_time_diff_seconds) const
+    std::vector<DatagramContainer> break_by_time_diff(double max_time_diff_seconds) const
     {
-        std::vector<I_DatagramContainer> containers;
+        std::vector<DatagramContainer> containers;
 
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos;
 
@@ -197,22 +197,22 @@ class I_DatagramContainer
                 if (datagram_info->get_timestamp() - datagram_infos.back()->get_timestamp() >
                     max_time_diff_seconds)
                 {
-                    containers.push_back(I_DatagramContainer(datagram_infos));
+                    containers.push_back(DatagramContainer(datagram_infos));
                     datagram_infos.clear();
                 }
             }
             datagram_infos.push_back(datagram_info);
         }
 
-        containers.push_back(I_DatagramContainer(datagram_infos));
+        containers.push_back(DatagramContainer(datagram_infos));
 
         return containers;
     }
 
     // sort _datagram_infos by timestamp in _datagram_timestamps
-    I_DatagramContainer get_sorted_by_time() const
+    DatagramContainer get_sorted_by_time() const
     {
-        I_DatagramContainer sorted(*this);
+        DatagramContainer sorted(*this);
         // Your function
         auto& datagram_infos = sorted._datagram_infos;
         // sort _datagram_infos by  time, then file_pos then file number

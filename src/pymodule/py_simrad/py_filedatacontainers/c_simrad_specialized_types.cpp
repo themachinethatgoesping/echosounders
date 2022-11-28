@@ -22,7 +22,7 @@
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 #include "../../docstrings.hpp"
 
-#include "../../py_filetemplates/py_datacontainers/i_pingcontainer.hpp"
+#include "../../py_filetemplates/py_datacontainers/pingcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -38,9 +38,9 @@ void init_c_specialized_python_types(pybind11::module& m)
 {
     using themachinethatgoesping::echosounders::simrad::filedatatypes::SimradPing;
 
-    py_filetemplates::py_datacontainers::py_i_pingcontainer::create_PingContainerType<
+    py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
         SimradPing<std::ifstream>>(m, "SimradPingContainer");
-    py_filetemplates::py_datacontainers::py_i_pingcontainer::create_PingContainerType<
+    py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
         SimradPing<datastreams::MappedFileStream>>(m, "SimradPingContainer_mapped");
 }
 

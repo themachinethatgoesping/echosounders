@@ -25,7 +25,7 @@
 #include "module.hpp"
 
 #include "../py_filetemplates/i_inputfile.hpp"
-#include "../py_filetemplates/py_datacontainers/i_datagramcontainer.hpp"
+#include "../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -41,7 +41,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_filetemplates; // this holds py_i_InputFile and py_i_datagramcontainer
+    using namespace py_filetemplates; // this holds py_i_InputFile and py_datagramcontainer
 
     // initialize class
     auto cls = py::class_<FileSimradRaw<T_FileStream>>(

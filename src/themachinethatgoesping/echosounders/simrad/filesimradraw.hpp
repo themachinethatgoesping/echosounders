@@ -15,7 +15,7 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../filetemplates/datacontainers/i_pingcontainer.hpp"
+#include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfile.hpp"
 
 #include "filedatainterfaces/simradannotationdatainterface.hpp"
@@ -37,7 +37,7 @@ namespace simrad {
 
 template<typename t_ifstream>
 using SimradPingContainer =
-    filetemplates::datacontainers::I_PingContainer<filedatatypes::SimradPing<t_ifstream>>;
+    filetemplates::datacontainers::PingContainer<filedatatypes::SimradPing<t_ifstream>>;
 
 template<typename t_ifstream>
 class FileSimradRaw

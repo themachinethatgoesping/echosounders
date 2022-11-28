@@ -69,49 +69,49 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_scan_fo_datagrams = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_I_DatagramContainer = R"doc(Construct a new empty I_DatagramContainer object)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_DatagramContainer = R"doc(Construct a new empty DatagramContainer object)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_I_DatagramContainer_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_DatagramContainer_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_add_datagram_info = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_add_datagram_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_add_datagram_infos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_add_datagram_infos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_at = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_break_by_time_diff = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_break_by_time_diff = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_count_datagrams_per_type = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_count_datagrams_per_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_datagram_infos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_datagram_infos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_find_datagram_types = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_find_datagram_types = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_get_datagram_infos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_get_datagram_infos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_get_sorted_by_time = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_get_sorted_by_time = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_operator_call = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_operator_call = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_operator_call_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_operator_call_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_operator_call_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_operator_call_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_pyindexer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_pyindexer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_reversed = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_reversed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_set_datagram_infos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_set_datagram_infos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_DatagramContainer_timeinfo =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_timeinfo =
 R"doc(Compute some time statistics for the datagram_infos in the container
 The is_sorted variable is interpreted as follos: - 1: the
 datagram_infos are sorted by time (ascending) - 0: the datagram_infos
@@ -121,61 +121,61 @@ are not sorted by time - -1: the datagram_infos are sorted by time
 Returns:
     std::tuple<min_timestamp, max_timestamp, is_sorted()>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_I_PingContainer = R"doc(Construct a new empty PingContainer object)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingContainer = R"doc(Construct a new empty PingContainer object)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_add_ping = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_add_pings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_pings = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_at = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_break_by_time_diff = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_time_diff = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_count_pings_per_channel_id = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_count_pings_per_channel_id = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_find_channel_ids = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_find_channel_ids = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_get_pings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_pings = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_get_sorted_by_time = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_sorted_by_time = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_max_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_max_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_operator_call = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_operator_call = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_operator_call_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_operator_call_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_operator_call_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_operator_call_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_pings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pings = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_pings_2 =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pings_2 =
 R"doc(Construct a new PingContainer object from a vector of pings
 
 Parameter ``pings:``:
     vector of pings)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_pyindexer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pyindexer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_pyindexer_2 =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pyindexer_2 =
 R"doc(Construct a new PingContainer object from a vector of pings
 
 Parameter ``pings:``:
     vector of pings)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_reversed = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_reversed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_set_pings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_set_pings = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_I_PingContainer_timeinfo =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_timeinfo =
 R"doc(Compute some time statistics for the pings in the container The
 is_sorted variable is interpreted as follos: - 1: the pings are sorted
 by time (ascending) - 0: the pings are not sorted by time - -1: the

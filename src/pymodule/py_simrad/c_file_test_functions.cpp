@@ -25,7 +25,7 @@
 #include "module.hpp"
 
 #include "../py_filetemplates/i_inputfile.hpp"
-#include "../py_filetemplates/py_datacontainers/i_datagramcontainer.hpp"
+#include "../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

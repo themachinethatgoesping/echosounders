@@ -18,7 +18,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "../datacontainers/i_datagramcontainer.hpp"
+#include "../datacontainers/datagramcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -116,10 +116,10 @@ class I_DatagramInterface
     // ----- iterator interface -----
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     datacontainers::
-        I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+        DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
         datagrams() const
     {
-        return datacontainers::I_DatagramContainer<t_DatagramType,
+        return datacontainers::DatagramContainer<t_DatagramType,
                                                    t_DatagramIdentifier,
                                                    t_ifstream,
                                                    t_DatagramTypeFactory>(_datagram_infos_all);
@@ -127,10 +127,10 @@ class I_DatagramInterface
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     datacontainers::
-        I_DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
+        DatagramContainer<t_DatagramType, t_DatagramIdentifier, t_ifstream, t_DatagramTypeFactory>
         datagrams(t_DatagramIdentifier datagram_identifier) const
     {
-        return datacontainers::I_DatagramContainer<t_DatagramType,
+        return datacontainers::DatagramContainer<t_DatagramType,
                                                    t_DatagramIdentifier,
                                                    t_ifstream,
                                                    t_DatagramTypeFactory>(
