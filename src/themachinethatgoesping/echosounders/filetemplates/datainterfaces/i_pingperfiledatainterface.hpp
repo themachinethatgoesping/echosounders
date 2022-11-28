@@ -51,7 +51,7 @@ class I_PingPerFileDataInterface
     using type_ConfigurationDataInterface =
         typename t_EnvironmentDataInterface::type_ConfigurationDataInterface;
     using type_PingContainer = t_PingContainer;
-    using type_Ping = typename t_PingContainer::type_Ping;
+    using type_Ping          = typename t_PingContainer::type_Ping;
 
   protected:
     std::shared_ptr<t_EnvironmentDataInterface> _environment_data_interface;
@@ -103,10 +103,9 @@ class I_PingPerFileDataInterface
 
     virtual t_PingContainer read_pings()
     {
-        throw std::runtime_error(
-            fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
-                        "implemented",
-                        this->get_name()));
+        throw std::runtime_error(fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
+                                             "implemented",
+                                             this->get_name()));
     }
 
     void init_from_file() final { return; }

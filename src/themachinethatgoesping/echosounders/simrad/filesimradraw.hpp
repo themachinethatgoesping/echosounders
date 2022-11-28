@@ -134,10 +134,7 @@ class FileSimradRaw
     {
         return _ping_interface->get_pings()(channel_ids);
     }
-    std::vector<std::string> channel_ids() const
-    {
-        return _ping_interface->channel_ids();
-    }
+    std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
   protected:
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
@@ -268,7 +265,7 @@ class FileSimradRaw
 
         printer.register_section("Detected Pings");
         printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');
-        //printer.append(_ping_container.__printer__(float_precision), false, '^');
+        // printer.append(_ping_container.__printer__(float_precision), false, '^');
 
         return printer;
     }

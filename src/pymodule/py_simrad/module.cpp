@@ -32,7 +32,7 @@ namespace pymodule {
 namespace py_simrad {
 
 // -- submodule declarations --
-void init_c_filesimradraw(pybind11::module& m);     // c_filesimradraw.cpp
+void init_c_filesimradraw(pybind11::module& m); // c_filesimradraw.cpp
 
 void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 

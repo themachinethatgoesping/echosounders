@@ -77,7 +77,7 @@ void PingDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_PingDataInterface,
                 get_pings),
-                py::arg("channel_id"));
+            py::arg("channel_id"));
 }
 
 }

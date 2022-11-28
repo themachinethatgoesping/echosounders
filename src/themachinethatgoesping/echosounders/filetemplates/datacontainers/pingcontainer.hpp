@@ -93,10 +93,7 @@ class PingContainer
         _pyindexer.reset(_pings.size());
     }
 
-    const PingVector<type_Ping>& get_pings() const
-    {
-        return _pings;
-    }
+    const PingVector<type_Ping>& get_pings() const { return _pings; }
 
     // ----- compute ping information -----
     size_t max_number_of_samples() const
