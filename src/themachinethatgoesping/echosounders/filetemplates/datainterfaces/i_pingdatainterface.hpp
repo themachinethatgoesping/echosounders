@@ -144,6 +144,17 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         progress_bar.close(std::string("Done"));
     }
 
+    std::vector<std::string> channel_ids() const
+    {
+        std::vector<std::string> channel_ids;
+        for (const auto& [k, v] : _ping_container_by_channel)
+        {
+            channel_ids.push_back(k);
+        }
+
+        return channel_ids;
+    }
+
     // ----- old -----
 
     void add_file_interface(size_t file_nr) final
@@ -171,7 +182,8 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("PingDataInterface");
+        printer.register_section("PingData");
+        printer.append(_ping_container.__printer__(float_precision), false, '^');
 
         return printer;
     }

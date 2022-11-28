@@ -46,11 +46,6 @@ class FileSimradRaw
         filetemplates::I_InputFile<datagrams::SimradDatagram,
                                    filedatainterfaces::SimradDatagramInterface<t_ifstream>>;
 
-    filedatacontainers::SimradPingContainer<t_ifstream> _ping_container;
-    tools::helper::DefaultSharedPointerMap<std::string,
-                                           filedatacontainers::SimradPingContainer<t_ifstream>>
-        _ping_container_by_channel;
-
     std::shared_ptr<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>
         _configuration_interface =
             std::make_shared<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>();
@@ -141,13 +136,7 @@ class FileSimradRaw
     }
     std::vector<std::string> channel_ids() const
     {
-        std::vector<std::string> channel_ids;
-        for (const auto& [k, v] : _ping_container_by_channel)
-        {
-            channel_ids.push_back(k);
-        }
-
-        return channel_ids;
+        return _ping_interface->channel_ids();
     }
 
   protected:
@@ -222,18 +211,10 @@ class FileSimradRaw
 
                 if (xml_type == "Parameter")
                 {
-                    auto channel =
-                        std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
-                    _ping_interface->add_channel_parameter(std::move(channel));
                     _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "InitialParameter")
                 {
-                    auto channels =
-                        std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
-                            .Channels;
-                    for (const auto& channel : channels)
-                        _ping_interface->add_channel_parameter(channel);
                     _ping_interface->add_datagram_info(datagram_info);
                 }
                 else if (xml_type == "Configuration")
@@ -252,19 +233,8 @@ class FileSimradRaw
                 break;
             }
             case t_SimradDatagramIdentifier::RAW3: {
-                auto ping = std::make_shared<filedatatypes::SimradPing<t_ifstream>>(
-                    datagram_info, datagrams::RAW3::from_stream(ifs, header, true));
-
-                if (!ifs.good())
-                    break;
-
-                ping->raw().add_parameter(
-                    _ping_interface->get_channel_parameter(ping->get_channel_id()));
-
-                _ping_container.add_ping(ping);
-                _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
-
                 _ping_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::FIL1: {
@@ -297,8 +267,8 @@ class FileSimradRaw
         printer.append(interface_printer);
 
         printer.register_section("Detected Pings");
-        printer.append(_ping_container.__printer__(float_precision), false, '^');
-        // printer.register_value("Detected Pings", _ping_container.size(), "RAW3");
+        printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');
+        //printer.append(_ping_container.__printer__(float_precision), false, '^');
 
         return printer;
     }

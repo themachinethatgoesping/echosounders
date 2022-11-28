@@ -416,6 +416,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_add_file_interface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_channel_ids = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_configuration_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_configuration_data_interface_const = R"doc()doc";
@@ -601,10 +603,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_container = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_container_by_channel = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_interface = R"doc()doc";
 

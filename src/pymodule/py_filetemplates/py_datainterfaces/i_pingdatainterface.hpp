@@ -53,6 +53,14 @@ void PingDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_PingDataInterface,
                 environment_data_interface));
+    cls.def("channel_ids",
+            py::overload_cast<>(&T_BaseClass::channel_ids, py::const_),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PingDataInterface,
+                channel_ids));
     cls.def("get_pings",
             py::overload_cast<>(&T_BaseClass::get_pings, py::const_),
             DOC(themachinethatgoesping,
