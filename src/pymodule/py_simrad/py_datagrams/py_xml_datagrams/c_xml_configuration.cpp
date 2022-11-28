@@ -8,7 +8,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../../themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration.hpp"
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration.hpp>
 #include "../../../docstrings.hpp"
 #include "module.hpp"
 
