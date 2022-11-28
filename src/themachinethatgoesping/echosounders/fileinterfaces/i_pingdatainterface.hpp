@@ -98,7 +98,7 @@ class I_PingPerFileDataInterface
         return *_environment_data_interface;
     }
 
-    // virtual ping::PingInterpolatorLatLon read_ping_data() const
+    // virtual ping::PingInterpolatorLatLon read_pings() const
     // {
     //     throw std::runtime_error(
     //         fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "

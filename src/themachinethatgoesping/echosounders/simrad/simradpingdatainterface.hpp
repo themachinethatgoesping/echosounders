@@ -127,9 +127,9 @@ class SimradPingDataInterface
 
     // add channel parameters to channel_parameters
     void add_channel_parameter(
-        const datagrams::xml_datagrams::XML_Parameter_Channel& channel_parameter, const std::string& channel_id)
+        const datagrams::xml_datagrams::XML_Parameter_Channel& channel)
     {
-        _channel_parameter_buffer.add(channel_parameter, channel_id);
+        _channel_parameter_buffer.add(channel, channel.ChannelID);
     }
 
     // get channel parameters from channel_parameters
