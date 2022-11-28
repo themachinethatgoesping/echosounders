@@ -36,7 +36,7 @@ namespace filetemplates {
 namespace datainterfaces {
 
 // TODO: this should be a c++20 concept
-template<typename t_EnvironmentDataInterface>
+template<typename t_EnvironmentDataInterface, typename t_PingContainer>
 class I_PingPerFileDataInterface
     : public I_PerFileDataInterface<typename t_EnvironmentDataInterface::type_DatagramInterface>
 {
@@ -50,6 +50,7 @@ class I_PingPerFileDataInterface
         typename t_EnvironmentDataInterface::type_NavigationDataInterface;
     using type_ConfigurationDataInterface =
         typename t_EnvironmentDataInterface::type_ConfigurationDataInterface;
+    using type_PingContainer = t_PingContainer;
 
   protected:
     std::shared_ptr<t_EnvironmentDataInterface> _environment_data_interface;
@@ -99,13 +100,13 @@ class I_PingPerFileDataInterface
         return *_environment_data_interface;
     }
 
-    // virtual ping::PingInterpolatorLatLon read_pings() const
-    // {
-    //     throw std::runtime_error(
-    //         fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
-    //                     "implemented",
-    //                     this->get_name()));
-    // }
+    virtual t_PingContainer read_pings() const
+    {
+        throw std::runtime_error(
+            fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
+                        "implemented",
+                        this->get_name()));
+    }
 
     void init_from_file() final { return; }
 

@@ -16,6 +16,7 @@
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "simradconfigurationdatainterface.hpp"
 
+#include "../filedatacontainers/simradfiledatacontainers.hpp"
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
@@ -29,10 +30,12 @@ namespace filedatainterfaces {
 template<typename t_ifstream>
 class SimradPingPerFileDataInterface
     : public filetemplates::datainterfaces::I_PingPerFileDataInterface<
-          SimradEnvironmentDataInterface<t_ifstream>>
+          SimradEnvironmentDataInterface<t_ifstream>,
+          filedatacontainers::SimradPingContainer<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_PingPerFileDataInterface<
-        SimradEnvironmentDataInterface<t_ifstream>>;
+        SimradEnvironmentDataInterface<t_ifstream>,
+        filedatacontainers::SimradPingContainer<t_ifstream>>;
 
   public:
     SimradPingPerFileDataInterface()
