@@ -14,6 +14,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
+#include "../../filetemplates/helper/deduplicatebuffer.hpp"
 #include "simradconfigurationdatainterface.hpp"
 
 #include "../simrad_datagrams.hpp"
@@ -34,7 +35,7 @@ class SimradPingDataInterface
 {
     using t_base = filetemplates::datainterfaces::I_PingDataInterface<SimradPingPerFileDataInterface<t_ifstream>>;
 
-    DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel> _channel_parameter_buffer;
+    filetemplates::helper::DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel> _channel_parameter_buffer;
   public:
 
     std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
