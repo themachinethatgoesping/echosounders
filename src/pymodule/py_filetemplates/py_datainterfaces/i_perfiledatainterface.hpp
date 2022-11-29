@@ -50,14 +50,6 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_PerFileDataInterface,
                 get_file_path));
-    cls.def("update",
-            &T_BaseClass::update,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PerFileDataInterface,
-                update));
     cls.def("deinitialize",
             &T_BaseClass::deinitialize,
             DOC(themachinethatgoesping,
@@ -66,6 +58,14 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_PerFileDataInterface,
                 deinitialize));
+    cls.def("initialized",
+            &T_BaseClass::initialized,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PerFileDataInterface,
+                initialized));
 }
 
 }

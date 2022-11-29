@@ -64,6 +64,7 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
 
     bool initialized_sensor_configuration() const { return _initialized_sensor_configuration; }
     void deinitialize() override { _initialized_sensor_configuration = false; }
+    bool initialized() const override { return _initialized_sensor_configuration; }
 
     void set_sensor_configuration(navigation::SensorConfiguration sensor_configuration)
     {

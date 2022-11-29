@@ -63,6 +63,15 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_NavigationDataInterface,
                 get_sensor_configuration));
+    cls.def("set_sensor_configuration",
+            &T_BaseClass::set_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_NavigationDataInterface,
+                set_sensor_configuration),
+                py::arg("sensor_configuration"));
     cls.def("channel_ids",
             &T_BaseClass::channel_ids,
             DOC(themachinethatgoesping,

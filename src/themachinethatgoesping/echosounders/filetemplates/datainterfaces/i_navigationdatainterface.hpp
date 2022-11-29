@@ -49,6 +49,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     navigation::NavigationInterpolatorLatLon _navigation_interpolator{
         navigation::SensorConfiguration()
     };
+    bool _initialized_navigation_interpolator = false;
 
     std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
@@ -71,6 +72,10 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         return *_configuration_data_interface;
     }
 
+    bool initialized_navigation_interpolator() const { return _initialized_navigation_interpolator; }
+    void deinitialize() override { _initialized_navigation_interpolator = false; }
+    bool initialized() const override { return _initialized_navigation_interpolator; }
+
     using I_FileDataInterface<t_NavigationPerFileDataInterface>::init_from_file;
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
@@ -78,6 +83,19 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         {
             return;
         }
+
+        if (!force && _initialized_navigation_interpolator)
+        {
+            // note: at this moment, navigation interpolator does not react if the configuration changes ...
+            return;
+        }
+
+        // // init configuration interface
+        // if (!this->_configuration_data_interface->initialized())
+        // {
+        //     _configuration_data_interface->init_from_file(false, progress_bar);
+        // }
+
         progress_bar.init(0.,
                           double(this->_interface_per_file.size() - 1),
                           fmt::format("Initializing {} from file data", this->get_name()));
@@ -107,6 +125,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             progress_bar.tick();
         }
 
+        _initialized_navigation_interpolator = true;
         progress_bar.close(std::string("Done"));
     }
 
@@ -118,6 +137,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     navigation::datastructures::GeoLocationLatLon get_geolocation(const std::string& target_id, double timestamp)
     {
         return _navigation_interpolator(target_id, timestamp);
+    }
+
+    void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
+    {
+        _navigation_interpolator.set_sensor_configuration(sensor_configuration);
     }
 
     const navigation::SensorConfiguration& get_sensor_configuration() const

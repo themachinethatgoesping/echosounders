@@ -130,12 +130,17 @@ class I_FileDataInterface
         }
     }
 
-    virtual void update()
+    virtual bool initialized() const
     {
-        for (auto& interface : this->_interface_per_file)
+        for (const auto& interface : this->_interface_per_file)
         {
-            interface->update();
+            if (!interface->initialized())
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
   public:

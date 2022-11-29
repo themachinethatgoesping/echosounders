@@ -109,6 +109,13 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         {
             return;
         }
+
+        // // init navigation interface
+        // if (!this->navigation_data_interface().initialized())
+        // {
+        //     this->navigation_data_interface().init_from_file(false, progress_bar);
+        // }
+
         progress_bar.init(0.,
                           double(this->_interface_per_file.size() - 1),
                           fmt::format("Initializing {} from file data", this->get_name()));

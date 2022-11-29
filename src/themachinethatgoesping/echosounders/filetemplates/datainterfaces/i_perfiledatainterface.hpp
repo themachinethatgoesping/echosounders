@@ -62,10 +62,10 @@ class I_PerFileDataInterface : public t_datagraminterface
         return;
     }
 
-    virtual void update()
+    virtual bool initialized() const
     {
-        // this file does not need to be updated
-        return;
+        // this file is always initialized
+        return true;
     }
 
     /**

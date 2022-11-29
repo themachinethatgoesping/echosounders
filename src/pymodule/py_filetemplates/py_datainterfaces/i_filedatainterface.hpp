@@ -65,22 +65,22 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             py::arg("force"),
             py::arg("progress_bar"));
 
-    cls.def("update",
-            &T_BaseClass::update,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                update));
     cls.def("deinitialize",
-            &T_BaseClass::update,
+            &T_BaseClass::deinitialize,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datainterfaces,
                 I_FileDataInterface,
-                update));
+                deinitialize));
+    cls.def("initialized",
+            &T_BaseClass::initialized,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_FileDataInterface,
+                initialized));
 
     // cls.def(
     //     "per_file",

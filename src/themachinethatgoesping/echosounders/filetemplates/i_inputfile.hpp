@@ -75,6 +75,14 @@ class I_InputFile
 
     virtual ~I_InputFile() = default;
 
+    void init_interfaces(bool force = false, bool show_progress = true)
+    {
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
+        this->init_interfaces(force, progress_bar.get());
+    }
+
+    virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) = 0;
+
     /* access containers */
     const t_DatagramInterface& datagram_interface() const { return _datagram_interface; }
 

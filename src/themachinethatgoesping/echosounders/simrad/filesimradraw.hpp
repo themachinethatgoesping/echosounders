@@ -95,6 +95,19 @@ class FileSimradRaw
     }
     ~FileSimradRaw() = default;
 
+    using t_base::init_interfaces;
+    void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
+    {
+        _configuration_interface->init_from_file(force, progress_bar);
+        _navigation_interface->init_from_file(force, progress_bar);
+        _environment_interface->init_from_file(force, progress_bar);
+
+        _annotation_interface->init_from_file(force, progress_bar);
+        _otherdata_interface->init_from_file(force, progress_bar);
+
+        _ping_interface->init_from_file(force, progress_bar);
+    }
+
     filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
     {
         return *_configuration_interface;
@@ -148,21 +161,6 @@ class FileSimradRaw
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final
     {
-        if (_configuration_interface->per_file(file_paths_cnt).empty())
-            fmt::print(std::cerr,
-                       "WARNING: No configuration datagrams found in file {}: {}\n",
-                       file_paths_cnt,
-                       file_path);
-        else
-            _configuration_interface->per_file(file_paths_cnt).init_from_file();
-
-        if (_navigation_interface->per_file(file_paths_cnt).empty())
-            fmt::print(std::cerr,
-                       "WARNING: No navigation datagrams found in file {}: {}\n",
-                       file_paths_cnt,
-                       file_path);
-        else
-            _navigation_interface->per_file(file_paths_cnt).init_from_file();
     }
 
     filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
