@@ -75,23 +75,34 @@ class FileSimradRaw
     // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileSimradRaw(const std::string& file_path, bool show_progress = true)
+    FileSimradRaw(const std::string& file_path, bool init = true, bool show_progress = true)
     {
         this->append_file(file_path, show_progress);
+        if (init)
+            init_interfaces(false, show_progress);
     }
-    FileSimradRaw(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
+    FileSimradRaw(const std::string&                  file_path,
+                  bool                                init,
+                  tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_file(file_path, progress_bar);
+        if (init)
+            init_interfaces(false, progress_bar);
     }
 
-    FileSimradRaw(const std::vector<std::string>& file_paths, bool show_progress)
+    FileSimradRaw(const std::vector<std::string>& file_paths, bool init = true, bool show_progress = true)
     {
         this->append_files(file_paths, show_progress);
+        if (init)
+            init_interfaces(false, show_progress);
     }
     FileSimradRaw(const std::vector<std::string>&     file_paths,
+                  bool                                init ,
                   tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
+        if (init)
+            init_interfaces(false, progress_bar);
     }
     ~FileSimradRaw() = default;
 

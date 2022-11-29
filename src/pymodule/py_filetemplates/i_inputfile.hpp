@@ -27,25 +27,29 @@ void add_DefaultConstructors(T_PyClass& cls)
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
 
-    cls.def(py::init<const std::string&, bool>(),
+    cls.def(py::init<const std::string&, bool, bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile),
             py::arg("file_path"),
+            py::arg("init") = true,
             py::arg("show_progress") = true);
-    cls.def(py::init<const std::string&, I_ProgressBar&>(),
+    cls.def(py::init<const std::string&, bool, I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_2),
             py::arg("file_path"),
+            py::arg("init"),
             py::arg("progress_bar"));
-    cls.def(py::init<const std::vector<std::string>&, bool>(),
+    cls.def(py::init<const std::vector<std::string>&, bool, bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_3),
             py::arg("file_path"),
+            py::arg("init") = true,
             py::arg("show_progress") = true);
-    cls.def(py::init<const std::vector<std::string>&, I_ProgressBar&>(),
+    cls.def(py::init<const std::vector<std::string>&, bool, I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_4),
             py::arg("file_paths"),
+            py::arg("init"),
             py::arg("progress_bar"));
 }
 

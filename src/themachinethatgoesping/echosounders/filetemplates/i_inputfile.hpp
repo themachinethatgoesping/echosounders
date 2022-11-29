@@ -54,23 +54,31 @@ class I_InputFile
     I_InputFile() = default;
 
   public:
-    I_InputFile(const std::string& file_path, bool show_progress = true)
+    I_InputFile(const std::string& file_path, bool init = true, bool show_progress = true)
     {
         append_file(file_path, show_progress);
+        if (init)
+        init_interfaces(false, show_progress);
     }
-    I_InputFile(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
+    I_InputFile(const std::string& file_path, bool init, tools::progressbars::I_ProgressBar& progress_bar)
     {
         append_file(file_path, progress_bar);
+        if (init)
+        init_interfaces(false, progress_bar);
     }
 
-    I_InputFile(const std::vector<std::string>& file_paths, bool show_progress)
+    I_InputFile(const std::vector<std::string>& file_paths, bool init = true, bool show_progress = true)
     {
         append_files(file_paths, show_progress);
+        if (init)
+        init_interfaces(false, show_progress);
     }
-    I_InputFile(const std::vector<std::string>&     file_paths,
+    I_InputFile(const std::vector<std::string>&     file_paths, bool init,
                 tools::progressbars::I_ProgressBar& progress_bar)
     {
         append_files(file_paths, progress_bar);
+        if (init)
+        init_interfaces(false, progress_bar);
     }
 
     virtual ~I_InputFile() = default;
