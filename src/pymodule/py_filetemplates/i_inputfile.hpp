@@ -84,14 +84,16 @@ void add_FileOpenInterface(T_PyClass& cls)
     //             append_file), py::arg("file_path"), py::arg("progress_bar"));
 
     cls.def("init_interfaces",
-            py::overload_cast<bool, bool>(&T_BaseClass::init_interfaces),
+            // (https://github.com/pybind/pybind11/issues/1153)
+            (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_interfaces),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, init_interfaces),
             py::arg("force")         = false,
             py::arg("show_progress") = true);
     cls.def(
         "init_interfaces",
-        py::overload_cast<bool, I_ProgressBar&>(&T_BaseClass::init_interfaces),
+            // (https://github.com/pybind/pybind11/issues/1153)
+        (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_interfaces),
         py::call_guard<py::scoped_ostream_redirect>(),
         DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, init_interfaces_2),
         py::arg("force"),
