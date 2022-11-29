@@ -356,13 +356,19 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_add_file_interface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_channel_ids = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_configuration_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_configuration_data_interface_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_configuration_data_interface_const = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_geolocation = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_init_from_file = R"doc()doc";
 

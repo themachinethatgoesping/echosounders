@@ -45,6 +45,32 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_NavigationDataInterface,
                 get_navigation_data));
+    cls.def("get_geolocation",
+            &T_BaseClass::get_geolocation,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_NavigationDataInterface,
+                get_geolocation),
+                py::arg("channel_id"),
+                py::arg("timestamp"));
+    cls.def("get_sensor_configuration",
+            &T_BaseClass::get_sensor_configuration,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_NavigationDataInterface,
+                get_sensor_configuration));
+    cls.def("channel_ids",
+            &T_BaseClass::channel_ids,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_NavigationDataInterface,
+                channel_ids));
 }
 
 }

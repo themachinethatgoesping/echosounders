@@ -115,6 +115,21 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         return _navigation_interpolator;
     }
 
+    navigation::datastructures::GeoLocationLatLon get_geolocation(const std::string& target_id, double timestamp)
+    {
+        return _navigation_interpolator(target_id, timestamp);
+    }
+
+    const navigation::SensorConfiguration& get_sensor_configuration() const
+    {
+        return _navigation_interpolator.get_sensor_configuration();
+    }
+
+    std::vector<std::string_view> channel_ids() const
+    {
+        return _navigation_interpolator.get_sensor_configuration().get_target_ids();
+    }
+
     // ----- old -----
 
     void add_file_interface(size_t file_nr) final
