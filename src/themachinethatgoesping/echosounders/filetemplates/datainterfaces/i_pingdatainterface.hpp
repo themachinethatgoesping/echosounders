@@ -116,9 +116,15 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         //     this->navigation_data_interface().init_from_file(false, progress_bar);
         // }
 
-        progress_bar.init(0.,
-                          double(this->_interface_per_file.size() - 1),
-                          fmt::format("Initializing {} from file data", this->get_name()));
+        bool existing_progressbar = true;
+
+        if (!progress_bar.is_initialized())
+        {
+            progress_bar.init(0.,
+                              double(this->_interface_per_file.size()),
+                              fmt::format("Initializing {} from file data", this->get_name()));
+            existing_progressbar = false;
+        }
 
         this->_interface_per_file.front()->init_from_file(force);
         _ping_container = this->_interface_per_file.front()->read_pings();
@@ -145,10 +151,12 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
                            i,
                            e.what());
             }
-            progress_bar.tick();
+            if (!existing_progressbar)
+                progress_bar.tick();
         }
 
-        progress_bar.close(std::string("Done"));
+        if (!existing_progressbar)
+            progress_bar.close(std::string("Done"));
     }
 
     std::vector<std::string> channel_ids() const

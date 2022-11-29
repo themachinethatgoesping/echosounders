@@ -90,14 +90,16 @@ class FileSimradRaw
             init_interfaces(false, progress_bar);
     }
 
-    FileSimradRaw(const std::vector<std::string>& file_paths, bool init = true, bool show_progress = true)
+    FileSimradRaw(const std::vector<std::string>& file_paths,
+                  bool                            init          = true,
+                  bool                            show_progress = true)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     FileSimradRaw(const std::vector<std::string>&     file_paths,
-                  bool                                init ,
+                  bool                                init,
                   tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
@@ -109,14 +111,25 @@ class FileSimradRaw
     using t_base::init_interfaces;
     void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
+        // if (progress_bar.is_initialized())
+        //     progress_bar = progress_bar.copy();
+        progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
+
         _configuration_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         _navigation_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         _environment_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
 
         _annotation_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         _otherdata_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
 
         _ping_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
+        progress_bar.close(std::string("Done"));
     }
 
     filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>& configuration_interface()

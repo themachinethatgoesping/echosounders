@@ -72,7 +72,10 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         return *_configuration_data_interface;
     }
 
-    bool initialized_navigation_interpolator() const { return _initialized_navigation_interpolator; }
+    bool initialized_navigation_interpolator() const
+    {
+        return _initialized_navigation_interpolator;
+    }
     void deinitialize() override { _initialized_navigation_interpolator = false; }
     bool initialized() const override { return _initialized_navigation_interpolator; }
 
@@ -86,7 +89,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
 
         if (!force && _initialized_navigation_interpolator)
         {
-            // note: at this moment, navigation interpolator does not react if the configuration changes ...
+            // note: at this moment, navigation interpolator does not react if the configuration
+            // changes ...
             return;
         }
 
@@ -95,10 +99,16 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         // {
         //     _configuration_data_interface->init_from_file(false, progress_bar);
         // }
+        bool existing_progressbar = true;
 
-        progress_bar.init(0.,
-                          double(this->_interface_per_file.size() - 1),
-                          fmt::format("Initializing {} from file data", this->get_name()));
+        if (!progress_bar.is_initialized())
+        {
+            progress_bar.init(0.,
+                              double(this->_interface_per_file.size()),
+                              fmt::format("Initializing {} from file data", this->get_name()));
+
+            existing_progressbar = false;
+        }
 
         this->_interface_per_file.front()->init_from_file(force);
         _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
@@ -122,11 +132,13 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
                     i,
                     e.what());
             }
-            progress_bar.tick();
+            if (!existing_progressbar)
+                progress_bar.tick();
         }
 
         _initialized_navigation_interpolator = true;
-        progress_bar.close(std::string("Done"));
+        if (!existing_progressbar)
+            progress_bar.close(std::string("Done"));
     }
 
     navigation::NavigationInterpolatorLatLon& get_navigation_data()
@@ -134,7 +146,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
         return _navigation_interpolator;
     }
 
-    navigation::datastructures::GeoLocationLatLon get_geolocation(const std::string& target_id, double timestamp)
+    navigation::datastructures::GeoLocationLatLon get_geolocation(const std::string& target_id,
+                                                                  double             timestamp)
     {
         return _navigation_interpolator(target_id, timestamp);
     }

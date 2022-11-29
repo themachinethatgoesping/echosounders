@@ -83,7 +83,6 @@ class I_FileDataInterface
         deinitialize();
     }
 
-
     // const std::vector<std::shared_ptr<t_perfiledatainterface>>& per_file() { return
     // _interface_per_file; }
 
@@ -106,20 +105,29 @@ class I_FileDataInterface
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
+        bool existing_progressbar = true;
 
-        progress_bar.init(0.,
-                          double(_interface_per_file.size()),
-                          fmt::format("Initializing {} from file data", _name));
+        if (!progress_bar.is_initialized())
+        {
+            progress_bar.init(0.,
+                              double(_interface_per_file.size()),
+                              fmt::format("Initializing {} from file data", _name));
+
+            existing_progressbar = false;
+        }
 
         for (const auto& inter : _interface_per_file)
         {
             progress_bar.set_postfix(
                 fmt::format("{}/{}", inter->get_file_nr(), _interface_per_file.size()));
             inter->init_from_file(force);
-            progress_bar.tick();
+
+            if (!existing_progressbar)
+                progress_bar.tick();
         }
 
-        progress_bar.close(std::string("Done"));
+        if (!existing_progressbar)
+            progress_bar.close(std::string("Done"));
     }
 
     virtual void deinitialize()
