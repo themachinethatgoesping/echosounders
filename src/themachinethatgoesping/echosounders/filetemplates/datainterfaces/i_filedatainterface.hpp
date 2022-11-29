@@ -132,7 +132,7 @@ class I_FileDataInterface
 
     virtual void deinitialize()
     {
-        for (auto& interface : this->_interface_per_file)
+        for (const auto& interface : this->_interface_per_file)
         {
             interface->deinitialize();
         }
