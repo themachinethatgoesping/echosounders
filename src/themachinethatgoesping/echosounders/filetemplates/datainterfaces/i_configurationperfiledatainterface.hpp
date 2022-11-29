@@ -46,6 +46,8 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
   private:
     navigation::SensorConfiguration _sensor_configuration;
 
+    bool _initialized_sensor_configuration = false;
+
   public:
     I_ConfigurationPerFileDataInterface(
         std::string_view name = "I_ConfigurationPerFileDataInterface")
@@ -60,20 +62,28 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
             fmt::format("read_sensor_configuration not implemented for {}", this->get_name()));
     }
 
+    bool initialized_sensor_configuration() const { return _initialized_sensor_configuration; }
+    void deinitialize() override { _initialized_sensor_configuration = false; }
+
     void set_sensor_configuration(navigation::SensorConfiguration sensor_configuration)
     {
-        _sensor_configuration = std::move(sensor_configuration);
+        _initialized_sensor_configuration = true;
+        _sensor_configuration            = std::move(sensor_configuration);
     }
     const navigation::SensorConfiguration& get_sensor_configuration() const
     {
         return _sensor_configuration;
     }
 
-    void init_from_file() final
+    void init_from_file(bool force = false) final
     {
         try
         {
-            _sensor_configuration = this->read_sensor_configuration();
+            if (force || !_initialized_sensor_configuration)
+            {
+                _sensor_configuration            = this->read_sensor_configuration();
+                _initialized_sensor_configuration = true;
+            }
         }
         catch (std::exception& e)
         {

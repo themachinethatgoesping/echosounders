@@ -80,7 +80,9 @@ class I_FileDataInterface
         add_file_interface(file_nr);
 
         this->_interface_per_file[file_nr]->add_datagram_info(datagram_info);
+        deinitialize();
     }
+
 
     // const std::vector<std::shared_ptr<t_perfiledatainterface>>& per_file() { return
     // _interface_per_file; }
@@ -94,13 +96,13 @@ class I_FileDataInterface
         return *_interface_per_file[_pyindexer(pyindex)];
     }
 
-    void init_from_file(bool show_progress = true)
+    void init_from_file(bool force = false, bool show_progress = true)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_from_file(progress_bar.get());
+        this->init_from_file(force, progress_bar.get());
     }
 
-    virtual void init_from_file(tools::progressbars::I_ProgressBar& progress_bar)
+    virtual void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
@@ -113,11 +115,27 @@ class I_FileDataInterface
         {
             progress_bar.set_postfix(
                 fmt::format("{}/{}", inter->get_file_nr(), _interface_per_file.size()));
-            inter->init_from_file();
+            inter->init_from_file(force);
             progress_bar.tick();
         }
 
         progress_bar.close(std::string("Done"));
+    }
+
+    virtual void deinitialize()
+    {
+        for (auto& interface : this->_interface_per_file)
+        {
+            interface->deinitialize();
+        }
+    }
+
+    virtual void update()
+    {
+        for (auto& interface : this->_interface_per_file)
+        {
+            interface->update();
+        }
     }
 
   public:

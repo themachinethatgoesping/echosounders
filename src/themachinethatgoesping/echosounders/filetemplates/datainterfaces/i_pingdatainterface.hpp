@@ -103,7 +103,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
     }
 
     using I_FileDataInterface<t_PingPerFileDataInterface>::init_from_file;
-    void init_from_file(tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
         {
@@ -113,7 +113,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
                           double(this->_interface_per_file.size() - 1),
                           fmt::format("Initializing {} from file data", this->get_name()));
 
-        this->_interface_per_file.front()->init_from_file();
+        this->_interface_per_file.front()->init_from_file(force);
         _ping_container = this->_interface_per_file.front()->read_pings();
 
         for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
@@ -122,7 +122,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
 
             try
             {
-                this->_interface_per_file[i]->init_from_file();
+                this->_interface_per_file[i]->init_from_file(force);
                 _ping_container.add_pings(this->_interface_per_file[i]->read_pings().get_pings());
 
                 for (const auto& ping : _ping_container.get_pings())

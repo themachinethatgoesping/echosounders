@@ -42,7 +42,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             // py::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //
             // compiler error on windows, but cstyle cast works
             // (https://github.com/pybind/pybind11/issues/1153)
-            (void(T_BaseClass::*)(bool))(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -50,10 +50,11 @@ void FileDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_FileDataInterface,
                 init_from_file),
+            py::arg("force")         = false,
             py::arg("show_progress") = true);
     cls.def("init_from_file",
             // py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
-            (void(T_BaseClass::*)(I_ProgressBar&))(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -61,7 +62,25 @@ void FileDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_FileDataInterface,
                 init_from_file_2),
+            py::arg("force"),
             py::arg("progress_bar"));
+
+    cls.def("update",
+            &T_BaseClass::update,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_FileDataInterface,
+                update));
+    cls.def("deinitialize",
+            &T_BaseClass::update,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_FileDataInterface,
+                update));
 
     // cls.def(
     //     "per_file",

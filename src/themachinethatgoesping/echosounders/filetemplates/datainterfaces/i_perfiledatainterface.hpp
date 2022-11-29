@@ -50,25 +50,22 @@ class I_PerFileDataInterface : public t_datagraminterface
     }
     virtual ~I_PerFileDataInterface() = default;
 
-    virtual void init_from_file()
+    virtual void init_from_file([[maybe_unused]] bool force = false)
     {
-        try
-        {
-            throw std::runtime_error(
-                fmt::format("Warning[init_from_file]: Not implemented for {} class.file "
-                            "{}: {}. Using empty fallback file.",
-                            this->get_name(),
-                            this->get_file_nr(),
-                            this->get_file_path()));
-        }
-        catch (std::exception& e2)
-        {
-            throw std::runtime_error(
-                fmt::format("Warning[init_from_file]: Not implemented for {} class. Also: Could "
-                            "not read datagrams from file: Error was: {}",
-                            this->get_name(),
-                            e2.what()));
-        }
+        // this file does not need to be initialized
+        return;
+    }
+
+    virtual void deinitialize()
+    {
+        // this file does not need to be deinitialized
+        return;
+    }
+
+    virtual void update()
+    {
+        // this file does not need to be updated
+        return;
     }
 
     /**

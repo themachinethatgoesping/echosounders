@@ -214,35 +214,25 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_I_ConfigurationPerFileDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_I_ConfigurationPerFileDataInterface_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_deinitialize = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_get_sensor_configuration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_get_sensor_configuration_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_init_from_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_init_from_file_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_initialized_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_initialized_sensor_configuration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_printer_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_read_sensor_configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_read_sensor_configuration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_sensor_configuration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_sensor_configuration_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_set_sensor_configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationPerFileDataInterface_set_sensor_configuration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface = R"doc()doc";
 
@@ -314,8 +304,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_EnvironmentPerFileDataInterface_configuration_data_interface_const = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_EnvironmentPerFileDataInterface_init_from_file = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_EnvironmentPerFileDataInterface_navigation_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_EnvironmentPerFileDataInterface_navigation_data_interface_2 = R"doc()doc";
@@ -331,6 +319,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_add_datagram_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_add_file_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_deinitialize = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_get_name = R"doc()doc";
 
@@ -349,6 +339,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_update = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface = R"doc()doc";
 
@@ -388,8 +380,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationPerFileDataInterface_configuration_data_interface_const = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationPerFileDataInterface_init_from_file = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationPerFileDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationPerFileDataInterface_read_navigation_data = R"doc()doc";
@@ -397,6 +387,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_I_PerFileDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_deinitialize = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_get_file_nr =
 R"doc(Get the file nr This function assumes that the file nr is the same for
@@ -415,6 +407,8 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_init_from_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PerFileDataInterface_update = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface = R"doc()doc";
 

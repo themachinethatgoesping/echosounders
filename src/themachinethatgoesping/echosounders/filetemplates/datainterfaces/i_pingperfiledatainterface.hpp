@@ -108,7 +108,7 @@ class I_PingPerFileDataInterface
                                              this->get_name()));
     }
 
-    void init_from_file() final { return; }
+    void init_from_file([[maybe_unused]] bool force = false) final { return; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

@@ -32,7 +32,8 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 filetemplates,
                 datainterfaces,
                 I_PerFileDataInterface,
-                init_from_file));
+                init_from_file),
+                py::arg("force") = false);
     cls.def("get_file_nr",
             &T_BaseClass::get_file_nr,
             DOC(themachinethatgoesping,
@@ -49,6 +50,22 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_PerFileDataInterface,
                 get_file_path));
+    cls.def("update",
+            &T_BaseClass::update,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PerFileDataInterface,
+                update));
+    cls.def("deinitialize",
+            &T_BaseClass::deinitialize,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PerFileDataInterface,
+                deinitialize));
 }
 
 }

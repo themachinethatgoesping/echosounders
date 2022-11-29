@@ -47,37 +47,6 @@ class I_AnnotationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
     }
     virtual ~I_AnnotationPerFileDataInterface() = default;
 
-    // void init_from_file() final
-    // {
-    //     try
-    //     {
-    //         _sensor_annotation = this->read_sensor_annotation();
-    //     }
-    //     catch (std::exception& e)
-    //     {
-    //         try
-    //         {
-    //             std::cerr
-    //                 << fmt::format(
-    //                        "Warning[init_from_file]: Could not read sensor annotation from file "
-    //                        "{}: {}. Using empty fallback annotation. Error was: {}",
-    //                        this->get_file_nr(),
-    //                        this->get_file_path(),
-    //                        e.what())
-    //                 << std::endl;
-    //         }
-    //         catch (std::exception& e2)
-    //         {
-    //             std::cerr << fmt::format("Warning[init_from_file]: Could not read sensor "
-    //                                      "annotation nor any other information file. "
-    //                                      "Error was: {}",
-    //                                      e2.what())
-    //                       << std::endl;
-    //         }
-    //         _sensor_annotation = navigation::SensorAnnotation();
-    //     }
-    // }
-
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {

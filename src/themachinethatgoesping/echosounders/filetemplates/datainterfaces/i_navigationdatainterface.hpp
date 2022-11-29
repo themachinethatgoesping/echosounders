@@ -72,7 +72,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     }
 
     using I_FileDataInterface<t_NavigationPerFileDataInterface>::init_from_file;
-    void init_from_file(tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
         {
@@ -82,7 +82,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
                           double(this->_interface_per_file.size() - 1),
                           fmt::format("Initializing {} from file data", this->get_name()));
 
-        this->_interface_per_file.front()->init_from_file();
+        this->_interface_per_file.front()->init_from_file(force);
         _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
 
         for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
@@ -91,7 +91,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
 
             try
             {
-                this->_interface_per_file[i]->init_from_file();
+                this->_interface_per_file[i]->init_from_file(force);
                 _navigation_interpolator.merge(
                     this->_interface_per_file[i]->read_navigation_data());
             }

@@ -86,8 +86,6 @@ class I_NavigationPerFileDataInterface
                         this->get_name()));
     }
 
-    void init_from_file() final { return; }
-
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
