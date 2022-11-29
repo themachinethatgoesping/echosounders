@@ -108,7 +108,7 @@ class I_FileDataInterface
         // but the object it points is not const
 
         progress_bar.init(0.,
-                          double(_interface_per_file.size() - 1),
+                          double(_interface_per_file.size()),
                           fmt::format("Initializing {} from file data", _name));
 
         for (const auto& inter : _interface_per_file)
