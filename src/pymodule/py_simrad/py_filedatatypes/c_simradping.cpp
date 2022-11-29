@@ -167,18 +167,6 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                      SimradPing,
                      get_timestamp),
                  py::return_value_policy::reference_internal)
-        //   .def(
-        //      "get_file_path",
-        //      &t_SimradPing::get_file_path,
-        //      DOC(themachinethatgoesping, echosounders, simrad, filedatatypes,  SimradPing,
-        //      get_file_path),
-        //        py::return_value_policy::reference_internal)
-        //   .def(
-        //      "get_ping_number",
-        //      &t_SimradPing::get_ping_number,
-        //      DOC(themachinethatgoesping, echosounders, simrad, filedatatypes,  SimradPing,
-        //      get_ping_number),
-        //        py::return_value_policy::reference_internal)
 
         // ----- operators -----
         // .def("__eq__",

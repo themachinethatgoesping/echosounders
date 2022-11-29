@@ -25,6 +25,20 @@ void add_ping_data_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
+    cls.def_property_readonly(
+        "geolocation",
+        &T_BaseClass::geolocation,
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, geolocation));
+    cls.def("set_geolocation",
+            &T_BaseClass::set_geolocation,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datatypes,
+                I_Ping,
+                set_geolocation),
+            py::arg("geolocation_latlon"));
+
     cls.def("get_number_of_samples",
             &T_BaseClass::get_number_of_samples,
             DOC(themachinethatgoesping,

@@ -119,6 +119,8 @@ class SimradPingPerFileDataInterface
                     }
 
                     ping->raw().add_parameter(_channel_parameter_buffer.get(channel_id));
+                    ping->set_geolocation(this->navigation_data_interface().get_geolocation(ping->get_channel_id(),
+                        ping->get_timestamp()));
 
                     pings.add_ping(ping);
                     break;
