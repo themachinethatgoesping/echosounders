@@ -132,17 +132,17 @@ class I_FileDataInterface
 
     virtual void deinitialize()
     {
-        for (const auto& interface : this->_interface_per_file)
+        for (std::shared_ptr<t_perfiledatainterface>& inter : this->_interface_per_file)
         {
-            interface->deinitialize();
+            inter->deinitialize();
         }
     }
 
     virtual bool initialized() const
     {
-        for (const auto& interface : this->_interface_per_file)
+        for (const std::shared_ptr<t_perfiledatainterface>& inter : this->_interface_per_file)
         {
-            if (!interface->initialized())
+            if (!inter->initialized())
             {
                 return false;
             }
