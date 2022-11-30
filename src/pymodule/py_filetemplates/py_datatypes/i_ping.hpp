@@ -54,6 +54,37 @@ void add_ping_data_interface(T_PyClass& cls)
         "release_data",
         &T_BaseClass::release_data,
         DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, release_data));
+
+    // --- variable access ---
+    cls.def_property_readonly("get_channel_id",
+            &T_BaseClass::get_channel_id,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates, datatypes, I_Ping,
+                get_channel_id),
+            py::return_value_policy::reference_internal);
+    cls.def("set_channel_id",
+            &T_BaseClass::set_channel_id,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates, datatypes, I_Ping,
+                set_channel_id),
+                py::arg("channel_id"));
+
+    cls.def("get_timestamp",
+            &T_BaseClass::get_timestamp,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates, datatypes, I_Ping,
+                get_timestamp),
+            py::return_value_policy::reference_internal);
+    cls.def("set_timestamp",
+            &T_BaseClass::set_timestamp,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates, datatypes, I_Ping,
+                set_timestamp),
+                py::arg("timestamp"));
 }
 
 }

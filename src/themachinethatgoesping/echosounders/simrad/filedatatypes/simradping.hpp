@@ -108,21 +108,16 @@ class SimradPing : public filetemplates::datatypes::I_Ping
         : filetemplates::datatypes::I_Ping("SimradPing")
         , _raw(std::move(datagram_info_raw), std::move(ping_data))
     {
-        // substring of channel_id until the first \x00 character
-        channel_id = _raw._ping_data.get_channel_id();
-        channel_id = channel_id.substr(0, channel_id.find('\x00'));
 
-        timestamp = _raw._datagram_info_raw->get_timestamp();
+        /* set i_ping parameters */
+        // substring of channel_id until the first \x00 character
+        this->_channel_id = _raw._ping_data.get_channel_id().substr(0, channel_id.find('\x00'));
+
+        this->timestamp = _raw._datagram_info_raw->get_timestamp();
     }
     virtual ~SimradPing() = default;
 
     SimradPingRawData<t_ifstream>& raw() { return _raw; }
-
-    // ----- accessors -----
-    const std::string& get_channel_id() const { return channel_id; }
-    double             get_timestamp() const { return timestamp; }
-    // const std::string& get_file_path() const { return file_path; }
-    // size_t             get_ping_number() const { return ping_number; }
 
     // ----- I_Ping interface -----
     size_t get_number_of_samples() const final { return _raw._ping_data.get_count(); }

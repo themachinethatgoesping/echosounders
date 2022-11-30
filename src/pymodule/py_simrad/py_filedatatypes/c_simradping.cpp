@@ -141,32 +141,13 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                  py::arg("dB") = false)
 
             // --- raw data access ---
-            .def("raw",
+            .def_property_readonly("raw",
                  &t_SimradPing::raw,
                  DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw),
                  py::return_value_policy::reference_internal)
 
             // --- variable access ---
 
-            // --- variable access ---
-            .def("get_channel_id",
-                 &t_SimradPing::get_channel_id,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     filedatatypes,
-                     SimradPing,
-                     get_channel_id),
-                 py::return_value_policy::reference_internal)
-            .def("get_timestamp",
-                 &t_SimradPing::get_timestamp,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     filedatatypes,
-                     SimradPing,
-                     get_timestamp),
-                 py::return_value_policy::reference_internal)
 
         // ----- operators -----
         // .def("__eq__",

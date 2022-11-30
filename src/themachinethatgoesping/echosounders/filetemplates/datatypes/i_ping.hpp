@@ -22,9 +22,9 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -35,6 +35,9 @@ class I_Ping
 {
     std::string_view _name;
 
+  protected:
+    std::string                                   _channel_id;
+    double                                        _timestamp;
     navigation::datastructures::GeoLocationLatLon _geolocation;
 
   public:
@@ -43,6 +46,12 @@ class I_Ping
     {
     }
     virtual ~I_Ping() = default;
+
+    //------ interface / accessors -----
+    const std::string& get_channel_id() const { return _channel_id; }
+    double             get_timestamp() const { return _timestamp; }
+    void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
+    void               set_timestamp(double timestamp) { _timestamp = timestamp; }
 
     //------ interface ------//
     virtual void load_data() { throw not_implemented("load_data", _name); }
@@ -65,10 +74,7 @@ class I_Ping
     virtual xt::xtensor<float, 2> get_angle() { throw not_implemented("get_angle", _name); }
 
     //------ navigation ------//
-    const navigation::datastructures::GeoLocationLatLon& geolocation()
-    {
-        return _geolocation;
-    }
+    const navigation::datastructures::GeoLocationLatLon& geolocation() { return _geolocation; }
 
     void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
     {
