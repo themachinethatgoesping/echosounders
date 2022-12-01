@@ -34,7 +34,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-void init_c_specialized_python_types(pybind11::module& m)
+void init_c_simradpingcontainer(pybind11::module& m)
 {
     using themachinethatgoesping::echosounders::simrad::filedatatypes::SimradPing;
 

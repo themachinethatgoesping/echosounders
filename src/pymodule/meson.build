@@ -64,7 +64,7 @@ sources = [
     'py_simrad/py_filedatatypes/c_simradping.cpp',
     'py_simrad/py_filedatacontainers/module.cpp',
     'py_simrad/py_filedatacontainers/c_simraddatagramcontainer.cpp',
-    'py_simrad/py_filedatacontainers/c_simrad_specialized_types.cpp',
+    'py_simrad/py_filedatacontainers/c_simradpingcontainer.cpp',
     'py_simrad/c_filesimradraw.cpp',
     'py_simrad/c_file_test_functions.cpp',
 ]

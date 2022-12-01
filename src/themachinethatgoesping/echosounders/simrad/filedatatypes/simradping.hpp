@@ -149,9 +149,6 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
         return angle;
     }
-    //------ interface ------//
-    void load_data() final { _raw.load_data(); }
-    void release_data() final { _raw.release_data(); }
 };
 
 }

@@ -61,7 +61,6 @@ void py_create_class_SimradDatagramInterface(py::module& m, const std::string& C
 
 void init_c_SimradDatagramInterface(pybind11::module& m)
 {
-
     py_create_class_SimradDatagramInterface<std::ifstream>(m, "SimradDatagramInterface");
     py_create_class_SimradDatagramInterface<datastreams::MappedFileStream>(
         m, "SimradDatagramInterface_mapped");
