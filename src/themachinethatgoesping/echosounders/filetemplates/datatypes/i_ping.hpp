@@ -126,12 +126,12 @@ class I_Ping
     {
         std::string features = "";
         if (has_sv() == has_features){
-            features += "Sv ";
+            features += "sv";
         }
         if (has_angle() == has_features){
             if (!features.empty())
                 features += ", ";
-            features += "angle ";
+            features += "angle";
         }
 
         return features;
