@@ -27,27 +27,27 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_datagraminterface.hpp"
-#include "i_perfiledatainterface.hpp"
+#include "i_filedatainterface_perfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-template<typename t_perfiledatainterface>
+template<typename t_filedatainterface_perfile>
 class I_FileDataInterface
 {
     std::string_view _name;
 
   public:
     // member types
-    using type_PerFileDataInterface = t_perfiledatainterface;
-    using type_DatagramInterface    = typename type_PerFileDataInterface::type_DatagramInterface;
+    using type_FileDataInterface_PerFile = t_filedatainterface_perfile;
+    using type_DatagramInterface    = typename type_FileDataInterface_PerFile::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }
 
-    std::vector<std::shared_ptr<t_perfiledatainterface>> _interface_per_file;
+    std::vector<std::shared_ptr<t_filedatainterface_perfile>> _interface_per_file;
     tools::pyhelper::PyIndexer                           _pyindexer;
 
   public:
@@ -66,7 +66,7 @@ class I_FileDataInterface
 
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
-                this->_interface_per_file.push_back(std::make_shared<t_perfiledatainterface>());
+                this->_interface_per_file.push_back(std::make_shared<t_filedatainterface_perfile>());
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }
@@ -83,14 +83,14 @@ class I_FileDataInterface
         deinitialize();
     }
 
-    // const std::vector<std::shared_ptr<t_perfiledatainterface>>& per_file() { return
+    // const std::vector<std::shared_ptr<t_filedatainterface_perfile>>& per_file() { return
     // _interface_per_file; }
 
-    t_perfiledatainterface& per_file(long pyindex)
+    t_filedatainterface_perfile& per_file(long pyindex)
     {
         return *_interface_per_file[_pyindexer(pyindex)];
     }
-    const t_perfiledatainterface& per_file_const(long pyindex) const
+    const t_filedatainterface_perfile& per_file_const(long pyindex) const
     {
         return *_interface_per_file[_pyindexer(pyindex)];
     }
@@ -132,7 +132,7 @@ class I_FileDataInterface
 
     virtual void deinitialize()
     {
-        for (std::shared_ptr<t_perfiledatainterface>& inter : this->_interface_per_file)
+        for (std::shared_ptr<t_filedatainterface_perfile>& inter : this->_interface_per_file)
         {
             inter->deinitialize();
         }
@@ -140,7 +140,7 @@ class I_FileDataInterface
 
     virtual bool initialized() const
     {
-        for (const std::shared_ptr<t_perfiledatainterface>& inter : this->_interface_per_file)
+        for (const std::shared_ptr<t_filedatainterface_perfile>& inter : this->_interface_per_file)
         {
             if (!inter->initialized())
             {

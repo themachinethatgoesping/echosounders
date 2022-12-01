@@ -10,7 +10,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_pingdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -19,14 +19,14 @@ namespace echosounders {
 namespace pymodule {
 namespace py_filetemplates {
 namespace py_datainterfaces {
-namespace py_i_pingdatainterface {
+namespace py_i_environmentdatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void PingPerFileDataInterface_add_interface(T_PyClass& cls)
+void EnvironmentDataInterface_PerFile_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
+    py_i_filedatainterface::FileDataInterface_PerFile_add_interface<T_BaseClass>(cls);
 
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
@@ -34,7 +34,7 @@ void PingPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PingPerFileDataInterface,
+                I_EnvironmentDataInterface_PerFile,
                 configuration_data_interface));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
@@ -42,16 +42,8 @@ void PingPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PingPerFileDataInterface,
+                I_EnvironmentDataInterface_PerFile,
                 navigation_data_interface));
-    cls.def("environment_data_interface",
-            &T_BaseClass::environment_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingPerFileDataInterface,
-                environment_data_interface));
 }
 
 }

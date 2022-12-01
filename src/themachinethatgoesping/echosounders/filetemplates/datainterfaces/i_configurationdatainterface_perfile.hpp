@@ -39,9 +39,9 @@ namespace datainterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
+class I_ConfigurationDataInterface_PerFile : public I_FileDataInterface_PerFile<t_datagraminterface>
 {
-    using t_base = I_PerFileDataInterface<t_datagraminterface>;
+    using t_base = I_FileDataInterface_PerFile<t_datagraminterface>;
 
   private:
     navigation::SensorConfiguration _sensor_configuration;
@@ -49,12 +49,12 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
     bool _initialized_sensor_configuration = false;
 
   public:
-    I_ConfigurationPerFileDataInterface(
-        std::string_view name = "I_ConfigurationPerFileDataInterface")
+    I_ConfigurationDataInterface_PerFile(
+        std::string_view name = "I_ConfigurationDataInterface_PerFile")
         : t_base(name)
     {
     }
-    virtual ~I_ConfigurationPerFileDataInterface() = default;
+    virtual ~I_ConfigurationDataInterface_PerFile() = default;
 
     virtual navigation::SensorConfiguration read_sensor_configuration()
     {
@@ -119,7 +119,7 @@ class I_ConfigurationPerFileDataInterface : public I_PerFileDataInterface<t_data
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("ConfigurationPerFileDataInterface");
+        printer.register_section("ConfigurationDataInterface_PerFile");
         return printer;
     }
 };

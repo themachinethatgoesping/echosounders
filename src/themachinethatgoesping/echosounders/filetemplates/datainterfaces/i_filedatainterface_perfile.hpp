@@ -36,7 +36,7 @@ namespace datainterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_PerFileDataInterface : public t_datagraminterface
+class I_FileDataInterface_PerFile : public t_datagraminterface
 {
     using t_base = t_datagraminterface;
 
@@ -44,11 +44,11 @@ class I_PerFileDataInterface : public t_datagraminterface
     using type_DatagramInterface = t_datagraminterface;
 
   public:
-    I_PerFileDataInterface(std::string_view name = "I_PerFileDataInterface")
+    I_FileDataInterface_PerFile(std::string_view name = "I_FileDataInterface_PerFile")
         : t_base(name)
     {
     }
-    virtual ~I_PerFileDataInterface() = default;
+    virtual ~I_FileDataInterface_PerFile() = default;
 
     virtual void init_from_file([[maybe_unused]] bool force = false)
     {

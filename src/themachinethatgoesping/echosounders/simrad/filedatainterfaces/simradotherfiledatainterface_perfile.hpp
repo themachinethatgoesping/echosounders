@@ -26,19 +26,19 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradOtherPerFileDataInterface
-    : public filetemplates::datainterfaces::I_PerFileDataInterface<
+class SimradOtherFileDataInterface_PerFile
+    : public filetemplates::datainterfaces::I_FileDataInterface_PerFile<
           SimradDatagramInterface<t_ifstream>>
 {
     using t_base =
-        filetemplates::datainterfaces::I_PerFileDataInterface<SimradDatagramInterface<t_ifstream>>;
+        filetemplates::datainterfaces::I_FileDataInterface_PerFile<SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradOtherPerFileDataInterface()
-        : t_base("SimradOtherPerFileDataInterface")
+    SimradOtherFileDataInterface_PerFile()
+        : t_base("SimradOtherFileDataInterface_PerFile")
     {
     }
-    ~SimradOtherPerFileDataInterface() = default;
+    ~SimradOtherFileDataInterface_PerFile() = default;
 
     // --------------------- simrad specific functions ---------------------
     /* get infos */
@@ -51,7 +51,7 @@ class SimradOtherPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradOtherPerFileDataInterface");
+        printer.register_section("SimradOtherFileDataInterface_PerFile");
 
         return printer;
     }

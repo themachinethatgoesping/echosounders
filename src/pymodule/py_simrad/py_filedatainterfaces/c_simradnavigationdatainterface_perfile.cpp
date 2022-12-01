@@ -40,13 +40,13 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradNavigationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
+void py_create_class_SimradNavigationDataInterface_PerFile(py::module&        m,
                                                           const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::SimradNavigationPerFileDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::SimradNavigationDataInterface_PerFile<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m,
@@ -55,7 +55,7 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                                            echosounders,
                                            simrad,
                                            filedatainterfaces,
-                                           SimradNavigationPerFileDataInterface))
+                                           SimradNavigationDataInterface_PerFile))
 
                    .def("set_min_gga_quality",
                         &T_BaseClass::set_min_gga_quality,
@@ -63,7 +63,7 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                             echosounders,
                             simrad,
                             filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
+                            SimradNavigationDataInterface_PerFile,
                             set_min_gga_quality),
                         py::arg("min_gga_quality"))
                    .def("set_max_gga_quality",
@@ -72,7 +72,7 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                             echosounders,
                             simrad,
                             filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
+                            SimradNavigationDataInterface_PerFile,
                             set_max_gga_quality),
                         py::arg("max_gga_quality"))
                    .def("get_min_gga_quality",
@@ -81,7 +81,7 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                             echosounders,
                             simrad,
                             filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
+                            SimradNavigationDataInterface_PerFile,
                             get_min_gga_quality))
                    .def("get_max_gga_quality",
                         &T_BaseClass::get_max_gga_quality,
@@ -89,7 +89,7 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
                             echosounders,
                             simrad,
                             filedatainterfaces,
-                            SimradNavigationPerFileDataInterface,
+                            SimradNavigationDataInterface_PerFile,
                             get_max_gga_quality))
 
         //
@@ -97,17 +97,17 @@ void py_create_class_SimradNavigationPerFileDataInterface(py::module&        m,
 
     //----- inherit functions from I_DatagramInterface -----
     py_filetemplates::py_datainterfaces::py_i_navigationdatainterface::
-        NavigationPerFileDataInterface_add_interface<T_BaseClass>(cls);
+        NavigationDataInterface_PerFile_add_interface<T_BaseClass>(cls);
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradNavigationPerFileDataInterface(pybind11::module& m)
+void init_c_SimradNavigationDataInterface_PerFile(pybind11::module& m)
 {
 
-    py_create_class_SimradNavigationPerFileDataInterface<std::ifstream>(
-        m, "SimradNavigationPerFileDataInterface");
-    py_create_class_SimradNavigationPerFileDataInterface<datastreams::MappedFileStream>(
-        m, "SimradNavigationPerFileDataInterface_mapped");
+    py_create_class_SimradNavigationDataInterface_PerFile<std::ifstream>(
+        m, "SimradNavigationDataInterface_PerFile");
+    py_create_class_SimradNavigationDataInterface_PerFile<datastreams::MappedFileStream>(
+        m, "SimradNavigationDataInterface_PerFile_mapped");
 }
 
 }

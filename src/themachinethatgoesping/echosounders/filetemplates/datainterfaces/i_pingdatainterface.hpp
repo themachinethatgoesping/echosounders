@@ -29,30 +29,30 @@
 #include "i_datagraminterface.hpp"
 #include "i_environmentdatainterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_pingperfiledatainterface.hpp"
+#include "i_pingdatainterface_perfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-template<typename t_PingPerFileDataInterface>
-class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterface>
+template<typename t_PingDataInterface_PerFile>
+class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterface_PerFile>
 {
-    using t_base = I_FileDataInterface<t_PingPerFileDataInterface>;
+    using t_base = I_FileDataInterface<t_PingDataInterface_PerFile>;
 
   public:
     // member types
-    using type_PingPerFileDataInterface = t_PingPerFileDataInterface;
+    using type_PingDataInterface_PerFile = t_PingDataInterface_PerFile;
     using type_ConfigurationDataInterface =
-        typename t_PingPerFileDataInterface::type_ConfigurationDataInterface;
+        typename t_PingDataInterface_PerFile::type_ConfigurationDataInterface;
     using type_NavigationDataInterface =
-        typename t_PingPerFileDataInterface::type_NavigationDataInterface;
+        typename t_PingDataInterface_PerFile::type_NavigationDataInterface;
     using type_EnvironmentDataInterface =
-        typename t_PingPerFileDataInterface::type_EnvironmentDataInterface;
+        typename t_PingDataInterface_PerFile::type_EnvironmentDataInterface;
 
-    using type_PingContainer = typename t_PingPerFileDataInterface::type_PingContainer;
-    using type_Ping          = typename t_PingPerFileDataInterface::type_Ping;
+    using type_PingContainer = typename t_PingDataInterface_PerFile::type_PingContainer;
+    using type_Ping          = typename t_PingDataInterface_PerFile::type_Ping;
 
   protected:
     type_PingContainer _ping_container;
@@ -102,7 +102,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
         return *_ping_container_by_channel.at_const(channel_id);
     }
 
-    using I_FileDataInterface<t_PingPerFileDataInterface>::init_from_file;
+    using I_FileDataInterface<t_PingDataInterface_PerFile>::init_from_file;
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
@@ -182,7 +182,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingPerFileDataInterfac
 
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
-                this->_interface_per_file.push_back(std::make_shared<t_PingPerFileDataInterface>(
+                this->_interface_per_file.push_back(std::make_shared<t_PingDataInterface_PerFile>(
                     this->_environment_data_interface));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());

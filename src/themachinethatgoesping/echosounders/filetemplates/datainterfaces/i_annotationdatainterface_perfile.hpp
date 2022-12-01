@@ -36,16 +36,16 @@ namespace datainterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_datagraminterface>
-class I_AnnotationPerFileDataInterface : public I_PerFileDataInterface<t_datagraminterface>
+class I_AnnotationDataInterface_PerFile : public I_FileDataInterface_PerFile<t_datagraminterface>
 {
-    using t_base = I_PerFileDataInterface<t_datagraminterface>;
+    using t_base = I_FileDataInterface_PerFile<t_datagraminterface>;
 
   public:
-    I_AnnotationPerFileDataInterface(std::string_view name = "I_AnnotationPerFileDataInterface")
+    I_AnnotationDataInterface_PerFile(std::string_view name = "I_AnnotationDataInterface_PerFile")
         : t_base(name)
     {
     }
-    virtual ~I_AnnotationPerFileDataInterface() = default;
+    virtual ~I_AnnotationDataInterface_PerFile() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -55,7 +55,7 @@ class I_AnnotationPerFileDataInterface : public I_PerFileDataInterface<t_datagra
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("AnnotationPerFileDataInterface");
+        printer.register_section("AnnotationDataInterface_PerFile");
         return printer;
     }
 };

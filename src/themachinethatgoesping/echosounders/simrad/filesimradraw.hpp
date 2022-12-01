@@ -22,7 +22,7 @@
 #include "filedatainterfaces/simradconfigurationdatainterface.hpp"
 #include "filedatainterfaces/simradenvironmentdatainterface.hpp"
 #include "filedatainterfaces/simradnavigationdatainterface.hpp"
-#include "filedatainterfaces/simradotherdatainterface.hpp"
+#include "filedatainterfaces/simradotherfiledatainterface.hpp"
 #include "filedatainterfaces/simradpingdatainterface.hpp"
 
 #include "filedatainterfaces/simraddatagraminterface.hpp"

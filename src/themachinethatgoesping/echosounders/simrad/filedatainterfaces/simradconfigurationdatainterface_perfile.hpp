@@ -26,19 +26,19 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradConfigurationPerFileDataInterface
-    : public filetemplates::datainterfaces::I_ConfigurationPerFileDataInterface<
+class SimradConfigurationDataInterface_PerFile
+    : public filetemplates::datainterfaces::I_ConfigurationDataInterface_PerFile<
           SimradDatagramInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_ConfigurationPerFileDataInterface<
+    using t_base = filetemplates::datainterfaces::I_ConfigurationDataInterface_PerFile<
         SimradDatagramInterface<t_ifstream>>;
 
   public:
-    SimradConfigurationPerFileDataInterface()
-        : t_base("SimradConfigurationPerFileDataInterface")
+    SimradConfigurationDataInterface_PerFile()
+        : t_base("SimradConfigurationDataInterface_PerFile")
     {
     }
-    ~SimradConfigurationPerFileDataInterface() = default;
+    ~SimradConfigurationDataInterface_PerFile() = default;
 
     navigation::SensorConfiguration read_sensor_configuration() final
     {
@@ -135,7 +135,7 @@ class SimradConfigurationPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradConfigurationPerFileDataInterface");
+        printer.register_section("SimradConfigurationDataInterface_PerFile");
         auto position_sources = this->get_position_sources();
         auto heading_sources  = this->get_heading_sources();
         auto attitude_sources = this->get_attitude_sources();

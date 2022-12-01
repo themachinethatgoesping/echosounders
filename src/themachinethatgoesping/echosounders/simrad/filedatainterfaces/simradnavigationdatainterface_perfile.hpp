@@ -27,27 +27,27 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradNavigationPerFileDataInterface
-    : public filetemplates::datainterfaces::I_NavigationPerFileDataInterface<
+class SimradNavigationDataInterface_PerFile
+    : public filetemplates::datainterfaces::I_NavigationDataInterface_PerFile<
           SimradConfigurationDataInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_NavigationPerFileDataInterface<
+    using t_base = filetemplates::datainterfaces::I_NavigationDataInterface_PerFile<
         SimradConfigurationDataInterface<t_ifstream>>;
 
     int _min_gga_quality = 1;
     int _max_gga_quality = 5;
 
   public:
-    SimradNavigationPerFileDataInterface()
-        : t_base("SimradNavigationPerFileDataInterface")
+    SimradNavigationDataInterface_PerFile()
+        : t_base("SimradNavigationDataInterface_PerFile")
     {
     }
-    SimradNavigationPerFileDataInterface(
+    SimradNavigationDataInterface_PerFile(
         std::shared_ptr<SimradConfigurationDataInterface<t_ifstream>> configuration_data_interface)
-        : t_base(std::move(configuration_data_interface), "SimradNavigationPerFileDataInterface")
+        : t_base(std::move(configuration_data_interface), "SimradNavigationDataInterface_PerFile")
     {
     }
-    ~SimradNavigationPerFileDataInterface() = default;
+    ~SimradNavigationDataInterface_PerFile() = default;
 
     void set_min_gga_quality(int min_gga_quality) { _min_gga_quality = min_gga_quality; }
     void set_max_gga_quality(int max_gga_quality) { _max_gga_quality = max_gga_quality; }
@@ -145,7 +145,7 @@ class SimradNavigationPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradNavigationPerFileDataInterface");
+        printer.register_section("SimradNavigationDataInterface_PerFile");
 
         return printer;
     }

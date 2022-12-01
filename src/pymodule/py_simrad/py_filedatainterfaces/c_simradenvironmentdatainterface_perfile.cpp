@@ -18,11 +18,11 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradotherdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradenvironmentdatainterface.hpp"
 
 #include "../../docstrings.hpp"
 
-#include "../../py_filetemplates/py_datainterfaces/i_filedatainterface.hpp"
+#include "../../py_filetemplates/py_datainterfaces/i_environmentdatainterface.hpp"
 #include "c_simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -37,13 +37,16 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradOtherDataInterface
+    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradEnvironmentDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradEnvironmentDataInterface_PerFile(py::module&        m,
+                                                           const std::string& CLASS_NAME)
 {
+    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
+                                                         // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::SimradOtherPerFileDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::SimradEnvironmentDataInterface_PerFile<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m,
@@ -52,34 +55,32 @@ void py_create_class_SimradOtherPerFileDataInterface(py::module& m, const std::s
                                            echosounders,
                                            simrad,
                                            filedatainterfaces,
-                                           SimradOtherPerFileDataInterface))
+                                           SimradEnvironmentDataInterface_PerFile))
 
-        // .def("get_other_datagram",
-        //      &T_BaseClass::get_other_datagram,
+        // .def("get_environment_datagram",
+        //      &T_BaseClass::get_environment_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          simrad, filedatainterfaces,
-        //          SimradOtherPerFileDataInterface,
-        //          get_other_datagram))
+        //          SimradEnvironmentDataInterface_PerFile,
+        //          get_environment_datagram))
 
         //
         ;
 
-    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
-                                                         // py_i_DatagramInterface
-
     //----- inherit functions from I_DatagramInterface -----
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
+    py_filetemplates::py_datainterfaces::py_i_environmentdatainterface::
+        EnvironmentDataInterface_PerFile_add_interface<T_BaseClass>(cls);
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradOtherPerFileDataInterface(pybind11::module& m)
+void init_c_SimradEnvironmentDataInterface_PerFile(pybind11::module& m)
 {
 
-    py_create_class_SimradOtherPerFileDataInterface<std::ifstream>(
-        m, "SimradOtherPerFileDataInterface");
-    py_create_class_SimradOtherPerFileDataInterface<datastreams::MappedFileStream>(
-        m, "SimradOtherPerFileDataInterface_mapped");
+    py_create_class_SimradEnvironmentDataInterface_PerFile<std::ifstream>(
+        m, "SimradEnvironmentDataInterface_PerFile");
+    py_create_class_SimradEnvironmentDataInterface_PerFile<datastreams::MappedFileStream>(
+        m, "SimradEnvironmentDataInterface_PerFile_mapped");
 }
 
 }

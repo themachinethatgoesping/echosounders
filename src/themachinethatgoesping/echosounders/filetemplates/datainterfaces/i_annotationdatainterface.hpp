@@ -26,7 +26,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
-#include "i_annotationperfiledatainterface.hpp"
+#include "i_annotationdatainterface_perfile.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -35,10 +35,10 @@ namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-template<typename t_annotationperfiledatainterface>
-class I_AnnotationDataInterface : public I_FileDataInterface<t_annotationperfiledatainterface>
+template<typename t_annotationdatainterface_perfile>
+class I_AnnotationDataInterface : public I_FileDataInterface<t_annotationdatainterface_perfile>
 {
-    using t_base = I_FileDataInterface<t_annotationperfiledatainterface>;
+    using t_base = I_FileDataInterface<t_annotationdatainterface_perfile>;
 
   public:
     I_AnnotationDataInterface(std::string_view name = "I_AnnotationDataInterface")

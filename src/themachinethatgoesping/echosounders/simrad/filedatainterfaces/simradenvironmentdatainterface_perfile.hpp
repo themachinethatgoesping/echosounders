@@ -27,24 +27,24 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradEnvironmentPerFileDataInterface
-    : public filetemplates::datainterfaces::I_EnvironmentPerFileDataInterface<
+class SimradEnvironmentDataInterface_PerFile
+    : public filetemplates::datainterfaces::I_EnvironmentDataInterface_PerFile<
           SimradNavigationDataInterface<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_EnvironmentPerFileDataInterface<
+    using t_base = filetemplates::datainterfaces::I_EnvironmentDataInterface_PerFile<
         SimradNavigationDataInterface<t_ifstream>>;
 
   public:
-    SimradEnvironmentPerFileDataInterface()
-        : t_base("SimradEnvironmentPerFileDataInterface")
+    SimradEnvironmentDataInterface_PerFile()
+        : t_base("SimradEnvironmentDataInterface_PerFile")
     {
     }
-    SimradEnvironmentPerFileDataInterface(
+    SimradEnvironmentDataInterface_PerFile(
         std::shared_ptr<SimradNavigationDataInterface<t_ifstream>> navigation_data_interface)
-        : t_base(std::move(navigation_data_interface), "SimradEnvironmentPerFileDataInterface")
+        : t_base(std::move(navigation_data_interface), "SimradEnvironmentDataInterface_PerFile")
     {
     }
-    ~SimradEnvironmentPerFileDataInterface() = default;
+    ~SimradEnvironmentDataInterface_PerFile() = default;
 
     // environment::EnvironmentInterpolatorLatLon read_environment_data() const final
     // {
@@ -62,7 +62,7 @@ class SimradEnvironmentPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradEnvironmentPerFileDataInterface");
+        printer.register_section("SimradEnvironmentDataInterface_PerFile");
 
         return printer;
     }

@@ -29,21 +29,21 @@
 #include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_navigationperfiledatainterface.hpp"
+#include "i_navigationdatainterface_perfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-template<typename t_NavigationPerFileDataInterface>
-class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFileDataInterface>
+template<typename t_NavigationDataInterface_PerFile>
+class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInterface_PerFile>
 {
-    using t_base = I_FileDataInterface<t_NavigationPerFileDataInterface>;
+    using t_base = I_FileDataInterface<t_NavigationDataInterface_PerFile>;
 
   public:
     using type_ConfigurationDataInterface =
-        typename t_NavigationPerFileDataInterface::type_ConfigurationDataInterface;
+        typename t_NavigationDataInterface_PerFile::type_ConfigurationDataInterface;
 
   protected:
     navigation::NavigationInterpolatorLatLon _navigation_interpolator{
@@ -79,7 +79,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
     void deinitialize() override { _initialized_navigation_interpolator = false; }
     bool initialized() const override { return _initialized_navigation_interpolator; }
 
-    using I_FileDataInterface<t_NavigationPerFileDataInterface>::init_from_file;
+    using I_FileDataInterface<t_NavigationDataInterface_PerFile>::init_from_file;
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
         if (this->_interface_per_file.empty())
@@ -180,7 +180,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationPerFile
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
                 this->_interface_per_file.push_back(
-                    std::make_shared<t_NavigationPerFileDataInterface>(
+                    std::make_shared<t_NavigationDataInterface_PerFile>(
                         this->_configuration_data_interface));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());

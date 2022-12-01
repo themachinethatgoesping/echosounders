@@ -37,11 +37,11 @@ namespace datainterfaces {
 
 // TODO: this should be a c++20 concept
 template<typename t_EnvironmentDataInterface, typename t_PingContainer>
-class I_PingPerFileDataInterface
-    : public I_PerFileDataInterface<typename t_EnvironmentDataInterface::type_DatagramInterface>
+class I_PingDataInterface_PerFile
+    : public I_FileDataInterface_PerFile<typename t_EnvironmentDataInterface::type_DatagramInterface>
 {
     using t_datagraminterface = typename t_EnvironmentDataInterface::type_DatagramInterface;
-    using t_base              = I_PerFileDataInterface<t_datagraminterface>;
+    using t_base              = I_FileDataInterface_PerFile<t_datagraminterface>;
 
   public:
     // member types
@@ -57,23 +57,23 @@ class I_PingPerFileDataInterface
     std::shared_ptr<t_EnvironmentDataInterface> _environment_data_interface;
 
   public:
-    I_PingPerFileDataInterface(std::string_view name = "I_PingPerFileDataInterface")
+    I_PingDataInterface_PerFile(std::string_view name = "I_PingDataInterface_PerFile")
         : t_base(name)
     {
         throw std::runtime_error(
-            fmt::format("I_PingPerFileDataInterface({}): cannot be initialized without "
+            fmt::format("I_PingDataInterface_PerFile({}): cannot be initialized without "
                         "existing configuration_data_interface",
                         this->get_name()));
     }
 
-    I_PingPerFileDataInterface(
+    I_PingDataInterface_PerFile(
         std::shared_ptr<t_EnvironmentDataInterface> environment_data_interface,
-        std::string_view                            name = "I_PingPerFileDataInterface")
+        std::string_view                            name = "I_PingDataInterface_PerFile")
         : t_base(name)
         , _environment_data_interface(environment_data_interface)
     {
     }
-    virtual ~I_PingPerFileDataInterface() = default;
+    virtual ~I_PingDataInterface_PerFile() = default;
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
@@ -103,7 +103,7 @@ class I_PingPerFileDataInterface
 
     virtual t_PingContainer read_pings()
     {
-        throw std::runtime_error(fmt::format("I_PingPerFileDataInterface({}): read_ping_data() not "
+        throw std::runtime_error(fmt::format("I_PingDataInterface_PerFile({}): read_ping_data() not "
                                              "implemented",
                                              this->get_name()));
     }
@@ -118,7 +118,7 @@ class I_PingPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("PingPerFileDataInterface");
+        printer.register_section("PingDataInterface_PerFile");
         return printer;
     }
 };

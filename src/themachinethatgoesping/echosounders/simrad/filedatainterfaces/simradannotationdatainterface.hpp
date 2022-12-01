@@ -18,7 +18,7 @@
 
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
-#include "simradannotationperfiledatainterface.hpp"
+#include "simradannotationdatainterface_perfile.hpp"
 #include "simraddatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -29,10 +29,10 @@ namespace filedatainterfaces {
 template<typename t_ifstream>
 class SimradAnnotationDataInterface
     : public filetemplates::datainterfaces::I_AnnotationDataInterface<
-          SimradAnnotationPerFileDataInterface<t_ifstream>>
+          SimradAnnotationDataInterface_PerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_AnnotationDataInterface<
-        SimradAnnotationPerFileDataInterface<t_ifstream>>;
+        SimradAnnotationDataInterface_PerFile<t_ifstream>>;
 
   public:
     SimradAnnotationDataInterface()

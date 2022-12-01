@@ -28,12 +28,12 @@ namespace simrad {
 namespace filedatainterfaces {
 
 template<typename t_ifstream>
-class SimradPingPerFileDataInterface
-    : public filetemplates::datainterfaces::I_PingPerFileDataInterface<
+class SimradPingDataInterface_PerFile
+    : public filetemplates::datainterfaces::I_PingDataInterface_PerFile<
           SimradEnvironmentDataInterface<t_ifstream>,
           filedatacontainers::SimradPingContainer<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_PingPerFileDataInterface<
+    using t_base = filetemplates::datainterfaces::I_PingDataInterface_PerFile<
         SimradEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::SimradPingContainer<t_ifstream>>;
 
@@ -41,16 +41,16 @@ class SimradPingPerFileDataInterface
         _channel_parameter_buffer;
 
   public:
-    SimradPingPerFileDataInterface()
-        : t_base("SimradPingPerFileDataInterface")
+    SimradPingDataInterface_PerFile()
+        : t_base("SimradPingDataInterface_PerFile")
     {
     }
-    SimradPingPerFileDataInterface(
+    SimradPingDataInterface_PerFile(
         std::shared_ptr<SimradEnvironmentDataInterface<t_ifstream>> environment_data_interface)
-        : t_base(std::move(environment_data_interface), "SimradPingPerFileDataInterface")
+        : t_base(std::move(environment_data_interface), "SimradPingDataInterface_PerFile")
     {
     }
-    ~SimradPingPerFileDataInterface() = default;
+    ~SimradPingDataInterface_PerFile() = default;
 
     std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
                        datagrams::xml_datagrams::XML_Parameter_Channel>
@@ -154,7 +154,7 @@ class SimradPingPerFileDataInterface
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradPingPerFileDataInterface");
+        printer.register_section("SimradPingDataInterface_PerFile");
 
         return printer;
     }

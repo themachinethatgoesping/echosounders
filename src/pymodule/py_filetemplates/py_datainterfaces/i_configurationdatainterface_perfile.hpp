@@ -22,11 +22,11 @@ namespace py_datainterfaces {
 namespace py_i_configurationdatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
+void ConfigurationDataInterface_PerFile_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
+    py_i_filedatainterface::FileDataInterface_PerFile_add_interface<T_BaseClass>(cls);
 
     cls.def("read_sensor_configuration",
             &T_BaseClass::read_sensor_configuration,
@@ -34,7 +34,7 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_ConfigurationPerFileDataInterface,
+                I_ConfigurationDataInterface_PerFile,
                 read_sensor_configuration));
 
     cls.def("get_sensor_configuration",
@@ -43,7 +43,7 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_ConfigurationPerFileDataInterface,
+                I_ConfigurationDataInterface_PerFile,
                 get_sensor_configuration));
     cls.def("set_sensor_configuration",
             &T_BaseClass::set_sensor_configuration,
@@ -51,7 +51,7 @@ void ConfigurationPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_ConfigurationPerFileDataInterface,
+                I_ConfigurationDataInterface_PerFile,
                 set_sensor_configuration),
             py::arg("sensor_configuration"));
 }

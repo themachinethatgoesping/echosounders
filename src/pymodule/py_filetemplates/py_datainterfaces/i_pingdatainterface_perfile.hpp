@@ -10,7 +10,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_navigationdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 
@@ -19,14 +19,14 @@ namespace echosounders {
 namespace pymodule {
 namespace py_filetemplates {
 namespace py_datainterfaces {
-namespace py_i_navigationdatainterface {
+namespace py_i_pingdatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
+void PingDataInterface_PerFile_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    py_i_filedatainterface::PerFileDataInterface_add_interface<T_BaseClass>(cls);
+    py_i_filedatainterface::FileDataInterface_PerFile_add_interface<T_BaseClass>(cls);
 
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
@@ -34,16 +34,24 @@ void NavigationPerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_NavigationPerFileDataInterface,
+                I_PingDataInterface_PerFile,
                 configuration_data_interface));
-    cls.def("read_navigation_data",
-            &T_BaseClass::read_navigation_data,
+    cls.def("navigation_data_interface",
+            &T_BaseClass::navigation_data_interface,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_NavigationPerFileDataInterface,
-                read_navigation_data));
+                I_PingDataInterface_PerFile,
+                navigation_data_interface));
+    cls.def("environment_data_interface",
+            &T_BaseClass::environment_data_interface,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_PingDataInterface_PerFile,
+                environment_data_interface));
 }
 
 }

@@ -18,7 +18,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradotherdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradotherfiledatainterface.hpp"
 
 #include "../../docstrings.hpp"
 

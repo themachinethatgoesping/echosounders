@@ -21,7 +21,7 @@ namespace py_datainterfaces {
 namespace py_i_filedatainterface {
 
 template<typename T_BaseClass, typename T_PyClass>
-void PerFileDataInterface_add_interface(T_PyClass& cls)
+void FileDataInterface_PerFile_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
@@ -31,7 +31,7 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PerFileDataInterface,
+                I_FileDataInterface_PerFile,
                 init_from_file),
                 py::arg("force") = false);
     cls.def("get_file_nr",
@@ -40,7 +40,7 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PerFileDataInterface,
+                I_FileDataInterface_PerFile,
                 get_file_nr));
     cls.def("get_file_path",
             &T_BaseClass::get_file_path,
@@ -48,7 +48,7 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PerFileDataInterface,
+                I_FileDataInterface_PerFile,
                 get_file_path));
     cls.def("deinitialize",
             &T_BaseClass::deinitialize,
@@ -56,7 +56,7 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PerFileDataInterface,
+                I_FileDataInterface_PerFile,
                 deinitialize));
     cls.def("initialized",
             &T_BaseClass::initialized,
@@ -64,7 +64,7 @@ void PerFileDataInterface_add_interface(T_PyClass& cls)
                 echosounders,
                 filetemplates,
                 datainterfaces,
-                I_PerFileDataInterface,
+                I_FileDataInterface_PerFile,
                 initialized));
 }
 

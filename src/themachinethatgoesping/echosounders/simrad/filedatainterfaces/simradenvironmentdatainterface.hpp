@@ -19,7 +19,7 @@
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradenvironmentperfiledatainterface.hpp"
+#include "simradenvironmentdatainterface_perfile.hpp"
 #include "simradnavigationdatainterface.hpp"
 
 namespace themachinethatgoesping {
@@ -30,10 +30,10 @@ namespace filedatainterfaces {
 template<typename t_ifstream>
 class SimradEnvironmentDataInterface
     : public filetemplates::datainterfaces::I_EnvironmentDataInterface<
-          SimradEnvironmentPerFileDataInterface<t_ifstream>>
+          SimradEnvironmentDataInterface_PerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_EnvironmentDataInterface<
-        SimradEnvironmentPerFileDataInterface<t_ifstream>>;
+        SimradEnvironmentDataInterface_PerFile<t_ifstream>>;
 
   public:
     SimradEnvironmentDataInterface(

@@ -13,7 +13,7 @@
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
-#include "i_pingperfiledatainterface.hpp"
+#include "i_pingdatainterface_perfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

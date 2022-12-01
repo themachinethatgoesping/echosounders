@@ -17,25 +17,25 @@ void init_c_SimradDatagramInterface(py::module& m); // c_simraddatagraminterface
 
 void init_c_SimradConfigurationDataInterface(
     pybind11::module& m); // c_simradconfigurationdatainterface.cpp
-void init_c_SimradConfigurationPerFileDataInterface(
-    pybind11::module& m); // c_simradconfigurationperfiledatainterface.cpp
+void init_c_SimradConfigurationDataInterface_PerFile(
+    pybind11::module& m); // c_simradconfigurationdatainterface_perfile.cpp
 void init_c_SimradNavigationDataInterface(
     pybind11::module& m); // c_simradnavigationdatainterface.cpp
-void init_c_SimradNavigationPerFileDataInterface(
-    pybind11::module& m); // c_simradnavigationperfiledatainterface.cpp
+void init_c_SimradNavigationDataInterface_PerFile(
+    pybind11::module& m); // c_simradnavigationdatainterface_perfile.cpp
 void init_c_SimradEnvironmentDataInterface(
     pybind11::module& m); // c_simradenvironmentdatainterface.cpp
-void init_c_SimradEnvironmentPerFileDataInterface(
-    pybind11::module& m); // c_simradenvironmentperfiledatainterface.cpp
+void init_c_SimradEnvironmentDataInterface_PerFile(
+    pybind11::module& m); // c_simradenvironmentdatainterface_perfile.cpp
 void init_c_SimradPingDataInterface(pybind11::module& m); // c_simradpingdatainterface.cpp
-void init_c_SimradPingPerFileDataInterface(
-    pybind11::module& m); // c_simradpingperfiledatainterface.cpp
+void init_c_SimradPingDataInterface_PerFile(
+    pybind11::module& m); // c_simradpingdatainterface_perfile.cpp
 void init_c_SimradAnnotationDataInterface(
     pybind11::module& m); // c_simradannotationdatainterface.cpp
-void init_c_SimradAnnotationPerFileDataInterface(pybind11::module& m);
+void init_c_SimradAnnotationDataInterface_PerFile(pybind11::module& m);
 void init_c_SimradOtherDataInterface(pybind11::module& m); // c_simradotherdatainterface.cpp
-void init_c_SimradOtherPerFileDataInterface(
-    pybind11::module& m); // c_simradotherperfiledatainterface.cpp
+void init_c_SimradOtherFileDataInterface_PerFile(
+    pybind11::module& m); // c_simradotherfiledatainterface_perfile.cpp
 
 // -- create submodule --
 void init_m_SimradFileDataInterfaces(pybind11::module& m)
@@ -45,17 +45,17 @@ void init_m_SimradFileDataInterfaces(pybind11::module& m)
 
     init_c_SimradDatagramInterface(subm);
     init_c_SimradConfigurationDataInterface(subm);
-    init_c_SimradConfigurationPerFileDataInterface(subm);
+    init_c_SimradConfigurationDataInterface_PerFile(subm);
     init_c_SimradNavigationDataInterface(subm);
-    init_c_SimradNavigationPerFileDataInterface(subm);
+    init_c_SimradNavigationDataInterface_PerFile(subm);
     init_c_SimradEnvironmentDataInterface(subm);
-    init_c_SimradEnvironmentPerFileDataInterface(subm);
+    init_c_SimradEnvironmentDataInterface_PerFile(subm);
     init_c_SimradPingDataInterface(subm);
-    init_c_SimradPingPerFileDataInterface(subm);
+    init_c_SimradPingDataInterface_PerFile(subm);
     init_c_SimradAnnotationDataInterface(subm);
-    init_c_SimradAnnotationPerFileDataInterface(subm);
+    init_c_SimradAnnotationDataInterface_PerFile(subm);
     init_c_SimradOtherDataInterface(subm);
-    init_c_SimradOtherPerFileDataInterface(subm);
+    init_c_SimradOtherFileDataInterface_PerFile(subm);
 }
 
 }
