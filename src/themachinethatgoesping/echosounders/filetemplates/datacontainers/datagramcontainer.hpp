@@ -37,6 +37,13 @@ template<typename t_DatagramType,
          typename t_DatagramTypeFactory = t_DatagramType>
 class DatagramContainer
 {
+  public:
+    // member types
+    using type_DatagramType        = t_DatagramType;
+    using type_DatagramIdentifier  = t_DatagramIdentifier;
+    using type_ifstream            = t_ifstream;
+    using type_DatagramTypeFactory = t_DatagramTypeFactory;
+
   protected:
     std::string _name;
 

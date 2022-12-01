@@ -315,6 +315,10 @@ class PingContainer
 
         return printer;
     }
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 }

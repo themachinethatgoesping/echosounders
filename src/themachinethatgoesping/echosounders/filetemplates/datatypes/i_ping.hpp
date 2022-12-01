@@ -80,15 +80,33 @@ class I_Ping
         throw not_implemented("get_number_of_samples", this->get_name());
     }
 
+    /**
+     * @brief Compute volume backscattering. If you see this comment, this function was not implemented for the current ping type.
+     * 
+     * @param dB Output Sv in dB if true, or linear if false (default).
+     * @return xt::xtensor<float, 2> 
+     */
     virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
     {
         throw not_implemented("get_sv", this->get_name());
     }
+
+    /**
+     * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment, this function was not implemented for the current ping type.
+     * 
+     * @param dB Output Sv in dB if true, or linear if false (default).
+     * @return xt::xtensor<float, 1> 
+     */
     virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
         throw not_implemented("get_sv_stacked", this->get_name());
     }
 
+    /**
+     * @brief Compute the launch angle of the (sinle) target within each sample. If you see this comment, this function was not implemented for the current ping type.
+     * 
+     * @return xt::xtensor<float, 2> 
+     */
     virtual xt::xtensor<float, 2> get_angle()
     {
         throw not_implemented("get_angle", this->get_name());
@@ -103,6 +121,31 @@ class I_Ping
         {
         }
     };
+
+    public:
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        printer.register_section("Ping infos");
+
+        std::string time_str =
+            tools::timeconv::unixtime_to_datestring(this->_timestamp, 2, "%d/%m/%Y %H:%M:%S");
+
+        printer.register_string("Source file", this->get_file_path(), std::to_string(this->get_file_nr()));
+        printer.register_string("Channel id", this->_channel_id);
+        printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
+
+        printer.register_section("Transducer location");
+        printer.append(this->_geolocation.__printer__(float_precision));
+
+        return printer;
+    }
+
+    // -- class helper function macros --
+    // define info_string and print functions (needs the __printer__ function)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
 }

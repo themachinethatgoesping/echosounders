@@ -524,17 +524,24 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping =
+R"doc(the transducer). If not set manually, this variable is set by calling
+file.I_navigation.get_geolocation(ping.get_channel_id(),
+ping.get_timestamp()).)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation =
 R"doc(< Geolocation of the transducer (object that hold lat,lon and attitude
-of < the transducer). If not set manually, this variable is set by
-calling < file.I_navigation.get_geolocation(ping.get_channel_id(), <
-ping.get_timestamp()).)doc";
+of)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle =
+R"doc(Compute the launch angle of the (sinle) target within each sample. If
+you see this comment, this function was not implemented for the
+current ping type.
+
+Returns:
+    xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
@@ -548,9 +555,26 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv =
+R"doc(Compute volume backscattering. If you see this comment, this function
+was not implemented for the current ping type.
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_stacked = R"doc()doc";
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_stacked =
+R"doc(Compute stacked volume backscattering (sum over all beams). If you see
+this comment, this function was not implemented for the current ping
+type.
+
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 
@@ -561,6 +585,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_not_implemented = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_not_implemented_not_implemented = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_release_data = R"doc()doc";
 
@@ -2292,7 +2318,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_add_parameter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_datagram_info_raw = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_datagram_info_raw_data = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_get_parameter = R"doc()doc";
 
@@ -2306,13 +2334,25 @@ RAW0))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_ping_parameter = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_printer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_read_sample_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_release_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_SimradPing = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_angle =
+R"doc(Returns the single target detection launch angle for each sample.
+
+This function calls: ping.raw_data.get_sample_data().get_angle()
+
+Throws:
+    exception-object if angle data is not available for the specific
+    datagram type
+
+Returns:
+    xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_file_nr = R"doc()doc";
 
@@ -2320,13 +2360,51 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_sv = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_sv =
+R"doc(Compute volume backscattering strength (Sv) from raw data.
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_sv_stacked = R"doc()doc";
+This function calls: ping.raw_data.get_sample_data().get_power(dB)
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw = R"doc()doc";
+For single beam systems, this function returns the same value as
+get_sv_stacked (since there is only one beam to stack) However, the
+return type is a 2D matrix with one column, to be consistent with the
+multibeam case.
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw_2 = R"doc()doc";
+Throws:
+    exception-object if power data is not available for the specific
+    datagram type
+
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_sv_stacked =
+R"doc(Compute volume backscattering strength (Sv) from raw data.
+
+This function calls: ping.raw_data.get_sample_data().get_power(dB)
+
+For single beam systems, this function returns the same value as
+get_sv (since there is only one beam to stack) However, the return
+type is a 1D vector opposed to a one-column 2D matrix returned by
+get_sv
+
+Throws:
+    exception-object if power data is not available for the specific
+    datagram type
+
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_t_SimradDatagramIdentifier = R"doc()doc";
 

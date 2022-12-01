@@ -46,7 +46,7 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         (CLASS_NAME + "_RawData").c_str(),
         DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPingRawData))
 
-        // --- raw data access ---
+        // --- raw_data data access ---
         .def_readonly("ping_data",
                       &t_SimradPingRawData::_ping_data,
                       DOC(themachinethatgoesping,
@@ -98,11 +98,9 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         //      operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        // __PYCLASS_DEFAULT_COPY__(SimradPing)
+         __PYCLASS_DEFAULT_COPY__(t_SimradPingRawData)
         // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(SimradPing)
-        // default printing functions
-        //__PYCLASS_DEFAULT_PRINTING__(SimradPing)
+        __PYCLASS_DEFAULT_PRINTING__(t_SimradPingRawData)
         // end SimradPing
         ;
 
@@ -140,11 +138,11 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                      get_sv_stacked),
                  py::arg("dB") = false)
 
-            // --- raw data access ---
+            // --- raw_data data access ---
             .def_property_readonly(
-                "raw",
-                &t_SimradPing::raw,
-                DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw),
+                "raw_data",
+                &t_SimradPing::raw_data,
+                DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw_data),
                 py::return_value_policy::reference_internal)
 
         // --- variable access ---

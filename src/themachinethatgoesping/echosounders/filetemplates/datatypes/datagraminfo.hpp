@@ -42,6 +42,11 @@ class DatagramInfo
     t_DatagramIdentifier _datagram_identifier; ///< datagram type of this datagram
 
   public:
+    // member types
+    using type_DatagramIdentifier = t_DatagramIdentifier;
+    using type_ifstream           = t_ifstream;
+
+  public:
     DatagramInfo(size_t                                                  file_nr,
                  typename t_ifstream::pos_type                           file_pos,
                  std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
