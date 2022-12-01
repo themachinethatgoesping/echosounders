@@ -115,6 +115,15 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     SimradPingRawData<t_ifstream>& raw() { return _raw; }
 
+    size_t get_file_nr() const final
+    {
+        return _raw._datagram_info_raw->get_file_nr();
+    }
+    std::string get_file_path() const final
+    {
+        return _raw._datagram_info_raw->get_file_path();
+    }
+
     // ----- I_Ping interface -----
     size_t get_number_of_samples() const final { return _raw._ping_data.get_count(); }
 

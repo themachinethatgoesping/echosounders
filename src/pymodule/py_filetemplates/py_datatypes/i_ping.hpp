@@ -25,23 +25,6 @@ void add_ping_data_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    cls.def("get_geolocation",
-            &T_BaseClass::get_geolocation,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datatypes,
-                I_Ping,
-                get_geolocation));
-    cls.def("set_geolocation",
-            &T_BaseClass::set_geolocation,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datatypes,
-                I_Ping,
-                set_geolocation),
-            py::arg("geolocation_latlon"));
 
     cls.def("get_number_of_samples",
             &T_BaseClass::get_number_of_samples,
@@ -56,24 +39,57 @@ void add_ping_data_interface(T_PyClass& cls)
     cls.def_property_readonly(
         "get_channel_id",
         &T_BaseClass::get_channel_id,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, get_channel_id),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, channel_id),
         py::return_value_policy::reference_internal);
     cls.def(
         "set_channel_id",
         &T_BaseClass::set_channel_id,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, set_channel_id),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, channel_id),
         py::arg("channel_id"));
 
     cls.def(
         "get_timestamp",
         &T_BaseClass::get_timestamp,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, get_timestamp),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, timestamp),
         py::return_value_policy::reference_internal);
     cls.def(
         "set_timestamp",
         &T_BaseClass::set_timestamp,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, set_timestamp),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, timestamp),
         py::arg("timestamp"));
+    cls.def("get_geolocation",
+            &T_BaseClass::get_geolocation,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datatypes,
+                I_Ping,
+                geolocation));
+    cls.def("set_geolocation",
+            &T_BaseClass::set_geolocation,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datatypes,
+                I_Ping,
+                geolocation),
+            py::arg("geolocation_latlon"));
+    cls.def("get_file_nr",
+            &T_BaseClass::get_file_nr,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datatypes,
+                I_Ping,
+                get_file_nr));
+    cls.def("get_file_path",
+            &T_BaseClass::get_file_path,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datatypes,
+                I_Ping,
+                get_file_path));
 }
 
 }
