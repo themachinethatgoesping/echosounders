@@ -74,7 +74,7 @@ class I_Ping
     virtual xt::xtensor<float, 2> get_angle() { throw not_implemented("get_angle", _name); }
 
     //------ navigation ------//
-    const navigation::datastructures::GeoLocationLatLon& geolocation() { return _geolocation; }
+    const navigation::datastructures::GeoLocationLatLon& get_geolocation() { return _geolocation; }
 
     void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
     {

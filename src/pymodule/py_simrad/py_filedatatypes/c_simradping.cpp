@@ -141,13 +141,13 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                  py::arg("dB") = false)
 
             // --- raw data access ---
-            .def_property_readonly("raw",
-                 &t_SimradPing::raw,
-                 DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw),
-                 py::return_value_policy::reference_internal)
+            .def_property_readonly(
+                "raw",
+                &t_SimradPing::raw,
+                DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw),
+                py::return_value_policy::reference_internal)
 
-            // --- variable access ---
-
+        // --- variable access ---
 
         // ----- operators -----
         // .def("__eq__",

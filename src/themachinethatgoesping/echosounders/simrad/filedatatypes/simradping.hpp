@@ -94,11 +94,6 @@ class SimradPingRawData
 template<typename t_ifstream>
 class SimradPing : public filetemplates::datatypes::I_Ping
 {
-    std::string channel_id;
-    double      timestamp;
-    // std::string file_path;
-    // size_t      ping_number;
-
     SimradPingRawData<t_ifstream> _raw;
 
   public:
@@ -111,9 +106,10 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
         /* set i_ping parameters */
         // substring of channel_id until the first \x00 character
-        this->_channel_id = _raw._ping_data.get_channel_id().substr(0, channel_id.find('\x00'));
+        this->_channel_id = _raw._ping_data.get_channel_id();
+        this->_channel_id = this->_channel_id.substr(0, this->_channel_id.find('\x00'));
 
-        this->timestamp = _raw._datagram_info_raw->get_timestamp();
+        this->_timestamp = _raw._datagram_info_raw->get_timestamp();
     }
     virtual ~SimradPing() = default;
 
