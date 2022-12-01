@@ -81,10 +81,11 @@ class I_Ping
     }
 
     /**
-     * @brief Compute volume backscattering. If you see this comment, this function was not implemented for the current ping type.
-     * 
+     * @brief Compute volume backscattering. If you see this comment, this function was not
+     * implemented for the current ping type.
+     *
      * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 2> 
+     * @return xt::xtensor<float, 2>
      */
     virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
     {
@@ -92,10 +93,11 @@ class I_Ping
     }
 
     /**
-     * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment, this function was not implemented for the current ping type.
-     * 
+     * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment,
+     * this function was not implemented for the current ping type.
+     *
      * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 1> 
+     * @return xt::xtensor<float, 1>
      */
     virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
@@ -103,32 +105,29 @@ class I_Ping
     }
 
     /**
-     * @brief Compute the launch angle of the (sinle) target within each sample. If you see this comment, this function was not implemented for the current ping type.
-     * 
-     * @return xt::xtensor<float, 2> 
+     * @brief Compute the launch angle of the (sinle) target within each sample. If you see this
+     * comment, this function was not implemented for the current ping type.
+     *
+     * @return xt::xtensor<float, 2>
      */
     virtual xt::xtensor<float, 2> get_angle()
     {
         throw not_implemented("get_angle", this->get_name());
     }
 
-    virtual bool has_angle() const
-    {
-        return false;
-    }
+    virtual bool has_angle() const { return false; }
 
-    virtual bool has_sv() const
-    {
-        return false;
-    }
+    virtual bool has_sv() const { return false; }
 
     std::string feature_string(bool has_features = true) const
     {
         std::string features = "";
-        if (has_sv() == has_features){
+        if (has_sv() == has_features)
+        {
             features += "sv";
         }
-        if (has_angle() == has_features){
+        if (has_angle() == has_features)
+        {
             if (!features.empty())
                 features += ", ";
             features += "angle";
@@ -147,7 +146,7 @@ class I_Ping
         }
     };
 
-    public:
+  public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -158,11 +157,12 @@ class I_Ping
         std::string time_str =
             tools::timeconv::unixtime_to_datestring(this->_timestamp, 2, "%d/%m/%Y %H:%M:%S");
 
-        printer.register_string("Source file", this->get_file_path(), std::to_string(this->get_file_nr()));
+        printer.register_string(
+            "Source file", this->get_file_path(), std::to_string(this->get_file_nr()));
         printer.register_string("Channel id", this->_channel_id);
         printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
 
-        auto features = this->feature_string();
+        auto features     = this->feature_string();
         auto not_features = this->feature_string(false);
         if (!not_features.empty())
             printer.register_string("Features", features, std::string("Not:") + not_features);

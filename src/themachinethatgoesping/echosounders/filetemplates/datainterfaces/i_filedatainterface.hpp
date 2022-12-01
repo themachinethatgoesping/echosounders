@@ -42,13 +42,13 @@ class I_FileDataInterface
   public:
     // member types
     using type_FileDataInterface_PerFile = t_filedatainterface_perfile;
-    using type_DatagramInterface    = typename type_FileDataInterface_PerFile::type_DatagramInterface;
+    using type_DatagramInterface = typename type_FileDataInterface_PerFile::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }
 
     std::vector<std::shared_ptr<t_filedatainterface_perfile>> _interface_per_file;
-    tools::pyhelper::PyIndexer                           _pyindexer;
+    tools::pyhelper::PyIndexer                                _pyindexer;
 
   public:
     I_FileDataInterface(std::string_view name = "I_FileDataInterface")
@@ -66,7 +66,8 @@ class I_FileDataInterface
 
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
-                this->_interface_per_file.push_back(std::make_shared<t_filedatainterface_perfile>());
+                this->_interface_per_file.push_back(
+                    std::make_shared<t_filedatainterface_perfile>());
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }

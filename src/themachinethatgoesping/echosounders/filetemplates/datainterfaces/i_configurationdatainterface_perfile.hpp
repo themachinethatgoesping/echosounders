@@ -69,7 +69,7 @@ class I_ConfigurationDataInterface_PerFile : public I_FileDataInterface_PerFile<
     void set_sensor_configuration(navigation::SensorConfiguration sensor_configuration)
     {
         _initialized_sensor_configuration = true;
-        _sensor_configuration            = std::move(sensor_configuration);
+        _sensor_configuration             = std::move(sensor_configuration);
     }
     const navigation::SensorConfiguration& get_sensor_configuration() const
     {
@@ -82,7 +82,7 @@ class I_ConfigurationDataInterface_PerFile : public I_FileDataInterface_PerFile<
         {
             if (force || !_initialized_sensor_configuration)
             {
-                _sensor_configuration            = this->read_sensor_configuration();
+                _sensor_configuration             = this->read_sensor_configuration();
                 _initialized_sensor_configuration = true;
             }
         }

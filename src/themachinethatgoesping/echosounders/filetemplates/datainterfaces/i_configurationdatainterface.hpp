@@ -38,7 +38,6 @@ namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-
 template<typename t_configurationdatagraminterface>
 class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationdatagraminterface>
 {

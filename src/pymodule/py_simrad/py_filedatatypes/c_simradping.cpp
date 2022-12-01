@@ -115,52 +115,55 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
         //      operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-         __PYCLASS_DEFAULT_COPY__(t_SimradPingRawData)
+        __PYCLASS_DEFAULT_COPY__(t_SimradPingRawData)
         // default binary functions
         __PYCLASS_DEFAULT_PRINTING__(t_SimradPingRawData)
         // end SimradPing
         ;
 
-    auto cls =
-        py::class_<t_SimradPing>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
+    auto cls = py::class_<t_SimradPing>(
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
 
-            // --- ping interface (with individual documentation) ---
-            .def("get_angle",
-                 &t_SimradPing::get_angle,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     filedatatypes,
-                     SimradPing,
-                     get_angle))
-            .def("get_sv",
-                 &t_SimradPing::get_sv,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     filedatatypes,
-                     SimradPing,
-                     get_sv),
-                 py::arg("dB") = false)
-            .def("get_sv_stacked",
-                 &t_SimradPing::get_sv_stacked,
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     simrad,
-                     filedatatypes,
-                     SimradPing,
-                     get_sv_stacked),
-                 py::arg("dB") = false)
+                   // --- ping interface (with individual documentation) ---
+                   .def("get_angle",
+                        &t_SimradPing::get_angle,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            filedatatypes,
+                            SimradPing,
+                            get_angle))
+                   .def("get_sv",
+                        &t_SimradPing::get_sv,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            filedatatypes,
+                            SimradPing,
+                            get_sv),
+                        py::arg("dB") = false)
+                   .def("get_sv_stacked",
+                        &t_SimradPing::get_sv_stacked,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simrad,
+                            filedatatypes,
+                            SimradPing,
+                            get_sv_stacked),
+                        py::arg("dB") = false)
 
-            // --- raw_data data access ---
-            .def_property_readonly(
-                "raw_data",
-                &t_SimradPing::raw_data,
-                DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing, raw_data),
-                py::return_value_policy::reference_internal)
+                   // --- raw_data data access ---
+                   .def_property_readonly("raw_data",
+                                          &t_SimradPing::raw_data,
+                                          DOC(themachinethatgoesping,
+                                              echosounders,
+                                              simrad,
+                                              filedatatypes,
+                                              SimradPing,
+                                              raw_data),
+                                          py::return_value_policy::reference_internal)
 
         // --- variable access ---
 

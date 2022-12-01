@@ -30,8 +30,8 @@ class SimradOtherFileDataInterface_PerFile
     : public filetemplates::datainterfaces::I_FileDataInterface_PerFile<
           SimradDatagramInterface<t_ifstream>>
 {
-    using t_base =
-        filetemplates::datainterfaces::I_FileDataInterface_PerFile<SimradDatagramInterface<t_ifstream>>;
+    using t_base = filetemplates::datainterfaces::I_FileDataInterface_PerFile<
+        SimradDatagramInterface<t_ifstream>>;
 
   public:
     SimradOtherFileDataInterface_PerFile()

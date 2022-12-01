@@ -91,7 +91,6 @@ class SimradPingRawData
         _ping_data.sample_data() = datagrams::RAW3_datatypes::RAW3_DataSkipped();
     }
 
-
     // ----- i_RAW3_Data interface -----
     bool has_power() const
     {
@@ -99,18 +98,18 @@ class SimradPingRawData
 
         switch (_ping_data.get_data_type())
         {
-        case t_RAW3_DataType::Angle:
-            return false;
-        case t_RAW3_DataType::Power:
-            [[fallthrough]];
-        case t_RAW3_DataType::ComplexFloat32:
-            [[fallthrough]];
-        case t_RAW3_DataType::PowerAndAngle:
-            [[fallthrough]];
-        case t_RAW3_DataType::ComplexFloat16:
-            return true;
-        default:
-            throw std::runtime_error("Unknown data type");
+            case t_RAW3_DataType::Angle:
+                return false;
+            case t_RAW3_DataType::Power:
+                [[fallthrough]];
+            case t_RAW3_DataType::ComplexFloat32:
+                [[fallthrough]];
+            case t_RAW3_DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3_DataType::ComplexFloat16:
+                return true;
+            default:
+                throw std::runtime_error("Unknown data type");
         }
     }
 
@@ -120,22 +119,22 @@ class SimradPingRawData
 
         switch (_ping_data.get_data_type())
         {
-        case t_RAW3_DataType::Power:
-            return false;
-        case t_RAW3_DataType::Angle:
-            [[fallthrough]];
-        case t_RAW3_DataType::ComplexFloat32:
-            [[fallthrough]];
-        case t_RAW3_DataType::PowerAndAngle:
-            [[fallthrough]];
-        case t_RAW3_DataType::ComplexFloat16:
-            return true;
-        default:
-            throw std::runtime_error("Unknown data type");
-    }
+            case t_RAW3_DataType::Power:
+                return false;
+            case t_RAW3_DataType::Angle:
+                [[fallthrough]];
+            case t_RAW3_DataType::ComplexFloat32:
+                [[fallthrough]];
+            case t_RAW3_DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3_DataType::ComplexFloat16:
+                return true;
+            default:
+                throw std::runtime_error("Unknown data type");
+        }
     }
 
-        public:
+  public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -143,8 +142,9 @@ class SimradPingRawData
 
         printer.register_section("Raw data infos");
 
-        //convert _ping_data.get_data_type() to string using magic enum
-        printer.register_string("Raw data type", std::string(magic_enum::enum_name(_ping_data.get_data_type())));
+        // convert _ping_data.get_data_type() to string using magic enum
+        printer.register_string("Raw data type",
+                                std::string(magic_enum::enum_name(_ping_data.get_data_type())));
         printer.register_value("Has power", has_power());
         printer.register_value("Has angle", has_angle());
 
@@ -186,8 +186,11 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     SimradPingRawData<t_ifstream>& raw_data() { return _raw_data; }
 
-    size_t      get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
-    std::string get_file_path() const final { return _raw_data._datagram_info_raw_data->get_file_path(); }
+    size_t get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
+    std::string get_file_path() const final
+    {
+        return _raw_data._datagram_info_raw_data->get_file_path();
+    }
 
     // ----- I_Ping interface -----
     size_t get_number_of_samples() const final { return _raw_data._ping_data.get_count(); }
@@ -196,15 +199,16 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     // void release_data() final { _raw_data.release_data(); }
 
     /**
-     * @brief Compute volume backscattering strength (Sv) from raw data. 
-     * 
+     * @brief Compute volume backscattering strength (Sv) from raw data.
+     *
      * This function calls: ping.raw_data.get_sample_data().get_power(dB)
-     * 
-     * For single beam systems, this function returns the same value as get_sv_stacked (since there is only one beam to stack)
-     * However, the return type is a 2D matrix with one column, to be consistent with the multibeam case.
-     * 
+     *
+     * For single beam systems, this function returns the same value as get_sv_stacked (since there
+     * is only one beam to stack) However, the return type is a 2D matrix with one column, to be
+     * consistent with the multibeam case.
+     *
      * @throws exception-object if power data is not available for the specific datagram type
-     * 
+     *
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 2>
      */
@@ -220,14 +224,15 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     /**
      * @brief Compute volume backscattering strength (Sv) from raw data.
-     * 
+     *
      * This function calls: ping.raw_data.get_sample_data().get_power(dB)
-     * 
-     * For single beam systems, this function returns the same value as get_sv (since there is only one beam to stack)
-     * However, the return type is a 1D vector opposed to a one-column 2D matrix returned by get_sv
-     * 
+     *
+     * For single beam systems, this function returns the same value as get_sv (since there is only
+     * one beam to stack) However, the return type is a 1D vector opposed to a one-column 2D matrix
+     * returned by get_sv
+     *
      * @throws exception-object if power data is not available for the specific datagram type
-     * 
+     *
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
@@ -243,12 +248,12 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     /**
      * @brief Returns the single target detection launch angle for each sample.
-     * 
+     *
      * This function calls: ping.raw_data.get_sample_data().get_angle()
-     * 
+     *
      * @throws exception-object if angle data is not available for the specific datagram type
-     * 
-     * @return xt::xtensor<float, 2> 
+     *
+     * @return xt::xtensor<float, 2>
      */
     xt::xtensor<float, 2> get_angle() final
     {
@@ -259,15 +264,9 @@ class SimradPing : public filetemplates::datatypes::I_Ping
         return angle;
     }
 
-    bool has_angle() const final
-    {
-        return _raw_data.has_angle();
-    }
+    bool has_angle() const final { return _raw_data.has_angle(); }
 
-    virtual bool has_sv() const final
-    {
-        return _raw_data.has_power();
-    }
+    virtual bool has_sv() const final { return _raw_data.has_power(); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -277,7 +276,9 @@ class SimradPing : public filetemplates::datatypes::I_Ping
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("Simrad ping infos");
-        printer.register_string("Sample data type", std::string(magic_enum::enum_name(_raw_data._ping_data.get_data_type())));
+        printer.register_string(
+            "Sample data type",
+            std::string(magic_enum::enum_name(_raw_data._ping_data.get_data_type())));
 
         printer.register_section("Important members");
         printer.register_string("raw_data", "SimradPingRawData");

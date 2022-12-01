@@ -13,8 +13,8 @@ namespace py_filedatacontainers {
 namespace py = pybind11;
 
 // -- submodule declarations --
-void init_c_simradpingcontainer(py::module& m); // c_simrad_specialized_types.cpp
-void init_c_simraddatagramcontainer(py::module& m);  // c_simraddatagramcontainer.cpp
+void init_c_simradpingcontainer(py::module& m);     // c_simrad_specialized_types.cpp
+void init_c_simraddatagramcontainer(py::module& m); // c_simraddatagramcontainer.cpp
 
 // -- create submodule --
 void init_m_SimradFileDataContainers(pybind11::module& m)

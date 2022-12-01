@@ -33,7 +33,7 @@ void FileDataInterface_PerFile_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_FileDataInterface_PerFile,
                 init_from_file),
-                py::arg("force") = false);
+            py::arg("force") = false);
     cls.def("get_file_nr",
             &T_BaseClass::get_file_nr,
             DOC(themachinethatgoesping,

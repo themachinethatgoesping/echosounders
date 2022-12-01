@@ -38,7 +38,8 @@ namespace datainterfaces {
 // TODO: this should be a c++20 concept
 template<typename t_ConfigurationDataInterface>
 class I_NavigationDataInterface_PerFile
-    : public I_FileDataInterface_PerFile<typename t_ConfigurationDataInterface::type_DatagramInterface>
+    : public I_FileDataInterface_PerFile<
+          typename t_ConfigurationDataInterface::type_DatagramInterface>
 {
     using t_datagraminterface = typename t_ConfigurationDataInterface::type_DatagramInterface;
     using t_base              = I_FileDataInterface_PerFile<t_datagraminterface>;

@@ -41,7 +41,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 template<typename T_FileStream>
 void py_create_class_SimradAnnotationDataInterface_PerFile(py::module&        m,
-                                                          const std::string& CLASS_NAME)
+                                                           const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface

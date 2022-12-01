@@ -40,7 +40,8 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradOtherDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradOtherFileDataInterface_PerFile(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradOtherFileDataInterface_PerFile(py::module&        m,
+                                                          const std::string& CLASS_NAME)
 {
 
     using T_BaseClass = filedatainterfaces::SimradOtherFileDataInterface_PerFile<T_FileStream>;

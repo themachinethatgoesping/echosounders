@@ -53,8 +53,8 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_NavigationDataInterface,
                 get_geolocation),
-                py::arg("channel_id"),
-                py::arg("timestamp"));
+            py::arg("channel_id"),
+            py::arg("timestamp"));
     cls.def("get_sensor_configuration",
             &T_BaseClass::get_sensor_configuration,
             DOC(themachinethatgoesping,
@@ -71,7 +71,7 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 datainterfaces,
                 I_NavigationDataInterface,
                 set_sensor_configuration),
-                py::arg("sensor_configuration"));
+            py::arg("sensor_configuration"));
     cls.def("channel_ids",
             &T_BaseClass::channel_ids,
             DOC(themachinethatgoesping,

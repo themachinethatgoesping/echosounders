@@ -38,7 +38,8 @@ namespace datainterfaces {
 // TODO: this should be a c++20 concept
 template<typename t_EnvironmentDataInterface, typename t_PingContainer>
 class I_PingDataInterface_PerFile
-    : public I_FileDataInterface_PerFile<typename t_EnvironmentDataInterface::type_DatagramInterface>
+    : public I_FileDataInterface_PerFile<
+          typename t_EnvironmentDataInterface::type_DatagramInterface>
 {
     using t_datagraminterface = typename t_EnvironmentDataInterface::type_DatagramInterface;
     using t_base              = I_FileDataInterface_PerFile<t_datagraminterface>;
@@ -103,9 +104,10 @@ class I_PingDataInterface_PerFile
 
     virtual t_PingContainer read_pings()
     {
-        throw std::runtime_error(fmt::format("I_PingDataInterface_PerFile({}): read_ping_data() not "
-                                             "implemented",
-                                             this->get_name()));
+        throw std::runtime_error(
+            fmt::format("I_PingDataInterface_PerFile({}): read_ping_data() not "
+                        "implemented",
+                        this->get_name()));
     }
 
     void init_from_file([[maybe_unused]] bool force = false) final { return; }

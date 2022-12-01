@@ -85,23 +85,24 @@ void add_ping_data_interface(T_PyClass& cls)
         DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, get_sv_stacked),
         py::arg("dB") = false);
 
-        // --- ping interface (functions that indicate ping features ---
+    // --- ping interface (functions that indicate ping features ---
     cls.def("has_angle",
             &T_BaseClass::has_angle,
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, has_angle));
     cls.def("has_sv",
             &T_BaseClass::has_sv,
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, has_sv));
-    cls.def("feature_string",
-            &T_BaseClass::feature_string,
-            DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, feature_string),
-            py::arg("has_features") = true);
+    cls.def(
+        "feature_string",
+        &T_BaseClass::feature_string,
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, feature_string),
+        py::arg("has_features") = true);
 
-        // ----- pybind macros -----
-        // default copy functions
-      cls  __PYCLASS_DEFAULT_COPY__(T_BaseClass);
-      // default printing functions
-      cls  __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
+    // ----- pybind macros -----
+    // default copy functions
+    cls __PYCLASS_DEFAULT_COPY__(T_BaseClass);
+    // default printing functions
+    cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
 }
