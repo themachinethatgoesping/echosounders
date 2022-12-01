@@ -112,6 +112,31 @@ class I_Ping
         throw not_implemented("get_angle", this->get_name());
     }
 
+    virtual bool has_angle() const
+    {
+        return false;
+    }
+
+    virtual bool has_sv() const
+    {
+        return false;
+    }
+
+    std::string feature_string(bool has_features = true) const
+    {
+        std::string features = "";
+        if (has_sv() == has_features){
+            features += "Sv ";
+        }
+        if (has_angle() == has_features){
+            if (!features.empty())
+                features += ", ";
+            features += "angle ";
+        }
+
+        return features;
+    }
+
   private:
     struct not_implemented : public std::runtime_error
     {
@@ -136,6 +161,13 @@ class I_Ping
         printer.register_string("Source file", this->get_file_path(), std::to_string(this->get_file_nr()));
         printer.register_string("Channel id", this->_channel_id);
         printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
+
+        auto features = this->feature_string();
+        auto not_features = this->feature_string(false);
+        if (!not_features.empty())
+            printer.register_string("Features", features, std::string("Not:") + not_features);
+        else
+            printer.register_string("Features", features);
 
         printer.register_section("Transducer location");
         printer.append(this->_geolocation.__printer__(float_precision));

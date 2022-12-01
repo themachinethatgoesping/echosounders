@@ -74,6 +74,23 @@ void py_create_class_SimradPing(py::module& m, const std::string& CLASS_NAME)
                  SimradPingRawData,
                  get_sample_data))
 
+        .def("has_angle",
+             &t_SimradPingRawData::has_angle,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 filedatatypes,
+                 SimradPingRawData,
+                 has_angle))
+        .def("has_power",
+             &t_SimradPingRawData::has_power,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 filedatatypes,
+                 SimradPingRawData,
+                 has_power))
+
         .def("load_data",
              &t_SimradPingRawData::load_data,
              DOC(themachinethatgoesping,
