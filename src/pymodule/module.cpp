@@ -7,6 +7,7 @@
 
 // larger submodules
 #include "py_simrad/module.hpp"
+//#include "py_em3000/module.hpp"
 
 // declare modules
 // void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp
@@ -24,6 +25,7 @@ PYBIND11_MODULE(MODULE_NAME, m)
 
     // init_m_navtools(m);
     py_simrad::init_m_simrad(m);
+    //py_em3000::init_m_em3000(m);
 }
 
 }

@@ -67,6 +67,9 @@ sources = [
     'py_simrad/py_filedatacontainers/c_simradpingcontainer.cpp',
     'py_simrad/c_filesimradraw.cpp',
     'py_simrad/c_file_test_functions.cpp',
+
+    #'py_em3000/module.cpp',
+    #'py_em3000/c_fileem3000.cpp',
 ]
 
 # define python module
