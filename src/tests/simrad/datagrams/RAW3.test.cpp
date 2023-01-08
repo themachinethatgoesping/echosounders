@@ -121,7 +121,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.info_string().size() != 0);
 
         // --- test data access ---
-        REQUIRE(dat.get_channel_id().substr(0, 7) == "channel");
+        REQUIRE(std::string(dat.get_channel_id().substr(0, 7)) == "channel");
         REQUIRE(dat.get_data_type() == type);
         REQUIRE(dat.get_offset() == 1);
         REQUIRE(dat.get_count() == 20);
