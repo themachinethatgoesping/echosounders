@@ -182,7 +182,7 @@ class EM3000Datagram
         return d;
     }
 
-    void to_stream(std::ostream& os)
+    void to_stream(std::ostream& os) const
     {
         os.write(reinterpret_cast<const char*>(&_bytes), 16 * sizeof(uint8_t));
     }
@@ -221,7 +221,7 @@ class EM3000Datagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(EM3000Datagram)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(EM3000Datagram)
 };
 
 } // namespace datagrams

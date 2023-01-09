@@ -29,7 +29,7 @@ class EM3000Unknown : public EM3000Datagram
     // ----- datagram content -----
     std::string _raw_content;
 
-    uint8_t  _etx; // (end identifier)
+    uint8_t  _etx = 0x03; // (end identifier)
     uint16_t _checksum = 0;
 
   private:

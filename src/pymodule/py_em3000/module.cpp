@@ -64,6 +64,13 @@ void init_m_em3000(pybind11::module& m)
                    em3000,
                    t_EM3000DatagramIdentifier,
                    XYZDatagram))
+        .value("ExtraDetections",
+               t_EM3000DatagramIdentifier::ExtraDetections,
+               DOC(themachinethatgoesping,
+                   echosounders,
+                   em3000,
+                   t_EM3000DatagramIdentifier,
+                   ExtraDetections))
         .value("RawRangeAndAngle",
                t_EM3000DatagramIdentifier::RawRangeAndAngle,
                DOC(themachinethatgoesping,
