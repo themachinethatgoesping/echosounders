@@ -53,11 +53,11 @@ class EM3000Datagram
         // read the end identifier and the check sum
         struct t_EndIdentifier
         {
-            uint8_t  etx;      // (end identifier)
+            uint8_t  etx;          // (end identifier)
             uint16_t checksum = 0; // the sum of all bytes between STX end ETX
         } etx;
 
-        is.read(reinterpret_cast<char*>(&etx.etx), 3* sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&etx.etx), 3 * sizeof(uint8_t));
 
         if (etx.etx != 0x03)
             throw std::runtime_error(
@@ -122,17 +122,34 @@ class EM3000Datagram
      */
     double get_timestamp() const
     {
-        std::string datestring = "0000_";
-        std::string format     = "%z_%d.%m.%Y";
-        std::string date       = std::to_string(_date);
+        // std::string datestring = "0000_";
+        // std::string format     = "%z_%d.%m.%Y";
+        // std::string date       = std::to_string(_date);
 
-        datestring += date.substr(6, 2) + "." + date.substr(4, 2) + "." + date.substr(0, 4);
+        // datestring += date.substr(6, 2) + "." + date.substr(4, 2) + "." + date.substr(0, 4);
 
-        double unixtime = tools::timeconv::datestring_to_unixtime(datestring, format);
+        // double unixtime = tools::timeconv::datestring_to_unixtime(datestring, format);
 
-        unixtime += double(_time_since_midnight) / 1000.;
+        // unixtime += double(_time_since_midnight) / 1000.;
 
-        return unixtime;
+        // return unixtime;
+
+        int  y   = int(_date / 10000);
+        int  m   = int(_date / 100) - y * 100;
+        int  d   = int(_date) - y * 10000 - m * 100;
+        // auto X   = date::year{ y } / m / d;
+        // auto tp  = date::sys_days{ X } + std::chrono::milliseconds{ _time_since_midnight };
+        // unixtime = tools::timeconv::timepoint_to_unixtime(tp);
+
+        return tools::timeconv::year_month_day_to_unixtime(y, m, d, uint64_t(_time_since_midnight) * 1000);
+
+    }
+
+    std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
+                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
+    {
+        return tools::timeconv::unixtime_to_datestring(
+            get_timestamp(), fractionalSecondsDigits, format);
     }
 
     // ----- operators -----
@@ -187,14 +204,17 @@ class EM3000Datagram
 
         tools::classhelper::ObjectPrinter printer("EM3000Datagram", float_precision);
 
-        printer.register_value("bytes", _bytes, "bytes");
-        printer.register_string("stx", fmt::format("{:x}", _stx), "hex");
+        printer.register_value("bytes", _bytes);
+        printer.register_string("stx", fmt::format("0x{:02x}", _stx));
         printer.register_string(
             "datagram_identifier",
+            fmt::format("0x{:02x}", uint8_t(_datagram_identifier)),
             datagram_identifier_to_string(t_EM3000DatagramIdentifier(_datagram_identifier)));
-        printer.register_value("model_number", _model_number, "EM");
+        printer.register_string("model_number", "EM" + std::to_string(_model_number));
         printer.register_value("date", _date, "YYYYMMDD");
         printer.register_value("time_since_midnight", _time_since_midnight, "ms");
+
+        printer.register_section("processed");
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");

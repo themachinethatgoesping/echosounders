@@ -31,17 +31,17 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     SeabedImageData     = 0x59,
     WaterColumnDatagram = 0x6b,
     CombinedWaterColumnDatagram =
-        0x6c,                     // virtual package that combines the split water column datagrams
-    QualityFactorDatagram = 0x4f, // TODO: implement!
+        0x6c, ///< virtual package that combines the split water column datagrams
+    QualityFactorDatagram = 0x4f, ///< TODO: implement!
 
     // External sensors
     AttitudeDatagram                = 0x41,
-    NetworkAttitudeVelocityDatagram = 0x6e, // TODO: implement!
+    NetworkAttitudeVelocityDatagram = 0x6e, ///< TODO: implement!
     ClockDatagram                   = 0x43,
     DepthOrHeightDatagram           = 0x68,
-    HeadingDatagram                 = 0x48, // TODO: implement!
+    HeadingDatagram                 = 0x48, ///< TODO: implement!
     PositionDatagram                = 0x50,
-    SingleBeamEchoSounderDepth      = 0x45, // TODO: implement!
+    SingleBeamEchoSounderDepth      = 0x45, ///< TODO: implement!
 
     // Sound speed
     SurfaceSoundSpeedDatagram = 0x47,

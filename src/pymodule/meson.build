@@ -68,7 +68,11 @@ sources = [
     'py_simrad/c_filesimradraw.cpp',
     'py_simrad/c_file_test_functions.cpp',
 
+    'py_em3000/py_datagrams/c_em3000datagram.cpp',
+    'py_em3000/py_datagrams/c_em3000unknown.cpp',
     'py_em3000/py_datagrams/module.cpp',
+    'py_em3000/py_filedatacontainers/module.cpp',
+    'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',
     'py_em3000/py_filedatainterfaces/module.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000datagraminterface.cpp',
     'py_em3000/module.cpp',
