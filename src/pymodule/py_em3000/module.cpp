@@ -17,6 +17,7 @@
 
 // datagram submodules
 #include "py_datagrams/module.hpp"
+#include "py_filedatainterfaces/module.hpp"
 
 namespace py = pybind11;
 
@@ -114,7 +115,7 @@ void init_m_em3000(pybind11::module& m)
     py_datagrams::init_m_EM3000Datagrams(subm);
     // py_filedatatypes::init_m_EM3000FileDataTypes(subm);
     // py_filedatacontainers::init_m_EM3000FileDataContainers(subm);
-    // py_filedatainterfaces::init_m_EM3000FileDataInterfaces(subm);
+    py_filedatainterfaces::init_m_EM3000FileDataInterfaces(subm);
 
     // em3000 classes
     init_c_fileem3000(subm);

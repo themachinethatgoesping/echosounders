@@ -69,6 +69,8 @@ sources = [
     'py_simrad/c_file_test_functions.cpp',
 
     'py_em3000/py_datagrams/module.cpp',
+    'py_em3000/py_filedatainterfaces/module.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000datagraminterface.cpp',
     'py_em3000/module.cpp',
     'py_em3000/c_fileem3000.cpp',
 ]
