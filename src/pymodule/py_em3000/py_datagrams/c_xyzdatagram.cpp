@@ -109,15 +109,11 @@ void init_c_xyzdatagram(pybind11::module& m)
         .def("get_reflectivity", &XYZBeam::get_reflectivity, DOC_XYZBeam(reflectivity))
 
         // --- processed member access ---
-
         .def("get_backscatter", &XYZBeam::get_backscatter, DOC_XYZBeam(get_backscatter))
-
         .def("get_detection_type", &XYZBeam::get_detection_type, DOC_XYZBeam(get_detection_type))
-
         .def("get_backscatter_is_compensated",
              &XYZBeam::get_backscatter_is_compensated,
              DOC_XYZBeam(get_backscatter_is_compensated))
-
         .def("get_beam_incidence_angle_adjustment_in_degrees",
              &XYZBeam::get_beam_incidence_angle_adjustment_in_degrees,
              DOC_XYZBeam(get_beam_incidence_angle_adjustment_in_degrees))
@@ -182,6 +178,11 @@ void init_c_xyzdatagram(pybind11::module& m)
         .def("set_beams", &XYZDatagram::set_beams, DOC_XYZDatagram(beams))
         .def("beams", &XYZDatagram::beams, DOC_XYZDatagram(beams))
 
+        // --- processed member access ---
+        .def("get_heading_of_vessel_in_degrees", &XYZDatagram::get_heading_of_vessel_in_degrees, DOC_XYZDatagram(get_heading_of_vessel_in_degrees))
+        .def("get_sound_speed_in_meters_per_seconds", &XYZDatagram::get_sound_speed_in_meters_per_seconds, DOC_XYZDatagram(get_sound_speed_in_meters_per_seconds))
+
+        // --- checksum access ---
         .def("get_etx", &XYZDatagram::get_etx, DOC_XYZDatagram(etx))
         .def("set_etx", &XYZDatagram::set_etx, DOC_XYZDatagram(etx))
         .def("get_checksum", &XYZDatagram::get_checksum, DOC_XYZDatagram(checksum))

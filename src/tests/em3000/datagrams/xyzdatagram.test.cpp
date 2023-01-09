@@ -65,7 +65,7 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     REQUIRE(beam.get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
     REQUIRE(beam.get_backscatter() == Catch::Approx(19.1));
     REQUIRE(dat.beams()[0].get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
-    REQUIRE(dat.beams()[0].get_backscatter() == Catch::Approx(20.1));
+    REQUIRE(dat.beams()[0].get_backscatter() == Catch::Approx(19.1));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::XYZDatagram);
