@@ -148,7 +148,7 @@ class FileEM3000
                          size_t                        file_paths_cnt) final
     {
         auto header = datagrams::EM3000Datagram::from_stream(ifs);
-        //auto type   = header.get_datagram_identifier();
+        // auto type   = header.get_datagram_identifier();
 
         auto datagram_info = std::make_shared<
             filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier, t_ifstream>>(

@@ -43,10 +43,11 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
     cls.def(
         "datagrams",
         [](const T_BaseClass& self, t_EM3000DatagramIdentifier type) {
+            // EM3000DATAGRAMTYPEAREA
             switch (type)
             {
-                // case t_EM3000DatagramIdentifier::MRU0:
-                //     return py::cast(self.template datagrams<datagrams::MRU0>(type));
+                case t_EM3000DatagramIdentifier::XYZDatagram:
+                    return py::cast(self.template datagrams<datagrams::XYZDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

@@ -37,7 +37,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-//#define CLASS_FILESIMRADRAW(FileSimradRaw<T_FileStream>, CLASS_NAME)
+// #define CLASS_FILESIMRADRAW(FileSimradRaw<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
 void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 {

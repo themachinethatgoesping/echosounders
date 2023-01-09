@@ -8,6 +8,7 @@
 
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
+#include "datagrams/xyzdatagram.hpp"
 #include "em3000_types.hpp"
 
 #include <pybind11/pybind11.h>
@@ -27,8 +28,7 @@ namespace em3000 {
 
 namespace datagrams {
 
-using t_EM3000DatagramVariant =
-    std::variant<EM3000Datagram, EM3000Unknown>;
+using t_EM3000DatagramVariant = std::variant<EM3000Datagram, XYZDatagram, EM3000Unknown>;
 
 struct EM3000DatagramVariant
 {
@@ -44,10 +44,11 @@ struct EM3000DatagramVariant
     static t_EM3000DatagramVariant from_stream(std::istream&              is,
                                                t_EM3000DatagramIdentifier datagram_type)
     {
+        // EM3000DATAGRAMTYPEAREA
         switch (datagram_type)
         {
-            // case t_EM3000DatagramIdentifier::MRU0:
-            //     return t_EM3000DatagramVariant(MRU0::from_stream(is));
+            case t_EM3000DatagramIdentifier::XYZDatagram:
+                return t_EM3000DatagramVariant(XYZDatagram::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

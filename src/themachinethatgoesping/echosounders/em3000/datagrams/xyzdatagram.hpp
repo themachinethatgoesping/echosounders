@@ -1,4 +1,6 @@
-// SPDX-FileCopyrightText: 2022 GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 Peter Urban, Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
 
@@ -28,29 +30,72 @@ namespace datagrams {
  * speed at the transducer depth and ray bending through the water column have been applied.
  *
  */
-struct XYZBeam
+class XYZBeam
 {
-    float    depth;                   ///< (Z) from transmit transducer in meter
-    float    acrosstrack_distance;    ///< distance (y) in meter
-    float    alongtrack_distance;     ///< distance (x) in meter
-    uint16_t detection_window_length; ///< in samples
-    uint8_t quality_factor; ///< 0-254 Scaled standard deviation (sd) of the range detection divided
-                            ///< by the detected range (dr) (qf = 250*sd/sr)
-    int8_t  beam_incidence_angle_adjustment; ///< (IBA) in 0.1 degree
-    uint8_t detection_information; ///< Flag that indicates the type and validity of detection
-    int8_t  realtime_cleaning_information; ///< Flag that indicates if the beam was flagged by real
-                                           ///< time cleaning (negative values indicate that this
-                                           ///< beam is flagged out)
-    int16_t reflectivity;                  // Backscatter (BS) in 0.1 dB resolution
+    float    _depth;                   ///< (Z) from transmit transducer in meter
+    float    _acrosstrack_distance;    ///< distance (y) in meter
+    float    _alongtrack_distance;     ///< distance (x) in meter
+    uint16_t _detection_window_length; ///< in samples
+    uint8_t  _quality_factor; ///< 0-254 Scaled standard deviation (sd) of the range detection
+                              ///< divided by the detected range (dr) (qf = 250*sd/sr)
+    int8_t  _beam_incidence_angle_adjustment; ///< (IBA) in 0.1 degree
+    uint8_t _detection_information; ///< Flag that indicates the type and validity of detection
+    int8_t  _realtime_cleaning_information; ///< Flag that indicates if the beam was flagged by real
+                                            ///< time cleaning (negative values indicate that this
+                                            ///< beam is flagged out)
+    int16_t _reflectivity;                  // Backscatter (BS) in 0.1 dB resolution
+
+  public:
+    XYZBeam()  = default;
+    ~XYZBeam() = default;
+
+    // convenient member access
+    float    get_depth() const { return _depth; }
+    float    get_acrosstrack_distance() const { return _acrosstrack_distance; }
+    float    get_alongtrack_distance() const { return _alongtrack_distance; }
+    uint16_t get_detection_window_length() const { return _detection_window_length; }
+    uint8_t  get_quality_factor() const { return _quality_factor; }
+    int8_t  get_beam_incidence_angle_adjustment() const { return _beam_incidence_angle_adjustment; }
+    uint8_t get_detection_information() const { return _detection_information; }
+    int8_t  get_realtime_cleaning_information() const { return _realtime_cleaning_information; }
+    int16_t get_reflectivity() const { return _reflectivity; }
+
+    void set_depth(float depth) { _depth = depth; }
+    void set_acrosstrack_distance(float acrosstrack_distance)
+    {
+        _acrosstrack_distance = acrosstrack_distance;
+    }
+    void set_alongtrack_distance(float alongtrack_distance)
+    {
+        _alongtrack_distance = alongtrack_distance;
+    }
+    void set_detection_window_length(uint16_t detection_window_length)
+    {
+        _detection_window_length = detection_window_length;
+    }
+    void set_quality_factor(uint8_t quality_factor) { _quality_factor = quality_factor; }
+    void set_beam_incidence_angle_adjustment(double beam_incidence_angle_adjustment)
+    {
+        _beam_incidence_angle_adjustment = beam_incidence_angle_adjustment;
+    }
+    void set_detection_information(uint8_t detection_information)
+    {
+        _detection_information = detection_information;
+    }
+    void set_realtime_cleaning_information(int8_t realtime_cleaning_information)
+    {
+        _realtime_cleaning_information = realtime_cleaning_information;
+    }
+    void set_reflectivity(int16_t reflectivity) { _reflectivity = reflectivity; }
 
     // ----- processed member access -----
     // convert reflectivity to backscatter
-    double get_backscatter() const { return (65536 - reflectivity) * 0.1; }
+    double get_backscatter() const { return _reflectivity * 0.1; }
 
     // convert detection_information
-    bool get_detection_is_valid() const { return (detection_information & 0x01) == 0x01; }
+    bool get_detection_is_valid() const { return (_detection_information & 0x01) == 0x01; }
 
-    enum class DetectionType : uint8_t
+    enum class t_DetectionType : uint8_t
     {
         AmplitudeDetect        = 0b00000000,
         PhaseDetect            = 0b00000001,
@@ -61,32 +106,32 @@ struct XYZBeam
         NoDetection = 0b10000100, ///< Invalid: No detection data is available for this beam
         Invalid
     };
-    DetectionType get_detection_type() const
+    t_DetectionType get_detection_type() const
     {
-        return DetectionType(detection_information & 0b11110111);
+        return t_DetectionType(_detection_information & 0b11110111);
     }
 
     bool get_backscatter_is_compensated() const
     {
-        return (detection_information & 0b00001000) == 0b00001000;
+        return (_detection_information & 0b00001000) == 0b00001000;
     }
 
     double get_beam_incidence_angle_adjustment_in_degrees() const
     {
-        return beam_incidence_angle_adjustment * 0.1;
+        return _beam_incidence_angle_adjustment * 0.1;
     }
 
     // ----- operators -----
     bool operator==(const XYZBeam& other) const
     {
-        return depth == other.depth && acrosstrack_distance == other.acrosstrack_distance &&
-               alongtrack_distance == other.alongtrack_distance &&
-               detection_window_length == other.detection_window_length &&
-               quality_factor == other.quality_factor &&
-               beam_incidence_angle_adjustment == other.beam_incidence_angle_adjustment &&
-               detection_information == other.detection_information &&
-               realtime_cleaning_information == other.realtime_cleaning_information &&
-               reflectivity == other.reflectivity;
+        return _depth == other._depth && _acrosstrack_distance == other._acrosstrack_distance &&
+               _alongtrack_distance == other._alongtrack_distance &&
+               _detection_window_length == other._detection_window_length &&
+               _quality_factor == other._quality_factor &&
+               _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
+               _detection_information == other._detection_information &&
+               _realtime_cleaning_information == other._realtime_cleaning_information &&
+               _reflectivity == other._reflectivity;
     }
 
     // ----- objectprinter -----
@@ -94,22 +139,23 @@ struct XYZBeam
     {
         tools::classhelper::ObjectPrinter printer("XYZBeam", float_precision);
 
-        printer.register_value("depth", depth, "-z in m");
-        printer.register_value("acrosstrack_distance", acrosstrack_distance, "y in m");
-        printer.register_value("alongtrack_distance", alongtrack_distance, "x in m");
-        printer.register_value("detection_window_length", detection_window_length, "in samples");
-        printer.register_value("quality_factor", quality_factor);
+        printer.register_value("depth", _depth, "-z in m");
+        printer.register_value("acrosstrack_distance", _acrosstrack_distance, "y in m");
+        printer.register_value("alongtrack_distance", _alongtrack_distance, "x in m");
+        printer.register_value("detection_window_length", _detection_window_length, "in samples");
+        printer.register_value("quality_factor", _quality_factor);
         printer.register_value(
-            "beam_incidence_angle_adjustment", beam_incidence_angle_adjustment, "0.1°");
+            "beam_incidence_angle_adjustment", _beam_incidence_angle_adjustment, "0.1°");
         printer.register_value("beam_incidence_angle_adjustment",
                                get_beam_incidence_angle_adjustment_in_degrees(),
                                "°");
-        printer.register_value("detection_information", detection_information);
+        printer.register_string("detection_information",
+                                fmt::format("0x{:08b}", _detection_information));
         printer.register_value("detection_is_valid", get_detection_is_valid());
         printer.register_enum("detection_type", get_detection_type());
         printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
-        printer.register_value("realtime_cleaning_information", realtime_cleaning_information);
-        printer.register_value("reflectivity", reflectivity, "0.1 dB");
+        printer.register_value("realtime_cleaning_information", _realtime_cleaning_information);
+        printer.register_value("reflectivity", _reflectivity, "0.1 dB");
         printer.register_value("reflectivity", get_backscatter(), "dB");
 
         return printer;
@@ -136,10 +182,10 @@ class XYZDatagram : public EM3000Datagram
     uint16_t _number_of_valid_detections;
     float    _sampling_frequency; ///< in Hz
     uint8_t  _scanning_info;      ///< only used by em2040. 0 means scanning is not used.
-    std::array<uint8_t, 3> _spare_bytes;
+    std::array<uint8_t, 3> _spare_bytes = { 0, 0, 0 };
     std::vector<XYZBeam>   _beams; ///< beam detection information
-    uint8_t                _spare_byte;
-    uint8_t                _etx = 0x03; ///< end identifier (always 0x03)
+    uint8_t                _spare_byte = 0;
+    uint8_t                _etx        = 0x03; ///< end identifier (always 0x03)
     uint16_t               _checksum;
 
   private:
@@ -167,7 +213,7 @@ class XYZDatagram : public EM3000Datagram
     const std::array<uint8_t, 3>& get_spare_bytes() const { return _spare_bytes; }
     const std::vector<XYZBeam>&   get_beams() const { return _beams; }
     uint8_t                       get_spare_byte() const { return _spare_byte; }
-    uint8_t                       get_etc() const { return _etx; }
+    uint8_t                       get_etx() const { return _etx; }
     uint16_t                      get_checksum() const { return _checksum; }
 
     /**
@@ -204,12 +250,12 @@ class XYZDatagram : public EM3000Datagram
     void set_spare_bytes(std::array<uint8_t, 3> spare_bytes) { _spare_bytes = spare_bytes; }
     void set_beams(std::vector<XYZBeam> beams) { _beams = beams; }
     void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
-    void set_etc(uint8_t etc) { _etx = etc; }
+    void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
     double get_heading_of_vessel_in_degrees() const { return _heading_of_vessel * 0.01; }
-    double get_sound_speed_in_meters_per_second() const { return _sound_speed * 0.1; }
+    double get_sound_speed_in_meters_per_seconds() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
     bool operator==(const XYZDatagram& other) const
@@ -287,7 +333,7 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("heading_of_vessel", _heading_of_vessel, "0.01° steps");
         printer.register_value("heading_of_vessel", get_heading_of_vessel_in_degrees(), "°");
         printer.register_value("sound_speed", _sound_speed, "0.1 m/s steps");
-        printer.register_value("sound_speed", get_sound_speed_in_meters_per_second(), "m/s");
+        printer.register_value("sound_speed", get_sound_speed_in_meters_per_seconds(), "m/s");
         printer.register_value("transmit_transducer_depth", _transmit_transducer_depth, "m");
         printer.register_value("number_of_beams", _number_of_beams);
         printer.register_value("number_of_valid_detections", _number_of_valid_detections);

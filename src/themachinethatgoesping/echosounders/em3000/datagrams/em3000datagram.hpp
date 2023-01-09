@@ -134,12 +134,12 @@ class EM3000Datagram
 
         // return unixtime;
 
-        int  y   = int(_date / 10000);
-        int  m   = int(_date / 100) - y * 100;
-        int  d   = int(_date) - y * 10000 - m * 100;
+        int y = int(_date / 10000);
+        int m = int(_date / 100) - y * 100;
+        int d = int(_date) - y * 10000 - m * 100;
 
-        return tools::timeconv::year_month_day_to_unixtime(y, m, d, uint64_t(_time_since_midnight) * 1000);
-
+        return tools::timeconv::year_month_day_to_unixtime(
+            y, m, d, uint64_t(_time_since_midnight) * 1000);
     }
 
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,

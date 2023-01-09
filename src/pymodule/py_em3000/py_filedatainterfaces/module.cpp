@@ -40,8 +40,8 @@ void init_c_EM3000DatagramInterface(py::module& m); // c_em3000datagraminterface
 // -- create submodule --
 void init_m_EM3000FileDataInterfaces(pybind11::module& m)
 {
-    auto subm =
-        m.def_submodule("filedataInterfaces", "EM3000 (kongsberg .all/.wcd) file data interface classes");
+    auto subm = m.def_submodule("filedataInterfaces",
+                                "EM3000 (kongsberg .all/.wcd) file data interface classes");
 
     init_c_EM3000DatagramInterface(subm);
     // init_c_EM3000ConfigurationDataInterface(subm);

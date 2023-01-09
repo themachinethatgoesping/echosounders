@@ -36,10 +36,10 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-
 void init_c_em3000datagramcontainer(pybind11::module& m)
 {
     using namespace py_filetemplates::py_datacontainers;
+    // EM3000DATAGRAMTYPEAREA
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::EM3000Datagram,
                                                         t_EM3000DatagramIdentifier>(
@@ -47,9 +47,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::EM3000Unknown,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_Unknown");
-    // py_datagramcontainer::create_DatagramContainerTypes<datagrams::MRU0,
-    //                                                     t_EM3000DatagramIdentifier>(
-    //     m, "EM3000DatagramContainer_MRU0");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::XYZDatagram,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_XYZDatagram");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

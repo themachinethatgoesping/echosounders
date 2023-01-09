@@ -18,7 +18,7 @@ using themachinethatgoesping::echosounders::em3000::datagrams::EM3000Unknown;
 
 TEST_CASE("EM3000Unknown should support common functions", TESTTAG)
 {
-      // initialize class structure
+    // initialize class structure
     auto dat = EM3000Unknown();
 
     // set some variables
@@ -60,5 +60,4 @@ TEST_CASE("EM3000Unknown should support common functions", TESTTAG)
 
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));
-
 }

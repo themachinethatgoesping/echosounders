@@ -18,9 +18,9 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000datagraminterface.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000datagraminterface.hpp"
 
 #include "../../docstrings.hpp"
 

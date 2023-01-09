@@ -41,8 +41,9 @@ class EM3000DatagramInterface
 
     /* virtual function implementations */
     // void print_fileinfo(std::ostream& os) const;
-    std::string datagram_identifier_to_string(t_EM3000DatagramIdentifier datagram_identifier) const final
-    {        
+    std::string datagram_identifier_to_string(
+        t_EM3000DatagramIdentifier datagram_identifier) const final
+    {
         return fmt::format("0x{:02x}", uint8_t(datagram_identifier));
     }
 

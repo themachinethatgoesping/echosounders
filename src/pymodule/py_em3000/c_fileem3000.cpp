@@ -18,9 +18,9 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/em3000/fileem3000.hpp"
 #include "../../themachinethatgoesping/echosounders/em3000/em3000_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
+#include "../../themachinethatgoesping/echosounders/em3000/fileem3000.hpp"
 #include "../docstrings.hpp"
 #include "module.hpp"
 
@@ -37,7 +37,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-//#define CLASS_FILEEM3000(FileEM3000<T_FileStream>, CLASS_NAME)
+// #define CLASS_FILEEM3000(FileEM3000<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
 void py_create_class_FileEM3000(py::module& m, const std::string& CLASS_NAME)
 {

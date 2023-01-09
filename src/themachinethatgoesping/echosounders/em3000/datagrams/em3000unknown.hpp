@@ -29,7 +29,7 @@ class EM3000Unknown : public EM3000Datagram
     // ----- datagram content -----
     std::string _raw_content;
 
-    uint8_t  _etx = 0x03; // (end identifier)
+    uint8_t  _etx      = 0x03; // (end identifier)
     uint16_t _checksum = 0;
 
   private:
@@ -54,7 +54,7 @@ class EM3000Unknown : public EM3000Datagram
     void set_checksum(uint16_t value) { _checksum = value; }
 
     // ----- verify checksum -----
-    //TODO: how is this computed?
+    // TODO: how is this computed?
     // uint16_t compute_checksum() const
     // {
     //     // sum over all bytes except the checksum bytes
@@ -97,8 +97,8 @@ class EM3000Unknown : public EM3000Datagram
         is.read(reinterpret_cast<char*>(&(datagram._etx)), 3 * sizeof(uint8_t));
 
         if (datagram._etx != 0x03)
-            throw std::runtime_error(
-                fmt::format("EM3000Unknown: end identifier is not 0x03, but 0x{:x}", datagram._etx));
+            throw std::runtime_error(fmt::format(
+                "EM3000Unknown: end identifier is not 0x03, but 0x{:x}", datagram._etx));
 
         return datagram;
     }
@@ -132,7 +132,7 @@ class EM3000Unknown : public EM3000Datagram
         printer.register_section("datagram content");
         printer.register_value("raw data", _raw_content.size(), "bytes");
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
-        //printer.register_value("checksum", _checksum, verify_checksum() ? "valid" : "invalid");
+        // printer.register_value("checksum", _checksum, verify_checksum() ? "valid" : "invalid");
         printer.register_value("checksum", _checksum);
 
         return printer;

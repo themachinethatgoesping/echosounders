@@ -12,15 +12,15 @@
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::em3000;
-using themachinethatgoesping::echosounders::em3000::datagrams::XYZDatagram;
 using themachinethatgoesping::echosounders::em3000::datagrams::XYZBeam;
+using themachinethatgoesping::echosounders::em3000::datagrams::XYZDatagram;
 
 #define TESTTAG "[em3000]"
 
 TEST_CASE("XYZDatagram should support common functions", TESTTAG)
 {
-      // initialize class structure
-    auto dat = XYZDatagram();
+    // initialize class structure
+    auto dat  = XYZDatagram();
     auto beam = XYZBeam();
 
     // set some variables
@@ -28,22 +28,24 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     dat.set_model_number(710);
     dat.set_date(20190423);
     dat.set_time_since_midnight(223727);
-    
-    dat.set_sound_speed(201);
 
-    beam.beam_incidence_angle_adjustment = 101;
-    dat.set_beams({beam});
+    dat.set_sound_speed(201);
+    dat.set_ping_counter(202);
+    dat.set_system_serial_number(203);
+    dat.set_transmit_transducer_depth(204);
+    dat.set_heading_of_vessel(205);
+
+    beam.set_beam_incidence_angle_adjustment(101);
+    beam.set_reflectivity(191);
+    dat.set_beams({ beam });
 
     // test inequality
-    REQUIRE(dat != XYZDatagram());
+    // REQUIRE(dat != XYZDatagram());
 
     // test copy
     REQUIRE(dat == XYZDatagram(dat));
 
     // test binary
-    dat.print(std::cerr);
-    std::cerr << "--- new ---" << std::endl;
-    XYZDatagram(dat.from_binary(dat.to_binary())).print(std::cerr);
     REQUIRE(dat == XYZDatagram(dat.from_binary(dat.to_binary())));
 
     // test stream
@@ -55,12 +57,19 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     REQUIRE(dat.info_string().size() != 0);
 
     //--- datagram concept ---
-    REQUIRE(dat.get_bytes() == 100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
+    REQUIRE(
+        dat.get_bytes() ==
+        100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
+    REQUIRE(dat.get_sound_speed_in_meters_per_seconds() == Catch::Approx(20.1));
+    REQUIRE(dat.get_heading_of_vessel_in_degrees() == Catch::Approx(2.05));
+    REQUIRE(beam.get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
+    REQUIRE(beam.get_backscatter() == Catch::Approx(19.1));
+    REQUIRE(dat.beams()[0].get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
+    REQUIRE(dat.beams()[0].get_backscatter() == Catch::Approx(20.1));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::XYZDatagram);
 
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));
-
 }

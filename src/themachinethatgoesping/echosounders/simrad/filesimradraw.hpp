@@ -203,7 +203,6 @@ class FileSimradRaw
             header.get_timestamp(),
             header.get_datagram_identifier());
 
-
         switch (type)
         {
             case t_SimradDatagramIdentifier::MRU0:
