@@ -203,6 +203,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraParameters = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_HeadingDatagram = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStart = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStop = R"doc()doc";
@@ -215,11 +217,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PuStatusOutput = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_QualityFactorDatagram = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RawRangeAndAngle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RuntimeParameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SeabedImageData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SingleBeamEchoSounderDepth = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SoundSpeedProfileDatagram = R"doc()doc";
 

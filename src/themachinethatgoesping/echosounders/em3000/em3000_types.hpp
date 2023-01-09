@@ -25,19 +25,23 @@ namespace em3000 {
 enum class t_EM3000DatagramIdentifier : uint8_t
 {
     // Multibeam data
-    DepthDatagram = 0x44,
-    XYZDatagram = 0x58,
-    RawRangeAndAngle = 0x4e,
-    SeabedImageData = 0x59,
+    DepthDatagram       = 0x44,
+    XYZDatagram         = 0x58,
+    RawRangeAndAngle    = 0x4e,
+    SeabedImageData     = 0x59,
     WaterColumnDatagram = 0x6b,
-    CombinedWaterColumnDatagram = 0x6c, // virtual package that combines the split water column datagrams
+    CombinedWaterColumnDatagram =
+        0x6c,                     // virtual package that combines the split water column datagrams
+    QualityFactorDatagram = 0x4f, // TODO: implement!
 
     // External sensors
-    AttitudeDatagram = 0x41,
+    AttitudeDatagram                = 0x41,
     NetworkAttitudeVelocityDatagram = 0x6e, // TODO: implement!
-    PositionDatagram = 0x50,
-    DepthOrHeightDatagram = 0x68,
-    ClockDatagram = 0x43,
+    ClockDatagram                   = 0x43,
+    DepthOrHeightDatagram           = 0x68,
+    HeadingDatagram                 = 0x48, // TODO: implement!
+    PositionDatagram                = 0x50,
+    SingleBeamEchoSounderDepth      = 0x45, // TODO: implement!
 
     // Sound speed
     SurfaceSoundSpeedDatagram = 0x47,
@@ -45,13 +49,13 @@ enum class t_EM3000DatagramIdentifier : uint8_t
 
     // Multibeam parameters
     InstallationParameterStart = 0x49,
-    InstallationParameterStop = 0x69,
-    RuntimeParameters = 0x52,
-    ExtraParameters = 0x33,
+    InstallationParameterStop  = 0x69,
+    RuntimeParameters          = 0x52,
+    ExtraParameters            = 0x33,
 
     // PU information and status
     PuStatusOutput = 0x31,
-    PUIDOutput = 0x30,
+    PUIDOutput     = 0x30,
     // all = 0
     unspecified = 0
 };
