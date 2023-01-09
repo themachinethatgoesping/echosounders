@@ -42,23 +42,14 @@ class EM3000DatagramInterface
     /* virtual function implementations */
     // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(t_EM3000DatagramIdentifier datagram_identifier) const final
-    {
-        return datagram_type_to_string(datagram_identifier);
-        // return std::string(magic_enum::enum_name(datagram_identifier));
+    {        
+        return fmt::format("0x{:02x}", uint8_t(datagram_identifier));
     }
 
     std::string datagram_identifier_info(t_EM3000DatagramIdentifier datagram_identifier) const final
     {
         // this should work, but doesn't
-        // return magic_enum::enum_contains(datagram_identifier);
-
-        switch (datagram_identifier)
-        {
-            // case t_EM3000DatagramIdentifier::MRU0:
-            //     return "Motion binary datagram";
-            default:
-                return fmt::format("Unknown datagram type: {:x}", uint8_t(datagram_identifier));
-        }
+        return std::string(magic_enum::enum_name(datagram_identifier));
     }
 };
 
