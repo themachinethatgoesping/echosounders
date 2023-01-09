@@ -6,12 +6,6 @@
 
 #pragma once
 
-#include "datagrams/FIL1.hpp"
-#include "datagrams/MRU0.hpp"
-#include "datagrams/NME0.hpp"
-#include "datagrams/RAW3.hpp"
-#include "datagrams/TAG0.hpp"
-#include "datagrams/XML0.hpp"
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
 #include "em3000_types.hpp"
@@ -34,7 +28,7 @@ namespace em3000 {
 namespace datagrams {
 
 using t_EM3000DatagramVariant =
-    std::variant<EM3000Datagram, NME0, XML0, MRU0, RAW3, FIL1, TAG0, EM3000Unknown>;
+    std::variant<EM3000Datagram, EM3000Unknown>;
 
 struct EM3000DatagramVariant
 {
@@ -52,18 +46,8 @@ struct EM3000DatagramVariant
     {
         switch (datagram_type)
         {
-            case t_EM3000DatagramIdentifier::MRU0:
-                return t_EM3000DatagramVariant(MRU0::from_stream(is));
-            case t_EM3000DatagramIdentifier::NME0:
-                return t_EM3000DatagramVariant(NME0::from_stream(is));
-            case t_EM3000DatagramIdentifier::XML0:
-                return t_EM3000DatagramVariant(XML0::from_stream(is));
-            case t_EM3000DatagramIdentifier::TAG0:
-                return t_EM3000DatagramVariant(TAG0::from_stream(is));
-            case t_EM3000DatagramIdentifier::FIL1:
-                return t_EM3000DatagramVariant(FIL1::from_stream(is));
-            case t_EM3000DatagramIdentifier::RAW3:
-                return t_EM3000DatagramVariant(RAW3::from_stream(is));
+            // case t_EM3000DatagramIdentifier::MRU0:
+            //     return t_EM3000DatagramVariant(MRU0::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

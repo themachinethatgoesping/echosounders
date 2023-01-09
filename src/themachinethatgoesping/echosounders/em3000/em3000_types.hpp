@@ -26,24 +26,24 @@ enum class t_EM3000DatagramIdentifier : uint8_t
 {
     InstallationParameterStart = 0x49,
     InstallationParameterStop = 0x69,
-    WaterColumnDatagram = 0x6b,
-    CombinedWaterColumnDatagram,
-    MultibeamRuntimeParameters = 0x52,
-    SoundspeedProfileDatagram = 0x55,
-    PuStatusOutput = 0x31,
-    ExternalSensorsPositionDatagram = 0x50,
-    DepthPressureOrHeightDatagram = 0x68,
-    ExternalSensorsClock = 0x43,
-    MultibeamSeabedImageData = 0x59,
-    MultibeamRawRangeAndAngle = 0x4e,
-    ExternalSensorsAttitudeDatagram = 0x41,
-    MultibeamExtraParametersDatagram = 0x33,
-    SurfacesoundspeedDatagram = 0x47,
-    MultibeamXYZ_88 = 0x58,
-    DepthDatagram = 0x44,
-    PUIdOutputDatagram = 0x30,
-    all = 0,
-    unspecified
+    // WaterColumnDatagram = 0x6b,
+    // //CombinedWaterColumnDatagram,
+    // MultibeamRuntimeParameters = 0x52,
+    // SoundspeedProfileDatagram = 0x55,
+    // PuStatusOutput = 0x31,
+    // ExternalSensorsPositionDatagram = 0x50,
+    // DepthPressureOrHeightDatagram = 0x68,
+    // ExternalSensorsClock = 0x43,
+    // MultibeamSeabedImageData = 0x59,
+    // MultibeamRawRangeAndAngle = 0x4e,
+    // ExternalSensorsAttitudeDatagram = 0x41,
+    // MultibeamExtraParametersDatagram = 0x33,
+    // SurfacesoundspeedDatagram = 0x47,
+    // MultibeamXYZ_88 = 0x58,
+    // DepthDatagram = 0x44,
+    // PUIdOutputDatagram = 0x30,
+    // all = 0
+    unspecified = 0
 };
 
 // inline std::string datagram_type_to_string(uint8_t value)
@@ -54,7 +54,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
 inline std::string datagram_type_to_string(t_EM3000DatagramIdentifier value)
 {
     // convert to string using magic enum
-    return magic_enum::enum_name(value);
+    return std::string(magic_enum::enum_name(value));
 }
 
 inline t_EM3000DatagramIdentifier EM3000Datagram_type_from_string(std::string_view value)

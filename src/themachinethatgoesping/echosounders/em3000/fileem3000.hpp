@@ -21,12 +21,14 @@
 #include "em3000_datagrams.hpp"
 #include "em3000_types.hpp"
 
+#include "filedatainterfaces/em3000datagraminterface.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace em3000 {
 
 template<typename t_ifstream>
-class FileEM3000Raw
+class FileEM3000
     : public filetemplates::I_InputFile<datagrams::EM3000Datagram,
                                         filedatainterfaces::EM3000DatagramInterface<t_ifstream>>
 {
@@ -42,41 +44,42 @@ class FileEM3000Raw
     // t_EM3000DatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileEM3000Raw(const std::string& file_path, bool init = true, bool show_progress = true)
+    FileEM3000(const std::string& file_path, bool init = true, bool show_progress = true)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000Raw(const std::string&                  file_path,
-                  bool                                init,
-                  tools::progressbars::I_ProgressBar& progress_bar)
+    FileEM3000(const std::string&                  file_path,
+               bool                                init,
+               tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_file(file_path, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
 
-    FileEM3000Raw(const std::vector<std::string>& file_paths,
-                  bool                            init          = true,
-                  bool                            show_progress = true)
+    FileEM3000(const std::vector<std::string>& file_paths,
+               bool                            init          = true,
+               bool                            show_progress = true)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000Raw(const std::vector<std::string>&     file_paths,
-                  bool                                init,
-                  tools::progressbars::I_ProgressBar& progress_bar)
+    FileEM3000(const std::vector<std::string>&     file_paths,
+               bool                                init,
+               tools::progressbars::I_ProgressBar& progress_bar)
     {
         this->append_files(file_paths, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
-    ~FileEM3000Raw() = default;
+    ~FileEM3000() = default;
 
     using t_base::init_interfaces;
-    void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_interfaces([[maybe_unused]] bool               force,
+                         tools::progressbars::I_ProgressBar& progress_bar) final
     {
         progress_bar.init(0., double(1), fmt::format("Initializing file interfaces"));
         progress_bar.tick();
@@ -113,7 +116,8 @@ class FileEM3000Raw
     //     return _ping_interface->get_pings();
     // }
 
-    // filedatacontainers::EM3000PingContainer<t_ifstream> pings(const std::string& channel_id) const
+    // filedatacontainers::EM3000PingContainer<t_ifstream> pings(const std::string& channel_id)
+    // const
     // {
     //     return _ping_interface->get_pings(channel_id);
     // }
@@ -143,23 +147,20 @@ class FileEM3000Raw
                          typename t_ifstream::pos_type pos,
                          size_t                        file_paths_cnt) final
     {
-        // auto header = datagrams::EM3000Datagram::from_stream(ifs);
-        // auto type   = header.get_datagram_identifier();
+        auto header = datagrams::EM3000Datagram::from_stream(ifs);
+        //auto type   = header.get_datagram_identifier();
 
-        // auto datagram_info = std::make_shared<
-        //     filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier, t_ifstream>>(
-        //     file_paths_cnt,
-        //     pos,
-        //     this->_input_file_manager,
-        //     header.get_timestamp(),
-        //     header.get_datagram_identifier());
+        auto datagram_info = std::make_shared<
+            filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier, t_ifstream>>(
+            file_paths_cnt,
+            pos,
+            this->_input_file_manager,
+            header.get_timestamp(),
+            header.get_datagram_identifier());
 
-        // // auto datagram_info =
-        // // std::make_shared<filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier>>();
-        // // datagram_info->file_nr             = file_paths_cnt;
-        // // datagram_info->file_pos            = pos;
-        // // datagram_info->timestamp           = header.get_timestamp();
-        // // datagram_info->datagram_identifier = header.get_datagram_identifier();
+        header.skip(ifs);
+
+        return datagram_info;
 
         // switch (type)
         // {
@@ -230,15 +231,15 @@ class FileEM3000Raw
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("FileEM3000Raw", float_precision);
+        tools::classhelper::ObjectPrinter printer("FileEM3000", float_precision);
 
         auto interface_printer = t_base::__printer__(float_precision);
 
         printer.append(interface_printer);
 
-        //printer.register_section("Detected Pings");
-        //printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');
-        
+        // printer.register_section("Detected Pings");
+        // printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');
+
         return printer;
     }
 

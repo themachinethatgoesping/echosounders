@@ -5,9 +5,11 @@
 #include <pybind11/iostream.h>
 #include <pybind11/pybind11.h>
 
+#define FORCE_IMPORT_ARRAY // this is needed for xtensor-python but must only be included once
+
 // larger submodules
 #include "py_simrad/module.hpp"
-//#include "py_em3000/module.hpp"
+#include "py_em3000/module.hpp"
 
 // declare modules
 // void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp
@@ -25,7 +27,7 @@ PYBIND11_MODULE(MODULE_NAME, m)
 
     // init_m_navtools(m);
     py_simrad::init_m_simrad(m);
-    //py_em3000::init_m_em3000(m);
+    py_em3000::init_m_em3000(m);
 }
 
 }

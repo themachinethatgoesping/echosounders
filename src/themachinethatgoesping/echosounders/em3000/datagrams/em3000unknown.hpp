@@ -52,10 +52,10 @@ struct EM3000Unknown : public EM3000Datagram
     {
         EM3000Unknown datagram(std::move(header));
 
-        if (datagram._Length > 12)
-            datagram.raw_content.resize(size_t(datagram._Length - 12));
+        if (datagram._bytes > 12)
+            datagram.raw_content.resize(size_t(datagram._bytes - 12));
         else
-            throw std::runtime_error("ERROR[EM3000Unknown::from_stream]: _Length is too small");
+            throw std::runtime_error("ERROR[EM3000Unknown::from_stream]: _bytes is too small");
 
         is.read(datagram.raw_content.data(), datagram.raw_content.size());
 
@@ -78,11 +78,10 @@ struct EM3000Unknown : public EM3000Datagram
 
     void to_stream(std::ostream& os)
     {
-        _Length = em3000_long(12 + raw_content.size());
+        _bytes = uint32_t(12 + raw_content.size());
         EM3000Datagram::to_stream(os);
 
         os.write(raw_content.data(), raw_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(em3000_long));
     }
 
     // ----- objectprinter -----

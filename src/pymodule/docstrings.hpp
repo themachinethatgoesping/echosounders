@@ -37,25 +37,25 @@ static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_EM3000Datagram_type_from_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_FileEM3000Raw = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_FileEM3000 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_FileEM3000Raw_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_FileEM3000_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_FileEM3000Raw_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_FileEM3000_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_FileEM3000Raw_4 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_FileEM3000_4 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_callback_scan_new_file_begin = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_callback_scan_new_file_begin = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_callback_scan_new_file_end = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_callback_scan_new_file_end = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_callback_scan_packet = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_callback_scan_packet = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_init_interfaces = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_init_interfaces = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000Raw_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagram_type_to_string = R"doc()doc";
 
@@ -83,39 +83,43 @@ ProgressBar class that is derived from I_ProgressBar
 Returns:
     I_ProgressBar&)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_Bytes = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_Datagramtype = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_Date = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_EM3000Datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_EM3000Datagram_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_Identifyer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_ModelNumber = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_Time_since_midnight = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_bytes =
+R"doc(< number of bytes in the datagram (not including the _bytes field
+itself))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_datagram_identifier = R"doc(< EM3000 datagram identifier)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_date = R"doc(< year*1000 + month*100 + day(Example:Jun 27, 2020 = 20200627))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_from_stream_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_bytes = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_date_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_datagram_identifier = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_length =
-R"doc(length of the datagram in bytes (excluding the length fields at the
-beginning and end of the datagram))doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_date = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_model_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_stx = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_time_since_midnight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_timestamp =
-R"doc(unix timestamp in seconds since epoch (1970-01-01). Data is converted
-to/from internal windows high/low timestamp representation.)doc";
+R"doc(convert the date and time_since_midnight field to a unix timestamp
+
+Returns:
+    unixtime as double)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_model_number = R"doc(< EM3000 model number (example: EM 3002 = 3002))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_operator_eq = R"doc()doc";
 
@@ -123,23 +127,35 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_bytes = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_datagram_identifier = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_length = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_date = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_timestamp = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_model_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_stx = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_time_since_midnight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_skip = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_stx = R"doc(< (start identifier))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_time_since_midnight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_verify_datagram_end =
-R"doc(verify the datagram is read correctly by reading the length field at
-the end
+R"doc(verify the datagram is read correctly by reading the ETX (end
+identifier) field and the checksum at the end of the datagram Note:
+the checksum is not verified. (describes sum of bytes between STX and
+ETX)
 
 Parameter ``is``:
-    istream. Must be at the end position of the datagram. Pos will be
-    incremented by 4 bytes (em3000_long).)doc";
+    istream. Must be at the end position of the datagram header. Pos
+    will be incremented by 3 bytes (ETX and checksum).)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown = R"doc()doc";
 
@@ -165,45 +181,19 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_to_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface_EM3000DatagramInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface_datagram_identifier_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface_datagram_identifier_to_string = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_CombinedWaterColumnDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthPressureOrHeightDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExternalSensorsAttitudeDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExternalSensorsClock = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExternalSensorsPositionDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStart = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStop = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MultibeamExtraParametersDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MultibeamRawRangeAndAngle = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MultibeamRuntimeParameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MultibeamSeabedImageData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MultibeamXYZ_88 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PUIdOutputDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PuStatusOutput = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SoundspeedProfileDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SurfacesoundspeedDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_WaterColumnDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_unspecified = R"doc()doc";
 

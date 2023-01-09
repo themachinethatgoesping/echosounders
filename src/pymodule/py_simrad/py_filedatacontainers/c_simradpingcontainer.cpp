@@ -6,7 +6,6 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-//#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 

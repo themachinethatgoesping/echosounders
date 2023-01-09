@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <pybind11/stl.h>
-#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
 
 #include <sstream>

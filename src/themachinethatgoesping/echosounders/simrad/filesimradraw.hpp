@@ -203,12 +203,6 @@ class FileSimradRaw
             header.get_timestamp(),
             header.get_datagram_identifier());
 
-        // auto datagram_info =
-        // std::make_shared<filetemplates::datatypes::DatagramInfo<t_SimradDatagramIdentifier>>();
-        // datagram_info->file_nr             = file_paths_cnt;
-        // datagram_info->file_pos            = pos;
-        // datagram_info->timestamp           = header.get_timestamp();
-        // datagram_info->datagram_identifier = header.get_datagram_identifier();
 
         switch (type)
         {

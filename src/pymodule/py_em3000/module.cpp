@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <pybind11/stl.h>
-#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp> // Numpy bindings
 
 #include <sstream>
@@ -18,9 +17,6 @@
 
 // datagram submodules
 #include "py_datagrams/module.hpp"
-#include "py_filedatacontainers/module.hpp"
-#include "py_filedatainterfaces/module.hpp"
-#include "py_filedatatypes/module.hpp"
 
 namespace py = pybind11;
 
@@ -34,7 +30,7 @@ namespace py_em3000 {
 // -- submodule declarations --
 void init_c_fileem3000(pybind11::module& m); // c_fileem3000.cpp
 
-void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
+//void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
 // -- create submodule --
 void init_m_em3000(pybind11::module& m)
@@ -123,7 +119,7 @@ void init_m_em3000(pybind11::module& m)
     // em3000 classes
     init_c_fileem3000(subm);
 
-    init_c_file_test_functions(subm);
+    //init_c_file_test_functions(subm);
 }
 
 }

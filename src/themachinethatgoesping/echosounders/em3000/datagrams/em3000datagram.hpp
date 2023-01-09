@@ -18,64 +18,63 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../em3000_types.hpp"
-//#include "../misc/DateTime.h"
-//#include "DSMToolsLib/HelperFunctions.h"
+// #include "../misc/DateTime.h"
+// #include "DSMToolsLib/HelperFunctions.h"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace em3000 {
 namespace datagrams {
 
-struct EM3000Datagram
+class EM3000Datagram
 {
+  public:
     using t_DatagramIdentifier = t_EM3000DatagramIdentifier;
 
-    uint32_t _Bytes;
-    uint8_t  _Identifyer;
-    t_DatagramIdentifier _Datagramtype;
-    uint16_t _ModelNumber;
-    uint32_t _Date;
-    uint32_t _Time_since_midnight;  // in milliseconds
+  protected:
+    uint32_t _bytes; ///< number of bytes in the datagram (not including the _bytes field itself)
+    uint8_t  _stx = 0x02;                      ///< (start identifier)
+    t_DatagramIdentifier _datagram_identifier; ///< EM3000 datagram identifier
+    uint16_t             _model_number;        ///< EM3000 model number (example: EM 3002 = 3002)
+    uint32_t             _date; ///< year*1000 + month*100 + day(Example:Jun 27, 2020 = 20200627)
+    uint32_t             _time_since_midnight; // in milliseconds
 
   protected:
     /**
-     * @brief verify the datagram is read correctly by reading the length field at the end
+     * @brief verify the datagram is read correctly by reading the ETX (end identifier) field and
+     * the checksum at the end of the datagram Note: the checksum is not verified. (describes sum of
+     * bytes between STX and ETX)
      *
-     * @param is istream. Must be at the end position of the datagram. Pos will be incremented by 4
-     * bytes (em3000_long).
+     * @param is istream. Must be at the end position of the datagram header. Pos will be
+     * incremented by 3 bytes (ETX and checksum).
      */
     void _verify_datagram_end(std::istream& is) const
     {
-        // verify that we are at the end of the datagram by reading the enclosing length field
-        // This should be the same as _Length if everything is ok
-        em3000_long length;
-        is.read(reinterpret_cast<char*>(&length), sizeof(length));
-
-        // (the datagrams are encapsulated by length)
-        // if the lengths do not match the datagrams was not read correctly
-        if (!is || length != _Length)
+        // read the end identifier and the check sum
+        struct t_EndIdentifier
         {
-            auto error = fmt::format(
-                "ERROR[EM3000Datagram]: Datagram length check failed (read). Expected: {}, got: {}",
-                _Length,
-                length);
-            [[maybe_unused]] auto error_verbose =
-                fmt::format("{}\n--- read header ---\n{}\n---", error, info_string());
+            uint8_t  etx;      // (end identifier)
+            uint16_t checksum = 0; // the sum of all bytes between STX end ETX
+        } etx;
 
-            throw std::runtime_error(error);
-            // std::cerr << error << std::endl;
-        }
+        is.read(reinterpret_cast<char*>(&etx.etx), 3* sizeof(uint8_t));
+
+        if (etx.etx != 0x03)
+            throw std::runtime_error(
+                fmt::format("EM3000Datagram: end identifier is not 0x03, but 0x{:x}", etx.etx));
     }
 
   public:
-    EM3000Datagram(em3000_long length,
-                   em3000_long datagram_type,
-                   em3000_long low_data_time  = 0,
-                   em3000_long high_date_time = 0)
-        : _Length(length)
-        , _DatagramType(datagram_type)
-        , _LowDateTime(low_data_time)
-        , _HighDateTime(high_date_time)
+    EM3000Datagram(uint32_t             bytes,
+                   t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::unspecified,
+                   uint16_t             model_number        = 0,
+                   uint16_t             date                = 0,
+                   uint16_t             time_since_midnight = 0)
+        : _bytes(bytes)
+        , _datagram_identifier(datagram_identifier)
+        , _model_number(model_number)
+        , _date(date)
+        , _time_since_midnight(time_since_midnight)
     {
     }
     EM3000Datagram()          = default;
@@ -83,70 +82,77 @@ struct EM3000Datagram
 
     void skip(std::istream& is) const
     {
-        // _Length is the length the datagram that is enclosed by _Length
-        const static em3000_long tmp = sizeof(em3000_long) * 3;
+        // _bytes describes the number of bytes in the datagram, except the bytes field (4 bytes)
+        // skip is called after from_stream so 12 bytes after the bytes field are read already
+        // we want to jump to the end identifier (0x03) so we need to skip _Bytes - 12 - 3 - bytes
+        const static uint8_t tmp = sizeof(uint8_t) * (15);
 
-        is.seekg(_Length - tmp, std::ios::cur);
+        is.seekg(_bytes - tmp, std::ios::cur);
 
         // verify the datagram is read correctly by reading the length field at the end
         _verify_datagram_end(is);
     }
 
-    //----- convenient member access -----
-    /**
-     * @brief length of the datagram in bytes (excluding the length fields at the beginning and end
-     * of the datagram)
-     */
-    em3000_long get_length() const { return _Length; }
-    void        set_length(em3000_long length) { _Length = length; }
+    // ----- convenient member access -----
+    uint32_t             get_bytes() const { return _bytes; }
+    uint8_t              get_stx() const { return _stx; }
+    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
+    uint16_t             get_model_number() const { return _model_number; }
+    uint32_t             get_date() const { return _date; }
+    uint32_t             get_time_since_midnight() const { return _time_since_midnight; }
 
+    void set_bytes(uint32_t bytes) { _bytes = bytes; }
+    void set_stx(uint8_t stx) { _stx = stx; }
+    void set_datagram_identifier(t_DatagramIdentifier datagram_identifier)
+    {
+        _datagram_identifier = datagram_identifier;
+    }
+    void set_model_number(uint16_t model_number) { _model_number = model_number; }
+    void set_date(uint32_t date) { _date = date; }
+    void set_time_since_midnight(uint32_t time_since_midnight)
+    {
+        _time_since_midnight = time_since_midnight;
+    }
+
+    // ----- processed member access -----
     /**
-     * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
+     * @brief convert the date and time_since_midnight field to a unix timestamp
      *
-     */
-    t_EM3000DatagramIdentifier get_datagram_identifier() const
-    {
-        return t_EM3000DatagramIdentifier(_DatagramType);
-    }
-    void set_datagram_identifier(t_EM3000DatagramIdentifier datagram_type)
-    {
-        _DatagramType = em3000_long(datagram_type);
-    }
-
-    /**
-     * @brief unix timestamp in seconds since epoch (1970-01-01). Data is converted to/from internal
-     * windows high/low timestamp representation.
+     * @return unixtime as double
      */
     double get_timestamp() const
     {
-        return tools::timeconv::windows_filetime_to_unixtime(_HighDateTime, _LowDateTime);
-    }
+        std::string datestring = "0000_";
+        std::string format     = "%z_%d.%m.%Y";
+        std::string date       = std::to_string(_date);
 
-    void set_timestamp(double unixtime)
-    {
-        std::tie(_HighDateTime, _LowDateTime) =
-            tools::timeconv::unixtime_to_windows_filetime(unixtime);
-    }
+        datestring += date.substr(6, 2) + "." + date.substr(4, 2) + "." + date.substr(0, 4);
 
-    std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
-                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
-    {
-        return tools::timeconv::unixtime_to_datestring(
-            get_timestamp(), fractionalSecondsDigits, format);
+        double unixtime = tools::timeconv::datestring_to_unixtime(datestring, format);
+
+        unixtime += double(_time_since_midnight) / 1000.;
+
+        return unixtime;
     }
 
     // ----- operators -----
     bool operator==(const EM3000Datagram& other) const
     {
-        return _Length == other._Length && _DatagramType == other._DatagramType &&
-               _LowDateTime == other._LowDateTime && _HighDateTime == other._HighDateTime;
+        return _bytes == other._bytes && _stx == other._stx &&
+               _datagram_identifier == other._datagram_identifier &&
+               _model_number == other._model_number && _date == other._date &&
+               _time_since_midnight == other._time_since_midnight;
     }
     bool operator!=(const EM3000Datagram& other) const { return !operator==(other); }
 
     static EM3000Datagram from_stream(std::istream& is)
     {
         EM3000Datagram d;
-        is.read(reinterpret_cast<char*>(&d._Length), 4 * sizeof(em3000_long));
+        is.read(reinterpret_cast<char*>(&d._bytes), 16 * sizeof(uint8_t));
+
+        if (d._stx != 0x02)
+            throw std::runtime_error(
+                fmt::format("EM3000Datagram: start identifier is not 0x02, but 0x{:x}", d._stx));
 
         return d;
     }
@@ -164,7 +170,7 @@ struct EM3000Datagram
 
     void to_stream(std::ostream& os)
     {
-        os.write(reinterpret_cast<char*>(&_Length), 4 * sizeof(em3000_long));
+        os.write(reinterpret_cast<const char*>(&_bytes), 16 * sizeof(uint8_t));
     }
 
     // ----- objectprinter -----
@@ -172,19 +178,23 @@ struct EM3000Datagram
     {
         using tools::timeconv::unixtime_to_datestring;
 
-        static const std::string format_data("%d/%m/%Y");
+        static const std::string format_date("%d/%m/%Y");
         static const std::string format_time("%H:%M:%S");
         auto                     timestamp = get_timestamp();
 
-        auto date = unixtime_to_datestring(timestamp, 0, format_data);
+        auto date = unixtime_to_datestring(timestamp, 0, format_date);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
         tools::classhelper::ObjectPrinter printer("EM3000Datagram", float_precision);
 
-        printer.register_value("length", _Length, "bytes");
+        printer.register_value("bytes", _bytes, "bytes");
+        printer.register_string("stx", fmt::format("{:x}", _stx), "hex");
         printer.register_string(
-            "datagram_type",
-            datagram_identifier_to_string(t_EM3000DatagramIdentifier(_DatagramType)));
+            "datagram_identifier",
+            datagram_identifier_to_string(t_EM3000DatagramIdentifier(_datagram_identifier)));
+        printer.register_value("model_number", _model_number, "EM");
+        printer.register_value("date", _date, "YYYYMMDD");
+        printer.register_value("time_since_midnight", _time_since_midnight, "ms");
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");
