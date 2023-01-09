@@ -54,9 +54,9 @@ void init_m_em3000(pybind11::module& m)
             "t_EM3000DatagramIdentifier",
             DOC(themachinethatgoesping, echosounders, em3000, t_EM3000DatagramIdentifier))
             // Multibeam data
-            .value("DepthDatagram",
-                   t_EM3000DatagramIdentifier::DepthDatagram,
-                   DOC_t_EM3000DatagramIdentifier(DepthDatagram))
+       //      .value("DepthDatagram",
+       //             t_EM3000DatagramIdentifier::DepthDatagram,
+       //             DOC_t_EM3000DatagramIdentifier(DepthDatagram))
             .value("XYZDatagram",
                    t_EM3000DatagramIdentifier::XYZDatagram,
                    DOC_t_EM3000DatagramIdentifier(XYZDatagram))
