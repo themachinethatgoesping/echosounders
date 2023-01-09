@@ -167,11 +167,21 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_checksum = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_etx = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_from_stream_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_get_checksum = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_get_etx = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_get_raw_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_operator_eq = R"doc()doc";
 
@@ -180,6 +190,12 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_raw_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_set_checksum = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_set_etx = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_set_raw_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_to_stream = R"doc()doc";
 
@@ -202,6 +218,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthOrHeightDatagram = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraDetections = R"doc(< TODO: implement!)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraParameters = R"doc()doc";
 

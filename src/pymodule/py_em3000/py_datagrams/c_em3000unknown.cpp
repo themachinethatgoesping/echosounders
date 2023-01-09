@@ -36,16 +36,52 @@ void init_c_em3000unknown(pybind11::module& m)
                  EM3000Unknown,
                  EM3000Unknown))
         // --- convenient data access ---
-        .def_property(
-            "raw_content",
-            [](const EM3000Unknown& self) { return py::bytes(self.raw_content); },
-            [](EM3000Unknown& self, const py::bytes& value) { self.raw_content = value; },
-            DOC(themachinethatgoesping,
-                echosounders,
-                em3000,
-                datagrams,
-                EM3000Unknown,
-                raw_content))
+        .def("get_raw_content",
+             &EM3000Unknown::get_raw_content,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 em3000,
+                 datagrams,
+                 EM3000Unknown,
+                 raw_content))
+        .def("set_raw_content",
+             &EM3000Unknown::set_raw_content,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 em3000,
+                 datagrams,
+                 EM3000Unknown,
+                 raw_content))
+        .def("get_etx",
+             &EM3000Unknown::get_etx,
+             DOC(themachinethatgoesping, echosounders, em3000, datagrams, EM3000Unknown, etx))
+        .def("set_etx",
+             &EM3000Unknown::set_etx,
+             DOC(themachinethatgoesping, echosounders, em3000, datagrams, EM3000Unknown, etx))
+        .def("get_checksum",
+             &EM3000Unknown::get_checksum,
+             DOC(themachinethatgoesping, echosounders, em3000, datagrams, EM3000Unknown, checksum))
+        .def("set_checksum",
+             &EM3000Unknown::set_checksum,
+             DOC(themachinethatgoesping, echosounders, em3000, datagrams, EM3000Unknown, checksum))
+
+        // ----- checksum -----
+        // .def("compute_checksum",
+        //      &EM3000Unknown::compute_checksum,
+        //      DOC(themachinethatgoesping,
+        //          echosounders,
+        //          em3000,
+        //          datagrams,
+        //          EM3000Unknown,
+        //          compute_checksum))
+        // .def("verify_checksum",
+        //      &EM3000Unknown::verify_checksum,
+        //      DOC(themachinethatgoesping,
+        //          echosounders,
+        //          em3000,
+        //          datagrams,
+        //          EM3000Unknown,
+        //          verify_checksum))
 
         // ----- operators -----
         .def("__eq__",

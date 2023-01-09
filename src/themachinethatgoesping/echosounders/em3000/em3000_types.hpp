@@ -27,11 +27,12 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     // Multibeam data
     DepthDatagram       = 0x44,
     XYZDatagram         = 0x58,
+    ExtraDetections     = 0x6c, ///< TODO: implement!
     RawRangeAndAngle    = 0x4e,
     SeabedImageData     = 0x59,
     WaterColumnDatagram = 0x6b,
     CombinedWaterColumnDatagram =
-        0x6c, ///< virtual package that combines the split water column datagrams
+        0x6a, ///< virtual package that combines the split water column datagrams
     QualityFactorDatagram = 0x4f, ///< TODO: implement!
 
     // External sensors

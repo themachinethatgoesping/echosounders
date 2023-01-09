@@ -137,9 +137,6 @@ class EM3000Datagram
         int  y   = int(_date / 10000);
         int  m   = int(_date / 100) - y * 100;
         int  d   = int(_date) - y * 10000 - m * 100;
-        // auto X   = date::year{ y } / m / d;
-        // auto tp  = date::sys_days{ X } + std::chrono::milliseconds{ _time_since_midnight };
-        // unixtime = tools::timeconv::timepoint_to_unixtime(tp);
 
         return tools::timeconv::year_month_day_to_unixtime(y, m, d, uint64_t(_time_since_midnight) * 1000);
 
