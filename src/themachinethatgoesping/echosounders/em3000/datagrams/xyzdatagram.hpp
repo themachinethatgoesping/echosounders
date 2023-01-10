@@ -42,11 +42,11 @@ class XYZDatagram : public EM3000Datagram
     uint16_t _number_of_valid_detections;
     float    _sampling_frequency; ///< in Hz
     uint8_t  _scanning_info;      ///< only used by em2040. 0 means scanning is not used.
-    std::array<uint8_t, 3> _spare_bytes = { 0, 0, 0 };
-    std::vector<substructures::XYZDatagramBeam>   _beams; ///< beam detection information
-    uint8_t                _spare_byte = 0;
-    uint8_t                _etx        = 0x03; ///< end identifier (always 0x03)
-    uint16_t               _checksum;
+    std::array<uint8_t, 3>                      _spare_bytes = { 0, 0, 0 };
+    std::vector<substructures::XYZDatagramBeam> _beams; ///< beam detection information
+    uint8_t                                     _spare_byte = 0;
+    uint8_t                                     _etx = 0x03; ///< end identifier (always 0x03)
+    uint16_t                                    _checksum;
 
   private:
     // ----- private constructors -----
@@ -71,10 +71,10 @@ class XYZDatagram : public EM3000Datagram
     float    get_sampling_frequency() const { return _sampling_frequency; }
     uint8_t  get_scanning_info() const { return _scanning_info; }
     const std::array<uint8_t, 3>& get_spare_bytes() const { return _spare_bytes; }
-    const std::vector<substructures::XYZDatagramBeam>&   get_beams() const { return _beams; }
-    uint8_t                       get_spare_byte() const { return _spare_byte; }
-    uint8_t                       get_etx() const { return _etx; }
-    uint16_t                      get_checksum() const { return _checksum; }
+    const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
+    uint8_t  get_spare_byte() const { return _spare_byte; }
+    uint8_t  get_etx() const { return _etx; }
+    uint16_t get_checksum() const { return _checksum; }
 
     /**
      * @brief structure access to beams (read/write)
@@ -116,15 +116,15 @@ class XYZDatagram : public EM3000Datagram
     // ----- processed data access -----
     /**
      * @brief Get the vessel heading in degrees
-     * 
+     *
      * @return heading_of_vessel * 0.01 degrees (double)
      */
     double get_heading_of_vessel_in_degrees() const { return _heading_of_vessel * 0.01; }
 
     /**
      * @brief Get the sound speed in meters per seconds
-     * 
-     * @return sound_speed * 0.1 meters per seconds (double) 
+     *
+     * @return sound_speed * 0.1 meters per seconds (double)
      */
     double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
 
@@ -145,11 +145,16 @@ class XYZDatagram : public EM3000Datagram
     }
     bool operator!=(const XYZDatagram& other) const { return !operator==(other); }
 
-
     //----- to/from stream functions -----
     static XYZDatagram from_stream(std::istream& is, EM3000Datagram header)
     {
         XYZDatagram datagram(std::move(header));
+
+        if (datagram._datagram_identifier != t_EM3000DatagramIdentifier::XYZDatagram)
+            throw std::runtime_error(
+                fmt::format("XYZDatagram: datagram identifier is not 0x{:02x}, but 0x{:02x}",
+                            uint8_t(t_EM3000DatagramIdentifier::XYZDatagram),
+                            uint8_t(datagram._datagram_identifier)));
 
         // read first part of the datagram (until the first beam)
         is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 24 * sizeof(uint8_t));
@@ -188,7 +193,8 @@ class XYZDatagram : public EM3000Datagram
         os.write(reinterpret_cast<const char*>(&(_ping_counter)), 24 * sizeof(uint8_t));
 
         // write the beams
-        os.write(reinterpret_cast<const char*>(_beams.data()), _number_of_beams * sizeof(substructures::XYZDatagramBeam));
+        os.write(reinterpret_cast<const char*>(_beams.data()),
+                 _number_of_beams * sizeof(substructures::XYZDatagramBeam));
 
         // write the rest of the datagram
         os.write(reinterpret_cast<const char*>(&(_spare_byte)), 4 * sizeof(uint8_t));

@@ -57,7 +57,7 @@ class ExtraDetections : public EM3000Datagram
 
     std::vector<std::vector<int16_t>> _raw_amplitude_samples; ///< 0.01 dB
 
-    uint16_t _spare_bytes;
+    uint8_t  _spare;
     uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
     uint16_t _checksum;
 
@@ -103,7 +103,7 @@ class ExtraDetections : public EM3000Datagram
     {
         return _raw_amplitude_samples;
     }
-    uint16_t get_spare_bytes() const { return _spare_bytes; }
+    uint16_t get_spare() const { return _spare; }
     uint8_t  get_etx() const { return _etx; }
     uint16_t get_checksum() const { return _checksum; }
 
@@ -172,7 +172,7 @@ class ExtraDetections : public EM3000Datagram
     {
         _raw_amplitude_samples = raw_amplitude_samples;
     }
-    void set_spare_bytes(uint16_t spare_bytes) { _spare_bytes = spare_bytes; }
+    void set_spare(uint16_t spare_bytes) { _spare = spare_bytes; }
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
@@ -220,9 +220,8 @@ class ExtraDetections : public EM3000Datagram
                _number_of_bytes_per_detection == other._number_of_bytes_per_detection &&
                _detection_classes == other._detection_classes &&
                _extra_detections == other._extra_detections &&
-               _raw_amplitude_samples == other._raw_amplitude_samples &&
-               _spare_bytes == other._spare_bytes && _etx == other._etx &&
-               _checksum == other._checksum;
+               _raw_amplitude_samples == other._raw_amplitude_samples && _spare == other._spare &&
+               _etx == other._etx && _checksum == other._checksum;
     }
 
     bool operator!=(const ExtraDetections& other) const { return !operator==(other); }
@@ -265,12 +264,14 @@ class ExtraDetections : public EM3000Datagram
                     ns * sizeof(int16_t));
         }
 
-        if (datagram._etx != 0x03)
-            throw std::runtime_error(fmt::format(
-                "ExtraDetections: end identifier is not 0x03, but 0x{:x}", datagram._etx));
-
         // read the rest of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._spare_bytes)), 5 * sizeof(uint8_t));
+        // is.read(reinterpret_cast<char*>(&(datagram._spare)), 5 * sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&(datagram._spare)), 4 * sizeof(uint8_t));
+
+        // TODO: fix reading raw_amplitudes
+        // if (datagram._etx != 0x03)
+        //     throw std::runtime_error(fmt::format(
+        //         "ExtraDetections: end identifier is not 0x03, but 0x{:x}", datagram._etx));
 
         return datagram;
     }
@@ -316,7 +317,7 @@ class ExtraDetections : public EM3000Datagram
                      _raw_amplitude_samples[i].size() * sizeof(uint16_t));
 
         // write the rest of the datagram
-        os.write(reinterpret_cast<const char*>(&(_spare_bytes)), 5 * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&(_spare)), 4 * sizeof(uint8_t));
     }
 
     // ----- objectprinter -----
@@ -343,7 +344,7 @@ class ExtraDetections : public EM3000Datagram
         printer.register_value("number_of_bytes_per_class", _number_of_bytes_per_class);
         printer.register_value("number_of_alarm_flags", _number_of_alarm_flags);
         printer.register_value("number_of_bytes_per_detection", _number_of_bytes_per_detection);
-        printer.register_string("spare_bytes", fmt::format("0x{:04x}", _spare_bytes));
+        printer.register_string("spare_bytes", fmt::format("0x{:02x}", _spare));
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
 

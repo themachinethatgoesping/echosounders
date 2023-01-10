@@ -281,7 +281,7 @@ R"doc(Get sound velocity in m/s
 Returns:
     _sound_speed * 0.1 m/s (double))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_spare_bytes = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_spare = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_swath_counter = R"doc()doc";
 
@@ -355,7 +355,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_sound_speed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_spare_bytes = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_spare = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_swath_counter = R"doc()doc";
 
@@ -367,7 +367,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_sound_speed = R"doc(< dm/s)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_spare_bytes = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_spare = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_swath_counter = R"doc(<)doc";
 
@@ -966,7 +966,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthOrHeightDatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraDetections = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraDetections = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraParameters = R"doc()doc";
 

@@ -241,33 +241,32 @@ class ExtraDetectionsExtraDetections
         //
         printer.register_section("Content");
         printer.register_value("depth", _depth, "z in m");
-        printer.register_value("_across", _across, "y in m");
-        printer.register_value("_along", _along, "x in m");
-        printer.register_value("_delta_latitude", _delta_latitude, "°");
-        printer.register_value("_delta_longitude", _delta_longitude, "°");
-        printer.register_value("_beam_pointing_angle", _beam_pointing_angle, "deg. re array");
-        printer.register_value("_applied_pointing_angle_correction",
+        printer.register_value("across", _across, "y in m");
+        printer.register_value("along", _along, "x in m");
+        printer.register_value("delta_latitude", _delta_latitude, "°");
+        printer.register_value("delta_longitude", _delta_longitude, "°");
+        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "deg. re array");
+        printer.register_value("applied_pointing_angle_correction",
                                _applied_pointing_angle_correction);
-        printer.register_value("_two_way_travel_time", _two_way_travel_time, "s");
-        printer.register_value("_applied_two_way_travel_time_corrections",
+        printer.register_value("two_way_travel_time", _two_way_travel_time, "s");
+        printer.register_value("applied_two_way_travel_time_corrections",
                                _applied_two_way_travel_time_corrections);
-        printer.register_value("_backscatter", _backscatter, "0.1 dB");
+        printer.register_value("backscatter", _backscatter, "0.1 dB");
         printer.register_value(
-            "_beam_incidence_angle_adjustment", _beam_incidence_angle_adjustment, "0.1°");
-        printer.register_value("_detection_info", _detection_info);
-        printer.register_value("_spare", _spare);
-        printer.register_value("_tx_sector_number", _tx_sector_number, "Or TX array index");
-        printer.register_value("_detection_window_length", _detection_window_length);
-        printer.register_value("_quality_factor_old", _quality_factor_old);
-        printer.register_value("_real_time_cleaning_info", _real_time_cleaning_info);
-        printer.register_value("_range_factor", _range_factor, "%");
-        printer.register_value("_detection_class_number", _detection_class_number);
-        printer.register_value("_qf_10", _qf_10);
-        printer.register_value("_water_column_beam_number", _water_column_beam_number);
-        printer.register_value("_beam_angle_across", _beam_angle_across, "re vertical °");
-        printer.register_value("_detected_range", _detected_range, "samples");
-        printer.register_value("_number_of_raw_amplitude_samples",
-                               _number_of_raw_amplitude_samples);
+            "beam_incidence_angle_adjustment", _beam_incidence_angle_adjustment, "0.1°");
+        printer.register_value("detection_info", _detection_info);
+        printer.register_value("spare", _spare);
+        printer.register_value("tx_sector_number", _tx_sector_number, "Or TX array index");
+        printer.register_value("detection_window_length", _detection_window_length);
+        printer.register_value("quality_factor_old", _quality_factor_old);
+        printer.register_value("real_time_cleaning_info", _real_time_cleaning_info);
+        printer.register_value("range_factor", _range_factor, "%");
+        printer.register_value("detection_class_number", _detection_class_number);
+        printer.register_value("qf_10", _qf_10);
+        printer.register_value("water_column_beam_number", _water_column_beam_number);
+        printer.register_value("beam_angle_across", _beam_angle_across, "re vertical °");
+        printer.register_value("detected_range", _detected_range, "samples");
+        printer.register_value("number_of_raw_amplitude_samples", _number_of_raw_amplitude_samples);
 
         // processed
         printer.register_section("Processed");

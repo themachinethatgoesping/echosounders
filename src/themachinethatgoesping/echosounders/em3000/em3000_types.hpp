@@ -25,9 +25,10 @@ namespace em3000 {
 enum class t_EM3000DatagramIdentifier : uint8_t
 {
     // Multibeam data
-    //DepthDatagram       = 0x44, // TODO: implement
-    XYZDatagram         = 0x58,
-    ExtraDetections     = 0x6c, ///< TODO: implement!
+    // DepthDatagram       = 0x44, // not implemented
+    XYZDatagram = 0x58,
+    ExtraDetections =
+        0x6c, ///< TODO: fix reading raw_amplitudes (sometimes the number seems incorrect)
     RawRangeAndAngle    = 0x4e,
     SeabedImageData     = 0x59,
     WaterColumnDatagram = 0x6b,

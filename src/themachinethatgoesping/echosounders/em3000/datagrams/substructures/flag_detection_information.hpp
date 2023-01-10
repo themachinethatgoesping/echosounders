@@ -24,8 +24,8 @@ namespace substructures {
 namespace detection_information {
 
 /**
- * @brief The detection_info flag (uint8_t) is used in XYZDatagramBeam and ExtraDectionsExtraDetections to
- * indicate the type of detection.
+ * @brief The detection_info flag (uint8_t) is used in XYZDatagramBeam and
+ * ExtraDectionsExtraDetections to indicate the type of detection.
  *
  */
 
@@ -50,7 +50,7 @@ enum class t_DetectionType : uint8_t
  */
 inline bool get_detection_is_valid(uint8_t detection_info)
 {
-    return (detection_info & 0x01) == 0x01;
+    return (detection_info & 0x01) == 0x00;
 }
 
 /**
@@ -72,7 +72,7 @@ inline t_DetectionType get_detection_type(uint8_t detection_info)
  * @return true
  * @return false
  */
-inline bool get_backscatter_is_compensated(uint8_t detection_info) 
+inline bool get_backscatter_is_compensated(uint8_t detection_info)
 {
     return (detection_info & 0b00001000) == 0b00001000;
 }
