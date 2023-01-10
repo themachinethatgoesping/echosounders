@@ -82,9 +82,9 @@ void init_c_xyzdatagram(pybind11::module& m)
         .def("get_heading_of_vessel_in_degrees",
              &XYZDatagram::get_heading_of_vessel_in_degrees,
              DOC_XYZDatagram(get_heading_of_vessel_in_degrees))
-        .def("get_sound_speed_in_meters_per_seconds",
-             &XYZDatagram::get_sound_speed_in_meters_per_seconds,
-             DOC_XYZDatagram(get_sound_speed_in_meters_per_seconds))
+        .def("get_sound_speed_in_m_per_ss",
+             &XYZDatagram::get_sound_speed_in_m_per_ss,
+             DOC_XYZDatagram(get_sound_speed_in_m_per_ss))
 
         // --- checksum access ---
         .def("get_etx", &XYZDatagram::get_etx, DOC_XYZDatagram(etx))

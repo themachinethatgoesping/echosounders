@@ -152,6 +152,7 @@ class XYZDatagramBeam
                _realtime_cleaning_information == other._realtime_cleaning_information &&
                _reflectivity == other._reflectivity;
     }
+    bool operator!=(const XYZDatagramBeam& other) const { return !(*this == other); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

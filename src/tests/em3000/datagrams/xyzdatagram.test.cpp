@@ -58,7 +58,7 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     REQUIRE(
         dat.get_bytes() ==
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
-    REQUIRE(dat.get_sound_speed_in_meters_per_seconds() == Catch::Approx(20.1));
+    REQUIRE(dat.get_sound_speed_in_m_per_ss() == Catch::Approx(20.1));
     REQUIRE(dat.get_heading_of_vessel_in_degrees() == Catch::Approx(2.05));
     REQUIRE(beam.get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
     REQUIRE(beam.get_backscatter() == Catch::Approx(19.1));
