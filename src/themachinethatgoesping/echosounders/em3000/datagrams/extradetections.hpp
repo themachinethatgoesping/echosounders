@@ -254,7 +254,7 @@ class ExtraDetections : public EM3000Datagram
 
         // read raw amplitude samples
         datagram._raw_amplitude_samples.resize(datagram._number_of_extra_detections);
-        for (uint i = 0; i < datagram._number_of_extra_detections; ++i)
+        for (unsigned int = 0; i < datagram._number_of_extra_detections; ++i)
         {
             size_t ns = datagram._extra_detections[i].get_number_of_raw_amplitude_samples() * 2 + 1;
             datagram._raw_amplitude_samples[i].resize(ns);
@@ -294,7 +294,7 @@ class ExtraDetections : public EM3000Datagram
         _number_of_extra_detections  = _extra_detections.size();
         _raw_amplitude_samples.resize(_number_of_extra_detections);
 
-        for (uint i = 0; i < _number_of_extra_detections; ++i)
+        for (unsigned int = 0; i < _number_of_extra_detections; ++i)
             _raw_amplitude_samples[i].resize(
                 _extra_detections[i].get_number_of_raw_amplitude_samples() * 2 + 1);
 
@@ -312,7 +312,7 @@ class ExtraDetections : public EM3000Datagram
                      sizeof(substructures::ExtraDetectionsExtraDetections));
 
         // write the raw amplitude samples
-        for (uint i = 0; i < _number_of_extra_detections; ++i)
+        for (unsigned int = 0; i < _number_of_extra_detections; ++i)
             os.write(reinterpret_cast<const char*>(_raw_amplitude_samples[i].data()),
                      _raw_amplitude_samples[i].size() * sizeof(uint16_t));
 
