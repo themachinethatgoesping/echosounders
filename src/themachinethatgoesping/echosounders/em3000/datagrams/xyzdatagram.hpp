@@ -126,7 +126,7 @@ class XYZDatagram : public EM3000Datagram
      * 
      * @return sound_speed * 0.1 meters per seconds (double) 
      */
-    double get_sound_speed_in_m_per_ss() const { return _sound_speed * 0.1; }
+    double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
     bool operator==(const XYZDatagram& other) const
@@ -215,7 +215,7 @@ class XYZDatagram : public EM3000Datagram
 
         printer.register_section("processed");
         printer.register_value("heading_of_vessel", get_heading_of_vessel_in_degrees(), "°");
-        printer.register_value("sound_speed", get_sound_speed_in_m_per_ss(), "m/s");
+        printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");
         printer.register_value("XYZDatagramBeams", _beams.size(), "structures");

@@ -273,13 +273,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_rx_transducer_index = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_sound_velocity = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_sound_speed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_sound_velocity_in_m_per_s =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_sound_speed_in_m_per_s =
 R"doc(Get sound velocity in m/s
 
 Returns:
-    _sound_velocity * 0.1 m/s (double))doc";
+    _sound_speed * 0.1 m/s (double))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_get_spare_bytes = R"doc()doc";
 
@@ -313,7 +313,9 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_raw_amplitude_sample_rate = R"doc(< (SIsr))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_raw_amplitude_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_raw_amplitude_samples = R"doc(< 0.01 dB)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_raw_amplitude_samples_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_rx_transducer_index = R"doc(<)doc";
 
@@ -333,13 +335,25 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_heading = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_number_of_alarm_flags = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_number_of_bytes_per_class = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_number_of_bytes_per_detection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_number_of_detection_classes = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_number_of_extra_detections = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_ping_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_raw_amplitude_sample_rate = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_raw_amplitude_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_sound_velocity = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_rx_transducer_index = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_sound_speed = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_spare_bytes = R"doc()doc";
 
@@ -351,7 +365,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_set_water_column_sample_rate = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_sound_velocity = R"doc(< dm/s)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_sound_speed = R"doc(< dm/s)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraDetections_spare_bytes = R"doc()doc";
 
@@ -420,7 +434,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed_in_m_per_ss =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed_in_m_per_s =
 R"doc(Get the sound speed in meters per seconds
 
 Returns:
@@ -513,7 +527,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_get_number_of_extra_detections = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_get_qf_threshold =
-R"doc(Get the ifremer QF threshold The Ifremer Qualty factor is used to
+R"doc(Get the ifremer QF threshold The Ifremer Quality factor is used to
 estimate the relative depth error. QF threshold equal to 0.1 means a
 0.1% depth error threshold. At 100 m depth this the depth error
 threshold would be 10 cm. Valid range is 0.01 to 1 %.
@@ -543,21 +557,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_alarm_flag_1 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_alarm_flag_1_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_alarm_threshold = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_bs_threshold = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_number_of_extra_detections = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_number_of_extra_detections_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_qf_threshold_100 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_show_class = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_show_class_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_set_snr_threshold = R"doc()doc";
 

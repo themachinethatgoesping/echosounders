@@ -65,17 +65,13 @@ class ExtraDetectionsDetectionClasses
     }
     void set_show_class(bool show_class) { _show_class = show_class; }
     void set_alarm_flag_1(uint8_t alarm_flag_1) { _alarm_flag_1 = alarm_flag_1; }
-    void set_number_of_extra_detections(uint8_t number_of_extra_detections)
-    {
-        _number_of_extra_detections = number_of_extra_detections;
-    }
 
     // ----- processed member access -----
     /**
      * @brief Get the ifremer QF threshold
-     * The Ifremer Qualty factor is used to estimate the relative depth error.
-QF threshold equal to 0.1 means a 0.1% depth error threshold. At 100 m depth this
-the depth error threshold would be 10 cm. Valid range is 0.01 to 1 %.
+     * The Ifremer Quality factor is used to estimate the relative depth error.
+     * QF threshold equal to 0.1 means a 0.1% depth error threshold. At 100 m depth this
+     * the depth error threshold would be 10 cm. Valid range is 0.01 to 1 %.
      *
      * @return qf_threshold_100 * 0.01 (double)
      */

@@ -48,6 +48,8 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
             {
                 case t_EM3000DatagramIdentifier::XYZDatagram:
                     return py::cast(self.template datagrams<datagrams::XYZDatagram>(type));
+                case t_EM3000DatagramIdentifier::ExtraDetections:
+                    return py::cast(self.template datagrams<datagrams::ExtraDetections>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

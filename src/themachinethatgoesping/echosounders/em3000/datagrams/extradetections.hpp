@@ -133,6 +133,31 @@ class ExtraDetections : public EM3000Datagram
     {
         _raw_amplitude_sample_rate = raw_amplitude_sample_rate;
     }
+    void set_rx_transducer_index(uint16_t rx_transducer_index)
+    {
+        _rx_transducer_index = rx_transducer_index;
+    }
+    void set_number_of_extra_detections(uint16_t number_of_extra_detections)
+    {
+        _number_of_extra_detections = number_of_extra_detections;
+    }
+    void set_number_of_detection_classes(uint16_t number_of_detection_classes)
+    {
+        _number_of_detection_classes = number_of_detection_classes;
+    }
+    void set_number_of_bytes_per_class(uint16_t number_of_bytes_per_class)
+    {
+        _number_of_bytes_per_class = number_of_bytes_per_class;
+    }
+    void set_number_of_alarm_flags(uint16_t number_of_alarm_flags)
+    {
+        _number_of_alarm_flags = number_of_alarm_flags;
+    }
+    void set_number_of_bytes_per_detection(uint16_t number_of_bytes_per_detection)
+    {
+        _number_of_bytes_per_detection = number_of_bytes_per_detection;
+    }
+
     void set_detection_classes(
         const std::vector<substructures::ExtraDetectionsDetectionClasses>& detection_classes)
     {
@@ -303,21 +328,21 @@ class ExtraDetections : public EM3000Datagram
         printer.register_section("datagram content");
         printer.register_value("ping_counter", _ping_counter);
         printer.register_value("system_serial_number", _system_serial_number);
-        printer.register_value("_datagram_counter", _datagram_counter);
-        printer.register_value("_datagram_version_id", _datagram_version_id);
-        printer.register_value("_swath_counter", _swath_counter);
-        printer.register_value("_swath_index", _swath_index);
+        printer.register_value("datagram_counter", _datagram_counter);
+        printer.register_value("datagram_version_id", _datagram_version_id);
+        printer.register_value("swath_counter", _swath_counter);
+        printer.register_value("swath_index", _swath_index);
         printer.register_value("heading", _heading, "0.01° steps");
         printer.register_value("sound_speed", _sound_speed, "0.1 m/s steps");
-        printer.register_value("_depth_of_reference_point", _depth_of_reference_point, "m");
-        printer.register_value("_water_column_sample_rate", _water_column_sample_rate, "(WCsr)");
-        printer.register_value("_raw_amplitude_sample_rate", _raw_amplitude_sample_rate, "(SIsr)");
-        printer.register_value("_rx_transducer_index", _rx_transducer_index);
-        printer.register_value("_number_of_extra_detections", _number_of_extra_detections);
-        printer.register_value("_number_of_detection_classes", _number_of_detection_classes);
-        printer.register_value("_number_of_bytes_per_class", _number_of_bytes_per_class);
-        printer.register_value("_number_of_alarm_flags", _number_of_alarm_flags);
-        printer.register_value("_number_of_bytes_per_detection", _number_of_bytes_per_detection);
+        printer.register_value("depth_of_reference_point", _depth_of_reference_point, "m");
+        printer.register_value("water_column_sample_rate", _water_column_sample_rate, "(WCsr)");
+        printer.register_value("raw_amplitude_sample_rate", _raw_amplitude_sample_rate, "(SIsr)");
+        printer.register_value("rx_transducer_index", _rx_transducer_index);
+        printer.register_value("number_of_extra_detections", _number_of_extra_detections);
+        printer.register_value("number_of_detection_classes", _number_of_detection_classes);
+        printer.register_value("number_of_bytes_per_class", _number_of_bytes_per_class);
+        printer.register_value("number_of_alarm_flags", _number_of_alarm_flags);
+        printer.register_value("number_of_bytes_per_detection", _number_of_bytes_per_detection);
         printer.register_string("spare_bytes", fmt::format("0x{:04x}", _spare_bytes));
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
@@ -327,9 +352,9 @@ class ExtraDetections : public EM3000Datagram
         printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");
-        printer.register_value("_detection_classes", _detection_classes.size(), "structures");
-        printer.register_value("_extra_detections", _extra_detections.size(), "structures");
-        printer.register_value("_raw_amplitude_samples", _raw_amplitude_samples.size(), "elements");
+        printer.register_value("detection_classes", _detection_classes.size(), "structures");
+        printer.register_value("extra_detections", _extra_detections.size(), "structures");
+        printer.register_value("raw_amplitude_samples", _raw_amplitude_samples.size(), "elements");
 
         return printer;
     }

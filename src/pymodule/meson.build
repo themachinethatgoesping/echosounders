@@ -70,10 +70,12 @@ sources = [
 
     'py_em3000/py_datagrams/py_substructures/enum_detectiontype.cpp',
     'py_em3000/py_datagrams/py_substructures/c_xyzdatagrambeam.cpp',
+    'py_em3000/py_datagrams/py_substructures/c_extradetectionsdetectionclasses.cpp',
     'py_em3000/py_datagrams/py_substructures/module.cpp',
     'py_em3000/py_datagrams/c_em3000datagram.cpp',
     'py_em3000/py_datagrams/c_em3000unknown.cpp',
     'py_em3000/py_datagrams/c_xyzdatagram.cpp',
+    'py_em3000/py_datagrams/c_extradetections.cpp',
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',

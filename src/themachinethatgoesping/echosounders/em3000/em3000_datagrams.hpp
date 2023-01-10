@@ -9,15 +9,15 @@
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/xyzdatagram.hpp"
+#include "datagrams/extradetections.hpp"
 #include "em3000_types.hpp"
 
 #include <pybind11/pybind11.h>
 
 /**
- * @brief Type definitions for Ek60 types according to Ek60 Reference manual
- * see also http://www.em3000.net/em3000_ref_english/default.htm
+ * @brief Type definitions for EM datagram format specifications
  *
- * Note: these definitions are valid for EK60 and the EK80 files.
+ * Note: these definitions are valid for kongsberg .all and .wcd files
  */
 
 /*  */
@@ -28,7 +28,9 @@ namespace em3000 {
 
 namespace datagrams {
 
-using t_EM3000DatagramVariant = std::variant<EM3000Datagram, XYZDatagram, EM3000Unknown>;
+// EM3000DATAGRAMTYPEAREA
+using t_EM3000DatagramVariant =
+    std::variant<EM3000Datagram, XYZDatagram, ExtraDetections, EM3000Unknown>;
 
 struct EM3000DatagramVariant
 {
@@ -49,6 +51,8 @@ struct EM3000DatagramVariant
         {
             case t_EM3000DatagramIdentifier::XYZDatagram:
                 return t_EM3000DatagramVariant(XYZDatagram::from_stream(is));
+            case t_EM3000DatagramIdentifier::ExtraDetections:
+                return t_EM3000DatagramVariant(ExtraDetections::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }
