@@ -199,104 +199,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Unknown_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam =
-R"doc(The beam data are given re the transmit transducer or sonar head depth
-and the horizontal location (x,y) of the active positioning system's
-reference point. Heave, roll, pitch, sound speed at the transducer
-depth and ray bending through the water column have been applied.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_XYZBeam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_acrosstrack_distance = R"doc(< distance (y) in meter)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_alongtrack_distance = R"doc(< distance (x) in meter)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_beam_incidence_angle_adjustment = R"doc(< (IBA) in 0.1 degree)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_depth = R"doc(< (Z) from transmit transducer in meter)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_detection_information = R"doc(< Flag that indicates the type and validity of detection)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_detection_window_length = R"doc(< in samples)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_acrosstrack_distance = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_alongtrack_distance = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_backscatter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_backscatter_is_compensated = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_beam_incidence_angle_adjustment = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_beam_incidence_angle_adjustment_in_degrees = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_depth = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_detection_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_detection_is_valid = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_detection_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_detection_window_length = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_quality_factor = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_realtime_cleaning_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_get_reflectivity = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_quality_factor =
-R"doc(< 0-254 Scaled standard deviation (sd) of the range detection <
-divided by the detected range (dr) (qf = 250*sd/sr))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_realtime_cleaning_information =
-R"doc(< Flag that indicates if the beam was flagged by real < time cleaning
-(negative values indicate that this < beam is flagged out))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_reflectivity = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_acrosstrack_distance = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_alongtrack_distance = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_beam_incidence_angle_adjustment = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_depth = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_detection_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_detection_window_length = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_quality_factor = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_realtime_cleaning_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_set_reflectivity = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_AmplitudeDetect = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_Estimated = R"doc(< Invalid: Therefor estimated)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_Interpolated = R"doc(< Invalid: Therefor interpolated or extrapolated)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_Invalid = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_InvalidNormalDetection = R"doc(< Invalid: Normal detection)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_NoDetection = R"doc(< Invalid: No detection data is available for this beam)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_PhaseDetect = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZBeam_t_DetectionType_Rejected = R"doc(< Invalid: Therefor rejected)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram =
 R"doc(This datagram is used for the models EM 2040, EM 2040C, EM 710, EM
 122, EM 302 and ME70BO. All receiver beams are included, check
@@ -311,10 +213,10 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_beams = R"doc(< beam detection information)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_beams_2 =
-R"doc(structure access to beams
+R"doc(structure access to beams (read/write)
 
 Returns:
-    std::vector<XYZBeam>&)doc";
+    std::vector<substructures::XYZDatagramBeam>&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_checksum = R"doc()doc";
 
@@ -334,7 +236,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_of_vessel = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_of_vessel_in_degrees = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_of_vessel_in_degrees =
+R"doc(Get the vessel heading in degrees
+
+Returns:
+    heading_of_vessel * 0.01 degrees (double))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_number_of_beams = R"doc()doc";
 
@@ -348,7 +254,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed_in_meters_per_seconds = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_sound_speed_in_meters_per_seconds =
+R"doc(Get the sound speed in meters per seconds
+
+Returns:
+    sound_speed * 0.1 meters per seconds (double))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_spare_byte = R"doc()doc";
 
@@ -416,6 +326,137 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_transmit_transducer_depth = R"doc(< in meter relative water level at time of ping)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam =
+R"doc(The beam data are given re the transmit transducer or sonar head depth
+and the horizontal location (x,y) of the active positioning system's
+reference point. Heave, roll, pitch, sound speed at the transducer
+depth and ray bending through the water column have been applied.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_XYZDatagramBeam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_acrosstrack_distance = R"doc(< distance (y) in meter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_alongtrack_distance = R"doc(< distance (x) in meter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_beam_incidence_angle_adjustment = R"doc(< (IBA) in 0.1 degree)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_depth = R"doc(< (Z) from transmit transducer in meter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_detection_information = R"doc(< Flag that indicates the type and validity of detection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_detection_window_length = R"doc(< in samples)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_acrosstrack_distance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_alongtrack_distance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_backscatter =
+R"doc(convert reflectivity to backscatter (_reflectivity * 0.1 dB)
+
+Returns:
+    double)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_backscatter_is_compensated =
+R"doc(This function evaluates the detection information flag. If the 4th bit
+is set to 1, the detection is compensated for beam incident angle. If
+the 4th bit is set to 0, the detection is not compensated for beam
+incident angle.
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_beam_incidence_angle_adjustment = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_beam_incidence_angle_adjustment_in_degrees =
+R"doc(Returns the beam incidence angle adjustment in degrees. (IBA * 0.1
+degree)
+
+Returns:
+    double)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_depth = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_detection_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_detection_is_valid =
+R"doc(This function evaluates the detection information flag. If the last
+bit is set to 1, the detection is valid. If the last bit is set to 0,
+the detection is invalid.
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_detection_type =
+R"doc(This function evaluates the detection information flag. The first 3
+bits indicate the type of detection.
+
+Returns:
+    t_DetectionType)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_detection_window_length = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_quality_factor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_realtime_cleaning_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_get_reflectivity = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_quality_factor =
+R"doc(< 0-254 Scaled standard deviation (sd) of the range detection <
+divided by the detected range (dr) (qf = 250*sd/sr))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_realtime_cleaning_information =
+R"doc(< Flag that indicates if the beam was flagged by real < time cleaning
+(negative values indicate that this < beam is flagged out))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_reflectivity = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_acrosstrack_distance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_alongtrack_distance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_beam_incidence_angle_adjustment = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_depth = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_detection_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_detection_window_length = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_quality_factor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_realtime_cleaning_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_set_reflectivity = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_AmplitudeDetect = R"doc(< Valid, amplitude detection was used)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_Estimated = R"doc(< Invalid: Therefor estimated)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_Interpolated = R"doc(< Invalid: Therefor interpolated or extrapolated)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_Invalid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_InvalidNormalDetection = R"doc(< Invalid: Normal detection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_NoDetection = R"doc(< Invalid: No detection data is available for this beam)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_PhaseDetect = R"doc(< Valid, phase detection was used)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_XYZDatagramBeam_t_DetectionType_Rejected = R"doc(< Invalid: Therefor rejected)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000DatagramInterface_EM3000DatagramInterface = R"doc()doc";
@@ -431,8 +472,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ClockDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_CombinedWaterColumnDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthOrHeightDatagram = R"doc()doc";
 

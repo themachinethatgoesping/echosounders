@@ -8,7 +8,6 @@
 
 // std includes
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 // themachinethatgoesping import
@@ -19,151 +18,12 @@
 #include "../em3000_types.hpp"
 #include "em3000datagram.hpp"
 
+#include "substructures/xyzdatagrambeam.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace em3000 {
 namespace datagrams {
-
-/**
- * @brief The beam data are given re the transmit transducer or sonar head depth and the horizontal
- * location (x,y) of the active positioning system's reference point. Heave, roll, pitch, sound
- * speed at the transducer depth and ray bending through the water column have been applied.
- *
- */
-class XYZBeam
-{
-    float    _depth;                   ///< (Z) from transmit transducer in meter
-    float    _acrosstrack_distance;    ///< distance (y) in meter
-    float    _alongtrack_distance;     ///< distance (x) in meter
-    uint16_t _detection_window_length; ///< in samples
-    uint8_t  _quality_factor; ///< 0-254 Scaled standard deviation (sd) of the range detection
-                              ///< divided by the detected range (dr) (qf = 250*sd/sr)
-    int8_t  _beam_incidence_angle_adjustment; ///< (IBA) in 0.1 degree
-    uint8_t _detection_information; ///< Flag that indicates the type and validity of detection
-    int8_t  _realtime_cleaning_information; ///< Flag that indicates if the beam was flagged by real
-                                            ///< time cleaning (negative values indicate that this
-                                            ///< beam is flagged out)
-    int16_t _reflectivity;                  // Backscatter (BS) in 0.1 dB resolution
-
-  public:
-    XYZBeam()  = default;
-    ~XYZBeam() = default;
-
-    // convenient member access
-    float    get_depth() const { return _depth; }
-    float    get_acrosstrack_distance() const { return _acrosstrack_distance; }
-    float    get_alongtrack_distance() const { return _alongtrack_distance; }
-    uint16_t get_detection_window_length() const { return _detection_window_length; }
-    uint8_t  get_quality_factor() const { return _quality_factor; }
-    int8_t  get_beam_incidence_angle_adjustment() const { return _beam_incidence_angle_adjustment; }
-    uint8_t get_detection_information() const { return _detection_information; }
-    int8_t  get_realtime_cleaning_information() const { return _realtime_cleaning_information; }
-    int16_t get_reflectivity() const { return _reflectivity; }
-
-    void set_depth(float depth) { _depth = depth; }
-    void set_acrosstrack_distance(float acrosstrack_distance)
-    {
-        _acrosstrack_distance = acrosstrack_distance;
-    }
-    void set_alongtrack_distance(float alongtrack_distance)
-    {
-        _alongtrack_distance = alongtrack_distance;
-    }
-    void set_detection_window_length(uint16_t detection_window_length)
-    {
-        _detection_window_length = detection_window_length;
-    }
-    void set_quality_factor(uint8_t quality_factor) { _quality_factor = quality_factor; }
-    void set_beam_incidence_angle_adjustment(double beam_incidence_angle_adjustment)
-    {
-        _beam_incidence_angle_adjustment = beam_incidence_angle_adjustment;
-    }
-    void set_detection_information(uint8_t detection_information)
-    {
-        _detection_information = detection_information;
-    }
-    void set_realtime_cleaning_information(int8_t realtime_cleaning_information)
-    {
-        _realtime_cleaning_information = realtime_cleaning_information;
-    }
-    void set_reflectivity(int16_t reflectivity) { _reflectivity = reflectivity; }
-
-    // ----- processed member access -----
-    // convert reflectivity to backscatter
-    double get_backscatter() const { return _reflectivity * 0.1; }
-
-    // convert detection_information
-    bool get_detection_is_valid() const { return (_detection_information & 0x01) == 0x01; }
-
-    enum class t_DetectionType : uint8_t
-    {
-        AmplitudeDetect        = 0b00000000,
-        PhaseDetect            = 0b00000001,
-        InvalidNormalDetection = 0b10000000, ///< Invalid: Normal detection
-        Interpolated           = 0b10000001, ///< Invalid: Therefor interpolated or extrapolated
-        Estimated              = 0b10000010, ///< Invalid: Therefor estimated
-        Rejected               = 0b10000011, ///< Invalid: Therefor rejected
-        NoDetection = 0b10000100, ///< Invalid: No detection data is available for this beam
-        Invalid
-    };
-    t_DetectionType get_detection_type() const
-    {
-        return t_DetectionType(_detection_information & 0b11110111);
-    }
-
-    bool get_backscatter_is_compensated() const
-    {
-        return (_detection_information & 0b00001000) == 0b00001000;
-    }
-
-    double get_beam_incidence_angle_adjustment_in_degrees() const
-    {
-        return _beam_incidence_angle_adjustment * 0.1;
-    }
-
-    // ----- operators -----
-    bool operator==(const XYZBeam& other) const
-    {
-        return _depth == other._depth && _acrosstrack_distance == other._acrosstrack_distance &&
-               _alongtrack_distance == other._alongtrack_distance &&
-               _detection_window_length == other._detection_window_length &&
-               _quality_factor == other._quality_factor &&
-               _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
-               _detection_information == other._detection_information &&
-               _realtime_cleaning_information == other._realtime_cleaning_information &&
-               _reflectivity == other._reflectivity;
-    }
-
-    // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
-    {
-        tools::classhelper::ObjectPrinter printer("XYZBeam", float_precision);
-
-        printer.register_value("depth", _depth, "-z in m");
-        printer.register_value("acrosstrack_distance", _acrosstrack_distance, "y in m");
-        printer.register_value("alongtrack_distance", _alongtrack_distance, "x in m");
-        printer.register_value("detection_window_length", _detection_window_length, "in samples");
-        printer.register_value("quality_factor", _quality_factor);
-        printer.register_value(
-            "beam_incidence_angle_adjustment", _beam_incidence_angle_adjustment, "0.1°");
-        printer.register_value("beam_incidence_angle_adjustment",
-                               get_beam_incidence_angle_adjustment_in_degrees(),
-                               "°");
-        printer.register_string("detection_information",
-                                fmt::format("0x{:08b}", _detection_information));
-        printer.register_value("detection_is_valid", get_detection_is_valid());
-        printer.register_enum("detection_type", get_detection_type());
-        printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
-        printer.register_value("realtime_cleaning_information", _realtime_cleaning_information);
-        printer.register_value("reflectivity", _reflectivity, "0.1 dB");
-        printer.register_value("reflectivity", get_backscatter(), "dB");
-
-        return printer;
-    }
-
-    // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-};
 
 /**
  * @brief This datagram is used for the models EM 2040, EM 2040C, EM 710, EM 122, EM
@@ -183,7 +43,7 @@ class XYZDatagram : public EM3000Datagram
     float    _sampling_frequency; ///< in Hz
     uint8_t  _scanning_info;      ///< only used by em2040. 0 means scanning is not used.
     std::array<uint8_t, 3> _spare_bytes = { 0, 0, 0 };
-    std::vector<XYZBeam>   _beams; ///< beam detection information
+    std::vector<substructures::XYZDatagramBeam>   _beams; ///< beam detection information
     uint8_t                _spare_byte = 0;
     uint8_t                _etx        = 0x03; ///< end identifier (always 0x03)
     uint16_t               _checksum;
@@ -211,17 +71,17 @@ class XYZDatagram : public EM3000Datagram
     float    get_sampling_frequency() const { return _sampling_frequency; }
     uint8_t  get_scanning_info() const { return _scanning_info; }
     const std::array<uint8_t, 3>& get_spare_bytes() const { return _spare_bytes; }
-    const std::vector<XYZBeam>&   get_beams() const { return _beams; }
+    const std::vector<substructures::XYZDatagramBeam>&   get_beams() const { return _beams; }
     uint8_t                       get_spare_byte() const { return _spare_byte; }
     uint8_t                       get_etx() const { return _etx; }
     uint16_t                      get_checksum() const { return _checksum; }
 
     /**
-     * @brief structure access to beams
+     * @brief structure access to beams (read/write)
      *
-     * @return std::vector<XYZBeam>&
+     * @return std::vector<substructures::XYZDatagramBeam>&
      */
-    std::vector<XYZBeam>& beams() { return _beams; }
+    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
 
     void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
     void set_system_serial_number(uint16_t system_serial_number)
@@ -248,13 +108,24 @@ class XYZDatagram : public EM3000Datagram
     }
     void set_scanning_info(uint8_t scanning_info) { _scanning_info = scanning_info; }
     void set_spare_bytes(std::array<uint8_t, 3> spare_bytes) { _spare_bytes = spare_bytes; }
-    void set_beams(std::vector<XYZBeam> beams) { _beams = beams; }
+    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = beams; }
     void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
+    /**
+     * @brief Get the vessel heading in degrees
+     * 
+     * @return heading_of_vessel * 0.01 degrees (double)
+     */
     double get_heading_of_vessel_in_degrees() const { return _heading_of_vessel * 0.01; }
+
+    /**
+     * @brief Get the sound speed in meters per seconds
+     * 
+     * @return sound_speed * 0.1 meters per seconds (double) 
+     */
     double get_sound_speed_in_meters_per_seconds() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
@@ -274,6 +145,8 @@ class XYZDatagram : public EM3000Datagram
     }
     bool operator!=(const XYZDatagram& other) const { return !operator==(other); }
 
+
+    //----- to/from stream functions -----
     static XYZDatagram from_stream(std::istream& is, EM3000Datagram header)
     {
         XYZDatagram datagram(std::move(header));
@@ -284,7 +157,7 @@ class XYZDatagram : public EM3000Datagram
         // read the beams
         datagram._beams.resize(datagram._number_of_beams);
         is.read(reinterpret_cast<char*>(datagram._beams.data()),
-                datagram._number_of_beams * sizeof(XYZBeam));
+                datagram._number_of_beams * sizeof(substructures::XYZDatagramBeam));
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
@@ -315,7 +188,7 @@ class XYZDatagram : public EM3000Datagram
         os.write(reinterpret_cast<const char*>(&(_ping_counter)), 24 * sizeof(uint8_t));
 
         // write the beams
-        os.write(reinterpret_cast<const char*>(_beams.data()), _number_of_beams * sizeof(XYZBeam));
+        os.write(reinterpret_cast<const char*>(_beams.data()), _number_of_beams * sizeof(substructures::XYZDatagramBeam));
 
         // write the rest of the datagram
         os.write(reinterpret_cast<const char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
@@ -339,10 +212,11 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("number_of_valid_detections", _number_of_valid_detections);
         printer.register_value("sampling_frequency", _sampling_frequency, "Hz");
         printer.register_value("scanning_info", _scanning_info);
-        printer.register_value("beams", _beams.size(), "structures");
-
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
+
+        printer.register_section("substructures");
+        printer.register_value("XYZDatagramBeams", _beams.size(), "structures");
 
         return printer;
     }

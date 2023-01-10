@@ -12,16 +12,14 @@
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::em3000;
-using themachinethatgoesping::echosounders::em3000::datagrams::XYZBeam;
-using themachinethatgoesping::echosounders::em3000::datagrams::XYZDatagram;
-
+using namespace themachinethatgoesping::echosounders::em3000::datagrams;
 #define TESTTAG "[em3000]"
 
 TEST_CASE("XYZDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
     auto dat  = XYZDatagram();
-    auto beam = XYZBeam();
+    auto beam = substructures::XYZDatagramBeam();
 
     // set some variables
     dat.set_bytes(100);

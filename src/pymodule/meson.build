@@ -68,6 +68,8 @@ sources = [
     'py_simrad/c_filesimradraw.cpp',
     'py_simrad/c_file_test_functions.cpp',
 
+    'py_em3000/py_datagrams/py_substructures/c_xyzdatagrambeam.cpp',
+    'py_em3000/py_datagrams/py_substructures/module.cpp',
     'py_em3000/py_datagrams/c_em3000datagram.cpp',
     'py_em3000/py_datagrams/c_em3000unknown.cpp',
     'py_em3000/py_datagrams/c_xyzdatagram.cpp',

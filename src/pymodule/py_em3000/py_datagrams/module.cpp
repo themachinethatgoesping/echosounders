@@ -12,6 +12,7 @@
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"
+#include "py_substructures/module.hpp"
 
 #include <pybind11/pybind11.h>
 
@@ -33,6 +34,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     auto subm = m.def_submodule("datagrams", "Kongsberg EM3000 (.all/.wcd) EK80 datagram classes");
 
     // init submodules
+    py_substructures::init_m_EM3000DatagramsSubstructures(subm);
 
     // em3000 classes
     init_c_em3000datagram(subm);
