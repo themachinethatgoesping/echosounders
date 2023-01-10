@@ -16,6 +16,8 @@
 
 #include "../../em3000_types.hpp"
 
+#include "flag_detection_information.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace em3000 {
@@ -37,7 +39,7 @@ class XYZDatagramBeam
     uint8_t  _quality_factor; ///< 0-254 Scaled standard deviation (sd) of the range detection
                               ///< divided by the detected range (dr) (qf = 250*sd/sr)
     int8_t  _beam_incidence_angle_adjustment; ///< (IBA) in 0.1 degree
-    uint8_t _detection_information; ///< Flag that indicates the type and validity of detection
+    uint8_t _detection_info; ///< Flag that indicates the type and validity of detection
     int8_t  _realtime_cleaning_information; ///< Flag that indicates if the beam was flagged by real
                                             ///< time cleaning (negative values indicate that this
                                             ///< beam is flagged out)
@@ -54,7 +56,7 @@ class XYZDatagramBeam
     uint16_t get_detection_window_length() const { return _detection_window_length; }
     uint8_t  get_quality_factor() const { return _quality_factor; }
     int8_t  get_beam_incidence_angle_adjustment() const { return _beam_incidence_angle_adjustment; }
-    uint8_t get_detection_information() const { return _detection_information; }
+    uint8_t get_detection_info() const { return _detection_info; }
     int8_t  get_realtime_cleaning_information() const { return _realtime_cleaning_information; }
     int16_t get_reflectivity() const { return _reflectivity; }
 
@@ -76,10 +78,7 @@ class XYZDatagramBeam
     {
         _beam_incidence_angle_adjustment = beam_incidence_angle_adjustment;
     }
-    void set_detection_information(uint8_t detection_information)
-    {
-        _detection_information = detection_information;
-    }
+    void set_detection_info(uint8_t detection_info) { _detection_info = detection_info; }
     void set_realtime_cleaning_information(int8_t realtime_cleaning_information)
     {
         _realtime_cleaning_information = realtime_cleaning_information;
@@ -112,19 +111,10 @@ class XYZDatagramBeam
      * @return true
      * @return false
      */
-    bool get_detection_is_valid() const { return (_detection_information & 0x01) == 0x01; }
-
-    enum class t_DetectionType : uint8_t
+    bool get_detection_is_valid() const
     {
-        AmplitudeDetect        = 0b00000000, ///< Valid, amplitude detection was used
-        PhaseDetect            = 0b00000001, ///< Valid, phase detection was used
-        InvalidNormalDetection = 0b10000000, ///< Invalid: Normal detection
-        Interpolated           = 0b10000001, ///< Invalid: Therefor interpolated or extrapolated
-        Estimated              = 0b10000010, ///< Invalid: Therefor estimated
-        Rejected               = 0b10000011, ///< Invalid: Therefor rejected
-        NoDetection = 0b10000100, ///< Invalid: No detection data is available for this beam
-        Invalid
-    };
+        return detection_information::get_detection_is_valid(_detection_info);
+    }
 
     /**
      * @brief This function evaluates the detection information flag. The first 3 bits indicate the
@@ -132,9 +122,9 @@ class XYZDatagramBeam
      *
      * @return t_DetectionType
      */
-    t_DetectionType get_detection_type() const
+    detection_information::t_DetectionType get_detection_type() const
     {
-        return t_DetectionType(_detection_information & 0b11110111);
+        return detection_information::get_detection_type(_detection_info);
     }
 
     /**
@@ -147,9 +137,8 @@ class XYZDatagramBeam
      */
     bool get_backscatter_is_compensated() const
     {
-        return (_detection_information & 0b00001000) == 0b00001000;
+        return detection_information::get_backscatter_is_compensated(_detection_info);
     }
-
 
     // ----- operators -----
     bool operator==(const XYZDatagramBeam& other) const
@@ -159,7 +148,7 @@ class XYZDatagramBeam
                _detection_window_length == other._detection_window_length &&
                _quality_factor == other._quality_factor &&
                _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
-               _detection_information == other._detection_information &&
+               _detection_info == other._detection_info &&
                _realtime_cleaning_information == other._realtime_cleaning_information &&
                _reflectivity == other._reflectivity;
     }
@@ -169,6 +158,7 @@ class XYZDatagramBeam
     {
         tools::classhelper::ObjectPrinter printer("XYZDatagramBeam", float_precision);
 
+        // raw values
         printer.register_value("depth", _depth, "-z in m");
         printer.register_value("acrosstrack_distance", _acrosstrack_distance, "y in m");
         printer.register_value("alongtrack_distance", _alongtrack_distance, "x in m");
@@ -176,16 +166,18 @@ class XYZDatagramBeam
         printer.register_value("quality_factor", _quality_factor);
         printer.register_value(
             "beam_incidence_angle_adjustment", _beam_incidence_angle_adjustment, "0.1°");
+        printer.register_string("detection_info", fmt::format("0x{:08b}", _detection_info));
+        printer.register_value("realtime_cleaning_information", _realtime_cleaning_information);
+        printer.register_value("reflectivity", _reflectivity, "0.1 dB");
+
+        // processed values
+        printer.register_section("processed");
         printer.register_value("beam_incidence_angle_adjustment",
                                get_beam_incidence_angle_adjustment_in_degrees(),
                                "°");
-        printer.register_string("detection_information",
-                                fmt::format("0x{:08b}", _detection_information));
         printer.register_value("detection_is_valid", get_detection_is_valid());
         printer.register_enum("detection_type", get_detection_type());
         printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
-        printer.register_value("realtime_cleaning_information", _realtime_cleaning_information);
-        printer.register_value("reflectivity", _reflectivity, "0.1 dB");
         printer.register_value("reflectivity", get_backscatter(), "dB");
 
         return printer;

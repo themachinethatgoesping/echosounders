@@ -211,7 +211,7 @@ class EM3000Datagram
         printer.register_value("date", _date, "YYYYMMDD");
         printer.register_value("time_since_midnight", _time_since_midnight, "ms");
 
-        printer.register_section("processed");
+        printer.register_section("date/time");
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");

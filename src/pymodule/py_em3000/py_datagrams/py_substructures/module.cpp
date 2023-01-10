@@ -24,6 +24,7 @@ namespace py_substructures {
 
 // -- submodule declarations --
 void init_c_xyzdatagrambeam(pybind11::module& m);    // c_xyzdatagrambeam.cpp
+void init_enum_detectiontype(pybind11::module& m);  // enum_detectiontype.cpp
 
 // -- create submodule --
 void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
@@ -34,6 +35,7 @@ void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
     // init submodules
 
     // em3000 substructures
+    init_enum_detectiontype(subm);
     init_c_xyzdatagrambeam(subm);
 }
 

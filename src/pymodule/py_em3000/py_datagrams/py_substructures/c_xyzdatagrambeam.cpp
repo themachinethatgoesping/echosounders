@@ -7,7 +7,6 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../../../themachinethatgoesping/echosounders/em3000/datagrams/substructures/xyzdatagrambeam.hpp"
 
@@ -24,16 +23,6 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
 using datagrams::substructures::XYZDatagramBeam;
 
-#define DOC_t_DetectionType(ARG)                                                                   \
-    DOC(themachinethatgoesping,                                                                    \
-        echosounders,                                                                              \
-        em3000,                                                                                    \
-        datagrams,                                                                                 \
-        substructures,                                                                             \
-        XYZDatagramBeam,                                                                           \
-        t_DetectionType,                                                                           \
-        ARG)
-
 #define DOC_XYZDatagramBeam(ARG)                                                                   \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
@@ -45,39 +34,6 @@ using datagrams::substructures::XYZDatagramBeam;
 
 void init_c_xyzdatagrambeam(pybind11::module& m)
 {
-    auto tmp_enum = py::enum_<XYZDatagramBeam::t_DetectionType>(
-                        m, "XYZDatagramBeam_t_DetectionType", DOC_XYZDatagramBeam(t_DetectionType))
-                        // Multibeam data
-                        .value("AmplitudeDetect",
-                               XYZDatagramBeam::t_DetectionType::AmplitudeDetect,
-                               DOC_t_DetectionType(AmplitudeDetect))
-                        .value("PhaseDetect",
-                               XYZDatagramBeam::t_DetectionType::PhaseDetect,
-                               DOC_t_DetectionType(PhaseDetect))
-                        .value("InvalidNormalDetection",
-                               XYZDatagramBeam::t_DetectionType::InvalidNormalDetection,
-                               DOC_t_DetectionType(InvalidNormalDetection))
-                        .value("Interpolated",
-                               XYZDatagramBeam::t_DetectionType::Interpolated,
-                               DOC_t_DetectionType(Interpolated))
-                        .value("Estimated",
-                               XYZDatagramBeam::t_DetectionType::Estimated,
-                               DOC_t_DetectionType(Estimated))
-                        .value("Rejected",
-                               XYZDatagramBeam::t_DetectionType::Rejected,
-                               DOC_t_DetectionType(Rejected))
-                        .value("NoDetection",
-                               XYZDatagramBeam::t_DetectionType::NoDetection,
-                               DOC_t_DetectionType(NoDetection))
-                        .value("Invalid",
-                               XYZDatagramBeam::t_DetectionType::Invalid,
-                               DOC_t_DetectionType(Invalid))
-                        .export_values()
-
-        //
-        ;
-
-    tools::pybind_helper::add_string_to_enum_conversion<XYZDatagramBeam::t_DetectionType>(tmp_enum);
 
     py::class_<XYZDatagramBeam>(m,
                                 "XYZDatagramBeam",
@@ -121,12 +77,12 @@ void init_c_xyzdatagrambeam(pybind11::module& m)
         .def("get_beam_incidence_angle_adjustment",
              &XYZDatagramBeam::get_beam_incidence_angle_adjustment,
              DOC_XYZDatagramBeam(beam_incidence_angle_adjustment))
-        .def("set_detection_information",
-             &XYZDatagramBeam::set_detection_information,
-             DOC_XYZDatagramBeam(detection_information))
-        .def("get_detection_information",
-             &XYZDatagramBeam::get_detection_information,
-             DOC_XYZDatagramBeam(detection_information))
+        .def("set_detection_info",
+             &XYZDatagramBeam::set_detection_info,
+             DOC_XYZDatagramBeam(detection_info))
+        .def("get_detection_info",
+             &XYZDatagramBeam::get_detection_info,
+             DOC_XYZDatagramBeam(detection_info))
         .def("set_realtime_cleaning_information",
              &XYZDatagramBeam::set_realtime_cleaning_information,
              DOC_XYZDatagramBeam(realtime_cleaning_information))

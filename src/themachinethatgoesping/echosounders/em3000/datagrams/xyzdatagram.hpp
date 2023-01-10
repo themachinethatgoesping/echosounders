@@ -204,9 +204,7 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("ping_counter", _ping_counter);
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("heading_of_vessel", _heading_of_vessel, "0.01° steps");
-        printer.register_value("heading_of_vessel", get_heading_of_vessel_in_degrees(), "°");
         printer.register_value("sound_speed", _sound_speed, "0.1 m/s steps");
-        printer.register_value("sound_speed", get_sound_speed_in_meters_per_seconds(), "m/s");
         printer.register_value("transmit_transducer_depth", _transmit_transducer_depth, "m");
         printer.register_value("number_of_beams", _number_of_beams);
         printer.register_value("number_of_valid_detections", _number_of_valid_detections);
@@ -214,6 +212,10 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("scanning_info", _scanning_info);
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
+
+        printer.register_section("processed");
+        printer.register_value("heading_of_vessel", get_heading_of_vessel_in_degrees(), "°");
+        printer.register_value("sound_speed", get_sound_speed_in_meters_per_seconds(), "m/s");
 
         printer.register_section("substructures");
         printer.register_value("XYZDatagramBeams", _beams.size(), "structures");
