@@ -29,6 +29,7 @@ sources = [
     'em3000/datagrams/em3000unknown.test.cpp',
     'em3000/datagrams/xyzdatagram.test.cpp',
     'em3000/datagrams/extradetections.test.cpp',
+    'em3000/datagrams/rawrangeandangle.test.cpp',
 ]
 
 foreach source : sources

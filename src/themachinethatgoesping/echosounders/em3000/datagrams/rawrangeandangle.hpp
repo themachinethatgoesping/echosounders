@@ -19,6 +19,7 @@
 #include "em3000datagram.hpp"
 
 #include "substructures/rawrangeandanglebeam.hpp"
+#include "substructures/rawrangeandangletransmitsector.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -136,15 +137,18 @@ class RawRangeAndAngle : public EM3000Datagram
      *
      * @return _sound_speed_at_transducer * 0.1 meters per seconds (float)
      */
-    float get_sound_speed_at_transducer_in_m_per_s() const { return _sound_speed * 0.1; }
+    float get_sound_speed_at_transducer_in_m_per_s() const
+    {
+        return _sound_speed_at_transducer * 0.1;
+    }
 
     // ----- operators -----
     bool operator==(const RawRangeAndAngle& other) const
     {
         return _datagram_identifier == other._datagram_identifier &&
-               _datagram_size == other._datagram_size && _ping_counter == other._ping_counter &&
+               _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
-               _sound_speed == other._sound_speed &&
+               _sound_speed_at_transducer == other._sound_speed_at_transducer &&
                _number_of_transmit_sectors == other._number_of_transmit_sectors &&
                _number_of_receiver_beams == other._number_of_receiver_beams &&
                _number_of_valid_detections == other._number_of_valid_detections &&

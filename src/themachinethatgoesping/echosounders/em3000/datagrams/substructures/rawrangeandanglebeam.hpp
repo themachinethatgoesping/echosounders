@@ -145,7 +145,7 @@ class RawRangeAndAngleBeam
     bool operator==(const RawRangeAndAngleBeam& other) const
     {
         return _beam_pointing_angle == other._beam_pointing_angle &&
-               _transmit_sector == other._transmit_sector &&
+               _transmit_sector_number == other._transmit_sector_number &&
                _detection_info == other._detection_info &&
                _detection_window_length_in_samples == other._detection_window_length_in_samples &&
                _quality_factor == other._quality_factor && _d_corr == other._d_corr &&
@@ -177,6 +177,9 @@ class RawRangeAndAngleBeam
         printer.register_section("processed");
         printer.register_value("beam_pointing_angle", get_beam_pointing_angle_in_degrees(), "°");
         printer.register_value("reflectivity", get_reflectivity_in_db(), "dB");
+        printer.register_value("detection_is_valid", get_detection_is_valid());
+        printer.register_enum("detection_type", get_detection_type());
+        printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
 
         return printer;
     }

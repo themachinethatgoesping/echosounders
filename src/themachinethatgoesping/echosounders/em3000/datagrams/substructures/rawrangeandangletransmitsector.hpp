@@ -142,10 +142,7 @@ class RawRangeAndAngleTransmitSector
         printer.register_value("focus_range", get_focus_range_in_m(), "m");
         printer.register_value(
             "mean_absorption_coefficient", get_mean_absorption_coefficient_in_dB_per_m(), "dB/m");
-        printer.register_value("detection_is_valid", get_detection_is_valid());
-        printer.register_enum("detection_type", get_detection_type());
-        printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
-        printer.register_value("reflectivity", get_backscatter(), "dB");
+
 
         return printer;
     }
