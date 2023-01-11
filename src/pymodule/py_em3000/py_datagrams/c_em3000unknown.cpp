@@ -43,7 +43,8 @@ void init_c_em3000unknown(pybind11::module& m)
                  em3000,
                  datagrams,
                  EM3000Unknown,
-                 raw_content))
+                 raw_content),
+             py::return_value_policy::reference_internal)
         .def("set_raw_content",
              &EM3000Unknown::set_raw_content,
              DOC(themachinethatgoesping,

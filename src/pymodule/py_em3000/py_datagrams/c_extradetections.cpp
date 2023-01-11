@@ -131,28 +131,34 @@ void init_c_extradetections(pybind11::module& m)
              DOC_ExtraDetections(detection_classes))
         .def("get_detection_classes",
              &ExtraDetections::get_detection_classes,
-             DOC_ExtraDetections(detection_classes))
+             DOC_ExtraDetections(detection_classes),
+             py::return_value_policy::reference_internal)
         .def("detection_classes",
              &ExtraDetections::detection_classes,
-             DOC_ExtraDetections(detection_classes_2))
+             DOC_ExtraDetections(detection_classes_2),
+             py::return_value_policy::reference_internal)
         .def("set_extra_detections",
              &ExtraDetections::set_extra_detections,
              DOC_ExtraDetections(extra_detections))
         .def("get_extra_detections",
              &ExtraDetections::get_extra_detections,
-             DOC_ExtraDetections(extra_detections))
+             DOC_ExtraDetections(extra_detections),
+             py::return_value_policy::reference_internal)
         .def("extra_detections",
              &ExtraDetections::extra_detections,
-             DOC_ExtraDetections(extra_detections_2))
+             DOC_ExtraDetections(extra_detections_2),
+             py::return_value_policy::reference_internal)
         .def("set_raw_amplitude_samples",
              &ExtraDetections::set_raw_amplitude_samples,
              DOC_ExtraDetections(raw_amplitude_samples))
         .def("get_raw_amplitude_samples",
              &ExtraDetections::get_raw_amplitude_samples,
-             DOC_ExtraDetections(raw_amplitude_samples))
+             DOC_ExtraDetections(raw_amplitude_samples),
+             py::return_value_policy::reference_internal)
         .def("raw_amplitude_samples",
              &ExtraDetections::raw_amplitude_samples,
-             DOC_ExtraDetections(raw_amplitude_samples_2))
+             DOC_ExtraDetections(raw_amplitude_samples_2),
+             py::return_value_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_heading_in_degrees",
