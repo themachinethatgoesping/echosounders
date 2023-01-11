@@ -66,7 +66,7 @@ TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
     CHECK(dat.get_sound_speed_at_transducer_in_m_per_s() == Catch::Approx(20.1));
     CHECK(dat.get_sampling_frequency() == Catch::Approx(204.f));
     CHECK(dat.transmit_sectors()[0].get_mean_absorption_coefficient_in_dB_per_m() ==
-          Catch::Approx(1010.f));
+          Catch::Approx(0.001010f));
     CHECK(dat.transmit_sectors()[0].get_tilt_angle_in_degrees() == Catch::Approx(1.91));
     CHECK(dat.beams()[0].get_quality_factor() == Catch::Approx(101));
     CHECK(dat.beams()[0].get_reflectivity_in_db() == Catch::Approx(19.1f));
