@@ -72,6 +72,7 @@ sources = [
     'py_em3000/py_datagrams/py_substructures/c_xyzdatagrambeam.cpp',
     'py_em3000/py_datagrams/py_substructures/c_extradetectionsdetectionclasses.cpp',
     'py_em3000/py_datagrams/py_substructures/c_extradetectionsextradetections.cpp',
+    'py_em3000/py_datagrams/py_substructures/c_rawrangeandangletransmitsector.cpp',
     'py_em3000/py_datagrams/py_substructures/module.cpp',
     'py_em3000/py_datagrams/c_em3000datagram.cpp',
     'py_em3000/py_datagrams/c_em3000unknown.cpp',

@@ -79,6 +79,7 @@ class RawRangeAndAngleTransmitSector
     }
     void set_signal_bandwidth(float signal_bandwidth) { _signal_bandwidth = signal_bandwidth; }
 
+
     // ----- processed member access -----
     /**
      * @brief Get the tilt angle in °
@@ -101,7 +102,7 @@ class RawRangeAndAngleTransmitSector
      */
     float get_mean_absorption_coefficient_in_dB_per_m() const
     {
-        return _mean_absorption_coefficient * 10.f;
+        return _mean_absorption_coefficient * 0.00001f;
     }
 
     // ----- operators -----

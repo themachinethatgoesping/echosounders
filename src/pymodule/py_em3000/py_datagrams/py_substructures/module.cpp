@@ -29,6 +29,7 @@ void init_c_extradetectionsdetectionclasses(
     pybind11::module& m); // c_extradetectionsdetectionclasses.cpp
 void init_c_extradetectionsextradetections(
     pybind11::module& m); // c_extradetectionsextradetections.cpp
+void init_c_rawrangeandangletransmitsector(pybind11::module& m); // c_rawrangeandangletransmitsector.cpp
 
 // -- create submodule --
 void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
@@ -45,6 +46,7 @@ void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
     init_c_xyzdatagrambeam(subm);
     init_c_extradetectionsdetectionclasses(subm);
     init_c_extradetectionsextradetections(subm);
+    init_c_rawrangeandangletransmitsector(subm);
 }
 
 }
