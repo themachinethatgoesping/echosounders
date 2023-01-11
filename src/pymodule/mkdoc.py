@@ -50,13 +50,12 @@ def add_doc_line(header, doc_path):
     file = "";
     with open(header, 'r') as ifi:
         for line in ifi:
-            print(line.strip())
-            if include_path in line:
+            if include_string in line:
                 return
 
             file += line
             if "#pragma once" in line:
-                file += f"\n//generated doc strings\n{include_string}\n\n"
+                file += f"\n/* generated doc strings */\n{include_string}\n"
 
     with open(header, 'w') as ofi:
         ofi.write(file)
