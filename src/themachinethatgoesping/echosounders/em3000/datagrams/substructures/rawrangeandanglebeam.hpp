@@ -163,7 +163,7 @@ class RawRangeAndAngleBeam
         // raw values
         printer.register_value("_beam_pointing_angle", _beam_pointing_angle, "0.01°");
         printer.register_value("_transmit_sector_number", _transmit_sector_number);
-        printer.register_value("_detection_info", _detection_info);
+        printer.register_string("_detection_info", fmt::format("0b{:08b}", _detection_info));
         printer.register_value("_detection_window_length_in_samples",
                                _detection_window_length_in_samples);
         printer.register_value("_quality_factor", _quality_factor);

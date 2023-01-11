@@ -42,15 +42,15 @@ enum class t_DetectionType : uint8_t
 };
 
 /**
- * @brief This function evaluates a detection information flag. If the last bit is set to 1,
- * the detection is valid. If the last bit is set to 0, the detection is invalid.
+ * @brief This function evaluates a detection information flag. If the most significant bit is set to 0,
+ * the detection is valid. If the most significant bit is set to 1, the detection is invalid.
  *
  * @return true
  * @return false
  */
 inline bool get_detection_is_valid(uint8_t detection_info)
 {
-    return (detection_info & 0x01) == 0x00;
+    return (detection_info & 0b10000000) == 0b00000000;
 }
 
 /**
