@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/rawrangeandanglebeam.doc.hpp"
+
 // std includes
 #include <string>
 

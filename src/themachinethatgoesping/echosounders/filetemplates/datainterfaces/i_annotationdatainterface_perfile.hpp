@@ -7,6 +7,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/i_annotationdatainterface_perfile.doc.hpp"
+
 /* std includes */
 #include <filesystem>
 #include <fstream>

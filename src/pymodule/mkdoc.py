@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 import os
+import shutil
 import sys
 import subprocess
 from tqdm import tqdm
@@ -85,6 +86,10 @@ with open('mkdoc_log.log','w') as ofi_log:
         filename = header.split("/")[-1]
         output_path = "/".join(header.split("/")[:-1]) + "/.docstrings/" + filename.replace(filename.split('.')[-1],"doc.hpp")
 
+        if False:
+            shutil.rmtree("/".join(output_path.split('/')[:-1]))
+        os.makedirs("/".join(output_path.split('/')[:-1]), exist_ok=True)
+
         add_doc_line(header, output_path)
         #break
 
@@ -99,7 +104,7 @@ with open('mkdoc_log.log','w') as ofi_log:
                     line = ifi.readline()
                     if "//sourcehash:" in line:
                         hash_old = line.split("//sourcehash:")[1].strip()
-                        break
+
 
                 #only recreate file if hash changed
                 if hash_new == hash_old:
@@ -111,7 +116,6 @@ with open('mkdoc_log.log','w') as ofi_log:
         new_doc = modify_doc(docstrings)
 
         #print("/".join(output_path.split('/')[:-1]))
-        os.makedirs("/".join(output_path.split('/')[:-1]), exist_ok=True)
 
         with open(output_path,'w') as ofi:
             #prg.set_postfix_str(f"HASH ...{header[-50:]}")

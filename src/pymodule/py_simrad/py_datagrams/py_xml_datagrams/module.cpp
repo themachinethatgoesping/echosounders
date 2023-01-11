@@ -9,9 +9,9 @@
 #include <vector>
 
 // #include
-//<themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp"
+//<themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp"
 #include "../../../docstrings.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp>
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"
@@ -43,14 +43,14 @@ void init_c_xml_configuration_sensor_telegram(
 void init_c_xml_configuration_sensor(pybind11::module& m);     // c_xml_configuration_sensor.cpp
 void init_c_xml_configuration(pybind11::module& m);            // c_xml_configuration.cpp
 void init_c_xml_configuration_transducer(pybind11::module& m); // c_xml_configuration_transducer.cpp
-void init_c_xml_configuration_activepingmode(
-    pybind11::module& m); // c_xml_configuration_activepingmode.cpp
+void init_c_XMLConfigurationActivePingMode(
+    pybind11::module& m); // c_xmlconfigurationactivepingmode.cpp
 void init_c_xml_configuration_transceiver(
     pybind11::module& m); // c_xml_configuration_transceiver.cpp
 void init_c_xml_configuration_transceiver_channel(
     pybind11::module& m); // c_xml_configuration_transceiver_channel.cpp
-void init_c_xml_configuration_transceiver_channel_transducer(
-    pybind11::module& m); // c_xml_configuration_transceiver_channel_transducer.cpp
+void init_c_xmlconfigurationtransceiverchanneltransducer(
+    pybind11::module& m); // c_xmlconfigurationtransceiverchanneltransducer.cpp
 void init_c_xml_configuration_transceiver_channel_frequencypar(
     pybind11::module& m); // c_xml_configuration_transceiver_channel_frequencypar.cpp
 void init_c_channelconfiguration(pybind11::module& m); // c_channelconfiguration.cpp
@@ -115,9 +115,9 @@ void init_m_datagrams_xml(pybind11::module& m)
     init_c_xml_configuration_sensor_telegram(subm);
     init_c_xml_configuration_sensor(subm);
     init_c_xml_configuration_transducer(subm);
-    init_c_xml_configuration_activepingmode(subm);
+    init_c_XMLConfigurationActivePingMode(subm);
     init_c_xml_configuration_transceiver_channel_frequencypar(subm);
-    init_c_xml_configuration_transceiver_channel_transducer(subm);
+    init_c_xmlconfigurationtransceiverchanneltransducer(subm);
     init_c_xml_configuration_transceiver_channel(subm);
     init_c_xml_configuration_transceiver(subm);
 

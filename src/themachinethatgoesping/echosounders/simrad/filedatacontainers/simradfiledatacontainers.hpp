@@ -4,6 +4,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/simradfiledatacontainers.doc.hpp"
+
 /* themachinethatgoesping includes */
 #include "../../filetemplates/datacontainers/datagramcontainer.hpp"
 #include "../../filetemplates/datacontainers/pingcontainer.hpp"

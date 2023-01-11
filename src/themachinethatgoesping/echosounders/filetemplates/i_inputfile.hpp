@@ -7,6 +7,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/i_inputfile.doc.hpp"
+
 // #include "i_datagram.h"
 // #include "i_datagramcontent.h"
 // #include "i_datagramheader.h"

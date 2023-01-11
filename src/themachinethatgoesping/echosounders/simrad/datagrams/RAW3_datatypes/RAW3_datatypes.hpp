@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/RAW3_datatypes.doc.hpp"
+
 // std includes
 #include <variant>
 

@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/em3000_datagrams.doc.hpp"
+
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/extradetections.hpp"

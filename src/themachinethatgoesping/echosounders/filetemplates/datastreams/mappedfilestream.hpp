@@ -7,6 +7,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/mappedfilestream.doc.hpp"
+
 #include <fstream>
 
 /* memory mapping */

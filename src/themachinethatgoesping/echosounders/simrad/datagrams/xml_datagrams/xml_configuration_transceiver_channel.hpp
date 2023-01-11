@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/xml_configuration_transceiver_channel.doc.hpp"
+
 // std includes
 #include <string>
 #include <unordered_map>
@@ -22,7 +25,7 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
-#include "xml_configuration_transceiver_channel_transducer.hpp"
+#include "xmlconfigurationtransceiverchanneltransducer.hpp"
 #include "xml_node.hpp"
 
 namespace themachinethatgoesping {
@@ -48,7 +51,7 @@ struct XML_Configuration_Transceiver_Channel
     int                 HWChannelConfiguration = -1;
     int                 ChannelNumber          = -1;
 
-    XML_Configuration_Transceiver_Channel_Transducer Transducer;
+    XMLConfigurationTransceiverChannelTransducer Transducer;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -83,7 +86,7 @@ struct XML_Configuration_Transceiver_Channel
                 continue;
             }
 
-            Transducer = XML_Configuration_Transceiver_Channel_Transducer(node);
+            Transducer = XMLConfigurationTransceiverChannelTransducer(node);
         }
 
         for (auto& attr : root_node.attributes())
@@ -176,7 +179,7 @@ struct XML_Configuration_Transceiver_Channel
                 sizeof(xml.HWChannelConfiguration));
         is.read(reinterpret_cast<char*>(&xml.ChannelNumber), sizeof(xml.ChannelNumber));
 
-        xml.Transducer = XML_Configuration_Transceiver_Channel_Transducer::from_stream(is);
+        xml.Transducer = XMLConfigurationTransceiverChannelTransducer::from_stream(is);
 
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
         is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));

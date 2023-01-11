@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/simrad_datagrams.doc.hpp"
+
 #include "datagrams/FIL1.hpp"
 #include "datagrams/MRU0.hpp"
 #include "datagrams/NME0.hpp"

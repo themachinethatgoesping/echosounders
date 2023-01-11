@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/RAW3_dataangle.doc.hpp"
+
 // std includes
 #include <bitset>
 #include <string>

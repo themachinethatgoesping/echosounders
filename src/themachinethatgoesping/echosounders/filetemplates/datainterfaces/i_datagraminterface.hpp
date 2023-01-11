@@ -5,6 +5,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/i_datagraminterface.doc.hpp"
+
 /* std includes */
 #include <fstream>
 #include <unordered_map>

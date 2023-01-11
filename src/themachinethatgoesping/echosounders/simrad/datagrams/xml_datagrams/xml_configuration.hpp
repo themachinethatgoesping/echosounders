@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/xml_configuration.doc.hpp"
+
 // std includes
 #include <map>
 #include <string>
@@ -25,7 +28,7 @@
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 
 #include "helper.hpp"
-#include "xml_configuration_activepingmode.hpp"
+#include "xmlconfigurationactivepingmode.hpp"
 #include "xml_configuration_sensor.hpp"
 #include "xml_configuration_transceiver.hpp"
 #include "xml_configuration_transducer.hpp"
@@ -55,7 +58,7 @@ struct XML_Configuration
     std::vector<XML_Configuration_Sensor>      ConfiguredSensors;
     std::vector<XML_Configuration_Transducer>  Transducers;
     std::vector<XML_Configuration_Transceiver> Transceivers;
-    XML_Configuration_ActivePingMode           ActivePingMode;
+    XMLConfigurationActivePingMode           ActivePingMode;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -305,7 +308,7 @@ struct XML_Configuration
                     continue;
                 }
 
-                ActivePingMode = XML_Configuration_ActivePingMode(node);
+                ActivePingMode = XMLConfigurationActivePingMode(node);
 
                 continue;
             }
@@ -398,7 +401,7 @@ struct XML_Configuration
             node = XML_Configuration_Transceiver::from_stream(is);
         }
 
-        xml.ActivePingMode = XML_Configuration_ActivePingMode::from_stream(is);
+        xml.ActivePingMode = XMLConfigurationActivePingMode::from_stream(is);
 
         return xml;
     }

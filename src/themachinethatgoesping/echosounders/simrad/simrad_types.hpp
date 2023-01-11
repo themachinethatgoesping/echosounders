@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/simrad_types.doc.hpp"
+
 #include <complex>
 #include <themachinethatgoesping/tools/helper.hpp>
 

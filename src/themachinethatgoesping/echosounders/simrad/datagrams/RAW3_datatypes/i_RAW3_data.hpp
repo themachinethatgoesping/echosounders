@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/i_RAW3_data.doc.hpp"
+
 // std includes
 #include <bitset>
 #include <string>

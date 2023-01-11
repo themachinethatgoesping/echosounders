@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/em3000unknown.doc.hpp"
+
 // std includes
 #include <string>
 #include <unordered_map>

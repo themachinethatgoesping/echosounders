@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/simradconfigurationdatainterface_perfile.doc.hpp"
+
 /* library includes */
 #include <magic_enum.hpp>
 

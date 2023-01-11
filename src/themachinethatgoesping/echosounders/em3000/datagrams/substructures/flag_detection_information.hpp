@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/flag_detection_information.doc.hpp"
+
 // std includes
 #include <string>
 

@@ -10,7 +10,7 @@
 
 #include "../../../docstrings.hpp"
 #include "module.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_activepingmode.hpp>
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationactivepingmode.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -21,75 +21,75 @@ namespace py_datagrams_xml {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using datagrams::xml_datagrams::XML_Configuration_ActivePingMode;
+using datagrams::xml_datagrams::XMLConfigurationActivePingMode;
 
-void init_c_xml_configuration_activepingmode(pybind11::module& m)
+void init_c_XMLConfigurationActivePingMode(pybind11::module& m)
 {
-    py::class_<XML_Configuration_ActivePingMode>(m,
-                                                 "XML_Configuration_ActivePingMode",
+    py::class_<XMLConfigurationActivePingMode>(m,
+                                                 "XMLConfigurationActivePingMode",
                                                  DOC(themachinethatgoesping,
                                                      echosounders,
                                                      simrad,
                                                      datagrams,
                                                      xml_datagrams,
-                                                     XML_Configuration_ActivePingMode))
+                                                     XMLConfigurationActivePingMode))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_Configuration_ActivePingMode,
-                 XML_Configuration_ActivePingMode))
+                 XMLConfigurationActivePingMode,
+                 XMLConfigurationActivePingMode))
 
         // ----- attributes -----
         .def_readwrite("Mode",
-                       &XML_Configuration_ActivePingMode::Mode,
+                       &XMLConfigurationActivePingMode::Mode,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_ActivePingMode,
+                           XMLConfigurationActivePingMode,
                            Mode))
 
         .def_readwrite("unknown_children",
-                       &XML_Configuration_ActivePingMode::unknown_children,
+                       &XMLConfigurationActivePingMode::unknown_children,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_ActivePingMode,
+                           XMLConfigurationActivePingMode,
                            unknown_children))
         .def_readwrite("unknown_attributes",
-                       &XML_Configuration_ActivePingMode::unknown_attributes,
+                       &XMLConfigurationActivePingMode::unknown_attributes,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_ActivePingMode,
+                           XMLConfigurationActivePingMode,
                            unknown_attributes))
 
         // ----- methods -----
         .def("parsed_completely",
-             &XML_Configuration_ActivePingMode::parsed_completely,
+             &XMLConfigurationActivePingMode::parsed_completely,
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_Configuration_ActivePingMode,
+                 XMLConfigurationActivePingMode,
                  parsed_completely))
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(XML_Configuration_ActivePingMode)
+        __PYCLASS_DEFAULT_COPY__(XMLConfigurationActivePingMode)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(XML_Configuration_ActivePingMode)
+        __PYCLASS_DEFAULT_BINARY__(XMLConfigurationActivePingMode)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(XML_Configuration_ActivePingMode)
+        __PYCLASS_DEFAULT_PRINTING__(XMLConfigurationActivePingMode)
         // end LinearInterpolator
         ;
 }

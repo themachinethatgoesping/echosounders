@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/fileem3000.doc.hpp"
+
 /* library includes */
 #include <magic_enum.hpp>
 

@@ -5,6 +5,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/em3000datagraminterface.doc.hpp"
+
 /* std includes */
 #include <fstream>
 #include <unordered_map>

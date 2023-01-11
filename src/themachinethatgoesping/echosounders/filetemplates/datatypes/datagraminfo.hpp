@@ -7,6 +7,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/datagraminfo.doc.hpp"
+
 #include <fstream>
 #include <limits>
 #include <memory>

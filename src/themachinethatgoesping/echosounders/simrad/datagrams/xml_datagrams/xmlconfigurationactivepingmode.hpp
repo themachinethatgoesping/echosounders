@@ -6,6 +6,12 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/xmlconfigurationactivepingmode.doc.hpp"
+
+/* generated doc strings */
+#include ".docstrings/xmlconfigurationactivepingmode.doc.hpp"
+
 // std includes
 #include <string>
 #include <unordered_map>
@@ -34,7 +40,7 @@ namespace xml_datagrams {
  * @brief XML base datagram
  *
  */
-struct XML_Configuration_ActivePingMode
+struct XMLConfigurationActivePingMode
 {
     std::string Mode;
 
@@ -43,16 +49,16 @@ struct XML_Configuration_ActivePingMode
 
   public:
     // ----- constructors -----
-    XML_Configuration_ActivePingMode() = default;
-    XML_Configuration_ActivePingMode(const pugi::xml_node& node) { initialize(node); }
-    ~XML_Configuration_ActivePingMode() = default;
+    XMLConfigurationActivePingMode() = default;
+    XMLConfigurationActivePingMode(const pugi::xml_node& node) { initialize(node); }
+    ~XMLConfigurationActivePingMode() = default;
 
     void initialize(const pugi::xml_node& root_node)
     {
         if (strcmp(root_node.name(), "ActivePingMode"))
         {
             throw std::runtime_error(
-                std::string("XML_Configuration_ActivePingMode: wrong root node type '") +
+                std::string("XMLConfigurationActivePingMode: wrong root node type '") +
                 root_node.name() + "'");
         }
         unknown_attributes = 0;
@@ -84,9 +90,9 @@ struct XML_Configuration_ActivePingMode
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
 
     // ----- file I/O -----
-    static XML_Configuration_ActivePingMode from_stream(std::istream& is)
+    static XMLConfigurationActivePingMode from_stream(std::istream& is)
     {
-        XML_Configuration_ActivePingMode xml;
+        XMLConfigurationActivePingMode xml;
         xml.Mode = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
@@ -104,13 +110,13 @@ struct XML_Configuration_ActivePingMode
     }
 
     // ----- operators -----
-    bool operator==(const XML_Configuration_ActivePingMode& other) const
+    bool operator==(const XMLConfigurationActivePingMode& other) const
     {
         return Mode == other.Mode;
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_Configuration_ActivePingMode& other) const
+    bool operator!=(const XMLConfigurationActivePingMode& other) const
     {
         return !operator==(other);
     }
@@ -127,7 +133,7 @@ struct XML_Configuration_ActivePingMode
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
-        XML_Configuration_ActivePingMode)
+        XMLConfigurationActivePingMode)
 };
 
 }

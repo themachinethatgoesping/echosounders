@@ -10,7 +10,7 @@
 
 #include "../../../docstrings.hpp"
 #include "module.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xml_configuration_transceiver_channel_transducer.hpp>
+#include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -21,242 +21,242 @@ namespace py_datagrams_xml {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel_Transducer;
+using datagrams::xml_datagrams::XMLConfigurationTransceiverChannelTransducer;
 
-void init_c_xml_configuration_transceiver_channel_transducer(pybind11::module& m)
+void init_c_xmlconfigurationtransceiverchanneltransducer(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver_Channel_Transducer>(
+    py::class_<XMLConfigurationTransceiverChannelTransducer>(
         m,
-        "XML_Configuration_Transceiver_Channel_Transducer",
+        "XMLConfigurationTransceiverChannelTransducer",
         DOC(themachinethatgoesping,
             echosounders,
             simrad,
             datagrams,
             xml_datagrams,
-            XML_Configuration_Transceiver_Channel_Transducer))
+            XMLConfigurationTransceiverChannelTransducer))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_Configuration_Transceiver_Channel_Transducer,
-                 XML_Configuration_Transceiver_Channel_Transducer))
+                 XMLConfigurationTransceiverChannelTransducer,
+                 XMLConfigurationTransceiverChannelTransducer))
 
         // ----- children -----
         .def_readwrite("FrequencyPars",
-                       &XML_Configuration_Transceiver_Channel_Transducer::FrequencyPars,
+                       &XMLConfigurationTransceiverChannelTransducer::FrequencyPars,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            FrequencyPars))
 
         // ----- attributes -----
         .def_readwrite("TransducerName",
-                       &XML_Configuration_Transceiver_Channel_Transducer::TransducerName,
+                       &XMLConfigurationTransceiverChannelTransducer::TransducerName,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            TransducerName))
         .def_readwrite("ArticleNumber",
-                       &XML_Configuration_Transceiver_Channel_Transducer::ArticleNumber,
+                       &XMLConfigurationTransceiverChannelTransducer::ArticleNumber,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            ArticleNumber))
         .def_readwrite("Gain",
-                       &XML_Configuration_Transceiver_Channel_Transducer::Gain,
+                       &XMLConfigurationTransceiverChannelTransducer::Gain,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            Gain))
         .def_readwrite("SaCorrection",
-                       &XML_Configuration_Transceiver_Channel_Transducer::SaCorrection,
+                       &XMLConfigurationTransceiverChannelTransducer::SaCorrection,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            SaCorrection))
         .def_readwrite("SerialNumber",
-                       &XML_Configuration_Transceiver_Channel_Transducer::SerialNumber,
+                       &XMLConfigurationTransceiverChannelTransducer::SerialNumber,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            SerialNumber))
         .def_readwrite("BeamType",
-                       &XML_Configuration_Transceiver_Channel_Transducer::BeamType,
+                       &XMLConfigurationTransceiverChannelTransducer::BeamType,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            BeamType))
         .def_readwrite("Frequency",
-                       &XML_Configuration_Transceiver_Channel_Transducer::Frequency,
+                       &XMLConfigurationTransceiverChannelTransducer::Frequency,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            Frequency))
         .def_readwrite("FrequencyMinimum",
-                       &XML_Configuration_Transceiver_Channel_Transducer::FrequencyMinimum,
+                       &XMLConfigurationTransceiverChannelTransducer::FrequencyMinimum,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            FrequencyMinimum))
         .def_readwrite("FrequencyMaximum",
-                       &XML_Configuration_Transceiver_Channel_Transducer::FrequencyMaximum,
+                       &XMLConfigurationTransceiverChannelTransducer::FrequencyMaximum,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            FrequencyMaximum))
         .def_readwrite("EquivalentBeamAngle",
-                       &XML_Configuration_Transceiver_Channel_Transducer::EquivalentBeamAngle,
+                       &XMLConfigurationTransceiverChannelTransducer::EquivalentBeamAngle,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            EquivalentBeamAngle))
         .def_readwrite("MaxTxPowerTransducer",
-                       &XML_Configuration_Transceiver_Channel_Transducer::MaxTxPowerTransducer,
+                       &XMLConfigurationTransceiverChannelTransducer::MaxTxPowerTransducer,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            MaxTxPowerTransducer))
         .def_readwrite("BeamWidthAlongship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::BeamWidthAlongship,
+                       &XMLConfigurationTransceiverChannelTransducer::BeamWidthAlongship,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            BeamWidthAlongship))
         .def_readwrite("BeamWidthAthwartship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::BeamWidthAthwartship,
+                       &XMLConfigurationTransceiverChannelTransducer::BeamWidthAthwartship,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            BeamWidthAthwartship))
         .def_readwrite("AngleSensitivityAlongship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::AngleSensitivityAlongship,
+                       &XMLConfigurationTransceiverChannelTransducer::AngleSensitivityAlongship,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            AngleSensitivityAlongship))
         .def_readwrite(
             "AngleSensitivityAthwartship",
-            &XML_Configuration_Transceiver_Channel_Transducer::AngleSensitivityAthwartship,
+            &XMLConfigurationTransceiverChannelTransducer::AngleSensitivityAthwartship,
             DOC(themachinethatgoesping,
                 echosounders,
                 simrad,
                 datagrams,
                 xml_datagrams,
-                XML_Configuration_Transceiver_Channel_Transducer,
+                XMLConfigurationTransceiverChannelTransducer,
                 AngleSensitivityAthwartship))
         .def_readwrite("AngleOffsetAlongship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::AngleOffsetAlongship,
+                       &XMLConfigurationTransceiverChannelTransducer::AngleOffsetAlongship,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            AngleOffsetAlongship))
         .def_readwrite("AngleOffsetAthwartship",
-                       &XML_Configuration_Transceiver_Channel_Transducer::AngleOffsetAthwartship,
+                       &XMLConfigurationTransceiverChannelTransducer::AngleOffsetAthwartship,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            AngleOffsetAthwartship))
         .def_readwrite(
             "DirectivityDropAt2XBeamWidth",
-            &XML_Configuration_Transceiver_Channel_Transducer::DirectivityDropAt2XBeamWidth,
+            &XMLConfigurationTransceiverChannelTransducer::DirectivityDropAt2XBeamWidth,
             DOC(themachinethatgoesping,
                 echosounders,
                 simrad,
                 datagrams,
                 xml_datagrams,
-                XML_Configuration_Transceiver_Channel_Transducer,
+                XMLConfigurationTransceiverChannelTransducer,
                 DirectivityDropAt2XBeamWidth))
 
         .def_readwrite("unknown_children",
-                       &XML_Configuration_Transceiver_Channel_Transducer::unknown_children,
+                       &XMLConfigurationTransceiverChannelTransducer::unknown_children,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            unknown_children))
         .def_readwrite("unknown_attributes",
-                       &XML_Configuration_Transceiver_Channel_Transducer::unknown_attributes,
+                       &XMLConfigurationTransceiverChannelTransducer::unknown_attributes,
                        DOC(themachinethatgoesping,
                            echosounders,
                            simrad,
                            datagrams,
                            xml_datagrams,
-                           XML_Configuration_Transceiver_Channel_Transducer,
+                           XMLConfigurationTransceiverChannelTransducer,
                            unknown_attributes))
 
         // ----- methods -----
         .def("parsed_completely",
-             &XML_Configuration_Transceiver_Channel_Transducer::parsed_completely,
+             &XMLConfigurationTransceiverChannelTransducer::parsed_completely,
              DOC(themachinethatgoesping,
                  echosounders,
                  simrad,
                  datagrams,
                  xml_datagrams,
-                 XML_Configuration_Transceiver_Channel_Transducer,
+                 XMLConfigurationTransceiverChannelTransducer,
                  parsed_completely))
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(XML_Configuration_Transceiver_Channel_Transducer)
+        __PYCLASS_DEFAULT_COPY__(XMLConfigurationTransceiverChannelTransducer)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(XML_Configuration_Transceiver_Channel_Transducer)
+        __PYCLASS_DEFAULT_BINARY__(XMLConfigurationTransceiverChannelTransducer)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(XML_Configuration_Transceiver_Channel_Transducer)
+        __PYCLASS_DEFAULT_PRINTING__(XMLConfigurationTransceiverChannelTransducer)
         // end LinearInterpolator
         ;
 }

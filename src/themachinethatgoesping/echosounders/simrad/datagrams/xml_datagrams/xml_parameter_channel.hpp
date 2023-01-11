@@ -7,6 +7,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/xml_parameter_channel.doc.hpp"
+
 // std includes
 #include <string>
 #include <unordered_map>

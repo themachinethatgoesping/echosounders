@@ -6,6 +6,12 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/xmlconfigurationtransceiverchanneltransducer.doc.hpp"
+
+/* generated doc strings */
+#include ".docstrings/xmlconfigurationtransceiverchanneltransducer.doc.hpp"
+
 // std includes
 #include <string>
 #include <unordered_map>
@@ -48,7 +54,7 @@ enum class t_BeamType : int32_t
  * @brief XML base datagram
  *
  */
-struct XML_Configuration_Transceiver_Channel_Transducer
+struct XMLConfigurationTransceiverChannelTransducer
 {
 
     std::string         TransducerName;
@@ -77,12 +83,12 @@ struct XML_Configuration_Transceiver_Channel_Transducer
 
   public:
     // ----- constructors -----
-    XML_Configuration_Transceiver_Channel_Transducer() = default;
-    XML_Configuration_Transceiver_Channel_Transducer(const pugi::xml_node& node)
+    XMLConfigurationTransceiverChannelTransducer() = default;
+    XMLConfigurationTransceiverChannelTransducer(const pugi::xml_node& node)
     {
         initialize(node);
     }
-    ~XML_Configuration_Transceiver_Channel_Transducer() = default;
+    ~XMLConfigurationTransceiverChannelTransducer() = default;
 
     void initialize(const pugi::xml_node& root_node)
     {
@@ -90,7 +96,7 @@ struct XML_Configuration_Transceiver_Channel_Transducer
         {
             throw std::runtime_error(
                 std::string(
-                    "XML_Configuration_Transceiver_Channel_Transducer: wrong root node type '") +
+                    "XMLConfigurationTransceiverChannelTransducer: wrong root node type '") +
                 root_node.name() + "'");
         }
         unknown_attributes = 0;
@@ -217,9 +223,9 @@ struct XML_Configuration_Transceiver_Channel_Transducer
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
 
     // ----- file I/O -----
-    static XML_Configuration_Transceiver_Channel_Transducer from_stream(std::istream& is)
+    static XMLConfigurationTransceiverChannelTransducer from_stream(std::istream& is)
     {
-        XML_Configuration_Transceiver_Channel_Transducer xml;
+        XMLConfigurationTransceiverChannelTransducer xml;
 
         xml.TransducerName = tools::classhelper::stream::container_from_stream<std::string>(is);
         xml.ArticleNumber  = tools::classhelper::stream::container_from_stream<std::string>(is);
@@ -268,7 +274,7 @@ struct XML_Configuration_Transceiver_Channel_Transducer
     }
 
     // ----- operators -----
-    bool operator==(const XML_Configuration_Transceiver_Channel_Transducer& other) const
+    bool operator==(const XMLConfigurationTransceiverChannelTransducer& other) const
     {
         using namespace tools::helper;
 
@@ -293,7 +299,7 @@ struct XML_Configuration_Transceiver_Channel_Transducer
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
     }
-    bool operator!=(const XML_Configuration_Transceiver_Channel_Transducer& other) const
+    bool operator!=(const XMLConfigurationTransceiverChannelTransducer& other) const
     {
         return !operator==(other);
     }
@@ -350,7 +356,7 @@ struct XML_Configuration_Transceiver_Channel_Transducer
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
-        XML_Configuration_Transceiver_Channel_Transducer)
+        XMLConfigurationTransceiverChannelTransducer)
 };
 
 }

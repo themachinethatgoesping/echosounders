@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/extradetections.doc.hpp"
+
 // std includes
 #include <string>
 #include <vector>

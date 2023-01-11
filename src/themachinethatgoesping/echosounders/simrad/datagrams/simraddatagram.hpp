@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/simraddatagram.doc.hpp"
+
 // std includes
 #include <iostream>
 #include <string>

@@ -6,6 +6,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/em3000datagram.doc.hpp"
+
 // std includes
 #include <iostream>
 #include <string>
