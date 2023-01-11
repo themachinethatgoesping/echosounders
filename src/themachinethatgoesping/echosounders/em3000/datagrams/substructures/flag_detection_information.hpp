@@ -42,8 +42,8 @@ enum class t_DetectionType : uint8_t
 };
 
 /**
- * @brief This function evaluates a detection information flag. If the most significant bit is set to 0,
- * the detection is valid. If the most significant bit is set to 1, the detection is invalid.
+ * @brief This function evaluates a detection information flag. If the most significant bit is set
+ * to 0, the detection is valid. If the most significant bit is set to 1, the detection is invalid.
  *
  * @return true
  * @return false

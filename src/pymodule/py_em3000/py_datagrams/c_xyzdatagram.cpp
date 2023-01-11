@@ -74,11 +74,17 @@ void init_c_xyzdatagram(pybind11::module& m)
              DOC_XYZDatagram(sampling_frequency))
         .def("set_scanning_info", &XYZDatagram::set_scanning_info, DOC_XYZDatagram(scanning_info))
         .def("get_scanning_info", &XYZDatagram::get_scanning_info, DOC_XYZDatagram(scanning_info))
-        
+
         // --- data structure access ---
-        .def("get_beams", &XYZDatagram::get_beams, DOC_XYZDatagram(beams), py::return_value_policy::reference_internal)
+        .def("get_beams",
+             &XYZDatagram::get_beams,
+             DOC_XYZDatagram(beams),
+             py::return_value_policy::reference_internal)
         .def("set_beams", &XYZDatagram::set_beams, DOC_XYZDatagram(beams))
-        .def("beams", &XYZDatagram::beams, DOC_XYZDatagram(beams), py::return_value_policy::reference_internal)
+        .def("beams",
+             &XYZDatagram::beams,
+             DOC_XYZDatagram(beams),
+             py::return_value_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_heading_of_vessel_in_degrees",

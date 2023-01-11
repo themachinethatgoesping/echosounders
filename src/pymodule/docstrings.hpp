@@ -1226,9 +1226,9 @@ Returns:
     false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_detection_information_get_detection_is_valid =
-R"doc(This function evaluates a detection information flag. If the last bit
-is set to 1, the detection is valid. If the last bit is set to 0, the
-detection is invalid.
+R"doc(This function evaluates a detection information flag. If the most
+significant bit is set to 0, the detection is valid. If the most
+significant bit is set to 1, the detection is invalid.
 
 Returns:
     true

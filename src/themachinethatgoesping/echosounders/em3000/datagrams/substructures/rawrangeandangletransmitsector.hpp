@@ -79,7 +79,6 @@ class RawRangeAndAngleTransmitSector
     }
     void set_signal_bandwidth(float signal_bandwidth) { _signal_bandwidth = signal_bandwidth; }
 
-
     // ----- processed member access -----
     /**
      * @brief Get the tilt angle in °
@@ -143,7 +142,6 @@ class RawRangeAndAngleTransmitSector
         printer.register_value("focus_range", get_focus_range_in_m(), "m");
         printer.register_value(
             "mean_absorption_coefficient", get_mean_absorption_coefficient_in_dB_per_m(), "dB/m");
-
 
         return printer;
     }

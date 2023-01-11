@@ -23,10 +23,10 @@ namespace py_em3000 {
 namespace py_datagrams {
 
 // -- submodule declarations --
-void init_c_em3000datagram(pybind11::module& m);  // c_em3000datagram.cpp
-void init_c_em3000unknown(pybind11::module& m);   // c_em3000unknown.cpp
-void init_c_xyzdatagram(pybind11::module& m);     // c_xyzdatagram.cpp
-void init_c_extradetections(pybind11::module& m); // c_extradetections.cpp
+void init_c_em3000datagram(pybind11::module& m);   // c_em3000datagram.cpp
+void init_c_em3000unknown(pybind11::module& m);    // c_em3000unknown.cpp
+void init_c_xyzdatagram(pybind11::module& m);      // c_xyzdatagram.cpp
+void init_c_extradetections(pybind11::module& m);  // c_extradetections.cpp
 void init_c_rawrangeandangle(pybind11::module& m); // c_rawrangeandangle.cpp
 
 // -- create submodule --

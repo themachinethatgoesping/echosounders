@@ -9,8 +9,8 @@
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/extradetections.hpp"
-#include "datagrams/xyzdatagram.hpp"
 #include "datagrams/rawrangeandangle.hpp"
+#include "datagrams/xyzdatagram.hpp"
 #include "em3000_types.hpp"
 
 #include <pybind11/pybind11.h>

@@ -95,9 +95,7 @@ void init_c_rawrangeandangle(pybind11::module& m)
              &RawRangeAndAngle::set_beams,
              DOC_RawRangeAndAngle(beams),
              py::return_value_policy::reference_internal)
-        .def("get_beams",
-             &RawRangeAndAngle::get_beams,
-             DOC_RawRangeAndAngle(beams))
+        .def("get_beams", &RawRangeAndAngle::get_beams, DOC_RawRangeAndAngle(beams))
         .def("beams",
              &RawRangeAndAngle::beams,
              DOC_RawRangeAndAngle(beams_2),
