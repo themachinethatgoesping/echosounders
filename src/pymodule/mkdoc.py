@@ -91,13 +91,15 @@ with open('mkdoc_log.log','w') as ofi_log:
         #get file hash
         hash_new = get_hash(header)
 
-        if False: #False means: ignore hash and force update
+        if True: #False means: ignore hash and force update
             # check old hash (written into doc file)
             if os.path.exists(output_path):
+                hash_old = "INVALID"
                 with open(output_path,'r') as ifi:
                     line = ifi.readline()
-                    if "#sourcehash:" in line:
-                        hash_old = line.split("#sourcehash:")[1].strip()
+                    if "//sourcehash:" in line:
+                        hash_old = line.split("//sourcehash:")[1].strip()
+                        break
 
                 #only recreate file if hash changed
                 if hash_new == hash_old:
@@ -113,7 +115,7 @@ with open('mkdoc_log.log','w') as ofi_log:
 
         with open(output_path,'w') as ofi:
             #prg.set_postfix_str(f"HASH ...{header[-50:]}")
-            ofi.write(f"#sourcehash: {hash}\n\n")
+            ofi.write(f"//sourcehash: {hash_new}\n\n")
             ofi.write(new_doc)
             print("updated:",output_path)
 

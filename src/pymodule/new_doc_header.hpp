@@ -5,8 +5,9 @@
   This is a modified version which allows for more than 8 arguments and includes def-guard
  */
 
+#pragma once
+
 #ifndef __DOCSTRINGS_HPP__
-#define DOC
 
 #define __EXPAND(x)                                                  x
 #define __COUNT(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, COUNT, ...) COUNT
@@ -28,5 +29,4 @@
     __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9##_##n10
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
-#endif // NEW_DOC_HEADER_HPP
 #endif // NEW_DOC_HEADER_HPP
