@@ -1,4 +1,4 @@
-//sourcehash: c867883993521d3a113b9a37d8b42449f71cfc4b7e85cca4ed93c4900e4c7fdc
+//sourcehash: 9d5dcc28203b65422c81c47fc32f3130b7dd5f8f8d30f66026561a84689b8c0b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -115,27 +115,27 @@ R"doc(get the tx beamwidth along in degrees
 Returns:
     _tx_beamwidth_along * 0.1f (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_normal_incidence_backscatter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_normal_incidence_backscatter = R"doc(< in 0.01 dB (BSN))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_number_of_valid_beams = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_oblique_backscatter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_oblique_backscatter = R"doc(< in 0.01 dB (BSO))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_ping_counter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_ping_counter = R"doc(< sequential number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_range_to_normal_incidence = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_range_to_normal_incidence = R"doc(< used to correct sample amplitudes in no. of samples)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_sample_amplitudes = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_sample_amplitudes = R"doc(< in 0.1 dB (size = sum of _Number_of_samples of all Beams)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_sample_amplitudes_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_sampling_frequency = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_sampling_frequency = R"doc(< in Hz)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_set_beams = R"doc()doc";
 
@@ -171,9 +171,9 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Se
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_tvg_law_crossover_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_tvg_law_crossover_angle = R"doc(< in 0.1 degree)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_tx_beamwidth_along = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_tx_beamwidth_along = R"doc(< in 0.1 degree)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

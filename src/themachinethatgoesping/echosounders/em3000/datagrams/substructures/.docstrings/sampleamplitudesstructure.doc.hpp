@@ -1,4 +1,4 @@
-//sourcehash: 37e6aee96c8f9acb3895ffa9f92aee75ee28504a67cbfde9f2598875519c55fd
+//sourcehash: 9515cb25ab86505d1dadbacb4badda5c1c34fb496e124526ee93ae92ab2d163c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,7 +52,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_SampleAmplitudesStructure_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_db_step_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_db_step_size = R"doc(< db step size associated with this structure (typically 0.1 dB))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_from_stream = R"doc()doc";
 
@@ -93,7 +93,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_sample_amplitudes = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_sample_amplitudes = R"doc(< in db steps)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SampleAmplitudesStructure_samples_per_beam = R"doc()doc";
 
