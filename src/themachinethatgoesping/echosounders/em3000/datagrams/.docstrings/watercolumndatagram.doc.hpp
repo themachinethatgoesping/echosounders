@@ -1,4 +1,4 @@
-//sourcehash: 10e89e6968e92e8d49629d2f8cb82d746452981c940f588a9a1ec7e29bdb4e11
+//sourcehash: d28b56682d548fd2b7708066c31822bf52743df0b4aaaab3f926098629334898
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,12 +52,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_beams_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_beams_3 =
-R"doc(structure access to beams (read/write)
-
-Returns:
-    std::vector<substructures::WaterColumnDatagramBeam>&)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_checksum = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_datagram_number = R"doc()doc";
@@ -74,7 +68,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_checksum = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_datagram_numbers = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_datagram_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_etx = R"doc()doc";
 
@@ -104,7 +98,7 @@ R"doc(Get the sound speed in m/s
 Returns:
     _sound_speed * 0.1 m/s (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_spare_byte = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_spare = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_system_serial_number = R"doc()doc";
 
@@ -146,7 +140,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_checksum = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_datagram_numbers = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_datagram_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_etx = R"doc()doc";
 
@@ -166,8 +160,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_spare_byte = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_total_no_of_receive_beams = R"doc()doc";
@@ -183,8 +175,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_sound_speed = R"doc(< in 0.1 m/s)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_spare = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_spare_byte = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_system_serial_number = R"doc()doc";
 

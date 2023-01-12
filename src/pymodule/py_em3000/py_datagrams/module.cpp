@@ -28,6 +28,7 @@ void init_c_xyzdatagram(pybind11::module& m);      // c_xyzdatagram.cpp
 void init_c_extradetections(pybind11::module& m);  // c_extradetections.cpp
 void init_c_rawrangeandangle(pybind11::module& m); // c_rawrangeandangle.cpp
 void init_c_seabedimagedata(pybind11::module& m);  // c_seabedimagedata.cpp
+void init_c_watercolumndatagram(pybind11::module& m); // c_watercolumndatagram.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -45,6 +46,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_extradetections(subm);
     init_c_rawrangeandangle(subm);
     init_c_seabedimagedata(subm);
+    init_c_watercolumndatagram(subm);
 }
 
 }
