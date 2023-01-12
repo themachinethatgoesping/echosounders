@@ -43,7 +43,7 @@ void init_c_watercolumndatagramtransmitsector(pybind11::module& m)
                                                       WaterColumnDatagramTransmitSector))
         .def(py::init<>(), DOC_WaterColumnDatagramTransmitSector(WaterColumnDatagramTransmitSector))
         // --- convenient data access ---
-        .def("set_depth",
+        .def("set_tilt_angle",
              &WaterColumnDatagramTransmitSector::set_tilt_angle,
              DOC_WaterColumnDatagramTransmitSector(tilt_angle))
         .def("get_tilt_angle",

@@ -193,7 +193,9 @@ class WaterColumnDatagram : public EM3000Datagram
                _scanning_info == other._scanning_info && _spare == other._spare &&
                _transmit_sectors == other._transmit_sectors && _beams == other._beams &&
                //    _spare_byte == other._spare_byte &&
-               _etx == other._etx && _checksum == other._checksum;
+               _etx == other._etx && 
+               _checksum == other._checksum &&
+               true;
     }
     bool operator!=(const WaterColumnDatagram& other) const { return !operator==(other); }
 
@@ -223,7 +225,8 @@ class WaterColumnDatagram : public EM3000Datagram
             beam = substructures::WaterColumnDatagramBeam::from_stream(is);
 
         // read the rest of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._etx)), 3 * sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&(datagram._etx)), 1 * sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&(datagram._checksum)), 2 * sizeof(uint8_t));
 
         if (datagram._etx != 0x03)
             throw std::runtime_error(fmt::format(
@@ -262,7 +265,8 @@ class WaterColumnDatagram : public EM3000Datagram
             beam.to_stream(os);
 
         // write the rest of the datagram
-        os.write(reinterpret_cast<const char*>(&(_etx)), 3 * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&(_etx)), 1 * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&(_checksum)), 2 * sizeof(uint8_t));
     }
 
     // ----- objectprinter -----
