@@ -54,6 +54,8 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                     return py::cast(self.template datagrams<datagrams::RawRangeAndAngle>(type));
                 case t_EM3000DatagramIdentifier::SeabedImageData:
                     return py::cast(self.template datagrams<datagrams::SeabedImageData>(type));
+                case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                    return py::cast(self.template datagrams<datagrams::WaterColumnDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

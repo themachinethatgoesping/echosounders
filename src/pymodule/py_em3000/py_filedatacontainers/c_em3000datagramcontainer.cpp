@@ -58,6 +58,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SeabedImageData,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_SeabedImageData");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::WaterColumnDatagram,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_WaterColumnDatagram");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

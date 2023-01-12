@@ -1,4 +1,4 @@
-//sourcehash: c66cca7e32535159c6d078fee3db76980acfb32621b5b53c412176831b41168c
+//sourcehash: d64add429922d4e46b631d19ca9e30a30cd9e203492a8245bc3e4f003e614b86
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -100,6 +100,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_spare = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_spare_byte = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_total_no_of_receive_beams = R"doc()doc";
@@ -160,6 +162,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_spare = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_spare_byte = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_total_no_of_receive_beams = R"doc()doc";
@@ -175,6 +179,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_sound_speed = R"doc(< in 0.1 m/s)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_spare = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_spare_byte = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_system_serial_number = R"doc()doc";
 

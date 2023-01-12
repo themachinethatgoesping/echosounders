@@ -101,7 +101,9 @@ void init_c_watercolumndatagrambeam(pybind11::module& m)
         .def("get_beam_pointing_angle_in_degrees",
              &WaterColumnDatagramBeam::get_beam_pointing_angle_in_degrees,
              DOC_WaterColumnDatagramBeam(get_beam_pointing_angle_in_degrees))
-
+        .def("get_samples_in_db",
+             &WaterColumnDatagramBeam::get_samples_in_db,
+             DOC_WaterColumnDatagramBeam(get_samples_in_db))
 
         // ----- operators -----
         .def("__eq__",
@@ -115,7 +117,7 @@ void init_c_watercolumndatagrambeam(pybind11::module& m)
         __PYCLASS_DEFAULT_PRINTING__(WaterColumnDatagramBeam)
         // end LinearInterpolator
         __PYCLASS_DEFAULT_BINARY__(WaterColumnDatagramBeam)
-        
+
         ;
 }
 }

@@ -53,8 +53,8 @@ class WaterColumnDatagram : public EM3000Datagram
     std::vector<substructures::WaterColumnDatagramTransmitSector> _transmit_sectors;
     std::vector<substructures::WaterColumnDatagramBeam>           _beams;
 
-    // uint8_t  _spare_byte = 0;
-    uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
+    uint8_t  _spare_byte = 0;
+    uint8_t  _etx        = 0x03; ///< end identifier (always 0x03)
     uint16_t _checksum;
 
   private:
@@ -88,9 +88,9 @@ class WaterColumnDatagram : public EM3000Datagram
     int8_t   get_tvg_offset_in_db() const { return _tvg_offset_in_db; }
     uint8_t  get_scanning_info() const { return _scanning_info; }
     std::array<uint8_t, 3> get_spare() const { return _spare; }
-    // uint8_t  get_spare_byte() const { return _spare_byte; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint8_t                get_spare_byte() const { return _spare_byte; }
+    uint8_t                get_etx() const { return _etx; }
+    uint16_t               get_checksum() const { return _checksum; }
 
     // setters
     void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
@@ -129,7 +129,7 @@ class WaterColumnDatagram : public EM3000Datagram
     void set_scanning_info(uint8_t scanning_info) { _scanning_info = scanning_info; }
     void set_spare(std::array<uint8_t, 3> spare) { _spare = spare; }
 
-    // void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
+    void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
@@ -192,10 +192,8 @@ class WaterColumnDatagram : public EM3000Datagram
                _tvg_offset_in_db == other._tvg_offset_in_db &&
                _scanning_info == other._scanning_info && _spare == other._spare &&
                _transmit_sectors == other._transmit_sectors && _beams == other._beams &&
-               //    _spare_byte == other._spare_byte &&
-               _etx == other._etx && 
-               _checksum == other._checksum &&
-               true;
+               _spare_byte == other._spare_byte && _etx == other._etx &&
+               _checksum == other._checksum && true;
     }
     bool operator!=(const WaterColumnDatagram& other) const { return !operator==(other); }
 
@@ -225,8 +223,7 @@ class WaterColumnDatagram : public EM3000Datagram
             beam = substructures::WaterColumnDatagramBeam::from_stream(is);
 
         // read the rest of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._etx)), 1 * sizeof(uint8_t));
-        is.read(reinterpret_cast<char*>(&(datagram._checksum)), 2 * sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
 
         if (datagram._etx != 0x03)
             throw std::runtime_error(fmt::format(
@@ -265,8 +262,7 @@ class WaterColumnDatagram : public EM3000Datagram
             beam.to_stream(os);
 
         // write the rest of the datagram
-        os.write(reinterpret_cast<const char*>(&(_etx)), 1 * sizeof(uint8_t));
-        os.write(reinterpret_cast<const char*>(&(_checksum)), 2 * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
     }
 
     // ----- objectprinter -----
@@ -291,6 +287,7 @@ class WaterColumnDatagram : public EM3000Datagram
         printer.register_string("scanning_info", fmt::format("0b{:08b}", _scanning_info));
         printer.register_string("spare",
                                 fmt::format("0x{:1x}{:1x}{:1x}", _spare[0], _spare[1], _spare[2]));
+        printer.register_value("spare_byte", _spare_byte);
 
         printer.register_section("processed");
         printer.register_value("sound_speed", get_sound_speed_m_s(), "m/s");

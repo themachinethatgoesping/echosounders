@@ -95,6 +95,11 @@ class WaterColumnDatagramBeam
      */
     float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.1f; }
 
+    xt::xtensor<float, 1> get_samples_in_db() const
+    {
+        return xt::xtensor<float, 1>(xt::eval(_samples * 0.5f));
+    }
+
     //----- to/from stream functions -----
     static WaterColumnDatagramBeam from_stream(std::istream& is)
     {

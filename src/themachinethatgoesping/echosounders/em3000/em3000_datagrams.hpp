@@ -15,6 +15,7 @@
 #include "datagrams/rawrangeandangle.hpp"
 #include "datagrams/seabedimagedata.hpp"
 #include "datagrams/xyzdatagram.hpp"
+#include "datagrams/watercolumndatagram.hpp"
 #include "em3000_types.hpp"
 
 #include <pybind11/pybind11.h>
@@ -39,6 +40,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              ExtraDetections,
                                              RawRangeAndAngle,
                                              SeabedImageData,
+                                             WaterColumnDatagram,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -66,6 +68,8 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(RawRangeAndAngle::from_stream(is));
             case t_EM3000DatagramIdentifier::SeabedImageData:
                 return t_EM3000DatagramVariant(SeabedImageData::from_stream(is));
+            case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                return t_EM3000DatagramVariant(WaterColumnDatagram::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }
