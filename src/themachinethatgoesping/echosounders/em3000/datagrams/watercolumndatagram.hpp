@@ -214,11 +214,11 @@ class WaterColumnDatagram : public EM3000Datagram
         datagram._transmit_sectors.resize(datagram._number_of_transmit_sectors);
         is.read(reinterpret_cast<char*>(datagram._transmit_sectors.data()),
                 datagram._number_of_transmit_sectors *
-                    sizeof(substructures::WaterColumnDatagramBeam));
+                    sizeof(substructures::WaterColumnDatagramTransmitSector));
 
-        // read the transmit_sectors
+        // read the beams
         datagram._beams.resize(datagram._number_of_beams_in_datagram);
-        for (auto beam : datagram._beams)
+        for (auto& beam : datagram._beams)
             beam = substructures::WaterColumnDatagramBeam::from_stream(is);
 
         // read the rest of the datagram
