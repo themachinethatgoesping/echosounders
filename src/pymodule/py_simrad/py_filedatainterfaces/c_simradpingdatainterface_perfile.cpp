@@ -20,8 +20,6 @@
 
 #include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradpingdatainterface.hpp"
 
-#include "../../docstrings.hpp"
-
 #include "../../py_filetemplates/py_datainterfaces/i_pingdatainterface.hpp"
 #include "c_simraddatagraminterface.hpp"
 

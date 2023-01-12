@@ -84,10 +84,7 @@ struct XMLConfigurationTransceiverChannelTransducer
   public:
     // ----- constructors -----
     XMLConfigurationTransceiverChannelTransducer() = default;
-    XMLConfigurationTransceiverChannelTransducer(const pugi::xml_node& node)
-    {
-        initialize(node);
-    }
+    XMLConfigurationTransceiverChannelTransducer(const pugi::xml_node& node) { initialize(node); }
     ~XMLConfigurationTransceiverChannelTransducer() = default;
 
     void initialize(const pugi::xml_node& root_node)

@@ -12,7 +12,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simrad/datagrams/FIL1.hpp"
-#include "../../docstrings.hpp"
+
 #include "module.hpp"
 
 namespace themachinethatgoesping {

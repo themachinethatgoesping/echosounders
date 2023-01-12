@@ -8,7 +8,6 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../docstrings.hpp"
 #include "module.hpp"
 #include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationactivepingmode.hpp>
 
@@ -26,13 +25,13 @@ using datagrams::xml_datagrams::XMLConfigurationActivePingMode;
 void init_c_XMLConfigurationActivePingMode(pybind11::module& m)
 {
     py::class_<XMLConfigurationActivePingMode>(m,
-                                                 "XMLConfigurationActivePingMode",
-                                                 DOC(themachinethatgoesping,
-                                                     echosounders,
-                                                     simrad,
-                                                     datagrams,
-                                                     xml_datagrams,
-                                                     XMLConfigurationActivePingMode))
+                                               "XMLConfigurationActivePingMode",
+                                               DOC(themachinethatgoesping,
+                                                   echosounders,
+                                                   simrad,
+                                                   datagrams,
+                                                   xml_datagrams,
+                                                   XMLConfigurationActivePingMode))
         .def(py::init<>(),
              DOC(themachinethatgoesping,
                  echosounders,

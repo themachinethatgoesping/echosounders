@@ -11,8 +11,6 @@
 
 #include "../../../../themachinethatgoesping/echosounders/em3000/datagrams/substructures/flag_detection_information.hpp"
 
-#include "../../../docstrings_moreargs.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {

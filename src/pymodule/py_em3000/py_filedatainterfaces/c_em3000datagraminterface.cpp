@@ -22,8 +22,6 @@
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000datagraminterface.hpp"
 
-#include "../../docstrings.hpp"
-
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 #include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"
 #include "c_em3000datagraminterface.hpp"

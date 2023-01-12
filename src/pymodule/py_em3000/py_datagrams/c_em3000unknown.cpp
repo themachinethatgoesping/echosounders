@@ -9,7 +9,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/em3000/datagrams/em3000unknown.hpp"
-#include "../../docstrings.hpp"
+
 #include "module.hpp"
 
 namespace themachinethatgoesping {

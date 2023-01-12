@@ -8,7 +8,6 @@
 #include <tuple>
 #include <vector>
 
-#include "../../../docstrings.hpp"
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "module.hpp"

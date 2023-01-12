@@ -10,8 +10,6 @@
 
 #include "../../../../themachinethatgoesping/echosounders/em3000/datagrams/substructures/extradetectionsextradetections.hpp"
 
-#include "../../../docstrings_moreargs.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {

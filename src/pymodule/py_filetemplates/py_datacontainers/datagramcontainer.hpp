@@ -12,7 +12,7 @@
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datacontainers/datagramcontainer.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
-// #include "../docstrings.hpp"
+//
 
 namespace themachinethatgoesping {
 namespace echosounders {

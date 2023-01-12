@@ -28,11 +28,11 @@
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 
 #include "helper.hpp"
-#include "xmlconfigurationactivepingmode.hpp"
 #include "xml_configuration_sensor.hpp"
 #include "xml_configuration_transceiver.hpp"
 #include "xml_configuration_transducer.hpp"
 #include "xml_node.hpp"
+#include "xmlconfigurationactivepingmode.hpp"
 
 #include "channelconfiguration.hpp"
 
@@ -58,7 +58,7 @@ struct XML_Configuration
     std::vector<XML_Configuration_Sensor>      ConfiguredSensors;
     std::vector<XML_Configuration_Transducer>  Transducers;
     std::vector<XML_Configuration_Transceiver> Transceivers;
-    XMLConfigurationActivePingMode           ActivePingMode;
+    XMLConfigurationActivePingMode             ActivePingMode;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;

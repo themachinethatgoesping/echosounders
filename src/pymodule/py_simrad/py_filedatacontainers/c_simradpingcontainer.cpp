@@ -19,7 +19,6 @@
 #include "../../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
-#include "../../docstrings.hpp"
 
 #include "../../py_filetemplates/py_datacontainers/pingcontainer.hpp"
 

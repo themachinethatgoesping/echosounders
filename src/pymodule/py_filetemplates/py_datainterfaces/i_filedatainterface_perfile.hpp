@@ -11,7 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_filedatainterface.hpp"
-// #include "../docstrings.hpp"
+//
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -12,7 +12,7 @@
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
-#include "../docstrings.hpp"
+
 #include "module.hpp"
 
 // datagram submodules

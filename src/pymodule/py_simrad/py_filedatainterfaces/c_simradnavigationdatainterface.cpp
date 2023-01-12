@@ -20,8 +20,6 @@
 
 #include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradnavigationdatainterface.hpp"
 
-#include "../../docstrings.hpp"
-
 #include "../../py_filetemplates/py_datainterfaces/i_navigationdatainterface.hpp"
 #include "c_simraddatagraminterface.hpp"
 

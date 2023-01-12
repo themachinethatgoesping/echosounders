@@ -8,7 +8,6 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../docstrings.hpp"
 #include "module.hpp"
 #include <themachinethatgoesping/echosounders/simrad/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp>
 
@@ -181,16 +180,15 @@ void init_c_xmlconfigurationtransceiverchanneltransducer(pybind11::module& m)
                            xml_datagrams,
                            XMLConfigurationTransceiverChannelTransducer,
                            AngleSensitivityAlongship))
-        .def_readwrite(
-            "AngleSensitivityAthwartship",
-            &XMLConfigurationTransceiverChannelTransducer::AngleSensitivityAthwartship,
-            DOC(themachinethatgoesping,
-                echosounders,
-                simrad,
-                datagrams,
-                xml_datagrams,
-                XMLConfigurationTransceiverChannelTransducer,
-                AngleSensitivityAthwartship))
+        .def_readwrite("AngleSensitivityAthwartship",
+                       &XMLConfigurationTransceiverChannelTransducer::AngleSensitivityAthwartship,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XMLConfigurationTransceiverChannelTransducer,
+                           AngleSensitivityAthwartship))
         .def_readwrite("AngleOffsetAlongship",
                        &XMLConfigurationTransceiverChannelTransducer::AngleOffsetAlongship,
                        DOC(themachinethatgoesping,
@@ -209,16 +207,15 @@ void init_c_xmlconfigurationtransceiverchanneltransducer(pybind11::module& m)
                            xml_datagrams,
                            XMLConfigurationTransceiverChannelTransducer,
                            AngleOffsetAthwartship))
-        .def_readwrite(
-            "DirectivityDropAt2XBeamWidth",
-            &XMLConfigurationTransceiverChannelTransducer::DirectivityDropAt2XBeamWidth,
-            DOC(themachinethatgoesping,
-                echosounders,
-                simrad,
-                datagrams,
-                xml_datagrams,
-                XMLConfigurationTransceiverChannelTransducer,
-                DirectivityDropAt2XBeamWidth))
+        .def_readwrite("DirectivityDropAt2XBeamWidth",
+                       &XMLConfigurationTransceiverChannelTransducer::DirectivityDropAt2XBeamWidth,
+                       DOC(themachinethatgoesping,
+                           echosounders,
+                           simrad,
+                           datagrams,
+                           xml_datagrams,
+                           XMLConfigurationTransceiverChannelTransducer,
+                           DirectivityDropAt2XBeamWidth))
 
         .def_readwrite("unknown_children",
                        &XMLConfigurationTransceiverChannelTransducer::unknown_children,

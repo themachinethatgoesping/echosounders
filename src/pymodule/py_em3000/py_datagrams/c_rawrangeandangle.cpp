@@ -10,7 +10,7 @@
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/em3000/datagrams/rawrangeandangle.hpp"
-#include "../../docstrings.hpp"
+
 #include "module.hpp"
 
 namespace themachinethatgoesping {

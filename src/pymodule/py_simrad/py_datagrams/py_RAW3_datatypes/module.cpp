@@ -8,7 +8,6 @@
 #include <tuple>
 #include <vector>
 
-#include "../../../docstrings.hpp"
 #include <themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 

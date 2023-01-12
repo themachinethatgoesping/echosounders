@@ -25,8 +25,8 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
-#include "xmlconfigurationtransceiverchanneltransducer.hpp"
 #include "xml_node.hpp"
+#include "xmlconfigurationtransceiverchanneltransducer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

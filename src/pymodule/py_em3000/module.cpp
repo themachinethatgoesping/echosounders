@@ -12,7 +12,7 @@
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
-#include "../docstrings.hpp"
+
 #include "module.hpp"
 
 // datagram submodules

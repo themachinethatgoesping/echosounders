@@ -9,7 +9,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simrad/datagrams/TAG0.hpp"
-#include "../../docstrings.hpp"
+
 #include "module.hpp"
 
 namespace themachinethatgoesping {
