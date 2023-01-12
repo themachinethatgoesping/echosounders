@@ -29,9 +29,9 @@ void init_c_extradetectionsdetectionclasses(
 void init_c_extradetectionsextradetections(
     pybind11::module& m); // c_extradetectionsextradetections.cpp
 void init_c_rawrangeandangletransmitsector(
-    pybind11::module& m);                              // c_rawrangeandangletransmitsector.cpp
-void init_c_rawrangeandanglebeam(pybind11::module& m); // c_rawrangeandanglebeam.cpp
-void init_c_seabedimagedatabeam(pybind11::module& m);  // c_seabedimagedatabeam.cpp
+    pybind11::module& m);                                   // c_rawrangeandangletransmitsector.cpp
+void init_c_rawrangeandanglebeam(pybind11::module& m);      // c_rawrangeandanglebeam.cpp
+void init_c_seabedimagedatabeam(pybind11::module& m);       // c_seabedimagedatabeam.cpp
 void init_c_sampleamplitudesstructure(pybind11::module& m); // c_sampleamplitudesstructure.cpp
 
 // -- create submodule --

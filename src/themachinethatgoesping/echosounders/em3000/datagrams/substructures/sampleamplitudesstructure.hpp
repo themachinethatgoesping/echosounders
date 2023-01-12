@@ -42,7 +42,7 @@ namespace substructures {
 template<typename t_sample>
 class SampleAmplitudesStructure
 {
-    float                    _db_step_size = 0.1f; ///< db step size associated with this structure (typically 0.1 dB)
+    float _db_step_size = 0.1f; ///< db step size associated with this structure (typically 0.1 dB)
     xt::xtensor<t_sample, 1> _sample_amplitudes; ///< in db steps
     std::vector<uint16_t>    _start_index_per_beam;
     std::vector<uint16_t>    _samples_per_beam;
