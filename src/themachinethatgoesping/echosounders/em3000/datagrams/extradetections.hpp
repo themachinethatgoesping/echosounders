@@ -23,6 +23,7 @@
 
 #include "substructures/extradetectionsdetectionclasses.hpp"
 #include "substructures/extradetectionsextradetections.hpp"
+#include "substructures/sampleamplitudesstructure.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -58,7 +59,8 @@ class ExtraDetections : public EM3000Datagram
     std::vector<substructures::ExtraDetectionsExtraDetections>
         _extra_detections; ///< substructure 2
 
-    std::vector<std::vector<int16_t>> _raw_amplitude_samples; ///< 0.01 dB
+    // std::vector<std::vector<int16_t>> _raw_amplitude_samples;
+    substructures::SampleAmplitudesStructure<int16_t> _raw_amplitude_samples; ///< 0.1 dB
 
     uint8_t  _spare;
     uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
@@ -102,7 +104,7 @@ class ExtraDetections : public EM3000Datagram
     {
         return _extra_detections;
     }
-    const std::vector<std::vector<int16_t>>& get_raw_amplitude_samples() const
+    const substructures::SampleAmplitudesStructure<int16_t>& get_raw_amplitude_samples() const
     {
         return _raw_amplitude_samples;
     }
@@ -171,7 +173,8 @@ class ExtraDetections : public EM3000Datagram
     {
         _extra_detections = extra_detections;
     }
-    void set_raw_amplitude_samples(const std::vector<std::vector<int16_t>>& raw_amplitude_samples)
+    void set_raw_amplitude_samples(
+        const substructures::SampleAmplitudesStructure<int16_t>& raw_amplitude_samples)
     {
         _raw_amplitude_samples = raw_amplitude_samples;
     }
@@ -188,7 +191,10 @@ class ExtraDetections : public EM3000Datagram
     {
         return _extra_detections;
     }
-    std::vector<std::vector<int16_t>>& raw_amplitude_samples() { return _raw_amplitude_samples; }
+    substructures::SampleAmplitudesStructure<int16_t>& raw_amplitude_samples()
+    {
+        return _raw_amplitude_samples;
+    }
 
     // ----- processed data access -----
     /**
@@ -256,16 +262,32 @@ class ExtraDetections : public EM3000Datagram
                     sizeof(substructures::ExtraDetectionsExtraDetections));
 
         // read raw amplitude samples
-        datagram._raw_amplitude_samples.resize(datagram._number_of_extra_detections);
-        for (unsigned int i = 0; i < datagram._number_of_extra_detections; ++i)
-        {
-            size_t ns = datagram._extra_detections[i].get_number_of_raw_amplitude_samples() * 2 + 1;
-            datagram._raw_amplitude_samples[i].resize(ns);
+        uint16_t              total_samples = 0;
+        std::vector<uint16_t> samples_per_beam;
+        std::vector<uint16_t> start_index_per_beam;
+        samples_per_beam.reserve(datagram._number_of_extra_detections);
 
-            // read the rest of the datagram
-            is.read(reinterpret_cast<char*>(datagram._raw_amplitude_samples[i].data()),
-                    ns * sizeof(int16_t));
+        for (const auto& beam : datagram._extra_detections)
+        {
+            start_index_per_beam.push_back(total_samples);
+            samples_per_beam.push_back(beam.get_number_of_raw_amplitude_samples());
+            total_samples += samples_per_beam.back();
         }
+
+        datagram._raw_amplitude_samples =
+            substructures::SampleAmplitudesStructure<int16_t>::from_stream(
+                is, total_samples, std::move(start_index_per_beam), std::move(samples_per_beam));
+
+        // datagram._raw_amplitude_samples.resize(datagram._number_of_extra_detections);
+        // for (unsigned int i = 0; i < datagram._number_of_extra_detections; ++i)
+        // {
+        //     size_t ns = datagram._extra_detections[i].get_number_of_raw_amplitude_samples() * 2 +
+        //     1; datagram._raw_amplitude_samples[i].resize(ns);
+
+        //     // read the rest of the datagram
+        //     is.read(reinterpret_cast<char*>(datagram._raw_amplitude_samples[i].data()),
+        //             ns * sizeof(int16_t));
+        // }
 
         // read the rest of the datagram
         // is.read(reinterpret_cast<char*>(&(datagram._spare)), 5 * sizeof(uint8_t));
@@ -295,11 +317,11 @@ class ExtraDetections : public EM3000Datagram
         EM3000Datagram::to_stream(os);
         _number_of_detection_classes = _detection_classes.size();
         _number_of_extra_detections  = _extra_detections.size();
-        _raw_amplitude_samples.resize(_number_of_extra_detections);
+        //_raw_amplitude_samples.resize(_number_of_extra_detections);
 
-        for (unsigned int i = 0; i < _number_of_extra_detections; ++i)
-            _raw_amplitude_samples[i].resize(
-                _extra_detections[i].get_number_of_raw_amplitude_samples() * 2 + 1);
+        // for (unsigned int i = 0; i < _number_of_extra_detections; ++i)
+        //     _raw_amplitude_samples[i].resize(
+        //         _extra_detections[i].get_number_of_raw_amplitude_samples() * 2 + 1);
 
         // write first part of the datagram (until the first beam)
         os.write(reinterpret_cast<const char*>(&(_ping_counter)), 40 * sizeof(uint8_t));
@@ -315,9 +337,10 @@ class ExtraDetections : public EM3000Datagram
                      sizeof(substructures::ExtraDetectionsExtraDetections));
 
         // write the raw amplitude samples
-        for (unsigned int i = 0; i < _number_of_extra_detections; ++i)
-            os.write(reinterpret_cast<const char*>(_raw_amplitude_samples[i].data()),
-                     _raw_amplitude_samples[i].size() * sizeof(uint16_t));
+        _raw_amplitude_samples.to_stream(os);
+        // for (unsigned int i = 0; i < _number_of_extra_detections; ++i)
+        //     os.write(reinterpret_cast<const char*>(_raw_amplitude_samples[i].data()),
+        //              _raw_amplitude_samples[i].size() * sizeof(uint16_t));
 
         // write the rest of the datagram
         os.write(reinterpret_cast<const char*>(&(_spare)), 4 * sizeof(uint8_t));

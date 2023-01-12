@@ -37,7 +37,7 @@ class SeabedImageDataBeam
 {
     int8_t   _sorting_direction;
     uint8_t  _detection_info;
-    uint16_t _number_of_samples; // per beam
+    uint16_t _number_of_samples; ///< per beam
     uint16_t _centre_sample_number;
 
   public:

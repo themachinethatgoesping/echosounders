@@ -21,6 +21,7 @@
 #include "../em3000_types.hpp"
 #include "em3000datagram.hpp"
 
+#include "substructures/sampleamplitudesstructure.hpp"
 #include "substructures/seabedimagedatabeam.hpp"
 
 namespace themachinethatgoesping {
@@ -36,20 +37,22 @@ cleaning for beam status (note 4 and 5).
 class SeabedImageData : public EM3000Datagram
 {
   protected:
-    uint16_t _ping_counter; // sequential number
+    uint16_t _ping_counter; ///< sequential number
     uint16_t _system_serial_number;
-    float    _sampling_frequency;           // in Hz
-    uint16_t _range_to_normal_incidence;    // used to correct sample amplitudes in no. of samples
-    int16_t  _normal_incidence_backscatter; // in 0.01 dB (BSN)
-    int16_t  _oblique_backscatter;          // in 0.01 dB (BSO)
-    uint16_t _tx_beamwidth_along;           // in 0.1 degree
-    uint16_t _tvg_law_crossover_angle;      // in 0.1 degree
+    float    _sampling_frequency;           ///< in Hz
+    uint16_t _range_to_normal_incidence;    ///< used to correct sample amplitudes in no. of samples
+    int16_t  _normal_incidence_backscatter; ///< in 0.01 dB (BSN)
+    int16_t  _oblique_backscatter;          ///< in 0.01 dB (BSO)
+    uint16_t _tx_beamwidth_along;           ///< in 0.1 degree
+    uint16_t _tvg_law_crossover_angle;      ///< in 0.1 degree
     uint16_t _number_of_valid_beams;
 
     std::vector<substructures::SeabedImageDataBeam> _beams;
 
-    std::vector<std::vector<int16_t>>
-        _sample_amplitudes; // in 0.1 dB (size = sum of _Number_of_samples of all Beams
+    // std::vector<std::vector<int16_t>>
+    //     _sample_amplitudes;
+    substructures::SampleAmplitudesStructure<int16_t>
+        _sample_amplitudes; ///< in 0.1 dB (size = sum of _Number_of_samples of all Beams
 
     uint8_t  _spare_byte = 0;
     uint8_t  _etx        = 0x03; ///< end identifier (always 0x03)
@@ -123,15 +126,19 @@ class SeabedImageData : public EM3000Datagram
     void set_beams(const std::vector<substructures::SeabedImageDataBeam>& beams) { _beams = beams; }
     std::vector<substructures::SeabedImageDataBeam>& beams() { return _beams; }
 
-    const std::vector<std::vector<int16_t>>& get_sample_amplitudes() const
+    const substructures::SampleAmplitudesStructure<int16_t>& get_sample_amplitudes() const
     {
         return _sample_amplitudes;
     }
-    void set_sample_amplitudes(const std::vector<std::vector<int16_t>>& sample_amplitudes)
+    void set_sample_amplitudes(
+        const substructures::SampleAmplitudesStructure<int16_t>& sample_amplitudes)
     {
         _sample_amplitudes = sample_amplitudes;
     }
-    std::vector<std::vector<int16_t>>& sample_amplitudes() { return _sample_amplitudes; }
+    substructures::SampleAmplitudesStructure<int16_t>& sample_amplitudes()
+    {
+        return _sample_amplitudes;
+    }
 
     // ----- processed data access -----
     /**
@@ -203,14 +210,30 @@ class SeabedImageData : public EM3000Datagram
         is.read(reinterpret_cast<char*>(datagram._beams.data()),
                 datagram._number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
 
-        // read the sample amplitudes
-        datagram._sample_amplitudes.resize(datagram._number_of_valid_beams);
-        for (uint b = 0; b < datagram._number_of_valid_beams; ++b)
+        uint16_t              total_samples = 0;
+        std::vector<uint16_t> samples_per_beam;
+        std::vector<uint16_t> start_index_per_beam;
+        samples_per_beam.reserve(datagram._number_of_valid_beams);
+
+        for (const auto& beam : datagram._beams)
         {
-            datagram._sample_amplitudes[b].resize(datagram._beams[b].get_number_of_samples());
-            is.read(reinterpret_cast<char*>(datagram._sample_amplitudes[b].data()),
-                    datagram._beams[b].get_number_of_samples() * sizeof(int16_t));
+            start_index_per_beam.push_back(total_samples);
+            samples_per_beam.push_back(beam.get_number_of_samples());
+            total_samples += samples_per_beam.back();
         }
+
+        datagram._sample_amplitudes =
+            substructures::SampleAmplitudesStructure<int16_t>::from_stream(
+                is, total_samples, std::move(start_index_per_beam), std::move(samples_per_beam));
+
+        // read the sample amplitudes
+        // datagram._sample_amplitudes.resize(datagram._number_of_valid_beams);
+        // for (uint b = 0; b < datagram._number_of_valid_beams; ++b)
+        // {
+        //     datagram._sample_amplitudes[b].resize(datagram._beams[b].get_number_of_samples());
+        //     is.read(reinterpret_cast<char*>(datagram._sample_amplitudes[b].data()),
+        //             datagram._beams[b].get_number_of_samples() * sizeof(int16_t));
+        // }
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
@@ -246,13 +269,14 @@ class SeabedImageData : public EM3000Datagram
                  _number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
 
         // write the sample amplitudes
-        _sample_amplitudes.resize(_number_of_valid_beams);
-        for (uint b = 0; b < _number_of_valid_beams; ++b)
-        {
-            _sample_amplitudes[b].resize(_beams[b].get_number_of_samples());
-            os.write(reinterpret_cast<const char*>(_sample_amplitudes[b].data()),
-                     _beams[b].get_number_of_samples() * sizeof(int16_t));
-        }
+        _sample_amplitudes.to_stream(os);
+        // _sample_amplitudes.resize(_number_of_valid_beams);
+        // for (uint b = 0; b < _number_of_valid_beams; ++b)
+        // {
+        //     _sample_amplitudes[b].resize(_beams[b].get_number_of_samples());
+        //     os.write(reinterpret_cast<const char*>(_sample_amplitudes[b].data()),
+        //              _beams[b].get_number_of_samples() * sizeof(int16_t));
+        // }
 
         // write the rest of the datagram
         os.write(reinterpret_cast<const char*>(&(_spare_byte)), 4 * sizeof(uint8_t));

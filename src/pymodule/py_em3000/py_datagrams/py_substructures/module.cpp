@@ -32,6 +32,7 @@ void init_c_rawrangeandangletransmitsector(
     pybind11::module& m);                              // c_rawrangeandangletransmitsector.cpp
 void init_c_rawrangeandanglebeam(pybind11::module& m); // c_rawrangeandanglebeam.cpp
 void init_c_seabedimagedatabeam(pybind11::module& m);  // c_seabedimagedatabeam.cpp
+void init_c_sampleamplitudesstructure(pybind11::module& m); // c_sampleamplitudesstructure.cpp
 
 // -- create submodule --
 void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
@@ -51,6 +52,7 @@ void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
     init_c_rawrangeandangletransmitsector(subm);
     init_c_rawrangeandanglebeam(subm);
     init_c_seabedimagedatabeam(subm);
+    init_c_sampleamplitudesstructure(subm);
 }
 
 }
