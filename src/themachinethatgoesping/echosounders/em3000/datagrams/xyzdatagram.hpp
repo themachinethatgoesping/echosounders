@@ -74,17 +74,9 @@ class XYZDatagram : public EM3000Datagram
     float    get_sampling_frequency() const { return _sampling_frequency; }
     uint8_t  get_scanning_info() const { return _scanning_info; }
     const std::array<uint8_t, 3>& get_spare_bytes() const { return _spare_bytes; }
-    const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
-    uint8_t  get_spare_byte() const { return _spare_byte; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
-
-    /**
-     * @brief structure access to beams (read/write)
-     *
-     * @return std::vector<substructures::XYZDatagramBeam>&
-     */
-    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
+    uint8_t                       get_spare_byte() const { return _spare_byte; }
+    uint8_t                       get_etx() const { return _etx; }
+    uint16_t                      get_checksum() const { return _checksum; }
 
     void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
     void set_system_serial_number(uint16_t system_serial_number)
@@ -111,10 +103,20 @@ class XYZDatagram : public EM3000Datagram
     }
     void set_scanning_info(uint8_t scanning_info) { _scanning_info = scanning_info; }
     void set_spare_bytes(std::array<uint8_t, 3> spare_bytes) { _spare_bytes = spare_bytes; }
-    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = beams; }
     void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
+
+    // ----- substructure access -----
+    const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
+    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = beams; }
+
+    /**
+     * @brief structure access to beams (read/write)
+     *
+     * @return std::vector<substructures::XYZDatagramBeam>&
+     */
+    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
 
     // ----- processed data access -----
     /**
