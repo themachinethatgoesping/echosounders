@@ -13,6 +13,7 @@
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/extradetections.hpp"
 #include "datagrams/rawrangeandangle.hpp"
+#include "datagrams/seabedimagedata.hpp"
 #include "datagrams/xyzdatagram.hpp"
 #include "em3000_types.hpp"
 
@@ -33,8 +34,12 @@ namespace em3000 {
 namespace datagrams {
 
 // EM3000DATAGRAMTYPEAREA
-using t_EM3000DatagramVariant =
-    std::variant<EM3000Datagram, XYZDatagram, ExtraDetections, RawRangeAndAngle, EM3000Unknown>;
+using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
+                                             XYZDatagram,
+                                             ExtraDetections,
+                                             RawRangeAndAngle,
+                                             SeabedImageData,
+                                             EM3000Unknown>;
 
 struct EM3000DatagramVariant
 {
@@ -59,6 +64,8 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(ExtraDetections::from_stream(is));
             case t_EM3000DatagramIdentifier::RawRangeAndAngle:
                 return t_EM3000DatagramVariant(RawRangeAndAngle::from_stream(is));
+            case t_EM3000DatagramIdentifier::SeabedImageData:
+                return t_EM3000DatagramVariant(SeabedImageData::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

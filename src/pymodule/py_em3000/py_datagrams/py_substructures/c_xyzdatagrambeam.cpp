@@ -98,6 +98,9 @@ void init_c_xyzdatagrambeam(pybind11::module& m)
         .def("get_backscatter",
              &XYZDatagramBeam::get_backscatter,
              DOC_XYZDatagramBeam(get_backscatter))
+        .def("get_detection_is_valid",
+             &XYZDatagramBeam::get_detection_is_valid,
+             DOC_XYZDatagramBeam(get_detection_is_valid))
         .def("get_detection_type",
              &XYZDatagramBeam::get_detection_type,
              DOC_XYZDatagramBeam(get_detection_type))

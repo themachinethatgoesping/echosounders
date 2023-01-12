@@ -269,7 +269,8 @@ class SeabedImageData : public EM3000Datagram
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("sampling_frequency", _sampling_frequency, "Hz");
         printer.register_value("range_to_normal_incidence", _range_to_normal_incidence);
-        printer.register_value("normal_incidence_backscatter", _normal_incidence_backscatter, "0.01 dB");
+        printer.register_value(
+            "normal_incidence_backscatter", _normal_incidence_backscatter, "0.01 dB");
         printer.register_value("oblique_backscatter", _oblique_backscatter, "0.01 dB");
         printer.register_value("tx_beamwidth_along", _tx_beamwidth_along, "0.1°");
         printer.register_value("tvg_law_crossover_angle", _tvg_law_crossover_angle, "0.1°");
@@ -279,10 +280,12 @@ class SeabedImageData : public EM3000Datagram
         printer.register_value("checksum", _checksum);
 
         printer.register_section("processed");
-        printer.register_value("normal_incidence_backscatter", get_normal_incidence_backscatter_in_db(), "dB");
+        printer.register_value(
+            "normal_incidence_backscatter", get_normal_incidence_backscatter_in_db(), "dB");
         printer.register_value("oblique_backscatter", get_oblique_backscatter_in_db(), "dB");
         printer.register_value("tx_beamwidth_along", get_tx_beamwidth_along_in_degrees(), "°");
-        printer.register_value("tvg_law_crossover_angle", get_tvg_law_crossover_angle_in_degrees(), "°");
+        printer.register_value(
+            "tvg_law_crossover_angle", get_tvg_law_crossover_angle_in_degrees(), "°");
 
         printer.register_section("substructures");
         printer.register_value("SeabedImageDataBeams", _beams.size(), "structures");

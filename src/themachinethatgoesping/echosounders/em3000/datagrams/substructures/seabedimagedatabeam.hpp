@@ -45,17 +45,26 @@ class SeabedImageDataBeam
     ~SeabedImageDataBeam() = default;
 
     // ----- convenient member access -----
-    // get 
+    // get
     uint16_t get_sorting_direction() const { return _sorting_direction; }
     uint8_t  get_detection_info() const { return _detection_info; }
     uint16_t get_number_of_samples() const { return _number_of_samples; }
     uint16_t get_centre_sample_number() const { return _centre_sample_number; }
 
     // set
-    void set_sorting_direction(const uint16_t& sorting_direction) { _sorting_direction = sorting_direction; }
+    void set_sorting_direction(const uint16_t& sorting_direction)
+    {
+        _sorting_direction = sorting_direction;
+    }
     void set_detection_info(const uint8_t& detection_info) { _detection_info = detection_info; }
-    void set_number_of_samples(const uint16_t& number_of_samples) { _number_of_samples = number_of_samples; }
-    void set_centre_sample_number(const uint16_t& centre_sample_number) { _centre_sample_number = centre_sample_number; }
+    void set_number_of_samples(const uint16_t& number_of_samples)
+    {
+        _number_of_samples = number_of_samples;
+    }
+    void set_centre_sample_number(const uint16_t& centre_sample_number)
+    {
+        _centre_sample_number = centre_sample_number;
+    }
 
     // ----- processed member access -----
     /**

@@ -1,4 +1,4 @@
-//sourcehash: 9cad0cbaee717cfda109caf37b6256438fc686d4f65411b7d5ea86c33a651181
+//sourcehash: 02effcd157be88139128c6338016f3def51d6b2ac303bf64067815e2d1b68850
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -95,6 +95,14 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_set_centre_sample_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_set_detection_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_set_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_set_sorting_direction = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_sorting_direction = R"doc()doc";
 
