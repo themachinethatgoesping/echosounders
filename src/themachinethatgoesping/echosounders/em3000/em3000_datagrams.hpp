@@ -13,6 +13,7 @@
 #include "datagrams/em3000datagram.hpp"
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/extradetections.hpp"
+#include "datagrams/networkattitudevelocitydatagram.hpp"
 #include "datagrams/qualityfactordatagram.hpp"
 #include "datagrams/rawrangeandangle.hpp"
 #include "datagrams/seabedimagedata.hpp"
@@ -45,6 +46,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              WaterColumnDatagram,
                                              QualityFactorDatagram,
                                              AttitudeDatagram,
+                                             NetworkAttitudeVelocityDatagram,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -78,6 +80,9 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(datagrams::QualityFactorDatagram::from_stream(is));
             case t_EM3000DatagramIdentifier::AttitudeDatagram:
                 return t_EM3000DatagramVariant(datagrams::AttitudeDatagram::from_stream(is));
+            case t_EM3000DatagramIdentifier::NetworkAttitudeVelocityDatagram:
+                return t_EM3000DatagramVariant(
+                    datagrams::NetworkAttitudeVelocityDatagram::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

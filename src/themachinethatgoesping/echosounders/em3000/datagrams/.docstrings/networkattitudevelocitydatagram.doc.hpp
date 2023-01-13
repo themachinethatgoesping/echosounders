@@ -1,4 +1,4 @@
-//sourcehash: d242df5a27dce65ca13cb60d5c1acff67938502aec57abe9d5a2e6e007c296fa
+//sourcehash: 893d8ce127a91d83cdf34e267f1b0bbced40e6b8e533f0f123efe093620940df
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -118,14 +118,16 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_sensor_system_descriptor = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_spare = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_spare_align = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_velocity_sensor_is_active =
-R"doc(Evaluate if the heading sensor is active using sensor system
-descriptor field. 0bxxxxxxx1 : heading is active 0bxxxxxxx1 : heading
-is inactive
+R"doc(Evaluate if the velocity sensor is active using sensor system
+descriptor field. 0bxxxxxxx1 : velocity is active 0bxxxxxxx1 :
+velocity is inactive
 
 Returns:
     bool)doc";
@@ -153,6 +155,10 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ne
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_set_number_of_entries = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_set_sensor_system_descriptor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_set_spare = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_set_spare_align = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_set_system_serial_number = R"doc()doc";
 

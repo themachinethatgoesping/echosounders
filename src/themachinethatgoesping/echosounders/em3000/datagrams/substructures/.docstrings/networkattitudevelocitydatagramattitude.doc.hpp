@@ -1,4 +1,4 @@
-//sourcehash: 00c3d31852561f4d738724b348b3688fcc4dd0a7f6f87512427d6feedc537d20
+//sourcehash: 8945b3ed93135a5242b12e4441987ce26370d431e6ad3db738b60efa9c95f15f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,10 @@ reference point. Heave, roll, pitch, sound speed at the transducer
 depth and ray bending through the water column have been applied.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_NetworkAttitudeVelocityDatagramAttitude = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_get_heading = R"doc()doc";
 
@@ -123,6 +127,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_set_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_time = R"doc(< in_milliseconds_since_record_start)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

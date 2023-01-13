@@ -37,6 +37,8 @@ void init_c_watercolumndatagramtransmitsector(
     pybind11::module& m);                                 // c_watercolumndatagramtransmitsector.cpp
 void init_c_watercolumndatagrambeam(pybind11::module& m); // c_watercolumndatagrambeam.cpp
 void init_c_attitudedatagramattitude(pybind11::module& m); // c_attitudedatagramattitude.cpp
+void init_c_networkattitudevelocitydatagramattitude(
+    pybind11::module& m); // c_networkattitudevelocitydatagramattitude.cpp
 
 // -- create submodule --
 void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
@@ -60,6 +62,7 @@ void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
     init_c_watercolumndatagramtransmitsector(subm);
     init_c_watercolumndatagrambeam(subm);
     init_c_attitudedatagramattitude(subm);
+    init_c_networkattitudevelocitydatagramattitude(subm);
 }
 
 }

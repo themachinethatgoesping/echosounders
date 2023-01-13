@@ -61,6 +61,9 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                         self.template datagrams<datagrams::QualityFactorDatagram>(type));
                 case t_EM3000DatagramIdentifier::AttitudeDatagram:
                     return py::cast(self.template datagrams<datagrams::AttitudeDatagram>(type));
+                case t_EM3000DatagramIdentifier::NetworkAttitudeVelocityDatagram:
+                    return py::cast(
+                        self.template datagrams<datagrams::NetworkAttitudeVelocityDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

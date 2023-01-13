@@ -99,7 +99,7 @@ void init_c_attitudedatagram(pybind11::module& m)
              &AttitudeDatagram::operator==,
              DOC_AttitudeDatagram(operator_eq),
              py::arg("other"))
-             
+
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(AttitudeDatagram)

@@ -162,7 +162,7 @@ class NetworkAttitudeVelocityDatagramAttitude
         printer.register_value("heading", _heading, "0.01°");
         printer.register_value("number_of_bytes_in_input_datagram",
                                _number_of_bytes_in_input_datagram);
-        printer.register_string("input_datagram", _input_datagram);
+        printer.register_value("input_datagram", _input_datagram.size(), "bytes");
 
         // processed values
         printer.register_section("processed");

@@ -73,7 +73,8 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
     uint8_t  get_sensor_system_descriptor() const { return _sensor_system_descriptor; }
     uint8_t  get_etx() const { return _etx; }
     uint16_t get_checksum() const { return _checksum; }
-    bool     get_spare_align() const { return _spare_align; }
+    uint8_t  get_spare() const { return _spare; }
+    uint8_t  get_spare_align() const { return _spare_align; }
 
     // setters
     void set_network_attitude_counter(uint16_t network_attitude_counter)
@@ -94,6 +95,8 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
     }
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_spare(uint8_t spare) { _spare = spare; }
+    void set_spare_align(uint8_t spare_align) { _spare_align = spare_align; }
 
     // substructures
     std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& attitudes()
@@ -131,9 +134,9 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
     }
 
     /**
-     * @brief Evaluate if the heading sensor is active using sensor system descriptor field.
-     * 0bxxxxxxx1 : heading is active
-     * 0bxxxxxxx1 : heading is inactive
+     * @brief Evaluate if the velocity sensor is active using sensor system descriptor field.
+     * 0bxxxxxxx1 : velocity is active
+     * 0bxxxxxxx1 : velocity is inactive
      *
      * @return bool
      *
@@ -284,13 +287,14 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
 
         // check if alignment is necessary
         // if pos difference is even, read the _spar_align field
-        if ((is.tellg() - start_pos) % 2 != 0)
+        if ((is.tellg() - start_pos) % 2 != 1)
             is.read(reinterpret_cast<char*>(&(datagram._spare_align)), 4 * sizeof(uint8_t));
 
         else
         {
-            is.read(reinterpret_cast<char*>(&(datagram._etx)), sizeof(uint8_t));
-            is.read(reinterpret_cast<char*>(&(datagram._checksum)), sizeof(uint16_t));
+            is.read(reinterpret_cast<char*>(&(datagram._etx)), 3 * sizeof(uint8_t));
+            // is.read(reinterpret_cast<char*>(&(datagram._etx)), sizeof(uint8_t));
+            // is.read(reinterpret_cast<char*>(&(datagram._checksum)), sizeof(uint16_t));
         }
 
         if (datagram._etx != 0x03)
