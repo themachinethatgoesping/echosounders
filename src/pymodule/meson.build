@@ -78,6 +78,7 @@ sources = [
     'py_em3000/py_datagrams/py_substructures/c_sampleamplitudesstructure.cpp',
     'py_em3000/py_datagrams/py_substructures/c_watercolumndatagramtransmitsector.cpp',
     'py_em3000/py_datagrams/py_substructures/c_watercolumndatagrambeam.cpp',
+    'py_em3000/py_datagrams/py_substructures/c_attitudedatagramattitude.cpp',
     'py_em3000/py_datagrams/py_substructures/module.cpp',
     'py_em3000/py_datagrams/c_em3000datagram.cpp',
     'py_em3000/py_datagrams/c_em3000unknown.cpp',

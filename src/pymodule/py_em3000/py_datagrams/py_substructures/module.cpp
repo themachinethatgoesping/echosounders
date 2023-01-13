@@ -36,6 +36,7 @@ void init_c_sampleamplitudesstructure(pybind11::module& m); // c_sampleamplitude
 void init_c_watercolumndatagramtransmitsector(
     pybind11::module& m);                                 // c_watercolumndatagramtransmitsector.cpp
 void init_c_watercolumndatagrambeam(pybind11::module& m); // c_watercolumndatagrambeam.cpp
+void init_c_attitudedatagramattitude(pybind11::module& m); // c_attitudedatagramattitude.cpp
 
 // -- create submodule --
 void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
@@ -58,6 +59,7 @@ void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
     init_c_sampleamplitudesstructure(subm);
     init_c_watercolumndatagramtransmitsector(subm);
     init_c_watercolumndatagrambeam(subm);
+    init_c_attitudedatagramattitude(subm);
 }
 
 }
