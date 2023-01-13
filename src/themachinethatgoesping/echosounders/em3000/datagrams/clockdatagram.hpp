@@ -1,0 +1,206 @@
+// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
+// SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+//
+// SPDX-License-Identifier: MPL-2.0
+
+#pragma once
+
+/* generated doc strings */
+#include ".docstrings/clockdatagram.doc.hpp"
+
+// std includes
+#include <string>
+#include <vector>
+
+// themachinethatgoesping import
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
+
+#include "../em3000_types.hpp"
+#include "em3000datagram.hpp"
+
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace em3000 {
+namespace datagrams {
+
+/**
+ * @brief Clock datagrams
+ */
+class ClockDatagram : public EM3000Datagram
+{
+  protected:
+    uint16_t _clock_counter; ///< sequential number
+    uint16_t _system_serial_number;
+    uint32_t _date_external; ///< from external clock input year*1000 + month*100 + day(Example:Jun
+                             ///< 27, 2020 = 20200627)
+    uint32_t _time_since_midnight_external; ///< in ms from external clock datagram
+    uint8_t _pps_active; ///< 0 = inactive (Shows if the system clock is synchronized to an external
+                         ///< PPS signal or not)
+
+    uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
+    uint16_t _checksum;
+
+  private:
+    // ----- private constructors -----
+    explicit ClockDatagram(EM3000Datagram header)
+        : EM3000Datagram(std::move(header))
+    {
+    }
+
+  public:
+    // ----- public constructors -----
+    ClockDatagram() { _datagram_identifier = t_EM3000DatagramIdentifier::ClockDatagram; }
+    ~ClockDatagram() = default;
+
+    // ----- convenient data access -----
+    // getters
+    uint16_t get_clock_counter() const { return _clock_counter; }
+    uint16_t get_system_serial_number() const { return _system_serial_number; }
+    uint32_t get_date_external() const { return _date_external; }
+    uint32_t get_time_since_midnight_external() const { return _time_since_midnight_external; }
+    uint8_t  get_pps_active() const { return _pps_active; }
+    uint8_t  get_etx() const { return _etx; }
+    uint16_t get_checksum() const { return _checksum; }
+
+    // setters
+    void set_clock_counter(uint16_t clock_counter) { _clock_counter = clock_counter; }
+    void set_system_serial_number(uint16_t system_serial_number)
+    {
+        _system_serial_number = system_serial_number;
+    }
+    void set_date_external(uint32_t date_external) { _date_external = date_external; }
+    void set_time_since_midnight_external(uint32_t time_since_midnight_external)
+    {
+        _time_since_midnight_external = time_since_midnight_external;
+    }
+    void set_pps_active(uint8_t pps_active) { _pps_active = pps_active; }
+    void set_etx(uint8_t etx) { _etx = etx; }
+    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+
+    // ----- processed data access -----
+    /**
+     * @brief convert the date and time_since_midnight field to a unix timestamp
+     *
+     * @return unixtime as double
+     */
+    double get_timestamp_external() const
+    {
+        int y = int(_date_external / 10000);
+        int m = int(_date_external / 100) - y * 100;
+        int d = int(_date_external) - y * 10000 - m * 100;
+
+        return tools::timeconv::year_month_day_to_unixtime(
+            y, m, d, uint64_t(_time_since_midnight_external) * 1000);
+    }
+
+    /**
+     * @brief difference between timestamp and timestamp_external
+     *
+     * @return timestamp_external - timestamp
+     */
+    double get_timestamp_offset() const { return get_timestamp_external() - get_timestamp(); }
+
+    std::string get_date_string_external_clock(
+        unsigned int       fractionalSecondsDigits = 2,
+        const std::string& format                  = "%z__%d-%m-%Y__%H:%M:%S") const
+    {
+        return tools::timeconv::unixtime_to_datestring(
+            get_timestamp_external(), fractionalSecondsDigits, format);
+    }
+
+    // ----- operators -----
+    bool operator==(const ClockDatagram& other) const
+    {
+        return EM3000Datagram::operator==(other) && _clock_counter == other._clock_counter &&
+               _system_serial_number == other._system_serial_number &&
+               _date_external == other._date_external &&
+               _time_since_midnight_external == other._time_since_midnight_external &&
+               _pps_active == other._pps_active && _etx == other._etx &&
+               _checksum == other._checksum;
+    }
+    bool operator!=(const ClockDatagram& other) const { return !operator==(other); }
+
+    //----- to/from stream functions -----
+    static ClockDatagram from_stream(std::istream& is, EM3000Datagram header)
+    {
+        ClockDatagram datagram(std::move(header));
+
+        if (datagram._datagram_identifier != t_EM3000DatagramIdentifier::ClockDatagram)
+            throw std::runtime_error(
+                fmt::format("ClockDatagram: datagram identifier is not 0x{:02x}, but 0x{:02x}",
+                            uint8_t(t_EM3000DatagramIdentifier::ClockDatagram),
+                            uint8_t(datagram._datagram_identifier)));
+
+        // read first part of the datagram (until the first beam)
+        is.read(reinterpret_cast<char*>(&(datagram._clock_counter)), 16 * sizeof(uint8_t));
+
+        if (datagram._etx != 0x03)
+            throw std::runtime_error(fmt::format(
+                "ClockDatagram: end identifier is not 0x03, but 0x{:x}", datagram._etx));
+
+        return datagram;
+    }
+
+    static ClockDatagram from_stream(std::istream& is)
+    {
+        return from_stream(is, EM3000Datagram::from_stream(is));
+    }
+
+    static ClockDatagram from_stream(std::istream&              is,
+                                     t_EM3000DatagramIdentifier datagram_identifier)
+    {
+        return from_stream(is, std::move(EM3000Datagram::from_stream(is, datagram_identifier)));
+    }
+
+    void to_stream(std::ostream& os)
+    {
+        EM3000Datagram::to_stream(os);
+
+        // write first part of the datagram (until the first beam)
+        os.write(reinterpret_cast<const char*>(&(_clock_counter)), 16 * sizeof(uint8_t));
+    }
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer("ClockDatagram", float_precision);
+
+        static const std::string format_date("%d/%m/%Y");
+        static const std::string format_time("%H:%M:%S");
+        auto                     timestamp_external = get_timestamp_external();
+
+        using tools::timeconv::unixtime_to_datestring;
+        auto date = unixtime_to_datestring(timestamp_external, 0, format_date);
+        auto time = unixtime_to_datestring(timestamp_external, 3, format_time);
+
+        printer.append(EM3000Datagram::__printer__(float_precision));
+        printer.register_section("datagram content");
+        printer.register_value("clock_counter", _clock_counter);
+        printer.register_value("system_serial_number", _system_serial_number);
+        printer.register_value("date_external", _date_external, "YYYYMMDD");
+        printer.register_value("time_since_midnight_external", _time_since_midnight_external, "ms");
+        printer.register_value("pps_active", _pps_active);
+        printer.register_string("etx", fmt::format("0x{:02x}", _etx));
+        printer.register_value("checksum", _checksum);
+
+        printer.register_section("External clock date/time");
+        printer.register_value("timestamp_ext_clock", timestamp_external, "s");
+        printer.register_string("date", date, "MM/DD/YYYY");
+        printer.register_string("time", time, "HH:MM:SS");
+        printer.register_value(
+            "timestamp_external - timestamp", (get_timestamp_offset()) * 1000, "ms");
+        return printer;
+    }
+
+    // ----- class helper macros -----
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(ClockDatagram)
+};
+
+} // namespace datagrams
+} // namespace em3000
+} // namespace echosounders
+} // namespace themachinethatgoesping

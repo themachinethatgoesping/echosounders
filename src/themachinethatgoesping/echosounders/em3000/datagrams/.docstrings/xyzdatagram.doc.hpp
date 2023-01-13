@@ -1,4 +1,4 @@
-//sourcehash: 385ed57a4711b7a6beb7041b09d3a09719f3ddf8b7d7df109b943a2749ccd3f3
+//sourcehash: 842ea166490a772ef27524665e1a0ad577b8ccbafce57525acf0f43220cfec49
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,11 +51,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_beams = R"doc(< beam detection information)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_beams_2 =
-R"doc(structure access to beams (read/write)
-
-Returns:
-    std::vector<substructures::XYZDatagramBeam>&)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_beams_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_checksum = R"doc()doc";
 

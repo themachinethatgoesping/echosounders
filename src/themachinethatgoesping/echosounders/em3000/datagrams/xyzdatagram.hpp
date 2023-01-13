@@ -64,6 +64,7 @@ class XYZDatagram : public EM3000Datagram
     ~XYZDatagram() = default;
 
     // ----- convenient data access -----
+    // getters
     uint16_t get_ping_counter() const { return _ping_counter; }
     uint16_t get_system_serial_number() const { return _system_serial_number; }
     uint16_t get_heading_of_vessel() const { return _heading_of_vessel; }
@@ -78,6 +79,7 @@ class XYZDatagram : public EM3000Datagram
     uint8_t                       get_etx() const { return _etx; }
     uint16_t                      get_checksum() const { return _checksum; }
 
+    // setters
     void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
     void set_system_serial_number(uint16_t system_serial_number)
     {
@@ -107,16 +109,10 @@ class XYZDatagram : public EM3000Datagram
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
-    // ----- substructure access -----
+    // substructure access 
+    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
     const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
     void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = beams; }
-
-    /**
-     * @brief structure access to beams (read/write)
-     *
-     * @return std::vector<substructures::XYZDatagramBeam>&
-     */
-    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
 
     // ----- processed data access -----
     /**
