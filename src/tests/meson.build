@@ -33,6 +33,7 @@ sources = [
     'em3000/datagrams/seabedimagedata.test.cpp',
     'em3000/datagrams/watercolumndatagram.test.cpp',
     'em3000/datagrams/qualityfactordatagram.test.cpp',
+    'em3000/datagrams/attitudedatagram.test.cpp',
 ]
 
 foreach source : sources
