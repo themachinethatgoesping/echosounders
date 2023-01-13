@@ -148,7 +148,7 @@ class RawRangeAndAngle : public EM3000Datagram
     // ----- operators -----
     bool operator==(const RawRangeAndAngle& other) const
     {
-        return _datagram_identifier == other._datagram_identifier &&
+        return EM3000Datagram::operator==(other) &&
                _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _sound_speed_at_transducer == other._sound_speed_at_transducer &&
@@ -252,9 +252,9 @@ class RawRangeAndAngle : public EM3000Datagram
             "sound_speed_at_transducer", get_sound_speed_at_transducer_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");
-        printer.register_value("RawRangeAndAngleBeams", _beams.size(), "structures");
+        printer.register_value("beams", _beams.size(), "RawRangeAndAngleBeams");
         printer.register_value(
-            "RawRangeAndAngleTransmitSectors", _transmit_sectors.size(), "structures");
+            "transmit_sectors", _transmit_sectors.size(), "RawRangeAndAngleTransmitSectors");
 
         return printer;
     }

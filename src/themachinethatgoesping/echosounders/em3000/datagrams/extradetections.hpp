@@ -214,7 +214,7 @@ class ExtraDetections : public EM3000Datagram
     // ----- operators -----
     bool operator==(const ExtraDetections& other) const
     {
-        return _ping_counter == other._ping_counter &&
+        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _datagram_counter == other._datagram_counter &&
                _datagram_version_id == other._datagram_version_id &&
@@ -277,17 +277,6 @@ class ExtraDetections : public EM3000Datagram
         datagram._raw_amplitude_samples =
             substructures::SampleAmplitudesStructure<int16_t>::from_stream(
                 is, total_samples, std::move(start_index_per_beam), std::move(samples_per_beam));
-
-        // datagram._raw_amplitude_samples.resize(datagram._number_of_extra_detections);
-        // for (unsigned int i = 0; i < datagram._number_of_extra_detections; ++i)
-        // {
-        //     size_t ns = datagram._extra_detections[i].get_number_of_raw_amplitude_samples() * 2 +
-        //     1; datagram._raw_amplitude_samples[i].resize(ns);
-
-        //     // read the rest of the datagram
-        //     is.read(reinterpret_cast<char*>(datagram._raw_amplitude_samples[i].data()),
-        //             ns * sizeof(int16_t));
-        // }
 
         // read the rest of the datagram
         // is.read(reinterpret_cast<char*>(&(datagram._spare)), 5 * sizeof(uint8_t));
@@ -379,9 +368,12 @@ class ExtraDetections : public EM3000Datagram
         printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");
-        printer.register_value("detection_classes", _detection_classes.size(), "structures");
-        printer.register_value("extra_detections", _extra_detections.size(), "structures");
-        printer.register_value("raw_amplitude_samples", _raw_amplitude_samples.size(), "elements");
+        printer.register_value(
+            "detection_classes", _detection_classes.size(), "ExtraDetectionsDetectionClasses");
+        printer.register_value(
+            "extra_detections", _extra_detections.size(), "ExtraDetectionsExtraDetections");
+        printer.register_value(
+            "raw_amplitude_samples", _raw_amplitude_samples.size(), "SampleAmplitudesStructure");
 
         return printer;
     }

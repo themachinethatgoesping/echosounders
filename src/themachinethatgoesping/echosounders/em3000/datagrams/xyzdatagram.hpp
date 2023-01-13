@@ -136,7 +136,7 @@ class XYZDatagram : public EM3000Datagram
     // ----- operators -----
     bool operator==(const XYZDatagram& other) const
     {
-        return _ping_counter == other._ping_counter &&
+        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _heading_of_vessel == other._heading_of_vessel &&
                _sound_speed == other._sound_speed &&
@@ -229,7 +229,7 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");
-        printer.register_value("XYZDatagramBeams", _beams.size(), "structures");
+        printer.register_value("beams", _beams.size(), "XYZDatagramBeams");
 
         return printer;
     }

@@ -175,7 +175,8 @@ class SeabedImageData : public EM3000Datagram
     // ----- operators -----
     bool operator==(const SeabedImageData& other) const
     {
-        return _datagram_identifier == other._datagram_identifier &&
+        return EM3000Datagram::operator==(other) &&
+               _datagram_identifier == other._datagram_identifier &&
                _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _sampling_frequency == other._sampling_frequency &&
@@ -225,15 +226,6 @@ class SeabedImageData : public EM3000Datagram
         datagram._sample_amplitudes =
             substructures::SampleAmplitudesStructure<int16_t>::from_stream(
                 is, total_samples, std::move(start_index_per_beam), std::move(samples_per_beam));
-
-        // read the sample amplitudes
-        // datagram._sample_amplitudes.resize(datagram._number_of_valid_beams);
-        // for (uint b = 0; b < datagram._number_of_valid_beams; ++b)
-        // {
-        //     datagram._sample_amplitudes[b].resize(datagram._beams[b].get_number_of_samples());
-        //     is.read(reinterpret_cast<char*>(datagram._sample_amplitudes[b].data()),
-        //             datagram._beams[b].get_number_of_samples() * sizeof(int16_t));
-        // }
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
@@ -312,8 +304,9 @@ class SeabedImageData : public EM3000Datagram
             "tvg_law_crossover_angle", get_tvg_law_crossover_angle_in_degrees(), "°");
 
         printer.register_section("substructures");
-        printer.register_value("SeabedImageDataBeams", _beams.size(), "structures");
-        printer.register_value("sample_amplitudes", _sample_amplitudes.size(), "beams");
+        printer.register_value("beams", _beams.size(), "SeabedImageDataBeams");
+        printer.register_value(
+            "sample_amplitudes", _sample_amplitudes.size(), "SampleAmplitudesStructure");
 
         return printer;
     }

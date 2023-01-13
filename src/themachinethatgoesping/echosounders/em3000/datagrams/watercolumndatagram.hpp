@@ -178,7 +178,7 @@ class WaterColumnDatagram : public EM3000Datagram
     // ----- operators -----
     bool operator==(const WaterColumnDatagram& other) const
     {
-        return _ping_counter == other._ping_counter &&
+        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _number_of_datagrams == other._number_of_datagrams &&
                _datagram_number == other._datagram_number &&
@@ -296,8 +296,8 @@ class WaterColumnDatagram : public EM3000Datagram
 
         printer.register_section("substructures");
         printer.register_value(
-            "WaterColumnDatagramTransmitSector", _transmit_sectors.size(), "structures");
-        printer.register_value("WaterColumnDatagramBeams", _beams.size(), "structures");
+            "transmit_sectors", _transmit_sectors.size(), "WaterColumnDatagramTransmitSector");
+        printer.register_value("beams", _beams.size(), "WaterColumnDatagramBeams");
 
         return printer;
     }
