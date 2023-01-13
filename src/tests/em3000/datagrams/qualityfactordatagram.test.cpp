@@ -18,7 +18,7 @@ using namespace themachinethatgoesping::echosounders::em3000::datagrams;
 TEST_CASE("QualityFactorDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat  = QualityFactorDatagram();
+    auto dat = QualityFactorDatagram();
 
     // set some variables
     dat.set_bytes(100);

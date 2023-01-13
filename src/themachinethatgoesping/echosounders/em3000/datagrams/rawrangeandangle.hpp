@@ -148,8 +148,7 @@ class RawRangeAndAngle : public EM3000Datagram
     // ----- operators -----
     bool operator==(const RawRangeAndAngle& other) const
     {
-        return EM3000Datagram::operator==(other) &&
-               _ping_counter == other._ping_counter &&
+        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _sound_speed_at_transducer == other._sound_speed_at_transducer &&
                _number_of_transmit_sectors == other._number_of_transmit_sectors &&

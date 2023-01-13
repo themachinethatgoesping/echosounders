@@ -79,9 +79,7 @@ void init_c_qualityfactordatagram(pybind11::module& m)
              DOC_QualityFactorDatagram(quality_factors),
              py::return_value_policy::reference_internal)
 
-        .def("qf_shape",
-             &QualityFactorDatagram::qf_shape,
-             DOC_QualityFactorDatagram(qf_shape))
+        .def("qf_shape", &QualityFactorDatagram::qf_shape, DOC_QualityFactorDatagram(qf_shape))
 
         // --- processed member access ---
 
