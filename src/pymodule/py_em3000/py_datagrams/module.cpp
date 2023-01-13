@@ -32,7 +32,8 @@ void init_c_watercolumndatagram(pybind11::module& m);   // c_watercolumndatagram
 void init_c_qualityfactordatagram(pybind11::module& m); // c_qualityfactordatagram.cpp
 void init_c_attitudedatagram(pybind11::module& m);      // c_attitudedatagram.cpp
 void init_c_networkattitudevelocitydatagram(
-    pybind11::module& m); // c_networkattitudevelocitydatagram.cpp
+    pybind11::module& m);                       // c_networkattitudevelocitydatagram.cpp
+void init_c_clockdatagram(pybind11::module& m); // c_clockdatagram.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -54,6 +55,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_qualityfactordatagram(subm);
     init_c_attitudedatagram(subm);
     init_c_networkattitudevelocitydatagram(subm);
+    init_c_clockdatagram(subm);
 }
 
 }

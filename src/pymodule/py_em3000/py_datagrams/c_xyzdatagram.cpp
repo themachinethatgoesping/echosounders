@@ -96,6 +96,10 @@ void init_c_xyzdatagram(pybind11::module& m)
              DOC_XYZDatagram(get_sound_speed_in_m_per_s))
 
         // --- checksum access ---
+        .def("get_spare_byte", &XYZDatagram::get_spare_byte, DOC_XYZDatagram(spare_byte))
+        .def("set_spare_byte", &XYZDatagram::set_spare_byte, DOC_XYZDatagram(spare_byte))
+        .def("get_spare_bytes", &XYZDatagram::get_spare_bytes, DOC_XYZDatagram(spare_bytes))
+        .def("set_spare_bytes", &XYZDatagram::set_spare_bytes, DOC_XYZDatagram(spare_bytes))
         .def("get_etx", &XYZDatagram::get_etx, DOC_XYZDatagram(etx))
         .def("set_etx", &XYZDatagram::set_etx, DOC_XYZDatagram(etx))
         .def("get_checksum", &XYZDatagram::get_checksum, DOC_XYZDatagram(checksum))

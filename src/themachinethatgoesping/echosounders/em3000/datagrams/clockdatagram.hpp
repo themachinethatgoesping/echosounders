@@ -187,11 +187,10 @@ class ClockDatagram : public EM3000Datagram
         printer.register_value("checksum", _checksum);
 
         printer.register_section("External clock date/time");
-        printer.register_value("timestamp_ext_clock", timestamp_external, "s");
+        printer.register_value("timestamp", timestamp_external, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");
-        printer.register_value(
-            "timestamp_external - timestamp", (get_timestamp_offset()) * 1000, "ms");
+        printer.register_value("timestamp_offset", (get_timestamp_offset()), "s");
         return printer;
     }
 
