@@ -64,6 +64,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::QualityFactorDatagram,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_QualityFactorDatagram");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::AttitudeDatagram,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_AttitudeDatagram");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

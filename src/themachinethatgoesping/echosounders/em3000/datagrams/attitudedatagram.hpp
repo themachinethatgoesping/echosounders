@@ -262,10 +262,10 @@ class AttitudeDatagram : public EM3000Datagram
 
         printer.register_section("processed");
         printer.register_value("motion_sensor_number", get_motion_sensor_number(), "1,2");
-        printer.register_value("get_heading_sensor_is_active", get_heading_sensor_is_active());
-        printer.register_value("get_roll_sensor_is_active", get_roll_sensor_is_active());
-        printer.register_value("get_pitch_sensor_is_active", get_pitch_sensor_is_active());
-        printer.register_value("get_heave_sensor_is_active", get_heave_sensor_is_active());
+        printer.register_value("heading_sensor_is_active", get_heading_sensor_is_active());
+        printer.register_value("roll_sensor_is_active", get_roll_sensor_is_active());
+        printer.register_value("pitch_sensor_is_active", get_pitch_sensor_is_active());
+        printer.register_value("heave_sensor_is_active", get_heave_sensor_is_active());
 
         printer.register_section("substructures");
         printer.register_value("attitudes", _attitudes.size(), "AttitudeDatagramAttitude");
