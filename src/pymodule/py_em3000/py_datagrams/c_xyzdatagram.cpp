@@ -31,6 +31,7 @@ void init_c_xyzdatagram(pybind11::module& m)
     py::class_<XYZDatagram, datagrams::EM3000Datagram>(
         m, "XYZDatagram", DOC(themachinethatgoesping, echosounders, em3000, datagrams, XYZDatagram))
         .def(py::init<>(), DOC_XYZDatagram(XYZDatagram))
+        
         // --- convenient data access ---
         .def("set_ping_counter", &XYZDatagram::set_ping_counter, DOC_XYZDatagram(ping_counter))
         .def("get_ping_counter", &XYZDatagram::get_ping_counter, DOC_XYZDatagram(ping_counter))

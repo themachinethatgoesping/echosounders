@@ -1,4 +1,4 @@
-//sourcehash: 5231f9f82eeae5d60f269d451fcab71db4ded176a8aaa75c5efed8cbc30288ef
+//sourcehash: c86dc432b70e10b723baf97adabf1394cc3264b16c429b2693d086e683521c76
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,9 +52,17 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Qu
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_QualityFactorDatagram_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_checksum = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_etx = R"doc(< end identifier (always 0x03))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_from_stream_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_get_checksum = R"doc()doc";
 
@@ -78,7 +86,20 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Qu
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_number_of_receive_beams = R"doc(< Nrx)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_operator_ne = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_ping_counter = R"doc(< 0-65535 ping number (in this file))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_qf_shape =
+R"doc(return the shape of the quality factor array Computed as
+[_number_of_receive_beams, _number_of_parameters_per_beam]
+
+Returns:
+    xt::xtensor<float, 2>::shape_type)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_quality_factors = R"doc(< dimension is [Nrx, Npar])doc";
 
@@ -102,18 +123,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Qu
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_set_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_shape_type =
-R"doc(return the shape of the quality factor array Computed as
-[_number_of_receive_beams, _number_of_parameters_per_beam]
-
-Returns:
-    xt::xtensor<float, 2>::shape_type)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_spare = R"doc(< always 0)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_spare_byte = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_system_serial_number = R"doc(< 100 -)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

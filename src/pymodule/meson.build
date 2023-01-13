@@ -86,6 +86,7 @@ sources = [
     'py_em3000/py_datagrams/c_rawrangeandangle.cpp',
     'py_em3000/py_datagrams/c_seabedimagedata.cpp',
     'py_em3000/py_datagrams/c_watercolumndatagram.cpp',
+    'py_em3000/py_datagrams/c_qualityfactordatagram.cpp',
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',

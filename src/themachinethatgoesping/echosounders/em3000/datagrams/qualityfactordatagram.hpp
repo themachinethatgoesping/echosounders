@@ -44,13 +44,14 @@ namespace datagrams {
  */
 class QualityFactorDatagram : public EM3000Datagram
 {
+    using t_Shape = xt::xtensor<float, 2>::shape_type; // shape type of the quality factors tensor
 
   protected:
     uint16_t _ping_counter;                  ///< 0-65535 ping number (in this file)
     uint16_t _system_serial_number;          ///< 100 -
     uint16_t _number_of_receive_beams;       ///< Nrx
     uint8_t  _number_of_parameters_per_beam; ///< Npar
-    uint8_t  _spare;
+    uint8_t  _spare;                         ///< always 0
 
     xt::xtensor<float, 2> _quality_factors; ///< dimension is [Nrx, Npar]
 
@@ -117,7 +118,7 @@ class QualityFactorDatagram : public EM3000Datagram
      *
      * @return xt::xtensor<float, 2>::shape_type
      */
-    xt::xtensor<float, 2>::shape_type qf_shape() const
+    t_Shape qf_shape() const
     {
         return { _number_of_receive_beams, _number_of_parameters_per_beam };
     }
