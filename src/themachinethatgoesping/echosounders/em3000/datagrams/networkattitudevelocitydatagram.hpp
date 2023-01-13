@@ -333,7 +333,7 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
 
         // check if alignment is necessary
         // if pos difference is even, write the _spar_align field (0)
-        if ((os.tellp() - start_pos) % 2 != 0)
+        if ((os.tellp() - start_pos) % 2 != 1)
             os.write(reinterpret_cast<const char*>(&(_spare_align)), 4 * sizeof(uint8_t));
 
         else
