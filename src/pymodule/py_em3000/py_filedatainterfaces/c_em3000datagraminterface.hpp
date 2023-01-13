@@ -66,6 +66,9 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                         self.template datagrams<datagrams::NetworkAttitudeVelocityDatagram>(type));
                 case t_EM3000DatagramIdentifier::ClockDatagram:
                     return py::cast(self.template datagrams<datagrams::ClockDatagram>(type));
+                case t_EM3000DatagramIdentifier::DepthOrHeightDatagram:
+                    return py::cast(
+                        self.template datagrams<datagrams::DepthOrHeightDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

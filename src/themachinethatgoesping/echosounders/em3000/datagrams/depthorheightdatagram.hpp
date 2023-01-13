@@ -177,6 +177,7 @@ class DepthOrHeightDatagram : public EM3000Datagram
         printer.register_value("checksum", _checksum);
 
         printer.register_section("processed");
+        printer.register_value("height", get_height_in_meters(), "m");
         printer.register_string("height_type", get_height_type_explained());
         return printer;
     }

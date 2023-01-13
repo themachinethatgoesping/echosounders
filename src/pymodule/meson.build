@@ -92,6 +92,7 @@ sources = [
     'py_em3000/py_datagrams/c_attitudedatagram.cpp',
     'py_em3000/py_datagrams/c_networkattitudevelocitydatagram.cpp',
     'py_em3000/py_datagrams/c_clockdatagram.cpp',
+    'py_em3000/py_datagrams/c_depthorheightdatagram.cpp',
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',

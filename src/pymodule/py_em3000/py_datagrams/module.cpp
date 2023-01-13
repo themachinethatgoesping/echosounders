@@ -34,6 +34,7 @@ void init_c_attitudedatagram(pybind11::module& m);      // c_attitudedatagram.cp
 void init_c_networkattitudevelocitydatagram(
     pybind11::module& m);                       // c_networkattitudevelocitydatagram.cpp
 void init_c_clockdatagram(pybind11::module& m); // c_clockdatagram.cpp
+void init_c_depthorheightdatagram(pybind11::module& m); // c_depthorheightdatagram.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -56,6 +57,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_attitudedatagram(subm);
     init_c_networkattitudevelocitydatagram(subm);
     init_c_clockdatagram(subm);
+    init_c_depthorheightdatagram(subm);
 }
 
 }
