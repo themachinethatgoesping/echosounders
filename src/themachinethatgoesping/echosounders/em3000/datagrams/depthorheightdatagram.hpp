@@ -27,7 +27,7 @@ namespace em3000 {
 namespace datagrams {
 
 /**
- * @brief Clock datagrams
+ * @brief Depth (pressure) or height datagrams
  */
 class DepthOrHeightDatagram : public EM3000Datagram
 {
@@ -171,6 +171,7 @@ class DepthOrHeightDatagram : public EM3000Datagram
         printer.append(EM3000Datagram::__printer__(float_precision));
         printer.register_section("datagram content");
         printer.register_value("height_counter", _height_counter);
+        printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("height", _height, "cm");
         printer.register_value("height_type", _height_type);
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
