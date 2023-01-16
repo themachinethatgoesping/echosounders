@@ -111,9 +111,9 @@ struct EM3000DatagramVariant
             case t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram:
                 return t_EM3000DatagramVariant(
                     datagrams::SurfaceSoundSpeedDatagram::from_stream(is));
-            // case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram:
-            //     return t_EM3000DatagramVariant(
-            //         datagrams::SoundSpeedProfileDatagram::from_stream(is));
+            case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram:
+                return t_EM3000DatagramVariant(
+                    datagrams::SoundSpeedProfileDatagram::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

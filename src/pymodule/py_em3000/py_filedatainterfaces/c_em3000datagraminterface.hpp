@@ -79,9 +79,9 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram:
                     return py::cast(
                         self.template datagrams<datagrams::SurfaceSoundSpeedDatagram>(type));
-                // case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram:
-                //     return py::cast(
-                //         self.template datagrams<datagrams::SoundSpeedProfileDatagram>(type));
+                case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram:
+                    return py::cast(
+                        self.template datagrams<datagrams::SoundSpeedProfileDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }
