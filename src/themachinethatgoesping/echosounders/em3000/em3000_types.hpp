@@ -32,37 +32,34 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     XYZDatagram = 0x58,
     ExtraDetections =
         0x6c, ///< TODO: fix reading raw_amplitudes (sometimes the number seems incorrect)
-    RawRangeAndAngle    = 0x4e,
-    SeabedImageData     = 0x59,
-    WaterColumnDatagram = 0x6b,
-    CombinedWaterColumnDatagram =
-        0x6a, ///< virtual package that combines the split water column datagrams
-    QualityFactorDatagram = 0x4f, ///< TODO: implement!
+    RawRangeAndAngle      = 0x4e,
+    SeabedImageData       = 0x59,
+    WaterColumnDatagram   = 0x6b,
+    QualityFactorDatagram = 0x4f,
 
     // External sensors
     AttitudeDatagram                = 0x41,
-    NetworkAttitudeVelocityDatagram = 0x6e, ///< TODO: implement!
+    NetworkAttitudeVelocityDatagram = 0x6e,
     ClockDatagram                   = 0x43,
     DepthOrHeightDatagram           = 0x68,
-    HeadingDatagram                 = 0x48, ///< TODO: implement!
-    PositionDatagram                = 0x50,
+    HeadingDatagram                 = 0x48,
+    PositionDatagram                = 0x50, ///< TODO: implement!
     SingleBeamEchoSounderDepth      = 0x45, ///< TODO: implement!
 
     // Sound speed
-    SurfaceSoundSpeedDatagram = 0x47,
-    SoundSpeedProfileDatagram = 0x55,
+    SurfaceSoundSpeedDatagram = 0x47, ///< TODO: implement!
+    SoundSpeedProfileDatagram = 0x55, ///< TODO: implement!
 
     // Multibeam parameters
-    InstallationParameterStart = 0x49,
-    InstallationParameterStop  = 0x69,
-    RuntimeParameters          = 0x52,
-    ExtraParameters            = 0x33,
+    InstallationParameterStart = 0x49, ///< TODO: implement!
+    InstallationParameterStop  = 0x69, ///< TODO: implement!
+    RuntimeParameters          = 0x52, ///< TODO: implement!
+    ExtraParameters            = 0x33, ///< TODO: implement!
 
     // PU information and status
-    PuStatusOutput = 0x31,
-    PUIDOutput     = 0x30,
-    // all = 0
-    unspecified = 0
+    PuStatusOutput = 0x31, ///< TODO: implement!
+    PUIDOutput     = 0x30, ///< TODO: implement!
+    unspecified    = 0
 };
 
 // inline std::string datagram_type_to_string(uint8_t value)

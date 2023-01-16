@@ -1,4 +1,4 @@
-//sourcehash: 4dea0fb4708ff2c06e5b816c1e09f9d4653660d9bc1bea966579db0a33ce4785
+//sourcehash: 63dd749339ea3a2e6fb432edd72d1d3518934ec7ea447794d6a16eb4b6c1d057
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,41 +52,39 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ClockDatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_CombinedWaterColumnDatagram = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_DepthOrHeightDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraDetections = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraParameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_ExtraParameters = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_HeadingDatagram = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_HeadingDatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStart = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStart = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStop = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParameterStop = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_NetworkAttitudeVelocityDatagram = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_NetworkAttitudeVelocityDatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PUIDOutput = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PUIDOutput = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PositionDatagram = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PositionDatagram = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PuStatusOutput = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PuStatusOutput = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_QualityFactorDatagram = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_QualityFactorDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RawRangeAndAngle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RuntimeParameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RuntimeParameters = R"doc(< TODO: implement!)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SeabedImageData = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SingleBeamEchoSounderDepth = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SoundSpeedProfileDatagram = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SoundSpeedProfileDatagram = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SurfaceSoundSpeedDatagram = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SurfaceSoundSpeedDatagram = R"doc(< TODO: implement!)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_WaterColumnDatagram = R"doc()doc";
 

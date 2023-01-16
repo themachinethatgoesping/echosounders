@@ -72,9 +72,6 @@ void init_m_em3000(pybind11::module& m)
             .value("WaterColumnDatagram",
                    t_EM3000DatagramIdentifier::WaterColumnDatagram,
                    DOC_t_EM3000DatagramIdentifier(WaterColumnDatagram))
-            .value("CombinedWaterColumnDatagram",
-                   t_EM3000DatagramIdentifier::CombinedWaterColumnDatagram,
-                   DOC_t_EM3000DatagramIdentifier(CombinedWaterColumnDatagram))
             .value("QualityFactorDatagram",
                    t_EM3000DatagramIdentifier::QualityFactorDatagram,
                    DOC_t_EM3000DatagramIdentifier(QualityFactorDatagram))
