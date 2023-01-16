@@ -7,7 +7,7 @@
 
 #include <filesystem>
 
-#include "../themachinethatgoesping/echosounders/em3000/datagrams/surfacesoundspeeddatagram.hpp"
+#include "../themachinethatgoesping/echosounders/em3000/datagrams/soundspeedprofiledatagram.hpp"
 
 // using namespace testing;
 using namespace std;
@@ -15,42 +15,44 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using namespace themachinethatgoesping::echosounders::em3000::datagrams;
 #define TESTTAG "[em3000]"
 
-TEST_CASE("SurfaceSoundSpeedDatagram should support common functions", TESTTAG)
+TEST_CASE("SoundSpeedProfileDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat = SurfaceSoundSpeedDatagram();
+    auto dat = SoundSpeedProfileDatagram();
 
-    auto times_and_sound_speeds =
+    auto depths_and_sound_speeds =
         xt::empty<uint16_t>(xt::xtensor<uint16_t, 2>::shape_type({ 2, 2 }));
-    times_and_sound_speeds(0, 0) = 1234;
-    times_and_sound_speeds(0, 1) = 567;
-    times_and_sound_speeds(1, 0) = 2345;
-    times_and_sound_speeds(1, 1) = 678;
+    depths_and_sound_speeds(0, 0) = 1234;
+    depths_and_sound_speeds(0, 1) = 567;
+    depths_and_sound_speeds(1, 0) = 2345;
+    depths_and_sound_speeds(1, 1) = 678;
 
     // set some variables
     dat.set_bytes(100);
     dat.set_model_number(710);
     dat.set_date(20190423);
     dat.set_time_since_midnight(223727);
-    dat.set_times_and_sound_speeds(times_and_sound_speeds);
+    dat.set_depths_and_sound_speeds(depths_and_sound_speeds);
     dat.set_number_of_entries(2);
+    dat.set_profile_date(20200423);
+    dat.set_profile_time_since_midnight(323727);
 
-    dat.set_sound_speed_counter(123);
+    dat.set_profile_counter(123);
     dat.set_system_serial_number(100);
 
     // test inequality
-    // REQUIRE(dat != SurfaceSoundSpeedDatagram());
+    // REQUIRE(dat != SoundSpeedProfileDatagram());
 
     // test copy
-    REQUIRE(dat == SurfaceSoundSpeedDatagram(dat));
+    REQUIRE(dat == SoundSpeedProfileDatagram(dat));
 
     // test binary
-    REQUIRE(dat == SurfaceSoundSpeedDatagram(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat == SoundSpeedProfileDatagram(dat.from_binary(dat.to_binary())));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == SurfaceSoundSpeedDatagram(dat.from_stream(buffer)));
+    REQUIRE(dat == SoundSpeedProfileDatagram(dat.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -59,19 +61,20 @@ TEST_CASE("SurfaceSoundSpeedDatagram should support common functions", TESTTAG)
     REQUIRE(
         dat.get_bytes() ==
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
-    CHECK(dat.get_sound_speed_counter() == 123);
+    CHECK(dat.get_profile_counter() == 123);
     CHECK(dat.get_system_serial_number() == 100);
 
-    auto timestamps   = dat.get_sound_speed_timestamps();
+    auto depths       = dat.get_depths_in_meters();
     auto sound_speeds = dat.get_sound_speeds_in_meters_per_second();
-    CHECK(timestamps(0) == 1.234 + dat.get_timestamp());
-    CHECK(timestamps(1) == 2.345 + dat.get_timestamp());
+    CHECK(depths(0) == 12.34);
+    CHECK(depths(1) == 23.45);
     CHECK(sound_speeds(0) == 56.7f);
     CHECK(sound_speeds(1) == 67.8f);
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram);
+    REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram);
 
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));
+    REQUIRE(dat.get_profile_timestamp() == Catch::Approx(1587600323.7269999981));
 }

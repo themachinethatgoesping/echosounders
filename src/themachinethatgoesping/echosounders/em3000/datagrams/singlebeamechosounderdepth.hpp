@@ -62,9 +62,9 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
     // getters
     uint16_t get_echo_sounder_counter() const { return _echo_sounder_counter; }
     uint16_t get_system_serial_number() const { return _system_serial_number; }
-    int32_t  get_input_date() const { return _input_date; }
-    int32_t  get_input_time_since_midnight() const { return _input_time_since_midnight; }
-    int32_t  get_echo_sounder_depth() const { return _echo_sounder_depth; }
+    uint32_t get_input_date() const { return _input_date; }
+    uint32_t get_input_time_since_midnight() const { return _input_time_since_midnight; }
+    uint32_t get_echo_sounder_depth() const { return _echo_sounder_depth; }
     char     get_source_identifier() const { return _source_identifier; }
     uint8_t  get_etx() const { return _etx; }
     uint16_t get_checksum() const { return _checksum; }
@@ -78,9 +78,9 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
     {
         _system_serial_number = system_serial_number;
     }
-    void set_input_date(int32_t date) { _input_date = date; }
-    void set_input_time_since_midnight(int32_t time) { _input_time_since_midnight = time; }
-    void set_echo_sounder_depth(int32_t echo_sounder_depth)
+    void set_input_date(uint32_t date) { _input_date = date; }
+    void set_input_time_since_midnight(uint32_t time) { _input_time_since_midnight = time; }
+    void set_echo_sounder_depth(uint32_t echo_sounder_depth)
     {
         _echo_sounder_depth = echo_sounder_depth;
     }

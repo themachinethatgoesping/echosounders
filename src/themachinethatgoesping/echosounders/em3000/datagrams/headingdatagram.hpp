@@ -65,7 +65,7 @@ class HeadingDatagram : public EM3000Datagram
     // getters
     uint16_t get_heading_counter() const { return _heading_counter; }
     uint16_t get_system_serial_number() const { return _system_serial_number; }
-    int32_t  get_number_of_entries() const { return _number_of_entries; }
+    uint16_t  get_number_of_entries() const { return _number_of_entries; }
     uint8_t  get_heading_indicator() const { return _heading_indicator; }
     uint8_t  get_etx() const { return _etx; }
     uint16_t get_checksum() const { return _checksum; }

@@ -41,6 +41,7 @@ sources = [
     'em3000/datagrams/positiondatagram.test.cpp',
     'em3000/datagrams/singlebeamechosounderdepth.test.cpp',
     'em3000/datagrams/surfacesoundspeeddatagram.test.cpp',
+    'em3000/datagrams/soundspeedprofiledatagram.test.cpp',
 ]
 
 foreach source : sources
