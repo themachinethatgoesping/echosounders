@@ -60,7 +60,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              PositionDatagram,
                                              SingleBeamEchoSounderDepth,
                                              SurfaceSoundSpeedDatagram,
-                                             //SoundSpeedProfileDatagram,
+                                             SoundSpeedProfileDatagram,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
