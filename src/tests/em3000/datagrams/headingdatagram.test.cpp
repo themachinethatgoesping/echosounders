@@ -20,7 +20,7 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
     // initialize class structure
     auto dat = HeadingDatagram();
 
-    auto times_headings = xt::empty<uint16_t>(xt::xtensor<uint16_t, 2>::shape_type({ 2, 2 }));
+    auto times_headings  = xt::empty<uint16_t>(xt::xtensor<uint16_t, 2>::shape_type({ 2, 2 }));
     times_headings(0, 0) = 1234;
     times_headings(0, 1) = 567;
     times_headings(1, 0) = 2345;
@@ -62,13 +62,11 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
     CHECK(dat.get_system_serial_number() == 100);
 
     auto timestamps = dat.get_heading_timestamps();
-    auto headings = dat.get_headings_in_degrees();
+    auto headings   = dat.get_headings_in_degrees();
     CHECK(timestamps(0) == 1.234 + dat.get_timestamp());
     CHECK(timestamps(1) == 2.345 + dat.get_timestamp());
     CHECK(headings(0) == 5.67f);
     CHECK(headings(1) == 6.78f);
-
-
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::HeadingDatagram);

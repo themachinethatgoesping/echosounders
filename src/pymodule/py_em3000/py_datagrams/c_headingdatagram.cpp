@@ -27,7 +27,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
 using datagrams::HeadingDatagram;
 
-#define DOC_HeadingDatagram(ARG)                                                               \
+#define DOC_HeadingDatagram(ARG)                                                                   \
     DOC(themachinethatgoesping, echosounders, em3000, datagrams, HeadingDatagram, ARG)
 
 void init_c_headingdatagram(pybind11::module& m)
@@ -62,14 +62,15 @@ void init_c_headingdatagram(pybind11::module& m)
         .def("get_heading_indicator",
              &HeadingDatagram::get_heading_indicator,
              DOC_HeadingDatagram(heading_indicator))
-       
 
         // --- data structure access ---
         .def("get_times_headings",
              &HeadingDatagram::get_times_headings,
              DOC_HeadingDatagram(times_headings),
              py::return_value_policy::reference_internal)
-        .def("set_times_headings", &HeadingDatagram::set_times_headings, DOC_HeadingDatagram(times_headings))
+        .def("set_times_headings",
+             &HeadingDatagram::set_times_headings,
+             DOC_HeadingDatagram(times_headings))
         .def("times_headings",
              &HeadingDatagram::times_headings,
              DOC_HeadingDatagram(times_headings),

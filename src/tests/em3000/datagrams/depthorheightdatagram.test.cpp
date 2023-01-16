@@ -18,8 +18,8 @@ using namespace themachinethatgoesping::echosounders::em3000::datagrams;
 TEST_CASE("DepthOrHeightDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat  = DepthOrHeightDatagram();
-    
+    auto dat = DepthOrHeightDatagram();
+
     // set some variables
     dat.set_bytes(100);
     dat.set_model_number(710);

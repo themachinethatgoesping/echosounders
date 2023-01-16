@@ -28,14 +28,19 @@ namespace em3000 {
 enum class t_EM3000DatagramIdentifier : uint8_t
 {
     // Multibeam data
-    // DepthDatagram       = 0x44, // not implemented
+    DepthDatagram_NotImplemented        = 0x44, ///< not yet implemented
+    CentralBeamsEchogram_NotImplemented = 0x4b, ///< not yet implemented
+
     XYZDatagram = 0x58,
     ExtraDetections =
         0x6c, ///< TODO: fix reading raw_amplitudes (sometimes the number seems incorrect)
-    RawRangeAndAngle      = 0x4e,
-    SeabedImageData       = 0x59,
-    WaterColumnDatagram   = 0x6b,
-    QualityFactorDatagram = 0x4f,
+    RawRangeAndAngle_F_NotImplemented  = 0x46, ///< not yet implemented
+    RawRangeAndAngle_f_NotImplemented  = 0x66, ///< not yet implemented
+    RawRangeAndAngle                   = 0x4e,
+    SeabedImageDatagram_NotImplemented = 0x53, ///< not yet implemented
+    SeabedImageData                    = 0x59,
+    WaterColumnDatagram                = 0x6b,
+    QualityFactorDatagram              = 0x4f,
 
     // External sensors
     AttitudeDatagram                = 0x41,
@@ -45,6 +50,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     HeadingDatagram                 = 0x48,
     PositionDatagram                = 0x50,
     SingleBeamEchoSounderDepth      = 0x45,
+    TideDatagram_NotImplemented     = 0x54, ///< not yet implemented
 
     // Sound speed
     SurfaceSoundSpeedDatagram = 0x47, ///< TODO: implement!

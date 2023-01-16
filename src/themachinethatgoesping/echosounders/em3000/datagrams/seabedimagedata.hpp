@@ -175,8 +175,7 @@ class SeabedImageData : public EM3000Datagram
     // ----- operators -----
     bool operator==(const SeabedImageData& other) const
     {
-        return EM3000Datagram::operator==(other) &&
-               _ping_counter == other._ping_counter &&
+        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                _sampling_frequency == other._sampling_frequency &&
                _range_to_normal_incidence == other._range_to_normal_incidence &&

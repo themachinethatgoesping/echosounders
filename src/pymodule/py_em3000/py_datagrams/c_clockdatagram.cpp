@@ -23,31 +23,45 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
 using datagrams::ClockDatagram;
 
-#define DOC_ClockDatagram(ARG)                                                                       \
+#define DOC_ClockDatagram(ARG)                                                                     \
     DOC(themachinethatgoesping, echosounders, em3000, datagrams, ClockDatagram, ARG)
 
 void init_c_clockdatagram(pybind11::module& m)
 {
     py::class_<ClockDatagram, datagrams::EM3000Datagram>(
-        m, "ClockDatagram", DOC(themachinethatgoesping, echosounders, em3000, datagrams, ClockDatagram))
+        m,
+        "ClockDatagram",
+        DOC(themachinethatgoesping, echosounders, em3000, datagrams, ClockDatagram))
         .def(py::init<>(), DOC_ClockDatagram(ClockDatagram))
 
         // --- convenient data access ---
-        .def("set_clock_counter", &ClockDatagram::set_clock_counter, DOC_ClockDatagram(clock_counter))
-        .def("get_clock_counter", &ClockDatagram::get_clock_counter, DOC_ClockDatagram(clock_counter))
+        .def("set_clock_counter",
+             &ClockDatagram::set_clock_counter,
+             DOC_ClockDatagram(clock_counter))
+        .def("get_clock_counter",
+             &ClockDatagram::get_clock_counter,
+             DOC_ClockDatagram(clock_counter))
         .def("set_system_serial_number",
              &ClockDatagram::set_system_serial_number,
              DOC_ClockDatagram(system_serial_number))
         .def("get_system_serial_number",
              &ClockDatagram::get_system_serial_number,
              DOC_ClockDatagram(system_serial_number))
-        .def("set_date_external", &ClockDatagram::set_date_external, DOC_ClockDatagram(date_external))
-        .def("get_date_external", &ClockDatagram::get_date_external, DOC_ClockDatagram(date_external))
-        .def("set_time_since_midnight_external", &ClockDatagram::set_time_since_midnight_external, DOC_ClockDatagram(time_since_midnight_external))
-        .def("get_time_since_midnight_external", &ClockDatagram::get_time_since_midnight_external, DOC_ClockDatagram(time_since_midnight_external))
+        .def("set_date_external",
+             &ClockDatagram::set_date_external,
+             DOC_ClockDatagram(date_external))
+        .def("get_date_external",
+             &ClockDatagram::get_date_external,
+             DOC_ClockDatagram(date_external))
+        .def("set_time_since_midnight_external",
+             &ClockDatagram::set_time_since_midnight_external,
+             DOC_ClockDatagram(time_since_midnight_external))
+        .def("get_time_since_midnight_external",
+             &ClockDatagram::get_time_since_midnight_external,
+             DOC_ClockDatagram(time_since_midnight_external))
         .def("set_pps_active", &ClockDatagram::set_pps_active, DOC_ClockDatagram(pps_active))
         .def("get_pps_active", &ClockDatagram::get_pps_active, DOC_ClockDatagram(pps_active))
-       
+
         // --- processed member access ---
         .def("get_timestamp_external",
              &ClockDatagram::get_timestamp_external,

@@ -135,10 +135,10 @@ class EM3000Datagram
 
     /**
      * @brief Get the time as string
-     * 
-     * @param fractionalSecondsDigits 
-     * @param format 
-     * @return std::string 
+     *
+     * @param fractionalSecondsDigits
+     * @param format
+     * @return std::string
      */
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
                                 const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const

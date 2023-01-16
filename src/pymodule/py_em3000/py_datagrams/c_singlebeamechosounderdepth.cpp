@@ -23,29 +23,55 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
 using datagrams::SingleBeamEchoSounderDepth;
 
-#define DOC_SingleBeamEchoSounderDepth(ARG)                                                                       \
+#define DOC_SingleBeamEchoSounderDepth(ARG)                                                        \
     DOC(themachinethatgoesping, echosounders, em3000, datagrams, SingleBeamEchoSounderDepth, ARG)
 
 void init_c_singlebeamechosounderdepth(pybind11::module& m)
 {
     py::class_<SingleBeamEchoSounderDepth, datagrams::EM3000Datagram>(
-        m, "SingleBeamEchoSounderDepth", DOC(themachinethatgoesping, echosounders, em3000, datagrams, SingleBeamEchoSounderDepth))
+        m,
+        "SingleBeamEchoSounderDepth",
+        DOC(themachinethatgoesping, echosounders, em3000, datagrams, SingleBeamEchoSounderDepth))
         .def(py::init<>(), DOC_SingleBeamEchoSounderDepth(SingleBeamEchoSounderDepth))
 
         // --- convenient data access ---
-        .def("set_echo_sounder_counter", &SingleBeamEchoSounderDepth::set_echo_sounder_counter, DOC_SingleBeamEchoSounderDepth(echo_sounder_counter))
-        .def("get_echo_sounder_counter", &SingleBeamEchoSounderDepth::get_echo_sounder_counter, DOC_SingleBeamEchoSounderDepth(echo_sounder_counter))
-        .def("set_system_serial_number", &SingleBeamEchoSounderDepth::set_system_serial_number, DOC_SingleBeamEchoSounderDepth(system_serial_number))
-        .def("get_system_serial_number", &SingleBeamEchoSounderDepth::get_system_serial_number, DOC_SingleBeamEchoSounderDepth(system_serial_number))
-        .def("set_input_date", &SingleBeamEchoSounderDepth::set_input_date, DOC_SingleBeamEchoSounderDepth(input_date))
-        .def("get_input_date", &SingleBeamEchoSounderDepth::get_input_date, DOC_SingleBeamEchoSounderDepth(input_date))
-        .def("set_input_time_since_midnight", &SingleBeamEchoSounderDepth::set_input_time_since_midnight, DOC_SingleBeamEchoSounderDepth(input_time_since_midnight))
-        .def("get_input_time_since_midnight", &SingleBeamEchoSounderDepth::get_input_time_since_midnight, DOC_SingleBeamEchoSounderDepth(input_time_since_midnight))
-        .def("set_echo_sounder_depth", &SingleBeamEchoSounderDepth::set_echo_sounder_depth, DOC_SingleBeamEchoSounderDepth(echo_sounder_depth))
-        .def("get_echo_sounder_depth", &SingleBeamEchoSounderDepth::get_echo_sounder_depth, DOC_SingleBeamEchoSounderDepth(echo_sounder_depth))
-        .def("set_source_identifier", &SingleBeamEchoSounderDepth::set_source_identifier, DOC_SingleBeamEchoSounderDepth(source_identifier))
-        .def("get_source_identifier", &SingleBeamEchoSounderDepth::get_source_identifier, DOC_SingleBeamEchoSounderDepth(source_identifier))
-        
+        .def("set_echo_sounder_counter",
+             &SingleBeamEchoSounderDepth::set_echo_sounder_counter,
+             DOC_SingleBeamEchoSounderDepth(echo_sounder_counter))
+        .def("get_echo_sounder_counter",
+             &SingleBeamEchoSounderDepth::get_echo_sounder_counter,
+             DOC_SingleBeamEchoSounderDepth(echo_sounder_counter))
+        .def("set_system_serial_number",
+             &SingleBeamEchoSounderDepth::set_system_serial_number,
+             DOC_SingleBeamEchoSounderDepth(system_serial_number))
+        .def("get_system_serial_number",
+             &SingleBeamEchoSounderDepth::get_system_serial_number,
+             DOC_SingleBeamEchoSounderDepth(system_serial_number))
+        .def("set_input_date",
+             &SingleBeamEchoSounderDepth::set_input_date,
+             DOC_SingleBeamEchoSounderDepth(input_date))
+        .def("get_input_date",
+             &SingleBeamEchoSounderDepth::get_input_date,
+             DOC_SingleBeamEchoSounderDepth(input_date))
+        .def("set_input_time_since_midnight",
+             &SingleBeamEchoSounderDepth::set_input_time_since_midnight,
+             DOC_SingleBeamEchoSounderDepth(input_time_since_midnight))
+        .def("get_input_time_since_midnight",
+             &SingleBeamEchoSounderDepth::get_input_time_since_midnight,
+             DOC_SingleBeamEchoSounderDepth(input_time_since_midnight))
+        .def("set_echo_sounder_depth",
+             &SingleBeamEchoSounderDepth::set_echo_sounder_depth,
+             DOC_SingleBeamEchoSounderDepth(echo_sounder_depth))
+        .def("get_echo_sounder_depth",
+             &SingleBeamEchoSounderDepth::get_echo_sounder_depth,
+             DOC_SingleBeamEchoSounderDepth(echo_sounder_depth))
+        .def("set_source_identifier",
+             &SingleBeamEchoSounderDepth::set_source_identifier,
+             DOC_SingleBeamEchoSounderDepth(source_identifier))
+        .def("get_source_identifier",
+             &SingleBeamEchoSounderDepth::get_source_identifier,
+             DOC_SingleBeamEchoSounderDepth(source_identifier))
+
         // --- processed member access ---
         .def("get_input_timestamp",
              &SingleBeamEchoSounderDepth::get_input_timestamp,
@@ -60,11 +86,18 @@ void init_c_singlebeamechosounderdepth(pybind11::module& m)
         // --- checksum access ---
         .def("get_etx", &SingleBeamEchoSounderDepth::get_etx, DOC_SingleBeamEchoSounderDepth(etx))
         .def("set_etx", &SingleBeamEchoSounderDepth::set_etx, DOC_SingleBeamEchoSounderDepth(etx))
-        .def("get_checksum", &SingleBeamEchoSounderDepth::get_checksum, DOC_SingleBeamEchoSounderDepth(checksum))
-        .def("set_checksum", &SingleBeamEchoSounderDepth::set_checksum, DOC_SingleBeamEchoSounderDepth(checksum))
+        .def("get_checksum",
+             &SingleBeamEchoSounderDepth::get_checksum,
+             DOC_SingleBeamEchoSounderDepth(checksum))
+        .def("set_checksum",
+             &SingleBeamEchoSounderDepth::set_checksum,
+             DOC_SingleBeamEchoSounderDepth(checksum))
 
         // ----- operators -----
-        .def("__eq__", &SingleBeamEchoSounderDepth::operator==, DOC_SingleBeamEchoSounderDepth(operator_eq), py::arg("other"))
+        .def("__eq__",
+             &SingleBeamEchoSounderDepth::operator==,
+             DOC_SingleBeamEchoSounderDepth(operator_eq),
+             py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SingleBeamEchoSounderDepth)

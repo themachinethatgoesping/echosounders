@@ -23,25 +23,39 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
 using datagrams::DepthOrHeightDatagram;
 
-#define DOC_DepthOrHeightDatagram(ARG)                                                                       \
+#define DOC_DepthOrHeightDatagram(ARG)                                                             \
     DOC(themachinethatgoesping, echosounders, em3000, datagrams, DepthOrHeightDatagram, ARG)
 
 void init_c_depthorheightdatagram(pybind11::module& m)
 {
     py::class_<DepthOrHeightDatagram, datagrams::EM3000Datagram>(
-        m, "DepthOrHeightDatagram", DOC(themachinethatgoesping, echosounders, em3000, datagrams, DepthOrHeightDatagram))
+        m,
+        "DepthOrHeightDatagram",
+        DOC(themachinethatgoesping, echosounders, em3000, datagrams, DepthOrHeightDatagram))
         .def(py::init<>(), DOC_DepthOrHeightDatagram(DepthOrHeightDatagram))
 
         // --- convenient data access ---
-        .def("set_height_counter", &DepthOrHeightDatagram::set_height_counter, DOC_DepthOrHeightDatagram(height_counter))
-        .def("get_height_counter", &DepthOrHeightDatagram::get_height_counter, DOC_DepthOrHeightDatagram(height_counter))
-        .def("set_system_serial_number", &DepthOrHeightDatagram::set_system_serial_number, DOC_DepthOrHeightDatagram(system_serial_number))
-        .def("get_system_serial_number", &DepthOrHeightDatagram::get_system_serial_number, DOC_DepthOrHeightDatagram(system_serial_number))
+        .def("set_height_counter",
+             &DepthOrHeightDatagram::set_height_counter,
+             DOC_DepthOrHeightDatagram(height_counter))
+        .def("get_height_counter",
+             &DepthOrHeightDatagram::get_height_counter,
+             DOC_DepthOrHeightDatagram(height_counter))
+        .def("set_system_serial_number",
+             &DepthOrHeightDatagram::set_system_serial_number,
+             DOC_DepthOrHeightDatagram(system_serial_number))
+        .def("get_system_serial_number",
+             &DepthOrHeightDatagram::get_system_serial_number,
+             DOC_DepthOrHeightDatagram(system_serial_number))
         .def("set_height", &DepthOrHeightDatagram::set_height, DOC_DepthOrHeightDatagram(height))
         .def("get_height", &DepthOrHeightDatagram::get_height, DOC_DepthOrHeightDatagram(height))
-        .def("set_height_type", &DepthOrHeightDatagram::set_height_type, DOC_DepthOrHeightDatagram(height_type))
-        .def("get_height_type", &DepthOrHeightDatagram::get_height_type, DOC_DepthOrHeightDatagram(height_type))
-        
+        .def("set_height_type",
+             &DepthOrHeightDatagram::set_height_type,
+             DOC_DepthOrHeightDatagram(height_type))
+        .def("get_height_type",
+             &DepthOrHeightDatagram::get_height_type,
+             DOC_DepthOrHeightDatagram(height_type))
+
         // --- processed member access ---
         .def("get_height_in_meters",
              &DepthOrHeightDatagram::get_height_in_meters,
@@ -53,11 +67,18 @@ void init_c_depthorheightdatagram(pybind11::module& m)
         // --- checksum access ---
         .def("get_etx", &DepthOrHeightDatagram::get_etx, DOC_DepthOrHeightDatagram(etx))
         .def("set_etx", &DepthOrHeightDatagram::set_etx, DOC_DepthOrHeightDatagram(etx))
-        .def("get_checksum", &DepthOrHeightDatagram::get_checksum, DOC_DepthOrHeightDatagram(checksum))
-        .def("set_checksum", &DepthOrHeightDatagram::set_checksum, DOC_DepthOrHeightDatagram(checksum))
+        .def("get_checksum",
+             &DepthOrHeightDatagram::get_checksum,
+             DOC_DepthOrHeightDatagram(checksum))
+        .def("set_checksum",
+             &DepthOrHeightDatagram::set_checksum,
+             DOC_DepthOrHeightDatagram(checksum))
 
         // ----- operators -----
-        .def("__eq__", &DepthOrHeightDatagram::operator==, DOC_DepthOrHeightDatagram(operator_eq), py::arg("other"))
+        .def("__eq__",
+             &DepthOrHeightDatagram::operator==,
+             DOC_DepthOrHeightDatagram(operator_eq),
+             py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(DepthOrHeightDatagram)
