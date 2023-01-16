@@ -53,7 +53,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     TideDatagram_NotImplemented     = 0x54, ///< not yet implemented
 
     // Sound speed
-    SurfaceSoundSpeedDatagram = 0x47, ///< TODO: implement!
+    SurfaceSoundSpeedDatagram = 0x47,
     SoundSpeedProfileDatagram = 0x55, ///< TODO: implement!
 
     // Multibeam parameters
