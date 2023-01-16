@@ -109,10 +109,10 @@ class XYZDatagram : public EM3000Datagram
     void set_etx(uint8_t etx) { _etx = etx; }
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
-    // substructure access 
-    std::vector<substructures::XYZDatagramBeam>& beams() { return _beams; }
+    // substructure access
+    std::vector<substructures::XYZDatagramBeam>&       beams() { return _beams; }
     const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
-    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = beams; }
+    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = std::move(beams); }
 
     // ----- processed data access -----
     /**

@@ -150,7 +150,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
 }
 
 template<typename T_PingType>
-void create_PingContainerType(pybind11::module& m, const std::string ITERATOR_NAME)
+void create_PingContainerType(pybind11::module& m, const std::string& ITERATOR_NAME)
 {
     using filetemplates::datacontainers::PingContainer;
     namespace py = pybind11;

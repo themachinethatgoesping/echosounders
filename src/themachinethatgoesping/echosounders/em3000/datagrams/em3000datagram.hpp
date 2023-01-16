@@ -56,8 +56,8 @@ class EM3000Datagram
         // read the end identifier and the check sum
         struct t_EndIdentifier
         {
-            uint8_t  etx;          // (end identifier)
-            uint16_t checksum = 0; // the sum of all bytes between STX end ETX
+            uint8_t                   etx;          // (end identifier)
+            [[maybe_unused]] uint16_t checksum = 0; // the sum of all bytes between STX end ETX
         } etx;
 
         is.read(reinterpret_cast<char*>(&etx.etx), 3 * sizeof(uint8_t));

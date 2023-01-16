@@ -92,7 +92,7 @@ struct FIL1 : public SimradDatagram
     void set_stage(simrad_short stage) { _Stage = stage; }
     void set_spare_1(simrad_char spare_1) { _Spare_1 = spare_1; }
     void set_spare_2(simrad_char spare_2) { _Spare_2 = spare_2; }
-    void set_channel_id(std::string channel_id) { _ChannelID = channel_id; }
+    void set_channel_id(std::string channel_id) { _ChannelID = std::move(channel_id); }
     void set_no_of_coefficients(simrad_short no_of_coefficients)
     {
         _NoOfCoefficients = no_of_coefficients;

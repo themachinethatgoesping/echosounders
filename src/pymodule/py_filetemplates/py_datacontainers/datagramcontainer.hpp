@@ -141,7 +141,7 @@ void _add_DatagramReading(T_PyClass& cls)
 template<typename T_DatagramType,
          typename T_DatagramIdentifier,
          typename T_DatagramFactory = T_DatagramType>
-void create_DatagramContainerTypes(pybind11::module& m, const std::string CONTAINER_NAME)
+void create_DatagramContainerTypes(pybind11::module& m, const std::string& CONTAINER_NAME)
 {
     using filetemplates::datacontainers::DatagramContainer;
     using filetemplates::datastreams::MappedFileStream;

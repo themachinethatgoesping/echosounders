@@ -146,12 +146,15 @@ class WaterColumnDatagram : public EM3000Datagram
     void set_transmit_sectors(
         std::vector<substructures::WaterColumnDatagramTransmitSector> transmit_sectors)
     {
-        _transmit_sectors = transmit_sectors;
+        _transmit_sectors = std::move(transmit_sectors);
     }
 
     const std::vector<substructures::WaterColumnDatagramBeam>& get_beams() const { return _beams; }
     std::vector<substructures::WaterColumnDatagramBeam>&       beams() { return _beams; }
-    void set_beams(std::vector<substructures::WaterColumnDatagramBeam> beams) { _beams = beams; }
+    void set_beams(std::vector<substructures::WaterColumnDatagramBeam> beams)
+    {
+        _beams = std::move(beams);
+    }
 
     // ----- processed data access -----
     /**

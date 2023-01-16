@@ -93,7 +93,7 @@ class AttitudeDatagram : public EM3000Datagram
     }
     void set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes)
     {
-        _attitudes = attitudes;
+        _attitudes = std::move(attitudes);
     }
 
     // ----- processed data access -----
