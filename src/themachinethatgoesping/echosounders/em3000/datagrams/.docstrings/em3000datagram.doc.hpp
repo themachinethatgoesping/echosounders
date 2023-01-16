@@ -1,4 +1,4 @@
-//sourcehash: d866d81da66a52a5ddb14565ee371de79302d9c6f559e2cec1aa442aca55b45a
+//sourcehash: 0a562b2be36d25796d529e68496debecef62020b07b65e8d52f5c32441aa9453
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,7 +64,14 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_date = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_date_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_date_string =
+R"doc(Get the time as string
+
+Parameter ``fractionalSecondsDigits``:
+    $Parameter ``format``:
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_get_model_number = R"doc()doc";
 

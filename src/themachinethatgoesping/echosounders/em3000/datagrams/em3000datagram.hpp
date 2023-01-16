@@ -125,18 +125,6 @@ class EM3000Datagram
      */
     double get_timestamp() const
     {
-        // std::string datestring = "0000_";
-        // std::string format     = "%z_%d.%m.%Y";
-        // std::string date       = std::to_string(_date);
-
-        // datestring += date.substr(6, 2) + "." + date.substr(4, 2) + "." + date.substr(0, 4);
-
-        // double unixtime = tools::timeconv::datestring_to_unixtime(datestring, format);
-
-        // unixtime += double(_time_since_midnight) / 1000.;
-
-        // return unixtime;
-
         int y = int(_date / 10000);
         int m = int(_date / 100) - y * 100;
         int d = int(_date) - y * 10000 - m * 100;
@@ -145,6 +133,13 @@ class EM3000Datagram
             y, m, d, uint64_t(_time_since_midnight) * 1000);
     }
 
+    /**
+     * @brief Get the time as string
+     * 
+     * @param fractionalSecondsDigits 
+     * @param format 
+     * @return std::string 
+     */
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
                                 const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
     {
