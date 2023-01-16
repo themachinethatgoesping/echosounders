@@ -1,4 +1,4 @@
-//sourcehash: 8ebebd89b12fa4a9911d0439f619063808e27c6195dc15a0311552889099cfa9
+//sourcehash: 032de813cb922a045efdea9dd7743e34b3f35af9c3d6da2d3b8a413605b08bd5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -80,7 +80,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_He
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_get_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_get_times_headings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_get_times_and_headings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_heading_counter = R"doc(< Sequential Number)doc";
 
@@ -106,13 +106,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_He
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_set_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_set_times_headings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_set_times_and_headings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_times_headings = R"doc(< 2xN array of time in ms since record start and heading in 0.01°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_times_and_headings = R"doc(< 2xN array of time in ms since record start and heading in 0.01°)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_times_headings_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_times_and_headings_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_to_stream = R"doc()doc";
 

@@ -64,16 +64,16 @@ void init_c_headingdatagram(pybind11::module& m)
              DOC_HeadingDatagram(heading_indicator))
 
         // --- data structure access ---
-        .def("get_times_headings",
-             &HeadingDatagram::get_times_headings,
-             DOC_HeadingDatagram(times_headings),
+        .def("get_times_and_headings",
+             &HeadingDatagram::get_times_and_headings,
+             DOC_HeadingDatagram(times_and_headings),
              py::return_value_policy::reference_internal)
-        .def("set_times_headings",
-             &HeadingDatagram::set_times_headings,
-             DOC_HeadingDatagram(times_headings))
-        .def("times_headings",
-             &HeadingDatagram::times_headings,
-             DOC_HeadingDatagram(times_headings),
+        .def("set_times_and_headings",
+             &HeadingDatagram::set_times_and_headings,
+             DOC_HeadingDatagram(times_and_headings))
+        .def("times_and_headings",
+             &HeadingDatagram::times_and_headings,
+             DOC_HeadingDatagram(times_and_headings),
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---

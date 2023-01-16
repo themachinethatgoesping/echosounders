@@ -20,18 +20,18 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
     // initialize class structure
     auto dat = HeadingDatagram();
 
-    auto times_headings  = xt::empty<uint16_t>(xt::xtensor<uint16_t, 2>::shape_type({ 2, 2 }));
-    times_headings(0, 0) = 1234;
-    times_headings(0, 1) = 567;
-    times_headings(1, 0) = 2345;
-    times_headings(1, 1) = 678;
+    auto times_and_headings  = xt::empty<uint16_t>(xt::xtensor<uint16_t, 2>::shape_type({ 2, 2 }));
+    times_and_headings(0, 0) = 1234;
+    times_and_headings(0, 1) = 567;
+    times_and_headings(1, 0) = 2345;
+    times_and_headings(1, 1) = 678;
 
     // set some variables
     dat.set_bytes(100);
     dat.set_model_number(710);
     dat.set_date(20190423);
     dat.set_time_since_midnight(223727);
-    dat.set_times_headings(times_headings);
+    dat.set_times_and_headings(times_and_headings);
     dat.set_number_of_entries(2);
 
     dat.set_heading_counter(123);

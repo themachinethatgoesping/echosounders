@@ -76,6 +76,9 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth:
                     return py::cast(
                         self.template datagrams<datagrams::SingleBeamEchoSounderDepth>(type));
+                case t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram:
+                    return py::cast(
+                        self.template datagrams<datagrams::SurfaceSoundSpeedDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

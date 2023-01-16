@@ -43,7 +43,7 @@ class HeadingDatagram : public EM3000Datagram
     uint16_t _number_of_entries = 0; ///< N
 
     xt::xtensor<uint16_t, 2>
-        _times_headings; ///< 2xN array of time in ms since record start and heading in 0.01°
+        _times_and_headings; ///< 2xN array of time in ms since record start and heading in 0.01°
 
     uint8_t  _heading_indicator; ///< 0 = inactive
     uint8_t  _etx = 0x03;        ///< end identifier (always 0x03)
@@ -88,11 +88,11 @@ class HeadingDatagram : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // substructures
-    xt::xtensor<uint16_t, 2>&       times_headings() { return _times_headings; }
-    const xt::xtensor<uint16_t, 2>& get_times_headings() const { return _times_headings; }
-    void set_times_headings(const xt::xtensor<uint16_t, 2>& times_headings)
+    xt::xtensor<uint16_t, 2>&       times_and_headings() { return _times_and_headings; }
+    const xt::xtensor<uint16_t, 2>& get_times_and_headings() const { return _times_and_headings; }
+    void set_times_and_headings(const xt::xtensor<uint16_t, 2>& times_and_headings)
     {
-        _times_headings = times_headings;
+        _times_and_headings = times_and_headings;
     }
 
     // ----- processed data access -----
@@ -106,7 +106,7 @@ class HeadingDatagram : public EM3000Datagram
         double timestamp = get_timestamp();
 
         // the output timestamp is the timestamp of the datagram plus the time of the entry
-        return xt::view(_times_headings, xt::all(), 0) * 0.001 + timestamp;
+        return xt::view(_times_and_headings, xt::all(), 0) * 0.001 + timestamp;
     }
 
     /**
@@ -116,7 +116,7 @@ class HeadingDatagram : public EM3000Datagram
      */
     xt::xtensor<float, 1> get_headings_in_degrees() const
     {
-        return xt::view(_times_headings, xt::all(), 1) * 0.01;
+        return xt::view(_times_and_headings, xt::all(), 1) * 0.01;
     }
 
     // ----- operators -----
@@ -125,7 +125,7 @@ class HeadingDatagram : public EM3000Datagram
         return EM3000Datagram::operator==(other) && _heading_counter == other._heading_counter &&
                _system_serial_number == other._system_serial_number &&
                _number_of_entries == other._number_of_entries &&
-               _times_headings == other._times_headings &&
+               _times_and_headings == other._times_and_headings &&
                _heading_indicator == other._heading_indicator && _etx == other._etx &&
                _checksum == other._checksum;
     }
@@ -148,11 +148,11 @@ class HeadingDatagram : public EM3000Datagram
         // read the times and headings
         if (datagram._number_of_entries > 0)
         {
-            datagram._times_headings = xt::empty<uint16_t>(
+            datagram._times_and_headings = xt::empty<uint16_t>(
                 xt::xtensor<uint16_t, 2>::shape_type({ datagram._number_of_entries, 2 }));
 
-            is.read(reinterpret_cast<char*>(datagram._times_headings.data()),
-                    datagram._times_headings.size() * sizeof(uint16_t));
+            is.read(reinterpret_cast<char*>(datagram._times_and_headings.data()),
+                    datagram._times_and_headings.size() * sizeof(uint16_t));
         }
 
         // read the rest of the datagram
@@ -178,12 +178,12 @@ class HeadingDatagram : public EM3000Datagram
 
     void to_stream(std::ostream& os) const
     {
-        if (_number_of_entries != _times_headings.shape()[0])
+        if (_number_of_entries != _times_and_headings.shape()[0])
             throw std::runtime_error(
                 fmt::format("HeadingDatagram: number of entries ({}) does not match the size of "
-                            "the times_headings array ({})",
+                            "the times_and_headings array ({})",
                             _number_of_entries,
-                            _times_headings.shape()[0]));
+                            _times_and_headings.shape()[0]));
 
         EM3000Datagram::to_stream(os);
 
@@ -191,8 +191,8 @@ class HeadingDatagram : public EM3000Datagram
         os.write(reinterpret_cast<const char*>(&(_heading_counter)), 6 * sizeof(uint8_t));
 
         // write the times and headings
-        os.write(reinterpret_cast<const char*>(_times_headings.data()),
-                 _times_headings.size() * sizeof(uint16_t));
+        os.write(reinterpret_cast<const char*>(_times_and_headings.data()),
+                 _times_and_headings.size() * sizeof(uint16_t));
 
         // write the rest of the datagram
         os.write(reinterpret_cast<const char*>(&(_heading_indicator)), 4 * sizeof(uint8_t));
@@ -214,7 +214,7 @@ class HeadingDatagram : public EM3000Datagram
         printer.register_container("headings", get_headings_in_degrees(), "°");
 
         printer.register_section("substructures");
-        printer.register_container("times_headings", _times_headings);
+        printer.register_container("times_and_headings", _times_and_headings);
 
         return printer;
     }
