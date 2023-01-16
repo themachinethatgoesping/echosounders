@@ -66,6 +66,8 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
     int32_t  get_input_time_since_midnight() const { return _input_time_since_midnight; }
     int32_t  get_echo_sounder_depth() const { return _echo_sounder_depth; }
     char     get_source_identifier() const { return _source_identifier; }
+    uint8_t  get_etx() const { return _etx; }
+    uint16_t get_checksum() const { return _checksum; }
 
     // setters
     void set_echo_sounder_counter(uint16_t echo_sounder_counter)
@@ -83,6 +85,8 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
         _echo_sounder_depth = echo_sounder_depth;
     }
     void set_source_identifier(char source_identifier) { _source_identifier = source_identifier; }
+    void set_etx(uint8_t etx) { _etx = etx; }
+    void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
     /**
@@ -196,7 +200,7 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("input_date", _input_date, "YYYYMMDD");
         printer.register_value("input_time_since_midnight", _input_time_since_midnight, "ms");
-        printer.register_value("echo_sounder_depth", _echo_sounder_depth, "s");
+        printer.register_value("echo_sounder_depth", _echo_sounder_depth, "m");
 
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);

@@ -37,6 +37,7 @@ void init_c_clockdatagram(pybind11::module& m);         // c_clockdatagram.cpp
 void init_c_depthorheightdatagram(pybind11::module& m); // c_depthorheightdatagram.cpp
 void init_c_headingdatagram(pybind11::module& m);       // c_headingdatagram.cpp
 void init_c_positiondatagram(pybind11::module& m);      // c_positiondatagram.cpp
+void init_c_singlebeamechosounderdepth(pybind11::module& m); // c_singlebeamechosounderdepth.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -62,6 +63,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_depthorheightdatagram(subm);
     init_c_headingdatagram(subm);
     init_c_positiondatagram(subm);
+    init_c_singlebeamechosounderdepth(subm);
 }
 
 }

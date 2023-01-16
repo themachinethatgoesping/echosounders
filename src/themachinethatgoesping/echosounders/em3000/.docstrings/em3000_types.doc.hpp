@@ -1,4 +1,4 @@
-//sourcehash: 5dcee0302af762eebc254fd54c75e729138c8299ef06755e1ccb04f4e6586571
+//sourcehash: 7f86cca7d89d573e467bd7eee79eeac8d616fe1503d0798001571e3022c55b81
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -80,7 +80,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SeabedImageData = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SingleBeamEchoSounderDepth = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SingleBeamEchoSounderDepth = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SoundSpeedProfileDatagram = R"doc(< TODO: implement!)doc";
 

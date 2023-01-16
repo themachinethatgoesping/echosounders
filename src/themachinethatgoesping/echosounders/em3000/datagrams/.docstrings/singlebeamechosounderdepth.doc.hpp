@@ -1,4 +1,4 @@
-//sourcehash: de8feac6aa409ffad16faa8dbed67c68843e50f77eaa0b6107d495666ac69d88
+//sourcehash: f5455bd57816d00e11f231caaba6fefeb4285f989d099d738b78ad3e661ff570
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_checksum = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_echo_sounder_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_echo_sounder_depth = R"doc()doc";
@@ -69,6 +71,8 @@ R"doc(Get the echo sounder depth in meters
 
 Returns:
     _echo_sounder_depth * 0.01f (float))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_etx = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_input_date = R"doc()doc";
 
@@ -81,13 +85,13 @@ Parameter ``fractionalSecondsDigits``:
 Returns:
     std::string)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_input_input_timestamp =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_input_time_since_midnight = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_input_timestamp =
 R"doc(convert the date and time_since_midnight field to a unix timestamp
 
 Returns:
     unixtime as double)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_input_time_since_midnight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_get_source_identifier = R"doc()doc";
 
@@ -105,9 +109,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_set_checksum = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_set_echo_sounder_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_set_echo_sounder_depth = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_set_etx = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_set_input_date = R"doc()doc";
 

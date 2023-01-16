@@ -21,6 +21,7 @@
 #include "datagrams/qualityfactordatagram.hpp"
 #include "datagrams/rawrangeandangle.hpp"
 #include "datagrams/seabedimagedata.hpp"
+#include "datagrams/singlebeamechosounderdepth.hpp"
 #include "datagrams/watercolumndatagram.hpp"
 #include "datagrams/xyzdatagram.hpp"
 #include "em3000_types.hpp"
@@ -55,6 +56,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              DepthOrHeightDatagram,
                                              HeadingDatagram,
                                              PositionDatagram,
+                                             SingleBeamEchoSounderDepth,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -99,6 +101,9 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(datagrams::HeadingDatagram::from_stream(is));
             case t_EM3000DatagramIdentifier::PositionDatagram:
                 return t_EM3000DatagramVariant(datagrams::PositionDatagram::from_stream(is));
+            case t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth:
+                return t_EM3000DatagramVariant(
+                    datagrams::SingleBeamEchoSounderDepth::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }
