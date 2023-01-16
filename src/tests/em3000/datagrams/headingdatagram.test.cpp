@@ -43,8 +43,6 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
     // test copy
     REQUIRE(dat == HeadingDatagram(dat));
 
-    HeadingDatagram(dat.from_binary(dat.to_binary())).print(std::cerr);
-
     // test binary
     REQUIRE(dat == HeadingDatagram(dat.from_binary(dat.to_binary())));
 
@@ -65,10 +63,10 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
 
     auto timestamps = dat.get_heading_timestamps();
     auto headings = dat.get_headings_in_degrees();
-    // CHECK(timestamps(0) == 1.234 + dat.get_timestamp());
-    // CHECK(timestamps(1) == 2.345 + dat.get_timestamp());
-    // CHECK(headings(0) == 5.67);
-    // CHECK(headings(1) == 6.78);
+    CHECK(timestamps(0) == 1.234 + dat.get_timestamp());
+    CHECK(timestamps(1) == 2.345 + dat.get_timestamp());
+    CHECK(headings(0) == 5.67f);
+    CHECK(headings(1) == 6.78f);
 
 
 

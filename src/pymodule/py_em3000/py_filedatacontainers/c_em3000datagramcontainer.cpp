@@ -76,6 +76,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::DepthOrHeightDatagram,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_DepthOrHeightDatagram");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::HeadingDatagram,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_HeadingDatagram");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

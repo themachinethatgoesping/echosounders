@@ -1,4 +1,4 @@
-//sourcehash: 8a4c019d45d3a62f8e19a57fd6ae246da630486c9bd7853a08d5eb8dbe88d9db
+//sourcehash: a263c0699f6efd3170a5e0d66774a42ccc991652b5d709a0edc8dc0b272c3512
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram = R"doc(Clock datagrams)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram = R"doc(Depth (pressure) or height datagrams)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram_DepthOrHeightDatagram = R"doc()doc";
 

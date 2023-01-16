@@ -106,7 +106,7 @@ class HeadingDatagram : public EM3000Datagram
         double timestamp = get_timestamp();
 
         // the output timestamp is the timestamp of the datagram plus the time of the entry
-        return xt::view(_times_headings, 0, xt::all()) + timestamp;
+        return xt::view(_times_headings, xt::all(), 0) * 0.001 + timestamp;
     }
 
     /**
@@ -116,7 +116,7 @@ class HeadingDatagram : public EM3000Datagram
      */
     xt::xtensor<float, 1> get_headings_in_degrees() const
     {
-        return xt::view(_times_headings, 1, xt::all()) * 0.01;
+        return xt::view(_times_headings, xt::all(), 1) * 0.01;
     }
 
     // ----- operators -----

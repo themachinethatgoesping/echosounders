@@ -1,4 +1,4 @@
-//sourcehash: 633325587d047a6c0c473d078ebcb64684be978e5261383330acea5508e20d9d
+//sourcehash: 8ebebd89b12fa4a9911d0439f619063808e27c6195dc15a0311552889099cfa9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,13 +38,13 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram = R"doc(Clock datagrams)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram = R"doc(Heading datagrams)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_HeadingDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_HeadingDatagram_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_HeadingDatagram_checksum = R"doc()doc";
 
