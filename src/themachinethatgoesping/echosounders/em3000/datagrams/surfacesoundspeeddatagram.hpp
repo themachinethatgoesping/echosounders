@@ -43,7 +43,7 @@ class SurfaceSoundSpeedDatagram : public EM3000Datagram
     uint16_t _number_of_entries = 0; ///< N
 
     xt::xtensor<uint16_t, 2> _times_and_sound_speeds; ///< 2xN array of time in ms since record
-                                                        ///< start and sound_speed in dm/s
+                                                      ///< start and sound_speed in dm/s
 
     uint8_t  _spare;
     uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
@@ -68,7 +68,7 @@ class SurfaceSoundSpeedDatagram : public EM3000Datagram
     // getters
     uint16_t get_sound_speed_counter() const { return _sound_speed_counter; }
     uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t  get_number_of_entries() const { return _number_of_entries; }
+    uint16_t get_number_of_entries() const { return _number_of_entries; }
     uint8_t  get_spare() const { return _spare; }
     uint8_t  get_etx() const { return _etx; }
     uint16_t get_checksum() const { return _checksum; }
@@ -132,8 +132,8 @@ class SurfaceSoundSpeedDatagram : public EM3000Datagram
                _sound_speed_counter == other._sound_speed_counter &&
                _system_serial_number == other._system_serial_number &&
                _number_of_entries == other._number_of_entries &&
-               _times_and_sound_speeds == other._times_and_sound_speeds &&
-               _spare == other._spare && _etx == other._etx && _checksum == other._checksum;
+               _times_and_sound_speeds == other._times_and_sound_speeds && _spare == other._spare &&
+               _etx == other._etx && _checksum == other._checksum;
     }
     bool operator!=(const SurfaceSoundSpeedDatagram& other) const { return !operator==(other); }
 

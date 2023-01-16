@@ -36,6 +36,7 @@ TEST_CASE("SoundSpeedProfileDatagram should support common functions", TESTTAG)
     dat.set_number_of_entries(2);
     dat.set_profile_date(20200423);
     dat.set_profile_time_since_midnight(323727);
+    dat.set_depth_resolution(456);
 
     dat.set_profile_counter(123);
     dat.set_system_serial_number(100);
@@ -63,6 +64,7 @@ TEST_CASE("SoundSpeedProfileDatagram should support common functions", TESTTAG)
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
     CHECK(dat.get_profile_counter() == 123);
     CHECK(dat.get_system_serial_number() == 100);
+    CHECK(dat.get_depth_resolution_in_meters() == 4.56f);
 
     auto depths       = dat.get_depths_in_meters();
     auto sound_speeds = dat.get_sound_speeds_in_meters_per_second();

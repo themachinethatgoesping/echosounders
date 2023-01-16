@@ -51,7 +51,7 @@ class SoundSpeedProfileDatagram : public EM3000Datagram
     xt::xtensor<uint32_t, 2>
         _depths_and_sound_speeds; ///< 2xN array of depth in cm and sound speed in dm/s
 
-    uint8_t  _spare;      
+    uint8_t  _spare;
     uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
     uint16_t _checksum;
 
@@ -115,6 +115,13 @@ class SoundSpeedProfileDatagram : public EM3000Datagram
     }
 
     // ----- processed data access -----
+    /**
+     * @brief return the depths in meters
+     *
+     * @return _depth_resolution * 0.01 (float)
+     */
+    float get_depth_resolution_in_meters() const { return _depth_resolution * 0.01; }
+
     /**
      * @brief return the depths in meters by multiplying the depths by 0.01
      *
@@ -263,11 +270,13 @@ class SoundSpeedProfileDatagram : public EM3000Datagram
         printer.register_value("profile_counter", _profile_counter);
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("number_of_entries", _number_of_entries);
+        printer.register_value("depth_resolution", _depth_resolution, "cm");
 
         printer.register_section("processed");
         printer.register_value("profile_timestamp", timestamp, "s");
         printer.register_string("profile_date", date, "MM/DD/YYYY");
         printer.register_string("profile_time", time, "HH:MM:SS");
+        printer.register_value("depth_resolution", get_depth_resolution_in_meters(), "m");
         printer.register_container("meters", get_depths_in_meters(), "s");
         printer.register_container("sound_speeds", get_sound_speeds_in_meters_per_second(), "°");
 

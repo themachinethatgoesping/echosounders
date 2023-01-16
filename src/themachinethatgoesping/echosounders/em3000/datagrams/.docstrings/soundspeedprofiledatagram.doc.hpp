@@ -1,4 +1,4 @@
-//sourcehash: d2627d794c9dde423e3c3c3f9bc849fe40268474a5c12684328548449a4ed62c
+//sourcehash: 689011ab2007f23d722bd7c183fbb4afd3f71ed37d053b9a086e97085bdc2d28
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,10 +70,16 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_So
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_get_depth_resolution = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_get_depth_resolution_in_meters =
+R"doc(return the depths in meters
+
+Returns:
+    _depth_resolution * 0.01 (float))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_get_depths_and_sound_speeds = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_get_depths_in_meters =
-R"doc(return the times converted to unix timestamps
+R"doc(return the depths in meters by multiplying the depths by 0.01
 
 Returns:
     np.array([_number_of_entries], dtype = np.float64))doc";
@@ -149,7 +155,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_So
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_set_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_spare = R"doc(< only present if N is even)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_spare = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SoundSpeedProfileDatagram_system_serial_number = R"doc()doc";
 
