@@ -1,4 +1,4 @@
-//sourcehash: 63dd749339ea3a2e6fb432edd72d1d3518934ec7ea447794d6a16eb4b6c1d057
+//sourcehash: 5dcee0302af762eebc254fd54c75e729138c8299ef06755e1ccb04f4e6586571
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,7 +68,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PUIDOutput = R"doc(< TODO: implement!)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PositionDatagram = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PositionDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PuStatusOutput = R"doc(< TODO: implement!)doc";
 

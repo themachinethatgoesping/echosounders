@@ -1,4 +1,4 @@
-//sourcehash: 4d79a1720ddee6fbb0a037e8b2ad1f138ec2d93b5b8219ea3d73c49d36e33f22
+//sourcehash: 58caf05dbad390bd249d54dff731d764689f04698ec34a84c48a1a11a5e556e7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -196,11 +196,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_size_of_input_datagram = R"doc(< in input datagram;)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_spare = R"doc(< only if required to make the datagram size even)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_speed_of_vessel = R"doc(< over ground in cm/s)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_system_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_to_stream = R"doc()doc";
 

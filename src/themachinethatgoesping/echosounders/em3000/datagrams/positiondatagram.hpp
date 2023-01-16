@@ -45,8 +45,8 @@ class PositionDatagram : public EM3000Datagram
 
     std::string _input_datagram; ///< as received (NMEA 0183);
 
-    uint8_t  _spare;
-    uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
+    uint8_t  _spare = 0;    ///< only if required to make the datagram size even
+    uint8_t  _etx   = 0x03; ///< end identifier (always 0x03)
     uint16_t _checksum;
 
   private:
@@ -225,8 +225,10 @@ class PositionDatagram : public EM3000Datagram
         is.read(reinterpret_cast<char*>(datagram._input_datagram.data()),
                 datagram._size_of_input_datagram * sizeof(uint8_t));
 
-        // read the last part of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._spare)), 4 * sizeof(uint8_t));
+        if (datagram._size_of_input_datagram % 2 == 0)
+            is.read(reinterpret_cast<char*>(&(datagram._spare)), 4 * sizeof(uint8_t));
+        else
+            is.read(reinterpret_cast<char*>(&(datagram._etx)), 3 * sizeof(uint8_t));
 
         if (datagram._etx != 0x03)
             throw std::runtime_error(fmt::format(
@@ -264,7 +266,10 @@ class PositionDatagram : public EM3000Datagram
                  _size_of_input_datagram * sizeof(uint8_t));
 
         // write the last part of the datagram
-        os.write(reinterpret_cast<const char*>(&_spare), 4 * sizeof(uint8_t));
+        if (_size_of_input_datagram % 2 == 0)
+            os.write(reinterpret_cast<const char*>(&_spare), 4 * sizeof(uint8_t));
+        else
+            os.write(reinterpret_cast<const char*>(&_etx), 3 * sizeof(uint8_t));
     }
 
     // ----- objectprinter -----
@@ -301,6 +306,9 @@ class PositionDatagram : public EM3000Datagram
                                get_position_system_system_time_has_been_used());
         printer.register_value("position_system_input_datagram_time_has_been_used",
                                !get_position_system_system_time_has_been_used());
+
+        printer.register_section("substructures");
+        printer.register_string("input_datagram", _input_datagram);
 
         return printer;
     }

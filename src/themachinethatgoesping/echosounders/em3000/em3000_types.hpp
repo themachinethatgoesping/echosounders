@@ -43,7 +43,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     ClockDatagram                   = 0x43,
     DepthOrHeightDatagram           = 0x68,
     HeadingDatagram                 = 0x48,
-    PositionDatagram                = 0x50, ///< TODO: implement!
+    PositionDatagram                = 0x50,
     SingleBeamEchoSounderDepth      = 0x45, ///< TODO: implement!
 
     // Sound speed

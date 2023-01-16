@@ -71,6 +71,8 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                         self.template datagrams<datagrams::DepthOrHeightDatagram>(type));
                 case t_EM3000DatagramIdentifier::HeadingDatagram:
                     return py::cast(self.template datagrams<datagrams::HeadingDatagram>(type));
+                case t_EM3000DatagramIdentifier::PositionDatagram:
+                    return py::cast(self.template datagrams<datagrams::PositionDatagram>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }
