@@ -138,9 +138,13 @@ jobs:
     steps:
 
     - uses: actions/setup-python@v3
-      with:
+      with: 
         python-version: '3.10'
     
+    # make sure meson can find clang-cl
+    - name: Install Clang
+      uses: egor-tensin/setup-clang@v1.4
+
     # make sure meson can find msvc
     # - name: Prepare MSVC
     #   uses: bus1/cabuild/action/msdevshell@v1
@@ -166,7 +170,7 @@ jobs:
       with:
         path: c:\Boost
         #key: windows-msvc-14.32-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
-        key: windows-clang-cl-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
+        key: windows-clang-cl-2-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
   
     - name: Install dependencies on windows
       if: steps.cache-boost.outputs.cache-hit != 'true'
