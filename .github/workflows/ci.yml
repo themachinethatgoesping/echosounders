@@ -130,7 +130,8 @@ jobs:
           boost-modules: [--with-iostreams]
           
     env:
-      CC: msvc-14.32
+      #CC: msvc-14.32
+      CC: clang-cl
 
     runs-on: windows-latest
     #container: python:latest #pull directly from dockerhub   
@@ -141,10 +142,10 @@ jobs:
         python-version: '3.10'
     
     # make sure meson can find msvc
-    - name: Prepare MSVC
-      uses: bus1/cabuild/action/msdevshell@v1
-      with:
-        architecture: x64
+    # - name: Prepare MSVC
+    #   uses: bus1/cabuild/action/msdevshell@v1
+    #   with:
+    #     architecture: x64
 
     - name: checkout main repository
       uses: actions/checkout@v3
@@ -164,7 +165,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: c:\Boost
-        key: windows-msvc-14.32-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
+        #key: windows-msvc-14.32-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
+        key: windows-clang-cl-boost-${{matrix.boost-version}}-${{matrix.boost-modules}}
   
     - name: Install dependencies on windows
       if: steps.cache-boost.outputs.cache-hit != 'true'
