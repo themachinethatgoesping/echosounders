@@ -37,7 +37,7 @@ pugixml_dep = subproject('pugixml', default_options: 'default_library=static').g
 # tools
 tools_dep = dependency('themachinethatgoesping_tools', required: false)
 if not tools_dep.found()
-    tools_dep = subproject('tools').get_variable('tools_dep')
+    tools_dep = subproject('tools', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('tools_dep')
 endif
 
 # -- python modules --
@@ -61,7 +61,7 @@ endif
 # navigation
 navigation_dep = dependency('themachinethatgoesping_navigation', required: false)
 if not navigation_dep.found()
-    navigation_dep = subproject('navigation').get_variable('navigation_dep')
+    navigation_dep = subproject('navigation', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('navigation_dep')
 endif
 
 #themachinethatgoesping meta info
