@@ -54,11 +54,11 @@ enum class t_EM3000DatagramIdentifier : uint8_t
 
     // Sound speed
     SurfaceSoundSpeedDatagram = 0x47,
-    SoundSpeedProfileDatagram = 0x55, ///< TODO: implement!
+    SoundSpeedProfileDatagram = 0x55,
 
     // Multibeam parameters
-    InstallationParameterStart = 0x49, ///< TODO: implement!
-    InstallationParameterStop  = 0x69, ///< TODO: implement!
+    InstallationParametersStart = 0x49,
+    InstallationParametersStop  = 0x69,
     RuntimeParameters          = 0x52, ///< TODO: implement!
     ExtraParameters            = 0x33, ///< TODO: implement!
 
