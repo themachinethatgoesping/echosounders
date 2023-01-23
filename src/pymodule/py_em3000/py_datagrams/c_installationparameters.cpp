@@ -71,6 +71,15 @@ void init_c_installationparameters(pybind11::module& m)
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---
+        .def("get_installation_parameters_parsed",
+             &InstallationParameters::get_installation_parameters_parsed,
+             DOC_InstallationParameters(get_installation_parameters_parsed),
+             py::return_value_policy::reference_internal)
+
+        // --- public data members ---
+        .def("reparse_installation_parameters",
+             &InstallationParameters::reparse_installation_parameters,
+             DOC_InstallationParameters(reparse_installation_parameters))
 
         // --- checksum access ---
         .def("get_etx", &InstallationParameters::get_etx, DOC_InstallationParameters(etx))

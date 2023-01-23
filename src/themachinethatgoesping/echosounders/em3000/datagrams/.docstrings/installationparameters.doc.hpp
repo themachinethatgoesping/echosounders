@@ -1,4 +1,4 @@
-//sourcehash: d623d2b72523c3a273cb012de51943ddfb0896f7fb18c5396a651d4b0e4e08c2
+//sourcehash: dd52fa7b5344bf9cac2c674c3c1ee4b3d6470501569dfef1b04d6580e0231d25
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -77,6 +77,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters_counter = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters_parsed = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_secondary_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
@@ -91,7 +93,14 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_operator_ne = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_parsed_installation_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_reparse_installation_parameters =
+R"doc(parse the installation parameters string into a map This happens when
+the datagram is read from a file, but must be called manually when the
+installation parameters string is changed manually.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_secondary_system_serial_number = R"doc()doc";
 
