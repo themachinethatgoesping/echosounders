@@ -91,6 +91,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SoundSpeedProfileDatagram,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_SoundSpeedProfileDatagram");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::InstallationParameters,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_InstallationParameters");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

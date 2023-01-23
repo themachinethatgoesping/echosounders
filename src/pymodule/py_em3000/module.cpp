@@ -107,12 +107,13 @@ void init_m_em3000(pybind11::module& m)
                    DOC_t_EM3000DatagramIdentifier(SoundSpeedProfileDatagram))
 
             // Multibeam parameters
-            .value("InstallationParameterStart",
-                   t_EM3000DatagramIdentifier::InstallationParameterStart,
-                   DOC_t_EM3000DatagramIdentifier(InstallationParameterStart))
-            .value("InstallationParameterStop",
-                   t_EM3000DatagramIdentifier::InstallationParameterStop,
-                   DOC_t_EM3000DatagramIdentifier(InstallationParameterStop))
+            .value("InstallationParametersStart",
+                   t_EM3000DatagramIdentifier::InstallationParametersStart,
+                   DOC_t_EM3000DatagramIdentifier(InstallationParametersStart))
+            .value(
+                "InstallationParametersStop",
+                InstallationParametersStart t_EM3000DatagramIdentifier::InstallationParametersStop,
+                DOC_t_EM3000DatagramIdentifier(InstallationParametersStop))
             .value("RuntimeParameters",
                    t_EM3000DatagramIdentifier::RuntimeParameters,
                    DOC_t_EM3000DatagramIdentifier(RuntimeParameters))

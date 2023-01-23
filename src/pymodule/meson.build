@@ -98,6 +98,7 @@ sources = [
     'py_em3000/py_datagrams/c_singlebeamechosounderdepth.cpp',
     'py_em3000/py_datagrams/c_surfacesoundspeeddatagram.cpp',
     'py_em3000/py_datagrams/c_soundspeedprofiledatagram.cpp',
+    'py_em3000/py_datagrams/c_installationparameters.cpp',
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',

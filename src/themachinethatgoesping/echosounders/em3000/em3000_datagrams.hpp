@@ -16,6 +16,7 @@
 #include "datagrams/em3000unknown.hpp"
 #include "datagrams/extradetections.hpp"
 #include "datagrams/headingdatagram.hpp"
+#include "datagrams/installationparameters.hpp"
 #include "datagrams/networkattitudevelocitydatagram.hpp"
 #include "datagrams/positiondatagram.hpp"
 #include "datagrams/qualityfactordatagram.hpp"
@@ -61,6 +62,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              SingleBeamEchoSounderDepth,
                                              SurfaceSoundSpeedDatagram,
                                              SoundSpeedProfileDatagram,
+                                             InstallationParameters,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -114,6 +116,10 @@ struct EM3000DatagramVariant
             case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram:
                 return t_EM3000DatagramVariant(
                     datagrams::SoundSpeedProfileDatagram::from_stream(is));
+            case t_EM3000DatagramIdentifier::InstallationParametersStart:
+                return t_EM3000DatagramVariant(datagrams::InstallationParameters::from_stream(is));
+            case t_EM3000DatagramIdentifier::InstallationParametersStop:
+                return t_EM3000DatagramVariant(datagrams::InstallationParameters::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }

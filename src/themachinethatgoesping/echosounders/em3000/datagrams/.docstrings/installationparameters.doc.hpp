@@ -1,4 +1,4 @@
-//sourcehash: fbf3987e5d9258afb039b4a337d030d883dee923f323d7e55faa1885a0c6a00f
+//sourcehash: d623d2b72523c3a273cb012de51943ddfb0896f7fb18c5396a651d4b0e4e08c2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -73,21 +73,19 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameter_counter = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_secondary_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_spare = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameter_counter = R"doc(< Sequential Number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters_counter = R"doc(< Sequential Number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_operator_eq = R"doc()doc";
 
@@ -101,13 +99,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_installation_parameter_counter = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_installation_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_secondary_system_serial_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_installation_parameters_counter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_secondary_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_system_serial_number = R"doc()doc";
 
