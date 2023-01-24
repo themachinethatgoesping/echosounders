@@ -43,6 +43,7 @@ sources = [
     'em3000/datagrams/surfacesoundspeeddatagram.test.cpp',
     'em3000/datagrams/soundspeedprofiledatagram.test.cpp',
     'em3000/datagrams/installationparameters.test.cpp',
+    'em3000/datagrams/runtimeparameters.test.cpp',
 ]
 
 foreach source : sources
