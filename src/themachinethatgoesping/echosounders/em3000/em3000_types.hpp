@@ -59,8 +59,9 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     // Multibeam parameters
     InstallationParametersStart = 0x49,
     InstallationParametersStop  = 0x69,
-    RuntimeParameters          = 0x52, ///< TODO: implement!
-    ExtraParameters            = 0x33, ///< TODO: implement!
+    RuntimeParameters           = 0x52,
+    MechanicalTransducerTilt    = 0x4A, ///< not yet implemented
+    ExtraParameters             = 0x33, ///< TODO: implement!
 
     // PU information and status
     PuStatusOutput = 0x31, ///< TODO: implement!
