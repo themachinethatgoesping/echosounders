@@ -41,6 +41,7 @@ void init_c_singlebeamechosounderdepth(pybind11::module& m); // c_singlebeamecho
 void init_c_surfacesoundspeeddatagram(pybind11::module& m);  // c_surfacesoundspeeddatagram.cpp
 void init_c_soundspeedprofiledatagram(pybind11::module& m);  // c_soundspeedprofiledatagram.cpp
 void init_c_installationparameters(pybind11::module& m);     // c_installationparameters.cpp
+void init_c_runtimeparameters(pybind11::module& m);          // c_runtimeparameters.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -70,6 +71,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_surfacesoundspeeddatagram(subm);
     init_c_soundspeedprofiledatagram(subm);
     init_c_installationparameters(subm);
+    init_c_runtimeparameters(subm);
 }
 
 }

@@ -28,7 +28,7 @@ TEST_CASE("RuntimeParameters should support common functions", TESTTAG)
 
     dat.set_absorption_coefficient(123);
     dat.set_mode(100);
-    dat.set_receive_bandwidth_50Hz(101);
+    dat.set_receive_bandwidth_50hz(101);
 
     // test inequality
     // REQUIRE(dat != RuntimeParameters());
@@ -53,7 +53,7 @@ TEST_CASE("RuntimeParameters should support common functions", TESTTAG)
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
     CHECK(dat.get_absorption_coefficient_in_db_per_meter() == Catch::Approx(0.00123f));
     CHECK(dat.get_mode() == 'd');
-    CHECK(dat.get_receive_bandwidth_in_Hz() == 5050.f);
+    CHECK(dat.get_receive_bandwidth_in_hertz() == 5050.f);
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::RuntimeParameters);

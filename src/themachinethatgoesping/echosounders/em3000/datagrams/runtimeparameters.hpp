@@ -47,7 +47,7 @@ class RuntimeParameters : public EM3000Datagram
     uint16_t _transmit_beamwidth;                   ///< in 0.1 degrees
     int8_t   _transmit_power_relative_maximum;      ///< in dB
     uint8_t  _receive_bandwidth_degree;             ///< in 0.1 degrees
-    uint8_t  _receive_bandwidth_50Hz;                 ///< in 50 Hz resolution
+    uint8_t  _receive_bandwidth_50hz;               ///< in 50 Hz resolution
     uint8_t  _mode2_or_receiver_fixed_gain_setting; ///< in dB
     uint8_t  _tvg_law_crossover_angle;              ///< in degrees
     uint8_t  _source_of_sound_speed_at_transducer;
@@ -103,7 +103,7 @@ class RuntimeParameters : public EM3000Datagram
     uint16_t get_transmit_beamwidth() const { return _transmit_beamwidth; }
     int8_t  get_transmit_power_relative_maximum() const { return _transmit_power_relative_maximum; }
     uint8_t get_receive_bandwidth_degree() const { return _receive_bandwidth_degree; }
-    uint8_t get_receive_bandwidth_50Hz() const { return _receive_bandwidth_50Hz; }
+    uint8_t get_receive_bandwidth_50hz() const { return _receive_bandwidth_50hz; }
     uint8_t get_mode2_or_receiver_fixed_gain_setting() const
     {
         return _mode2_or_receiver_fixed_gain_setting;
@@ -173,9 +173,9 @@ class RuntimeParameters : public EM3000Datagram
     {
         _receive_bandwidth_degree = receive_bandwidth_degree;
     }
-    void set_receive_bandwidth_50Hz(uint8_t receive_bandwidth_50Hz)
+    void set_receive_bandwidth_50hz(uint8_t receive_bandwidth_50hz)
     {
-        _receive_bandwidth_50Hz = receive_bandwidth_50Hz;
+        _receive_bandwidth_50hz = receive_bandwidth_50hz;
     }
     void set_mode2_or_receiver_fixed_gain_setting(uint8_t mode2_or_receiver_fixed_gain_setting)
     {
@@ -222,17 +222,52 @@ class RuntimeParameters : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
+    /**
+     * @brief Get the absorption coefficient in db per meter
+     *
+     * @return _absorption_coefficient * 0.00001f (float)
+     */
     float get_absorption_coefficient_in_db_per_meter() const
     {
         return _absorption_coefficient * 0.00001f;
     }
+
+    /**
+     * @brief Get the transmit pulse length in seconds
+     *
+     * @return _transmit_pulse_length * 0.000001f (float)
+     */
     float get_transmit_pulse_length_in_seconds() const
     {
         return _transmit_pulse_length * 0.000001f;
     }
+
+    /**
+     * @brief Get the transmit beamwidth in degrees
+     *
+     * @return _transmit_beamwidth * 0.1f (float)
+     */
     float get_transmit_beamwidth_in_degrees() const { return _transmit_beamwidth * 0.1f; }
+
+    /**
+     * @brief Get the receive bandwidth in degrees
+     *
+     * @return _receive_bandwidth_degree * 0.1f (float)
+     */
     float get_receive_bandwidth_in_degrees() const { return _receive_bandwidth_degree * 0.1f; }
-    float get_receive_bandwidth_in_Hz() const { return _receive_bandwidth_50Hz * 50.f; }
+
+    /**
+     * @brief Get the receive bandwidth in Hz
+     *
+     * @return _receive_bandwidth_50hz * 50.f (float)
+     */
+    float get_receive_bandwidth_in_hertz() const { return _receive_bandwidth_50hz * 50.f; }
+
+    /**
+     * @brief Get the transmit along tilt in degrees
+     *
+     * @return _transmit_along_tilt * 0.1f (float)
+     */
     float get_transmit_along_tilt_in_degrees() const { return _transmit_along_tilt * 0.1f; }
 
     // ----- operators -----
@@ -251,7 +286,7 @@ class RuntimeParameters : public EM3000Datagram
                _transmit_beamwidth == other._transmit_beamwidth &&
                _transmit_power_relative_maximum == other._transmit_power_relative_maximum &&
                _receive_bandwidth_degree == other._receive_bandwidth_degree &&
-               _receive_bandwidth_50Hz == other._receive_bandwidth_50Hz &&
+               _receive_bandwidth_50hz == other._receive_bandwidth_50hz &&
                _mode2_or_receiver_fixed_gain_setting ==
                    other._mode2_or_receiver_fixed_gain_setting &&
                _tvg_law_crossover_angle == other._tvg_law_crossover_angle &&
@@ -331,7 +366,7 @@ class RuntimeParameters : public EM3000Datagram
         printer.register_value(
             "transmit_power_relative_maximum", _transmit_power_relative_maximum, "dB");
         printer.register_value("receive_bandwidth_degree", _receive_bandwidth_degree, "0.1°");
-        printer.register_value("receive_bandwidth_50Hz", _receive_bandwidth_50Hz, "50Hz");
+        printer.register_value("receive_bandwidth_50hz", _receive_bandwidth_50hz, "50Hz");
         printer.register_value(
             "mode2_or_receiver_fixed_gain_setting", _mode2_or_receiver_fixed_gain_setting, "dB");
         printer.register_value("tvg_law_crossover_angle", _tvg_law_crossover_angle, "°");
@@ -357,7 +392,7 @@ class RuntimeParameters : public EM3000Datagram
             "transmit_pulse_length", get_transmit_pulse_length_in_seconds(), "s");
         printer.register_value("transmit_beamwidth", get_transmit_beamwidth_in_degrees(), "°");
         printer.register_value("receive_bandwidth", get_receive_bandwidth_in_degrees(), "°");
-        printer.register_value("receive_bandwidth", get_receive_bandwidth_in_Hz(), "Hz");
+        printer.register_value("receive_bandwidth", get_receive_bandwidth_in_hertz(), "Hz");
         printer.register_value("transmit_along_tilt", get_transmit_along_tilt_in_degrees(), "°");
 
         return printer;

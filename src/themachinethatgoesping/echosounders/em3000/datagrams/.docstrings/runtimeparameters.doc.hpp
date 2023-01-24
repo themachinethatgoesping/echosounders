@@ -1,4 +1,4 @@
-//sourcehash: 465c0867c35d26634d11dc85ff785bb223eb990036855337d7c419021ea8236b
+//sourcehash: 508608b6447c39d87c4b1ee2607a02b43b1a7281f2235023a01c48e85ed5082b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,7 +68,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_absorption_coefficient = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_absorption_coefficient_in_db_per_meter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_absorption_coefficient_in_db_per_meter =
+R"doc(Get the absorption coefficient in db per meter
+
+Returns:
+    _absorption_coefficient * 0.00001f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_beam_spacing = R"doc()doc";
 
@@ -104,13 +108,21 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_processing_unit_status = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_Hz = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_50hz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_degree = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_Hz = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_degrees =
+R"doc(Get the receive bandwidth in degrees
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_degrees = R"doc()doc";
+Returns:
+    _receive_bandwidth_degree * 0.1f (float))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_hertz =
+R"doc(Get the receive bandwidth in Hz
+
+Returns:
+    _receive_bandwidth_50hz * 50.f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_sonar_head_or_transceiver_status = R"doc()doc";
 
@@ -120,17 +132,29 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_along_tilt = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_along_tilt_in_degrees = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_along_tilt_in_degrees =
+R"doc(Get the transmit along tilt in degrees
+
+Returns:
+    _transmit_along_tilt * 0.1f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_beamwidth = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_beamwidth_in_degrees = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_beamwidth_in_degrees =
+R"doc(Get the transmit beamwidth in degrees
+
+Returns:
+    _transmit_beamwidth * 0.1f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_power_relative_maximum = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_pulse_length = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_pulse_length_in_seconds = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_transmit_pulse_length_in_seconds =
+R"doc(Get the transmit pulse length in seconds
+
+Returns:
+    _transmit_pulse_length * 0.000001f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_tvg_law_crossover_angle = R"doc()doc";
 
@@ -164,7 +188,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_processing_unit_status = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_bandwidth_Hz = R"doc(< in 50 Hz resolution)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_bandwidth_50hz = R"doc(< in 50 Hz resolution)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_bandwidth_degree = R"doc(< in 0.1 degrees)doc";
 
@@ -204,7 +228,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_processing_unit_status = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_bandwidth_Hz = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_bandwidth_50hz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_bandwidth_degree = R"doc()doc";
 
@@ -214,7 +238,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_transmit_across_tilt = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_transmit_along_tilt = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_transmit_beamwidth = R"doc()doc";
 

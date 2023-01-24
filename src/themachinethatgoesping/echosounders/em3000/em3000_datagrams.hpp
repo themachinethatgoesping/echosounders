@@ -21,6 +21,7 @@
 #include "datagrams/positiondatagram.hpp"
 #include "datagrams/qualityfactordatagram.hpp"
 #include "datagrams/rawrangeandangle.hpp"
+#include "datagrams/runtimeparameters.hpp"
 #include "datagrams/seabedimagedata.hpp"
 #include "datagrams/singlebeamechosounderdepth.hpp"
 #include "datagrams/soundspeedprofiledatagram.hpp"
@@ -63,6 +64,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              SurfaceSoundSpeedDatagram,
                                              SoundSpeedProfileDatagram,
                                              InstallationParameters,
+                                             RuntimeParameters,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -120,6 +122,8 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(datagrams::InstallationParameters::from_stream(is));
             case t_EM3000DatagramIdentifier::InstallationParametersStop:
                 return t_EM3000DatagramVariant(datagrams::InstallationParameters::from_stream(is));
+            case t_EM3000DatagramIdentifier::RuntimeParameters:
+                return t_EM3000DatagramVariant(datagrams::RuntimeParameters::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }
