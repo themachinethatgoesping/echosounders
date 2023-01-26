@@ -88,6 +88,7 @@ class ExtraParameters : public EM3000Datagram
     }
     void set_raw_content(std::string raw_content) { _raw_content = raw_content; }
     void set_spare(uint8_t spare) { _spare = spare; }
+    void set_checksum(uint16_t checksum) { _checksum = checksum; }
     void set_etx(uint8_t etx) { _etx = etx; }
 
     // ----- processed data access -----
