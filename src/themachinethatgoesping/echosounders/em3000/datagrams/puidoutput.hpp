@@ -45,7 +45,7 @@ class PUIDOutput : public EM3000Datagram
     std::array<char, 16>   _bsp_software_date;
     std::array<char, 16>   _sonar_transceiver_1_software_version;
     std::array<char, 16>   _sonar_transceiver_2_software_version;
-    uint32_t               _host_ip_address;
+    std::array<uint8_t, 4> _host_ip_address;
     uint8_t                _tx_opening_angle;
     uint8_t                _rx_opening_angle;
     std::array<uint8_t, 7> _spare;
@@ -92,7 +92,7 @@ class PUIDOutput : public EM3000Datagram
         return std::string(std::begin(_sonar_transceiver_2_software_version),
                            std::end(_sonar_transceiver_2_software_version));
     }
-    uint32_t               get_host_ip_address() const { return _host_ip_address; }
+    std::array<uint8_t, 4> get_host_ip_address() const { return _host_ip_address; }
     uint8_t                get_tx_opening_angle() const { return _tx_opening_angle; }
     uint8_t                get_rx_opening_angle() const { return _rx_opening_angle; }
     std::array<uint8_t, 7> get_spare() const { return _spare; }
@@ -159,7 +159,10 @@ class PUIDOutput : public EM3000Datagram
                   sonar_transceiver_2_software_version.end(),
                   _sonar_transceiver_2_software_version.begin());
     }
-    void set_host_ip_address(uint32_t host_ip_address) { _host_ip_address = host_ip_address; }
+    void set_host_ip_address(std::array<uint8_t, 4> host_ip_address)
+    {
+        _host_ip_address = host_ip_address;
+    }
     void set_tx_opening_angle(uint8_t tx_opening_angle) { _tx_opening_angle = tx_opening_angle; }
     void set_rx_opening_angle(uint8_t rx_opening_angle) { _rx_opening_angle = rx_opening_angle; }
     void set_spare(const std::array<uint8_t, 7>& spare) { _spare = spare; }
@@ -168,6 +171,224 @@ class PUIDOutput : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
+    /**
+     * @brief Get the host ip address as string
+     *
+     * @return std::string
+     */
+    std::string get_host_ip_address_as_string() const
+    {
+        // create the ip address by splitting the 32 bit integer in 4 bytes
+        std::string ip_address =
+            std::to_string(_host_ip_address[0]) + "." + std::to_string(_host_ip_address[1]) + "." +
+            std::to_string(_host_ip_address[2]) + "." + std::to_string(_host_ip_address[3]);
+        return ip_address;
+    }
+
+    /**
+     * @brief Convert the system descriptor flag to a cpu configuration
+     *
+     * @return std::string
+     */
+    std::string get_cpu_configuration() const
+    {
+
+        uint8_t cpu_configuration_flag = (_system_descriptor & 0xFF000000) >> 24;
+
+        switch (cpu_configuration_flag)
+        {
+            case 0:
+                return "Old CPU card";
+            case 1:
+                return "VIPer or CoolMonster";
+            case 2:
+                return "CT7";
+            case 3:
+                return "Kontron";
+            case 4:
+                return "Kontron and BSP67B for EM 710";
+            case 5:
+                return "Concurrent Technologies PP432";
+            case 6:
+                return "EM2000 AUV";
+            case 7:
+                return "Concurrent Technologies PP 833";
+            default:
+                return "Unknown";
+        }
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system is a dual head system
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_dual_head() const { return (_system_descriptor & 0b1); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system is a dual swath system
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_dual_swath() const { return (_system_descriptor & 0b10); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system is a BSP67B system
+     *
+     * This means it is not a CBMF system
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_bsp67B() const { return !(_system_descriptor & 0b100); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system is a CBMF system
+     *
+     * This means it is not a BSP67B system
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_cbmf() const { return (_system_descriptor & 0b100); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system is a PTP (IEEE 1588
+     * clock sync) support
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_ptp_support() const { return (_system_descriptor & 0b1000); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system has a deep water sonar
+     * head
+     *
+     * @return true (deep water sonar head)
+     * @return false (shallow water sonar head)s
+     */
+    bool get_has_deep_water_sonar_head() const
+    {
+        return !(_system_descriptor & 0b10000);
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system has a shallow water
+     * sonar head
+     *
+     * @return true (shallow water sonar head)
+     * @return false (deep water sonar head)
+     */
+    bool get_has_shallow_water_sonar_head() const
+    {
+        return (_system_descriptor & 0b10000);
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system has extra detections
+     * support
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_extra_detections_support() const
+    {
+        return (_system_descriptor & 0b100000);
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine if the system has RS422 serial lines
+     * support
+     *
+     * @return true
+     * @return false
+     */
+    bool get_has_rs422_support() const { return (_system_descriptor & 0b1000000); }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine the em2040 flag
+     *
+     * @return true
+     * @return false
+     */
+    std::string get_which_em2040() const
+    {
+        uint8_t em2040_flag = (_system_descriptor & 0b110000000) >> 7;
+
+        switch (em2040_flag)
+        {
+            case 0:
+                return "EM 2040 Normal";
+            case 1:
+                return "EM 2040 Dual TX (2*TX and 2*RX)";
+            case 2:
+                return "spare";
+            case 3:
+                return "EM 2040P";
+            default:
+                return "This can't happen :-)";
+        }
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine the EM710 flag
+     *
+     * @return true
+     * @return false
+     */
+    std::string get_which_em710() const
+    {
+        uint8_t em710_flag = (_system_descriptor & 0b0000011000000000) >> 9;
+
+        switch (em710_flag)
+        {
+            case 0:
+                return "EM 710";
+            case 1:
+                return "EM 710–MK2";
+            default:
+                return "Unknown";
+        }
+    }
+
+    /**
+     * @brief Evaluate the system_descriptor flag to determine the old sounder flag
+     *
+     * @return true
+     * @return false
+     */
+    std::string get_which_old_sounder() const
+    {
+        if ((_system_descriptor & 0x00000F00) > 0)
+        {
+            return "EM 3002 Rx gain not available";
+        }
+
+        uint8_t old_sounder_flag = (_system_descriptor & 0x000000FF);
+
+        switch (old_sounder_flag)
+        {
+            case 1:
+                return "EM 1002S";
+            case 2:
+                return "EM 952";
+            case 3:
+                return "EM 1002: with Hull Unit";
+            case 4:
+                return " EM 1002S: with Hull Unit";
+            case 5:
+                return "EM 952: with Hull Unit";
+            case 8:
+                return "EM 3001";
+            case 9:
+                return "EM 3002 long pulse available";
+            default:
+                return "Unknown";
+        }
+    }
 
     // ----- operators -----
     bool operator==(const PUIDOutput& other) const
@@ -242,6 +463,7 @@ class PUIDOutput : public EM3000Datagram
         printer.register_value("udp_port_no_2", _udp_port_no_2);
         printer.register_value("udp_port_no_3", _udp_port_no_3);
         printer.register_value("udp_port_no_4", _udp_port_no_4);
+        printer.register_string("system_descriptor", fmt::format("0x{:08x}", _system_descriptor));
         printer.register_string("pu_software_version", get_pu_software_version());
         printer.register_string("bsp_software_date", get_bsp_software_date());
         printer.register_string("sonar_transceiver_1_software_version",
@@ -249,7 +471,7 @@ class PUIDOutput : public EM3000Datagram
         printer.register_string("sonar_transceiver_2_software_version",
                                 get_sonar_transceiver_2_software_version());
 
-        printer.register_value("host_ip_address", _host_ip_address);
+        printer.register_container("host_ip_address", _host_ip_address);
         printer.register_value("tx_opening_angle", _tx_opening_angle);
         printer.register_value("rx_opening_angle", _rx_opening_angle);
         printer.register_container("spare", _spare);
@@ -257,7 +479,21 @@ class PUIDOutput : public EM3000Datagram
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
 
-        // printer.register_section("processed");
+        printer.register_section("processed");
+        printer.register_string("host_ip_address", get_host_ip_address_as_string());
+        printer.register_string("cpu_configuration", get_cpu_configuration());
+        printer.register_value("has_dual_head", get_has_dual_head());
+        printer.register_value("has_dual_swath", get_has_dual_swath());
+        printer.register_value("has_bsp67B", get_has_bsp67B());
+        printer.register_value("has_cbmf", get_has_cbmf());
+        printer.register_value("has_ptp_support", get_has_ptp_support());
+        printer.register_value("has_deep_water_sonar_head", get_has_deep_water_sonar_head());
+        printer.register_value("has_shallow_water_sonar_head", get_has_shallow_water_sonar_head());
+        printer.register_value("has_extra_detections_support", get_has_extra_detections_support());
+        printer.register_value("has_rs422_support", get_has_rs422_support());
+        printer.register_string("get_which_em2040", get_which_em2040());
+        printer.register_string("get_which_em710", get_which_em710());
+        printer.register_string("get_which_old_sounder", get_which_old_sounder());
 
         return printer;
     }

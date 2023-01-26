@@ -64,9 +64,10 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     ExtraParameters             = 0x33,
 
     // PU information and status
-    PUIDOutput     = 0x30, ///< TODO: implement!
-    PUStatusOutput = 0x31,
-    unspecified    = 0
+    PUIDOutput         = 0x30,
+    PUStatusOutput     = 0x31,
+    PUBISTResultOutput = 0x42, ///< not yet implemented
+    unspecified        = 0
 };
 
 // inline std::string datagram_type_to_string(uint8_t value)

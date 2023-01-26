@@ -1,4 +1,4 @@
-//sourcehash: bd5e191e118b8083fc7e40e35f409f684922d1c474bf67b5893901e854b448ff
+//sourcehash: 6882eefbb4a258c7128ce3e0d235972f101f41afc6a7c59ceec4321f147641d4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,9 +70,115 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_checksum = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_cpu_configuration =
+R"doc(Convert the system descriptor flag to a cpu configuration
+
+Returns:
+    std::string)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_etx = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_bsp67B =
+R"doc(Evaluate the system_descriptor flag to determine if the system is a
+BSP67B system
+
+This means it is not a CBMF system
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_cbmf =
+R"doc(Evaluate the system_descriptor flag to determine if the system is a
+CBMF system
+
+This means it is not a BSP67B system
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_deep_water_sonar_head =
+R"doc(Evaluate the system_descriptor flag to determine if the system has a
+deep water sonar head
+
+Returns:
+    true (deep water sonar head)
+
+Returns:
+    false (shallow water sonar head)s)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_dual_head =
+R"doc(Evaluate the system_descriptor flag to determine if the system is a
+dual head system
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_dual_swath =
+R"doc(Evaluate the system_descriptor flag to determine if the system is a
+dual swath system
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_extra_detections_support =
+R"doc(Evaluate the system_descriptor flag to determine if the system has
+extra detections support
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_ptp_support =
+R"doc(Evaluate the system_descriptor flag to determine if the system is a
+PTP (IEEE 1588 clock sync) support
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_rs422_support =
+R"doc(Evaluate the system_descriptor flag to determine if the system has
+RS422 serial lines support
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_has_shallow_water_sonar_head =
+R"doc(Evaluate the system_descriptor flag to determine if the system has a
+shallow water sonar head
+
+Returns:
+    true (shallow water sonar head)
+
+Returns:
+    false (deep water sonar head))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_host_ip_address = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_host_ip_address_as_string =
+R"doc(Get the host ip address as string
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_pu_software_version = R"doc()doc";
 
@@ -97,6 +203,33 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_udp_port_no_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_udp_port_no_4 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_which_em2040 =
+R"doc(Evaluate the system_descriptor flag to determine the em2040 flag
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_which_em710 =
+R"doc(Evaluate the system_descriptor flag to determine the EM710 flag
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_get_which_old_sounder =
+R"doc(Evaluate the system_descriptor flag to determine the old sounder flag
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_host_ip_address = R"doc()doc";
 

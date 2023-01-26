@@ -102,6 +102,7 @@ sources = [
     'py_em3000/py_datagrams/c_runtimeparameters.cpp',
     'py_em3000/py_datagrams/c_extraparameters.cpp',
     'py_em3000/py_datagrams/c_pustatusoutput.cpp',
+    'py_em3000/py_datagrams/c_puidoutput.cpp',
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',

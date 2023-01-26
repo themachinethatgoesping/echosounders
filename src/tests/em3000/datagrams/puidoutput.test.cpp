@@ -62,3 +62,102 @@ TEST_CASE("PUIDOutput should support common functions", TESTTAG)
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));
 }
+
+TEST_CASE("PUIDOutput should evaluate system descriptor flag correctly", TESTTAG)
+{
+    // initialize class structure
+    auto dat = PUIDOutput();
+
+    // check zero
+    dat.set_system_descriptor(0);
+    CHECK(dat.get_has_dual_head() == false);
+    CHECK(dat.get_has_dual_swath() == false);
+    CHECK(dat.get_has_bsp67B() == true);
+    CHECK(dat.get_has_cbmf() == false);
+    CHECK(dat.get_has_ptp_support() == false);
+    CHECK(dat.get_has_shallow_water_sonar_head() == false);
+    CHECK(dat.get_has_deep_water_sonar_head() == true);
+    CHECK(dat.get_has_extra_detections_support() == false);
+    CHECK(dat.get_has_rs422_support() == false);
+
+    // check dual head
+    dat.set_system_descriptor(1);
+    CHECK(dat.get_has_dual_head() == true);
+    CHECK(dat.get_has_dual_swath() == false);
+    CHECK(dat.get_has_bsp67B() == true);
+    CHECK(dat.get_has_cbmf() == false);
+    CHECK(dat.get_has_ptp_support() == false);
+    CHECK(dat.get_has_shallow_water_sonar_head() == false);
+    CHECK(dat.get_has_extra_detections_support() == false);
+    CHECK(dat.get_has_rs422_support() == false);
+
+    // check dual rx
+    dat.set_system_descriptor(0b10);
+    CHECK(dat.get_has_dual_head() == false);
+    CHECK(dat.get_has_dual_swath() == true);
+    dat.set_system_descriptor(0b11);
+    CHECK(dat.get_has_dual_head() == true);
+    CHECK(dat.get_has_dual_swath() == true);
+
+    // check BSP 67B
+    dat.set_system_descriptor(0b100);
+    CHECK(dat.get_has_dual_head() == false);
+    CHECK(dat.get_has_dual_swath() == false);
+    CHECK(dat.get_has_bsp67B() == false);
+    CHECK(dat.get_has_cbmf() == true);
+
+    // check ptp support
+    dat.set_system_descriptor(0b1000);
+    CHECK(dat.get_has_dual_head() == false);
+    CHECK(dat.get_has_dual_swath() == false);
+    CHECK(dat.get_has_bsp67B() == true);
+    CHECK(dat.get_has_cbmf() == false);
+    CHECK(dat.get_has_ptp_support() == true);
+
+    // rest flags
+    dat.set_system_descriptor(0b10000);
+    CHECK(dat.get_has_shallow_water_sonar_head() == true);
+    CHECK(dat.get_has_deep_water_sonar_head() == false);
+    dat.set_system_descriptor(0b100000);
+    CHECK(dat.get_has_extra_detections_support() == true);
+    dat.set_system_descriptor(0b1000000);
+    CHECK(dat.get_has_rs422_support() == true);
+
+    // check all flags
+    dat.set_system_descriptor(0b1010101);
+    CHECK(dat.get_has_dual_head() == true);
+    CHECK(dat.get_has_dual_swath() == false);
+    CHECK(dat.get_has_bsp67B() == false);
+    CHECK(dat.get_has_cbmf() == true);
+    CHECK(dat.get_has_ptp_support() == false);
+    CHECK(dat.get_has_shallow_water_sonar_head() == true);
+    CHECK(dat.get_has_deep_water_sonar_head() == false);
+    CHECK(dat.get_has_extra_detections_support() == false);
+    CHECK(dat.get_has_rs422_support() == true);
+
+    // check cpu configuration
+    dat.set_system_descriptor(0x03000000);
+    CHECK(dat.get_cpu_configuration() == "Kontron");
+    dat.set_system_descriptor(0x07000000);
+    CHECK(dat.get_cpu_configuration() == "Concurrent Technologies PP 833");
+
+    // check em2040 flag
+    dat.set_system_descriptor(0b110000000);
+    CHECK(dat.get_which_em2040() == "EM 2040P");
+    dat.set_system_descriptor(0b010000000);
+    CHECK(dat.get_which_em2040() == "EM 2040 Dual TX (2*TX and 2*RX)");
+
+    // check em710 flag
+    dat.set_system_descriptor(0b00110000000);
+    CHECK(dat.get_which_em710() == "EM 710");
+    dat.set_system_descriptor(0b01010000000);
+    CHECK(dat.get_which_em710() == "EM 710–MK2");
+
+    // check old echosounder flag
+    dat.set_system_descriptor(0x01);
+    CHECK(dat.get_which_old_sounder() == "EM 1002S");
+    dat.set_system_descriptor(0x08);
+    CHECK(dat.get_which_old_sounder() == "EM 3001");
+    dat.set_system_descriptor(0x109);
+    CHECK(dat.get_which_old_sounder() == "EM 3002 Rx gain not available");
+}

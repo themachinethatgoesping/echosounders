@@ -44,6 +44,7 @@ void init_c_installationparameters(pybind11::module& m);     // c_installationpa
 void init_c_runtimeparameters(pybind11::module& m);          // c_runtimeparameters.cpp
 void init_c_extraparameters(pybind11::module& m);            // c_extraparameters.cpp
 void init_c_pustatusoutput(pybind11::module& m);             // c_pustatusoutput.cpp
+void init_c_puidoutput(pybind11::module& m);                 // c_puidoutput.cpp
 
 // -- create submodule --
 void init_m_EM3000Datagrams(pybind11::module& m)
@@ -76,6 +77,7 @@ void init_m_EM3000Datagrams(pybind11::module& m)
     init_c_runtimeparameters(subm);
     init_c_extraparameters(subm);
     init_c_pustatusoutput(subm);
+    init_c_puidoutput(subm);
 }
 
 }
