@@ -67,7 +67,7 @@ TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
     CHECK(dat.get_tx_time_heave_in_m() == Catch::Approx(2.05));
     CHECK(dat.transmit_sectors()[0].get_tilt_angle_in_degrees() == Catch::Approx(1.01f));
     CHECK(dat.transmit_sectors()[0].get_center_frequency_in_hz() == Catch::Approx(1910.f));
-    CHECK(dat.beams()[0].get_beam_pointing_angle_in_degrees() == Catch::Approx(10.1));
+    CHECK(dat.beams()[0].get_beam_pointing_angle_in_degrees() == Catch::Approx(1.01));
     CHECK(dat.beams()[0].get_transmit_sector_number() == Catch::Approx(191));
 
     // datagram type

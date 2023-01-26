@@ -93,7 +93,7 @@ class WaterColumnDatagramBeam
      *
      * @return _beam_pointing_angle * 0.1° (float)
      */
-    float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.1f; }
+    float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.01f; }
 
     xt::xtensor<float, 1> get_samples_in_db() const
     {
