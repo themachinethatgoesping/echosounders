@@ -1,4 +1,4 @@
-//sourcehash: f0bc82b51e00c243821b619638f0a16674465705d5fbfba6feb83a22baed820a
+//sourcehash: 5db1a2c1c1a6a15bb4617b88ce8eba29198548eb5fe4726505d6805b3078a255
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -232,8 +232,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_get_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_get_transmit_along_tilt = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_get_yaw_stabilization_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_get_yaw_stabilization_angle_in_degrees =
@@ -342,6 +340,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_range_to_normal_incidence = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_serial_port_1 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_serial_port_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_serial_port_3 = R"doc()doc";
@@ -349,10 +349,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_serial_port_4 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_udp_port_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_udp_port_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sensor_input_status_udp_port_4 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_sound_speed_at_transducer = R"doc()doc";
 
@@ -363,8 +359,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_status_datagram_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_transmit_along_tilt = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_set_yaw_stabilization_angle = R"doc()doc";
 

@@ -92,6 +92,8 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                     return py::cast(self.template datagrams<datagrams::RuntimeParameters>(type));
                 case t_EM3000DatagramIdentifier::ExtraParameters:
                     return py::cast(self.template datagrams<datagrams::ExtraParameters>(type));
+                case t_EM3000DatagramIdentifier::PUStatusOutput:
+                    return py::cast(self.template datagrams<datagrams::PUStatusOutput>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }

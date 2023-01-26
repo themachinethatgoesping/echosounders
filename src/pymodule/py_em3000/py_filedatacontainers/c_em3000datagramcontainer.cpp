@@ -100,6 +100,9 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::ExtraParameters,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_ExtraParameters");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::PUStatusOutput,
+                                                        t_EM3000DatagramIdentifier>(
+        m, "EM3000DatagramContainer_PUStatusOutput");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
                                                         t_EM3000DatagramIdentifier,

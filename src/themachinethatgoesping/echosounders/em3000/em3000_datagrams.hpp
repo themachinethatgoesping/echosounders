@@ -20,6 +20,7 @@
 #include "datagrams/installationparameters.hpp"
 #include "datagrams/networkattitudevelocitydatagram.hpp"
 #include "datagrams/positiondatagram.hpp"
+#include "datagrams/pustatusoutput.hpp"
 #include "datagrams/qualityfactordatagram.hpp"
 #include "datagrams/rawrangeandangle.hpp"
 #include "datagrams/runtimeparameters.hpp"
@@ -67,6 +68,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              InstallationParameters,
                                              RuntimeParameters,
                                              ExtraParameters,
+                                             PUStatusOutput,
                                              EM3000Unknown>;
 
 struct EM3000DatagramVariant
@@ -128,6 +130,8 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(datagrams::RuntimeParameters::from_stream(is));
             case t_EM3000DatagramIdentifier::ExtraParameters:
                 return t_EM3000DatagramVariant(datagrams::ExtraParameters::from_stream(is));
+            case t_EM3000DatagramIdentifier::PUStatusOutput:
+                return t_EM3000DatagramVariant(datagrams::PUStatusOutput::from_stream(is));
             default:
                 return t_EM3000DatagramVariant(EM3000Unknown::from_stream(is, datagram_type));
         }
