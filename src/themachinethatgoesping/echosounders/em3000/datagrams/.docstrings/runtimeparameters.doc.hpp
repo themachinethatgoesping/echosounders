@@ -1,4 +1,4 @@
-//sourcehash: 508608b6447c39d87c4b1ee2607a02b43b1a7281f2235023a01c48e85ed5082b
+//sourcehash: 2f3c0045831f839a8fab9163e5844fbe99b25005ea16cc17440325937d54ce32
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters = R"doc(Clock datagrams)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters = R"doc(Runtime parameters datagrams)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_RuntimeParameters = R"doc()doc";
 

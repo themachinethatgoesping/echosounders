@@ -121,9 +121,9 @@ void init_m_em3000(pybind11::module& m)
                    DOC_t_EM3000DatagramIdentifier(ExtraParameters))
 
             // PU information and status
-            .value("PuStatusOutput",
-                   t_EM3000DatagramIdentifier::PuStatusOutput,
-                   DOC_t_EM3000DatagramIdentifier(PuStatusOutput))
+            .value("PUStatusOutput",
+                   t_EM3000DatagramIdentifier::PUStatusOutput,
+                   DOC_t_EM3000DatagramIdentifier(PUStatusOutput))
             .value("PUIDOutput",
                    t_EM3000DatagramIdentifier::PUIDOutput,
                    DOC_t_EM3000DatagramIdentifier(PUIDOutput))

@@ -27,7 +27,7 @@ namespace em3000 {
 namespace datagrams {
 
 /**
- * @brief Clock datagrams
+ * @brief Runtime parameters datagrams
  */
 class RuntimeParameters : public EM3000Datagram
 {
