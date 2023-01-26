@@ -64,8 +64,8 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     ExtraParameters             = 0x33,
 
     // PU information and status
-    PUStatusOutput = 0x31,
     PUIDOutput     = 0x30, ///< TODO: implement!
+    PUStatusOutput = 0x31,
     unspecified    = 0
 };
 

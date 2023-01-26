@@ -46,6 +46,7 @@ sources = [
     'em3000/datagrams/runtimeparameters.test.cpp',
     'em3000/datagrams/extraparameters.test.cpp',
     'em3000/datagrams/pustatusoutput.test.cpp',
+    'em3000/datagrams/puidoutput.test.cpp',
 ]
 
 foreach source : sources

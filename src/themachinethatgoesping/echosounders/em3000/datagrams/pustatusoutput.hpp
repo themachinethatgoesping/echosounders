@@ -472,6 +472,7 @@ class PUStatusOutput : public EM3000Datagram
 
         printer.append(EM3000Datagram::__printer__(float_precision));
         printer.register_section("datagram content");
+        printer.register_value("status_datagram_counter", _system_serial_number);
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("ping_rate", _ping_rate, "0.01 Hz");
         printer.register_value("ping_counter", _ping_counter);
