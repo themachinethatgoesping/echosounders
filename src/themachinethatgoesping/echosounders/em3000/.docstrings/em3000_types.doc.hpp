@@ -1,4 +1,4 @@
-//sourcehash: 5b2963180c9f7aee64697ebe9f96bf22f1cb9d50334b8440c8a6e8327e60ce1c
+//sourcehash: 5a260fb555e76706d4398f20e2caa6683019990ecb4a7bc01605183346914db8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,6 +68,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParametersStop = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MechanicalTransducerTilt = R"doc(< not yet implemented)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_NetworkAttitudeVelocityDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_PUIDOutput = R"doc(< TODO: implement!)doc";
@@ -84,7 +86,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RawRangeAndAngle_f_NotImplemented = R"doc(< not yet implemented)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RuntimeParameters = R"doc(< TODO: implement!)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_RuntimeParameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_SeabedImageData = R"doc()doc";
 

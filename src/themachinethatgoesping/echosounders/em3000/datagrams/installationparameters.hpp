@@ -324,6 +324,7 @@ class InstallationParameters : public EM3000Datagram
                 6 * sizeof(uint8_t));
 
         // size of the ascii datagram
+        // 21 = size of EM3000Datagram(12) + etx(1) + checksum(2) + 6
         const static uint8_t tmp = sizeof(uint8_t) * (21);
 
         // read the ASCII datagram
@@ -360,7 +361,7 @@ class InstallationParameters : public EM3000Datagram
     {
         if (_bytes - 21 != _installation_parameters.size())
             throw std::runtime_error(
-                fmt::format("InstallationParameters: bytes - 15 ({}) does not match the size of "
+                fmt::format("InstallationParameters: bytes - 21 ({}) does not match the size of "
                             "the _installation_parameters string ({})",
                             _bytes - 21,
                             _installation_parameters.size()));
