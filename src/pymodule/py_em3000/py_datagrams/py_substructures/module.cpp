@@ -41,7 +41,7 @@ void init_c_networkattitudevelocitydatagramattitude(
     pybind11::module& m); // c_networkattitudevelocitydatagramattitude.cpp
 
 // -- create submodule --
-void init_m_EM3000DatagramsSubstructures(pybind11::module& m)
+void init_m_em3000datagramsSubstructures(pybind11::module& m)
 {
     // module description
     auto subm = m.def_submodule("substructures",

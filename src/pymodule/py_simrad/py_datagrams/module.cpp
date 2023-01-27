@@ -35,7 +35,7 @@ void init_c_FIL1(pybind11::module& m);           // c_FIL1.cpp
 void init_c_RAW3(pybind11::module& m);           // c_RAW3.cpp
 
 // -- create submodule --
-void init_m_SimradDatagrams(pybind11::module& m)
+void init_m_simraddatagrams(pybind11::module& m)
 {
     // module description
     auto subm = m.def_submodule("datagrams", "Simrad EK60 and EK80 datagram classes");

@@ -17,7 +17,7 @@ namespace py = pybind11;
 void init_c_em3000datagramcontainer(py::module& m); // c_em3000datagramcontainer.cpp
 
 // -- create submodule --
-void init_m_EM3000FileDataContainers(pybind11::module& m)
+void init_m_em3000filedatacontainers(pybind11::module& m)
 {
     auto subm = m.def_submodule("filedatacontainers",
                                 "EM3000 (kongsberg .all / .wcd) file data container classes");

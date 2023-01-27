@@ -12,7 +12,7 @@ namespace py_datagrams {
 namespace py_substructures {
 
 // -- initialize module --
-void init_m_EM3000DatagramsSubstructures(pybind11::module& m);
+void init_m_em3000datagramsSubstructures(pybind11::module& m);
 
 }
 }

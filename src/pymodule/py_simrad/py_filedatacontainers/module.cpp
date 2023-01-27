@@ -17,7 +17,7 @@ void init_c_simradpingcontainer(py::module& m);     // c_simrad_specialized_type
 void init_c_simraddatagramcontainer(py::module& m); // c_simraddatagramcontainer.cpp
 
 // -- create submodule --
-void init_m_SimradFileDataContainers(pybind11::module& m)
+void init_m_simradfiledatacontainers(pybind11::module& m)
 {
     auto subm =
         m.def_submodule("filedatacontainers", "Simrad EK60 and EK80 file data container classes");

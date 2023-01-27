@@ -47,13 +47,13 @@ void init_c_pustatusoutput(pybind11::module& m);             // c_pustatusoutput
 void init_c_puidoutput(pybind11::module& m);                 // c_puidoutput.cpp
 
 // -- create submodule --
-void init_m_EM3000Datagrams(pybind11::module& m)
+void init_m_em3000datagrams(pybind11::module& m)
 {
     // module description
     auto subm = m.def_submodule("datagrams", "Kongsberg EM3000 (.all/.wcd) EK80 datagram classes");
 
     // init submodules
-    py_substructures::init_m_EM3000DatagramsSubstructures(subm);
+    py_substructures::init_m_em3000datagramsSubstructures(subm);
 
     // em3000 classes
     init_c_em3000datagram(subm);

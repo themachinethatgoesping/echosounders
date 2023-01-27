@@ -11,7 +11,7 @@ namespace py_simrad {
 namespace py_filedatacontainers {
 
 // -- initialize module --
-void init_m_SimradFileDataContainers(pybind11::module& m);
+void init_m_simradfiledatacontainers(pybind11::module& m);
 
 }
 }

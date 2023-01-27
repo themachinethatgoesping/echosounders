@@ -11,7 +11,7 @@ namespace py_em3000 {
 namespace py_filedatacontainers {
 
 // -- initialize module --
-void init_m_EM3000FileDataContainers(pybind11::module& m);
+void init_m_em3000filedatacontainers(pybind11::module& m);
 
 }
 }

@@ -41,7 +41,7 @@ void init_c_init_c_simradotherfiledatainterfaceperfile(
 void init_m_simradfiledatainterfaces(pybind11::module& m)
 {
     auto subm =
-        m.def_submodule("filedataInterfaces", "Simrad EK60 and EK80 file data interface classes");
+        m.def_submodule("filedatainterfaces", "Simrad EK60 and EK80 file data interface classes");
 
     init_c_SimradDatagramInterface(subm);
     init_c_simradconfigurationdatainterface(subm);

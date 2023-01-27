@@ -11,7 +11,7 @@ namespace py_em3000 {
 namespace py_datagrams {
 
 // -- initialize module --
-void init_m_EM3000Datagrams(pybind11::module& m);
+void init_m_em3000datagrams(pybind11::module& m);
 
 }
 }
