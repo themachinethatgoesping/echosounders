@@ -11,7 +11,7 @@ namespace py_simrad {
 namespace py_filedatainterfaces {
 
 // -- create submodule --
-void init_m_SimradFileDataInterfaces(pybind11::module& m);
+void init_m_simradfiledatainterfaces(pybind11::module& m);
 
 }
 }

@@ -18,9 +18,9 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000otherfiledatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000environmentdatainterface.hpp"
 
-#include "../../py_filetemplates/py_datainterfaces/i_filedatainterface.hpp"
+#include "../../py_filetemplates/py_datainterfaces/i_environmentdatainterface.hpp"
 #include "c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -35,14 +35,16 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000OtherFileDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000EnvironmentDataInterface
 
 template<typename T_FileStream>
-void py_create_class_EM3000OtherFileDataInterfacePerFile(py::module&        m,
-                                                         const std::string& CLASS_NAME)
+void py_create_class_EM3000EnvironmentDataInterfacePerFile(py::module&        m,
+                                                           const std::string& CLASS_NAME)
 {
+    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
+                                                         // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::EM3000OtherFileDataInterfacePerFile<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::EM3000EnvironmentDataInterfacePerFile<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m,
@@ -51,34 +53,32 @@ void py_create_class_EM3000OtherFileDataInterfacePerFile(py::module&        m,
                                            echosounders,
                                            em3000,
                                            filedatainterfaces,
-                                           EM3000OtherFileDataInterfacePerFile))
+                                           EM3000EnvironmentDataInterfacePerFile))
 
-        // .def("get_other_datagram",
-        //      &T_BaseClass::get_other_datagram,
+        // .def("get_environment_datagram",
+        //      &T_BaseClass::get_environment_datagram,
         //      DOC(themachinethatgoesping,
         //          echosounders,
         //          em3000, filedatainterfaces,
-        //          EM3000OtherFileDataInterfacePerFile,
-        //          get_other_datagram))
+        //          EM3000EnvironmentDataInterfacePerFile,
+        //          get_environment_datagram))
 
         //
         ;
 
-    using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
-                                                         // py_i_DatagramInterface
-
     //----- inherit functions from I_DatagramInterface -----
-    py_i_filedatainterface::FileDataInterfacePerFile_add_interface<T_BaseClass>(cls);
+    py_filetemplates::py_datainterfaces::py_i_environmentdatainterface::
+        EnvironmentDataInterfacePerFile_add_interface<T_BaseClass>(cls);
     EM3000DatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_em3000otherfiledatainterfaceperfile(pybind11::module& m)
+void init_c_em3000environmentdatainterfaceperfile(pybind11::module& m)
 {
 
-    py_create_class_EM3000OtherFileDataInterfacePerFile<std::ifstream>(
-        m, "EM3000OtherFileDataInterfacePerFile");
-    py_create_class_EM3000OtherFileDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "EM3000OtherFileDataInterfacePerFile_mapped");
+    py_create_class_EM3000EnvironmentDataInterfacePerFile<std::ifstream>(
+        m, "EM3000EnvironmentDataInterfacePerFile");
+    py_create_class_EM3000EnvironmentDataInterfacePerFile<datastreams::MappedFileStream>(
+        m, "EM3000EnvironmentDataInterfacePerFile_mapped");
 }
 
 }

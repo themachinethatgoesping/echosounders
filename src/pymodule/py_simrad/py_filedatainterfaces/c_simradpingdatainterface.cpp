@@ -61,7 +61,7 @@ void py_create_class_SimradPingDataInterface(py::module& m, const std::string& C
     // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
-void init_c_SimradPingDataInterface(pybind11::module& m)
+void init_c_simradpingdatainterface(pybind11::module& m)
 {
     py_create_class_SimradPingDataInterface<std::ifstream>(m, "SimradPingDataInterface");
     py_create_class_SimradPingDataInterface<datastreams::MappedFileStream>(

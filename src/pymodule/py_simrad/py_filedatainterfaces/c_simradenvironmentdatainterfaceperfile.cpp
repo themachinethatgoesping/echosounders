@@ -72,7 +72,7 @@ void py_create_class_SimradEnvironmentDataInterfacePerFile(py::module&        m,
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradEnvironmentDataInterfacePerFile(pybind11::module& m)
+void init_c_simradenvironmentdatainterfaceperfile(pybind11::module& m)
 {
 
     py_create_class_SimradEnvironmentDataInterfacePerFile<std::ifstream>(

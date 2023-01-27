@@ -41,17 +41,17 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 template<typename T_FileStream>
 void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_filetemplates; // this holds py_i_InputFile and py_datagramcontainer
+    using namespace py_filetemplates; // this holds py_i_inputfile and py_datagramcontainer
 
     // initialize class
     auto cls = py::class_<FileSimradRaw<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw));
 
     //----- inherit functions from I_InputFile -----
-    py_i_InputFile::add_DefaultConstructors(cls);
-    py_i_InputFile::add_FileOpenInterface<FileSimradRaw<T_FileStream>>(cls);
-    py_i_InputFile::add_DefaultContainers<FileSimradRaw<T_FileStream>>(cls);
-    // py_i_InputFile::add_DatagramReading<FileSimradRaw<T_FileStream>,
+    py_i_inputfile::add_default_constructors(cls);
+    py_i_inputfile::add_open_file_interface<FileSimradRaw<T_FileStream>>(cls);
+    py_i_inputfile::add_default_containers<FileSimradRaw<T_FileStream>>(cls);
+    // py_i_inputfile::add_DatagramReading<FileSimradRaw<T_FileStream>,
     //                                    datagrams::t_SimradDatagramVariant,
     //                                    datagrams::SimradDatagramVariant>(cls);
 

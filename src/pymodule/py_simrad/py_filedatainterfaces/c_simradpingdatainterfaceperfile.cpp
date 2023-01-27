@@ -72,7 +72,7 @@ void py_create_class_SimradPingDataInterfacePerFile(py::module& m, const std::st
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradPingDataInterfacePerFile(pybind11::module& m)
+void init_c_simradpingdatainterfaceperfile(pybind11::module& m)
 {
 
     py_create_class_SimradPingDataInterfacePerFile<std::ifstream>(m,

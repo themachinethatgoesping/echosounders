@@ -11,7 +11,7 @@ namespace py_em3000 {
 namespace py_filedatainterfaces {
 
 // -- create submodule --
-void init_m_EM3000FileDataInterfaces(pybind11::module& m);
+void init_m_em3000filedatainterfaces(pybind11::module& m);
 
 }
 }

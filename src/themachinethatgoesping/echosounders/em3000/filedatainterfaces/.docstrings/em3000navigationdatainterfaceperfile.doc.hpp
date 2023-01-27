@@ -1,4 +1,4 @@
-//sourcehash: 8d40b33e9511ad92fcf33616dbc22a5d362cd4bb02c61a6ce6cc2216e4b0dbaf
+//sourcehash: 405bd1c5a19f27df70bd932f9b193284d8c96d3547d91aa85ce81710e04954ff
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,29 +38,15 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_I_ConfigurationDataInterfacePerFile = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_EM3000NavigationDataInterfacePerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_deinitialize = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_EM3000NavigationDataInterfacePerFile_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_get_sensor_configuration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_init_from_file = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized_sensor_configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized_sensor_configuration_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_sensor_configuration = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_set_sensor_configuration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_read_navigation_data = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

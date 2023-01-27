@@ -25,7 +25,10 @@
 #include "em3000_types.hpp"
 
 #include "filedatainterfaces/em3000annotationdatainterface.hpp"
+#include "filedatainterfaces/em3000configurationdatainterface.hpp"
 #include "filedatainterfaces/em3000datagraminterface.hpp"
+#include "filedatainterfaces/em3000environmentdatainterface.hpp"
+#include "filedatainterfaces/em3000navigationdatainterface.hpp"
 #include "filedatainterfaces/em3000otherfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
@@ -48,6 +51,21 @@ class FileEM3000
     std::shared_ptr<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>
         _annotation_interface =
             std::make_shared<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>();
+
+    std::shared_ptr<filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>>
+        _configuration_interface =
+            std::make_shared<filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>>
+        _navigation_interface =
+            std::make_shared<filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>>(
+                _configuration_interface);
+    std::shared_ptr<filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>>
+        _environment_interface =
+            std::make_shared<filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>>(
+                _navigation_interface);
+    // std::shared_ptr<filedatainterfaces::EM3000PingDataInterface<t_ifstream>> _ping_interface =
+    //     std::make_shared<filedatainterfaces::EM3000PingDataInterface<t_ifstream>>(
+    //         _environment_interface);
 
   public:
     // inherit constructors
@@ -95,20 +113,20 @@ class FileEM3000
                          tools::progressbars::I_ProgressBar& progress_bar) final
     {
         // add file info
-        //_configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        //_navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        //_environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
         //_ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
 
         progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
 
-        // _configuration_interface->init_from_file(force, progress_bar);
+        _configuration_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
-        // _navigation_interface->init_from_file(force, progress_bar);
+        _navigation_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
-        // _environment_interface->init_from_file(force, progress_bar);
+        _environment_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
 
         _annotation_interface->init_from_file(force, progress_bar);
@@ -121,18 +139,18 @@ class FileEM3000
         progress_bar.close(std::string("Done"));
     }
 
-    // filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>& configuration_interface()
-    // {
-    //     return *_configuration_interface;
-    // }
-    // filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>& navigation_interface()
-    // {
-    //     return *_navigation_interface;
-    // }
-    // filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>& environment_interface()
-    // {
-    //     return *_environment_interface;
-    // }
+    filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>& configuration_interface()
+    {
+        return *_configuration_interface;
+    }
+    filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>& navigation_interface()
+    {
+        return *_navigation_interface;
+    }
+    filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>& environment_interface()
+    {
+        return *_environment_interface;
+    }
     // filedatainterfaces::EM3000PingDataInterface<t_ifstream>& ping_interface()
     // {
     //     return *_ping_interface;
@@ -167,10 +185,14 @@ class FileEM3000
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
-        // _configuration_interface->add_file_interface(file_paths_cnt);
-        // _navigation_interface->add_file_interface(file_paths_cnt);
-        // _environment_interface->add_file_interface(file_paths_cnt);
-        // _ping_interface->add_file_interface(file_paths_cnt);
+        // TODO: this is a bit ugly since updates all files and not just the new ones
+        // add file info
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        //_ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final

@@ -187,10 +187,14 @@ class FileSimradRaw
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
                                       [[maybe_unused]] size_t             file_paths_cnt) final
     {
-        _configuration_interface->add_file_interface(file_paths_cnt);
-        _navigation_interface->add_file_interface(file_paths_cnt);
-        _environment_interface->add_file_interface(file_paths_cnt);
-        _ping_interface->add_file_interface(file_paths_cnt);
+        // TODO: this is a bit ugly since updates all files and not just the new ones
+        // add file info
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
     }
     void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
                                     [[maybe_unused]] size_t             file_paths_cnt) final

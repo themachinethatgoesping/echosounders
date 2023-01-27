@@ -99,7 +99,7 @@ void py_create_class_SimradNavigationDataInterfacePerFile(py::module&        m,
     SimradDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_SimradNavigationDataInterfacePerFile(pybind11::module& m)
+void init_c_simradnavigationdatainterfaceperfile(pybind11::module& m)
 {
 
     py_create_class_SimradNavigationDataInterfacePerFile<std::ifstream>(

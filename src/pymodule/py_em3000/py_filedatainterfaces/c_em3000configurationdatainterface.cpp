@@ -18,38 +18,39 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradenvironmentdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000configurationdatainterface.hpp"
 
-#include "../../py_filetemplates/py_datainterfaces/i_environmentdatainterface.hpp"
-#include "c_simraddatagraminterface.hpp"
+#include "../../py_filetemplates/py_datainterfaces/i_configurationdatainterface.hpp"
+#include "c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_simrad {
+namespace py_em3000 {
 namespace py_filedatainterfaces {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::filetemplates;
-using namespace themachinethatgoesping::echosounders::simrad;
+using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradEnvironmentDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces,                              \
+        EM3000ConfigurationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_EM3000ConfigurationDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
-    using py_filetemplates::py_datainterfaces::py_i_environmentdatainterface::
-        EnvironmentDataInterface_add_interface;
+    using py_filetemplates::py_datainterfaces::py_i_configurationdatainterface::
+        ConfigurationDataInterface_add_interface;
 
-    using T_BaseClass = filedatainterfaces::SimradEnvironmentDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::EM3000ConfigurationDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
-    //----- inherit functions from I_EnvironmentDataInterface -----
-    EnvironmentDataInterface_add_interface<T_BaseClass>(cls);
+    //----- inherit functions from I_ConfigurationDataInterface -----
+    ConfigurationDataInterface_add_interface<T_BaseClass>(cls);
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -60,13 +61,13 @@ void py_create_class_SimradEnvironmentDataInterface(py::module& m, const std::st
     // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
-void init_c_simradenvironmentdatainterface(pybind11::module& m)
+void init_c_em3000configurationdatainterface(pybind11::module& m)
 {
 
-    py_create_class_SimradEnvironmentDataInterface<std::ifstream>(m,
-                                                                  "SimradEnvironmentDataInterface");
-    py_create_class_SimradEnvironmentDataInterface<datastreams::MappedFileStream>(
-        m, "SimradEnvironmentDataInterface_mapped");
+    py_create_class_EM3000ConfigurationDataInterface<std::ifstream>(
+        m, "EM3000ConfigurationDataInterface");
+    py_create_class_EM3000ConfigurationDataInterface<datastreams::MappedFileStream>(
+        m, "EM3000ConfigurationDataInterface_mapped");
 }
 
 }

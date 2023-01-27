@@ -61,7 +61,7 @@ void py_create_class_SimradConfigurationDataInterface(py::module& m, const std::
     // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
-void init_c_SimradConfigurationDataInterface(pybind11::module& m)
+void init_c_simradconfigurationdatainterface(pybind11::module& m)
 {
 
     py_create_class_SimradConfigurationDataInterface<std::ifstream>(

@@ -19,10 +19,10 @@ namespace echosounders {
 namespace pymodule {
 
 namespace py_filetemplates {
-namespace py_i_InputFile {
+namespace py_i_inputfile {
 
 template<typename T_PyClass>
-void add_DefaultConstructors(T_PyClass& cls)
+void add_default_constructors(T_PyClass& cls)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
@@ -54,7 +54,7 @@ void add_DefaultConstructors(T_PyClass& cls)
 }
 
 template<typename T_BaseClass, typename T_PyClass>
-void add_FileOpenInterface(T_PyClass& cls)
+void add_open_file_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
@@ -101,7 +101,7 @@ void add_FileOpenInterface(T_PyClass& cls)
 }
 
 template<typename T_BaseClass, typename T_PyClass>
-void add_DefaultContainers(T_PyClass& cls)
+void add_default_containers(T_PyClass& cls)
 {
     namespace py = pybind11;
 

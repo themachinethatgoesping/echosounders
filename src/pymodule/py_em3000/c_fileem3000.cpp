@@ -39,38 +39,34 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 // #define CLASS_FILEEM3000(FileEM3000<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
-void py_create_class_FileEM3000(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
 {
-    using namespace py_filetemplates; // this holds py_i_InputFile and py_datagramcontainer
+    using namespace py_filetemplates; // this holds py_i_inputfile and py_datagramcontainer
 
     // initialize class
     auto cls = py::class_<FileEM3000<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, em3000, FileEM3000));
 
     //----- inherit functions from I_InputFile -----
-    py_i_InputFile::add_DefaultConstructors(cls);
-    py_i_InputFile::add_FileOpenInterface<FileEM3000<T_FileStream>>(cls);
-    py_i_InputFile::add_DefaultContainers<FileEM3000<T_FileStream>>(cls);
+    py_i_inputfile::add_default_constructors(cls);
+    py_i_inputfile::add_open_file_interface<FileEM3000<T_FileStream>>(cls);
+    py_i_inputfile::add_default_containers<FileEM3000<T_FileStream>>(cls);
 
     //----- containers  -----
 
     //----- iterators via () operator -----
-    // cls.def_property_readonly(
-    //     "configuration_interface",
-    //     py::overload_cast<>(&FileEM3000<T_FileStream>::configuration_interface),
-    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, configuration_interface));
-    // cls.def_property_readonly(
-    //     "navigation_interface",
-    //     py::overload_cast<>(&FileEM3000<T_FileStream>::navigation_interface),
-    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, navigation_interface));
-    // cls.def_property_readonly(
-    //     "environment_interface",
-    //     py::overload_cast<>(&FileEM3000<T_FileStream>::environment_interface),
-    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, environment_interface));
-    // cls.def_property_readonly(
-    //     "ping_interface",
-    //     py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
-    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ping_interface));
+    cls.def_property_readonly(
+        "configuration_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::configuration_interface),
+        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, configuration_interface));
+    cls.def_property_readonly(
+        "navigation_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::navigation_interface),
+        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, navigation_interface));
+    cls.def_property_readonly(
+        "environment_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::environment_interface),
+        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, environment_interface));
     cls.def_property_readonly(
         "annotation_interface",
         py::overload_cast<>(&FileEM3000<T_FileStream>::annotation_interface),
@@ -79,6 +75,10 @@ void py_create_class_FileEM3000(py::module& m, const std::string& CLASS_NAME)
         "otherfiledata_interface",
         py::overload_cast<>(&FileEM3000<T_FileStream>::otherfiledata_interface),
         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, otherfiledata_interface));
+    // cls.def_property_readonly(
+    //     "ping_interface",
+    //     py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
+    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ping_interface));
 
     // cls.def("pings",
     //         py::overload_cast<>(&FileEM3000<T_FileStream>::pings, py::const_),
@@ -107,8 +107,8 @@ void py_create_class_FileEM3000(py::module& m, const std::string& CLASS_NAME)
 
 void init_c_fileem3000(pybind11::module& m)
 {
-    py_create_class_FileEM3000<std::ifstream>(m, "FileEM3000");
-    py_create_class_FileEM3000<datastreams::MappedFileStream>(m, "FileEM3000_mapped");
+    py_create_class_fileem3000<std::ifstream>(m, "FileEM3000");
+    py_create_class_fileem3000<datastreams::MappedFileStream>(m, "FileEM3000_mapped");
 }
 
 }

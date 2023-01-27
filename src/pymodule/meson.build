@@ -112,6 +112,12 @@ sources = [
     'py_em3000/py_filedatainterfaces/c_em3000otherfiledatainterfaceperfile.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000annotationdatainterface.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000annotationdatainterfaceperfile.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000environmentdatainterface.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000environmentdatainterfaceperfile.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000navigationdatainterface.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000navigationdatainterfaceperfile.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000configurationdatainterface.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000configurationdatainterfaceperfile.cpp',
     'py_em3000/module.cpp',
     'py_em3000/c_fileem3000.cpp',
 ]
