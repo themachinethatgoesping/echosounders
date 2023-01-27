@@ -89,8 +89,12 @@ class FileEM3000
     void init_interfaces([[maybe_unused]] bool               force,
                          tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        progress_bar.init(0., double(1), fmt::format("Initializing file interfaces"));
+        progress_bar.init(0., double(2), fmt::format("Initializing file interfaces"));
         progress_bar.tick();
+
+        _otherdata_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
+        
         progress_bar.close(std::string("Done"));
     }
 
