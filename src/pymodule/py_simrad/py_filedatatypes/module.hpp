@@ -11,7 +11,7 @@ namespace py_simrad {
 namespace py_filedatatypes {
 
 // -- create submodule --
-void init_m_SimradFileDataTypes(pybind11::module& m);
+void init_m_simradfiledatatypes(pybind11::module& m);
 
 }
 }

@@ -61,6 +61,7 @@ sources = [
     'py_simrad/py_filedatainterfaces/c_simradotherfiledatainterface.cpp',
     'py_simrad/py_filedatainterfaces/c_simradotherfiledatainterfaceperfile.cpp',
     'py_simrad/py_filedatatypes/module.cpp',
+    'py_simrad/py_filedatatypes/c_simradpingrawdata.cpp',
     'py_simrad/py_filedatatypes/c_simradping.cpp',
     'py_simrad/py_filedatacontainers/module.cpp',
     'py_simrad/py_filedatacontainers/c_simraddatagramcontainer.cpp',

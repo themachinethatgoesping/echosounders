@@ -38,7 +38,7 @@ using themachinethatgoesping::tools::progressbars::I_ProgressBar;
     themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradPingDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradPingDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_simradpingDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_pingdatainterface::
         PingDataInterface_add_interface;
@@ -63,8 +63,8 @@ void py_create_class_SimradPingDataInterface(py::module& m, const std::string& C
 
 void init_c_simradpingdatainterface(pybind11::module& m)
 {
-    py_create_class_SimradPingDataInterface<std::ifstream>(m, "SimradPingDataInterface");
-    py_create_class_SimradPingDataInterface<datastreams::MappedFileStream>(
+    py_create_class_simradpingDataInterface<std::ifstream>(m, "SimradPingDataInterface");
+    py_create_class_simradpingDataInterface<datastreams::MappedFileStream>(
         m, "SimradPingDataInterface_mapped");
 }
 
