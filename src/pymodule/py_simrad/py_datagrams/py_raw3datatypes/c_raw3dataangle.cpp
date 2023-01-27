@@ -13,7 +13,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "module.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp>
+#include <themachinethatgoesping/echosounders/simrad/datagrams/raw3datatypes/raw3datatypes.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -24,46 +24,46 @@ namespace py_raw3_datatypes {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using namespace datagrams::RAW3_datatypes;
+using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3_DataAngle(NAME)                                                                   \
+#define DOC_RAW3DataAngle(NAME)                                                                   \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        RAW3_datatypes,                                                                            \
-        RAW3_DataAngle,                                                                            \
+        raw3datatypes,                                                                            \
+        RAW3DataAngle,                                                                            \
         NAME)
 
-void init_c_raw3_dataangle(pybind11::module& m)
+void init_c_raw3dataangle(pybind11::module& m)
 {
-    py::class_<RAW3_DataAngle, i_RAW3_Data>(m,
-                                            "RAW3_DataAngle",
+    py::class_<RAW3DataAngle, i_RAW3Data>(m,
+                                            "RAW3DataAngle",
                                             DOC(themachinethatgoesping,
                                                 echosounders,
                                                 simrad,
                                                 datagrams,
-                                                RAW3_datatypes,
-                                                RAW3_DataAngle))
-        .def(py::init<>(), DOC_RAW3_DataAngle(RAW3_DataAngle))
+                                                raw3datatypes,
+                                                RAW3DataAngle))
+        .def(py::init<>(), DOC_RAW3DataAngle(RAW3DataAngle))
         .def(py::init<xt::xtensor<uint8_t, 2>>(),
-             DOC_RAW3_DataAngle(RAW3_DataAngle_2),
+             DOC_RAW3DataAngle(RAW3DataAngle_2),
              py::arg("angle"))
-        .def("__eq__", &RAW3_DataAngle::operator==, py::arg("other"))
+        .def("__eq__", &RAW3DataAngle::operator==, py::arg("other"))
 
-        .def("get_angle", &RAW3_DataAngle::get_angle, DOC_RAW3_DataAngle(get_angle))
+        .def("get_angle", &RAW3DataAngle::get_angle, DOC_RAW3DataAngle(get_angle))
 
         // ----- properties -----
-        .def_readwrite("angle", &RAW3_DataAngle::_angle, DOC_RAW3_DataAngle(angle))
+        .def_readwrite("angle", &RAW3DataAngle::_angle, DOC_RAW3DataAngle(angle))
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(RAW3_DataAngle)
+        __PYCLASS_DEFAULT_COPY__(RAW3DataAngle)
         // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(RAW3_DataAngle)
+        // __PYCLASS_DEFAULT_BINARY__(RAW3DataAngle)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(RAW3_DataAngle)
+        __PYCLASS_DEFAULT_PRINTING__(RAW3DataAngle)
         // end LinearInterpolator
         ;
 }

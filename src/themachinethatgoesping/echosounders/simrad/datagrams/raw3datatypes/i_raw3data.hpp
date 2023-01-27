@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/i_RAW3_data.doc.hpp"
+#include ".docstrings/i_raw3data.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -27,25 +27,35 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "t_RAW3_datatype.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-class i_RAW3_Data
+/**
+ * @brief Interface class for all RAW3 datatypes
+ * The RAW3 datagram contains a number of different data types.
+ *  - power
+ *  - angle
+ *  - power and angle
+ *  - complex float 32
+ *  - ...
+ *
+ */
+class i_RAW3Data
 {
-    std::string_view _name;
+    std::string_view _name; ///< name of the subclass (for error messages)
 
   public:
     // ----- constructors -----
-    i_RAW3_Data(std::string_view name)
+    i_RAW3Data(std::string_view name)
         : _name(name)
     {
     }
-    virtual ~i_RAW3_Data() = default;
+    virtual ~i_RAW3Data() = default;
 
     // ----- class interface -----
     std::string_view get_name() const { return _name; }

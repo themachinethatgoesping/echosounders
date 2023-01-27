@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/RAW3_datapowerandangle.doc.hpp"
+#include ".docstrings/raw3datapowerandangle.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -27,42 +27,42 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "i_RAW3_data.hpp"
-#include "t_RAW3_datatype.hpp"
+#include "i_raw3data.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-struct RAW3_DataPowerAndAngle : public i_RAW3_Data
+struct RAW3DataPowerAndAngle : public i_RAW3Data
 {
     xt::xtensor<simrad_short, 1> _power; ///< Sample data
     xt::xtensor<int8_t, 2>       _angle; ///< [along, athwart] 180/128 electrical degrees
     // xt::xtensor<int8_t>    _angle_along;  ///< alongship angle
     // xt::xtensor<int8_t>    _angle_across; ///< athwartship angle
 
-    RAW3_DataPowerAndAngle()
-        : i_RAW3_Data("PowerAndAngle")
+    RAW3DataPowerAndAngle()
+        : i_RAW3Data("PowerAndAngle")
     {
     }
-    RAW3_DataPowerAndAngle(xt::xtensor<simrad_short, 1> power, xt::xtensor<int8_t, 2> angle)
-        : i_RAW3_Data("PowerAndAngle")
+    RAW3DataPowerAndAngle(xt::xtensor<simrad_short, 1> power, xt::xtensor<int8_t, 2> angle)
+        : i_RAW3Data("PowerAndAngle")
         , _power(std::move(power))
         , _angle(std::move(angle))
     {
     }
-    ~RAW3_DataPowerAndAngle() = default;
+    ~RAW3DataPowerAndAngle() = default;
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataPowerAndAngle& other) const
+    bool operator==(const RAW3DataPowerAndAngle& other) const
     {
         return _power == other._power && _angle == other._angle;
     }
-    bool operator!=(const RAW3_DataPowerAndAngle& other) const { return !(operator==(other)); }
+    bool operator!=(const RAW3DataPowerAndAngle& other) const { return !(operator==(other)); }
 
-    // ----- i_RAW3_Data interface -----
+    // ----- i_RAW3Data interface -----
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
@@ -88,15 +88,14 @@ struct RAW3_DataPowerAndAngle : public i_RAW3_Data
     }
 
     // ----- to/from stream -----
-    static RAW3_DataPowerAndAngle from_stream(std::istream& is,
-                                              simrad_long   input_count,
-                                              simrad_long   output_count)
+    static RAW3DataPowerAndAngle from_stream(std::istream& is,
+                                             simrad_long   input_count,
+                                             simrad_long   output_count)
     {
         using power_shape = xt::xtensor<simrad_short, 1>::shape_type;
         using angle_shape = xt::xtensor<int8_t, 2>::shape_type;
-        RAW3_DataPowerAndAngle data(
-            xt::empty<simrad_short>(power_shape({ unsigned(output_count) })),
-            xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
+        RAW3DataPowerAndAngle data(xt::empty<simrad_short>(power_shape({ unsigned(output_count) })),
+                                   xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)

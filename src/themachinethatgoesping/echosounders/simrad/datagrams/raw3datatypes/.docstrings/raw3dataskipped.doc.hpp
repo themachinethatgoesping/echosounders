@@ -1,4 +1,4 @@
-//sourcehash: 4ab997b7497274b582b1aba503fbd3a0d372289b2a38a970901e8d29defea353
+//sourcehash: f8f3d60d6d96f92b7b7cd1b05de7f13decfd5532cd23621e8bdc6312c9218ad3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,31 +38,54 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped =
+R"doc(This class represents a pseudo data type that is used to skip the raw3
+data in the stream. It is used to load the RAW3 datagram info without
+the samples.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_RAW3_DataComplexFloat32 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_RAW3DataSkipped = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_RAW3_DataComplexFloat32_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_from_stream =
+R"doc(This function returns an empty RawDataSkipped object, but skips the
+data in the stream according to the given parameters (they must be
+known in advance)
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_complex_samples = R"doc(< Sample data)doc";
+Parameter ``is``:
+    input stream
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_from_stream = R"doc()doc";
+Parameter ``count``:
+    number of elements
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_get_angle = R"doc()doc";
+Parameter ``data_type``:
+    data type
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_get_power = R"doc()doc";
+Parameter ``number_of_complex_samples``:
+    number of complex samples
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_has_angle = R"doc()doc";
+Returns:
+    RAW3DataSkipped)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_has_power = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_operator_ne = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataSkipped_to_stream =
+R"doc(This function writes zeros to the stream according to the given
+parameters (they must be known in advance)
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataComplexFloat32_to_stream = R"doc()doc";
+Parameter ``os``:
+    output stream
+
+Parameter ``count``:
+    number of elements
+
+Parameter ``data_type``:
+    data type
+
+Parameter ``number_of_complex_samples``:
+    number of complex samples)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

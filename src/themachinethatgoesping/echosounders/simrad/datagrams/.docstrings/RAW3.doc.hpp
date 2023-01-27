@@ -1,4 +1,4 @@
-//sourcehash: 65d84ef826e2c1aefbb8bcf7325414923f904487200b7b62384a15e8ef45e12e
+//sourcehash: c0d4be68bf8f196b24e9b3ce879faba2760b56e5828c1d15bc138554f3d6d720
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -95,7 +95,7 @@ R"doc(Get the sample data. The sample data is stored in a variant of xtensor
 containers. The exact type depends on the data type.
 
 Returns:
-    RAW3_datatypes::RAW3_DataVariant)doc";
+    raw3datatypes::RAW3DataVariant)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_spare_1 = R"doc()doc";
 
@@ -116,7 +116,7 @@ R"doc(Get the sample data. The sample data is stored in a variant of xtensor
 containers. The exact type depends on the data type.
 
 Returns:
-    RAW3_datatypes::RAW3_DataVariant)doc";
+    raw3datatypes::RAW3DataVariant)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_channel_id = R"doc()doc";
 

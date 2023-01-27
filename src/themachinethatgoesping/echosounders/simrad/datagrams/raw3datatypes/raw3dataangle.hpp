@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/RAW3_dataangle.doc.hpp"
+#include ".docstrings/raw3dataangle.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -27,31 +27,31 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "i_RAW3_data.hpp"
-#include "t_RAW3_datatype.hpp"
+#include "i_raw3data.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-struct RAW3_DataAngle : public i_RAW3_Data
+struct RAW3DataAngle : public i_RAW3Data
 {
     xt::xtensor<int8_t, 2> _angle; ///< Sample data
 
-    RAW3_DataAngle()
-        : i_RAW3_Data("Angle")
+    RAW3DataAngle()
+        : i_RAW3Data("Angle")
     {
     }
-    RAW3_DataAngle(xt::xtensor<int8_t, 2> angle)
-        : i_RAW3_Data("Angle")
+    RAW3DataAngle(xt::xtensor<int8_t, 2> angle)
+        : i_RAW3Data("Angle")
         , _angle(std::move(angle))
     {
     }
-    ~RAW3_DataAngle() = default;
+    ~RAW3DataAngle() = default;
 
-    // ----- i_RAW3_Data interface -----
+    // ----- i_RAW3Data interface -----
     bool has_power() const final { return false; }
     bool has_angle() const final { return true; }
 
@@ -63,15 +63,16 @@ struct RAW3_DataAngle : public i_RAW3_Data
     }
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataAngle& other) const { return _angle == other._angle; }
-    bool operator!=(const RAW3_DataAngle& other) const { return !(operator==(other)); }
+    bool operator==(const RAW3DataAngle& other) const { return _angle == other._angle; }
+    bool operator!=(const RAW3DataAngle& other) const { return !(operator==(other)); }
 
-    static RAW3_DataAngle from_stream(std::istream& is,
-                                      simrad_long   input_count,
-                                      simrad_long   output_count)
+    // ----- to/from stream -----
+    static RAW3DataAngle from_stream(std::istream& is,
+                                     simrad_long   input_count,
+                                     simrad_long   output_count)
     {
         using xt_shape = xt::xtensor<int8_t, 2>::shape_type;
-        RAW3_DataAngle data(xt::empty<int8_t>(xt_shape({ unsigned(output_count), 2 })));
+        RAW3DataAngle data(xt::empty<int8_t>(xt_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)

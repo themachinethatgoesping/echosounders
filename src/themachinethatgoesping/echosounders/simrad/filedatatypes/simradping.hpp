@@ -72,16 +72,16 @@ class SimradPingRawData
     }
 
     // ----- load skipped data -----
-    datagrams::RAW3_datatypes::RAW3_DataVariant get_sample_data()
+    datagrams::raw3datatypes::RAW3DataVariant get_sample_data()
     {
-        if (std::holds_alternative<datagrams::RAW3_datatypes::RAW3_DataSkipped>(
+        if (std::holds_alternative<datagrams::raw3datatypes::RAW3DataSkipped>(
                 _ping_data.sample_data()))
             return read_sample_data();
 
         return _ping_data.sample_data();
     }
 
-    datagrams::RAW3_datatypes::RAW3_DataVariant read_sample_data()
+    datagrams::raw3datatypes::RAW3DataVariant read_sample_data()
     {
         return _ping_data.read_skipped_sample_data(_datagram_info_raw_data->get_stream(),
                                                    _datagram_info_raw_data->get_file_pos());
@@ -91,25 +91,25 @@ class SimradPingRawData
 
     void release_data()
     {
-        _ping_data.sample_data() = datagrams::RAW3_datatypes::RAW3_DataSkipped();
+        _ping_data.sample_data() = datagrams::raw3datatypes::RAW3DataSkipped();
     }
 
-    // ----- i_RAW3_Data interface -----
+    // ----- i_RAW3Data interface -----
     bool has_power() const
     {
-        using namespace datagrams::RAW3_datatypes;
+        using namespace datagrams::raw3datatypes;
 
         switch (_ping_data.get_data_type())
         {
-            case t_RAW3_DataType::Angle:
+            case t_RAW3DataType::Angle:
                 return false;
-            case t_RAW3_DataType::Power:
+            case t_RAW3DataType::Power:
                 [[fallthrough]];
-            case t_RAW3_DataType::ComplexFloat32:
+            case t_RAW3DataType::ComplexFloat32:
                 [[fallthrough]];
-            case t_RAW3_DataType::PowerAndAngle:
+            case t_RAW3DataType::PowerAndAngle:
                 [[fallthrough]];
-            case t_RAW3_DataType::ComplexFloat16:
+            case t_RAW3DataType::ComplexFloat16:
                 return true;
             default:
                 throw std::runtime_error("Unknown data type");
@@ -118,19 +118,19 @@ class SimradPingRawData
 
     bool has_angle() const
     {
-        using namespace datagrams::RAW3_datatypes;
+        using namespace datagrams::raw3datatypes;
 
         switch (_ping_data.get_data_type())
         {
-            case t_RAW3_DataType::Power:
+            case t_RAW3DataType::Power:
                 return false;
-            case t_RAW3_DataType::Angle:
+            case t_RAW3DataType::Angle:
                 [[fallthrough]];
-            case t_RAW3_DataType::ComplexFloat32:
+            case t_RAW3DataType::ComplexFloat32:
                 [[fallthrough]];
-            case t_RAW3_DataType::PowerAndAngle:
+            case t_RAW3DataType::PowerAndAngle:
                 [[fallthrough]];
-            case t_RAW3_DataType::ComplexFloat16:
+            case t_RAW3DataType::ComplexFloat16:
                 return true;
             default:
                 throw std::runtime_error("Unknown data type");
@@ -152,7 +152,7 @@ class SimradPingRawData
         printer.register_value("Has angle", has_angle());
 
         printer.register_section("Important members");
-        printer.register_string("ping_data", "RAW3_DataVariant");
+        printer.register_string("ping_data", "RAW3DataVariant");
         printer.register_string("get_parameter()", "XML_Parameter_Channel");
 
         return printer;

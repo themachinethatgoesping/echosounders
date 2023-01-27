@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/t_RAW3_datatype.doc.hpp"
+#include ".docstrings/t_raw3datatype.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -33,9 +33,13 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-enum class t_RAW3_DataType : uint8_t
+/**
+ * @brief This flag is used in the RAW3 datagram to indicate the type of data
+ *
+ */
+enum class t_RAW3DataType : uint8_t
 {
     Power          = 0b00000001,
     Angle          = 0b00000010,
@@ -44,19 +48,24 @@ enum class t_RAW3_DataType : uint8_t
     ComplexFloat32 = 0b00001000,
 };
 
-inline size_t RAW3_DataType_size(t_RAW3_DataType data_type)
+/**
+ * @brief Get the size of the RAW3DataType elements in bytes
+ * @param data_type
+ * @return size_t
+ */
+inline size_t get_raw3datatype_size(t_RAW3DataType data_type)
 {
     switch (data_type)
     {
-        case t_RAW3_DataType::PowerAndAngle:
+        case t_RAW3DataType::PowerAndAngle:
             return sizeof(simrad_short) * 2; // 1 short 2 bytes
-        case t_RAW3_DataType::ComplexFloat32:
+        case t_RAW3DataType::ComplexFloat32:
             return sizeof(simrad_complex_float);
-        case t_RAW3_DataType::Power:
+        case t_RAW3DataType::Power:
             return sizeof(simrad_short);
-        case t_RAW3_DataType::Angle: // 2 bytes
+        case t_RAW3DataType::Angle: // 2 bytes
             return sizeof(simrad_short);
-        case t_RAW3_DataType::ComplexFloat16:
+        case t_RAW3DataType::ComplexFloat16:
             return sizeof(simrad_float); // 2 times half
         default:
             throw(std::runtime_error("Unknown data type"));

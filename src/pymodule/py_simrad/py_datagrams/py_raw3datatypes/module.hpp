@@ -12,7 +12,7 @@ namespace py_datagrams {
 namespace py_raw3_datatypes {
 
 // -- initialize module --
-void init_m_RAW3_datatypes(pybind11::module& m);
+void init_m_raw3datatypes(pybind11::module& m);
 
 }
 }

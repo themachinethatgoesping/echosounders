@@ -10,10 +10,10 @@
 
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp"
+#include "../../../themachinethatgoesping/echosounders/simrad/datagrams/raw3datatypes/raw3datatypes.hpp"
 
 #include "module.hpp"
-#include "py_RAW3_datatypes/module.hpp"
+#include "py_raw3datatypes/module.hpp"
 #include "py_xml_datagrams/module.hpp"
 
 #include <pybind11/pybind11.h>
@@ -42,7 +42,7 @@ void init_m_SimradDatagrams(pybind11::module& m)
 
     // init submodules
     py_datagrams_xml::init_m_datagrams_xml(subm);
-    py_raw3_datatypes::init_m_RAW3_datatypes(subm);
+    py_raw3_datatypes::init_m_raw3datatypes(subm);
 
     // simrad classes
     init_c_SimradDatagram(subm);

@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/RAW3_datacomplexfloat32.doc.hpp"
+#include ".docstrings/raw3datacomplexfloat32.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -27,31 +27,31 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "i_RAW3_data.hpp"
-#include "t_RAW3_datatype.hpp"
+#include "i_raw3data.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-struct RAW3_DataComplexFloat32 : public i_RAW3_Data
+struct RAW3DataComplexFloat32 : public i_RAW3Data
 {
     xt::xtensor<simrad_float, 3> _complex_samples; ///< Sample data
 
-    RAW3_DataComplexFloat32()
-        : i_RAW3_Data("ComplexFloat32")
+    RAW3DataComplexFloat32()
+        : i_RAW3Data("ComplexFloat32")
     {
     }
-    RAW3_DataComplexFloat32(xt::xtensor<simrad_float, 3> complex_samples)
-        : i_RAW3_Data("ComplexFloat32")
+    RAW3DataComplexFloat32(xt::xtensor<simrad_float, 3> complex_samples)
+        : i_RAW3Data("ComplexFloat32")
         , _complex_samples(std::move(complex_samples))
     {
     }
-    ~RAW3_DataComplexFloat32() = default;
+    ~RAW3DataComplexFloat32() = default;
 
-    // ----- i_RAW3_Data interface -----
+    // ----- i_RAW3Data interface -----
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
@@ -77,21 +77,22 @@ struct RAW3_DataComplexFloat32 : public i_RAW3_Data
     }
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataComplexFloat32& other) const
+    bool operator==(const RAW3DataComplexFloat32& other) const
     {
         return _complex_samples == other._complex_samples;
     }
-    bool operator!=(const RAW3_DataComplexFloat32& other) const { return !(operator==(other)); }
+    bool operator!=(const RAW3DataComplexFloat32& other) const { return !(operator==(other)); }
 
-    static RAW3_DataComplexFloat32 from_stream(std::istream& is,
-                                               simrad_long   input_count,
-                                               simrad_long   output_count,
-                                               uint8_t       number_of_complex_samples)
+    // ----- to/from stream -----
+    static RAW3DataComplexFloat32 from_stream(std::istream& is,
+                                              simrad_long   input_count,
+                                              simrad_long   output_count,
+                                              uint8_t       number_of_complex_samples)
     {
         using xt_shape = xt::xtensor<simrad_float, 3>::shape_type;
-        RAW3_DataComplexFloat32 data(xt::empty<simrad_float>(
+        RAW3DataComplexFloat32 data(xt::empty<simrad_float>(
             xt_shape({ unsigned(output_count), number_of_complex_samples, 2 })));
-        // RAW3_DataComplexFloat32 data(xt::empty<simrad_float>(
+        // RAW3DataComplexFloat32 data(xt::empty<simrad_float>(
         //     xt_shape({ number_of_complex_samples, 2, unsigned(output_count) })));
 
         // initialize data_block using from_shape

@@ -15,9 +15,9 @@ using namespace std;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::echosounders::simrad::datagrams::RAW3;
 // using
-// themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::RAW3_DataType_size;
-// using themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes::t_RAW3_DataType;
-using namespace themachinethatgoesping::echosounders::simrad::datagrams::RAW3_datatypes;
+// themachinethatgoesping::echosounders::simrad::datagrams::raw3datatypes::get_raw3datatype_size;
+// using themachinethatgoesping::echosounders::simrad::datagrams::raw3datatypes::t_RAW3DataType;
+using namespace themachinethatgoesping::echosounders::simrad::datagrams::raw3datatypes;
 
 #define TESTTAG "[simrad]"
 
@@ -29,11 +29,11 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
     // set some variables
     dat.set_timestamp(123);
     dat.set_channel_id("channel1");
-    std::vector<t_RAW3_DataType> types = { t_RAW3_DataType::Power,
-                                           t_RAW3_DataType::Angle,
-                                           t_RAW3_DataType::PowerAndAngle,
-                                           t_RAW3_DataType::ComplexFloat32,
-                                           t_RAW3_DataType::ComplexFloat16 };
+    std::vector<t_RAW3DataType> types = { t_RAW3DataType::Power,
+                                           t_RAW3DataType::Angle,
+                                           t_RAW3DataType::PowerAndAngle,
+                                           t_RAW3DataType::ComplexFloat32,
+                                           t_RAW3DataType::ComplexFloat16 };
 
     dat._NumberOfComplexSamples = 3;
     dat._Offset                 = 1;
@@ -46,28 +46,28 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
 
         switch (type)
         {
-            case t_RAW3_DataType::ComplexFloat32:
-                dat._SampleData = RAW3_DataComplexFloat32(xt::xtensor<simrad_float, 3>::from_shape(
+            case t_RAW3DataType::ComplexFloat32:
+                dat._SampleData = RAW3DataComplexFloat32(xt::xtensor<simrad_float, 3>::from_shape(
                     { unsigned(dat._Count), dat.get_number_of_complex_samples(), 2 }));
                 break;
-            case t_RAW3_DataType::PowerAndAngle:
-                dat._SampleData = RAW3_DataPowerAndAngle(
+            case t_RAW3DataType::PowerAndAngle:
+                dat._SampleData = RAW3DataPowerAndAngle(
                     xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat._Count) }),
                     xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
-            case t_RAW3_DataType::Power:
-                dat._SampleData = RAW3_DataPower(
+            case t_RAW3DataType::Power:
+                dat._SampleData = RAW3DataPower(
                     xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat._Count) }));
                 break;
-            case t_RAW3_DataType::Angle:
+            case t_RAW3DataType::Angle:
                 dat._SampleData =
-                    RAW3_DataAngle(xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
+                    RAW3DataAngle(xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
                 break;
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
                                          magic_enum::enum_name(dat._Datatype))
                           << std::endl;
-                dat._SampleData = RAW3_DataSkipped();
+                dat._SampleData = RAW3DataSkipped();
                 break;
         }
 
@@ -88,7 +88,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         // dat.print(std::cerr);
 
         // test binary
-        if (type == t_RAW3_DataType::ComplexFloat32)
+        if (type == t_RAW3DataType::ComplexFloat32)
         {
             std::cerr << "-----" << std::endl;
             std::cerr << "dat" << std::endl;
@@ -111,7 +111,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         // test reading header only
         dat.to_stream(buffer2);
         auto dat3 = RAW3::from_stream(buffer2, true);
-        if (!std::holds_alternative<RAW3_DataSkipped>(dat._SampleData))
+        if (!std::holds_alternative<RAW3DataSkipped>(dat._SampleData))
             REQUIRE(dat3 != dat);
 
         dat3.set_sample_data(dat.get_sample_data());
@@ -133,7 +133,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::RAW3);
         REQUIRE(dat.get_length() ==
                 simrad_long(12 + 140 +
-                            dat._Count * RAW3_DataType_size(dat.get_data_type()) *
+                            dat._Count * get_raw3datatype_size(dat.get_data_type()) *
                                 dat.get_number_of_complex_samples()));
     }
 }

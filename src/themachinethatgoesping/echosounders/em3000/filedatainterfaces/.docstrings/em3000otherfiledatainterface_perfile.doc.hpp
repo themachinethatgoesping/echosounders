@@ -1,4 +1,4 @@
-//sourcehash: d5b0d88955d2256b0575e242ae9b135f843cfaa5d95b02fcbbc51c9d76014d23
+//sourcehash: 5ae47eab9d0661f7c9ea47595e6126580a7124f371d7dd79d629c5c3e2e743c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,29 +38,11 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface_PerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_RAW3_DataAngle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface_PerFile_SimradOtherFileDataInterface_PerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_RAW3_DataAngle_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_angle = R"doc(< Sample data)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_get_angle = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_has_angle = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_has_power = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataAngle_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface_PerFile_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -13,7 +13,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "module.hpp"
-#include <themachinethatgoesping/echosounders/simrad/datagrams/RAW3_datatypes/RAW3_datatypes.hpp>
+#include <themachinethatgoesping/echosounders/simrad/datagrams/raw3datatypes/raw3datatypes.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -24,38 +24,38 @@ namespace py_raw3_datatypes {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
-using namespace datagrams::RAW3_datatypes;
+using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3_DataSkipped(NAME)                                                                 \
+#define DOC_RAW3DataSkipped(NAME)                                                                 \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        RAW3_datatypes,                                                                            \
-        RAW3_DataSkipped,                                                                          \
+        raw3datatypes,                                                                            \
+        RAW3DataSkipped,                                                                          \
         NAME)
 
-void init_c_raw3_dataskipped(pybind11::module& m)
+void init_c_raw3dataskipped(pybind11::module& m)
 {
-    py::class_<RAW3_DataSkipped, i_RAW3_Data>(m,
-                                              "RAW3_DataSkipped",
+    py::class_<RAW3DataSkipped, i_RAW3Data>(m,
+                                              "RAW3DataSkipped",
                                               DOC(themachinethatgoesping,
                                                   echosounders,
                                                   simrad,
                                                   datagrams,
-                                                  RAW3_datatypes,
-                                                  RAW3_DataSkipped))
-        .def(py::init<>(), DOC_RAW3_DataSkipped(RAW3_DataSkipped))
-        .def("__eq__", &RAW3_DataSkipped::operator==, py::arg("other"))
+                                                  raw3datatypes,
+                                                  RAW3DataSkipped))
+        .def(py::init<>(), DOC_RAW3DataSkipped(RAW3DataSkipped))
+        .def("__eq__", &RAW3DataSkipped::operator==, py::arg("other"))
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(RAW3_DataSkipped)
+        __PYCLASS_DEFAULT_COPY__(RAW3DataSkipped)
         // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(RAW3_DataSkipped)
+        // __PYCLASS_DEFAULT_BINARY__(RAW3DataSkipped)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(RAW3_DataSkipped)
+        __PYCLASS_DEFAULT_PRINTING__(RAW3DataSkipped)
         // end LinearInterpolator
         ;
 }

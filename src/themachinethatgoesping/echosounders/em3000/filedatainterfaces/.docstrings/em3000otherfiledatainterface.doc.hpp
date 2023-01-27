@@ -1,4 +1,4 @@
-//sourcehash: 6bbf2d2889ec4423aae5485dfcbf196c836cdd4c8581abf9df47138688e374b4
+//sourcehash: 6441b79263bad8589cf188203f09db0e8c9e914e9ca7165ee28a5ed26b28b21f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,12 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface_SimradOtherDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

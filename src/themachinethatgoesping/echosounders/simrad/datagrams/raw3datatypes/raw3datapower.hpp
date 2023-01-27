@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/RAW3_datapower.doc.hpp"
+#include ".docstrings/raw3datapower.doc.hpp"
 
 // std includes
 #include <bitset>
@@ -28,31 +28,31 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "i_RAW3_data.hpp"
-#include "t_RAW3_datatype.hpp"
+#include "i_raw3data.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-struct RAW3_DataPower : public i_RAW3_Data
+struct RAW3DataPower : public i_RAW3Data
 {
     xt::xtensor<simrad_short, 1> _power; ///< Sample data
 
-    RAW3_DataPower()
-        : i_RAW3_Data("Power")
+    RAW3DataPower()
+        : i_RAW3Data("Power")
     {
     }
-    RAW3_DataPower(xt::xtensor<simrad_short, 1> power)
-        : i_RAW3_Data("Power")
+    RAW3DataPower(xt::xtensor<simrad_short, 1> power)
+        : i_RAW3Data("Power")
         , _power(std::move(power))
     {
     }
-    ~RAW3_DataPower() = default;
+    ~RAW3DataPower() = default;
 
-    // ----- i_RAW3_Data interface -----
+    // ----- i_RAW3Data interface -----
     bool has_power() const final { return true; }
     bool has_angle() const final { return false; }
 
@@ -72,16 +72,17 @@ struct RAW3_DataPower : public i_RAW3_Data
     }
 
     // ----- operator overloads -----
-    bool operator==(const RAW3_DataPower& other) const { return _power == other._power; }
-    bool operator!=(const RAW3_DataPower& other) const { return !(operator==(other)); }
+    bool operator==(const RAW3DataPower& other) const { return _power == other._power; }
+    bool operator!=(const RAW3DataPower& other) const { return !(operator==(other)); }
 
-    static RAW3_DataPower from_stream(std::istream& is,
-                                      simrad_long   input_count,
-                                      simrad_long   output_count)
+    // ----- to/from stream -----
+    static RAW3DataPower from_stream(std::istream& is,
+                                     simrad_long   input_count,
+                                     simrad_long   output_count)
     {
 
         using xt_shape = xt::xtensor<simrad_short, 1>::shape_type;
-        RAW3_DataPower data(xt::empty<simrad_short>(xt_shape({ unsigned(output_count) })));
+        RAW3DataPower data(xt::empty<simrad_short>(xt_shape({ unsigned(output_count) })));
 
         // initialize data_block using from_shape
         if (output_count < input_count)

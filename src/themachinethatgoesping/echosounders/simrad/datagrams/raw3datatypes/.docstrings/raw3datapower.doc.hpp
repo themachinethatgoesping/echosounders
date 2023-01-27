@@ -1,4 +1,4 @@
-//sourcehash: 817cdc5ffc58f9e73f58f945f1c00631b6e75ecd40d13aa84f85177ee9277865
+//sourcehash: 779b95e040e48afcc4b43fefae68d26a23c52f4f31409bd80dcfd0788683415f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,33 +38,29 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_RAW3_DataPowerAndAngle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_RAW3DataPower = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_RAW3_DataPowerAndAngle_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_RAW3DataPower_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_angle = R"doc(< [along, athwart] 180/128 electrical degrees)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_get_power = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_get_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_has_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_get_power = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_has_power = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_has_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_has_power = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_power = R"doc(< Sample data)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_operator_ne = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_power = R"doc(< Sample data)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataPowerAndAngle_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_RAW3DataPower_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

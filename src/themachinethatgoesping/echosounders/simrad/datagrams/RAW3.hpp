@@ -29,7 +29,7 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../simrad_types.hpp"
-#include "RAW3_datatypes/RAW3_datatypes.hpp"
+#include "raw3datatypes/raw3datatypes.hpp"
 #include "simraddatagram.hpp"
 
 namespace themachinethatgoesping {
@@ -47,7 +47,7 @@ struct RAW3 : public SimradDatagram
 {
     // ----- datagram content -----
     std::array<char, 128>           _ChannelID; ///< Channel identification (size is always 128)
-    RAW3_datatypes::t_RAW3_DataType _Datatype;  ///< Datatype
+    raw3datatypes::t_RAW3DataType _Datatype;  ///< Datatype
     uint8_t _NumberOfComplexSamples; ///< Number of transducer samples per sample (used when
                                      ///< Datatype is complex)
     simrad_char _Spare_1;            ///< Spare 1
@@ -55,7 +55,7 @@ struct RAW3 : public SimradDatagram
     simrad_long _Offset;             ///< First sample number in the datagram
     simrad_long _Count;              ///< Number of samples in the datagram
 
-    RAW3_datatypes::RAW3_DataVariant _SampleData; ///< Sample data
+    raw3datatypes::RAW3DataVariant _SampleData; ///< Sample data
 
     // std::variant<xt::xtensor<simrad_float>,
     //              xt::xtensor<simrad_complex_float,2>> _Samples; ///< Sample data
@@ -72,7 +72,7 @@ struct RAW3 : public SimradDatagram
     RAW3()
         : SimradDatagram(152, simrad_long(t_SimradDatagramIdentifier::RAW3))
         , _ChannelID()
-        , _Datatype(RAW3_datatypes::t_RAW3_DataType(0b00000000))
+        , _Datatype(raw3datatypes::t_RAW3DataType(0b00000000))
         , _NumberOfComplexSamples(0)
         , _Spare_1('\x00')
         , _Spare_2('\x00')
@@ -114,12 +114,12 @@ struct RAW3 : public SimradDatagram
         // fill _ChannelID with \x00
         std::fill(_ChannelID.begin() + channel_id.size(), _ChannelID.end(), '\x00');
     }
-    RAW3_datatypes::t_RAW3_DataType get_data_type() const
+    raw3datatypes::t_RAW3DataType get_data_type() const
     {
         // set short to 0 except for the last 4 bits
         return _Datatype;
     }
-    void set_data_type(RAW3_datatypes::t_RAW3_DataType data_type) { _Datatype = data_type; }
+    void set_data_type(raw3datatypes::t_RAW3DataType data_type) { _Datatype = data_type; }
 
     /**
      * @brief Get the number of complex samples.
@@ -154,25 +154,25 @@ struct RAW3 : public SimradDatagram
      * The sample data is stored in a variant of xtensor containers.
      * The exact type depends on the data type.
      *
-     * @return RAW3_datatypes::RAW3_DataVariant
+     * @return raw3datatypes::RAW3DataVariant
      */
-    RAW3_datatypes::RAW3_DataVariant& sample_data() { return _SampleData; }
+    raw3datatypes::RAW3DataVariant& sample_data() { return _SampleData; }
 
     /**
      * @brief Get the sample data.
      * The sample data is stored in a variant of xtensor containers.
      * The exact type depends on the data type.
      *
-     * @return RAW3_datatypes::RAW3_DataVariant
+     * @return raw3datatypes::RAW3DataVariant
      */
-    const RAW3_datatypes::RAW3_DataVariant& get_sample_data() const { return _SampleData; }
-    void set_sample_data(RAW3_datatypes::RAW3_DataVariant sample_data)
+    const raw3datatypes::RAW3DataVariant& get_sample_data() const { return _SampleData; }
+    void set_sample_data(raw3datatypes::RAW3DataVariant sample_data)
     {
         _SampleData = sample_data;
     }
 
     // ----- file I/O -----
-    RAW3_datatypes::RAW3_DataVariant read_skipped_sample_data(
+    raw3datatypes::RAW3DataVariant read_skipped_sample_data(
         std::istream&          is,
         std::istream::pos_type header_pos) const
     {
@@ -180,34 +180,34 @@ struct RAW3 : public SimradDatagram
         return read_sample_data(is);
     }
 
-    RAW3_datatypes::RAW3_DataVariant read_sample_data(std::istream& is) const
+    raw3datatypes::RAW3DataVariant read_sample_data(std::istream& is) const
     {
-        using namespace RAW3_datatypes;
+        using namespace raw3datatypes;
 
         switch (this->_Datatype)
         {
-            case t_RAW3_DataType::ComplexFloat32:
-                return RAW3_DataComplexFloat32::from_stream(
+            case t_RAW3DataType::ComplexFloat32:
+                return RAW3DataComplexFloat32::from_stream(
                     is, this->_Count, this->_Count, this->get_number_of_complex_samples());
-            case t_RAW3_DataType::PowerAndAngle:
-                return RAW3_DataPowerAndAngle::from_stream(is, this->_Count, this->_Count);
+            case t_RAW3DataType::PowerAndAngle:
+                return RAW3DataPowerAndAngle::from_stream(is, this->_Count, this->_Count);
 
-            case t_RAW3_DataType::Power:
-                return RAW3_DataPower::from_stream(is, this->_Count, this->_Count);
-            case t_RAW3_DataType::Angle:
-                return RAW3_DataAngle::from_stream(is, this->_Count, this->_Count);
+            case t_RAW3DataType::Power:
+                return RAW3DataPower::from_stream(is, this->_Count, this->_Count);
+            case t_RAW3DataType::Angle:
+                return RAW3DataAngle::from_stream(is, this->_Count, this->_Count);
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
                                          magic_enum::enum_name(this->_Datatype))
                           << std::endl;
-                return RAW3_DataSkipped::from_stream(
+                return RAW3DataSkipped::from_stream(
                     is, this->_Count, this->get_data_type(), this->get_number_of_complex_samples());
         }
     }
 
     static RAW3 from_stream(std::istream& is, SimradDatagram header, bool skip_sample_data = false)
     {
-        using namespace RAW3_datatypes;
+        using namespace raw3datatypes;
 
         RAW3 datagram(std::move(header));
         is.read(datagram._ChannelID.data(), 140);
@@ -215,7 +215,7 @@ struct RAW3 : public SimradDatagram
         if (skip_sample_data)
         {
             datagram._SampleData =
-                RAW3_DataSkipped::from_stream(is,
+                RAW3DataSkipped::from_stream(is,
                                               datagram._Count,
                                               datagram.get_data_type(),
                                               datagram.get_number_of_complex_samples());
@@ -252,7 +252,7 @@ struct RAW3 : public SimradDatagram
     void to_stream(std::ostream& os)
     {
         //_Count = _Samples.size();
-        auto data_type_size = RAW3_DataType_size(_Datatype);
+        auto data_type_size = get_raw3datatype_size(_Datatype);
 
         // TODO: support 16 bit complex data
         _Length = simrad_long(_Count * data_type_size * get_number_of_complex_samples() + 152);
@@ -266,7 +266,7 @@ struct RAW3 : public SimradDatagram
 
         tools::helper::visit_variant(
             _SampleData,
-            [&os, this](RAW3_datatypes::RAW3_DataSkipped& data) {
+            [&os, this](raw3datatypes::RAW3DataSkipped& data) {
                 data.to_stream(
                     os, this->_Count, this->get_data_type(), this->get_number_of_complex_samples());
             },

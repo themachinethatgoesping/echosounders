@@ -23,99 +23,99 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 
-#include "i_RAW3_data.hpp"
-#include "t_RAW3_datatype.hpp"
+#include "i_raw3data.hpp"
+#include "t_raw3datatype.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace datagrams {
-namespace RAW3_datatypes {
+namespace raw3datatypes {
 
-struct RAW3_DataSkipped : public i_RAW3_Data
+struct RAW3DataSkipped : public i_RAW3Data
 {
-    RAW3_DataSkipped()
-        : i_RAW3_Data("Skipped")
+    RAW3DataSkipped()
+        : i_RAW3Data("Skipped")
     {
     }
-    ~RAW3_DataSkipped() = default;
+    ~RAW3DataSkipped() = default;
 
     // ----- operator overloads -----
-    bool operator==([[maybe_unused]] const RAW3_DataSkipped& other) const { return true; }
-    bool operator!=(const RAW3_DataSkipped& other) const { return !(operator==(other)); }
+    bool operator==([[maybe_unused]] const RAW3DataSkipped& other) const { return true; }
+    bool operator!=(const RAW3DataSkipped& other) const { return !(operator==(other)); }
 
-    static RAW3_DataSkipped from_stream(std::istream&   is,
+    static RAW3DataSkipped from_stream(std::istream&   is,
                                         simrad_long     count,
-                                        t_RAW3_DataType data_type,
+                                        t_RAW3DataType data_type,
                                         uint8_t         number_of_complex_samples)
     {
         switch (data_type)
         {
-            case t_RAW3_DataType::PowerAndAngle:
-                is.seekg(count * RAW3_DataType_size(data_type), std::ios_base::cur);
+            case t_RAW3DataType::PowerAndAngle:
+                is.seekg(count * get_raw3datatype_size(data_type), std::ios_base::cur);
                 break;
-            case t_RAW3_DataType::ComplexFloat32:
-                is.seekg(count * RAW3_DataType_size(data_type) * number_of_complex_samples,
+            case t_RAW3DataType::ComplexFloat32:
+                is.seekg(count * get_raw3datatype_size(data_type) * number_of_complex_samples,
                          std::ios_base::cur);
                 break;
-            case t_RAW3_DataType::Power:
-                is.seekg(count * RAW3_DataType_size(data_type), std::ios_base::cur);
+            case t_RAW3DataType::Power:
+                is.seekg(count * get_raw3datatype_size(data_type), std::ios_base::cur);
                 break;
-            case t_RAW3_DataType::Angle:
-                is.seekg(count * RAW3_DataType_size(data_type), std::ios_base::cur);
+            case t_RAW3DataType::Angle:
+                is.seekg(count * get_raw3datatype_size(data_type), std::ios_base::cur);
                 break;
-            case t_RAW3_DataType::ComplexFloat16:
-                is.seekg(count * RAW3_DataType_size(data_type) * number_of_complex_samples,
+            case t_RAW3DataType::ComplexFloat16:
+                is.seekg(count * get_raw3datatype_size(data_type) * number_of_complex_samples,
                          std::ios_base::cur);
                 break;
             default:
                 throw std::runtime_error("Unknown data type");
         }
 
-        return RAW3_DataSkipped();
+        return RAW3DataSkipped();
     }
 
     void to_stream(std::ostream&   os,
                    simrad_long     count,
-                   t_RAW3_DataType data_type,
+                   t_RAW3DataType data_type,
                    uint8_t         number_of_complex_samples) const
     {
         switch (data_type)
         {
-            case t_RAW3_DataType::PowerAndAngle: {
+            case t_RAW3DataType::PowerAndAngle: {
                 // write _Count.size() zeros
                 auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
-                         samples.size() * RAW3_DataType_size(data_type));
+                         samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
-            case t_RAW3_DataType::ComplexFloat32: {
+            case t_RAW3DataType::ComplexFloat32: {
                 // write _Count.size() zeros
                 auto samples =
                     std::vector<simrad_complex_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
-                         samples.size() * RAW3_DataType_size(data_type));
+                         samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
-            case t_RAW3_DataType::Power: {
+            case t_RAW3DataType::Power: {
                 // write _Count.size() zeros
                 auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
-                         samples.size() * RAW3_DataType_size(data_type));
+                         samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
-            case t_RAW3_DataType::Angle: {
+            case t_RAW3DataType::Angle: {
                 // write _Count.size() zeros
                 auto samples = std::vector<uint8_t>(count * 2, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
-                         samples.size() * RAW3_DataType_size(data_type));
+                         samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
-            case t_RAW3_DataType::ComplexFloat16: {
+            case t_RAW3DataType::ComplexFloat16: {
                 // write _Count.size() zeros
                 auto samples = std::vector<simrad_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
-                         samples.size() * RAW3_DataType_size(data_type));
+                         samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             default:

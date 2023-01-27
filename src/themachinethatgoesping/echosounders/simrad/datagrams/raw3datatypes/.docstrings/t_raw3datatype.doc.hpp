@@ -1,4 +1,4 @@
-//sourcehash: 2a44713efaf6c1fa0056adda2eecf42d66108728e1ff8a4cd803908784fb3169
+//sourcehash: 75a7c65ca5f2c2a3c3cfe046157f4c7b35af79fe99d1ce46e2b6d77c0c6ca49c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,25 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_RAW3_DataType_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_get_raw3datatype_size =
+R"doc(Get the size of the RAW3DataType elements in bytes
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType = R"doc()doc";
+Parameter ``data_type``:
+    $Returns:
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_Angle = R"doc()doc";
+size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_ComplexFloat16 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType = R"doc(This flag is used in the RAW3 datagram to indicate the type of data)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_ComplexFloat32 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType_Angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_Power = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType_ComplexFloat16 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_datatypes_t_RAW3_DataType_PowerAndAngle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType_ComplexFloat32 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType_Power = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_raw3datatypes_t_RAW3DataType_PowerAndAngle = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
