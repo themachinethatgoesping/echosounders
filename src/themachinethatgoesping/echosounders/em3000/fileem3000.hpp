@@ -30,6 +30,7 @@
 #include "filedatainterfaces/em3000environmentdatainterface.hpp"
 #include "filedatainterfaces/em3000navigationdatainterface.hpp"
 #include "filedatainterfaces/em3000otherfiledatainterface.hpp"
+#include "filedatainterfaces/em3000pingdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -63,9 +64,9 @@ class FileEM3000
         _environment_interface =
             std::make_shared<filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>>(
                 _navigation_interface);
-    // std::shared_ptr<filedatainterfaces::EM3000PingDataInterface<t_ifstream>> _ping_interface =
-    //     std::make_shared<filedatainterfaces::EM3000PingDataInterface<t_ifstream>>(
-    //         _environment_interface);
+    std::shared_ptr<filedatainterfaces::EM3000PingDataInterface<t_ifstream>> _ping_interface =
+        std::make_shared<filedatainterfaces::EM3000PingDataInterface<t_ifstream>>(
+            _environment_interface);
 
   public:
     // inherit constructors
@@ -118,7 +119,7 @@ class FileEM3000
         _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        //_ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
 
         progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
 
@@ -134,7 +135,7 @@ class FileEM3000
         _otherfiledata_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
 
-        //_ping_interface->init_from_file(force, progress_bar);
+        _ping_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
         progress_bar.close(std::string("Done"));
     }
@@ -151,10 +152,6 @@ class FileEM3000
     {
         return *_environment_interface;
     }
-    // filedatainterfaces::EM3000PingDataInterface<t_ifstream>& ping_interface()
-    // {
-    //     return *_ping_interface;
-    // }
     filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>& annotation_interface()
     {
         return *_annotation_interface;
@@ -162,6 +159,10 @@ class FileEM3000
     filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>& otherfiledata_interface()
     {
         return *_otherfiledata_interface;
+    }
+    filedatainterfaces::EM3000PingDataInterface<t_ifstream>& ping_interface()
+    {
+        return *_ping_interface;
     }
 
     // filedatacontainers::EM3000PingContainer<t_ifstream> pings() const

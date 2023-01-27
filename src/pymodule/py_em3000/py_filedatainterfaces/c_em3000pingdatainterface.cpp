@@ -18,31 +18,31 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradpingdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000pingdatainterface.hpp"
 
 #include "../../py_filetemplates/py_datainterfaces/i_pingdatainterface.hpp"
-#include "c_simraddatagraminterface.hpp"
+#include "c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_simrad {
+namespace py_em3000 {
 namespace py_filedatainterfaces {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::filetemplates;
-using namespace themachinethatgoesping::echosounders::simrad;
+using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradPingDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000PingDataInterface
 
 template<typename T_FileStream>
-void py_create_class_simradpingdatainterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_em3000pingdatainterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_pingdatainterface::
         PingDataInterface_add_interface;
-    using T_BaseClass = filedatainterfaces::SimradPingDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::EM3000PingDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
@@ -61,11 +61,11 @@ void py_create_class_simradpingdatainterface(py::module& m, const std::string& C
     // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
-void init_c_simradpingdatainterface(pybind11::module& m)
+void init_c_em3000pingdatainterface(pybind11::module& m)
 {
-    py_create_class_simradpingdatainterface<std::ifstream>(m, "SimradPingDataInterface");
-    py_create_class_simradpingdatainterface<datastreams::MappedFileStream>(
-        m, "SimradPingDataInterface_mapped");
+    py_create_class_em3000pingdatainterface<std::ifstream>(m, "EM3000PingDataInterface");
+    py_create_class_em3000pingdatainterface<datastreams::MappedFileStream>(
+        m, "EM3000PingDataInterface_mapped");
 }
 
 }

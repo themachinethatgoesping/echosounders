@@ -27,15 +27,15 @@ void init_c_em3000environmentdatainterface(
     pybind11::module& m); // c_em3000environmentdatainterface.cpp
 void init_c_em3000environmentdatainterfaceperfile(
     pybind11::module& m); // c_em3000environmentdatainterfaceperfile.cpp
-// void init_c_em3000pingdatainterface(pybind11::module& m); // c_em3000pingdatainterface.cpp
-// void init_c_em3000pingdatainterfaceperfile(
-//     pybind11::module& m); // c_em3000pingdatainterfaceperfile.cpp
 void init_c_em3000annotationdatainterface(
     pybind11::module& m); // c_em3000annotationdatainterface.cpp
 void init_c_em3000annotationdatainterfaceperfile(pybind11::module& m);
 void init_c_em3000otherfiledatainterface(pybind11::module& m); // c_em3000otherfiledatainterface.cpp
 void init_c_em3000otherfiledatainterfaceperfile(
     pybind11::module& m); // c_em3000otherfiledatainterfaceperfile.cpp
+void init_c_em3000pingdatainterface(pybind11::module& m); // c_em3000pingdatainterface.cpp
+void init_c_em3000pingdatainterfaceperfile(
+    pybind11::module& m); // c_em3000pingdatainterfaceperfile.cpp
 
 // -- create submodule --
 void init_m_em3000filedatainterfaces(pybind11::module& m)
@@ -55,8 +55,8 @@ void init_m_em3000filedatainterfaces(pybind11::module& m)
     init_c_em3000otherfiledatainterface(subm);
     init_c_em3000otherfiledatainterfaceperfile(subm);
 
-    // init_c_em3000pingdatainterface(subm);
-    // init_c_em3000pingdatainterfaceperfile(subm);
+    init_c_em3000pingdatainterface(subm);
+    init_c_em3000pingdatainterfaceperfile(subm);
 }
 
 }

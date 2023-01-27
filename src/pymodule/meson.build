@@ -120,6 +120,8 @@ sources = [
     'py_em3000/py_filedatainterfaces/c_em3000navigationdatainterfaceperfile.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000configurationdatainterface.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000configurationdatainterfaceperfile.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000pingdatainterface.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000pingdatainterfaceperfile.cpp',
     'py_em3000/py_filedatatypes/module.cpp',
     'py_em3000/py_filedatatypes/c_em3000pingrawdata.cpp',
     'py_em3000/py_filedatatypes/c_em3000ping.cpp',
