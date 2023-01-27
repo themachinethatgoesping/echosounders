@@ -60,8 +60,6 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
         //                        DOC_EM3000Ping(raw_data),
         //                        py::return_value_policy::reference_internal)
 
-
-
         // ----- this is also commented out in simrad equivalent-----
         // --- variable access ---
 

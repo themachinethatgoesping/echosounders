@@ -15,11 +15,11 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
-#include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
-#include "../../../themachinethatgoesping/echosounders/em3000/fileem3000.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/fileem3000.hpp"
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 
 #include "../../py_filetemplates/py_datatypes/i_ping.hpp"
 
@@ -64,8 +64,8 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
 
         // .def("load_data", &t_EM3000PingRawData::load_data, DOC_EM3000PingRawData(load_data))
         // .def(
-        //     "release_data", &t_EM3000PingRawData::release_data, DOC_EM3000PingRawData(release_data))
-
+        //     "release_data", &t_EM3000PingRawData::release_data,
+        //     DOC_EM3000PingRawData(release_data))
 
         // ----- this is also commented out in simrad equivalent-----
         // ----- operators -----

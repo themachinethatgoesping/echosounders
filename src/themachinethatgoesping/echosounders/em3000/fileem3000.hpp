@@ -215,13 +215,60 @@ class FileEM3000
 
         switch (type)
         {
-                //     case t_EM3000DatagramIdentifier::MRU0:
-                //         [[fallthrough]];
-                //     case t_EM3000DatagramIdentifier::NME0: {
-                //         _navigation_interface->add_datagram_info(datagram_info);
-                //         header.skip(ifs);
-                //         break;
-                //     }
+                // Navigation datagrams
+            case t_EM3000DatagramIdentifier::AttitudeDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::NetworkAttitudeVelocityDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::ClockDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::DepthOrHeightDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::HeadingDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::PositionDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth: {
+                _navigation_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
+                break;
+            }
+                // multibeam data datagrams
+            case t_EM3000DatagramIdentifier::XYZDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::ExtraDetections:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::RawRangeAndAngle:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::SeabedImageData:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
+                _ping_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
+                break;
+            }
+                // Environment datagrams
+            case t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram: {
+                _environment_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
+                break;
+            }
+                // Configuration datagrams
+            case t_EM3000DatagramIdentifier::InstallationParametersStart:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::InstallationParametersStop:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::RuntimeParameters:
+                [[fallthrough]];
+            case t_EM3000DatagramIdentifier::ExtraParameters: {
+                _configuration_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
+                break;
+            }
                 //     case t_EM3000DatagramIdentifier::XML0: {
 
                 //         auto xml = datagrams::XML0::from_stream(ifs, header);

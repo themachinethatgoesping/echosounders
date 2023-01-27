@@ -57,11 +57,11 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     SoundSpeedProfileDatagram = 0x55,
 
     // Multibeam parameters
-    InstallationParametersStart = 0x49,
-    InstallationParametersStop  = 0x69,
-    RuntimeParameters           = 0x52,
-    MechanicalTransducerTilt    = 0x4A, ///< not yet implemented
-    ExtraParameters             = 0x33,
+    InstallationParametersStart             = 0x49,
+    InstallationParametersStop              = 0x69,
+    RuntimeParameters                       = 0x52,
+    MechanicalTransducerTilt_NotImplemented = 0x4A, ///< not yet implemented
+    ExtraParameters                         = 0x33,
 
     // PU information and status
     PUIDOutput         = 0x30,

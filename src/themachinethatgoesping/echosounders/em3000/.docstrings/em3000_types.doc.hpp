@@ -1,4 +1,4 @@
-//sourcehash: 7761f353d0ca53d32c564ed91b9154ae7c61badcc26636be8431db2f09679523
+//sourcehash: ea44964c5c69c2ad9a5976081d60cfaff65314905001b85f9628fd4fe0f68c5a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,7 +68,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_InstallationParametersStop = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MechanicalTransducerTilt = R"doc(< not yet implemented)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_MechanicalTransducerTilt_NotImplemented = R"doc(< not yet implemented)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_NetworkAttitudeVelocityDatagram = R"doc()doc";
 
