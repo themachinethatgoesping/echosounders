@@ -107,6 +107,7 @@ sources = [
     'py_em3000/py_datagrams/module.cpp',
     'py_em3000/py_filedatacontainers/module.cpp',
     'py_em3000/py_filedatacontainers/c_em3000datagramcontainer.cpp',
+    'py_em3000/py_filedatacontainers/c_em3000pingcontainer.cpp',
     'py_em3000/py_filedatainterfaces/module.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000datagraminterface.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000otherfiledatainterface.cpp',

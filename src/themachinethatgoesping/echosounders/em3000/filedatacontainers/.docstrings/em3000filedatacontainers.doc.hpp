@@ -1,4 +1,4 @@
-//sourcehash: 9cb253d2068954a64572a4750078e33f2a0676e555ff97b29f7782866170188b
+//sourcehash: ddba96d413b4b38d4cf328bc70426851c4b30eb72b07e8538d8056a6f9b164fa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,38 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_SimradPingRawData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_add_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_datagram_info_raw_data = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_get_name = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_get_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_get_sample_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_has_angle = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_has_power = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_load_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_ping_data =
-R"doc(< when implementing EK60, this must become a variant type (RAW3 or
-RAW0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_ping_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_read_sample_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_release_data = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
