@@ -39,19 +39,19 @@ namespace filedatainterfaces {
  * @tparam t_ifstream
  */
 template<typename t_ifstream>
-class SimradOtherDataInterface
+class SimradOtherFileDataInterface
     : public filetemplates::datainterfaces::I_FileDataInterface<
-          SimradOtherFileDataInterfacePerFile<t_ifstream>>
+          init_c_simradotherfiledatainterfaceperfile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_FileDataInterface<
-        SimradOtherFileDataInterfacePerFile<t_ifstream>>;
+        init_c_simradotherfiledatainterfaceperfile<t_ifstream>>;
 
   public:
-    SimradOtherDataInterface()
-        : t_base("SimradOtherDataInterface")
+    SimradOtherFileDataInterface()
+        : t_base("SimradOtherFileDataInterface")
     {
     }
-    ~SimradOtherDataInterface() = default;
+    ~SimradOtherFileDataInterface() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)

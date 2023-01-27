@@ -110,6 +110,8 @@ sources = [
     'py_em3000/py_filedatainterfaces/c_em3000datagraminterface.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000otherfiledatainterface.cpp',
     'py_em3000/py_filedatainterfaces/c_em3000otherfiledatainterfaceperfile.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000annotationdatainterface.cpp',
+    'py_em3000/py_filedatainterfaces/c_em3000annotationdatainterfaceperfile.cpp',
     'py_em3000/module.cpp',
     'py_em3000/c_fileem3000.cpp',
 ]

@@ -79,9 +79,9 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
         py::overload_cast<>(&FileSimradRaw<T_FileStream>::annotation_interface),
         DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, annotation_interface));
     cls.def_property_readonly(
-        "otherdata_interface",
-        py::overload_cast<>(&FileSimradRaw<T_FileStream>::otherdata_interface),
-        DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, otherdata_interface));
+        "otherfiledata_interface",
+        py::overload_cast<>(&FileSimradRaw<T_FileStream>::otherfiledata_interface),
+        DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw, otherfiledata_interface));
 
     cls.def("pings",
             py::overload_cast<>(&FileSimradRaw<T_FileStream>::pings, py::const_),

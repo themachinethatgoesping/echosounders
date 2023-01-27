@@ -67,8 +67,9 @@ class FileSimradRaw
     std::shared_ptr<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>
         _annotation_interface =
             std::make_shared<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>();
-    std::shared_ptr<filedatainterfaces::SimradOtherDataInterface<t_ifstream>> _otherdata_interface =
-        std::make_shared<filedatainterfaces::SimradOtherDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>>
+        _otherfiledata_interface =
+            std::make_shared<filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>>();
 
   public:
     // inherit constructors
@@ -114,8 +115,6 @@ class FileSimradRaw
     using t_base::init_interfaces;
     void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        // if (progress_bar.is_initialized())
-        //     progress_bar = progress_bar.copy();
         progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
 
         _configuration_interface->init_from_file(force, progress_bar);
@@ -127,7 +126,7 @@ class FileSimradRaw
 
         _annotation_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
-        _otherdata_interface->init_from_file(force, progress_bar);
+        _otherfiledata_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
 
         _ping_interface->init_from_file(force, progress_bar);
@@ -155,9 +154,9 @@ class FileSimradRaw
     {
         return *_annotation_interface;
     }
-    filedatainterfaces::SimradOtherDataInterface<t_ifstream>& otherdata_interface()
+    filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>& otherfiledata_interface()
     {
-        return *_otherdata_interface;
+        return *_otherfiledata_interface;
     }
 
     filedatacontainers::SimradPingContainer<t_ifstream> pings() const
@@ -242,7 +241,7 @@ class FileSimradRaw
                 }
                 else
                 {
-                    _otherdata_interface->add_datagram_info(datagram_info);
+                    _otherfiledata_interface->add_datagram_info(datagram_info);
                 }
                 // don't skip here, because the XML datagram was read already
                 break;
@@ -263,7 +262,7 @@ class FileSimradRaw
                 break;
             }
             default: {
-                _otherdata_interface->add_datagram_info(datagram_info);
+                _otherfiledata_interface->add_datagram_info(datagram_info);
                 header.skip(ifs);
                 break;
             }

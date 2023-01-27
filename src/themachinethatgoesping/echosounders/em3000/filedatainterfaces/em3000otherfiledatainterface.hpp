@@ -42,7 +42,7 @@ namespace filedatainterfaces {
  * @tparam t_ifstream
  */
 template<typename t_ifstream>
-class EM3000OtherDataInterface
+class EM3000OtherFileDataInterface
     : public filetemplates::datainterfaces::I_FileDataInterface<
           EM3000OtherFileDataInterfacePerFile<t_ifstream>>
 {
@@ -50,11 +50,11 @@ class EM3000OtherDataInterface
         EM3000OtherFileDataInterfacePerFile<t_ifstream>>;
 
   public:
-    EM3000OtherDataInterface()
-        : t_base("EM3000OtherDataInterface")
+    EM3000OtherFileDataInterface()
+        : t_base("EM3000OtherFileDataInterface")
     {
     }
-    ~EM3000OtherDataInterface() = default;
+    ~EM3000OtherFileDataInterface() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)

@@ -24,6 +24,7 @@
 #include "em3000_datagrams.hpp"
 #include "em3000_types.hpp"
 
+#include "filedatainterfaces/em3000annotationdatainterface.hpp"
 #include "filedatainterfaces/em3000datagraminterface.hpp"
 #include "filedatainterfaces/em3000otherfiledatainterface.hpp"
 
@@ -41,8 +42,12 @@ class FileEM3000
                                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
 
     // ----- file data interfaces -----
-    std::shared_ptr<filedatainterfaces::EM3000OtherDataInterface<t_ifstream>> _otherdata_interface =
-        std::make_shared<filedatainterfaces::EM3000OtherDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>>
+        _otherfiledata_interface =
+            std::make_shared<filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>>();
+    std::shared_ptr<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>
+        _annotation_interface =
+            std::make_shared<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>();
 
   public:
     // inherit constructors
@@ -89,12 +94,22 @@ class FileEM3000
     void init_interfaces([[maybe_unused]] bool               force,
                          tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        progress_bar.init(0., double(2), fmt::format("Initializing file interfaces"));
+        progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
+
+        // _configuration_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
+        // _navigation_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
+        // _environment_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
 
-        _otherdata_interface->init_from_file(force, progress_bar);
+        _annotation_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
-        
+        _otherfiledata_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
+
+        //_ping_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         progress_bar.close(std::string("Done"));
     }
 
@@ -114,13 +129,13 @@ class FileEM3000
     // {
     //     return *_ping_interface;
     // }
-    // filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>& annotation_interface()
-    // {
-    //     return *_annotation_interface;
-    // }
-    filedatainterfaces::EM3000OtherDataInterface<t_ifstream>& otherdata_interface()
+    filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>& annotation_interface()
     {
-        return *_otherdata_interface;
+        return *_annotation_interface;
+    }
+    filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>& otherfiledata_interface()
+    {
+        return *_otherfiledata_interface;
     }
 
     // filedatacontainers::EM3000PingContainer<t_ifstream> pings() const
@@ -203,7 +218,7 @@ class FileEM3000
                 //         }
                 //         else
                 //         {
-                //             _otherdata_interface->add_datagram_info(datagram_info);
+                //             _otherfiledata_interface->add_datagram_info(datagram_info);
                 //         }
                 //         // don't skip here, because the XML datagram was read already
                 //         break;
@@ -224,7 +239,7 @@ class FileEM3000
                 //         break;
                 //     }
             default: {
-                _otherdata_interface->add_datagram_info(datagram_info);
+                _otherfiledata_interface->add_datagram_info(datagram_info);
                 header.skip(ifs);
                 break;
             }

@@ -1,4 +1,4 @@
-//sourcehash: c78c59a2579b0992170dfbab6f51f12f7435f2769ee07cb3832f4d45d389e97a
+//sourcehash: 3c8a856d406fc4454bfacdcf2a8f81afa81b58aa980fef893ecdda27a441a5bd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterfacePerFile =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_init_c_simradotherfiledatainterfaceperfile =
 R"doc(FileDataInterface (for single files) for packages that fit neither of
 the other FileDataInterfaces (Configuration, Navigation, Annotation,
 Environment, Ping)
@@ -48,9 +48,9 @@ packages are always read from file
 
 Template parameter ``t_ifstream``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterfacePerFile_SimradOtherFileDataInterfacePerFile = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_init_c_simradotherfiledatainterfaceperfile_init_c_simradotherfiledatainterfaceperfile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterfacePerFile_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_init_c_simradotherfiledatainterfaceperfile_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

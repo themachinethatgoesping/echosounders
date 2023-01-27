@@ -35,15 +35,15 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000OtherDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000OtherFileDataInterface
 
 template<typename T_FileStream>
-void py_create_class_EM3000OtherDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_EM3000OtherFileDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_filedatainterface::
         FileDataInterface_add_interface;
 
-    using T_BaseClass = filedatainterfaces::EM3000OtherDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::EM3000OtherFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
@@ -63,9 +63,9 @@ void py_create_class_EM3000OtherDataInterface(py::module& m, const std::string& 
 void init_c_em3000otherfiledatainterface(pybind11::module& m)
 {
 
-    py_create_class_EM3000OtherDataInterface<std::ifstream>(m, "EM3000OtherDataInterface");
-    py_create_class_EM3000OtherDataInterface<datastreams::MappedFileStream>(
-        m, "EM3000OtherDataInterface_mapped");
+    py_create_class_EM3000OtherFileDataInterface<std::ifstream>(m, "EM3000OtherFileDataInterface");
+    py_create_class_EM3000OtherFileDataInterface<datastreams::MappedFileStream>(
+        m, "EM3000OtherFileDataInterface_mapped");
 }
 
 }

@@ -1,4 +1,4 @@
-//sourcehash: d04f67e9f55fbfc620febd3ae69bd45cbd7dc8c2617ca099d7f0b2320d98eb2e
+//sourcehash: 9938f26b58045f0010c90e0d5e24bfd099ca7d1eb61f640c1d043f4d8c19fa7e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherFileDataInterface =
 R"doc(FileDataInterface (for multiple files) for packages that fit neither
 of the other FileDataInterfaces (Configuration, Navigation,
 Annotation, Environment, Ping)
@@ -48,9 +48,9 @@ packages are always read from file
 
 Template parameter ``t_ifstream``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface_EM3000OtherDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherFileDataInterface_EM3000OtherFileDataInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherFileDataInterface_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/simradannotationdatainterfaceperfile.doc.hpp"
+#include ".docstrings/em3000annotationdatainterfaceperfile.doc.hpp"
 
 /* library includes */
 #include <magic_enum.hpp>
@@ -19,16 +19,17 @@
 
 #include "../../filetemplates/datainterfaces/i_annotationdatainterface.hpp"
 
-#include "../simrad_datagrams.hpp"
-#include "../simrad_types.hpp"
-#include "simraddatagraminterface.hpp"
+#include "../em3000_datagrams.hpp"
+#include "../em3000_types.hpp"
+#include "em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace simrad {
+namespace em3000 {
 namespace filedatainterfaces {
+
 /**
- * @brief Interface to read annotation data (TAG0)
+ * @brief Interface to read annotation data (no kongsberg datagram is currently supported)
  * from a file (per file)
  *
  * This class can be accessed using the per_file function of the AnnotationDataInterface.
@@ -36,21 +37,21 @@ namespace filedatainterfaces {
  * @tparam t_ifstream
  */
 template<typename t_ifstream>
-class SimradAnnotationDataInterfacePerFile
+class EM3000AnnotationDataInterfacePerFile
     : public filetemplates::datainterfaces::I_AnnotationDataInterfacePerFile<
-          SimradDatagramInterface<t_ifstream>>
+          EM3000DatagramInterface<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_AnnotationDataInterfacePerFile<
-        SimradDatagramInterface<t_ifstream>>;
+        EM3000DatagramInterface<t_ifstream>>;
 
   public:
-    SimradAnnotationDataInterfacePerFile()
-        : t_base("SimradAnnotationDataInterfacePerFile")
+    EM3000AnnotationDataInterfacePerFile()
+        : t_base("EM3000AnnotationDataInterfacePerFile")
     {
     }
-    ~SimradAnnotationDataInterfacePerFile() = default;
+    ~EM3000AnnotationDataInterfacePerFile() = default;
 
-    // --------------------- simrad specific functions ---------------------
+    // --------------------- em3000 specific functions ---------------------
     /* get infos */
 
     // ----- objectprinter -----
@@ -61,13 +62,13 @@ class SimradAnnotationDataInterfacePerFile
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
 
-        printer.register_section("SimradAnnotationDataInterfacePerFile");
+        printer.register_section("EM3000AnnotationDataInterfacePerFile");
 
         return printer;
     }
 };
 
 }
-} // namespace simrad
+} // namespace em3000
 } // namespace echosounders
 } // namespace themachinethatgoesping

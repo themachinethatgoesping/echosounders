@@ -18,33 +18,33 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simrad/filedatainterfaces/simradannotationdatainterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000annotationdatainterface.hpp"
 
 #include "../../py_filetemplates/py_datainterfaces/i_annotationdatainterface.hpp"
 
-#include "c_simraddatagraminterface.hpp"
+#include "c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
-namespace py_simrad {
+namespace py_em3000 {
 namespace py_filedatainterfaces {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::filetemplates;
-using namespace themachinethatgoesping::echosounders::simrad;
+using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradAnnotationDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000AnnotationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradAnnotationDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_EM3000AnnotationDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_annotationdatainterface::
         AnnotationDataInterface_add_interface;
 
-    using T_BaseClass = filedatainterfaces::SimradAnnotationDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::EM3000AnnotationDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
@@ -58,16 +58,16 @@ void py_create_class_SimradAnnotationDataInterface(py::module& m, const std::str
     /* default binary functions*/
     /* __PYCLASS_DEFAULT_BINARY__(LinearInterpolator)*/
     /* default printing functions */
-    // cls __PYCLASS_DEFAULT_PRINTING__(SimradAnnotationDataInterface<T_FileStream>);
+    // cls __PYCLASS_DEFAULT_PRINTING__(EM3000AnnotationDataInterface<T_FileStream>);
 }
 
-void init_c_simradannotationdatainterface(pybind11::module& m)
+void init_c_em3000annotationdatainterface(pybind11::module& m)
 {
 
-    py_create_class_SimradAnnotationDataInterface<std::ifstream>(m,
-                                                                 "SimradAnnotationDataInterface");
-    py_create_class_SimradAnnotationDataInterface<datastreams::MappedFileStream>(
-        m, "SimradAnnotationDataInterface_mapped");
+    py_create_class_EM3000AnnotationDataInterface<std::ifstream>(m,
+                                                                 "EM3000AnnotationDataInterface");
+    py_create_class_EM3000AnnotationDataInterface<datastreams::MappedFileStream>(
+        m, "EM3000AnnotationDataInterface_mapped");
 }
 
 }

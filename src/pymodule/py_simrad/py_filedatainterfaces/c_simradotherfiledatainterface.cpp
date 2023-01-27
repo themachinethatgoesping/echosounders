@@ -35,15 +35,15 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradOtherDataInterface
+    themachinethatgoesping, echosounders, simrad, filedatainterfaces, SimradOtherFileDataInterface
 
 template<typename T_FileStream>
-void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_SimradOtherFileDataInterface(py::module& m, const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_filedatainterface::
         FileDataInterface_add_interface;
 
-    using T_BaseClass = filedatainterfaces::SimradOtherDataInterface<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::SimradOtherFileDataInterface<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
@@ -63,9 +63,9 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
 void init_c_simradotherfiledatainterface(pybind11::module& m)
 {
 
-    py_create_class_SimradOtherDataInterface<std::ifstream>(m, "SimradOtherDataInterface");
-    py_create_class_SimradOtherDataInterface<datastreams::MappedFileStream>(
-        m, "SimradOtherDataInterface_mapped");
+    py_create_class_SimradOtherFileDataInterface<std::ifstream>(m, "SimradOtherFileDataInterface");
+    py_create_class_SimradOtherFileDataInterface<datastreams::MappedFileStream>(
+        m, "SimradOtherFileDataInterface_mapped");
 }
 
 }

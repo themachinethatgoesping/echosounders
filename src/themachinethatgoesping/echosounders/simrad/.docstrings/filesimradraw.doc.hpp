@@ -1,4 +1,4 @@
-//sourcehash: 0ab8a3ba30f0784e43bea96dde2cd7a3d689c8310c77cefcdb82db63809f519a
+//sourcehash: a17dd6d05893c648ceead89f92b25f7484a2930908bee08b2940d18637622ece
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,9 +74,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRa
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_navigation_interface_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherfiledata_interface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherdata_interface_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_otherfiledata_interface_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_FileSimradRaw_ping_interface = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 64ee05db1763e041dff110384d0ded1c90fc1b9625d5a2aec02351dabb4ded37
+//sourcehash: f1a051efba881d0b3313f1914b5ce0cd33a63c6b80b9b80a4f87b05531fc6d23
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,18 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface =
-R"doc(FileDataInterface (for multiple files) for packages that fit neither
-of the other FileDataInterfaces (Configuration, Navigation,
-Annotation, Environment, Ping)
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000AnnotationDataInterfacePerFile =
+R"doc(Interface to read annotation data (no kongsberg datagram is currently
+supported) from a file (per file)
 
-No datagram caching is implemented for this interface. Accessed
-packages are always read from file
+This class can be accessed using the per_file function of the
+AnnotationDataInterface.
 
 Template parameter ``t_ifstream``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface_SimradOtherFileDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000AnnotationDataInterfacePerFile_EM3000AnnotationDataInterfacePerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherFileDataInterface_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000AnnotationDataInterfacePerFile_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -1,4 +1,4 @@
-//sourcehash: f73f98d21e0c5d6dc9602ab53359a3fc171529f5a5c74a67295aa935b41bd360
+//sourcehash: 21726bbe1bea7129ebb4df68c2f81507a0bfe35f093b3f49510e664c600703a4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,14 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradAnnotationDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradAnnotationDataInterface =
+R"doc(Interface to read Simrad annotation data (TAG0) from a file (multiple
+files)
+
+Only sorts the supported datagrams. No caching is done. Gives access
+to SimradAnnotationDataInterfacePerFile using the per_file function.
+
+Template parameter ``t_ifstream``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradAnnotationDataInterface_SimradAnnotationDataInterface = R"doc()doc";
 

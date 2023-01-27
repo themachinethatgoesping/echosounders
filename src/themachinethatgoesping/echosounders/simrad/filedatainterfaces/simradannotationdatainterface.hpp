@@ -29,6 +29,14 @@ namespace echosounders {
 namespace simrad {
 namespace filedatainterfaces {
 
+/**
+ * @brief Interface to read Simrad annotation data (TAG0) from a file (multiple files)
+ *
+ * Only sorts the supported datagrams. No caching is done.
+ * Gives access to SimradAnnotationDataInterfacePerFile using the per_file function.
+ *
+ * @tparam t_ifstream
+ */
 template<typename t_ifstream>
 class SimradAnnotationDataInterface
     : public filetemplates::datainterfaces::I_AnnotationDataInterface<

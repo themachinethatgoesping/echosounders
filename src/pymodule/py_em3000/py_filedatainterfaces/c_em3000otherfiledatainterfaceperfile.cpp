@@ -35,7 +35,7 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000OtherDataInterface
+    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000OtherFileDataInterface
 
 template<typename T_FileStream>
 void py_create_class_EM3000OtherFileDataInterfacePerFile(py::module&        m,

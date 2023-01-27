@@ -71,14 +71,14 @@ void py_create_class_FileEM3000(py::module& m, const std::string& CLASS_NAME)
     //     "ping_interface",
     //     py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
     //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ping_interface));
-    // cls.def_property_readonly(
-    //     "annotation_interface",
-    //     py::overload_cast<>(&FileEM3000<T_FileStream>::annotation_interface),
-    //     DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, annotation_interface));
     cls.def_property_readonly(
-        "otherdata_interface",
-        py::overload_cast<>(&FileEM3000<T_FileStream>::otherdata_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, otherdata_interface));
+        "annotation_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::annotation_interface),
+        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, annotation_interface));
+    cls.def_property_readonly(
+        "otherfiledata_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::otherfiledata_interface),
+        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, otherfiledata_interface));
 
     // cls.def("pings",
     //         py::overload_cast<>(&FileEM3000<T_FileStream>::pings, py::const_),
