@@ -44,8 +44,8 @@ class I_FileDataInterface
 
   public:
     // member types
-    using type_FileDataInterfacePerFile = t_filedatainterface_perfile;
-    using type_DatagramInterface = typename type_FileDataInterfacePerFile::type_DatagramInterface;
+    using type_FileDataInterface_PerFile = t_filedatainterface_perfile;
+    using type_DatagramInterface = typename type_FileDataInterface_PerFile::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }
@@ -60,6 +60,15 @@ class I_FileDataInterface
     {
     }
     virtual ~I_FileDataInterface() = default;
+
+    virtual void add_file_information(const std::shared_ptr<std::vector<std::string>>& file_paths)
+    {
+        for (unsigned int i = 0; i < file_paths->size(); ++i)
+        {
+            add_file_interface(i);
+            per_file(i).add_file_information(i, file_paths->at(i));
+        }
+    }
 
     virtual void add_file_interface(size_t file_nr)
     {

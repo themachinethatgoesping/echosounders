@@ -43,6 +43,9 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 {
     using t_base = t_datagraminterface;
 
+    size_t      _file_nr   = std::numeric_limits<size_t>::max();
+    std::string _file_path = "not registered";
+
   public:
     using type_DatagramInterface = t_datagraminterface;
 
@@ -71,6 +74,12 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return true;
     }
 
+    virtual void add_file_information(size_t file_nr, std::string file_path)
+    {
+        _file_nr   = file_nr;
+        _file_path = std::move(file_path);
+    }
+
     /**
      * @brief Get the file nr
      * This function assumes that the file nr is the same for all datagrams in the file
@@ -80,9 +89,16 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     size_t get_file_nr() const
     {
         if (this->_datagram_infos_all.empty())
-            throw std::runtime_error("get_file_nr: no datagrams in file");
+            return _file_nr;
+        // throw std::runtime_error("get_file_nr: no datagrams in file");
 
-        return this->_datagram_infos_all[0]->get_file_nr();
+        if (this->_datagram_infos_all[0]->get_file_nr() != _file_nr)
+            throw std::runtime_error(fmt::format(
+                "get_file_nr: file nr mismatch: file nr of first package is {} but should be {}",
+                this->_datagram_infos_all[0]->get_file_nr(),
+                _file_nr));
+
+        return _file_nr;
     }
 
     /**
@@ -94,8 +110,15 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::string get_file_path() const
     {
         if (this->_datagram_infos_all.empty())
-            throw std::runtime_error("get_file_name: no datagrams in file");
-        return this->_datagram_infos_all[0]->get_file_path();
+            return _file_path;
+
+        if (this->_datagram_infos_all[0]->get_file_path() != _file_path)
+            throw std::runtime_error(fmt::format("get_file_path: file path mismatch: file path of "
+                                                 "first package is {} but should be {}",
+                                                 this->_datagram_infos_all[0]->get_file_path(),
+                                                 _file_path));
+
+        return _file_path;
     }
 
     // ----- objectprinter -----

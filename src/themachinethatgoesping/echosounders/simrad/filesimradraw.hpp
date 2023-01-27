@@ -115,8 +115,16 @@ class FileSimradRaw
     using t_base::init_interfaces;
     void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
+        // add file info
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
 
+        progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
+        ;
         _configuration_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
         _navigation_interface->init_from_file(force, progress_bar);

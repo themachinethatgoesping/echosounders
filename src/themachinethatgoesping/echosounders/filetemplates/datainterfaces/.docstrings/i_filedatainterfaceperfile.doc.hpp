@@ -1,4 +1,4 @@
-//sourcehash: 02429b553224ad1a200d04f3297c347ffb2dc35a8db5d993ca276dabaaff0b3b
+//sourcehash: 240800dbc5d4c4b62c0516ca8afb058fcce5614dc4952b727ac1c56bb6dbda94
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,7 +42,13 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_I_FileDataInterfacePerFile = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_add_file_information = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_deinitialize = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_file_nr = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_file_nr =
 R"doc(Get the file nr This function assumes that the file nr is the same for
