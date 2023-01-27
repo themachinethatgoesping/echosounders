@@ -30,10 +30,10 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
     dat.set_timestamp(123);
     dat.set_channel_id("channel1");
     std::vector<t_RAW3DataType> types = { t_RAW3DataType::Power,
-                                           t_RAW3DataType::Angle,
-                                           t_RAW3DataType::PowerAndAngle,
-                                           t_RAW3DataType::ComplexFloat32,
-                                           t_RAW3DataType::ComplexFloat16 };
+                                          t_RAW3DataType::Angle,
+                                          t_RAW3DataType::PowerAndAngle,
+                                          t_RAW3DataType::ComplexFloat32,
+                                          t_RAW3DataType::ComplexFloat16 };
 
     dat._NumberOfComplexSamples = 3;
     dat._Offset                 = 1;

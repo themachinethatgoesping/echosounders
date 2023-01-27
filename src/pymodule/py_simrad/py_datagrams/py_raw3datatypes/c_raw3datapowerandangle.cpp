@@ -27,25 +27,25 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3DataPowerAndAngle(NAME)                                                           \
+#define DOC_RAW3DataPowerAndAngle(NAME)                                                            \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        RAW3DataPowerAndAngle,                                                                    \
+        raw3datatypes,                                                                             \
+        RAW3DataPowerAndAngle,                                                                     \
         NAME)
 
 void init_c_raw3datapowerandangle(pybind11::module& m)
 {
     py::class_<RAW3DataPowerAndAngle, i_RAW3Data>(m,
-                                                    "RAW3DataPowerAndAngle",
-                                                    DOC(themachinethatgoesping,
-                                                        echosounders,
-                                                        simrad,
-                                                        datagrams,
-                                                        raw3datatypes,
-                                                        RAW3DataPowerAndAngle))
+                                                  "RAW3DataPowerAndAngle",
+                                                  DOC(themachinethatgoesping,
+                                                      echosounders,
+                                                      simrad,
+                                                      datagrams,
+                                                      raw3datatypes,
+                                                      RAW3DataPowerAndAngle))
         .def(py::init<>(), DOC_RAW3DataPowerAndAngle(RAW3DataPowerAndAngle))
         .def(py::init<xt::xtensor<simrad_short, 1>, xt::xtensor<uint8_t, 2>>(),
              DOC_RAW3DataPowerAndAngle(RAW3DataPowerAndAngle_2),

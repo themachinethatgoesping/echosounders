@@ -27,25 +27,25 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3DataComplexFloat32(NAME)                                                          \
+#define DOC_RAW3DataComplexFloat32(NAME)                                                           \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        RAW3DataComplexFloat32,                                                                   \
+        raw3datatypes,                                                                             \
+        RAW3DataComplexFloat32,                                                                    \
         NAME)
 
 void init_c_raw3datacomplexfloat32(pybind11::module& m)
 {
     py::class_<RAW3DataComplexFloat32, i_RAW3Data>(m,
-                                                     "RAW3DataComplexFloat32",
-                                                     DOC(themachinethatgoesping,
-                                                         echosounders,
-                                                         simrad,
-                                                         datagrams,
-                                                         raw3datatypes,
-                                                         RAW3DataComplexFloat32))
+                                                   "RAW3DataComplexFloat32",
+                                                   DOC(themachinethatgoesping,
+                                                       echosounders,
+                                                       simrad,
+                                                       datagrams,
+                                                       raw3datatypes,
+                                                       RAW3DataComplexFloat32))
         .def(py::init<>(), DOC_RAW3DataComplexFloat32(RAW3DataComplexFloat32))
         .def(py::init<xt::xtensor<simrad_float, 3>>(),
              DOC_RAW3DataComplexFloat32(RAW3DataComplexFloat32_2),
@@ -56,9 +56,7 @@ void init_c_raw3datacomplexfloat32(pybind11::module& m)
              &RAW3DataComplexFloat32::get_power,
              DOC_RAW3DataComplexFloat32(get_power),
              py::arg("dB") = false)
-        .def("get_angle",
-             &RAW3DataComplexFloat32::get_angle,
-             DOC_RAW3DataComplexFloat32(get_angle))
+        .def("get_angle", &RAW3DataComplexFloat32::get_angle, DOC_RAW3DataComplexFloat32(get_angle))
 
         // ----- properties -----
         .def_readwrite("complex_samples",

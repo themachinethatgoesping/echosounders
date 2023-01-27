@@ -27,25 +27,15 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3DataAngle(NAME)                                                                   \
-    DOC(themachinethatgoesping,                                                                    \
-        echosounders,                                                                              \
-        simrad,                                                                                    \
-        datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        RAW3DataAngle,                                                                            \
-        NAME)
+#define DOC_RAW3DataAngle(NAME)                                                                    \
+    DOC(themachinethatgoesping, echosounders, simrad, datagrams, raw3datatypes, RAW3DataAngle, NAME)
 
 void init_c_raw3dataangle(pybind11::module& m)
 {
-    py::class_<RAW3DataAngle, i_RAW3Data>(m,
-                                            "RAW3DataAngle",
-                                            DOC(themachinethatgoesping,
-                                                echosounders,
-                                                simrad,
-                                                datagrams,
-                                                raw3datatypes,
-                                                RAW3DataAngle))
+    py::class_<RAW3DataAngle, i_RAW3Data>(
+        m,
+        "RAW3DataAngle",
+        DOC(themachinethatgoesping, echosounders, simrad, datagrams, raw3datatypes, RAW3DataAngle))
         .def(py::init<>(), DOC_RAW3DataAngle(RAW3DataAngle))
         .def(py::init<xt::xtensor<uint8_t, 2>>(),
              DOC_RAW3DataAngle(RAW3DataAngle_2),

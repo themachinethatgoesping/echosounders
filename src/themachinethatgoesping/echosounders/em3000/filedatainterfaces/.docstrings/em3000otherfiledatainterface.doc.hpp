@@ -1,4 +1,4 @@
-//sourcehash: 6441b79263bad8589cf188203f09db0e8c9e914e9ca7165ee28a5ed26b28b21f
+//sourcehash: d04f67e9f55fbfc620febd3ae69bd45cbd7dc8c2617ca099d7f0b2320d98eb2e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,11 +38,19 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface =
+R"doc(FileDataInterface (for multiple files) for packages that fit neither
+of the other FileDataInterfaces (Configuration, Navigation,
+Annotation, Environment, Ping)
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface_SimradOtherDataInterface = R"doc()doc";
+No datagram caching is implemented for this interface. Accessed
+packages are always read from file
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface_printer = R"doc()doc";
+Template parameter ``t_ifstream``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface_EM3000OtherDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000OtherDataInterface_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

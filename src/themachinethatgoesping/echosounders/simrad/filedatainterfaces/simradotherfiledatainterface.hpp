@@ -22,20 +22,29 @@
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradotherfiledatainterface_perfile.hpp"
+#include "simradotherfiledatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simrad {
 namespace filedatainterfaces {
 
+/**
+ * @brief FileDataInterface (for multiple files) for packages that fit neither of the other
+ * FileDataInterfaces (Configuration, Navigation, Annotation, Environment, Ping)
+ *
+ * No datagram caching is implemented for this interface. Accessed packages are always read from
+ * file
+ *
+ * @tparam t_ifstream
+ */
 template<typename t_ifstream>
 class SimradOtherDataInterface
     : public filetemplates::datainterfaces::I_FileDataInterface<
-          SimradOtherFileDataInterface_PerFile<t_ifstream>>
+          SimradOtherFileDataInterfacePerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_FileDataInterface<
-        SimradOtherFileDataInterface_PerFile<t_ifstream>>;
+        SimradOtherFileDataInterfacePerFile<t_ifstream>>;
 
   public:
     SimradOtherDataInterface()

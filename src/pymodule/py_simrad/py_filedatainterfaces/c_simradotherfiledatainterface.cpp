@@ -60,7 +60,7 @@ void py_create_class_SimradOtherDataInterface(py::module& m, const std::string& 
     // cls __PYCLASS_DEFAULT_PRINTING__(T_BaseClass);
 }
 
-void init_c_SimradOtherDataInterface(pybind11::module& m)
+void init_c_simradotherfiledatainterface(pybind11::module& m)
 {
 
     py_create_class_SimradOtherDataInterface<std::ifstream>(m, "SimradOtherDataInterface");

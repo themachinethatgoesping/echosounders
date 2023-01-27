@@ -27,25 +27,25 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3DataSkipped(NAME)                                                                 \
+#define DOC_RAW3DataSkipped(NAME)                                                                  \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        RAW3DataSkipped,                                                                          \
+        raw3datatypes,                                                                             \
+        RAW3DataSkipped,                                                                           \
         NAME)
 
 void init_c_raw3dataskipped(pybind11::module& m)
 {
     py::class_<RAW3DataSkipped, i_RAW3Data>(m,
-                                              "RAW3DataSkipped",
-                                              DOC(themachinethatgoesping,
-                                                  echosounders,
-                                                  simrad,
-                                                  datagrams,
-                                                  raw3datatypes,
-                                                  RAW3DataSkipped))
+                                            "RAW3DataSkipped",
+                                            DOC(themachinethatgoesping,
+                                                echosounders,
+                                                simrad,
+                                                datagrams,
+                                                raw3datatypes,
+                                                RAW3DataSkipped))
         .def(py::init<>(), DOC_RAW3DataSkipped(RAW3DataSkipped))
         .def("__eq__", &RAW3DataSkipped::operator==, py::arg("other"))
 

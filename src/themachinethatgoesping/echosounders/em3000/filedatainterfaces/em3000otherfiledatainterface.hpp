@@ -10,7 +10,7 @@
 #include ".docstrings/em3000otherfiledatainterface.doc.hpp"
 
 /* generated doc strings */
-#include ".docstrings/simradotherfiledatainterface.doc.hpp"
+#include ".docstrings/em3000otherfiledatainterface.doc.hpp"
 
 /* library includes */
 #include <magic_enum.hpp>
@@ -22,30 +22,39 @@
 
 #include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
 
-#include "../simrad_datagrams.hpp"
-#include "../simrad_types.hpp"
-#include "simraddatagraminterface.hpp"
-#include "simradotherfiledatainterface_perfile.hpp"
+#include "../em3000_datagrams.hpp"
+#include "../em3000_types.hpp"
+#include "em3000datagraminterface.hpp"
+#include "em3000otherfiledatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace simrad {
+namespace em3000 {
 namespace filedatainterfaces {
 
+/**
+ * @brief FileDataInterface (for multiple files) for packages that fit neither of the other
+ * FileDataInterfaces (Configuration, Navigation, Annotation, Environment, Ping)
+ *
+ * No datagram caching is implemented for this interface. Accessed packages are always read from
+ * file
+ *
+ * @tparam t_ifstream
+ */
 template<typename t_ifstream>
-class SimradOtherDataInterface
+class EM3000OtherDataInterface
     : public filetemplates::datainterfaces::I_FileDataInterface<
-          SimradOtherFileDataInterface_PerFile<t_ifstream>>
+          EM3000OtherFileDataInterfacePerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_FileDataInterface<
-        SimradOtherFileDataInterface_PerFile<t_ifstream>>;
+        EM3000OtherFileDataInterfacePerFile<t_ifstream>>;
 
   public:
-    SimradOtherDataInterface()
-        : t_base("SimradOtherDataInterface")
+    EM3000OtherDataInterface()
+        : t_base("EM3000OtherDataInterface")
     {
     }
-    ~SimradOtherDataInterface() = default;
+    ~EM3000OtherDataInterface() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
@@ -58,6 +67,6 @@ class SimradOtherDataInterface
 };
 
 }
-} // namespace simrad
+} // namespace em3000
 } // namespace echosounders
 } // namespace themachinethatgoesping

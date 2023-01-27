@@ -89,10 +89,7 @@ class SimradPingRawData
 
     void load_data() { _ping_data.sample_data() = read_sample_data(); }
 
-    void release_data()
-    {
-        _ping_data.sample_data() = datagrams::raw3datatypes::RAW3DataSkipped();
-    }
+    void release_data() { _ping_data.sample_data() = datagrams::raw3datatypes::RAW3DataSkipped(); }
 
     // ----- i_RAW3Data interface -----
     bool has_power() const

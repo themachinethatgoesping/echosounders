@@ -25,6 +25,7 @@
 #include "em3000_types.hpp"
 
 #include "filedatainterfaces/em3000datagraminterface.hpp"
+#include "filedatainterfaces/em3000otherfiledatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -38,6 +39,10 @@ class FileEM3000
     using t_base =
         filetemplates::I_InputFile<datagrams::EM3000Datagram,
                                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
+
+    // ----- file data interfaces -----
+    std::shared_ptr<filedatainterfaces::EM3000OtherDataInterface<t_ifstream>> _otherdata_interface =
+        std::make_shared<filedatainterfaces::EM3000OtherDataInterface<t_ifstream>>();
 
   public:
     // inherit constructors
@@ -109,10 +114,10 @@ class FileEM3000
     // {
     //     return *_annotation_interface;
     // }
-    // filedatainterfaces::EM3000OtherDataInterface<t_ifstream>& otherdata_interface()
-    // {
-    //     return *_otherdata_interface;
-    // }
+    filedatainterfaces::EM3000OtherDataInterface<t_ifstream>& otherdata_interface()
+    {
+        return *_otherdata_interface;
+    }
 
     // filedatacontainers::EM3000PingContainer<t_ifstream> pings() const
     // {
@@ -150,84 +155,78 @@ class FileEM3000
                          typename t_ifstream::pos_type pos,
                          size_t                        file_paths_cnt) final
     {
-        auto header = datagrams::EM3000Datagram::from_stream(ifs);
-        // auto type   = header.get_datagram_identifier();
+        auto header    = datagrams::EM3000Datagram::from_stream(ifs);
+        auto type      = header.get_datagram_identifier();
+        auto timestamp = header.get_timestamp();
 
         auto datagram_info = std::make_shared<
             filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier, t_ifstream>>(
-            file_paths_cnt,
-            pos,
-            this->_input_file_manager,
-            header.get_timestamp(),
-            header.get_datagram_identifier());
+            file_paths_cnt, pos, this->_input_file_manager, timestamp, type);
 
-        header.skip(ifs);
+        switch (type)
+        {
+                //     case t_EM3000DatagramIdentifier::MRU0:
+                //         [[fallthrough]];
+                //     case t_EM3000DatagramIdentifier::NME0: {
+                //         _navigation_interface->add_datagram_info(datagram_info);
+                //         header.skip(ifs);
+                //         break;
+                //     }
+                //     case t_EM3000DatagramIdentifier::XML0: {
+
+                //         auto xml = datagrams::XML0::from_stream(ifs, header);
+
+                //         if (!ifs.good())
+                //             break;
+
+                //         auto xml_type = xml.get_xml_datagram_type();
+
+                //         if (xml_type == "Parameter")
+                //         {
+                //             _ping_interface->add_datagram_info(datagram_info);
+                //         }
+                //         else if (xml_type == "InitialParameter")
+                //         {
+                //             _ping_interface->add_datagram_info(datagram_info);
+                //         }
+                //         else if (xml_type == "Configuration")
+                //         {
+                //             _configuration_interface->add_datagram_info(datagram_info);
+                //         }
+                //         else if (xml_type == "Environment")
+                //         {
+                //             _environment_interface->add_datagram_info(datagram_info);
+                //         }
+                //         else
+                //         {
+                //             _otherdata_interface->add_datagram_info(datagram_info);
+                //         }
+                //         // don't skip here, because the XML datagram was read already
+                //         break;
+                //     }
+                //     case t_EM3000DatagramIdentifier::RAW3: {
+                //         _ping_interface->add_datagram_info(datagram_info);
+                //         header.skip(ifs);
+                //         break;
+                //     }
+                //     case t_EM3000DatagramIdentifier::FIL1: {
+                //         _configuration_interface->add_datagram_info(datagram_info);
+                //         header.skip(ifs);
+                //         break;
+                //     }
+                //     case t_EM3000DatagramIdentifier::TAG0: {
+                //         _annotation_interface->add_datagram_info(datagram_info);
+                //         header.skip(ifs);
+                //         break;
+                //     }
+            default: {
+                _otherdata_interface->add_datagram_info(datagram_info);
+                header.skip(ifs);
+                break;
+            }
+        }
 
         return datagram_info;
-
-        // switch (type)
-        // {
-        //     case t_EM3000DatagramIdentifier::MRU0:
-        //         [[fallthrough]];
-        //     case t_EM3000DatagramIdentifier::NME0: {
-        //         _navigation_interface->add_datagram_info(datagram_info);
-        //         header.skip(ifs);
-        //         break;
-        //     }
-        //     case t_EM3000DatagramIdentifier::XML0: {
-
-        //         auto xml = datagrams::XML0::from_stream(ifs, header);
-
-        //         if (!ifs.good())
-        //             break;
-
-        //         auto xml_type = xml.get_xml_datagram_type();
-
-        //         if (xml_type == "Parameter")
-        //         {
-        //             _ping_interface->add_datagram_info(datagram_info);
-        //         }
-        //         else if (xml_type == "InitialParameter")
-        //         {
-        //             _ping_interface->add_datagram_info(datagram_info);
-        //         }
-        //         else if (xml_type == "Configuration")
-        //         {
-        //             _configuration_interface->add_datagram_info(datagram_info);
-        //         }
-        //         else if (xml_type == "Environment")
-        //         {
-        //             _environment_interface->add_datagram_info(datagram_info);
-        //         }
-        //         else
-        //         {
-        //             _otherdata_interface->add_datagram_info(datagram_info);
-        //         }
-        //         // don't skip here, because the XML datagram was read already
-        //         break;
-        //     }
-        //     case t_EM3000DatagramIdentifier::RAW3: {
-        //         _ping_interface->add_datagram_info(datagram_info);
-        //         header.skip(ifs);
-        //         break;
-        //     }
-        //     case t_EM3000DatagramIdentifier::FIL1: {
-        //         _configuration_interface->add_datagram_info(datagram_info);
-        //         header.skip(ifs);
-        //         break;
-        //     }
-        //     case t_EM3000DatagramIdentifier::TAG0: {
-        //         _annotation_interface->add_datagram_info(datagram_info);
-        //         header.skip(ifs);
-        //         break;
-        //     }
-        //     default: {
-        //         _otherdata_interface->add_datagram_info(datagram_info);
-        //         header.skip(ifs);
-        //         break;
-        //     }
-        // }
-        // return datagram_info;
     }
 
   public:

@@ -24,7 +24,7 @@
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
 #include "simradenvironmentdatainterface.hpp"
-#include "simradpingdatainterface_perfile.hpp"
+#include "simradpingdatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -34,10 +34,10 @@ namespace filedatainterfaces {
 template<typename t_ifstream>
 class SimradPingDataInterface
     : public filetemplates::datainterfaces::I_PingDataInterface<
-          SimradPingDataInterface_PerFile<t_ifstream>>
+          SimradPingDataInterfacePerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_PingDataInterface<
-        SimradPingDataInterface_PerFile<t_ifstream>>;
+        SimradPingDataInterfacePerFile<t_ifstream>>;
 
   public:
     SimradPingDataInterface(

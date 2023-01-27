@@ -15,10 +15,10 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/helper.hpp>
 
+#include "i_raw3data.hpp"
 #include "raw3dataangle.hpp"
 #include "raw3datapower.hpp"
 #include "raw3datapowerandangle.hpp"
-#include "i_raw3data.hpp"
 #include "raw3dataskipped.hpp"
 #include "t_raw3datatype.hpp"
 // #include "raw3datacomplexfloat16.hpp" // not implemented

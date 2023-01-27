@@ -27,25 +27,15 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_RAW3DataPower(NAME)                                                                   \
-    DOC(themachinethatgoesping,                                                                    \
-        echosounders,                                                                              \
-        simrad,                                                                                    \
-        datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        RAW3DataPower,                                                                            \
-        NAME)
+#define DOC_RAW3DataPower(NAME)                                                                    \
+    DOC(themachinethatgoesping, echosounders, simrad, datagrams, raw3datatypes, RAW3DataPower, NAME)
 
 void init_c_raw3datapower(pybind11::module& m)
 {
-    py::class_<RAW3DataPower, i_RAW3Data>(m,
-                                            "RAW3DataPower",
-                                            DOC(themachinethatgoesping,
-                                                echosounders,
-                                                simrad,
-                                                datagrams,
-                                                raw3datatypes,
-                                                RAW3DataPower))
+    py::class_<RAW3DataPower, i_RAW3Data>(
+        m,
+        "RAW3DataPower",
+        DOC(themachinethatgoesping, echosounders, simrad, datagrams, raw3datatypes, RAW3DataPower))
         .def(py::init<>(), DOC_RAW3DataPower(RAW3DataPower))
         .def(py::init<xt::xtensor<simrad_short, 1>>(),
              DOC_RAW3DataPower(RAW3DataPower_2),

@@ -23,7 +23,7 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using namespace datagrams::raw3datatypes;
 
 // --- helper defines ---
-#define DOC_i_RAW3Data(NAME)                                                                      \
+#define DOC_i_RAW3Data(NAME)                                                                       \
     DOC(themachinethatgoesping, echosounders, simrad, datagrams, raw3datatypes, i_RAW3Data, NAME)
 
 void init_c_i_raw3data(pybind11::module& m)
@@ -36,8 +36,7 @@ void init_c_i_raw3data(pybind11::module& m)
         .def("get_name", &i_RAW3Data::get_name, DOC_i_RAW3Data(get_name))
         .def("has_power", &i_RAW3Data::has_power, DOC_i_RAW3Data(has_power))
         .def("has_angle", &i_RAW3Data::has_angle, DOC_i_RAW3Data(has_angle))
-        .def(
-            "get_power", &i_RAW3Data::get_power, DOC_i_RAW3Data(get_power), py::arg("dB") = false)
+        .def("get_power", &i_RAW3Data::get_power, DOC_i_RAW3Data(get_power), py::arg("dB") = false)
         .def("get_angle", &i_RAW3Data::get_angle, DOC_i_RAW3Data(get_angle))
 
         // ----- pybind macros -----

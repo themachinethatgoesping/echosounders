@@ -17,45 +17,45 @@ void init_c_EM3000DatagramInterface(py::module& m); // c_em3000datagraminterface
 
 // void init_c_EM3000ConfigurationDataInterface(
 //     pybind11::module& m); // c_em3000configurationdatainterface.cpp
-// void init_c_EM3000ConfigurationDataInterface_PerFile(
-//     pybind11::module& m); // c_em3000configurationdatainterface_perfile.cpp
+// void init_c_EM3000ConfigurationDataInterfacePerFile(
+//     pybind11::module& m); // c_em3000configurationdatainterfaceperfile.cpp
 // void init_c_EM3000NavigationDataInterface(
 //     pybind11::module& m); // c_em3000navigationdatainterface.cpp
-// void init_c_EM3000NavigationDataInterface_PerFile(
-//     pybind11::module& m); // c_em3000navigationdatainterface_perfile.cpp
+// void init_c_EM3000NavigationDataInterfacePerFile(
+//     pybind11::module& m); // c_em3000navigationdatainterfaceperfile.cpp
 // void init_c_EM3000EnvironmentDataInterface(
 //     pybind11::module& m); // c_em3000environmentdatainterface.cpp
-// void init_c_EM3000EnvironmentDataInterface_PerFile(
-//     pybind11::module& m); // c_em3000environmentdatainterface_perfile.cpp
+// void init_c_EM3000EnvironmentDataInterfacePerFile(
+//     pybind11::module& m); // c_em3000environmentdatainterfaceperfile.cpp
 // void init_c_EM3000PingDataInterface(pybind11::module& m); // c_em3000pingdatainterface.cpp
-// void init_c_EM3000PingDataInterface_PerFile(
-//     pybind11::module& m); // c_em3000pingdatainterface_perfile.cpp
+// void init_c_EM3000PingDataInterfacePerFile(
+//     pybind11::module& m); // c_em3000pingdatainterfaceperfile.cpp
 // void init_c_EM3000AnnotationDataInterface(
 //     pybind11::module& m); // c_em3000annotationdatainterface.cpp
-// void init_c_EM3000AnnotationDataInterface_PerFile(pybind11::module& m);
-// void init_c_EM3000OtherDataInterface(pybind11::module& m); // c_em3000otherdatainterface.cpp
-// void init_c_EM3000OtherFileDataInterface_PerFile(
-//     pybind11::module& m); // c_em3000otherfiledatainterface_perfile.cpp
+// void init_c_EM3000AnnotationDataInterfacePerFile(pybind11::module& m);
+void init_c_em3000otherfiledatainterface(pybind11::module& m); // c_em3000otherdatainterface.cpp
+void init_c_em3000otherFileDataInterfacePerFile(
+    pybind11::module& m); // c_em3000otherfiledatainterfaceperfile.cpp
 
 // -- create submodule --
 void init_m_EM3000FileDataInterfaces(pybind11::module& m)
 {
-    auto subm = m.def_submodule("filedataInterfaces",
+    auto subm = m.def_submodule("filedatainterfaces",
                                 "EM3000 (kongsberg .all/.wcd) file data interface classes");
 
     init_c_EM3000DatagramInterface(subm);
     // init_c_EM3000ConfigurationDataInterface(subm);
-    // init_c_EM3000ConfigurationDataInterface_PerFile(subm);
+    // init_c_EM3000ConfigurationDataInterfacePerFile(subm);
     // init_c_EM3000NavigationDataInterface(subm);
-    // init_c_EM3000NavigationDataInterface_PerFile(subm);
+    // init_c_EM3000NavigationDataInterfacePerFile(subm);
     // init_c_EM3000EnvironmentDataInterface(subm);
-    // init_c_EM3000EnvironmentDataInterface_PerFile(subm);
+    // init_c_EM3000EnvironmentDataInterfacePerFile(subm);
     // init_c_EM3000PingDataInterface(subm);
-    // init_c_EM3000PingDataInterface_PerFile(subm);
+    // init_c_EM3000PingDataInterfacePerFile(subm);
     // init_c_EM3000AnnotationDataInterface(subm);
-    // init_c_EM3000AnnotationDataInterface_PerFile(subm);
-    // init_c_EM3000OtherDataInterface(subm);
-    // init_c_EM3000OtherFileDataInterface_PerFile(subm);
+    // init_c_EM3000AnnotationDataInterfacePerFile(subm);
+    init_c_em3000otherfiledatainterface(subm);
+    init_c_em3000otherFileDataInterfacePerFile(subm);
 }
 
 }

@@ -46,7 +46,7 @@ namespace datagrams {
 struct RAW3 : public SimradDatagram
 {
     // ----- datagram content -----
-    std::array<char, 128>           _ChannelID; ///< Channel identification (size is always 128)
+    std::array<char, 128>         _ChannelID; ///< Channel identification (size is always 128)
     raw3datatypes::t_RAW3DataType _Datatype;  ///< Datatype
     uint8_t _NumberOfComplexSamples; ///< Number of transducer samples per sample (used when
                                      ///< Datatype is complex)
@@ -166,15 +166,11 @@ struct RAW3 : public SimradDatagram
      * @return raw3datatypes::RAW3DataVariant
      */
     const raw3datatypes::RAW3DataVariant& get_sample_data() const { return _SampleData; }
-    void set_sample_data(raw3datatypes::RAW3DataVariant sample_data)
-    {
-        _SampleData = sample_data;
-    }
+    void set_sample_data(raw3datatypes::RAW3DataVariant sample_data) { _SampleData = sample_data; }
 
     // ----- file I/O -----
-    raw3datatypes::RAW3DataVariant read_skipped_sample_data(
-        std::istream&          is,
-        std::istream::pos_type header_pos) const
+    raw3datatypes::RAW3DataVariant read_skipped_sample_data(std::istream&          is,
+                                                            std::istream::pos_type header_pos) const
     {
         is.seekg(header_pos + std::istream::pos_type(152));
         return read_sample_data(is);
@@ -216,9 +212,9 @@ struct RAW3 : public SimradDatagram
         {
             datagram._SampleData =
                 RAW3DataSkipped::from_stream(is,
-                                              datagram._Count,
-                                              datagram.get_data_type(),
-                                              datagram.get_number_of_complex_samples());
+                                             datagram._Count,
+                                             datagram.get_data_type(),
+                                             datagram.get_number_of_complex_samples());
         }
         else
         {

@@ -1,4 +1,4 @@
-//sourcehash: 0cf4632eaa4efc0a4cbbf7ad330af98950f143512f19184e8b1e3cb5d5361540
+//sourcehash: 4519c097abcd3ec05ca487d8a537d8ba7d0c2255e6811fcb7d16e987370dd4df
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,15 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface =
+R"doc(FileDataInterface (for multiple files) for packages that fit neither
+of the other FileDataInterfaces (Configuration, Navigation,
+Annotation, Environment, Ping)
+
+No datagram caching is implemented for this interface. Accessed
+packages are always read from file
+
+Template parameter ``t_ifstream``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradOtherDataInterface_SimradOtherDataInterface = R"doc()doc";
 

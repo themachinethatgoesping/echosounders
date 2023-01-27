@@ -44,10 +44,10 @@ struct RAW3DataSkipped : public i_RAW3Data
     bool operator==([[maybe_unused]] const RAW3DataSkipped& other) const { return true; }
     bool operator!=(const RAW3DataSkipped& other) const { return !(operator==(other)); }
 
-    static RAW3DataSkipped from_stream(std::istream&   is,
-                                        simrad_long     count,
-                                        t_RAW3DataType data_type,
-                                        uint8_t         number_of_complex_samples)
+    static RAW3DataSkipped from_stream(std::istream&  is,
+                                       simrad_long    count,
+                                       t_RAW3DataType data_type,
+                                       uint8_t        number_of_complex_samples)
     {
         switch (data_type)
         {
@@ -75,10 +75,10 @@ struct RAW3DataSkipped : public i_RAW3Data
         return RAW3DataSkipped();
     }
 
-    void to_stream(std::ostream&   os,
-                   simrad_long     count,
+    void to_stream(std::ostream&  os,
+                   simrad_long    count,
                    t_RAW3DataType data_type,
-                   uint8_t         number_of_complex_samples) const
+                   uint8_t        number_of_complex_samples) const
     {
         switch (data_type)
         {

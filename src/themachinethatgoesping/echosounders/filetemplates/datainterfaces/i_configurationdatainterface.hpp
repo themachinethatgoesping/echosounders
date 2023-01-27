@@ -32,7 +32,7 @@
 /* themachinethatgoesping navigation includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 
-#include "i_configurationdatainterface_perfile.hpp"
+#include "i_configurationdatainterfaceperfile.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 

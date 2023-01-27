@@ -30,7 +30,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_datagraminterface.hpp"
-#include "i_filedatainterface_perfile.hpp"
+#include "i_filedatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -44,8 +44,8 @@ class I_FileDataInterface
 
   public:
     // member types
-    using type_FileDataInterface_PerFile = t_filedatainterface_perfile;
-    using type_DatagramInterface = typename type_FileDataInterface_PerFile::type_DatagramInterface;
+    using type_FileDataInterfacePerFile = t_filedatainterface_perfile;
+    using type_DatagramInterface = typename type_FileDataInterfacePerFile::type_DatagramInterface;
 
   protected:
     std::string_view get_name() const { return _name; }

@@ -28,8 +28,8 @@ namespace py_raw3_datatypes {
         echosounders,                                                                              \
         simrad,                                                                                    \
         datagrams,                                                                                 \
-        raw3datatypes,                                                                            \
-        t_RAW3DataType,                                                                           \
+        raw3datatypes,                                                                             \
+        t_RAW3DataType,                                                                            \
         TYPE)
 
 // -- submodule declarations --
@@ -52,13 +52,13 @@ void init_m_raw3datatypes(pybind11::module& m)
     // enums
     auto pyenum_raw3_datatype =
         pybind11::enum_<t_RAW3DataType>(subm,
-                                         "t_RAW3DataType",
-                                         DOC(themachinethatgoesping,
-                                             echosounders,
-                                             simrad,
-                                             datagrams,
-                                             raw3datatypes,
-                                             t_RAW3DataType))
+                                        "t_RAW3DataType",
+                                        DOC(themachinethatgoesping,
+                                            echosounders,
+                                            simrad,
+                                            datagrams,
+                                            raw3datatypes,
+                                            t_RAW3DataType))
             .value("Power", t_RAW3DataType::Power, DOC_T_RAW3_DATATYPE(Power))
             .value("Angle", t_RAW3DataType::Angle, DOC_T_RAW3_DATATYPE(Angle))
             .value(

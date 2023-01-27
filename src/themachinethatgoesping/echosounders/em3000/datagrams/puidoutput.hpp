@@ -270,10 +270,7 @@ class PUIDOutput : public EM3000Datagram
      * @return true (deep water sonar head)
      * @return false (shallow water sonar head)s
      */
-    bool get_has_deep_water_sonar_head() const
-    {
-        return !(_system_descriptor & 0b10000);
-    }
+    bool get_has_deep_water_sonar_head() const { return !(_system_descriptor & 0b10000); }
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has a shallow water
@@ -282,10 +279,7 @@ class PUIDOutput : public EM3000Datagram
      * @return true (shallow water sonar head)
      * @return false (deep water sonar head)
      */
-    bool get_has_shallow_water_sonar_head() const
-    {
-        return (_system_descriptor & 0b10000);
-    }
+    bool get_has_shallow_water_sonar_head() const { return (_system_descriptor & 0b10000); }
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has extra detections
@@ -294,10 +288,7 @@ class PUIDOutput : public EM3000Datagram
      * @return true
      * @return false
      */
-    bool get_has_extra_detections_support() const
-    {
-        return (_system_descriptor & 0b100000);
-    }
+    bool get_has_extra_detections_support() const { return (_system_descriptor & 0b100000); }
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has RS422 serial lines

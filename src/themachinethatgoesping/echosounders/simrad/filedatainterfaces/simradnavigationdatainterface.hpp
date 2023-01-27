@@ -23,7 +23,7 @@
 #include "../simrad_datagrams.hpp"
 #include "../simrad_types.hpp"
 #include "simraddatagraminterface.hpp"
-#include "simradnavigationdatainterface_perfile.hpp"
+#include "simradnavigationdatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -33,10 +33,10 @@ namespace filedatainterfaces {
 template<typename t_ifstream>
 class SimradNavigationDataInterface
     : public filetemplates::datainterfaces::I_NavigationDataInterface<
-          SimradNavigationDataInterface_PerFile<t_ifstream>>
+          SimradNavigationDataInterfacePerFile<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_NavigationDataInterface<
-        SimradNavigationDataInterface_PerFile<t_ifstream>>;
+        SimradNavigationDataInterfacePerFile<t_ifstream>>;
 
   public:
     SimradNavigationDataInterface(
