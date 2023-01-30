@@ -78,7 +78,7 @@ struct XML_Environment_Transducer
             std::string_view name = attr.name();
             if (name == "SoundSpeed")
             {
-                SoundSpeed = tools::helper::string_to_double(attr.value());
+                SoundSpeed = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerName")

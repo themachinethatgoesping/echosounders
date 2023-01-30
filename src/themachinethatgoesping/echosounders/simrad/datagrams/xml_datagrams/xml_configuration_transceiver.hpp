@@ -141,12 +141,12 @@ struct XML_Configuration_Transceiver
             }
             else if (name == "Impedance")
             {
-                Impedance = tools::helper::string_to_double(attr.value());
+                Impedance = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "RxSampleFrequency")
             {
-                RxSampleFrequency = tools::helper::string_to_double(attr.value());
+                RxSampleFrequency = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "SerialNumber")

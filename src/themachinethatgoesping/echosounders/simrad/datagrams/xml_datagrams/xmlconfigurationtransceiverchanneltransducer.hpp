@@ -131,12 +131,12 @@ struct XMLConfigurationTransceiverChannelTransducer
             }
             else if (name == "Gain")
             {
-                Gain = tools::helper::string_to_double_vector(attr.value(), ';');
+                Gain = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "SaCorrection")
             {
-                SaCorrection = tools::helper::string_to_double_vector(attr.value(), ';');
+                SaCorrection = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "SerialNumber")
@@ -151,57 +151,57 @@ struct XMLConfigurationTransceiverChannelTransducer
             }
             else if (name == "Frequency")
             {
-                Frequency = tools::helper::string_to_double(attr.value());
+                Frequency = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "FrequencyMinimum")
             {
-                FrequencyMinimum = tools::helper::string_to_double(attr.value());
+                FrequencyMinimum = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "FrequencyMaximum")
             {
-                FrequencyMaximum = tools::helper::string_to_double(attr.value());
+                FrequencyMaximum = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "EquivalentBeamAngle")
             {
-                EquivalentBeamAngle = tools::helper::string_to_double(attr.value());
+                EquivalentBeamAngle = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "MaxTxPowerTransducer")
             {
-                MaxTxPowerTransducer = tools::helper::string_to_double(attr.value());
+                MaxTxPowerTransducer = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "BeamWidthAlongship")
             {
-                BeamWidthAlongship = tools::helper::string_to_double(attr.value());
+                BeamWidthAlongship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "BeamWidthAthwartship")
             {
-                BeamWidthAthwartship = tools::helper::string_to_double(attr.value());
+                BeamWidthAthwartship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleSensitivityAlongship")
             {
-                AngleSensitivityAlongship = tools::helper::string_to_double(attr.value());
+                AngleSensitivityAlongship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleSensitivityAthwartship")
             {
-                AngleSensitivityAthwartship = tools::helper::string_to_double(attr.value());
+                AngleSensitivityAthwartship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleOffsetAlongship")
             {
-                AngleOffsetAlongship = tools::helper::string_to_double(attr.value());
+                AngleOffsetAlongship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleOffsetAthwartship")
             {
-                AngleOffsetAthwartship = tools::helper::string_to_double(attr.value());
+                AngleOffsetAthwartship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "DirectivityDropAt2XBeamWidth")

@@ -1,4 +1,4 @@
-//sourcehash: cb869681f900cbe0945044d258e1e6c34d9a4dd6b24bd3bc90b2fb1dfc194b5b
+//sourcehash: 8031c6f4cc0a3e4d1044f91de993abdbcbdcb6446dd900445153f7222d6c5745
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,6 +71,12 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_checksum = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_depth_sensor_offsets =
+R"doc(Get the depth sensor offsets
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_etx = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters = R"doc()doc";
@@ -79,7 +85,38 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters_parsed = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_motion_sensor_offsets =
+R"doc(Get the motion sensor offsets of sensor 1 or 2
+
+Parameter ``sensor_number``:
+    must by 1 or 2
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_secondary_system_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_offsets =
+R"doc(Internal function to get the sensor offsets from the installation
+parameters. Possible sensor prefixes are: - MS for motion sensor 1 -
+NS for motion sensor 2 - P1 for position system 1 - P2 for position
+system 2 - P3 for position system 3 - S1 for transducer 1 - S2 for
+transducer 2 - S3 for transducer 3 - DS for depth (pressure) sensor
+
+Parameter ``sensor_name``:
+    e.g. Motion Sensor 1
+
+Parameter ``sensor_prefix``:
+    see above
+
+Parameter ``has_xyz``:
+    sensor has xyz offsets
+
+Parameter ``has_ypr``:
+    sensor has yaw pitch roll offsets
+
+Returns:
+    PositionalOffsets)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
 

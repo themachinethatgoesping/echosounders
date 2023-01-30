@@ -114,27 +114,27 @@ struct XML_Configuration_Transceiver_Channel
             }
             else if (name == "PulseLength")
             {
-                PulseLength = tools::helper::string_to_double_vector(attr.value(), ';');
+                PulseLength = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "PulseDuration")
             {
-                PulseDuration = tools::helper::string_to_double_vector(attr.value(), ';');
+                PulseDuration = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "PulseDurationFM")
             {
-                PulseDurationFM = tools::helper::string_to_double_vector(attr.value(), ';');
+                PulseDurationFM = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "SampleInterval")
             {
-                SampleInterval = tools::helper::string_to_double_vector(attr.value(), ';');
+                SampleInterval = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "MaxTxPowerTransceiver")
             {
-                MaxTxPowerTransceiver = tools::helper::string_to_double(attr.value());
+                MaxTxPowerTransceiver = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "HWChannelConfiguration")

@@ -97,7 +97,7 @@ struct XML_Environment
             std::string_view name = attr.name();
             if (name == "WaterLevelDraft")
             {
-                WaterLevelDraft = tools::helper::string_to_double(attr.value());
+                WaterLevelDraft = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "DropKeelOffsetIsManual")
@@ -108,12 +108,12 @@ struct XML_Environment
             }
             if (name == "DropKeelOffset")
             {
-                DropKeelOffset = tools::helper::string_to_double(attr.value());
+                DropKeelOffset = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "SoundVelocityProfile")
             {
-                SoundVelocityProfile = tools::helper::string_to_double_vector(attr.value(), ';');
+                SoundVelocityProfile = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             if (name == "WaterLevelDraftIsManual")
@@ -124,17 +124,17 @@ struct XML_Environment
             }
             if (name == "Latitude")
             {
-                Latitude = tools::helper::string_to_double(attr.value());
+                Latitude = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "SoundSpeed")
             {
-                SoundSpeed = tools::helper::string_to_double(attr.value());
+                SoundSpeed = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Salinity")
             {
-                Salinity = tools::helper::string_to_double(attr.value());
+                Salinity = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "SoundVelocitySource")
@@ -144,17 +144,17 @@ struct XML_Environment
             }
             if (name == "Acidity")
             {
-                Acidity = tools::helper::string_to_double(attr.value());
+                Acidity = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Temperature")
             {
-                Temperature = tools::helper::string_to_double(attr.value());
+                Temperature = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Depth")
             {
-                Depth = tools::helper::string_to_double(attr.value());
+                Depth = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TowedBodyDepthIsManual")
@@ -164,7 +164,7 @@ struct XML_Environment
             }
             if (name == "TowedBodyDepth")
             {
-                TowedBodyDepth = tools::helper::string_to_double(attr.value());
+                TowedBodyDepth = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
 

@@ -80,7 +80,7 @@ struct XML_Sensor
             }
             if (name == "ManualValue")
             {
-                ManualValue = tools::helper::string_to_double(attr.value());
+                ManualValue = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Type")

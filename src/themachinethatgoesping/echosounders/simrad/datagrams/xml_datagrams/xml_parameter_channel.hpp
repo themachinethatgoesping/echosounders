@@ -82,62 +82,62 @@ struct XML_Parameter_Channel
             }
             if (name == "PulseForm")
             {
-                PulseForm = tools::helper::string_to_double(attr.value());
+                PulseForm = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "FrequencyStart")
             {
-                FrequencyStart = tools::helper::string_to_double(attr.value());
+                FrequencyStart = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "FrequencyEnd")
             {
-                FrequencyEnd = tools::helper::string_to_double(attr.value());
+                FrequencyEnd = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "BandWidth")
             {
-                BandWidth = tools::helper::string_to_double(attr.value());
+                BandWidth = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Frequency")
             {
-                Frequency = tools::helper::string_to_double(attr.value());
+                Frequency = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "PulseDuration")
             {
-                PulseDuration = tools::helper::string_to_double(attr.value());
+                PulseDuration = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "PulseLength")
             {
-                PulseLength = tools::helper::string_to_double(attr.value());
+                PulseLength = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "SampleInterval")
             {
-                SampleInterval = tools::helper::string_to_double(attr.value());
+                SampleInterval = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerDepth")
             {
-                TransducerDepth = tools::helper::string_to_double(attr.value());
+                TransducerDepth = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransmitPower")
             {
-                TransmitPower = tools::helper::string_to_double(attr.value());
+                TransmitPower = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "Slope")
             {
-                Slope = tools::helper::string_to_double(attr.value());
+                Slope = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "SoundVelocity")
             {
-                SoundVelocity = tools::helper::string_to_double(attr.value());
+                SoundVelocity = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "PingId")

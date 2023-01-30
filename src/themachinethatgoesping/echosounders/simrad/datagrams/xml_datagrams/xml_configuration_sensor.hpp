@@ -112,7 +112,7 @@ struct XML_Configuration_Sensor
             std::string_view name = attr.name();
             if (name == "Timeout")
             {
-                Timeout = tools::helper::string_to_double(
+                Timeout = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
@@ -124,37 +124,37 @@ struct XML_Configuration_Sensor
             }
             if (name == "AngleZ")
             {
-                AngleZ = tools::helper::string_to_double(
+                AngleZ = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
             if (name == "AngleY")
             {
-                AngleY = tools::helper::string_to_double(
+                AngleY = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
             if (name == "AngleX")
             {
-                AngleX = tools::helper::string_to_double(
+                AngleX = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
             if (name == "Y")
             {
-                Y = tools::helper::string_to_double(
+                Y = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
             if (name == "X")
             {
-                X = tools::helper::string_to_double(
+                X = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }
             if (name == "Z")
             {
-                Z = tools::helper::string_to_double(
+                Z = tools::helper::string_to_floattype<double>(
                     attr.value()); // TODO: can this value only be 0 and 1 or also true and false?
                 continue;
             }

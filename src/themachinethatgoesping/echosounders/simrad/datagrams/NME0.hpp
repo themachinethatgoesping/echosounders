@@ -62,9 +62,13 @@ struct NME0 : public SimradDatagram
     std::string get_sentence_id() const { return std::string(_nmea_base.get_sentence_id()); }
     std::string get_sentence() const { return std::string(_nmea_base.get_sentence()); }
     std::string get_field(size_t index) const { return std::string(_nmea_base.get_field(index)); }
-    double get_field_as_double(size_t index) const { return _nmea_base.get_field_as_double(index); }
-    int    get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
-    void   parse_fields() { _nmea_base.parse_fields(); }
+    template<typename t_float>
+    t_float get_field_as_floattype(size_t index) const
+    {
+        return _nmea_base.get_field_as_floattype<t_float>(index);
+    }
+    int  get_field_as_int(size_t index) const { return _nmea_base.get_field_as_int(index); }
+    void parse_fields() { _nmea_base.parse_fields(); }
     // navigation::nmea_0183::NMEA_Base decode() const { return _nmea_base; }
     navigation::nmea_0183::NMEA_0183_type decode() const
     {

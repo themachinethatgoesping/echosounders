@@ -110,37 +110,37 @@ struct XML_Configuration_Transducer
             std::string_view name = attr.name();
             if (name == "TransducerAlphaX")
             {
-                TransducerAlphaX = tools::helper::string_to_double(attr.value());
+                TransducerAlphaX = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "TransducerAlphaY")
             {
-                TransducerAlphaY = tools::helper::string_to_double(attr.value());
+                TransducerAlphaY = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerAlphaZ")
             {
-                TransducerAlphaZ = tools::helper::string_to_double(attr.value());
+                TransducerAlphaZ = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerOffsetX")
             {
-                TransducerOffsetX = tools::helper::string_to_double(attr.value());
+                TransducerOffsetX = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerOffsetY")
             {
-                TransducerOffsetY = tools::helper::string_to_double(attr.value());
+                TransducerOffsetY = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerOffsetZ")
             {
-                TransducerOffsetZ = tools::helper::string_to_double(attr.value());
+                TransducerOffsetZ = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "HeadingQuickCalibration")
             {
-                HeadingQuickCalibration = tools::helper::string_to_double(attr.value());
+                HeadingQuickCalibration = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             if (name == "TransducerSerialNumber")

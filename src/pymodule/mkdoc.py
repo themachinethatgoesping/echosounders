@@ -108,7 +108,6 @@ for r, d, f in os.walk('../themachinethatgoesping/'):
                 headers.append(r + '/' + file)
 headers.sort()
 
-
 with open('mkdoc_log.log', 'w') as ofi_log:
     prg = tqdm(headers)
     for header in prg:

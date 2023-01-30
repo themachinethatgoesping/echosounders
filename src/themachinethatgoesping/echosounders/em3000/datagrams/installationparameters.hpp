@@ -20,6 +20,7 @@
 #include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
+#include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
@@ -181,6 +182,7 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
  */
 class InstallationParameters : public EM3000Datagram
 {
+
   protected:
     uint16_t _installation_parameters_counter; ///< Sequential Number
     uint16_t _system_serial_number;
@@ -289,6 +291,152 @@ class InstallationParameters : public EM3000Datagram
             }
 
             _parsed_installation_parameters[std::move(key)] = std::move(value);
+        }
+    }
+
+    // ----- access to automatically selected sensor offsets -----
+    // /**
+    //  * @brief Get the depth sensor offsets
+    //  *
+    //  * @return navigation::datastructures::PositionalOffsets
+    //  */
+    // navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const
+    // {
+    // }
+
+    /**
+     * @brief Get the depth sensor offsets
+     *
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const
+    {
+        unsupported_option_string("DSH", "NI", "get_depth_sensor_offsets");
+        unsupported_option_float("DSO", 0.0f, "get_depth_sensor_offsets");
+        unsupported_option_float("DSD", 0.0f, "get_depth_sensor_offsets");
+        unsupported_option_float("DSF", 1.0f, "get_depth_sensor_offsets");
+
+        return get_sensor_offsets("Depth Sensor", "DS", true, false);
+    }
+
+    /**
+     * @brief Get the motion sensor offsets of sensor 1 or 2
+     *
+     * @param sensor_number must by 1 or 2
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_motion_sensor_offsets(
+        uint8_t sensor_number) const
+    {
+        using tools::helper::string_to_floattype;
+
+        // check unsupported options
+        // MRP, MSD
+        unsupported_option_string("MRP", "RP", "get_motion_sensor_offsets");
+        unsupported_option_float("MAS", 1.0f, "get_motion_sensor_offsets");
+
+        std::string sensor_prefix;
+        switch (sensor_number)
+        {
+            case 1:
+                sensor_prefix = "MS";
+                break;
+            case 2:
+                sensor_prefix = "NS";
+                break;
+            default:
+                throw std::invalid_argument(fmt::format(
+                    "get_motion_sensor_offsets: Invalid motion sensor number: {} (must be 1 or 2)",
+                    sensor_number));
+        }
+
+        std::string time_delay_key = sensor_prefix + std::string("D");
+        unsupported_option_float(time_delay_key, 0.0f, "get_motion_sensor_offsets");
+
+        try
+        {
+            return get_sensor_offsets("Motion Sensor " + std::to_string(sensor_number),
+                                      sensor_prefix);
+        }
+        catch (std::invalid_argument& e)
+        {
+            // If entries for a second motion sensor are not included although two sensors are being
+            // used, they are presumed to have the same parameters.
+            if (sensor_number == 2)
+            {
+                sensor_prefix = "MS";
+                return get_sensor_offsets("Motion Sensor " + std::to_string(sensor_number),
+                                          sensor_prefix);
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
+    // ----- processed access to installation parameters (internal functions) -----
+    // double get_value_
+
+    /**
+     * @brief Internal function to get the sensor offsets from the installation parameters.
+     * Possible sensor prefixes are:
+     * - MS for motion sensor 1
+     * - NS for motion sensor 2
+     * - P1 for position system 1
+     * - P2 for position system 2
+     * - P3 for position system 3
+     * - S1 for transducer 1
+     * - S2 for transducer 2
+     * - S3 for transducer 3
+     * - DS for depth (pressure) sensor
+     *
+     * @param sensor_name e.g. Motion Sensor 1
+     * @param sensor_prefix see above
+     * @param has_xyz sensor has xyz offsets
+     * @param has_ypr sensor has yaw pitch roll offsets
+     * @return PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_sensor_offsets(
+        const std::string& sensor_name,
+        const std::string& sensor_prefix,
+        bool               has_xyz = true,
+        bool               has_ypr = true) const
+    {
+        using navigation::datastructures::PositionalOffsets;
+        using tools::helper::string_to_floattype;
+
+        try
+        {
+            float x = 0., y = 0., z = 0., yaw = 0., pitch = 0., roll = 0.;
+
+            if (has_xyz)
+            {
+                x = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("X")));
+                y = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("Y")));
+                z = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("Z")));
+            }
+
+            if (has_ypr)
+            {
+                yaw = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("G")));
+                pitch = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("P")));
+                roll = string_to_floattype<float>(
+                    _parsed_installation_parameters.at(sensor_prefix + std::string("R")));
+            }
+
+            return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
+        }
+        catch (std::out_of_range& e)
+        {
+            throw std::invalid_argument(fmt::format(
+                "get_sensor_offsets: Can't detect sensor prefix in installation parameters: {}",
+                sensor_prefix));
         }
     }
 
@@ -415,6 +563,48 @@ class InstallationParameters : public EM3000Datagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(InstallationParameters)
+
+  private:
+    // ----- private functions -----
+    void unsupported_option_float(const std::string& option_key,
+                                  float              supported_value,
+                                  const std::string& function_name) const
+    {
+        using tools::helper::string_to_floattype;
+
+        float value = string_to_floattype<float>(_parsed_installation_parameters.at(option_key));
+
+        if (value != supported_value)
+        {
+            throw std::invalid_argument(fmt::format(": Only {} ({}) == "
+                                                    "{} is supported yet, but {} is {}",
+                                                    function_name,
+                                                    option_key,
+                                                    __parameter_explained__.at(option_key),
+                                                    supported_value,
+                                                    option_key,
+                                                    value));
+        }
+    }
+
+    void unsupported_option_string(const std::string& option_key,
+                                   const std::string& supported_value,
+                                   const std::string& function_name) const
+    {
+        const std::string& value = _parsed_installation_parameters.at(option_key);
+
+        if (value != supported_value)
+        {
+            throw std::invalid_argument(fmt::format("{}: Only {} ({}) == "
+                                                    "{} is supported yet, but {} is {}",
+                                                    function_name,
+                                                    option_key,
+                                                    __parameter_explained__.at(option_key),
+                                                    supported_value,
+                                                    option_key,
+                                                    value));
+        }
+    }
 };
 
 } // namespace datagrams

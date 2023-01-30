@@ -45,10 +45,14 @@ void init_c_NME0(pybind11::module& m)
         .def("field",
              &NME0::get_field,
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_field))
-        .def(
-            "field_double",
-            &NME0::get_field_as_double,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_field_as_double))
+        .def("field_float",
+             &NME0::get_field_as_floattype<double>,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 simrad,
+                 datagrams,
+                 NME0,
+                 get_field_as_floattype))
         .def("field_int",
              &NME0::get_field_as_int,
              DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_field_as_int))

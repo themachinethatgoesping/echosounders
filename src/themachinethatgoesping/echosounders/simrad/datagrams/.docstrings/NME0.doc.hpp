@@ -1,4 +1,4 @@
-//sourcehash: d7c2353ed36b14a891ec77172684369d89e40506c45cb6a61aa820d33f78fa43
+//sourcehash: 9edbdcb7f2d64c542c286e5efa64a7981182ed553cce9a3c8a96f4ca39ebbf38
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,7 +58,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_double = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_floattype = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_int = R"doc()doc";
 

@@ -81,6 +81,23 @@ void init_c_installationparameters(pybind11::module& m)
              &InstallationParameters::reparse_installation_parameters,
              DOC_InstallationParameters(reparse_installation_parameters))
 
+        // --- processed access of installation parameters ---
+        .def("get_depth_sensor_offsets",
+             &InstallationParameters::get_depth_sensor_offsets,
+             DOC_InstallationParameters(get_depth_sensor_offsets))
+        .def("get_motion_sensor_offsets",
+             &InstallationParameters::get_motion_sensor_offsets,
+             DOC_InstallationParameters(get_motion_sensor_offsets),
+             py::arg("sensor_number"))
+
+        .def("get_sensor_offsets",
+             &InstallationParameters::get_sensor_offsets,
+             DOC_InstallationParameters(get_sensor_offsets),
+             py::arg("sensor_name"),
+             py::arg("sensor_prefix"),
+             py::arg("has_xyz") = true,
+             py::arg("has_ypr") = true)
+
         // --- checksum access ---
         .def("get_etx", &InstallationParameters::get_etx, DOC_InstallationParameters(etx))
         .def("set_etx", &InstallationParameters::set_etx, DOC_InstallationParameters(etx))

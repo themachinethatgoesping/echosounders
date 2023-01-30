@@ -87,42 +87,42 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
             std::string_view name = attr.name();
             if (name == "Frequency")
             {
-                Frequency = tools::helper::string_to_double(attr.value());
+                Frequency = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "Gain")
             {
-                Gain = tools::helper::string_to_double(attr.value());
+                Gain = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "Impedance")
             {
-                Impedance = tools::helper::string_to_double(attr.value());
+                Impedance = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "Phase")
             {
-                Phase = tools::helper::string_to_double(attr.value());
+                Phase = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "BeamWidthAlongship")
             {
-                BeamWidthAlongship = tools::helper::string_to_double(attr.value());
+                BeamWidthAlongship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "BeamWidthAthwartship")
             {
-                BeamWidthAthwartship = tools::helper::string_to_double(attr.value());
+                BeamWidthAthwartship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleOffsetAlongship")
             {
-                AngleOffsetAlongship = tools::helper::string_to_double(attr.value());
+                AngleOffsetAlongship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleOffsetAthwartship")
             {
-                AngleOffsetAthwartship = tools::helper::string_to_double(attr.value());
+                AngleOffsetAthwartship = tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
 
