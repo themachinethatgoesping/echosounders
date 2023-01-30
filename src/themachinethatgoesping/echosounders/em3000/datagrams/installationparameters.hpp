@@ -240,11 +240,14 @@ class InstallationParameters : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // substructures
-    std::string&       installation_parameters() { return _installation_parameters; }
+    //std::string&       installation_parameters() { return _installation_parameters; }
     const std::string& get_installation_parameters() const { return _installation_parameters; }
     void               set_installation_parameters(const std::string& installation_parameters)
     {
         _installation_parameters = installation_parameters;
+
+        // reparse the installation parameters
+        reparse_installation_parameters();
     }
 
     // ----- processed data access -----
@@ -316,7 +319,7 @@ class InstallationParameters : public EM3000Datagram
         unsupported_option_float("DSD", 0.0f, "get_depth_sensor_offsets");
         unsupported_option_float("DSF", 1.0f, "get_depth_sensor_offsets");
 
-        return get_sensor_offsets("Depth Sensor", "DS", true, false);
+        return get_sensor_offsets("Depth sensor", "DS", true, false);
     }
 
     /**
@@ -355,7 +358,7 @@ class InstallationParameters : public EM3000Datagram
 
         try
         {
-            return get_sensor_offsets("Motion Sensor " + std::to_string(sensor_number),
+            return get_sensor_offsets("Motion sensor " + std::to_string(sensor_number),
                                       sensor_prefix);
         }
         catch (std::invalid_argument& e)
@@ -365,7 +368,7 @@ class InstallationParameters : public EM3000Datagram
             if (sensor_number == 2)
             {
                 sensor_prefix = "MS";
-                return get_sensor_offsets("Motion Sensor " + std::to_string(sensor_number),
+                return get_sensor_offsets("Motion sensor " + std::to_string(sensor_number),
                                           sensor_prefix);
             }
             else

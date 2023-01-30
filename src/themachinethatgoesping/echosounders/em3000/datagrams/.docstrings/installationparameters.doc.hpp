@@ -1,4 +1,4 @@
-//sourcehash: 8031c6f4cc0a3e4d1044f91de993abdbcbdcb6446dd900445153f7222d6c5745
+//sourcehash: 5cacb7c85e25562b72db42731b4a615196b4cc374ddc838cecf2d560cb5c7a43
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -121,8 +121,6 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters_counter = R"doc(< Sequential Number)doc";
 

@@ -65,10 +65,10 @@ void init_c_installationparameters(pybind11::module& m)
         .def("set_installation_parameters",
              &InstallationParameters::set_installation_parameters,
              DOC_InstallationParameters(installation_parameters))
-        .def("installation_parameters",
-             &InstallationParameters::installation_parameters,
-             DOC_InstallationParameters(installation_parameters),
-             py::return_value_policy::reference_internal)
+        //    .def("installation_parameters",
+        //         &InstallationParameters::installation_parameters,
+        //         DOC_InstallationParameters(installation_parameters),
+        //         py::return_value_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_installation_parameters_parsed",
