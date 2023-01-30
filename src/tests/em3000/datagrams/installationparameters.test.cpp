@@ -108,18 +108,89 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
         CHECK(dat.get_motion_sensor_offsets(1) ==
               PositionalOffsets("Motion sensor 1", 0, 0, 0, -0.23, -0.2, -0.15));
     }
-
     SECTION("Motion sensor 2")
     {
         CAPTURE(dat.get_motion_sensor_offsets(2).info_string(3));
         CHECK(dat.get_motion_sensor_offsets(2) ==
               PositionalOffsets("Motion sensor 2", -7.887, 0.875, -5.968, 0., 0., 0.));
     }
-
     SECTION("Depth sensor")
     {
-        CAPTURE(dat.get_depth_sensor_offsets().info_string());
+        CAPTURE(dat.get_depth_sensor_offsets().info_string(3));
         CHECK(dat.get_depth_sensor_offsets() ==
               PositionalOffsets("Depth sensor", 0, 0, 0, 0, 0, 0));
+    }
+    SECTION("Position system 1")
+    {
+        CAPTURE(dat.get_position_system_offsets(1).info_string(3));
+        CHECK(dat.get_position_system_offsets(1) ==
+              PositionalOffsets("Position system 1", -7.887, 0.875, -5.968, 0., 0., 0.));
+    }
+    SECTION("Position system 2")
+    {
+        CAPTURE(dat.get_position_system_offsets(2).info_string(3));
+        CHECK(dat.get_position_system_offsets(2) ==
+              PositionalOffsets("Position system 2", 0, 0, 0, 0, 0, 0));
+    }
+    SECTION("Position system 3")
+    {
+        CAPTURE(dat.get_position_system_offsets(3).info_string(3));
+        CHECK(dat.get_position_system_offsets(3) ==
+              PositionalOffsets("Position system 3", -2.567, -1.153, -30.331, 0., 0., 0.));
+    }
+    // SECTION("Transducer 0")
+    // {
+    //     CAPTURE(dat.get_transducer_offsets(0).info_string(3));
+    //     CHECK(dat.get_transducer_offsets(0) ==
+    //           PositionalOffsets("Transducer 0", -2.567, -1.153, -30.331, 0., 0., 0.));
+    // }
+    SECTION("Transducer 1")
+    {
+        CAPTURE(dat.get_transducer_offsets(1).info_string(3));
+        CHECK(dat.get_transducer_offsets(1) ==
+              PositionalOffsets("Transducer 1", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
+    }
+    SECTION("Transducer 2")
+    {
+        CAPTURE(dat.get_transducer_offsets(2).info_string(3));
+        CHECK(dat.get_transducer_offsets(2) ==
+              PositionalOffsets("Transducer 2", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
+    }
+    SECTION("Transducer 3")
+    {
+        CAPTURE(dat.get_transducer_offsets(3).info_string(3));
+        CHECK(dat.get_transducer_offsets(3) ==
+              PositionalOffsets("Transducer 3", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
+    }
+
+    SECTION("Gyrocompass")
+    {
+        CAPTURE(dat.get_compass_offsets().info_string());
+        CHECK(dat.get_compass_offsets() == PositionalOffsets("Gyrocompass", 0, 0, 0, 0, 0, 0));
+    }
+
+    SECTION("individual parameters")
+    {
+        CHECK(dat.get_water_line_vertical_location_in_meters() == -4.908f);
+        CHECK(dat.get_system_main_head_serial_number() == 2004);
+        CHECK(dat.get_tx_serial_number() == 214);
+        // CHECK(dat.get_tx2_serial_number() == 2);
+        CHECK(dat.get_rx1_serial_number() == 2004);
+        CHECK(dat.get_rx2_serial_number() == 2031);
+        CHECK(dat.get_system_transducer_configuration() == "Single TX + dual RX");
+        CHECK(dat.get_tx_array_size() == "0.5°");
+        CHECK(dat.get_rx_array_size() == "1°");
+    }
+
+    SECTION("SensorConfiguration")
+    {
+        auto sc = dat.get_sensor_configuration();
+        CAPTURE(sc.info_string(3));
+        CHECK(sc.get_target("TX") ==
+              PositionalOffsets("TX", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
+        CHECK(sc.get_target("RX port") ==
+              PositionalOffsets("RX port", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
+        CHECK(sc.get_target("RX starboard") ==
+              PositionalOffsets("RX starboard", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
     }
 }

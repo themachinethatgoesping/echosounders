@@ -82,6 +82,9 @@ void init_c_installationparameters(pybind11::module& m)
              DOC_InstallationParameters(reparse_installation_parameters))
 
         // --- processed access of installation parameters ---
+        .def("get_compass_offsets",
+             &InstallationParameters::get_compass_offsets,
+             DOC_InstallationParameters(get_compass_offsets))
         .def("get_depth_sensor_offsets",
              &InstallationParameters::get_depth_sensor_offsets,
              DOC_InstallationParameters(get_depth_sensor_offsets))
@@ -89,6 +92,19 @@ void init_c_installationparameters(pybind11::module& m)
              &InstallationParameters::get_motion_sensor_offsets,
              DOC_InstallationParameters(get_motion_sensor_offsets),
              py::arg("sensor_number"))
+        .def("get_position_system_offsets",
+             &InstallationParameters::get_position_system_offsets,
+             DOC_InstallationParameters(get_position_system_offsets),
+             py::arg("position_system_number"))
+        .def("get_transducer_offsets",
+             &InstallationParameters::get_transducer_offsets,
+             DOC_InstallationParameters(get_transducer_offsets),
+             py::arg("transducer_number"),
+             py::arg("transducer_name") = "")
+
+        .def("get_sensor_configuration",
+             &InstallationParameters::get_sensor_configuration,
+             DOC_InstallationParameters(get_sensor_configuration))
 
         .def("get_sensor_offsets",
              &InstallationParameters::get_sensor_offsets,
@@ -97,6 +113,35 @@ void init_c_installationparameters(pybind11::module& m)
              py::arg("sensor_prefix"),
              py::arg("has_xyz") = true,
              py::arg("has_ypr") = true)
+
+        // ----- high level access to installation parameters -----
+        .def("get_water_line_vertical_location_in_meters",
+             &InstallationParameters::get_water_line_vertical_location_in_meters,
+             DOC_InstallationParameters(get_water_line_vertical_location_in_meters))
+        .def("get_system_main_head_serial_number",
+             &InstallationParameters::get_system_main_head_serial_number,
+             DOC_InstallationParameters(get_system_main_head_serial_number))
+        .def("get_tx_serial_number",
+             &InstallationParameters::get_tx_serial_number,
+             DOC_InstallationParameters(get_tx_serial_number))
+        .def("get_tx2_serial_number",
+             &InstallationParameters::get_tx2_serial_number,
+             DOC_InstallationParameters(get_tx2_serial_number))
+        .def("get_tx_serial_number",
+             &InstallationParameters::get_rx1_serial_number,
+             DOC_InstallationParameters(get_rx1_serial_number))
+        .def("get_rx2_serial_number",
+             &InstallationParameters::get_rx2_serial_number,
+             DOC_InstallationParameters(get_rx2_serial_number))
+        .def("get_system_transducer_configuration",
+             &InstallationParameters::get_system_transducer_configuration,
+             DOC_InstallationParameters(get_system_transducer_configuration))
+        .def("get_tx_array_size",
+             &InstallationParameters::get_tx_array_size,
+             DOC_InstallationParameters(get_tx_array_size))
+        .def("get_rx_array_size",
+             &InstallationParameters::get_rx_array_size,
+             DOC_InstallationParameters(get_rx_array_size))
 
         // --- checksum access ---
         .def("get_etx", &InstallationParameters::get_etx, DOC_InstallationParameters(etx))

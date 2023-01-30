@@ -1,4 +1,4 @@
-//sourcehash: a5b2abb11ef73b269773090046bde1e7d3122b158725079eb9d094e12e100684
+//sourcehash: 35e32362fd5a78070078feb209304d4c0822a1feaec33dd1733f0da53537f9bf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,6 +71,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_checksum = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_compass_offsets =
+R"doc(Get the compass sensor offsets (Gyrocompass) Includes heading offset
+only
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_depth_sensor_offsets =
 R"doc(Get the depth sensor offsets
 
@@ -89,12 +96,29 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 R"doc(Get the motion sensor offsets of sensor 1 or 2
 
 Parameter ``sensor_number``:
-    must by 1 or 2
+    must be 1 or 2
 
 Returns:
     navigation::datastructures::PositionalOffsets)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_position_system_offsets =
+R"doc(Get the position system offsets of system 1, 2 or 3
+
+Parameter ``position_system_number``:
+    must be 1, 2 or 3
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_rx1_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_rx2_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_rx_array_size = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_secondary_system_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_offsets =
 R"doc(Internal function to get the sensor offsets from the installation
@@ -118,7 +142,34 @@ Parameter ``has_ypr``:
 Returns:
     PositionalOffsets)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_main_head_serial_number = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_system_transducer_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_transducer_offsets =
+R"doc(Get the transducer offsets of transducer 0, 1, 2 or 3
+
+Parameter ``position_system_number``:
+    must be 0, 1, 2 or 3
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_tx2_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_tx_array_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_tx_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_float = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_int = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_water_line_vertical_location_in_meters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters = R"doc()doc";
 

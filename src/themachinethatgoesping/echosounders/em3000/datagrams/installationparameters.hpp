@@ -21,6 +21,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
+#include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
@@ -71,8 +72,9 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
     { "S3R", "Transducer 3 roll in degrees re horizontal" },
     { "S3P", "Transducer 3 pitch in degrees" },
 
-    { "S1S", "TX array size (0=0.5o, 1=1o, 2=2o)" },
-    { "S2S", "RX array size (1=1o, 2=2o)" },
+    { "S1S", "TX array size (0=0.5°, 1=1°, 2=2°)" },
+    { "S2S", "RX array size (0=0.5°, 1=1°, 2=2°)" },
+    { "S3S", "RX2 array size (0=0.5°, 1=1°, 2=2°)" },
     { "GO1", "System (sonar head 1) gain offset" },
     { "GO2", "Sonar head 2 gain offset" },
     { "OBO", "Outer beam offset" },
@@ -297,15 +299,123 @@ class InstallationParameters : public EM3000Datagram
         }
     }
 
-    // ----- access to automatically selected sensor offsets -----
-    // /**
-    //  * @brief Get the depth sensor offsets
-    //  *
-    //  * @return navigation::datastructures::PositionalOffsets
-    //  */
-    // navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const
-    // {
-    // }
+    // ----- high level access to installation parameters -----
+    float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ"); }
+
+    int         get_system_main_head_serial_number() const { return get_value_int("SMH"); }
+    int         get_tx_serial_number() const { return get_value_int("TXS"); }
+    int         get_tx2_serial_number() const { return get_value_int("T2X"); }
+    int         get_rx1_serial_number() const { return get_value_int("R1S"); }
+    int         get_rx2_serial_number() const { return get_value_int("R2S"); }
+    std::string get_system_transducer_configuration() const
+    {
+        auto s = get_value_string("STC");
+
+        switch (s[0])
+        {
+            case '0':
+                return "Single TX + single RX";
+            case '1':
+                return "Single head";
+            case '2':
+                return "Dual head";
+            case '3':
+                return "Single TX + dual RX";
+            case '4':
+                return "Dual TX + dual RX";
+            case '5':
+                return "Portable single head";
+            case '6':
+                return "Modular";
+            default:
+                return "Unknown";
+        }
+    }
+
+    std::string get_tx_array_size() const
+    {
+        switch (get_value_string("S1S")[0])
+        {
+            case '0':
+                return "0.5°";
+            case '1':
+                return "1°";
+            case '2':
+                return "2°";
+            default:
+                return "Unknown";
+        }
+    }
+
+    std::string get_rx_array_size() const
+    {
+        switch (get_value_string("S2S")[0])
+        {
+            case '0':
+                return "0.5°";
+            case '1':
+                return "1°";
+            case '2':
+                return "2°";
+            default:
+                return "Unknown";
+        }
+    }
+
+    // ----- access to total sensor configuration -----
+
+    navigation::SensorConfiguration get_sensor_configuration() const
+    {
+        navigation::SensorConfiguration config;
+
+        /* get the sensor configuration flag using STC */
+        switch(get_value_int("STC"))
+        {
+            case 0: // Single TX + single RX
+                config.add_target("TX", get_transducer_offsets(1, "TX"));
+                config.add_target("RX", get_transducer_offsets(2, "RX"));
+                break;
+            case 1: // Single head
+                config.add_target("Head", get_transducer_offsets(1, "Head"));
+                break;
+            case 2: // Dual head
+                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
+                config.add_target("Head 2", get_transducer_offsets(2, "Head 2"));
+                break;
+            case 3: // Single TX + dual RX
+                config.add_target("TX", get_transducer_offsets(1, "TX"));
+                config.add_target("RX port", get_transducer_offsets(2, "RX port"));
+                config.add_target("RX starboard", get_transducer_offsets(3, "RX starboard"));
+                break;
+            case 4: // Dual TX + dual RX
+                config.add_target("TX port", get_transducer_offsets(0, "TX port"));
+                config.add_target("TX starboard", get_transducer_offsets(1, "TX starboard"));
+                config.add_target("RX port", get_transducer_offsets(2, "RX port"));
+                config.add_target("RX starboard", get_transducer_offsets(3, "RX starboard"));
+                break;
+            case 5: // Portable single head
+                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
+                break;
+            case 6: // Modular
+                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
+                break;
+        }
+
+        return config;
+    }
+
+    // ----- access to selected sensor offsets -----
+    /**
+     * @brief Get the compass sensor offsets (Gyrocompass)
+     * Includes heading offset only
+     *
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_compass_offsets() const
+    {
+        using navigation::datastructures::PositionalOffsets;
+        return PositionalOffsets("Gyrocompass", 0, 0, 0, get_value_float("GCG"), 0, 0);
+    }
 
     /**
      * @brief Get the depth sensor offsets
@@ -325,7 +435,7 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the motion sensor offsets of sensor 1 or 2
      *
-     * @param sensor_number must by 1 or 2
+     * @param sensor_number must be 1 or 2
      * @return navigation::datastructures::PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_motion_sensor_offsets(
@@ -378,8 +488,91 @@ class InstallationParameters : public EM3000Datagram
         }
     }
 
+    /**
+     * @brief Get the position system offsets of system 1, 2 or 3
+     *
+     * @param position_system_number must be 1, 2 or 3
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_position_system_offsets(
+        uint8_t position_system_number) const
+    {
+        using tools::helper::string_to_floattype;
+
+        if (position_system_number > 3 || position_system_number < 1)
+        {
+            throw std::invalid_argument(fmt::format("get_position_system_offsets: Invalid position "
+                                                    "system number: {} (must be 1, 2 or 3)",
+                                                    position_system_number));
+        }
+
+        std::string sensor_prefix = "P" + std::to_string(position_system_number);
+
+        // check unsupported options
+        // unsupported_option_string(sensor_prefix + "M", "1", "get_position_system_offsets");
+        // unsupported_option_string(sensor_prefix + "T", "1", "get_position_system_offsets");
+        unsupported_option_string(sensor_prefix + "G", "WGS84", "get_position_system_offsets");
+        unsupported_option_float(sensor_prefix + "D", 0.0f, "get_position_system_offsets");
+
+        return get_sensor_offsets("Position system " + std::to_string(position_system_number),
+                                  sensor_prefix,
+                                  true, // has xyz offsets
+                                  false // has ypr offsets
+        );
+    }
+
+    /**
+     * @brief Get the transducer offsets of transducer 0, 1, 2 or 3
+     *
+     * @param position_system_number must be 0, 1, 2 or 3
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_transducer_offsets(
+        uint8_t     transducer_number,
+        std::string transducer_name = "") const
+    {
+        using navigation::datastructures::PositionalOffsets;
+
+        if (transducer_number > 3)
+        {
+            throw std::invalid_argument(fmt::format("get_transducer_offsets: Invalid transducer "
+                                                    "number: {} (must be 0, 1, 2 or 3)",
+                                                    transducer_number));
+        }
+
+        std::string sensor_prefix = "S" + std::to_string(transducer_number);
+
+        // check unsupported options
+        if (transducer_name.empty())
+            transducer_name = "Transducer " + std::to_string(transducer_number);
+
+        return PositionalOffsets(transducer_name,
+                                 get_value_float(sensor_prefix + std::string("X")),
+                                 get_value_float(sensor_prefix + std::string("Y")),
+                                 get_value_float(sensor_prefix + std::string("Z")),
+                                 get_value_float(sensor_prefix + std::string("H")),
+                                 get_value_float(sensor_prefix + std::string("P")),
+                                 get_value_float(sensor_prefix + std::string("R")));
+    }
+
     // ----- processed access to installation parameters (internal functions) -----
-    // double get_value_
+    std::string get_value_string(const std::string& key) const
+    {
+        auto it = _parsed_installation_parameters.find(key);
+        if (it == _parsed_installation_parameters.end())
+        {
+            throw std::invalid_argument(fmt::format("get_value: Key not found: {}", key));
+        }
+
+        return it->second;
+    }
+
+    float get_value_float(const std::string& key) const
+    {
+        return tools::helper::string_to_floattype<float>(get_value_string(key));
+    }
+
+    int get_value_int(const std::string& key) const { return stoi(get_value_string(key)); }
 
     /**
      * @brief Internal function to get the sensor offsets from the installation parameters.
@@ -409,38 +602,23 @@ class InstallationParameters : public EM3000Datagram
         using navigation::datastructures::PositionalOffsets;
         using tools::helper::string_to_floattype;
 
-        try
+        float x = 0., y = 0., z = 0., yaw = 0., pitch = 0., roll = 0.;
+
+        if (has_xyz)
         {
-            float x = 0., y = 0., z = 0., yaw = 0., pitch = 0., roll = 0.;
-
-            if (has_xyz)
-            {
-                x = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("X")));
-                y = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("Y")));
-                z = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("Z")));
-            }
-
-            if (has_ypr)
-            {
-                yaw = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("G")));
-                pitch = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("P")));
-                roll = string_to_floattype<float>(
-                    _parsed_installation_parameters.at(sensor_prefix + std::string("R")));
-            }
-
-            return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
+            x = get_value_float(sensor_prefix + std::string("X"));
+            y = get_value_float(sensor_prefix + std::string("Y"));
+            z = get_value_float(sensor_prefix + std::string("Z"));
         }
-        catch (std::out_of_range& e)
+
+        if (has_ypr)
         {
-            throw std::invalid_argument(fmt::format(
-                "get_sensor_offsets: Can't detect sensor prefix in installation parameters: {}",
-                sensor_prefix));
+            yaw   = get_value_float(sensor_prefix + std::string("G"));
+            pitch = get_value_float(sensor_prefix + std::string("P"));
+            roll  = get_value_float(sensor_prefix + std::string("R"));
         }
+
+        return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
     }
 
     // ----- operators -----
