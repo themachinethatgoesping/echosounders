@@ -240,7 +240,7 @@ class InstallationParameters : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // substructures
-    //std::string&       installation_parameters() { return _installation_parameters; }
+    // std::string&       installation_parameters() { return _installation_parameters; }
     const std::string& get_installation_parameters() const { return _installation_parameters; }
     void               set_installation_parameters(const std::string& installation_parameters)
     {

@@ -119,17 +119,20 @@ struct XML_Configuration_Transceiver_Channel
             }
             else if (name == "PulseDuration")
             {
-                PulseDuration = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
+                PulseDuration =
+                    tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "PulseDurationFM")
             {
-                PulseDurationFM = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
+                PulseDurationFM =
+                    tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "SampleInterval")
             {
-                SampleInterval = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
+                SampleInterval =
+                    tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             else if (name == "MaxTxPowerTransceiver")

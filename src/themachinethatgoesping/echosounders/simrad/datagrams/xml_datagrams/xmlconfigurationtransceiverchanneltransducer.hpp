@@ -186,12 +186,14 @@ struct XMLConfigurationTransceiverChannelTransducer
             }
             else if (name == "AngleSensitivityAlongship")
             {
-                AngleSensitivityAlongship = tools::helper::string_to_floattype<double>(attr.value());
+                AngleSensitivityAlongship =
+                    tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleSensitivityAthwartship")
             {
-                AngleSensitivityAthwartship = tools::helper::string_to_floattype<double>(attr.value());
+                AngleSensitivityAthwartship =
+                    tools::helper::string_to_floattype<double>(attr.value());
                 continue;
             }
             else if (name == "AngleOffsetAlongship")

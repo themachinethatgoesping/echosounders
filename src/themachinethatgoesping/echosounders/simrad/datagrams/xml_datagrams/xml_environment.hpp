@@ -113,7 +113,8 @@ struct XML_Environment
             }
             if (name == "SoundVelocityProfile")
             {
-                SoundVelocityProfile = tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
+                SoundVelocityProfile =
+                    tools::helper::string_to_floattype_vector<double>(attr.value(), ';');
                 continue;
             }
             if (name == "WaterLevelDraftIsManual")
