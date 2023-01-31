@@ -96,8 +96,16 @@ class I_FileDataInterface
         deinitialize();
     }
 
-    // const std::vector<std::shared_ptr<t_filedatainterface_perfile>>& per_file() { return
-    // _interface_per_file; }
+    /**
+     * @brief get a vector with references to the per file interfaces
+     * This is useful for iterating over all files
+     *
+     * @return std::vector<t_filedatainterface_perfile&>
+     */
+    std::vector<std::shared_ptr<t_filedatainterface_perfile>> per_file()
+    {
+        return _interface_per_file;
+    }
 
     t_filedatainterface_perfile& per_file(long pyindex)
     {

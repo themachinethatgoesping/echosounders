@@ -182,15 +182,15 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
         CHECK(dat.get_rx_array_size() == "1°");
     }
 
-    SECTION("SensorConfiguration")
-    {
-        auto sc = dat.get_sensor_configuration();
-        CAPTURE(sc.info_string(3));
-        CHECK(sc.get_target("TX") ==
-              PositionalOffsets("TX", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
-        CHECK(sc.get_target("RX port") ==
-              PositionalOffsets("RX port", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
-        CHECK(sc.get_target("RX starboard") ==
-              PositionalOffsets("RX starboard", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
-    }
+    // SECTION("SensorConfiguration")
+    // {
+    //     auto sc = dat.get_sensor_configuration();
+    //     CAPTURE(sc.info_string(3));
+    //     CHECK(sc.get_target("TX") ==
+    //           PositionalOffsets("TX", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
+    //     CHECK(sc.get_target("RX port") ==
+    //           PositionalOffsets("RX port", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
+    //     CHECK(sc.get_target("RX starboard") ==
+    //           PositionalOffsets("RX starboard", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
+    // }
 }

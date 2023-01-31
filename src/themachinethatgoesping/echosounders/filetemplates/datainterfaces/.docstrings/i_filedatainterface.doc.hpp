@@ -1,4 +1,4 @@
-//sourcehash: 238b11385560e9955f51e6a5db589c82388de504a381c267a88d1d8fd164b68b
+//sourcehash: ecef58ed660f8238feb72c0a67812f35a70af46a7d22cb48cc4355b955b052a0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -62,7 +62,14 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_file = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_file =
+R"doc(get a vector with references to the per file interfaces This is useful
+for iterating over all files
+
+Returns:
+    std::vector<t_filedatainterface_perfile&>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_file_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_file_const = R"doc()doc";
 

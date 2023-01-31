@@ -34,9 +34,13 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, em3000, filedatainterfaces,                              \
-        EM3000ConfigurationDataInterface
+#define DOC_EM3000ConfigurationDataInterfacePerFile(ARG)                                           \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        em3000,                                                                                    \
+        filedatainterfaces,                                                                        \
+        EM3000ConfigurationDataInterfacePerFile,                                                   \
+        ARG)
 
 template<typename T_FileStream>
 void py_create_class_EM3000ConfigurationDataInterfacePerFile(py::module&        m,
@@ -48,22 +52,18 @@ void py_create_class_EM3000ConfigurationDataInterfacePerFile(py::module&        
     using T_BaseClass = filedatainterfaces::EM3000ConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           em3000,
-                                           filedatainterfaces,
-                                           EM3000ConfigurationDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping,
+                       echosounders,
+                       em3000,
+                       filedatainterfaces,
+                       EM3000ConfigurationDataInterfacePerFile))
 
-        //    .def("get_configuration_datagram",
-        //         &T_BaseClass::get_configuration_datagram,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000ConfigurationDataInterfacePerFile,
-        //             get_configuration_datagram))
+                   .def("get_installation_parameters",
+                        &T_BaseClass::get_installation_parameters,
+                        DOC_EM3000ConfigurationDataInterfacePerFile(get_installation_parameters))
         //    .def("get_position_sources",
         //         &T_BaseClass::get_position_sources,
         //         DOC(themachinethatgoesping,

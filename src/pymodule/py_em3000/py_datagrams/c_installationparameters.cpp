@@ -102,10 +102,6 @@ void init_c_installationparameters(pybind11::module& m)
              py::arg("transducer_number"),
              py::arg("transducer_name") = "")
 
-        .def("get_sensor_configuration",
-             &InstallationParameters::get_sensor_configuration,
-             DOC_InstallationParameters(get_sensor_configuration))
-
         .def("get_sensor_offsets",
              &InstallationParameters::get_sensor_offsets,
              DOC_InstallationParameters(get_sensor_offsets),

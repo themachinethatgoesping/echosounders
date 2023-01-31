@@ -128,12 +128,13 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             }
             catch (std::exception& e)
             {
-                fmt::print(
-                    std::cerr,
-                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}): {}\n",
-                    this->get_name(),
-                    i,
-                    e.what());
+                // TODO: Use logging
+                // fmt::print(
+                //     std::cerr,
+                //     "WARNING[{}::init_from_file]: Could not merge file navigation ({}): {}\n",
+                //     this->get_name(),
+                //     i,
+                //     e.what());
             }
             if (!existing_progressbar)
                 progress_bar.tick();

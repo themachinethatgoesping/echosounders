@@ -1,4 +1,4 @@
-//sourcehash: 35e32362fd5a78070078feb209304d4c0822a1feaec33dd1733f0da53537f9bf
+//sourcehash: 265bece2d69f02f9517c1a429ff82595109956096212506a9203df963ff50fa1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -117,8 +117,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_rx_array_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_secondary_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_offsets =
 R"doc(Internal function to get the sensor offsets from the installation

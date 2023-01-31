@@ -43,42 +43,112 @@ class EM3000ConfigurationDataInterfacePerFile
     }
     ~EM3000ConfigurationDataInterfacePerFile() = default;
 
-    // navigation::SensorConfiguration read_sensor_configuration() final
-    // {
-    //     auto configuration_datagram = this->get_configuration_datagram();
-    //     // get sensor configuration
-    //     return configuration_datagram.get_sensor_configuration();
-    // }
+    navigation::SensorConfiguration read_sensor_configuration() final
+    {
+        navigation::SensorConfiguration config;
+
+        // get the installation parameters datagram
+        auto param = this->get_installation_parameters();
+
+        /* get the sensor configuration flag using STC */
+        switch (param.get_value_int("STC"))
+        {
+            case 0: // Single TX + single RX
+                config.add_target("TX", param.get_transducer_offsets(1, "TX"));
+                config.add_target("RX", param.get_transducer_offsets(2, "RX"));
+                break;
+            case 1: // Single head
+                config.add_target("Head", param.get_transducer_offsets(1, "Head"));
+                break;
+            case 2: // Dual head
+                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
+                config.add_target("Head 2", param.get_transducer_offsets(2, "Head 2"));
+                break;
+            case 3: // Single TX + dual RX
+                config.add_target("TX", param.get_transducer_offsets(1, "TX"));
+                config.add_target("RX port", param.get_transducer_offsets(2, "RX port"));
+                config.add_target("RX starboard", param.get_transducer_offsets(3, "RX starboard"));
+                break;
+            case 4: // Dual TX + dual RX
+                config.add_target("TX port", param.get_transducer_offsets(0, "TX port"));
+                config.add_target("TX starboard", param.get_transducer_offsets(1, "TX starboard"));
+                config.add_target("RX port", param.get_transducer_offsets(2, "RX port"));
+                config.add_target("RX starboard", param.get_transducer_offsets(3, "RX starboard"));
+                break;
+            case 5: // Portable single head
+                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
+                break;
+            case 6: // Modular
+                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
+                break;
+            default:
+                throw std::runtime_error(
+                    fmt::format("read_sensor_configuration: Unknown STC "
+                                "value {} in file nr {} [{}] installation parameters!",
+                                param.get_value_int("STC"),
+                                this->get_file_nr(),
+                                this->get_file_path()));
+        }
+
+        // add the compass
+        config.set_heading_source(param.get_compass_offsets());
+
+        // add the depth sensor
+        config.set_depth_source(param.get_depth_sensor_offsets());
+
+        // add the gyro
+        config.set_attitude_source(param.get_motion_sensor_offsets(1));
+
+        // add the position sensor
+        config.set_position_source(param.get_position_system_offsets(1));
+
+        return config;
+    }
 
     // ----- em3000 specific functions -----
     /* get infos */
-    // datagrams::xml_datagrams::XML_Configuration get_configuration_datagram()
-    // {
-    //     // get datagram infos for XML0 packets
-    //     const auto& datagram_infos =
-    //         this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::XML0);
+    datagrams::InstallationParameters get_installation_parameters()
+    {
+        // check that there is only one installation parameters datagram
+        if (this->_datagram_infos_by_type
+                .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)
+                .size() != 1)
+            throw std::runtime_error(fmt::format("get_installation_parameters: There is not "
+                                                 "exactly one installation parameters start"
+                                                 "datagram in file nr {} [{}]!",
+                                                 this->get_file_nr(),
+                                                 this->get_file_path()));
 
-    //     // check that there is a configuration datagram
-    //     if (datagram_infos.empty())
-    //         throw std::runtime_error(fmt::format(
-    //             "read_sensor_configuration: No XML0 datagram found in {}!",
-    //             this->get_file_path()));
+        // check that there is only one installation parameters datagram
+        if (this->_datagram_infos_by_type
+                .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)
+                .size() != 1)
+            throw std::runtime_error(fmt::format(
+                "get_installation_parameters: There is not exactly one installation parameters stop"
+                "datagram in file nr {} [{}]!",
+                this->get_file_nr(),
+                this->get_file_path()));
 
-    //     // read first xml datagram (this should be the configuration datagram))
-    //     auto xml0_datagram = datagram_infos[0]->template
-    //     read_datagram_from_file<datagrams::XML0>();
+        // get installation parameters start/stop and ...
+        auto start = this->_datagram_infos_by_type
+                         .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)[0]
+                         ->template read_datagram_from_file<datagrams::InstallationParameters>();
+        auto stop = this->_datagram_infos_by_type
+                        .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)[0]
+                        ->template read_datagram_from_file<datagrams::InstallationParameters>();
 
-    //     // check that this datagram is a configuration datagram
-    //     if (xml0_datagram.get_xml_datagram_type() != "Configuration")
-    //         throw std::runtime_error(
-    //             fmt::format("read_sensor_configuration: First XML0 datagram in {} is not a "
-    //                         "configuration datagram! ['{}' != 'Configuration']",
-    //                         this->get_file_path(),
-    //                         xml0_datagram.get_xml_datagram_type()));
+        // ... check that they are the same
+        if (start.get_installation_parameters() != stop.get_installation_parameters())
+            throw std::runtime_error(
+                fmt::format("get_installation_parameters: Installation "
+                            "parameters start and stop datagrams in file nr {} [{}]"
+                            "are not the same!",
+                            this->get_file_nr(),
+                            this->get_file_path()));
 
-    //     // decode configuration datagram
-    //     return std::get<datagrams::xml_datagrams::XML_Configuration>(xml0_datagram.decode());
-    // }
+        // return the installation parameters
+        return start;
+    }
 
     // /* get other possible sensor sources */
     // /**

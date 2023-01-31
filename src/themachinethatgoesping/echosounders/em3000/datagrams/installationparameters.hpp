@@ -362,48 +362,6 @@ class InstallationParameters : public EM3000Datagram
         }
     }
 
-    // ----- access to total sensor configuration -----
-
-    navigation::SensorConfiguration get_sensor_configuration() const
-    {
-        navigation::SensorConfiguration config;
-
-        /* get the sensor configuration flag using STC */
-        switch(get_value_int("STC"))
-        {
-            case 0: // Single TX + single RX
-                config.add_target("TX", get_transducer_offsets(1, "TX"));
-                config.add_target("RX", get_transducer_offsets(2, "RX"));
-                break;
-            case 1: // Single head
-                config.add_target("Head", get_transducer_offsets(1, "Head"));
-                break;
-            case 2: // Dual head
-                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
-                config.add_target("Head 2", get_transducer_offsets(2, "Head 2"));
-                break;
-            case 3: // Single TX + dual RX
-                config.add_target("TX", get_transducer_offsets(1, "TX"));
-                config.add_target("RX port", get_transducer_offsets(2, "RX port"));
-                config.add_target("RX starboard", get_transducer_offsets(3, "RX starboard"));
-                break;
-            case 4: // Dual TX + dual RX
-                config.add_target("TX port", get_transducer_offsets(0, "TX port"));
-                config.add_target("TX starboard", get_transducer_offsets(1, "TX starboard"));
-                config.add_target("RX port", get_transducer_offsets(2, "RX port"));
-                config.add_target("RX starboard", get_transducer_offsets(3, "RX starboard"));
-                break;
-            case 5: // Portable single head
-                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
-                break;
-            case 6: // Modular
-                config.add_target("Head 1", get_transducer_offsets(1, "Head 1"));
-                break;
-        }
-
-        return config;
-    }
-
     // ----- access to selected sensor offsets -----
     /**
      * @brief Get the compass sensor offsets (Gyrocompass)

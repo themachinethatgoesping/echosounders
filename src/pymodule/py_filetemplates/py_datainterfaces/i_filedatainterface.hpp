@@ -20,6 +20,14 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_filedatainterface {
 
+#define DOC_FileDataInterface(ARG)                                                                 \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_FileDataInterface,                                                                       \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterface_add_interface(T_PyClass& cls)
 {
@@ -28,13 +36,11 @@ void FileDataInterface_add_interface(T_PyClass& cls)
 
     /* datagram access */
     cls.def("per_file",
+            py::overload_cast<>(&T_BaseClass::per_file),
+            DOC_FileDataInterface(per_file));
+    cls.def("per_file",
             py::overload_cast<long>(&T_BaseClass::per_file),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                per_file),
+            DOC_FileDataInterface(per_file_2),
             pybind11::return_value_policy::reference_internal,
             py::arg("file_nr"));
 
@@ -44,50 +50,19 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             // (https://github.com/pybind/pybind11/issues/1153)
             (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                init_from_file),
+            DOC_FileDataInterface(init_from_file),
             py::arg("force")         = false,
             py::arg("show_progress") = true);
     cls.def("init_from_file",
             // py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
             (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                init_from_file_2),
+            DOC_FileDataInterface(init_from_file_2),
             py::arg("force"),
             py::arg("progress_bar"));
 
-    cls.def("deinitialize",
-            &T_BaseClass::deinitialize,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                deinitialize));
-    cls.def("initialized",
-            &T_BaseClass::initialized,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterface,
-                initialized));
-
-    // cls.def(
-    //     "per_file",
-    //     py::overload_cast<long>(&T_BaseClass::per_file),
-    //     DOC(themachinethatgoesping, echosounders, filetemplates,datainterfaces,
-    //     I_FileDataInterface, per_file_2), pybind11::return_value_policy::reference_internal,
-    //     py::arg("file_nr"));
+    cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
+    cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterface(initialized));
 
     // ----- ping convenience functions -----
     /* default copy functions */
