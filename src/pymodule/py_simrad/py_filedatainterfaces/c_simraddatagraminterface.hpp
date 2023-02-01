@@ -25,8 +25,9 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
     using namespace themachinethatgoesping::echosounders::simrad;
     using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-    using namespace py_filetemplates; // this holds py_i_DatagramInterface and
-                                      // py_i_DatagramInterface
+    using namespace py_filetemplates::py_datainterfaces;
+    py_i_datagraminterface::add_InterfaceFunctions<T_BaseClass>(cls);
+
     //----- iterators via () operator -----
     cls.def(
         "datagrams",
@@ -114,6 +115,16 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
             I_DatagramInterface,
             datagrams_2),
         py::arg("datagram_type"));
+
+    cls.def("per_file",
+            &T_BaseClass::per_file,
+            DOC(themachinethatgoesping,
+                echosounders,
+                em3000,
+                filedatainterfaces,
+                SimradDatagramInterface,
+                per_file),
+            py::return_value_policy::reference_internal);
 
     // ----- ping convenience functions -----
     /* default copy functions */

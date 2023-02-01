@@ -1,4 +1,4 @@
-//sourcehash: afa4c35d4b16f3b6f669384046b0688970d566603161c69fc647b57e59dd14d6
+//sourcehash: a25dbca97504ceaf192690aeb7b4c2b69cb00c7bc9ae43a50cfc24ff4413c004
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainte
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradDatagramInterface_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradDatagramInterface_datagram_identifier_to_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatainterfaces_SimradDatagramInterface_per_file = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

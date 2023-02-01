@@ -21,29 +21,32 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_datagraminterface {
 
+#define DOC_DatagramInterface(ARG)                                                                 \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_DatagramInterface,                                                                       \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void add_InterfaceFunctions(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    cls.def("static_datagram_identifier_to_string",
-            &T_BaseClass::datagram_identifier_to_string,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_DatagramInterface,
-                datagram_identifier_to_string),
-            py::arg("datagram_identifier"));
-    cls.def("datagram_identifier_info",
-            &T_BaseClass::datagram_identifier_info,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_DatagramInterface,
-                datagram_identifier_info),
-            py::arg("datagram_identifier"));
+    // cls.def("static_datagram_identifier_to_string",
+    //         &T_BaseClass::datagram_identifier_to_string,
+    //         DOC_DatagramInterface(datagram_identifier_to_string),
+    //         py::arg("datagram_identifier"));
+    // cls.def("datagram_identifier_info",
+    //         &T_BaseClass::datagram_identifier_info,
+    //         DOC_DatagramInterface(datagram_identifier_info),
+    //         py::arg("datagram_identifier"));
+
+    // cls.def("per_file",
+    //         &T_BaseClass::per_file,
+    //         DOC_DatagramInterface(per_file),
+    //         py::return_value_policy::reference_internal);
 }
 
 }

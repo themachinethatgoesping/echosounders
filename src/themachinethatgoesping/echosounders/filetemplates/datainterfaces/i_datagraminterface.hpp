@@ -31,6 +31,8 @@ namespace datainterfaces {
 template<typename t_DatagramIdentifier, typename t_ifstream>
 class I_DatagramInterface
 {
+    using t_base = I_DatagramInterface<t_DatagramIdentifier, t_ifstream>;
+
   public:
     // member types
     using type_DatagramIdentifier = t_DatagramIdentifier;
@@ -50,6 +52,22 @@ class I_DatagramInterface
         t_DatagramIdentifier,
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
         _datagram_infos_by_type;
+
+  public:
+    // // filter types
+    // std::vector<t_base> per_file() const
+    // {
+    //     std::vector<t_base> vec;
+    //     for (const auto& datagram_info : _datagram_infos_all)
+    //     {
+    //         size_t file_nr = datagram_info->get_file_nr();
+    //         // if (vec.size() <= file_nr)
+    //         //     vec.resize(file_nr + 1);
+
+    //         // vec[file_nr].add_datagram_info(datagram_info);
+    //     }
+    //     return vec;
+    // }
 
   public:
     void add_datagram_info(

@@ -55,6 +55,21 @@ class EM3000DatagramInterface
         // this should work, but doesn't
         return std::string(magic_enum::enum_name(datagram_identifier));
     }
+
+    // filter types
+    std::vector < EM3000DatagramInterface<t_ifstream>> per_file() const
+    {
+        std::vector<EM3000DatagramInterface<t_ifstream>> vec;
+        for (const auto& datagram_info : this->_datagram_infos_all)
+        {
+            size_t file_nr = datagram_info->get_file_nr();
+            if (vec.size() <= file_nr)
+                vec.resize(file_nr + 1);
+
+            vec[file_nr].add_datagram_info(datagram_info);
+        }
+        return vec;
+    }
 };
 
 }
