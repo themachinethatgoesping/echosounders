@@ -120,7 +120,7 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
             &T_BaseClass::per_file,
             DOC(themachinethatgoesping,
                 echosounders,
-                em3000,
+                simrad,
                 filedatainterfaces,
                 SimradDatagramInterface,
                 per_file),

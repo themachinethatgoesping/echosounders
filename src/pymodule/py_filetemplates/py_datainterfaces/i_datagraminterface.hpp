@@ -30,7 +30,7 @@ namespace py_i_datagraminterface {
         ARG)
 
 template<typename T_BaseClass, typename T_PyClass>
-void add_InterfaceFunctions(T_PyClass& cls)
+void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
 {
     namespace py = pybind11;
 
