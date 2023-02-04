@@ -112,39 +112,75 @@ class EM3000ConfigurationDataInterfacePerFile
         // check that there is only one installation parameters datagram
         if (this->_datagram_infos_by_type
                 .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)
-                .size() != 1)
-            throw std::runtime_error(fmt::format("get_installation_parameters: There is not "
-                                                 "exactly one installation parameters start"
+                .empty())
+            throw std::runtime_error(fmt::format("get_installation_parameters: There is no "
+                                                 "installation parameters start"
                                                  "datagram in file nr {} [{}]!",
                                                  this->get_file_nr(),
                                                  this->get_file_path()));
 
-        // check that there is only one installation parameters datagram
-        if (this->_datagram_infos_by_type
-                .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)
-                .size() != 1)
-            throw std::runtime_error(fmt::format(
-                "get_installation_parameters: There is not exactly one installation parameters stop"
-                "datagram in file nr {} [{}]!",
-                this->get_file_nr(),
-                this->get_file_path()));
-
-        // get installation parameters start/stop and ...
+        // get the first installation parameters start paragram ...
         auto start = this->_datagram_infos_by_type
                          .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)[0]
                          ->template read_datagram_from_file<datagrams::InstallationParameters>();
-        auto stop = this->_datagram_infos_by_type
-                        .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)[0]
-                        ->template read_datagram_from_file<datagrams::InstallationParameters>();
 
-        // ... check that they are the same
-        if (start.get_installation_parameters() != stop.get_installation_parameters())
-            throw std::runtime_error(
-                fmt::format("get_installation_parameters: Installation "
-                            "parameters start and stop datagrams in file nr {} [{}]"
-                            "are not the same!",
-                            this->get_file_nr(),
-                            this->get_file_path()));
+        // check that all installation parameter datagrams are the same within the file
+        for (unsigned int i = 1;
+             i < this->_datagram_infos_by_type
+                     .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)
+                     .size();
+             ++i)
+        {
+            auto compare =
+                this->_datagram_infos_by_type
+                    .at_const(t_EM3000DatagramIdentifier::InstallationParametersStart)[i]
+                    ->template read_datagram_from_file<datagrams::InstallationParameters>();
+
+            try
+            {
+                start =
+                    datagrams::InstallationParameters::merge(std::move(start), std::move(compare));
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(
+                    fmt::format("get_installation_parameters: Installation "
+                                "parameters start change within file nr {} [{}]"
+                                "are not the same! Error: {}",
+                                this->get_file_nr(),
+                                this->get_file_path(),
+                                e.what()));
+            }
+        }
+
+        // check that all installation parameter datagrams are the same within the file
+        for (unsigned int i = 0;
+             i < this->_datagram_infos_by_type
+                     .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)
+                     .size();
+             ++i)
+        {
+            auto compare =
+                this->_datagram_infos_by_type
+                    .at_const(t_EM3000DatagramIdentifier::InstallationParametersStop)[i]
+                    ->template read_datagram_from_file<datagrams::InstallationParameters>();
+
+            try
+            {
+                start =
+                    datagrams::InstallationParameters::merge(std::move(start), std::move(compare));
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(
+                    fmt::format("get_installation_parameters: Installation "
+                                "parameters start change within file nr {} [{}]"
+                                "are not the same! Error: {}",
+                                this->get_file_nr(),
+                                this->get_file_path(),
+                                e.what()));
+            }
+        }
 
         // return the installation parameters
         return start;

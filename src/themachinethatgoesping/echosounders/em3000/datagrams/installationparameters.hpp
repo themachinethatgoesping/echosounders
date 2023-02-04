@@ -214,6 +214,99 @@ class InstallationParameters : public EM3000Datagram
     }
     ~InstallationParameters() = default;
 
+    // ----- factory functions -----
+    /**
+     * @brief Merge two InstallationParameters datagrams into one
+     * If the datagrams differ because an uncritical key does not exist in one of them, the
+     * uncritical key will be added to the resulting datagram.
+     *
+     * @param first
+     * @param second
+     * @return InstallationParameters
+     */
+    static InstallationParameters merge(InstallationParameters first, InstallationParameters second)
+    {
+        static const std::array<const std::string, 2> uncritical_keys = {
+            "RFN", // raw file name
+            "SID"  // survey identifier
+        };
+
+        // use the datagram with the lower timestamp as base
+        if (first.get_timestamp() > second.get_timestamp())
+            std::swap(first, second);
+
+        auto& params_first  = first._parsed_installation_parameters;
+        auto& params_second = second._parsed_installation_parameters;
+
+        // if both installation parameters are the same, return the first one
+        if (params_first == params_second)
+            return first;
+
+        // check if the difference is caused by an uncritical key
+        for (const auto& key : uncritical_keys)
+        {
+            const auto& f = params_first.find(key);
+            const auto& s = params_second.find(key);
+
+            if (f == params_first.end())
+            {
+                if (s == params_second.end())
+                    continue;
+
+                params_first[key] = s->second;
+            }
+            else if (s == params_second.end())
+            {
+                params_second[key] = f->second;
+            }
+        }
+
+        // if both installation parameters are the same now, return the first one
+        if (params_first == params_second)
+            return first;
+
+        // list all keys that are missing in params_first
+        std::string missing_keys_1, missing_keys_2;
+        for (const auto& [key, value] : params_second)
+        {
+            if (params_first.find(key) == params_first.end())
+                missing_keys_1 += key + " ";
+        }
+
+        // list all keys that are missing in params_second
+        for (const auto& [key, value] : params_first)
+        {
+            if (params_second.find(key) == params_second.end())
+                missing_keys_2 += key + " ";
+        }
+
+        // list all keys that are different
+        std::string different_keys;
+        for (const auto& [key, value] : params_first)
+        {
+            if (params_first.find(key) == params_first.end())
+                continue;
+
+            if (params_second.find(key) == params_second.end())
+                continue;
+
+            if (params_second.find(key) == params_second.end())
+                continue;
+
+            if (params_second[key] != value)
+                different_keys += key + " ";
+        }
+
+        throw(std::runtime_error(
+            fmt::format("InstallationParameters::merge: Installation parameters cannot be merged: "
+                        "missing keys in first: {}"
+                        "\nmissing keys in second: {}"
+                        "\nkeys with different values: {}",
+                        missing_keys_1,
+                        missing_keys_2,
+                        different_keys)));
+    }
+
     // ----- convenient data access -----
     // getters
     uint16_t get_installation_parameters_counter() const

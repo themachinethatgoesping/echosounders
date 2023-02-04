@@ -80,6 +80,11 @@ void init_c_installationparameters(pybind11::module& m)
         .def("reparse_installation_parameters",
              &InstallationParameters::reparse_installation_parameters,
              DOC_InstallationParameters(reparse_installation_parameters))
+        .def_static("merge",
+                    &InstallationParameters::merge,
+                    DOC_InstallationParameters(merge),
+                    py::arg("datagram_1"),
+                    py::arg("datagram_2"))
 
         // --- processed access of installation parameters ---
         .def("get_compass_offsets",

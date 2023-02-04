@@ -1,4 +1,4 @@
-//sourcehash: 265bece2d69f02f9517c1a429ff82595109956096212506a9203df963ff50fa1
+//sourcehash: 34bbf0e2e4d9f45193625b8a6b2604a81f5e6ae764c16dd308cff034e734009a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -172,6 +172,17 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_installation_parameters_counter = R"doc(< Sequential Number)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_merge =
+R"doc(Merge two InstallationParameters datagrams into one If the datagrams
+differ because an uncritical key does not exist in one of them, the
+uncritical key will be added to the resulting datagram.
+
+Parameter ``first``:
+    $Parameter ``second``:
+
+Returns:
+    InstallationParameters)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_operator_eq = R"doc()doc";
 
