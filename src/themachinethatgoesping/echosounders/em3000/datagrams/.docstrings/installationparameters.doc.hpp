@@ -1,4 +1,4 @@
-//sourcehash: e27cbfe73f396c8943f8aa2fa32ffddbbd35ba4de2c46be464e55efdfa31c134
+//sourcehash: 18b9e3b9a0c9f0609d39f75a379f5e017810bb94408f58a50ecba58a9cc5a3a3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -163,9 +163,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_float = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_float_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_int = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_int_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_value_string_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_water_line_vertical_location_in_meters = R"doc()doc";
 

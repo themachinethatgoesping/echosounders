@@ -337,9 +337,9 @@ class InstallationParameters : public EM3000Datagram
     // substructures
     // std::string&       installation_parameters() { return _installation_parameters; }
     const std::string& get_installation_parameters() const { return _installation_parameters; }
-    void               set_installation_parameters(const std::string& installation_parameters)
+    void               set_installation_parameters(std::string installation_parameters)
     {
-        _installation_parameters = installation_parameters;
+        _installation_parameters = std::move(installation_parameters);
 
         // reparse the installation parameters
         reparse_installation_parameters();
@@ -393,7 +393,7 @@ class InstallationParameters : public EM3000Datagram
     }
 
     // ----- high level access to installation parameters -----
-    float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ"); }
+    float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ", 0.f); }
 
     int         get_system_main_head_serial_number() const { return get_value_int("SMH"); }
     int         get_tx_serial_number() const { return get_value_int("TXS"); }
@@ -402,7 +402,7 @@ class InstallationParameters : public EM3000Datagram
     int         get_rx2_serial_number() const { return get_value_int("R2S"); }
     std::string get_system_transducer_configuration() const
     {
-        auto s = get_value_string("STC");
+        auto s = get_value_string("STC", "");
 
         switch (s[0])
         {
@@ -427,7 +427,7 @@ class InstallationParameters : public EM3000Datagram
 
     std::string get_tx_array_size() const
     {
-        switch (get_value_string("S1S")[0])
+        switch (get_value_string("S1S", "")[0])
         {
             case '0':
                 return "0.5°";
@@ -442,7 +442,7 @@ class InstallationParameters : public EM3000Datagram
 
     std::string get_rx_array_size() const
     {
-        switch (get_value_string("S2S")[0])
+        switch (get_value_string("S2S", "")[0])
         {
             case '0':
                 return "0.5°";
@@ -465,7 +465,7 @@ class InstallationParameters : public EM3000Datagram
     navigation::datastructures::PositionalOffsets get_compass_offsets() const
     {
         using navigation::datastructures::PositionalOffsets;
-        return PositionalOffsets("Gyrocompass", 0, 0, 0, get_value_float("GCG"), 0, 0);
+        return PositionalOffsets("Gyrocompass", 0, 0, 0, get_value_float("GCG", 0.f), 0, 0);
     }
 
     /**
@@ -598,12 +598,12 @@ class InstallationParameters : public EM3000Datagram
             transducer_name = "Transducer " + std::to_string(transducer_number);
 
         return PositionalOffsets(transducer_name,
-                                 get_value_float(sensor_prefix + std::string("X")),
-                                 get_value_float(sensor_prefix + std::string("Y")),
-                                 get_value_float(sensor_prefix + std::string("Z")),
-                                 get_value_float(sensor_prefix + std::string("H")),
-                                 get_value_float(sensor_prefix + std::string("P")),
-                                 get_value_float(sensor_prefix + std::string("R")));
+                                 get_value_float(sensor_prefix + std::string("X"), 0.f),
+                                 get_value_float(sensor_prefix + std::string("Y"), 0.f),
+                                 get_value_float(sensor_prefix + std::string("Z"), 0.f),
+                                 get_value_float(sensor_prefix + std::string("H"), 0.f),
+                                 get_value_float(sensor_prefix + std::string("P"), 0.f),
+                                 get_value_float(sensor_prefix + std::string("R"), 0.f));
     }
 
     // ----- processed access to installation parameters (internal functions) -----
@@ -618,12 +618,45 @@ class InstallationParameters : public EM3000Datagram
         return it->second;
     }
 
+    std::string get_value_string(const std::string& key, std::string_view default_val) const
+    {
+        auto it = _parsed_installation_parameters.find(key);
+        if (it == _parsed_installation_parameters.end())
+        {
+            return std::string(default_val);
+        }
+
+        return it->second;
+    }
+
     float get_value_float(const std::string& key) const
     {
         return tools::helper::string_to_floattype<float>(get_value_string(key));
     }
 
+    float get_value_float(const std::string& key, float default_value) const
+    {
+        auto value = get_value_string(key, "");
+        if (value.empty())
+        {
+            return default_value;
+        }
+
+        return tools::helper::string_to_floattype<float>(value);
+    }
+
     int get_value_int(const std::string& key) const { return stoi(get_value_string(key)); }
+
+    int get_value_int(const std::string& key, int default_value) const
+    {
+        auto value = get_value_string(key, "");
+        if (value.empty())
+        {
+            return default_value;
+        }
+
+        return stoi(value);
+    }
 
     /**
      * @brief Internal function to get the sensor offsets from the installation parameters.
@@ -657,16 +690,16 @@ class InstallationParameters : public EM3000Datagram
 
         if (has_xyz)
         {
-            x = get_value_float(sensor_prefix + std::string("X"));
-            y = get_value_float(sensor_prefix + std::string("Y"));
-            z = get_value_float(sensor_prefix + std::string("Z"));
+            x = get_value_float(sensor_prefix + std::string("X"), 0.f);
+            y = get_value_float(sensor_prefix + std::string("Y"), 0.f);
+            z = get_value_float(sensor_prefix + std::string("Z"), 0.f);
         }
 
         if (has_ypr)
         {
-            yaw   = get_value_float(sensor_prefix + std::string("G"));
-            pitch = get_value_float(sensor_prefix + std::string("P"));
-            roll  = get_value_float(sensor_prefix + std::string("R"));
+            yaw   = get_value_float(sensor_prefix + std::string("G"), 0.f);
+            pitch = get_value_float(sensor_prefix + std::string("P"), 0.f);
+            roll  = get_value_float(sensor_prefix + std::string("R"), 0.f);
         }
 
         return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
@@ -802,25 +835,20 @@ class InstallationParameters : public EM3000Datagram
                                   float              supported_value,
                                   const std::string& function_name) const
     {
-        try
-        {
-            auto value = get_value_float(option_key);
+        // if the option_key does not exist, the function will assume the supported value as default
+        // value
+        auto value = get_value_float(option_key, supported_value);
 
-            if (value != supported_value)
-            {
-                throw std::runtime_error(fmt::format(": Only {} ({}) == "
-                                                     "{} is supported yet, but {} is {}",
-                                                     function_name,
-                                                     option_key,
-                                                     __parameter_explained__.at(option_key),
-                                                     supported_value,
-                                                     option_key,
-                                                     value));
-            }
-        }
-        catch (std::out_of_range& e)
+        if (value != supported_value)
         {
-            return;
+            throw std::runtime_error(fmt::format(": Only {} ({}) == "
+                                                 "{} is supported yet, but {} is {}",
+                                                 function_name,
+                                                 option_key,
+                                                 __parameter_explained__.at(option_key),
+                                                 supported_value,
+                                                 option_key,
+                                                 value));
         }
     }
 
@@ -828,25 +856,20 @@ class InstallationParameters : public EM3000Datagram
                                    const std::string& supported_value,
                                    const std::string& function_name) const
     {
-        try
-        {
-            const auto& value = get_value_string(option_key);
+        // if the option_key does not exist, the function will assume the supported value as default
+        // value
+        const auto& value = get_value_string(option_key, supported_value);
 
-            if (value != supported_value)
-            {
-                throw std::runtime_error(fmt::format("{}: Only {} ({}) == "
-                                                     "{} is supported yet, but {} is {}",
-                                                     function_name,
-                                                     option_key,
-                                                     __parameter_explained__.at(option_key),
-                                                     supported_value,
-                                                     option_key,
-                                                     value));
-            }
-        }
-        catch (std::out_of_range& e)
+        if (value != supported_value)
         {
-            return;
+            throw std::runtime_error(fmt::format("{}: Only {} ({}) == "
+                                                 "{} is supported yet, but {} is {}",
+                                                 function_name,
+                                                 option_key,
+                                                 __parameter_explained__.at(option_key),
+                                                 supported_value,
+                                                 option_key,
+                                                 value));
         }
     }
 };
