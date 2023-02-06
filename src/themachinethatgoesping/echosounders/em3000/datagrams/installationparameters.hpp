@@ -607,12 +607,12 @@ class InstallationParameters : public EM3000Datagram
     }
 
     // ----- processed access to installation parameters (internal functions) -----
-    std::string get_value_string(const std::string& key) const
+    const std::string& get_value_string(const std::string& key) const
     {
         auto it = _parsed_installation_parameters.find(key);
         if (it == _parsed_installation_parameters.end())
         {
-            throw std::invalid_argument(fmt::format("get_value: Key not found: {}", key));
+            throw std::out_of_range(fmt::format("get_value: Key not found: {}", key));
         }
 
         return it->second;
@@ -802,20 +802,25 @@ class InstallationParameters : public EM3000Datagram
                                   float              supported_value,
                                   const std::string& function_name) const
     {
-        using tools::helper::string_to_floattype;
-
-        float value = string_to_floattype<float>(_parsed_installation_parameters.at(option_key));
-
-        if (value != supported_value)
+        try
         {
-            throw std::invalid_argument(fmt::format(": Only {} ({}) == "
-                                                    "{} is supported yet, but {} is {}",
-                                                    function_name,
-                                                    option_key,
-                                                    __parameter_explained__.at(option_key),
-                                                    supported_value,
-                                                    option_key,
-                                                    value));
+            auto value = get_value_float(option_key);
+
+            if (value != supported_value)
+            {
+                throw std::runtime_error(fmt::format(": Only {} ({}) == "
+                                                     "{} is supported yet, but {} is {}",
+                                                     function_name,
+                                                     option_key,
+                                                     __parameter_explained__.at(option_key),
+                                                     supported_value,
+                                                     option_key,
+                                                     value));
+            }
+        }
+        catch (std::out_of_range& e)
+        {
+            return;
         }
     }
 
@@ -823,18 +828,25 @@ class InstallationParameters : public EM3000Datagram
                                    const std::string& supported_value,
                                    const std::string& function_name) const
     {
-        const std::string& value = _parsed_installation_parameters.at(option_key);
-
-        if (value != supported_value)
+        try
         {
-            throw std::invalid_argument(fmt::format("{}: Only {} ({}) == "
-                                                    "{} is supported yet, but {} is {}",
-                                                    function_name,
-                                                    option_key,
-                                                    __parameter_explained__.at(option_key),
-                                                    supported_value,
-                                                    option_key,
-                                                    value));
+            const auto& value = get_value_string(option_key);
+
+            if (value != supported_value)
+            {
+                throw std::runtime_error(fmt::format("{}: Only {} ({}) == "
+                                                     "{} is supported yet, but {} is {}",
+                                                     function_name,
+                                                     option_key,
+                                                     __parameter_explained__.at(option_key),
+                                                     supported_value,
+                                                     option_key,
+                                                     value));
+            }
+        }
+        catch (std::out_of_range& e)
+        {
+            return;
         }
     }
 };
