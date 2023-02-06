@@ -17,7 +17,6 @@
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/filedatatypes/simradping.hpp"
-#include "../../../themachinethatgoesping/echosounders/simrad/filesimradraw.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 

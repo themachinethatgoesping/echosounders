@@ -18,7 +18,6 @@
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/em3000_types.hpp"
 #include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
-#include "../../../themachinethatgoesping/echosounders/em3000/fileem3000.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 
 #include "../../py_filetemplates/py_datatypes/i_ping.hpp"

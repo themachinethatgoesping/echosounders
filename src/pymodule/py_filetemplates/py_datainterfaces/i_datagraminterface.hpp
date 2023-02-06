@@ -11,9 +11,6 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/i_inputfile.hpp"
-//
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
