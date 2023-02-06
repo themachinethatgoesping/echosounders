@@ -286,7 +286,8 @@ class I_InputFile
         }
         catch (std::runtime_error& e)
         {
-            std::cerr << "WARNING(InputFile): File read incompletely. ";
+            std::cerr << fmt::format("WARNING(InputFile): File [{}] read incompletely. ",
+                                     file_paths_cnt);
             // print last 100 characters of file_path
             if (file_path.size() > 53)
                 std::cerr << fmt::format("[...{}]", file_path.substr(file_path.size() - 50))
