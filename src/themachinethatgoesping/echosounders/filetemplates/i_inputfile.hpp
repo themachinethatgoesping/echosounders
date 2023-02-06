@@ -223,8 +223,8 @@ class I_InputFile
     struct FileInfos
     {
 
-        std::string file_path;
-        size_t      file_size;
+        std::string                   file_path;
+        typename t_ifstream::pos_type file_size;
 
         /* header positions */
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
@@ -258,7 +258,7 @@ class I_InputFile
 
         try
         {
-            while (pos < signed(file_info.file_size))
+            while (pos < file_info.file_size)
             {
                 //  this function may return nonsense...
                 // auto header = t_DatagramBase::from_stream(ifs);
