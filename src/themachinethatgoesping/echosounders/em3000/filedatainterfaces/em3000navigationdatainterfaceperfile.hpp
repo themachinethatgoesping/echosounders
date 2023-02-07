@@ -10,7 +10,7 @@
 #include ".docstrings/em3000navigationdatainterfaceperfile.doc.hpp"
 
 /* library includes */
-#include <magic_enum.hpp>
+#include <fmt/core.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -54,6 +54,89 @@ class EM3000NavigationDataInterfacePerFile
         navigation::NavigationInterpolatorLatLon navi(
             this->configuration_data_interface_const().get_sensor_configuration(
                 this->get_file_nr()));
+
+        /* ----- scan through position datagrams ----- */
+        // std::vector<double> headings, pitchs, rolls, heaves_attitude;
+        // std::vector<double> times_pitch_roll, times_heading, times_heave_attitude;
+
+        /* ----- scan through attitude datagrams ----- */
+        std::vector<double> headings, pitchs, rolls, heaves_attitude;
+        std::vector<double> times_pitch_roll, times_heading, times_heave_attitude;
+
+        for (auto& packet :
+             this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::AttitudeDatagram))
+        {
+            auto datagram = packet->template read_datagram_from_file<datagrams::AttitudeDatagram>();
+
+            double     base_time          = datagram.get_timestamp();
+            const bool use_heave_sensor   = datagram.get_heave_sensor_is_active();
+            const bool use_heading_sensor = datagram.get_heading_sensor_is_active();
+            const bool use_roll_sensor    = datagram.get_roll_sensor_is_active();
+            const bool use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
+
+            if (use_roll_sensor != use_pitch_sensor)
+                throw std::runtime_error(fmt::format(
+                    "ERROR in file [{}]: {} "
+                    "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: roll and "
+                    "pitch sensor are not active at the same time. This is not supported yet.",
+                    this->get_file_nr(),
+                    this->get_file_path()));
+
+            for (const auto& attitude : datagram.get_attitudes())
+            {
+                double packet_timestamp = base_time + attitude.get_time_in_seconds();
+
+                if (use_pitch_sensor)
+                {
+                    if (!times_pitch_roll.empty())
+                        if (!(times_pitch_roll.back() < packet_timestamp))
+                            throw std::runtime_error(fmt::format(
+                                "ERROR in file [{}]: {} "
+                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                                "pitch and roll datagrams are not in chronological order.",
+                                this->get_file_nr(),
+                                this->get_file_path()));
+
+                    times_pitch_roll.push_back(packet_timestamp);
+                    pitchs.push_back(attitude.get_pitch_in_degrees());
+                    rolls.push_back(attitude.get_roll_in_degrees());
+                }
+
+                if (use_heading_sensor)
+                {
+                    if (!times_heading.empty())
+                        if (!(times_heading.back() < packet_timestamp))
+                            throw std::runtime_error(fmt::format(
+                                "ERROR in file [{}]: {} "
+                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                                "heading datagrams are not in chronological order.",
+                                this->get_file_nr(),
+                                this->get_file_path()));
+
+                    times_heading.push_back(packet_timestamp);
+                    headings.push_back(attitude.get_heading_in_degrees());
+                }
+
+                if (use_heave_sensor)
+                {
+                    if (!times_heave_attitude.empty())
+                        if (!(times_heave_attitude.back() < packet_timestamp))
+                            throw std::runtime_error(fmt::format(
+                                "ERROR in file [{}]: {} "
+                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                                "heave datagrams are not in chronological order.",
+                                this->get_file_nr(),
+                                this->get_file_path()));
+
+                    times_heave_attitude.push_back(packet_timestamp);
+                    heaves_attitude.push_back(attitude.get_heave_in_meters());
+                }
+            }
+        }
+
+        navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
+        navi.set_data_heading(std::move(times_heading), std::move(headings));
+        navi.set_data_heave(std::move(times_heave_attitude), std::move(heaves_attitude));
 
         return navi;
     }
