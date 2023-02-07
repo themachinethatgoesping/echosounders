@@ -202,7 +202,7 @@ class AttitudeDatagram : public EM3000Datagram
         // read first part of the datagram (until the first beam)
         is.read(reinterpret_cast<char*>(&(datagram._attitude_counter)), 6 * sizeof(uint8_t));
 
-        // read the beams
+        // read the attitude data
         datagram._attitudes.resize(datagram._number_of_entries);
         is.read(reinterpret_cast<char*>(datagram._attitudes.data()),
                 datagram._number_of_entries * sizeof(substructures::AttitudeDatagramAttitude));
