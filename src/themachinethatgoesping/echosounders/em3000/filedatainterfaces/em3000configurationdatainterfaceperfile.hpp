@@ -37,7 +37,7 @@ class EM3000ConfigurationDataInterfacePerFile
         EM3000DatagramInterface<t_ifstream>>;
 
     uint8_t              _active_position_system_number = 0;
-    t_EM3000ActiveSensor _active_roll_pitch_sensor      = t_EM3000ActiveSensor::NotSet;
+    t_EM3000ActiveSensor _active_pitch_roll_sensor      = t_EM3000ActiveSensor::NotSet;
     t_EM3000ActiveSensor _active_heave_sensor           = t_EM3000ActiveSensor::NotSet;
     t_EM3000ActiveSensor _active_heading_sensor         = t_EM3000ActiveSensor::NotSet;
 
@@ -50,7 +50,7 @@ class EM3000ConfigurationDataInterfacePerFile
 
     // ----- getters -----
     uint8_t get_active_position_system_number() const { return _active_position_system_number; }
-    auto    get_active_roll_pitch_sensor() const { return _active_roll_pitch_sensor; }
+    auto    get_active_pitch_roll_sensor() const { return _active_pitch_roll_sensor; }
     auto    get_active_heave_sensor() const { return _active_heave_sensor; }
     auto    get_active_heading_sensor() const { return _active_heading_sensor; }
 
@@ -74,9 +74,9 @@ class EM3000ConfigurationDataInterfacePerFile
      *
      * @param sensor
      */
-    void set_active_roll_pitch_sensor(t_EM3000ActiveSensor sensor)
+    void set_active_pitch_roll_sensor(t_EM3000ActiveSensor sensor)
     {
-        _active_roll_pitch_sensor = sensor;
+        _active_pitch_roll_sensor = sensor;
     }
 
     /**
@@ -104,12 +104,13 @@ class EM3000ConfigurationDataInterfacePerFile
 
         /* get the installation parameters datagram */
         auto param = this->get_installation_parameters();
+
         // set the active systems (if they weren't previously set)
         if (_active_position_system_number == 0)
             _active_position_system_number = param.get_active_position_system_number();
 
-        if (_active_roll_pitch_sensor == t_EM3000ActiveSensor::NotSet)
-            _active_roll_pitch_sensor = param.get_active_roll_pitch_sensor();
+        if (_active_pitch_roll_sensor == t_EM3000ActiveSensor::NotSet)
+            _active_pitch_roll_sensor = param.get_active_pitch_roll_sensor();
 
         if (_active_heave_sensor == t_EM3000ActiveSensor::NotSet)
             _active_heave_sensor = param.get_active_heave_sensor();
@@ -164,7 +165,7 @@ class EM3000ConfigurationDataInterfacePerFile
         config.set_depth_source(param.get_depth_sensor_offsets());
 
         // add the gyro
-        config.set_attitude_source(param.get_attitude_sensor_offsets(_active_roll_pitch_sensor));
+        config.set_attitude_source(param.get_attitude_sensor_offsets(_active_pitch_roll_sensor));
 
         // add the position sensor
         config.set_position_source(
@@ -319,6 +320,10 @@ class EM3000ConfigurationDataInterfacePerFile
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("EM3000ConfigurationDataInterfacePerFile");
+        printer.register_value("_active_position_system_number", _active_position_system_number);
+        printer.register_enum("_active_pitch_roll_sensor", _active_pitch_roll_sensor);
+        printer.register_enum("_active_heave_sensor", _active_heave_sensor);
+        printer.register_enum("_active_heading_sensor", _active_heading_sensor);
         // auto position_sources = this->get_position_sources();
         // auto heading_sources  = this->get_heading_sources();
         // auto attitude_sources = this->get_attitude_sources();

@@ -59,11 +59,30 @@ class EM3000NavigationDataInterfacePerFile
             this->configuration_data_interface_const().per_file_const(this->get_file_nr());
 
         /* ----- scan through position datagrams ----- */
-        // std::vector<double> headings, pitchs, rolls, heaves_attitude;
-        // std::vector<double> times_pitch_roll, times_heading, times_heave_attitude;
+        std::vector<double> headings_pos, latitudes, longitudes, qualities;
+        std::vector<double> times_pos;
+        for (auto& packet :
+             this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::PositionDatagram))
+        {
+            auto datagram = packet->template read_datagram_from_file<datagrams::PositionDatagram>();
+
+            double     timestamp     = datagram.get_timestamp();
+            const auto sensor_number = datagram.get_position_system_number();
+
+            // only use the position data if the correct position system is active
+            if (sensor_number != config.get_active_position_system_number())
+                continue;
+
+            times_pos.push_back(timestamp);
+            latitudes.push_back(datagram.get_latitude_in_degrees());
+            longitudes.push_back(datagram.get_longitude_in_degrees());
+
+            headings_pos.push_back(datagram.get_heading_in_degrees());
+            qualities.push_back(datagram.get_position_fix_quality_in_meters());
+        }
 
         /* ----- scan through attitude datagrams ----- */
-        std::vector<double> headings, pitchs, rolls, heaves_attitude;
+        std::vector<double> headings_attitudes, pitchs, rolls, heaves;
         std::vector<double> times_pitch_roll, times_heading, times_heave_attitude;
 
         for (auto& packet :
@@ -72,10 +91,11 @@ class EM3000NavigationDataInterfacePerFile
             auto datagram = packet->template read_datagram_from_file<datagrams::AttitudeDatagram>();
 
             double     base_time          = datagram.get_timestamp();
-            const bool use_heave_sensor   = datagram.get_heave_sensor_is_active();
-            const bool use_heading_sensor = datagram.get_heading_sensor_is_active();
-            const bool use_roll_sensor    = datagram.get_roll_sensor_is_active();
-            const bool use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
+            bool       use_heave_sensor   = datagram.get_heave_sensor_is_active();
+            bool       use_heading_sensor = datagram.get_heading_sensor_is_active();
+            bool       use_roll_sensor    = datagram.get_roll_sensor_is_active();
+            bool       use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
+            //const auto sensor_number      = datagram.get_attitude_sensor_number();
 
             if (use_roll_sensor != use_pitch_sensor)
                 throw std::runtime_error(fmt::format(
@@ -84,6 +104,23 @@ class EM3000NavigationDataInterfacePerFile
                     "pitch sensor are not active at the same time. This is not supported yet.",
                     this->get_file_nr(),
                     this->get_file_path()));
+
+            // only use the sensor data if the correct sensor is active
+            // apparently the sensor number is not the same as the attitude sensor number
+            // if (sensor_number !=
+            //     t_EM3000ActiveSensor_to_attitude_sensor_number(config.get_active_heave_sensor()))
+            //     use_heave_sensor = false;
+
+            // if (sensor_number !=
+            //     t_EM3000ActiveSensor_to_attitude_sensor_number(config.get_active_heading_sensor()))
+            //     use_heading_sensor = false;
+
+            // if (sensor_number != t_EM3000ActiveSensor_to_attitude_sensor_number(
+            //                          config.get_active_pitch_roll_sensor()))
+            // {
+            //     use_roll_sensor  = false;
+            //     use_pitch_sensor = false;
+            // }
 
             for (const auto& attitude : datagram.get_attitudes())
             {
@@ -117,7 +154,7 @@ class EM3000NavigationDataInterfacePerFile
                                 this->get_file_path()));
 
                     times_heading.push_back(packet_timestamp);
-                    headings.push_back(attitude.get_heading_in_degrees());
+                    headings_attitudes.push_back(attitude.get_heading_in_degrees());
                 }
 
                 if (use_heave_sensor)
@@ -132,14 +169,15 @@ class EM3000NavigationDataInterfacePerFile
                                 this->get_file_path()));
 
                     times_heave_attitude.push_back(packet_timestamp);
-                    heaves_attitude.push_back(attitude.get_heave_in_meters());
+                    heaves.push_back(attitude.get_heave_in_meters());
                 }
             }
         }
 
         navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
-        navi.set_data_heading(std::move(times_heading), std::move(headings));
-        navi.set_data_heave(std::move(times_heave_attitude), std::move(heaves_attitude));
+        navi.set_data_heading(std::move(times_heading), std::move(headings_attitudes));
+        navi.set_data_heave(std::move(times_heave_attitude), std::move(heaves));
+        navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
 
         return navi;
     }

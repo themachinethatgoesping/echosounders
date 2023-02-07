@@ -116,31 +116,6 @@ inline int t_EM3000ActiveSensor_to_attitude_sensor_number(t_EM3000ActiveSensor v
     }
 }
 
-/**
- * @brief Convert a t_EM3000ActiveSensor to a position system number
- * 0: the enum value is not an attitude sensor
- * 1-3: position system number
- *
- * @param value
- * @return int
- */
-inline int t_EM3000ActiveSensor_to_position_system_number(t_EM3000ActiveSensor value)
-{
-    switch (value)
-    {
-        case t_EM3000ActiveSensor::PositionSystem1:
-            return 1;
-        case t_EM3000ActiveSensor::MotionSensor2:
-            [[fallthrough]];
-        case t_EM3000ActiveSensor::PositionSystem2:
-            return 2;
-        case t_EM3000ActiveSensor::PositionSystem3:
-            return 3;
-        default:
-            return 0;
-    }
-}
-
 // inline std::string datagram_type_to_string(uint8_t value)
 // {
 //     return tools::helper::int_as_string<em3000_long>(value);

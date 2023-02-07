@@ -1,4 +1,4 @@
-//sourcehash: 17856b88cfbcd343f17374abcb1c350f1ee40a10491181ab3bd03d9e9df17b82
+//sourcehash: b78dc99eec88c03e90459cebbfe2ba025df1fd3121e468fd11b170c061c00ec7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -75,15 +75,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Acti
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_to_attitude_sensor_number =
 R"doc(Convert a t_EM3000ActiveSensor to an attitude sensor number 0: the
 enum value is not an attitude sensor 1-2: attitude sensor number
-
-Parameter ``value``:
-    $Returns:
-
-int)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_to_position_system_number =
-R"doc(Convert a t_EM3000ActiveSensor to a position system number 0: the enum
-value is not an attitude sensor 1-3: position system number
 
 Parameter ``value``:
     $Returns:
