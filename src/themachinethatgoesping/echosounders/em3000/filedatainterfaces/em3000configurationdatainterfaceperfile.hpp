@@ -107,7 +107,7 @@ class EM3000ConfigurationDataInterfacePerFile
 
     // ----- em3000 specific functions -----
     /* get infos */
-    datagrams::InstallationParameters get_installation_parameters()
+    datagrams::InstallationParameters get_installation_parameters() const
     {
         // check that there is only one installation parameters datagram
         if (this->_datagram_infos_by_type
