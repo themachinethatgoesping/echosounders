@@ -70,6 +70,27 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     unspecified        = 0
 };
 
+// ----- other enums -----
+/**
+ * @brief This enum is used to identify the active sensor in the InstallationParameters datagram
+ *
+ */
+enum class t_EM3000ActiveSensor
+{
+    PositionSystem3 = 0, ///< UDP2 or COM4
+    PositionSystem1 = 1, ///< COM1
+    PositionSystem2 =
+        32, ///< COM3 (it is not clear how this case is separated from 3 (attitude sensor 2))
+    MotionSensor1           = 2, ///< COM2
+    MotionSensor2           = 3, ///< COM3
+    MultiCast1              = 5, ///<
+    MultiCast2              = 6, ///<
+    MultiCast3              = 7, ///<
+    AttitudeVelocitySensor1 = 8, ///< UDP5
+    AttitudeVelocitySensor2 = 9, ///< UDP6
+    NotSet                  = -1 ///< this is not a valid value
+};
+
 // inline std::string datagram_type_to_string(uint8_t value)
 // {
 //     return tools::helper::int_as_string<em3000_long>(value);

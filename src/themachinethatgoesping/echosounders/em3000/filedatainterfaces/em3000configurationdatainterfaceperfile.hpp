@@ -36,13 +36,10 @@ class EM3000ConfigurationDataInterfacePerFile
     using t_base = filetemplates::datainterfaces::I_ConfigurationDataInterfacePerFile<
         EM3000DatagramInterface<t_ifstream>>;
 
-    uint8_t                                                   _active_position_system_number = 0;
-    datagrams::InstallationParameters::t_ActiveAttitudeSensor _active_roll_pitch_sensor =
-        datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet;
-    datagrams::InstallationParameters::t_ActiveAttitudeSensor _active_heave_sensor =
-        datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet;
-    datagrams::InstallationParameters::t_ActiveHeadingSensor _active_heading_sensor =
-        datagrams::InstallationParameters::t_ActiveHeadingSensor::NotSet;
+    uint8_t              _active_position_system_number = 0;
+    t_EM3000ActiveSensor _active_roll_pitch_sensor      = t_EM3000ActiveSensor::NotSet;
+    t_EM3000ActiveSensor _active_heave_sensor           = t_EM3000ActiveSensor::NotSet;
+    t_EM3000ActiveSensor _active_heading_sensor         = t_EM3000ActiveSensor::NotSet;
 
   public:
     EM3000ConfigurationDataInterfacePerFile()
@@ -73,12 +70,11 @@ class EM3000ConfigurationDataInterfacePerFile
     /**
      * @brief Set the active roll pitch sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see datagrams::InstallationParameters::t_ActiveAttitudeSensor
+     * All other values: see t_EM3000ActiveSensor
      *
      * @param sensor
      */
-    void set_active_roll_pitch_sensor(
-        datagrams::InstallationParameters::t_ActiveAttitudeSensor sensor)
+    void set_active_roll_pitch_sensor(t_EM3000ActiveSensor sensor)
     {
         _active_roll_pitch_sensor = sensor;
     }
@@ -86,26 +82,20 @@ class EM3000ConfigurationDataInterfacePerFile
     /**
      * @brief Set the active heave sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see datagrams::InstallationParameters::t_ActiveAttitudeSensor
+     * All other values: see t_EM3000ActiveSensor
      *
      * @param sensor
      */
-    void set_active_heave_sensor(datagrams::InstallationParameters::t_ActiveAttitudeSensor sensor)
-    {
-        _active_heave_sensor = sensor;
-    }
+    void set_active_heave_sensor(t_EM3000ActiveSensor sensor) { _active_heave_sensor = sensor; }
 
     /**
      * @brief Set the active heading sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see datagrams::InstallationParameters::t_ActiveHeadingSensor
+     * All other values: see t_EM3000ActiveSensor
      *
      * @param sensor
      */
-    void set_active_heading_sensor(datagrams::InstallationParameters::t_ActiveHeadingSensor sensor)
-    {
-        _active_heading_sensor = sensor;
-    }
+    void set_active_heading_sensor(t_EM3000ActiveSensor sensor) { _active_heading_sensor = sensor; }
 
     // ----- interface methods -----
     navigation::SensorConfiguration read_sensor_configuration() final
@@ -118,16 +108,13 @@ class EM3000ConfigurationDataInterfacePerFile
         if (_active_position_system_number == 0)
             _active_position_system_number = param.get_active_position_system_number();
 
-        if (_active_roll_pitch_sensor ==
-            datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet)
+        if (_active_roll_pitch_sensor == t_EM3000ActiveSensor::NotSet)
             _active_roll_pitch_sensor = param.get_active_roll_pitch_sensor();
 
-        if (_active_heave_sensor ==
-            datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet)
+        if (_active_heave_sensor == t_EM3000ActiveSensor::NotSet)
             _active_heave_sensor = param.get_active_heave_sensor();
 
-        if (_active_heading_sensor ==
-            datagrams::InstallationParameters::t_ActiveHeadingSensor::NotSet)
+        if (_active_heading_sensor == t_EM3000ActiveSensor::NotSet)
             _active_heading_sensor = param.get_active_heading_sensor();
 
         /* get the sensor configuration flag using STC */

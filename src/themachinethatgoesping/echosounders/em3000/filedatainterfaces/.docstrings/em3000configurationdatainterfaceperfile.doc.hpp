@@ -1,4 +1,4 @@
-//sourcehash: 154f9cf43c447a9bd9f196dfc41af7979a215979763d36f11b1c3917acb64a89
+//sourcehash: a783921ceea2ea0c2a80156df089fbdfa1c77922c5400d3c801ca772fdc3e149
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,14 +67,14 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainte
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_heading_sensor =
 R"doc(Set the active heading sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-datagrams::InstallationParameters::t_ActiveHeadingSensor
+t_EM3000ActiveSensor
 
 Parameter ``sensor``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_heave_sensor =
 R"doc(Set the active heave sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-datagrams::InstallationParameters::t_ActiveAttitudeSensor
+t_EM3000ActiveSensor
 
 Parameter ``sensor``:)doc";
 
@@ -88,7 +88,7 @@ Parameter ``number``:)doc";
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_roll_pitch_sensor =
 R"doc(Set the active roll pitch sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-datagrams::InstallationParameters::t_ActiveAttitudeSensor
+t_EM3000ActiveSensor
 
 Parameter ``sensor``:)doc";
 

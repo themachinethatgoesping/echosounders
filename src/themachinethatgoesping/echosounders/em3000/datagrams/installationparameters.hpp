@@ -184,34 +184,6 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
  */
 class InstallationParameters : public EM3000Datagram
 {
-  public:
-    // ----- enums -----
-    enum class t_ActiveAttitudeSensor
-    {
-        MotionSensor1           = 2, ///< COM2
-        MotionSensor2           = 3, ///< COM3
-        AttitudeVelocitySensor1 = 8, ///< UDP5
-        AttitudeVelocitySensor2 = 9, ///< UDP6
-        NotSet                  = -1 ///< this is not a valid value
-    };
-
-    // ----- enums -----
-    enum class t_ActiveHeadingSensor
-    {
-        PositionSystem3 = 0, ///< UDP2 or COM4
-        PositionSystem1 = 1, ///< COM1
-        PositionSystem2 =
-            32, ///< COM3 (it is not clear how this case is separated from 3 (attitude sensor 2))
-        MotionSensor1           = 2, ///< COM2
-        MotionSensor2           = 3, ///< COM3
-        MultiCast1              = 5, ///<
-        MultiCast2              = 6, ///<
-        MultiCast3              = 7, ///<
-        AttitudeVelocitySensor1 = 8, ///< UDP5
-        AttitudeVelocitySensor2 = 9, ///< UDP6
-        NotSet                  = -1 ///< this is not a valid value
-    };
-
   protected:
     uint16_t _installation_parameters_counter; ///< Sequential Number
     uint16_t _system_serial_number;
@@ -513,21 +485,21 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the attitude sensor offsets of sensor 1 or 2
      *
-     * @param sensor_number InstallationParameters::t_ActiveAttitudeSensor (enum)
+     * @param sensor_number t_EM3000ActiveSensor (enum)
      * @return navigation::datastructures::PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
-        t_ActiveAttitudeSensor sensor) const
+        t_EM3000ActiveSensor sensor) const
     {
         switch (sensor)
         {
-            case t_ActiveAttitudeSensor::MotionSensor1:
+            case t_EM3000ActiveSensor::MotionSensor1:
                 [[fallthrough]];
-            case t_ActiveAttitudeSensor::AttitudeVelocitySensor1:
+            case t_EM3000ActiveSensor::AttitudeVelocitySensor1:
                 return get_attitude_sensor_offsets(1);
-            case t_ActiveAttitudeSensor::MotionSensor2:
+            case t_EM3000ActiveSensor::MotionSensor2:
                 [[fallthrough]];
-            case t_ActiveAttitudeSensor::AttitudeVelocitySensor2:
+            case t_EM3000ActiveSensor::AttitudeVelocitySensor2:
                 return get_attitude_sensor_offsets(2);
             default:
                 throw std::invalid_argument("Invalid sensor number");
@@ -671,22 +643,22 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an enum
      *
-     * @return t_ActiveAttitudeSensor
+     * @return t_EM3000ActiveSensor
      */
-    t_ActiveAttitudeSensor get_active_roll_pitch_sensor() const
+    t_EM3000ActiveSensor get_active_roll_pitch_sensor() const
     {
         std::string active_sensor = get_value_string("ARO");
 
         switch (active_sensor[0])
         {
             case '2':
-                return t_ActiveAttitudeSensor::MotionSensor1;
+                return t_EM3000ActiveSensor::MotionSensor1;
             case '3':
-                return t_ActiveAttitudeSensor::MotionSensor2;
+                return t_EM3000ActiveSensor::MotionSensor2;
             case '8':
-                return t_ActiveAttitudeSensor::AttitudeVelocitySensor1;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor1;
             case '9':
-                return t_ActiveAttitudeSensor::AttitudeVelocitySensor2;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor2;
             default:
                 throw std::invalid_argument(fmt::format("get_active_roll_pitch_sensor: Invalid "
                                                         "active roll pitch sensor: {} (must be "
@@ -698,22 +670,22 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
      *
-     * @return t_ActiveAttitudeSensor
+     * @return t_EM3000ActiveSensor
      */
-    t_ActiveAttitudeSensor get_active_heave_sensor() const
+    t_EM3000ActiveSensor get_active_heave_sensor() const
     {
         std::string active_sensor = get_value_string("AHE");
 
         switch (active_sensor[0])
         {
             case '2':
-                return t_ActiveAttitudeSensor::MotionSensor1;
+                return t_EM3000ActiveSensor::MotionSensor1;
             case '3':
-                return t_ActiveAttitudeSensor::MotionSensor2;
+                return t_EM3000ActiveSensor::MotionSensor2;
             case '8':
-                return t_ActiveAttitudeSensor::AttitudeVelocitySensor1;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor1;
             case '9':
-                return t_ActiveAttitudeSensor::AttitudeVelocitySensor2;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor2;
             default:
                 throw std::invalid_argument(fmt::format("get_active_heave_sensor: Invalid "
                                                         "active roll pitch sensor: {} (must be "
@@ -725,34 +697,34 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the active heading sensor (0-9) here returned as an enum
      *
-     * @return t_ActiveHeadingSensor
+     * @return t_EM3000ActiveSensor
      */
-    t_ActiveHeadingSensor get_active_heading_sensor() const
+    t_EM3000ActiveSensor get_active_heading_sensor() const
     {
         std::string active_sensor = get_value_string("AHE");
 
         switch (active_sensor[0])
         {
             case '0':
-                return t_ActiveHeadingSensor::PositionSystem3; // COM4
+                return t_EM3000ActiveSensor::PositionSystem3; // COM4
             case '1':
-                return t_ActiveHeadingSensor::PositionSystem1; // COM1
+                return t_EM3000ActiveSensor::PositionSystem1; // COM1
             case '2':
-                return t_ActiveHeadingSensor::MotionSensor1; // COM2
+                return t_EM3000ActiveSensor::MotionSensor1; // COM2
             case '3':
-                return t_ActiveHeadingSensor::MotionSensor2; // COM3
+                return t_EM3000ActiveSensor::MotionSensor2; // COM3
             case '4':
-                return t_ActiveHeadingSensor::PositionSystem3; // UDP2
+                return t_EM3000ActiveSensor::PositionSystem3; // UDP2
             case '5':
-                return t_ActiveHeadingSensor::MultiCast1;
+                return t_EM3000ActiveSensor::MultiCast1;
             case '6':
-                return t_ActiveHeadingSensor::MultiCast2;
+                return t_EM3000ActiveSensor::MultiCast2;
             case '7':
-                return t_ActiveHeadingSensor::MultiCast3;
+                return t_EM3000ActiveSensor::MultiCast3;
             case '8':
-                return t_ActiveHeadingSensor::AttitudeVelocitySensor1;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor1;
             case '9':
-                return t_ActiveHeadingSensor::AttitudeVelocitySensor2;
+                return t_EM3000ActiveSensor::AttitudeVelocitySensor2;
             default:
                 throw std::invalid_argument(fmt::format("get_active_heading_sensor: Invalid "
                                                         "active roll pitch sensor: {} (must be "
@@ -767,7 +739,7 @@ class InstallationParameters : public EM3000Datagram
      * 1: Attitude Velocity Sensor 1 (assumed to be physical equal to Attitude sensor 1)
      * 2: Attitude Velocity Sensor 2 (assumed to be physical equal to Attitude sensor 2)
      *
-     * @return t_ActiveAttitudeSensor
+     * @return t_EM3000ActiveSensor
      */
     uint8_t get_active_attitude_velocity_sensor() const
     {

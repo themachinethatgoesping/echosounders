@@ -1,4 +1,4 @@
-//sourcehash: 072733df36ef882ea3d52c746d357d067369568d12244acec4b183bf8e086a9a
+//sourcehash: b617d6a4d055c2949c6124711a5e267cbf7d3d00303538b0803d41dfd13abc21
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -76,19 +76,19 @@ Attitude sensor 1) 2: Attitude Velocity Sensor 2 (assumed to be
 physical equal to Attitude sensor 2)
 
 Returns:
-    t_ActiveAttitudeSensor)doc";
+    t_EM3000ActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_heading_sensor =
 R"doc(Get the active heading sensor (0-9) here returned as an enum
 
 Returns:
-    t_ActiveHeadingSensor)doc";
+    t_EM3000ActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_heave_sensor =
 R"doc(Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
 
 Returns:
-    t_ActiveAttitudeSensor)doc";
+    t_EM3000ActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_position_system_number =
 R"doc(Get the active position system number (APS + 1)
@@ -101,13 +101,13 @@ R"doc(Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an
 enum
 
 Returns:
-    t_ActiveAttitudeSensor)doc";
+    t_EM3000ActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_attitude_sensor_offsets =
 R"doc(Get the attitude sensor offsets of sensor 1 or 2
 
 Parameter ``sensor_number``:
-    InstallationParameters::t_ActiveAttitudeSensor (enum)
+    t_EM3000ActiveSensor (enum)
 
 Returns:
     navigation::datastructures::PositionalOffsets)doc";
@@ -261,42 +261,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_set_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_AttitudeVelocitySensor1 = R"doc(< UDP5)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_AttitudeVelocitySensor2 = R"doc(< UDP6)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_MotionSensor1 = R"doc(< COM2)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_MotionSensor2 = R"doc(< COM3)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_NotSet = R"doc(< this is not a valid value)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_AttitudeVelocitySensor1 = R"doc(< UDP5)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_AttitudeVelocitySensor2 = R"doc(< UDP6)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MotionSensor1 = R"doc(< COM2)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MotionSensor2 = R"doc(< COM3)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MultiCast1 = R"doc(<)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MultiCast2 = R"doc(<)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MultiCast3 = R"doc(<)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_NotSet = R"doc(< this is not a valid value)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem1 = R"doc(< COM1)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem3 = R"doc(< UDP2 or COM4)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_to_stream = R"doc()doc";
 

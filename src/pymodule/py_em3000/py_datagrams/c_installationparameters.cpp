@@ -30,59 +30,8 @@ using datagrams::InstallationParameters;
 #define DOC_InstallationParameters(ARG)                                                            \
     DOC(themachinethatgoesping, echosounders, em3000, datagrams, InstallationParameters, ARG)
 
-void init_c_installationparameter_enums(pybind11::module& m)
-{
-    // using datagrams::InstallationParameters::t_ActiveAttitudeSensor;
-
-    auto pyenum_activerollpitchsensor =
-        py::enum_<InstallationParameters::t_ActiveAttitudeSensor>(
-            m,
-            "InstallationParameters_t_ActiveAttitudeSensor",
-            DOC_InstallationParameters(t_ActiveAttitudeSensor))
-            .value("MotionSensor1", InstallationParameters::t_ActiveAttitudeSensor::MotionSensor1)
-            .value("MotionSensor2", InstallationParameters::t_ActiveAttitudeSensor::MotionSensor2)
-            .value("AttitudeVelocitySensor1",
-                   InstallationParameters::t_ActiveAttitudeSensor::AttitudeVelocitySensor1)
-            .value("AttitudeVelocitySensor2",
-                   InstallationParameters::t_ActiveAttitudeSensor::AttitudeVelocitySensor2)
-            .export_values()
-        //
-        ;
-
-    auto pyenum_activeheadingsensor =
-        py::enum_<InstallationParameters::t_ActiveHeadingSensor>(
-            m,
-            "InstallationParameters_t_ActiveHeadingSensor",
-            DOC_InstallationParameters(t_ActiveHeadingSensor))
-            .value("PositionSystem3",
-                   InstallationParameters::t_ActiveHeadingSensor::PositionSystem3)
-            .value("PositionSystem1",
-                   InstallationParameters::t_ActiveHeadingSensor::PositionSystem1)
-            .value("PositionSystem2",
-                   InstallationParameters::t_ActiveHeadingSensor::PositionSystem2)
-            .value("MotionSensor1", InstallationParameters::t_ActiveHeadingSensor::MotionSensor1)
-            .value("MotionSensor2", InstallationParameters::t_ActiveHeadingSensor::MotionSensor2)
-            .value("MultiCast1", InstallationParameters::t_ActiveHeadingSensor::MultiCast1)
-            .value("MultiCast2", InstallationParameters::t_ActiveHeadingSensor::MultiCast2)
-            .value("MultiCast3", InstallationParameters::t_ActiveHeadingSensor::MultiCast3)
-            .value("AttitudeVelocitySensor1",
-                   InstallationParameters::t_ActiveHeadingSensor::AttitudeVelocitySensor1)
-            .value("AttitudeVelocitySensor2",
-                   InstallationParameters::t_ActiveHeadingSensor::AttitudeVelocitySensor2)
-            .export_values()
-        //
-        ;
-
-    tools::pybind_helper::add_string_to_enum_conversion<
-        InstallationParameters::t_ActiveAttitudeSensor>(pyenum_activerollpitchsensor);
-    tools::pybind_helper::add_string_to_enum_conversion<
-        InstallationParameters::t_ActiveHeadingSensor>(pyenum_activeheadingsensor);
-}
-
 void init_c_installationparameters(pybind11::module& m)
 {
-    init_c_installationparameter_enums(m);
-
     py::class_<InstallationParameters, datagrams::EM3000Datagram>(
         m,
         "InstallationParameters",
@@ -145,7 +94,7 @@ void init_c_installationparameters(pybind11::module& m)
              &InstallationParameters::get_depth_sensor_offsets,
              DOC_InstallationParameters(get_depth_sensor_offsets))
         .def("get_attitude_sensor_offsets",
-             py::overload_cast<InstallationParameters::t_ActiveAttitudeSensor>(
+             py::overload_cast<t_EM3000ActiveSensor>(
                  &InstallationParameters::get_attitude_sensor_offsets, py::const_),
              DOC_InstallationParameters(get_attitude_sensor_offsets),
              py::arg("sensor_number"))

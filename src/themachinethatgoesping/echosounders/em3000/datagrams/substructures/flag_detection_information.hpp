@@ -31,7 +31,6 @@ namespace detection_information {
  * ExtraDectionsExtraDetections to indicate the type of detection.
  *
  */
-
 enum class t_DetectionType : uint8_t
 {
     AmplitudeDetect        = 0b00000000, ///< Valid, amplitude detection was used

@@ -37,6 +37,8 @@ void init_c_fileem3000(pybind11::module& m); // c_fileem3000.cpp
 
 #define DOC_t_EM3000DatagramIdentifier(ARG)                                                        \
     DOC(themachinethatgoesping, echosounders, em3000, t_EM3000DatagramIdentifier, ARG)
+#define DOC_t_EM3000ActiveSensor(ARG)                                                              \
+    DOC(themachinethatgoesping, echosounders, em3000, t_EM3000ActiveSensor, ARG)
 
 // -- create submodule --
 void init_m_em3000(pybind11::module& m)
@@ -138,6 +140,49 @@ void init_m_em3000(pybind11::module& m)
 
     // py::implicitly_convertible<std::string, t_EM3000DatagramIdentifier>();
     tools::pybind_helper::add_string_to_enum_conversion<t_EM3000DatagramIdentifier>(tmp_enum);
+
+    auto pyenum_activeem3000sensor =
+        py::enum_<t_EM3000ActiveSensor>(
+            subm,
+            "t_EM3000ActiveSensor",
+            DOC(themachinethatgoesping, echosounders, em3000, t_EM3000ActiveSensor))
+            .value("PositionSystem3",
+                   t_EM3000ActiveSensor::PositionSystem3,
+                   DOC_t_EM3000ActiveSensor(PositionSystem3))
+            .value("PositionSystem1",
+                   t_EM3000ActiveSensor::PositionSystem1,
+                   DOC_t_EM3000ActiveSensor(PositionSystem1))
+            .value("PositionSystem2",
+                   t_EM3000ActiveSensor::PositionSystem2,
+                   DOC_t_EM3000ActiveSensor(PositionSystem2))
+            .value("MotionSensor1",
+                   t_EM3000ActiveSensor::MotionSensor1,
+                   DOC_t_EM3000ActiveSensor(MotionSensor1))
+            .value("MotionSensor2",
+                   t_EM3000ActiveSensor::MotionSensor2,
+                   DOC_t_EM3000ActiveSensor(MotionSensor2))
+            .value("MultiCast1",
+                   t_EM3000ActiveSensor::MultiCast1,
+                   DOC_t_EM3000ActiveSensor(MultiCast1))
+            .value("MultiCast2",
+                   t_EM3000ActiveSensor::MultiCast2,
+                   DOC_t_EM3000ActiveSensor(MultiCast2))
+            .value("MultiCast3",
+                   t_EM3000ActiveSensor::MultiCast3,
+                   DOC_t_EM3000ActiveSensor(MultiCast3))
+            .value("AttitudeVelocitySensor1",
+                   t_EM3000ActiveSensor::AttitudeVelocitySensor1,
+                   DOC_t_EM3000ActiveSensor(AttitudeVelocitySensor1))
+            .value("AttitudeVelocitySensor2",
+                   t_EM3000ActiveSensor::AttitudeVelocitySensor2,
+                   DOC_t_EM3000ActiveSensor(AttitudeVelocitySensor2))
+            .value("NotSet", t_EM3000ActiveSensor::NotSet, DOC_t_EM3000ActiveSensor(NotSet))
+            .export_values()
+        //
+        ;
+
+    tools::pybind_helper::add_string_to_enum_conversion<t_EM3000ActiveSensor>(
+        pyenum_activeem3000sensor);
 
     subm.def("datagram_type_to_string",
              py::overload_cast<t_EM3000DatagramIdentifier>(&datagram_type_to_string),

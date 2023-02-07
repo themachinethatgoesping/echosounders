@@ -1,4 +1,4 @@
-//sourcehash: ea44964c5c69c2ad9a5976081d60cfaff65314905001b85f9628fd4fe0f68c5a
+//sourcehash: 65fbfb8575d584bede88787c7240c8fc3cc6e502f167a639a7c6dc08508d9c1a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,32 @@ static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier
 static const char *__doc_themachinethatgoesping_echosounders_em3000_EM3000Datagram_type_from_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagram_type_to_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor =
+R"doc(This enum is used to identify the active sensor in the
+InstallationParameters datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_AttitudeVelocitySensor1 = R"doc(< UDP5)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_AttitudeVelocitySensor2 = R"doc(< UDP6)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_MotionSensor1 = R"doc(< COM2)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_MotionSensor2 = R"doc(< COM3)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_MultiCast1 = R"doc(<)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_MultiCast2 = R"doc(<)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_MultiCast3 = R"doc(<)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_NotSet = R"doc(< this is not a valid value)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_PositionSystem1 = R"doc(< COM1)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_PositionSystem2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000ActiveSensor_PositionSystem3 = R"doc(< UDP2 or COM4)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier = R"doc()doc";
 
