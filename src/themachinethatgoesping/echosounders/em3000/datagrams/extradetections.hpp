@@ -240,6 +240,8 @@ class ExtraDetections : public EM3000Datagram
     {
         ExtraDetections datagram(std::move(header));
 
+        // auto pos = is.tellg();
+
         if (datagram._datagram_identifier != t_EM3000DatagramIdentifier::ExtraDetections)
             throw std::runtime_error(
                 fmt::format("ExtraDetections: datagram identifier is not 0x{:02x}, but 0x{:02x}",
@@ -284,8 +286,13 @@ class ExtraDetections : public EM3000Datagram
 
         // TODO: fix reading raw_amplitudes
         // if (datagram._etx != 0x03)
+        // {
+        //     auto pos_is = is.tellg();
+        //     auto pos_should = pos + signed(datagram.get_bytes()) - 15;
         //     throw std::runtime_error(fmt::format(
-        //         "ExtraDetections: end identifier is not 0x03, but 0x{:x}", datagram._etx));
+        //         "ExtraDetections: end identifier is not 0x03, but 0x{:x}"
+        //         "Position is {} bytes to far", datagram._etx, pos_is - pos_should));
+        // }
 
         return datagram;
     }
