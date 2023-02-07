@@ -73,6 +73,15 @@ class EM3000NavigationDataInterfacePerFile
             if (sensor_number != config.get_active_position_system_number())
                 continue;
 
+            if (!times_pos.empty())
+                if (!(times_pos.back() < timestamp))
+                    throw std::runtime_error(fmt::format(
+                        "ERROR in file [{}]: {} "
+                        "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                        "timestamps are not strictly increasing. This is not supported yet.",
+                        this->get_file_nr(),
+                        this->get_file_path()));
+
             times_pos.push_back(timestamp);
             latitudes.push_back(datagram.get_latitude_in_degrees());
             longitudes.push_back(datagram.get_longitude_in_degrees());
@@ -81,21 +90,45 @@ class EM3000NavigationDataInterfacePerFile
             qualities.push_back(datagram.get_position_fix_quality_in_meters());
         }
 
+        /* ----- scan through depth/height datagrams ----- */
+        std::vector<double> depths;
+        std::vector<double> times_depth;
+        for (auto& packet : this->_datagram_infos_by_type.at_const(
+                 t_EM3000DatagramIdentifier::DepthOrHeightDatagram))
+        {
+            auto datagram =
+                packet->template read_datagram_from_file<datagrams::DepthOrHeightDatagram>();
+
+            double timestamp = datagram.get_timestamp();
+
+            if (!times_depth.empty())
+                if (!(times_depth.back() < timestamp))
+                    throw std::runtime_error(fmt::format(
+                        "ERROR in file [{}]: {} "
+                        "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                        "timestamps are not strictly increasing. This is not supported yet.",
+                        this->get_file_nr(),
+                        this->get_file_path()));
+
+            times_depth.push_back(timestamp);
+            depths.push_back(-datagram.get_height_in_meters());
+        }
+
         /* ----- scan through attitude datagrams ----- */
         std::vector<double> headings_attitudes, pitchs, rolls, heaves;
-        std::vector<double> times_pitch_roll, times_heading, times_heave_attitude;
+        std::vector<double> times_pitch_roll, times_heading_attitude, times_heave;
 
         for (auto& packet :
              this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::AttitudeDatagram))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::AttitudeDatagram>();
 
-            double     base_time          = datagram.get_timestamp();
-            bool       use_heave_sensor   = datagram.get_heave_sensor_is_active();
-            bool       use_heading_sensor = datagram.get_heading_sensor_is_active();
-            bool       use_roll_sensor    = datagram.get_roll_sensor_is_active();
-            bool       use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
-            //const auto sensor_number      = datagram.get_attitude_sensor_number();
+            double base_time          = datagram.get_timestamp();
+            bool   use_heave_sensor   = datagram.get_heave_sensor_is_active();
+            bool   use_heading_sensor = datagram.get_heading_sensor_is_active();
+            bool   use_roll_sensor    = datagram.get_roll_sensor_is_active();
+            bool   use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
+            // const auto sensor_number      = datagram.get_attitude_sensor_number();
 
             if (use_roll_sensor != use_pitch_sensor)
                 throw std::runtime_error(fmt::format(
@@ -144,8 +177,8 @@ class EM3000NavigationDataInterfacePerFile
 
                 if (use_heading_sensor)
                 {
-                    if (!times_heading.empty())
-                        if (!(times_heading.back() < packet_timestamp))
+                    if (!times_heading_attitude.empty())
+                        if (!(times_heading_attitude.back() < packet_timestamp))
                             throw std::runtime_error(fmt::format(
                                 "ERROR in file [{}]: {} "
                                 "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
@@ -153,14 +186,14 @@ class EM3000NavigationDataInterfacePerFile
                                 this->get_file_nr(),
                                 this->get_file_path()));
 
-                    times_heading.push_back(packet_timestamp);
+                    times_heading_attitude.push_back(packet_timestamp);
                     headings_attitudes.push_back(attitude.get_heading_in_degrees());
                 }
 
                 if (use_heave_sensor)
                 {
-                    if (!times_heave_attitude.empty())
-                        if (!(times_heave_attitude.back() < packet_timestamp))
+                    if (!times_heave.empty())
+                        if (!(times_heave.back() < packet_timestamp))
                             throw std::runtime_error(fmt::format(
                                 "ERROR in file [{}]: {} "
                                 "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
@@ -168,16 +201,17 @@ class EM3000NavigationDataInterfacePerFile
                                 this->get_file_nr(),
                                 this->get_file_path()));
 
-                    times_heave_attitude.push_back(packet_timestamp);
+                    times_heave.push_back(packet_timestamp);
                     heaves.push_back(attitude.get_heave_in_meters());
                 }
             }
         }
 
         navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
-        navi.set_data_heading(std::move(times_heading), std::move(headings_attitudes));
-        navi.set_data_heave(std::move(times_heave_attitude), std::move(heaves));
+        navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
+        navi.set_data_heave(std::move(times_heave), std::move(heaves));
         navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
+        navi.set_data_depth(std::move(times_depth), std::move(depths));
 
         return navi;
     }
