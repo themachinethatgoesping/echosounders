@@ -101,6 +101,12 @@ void init_c_positiondatagram(pybind11::module& m)
         .def("get_speed_of_vessel_in_meters_per_second",
              &PositionDatagram::get_speed_of_vessel_in_meters_per_second,
              DOC_PositionDatagram(get_speed_of_vessel_in_meters_per_second))
+        .def("get_course_of_vessel_in_degrees",
+             &PositionDatagram::get_course_of_vessel_in_degrees,
+             DOC_PositionDatagram(get_course_of_vessel_in_degrees))
+        .def("get_heading_of_vessel_in_degrees",
+             &PositionDatagram::get_heading_of_vessel_in_degrees,
+             DOC_PositionDatagram(get_heading_of_vessel_in_degrees))
         .def("get_position_system_number",
              &PositionDatagram::get_position_system_number,
              DOC_PositionDatagram(get_position_system_number))
