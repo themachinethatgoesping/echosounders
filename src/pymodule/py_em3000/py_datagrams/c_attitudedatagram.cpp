@@ -72,9 +72,9 @@ void init_c_attitudedatagram(pybind11::module& m)
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---
-        .def("get_motion_sensor_number",
-             &AttitudeDatagram::get_motion_sensor_number,
-             DOC_AttitudeDatagram(get_motion_sensor_number))
+        .def("get_attitude_sensor_number",
+             &AttitudeDatagram::get_attitude_sensor_number,
+             DOC_AttitudeDatagram(get_attitude_sensor_number))
         .def("get_heading_sensor_is_active",
              &AttitudeDatagram::get_heading_sensor_is_active,
              DOC_AttitudeDatagram(get_heading_sensor_is_active))

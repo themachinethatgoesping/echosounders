@@ -1,4 +1,4 @@
-//sourcehash: 16b22333f888a59d87a9291828b0d1652f0dc99f0d21e2a2dc19253a7dff0c85
+//sourcehash: 072733df36ef882ea3d52c746d357d067369568d12244acec4b183bf8e086a9a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,8 +72,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_attitude_velocity_sensor =
 R"doc(Get the active attitude velocity sensor (not active, 1 or 2) 0: not
 used 1: Attitude Velocity Sensor 1 (assumed to be physical equal to
-Motion Sensor 1) 2: Attitude Velocity Sensor 2 (assumed to be physical
-equal to Motion Sensor 2)
+Attitude sensor 1) 2: Attitude Velocity Sensor 2 (assumed to be
+physical equal to Attitude sensor 2)
 
 Returns:
     t_ActiveAttitudeSensor)doc";
@@ -103,6 +103,24 @@ enum
 Returns:
     t_ActiveAttitudeSensor)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_attitude_sensor_offsets =
+R"doc(Get the attitude sensor offsets of sensor 1 or 2
+
+Parameter ``sensor_number``:
+    InstallationParameters::t_ActiveAttitudeSensor (enum)
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_attitude_sensor_offsets_2 =
+R"doc(Get the attitude sensor offsets of sensor 1 or 2
+
+Parameter ``sensor_number``:
+    must be 1 or 2
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_checksum = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_compass_offsets =
@@ -126,15 +144,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_installation_parameters_parsed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_motion_sensor_offsets =
-R"doc(Get the motion sensor offsets of sensor 1 or 2
-
-Parameter ``sensor_number``:
-    must be 1 or 2
-
-Returns:
-    navigation::datastructures::PositionalOffsets)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_position_system_offsets =
 R"doc(Get the position system offsets of system 1, 2 or 3
 
@@ -154,13 +163,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_sensor_offsets =
 R"doc(Internal function to get the sensor offsets from the installation
-parameters. Possible sensor prefixes are: - MS for motion sensor 1 -
-NS for motion sensor 2 - P1 for position system 1 - P2 for position
+parameters. Possible sensor prefixes are: - MS for attitude sensor 1 -
+NS for attitude sensor 2 - P1 for position system 1 - P2 for position
 system 2 - P3 for position system 3 - S1 for transducer 1 - S2 for
 transducer 2 - S3 for transducer 3 - DS for depth (pressure) sensor
 
 Parameter ``sensor_name``:
-    e.g. Motion Sensor 1
+    e.g. Attitude sensor 1
 
 Parameter ``sensor_prefix``:
     see above
@@ -263,6 +272,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_MotionSensor2 = R"doc(< COM3)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveAttitudeSensor_NotSet = R"doc(< this is not a valid value)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_AttitudeVelocitySensor1 = R"doc(< UDP5)doc";
@@ -278,6 +289,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MultiCast2 = R"doc(<)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_MultiCast3 = R"doc(<)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_NotSet = R"doc(< this is not a valid value)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem1 = R"doc(< COM1)doc";
 

@@ -123,23 +123,23 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
     { "P3G", "Position system 3 geodetic datum" },
     { "P3S", "Position system 3 on serial line or Ethernet" },
 
-    { "MSZ", "Motion sensor 1 vertical location in m" },
-    { "MSX", "Motion sensor 1 along location in m" },
-    { "MSY", "Motion sensor 1 athwart location in m" },
-    { "MRP", "Motion sensor 1 roll reference plane" },
-    { "MSD", "Motion sensor 1 time delay in milliseconds" },
-    { "MSR", "Motion sensor 1 roll offset in degrees" },
-    { "MSP", "Motion sensor 1 pitch offset in degrees" },
-    { "MSG", "Motion sensor 1 HEADING offset in degrees" },
+    { "MSZ", "Attitude sensor 1 vertical location in m" },
+    { "MSX", "Attitude sensor 1 along location in m" },
+    { "MSY", "Attitude sensor 1 athwart location in m" },
+    { "MRP", "Attitude sensor 1 roll reference plane" },
+    { "MSD", "Attitude sensor 1 time delay in milliseconds" },
+    { "MSR", "Attitude sensor 1 roll offset in degrees" },
+    { "MSP", "Attitude sensor 1 pitch offset in degrees" },
+    { "MSG", "Attitude sensor 1 HEADING offset in degrees" },
 
-    { "NSZ", "Motion sensor 2 vertical location in m" },
-    { "NSX", "Motion sensor 2 along location in m" },
-    { "NSY", "Motion sensor 2 athwart location in m" },
-    { "NRP", "Motion sensor 2 roll reference plane" },
-    { "NSD", "Motion sensor 2 time delay in milliseconds" },
-    { "NSR", "Motion sensor 2 roll offset in degrees" },
-    { "NSP", "Motion sensor 2 pitch offset in degrees" },
-    { "NSG", "Motion sensor 2 HEADING offset in degrees" },
+    { "NSZ", "Attitude sensor 2 vertical location in m" },
+    { "NSX", "Attitude sensor 2 along location in m" },
+    { "NSY", "Attitude sensor 2 athwart location in m" },
+    { "NRP", "Attitude sensor 2 roll reference plane" },
+    { "NSD", "Attitude sensor 2 time delay in milliseconds" },
+    { "NSR", "Attitude sensor 2 roll offset in degrees" },
+    { "NSP", "Attitude sensor 2 pitch offset in degrees" },
+    { "NSG", "Attitude sensor 2 HEADING offset in degrees" },
 
     { "GCG", "Gyrocompass heading offset in degrees" },
     { "MAS", "Roll scaling factor" },
@@ -191,7 +191,8 @@ class InstallationParameters : public EM3000Datagram
         MotionSensor1           = 2, ///< COM2
         MotionSensor2           = 3, ///< COM3
         AttitudeVelocitySensor1 = 8, ///< UDP5
-        AttitudeVelocitySensor2 = 9  ///< UDP6
+        AttitudeVelocitySensor2 = 9, ///< UDP6
+        NotSet                  = -1 ///< this is not a valid value
     };
 
     // ----- enums -----
@@ -200,14 +201,15 @@ class InstallationParameters : public EM3000Datagram
         PositionSystem3 = 0, ///< UDP2 or COM4
         PositionSystem1 = 1, ///< COM1
         PositionSystem2 =
-            32, ///< COM3 (it is not clear how this case is separated from 3 (motion sensor 2))
+            32, ///< COM3 (it is not clear how this case is separated from 3 (attitude sensor 2))
         MotionSensor1           = 2, ///< COM2
         MotionSensor2           = 3, ///< COM3
         MultiCast1              = 5, ///<
         MultiCast2              = 6, ///<
         MultiCast3              = 7, ///<
         AttitudeVelocitySensor1 = 8, ///< UDP5
-        AttitudeVelocitySensor2 = 9  ///< UDP6
+        AttitudeVelocitySensor2 = 9, ///< UDP6
+        NotSet                  = -1 ///< this is not a valid value
     };
 
   protected:
@@ -509,20 +511,44 @@ class InstallationParameters : public EM3000Datagram
     }
 
     /**
-     * @brief Get the motion sensor offsets of sensor 1 or 2
+     * @brief Get the attitude sensor offsets of sensor 1 or 2
+     *
+     * @param sensor_number InstallationParameters::t_ActiveAttitudeSensor (enum)
+     * @return navigation::datastructures::PositionalOffsets
+     */
+    navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
+        t_ActiveAttitudeSensor sensor) const
+    {
+        switch (sensor)
+        {
+            case t_ActiveAttitudeSensor::MotionSensor1:
+                [[fallthrough]];
+            case t_ActiveAttitudeSensor::AttitudeVelocitySensor1:
+                return get_attitude_sensor_offsets(1);
+            case t_ActiveAttitudeSensor::MotionSensor2:
+                [[fallthrough]];
+            case t_ActiveAttitudeSensor::AttitudeVelocitySensor2:
+                return get_attitude_sensor_offsets(2);
+            default:
+                throw std::invalid_argument("Invalid sensor number");
+        }
+    }
+
+    /**
+     * @brief Get the attitude sensor offsets of sensor 1 or 2
      *
      * @param sensor_number must be 1 or 2
      * @return navigation::datastructures::PositionalOffsets
      */
-    navigation::datastructures::PositionalOffsets get_motion_sensor_offsets(
+    navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
         uint8_t sensor_number) const
     {
         using tools::helper::string_to_floattype;
 
         // check unsupported options
         // MRP, MSD
-        unsupported_option_string("MRP", "RP", "get_motion_sensor_offsets");
-        unsupported_option_float("MAS", 1.0f, "get_motion_sensor_offsets");
+        unsupported_option_string("MRP", "RP", "get_attitude_sensor_offsets");
+        unsupported_option_float("MAS", 1.0f, "get_attitude_sensor_offsets");
 
         std::string sensor_prefix;
         switch (sensor_number)
@@ -534,27 +560,28 @@ class InstallationParameters : public EM3000Datagram
                 sensor_prefix = "NS";
                 break;
             default:
-                throw std::invalid_argument(fmt::format(
-                    "get_motion_sensor_offsets: Invalid motion sensor number: {} (must be 1 or 2)",
-                    sensor_number));
+                throw std::invalid_argument(
+                    fmt::format("get_attitude_sensor_offsets: Invalid attitude sensor number: {} "
+                                "(must be 1 or 2)",
+                                sensor_number));
         }
 
         std::string time_delay_key = sensor_prefix + std::string("D");
-        unsupported_option_float(time_delay_key, 0.0f, "get_motion_sensor_offsets");
+        unsupported_option_float(time_delay_key, 0.0f, "get_attitude_sensor_offsets");
 
         try
         {
-            return get_sensor_offsets("Motion sensor " + std::to_string(sensor_number),
+            return get_sensor_offsets("Attitude sensor " + std::to_string(sensor_number),
                                       sensor_prefix);
         }
         catch (std::invalid_argument& e)
         {
-            // If entries for a second motion sensor are not included although two sensors are being
-            // used, they are presumed to have the same parameters.
+            // If entries for a second attitude sensor are not included although two sensors are
+            // being used, they are presumed to have the same parameters.
             if (sensor_number == 2)
             {
                 sensor_prefix = "MS";
-                return get_sensor_offsets("Motion sensor " + std::to_string(sensor_number),
+                return get_sensor_offsets("Attitude sensor " + std::to_string(sensor_number),
                                           sensor_prefix);
             }
             else
@@ -737,8 +764,8 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Get the active attitude velocity sensor (not active, 1 or 2)
      * 0: not used
-     * 1: Attitude Velocity Sensor 1 (assumed to be physical equal to Motion Sensor 1)
-     * 2: Attitude Velocity Sensor 2 (assumed to be physical equal to Motion Sensor 2)
+     * 1: Attitude Velocity Sensor 1 (assumed to be physical equal to Attitude sensor 1)
+     * 2: Attitude Velocity Sensor 2 (assumed to be physical equal to Attitude sensor 2)
      *
      * @return t_ActiveAttitudeSensor
      */
@@ -802,8 +829,8 @@ class InstallationParameters : public EM3000Datagram
     /**
      * @brief Internal function to get the sensor offsets from the installation parameters.
      * Possible sensor prefixes are:
-     * - MS for motion sensor 1
-     * - NS for motion sensor 2
+     * - MS for attitude sensor 1
+     * - NS for attitude sensor 2
      * - P1 for position system 1
      * - P2 for position system 2
      * - P3 for position system 3
@@ -812,7 +839,7 @@ class InstallationParameters : public EM3000Datagram
      * - S3 for transducer 3
      * - DS for depth (pressure) sensor
      *
-     * @param sensor_name e.g. Motion Sensor 1
+     * @param sensor_name e.g. Attitude sensor 1
      * @param sensor_prefix see above
      * @param has_xyz sensor has xyz offsets
      * @param has_ypr sensor has yaw pitch roll offsets

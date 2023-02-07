@@ -102,17 +102,17 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
     using themachinethatgoesping::tools::helper::approx;
 
     // test decoding sensor offsets
-    SECTION("Motion sensor 1")
+    SECTION("Attitude sensor 1")
     {
-        CAPTURE(dat.get_motion_sensor_offsets(1).info_string());
-        CHECK(dat.get_motion_sensor_offsets(1) ==
-              PositionalOffsets("Motion sensor 1", 0, 0, 0, -0.23, -0.2, -0.15));
+        CAPTURE(dat.get_attitude_sensor_offsets(1).info_string());
+        CHECK(dat.get_attitude_sensor_offsets(1) ==
+              PositionalOffsets("Attitude sensor 1", 0, 0, 0, -0.23, -0.2, -0.15));
     }
-    SECTION("Motion sensor 2")
+    SECTION("Attitude sensor 2")
     {
-        CAPTURE(dat.get_motion_sensor_offsets(2).info_string(3));
-        CHECK(dat.get_motion_sensor_offsets(2) ==
-              PositionalOffsets("Motion sensor 2", -7.887, 0.875, -5.968, 0., 0., 0.));
+        CAPTURE(dat.get_attitude_sensor_offsets(2).info_string(3));
+        CHECK(dat.get_attitude_sensor_offsets(2) ==
+              PositionalOffsets("Attitude sensor 2", -7.887, 0.875, -5.968, 0., 0., 0.));
     }
     SECTION("Depth sensor")
     {

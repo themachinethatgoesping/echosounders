@@ -1,4 +1,4 @@
-//sourcehash: 6a95840ed008d9cd71b86ec18ca9c81b16333a2f9b96e6c46e432bd787297a81
+//sourcehash: d46c83b6a564dbc67462b1fee12d13e711f1db116b701d1b6046b78cf703927b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,7 +64,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ne
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_from_stream_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_attitude_velocity_sensor_number =
-R"doc(Get the number of motion sensor from the sensor system descriptor
+R"doc(Get the number of attitude sensor from the sensor system descriptor
 field. If this field is xx10 xxxx – attitude velocity sensor 1 (UDP5)
 xx11 xxxx – attitude velocity sensor 2 (UDP6)
 

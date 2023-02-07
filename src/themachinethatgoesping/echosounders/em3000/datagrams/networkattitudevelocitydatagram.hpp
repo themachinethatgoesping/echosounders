@@ -115,7 +115,7 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
 
     // ----- processed data access -----
     /**
-     * @brief Get the number of motion sensor from the sensor system descriptor field.
+     * @brief Get the number of attitude sensor from the sensor system descriptor field.
      * If this field is
      * xx10 xxxx – attitude velocity sensor 1 (UDP5)
      * xx11 xxxx – attitude velocity sensor 2 (UDP6)

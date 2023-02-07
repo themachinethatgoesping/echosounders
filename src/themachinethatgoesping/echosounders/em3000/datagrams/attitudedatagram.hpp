@@ -98,14 +98,14 @@ class AttitudeDatagram : public EM3000Datagram
 
     // ----- processed data access -----
     /**
-     * @brief Get the number of motion sensor from the sensor system descriptor field.
-     * xx00 xxxx – motion sensor number 1
-     * xx01 xxxx – motion sensor number 1
+     * @brief Get the number of attitude sensor from the sensor system descriptor field.
+     * xx00 xxxx – attitude sensor number 1
+     * xx01 xxxx – attitude sensor number 1
      *
      * @return 1 or 2
      *
      */
-    unsigned int get_motion_sensor_number() const
+    unsigned int get_attitude_sensor_number() const
     {
         if (_sensor_system_descriptor & 0b00110000)
             return 2;
@@ -261,7 +261,7 @@ class AttitudeDatagram : public EM3000Datagram
         printer.register_value("checksum", _checksum);
 
         printer.register_section("processed");
-        printer.register_value("motion_sensor_number", get_motion_sensor_number(), "1,2");
+        printer.register_value("attitude_sensor_number", get_attitude_sensor_number(), "1,2");
         printer.register_value("heading_sensor_is_active", get_heading_sensor_is_active());
         printer.register_value("roll_sensor_is_active", get_roll_sensor_is_active());
         printer.register_value("pitch_sensor_is_active", get_pitch_sensor_is_active());

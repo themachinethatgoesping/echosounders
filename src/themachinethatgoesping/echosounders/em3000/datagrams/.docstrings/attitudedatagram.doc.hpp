@@ -1,4 +1,4 @@
-//sourcehash: f0632f88c6145911d10ce24c792b5ce05465107acbb79922218366c031988607
+//sourcehash: 88786c05769e0affb51aeefd34d2e691d37dda027203bff7596d12a01fc7bb16
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,6 +67,14 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_At
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_attitude_counter = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_attitude_sensor_number =
+R"doc(Get the number of attitude sensor from the sensor system descriptor
+field. xx00 xxxx – attitude sensor number 1 xx01 xxxx – attitude
+sensor number 1
+
+Returns:
+    1 or 2)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_attitudes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_checksum = R"doc()doc";
@@ -87,14 +95,6 @@ field. 0bxxxx1xxx : heave is active 0bxxxx0xxx : heave is inactive
 
 Returns:
     bool)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_motion_sensor_number =
-R"doc(Get the number of motion sensor from the sensor system descriptor
-field. xx00 xxxx – motion sensor number 1 xx01 xxxx – motion sensor
-number 1
-
-Returns:
-    1 or 2)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_number_of_entries = R"doc()doc";
 
