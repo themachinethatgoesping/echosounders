@@ -1,4 +1,4 @@
-//sourcehash: 6763c2577405d0efd271efbb7b775950589e88c25dc168a0a0c30eaf768cf238
+//sourcehash: 6a95840ed008d9cd71b86ec18ca9c81b16333a2f9b96e6c46e432bd787297a81
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -39,9 +39,9 @@
 
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram =
-R"doc(This datagram is used for the models EM 2040, EM 2040C, EM 710, EM
-122, EM 302 and ME70BO. All receiver beams are included, check
-detection info and real time cleaning for beam status (note 4 and 5).)doc";
+R"doc(Network attitude velocity datagram 110. This datagram is currently not
+used in the processing because the Attitude datagram already contains
+all necessary information.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_NetworkAttitudeVelocityDatagram = R"doc()doc";
 
@@ -65,8 +65,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ne
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_NetworkAttitudeVelocityDatagram_get_attitude_velocity_sensor_number =
 R"doc(Get the number of motion sensor from the sensor system descriptor
-field. xx10 xxxx – attitude velocity sensor 1 (UDP5) xx11 xxxx –
-attitude velocity sensor 2 (UDP6)
+field. If this field is xx10 xxxx – attitude velocity sensor 1 (UDP5)
+xx11 xxxx – attitude velocity sensor 2 (UDP6)
 
 Returns:
     1 or 2)doc";
@@ -128,6 +128,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ne
 R"doc(Evaluate if the velocity sensor is active using sensor system
 descriptor field. 0bxxxxxxx1 : velocity is active 0bxxxxxxx1 :
 velocity is inactive
+
+The exact meaning of this field is currently not clear to us. If this
+field is set to false, the attitude data seems to be exactly the same
+as in the attitude datagram. If it is set to true, the attitude data
+will be a little bit different.
 
 Returns:
     bool)doc";

@@ -29,9 +29,9 @@ namespace em3000 {
 namespace datagrams {
 
 /**
- * @brief This datagram is used for the models EM 2040, EM 2040C, EM 710, EM 122, EM
-302 and ME70BO. All receiver beams are included, check detection info and real time
-cleaning for beam status (note 4 and 5).
+ * @brief Network attitude velocity datagram 110.
+ * This datagram is currently not used in the processing because the Attitude datagram already
+ * contains all necessary information.
  */
 class NetworkAttitudeVelocityDatagram : public EM3000Datagram
 {
@@ -116,6 +116,7 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
     // ----- processed data access -----
     /**
      * @brief Get the number of motion sensor from the sensor system descriptor field.
+     * If this field is
      * xx10 xxxx – attitude velocity sensor 1 (UDP5)
      * xx11 xxxx – attitude velocity sensor 2 (UDP6)
      *
@@ -137,6 +138,10 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
      * @brief Evaluate if the velocity sensor is active using sensor system descriptor field.
      * 0bxxxxxxx1 : velocity is active
      * 0bxxxxxxx1 : velocity is inactive
+     *
+     * The exact meaning of this field is currently not clear to us.
+     * If this field is set to false, the attitude data seems to be exactly the same as in the
+     * attitude datagram. If it is set to true, the attitude data will be a little bit different.
      *
      * @return bool
      *
