@@ -57,24 +57,24 @@ void init_c_positiondatagram(pybind11::module& m)
         .def("get_position_fix_quality",
              &PositionDatagram::get_position_fix_quality,
              DOC_PositionDatagram(position_fix_quality))
-        .def("set_speed_of_vessel",
-             &PositionDatagram::set_speed_of_vessel,
-             DOC_PositionDatagram(speed_of_vessel))
-        .def("get_speed_of_vessel",
-             &PositionDatagram::get_speed_of_vessel,
-             DOC_PositionDatagram(speed_of_vessel))
-        .def("set_course_of_vessel",
-             &PositionDatagram::set_course_of_vessel,
-             DOC_PositionDatagram(course_of_vessel))
-        .def("get_course_of_vessel",
-             &PositionDatagram::get_course_of_vessel,
-             DOC_PositionDatagram(course_of_vessel))
-        .def("set_heading_of_vessel",
-             &PositionDatagram::set_heading_of_vessel,
-             DOC_PositionDatagram(heading_of_vessel))
-        .def("get_heading_of_vessel",
-             &PositionDatagram::get_heading_of_vessel,
-             DOC_PositionDatagram(heading_of_vessel))
+        .def("set_speed",
+             &PositionDatagram::set_speed,
+             DOC_PositionDatagram(speed))
+        .def("get_speed",
+             &PositionDatagram::get_speed,
+             DOC_PositionDatagram(speed))
+        .def("set_course",
+             &PositionDatagram::set_course,
+             DOC_PositionDatagram(course))
+        .def("get_course",
+             &PositionDatagram::get_course,
+             DOC_PositionDatagram(course))
+        .def("set_heading",
+             &PositionDatagram::set_heading,
+             DOC_PositionDatagram(heading))
+        .def("get_heading",
+             &PositionDatagram::get_heading,
+             DOC_PositionDatagram(heading))
         .def("set_position_system_descriptor",
              &PositionDatagram::set_position_system_descriptor,
              DOC_PositionDatagram(position_system_descriptor))
@@ -98,15 +98,15 @@ void init_c_positiondatagram(pybind11::module& m)
         .def("get_position_fix_quality_in_meters",
              &PositionDatagram::get_position_fix_quality_in_meters,
              DOC_PositionDatagram(get_position_fix_quality_in_meters))
-        .def("get_speed_of_vessel_in_meters_per_second",
-             &PositionDatagram::get_speed_of_vessel_in_meters_per_second,
-             DOC_PositionDatagram(get_speed_of_vessel_in_meters_per_second))
-        .def("get_course_of_vessel_in_degrees",
-             &PositionDatagram::get_course_of_vessel_in_degrees,
-             DOC_PositionDatagram(get_course_of_vessel_in_degrees))
-        .def("get_heading_of_vessel_in_degrees",
-             &PositionDatagram::get_heading_of_vessel_in_degrees,
-             DOC_PositionDatagram(get_heading_of_vessel_in_degrees))
+        .def("get_speed_in_meters_per_second",
+             &PositionDatagram::get_speed_in_meters_per_second,
+             DOC_PositionDatagram(get_speed_in_meters_per_second))
+        .def("get_course_in_degrees",
+             &PositionDatagram::get_course_in_degrees,
+             DOC_PositionDatagram(get_course_in_degrees))
+        .def("get_heading_in_degrees",
+             &PositionDatagram::get_heading_in_degrees,
+             DOC_PositionDatagram(get_heading_in_degrees))
         .def("get_position_system_number",
              &PositionDatagram::get_position_system_number,
              DOC_PositionDatagram(get_position_system_number))

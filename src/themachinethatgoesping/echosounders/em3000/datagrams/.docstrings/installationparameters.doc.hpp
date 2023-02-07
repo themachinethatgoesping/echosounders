@@ -1,4 +1,4 @@
-//sourcehash: b617d6a4d055c2949c6124711a5e267cbf7d3d00303538b0803d41dfd13abc21
+//sourcehash: dcb4973350acb6025354a54390ad7075a4e4bc808faa5df7189ad80488c2c6a1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -90,18 +90,18 @@ R"doc(Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
 Returns:
     t_EM3000ActiveSensor)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_position_system_number =
-R"doc(Get the active position system number (APS + 1)
-
-Returns:
-    uint8_t)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_roll_pitch_sensor =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_pitch_roll_sensor =
 R"doc(Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an
 enum
 
 Returns:
     t_EM3000ActiveSensor)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_active_position_system_number =
+R"doc(Get the active position system number (APS + 1)
+
+Returns:
+    uint8_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_get_attitude_sensor_offsets =
 R"doc(Get the attitude sensor offsets of sensor 1 or 2

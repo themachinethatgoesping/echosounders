@@ -38,7 +38,7 @@ class XYZDatagram : public EM3000Datagram
   protected:
     uint16_t _ping_counter;              ///< 0-65535 ping number (in this file)
     uint16_t _system_serial_number;      ///< 100 -
-    uint16_t _heading_of_vessel;         ///< (at TX time) in 0.01 degree
+    uint16_t _heading;         ///< (at TX time) in 0.01 degree
     uint16_t _sound_speed;               ///< at transducer in dm/s
     float    _transmit_transducer_depth; ///< in meter relative water level at time of ping
     uint16_t _number_of_beams;           ///< in Datagram
@@ -67,7 +67,7 @@ class XYZDatagram : public EM3000Datagram
     // getters
     uint16_t get_ping_counter() const { return _ping_counter; }
     uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_heading_of_vessel() const { return _heading_of_vessel; }
+    uint16_t get_heading() const { return _heading; }
     uint16_t get_sound_speed() const { return _sound_speed; }
     float    get_transmit_transducer_depth() const { return _transmit_transducer_depth; }
     uint16_t get_number_of_beams() const { return _number_of_beams; }
@@ -85,9 +85,9 @@ class XYZDatagram : public EM3000Datagram
     {
         _system_serial_number = system_serial_number;
     }
-    void set_heading_of_vessel(uint16_t heading_of_vessel)
+    void set_heading(uint16_t heading)
     {
-        _heading_of_vessel = heading_of_vessel;
+        _heading = heading;
     }
     void set_sound_speed(uint16_t sound_speed) { _sound_speed = sound_speed; }
     void set_transmit_transducer_depth(float transmit_transducer_depth)
@@ -118,9 +118,9 @@ class XYZDatagram : public EM3000Datagram
     /**
      * @brief Get the vessel heading in degrees
      *
-     * @return heading_of_vessel * 0.01 degrees (double)
+     * @return heading * 0.01 degrees (double)
      */
-    double get_heading_of_vessel_in_degrees() const { return _heading_of_vessel * 0.01; }
+    double get_heading_in_degrees() const { return _heading * 0.01; }
 
     /**
      * @brief Get the sound speed in meters per seconds
@@ -134,7 +134,7 @@ class XYZDatagram : public EM3000Datagram
     {
         return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
-               _heading_of_vessel == other._heading_of_vessel &&
+               _heading == other._heading &&
                _sound_speed == other._sound_speed &&
                _transmit_transducer_depth == other._transmit_transducer_depth &&
                _number_of_beams == other._number_of_beams &&
@@ -210,7 +210,7 @@ class XYZDatagram : public EM3000Datagram
         printer.register_section("datagram content");
         printer.register_value("ping_counter", _ping_counter);
         printer.register_value("system_serial_number", _system_serial_number);
-        printer.register_value("heading_of_vessel", _heading_of_vessel, "0.01° steps");
+        printer.register_value("heading", _heading, "0.01° steps");
         printer.register_value("sound_speed", _sound_speed, "0.1 m/s steps");
         printer.register_value("transmit_transducer_depth", _transmit_transducer_depth, "m");
         printer.register_value("number_of_beams", _number_of_beams);
@@ -221,7 +221,7 @@ class XYZDatagram : public EM3000Datagram
         printer.register_value("checksum", _checksum);
 
         printer.register_section("processed");
-        printer.register_value("heading_of_vessel", get_heading_of_vessel_in_degrees(), "°");
+        printer.register_value("heading", get_heading_in_degrees(), "°");
         printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
         printer.register_section("substructures");

@@ -41,12 +41,12 @@ void init_c_xyzdatagram(pybind11::module& m)
         .def("get_system_serial_number",
              &XYZDatagram::get_system_serial_number,
              DOC_XYZDatagram(system_serial_number))
-        .def("set_heading_of_vessel",
-             &XYZDatagram::set_heading_of_vessel,
-             DOC_XYZDatagram(heading_of_vessel))
-        .def("get_heading_of_vessel",
-             &XYZDatagram::get_heading_of_vessel,
-             DOC_XYZDatagram(heading_of_vessel))
+        .def("set_heading",
+             &XYZDatagram::set_heading,
+             DOC_XYZDatagram(heading))
+        .def("get_heading",
+             &XYZDatagram::get_heading,
+             DOC_XYZDatagram(heading))
         .def("set_sound_speed", &XYZDatagram::set_sound_speed, DOC_XYZDatagram(sound_speed))
         .def("get_sound_speed", &XYZDatagram::get_sound_speed, DOC_XYZDatagram(sound_speed))
         .def("set_transmit_transducer_depth",
@@ -88,9 +88,9 @@ void init_c_xyzdatagram(pybind11::module& m)
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---
-        .def("get_heading_of_vessel_in_degrees",
-             &XYZDatagram::get_heading_of_vessel_in_degrees,
-             DOC_XYZDatagram(get_heading_of_vessel_in_degrees))
+        .def("get_heading_in_degrees",
+             &XYZDatagram::get_heading_in_degrees,
+             DOC_XYZDatagram(get_heading_in_degrees))
         .def("get_sound_speed_in_m_per_s",
              &XYZDatagram::get_sound_speed_in_m_per_s,
              DOC_XYZDatagram(get_sound_speed_in_m_per_s))

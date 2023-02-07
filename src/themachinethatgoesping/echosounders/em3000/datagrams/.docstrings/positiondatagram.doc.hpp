@@ -1,4 +1,4 @@
-//sourcehash: 58caf05dbad390bd249d54dff731d764689f04698ec34a84c48a1a11a5e556e7
+//sourcehash: 4c12f523c9eeb48aa597f21c726d56997b2fbd29b3aa227c465b49c052687262
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,7 +48,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_checksum = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_course_of_vessel = R"doc(< over ground in 0.01°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_course = R"doc(< over ground in 0.01°)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_etx = R"doc(< end identifier (always 0x03))doc";
 
@@ -60,23 +60,23 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_checksum = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_course_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_course = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_course_of_vessel_in_degrees =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_course_in_degrees =
 R"doc(Get the course of vessel in degrees
 
 Returns:
-    _course_of_vessel * 0.01° (float))doc";
+    _course * 0.01° (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_heading_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_heading = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_heading_of_vessel_in_degrees =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_heading_in_degrees =
 R"doc(Get the heading of vessel in degrees
 
 Returns:
-    _heading_of_vessel * 0.01° (float))doc";
+    _heading * 0.01° (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_input_datagram = R"doc()doc";
 
@@ -136,17 +136,17 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_speed_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_speed = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_speed_of_vessel_in_meters_per_second =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_speed_in_meters_per_second =
 R"doc(Get the speed of vessel in meter per second
 
 Returns:
-    _speed_of_vessel * 0.01m/s (float))doc";
+    _speed * 0.01m/s (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_get_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_heading_of_vessel = R"doc(< in 0.01°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_heading = R"doc(< in 0.01°)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_input_datagram = R"doc(< as received (NMEA 0183);)doc";
 
@@ -168,11 +168,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_checksum = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_course_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_course = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_heading_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_heading = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_input_datagram = R"doc()doc";
 
@@ -190,7 +190,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_speed_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_speed = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_set_system_serial_number = R"doc()doc";
 
@@ -198,7 +198,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_spare = R"doc(< only if required to make the datagram size even)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_speed_of_vessel = R"doc(< over ground in cm/s)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_speed = R"doc(< over ground in cm/s)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_system_serial_number = R"doc()doc";
 

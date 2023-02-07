@@ -1,4 +1,4 @@
-//sourcehash: 4ef845076392758cb42cf569e4247f8b1b2e2441fbfe0becc22901e62e4667f5
+//sourcehash: 505cefa8afe906d22cd389c518306a7a41be9cda1cf5dfcd55d66756c5c1d550
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,13 +69,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_of_vessel_in_degrees =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_heading_in_degrees =
 R"doc(Get the vessel heading in degrees
 
 Returns:
-    heading_of_vessel * 0.01 degrees (double))doc";
+    heading * 0.01 degrees (double))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_number_of_beams = R"doc()doc";
 
@@ -103,7 +103,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_transmit_transducer_depth = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_heading_of_vessel = R"doc(< (at TX time) in 0.01 degree)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_heading = R"doc(< (at TX time) in 0.01 degree)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_number_of_beams = R"doc(< in Datagram)doc";
 
@@ -127,7 +127,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_set_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_set_heading_of_vessel = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_set_heading = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_set_number_of_beams = R"doc()doc";
 

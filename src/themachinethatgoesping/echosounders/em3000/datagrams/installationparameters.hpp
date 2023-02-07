@@ -645,7 +645,7 @@ class InstallationParameters : public EM3000Datagram
      *
      * @return t_EM3000ActiveSensor
      */
-    t_EM3000ActiveSensor get_active_roll_pitch_sensor() const
+    t_EM3000ActiveSensor get_active_pitch_roll_sensor() const
     {
         std::string active_sensor = get_value_string("ARO");
 
@@ -660,7 +660,7 @@ class InstallationParameters : public EM3000Datagram
             case '9':
                 return t_EM3000ActiveSensor::AttitudeVelocitySensor2;
             default:
-                throw std::invalid_argument(fmt::format("get_active_roll_pitch_sensor: Invalid "
+                throw std::invalid_argument(fmt::format("get_active_pitch_roll_sensor: Invalid "
                                                         "active roll pitch sensor: {} (must be "
                                                         "2, 3, 8 or 9)",
                                                         active_sensor));

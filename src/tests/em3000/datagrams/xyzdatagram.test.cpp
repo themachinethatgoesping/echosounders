@@ -31,7 +31,7 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     dat.set_ping_counter(202);
     dat.set_system_serial_number(203);
     dat.set_transmit_transducer_depth(204);
-    dat.set_heading_of_vessel(205);
+    dat.set_heading(205);
 
     beam.set_beam_incidence_angle_adjustment(101);
     beam.set_reflectivity(191);
@@ -59,7 +59,7 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
         dat.get_bytes() ==
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
     REQUIRE(dat.get_sound_speed_in_m_per_s() == Catch::Approx(20.1));
-    REQUIRE(dat.get_heading_of_vessel_in_degrees() == Catch::Approx(2.05));
+    REQUIRE(dat.get_heading_in_degrees() == Catch::Approx(2.05));
     REQUIRE(beam.get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
     REQUIRE(beam.get_backscatter() == Catch::Approx(19.1));
     REQUIRE(dat.beams()[0].get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));

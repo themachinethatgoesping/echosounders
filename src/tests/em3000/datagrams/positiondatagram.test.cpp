@@ -30,9 +30,9 @@ TEST_CASE("PositionDatagram should support common functions", TESTTAG)
     dat.set_latitude(234234);
     dat.set_longitude(456456);
     dat.set_position_fix_quality(102);
-    dat.set_speed_of_vessel(103);
-    dat.set_course_of_vessel(104);
-    dat.set_heading_of_vessel(105);
+    dat.set_speed(103);
+    dat.set_course(104);
+    dat.set_heading(105);
 
     dat.set_input_datagram("input datagram");
     dat.set_size_of_input_datagram(14);
@@ -62,9 +62,9 @@ TEST_CASE("PositionDatagram should support common functions", TESTTAG)
     CHECK(dat.get_latitude_in_degrees() == 0.0117117);
     CHECK(dat.get_longitude_in_degrees() == Catch::Approx(0.0456456));
     CHECK(dat.get_position_fix_quality_in_meters() == 1.02f);
-    CHECK(dat.get_speed_of_vessel_in_meters_per_second() == 1.03f);
-    CHECK(dat.get_course_of_vessel_in_degrees() == 1.04f);
-    CHECK(dat.get_heading_of_vessel_in_degrees() == 1.05f);
+    CHECK(dat.get_speed_in_meters_per_second() == 1.03f);
+    CHECK(dat.get_course_in_degrees() == 1.04f);
+    CHECK(dat.get_heading_in_degrees() == 1.05f);
     CHECK(dat.get_input_datagram() == "input datagram");
 
     // datagram type
