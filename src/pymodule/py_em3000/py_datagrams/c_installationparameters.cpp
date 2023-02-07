@@ -144,10 +144,16 @@ void init_c_installationparameters(pybind11::module& m)
         .def("get_depth_sensor_offsets",
              &InstallationParameters::get_depth_sensor_offsets,
              DOC_InstallationParameters(get_depth_sensor_offsets))
-        .def("get_motion_sensor_offsets",
-             &InstallationParameters::get_motion_sensor_offsets,
-             DOC_InstallationParameters(get_motion_sensor_offsets),
+        .def("get_attitude_sensor_offsets",
+             py::overload_cast<InstallationParameters::t_ActiveAttitudeSensor>(
+                 &InstallationParameters::get_attitude_sensor_offsets, py::const_),
+             DOC_InstallationParameters(get_attitude_sensor_offsets),
              py::arg("sensor_number"))
+        .def("get_attitude_sensor_offsets",
+             py::overload_cast<uint8_t>(&InstallationParameters::get_attitude_sensor_offsets,
+                                        py::const_),
+             DOC_InstallationParameters(get_attitude_sensor_offsets),
+             py::arg("sensor"))
         .def("get_position_system_offsets",
              &InstallationParameters::get_position_system_offsets,
              DOC_InstallationParameters(get_position_system_offsets),

@@ -52,51 +52,52 @@ void py_create_class_EM3000ConfigurationDataInterfacePerFile(py::module&        
     using T_BaseClass = filedatainterfaces::EM3000ConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
-                   m,
-                   CLASS_NAME.c_str(),
-                   DOC(themachinethatgoesping,
-                       echosounders,
-                       em3000,
-                       filedatainterfaces,
-                       EM3000ConfigurationDataInterfacePerFile))
+    auto cls =
+        py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping,
+                echosounders,
+                em3000,
+                filedatainterfaces,
+                EM3000ConfigurationDataInterfacePerFile))
 
-                   .def("get_installation_parameters",
-                        &T_BaseClass::get_installation_parameters,
-                        DOC_EM3000ConfigurationDataInterfacePerFile(get_installation_parameters))
-        //    .def("get_position_sources",
-        //         &T_BaseClass::get_position_sources,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000ConfigurationDataInterfacePerFile,
-        //             get_position_sources))
-        //    .def("get_depth_sources",
-        //         &T_BaseClass::get_depth_sources,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000ConfigurationDataInterfacePerFile,
-        //             get_depth_sources))
-        //    .def("get_attitude_sources",
-        //         &T_BaseClass::get_attitude_sources,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000ConfigurationDataInterfacePerFile,
-        //             get_attitude_sources))
-        //    .def("get_heading_sources",
-        //         &T_BaseClass::get_heading_sources,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000ConfigurationDataInterfacePerFile,
-        //             get_heading_sources))
-        //
+            .def("get_installation_parameters",
+                 &T_BaseClass::get_installation_parameters,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_installation_parameters))
+
+            // ----- getters -----
+            .def("get_active_position_system_number",
+                 &T_BaseClass::get_active_position_system_number,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_position_system_number))
+            .def("get_active_roll_pitch_sensor",
+                 &T_BaseClass::get_active_roll_pitch_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_roll_pitch_sensor))
+            .def("get_active_heave_sensor",
+                 &T_BaseClass::get_active_heave_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_heave_sensor))
+            .def("get_active_heading_sensor",
+                 &T_BaseClass::get_active_heading_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_heading_sensor))
+
+            // ----- setters -----
+            .def("set_active_position_system_number",
+                 &T_BaseClass::set_active_position_system_number,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_position_system_number),
+                 py::arg("number"))
+            .def("set_active_roll_pitch_sensor",
+                 &T_BaseClass::set_active_roll_pitch_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_roll_pitch_sensor),
+                 py::arg("sensor"))
+            .def("set_active_heave_sensor",
+                 &T_BaseClass::set_active_heave_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_heave_sensor),
+                 py::arg("sensor"))
+            .def("set_active_heading_sensor",
+                 &T_BaseClass::set_active_heading_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_heading_sensor),
+                 py::arg("sensor"))
+
         ;
 
     //----- inherit functions from I_DatagramInterface -----

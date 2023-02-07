@@ -1,4 +1,4 @@
-//sourcehash: 4e44c19d9391a8beb9ac9e39b683b03908e6524f1c333114f71d6ef4d5f8d41f
+//sourcehash: 154f9cf43c447a9bd9f196dfc41af7979a215979763d36f11b1c3917acb64a89
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,11 +42,55 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainte
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_EM3000ConfigurationDataInterfacePerFile = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_heading_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_heave_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_position_system_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_roll_pitch_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_active_heading_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_active_heave_sensor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_active_position_system_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_active_roll_pitch_sensor = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_installation_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_heading_sensor =
+R"doc(Set the active heading sensor "NotSet": this will be overwritten by
+"read_sensor_configuration" / "init_interface" All other values: see
+datagrams::InstallationParameters::t_ActiveHeadingSensor
+
+Parameter ``sensor``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_heave_sensor =
+R"doc(Set the active heave sensor "NotSet": this will be overwritten by
+"read_sensor_configuration" / "init_interface" All other values: see
+datagrams::InstallationParameters::t_ActiveAttitudeSensor
+
+Parameter ``sensor``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_position_system_number =
+R"doc(Set the active position system number 0: this will be overwritten by
+"read_sensor_configuration" / "init_interface" 1-3: position system
+1-3
+
+Parameter ``number``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_set_active_roll_pitch_sensor =
+R"doc(Set the active roll pitch sensor "NotSet": this will be overwritten by
+"read_sensor_configuration" / "init_interface" All other values: see
+datagrams::InstallationParameters::t_ActiveAttitudeSensor
+
+Parameter ``sensor``:)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

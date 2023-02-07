@@ -36,6 +36,14 @@ class EM3000ConfigurationDataInterfacePerFile
     using t_base = filetemplates::datainterfaces::I_ConfigurationDataInterfacePerFile<
         EM3000DatagramInterface<t_ifstream>>;
 
+    uint8_t                                                   _active_position_system_number = 0;
+    datagrams::InstallationParameters::t_ActiveAttitudeSensor _active_roll_pitch_sensor =
+        datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet;
+    datagrams::InstallationParameters::t_ActiveAttitudeSensor _active_heave_sensor =
+        datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet;
+    datagrams::InstallationParameters::t_ActiveHeadingSensor _active_heading_sensor =
+        datagrams::InstallationParameters::t_ActiveHeadingSensor::NotSet;
+
   public:
     EM3000ConfigurationDataInterfacePerFile()
         : t_base("EM3000ConfigurationDataInterfacePerFile")
@@ -43,12 +51,84 @@ class EM3000ConfigurationDataInterfacePerFile
     }
     ~EM3000ConfigurationDataInterfacePerFile() = default;
 
+    // ----- getters -----
+    uint8_t get_active_position_system_number() const { return _active_position_system_number; }
+    auto    get_active_roll_pitch_sensor() const { return _active_roll_pitch_sensor; }
+    auto    get_active_heave_sensor() const { return _active_heave_sensor; }
+    auto    get_active_heading_sensor() const { return _active_heading_sensor; }
+
+    // ----- setters -----
+    /**
+     * @brief Set the active position system number
+     * 0: this will be overwritten by "read_sensor_configuration" / "init_interface"
+     * 1-3: position system 1-3
+     *
+     * @param number
+     */
+    void set_active_position_system_number(uint8_t number)
+    {
+        _active_position_system_number = number;
+    }
+
+    /**
+     * @brief Set the active roll pitch sensor
+     * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
+     * All other values: see datagrams::InstallationParameters::t_ActiveAttitudeSensor
+     *
+     * @param sensor
+     */
+    void set_active_roll_pitch_sensor(
+        datagrams::InstallationParameters::t_ActiveAttitudeSensor sensor)
+    {
+        _active_roll_pitch_sensor = sensor;
+    }
+
+    /**
+     * @brief Set the active heave sensor
+     * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
+     * All other values: see datagrams::InstallationParameters::t_ActiveAttitudeSensor
+     *
+     * @param sensor
+     */
+    void set_active_heave_sensor(datagrams::InstallationParameters::t_ActiveAttitudeSensor sensor)
+    {
+        _active_heave_sensor = sensor;
+    }
+
+    /**
+     * @brief Set the active heading sensor
+     * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
+     * All other values: see datagrams::InstallationParameters::t_ActiveHeadingSensor
+     *
+     * @param sensor
+     */
+    void set_active_heading_sensor(datagrams::InstallationParameters::t_ActiveHeadingSensor sensor)
+    {
+        _active_heading_sensor = sensor;
+    }
+
+    // ----- interface methods -----
     navigation::SensorConfiguration read_sensor_configuration() final
     {
         navigation::SensorConfiguration config;
 
-        // get the installation parameters datagram
+        /* get the installation parameters datagram */
         auto param = this->get_installation_parameters();
+        // set the active systems (if they weren't previously set)
+        if (_active_position_system_number == 0)
+            _active_position_system_number = param.get_active_position_system_number();
+
+        if (_active_roll_pitch_sensor ==
+            datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet)
+            _active_roll_pitch_sensor = param.get_active_roll_pitch_sensor();
+
+        if (_active_heave_sensor ==
+            datagrams::InstallationParameters::t_ActiveAttitudeSensor::NotSet)
+            _active_heave_sensor = param.get_active_heave_sensor();
+
+        if (_active_heading_sensor ==
+            datagrams::InstallationParameters::t_ActiveHeadingSensor::NotSet)
+            _active_heading_sensor = param.get_active_heading_sensor();
 
         /* get the sensor configuration flag using STC */
         switch (param.get_value_int("STC"))
@@ -97,10 +177,11 @@ class EM3000ConfigurationDataInterfacePerFile
         config.set_depth_source(param.get_depth_sensor_offsets());
 
         // add the gyro
-        config.set_attitude_source(param.get_motion_sensor_offsets(1));
+        config.set_attitude_source(param.get_attitude_sensor_offsets(_active_roll_pitch_sensor));
 
         // add the position sensor
-        config.set_position_source(param.get_position_system_offsets(1));
+        config.set_position_source(
+            param.get_position_system_offsets(_active_position_system_number));
 
         return config;
     }
