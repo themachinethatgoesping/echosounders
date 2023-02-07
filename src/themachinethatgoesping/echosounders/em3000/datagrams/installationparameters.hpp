@@ -184,6 +184,30 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
  */
 class InstallationParameters : public EM3000Datagram
 {
+  public:
+    // ----- enums -----
+    enum class t_ActiveAttitudeSensor
+    {
+        MotionSensor1           = 2, ///< COM2
+        MotionSensor2           = 3, ///< COM3
+        AttitudeVelocitySensor1 = 8, ///< UDP5
+        AttitudeVelocitySensor2 = 9  ///< UDP6
+    };
+
+    // ----- enums -----
+    enum class t_ActiveHeadingSensor
+    {
+        PositionSystem3         = 0,  ///< UDP2 or COM4
+        PositionSystem1         = 1,  ///< COM1
+        PositionSystem2         = 32, ///< COM3
+        MotionSensor1           = 2,  ///< COM2
+        MotionSensor2           = 3,  ///< COM3
+        MultiCast1              = 5,  ///<
+        MultiCast2              = 6,  ///<
+        MultiCast3              = 7,  ///<
+        AttitudeVelocitySensor1 = 8,  ///< UDP5
+        AttitudeVelocitySensor2 = 9   ///< UDP6
+    };
 
   protected:
     uint16_t _installation_parameters_counter; ///< Sequential Number
@@ -604,6 +628,122 @@ class InstallationParameters : public EM3000Datagram
                                  get_value_float(sensor_prefix + std::string("H"), 0.f),
                                  get_value_float(sensor_prefix + std::string("P"), 0.f),
                                  get_value_float(sensor_prefix + std::string("R"), 0.f));
+    }
+
+    /**
+     * @brief Get the active position system number
+     * (APS + 1)
+     * @return uint8_t
+     */
+    uint8_t get_active_position_system_number() const
+    {
+        return std::stoi(get_value_string("ARO")) + 1;
+    }
+
+    /**
+     * @brief Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an enum
+     *
+     * @return t_ActiveAttitudeSensor
+     */
+    t_ActiveAttitudeSensor get_active_roll_pitch_sensor() const
+    {
+        std::string active_sensor = get_value_string("ARO");
+
+        switch (active_sensor[0])
+        {
+            case '2':
+                return t_ActiveAttitudeSensor::MotionSensor1;
+            case '3':
+                return t_ActiveAttitudeSensor::MotionSensor2;
+            case '8':
+                return t_ActiveAttitudeSensor::AttitudeVelocitySensor1;
+            case '9':
+                return t_ActiveAttitudeSensor::AttitudeVelocitySensor2;
+            default:
+                throw std::invalid_argument(fmt::format("get_active_roll_pitch_sensor: Invalid "
+                                                        "active roll pitch sensor: {} (must be "
+                                                        "2, 3, 8 or 9)",
+                                                        active_sensor));
+        }
+    }
+
+    /**
+     * @brief Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
+     *
+     * @return t_ActiveAttitudeSensor
+     */
+    t_ActiveAttitudeSensor get_active_heave_sensor() const
+    {
+        std::string active_sensor = get_value_string("AHE");
+
+        switch (active_sensor[0])
+        {
+            case '2':
+                return t_ActiveAttitudeSensor::MotionSensor1;
+            case '3':
+                return t_ActiveAttitudeSensor::MotionSensor2;
+            case '8':
+                return t_ActiveAttitudeSensor::AttitudeVelocitySensor1;
+            case '9':
+                return t_ActiveAttitudeSensor::AttitudeVelocitySensor2;
+            default:
+                throw std::invalid_argument(fmt::format("get_active_heave_sensor: Invalid "
+                                                        "active roll pitch sensor: {} (must be "
+                                                        "2, 3, 8 or 9)",
+                                                        active_sensor));
+        }
+    }
+
+    /**
+     * @brief Get the active heading sensor (0-9) here returned as an enum
+     *
+     * @return t_ActiveHeadingSensor
+     */
+    t_ActiveHeadingSensor get_active_heading_sensor() const
+    {
+        std::string active_sensor = get_value_string("AHE");
+
+        switch (active_sensor[0])
+        {
+            case '0':
+                return t_ActiveHeadingSensor::PositionSystem3; // COM4
+            case '1':
+                return t_ActiveHeadingSensor::PositionSystem1; // COM1
+            case '2':
+                return t_ActiveHeadingSensor::MotionSensor1; // COM2
+            case '3':
+                return t_ActiveHeadingSensor::MotionSensor2; // COM3
+            case '4':
+                return t_ActiveHeadingSensor::PositionSystem3; // UDP2
+            case '5':
+                return t_ActiveHeadingSensor::MultiCast1;
+            case '6':
+                return t_ActiveHeadingSensor::MultiCast2;
+            case '7':
+                return t_ActiveHeadingSensor::MultiCast3;
+            case '8':
+                return t_ActiveHeadingSensor::AttitudeVelocitySensor1;
+            case '9':
+                return t_ActiveHeadingSensor::AttitudeVelocitySensor2;
+            default:
+                throw std::invalid_argument(fmt::format("get_active_heading_sensor: Invalid "
+                                                        "active roll pitch sensor: {} (must be "
+                                                        "0-9)",
+                                                        active_sensor));
+        }
+    }
+
+    /**
+     * @brief Get the active attitude velocity sensor (not active, 1 or 2)
+     * 0: not used
+     * 1: Attitude Velocity Sensor 1 (assumed to be physical equal to Motion Sensor 1)
+     * 2: Attitude Velocity Sensor 2 (assumed to be physical equal to Motion Sensor 2)
+     *
+     * @return t_ActiveAttitudeSensor
+     */
+    uint8_t get_active_attitude_velocity_sensor() const
+    {
+        return std::stoi(get_value_string("VSN"));
     }
 
     // ----- processed access to installation parameters (internal functions) -----
