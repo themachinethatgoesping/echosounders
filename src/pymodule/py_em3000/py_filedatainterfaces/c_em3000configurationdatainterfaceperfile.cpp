@@ -70,9 +70,9 @@ void py_create_class_EM3000ConfigurationDataInterfacePerFile(py::module&        
             .def("get_active_position_system_number",
                  &T_BaseClass::get_active_position_system_number,
                  DOC_EM3000ConfigurationDataInterfacePerFile(get_active_position_system_number))
-            .def("get_active_roll_pitch_sensor",
-                 &T_BaseClass::get_active_roll_pitch_sensor,
-                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_roll_pitch_sensor))
+            .def("get_active_pitch_roll_sensor",
+                 &T_BaseClass::get_active_pitch_roll_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(get_active_pitch_roll_sensor))
             .def("get_active_heave_sensor",
                  &T_BaseClass::get_active_heave_sensor,
                  DOC_EM3000ConfigurationDataInterfacePerFile(get_active_heave_sensor))
@@ -85,9 +85,9 @@ void py_create_class_EM3000ConfigurationDataInterfacePerFile(py::module&        
                  &T_BaseClass::set_active_position_system_number,
                  DOC_EM3000ConfigurationDataInterfacePerFile(set_active_position_system_number),
                  py::arg("number"))
-            .def("set_active_roll_pitch_sensor",
-                 &T_BaseClass::set_active_roll_pitch_sensor,
-                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_roll_pitch_sensor),
+            .def("set_active_pitch_roll_sensor",
+                 &T_BaseClass::set_active_pitch_roll_sensor,
+                 DOC_EM3000ConfigurationDataInterfacePerFile(set_active_pitch_roll_sensor),
                  py::arg("sensor"))
             .def("set_active_heave_sensor",
                  &T_BaseClass::set_active_heave_sensor,

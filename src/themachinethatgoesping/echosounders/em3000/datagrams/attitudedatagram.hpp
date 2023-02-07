@@ -100,12 +100,12 @@ class AttitudeDatagram : public EM3000Datagram
     /**
      * @brief Get the number of attitude sensor from the sensor system descriptor field.
      * xx00 xxxx – attitude sensor number 1
-     * xx01 xxxx – attitude sensor number 1
+     * xx01 xxxx – attitude sensor number 2
      *
      * @return 1 or 2
      *
      */
-    unsigned int get_attitude_sensor_number() const
+    int get_attitude_sensor_number() const
     {
         if (_sensor_system_descriptor & 0b00110000)
             return 2;

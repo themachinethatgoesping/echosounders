@@ -112,9 +112,9 @@ void init_c_installationparameters(pybind11::module& m)
              DOC_InstallationParameters(get_transducer_offsets),
              py::arg("transducer_number"),
              py::arg("transducer_name") = "")
-        .def("get_active_roll_pitch_sensor",
-             &InstallationParameters::get_active_roll_pitch_sensor,
-             DOC_InstallationParameters(get_active_roll_pitch_sensor))
+        .def("get_active_pitch_roll_sensor",
+             &InstallationParameters::get_active_pitch_roll_sensor,
+             DOC_InstallationParameters(get_active_pitch_roll_sensor))
         .def("get_active_position_system_number",
              &InstallationParameters::get_active_position_system_number,
              DOC_InstallationParameters(get_active_position_system_number))

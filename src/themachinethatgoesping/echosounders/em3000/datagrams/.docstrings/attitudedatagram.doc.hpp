@@ -1,4 +1,4 @@
-//sourcehash: 88786c05769e0affb51aeefd34d2e691d37dda027203bff7596d12a01fc7bb16
+//sourcehash: 7f0f2b8470c1c6c88e1edbc0b75e93079a671e3e8abb2d4a8995498508ce0e69
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,7 +70,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_At
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_AttitudeDatagram_get_attitude_sensor_number =
 R"doc(Get the number of attitude sensor from the sensor system descriptor
 field. xx00 xxxx – attitude sensor number 1 xx01 xxxx – attitude
-sensor number 1
+sensor number 2
 
 Returns:
     1 or 2)doc";
