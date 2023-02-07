@@ -1,4 +1,4 @@
-//sourcehash: b3a46627d52daa1cefbe1c437ad5b8615adb9fdca79bf2fff8e6d6e67ef85a3b
+//sourcehash: 965b4442816e7c609ac3202991d39226a60a4811f105d7aa151b6c3e4de1484c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -281,7 +281,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem1 = R"doc(< COM1)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem2 = R"doc(< COM3)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_t_ActiveHeadingSensor_PositionSystem3 = R"doc(< UDP2 or COM4)doc";
 

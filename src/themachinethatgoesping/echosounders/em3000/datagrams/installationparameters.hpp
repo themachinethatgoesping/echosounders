@@ -197,16 +197,17 @@ class InstallationParameters : public EM3000Datagram
     // ----- enums -----
     enum class t_ActiveHeadingSensor
     {
-        PositionSystem3         = 0,  ///< UDP2 or COM4
-        PositionSystem1         = 1,  ///< COM1
-        PositionSystem2         = 32, ///< COM3
-        MotionSensor1           = 2,  ///< COM2
-        MotionSensor2           = 3,  ///< COM3
-        MultiCast1              = 5,  ///<
-        MultiCast2              = 6,  ///<
-        MultiCast3              = 7,  ///<
-        AttitudeVelocitySensor1 = 8,  ///< UDP5
-        AttitudeVelocitySensor2 = 9   ///< UDP6
+        PositionSystem3 = 0, ///< UDP2 or COM4
+        PositionSystem1 = 1, ///< COM1
+        PositionSystem2 =
+            32, ///< COM3 (it is not clear how this case is separated from 3 (motion sensor 2))
+        MotionSensor1           = 2, ///< COM2
+        MotionSensor2           = 3, ///< COM3
+        MultiCast1              = 5, ///<
+        MultiCast2              = 6, ///<
+        MultiCast3              = 7, ///<
+        AttitudeVelocitySensor1 = 8, ///< UDP5
+        AttitudeVelocitySensor2 = 9  ///< UDP6
     };
 
   protected:
