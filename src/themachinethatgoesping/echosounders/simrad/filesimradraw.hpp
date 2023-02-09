@@ -45,31 +45,37 @@ class FileSimradRaw
     : public filetemplates::I_InputFile<datagrams::SimradDatagram,
                                         filedatainterfaces::SimradDatagramInterface<t_ifstream>>
 {
+    // ----- types -----
     using t_base =
         filetemplates::I_InputFile<datagrams::SimradDatagram,
                                    filedatainterfaces::SimradDatagramInterface<t_ifstream>>;
 
-    std::shared_ptr<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>
-        _configuration_interface =
-            std::make_shared<filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>>();
-    std::shared_ptr<filedatainterfaces::SimradNavigationDataInterface<t_ifstream>>
-        _navigation_interface =
-            std::make_shared<filedatainterfaces::SimradNavigationDataInterface<t_ifstream>>(
-                _configuration_interface);
-    std::shared_ptr<filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>>
-        _environment_interface =
-            std::make_shared<filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>>(
-                _navigation_interface);
-    std::shared_ptr<filedatainterfaces::SimradPingDataInterface<t_ifstream>> _ping_interface =
-        std::make_shared<filedatainterfaces::SimradPingDataInterface<t_ifstream>>(
-            _environment_interface);
+    using t_ConfigurationDataInterface =
+        typename filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>;
+    using t_NavigationDataInterface =
+        typename filedatainterfaces::SimradNavigationDataInterface<t_ifstream>;
+    using t_EnvironmentDataInterface =
+        typename filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>;
+    using t_PingDataInterface = typename filedatainterfaces::SimradPingDataInterface<t_ifstream>;
+    using t_AnnotationDataInterface =
+        typename filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>;
+    using t_OtherFileDataDataInterface =
+        typename filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>;
 
-    std::shared_ptr<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>
-        _annotation_interface =
-            std::make_shared<filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>>();
-    std::shared_ptr<filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>>
-        _otherfiledata_interface =
-            std::make_shared<filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>>();
+    // ----- file data interfaces -----
+    std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
+        std::make_shared<t_ConfigurationDataInterface>();
+    std::shared_ptr<t_NavigationDataInterface> _navigation_interface =
+        std::make_shared<t_NavigationDataInterface>(_configuration_interface);
+    std::shared_ptr<t_EnvironmentDataInterface> _environment_interface =
+        std::make_shared<t_EnvironmentDataInterface>(_navigation_interface);
+    std::shared_ptr<t_PingDataInterface> _ping_interface =
+        std::make_shared<t_PingDataInterface>(_environment_interface);
+
+    std::shared_ptr<t_AnnotationDataInterface> _annotation_interface =
+        std::make_shared<t_AnnotationDataInterface>();
+    std::shared_ptr<t_OtherFileDataDataInterface> _otherfiledata_interface =
+        std::make_shared<t_OtherFileDataDataInterface>();
 
   public:
     // inherit constructors
@@ -142,30 +148,12 @@ class FileSimradRaw
         progress_bar.close(std::string("Done"));
     }
 
-    filedatainterfaces::SimradConfigurationDataInterface<t_ifstream>& configuration_interface()
-    {
-        return *_configuration_interface;
-    }
-    filedatainterfaces::SimradNavigationDataInterface<t_ifstream>& navigation_interface()
-    {
-        return *_navigation_interface;
-    }
-    filedatainterfaces::SimradEnvironmentDataInterface<t_ifstream>& environment_interface()
-    {
-        return *_environment_interface;
-    }
-    filedatainterfaces::SimradPingDataInterface<t_ifstream>& ping_interface()
-    {
-        return *_ping_interface;
-    }
-    filedatainterfaces::SimradAnnotationDataInterface<t_ifstream>& annotation_interface()
-    {
-        return *_annotation_interface;
-    }
-    filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>& otherfiledata_interface()
-    {
-        return *_otherfiledata_interface;
-    }
+    auto& configuration_interface() { return *_configuration_interface; }
+    auto& navigation_interface() { return *_navigation_interface; }
+    auto& environment_interface() { return *_environment_interface; }
+    auto& ping_interface() { return *_ping_interface; }
+    auto& annotation_interface() { return *_annotation_interface; }
+    auto& otherfiledata_interface() { return *_otherfiledata_interface; }
 
     filedatacontainers::SimradPingContainer<t_ifstream> pings() const
     {
@@ -181,6 +169,7 @@ class FileSimradRaw
     {
         return _ping_interface->get_pings()(channel_ids);
     }
+    
     std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
   protected:

@@ -107,7 +107,7 @@ class I_InputFile
     virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) = 0;
 
     /* access containers */
-    auto& datagram_interface() { return _datagram_interface; }
+    const auto& datagram_interface() const { return _datagram_interface; }
     // auto& filedata_interface() { return _filedata_interface; }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
