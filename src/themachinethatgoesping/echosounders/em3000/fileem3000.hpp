@@ -45,28 +45,33 @@ class FileEM3000
         filetemplates::I_InputFile<datagrams::EM3000Datagram,
                                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
 
-    // ----- file data interfaces -----
-    std::shared_ptr<filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>>
-        _otherfiledata_interface =
-            std::make_shared<filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>>();
-    std::shared_ptr<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>
-        _annotation_interface =
-            std::make_shared<filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>>();
+    // ----- types -----
+    using t_OtherFileDataInterface =
+        typename filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>;
+    using t_AnnotationDataInterface =
+        typename filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>;
+    using t_ConfigurationDataInterface =
+        typename filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>;
+    using t_NavigationDataInterface =
+        typename filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>;
+    using t_EnvironmentDataInterface =
+        typename filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>;
+    using t_PingDataInterface = typename filedatainterfaces::EM3000PingDataInterface<t_ifstream>;
 
-    std::shared_ptr<filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>>
-        _configuration_interface =
-            std::make_shared<filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>>();
-    std::shared_ptr<filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>>
-        _navigation_interface =
-            std::make_shared<filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>>(
-                _configuration_interface);
-    std::shared_ptr<filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>>
-        _environment_interface =
-            std::make_shared<filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>>(
-                _navigation_interface);
-    std::shared_ptr<filedatainterfaces::EM3000PingDataInterface<t_ifstream>> _ping_interface =
-        std::make_shared<filedatainterfaces::EM3000PingDataInterface<t_ifstream>>(
-            _environment_interface);
+    // ----- file data interfaces -----
+    std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
+        std::make_shared<t_OtherFileDataInterface>();
+    std::shared_ptr<t_AnnotationDataInterface> _annotation_interface =
+        std::make_shared<t_AnnotationDataInterface>();
+
+    std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
+        std::make_shared<t_ConfigurationDataInterface>();
+    std::shared_ptr<t_NavigationDataInterface> _navigation_interface =
+        std::make_shared<t_NavigationDataInterface>(_configuration_interface);
+    std::shared_ptr<t_EnvironmentDataInterface> _environment_interface =
+        std::make_shared<t_EnvironmentDataInterface>(_navigation_interface);
+    std::shared_ptr<t_PingDataInterface> _ping_interface =
+        std::make_shared<t_PingDataInterface>(_environment_interface);
 
   public:
     // inherit constructors
@@ -140,30 +145,12 @@ class FileEM3000
         progress_bar.close(std::string("Done"));
     }
 
-    filedatainterfaces::EM3000ConfigurationDataInterface<t_ifstream>& configuration_interface()
-    {
-        return *_configuration_interface;
-    }
-    filedatainterfaces::EM3000NavigationDataInterface<t_ifstream>& navigation_interface()
-    {
-        return *_navigation_interface;
-    }
-    filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>& environment_interface()
-    {
-        return *_environment_interface;
-    }
-    filedatainterfaces::EM3000AnnotationDataInterface<t_ifstream>& annotation_interface()
-    {
-        return *_annotation_interface;
-    }
-    filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>& otherfiledata_interface()
-    {
-        return *_otherfiledata_interface;
-    }
-    filedatainterfaces::EM3000PingDataInterface<t_ifstream>& ping_interface()
-    {
-        return *_ping_interface;
-    }
+    auto& configuration_interface() { return *_configuration_interface; }
+    auto& navigation_interface() { return *_navigation_interface; }
+    auto& environment_interface() { return *_environment_interface; }
+    auto& annotation_interface() { return *_annotation_interface; }
+    auto& otherfiledata_interface() { return *_otherfiledata_interface; }
+    auto& ping_interface() { return *_ping_interface; }
 
     // filedatacontainers::EM3000PingContainer<t_ifstream> pings() const
     // {

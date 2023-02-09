@@ -29,6 +29,7 @@
 
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
+#include "datainterfaces/i_filedatainterface.hpp"
 #include "datatypes/datagraminfo.hpp"
 #include "internal/inputfilemanager.hpp"
 
@@ -46,6 +47,8 @@ class I_InputFile
     // member types
     using t_DatagramIdentifier = typename t_DatagramInterface::type_DatagramIdentifier;
     using t_ifstream           = typename t_DatagramInterface::type_ifstream;
+    // using t_FileDataInterface  = typename datainterfaces::I_FileDataInterface<
+    //     datainterfaces::I_FileDataInterfacePerFile<t_DatagramInterface>>;
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
@@ -53,6 +56,10 @@ class I_InputFile
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
+
+    // // ----- file data interfaces -----
+    // std::shared_ptr<t_FileDataInterface> _filedata_interface =
+    //     std::make_shared<t_FileDataInterface>();
 
     I_InputFile() = default;
 
@@ -100,7 +107,8 @@ class I_InputFile
     virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) = 0;
 
     /* access containers */
-    const t_DatagramInterface& datagram_interface() const { return _datagram_interface; }
+    auto& datagram_interface() { return _datagram_interface; }
+    // auto& filedata_interface() { return _filedata_interface; }
 
     void append_files(const std::vector<std::string>& file_paths, bool show_progress = true)
     {
