@@ -126,6 +126,85 @@ class FileEM3000
         _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
 
+        // link wcd/all files
+        std::map<std::string, size_t> wcd_files;
+        std::map<std::string, size_t> all_files;
+        const auto&                   file_paths = *(this->_input_file_manager->get_file_paths());
+
+        // sort the files into wcd and all files
+        for (unsigned int file_nr = 0; file_nr < file_paths.size(); ++file_nr)
+        {
+            // use std filesystem to get the file name (without extension) and file extension
+            std::filesystem::path file_path(file_paths[file_nr]);
+            std::string           file_name = file_path.stem().string();
+            std::string           file_ext  = file_path.extension().string();
+
+            if (file_ext == ".all")
+            {
+                if (all_files.find(file_name) != all_files.end())
+                {
+                    throw std::runtime_error(
+                        fmt::format("Multiple .all files with the same name: \n[{}]: {}\n[{}]: {}",
+                                    file_nr,
+                                    file_paths[file_nr],
+                                    all_files[file_name],
+                                    file_paths[all_files[file_name]]));
+                }
+
+                all_files[file_name] = file_nr;
+            }
+            else if (file_ext == ".wcd")
+            {
+                if (wcd_files.find(file_name) != wcd_files.end())
+                {
+                    throw std::runtime_error(
+                        fmt::format("Multiple .wcd files with the same name: \n[{}]: {}\n[{}]: {}",
+                                    file_nr,
+                                    file_paths[file_nr],
+                                    wcd_files[file_name],
+                                    file_paths[wcd_files[file_name]]));
+                }
+
+                wcd_files[file_name] = file_nr;
+            }
+            else
+            {
+                throw std::runtime_error(
+                    fmt::format("Unknown file extension: {} [must be .all or .wcd]", file_ext));
+            }
+        }
+
+        // link the wcd to matching all files
+        for (const auto& [file_name, wcd_file_nr] : wcd_files)
+        {
+            using t_filedatainterface =
+                typename filetemplates::datainterfaces::I_FileDataInterfacePerFile<
+                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
+
+            auto all_path = all_files.find(file_name);
+
+            // check if there is a matching all file
+            if (all_path != all_files.end())
+            {
+                auto all_file_nr = all_path->second;
+                t_filedatainterface::link_file_interfaces(
+                    _configuration_interface->per_file_ptr(all_file_nr),
+                    _configuration_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
+                    _navigation_interface->per_file_ptr(all_file_nr),
+                    _navigation_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
+                    _environment_interface->per_file_ptr(all_file_nr),
+                    _environment_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
+                    _annotation_interface->per_file_ptr(all_file_nr),
+                    _annotation_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
+                    _otherfiledata_interface->per_file_ptr(all_file_nr),
+                    _otherfiledata_interface->per_file_ptr(wcd_file_nr));
+            }
+        }
+
         progress_bar.init(0., double(6), fmt::format("Initializing file interfaces"));
 
         _configuration_interface->init_from_file(force, progress_bar);
