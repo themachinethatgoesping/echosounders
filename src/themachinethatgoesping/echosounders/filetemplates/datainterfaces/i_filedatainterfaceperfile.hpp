@@ -47,7 +47,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::string _file_path = "not registered";
 
     std::shared_ptr<I_FileDataInterfacePerFile> _linked_file;
-    bool                                        _is_main_file = true;
+    bool                                        _is_primary_file = true;
 
   public:
     using type_DatagramInterface = t_datagraminterface;
@@ -81,8 +81,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                             file_interface_extension->_linked_file->get_file_nr(),
                             file_interface_extension->_linked_file->get_file_path()));
 
-        file_interface_main->_is_main_file      = true;
-        file_interface_extension->_is_main_file = false;
+        file_interface_main->_is_primary_file      = true;
+        file_interface_extension->_is_primary_file = false;
 
         file_interface_main->_linked_file      = file_interface_extension;
         file_interface_extension->_linked_file = file_interface_main;
@@ -166,8 +166,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return _file_path;
     }
 
-    bool is_main_file() const { return _is_main_file; }
-    bool is_extension_file() const { return !_is_main_file; }
+    bool is_primary_file() const { return _is_primary_file; }
+    bool is_secondary_file() const { return !_is_primary_file; }
     bool has_linked_file() const { return _linked_file != nullptr; }
 
     /**
@@ -196,8 +196,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         if (this->has_linked_file())
         {
             // if this is not main, the other file will be main
-            std::string type_self   = is_main_file() ? "main" : "extension";
-            std::string type_linked = is_main_file() ? "extension" : "main";
+            std::string type_self   = is_primary_file() ? "main" : "extension";
+            std::string type_linked = is_primary_file() ? "extension" : "main";
 
             printer.register_string(fmt::format("File [{}]", type_self),
                                     this->get_file_path(),

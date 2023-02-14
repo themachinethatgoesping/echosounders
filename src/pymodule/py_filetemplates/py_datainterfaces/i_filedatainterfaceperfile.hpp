@@ -47,10 +47,10 @@ void FileDataInterfacePerFile_add_interface(T_PyClass& cls)
             DOC_FileDataInterfacePerFile(get_linked_file_path));
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterfacePerFile(deinitialize));
     cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterfacePerFile(initialized));
-    cls.def("is_main_file", &T_BaseClass::is_main_file, DOC_FileDataInterfacePerFile(is_main_file));
-    cls.def("is_extension_file",
-            &T_BaseClass::is_extension_file,
-            DOC_FileDataInterfacePerFile(is_extension_file));
+    cls.def("is_primary_file", &T_BaseClass::is_primary_file, DOC_FileDataInterfacePerFile(is_primary_file));
+    cls.def("is_secondary_file",
+            &T_BaseClass::is_secondary_file,
+            DOC_FileDataInterfacePerFile(is_secondary_file));
     cls.def("has_linked_file",
             &T_BaseClass::has_linked_file,
             DOC_FileDataInterfacePerFile(has_linked_file));
