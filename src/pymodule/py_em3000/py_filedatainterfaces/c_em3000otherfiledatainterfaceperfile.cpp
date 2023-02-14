@@ -45,13 +45,14 @@ void py_create_class_EM3000OtherFileDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::EM3000OtherFileDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           em3000,
-                                           filedatainterfaces,
-                                           EM3000OtherFileDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            em3000,
+            filedatainterfaces,
+            EM3000OtherFileDataInterfacePerFile))
 
         // .def("get_other_datagram",
         //      &T_BaseClass::get_other_datagram,

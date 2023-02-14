@@ -47,13 +47,14 @@ void py_create_class_EM3000NavigationDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::EM3000NavigationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           em3000,
-                                           filedatainterfaces,
-                                           EM3000NavigationDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            em3000,
+            filedatainterfaces,
+            EM3000NavigationDataInterfacePerFile))
 
         //    .def("set_min_gga_quality",
         //         &T_BaseClass::set_min_gga_quality,

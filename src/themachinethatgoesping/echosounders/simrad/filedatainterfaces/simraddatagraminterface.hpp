@@ -75,7 +75,7 @@ class SimradDatagramInterface
     }
 
     // filter types
-    std::vector < SimradDatagramInterface<t_ifstream>> per_file() const
+    std::vector<SimradDatagramInterface<t_ifstream>> per_file() const
     {
         std::vector<SimradDatagramInterface<t_ifstream>> vec;
         for (const auto& datagram_info : this->_datagram_infos_all)

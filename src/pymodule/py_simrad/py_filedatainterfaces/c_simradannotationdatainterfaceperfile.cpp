@@ -48,13 +48,14 @@ void py_create_class_SimradAnnotationDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::SimradAnnotationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradAnnotationDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            simrad,
+            filedatainterfaces,
+            SimradAnnotationDataInterfacePerFile))
 
         // .def("get_annotation_datagram",
         //      &T_BaseClass::get_annotation_datagram,

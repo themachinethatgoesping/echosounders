@@ -57,7 +57,7 @@ class EM3000DatagramInterface
     }
 
     // filter types
-    std::vector < EM3000DatagramInterface<t_ifstream>> per_file() const
+    std::vector<EM3000DatagramInterface<t_ifstream>> per_file() const
     {
         std::vector<EM3000DatagramInterface<t_ifstream>> vec;
         for (const auto& datagram_info : this->_datagram_infos_all)

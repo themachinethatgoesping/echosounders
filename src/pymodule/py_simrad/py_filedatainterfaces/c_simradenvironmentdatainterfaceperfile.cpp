@@ -47,13 +47,14 @@ void py_create_class_SimradEnvironmentDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::SimradEnvironmentDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradEnvironmentDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            simrad,
+            filedatainterfaces,
+            SimradEnvironmentDataInterfacePerFile))
 
         // .def("get_environment_datagram",
         //      &T_BaseClass::get_environment_datagram,

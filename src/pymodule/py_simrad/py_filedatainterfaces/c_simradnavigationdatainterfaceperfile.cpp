@@ -47,13 +47,14 @@ void py_create_class_SimradNavigationDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::SimradNavigationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradNavigationDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping,
+                       echosounders,
+                       simrad,
+                       filedatainterfaces,
+                       SimradNavigationDataInterfacePerFile))
 
                    .def("set_min_gga_quality",
                         &T_BaseClass::set_min_gga_quality,

@@ -41,12 +41,8 @@ void init_c_xyzdatagram(pybind11::module& m)
         .def("get_system_serial_number",
              &XYZDatagram::get_system_serial_number,
              DOC_XYZDatagram(system_serial_number))
-        .def("set_heading",
-             &XYZDatagram::set_heading,
-             DOC_XYZDatagram(heading))
-        .def("get_heading",
-             &XYZDatagram::get_heading,
-             DOC_XYZDatagram(heading))
+        .def("set_heading", &XYZDatagram::set_heading, DOC_XYZDatagram(heading))
+        .def("get_heading", &XYZDatagram::get_heading, DOC_XYZDatagram(heading))
         .def("set_sound_speed", &XYZDatagram::set_sound_speed, DOC_XYZDatagram(sound_speed))
         .def("get_sound_speed", &XYZDatagram::get_sound_speed, DOC_XYZDatagram(sound_speed))
         .def("set_transmit_transducer_depth",

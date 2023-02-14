@@ -169,7 +169,7 @@ class FileSimradRaw
     {
         return _ping_interface->get_pings()(channel_ids);
     }
-    
+
     std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
   protected:

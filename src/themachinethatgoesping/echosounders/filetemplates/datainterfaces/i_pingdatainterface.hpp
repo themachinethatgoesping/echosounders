@@ -109,7 +109,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
         auto primary_interfaces_per_file = this->per_primary_file();
-        
+
         if (primary_interfaces_per_file.empty())
         {
             return;

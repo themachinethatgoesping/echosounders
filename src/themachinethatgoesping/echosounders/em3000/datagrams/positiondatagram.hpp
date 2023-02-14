@@ -37,9 +37,9 @@ class PositionDatagram : public EM3000Datagram
     int32_t  _latitude;             ///< latitude in 0.00000005° negative if southern hemishpere
     int32_t  _longitude;            ///< longitude in 0.0000001° negative if western hemishpere
     uint16_t _position_fix_quality; ///< fix quality in cm;
-    uint16_t _speed;      ///< over ground in cm/s
-    uint16_t _course;     ///< over ground in 0.01°
-    uint16_t _heading;    ///< in 0.01°
+    uint16_t _speed;                ///< over ground in cm/s
+    uint16_t _course;               ///< over ground in 0.01°
+    uint16_t _heading;              ///< in 0.01°
     uint8_t  _position_system_descriptor;
     uint8_t  _size_of_input_datagram = 0; ///< in input datagram;
 
@@ -92,10 +92,7 @@ class PositionDatagram : public EM3000Datagram
     }
     void set_speed(uint16_t speed) { _speed = speed; }
     void set_course(uint16_t course) { _course = course; }
-    void set_heading(uint16_t heading)
-    {
-        _heading = heading;
-    }
+    void set_heading(uint16_t heading) { _heading = heading; }
     void set_position_system_descriptor(uint8_t position_system_descriptor)
     {
         _position_system_descriptor = position_system_descriptor;
@@ -195,10 +192,8 @@ class PositionDatagram : public EM3000Datagram
         return EM3000Datagram::operator==(other) && _position_counter == other._position_counter &&
                _system_serial_number == other._system_serial_number &&
                _latitude == other._latitude && _longitude == other._longitude &&
-               _position_fix_quality == other._position_fix_quality &&
-               _speed == other._speed &&
-               _course == other._course &&
-               _heading == other._heading &&
+               _position_fix_quality == other._position_fix_quality && _speed == other._speed &&
+               _course == other._course && _heading == other._heading &&
                _position_system_descriptor == other._position_system_descriptor &&
                _size_of_input_datagram == other._size_of_input_datagram &&
                _input_datagram == other._input_datagram && _spare == other._spare &&
@@ -295,8 +290,7 @@ class PositionDatagram : public EM3000Datagram
         printer.register_value("latitude", get_latitude_in_degrees(), "°");
         printer.register_value("longitude", get_longitude_in_degrees(), "°");
         printer.register_value("position_fix_quality", get_position_fix_quality_in_meters(), "m");
-        printer.register_value(
-            "speed", get_speed_in_meters_per_second(), "m/s");
+        printer.register_value("speed", get_speed_in_meters_per_second(), "m/s");
         printer.register_value("course", get_course_in_degrees(), "°");
         printer.register_value("heading", get_heading_in_degrees(), "°");
         printer.register_value("position_system_number", get_position_system_number(), "1,2 or 3");

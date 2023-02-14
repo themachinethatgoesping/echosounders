@@ -38,7 +38,7 @@ class XYZDatagram : public EM3000Datagram
   protected:
     uint16_t _ping_counter;              ///< 0-65535 ping number (in this file)
     uint16_t _system_serial_number;      ///< 100 -
-    uint16_t _heading;         ///< (at TX time) in 0.01 degree
+    uint16_t _heading;                   ///< (at TX time) in 0.01 degree
     uint16_t _sound_speed;               ///< at transducer in dm/s
     float    _transmit_transducer_depth; ///< in meter relative water level at time of ping
     uint16_t _number_of_beams;           ///< in Datagram
@@ -85,10 +85,7 @@ class XYZDatagram : public EM3000Datagram
     {
         _system_serial_number = system_serial_number;
     }
-    void set_heading(uint16_t heading)
-    {
-        _heading = heading;
-    }
+    void set_heading(uint16_t heading) { _heading = heading; }
     void set_sound_speed(uint16_t sound_speed) { _sound_speed = sound_speed; }
     void set_transmit_transducer_depth(float transmit_transducer_depth)
     {
@@ -133,8 +130,7 @@ class XYZDatagram : public EM3000Datagram
     bool operator==(const XYZDatagram& other) const
     {
         return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _heading == other._heading &&
+               _system_serial_number == other._system_serial_number && _heading == other._heading &&
                _sound_speed == other._sound_speed &&
                _transmit_transducer_depth == other._transmit_transducer_depth &&
                _number_of_beams == other._number_of_beams &&

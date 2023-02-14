@@ -57,24 +57,12 @@ void init_c_positiondatagram(pybind11::module& m)
         .def("get_position_fix_quality",
              &PositionDatagram::get_position_fix_quality,
              DOC_PositionDatagram(position_fix_quality))
-        .def("set_speed",
-             &PositionDatagram::set_speed,
-             DOC_PositionDatagram(speed))
-        .def("get_speed",
-             &PositionDatagram::get_speed,
-             DOC_PositionDatagram(speed))
-        .def("set_course",
-             &PositionDatagram::set_course,
-             DOC_PositionDatagram(course))
-        .def("get_course",
-             &PositionDatagram::get_course,
-             DOC_PositionDatagram(course))
-        .def("set_heading",
-             &PositionDatagram::set_heading,
-             DOC_PositionDatagram(heading))
-        .def("get_heading",
-             &PositionDatagram::get_heading,
-             DOC_PositionDatagram(heading))
+        .def("set_speed", &PositionDatagram::set_speed, DOC_PositionDatagram(speed))
+        .def("get_speed", &PositionDatagram::get_speed, DOC_PositionDatagram(speed))
+        .def("set_course", &PositionDatagram::set_course, DOC_PositionDatagram(course))
+        .def("get_course", &PositionDatagram::get_course, DOC_PositionDatagram(course))
+        .def("set_heading", &PositionDatagram::set_heading, DOC_PositionDatagram(heading))
+        .def("get_heading", &PositionDatagram::get_heading, DOC_PositionDatagram(heading))
         .def("set_position_system_descriptor",
              &PositionDatagram::set_position_system_descriptor,
              DOC_PositionDatagram(position_system_descriptor))

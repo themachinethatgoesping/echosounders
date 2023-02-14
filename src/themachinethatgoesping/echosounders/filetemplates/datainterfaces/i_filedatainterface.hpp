@@ -197,12 +197,9 @@ class I_FileDataInterface
 
     /**
      * @brief This functions throws if linked file interfaces are not consistent
-     * 
+     *
      */
-    virtual void verify_linked_file_interfaces_are_consistent()
-    {
-        return;
-    }
+    virtual void verify_linked_file_interfaces_are_consistent() { return; }
 
     virtual void deinitialize()
     {

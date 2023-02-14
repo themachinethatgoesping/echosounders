@@ -46,13 +46,14 @@ void py_create_class_init_c_simradotherfiledatainterfaceperfile(py::module&     
         filedatainterfaces::init_c_simradotherfiledatainterfaceperfile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           init_c_simradotherfiledatainterfaceperfile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            simrad,
+            filedatainterfaces,
+            init_c_simradotherfiledatainterfaceperfile))
 
         // .def("get_other_datagram",
         //      &T_BaseClass::get_other_datagram,

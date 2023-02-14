@@ -99,7 +99,6 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
-
         // // init configuration interface
         // if (!this->_configuration_data_interface->initialized())
         // {

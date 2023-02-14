@@ -46,13 +46,14 @@ void py_create_class_em3000pingdatainterfacePerFile(py::module& m, const std::st
     using T_BaseClass = filedatainterfaces::EM3000PingDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           em3000,
-                                           filedatainterfaces,
-                                           EM3000PingDataInterfacePerFile))
+    auto cls =
+        py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
+                                                              CLASS_NAME.c_str(),
+                                                              DOC(themachinethatgoesping,
+                                                                  echosounders,
+                                                                  em3000,
+                                                                  filedatainterfaces,
+                                                                  EM3000PingDataInterfacePerFile))
 
         //    .def("get_deduplicated_parameters",
         //         &T_BaseClass::get_deduplicated_parameters,
