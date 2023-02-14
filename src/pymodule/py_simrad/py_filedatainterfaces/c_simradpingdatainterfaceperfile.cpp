@@ -46,7 +46,7 @@ void py_create_class_simradpingdatainterfacePerFile(py::module& m, const std::st
     using T_BaseClass = filedatainterfaces::SimradPingDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
                                        CLASS_NAME.c_str(),
                                        DOC(themachinethatgoesping,
                                            echosounders,

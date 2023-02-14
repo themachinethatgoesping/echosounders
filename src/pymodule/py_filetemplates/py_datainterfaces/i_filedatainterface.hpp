@@ -35,8 +35,9 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     using namespace themachinethatgoesping::tools::progressbars;
 
     /* datagram access */
-    cls.def(
-        "per_file", py::overload_cast<>(&T_BaseClass::per_file), DOC_FileDataInterface(per_file));
+    cls.def("per_file",
+            py::overload_cast<>(&T_BaseClass::per_file),
+            DOC_FileDataInterface(per_file));
     cls.def("per_file",
             py::overload_cast<long>(&T_BaseClass::per_file),
             DOC_FileDataInterface(per_file_2),

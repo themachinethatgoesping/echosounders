@@ -48,13 +48,14 @@ void py_create_class_SimradConfigurationDataInterfacePerFile(py::module&        
     using T_BaseClass = filedatainterfaces::SimradConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
-                                       CLASS_NAME.c_str(),
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           simrad,
-                                           filedatainterfaces,
-                                           SimradConfigurationDataInterfacePerFile))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping,
+                       echosounders,
+                       simrad,
+                       filedatainterfaces,
+                       SimradConfigurationDataInterfacePerFile))
 
                    .def("get_configuration_datagram",
                         &T_BaseClass::get_configuration_datagram,

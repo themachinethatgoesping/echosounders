@@ -47,7 +47,7 @@ void py_create_class_EM3000EnvironmentDataInterfacePerFile(py::module&        m,
     using T_BaseClass = filedatainterfaces::EM3000EnvironmentDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
                                        CLASS_NAME.c_str(),
                                        DOC(themachinethatgoesping,
                                            echosounders,
