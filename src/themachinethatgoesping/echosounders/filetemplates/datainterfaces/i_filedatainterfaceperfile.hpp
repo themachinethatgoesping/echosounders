@@ -49,6 +49,9 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::shared_ptr<I_FileDataInterfacePerFile> _linked_file;
     bool                                        _is_primary_file = true;
 
+    std::vector<typename t_base::type_DatagramIdentifier> _used_extension_datagram_identifiers;
+    std::vector<typename t_base::type_DatagramIdentifier> _ignored_extension_datagram_identifiers;
+
   public:
     using type_DatagramInterface = t_datagraminterface;
 
@@ -86,6 +89,28 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 
         file_interface_main->_linked_file      = file_interface_extension;
         file_interface_extension->_linked_file = file_interface_main;
+
+        // check which datagram_identifiers in the extension file do not exist in the main file
+        for (const auto& [key, datagrams] : file_interface_extension->_datagram_infos_by_type)
+        {
+            if (datagrams.empty())
+                continue;
+
+            // key exists in main file and the related vector is not empty -> continue
+            const auto& kv_main = file_interface_main->_datagram_infos_by_type.find(key);
+            if (kv_main != file_interface_main->_datagram_infos_by_type.end())
+            {
+                if (!kv_main->second.empty())
+                {
+                    file_interface_main->_ignored_extension_datagram_identifiers.push_back(key);
+                    continue;
+                }
+            }
+
+            // key does not exist in main file -> add to extension datagram identifiers
+            file_interface_main->_used_extension_datagram_identifiers.push_back(key);
+            file_interface_main->_datagram_infos_by_type[key] = datagrams;
+        }
     }
 
     virtual void init_from_file([[maybe_unused]] bool force = false)
@@ -205,6 +230,13 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
             printer.register_string(fmt::format("Linked file [{}]", type_linked),
                                     this->get_linked_file_path(),
                                     std::to_string(get_linked_file_nr()));
+
+            if (this->is_primary_file())
+            {
+                printer.register_section("Extension file infos");
+                printer.register_container("Used", _used_extension_datagram_identifiers);
+                printer.register_container("Ignored", _ignored_extension_datagram_identifiers);
+            }
         }
         else
         {

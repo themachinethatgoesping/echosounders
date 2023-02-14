@@ -1,4 +1,4 @@
-//sourcehash: 1330918a8ddac6d454703095b6c825a64cabcb31dbf13c121b443a8428cb997e
+//sourcehash: c7b6565271c74da228f32aa527fb16ee3bafd9c010eb716cbb0e980d8eb760a6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -78,6 +78,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_has_linked_file = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_ignored_extension_datagram_identifiers = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_init_from_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_initialized = R"doc()doc";
@@ -93,6 +95,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_linked_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_used_extension_datagram_identifiers = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
