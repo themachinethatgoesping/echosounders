@@ -134,6 +134,19 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     }
 
     /**
+     * @brief Get the file nr of the linked file
+     *
+     * @return size_t
+     */
+    size_t get_linked_file_nr() const
+    {
+        if (_linked_file == nullptr)
+            throw std::runtime_error("get_linked_file_nr: no linked file");
+
+        return _linked_file->get_file_nr();
+    }
+
+    /**
      * @brief Get the file name
      * This function assumes that the file name is the same for all datagrams in the file
      *
@@ -153,6 +166,23 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return _file_path;
     }
 
+    bool is_main_file() const { return _is_main_file; }
+    bool is_extension_file() const { return !_is_main_file; }
+    bool has_linked_file() const { return _linked_file != nullptr; }
+
+    /**
+     * @brief Get the file name of the linked file
+     *
+     * @return std::string
+     */
+    std::string get_linked_file_path() const
+    {
+        if (_linked_file == nullptr)
+            throw std::runtime_error("get_linked_file_path: no linked file");
+
+        return _linked_file->get_file_path();
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
@@ -163,18 +193,18 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 
         printer.register_section("File infos");
         // if _linked_file is set
-        if (this->_linked_file != nullptr)
+        if (this->has_linked_file())
         {
             // if this is not main, the other file will be main
-            std::string type_self   = _is_main_file ? "main" : "extension";
-            std::string type_linked = _is_main_file ? "extension" : "main";
+            std::string type_self   = is_main_file() ? "main" : "extension";
+            std::string type_linked = is_main_file() ? "extension" : "main";
 
             printer.register_string(fmt::format("File [{}]", type_self),
                                     this->get_file_path(),
                                     std::to_string(this->get_file_nr()));
             printer.register_string(fmt::format("Linked file [{}]", type_linked),
-                                    this->_linked_file->get_file_path(),
-                                    std::to_string(this->_linked_file->get_file_nr()));
+                                    this->get_linked_file_path(),
+                                    std::to_string(get_linked_file_nr()));
         }
         else
         {

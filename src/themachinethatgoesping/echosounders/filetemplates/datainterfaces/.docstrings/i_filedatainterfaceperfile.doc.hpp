@@ -1,4 +1,4 @@
-//sourcehash: 68e11505b8f0f54147dbf10501588c492280a981a87713c77c2260baba6b4182
+//sourcehash: 221a9b011ed16f8ef69a4d70bad93aeba06cce26ba60a2ea11184d644ca131ec
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,11 +64,29 @@ for all datagrams in the file
 Returns:
     std::string)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_linked_file_nr =
+R"doc(Get the file nr of the linked file
+
+Returns:
+    size_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_linked_file_path =
+R"doc(Get the file name of the linked file
+
+Returns:
+    std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_has_linked_file = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_init_from_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_initialized = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_extension_file = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_main_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_main_file_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_link_file_interfaces = R"doc()doc";
 

@@ -19,6 +19,14 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_filedatainterface {
 
+#define DOC_FileDataInterfacePerFile(ARG)                                                          \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_FileDataInterfacePerFile,                                                                \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void FileDataInterfacePerFile_add_interface(T_PyClass& cls)
 {
@@ -26,45 +34,26 @@ void FileDataInterfacePerFile_add_interface(T_PyClass& cls)
 
     cls.def("init_from_file",
             &T_BaseClass::init_from_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterfacePerFile,
-                init_from_file),
+            DOC_FileDataInterfacePerFile(init_from_file),
             py::arg("force") = false);
-    cls.def("get_file_nr",
-            &T_BaseClass::get_file_nr,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterfacePerFile,
-                get_file_nr));
-    cls.def("get_file_path",
-            &T_BaseClass::get_file_path,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterfacePerFile,
-                get_file_path));
-    cls.def("deinitialize",
-            &T_BaseClass::deinitialize,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterfacePerFile,
-                deinitialize));
-    cls.def("initialized",
-            &T_BaseClass::initialized,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_FileDataInterfacePerFile,
-                initialized));
+    cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_FileDataInterfacePerFile(get_file_nr));
+    cls.def("get_linked_file_nr",
+            &T_BaseClass::get_linked_file_nr,
+            DOC_FileDataInterfacePerFile(get_linked_file_nr));
+    cls.def(
+        "get_file_path", &T_BaseClass::get_file_path, DOC_FileDataInterfacePerFile(get_file_path));
+    cls.def("get_linked_file_path",
+            &T_BaseClass::get_linked_file_path,
+            DOC_FileDataInterfacePerFile(get_linked_file_path));
+    cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterfacePerFile(deinitialize));
+    cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterfacePerFile(initialized));
+    cls.def("is_main_file", &T_BaseClass::is_main_file, DOC_FileDataInterfacePerFile(is_main_file));
+    cls.def("is_extension_file",
+            &T_BaseClass::is_extension_file,
+            DOC_FileDataInterfacePerFile(is_extension_file));
+    cls.def("has_linked_file",
+            &T_BaseClass::has_linked_file,
+            DOC_FileDataInterfacePerFile(has_linked_file));
 }
 
 }
