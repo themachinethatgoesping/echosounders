@@ -35,6 +35,7 @@
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../em3000_datagrams.hpp"
+#include "../filedatainterfaces/em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -42,7 +43,7 @@ namespace em3000 {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class EM3000PingRawData
+class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_ifstream>
 {
     // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string_view get_name() const { return "EM3000PingRawData"; }
