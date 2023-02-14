@@ -202,6 +202,9 @@ class FileEM3000
                 t_filedatainterface::link_file_interfaces(
                     _otherfiledata_interface->per_file_ptr(all_file_nr),
                     _otherfiledata_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
+                    _ping_interface->per_file_ptr(all_file_nr),
+                    _ping_interface->per_file_ptr(wcd_file_nr));
             }
         }
 
