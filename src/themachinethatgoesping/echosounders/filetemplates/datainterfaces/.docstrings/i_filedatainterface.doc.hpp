@@ -1,4 +1,4 @@
-//sourcehash: 423dcb8461dd9d4baa5e818c1815de48d9198333c55f375b04fedc6646668d6f
+//sourcehash: c9bb0fd585523a7f013546e6be0f68b0e2c82a62e698c11f7c025dff819f3fa9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -75,9 +75,27 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_file_ptr = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_primary_file =
+R"doc(get a vector with references to the primary per file interfaces This
+is useful for iterating over all primary files Secondary files will be
+ignored (e.g. .wcd for Kongsberg data if .all is present)
+
+Returns:
+    std::vector<t_filedatainterface_perfile&>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_per_secondary_file =
+R"doc(get a vector with references to the secondary per file interfaces This
+is useful for iterating over all secondary files Primary files will be
+ignored (e.g. .all for Kongsberg data if .wcd is present)
+
+Returns:
+    std::vector<t_filedatainterface_perfile&>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_verify_linked_file_interfaces_are_consistent = R"doc(This functions throws if linked file interfaces are not consistent)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

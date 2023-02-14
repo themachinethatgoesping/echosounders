@@ -58,6 +58,36 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
         return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
+    /**
+     * @brief Throw if the sensor configuration of the linked files is not consistent.
+     *
+     */
+    void verify_linked_file_interfaces_are_consistent()
+    {
+        auto primary_interfaces_per_file = this->per_primary_file();
+
+        for (const auto& primary : primary_interfaces_per_file)
+        {
+            if (!primary->has_linked_file())
+                continue;
+
+            auto secondary = this->_interface_per_file[primary->get_linked_file_nr()];
+
+            auto primary_sensor_configuration   = primary->read_sensor_configuration();
+            auto secondary_sensor_configuration = secondary->read_sensor_configuration();
+
+            if (primary_sensor_configuration != secondary_sensor_configuration)
+            {
+                throw std::runtime_error(fmt::format(
+                    "Inconsistent sensor configurations for linked files: \n[{}] {}\nand\n[{}] {}",
+                    primary->get_file_nr(),
+                    primary->get_file_path(),
+                    secondary->get_file_nr(),
+                    secondary->get_file_path()));
+            }
+        }
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
@@ -68,7 +98,7 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
 
         // printer.register_section("ConfigurationData");
         std::unordered_map<navigation::SensorConfiguration, size_t> configurations_with;
-        for (auto& config_interface : this->_interface_per_file)
+        for (auto& config_interface : this->per_primary_file())
         {
             try
             {

@@ -35,14 +35,22 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     using namespace themachinethatgoesping::tools::progressbars;
 
     /* datagram access */
-    cls.def("per_file",
-            py::overload_cast<>(&T_BaseClass::per_file),
-            DOC_FileDataInterface(per_file));
+    cls.def(
+        "per_file", py::overload_cast<>(&T_BaseClass::per_file), DOC_FileDataInterface(per_file));
     cls.def("per_file",
             py::overload_cast<long>(&T_BaseClass::per_file),
             DOC_FileDataInterface(per_file_2),
             pybind11::return_value_policy::reference_internal,
             py::arg("file_nr"));
+    cls.def("per_primary_file",
+            &T_BaseClass::per_primary_file,
+            DOC_FileDataInterface(per_primary_file));
+    cls.def("per_secondary_file",
+            &T_BaseClass::per_secondary_file,
+            DOC_FileDataInterface(per_secondary_file));
+    cls.def("verify_linked_file_interfaces_are_consistent",
+            &T_BaseClass::verify_linked_file_interfaces_are_consistent,
+            DOC_FileDataInterface(verify_linked_file_interfaces_are_consistent));
 
     cls.def("init_from_file",
             // py::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //

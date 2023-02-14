@@ -1,4 +1,4 @@
-//sourcehash: defff4e75b0332eb6cf792ebed8ae440825e3481308ab78b89a56eeffb3644f2
+//sourcehash: 3162ccb271f99caf33bd79c55cbd6c1ba354fae8a0fec475e8b010a26a46022b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_verify_linked_file_interfaces_are_consistent =
+R"doc(Throw if the sensor configuration of the linked files is not
+consistent.)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -107,6 +107,44 @@ class I_FileDataInterface
         return _interface_per_file;
     }
 
+    /**
+     * @brief get a vector with references to the primary per file interfaces
+     * This is useful for iterating over all primary files
+     * Secondary files will be ignored (e.g. .wcd for Kongsberg data if .all is present)
+     *
+     * @return std::vector<t_filedatainterface_perfile&>
+     */
+    std::vector<std::shared_ptr<t_filedatainterface_perfile>> per_primary_file() const
+    {
+        std::vector<std::shared_ptr<t_filedatainterface_perfile>> primary_files;
+        for (const auto& file : _interface_per_file)
+        {
+            if (file->is_primary_file())
+                primary_files.push_back(file);
+        }
+
+        return primary_files;
+    }
+
+    /**
+     * @brief get a vector with references to the secondary per file interfaces
+     * This is useful for iterating over all secondary files
+     * Primary files will be ignored (e.g. .all for Kongsberg data if .wcd is present)
+     *
+     * @return std::vector<t_filedatainterface_perfile&>
+     */
+    std::vector<std::shared_ptr<t_filedatainterface_perfile>> per_secondary_file() const
+    {
+        std::vector<std::shared_ptr<t_filedatainterface_perfile>> secondary_files;
+        for (const auto& file : _interface_per_file)
+        {
+            if (file->is_secondary_file())
+                secondary_files.push_back(file);
+        }
+
+        return secondary_files;
+    }
+
     t_filedatainterface_perfile& per_file(long pyindex)
     {
         return *_interface_per_file[_pyindexer(pyindex)];
@@ -132,19 +170,21 @@ class I_FileDataInterface
         // but the object it points is not const
         bool existing_progressbar = true;
 
+        auto primary_interfaces_per_file = this->per_primary_file();
+
         if (!progress_bar.is_initialized())
         {
             progress_bar.init(0.,
-                              double(_interface_per_file.size()),
+                              double(primary_interfaces_per_file.size()),
                               fmt::format("Initializing {} from file data", _name));
 
             existing_progressbar = false;
         }
 
-        for (const auto& inter : _interface_per_file)
+        for (const auto& inter : primary_interfaces_per_file)
         {
             progress_bar.set_postfix(
-                fmt::format("{}/{}", inter->get_file_nr(), _interface_per_file.size()));
+                fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
             inter->init_from_file(force);
 
             if (!existing_progressbar)
@@ -153,6 +193,15 @@ class I_FileDataInterface
 
         if (!existing_progressbar)
             progress_bar.close(std::string("Done"));
+    }
+
+    /**
+     * @brief This functions throws if linked file interfaces are not consistent
+     * 
+     */
+    virtual void verify_linked_file_interfaces_are_consistent()
+    {
+        return;
     }
 
     virtual void deinitialize()
@@ -182,7 +231,16 @@ class I_FileDataInterface
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        printer.register_value("Registered files", _interface_per_file.size());
+        auto primary_files   = this->per_primary_file();
+        auto secondary_files = this->per_secondary_file();
+
+        if (secondary_files.empty())
+            printer.register_value("Registered files", _interface_per_file.size());
+        else
+        {
+            printer.register_value("Registered primary files", primary_files.size());
+            printer.register_value("Registered secondary files", secondary_files.size());
+        }
         return printer;
     }
 

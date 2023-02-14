@@ -108,7 +108,9 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     using I_FileDataInterface<t_PingDataInterfacePerFile>::init_from_file;
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        if (this->_interface_per_file.empty())
+        auto primary_interfaces_per_file = this->per_primary_file();
+        
+        if (primary_interfaces_per_file.empty())
         {
             return;
         }
@@ -124,22 +126,22 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         if (!progress_bar.is_initialized())
         {
             progress_bar.init(0.,
-                              double(this->_interface_per_file.size()),
+                              double(primary_interfaces_per_file.size()),
                               fmt::format("Initializing {} from file data", this->get_name()));
             existing_progressbar = false;
         }
 
-        this->_interface_per_file.front()->init_from_file(force);
-        _ping_container = this->_interface_per_file.front()->read_pings();
+        primary_interfaces_per_file.front()->init_from_file(force);
+        _ping_container = primary_interfaces_per_file.front()->read_pings();
 
-        for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
+        for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
         {
-            progress_bar.set_postfix(fmt::format("{}/{}", i, this->_interface_per_file.size()));
+            progress_bar.set_postfix(fmt::format("{}/{}", i, primary_interfaces_per_file.size()));
 
             try
             {
-                this->_interface_per_file[i]->init_from_file(force);
-                _ping_container.add_pings(this->_interface_per_file[i]->read_pings().get_pings());
+                primary_interfaces_per_file[i]->init_from_file(force);
+                _ping_container.add_pings(primary_interfaces_per_file[i]->read_pings().get_pings());
 
                 for (const auto& ping : _ping_container.get_pings())
                 {

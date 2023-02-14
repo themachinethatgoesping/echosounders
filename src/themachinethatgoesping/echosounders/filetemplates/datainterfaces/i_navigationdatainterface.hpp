@@ -85,7 +85,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        if (this->_interface_per_file.empty())
+        auto primary_interfaces_per_file = this->per_primary_file();
+
+        if (primary_interfaces_per_file.empty())
         {
             return;
         }
@@ -97,6 +99,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
+
         // // init configuration interface
         // if (!this->_configuration_data_interface->initialized())
         // {
@@ -107,24 +110,24 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         if (!progress_bar.is_initialized())
         {
             progress_bar.init(0.,
-                              double(this->_interface_per_file.size()),
+                              double(primary_interfaces_per_file.size()),
                               fmt::format("Initializing {} from file data", this->get_name()));
 
             existing_progressbar = false;
         }
 
-        this->_interface_per_file.front()->init_from_file(force);
-        _navigation_interpolator = this->_interface_per_file.front()->read_navigation_data();
+        primary_interfaces_per_file.front()->init_from_file(force);
+        _navigation_interpolator = primary_interfaces_per_file.front()->read_navigation_data();
 
-        for (size_t i = 1; i < this->_interface_per_file.size(); ++i)
+        for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
         {
-            progress_bar.set_postfix(fmt::format("{}/{}", i, this->_interface_per_file.size()));
+            progress_bar.set_postfix(fmt::format("{}/{}", i, primary_interfaces_per_file.size()));
 
             try
             {
-                this->_interface_per_file[i]->init_from_file(force);
+                primary_interfaces_per_file[i]->init_from_file(force);
                 _navigation_interpolator.merge(
-                    this->_interface_per_file[i]->read_navigation_data());
+                    primary_interfaces_per_file[i]->read_navigation_data());
             }
             catch (std::exception& e)
             {
