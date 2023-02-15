@@ -1,4 +1,4 @@
-//sourcehash: 69b0722605a342b23d148752ea80d2a8eea19ba50417c796bc88a4a14300b6f5
+//sourcehash: 7d6f1dba4c9a5fa7ef64af0013e2edf176556037e6317db9763db2ce23ff97a8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,16 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000PingDataInterfacePerFile = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000PingDataInterfacePerFile_EM3000PingDataInterfacePerFile = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000PingDataInterfacePerFile_EM3000PingDataInterfacePerFile_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000PingDataInterfacePerFile_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000PingDataInterfacePerFile_read_pings = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
