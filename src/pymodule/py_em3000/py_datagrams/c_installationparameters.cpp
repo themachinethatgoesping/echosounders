@@ -166,6 +166,9 @@ void init_c_installationparameters(pybind11::module& m)
              DOC_InstallationParameters(get_rx_array_size))
 
         // --- flags ---
+        .def("build_channel_id",
+             &InstallationParameters::build_channel_id,
+             DOC_InstallationParameters(build_channel_id))
         .def("is_dual_rx",
              &InstallationParameters::is_dual_rx,
              DOC_InstallationParameters(is_dual_rx))

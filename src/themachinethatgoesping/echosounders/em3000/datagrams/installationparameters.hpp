@@ -391,6 +391,37 @@ class InstallationParameters : public EM3000Datagram
         }
     }
 
+    // ----- flags and ping options -----
+
+    bool is_dual_rx() const
+    {
+        auto stc = get_system_transducer_configuration();
+
+        switch (stc)
+        {
+            case t_EM3000SystemTransducerConfiguration::SingleTXSingleRX:
+                return false;
+            case t_EM3000SystemTransducerConfiguration::SingleTXDualRX:
+                return true;
+            default:
+                throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
+                                                     "unsupported transducer configuration: {}",
+                                                     magic_enum::enum_name(stc))));
+        }
+    }
+
+    std::string build_channel_id() const
+    {
+        std::string channel_id = "EM" + std::to_string(get_model_number());
+        channel_id += " " + std::string(magic_enum::enum_name(get_system_transducer_configuration()));
+        channel_id += " " + std::to_string(this->get_system_serial_number());
+
+        if (is_dual_rx())
+            channel_id += "-" + std::to_string(this->get_secondary_system_serial_number());
+
+        return channel_id;
+    }
+
     // ----- high level access to installation parameters -----
     float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ", 0.f); }
 
@@ -410,23 +441,6 @@ class InstallationParameters : public EM3000Datagram
                             val)));
 
         return t_EM3000SystemTransducerConfiguration(val);
-    }
-
-    bool is_dual_rx() const
-    {
-        auto stc = get_system_transducer_configuration();
-
-        switch (stc)
-        {
-            case t_EM3000SystemTransducerConfiguration::SingleTXSingleRX:
-                return false;
-            case t_EM3000SystemTransducerConfiguration::SingleTXDualRX:
-                return true;
-            default:
-                throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
-                                                     "unsupported transducer configuration: {}",
-                                                     magic_enum::enum_name(stc))));
-        }
     }
 
     std::string get_tx_array_size() const

@@ -1,4 +1,4 @@
-//sourcehash: 2c2393f8595e5e348f171f7463f4cedadd83cf76b3cbe93ffb33f199b208027b
+//sourcehash: 7b33c8758c35bc49cb6ee84594cb7468c52c64142e3c7bf203cad8e638781e26
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_In
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_InstallationParameters_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_build_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_InstallationParameters_checksum = R"doc()doc";
 

@@ -94,6 +94,7 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
 
     dat.set_installation_parameters_counter(123);
     dat.set_system_serial_number(100);
+    dat.set_secondary_system_serial_number(102);
 
     // test parsing
     REQUIRE(dat == InstallationParameters(dat.from_binary(dat.to_binary())));
@@ -182,6 +183,11 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
         CHECK(dat.get_rx_array_size() == "1°");
     }
 
+    SECTION("computed configuration")
+    {
+        CHECK(dat.is_dual_rx() == true);
+        CHECK(dat.build_channel_id() == "EM710 SingleTXDualRX 100-102");
+    }
     // SECTION("SensorConfiguration")
     // {
     //     auto sc = dat.get_sensor_configuration();
