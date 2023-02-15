@@ -11,6 +11,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_datagraminterface.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -40,10 +42,7 @@ void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
     //         DOC_DatagramInterface(datagram_identifier_info),
     //         py::arg("datagram_identifier"));
 
-    // cls.def("per_file",
-    //         &T_BaseClass::per_file,
-    //         DOC_DatagramInterface(per_file),
-    //         py::return_value_policy::reference_internal);
+    cls.def("keys", &T_BaseClass::keys, DOC_DatagramInterface(keys));
 }
 
 }

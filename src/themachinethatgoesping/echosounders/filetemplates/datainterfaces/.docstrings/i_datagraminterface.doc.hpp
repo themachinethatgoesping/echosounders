@@ -1,4 +1,4 @@
-//sourcehash: a05782e0e014b1547224e65df651f6dba33eb5d58d0cb4b6a6f6293e32bd7578
+//sourcehash: 8fb34f6c52b0c49a4d4d84d7d178cb16dd7afeea41a19677623af94354af7bc2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,6 +67,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_datagram_infos_by_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_keys = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_name =
 R"doc(< name of the datagram container (useful for debugging derived
