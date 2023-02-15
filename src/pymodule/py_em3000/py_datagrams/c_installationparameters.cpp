@@ -165,6 +165,11 @@ void init_c_installationparameters(pybind11::module& m)
              &InstallationParameters::get_rx_array_size,
              DOC_InstallationParameters(get_rx_array_size))
 
+        // --- flags ---
+        .def("is_dual_rx",
+             &InstallationParameters::is_dual_rx,
+             DOC_InstallationParameters(is_dual_rx))
+
         // --- checksum access ---
         .def("get_etx", &InstallationParameters::get_etx, DOC_InstallationParameters(etx))
         .def("set_etx", &InstallationParameters::set_etx, DOC_InstallationParameters(etx))

@@ -412,6 +412,23 @@ class InstallationParameters : public EM3000Datagram
         return t_EM3000SystemTransducerConfiguration(val);
     }
 
+    bool is_dual_rx() const
+    {
+        auto stc = get_system_transducer_configuration();
+
+        switch (stc)
+        {
+            case t_EM3000SystemTransducerConfiguration::SingleTXSingleRX:
+                return false;
+            case t_EM3000SystemTransducerConfiguration::SingleTXDualRX:
+                return true;
+            default:
+                throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
+                                                     "unsupported transducer configuration: {}",
+                                                     magic_enum::enum_name(stc))));
+        }
+    }
+
     std::string get_tx_array_size() const
     {
         switch (get_value_string("S1S", "")[0])
