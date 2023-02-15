@@ -45,6 +45,7 @@ namespace filedatatypes {
 template<typename t_ifstream>
 class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_ifstream>
 {
+    using t_base = filedatainterfaces::EM3000DatagramInterface<t_ifstream>;
     // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string_view get_name() const { return "EM3000PingRawData"; }
 
@@ -56,7 +57,10 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //     _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
 
   public:
-    EM3000PingRawData() = default;
+    EM3000PingRawData()
+        : t_base("EM3000PingRawData")
+    {
+    }
     // EM3000PingRawData(filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier,
     //                                                              t_ifstream>
     //                                                              datagram_info_raw_data,

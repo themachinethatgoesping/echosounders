@@ -41,23 +41,23 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
     using t_EM3000Ping = filedatatypes::EM3000Ping<T_FileStream>;
 
     auto cls = py::class_<t_EM3000Ping>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))
 
-        // --- ping interface (with individual documentation) ---
-        // .def("get_angle", &t_EM3000Ping::get_angle, DOC_EM3000Ping(get_angle))
-        // .def("get_sv", &t_EM3000Ping::get_sv, DOC_EM3000Ping(get_sv), py::arg("dB") = false)
-        // .def("get_sv_stacked",
-        //      &t_EM3000Ping::get_sv_stacked,
-        //      DOC_EM3000Ping(get_sv_stacked),
-        //      py::arg("dB") = false)
+                   // --- ping interface (with individual documentation) ---
+                   // .def("get_angle", &t_EM3000Ping::get_angle, DOC_EM3000Ping(get_angle))
+                   // .def("get_sv", &t_EM3000Ping::get_sv, DOC_EM3000Ping(get_sv), py::arg("dB") =
+                   // false) .def("get_sv_stacked",
+                   //      &t_EM3000Ping::get_sv_stacked,
+                   //      DOC_EM3000Ping(get_sv_stacked),
+                   //      py::arg("dB") = false)
 
-        // // --- raw_data data access ---
-        // .def_property_readonly("raw_data",
-        //                        &t_EM3000Ping::raw_data,
-        //                        DOC_EM3000Ping(raw_data),
-        //                        py::return_value_policy::reference_internal)
+                   // --- raw_data data access ---
+                   .def_property_readonly("raw_data",
+                                          &t_EM3000Ping::raw_data,
+                                          DOC_EM3000Ping(raw_data),
+                                          py::return_value_policy::reference_internal)
 
         // ----- this is also commented out in simrad equivalent-----
         // --- variable access ---
