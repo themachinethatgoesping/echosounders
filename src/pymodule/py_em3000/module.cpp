@@ -39,6 +39,8 @@ void init_c_fileem3000(pybind11::module& m); // c_fileem3000.cpp
     DOC(themachinethatgoesping, echosounders, em3000, t_EM3000DatagramIdentifier, ARG)
 #define DOC_t_EM3000ActiveSensor(ARG)                                                              \
     DOC(themachinethatgoesping, echosounders, em3000, t_EM3000ActiveSensor, ARG)
+#define DOC_t_EM3000SystemTransducerConfiguration(ARG)                                             \
+    DOC(themachinethatgoesping, echosounders, em3000, t_EM3000SystemTransducerConfiguration, ARG)
 
 // -- create submodule --
 void init_m_em3000(pybind11::module& m)
@@ -183,6 +185,41 @@ void init_m_em3000(pybind11::module& m)
 
     tools::pybind_helper::add_string_to_enum_conversion<t_EM3000ActiveSensor>(
         pyenum_activeem3000sensor);
+
+    auto pyenum_stc =
+        py::enum_<t_EM3000SystemTransducerConfiguration>(subm,
+                                                         "t_EM3000SystemTransducerConfiguration",
+                                                         DOC(themachinethatgoesping,
+                                                             echosounders,
+                                                             em3000,
+                                                             t_EM3000SystemTransducerConfiguration))
+            .value("SingleTXSingleRX",
+                   t_EM3000SystemTransducerConfiguration::SingleTXSingleRX,
+                   DOC_t_EM3000SystemTransducerConfiguration(SingleTXSingleRX))
+            .value("SingleHead",
+                   t_EM3000SystemTransducerConfiguration::SingleHead,
+                   DOC_t_EM3000SystemTransducerConfiguration(SingleHead))
+            .value("DualHead",
+                   t_EM3000SystemTransducerConfiguration::DualHead,
+                   DOC_t_EM3000SystemTransducerConfiguration(DualHead))
+            .value("SingleTXDualRX",
+                   t_EM3000SystemTransducerConfiguration::SingleTXDualRX,
+                   DOC_t_EM3000SystemTransducerConfiguration(SingleTXDualRX))
+            .value("DualTXDualRX",
+                   t_EM3000SystemTransducerConfiguration::DualTXDualRX,
+                   DOC_t_EM3000SystemTransducerConfiguration(DualTXDualRX))
+            .value("PortableSingleHead",
+                   t_EM3000SystemTransducerConfiguration::PortableSingleHead,
+                   DOC_t_EM3000SystemTransducerConfiguration(PortableSingleHead))
+            .value("Modular",
+                   t_EM3000SystemTransducerConfiguration::Modular,
+                   DOC_t_EM3000SystemTransducerConfiguration(Modular))
+            .export_values()
+        //
+        ;
+
+    tools::pybind_helper::add_string_to_enum_conversion<t_EM3000SystemTransducerConfiguration>(
+        pyenum_stc);
 
     subm.def("datagram_type_to_string",
              py::overload_cast<t_EM3000DatagramIdentifier>(&datagram_type_to_string),

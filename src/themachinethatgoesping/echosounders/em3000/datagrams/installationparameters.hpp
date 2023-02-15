@@ -394,34 +394,22 @@ class InstallationParameters : public EM3000Datagram
     // ----- high level access to installation parameters -----
     float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ", 0.f); }
 
-    int         get_system_main_head_serial_number() const { return get_value_int("SMH"); }
-    int         get_tx_serial_number() const { return get_value_int("TXS"); }
-    int         get_tx2_serial_number() const { return get_value_int("T2X"); }
-    int         get_rx1_serial_number() const { return get_value_int("R1S"); }
-    int         get_rx2_serial_number() const { return get_value_int("R2S"); }
-    std::string get_system_transducer_configuration() const
+    int get_system_main_head_serial_number() const { return get_value_int("SMH"); }
+    int get_tx_serial_number() const { return get_value_int("TXS"); }
+    int get_tx2_serial_number() const { return get_value_int("T2X"); }
+    int get_rx1_serial_number() const { return get_value_int("R1S"); }
+    int get_rx2_serial_number() const { return get_value_int("R2S"); }
+    t_EM3000SystemTransducerConfiguration get_system_transducer_configuration() const
     {
-        auto s = get_value_string("STC", "");
+        unsigned int val = get_value_int("STC", 0);
 
-        switch (s[0])
-        {
-            case '0':
-                return "Single TX + single RX";
-            case '1':
-                return "Single head";
-            case '2':
-                return "Dual head";
-            case '3':
-                return "Single TX + dual RX";
-            case '4':
-                return "Dual TX + dual RX";
-            case '5':
-                return "Portable single head";
-            case '6':
-                return "Modular";
-            default:
-                return "Unknown";
-        }
+        if (val > 6)
+            throw(std::runtime_error(
+                fmt::format("InstallationParameters::get_system_transducer_configuration: "
+                            "invalid transducer configuration: {}",
+                            val)));
+
+        return t_EM3000SystemTransducerConfiguration(val);
     }
 
     std::string get_tx_array_size() const

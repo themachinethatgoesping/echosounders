@@ -75,7 +75,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
  * @brief This enum is used to identify the active sensor in the InstallationParameters datagram
  *
  */
-enum class t_EM3000ActiveSensor
+enum class t_EM3000ActiveSensor : int8_t
 {
     PositionSystem3 = 0, ///< UDP2 or COM4
     PositionSystem1 = 1, ///< COM1
@@ -89,6 +89,22 @@ enum class t_EM3000ActiveSensor
     AttitudeVelocitySensor1 = 8, ///< UDP5
     AttitudeVelocitySensor2 = 9, ///< UDP6
     NotSet                  = -1 ///< this is not a valid value
+};
+
+/**
+ * @brief This enum is used to identify the transducer configuration (STC field) in the
+ * InstallationParameters datagram
+ *
+ */
+enum class t_EM3000SystemTransducerConfiguration : uint8_t
+{
+    SingleTXSingleRX   = 0, ///< EM122, EM302, EM710, EM2040 Single
+    SingleHead         = 1, ///< EM3002 Single Head, EM2040C Single Head
+    DualHead           = 2, ///< EM3002 Dual Head, EM2040C Dual Head
+    SingleTXDualRX     = 3, ///< EM2040 Dual RX
+    DualTXDualRX       = 4, ///< EM2040 Dual TX
+    PortableSingleHead = 5, ///< EM2040P
+    Modular            = 6  ///< EM2040M
 };
 
 /**

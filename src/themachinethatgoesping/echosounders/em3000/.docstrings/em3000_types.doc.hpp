@@ -1,4 +1,4 @@
-//sourcehash: b78dc99eec88c03e90459cebbfe2ba025df1fd3121e468fd11b170c061c00ec7
+//sourcehash: f2428a707db3b9b20a7833e7ba6c055e33dc7c9907085e7062e3efa284719f50
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -142,6 +142,24 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_XYZDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_unspecified = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration =
+R"doc(This enum is used to identify the transducer configuration (STC field)
+in the InstallationParameters datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_DualHead = R"doc(< EM3002 Dual Head, EM2040C Dual Head)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_DualTXDualRX = R"doc(< EM2040 Dual TX)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_Modular = R"doc(< EM2040M)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_PortableSingleHead = R"doc(< EM2040P)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_SingleHead = R"doc(< EM3002 Single Head, EM2040C Single Head)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_SingleTXDualRX = R"doc(< EM2040 Dual RX)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000SystemTransducerConfiguration_SingleTXSingleRX = R"doc(< EM122, EM302, EM710, EM2040 Single)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
