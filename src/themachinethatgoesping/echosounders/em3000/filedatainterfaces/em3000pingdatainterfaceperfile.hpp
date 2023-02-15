@@ -65,43 +65,58 @@ class EM3000PingDataInterfacePerFile
     filedatacontainers::EM3000PingContainer<t_ifstream> read_pings()
     {
         using t_pingcontainer = filedatacontainers::EM3000PingContainer<t_ifstream>;
+        using t_ping          = filedatatypes::EM3000Ping<t_ifstream>;
+        using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        tools::helper::DefaultSharedPointerMap<uint16_t, typename t_pingcontainer::type_Ping>
-            pings_by_counter;
+        std::map<uint16_t, t_ping_ptr> pings_by_counter;
+
+        // read the file installation parameters
+        auto param =
+            this->configuration_data_interface_for_file_const().get_installation_parameters();
+
+        bool        is_dual_rx = param.is_dual_rx();
+        std::string channel_id = param.build_channel_id();
 
         for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
         {
-            for (const auto& datagram_ptr : datagram_infos)
+            switch (type)
             {
-                switch (type)
-                {
-                    case t_EM3000DatagramIdentifier::XYZDatagram:
-                        [[fallthrough]];
-                    case t_EM3000DatagramIdentifier::ExtraDetections:
-                        [[fallthrough]];
-                    case t_EM3000DatagramIdentifier::RawRangeAndAngle:
-                        [[fallthrough]];
-                    case t_EM3000DatagramIdentifier::SeabedImageData:
-                        [[fallthrough]];
-                    case t_EM3000DatagramIdentifier::WaterColumnDatagram:
-                        [[fallthrough]];
-                    case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
+                case t_EM3000DatagramIdentifier::XYZDatagram:
+                    [[fallthrough]];
+                case t_EM3000DatagramIdentifier::ExtraDetections:
+                    [[fallthrough]];
+                case t_EM3000DatagramIdentifier::RawRangeAndAngle:
+                    [[fallthrough]];
+                case t_EM3000DatagramIdentifier::SeabedImageData:
+                    [[fallthrough]];
+                case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                    [[fallthrough]];
+                case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
+
+                    for (const auto& datagram_ptr : datagram_infos)
+                    {
                         // read the ping counter
                         auto& ifs = datagram_ptr->get_stream_and_seek();
                         ifs.seekg(16, std::ios::cur); // skip header
                         uint16_t ping_counter;
                         ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(uint16_t));
 
+                        // create a new ping if it does not exist
+                        if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
+                        {
+                            pings_by_counter[ping_counter] =
+                                std::make_shared<t_ping>(channel_id, is_dual_rx);
+                        }
+
                         auto& ping = pings_by_counter.at(ping_counter);
 
                         ping->raw_data().add_datagram_info(datagram_ptr);
-                        break;
                     }
-                    default:
-                        throw std::runtime_error(
-                            fmt::format("Invalid datagram type {} for EM3000Ping",
-                                        magic_enum::enum_name(type)));
+                    break;
                 }
+                default:
+                    throw std::runtime_error(fmt::format("Invalid datagram type {} for EM3000Ping",
+                                                         magic_enum::enum_name(type)));
             }
         }
 

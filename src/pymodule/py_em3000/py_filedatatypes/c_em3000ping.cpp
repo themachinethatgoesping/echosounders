@@ -59,8 +59,8 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                                           DOC_EM3000Ping(raw_data),
                                           py::return_value_policy::reference_internal)
 
-        // ----- this is also commented out in simrad equivalent-----
-        // --- variable access ---
+                   // --- variable access ---
+                   .def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
 
         // ----- operators -----
         // .def("__eq__",

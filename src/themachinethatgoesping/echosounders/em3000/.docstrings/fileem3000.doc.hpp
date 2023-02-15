@@ -1,4 +1,4 @@
-//sourcehash: ef3ee7cdb5d6b0680a2356c7b590794b4f0125d713c184cda75c5f45c9287bd0
+//sourcehash: 8012c3f7503ca3ff269df44ec1c77a7053c8115e5866ec4ecd82c6c2c32102ee
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_c
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_callback_scan_packet = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_channel_ids = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_configuration_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_configuration_interface_2 = R"doc()doc";
@@ -79,6 +81,12 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_o
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_ping_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_ping_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_pings = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_pings_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_pings_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_printer = R"doc()doc";
 

@@ -42,30 +42,29 @@ namespace filedatatypes {
 template<typename t_ifstream>
 class EM3000Ping : public filetemplates::datatypes::I_Ping
 {
+    bool _is_dual_rx;
+
     EM3000PingRawData<t_ifstream> _raw_data;
 
     using t_base = filetemplates::datatypes::I_Ping;
 
   public:
-    EM3000Ping( // filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier,
-                // t_ifstream>
-                //     datagram_info_raw_data
-                //, datagrams::RAW3 ping_data)
-        )
+    EM3000Ping(std::string channel_id, bool is_dual_rx)
         : t_base("EM3000Ping")
+        , _is_dual_rx(is_dual_rx)
     //, _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
 
         /* set i_ping parameters */
-        // substring of channel_id until the first \x00 character
-        // this->_channel_id = _raw_data._ping_data.get_channel_id();
-        // this->_channel_id = this->_channel_id.substr(0, this->_channel_id.find('\x00'));
+        this->_channel_id = std::move(channel_id);
 
         // this->_timestamp = _raw_data._datagram_info_raw_data->get_timestamp();
     }
     virtual ~EM3000Ping() = default;
 
     EM3000PingRawData<t_ifstream>& raw_data() { return _raw_data; }
+
+    bool is_dual_rx() const { return _is_dual_rx; }
 
     // size_t get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
     //  std::string get_file_path() const final
