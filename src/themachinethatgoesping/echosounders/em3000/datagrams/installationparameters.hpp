@@ -413,7 +413,8 @@ class InstallationParameters : public EM3000Datagram
     std::string build_channel_id() const
     {
         std::string channel_id = "EM" + std::to_string(get_model_number());
-        channel_id += " " + std::string(magic_enum::enum_name(get_system_transducer_configuration()));
+        channel_id +=
+            " " + std::string(magic_enum::enum_name(get_system_transducer_configuration()));
         channel_id += " " + std::to_string(this->get_system_serial_number());
 
         if (is_dual_rx())

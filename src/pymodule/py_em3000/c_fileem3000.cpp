@@ -80,21 +80,21 @@ void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
         py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ping_interface));
 
-    // cls.def("pings",
-    //         py::overload_cast<>(&FileEM3000<T_FileStream>::pings, py::const_),
-    //         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings));
-    // cls.def("pings",
-    //         py::overload_cast<const std::string&>(&FileEM3000<T_FileStream>::pings, py::const_),
-    //         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_2),
-    //         py::arg("channel_id"));
-    // cls.def("pings",
-    //         py::overload_cast<const std::vector<std::string>&>(&FileEM3000<T_FileStream>::pings,
-    //                                                            py::const_),
-    //         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_3),
-    //         py::arg("channel_ids"));
-    // cls.def("channel_ids",
-    //         &FileEM3000<T_FileStream>::channel_ids,
-    //         DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, channel_ids));
+    cls.def("pings",
+            py::overload_cast<>(&FileEM3000<T_FileStream>::pings, py::const_),
+            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings));
+    cls.def("pings",
+            py::overload_cast<const std::string&>(&FileEM3000<T_FileStream>::pings, py::const_),
+            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_2),
+            py::arg("channel_id"));
+    cls.def("pings",
+            py::overload_cast<const std::vector<std::string>&>(&FileEM3000<T_FileStream>::pings,
+                                                               py::const_),
+            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_3),
+            py::arg("channel_ids"));
+    cls.def("channel_ids",
+            &FileEM3000<T_FileStream>::channel_ids,
+            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */

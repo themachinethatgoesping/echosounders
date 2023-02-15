@@ -42,21 +42,30 @@ namespace filedatatypes {
 template<typename t_ifstream>
 class EM3000Ping : public filetemplates::datatypes::I_Ping
 {
+    // file nr and path of primary file
+    size_t      _file_nr;
+    std::string _file_path;
+
+    // flags
     bool _is_dual_rx;
 
+    // raw data
     EM3000PingRawData<t_ifstream> _raw_data;
 
     using t_base = filetemplates::datatypes::I_Ping;
 
   public:
-    EM3000Ping(std::string channel_id, bool is_dual_rx)
+    EM3000Ping(size_t                                   file_nr,
+               std::string                              file_path,
+               const datagrams::InstallationParameters& param)
         : t_base("EM3000Ping")
-        , _is_dual_rx(is_dual_rx)
+        , _file_nr(file_nr)
+        , _file_path(std::move(file_path))
+        , _is_dual_rx(param.is_dual_rx())
     //, _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
-
         /* set i_ping parameters */
-        this->_channel_id = std::move(channel_id);
+        this->_channel_id = param.build_channel_id();
 
         // this->_timestamp = _raw_data._datagram_info_raw_data->get_timestamp();
     }
@@ -66,11 +75,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     bool is_dual_rx() const { return _is_dual_rx; }
 
-    // size_t get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
-    //  std::string get_file_path() const final
-    //  {
-    //      return _raw_data._datagram_info_raw_data->get_file_path();
-    //  }
+    size_t      get_file_nr() const final { return _file_nr; }
+    std::string get_file_path() const final { return _file_path; }
 
     // ----- I_Ping interface -----
     // size_t get_number_of_samples() const final { return _raw_data._ping_data.get_count(); }

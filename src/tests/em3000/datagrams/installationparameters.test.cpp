@@ -178,7 +178,8 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
         // CHECK(dat.get_tx2_serial_number() == 2);
         CHECK(dat.get_rx1_serial_number() == 2004);
         CHECK(dat.get_rx2_serial_number() == 2031);
-        CHECK(dat.get_system_transducer_configuration() == t_EM3000SystemTransducerConfiguration::SingleTXDualRX);
+        CHECK(dat.get_system_transducer_configuration() ==
+              t_EM3000SystemTransducerConfiguration::SingleTXDualRX);
         CHECK(dat.get_tx_array_size() == "0.5°");
         CHECK(dat.get_rx_array_size() == "1°");
     }

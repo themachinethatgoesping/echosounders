@@ -70,12 +70,11 @@ class EM3000PingDataInterfacePerFile
 
         std::map<uint16_t, t_ping_ptr> pings_by_counter;
 
-        // read the file installation parameters
+        // read the file installation parameters and build a base ping
         auto param =
             this->configuration_data_interface_for_file_const().get_installation_parameters();
 
-        bool        is_dual_rx = param.is_dual_rx();
-        std::string channel_id = param.build_channel_id();
+        t_ping base_ping(this->get_file_nr(), this->get_file_path(), param);
 
         for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
         {
@@ -104,8 +103,7 @@ class EM3000PingDataInterfacePerFile
                         // create a new ping if it does not exist
                         if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
                         {
-                            pings_by_counter[ping_counter] =
-                                std::make_shared<t_ping>(channel_id, is_dual_rx);
+                            pings_by_counter[ping_counter] = std::make_shared<t_ping>(base_ping);
                         }
 
                         auto& ping = pings_by_counter.at(ping_counter);
