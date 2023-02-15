@@ -21,6 +21,14 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_pingdatainterface {
 
+#define DOC_PingDataInterfacePerFile(ARG)                                                          \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_PingDataInterfacePerFile,                                                                \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void PingDataInterfacePerFile_add_interface(T_PyClass& cls)
 {
@@ -30,28 +38,14 @@ void PingDataInterfacePerFile_add_interface(T_PyClass& cls)
 
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterfacePerFile,
-                configuration_data_interface));
+            DOC_PingDataInterfacePerFile(configuration_data_interface));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterfacePerFile,
-                navigation_data_interface));
+            DOC_PingDataInterfacePerFile(navigation_data_interface));
     cls.def("environment_data_interface",
             &T_BaseClass::environment_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterfacePerFile,
-                environment_data_interface));
+            DOC_PingDataInterfacePerFile(environment_data_interface));
+    cls.def("read_pings", &T_BaseClass::read_pings, DOC_PingDataInterfacePerFile(read_pings));
 }
 
 }

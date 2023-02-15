@@ -22,6 +22,14 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_pingdatainterface {
 
+#define DOC_PingDataInterface(ARG)                                                                 \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_PingDataInterface,                                                                       \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void PingDataInterface_add_interface(T_PyClass& cls)
 {
@@ -31,52 +39,22 @@ void PingDataInterface_add_interface(T_PyClass& cls)
 
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                configuration_data_interface));
+            DOC_PingDataInterface(configuration_data_interface));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                navigation_data_interface));
+            DOC_PingDataInterface(navigation_data_interface));
     cls.def("environment_data_interface",
             &T_BaseClass::environment_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                environment_data_interface));
+            DOC_PingDataInterface(environment_data_interface));
     cls.def("channel_ids",
             py::overload_cast<>(&T_BaseClass::channel_ids, py::const_),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                channel_ids));
+            DOC_PingDataInterface(channel_ids));
     cls.def("get_pings",
             py::overload_cast<>(&T_BaseClass::get_pings, py::const_),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                get_pings));
+            DOC_PingDataInterface(get_pings));
     cls.def("get_pings",
             py::overload_cast<const std::string&>(&T_BaseClass::get_pings, py::const_),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_PingDataInterface,
-                get_pings),
+            DOC_PingDataInterface(get_pings),
             py::arg("channel_id"));
 }
 

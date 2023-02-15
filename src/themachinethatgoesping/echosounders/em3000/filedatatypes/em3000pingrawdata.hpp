@@ -152,6 +152,8 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
+        printer.append(t_base::__printer__(float_precision));
+
         printer.register_section("Raw data infos");
 
         // convert _ping_data.get_data_type() to string using magic enum

@@ -20,8 +20,8 @@
 #include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 
-#include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"
 #include "../../py_filetemplates/py_datatypes/i_ping.hpp"
+#include "../py_filedatainterfaces/c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -81,8 +81,10 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
         // end EM3000Ping
         ;
 
-    using namespace py_filetemplates::py_datainterfaces;
-    py_i_datagraminterface::add_InterfaceFunctions<t_EM3000PingRawData>(cls);
+    // inherit from EM3000DatagramInterface
+    py_filedatainterfaces::EM3000DatagramInterface_add_interface_functions<t_EM3000PingRawData>(
+        cls);
+    // py_i_datagraminterface::add_InterfaceFunctions<t_EM3000PingRawData>(cls);
 }
 
 void init_c_em3000pingrawdata(pybind11::module& m)

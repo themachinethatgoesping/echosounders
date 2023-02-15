@@ -64,7 +64,51 @@ class EM3000PingDataInterfacePerFile
 
     filedatacontainers::EM3000PingContainer<t_ifstream> read_pings()
     {
-        filedatacontainers::EM3000PingContainer<t_ifstream> pings;
+        using t_pingcontainer = filedatacontainers::EM3000PingContainer<t_ifstream>;
+
+        tools::helper::DefaultSharedPointerMap<uint16_t, typename t_pingcontainer::type_Ping>
+            pings_by_counter;
+
+        for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
+        {
+            for (const auto& datagram_ptr : datagram_infos)
+            {
+                switch (type)
+                {
+                    case t_EM3000DatagramIdentifier::XYZDatagram:
+                        [[fallthrough]];
+                    case t_EM3000DatagramIdentifier::ExtraDetections:
+                        [[fallthrough]];
+                    case t_EM3000DatagramIdentifier::RawRangeAndAngle:
+                        [[fallthrough]];
+                    case t_EM3000DatagramIdentifier::SeabedImageData:
+                        [[fallthrough]];
+                    case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                        [[fallthrough]];
+                    case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
+                        // read the ping counter
+                        auto& ifs = datagram_ptr->get_stream_and_seek();
+                        ifs.seekg(16, std::ios::cur); // skip header
+                        uint16_t ping_counter;
+                        ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(uint16_t));
+
+                        auto& ping = pings_by_counter.at(ping_counter);
+
+                        ping->raw_data().add_datagram_info(datagram_ptr);
+                        break;
+                    }
+                    default:
+                        throw std::runtime_error(
+                            fmt::format("Invalid datagram type {} for EM3000Ping",
+                                        magic_enum::enum_name(type)));
+                }
+            }
+        }
+
+        // loop through map and copy pings to vector
+        t_pingcontainer pings;
+        for (auto [ping_counter, ping_ptr] : pings_by_counter)
+            pings.add_ping(std::move(ping_ptr));
 
         return pings;
     }
