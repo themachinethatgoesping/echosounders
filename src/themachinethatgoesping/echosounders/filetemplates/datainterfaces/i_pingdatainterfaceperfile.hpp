@@ -53,6 +53,8 @@ class I_PingDataInterfacePerFile
         typename t_EnvironmentDataInterface::type_NavigationDataInterface;
     using type_ConfigurationDataInterface =
         typename t_EnvironmentDataInterface::type_ConfigurationDataInterface;
+    using type_ConfigurationDataInterfacePerFile = typename t_EnvironmentDataInterface::
+        type_ConfigurationDataInterface::type_FileDataInterface_PerFile;
     using type_PingContainer = t_PingContainer;
     using type_Ping          = typename t_PingContainer::type_Ping;
 
@@ -94,7 +96,6 @@ class I_PingDataInterfacePerFile
     {
         return _environment_data_interface->navigation_data_interface_const();
     }
-
     type_EnvironmentDataInterface& environment_data_interface()
     {
         return *_environment_data_interface;
@@ -102,6 +103,18 @@ class I_PingDataInterfacePerFile
     const type_EnvironmentDataInterface& environment_data_interface_const() const
     {
         return *_environment_data_interface;
+    }
+
+    type_ConfigurationDataInterfacePerFile& configuration_data_interface_for_file()
+    {
+        return _environment_data_interface->configuration_data_interface().per_file(
+            this->get_file_nr());
+    }
+    const type_ConfigurationDataInterfacePerFile& configuration_data_interface_for_file_const()
+        const
+    {
+        return _environment_data_interface->configuration_data_interface_const().per_file_const(
+            this->get_file_nr());
     }
 
     virtual t_PingContainer read_pings()

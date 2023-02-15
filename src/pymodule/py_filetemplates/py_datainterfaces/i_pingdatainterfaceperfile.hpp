@@ -39,6 +39,9 @@ void PingDataInterfacePerFile_add_interface(T_PyClass& cls)
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
             DOC_PingDataInterfacePerFile(configuration_data_interface));
+    cls.def("configuration_data_interface_for_file",
+            &T_BaseClass::configuration_data_interface_for_file,
+            DOC_PingDataInterfacePerFile(configuration_data_interface_for_file));
     cls.def("navigation_data_interface",
             &T_BaseClass::navigation_data_interface,
             DOC_PingDataInterfacePerFile(navigation_data_interface));
