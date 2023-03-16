@@ -56,6 +56,18 @@ TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
     dat.to_stream(buffer);
     REQUIRE(dat == WaterColumnDatagram(dat.from_stream(buffer)));
 
+    // test data skipping
+    auto dat_skipped = dat;
+    for (unsigned int b = 0; b < dat_skipped.beams().size(); b++)
+    {
+        dat_skipped.beams()[b].set_samples({});
+    }
+    buffer.clear();
+    dat.to_stream(buffer);
+    REQUIRE(dat == WaterColumnDatagram(dat.from_stream(buffer, false)));
+    dat.to_stream(buffer);
+    REQUIRE(dat_skipped == WaterColumnDatagram(dat.from_stream(buffer, true)));
+
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
 

@@ -46,6 +46,11 @@ class WaterColumnDatagramBeam
 
     xt::xtensor<int8_t, 1> _samples; /// < in 0.5 dB steps
 
+    // flags that do not belong to the datagramformat specification
+    bool _samples_are_skipped =
+        false; ///< This flag is set if from_stream was called with the "skip_data" argument. Call
+               ///< load_data or set_data to set it to false.
+
   public:
     WaterColumnDatagramBeam()  = default;
     ~WaterColumnDatagramBeam() = default;
@@ -82,9 +87,23 @@ class WaterColumnDatagramBeam
     }
     void set_beam_number(uint8_t beam_number) { _beam_number = beam_number; }
 
+    bool get_samples_are_skipped() { return _samples_are_skipped; }
+
     // structure access
-    const xt::xtensor<int8_t, 1>& get_samples() { return _samples; }
-    void set_samples(const xt::xtensor<int8_t, 1>& samples) { _samples = samples; }
+    const xt::xtensor<int8_t, 1>& get_samples()
+    {
+        if (_samples_are_skipped)
+            throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::get_samples]: The "
+                                                 "data is not available because it was skipped! "
+                                                 "Call load_data or set_data first.")));
+
+        return _samples;
+    }
+    void set_samples(const xt::xtensor<int8_t, 1>& samples)
+    {
+        _samples             = samples;
+        _samples_are_skipped = false;
+    }
     xt::xtensor<int8_t, 1>& samples() { return _samples; }
 
     // ----- processed member access -----
@@ -101,7 +120,7 @@ class WaterColumnDatagramBeam
     }
 
     //----- to/from stream functions -----
-    static WaterColumnDatagramBeam from_stream(std::istream& is)
+    static WaterColumnDatagramBeam from_stream(std::istream& is, bool skip_data = false)
     {
         // init the sample amplitudes structure with the correct size
         WaterColumnDatagramBeam data;
@@ -110,11 +129,28 @@ class WaterColumnDatagramBeam
         is.read(reinterpret_cast<char*>(&data._beam_pointing_angle), 10 * sizeof(uint8_t));
 
         // read the sample amplitudes
-        data._samples =
-            xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ data._number_of_samples }));
+        if (skip_data)
+        {
+            data._samples_are_skipped = true;
 
-        is.read(reinterpret_cast<char*>(data._samples.data()),
-                data._number_of_samples * sizeof(int8_t));
+            // data._samples = xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ 0 }));
+
+            // reset the _samples array
+            data._samples = xt::xtensor<int8_t, 1>();
+
+            // skip the data
+            is.seekg(data._number_of_samples * sizeof(int8_t), std::ios_base::cur);
+        }
+        else
+        {
+            data._samples_are_skipped = false;
+
+            data._samples =
+                xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ data._number_of_samples }));
+
+            is.read(reinterpret_cast<char*>(data._samples.data()),
+                    data._number_of_samples * sizeof(int8_t));
+        }
 
         return data;
     }
@@ -127,7 +163,21 @@ class WaterColumnDatagramBeam
         os.write(reinterpret_cast<const char*>(&_beam_pointing_angle), 10 * sizeof(uint8_t));
 
         // write the sample amplitudes
-        os.write(reinterpret_cast<char*>(_samples.data()), _number_of_samples * sizeof(int8_t));
+        if (!_samples_are_skipped)
+        {
+            if (_samples.size() != _number_of_samples)
+                throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::to_stream]: "
+                                                     "The number of samples does not match the "
+                                                     "number of samples in the sample amplitude "
+                                                     "array!")));
+            os.write(reinterpret_cast<char*>(_samples.data()), _number_of_samples * sizeof(int8_t));
+        }
+        else
+        {
+            // write zeros
+            std::vector<int8_t> zeros(_number_of_samples, 0);
+            os.write(reinterpret_cast<char*>(zeros.data()), _number_of_samples * sizeof(int8_t));
+        }
     }
 
     // ----- operators -----

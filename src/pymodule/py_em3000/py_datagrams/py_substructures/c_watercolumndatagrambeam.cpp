@@ -84,7 +84,11 @@ void init_c_watercolumndatagrambeam(pybind11::module& m)
              &WaterColumnDatagramBeam::get_beam_number,
              DOC_WaterColumnDatagramBeam(beam_number))
 
-        // --- datastructure access ---
+        // --- data structure access ---
+        .def("get_samples_are_skipped",
+             &WaterColumnDatagramBeam::get_samples_are_skipped,
+             DOC_WaterColumnDatagramBeam(samples_are_skipped),
+             py::return_value_policy::reference_internal)
         .def("get_samples",
              &WaterColumnDatagramBeam::get_samples,
              DOC_WaterColumnDatagramBeam(samples),

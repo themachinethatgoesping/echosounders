@@ -201,7 +201,9 @@ class WaterColumnDatagram : public EM3000Datagram
     bool operator!=(const WaterColumnDatagram& other) const { return !operator==(other); }
 
     //----- to/from stream functions -----
-    static WaterColumnDatagram from_stream(std::istream& is, EM3000Datagram header)
+    static WaterColumnDatagram from_stream(std::istream&  is,
+                                           EM3000Datagram header,
+                                           bool           skip_data = false)
     {
         WaterColumnDatagram datagram(std::move(header));
 
@@ -223,7 +225,8 @@ class WaterColumnDatagram : public EM3000Datagram
         // read the beams
         datagram._beams.reserve(datagram._number_of_beams_in_datagram);
         for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
-            datagram._beams.emplace_back(substructures::WaterColumnDatagramBeam::from_stream(is));
+            datagram._beams.emplace_back(
+                substructures::WaterColumnDatagramBeam::from_stream(is, skip_data));
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
@@ -235,15 +238,16 @@ class WaterColumnDatagram : public EM3000Datagram
         return datagram;
     }
 
-    static WaterColumnDatagram from_stream(std::istream& is)
+    static WaterColumnDatagram from_stream(std::istream& is, bool skip_data = false)
     {
-        return from_stream(is, EM3000Datagram::from_stream(is));
+        return from_stream(is, EM3000Datagram::from_stream(is), skip_data);
     }
 
     static WaterColumnDatagram from_stream(std::istream&              is,
-                                           t_EM3000DatagramIdentifier datagram_identifier)
+                                           t_EM3000DatagramIdentifier datagram_identifier,
+                                           bool                       skip_data = false)
     {
-        return from_stream(is, std::move(EM3000Datagram::from_stream(is, datagram_identifier)));
+        return from_stream(is, EM3000Datagram::from_stream(is, datagram_identifier), skip_data);
     }
 
     void to_stream(std::ostream& os)
