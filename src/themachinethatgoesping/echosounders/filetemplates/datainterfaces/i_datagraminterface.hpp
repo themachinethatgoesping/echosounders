@@ -37,6 +37,7 @@ class I_DatagramInterface
     // member types
     using type_DatagramIdentifier = t_DatagramIdentifier;
     using type_ifstream           = t_ifstream;
+    using type_DatagramInfo_ptr   = datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>;
 
   private:
     std::string_view
@@ -45,12 +46,10 @@ class I_DatagramInterface
     std::string_view get_name() const { return _name; }
 
     /* datagram infos */
-    std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> _datagram_infos_all;
+    std::vector<type_DatagramInfo_ptr> _datagram_infos_all;
 
     /* datagram infos (sorted by datagram identifier) */
-    tools::helper::DefaultMap<
-        t_DatagramIdentifier,
-        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>>
+    tools::helper::DefaultMap<t_DatagramIdentifier, std::vector<type_DatagramInfo_ptr>>
         _datagram_infos_by_type;
 
   public:
@@ -70,17 +69,26 @@ class I_DatagramInterface
     // }
 
   public:
-    void add_datagram_info(
-        const datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>& datagram_info)
+    // /**
+    //  * @brief This functions allows derived classes to add custom functionality
+    //  *
+    //  * @param datagram_info
+    //  */
+    // virtual void add_datagram_info_callback(
+    //     [[maybe_unused]] const type_DatagramInfo_ptr& datagram_info)
+    // {
+    // }
+
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
         _datagram_infos_all.push_back(datagram_info);
         _datagram_infos_by_type.at(datagram_info->get_datagram_identifier())
             .push_back(datagram_info);
+
+        //add_datagram_info_callback(datagram_info);
     }
 
-    void add_datagram_infos(
-        const std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>&
-            datagram_infos)
+    void add_datagram_infos(const std::vector<type_DatagramInfo_ptr>& datagram_infos)
     {
         for (const auto& datagram_info : datagram_infos)
         {
@@ -90,8 +98,7 @@ class I_DatagramInterface
         }
     }
 
-    void set_datagram_infos(
-        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>> datagram_infos)
+    void set_datagram_infos(std::vector<type_DatagramInfo_ptr> datagram_infos)
     {
         _datagram_infos_all = std::move(datagram_infos);
 
@@ -112,13 +119,12 @@ class I_DatagramInterface
     // void init_from_file() {};
 
     // ----- direct container access -----
-    std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>
-    get_datagram_infos_all() const
+    std::vector<type_DatagramInfo_ptr> get_datagram_infos_all() const
     {
         return _datagram_infos_all;
     }
-    const std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>>&
-    get_datagram_infos_by_type(t_DatagramIdentifier type) const
+    const std::vector<type_DatagramInfo_ptr>& get_datagram_infos_by_type(
+        t_DatagramIdentifier type) const
     {
         return _datagram_infos_by_type.at(type);
     }

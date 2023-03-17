@@ -198,7 +198,7 @@ class WaterColumnDatagramBeam
         tools::classhelper::ObjectPrinter printer("WaterColumnDatagramBeam", float_precision);
 
         // raw values
-        printer.register_value("_beam_pointing_angle", _beam_pointing_angle, "0.01°");
+        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "0.01°");
 
         printer.register_value("start_range_sample_number", _start_range_sample_number);
         printer.register_value("number_of_samples", _number_of_samples);

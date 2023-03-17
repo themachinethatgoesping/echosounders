@@ -109,6 +109,7 @@ class EM3000PingDataInterfacePerFile
                         auto& ping = pings_by_counter.at(ping_counter);
 
                         ping->raw_data().add_datagram_info(datagram_ptr);
+                        //ping->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }

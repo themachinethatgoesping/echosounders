@@ -52,7 +52,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     // raw data
     EM3000PingRawData<t_ifstream> _raw_data;
 
-    using t_base = filetemplates::datatypes::I_Ping;
+    using t_base                = filetemplates::datatypes::I_Ping;
+    using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
 
   public:
     EM3000Ping(size_t                                   file_nr,
@@ -77,6 +78,16 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
+
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
+    {
+        // update timestamp if it is much smaller or larger than the current one
+        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
+            _timestamp > datagram_info->get_timestamp())
+            _timestamp = datagram_info->get_timestamp();
+
+        _raw_data.add_datagram_info(datagram_info);
+    }
 
     // ----- I_Ping interface -----
     // size_t get_number_of_samples() const final { return _raw_data._ping_data.get_count(); }

@@ -49,6 +49,8 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string_view get_name() const { return "EM3000PingRawData"; }
 
+    // parameters (read when adding datagram infos)
+
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
     //     _datagram_info_raw_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
