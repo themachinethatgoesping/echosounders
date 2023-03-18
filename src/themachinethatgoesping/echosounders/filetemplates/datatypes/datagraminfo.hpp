@@ -92,6 +92,23 @@ class DatagramInfo
 
         return t_DatagramTypeFactory::from_stream(ifs, this->get_datagram_identifier());
     }
+
+    /**
+     * @brief same as above, but this function provides the skip data option (which is not avaliable
+     * for all datagram types)
+     *
+     * @tparam t_DatagramType
+     * @tparam t_DatagramTypeFactory
+     * @param skip_data
+     * @return t_DatagramType
+     */
+    template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
+    t_DatagramType read_datagram_from_file(bool skip_data)
+    {
+        auto& ifs = this->get_stream_and_seek();
+
+        return t_DatagramTypeFactory::from_stream(ifs, this->get_datagram_identifier(), skip_data);
+    }
 };
 
 template<typename t_DatagramIdentifier, typename t_ifstream>

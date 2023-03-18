@@ -1,4 +1,4 @@
-//sourcehash: 9262c8745b2922e686a6fa87276c6864e3d53df44be856e625152589af9e262d
+//sourcehash: 62cd4229e84f464553f6892c0c75dee5b5a4d89803b470ea341ec440b0acfb00
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,6 +67,18 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_input_file_manager = R"doc(< input file manager)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_read_datagram_from_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_read_datagram_from_file_2 =
+R"doc(same as above, but this function provides the skip data option (which
+is not avaliable for all datagram types)
+
+Template parameter ``t_DatagramType``:
+    $Template parameter ``t_DatagramTypeFactory``:
+
+Parameter ``skip_data``:
+    $Returns:
+
+t_DatagramType)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
 
