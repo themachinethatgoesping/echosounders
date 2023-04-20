@@ -210,20 +210,20 @@ class FileEM3000
 
         progress_bar.init(0., double(2), fmt::format("Initializing file interfaces"));
 
-        progress_bar.set_postfix("Initializing configuration");
+        progress_bar.set_prefix("Initializing configuration");
         _configuration_interface->init_from_file(force, progress_bar);
-        progress_bar.set_postfix("Initializing navigation");
+        progress_bar.set_prefix("Initializing navigation");
         _navigation_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
 
-        progress_bar.set_postfix("Initializing environment");
+        progress_bar.set_prefix("Initializing environment");
         _environment_interface->init_from_file(force, progress_bar);
-        progress_bar.set_postfix("Initializing annotation");
+        progress_bar.set_prefix("Initializing annotation");
         _annotation_interface->init_from_file(force, progress_bar);
-        progress_bar.set_postfix("Initializing other");
+        progress_bar.set_prefix("Initializing other");
         _otherfiledata_interface->init_from_file(force, progress_bar);
 
-        progress_bar.set_postfix("Initializing ping interface");
+        progress_bar.set_prefix("Initializing ping interface");
         _ping_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
         progress_bar.close(std::string("Done"));

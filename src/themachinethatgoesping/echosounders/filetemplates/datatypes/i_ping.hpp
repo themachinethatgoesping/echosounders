@@ -42,7 +42,7 @@ class I_Ping
     std::string_view get_name() const { return _name; }
 
     std::string _channel_id; ///< channel id of the transducer
-    double      _timestamp;  ///< Unix timestamp in seconds (saved in UTC0)
+    double      _timestamp = 0;  ///< Unix timestamp in seconds (saved in UTC0)
     navigation::datastructures::GeoLocationLatLon
         _geolocation; ///< Geolocation of the transducer (object that hold lat,lon and attitude of
                       /// the transducer). If not set manually, this variable is set by calling

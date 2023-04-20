@@ -82,7 +82,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
         // update timestamp if it is much smaller or larger than the current one
-        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
+        if (_timestamp < datagram_info->get_timestamp() ||
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
