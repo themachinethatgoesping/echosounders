@@ -17,6 +17,22 @@ namespace pymodule {
 namespace py_simrad {
 namespace py_filedatainterfaces {
 
+#define DOC_SimradDatagramInterface(ARG)                                                           \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simrad,                                                                                    \
+        filedatainterfaces,                                                                        \
+        SimradDatagramInterface,                                                                   \
+        ARG)
+
+#define DOC_I_DatagramInterface(ARG)                                                               \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_DatagramInterface,                                                                       \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
 {
@@ -31,19 +47,19 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
     //----- iterators via () operator -----
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self) {
+        [](const T_BaseClass& self, bool skip_data) {
+            if (skip_data)
+                return py::cast(self.template datagrams<datagrams::t_SimradDatagramVariant,
+                                                        datagrams::SimradSkipDataVariantFactory>());
+
             return py::cast(self.template datagrams<datagrams::t_SimradDatagramVariant,
                                                     datagrams::SimradDatagramVariant>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams),
+        py::arg("skip_data") = false);
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
+        [](const T_BaseClass& self, t_SimradDatagramIdentifier type, bool skip_data) {
             switch (type)
             {
                 case t_SimradDatagramIdentifier::MRU0:
@@ -57,73 +73,49 @@ void SimradDatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_SimradDatagramIdentifier::FIL1:
                     return py::cast(self.template datagrams<datagrams::FIL1>(type));
                 case t_SimradDatagramIdentifier::RAW3:
-                    return py::cast(self.template datagrams<datagrams::RAW3>(type));
+                    if (skip_data)
+                        return py::cast(self.template datagrams<
+                                        datagrams::RAW3,
+                                        datagrams::SimradSkipDataFactory<datagrams::RAW3>>(type));
+                    else
+                        return py::cast(self.template datagrams<datagrams::RAW3>(type));
                 default:
                     return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
             }
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
-        py::arg("datagram_type"));
+        DOC_I_DatagramInterface(datagrams_2),
+        py::arg("datagram_type"),
+        py::arg("skip_data") = false);
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradDatagram>(type));
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
+        DOC_I_DatagramInterface(datagrams_2),
         py::arg("datagram_type"));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self, t_SimradDatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::SimradUnknown>(type));
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
+        DOC_I_DatagramInterface(datagrams_2),
         py::arg("datagram_type"));
 
     cls.def("per_file",
             &T_BaseClass::per_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                simrad,
-                filedatainterfaces,
-                SimradDatagramInterface,
-                per_file),
+            DOC_SimradDatagramInterface(per_file),
             py::return_value_policy::reference_internal);
 
     // ----- ping convenience functions -----

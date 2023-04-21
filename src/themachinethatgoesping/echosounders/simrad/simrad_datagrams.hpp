@@ -39,6 +39,7 @@ namespace datagrams {
 using t_SimradDatagramVariant =
     std::variant<SimradDatagram, NME0, XML0, MRU0, RAW3, FIL1, TAG0, SimradUnknown>;
 
+
 struct SimradDatagramVariant
 {
     t_SimradDatagramVariant _datagram_variant;
@@ -51,7 +52,8 @@ struct SimradDatagramVariant
     }
 
     static t_SimradDatagramVariant from_stream(std::istream&              is,
-                                               t_SimradDatagramIdentifier datagram_type)
+                                               t_SimradDatagramIdentifier datagram_type,
+                                               bool                       skipped = false)
     {
         switch (datagram_type)
         {
@@ -66,7 +68,7 @@ struct SimradDatagramVariant
             case t_SimradDatagramIdentifier::FIL1:
                 return t_SimradDatagramVariant(FIL1::from_stream(is));
             case t_SimradDatagramIdentifier::RAW3:
-                return t_SimradDatagramVariant(RAW3::from_stream(is));
+                return t_SimradDatagramVariant(RAW3::from_stream(is, skipped));
             default:
                 return t_SimradDatagramVariant(SimradUnknown::from_stream(is, datagram_type));
         }
@@ -84,6 +86,25 @@ struct SimradDatagramVariant
     t_Datagram& operator()() const
     {
         return t_Datagram(_datagram_variant);
+    }
+};
+
+template<typename t_datagram>
+struct SimradSkipDataFactory
+{
+    static t_datagram from_stream(std::istream& is) { return t_datagram::from_stream(is, true); }
+
+    static t_datagram from_stream(std::istream& is, t_SimradDatagramIdentifier type)
+    {
+        return t_datagram::from_stream(is, type, true);
+    }
+};
+
+struct SimradSkipDataVariantFactory
+{
+    static t_SimradDatagramVariant from_stream(std::istream& is, t_SimradDatagramIdentifier type)
+    {
+        return SimradDatagramVariant::from_stream(is, type, true);
     }
 };
 

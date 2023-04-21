@@ -35,19 +35,6 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simrad;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-struct RAW3HeaderFactory
-{
-    static datagrams::RAW3 from_stream(std::istream& is)
-    {
-        return datagrams::RAW3::from_stream(is, true);
-    }
-
-    static datagrams::RAW3 from_stream(std::istream& is, t_SimradDatagramIdentifier type)
-    {
-        return datagrams::RAW3::from_stream(is, type, true);
-    }
-};
-
 void init_c_simraddatagramcontainer(pybind11::module& m)
 {
     using namespace py_filetemplates::py_datacontainers;
@@ -70,10 +57,11 @@ void init_c_simraddatagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::RAW3,
                                                         t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_RAW3");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::RAW3,
-                                                        t_SimradDatagramIdentifier,
-                                                        RAW3HeaderFactory>(
-        m, "SimradRawDatagramContainer_RAW3_header");
+    py_datagramcontainer::create_DatagramContainerTypes<
+        datagrams::RAW3,
+        t_SimradDatagramIdentifier,
+        datagrams::SimradSkipDataFactory<datagrams::RAW3>>(
+        m, "SimradRawDatagramContainer_RAW3_skipped_data");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::XML0,
                                                         t_SimradDatagramIdentifier>(
         m, "SimradRawDatagramContainer_XML0");
@@ -84,6 +72,10 @@ void init_c_simraddatagramcontainer(pybind11::module& m)
                                                         t_SimradDatagramIdentifier,
                                                         datagrams::SimradDatagramVariant>(
         m, "SimradRawDatagramContainer_Variant");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_SimradDatagramVariant,
+                                                        t_SimradDatagramIdentifier,
+                                                        datagrams::SimradSkipDataVariantFactory>(
+        m, "SimradRawDatagramContainer_Variant_skipped_data");
 }
 
 }

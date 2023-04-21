@@ -1,4 +1,4 @@
-//sourcehash: 0db31d896c688d115fe3428195394cca25c6214b79d34a05b5ee080e6094c332
+//sourcehash: e3c897687aea5d41c6367259cf3dfc8d418f9c205d33d9c8961b4ada77732207
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,6 +59,16 @@ ProgressBar class that is derived from I_ProgressBar
 
 Returns:
     I_ProgressBar&)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradSkipDataFactory = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradSkipDataFactory_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradSkipDataFactory_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradSkipDataVariantFactory = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradSkipDataVariantFactory_from_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
