@@ -56,11 +56,13 @@ void add_ping_data_interface(T_PyClass& cls)
     cls.def(
         "get_geolocation",
         &T_BaseClass::get_geolocation,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, geolocation));
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, geolocations),
+        py::arg("transducer_id"));
     cls.def(
         "set_geolocation",
         &T_BaseClass::set_geolocation,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, geolocation),
+        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, geolocations),
+        py::arg("transducer_id"),
         py::arg("geolocation_latlon"));
     cls.def(
         "get_file_nr",

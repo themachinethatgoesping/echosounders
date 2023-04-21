@@ -66,7 +66,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     //, _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
         /* set i_ping parameters */
-        this->_channel_id = param.build_channel_id();
+        set_channel_id(param.build_channel_id());
 
         // this->_timestamp = _raw_data._datagram_info_raw_data->get_timestamp();
     }

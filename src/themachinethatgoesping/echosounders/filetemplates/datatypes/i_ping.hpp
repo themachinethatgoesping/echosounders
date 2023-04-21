@@ -41,13 +41,14 @@ class I_Ping
   protected:
     std::string_view get_name() const { return _name; }
 
-    std::string _channel_id; ///< channel id of the transducer
-    double      _timestamp = 0;  ///< Unix timestamp in seconds (saved in UTC0)
-    navigation::datastructures::GeoLocationLatLon
-        _geolocation; ///< Geolocation of the transducer (object that hold lat,lon and attitude of
-                      /// the transducer). If not set manually, this variable is set by calling
-                      /// file.I_navigation.get_geolocation(ping.get_channel_id(),
-                      /// ping.get_timestamp()).
+    std::string _channel_id;    ///< channel id of the transducer
+    double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    std::map<std::string, navigation::datastructures::GeoLocationLatLon>
+        _geolocations; ///< Geolocation of the transducer with the specified transducer_id. A
+                       /// Geolocation object holds lat,lon and attitude of
+                       /// the transducer. If not set manually, this variable is set by calling
+                       /// file.I_navigation.get_geolocation(ping.get_channel_id(),
+                       /// ping.get_timestamp()).
 
   public:
     I_Ping(std::string_view name)
@@ -61,11 +62,25 @@ class I_Ping
     double             get_timestamp() const { return _timestamp; }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
     void               set_timestamp(double timestamp) { _timestamp = timestamp; }
-    const navigation::datastructures::GeoLocationLatLon& get_geolocation() { return _geolocation; }
-
-    void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
+    const navigation::datastructures::GeoLocationLatLon& get_geolocation(std::string transducer_id)
     {
-        _geolocation = std::move(geolocation);
+        return _geolocations.at(transducer_id);
+    }
+    std::vector<std::string> get_transducer_ids() const
+    {
+        std::vector<std::string> transducer_ids;
+
+        /* return the keys from _geolocations */
+        for (const auto& [k, v] : _geolocations)
+            transducer_ids.push_back(k);
+
+        return transducer_ids;
+    }
+
+    void set_geolocation(const std::string&                            transducer_id,
+                         navigation::datastructures::GeoLocationLatLon geolocation)
+    {
+        _geolocations[transducer_id] = std::move(geolocation);
     }
 
     virtual size_t get_file_nr() const { throw not_implemented("get_file_nr", this->get_name()); }
@@ -172,8 +187,12 @@ class I_Ping
         else
             printer.register_string("Features", features);
 
-        printer.register_section("Transducer location");
-        printer.append(this->_geolocation.__printer__(float_precision));
+        printer.register_section("Transducer locations");
+        for (const auto& [k, v] : this->_geolocations)
+        {
+            printer.register_section(k, '^');
+            printer.append(v.__printer__(float_precision));
+        }
 
         return printer;
     }

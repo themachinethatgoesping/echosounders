@@ -1,4 +1,4 @@
-//sourcehash: f5896bbe11e4d843437680801331573d07dbc54a0d3ccd24b0a5182c4f145447
+//sourcehash: 579d83233e9ab26635c72567d679ece041bf2bf10818a27dfa26c48f3d0f72d1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping =
-R"doc(the transducer). If not set manually, this variable is set by calling
+R"doc(Geolocation object holds lat,lon and attitude of the transducer. If
+not set manually, this variable is set by calling
 file.I_navigation.get_geolocation(ping.get_channel_id(),
 ping.get_timestamp()).)doc";
 
@@ -49,9 +50,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_feature_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation =
-R"doc(< Geolocation of the transducer (object that hold lat,lon and attitude
-of)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocations = R"doc(< Geolocation of the transducer with the specified transducer_id. A)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle =
 R"doc(Compute the launch angle of the (sinle) target within each sample. If
@@ -95,6 +94,8 @@ Returns:
     xt::xtensor<float, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
 
