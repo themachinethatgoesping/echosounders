@@ -1,4 +1,4 @@
-//sourcehash: f63d549912bf82c1c4397eb04e4124ba1e67e701e3100239a9e43703dcc0e35e
+//sourcehash: 966601f17c1c225068a9850d5882bf23f5c37fbd0038138fe7e7b19baad4f466
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,15 +52,17 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_is_dual_rx = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_is_dual_rx_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_raw_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_raw_data_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_raw_data_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_set_geolocations = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

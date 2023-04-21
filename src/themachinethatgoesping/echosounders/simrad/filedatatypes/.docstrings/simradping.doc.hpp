@@ -1,4 +1,4 @@
-//sourcehash: 470f6152d9c11ae22852a4f9fb100cd491245aa2126747403938b620f0850c13
+//sourcehash: 52a30cc3b05c7e2a0f0e96bb2624846c70302ab5d560f4b2d63bdff1e7a01ff8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -109,6 +109,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_raw_data_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_set_geolocation = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

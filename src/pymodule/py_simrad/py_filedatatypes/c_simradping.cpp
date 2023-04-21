@@ -54,11 +54,18 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
                  DOC_SimradPing(get_sv_stacked),
                  py::arg("dB") = false)
 
+            // --- ping interface extension ---
+            .def("set_geolocation",
+                 py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
+                     &t_SimradPing::set_geolocation),
+                 DOC_SimradPing(set_geolocation),
+                 py::arg("geolocation_latlon"))
+
             // --- raw_data data access ---
-            .def_property_readonly("raw_data",
-                                   &t_SimradPing::raw_data,
-                                   DOC_SimradPing(raw_data),
-                                   py::return_value_policy::reference_internal)
+            .def("raw_data",
+                 &t_SimradPing::raw_data,
+                 DOC_SimradPing(raw_data),
+                 py::return_value_policy::reference_internal)
 
         // --- variable access ---
 

@@ -66,7 +66,7 @@ class I_Ping
     {
         return _geolocations.at(transducer_id);
     }
-    std::vector<std::string> get_transducer_ids() const
+    virtual std::vector<std::string> get_transducer_ids() const
     {
         std::vector<std::string> transducer_ids;
 
@@ -188,6 +188,7 @@ class I_Ping
             printer.register_string("Features", features);
 
         printer.register_section("Transducer locations");
+        printer.register_container("transducer_ids", get_transducer_ids());
         for (const auto& [k, v] : this->_geolocations)
         {
             printer.register_section(k, '^');

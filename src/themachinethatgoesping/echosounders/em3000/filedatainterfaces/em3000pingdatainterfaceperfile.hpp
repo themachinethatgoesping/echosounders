@@ -97,8 +97,9 @@ class EM3000PingDataInterfacePerFile
                         // read the ping counter
                         auto& ifs = datagram_ptr->get_stream_and_seek();
                         ifs.seekg(16, std::ios::cur); // skip header
-                        uint16_t ping_counter;
+                        uint16_t ping_counter, system_serial_number;
                         ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(uint16_t));
+                        ifs.read(reinterpret_cast<char*>(&system_serial_number), sizeof(uint16_t));
 
                         // create a new ping if it does not exist
                         if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
@@ -108,8 +109,8 @@ class EM3000PingDataInterfacePerFile
 
                         auto& ping = pings_by_counter.at(ping_counter);
 
-                        //ping->raw_data().add_datagram_info(datagram_ptr);
-                        ping->add_datagram_info(datagram_ptr);
+                        // ping->raw_data().add_datagram_info(datagram_ptr);
+                        ping->add_datagram_info(datagram_ptr, system_serial_number);
                     }
                     break;
                 }
@@ -122,7 +123,15 @@ class EM3000PingDataInterfacePerFile
         // loop through map and copy pings to vector
         t_pingcontainer pings;
         for (auto [ping_counter, ping_ptr] : pings_by_counter)
+        {
+            // load transducer locations from navigation
+            for (const auto& id : ping_ptr->get_transducer_ids())
+                ping_ptr->set_geolocation(id,
+                                          this->navigation_data_interface().get_geolocation(
+                                              id, ping_ptr->get_timestamp()));
+
             pings.add_ping(std::move(ping_ptr));
+        }
 
         return pings;
     }

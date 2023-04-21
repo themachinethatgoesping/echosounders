@@ -47,10 +47,10 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     std::string _file_path;
 
     // flags
-    bool _is_dual_rx;
 
     // raw data
-    EM3000PingRawData<t_ifstream> _raw_data;
+    // key = transducer_id ("TRX-'system_serial_number'")
+    std::map<std::string, EM3000PingRawData<t_ifstream>> _raw_data;
 
     using t_base                = filetemplates::datatypes::I_Ping;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
@@ -62,7 +62,6 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         : t_base("EM3000Ping")
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
-        , _is_dual_rx(param.is_dual_rx())
     //, _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
         /* set i_ping parameters */
@@ -72,21 +71,61 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     }
     virtual ~EM3000Ping() = default;
 
-    EM3000PingRawData<t_ifstream>& raw_data() { return _raw_data; }
+    EM3000PingRawData<t_ifstream>& raw_data(const std::string& transducer_id)
+    {
+        return _raw_data.at(transducer_id);
+    }
 
-    bool is_dual_rx() const { return _is_dual_rx; }
+   std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data()
+    {
+        return _raw_data;
+    }
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
 
-    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info,
+                           uint16_t                     system_serial_number)
     {
         // update timestamp if it is much smaller or larger than the current one
         if (_timestamp < datagram_info->get_timestamp() ||
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        _raw_data.add_datagram_info(datagram_info);
+        switch (datagram_info->get_datagram_identifier())
+        {
+            case t_EM3000DatagramIdentifier::WaterColumnDatagram: {
+                // auto datagram =
+                //     datagram_info->template
+                //     read_datagram_from_file<datagrams::WaterColumnDatagram>(
+                //         true);
+                break;
+            }
+            default:
+                break;
+        }
+
+        _raw_data[fmt::format("TRX-{}",system_serial_number)].add_datagram_info(datagram_info);
+    }
+
+    std::vector<std::string> get_transducer_ids() const override
+    {
+        std::vector<std::string> transducer_ids;
+
+        /* return the keys from _geolocations */
+        for (const auto& [k, v] : _raw_data)
+            transducer_ids.push_back(k);
+
+        return transducer_ids;
+    }
+
+
+    void set_geolocations()
+    {
+        for (const auto& [k,v] : _raw_data)
+        {
+           // this->set_geolocation();
+        }
     }
 
     // ----- I_Ping interface -----
@@ -176,7 +215,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
         printer.append(t_base::__printer__(float_precision));
 
-        // printer.register_section("EM3000 ping infos");
+        //printer.register_section("EM3000 ping infos");
+
         // printer.register_string(
         //     "Sample data type",
         //     std::string(magic_enum::enum_name(_raw_data._ping_data.get_data_type())));

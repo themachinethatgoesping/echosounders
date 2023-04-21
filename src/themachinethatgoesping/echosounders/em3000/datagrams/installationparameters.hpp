@@ -657,7 +657,7 @@ class InstallationParameters : public EM3000Datagram
      */
     uint8_t get_active_position_system_number() const
     {
-        return std::stoi(get_value_string("ARO")) + 1;
+        return std::stoi(get_value_string("APS")) + 1;
     }
 
     /**

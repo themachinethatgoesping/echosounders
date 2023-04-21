@@ -53,14 +53,25 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                    //      DOC_EM3000Ping(get_sv_stacked),
                    //      py::arg("dB") = false)
 
-                   // --- raw_data data access ---
-                   .def_property_readonly("raw_data",
-                                          &t_EM3000Ping::raw_data,
-                                          DOC_EM3000Ping(raw_data),
-                                          py::return_value_policy::reference_internal)
+                   .def("get_transducer_ids",
+                        &t_EM3000Ping::get_transducer_ids,
+                        DOC_EM3000Ping(get_transducer_ids))
 
-                   // --- variable access ---
-                   .def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
+                   // --- ping interface extension ---
+
+                   // --- raw_data data access ---
+                   .def("raw_data",
+                        py::overload_cast<const std::string&>(&t_EM3000Ping::raw_data),
+                        DOC_EM3000Ping(raw_data),
+                        py::return_value_policy::reference_internal,
+                        py::arg("transducer_id"))
+                   .def("raw_data",
+                        py::overload_cast<>(&t_EM3000Ping::raw_data),
+                        DOC_EM3000Ping(raw_data),
+                        py::return_value_policy::reference_internal)
+
+        // --- variable access ---
+        //.def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
 
         // ----- operators -----
         // .def("__eq__",

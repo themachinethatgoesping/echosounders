@@ -124,10 +124,8 @@ class EM3000ConfigurationDataInterfacePerFile
         {
             case 0: // Single TX + single RX
             {
-                auto tx = param.get_transducer_offsets(
-                    1, "TX-" + std::to_string(param.get_tx_serial_number()));
-                auto rx = param.get_transducer_offsets(
-                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+                auto tx = param.get_transducer_offsets(1, "TX");
+                auto rx = param.get_transducer_offsets(2, "RX");
 
                 auto trx = PositionalOffsets::from_txrx(
                     tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
