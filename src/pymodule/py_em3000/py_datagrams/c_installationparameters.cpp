@@ -149,7 +149,7 @@ void init_c_installationparameters(pybind11::module& m)
         .def("get_tx2_serial_number",
              &InstallationParameters::get_tx2_serial_number,
              DOC_InstallationParameters(get_tx2_serial_number))
-        .def("get_tx_serial_number",
+        .def("get_rx1_serial_number",
              &InstallationParameters::get_rx1_serial_number,
              DOC_InstallationParameters(get_rx1_serial_number))
         .def("get_rx2_serial_number",
