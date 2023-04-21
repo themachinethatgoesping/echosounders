@@ -41,12 +41,17 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
 {
     using t_EM3000PingRawData = filedatatypes::EM3000PingRawData<T_FileStream>;
 
-    auto cls = py::class_<t_EM3000PingRawData>(
-        m,
-        (CLASS_NAME).c_str(),
-        DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingRawData))
+    auto cls =
+        py::class_<t_EM3000PingRawData>(
+            m,
+            (CLASS_NAME).c_str(),
+            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingRawData))
 
-        // --- raw_data data access ---
+            // --- raw_data data access ---
+            .def("read_merged_watercolumndatagram",
+                 &t_EM3000PingRawData::read_merged_watercolumndatagram,
+                 DOC_EM3000PingRawData(read_merged_watercolumndatagram),
+                 py::arg("skip_data") = false)
         // .def_readonly("ping_data",
         //               &t_EM3000PingRawData::_ping_data,
         //               DOC_EM3000PingRawData(ping_data),

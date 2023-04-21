@@ -1,4 +1,4 @@
-//sourcehash: 9a9a08bf3717373b9e7034ae2ee78b0a8df4a7fd53934a08d4f122bf390f95e0
+//sourcehash: ac47dce87ef4ce547aad17bcf8445d79bd490fb0eecfbeac0f4935951009ffcf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_WaterColumnDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_WaterColumnDatagram_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_append_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_beams = R"doc()doc";
 

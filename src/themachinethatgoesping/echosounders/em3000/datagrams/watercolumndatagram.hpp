@@ -225,7 +225,7 @@ class WaterColumnDatagram : public EM3000Datagram
         // read the beams
         datagram._beams.reserve(datagram._number_of_beams_in_datagram);
         for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
-            datagram._beams.emplace_back(
+            datagram._beams.push_back(
                 substructures::WaterColumnDatagramBeam::from_stream(is, skip_data));
 
         // read the rest of the datagram
@@ -248,6 +248,74 @@ class WaterColumnDatagram : public EM3000Datagram
                                            bool                       skip_data = false)
     {
         return from_stream(is, EM3000Datagram::from_stream(is, datagram_identifier), skip_data);
+    }
+
+    void append_from_stream(std::istream& is)
+    {
+        bool skip_data = _beams.at(0).get_samples_are_skipped();
+
+        /* skip header + ping_counter - number of datagrams*/
+        is.seekg(22, std::ios_base::cur);
+
+        /* read important variables */
+        struct
+        {
+            uint16_t datagram_number;
+            uint16_t number_of_transmit_sectors;
+            uint16_t total_no_of_receive_beams;
+            uint16_t number_of_beams_in_datagram;
+        } data;
+
+        is.read(reinterpret_cast<char*>(&data.datagram_number), sizeof(data));
+
+        /* check if number of beams makes sense */
+        if (_number_of_beams_in_datagram + data.number_of_beams_in_datagram >
+            _total_no_of_receive_beams)
+            throw std::runtime_error(
+                fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: number of append "
+                            "beams [{}] exceeds total number of beams [{}/{}]",
+                            data.number_of_beams_in_datagram,
+                            _number_of_beams_in_datagram,
+                            _total_no_of_receive_beams));
+
+        /* sanity checks */
+        if (data.datagram_number > _number_of_datagrams)
+            throw std::runtime_error(
+                fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: datagram number "
+                            "exceeds number of datagrams [{}/{}]",
+                            data.datagram_number,
+                            _number_of_datagrams));
+        if (data.number_of_transmit_sectors > _number_of_transmit_sectors)
+            throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
+                                                 "number_of_transmit_sectors missmatch [{}/{}]",
+                                                 data.number_of_transmit_sectors,
+                                                 _number_of_transmit_sectors));
+        if (data.total_no_of_receive_beams > _total_no_of_receive_beams)
+            throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
+                                                 "total_no_of_receive_beams missmatch [{}/{}]",
+                                                 data.total_no_of_receive_beams,
+                                                 _total_no_of_receive_beams));
+
+        /* skip the rest of the data and the transmit sectors */
+        is.seekg(14 + data.number_of_transmit_sectors *
+                          sizeof(substructures::WaterColumnDatagramTransmitSector),
+                 std::ios_base::cur);
+
+        /* update new number of beams in datagram */
+        _number_of_beams_in_datagram += data.number_of_beams_in_datagram;
+
+        // read the additional beams
+        _beams.reserve(_total_no_of_receive_beams);
+        for (auto i = 0; i < data.number_of_beams_in_datagram; ++i)
+            _beams.push_back(substructures::WaterColumnDatagramBeam::from_stream(is, skip_data));
+
+        // read the rest of the datagram
+        is.read(reinterpret_cast<char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
+
+        if (_etx != 0x03)
+            throw std::runtime_error(
+                fmt::format("WaterColumnDatagram: end identifier is not 0x03, but 0x{:x}",
+                _etx));
     }
 
     void to_stream(std::ostream& os)
