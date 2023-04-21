@@ -101,6 +101,7 @@ class EM3000ConfigurationDataInterfacePerFile
     navigation::SensorConfiguration read_sensor_configuration() final
     {
         navigation::SensorConfiguration config;
+        using navigation::datastructures::PositionalOffsets;
 
         /* get the installation parameters datagram */
         auto param = this->get_installation_parameters();
@@ -122,33 +123,90 @@ class EM3000ConfigurationDataInterfacePerFile
         switch (param.get_value_int("STC"))
         {
             case 0: // Single TX + single RX
-                config.add_target("TX", param.get_transducer_offsets(1, "TX"));
-                config.add_target("RX", param.get_transducer_offsets(2, "RX"));
+            {
+                auto tx = param.get_transducer_offsets(
+                    1, "TX-" + std::to_string(param.get_tx_serial_number()));
+                auto rx = param.get_transducer_offsets(
+                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+
+                auto trx = PositionalOffsets::from_txrx(
+                    tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx.name, std::move(rx));
+                config.add_target(trx.name, std::move(trx));
                 break;
-            case 1: // Single head
-                config.add_target("Head", param.get_transducer_offsets(1, "Head"));
-                break;
-            case 2: // Dual head
-                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
-                config.add_target("Head 2", param.get_transducer_offsets(2, "Head 2"));
-                break;
-            case 3: // Single TX + dual RX
-                config.add_target("TX", param.get_transducer_offsets(1, "TX"));
-                config.add_target("RX port", param.get_transducer_offsets(2, "RX port"));
-                config.add_target("RX starboard", param.get_transducer_offsets(3, "RX starboard"));
-                break;
-            case 4: // Dual TX + dual RX
-                config.add_target("TX port", param.get_transducer_offsets(0, "TX port"));
-                config.add_target("TX starboard", param.get_transducer_offsets(1, "TX starboard"));
-                config.add_target("RX port", param.get_transducer_offsets(2, "RX port"));
-                config.add_target("RX starboard", param.get_transducer_offsets(3, "RX starboard"));
-                break;
+            }
             case 5: // Portable single head
-                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
-                break;
+                [[fallthrough]];
             case 6: // Modular
-                config.add_target("Head 1", param.get_transducer_offsets(1, "Head 1"));
+                [[fallthrough]];
+            case 1: // Single head
+            {
+                auto trx = param.get_transducer_offsets(
+                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
+
+                config.add_target(trx.name, std::move(trx));
                 break;
+            }
+            case 2: // Dual head
+            {
+
+                auto trx1 = param.get_transducer_offsets(
+                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
+                auto trx2 = param.get_transducer_offsets(
+                    2, "TRX-" + std::to_string(param.get_secondary_system_serial_number()));
+
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+                break;
+            }
+            case 3: // Single TX + dual RX
+            {
+                auto tx = param.get_transducer_offsets(
+                    1, "TX-" + std::to_string(param.get_tx_serial_number()));
+                auto rx1 = param.get_transducer_offsets(
+                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+                auto rx2 = param.get_transducer_offsets(
+                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
+
+                auto trx1 = PositionalOffsets::from_txrx(
+                    tx, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+                auto trx2 = PositionalOffsets::from_txrx(
+                    tx, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+
+                break;
+            }
+            case 4: // Dual TX + dual RX
+            {
+                auto tx1 = param.get_transducer_offsets(
+                    0, "TX-" + std::to_string(param.get_tx_serial_number()));
+                auto tx2 = param.get_transducer_offsets(
+                    1, "TX-" + std::to_string(param.get_tx2_serial_number()));
+                auto rx1 = param.get_transducer_offsets(
+                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+                auto rx2 = param.get_transducer_offsets(
+                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
+
+                auto trx1 = PositionalOffsets::from_txrx(
+                    tx1, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+                auto trx2 = PositionalOffsets::from_txrx(
+                    tx2, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                config.add_target(tx1.name, std::move(tx1));
+                config.add_target(tx2.name, std::move(tx2));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+                break;
+            }
             default:
                 throw std::runtime_error(
                     fmt::format("read_sensor_configuration: Unknown STC "
