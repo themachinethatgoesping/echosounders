@@ -99,6 +99,13 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
+        // sort primary interfaces by first time stamp (to speed up merging)
+        std::sort(primary_interfaces_per_file.begin(),
+                  primary_interfaces_per_file.end(),
+                  [](const auto& a, const auto& b) {
+                      return a->get_timestamp_first() < b->get_timestamp_first();
+                  });
+
         // // init configuration interface
         // if (!this->_configuration_data_interface->initialized())
         // {

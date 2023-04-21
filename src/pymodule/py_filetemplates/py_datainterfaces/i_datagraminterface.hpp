@@ -42,6 +42,10 @@ void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
     //         DOC_DatagramInterface(datagram_identifier_info),
     //         py::arg("datagram_identifier"));
 
+    cls.def("get_timestamp_first",
+            &T_BaseClass::get_timestamp_first,
+            DOC_DatagramInterface(get_timestamp_first));
+
     cls.def("keys", &T_BaseClass::keys, DOC_DatagramInterface(keys));
 }
 

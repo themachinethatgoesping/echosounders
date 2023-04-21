@@ -119,6 +119,8 @@ class I_FileDataInterface
         std::vector<std::shared_ptr<t_filedatainterface_perfile>> primary_files;
         for (const auto& file : _interface_per_file)
         {
+            file->get_timestamp_first();
+
             if (file->is_primary_file())
                 primary_files.push_back(file);
         }
