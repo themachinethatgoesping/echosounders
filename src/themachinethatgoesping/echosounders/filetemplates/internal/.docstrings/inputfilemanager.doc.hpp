@@ -1,4 +1,4 @@
-//sourcehash: 12097f807c8f0cd1d2e6e3f0254e5103914f059c600740fd457224cd9808e6b3
+//sourcehash: a03aa9d2cb4dd10e16a9367c216025be86818e7091ce8ec81af284c0d90e2ac4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,7 +42,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_inter
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_InputFileManager = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_nr = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_append_file = R"doc()doc";
 
@@ -56,7 +56,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_inter
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_total_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_input_file_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_max_streams_open = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_printer = R"doc()doc";
 

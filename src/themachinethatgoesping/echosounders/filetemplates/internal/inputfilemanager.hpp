@@ -38,8 +38,12 @@ class InputFileManager
     size_t _total_file_size = 0;
 
     /* the actual input file stream */
-    std::unique_ptr<t_ifstream> _input_file_stream;
-    long                        active_file_nr = -1;
+    const size_t                                  _max_streams_open = 5;
+    std::map<size_t, std::unique_ptr<t_ifstream>> _active_file_streams;
+    std::deque<size_t>                            _active_file_numbers;
+
+    // std::unique_ptr<t_ifstream> _input_file_stream;
+    // long                        active_file_nr = -1;
 
     // datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
 
@@ -55,24 +59,46 @@ class InputFileManager
         if (!ifi->is_open())
             throw std::runtime_error("Could not open file: " + file_path);
 
-        _input_file_stream = std::move(ifi);
-        active_file_nr     = _file_paths->size() - 1;
+        //_input_file_stream = std::move(ifi);
+        // active_file_nr     = _file_paths->size() - 1;
 
         _total_file_size += std::filesystem::file_size(file_path);
         _file_paths->push_back(file_path);
 
-        return *_input_file_stream;
+        return get_active_stream(_file_paths->size() - 1);
+
+        // return *_input_file_stream;
     }
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
-        if (long(file_nr) != active_file_nr)
+        auto afs_iterator = _active_file_streams.find(file_nr);
+
+        if (afs_iterator != _active_file_streams.end())
         {
-            active_file_nr = long(file_nr);
-            _input_file_stream =
-                std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
+            return *afs_iterator->second;
         }
-        return *_input_file_stream;
+
+        _active_file_streams[file_nr] =
+            std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
+        _active_file_numbers.push_back(file_nr);
+
+        while (_active_file_numbers.size() > _max_streams_open)
+        {
+            _active_file_streams.erase(_active_file_numbers[0]);
+            _active_file_numbers.pop_front();
+        }
+
+        return *_active_file_streams.at(file_nr);
+
+        //     if (long(file_nr) != active_file_nr)
+        //     {
+        //         active_file_nr = long(file_nr);
+        //         _input_file_stream =
+        //             std::make_unique<t_ifstream>(_file_paths->at(file_nr),
+        //             std::ios_base::binary);
+        //     }
+        //     return *_input_file_stream;
     }
 
     const std::shared_ptr<std::vector<std::string>>& get_file_paths() const { return _file_paths; }
