@@ -85,7 +85,8 @@ struct EM3000DatagramVariant
     }
 
     static t_EM3000DatagramVariant from_stream(std::istream&              is,
-                                               t_EM3000DatagramIdentifier datagram_type)
+                                               t_EM3000DatagramIdentifier datagram_type,
+                                               bool                       skip_data = false)
     {
         // EM3000DATAGRAMTYPEAREA
         switch (datagram_type)
@@ -99,7 +100,7 @@ struct EM3000DatagramVariant
             case t_EM3000DatagramIdentifier::SeabedImageData:
                 return t_EM3000DatagramVariant(SeabedImageData::from_stream(is));
             case t_EM3000DatagramIdentifier::WaterColumnDatagram:
-                return t_EM3000DatagramVariant(WaterColumnDatagram::from_stream(is));
+                return t_EM3000DatagramVariant(WaterColumnDatagram::from_stream(is, skip_data));
             case t_EM3000DatagramIdentifier::QualityFactorDatagram:
                 return t_EM3000DatagramVariant(datagrams::QualityFactorDatagram::from_stream(is));
             case t_EM3000DatagramIdentifier::AttitudeDatagram:
@@ -153,6 +154,25 @@ struct EM3000DatagramVariant
     t_Datagram& operator()() const
     {
         return t_Datagram(_datagram_variant);
+    }
+};
+
+template<typename t_datagram>
+struct EM3000SkipDataFactory
+{
+    static t_datagram from_stream(std::istream& is) { return t_datagram::from_stream(is, true); }
+
+    static t_datagram from_stream(std::istream& is, t_EM3000DatagramIdentifier type)
+    {
+        return t_datagram::from_stream(is, type, true);
+    }
+};
+
+struct EM3000SkipDataVariantFactory
+{
+    static t_EM3000DatagramVariant from_stream(std::istream& is, t_EM3000DatagramIdentifier type)
+    {
+        return EM3000DatagramVariant::from_stream(is, type, true);
     }
 };
 

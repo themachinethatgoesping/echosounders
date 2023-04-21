@@ -37,6 +37,8 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
+#define DOC_FileEM3000(ARG) DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ARG)
+
 // #define CLASS_FILEEM3000(FileEM3000<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
 void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
@@ -58,43 +60,37 @@ void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
     cls.def_property_readonly(
         "configuration_interface",
         py::overload_cast<>(&FileEM3000<T_FileStream>::configuration_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, configuration_interface));
-    cls.def_property_readonly(
-        "navigation_interface",
-        py::overload_cast<>(&FileEM3000<T_FileStream>::navigation_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, navigation_interface));
-    cls.def_property_readonly(
-        "environment_interface",
-        py::overload_cast<>(&FileEM3000<T_FileStream>::environment_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, environment_interface));
-    cls.def_property_readonly(
-        "annotation_interface",
-        py::overload_cast<>(&FileEM3000<T_FileStream>::annotation_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, annotation_interface));
+        DOC_FileEM3000(configuration_interface));
+    cls.def_property_readonly("navigation_interface",
+                              py::overload_cast<>(&FileEM3000<T_FileStream>::navigation_interface),
+                              DOC_FileEM3000(navigation_interface));
+    cls.def_property_readonly("environment_interface",
+                              py::overload_cast<>(&FileEM3000<T_FileStream>::environment_interface),
+                              DOC_FileEM3000(environment_interface));
+    cls.def_property_readonly("annotation_interface",
+                              py::overload_cast<>(&FileEM3000<T_FileStream>::annotation_interface),
+                              DOC_FileEM3000(annotation_interface));
     cls.def_property_readonly(
         "otherfiledata_interface",
         py::overload_cast<>(&FileEM3000<T_FileStream>::otherfiledata_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, otherfiledata_interface));
-    cls.def_property_readonly(
-        "ping_interface",
-        py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
-        DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, ping_interface));
+        DOC_FileEM3000(otherfiledata_interface));
+    cls.def_property_readonly("ping_interface",
+                              py::overload_cast<>(&FileEM3000<T_FileStream>::ping_interface),
+                              DOC_FileEM3000(ping_interface));
 
     cls.def("pings",
             py::overload_cast<>(&FileEM3000<T_FileStream>::pings, py::const_),
-            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings));
+            DOC_FileEM3000(pings));
     cls.def("pings",
             py::overload_cast<const std::string&>(&FileEM3000<T_FileStream>::pings, py::const_),
-            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_2),
+            DOC_FileEM3000(pings_2),
             py::arg("channel_id"));
     cls.def("pings",
             py::overload_cast<const std::vector<std::string>&>(&FileEM3000<T_FileStream>::pings,
                                                                py::const_),
-            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, pings_3),
+            DOC_FileEM3000(pings_3),
             py::arg("channel_ids"));
-    cls.def("channel_ids",
-            &FileEM3000<T_FileStream>::channel_ids,
-            DOC(themachinethatgoesping, echosounders, em3000, FileEM3000, channel_ids));
+    cls.def("channel_ids", &FileEM3000<T_FileStream>::channel_ids, DOC_FileEM3000(channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */

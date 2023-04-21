@@ -61,6 +61,11 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::WaterColumnDatagram,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_WaterColumnDatagram");
+    py_datagramcontainer::create_DatagramContainerTypes<
+        datagrams::WaterColumnDatagram,
+        t_EM3000DatagramIdentifier,
+        datagrams::EM3000SkipDataFactory<datagrams::WaterColumnDatagram>>(
+        m, "EM3000DatagramContainer_WaterColumnDatagram_SkippedData");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::QualityFactorDatagram,
                                                         t_EM3000DatagramIdentifier>(
         m, "EM3000DatagramContainer_QualityFactorDatagram");
@@ -111,6 +116,10 @@ void init_c_em3000datagramcontainer(pybind11::module& m)
                                                         t_EM3000DatagramIdentifier,
                                                         datagrams::EM3000DatagramVariant>(
         m, "EM3000DatagramContainer_Variant");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_EM3000DatagramVariant,
+                                                        t_EM3000DatagramIdentifier,
+                                                        datagrams::EM3000SkipDataVariantFactory>(
+        m, "EM3000DatagramContainer_Variant_SkippedData");
 }
 
 }

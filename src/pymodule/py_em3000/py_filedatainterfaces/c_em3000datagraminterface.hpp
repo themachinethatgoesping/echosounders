@@ -17,6 +17,22 @@ namespace pymodule {
 namespace py_em3000 {
 namespace py_filedatainterfaces {
 
+#define DOC_I_DatagramInterface(ARG)                                                               \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_DatagramInterface,                                                                       \
+        ARG)
+
+#define DOC_EM3000DatagramInterface(ARG)                                                           \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        em3000,                                                                                    \
+        filedatainterfaces,                                                                        \
+        EM3000DatagramInterface,                                                                   \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
 {
@@ -30,19 +46,19 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
     //----- iterators via () operator -----
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self) {
+        [](const T_BaseClass& self, bool skip_data) {
+            if (skip_data)
+                return py::cast(self.template datagrams<datagrams::t_EM3000DatagramVariant,
+                                                        datagrams::EM3000SkipDataVariantFactory>());
+
             return py::cast(self.template datagrams<datagrams::t_EM3000DatagramVariant,
                                                     datagrams::EM3000DatagramVariant>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams),
+        py::arg("skip_data") = false);
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self, t_EM3000DatagramIdentifier type) {
+        [](const T_BaseClass& self, t_EM3000DatagramIdentifier type, bool skip_data) {
             // EM3000DATAGRAMTYPEAREA
             switch (type)
             {
@@ -55,6 +71,11 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_EM3000DatagramIdentifier::SeabedImageData:
                     return py::cast(self.template datagrams<datagrams::SeabedImageData>(type));
                 case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                    if (skip_data)
+                        return py::cast(
+                            self.template datagrams<
+                                datagrams::WaterColumnDatagram,
+                                datagrams::EM3000SkipDataFactory<datagrams::WaterColumnDatagram>>(type));
                     return py::cast(self.template datagrams<datagrams::WaterColumnDatagram>(type));
                 case t_EM3000DatagramIdentifier::QualityFactorDatagram:
                     return py::cast(
@@ -100,68 +121,39 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                     return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
             }
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
-        py::arg("datagram_type"));
+        DOC_I_DatagramInterface(datagrams_2),
+        py::arg("datagram_type"),
+        py::arg("skip_data") = false);
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::EM3000Datagram>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagram_headers",
         [](const T_BaseClass& self, t_EM3000DatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::EM3000Datagram>(type));
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
+        DOC_I_DatagramInterface(datagrams_2),
         py::arg("datagram_type"));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self) {
             return py::cast(self.template datagrams<datagrams::EM3000Unknown>());
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams));
+        DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagrams_raw",
         [](const T_BaseClass& self, t_EM3000DatagramIdentifier type) {
             return py::cast(self.template datagrams<datagrams::EM3000Unknown>(type));
         },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_DatagramInterface,
-            datagrams_2),
+        DOC_I_DatagramInterface(datagrams_2),
         py::arg("datagram_type"));
 
     cls.def("per_file",
             &T_BaseClass::per_file,
-            DOC(themachinethatgoesping,
-                echosounders,
-                em3000,
-                filedatainterfaces,
-                EM3000DatagramInterface,
-                per_file),
+            DOC_EM3000DatagramInterface(per_file),
             py::return_value_policy::reference_internal);
 
     // ----- ping convenience functions -----
