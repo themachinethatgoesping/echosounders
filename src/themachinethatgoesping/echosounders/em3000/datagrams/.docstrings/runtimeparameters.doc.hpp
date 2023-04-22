@@ -1,4 +1,4 @@
-//sourcehash: 2f3c0045831f839a8fab9163e5844fbe99b25005ea16cc17440325937d54ce32
+//sourcehash: 1761dae13644a68e5c14d9aef93b975e77d8fca614e832b84b65a716c597644c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -249,6 +249,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_tvg_law_crossover_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_yaw_and_pitch_stabilization_mode = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_slow_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_sonar_head_or_transceiver_status = R"doc()doc";
 

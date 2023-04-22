@@ -48,13 +48,6 @@ class EM3000ConfigurationDataInterfacePerFile
     }
     ~EM3000ConfigurationDataInterfacePerFile() = default;
 
-    // ----- set/access runtime parameters -----
-    void add_runtime_parameters(double                                        timestamp,
-                                std::shared_ptr<datagrams::RuntimeParameters> runtime_parameters)
-    {
-        
-    }
-
     // ----- getters -----
     uint8_t get_active_position_system_number() const { return _active_position_system_number; }
     auto    get_active_pitch_roll_sensor() const { return _active_pitch_roll_sensor; }
