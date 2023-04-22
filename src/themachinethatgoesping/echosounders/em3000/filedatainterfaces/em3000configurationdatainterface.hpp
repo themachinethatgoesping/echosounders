@@ -44,6 +44,17 @@ class EM3000ConfigurationDataInterface
     }
     ~EM3000ConfigurationDataInterface() = default;
 
+    // ----- read specific packages -----
+    void add_runtime_parameters(size_t                                        file_nr,
+                                double                                        timestamp,
+                                std::shared_ptr<datagrams::RuntimeParameters> runtime_parameters)
+    {
+        this->add_file_interface(file_nr);
+
+        this->_interface_per_file[file_nr]->add_runtime_parameters(timestamp, std::move(runtime_parameters));
+        this->deinitialize();
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {

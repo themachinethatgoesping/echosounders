@@ -328,11 +328,18 @@ class FileEM3000
                 break;
             }
                 // Configuration datagrams
+            case t_EM3000DatagramIdentifier::RuntimeParameters: {
+                // read and store runtime parameters
+                _configuration_interface->add_datagram_info(datagram_info);
+                datagram_info->template read_datagram_from_file<datagrams::RuntimeParameters>();
+                // _configuration_interface->add_runtime_parameters(
+                //     datagram_info->template
+                //     read_datagram_from_file<datagrams::RuntimeParameters>());
+                break;
+            }
             case t_EM3000DatagramIdentifier::InstallationParametersStart:
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::InstallationParametersStop:
-                [[fallthrough]];
-            case t_EM3000DatagramIdentifier::RuntimeParameters:
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::ExtraParameters: {
                 _configuration_interface->add_datagram_info(datagram_info);

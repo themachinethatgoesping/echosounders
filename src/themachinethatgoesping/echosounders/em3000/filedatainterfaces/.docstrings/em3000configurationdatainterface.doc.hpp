@@ -1,4 +1,4 @@
-//sourcehash: fbcdd0220c7c0868c2a4b0edda16753282559fa2075e5c5a52134aa1b6690032
+//sourcehash: 729ef66e4ebf6f0c6b78af63cf25b8d529581dae1d19d23fd49d57fa62d558b9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterface_EM3000ConfigurationDataInterface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterface_add_runtime_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterface_printer = R"doc()doc";
 

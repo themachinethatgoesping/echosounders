@@ -398,6 +398,18 @@ class RuntimeParameters : public EM3000Datagram
         return printer;
     }
 
+    xxh::hash_t<64> slow_hash() const
+    {
+        // hash streaming
+        xxh::hash3_state_t<64> hash_stream;
+
+        // use all variables starting from system_serial number
+        // ignore e.g. timestamp and ping_counter to be useful in the deduplicate buffer
+        hash_stream.update(&_system_serial_number, 35);
+
+        return hash_stream.digest();
+    }
+
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(RuntimeParameters)

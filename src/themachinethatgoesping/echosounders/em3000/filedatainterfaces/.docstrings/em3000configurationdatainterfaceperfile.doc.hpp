@@ -1,4 +1,4 @@
-//sourcehash: 4440727d9c3d8a9cdaf2ec9b5c7fe4bfa7d9a591651caf9a4fd8014282951029
+//sourcehash: 90b84c4494094619771d3f86d9799c84bdc6fb670a2bee3ea16b446ca6f849eb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,6 +49,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainte
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_pitch_roll_sensor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_active_position_system_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_add_runtime_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000ConfigurationDataInterfacePerFile_get_active_heading_sensor = R"doc()doc";
 

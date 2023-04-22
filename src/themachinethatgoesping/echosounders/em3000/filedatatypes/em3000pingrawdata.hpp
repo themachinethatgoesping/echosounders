@@ -94,6 +94,9 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     // }
     ~EM3000PingRawData() = default;
 
+    // ----- load datagrams -----
+    
+
     // void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>
     // parameter)
     // {
