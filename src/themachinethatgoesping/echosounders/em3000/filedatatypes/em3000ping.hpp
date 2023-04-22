@@ -119,15 +119,6 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return transducer_ids;
     }
 
-
-    void set_geolocations()
-    {
-        for (const auto& [k,v] : _raw_data)
-        {
-           // this->set_geolocation();
-        }
-    }
-
     // ----- I_Ping interface -----
     // size_t get_number_of_samples() const final { return _raw_data._ping_data.get_count(); }
 
