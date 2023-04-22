@@ -1,4 +1,4 @@
-//sourcehash: 524afe08e69776728365ea709837d1b324c8eabe45e107dcd78de915b6546f58
+//sourcehash: d91d49dcefc419a769a2843bd6a2ee54568675d41d9f9528030e8cccd076b922
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,6 +44,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_add_datagram_info = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_add_datagram_info_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_file_path = R"doc()doc";
@@ -63,6 +65,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_raw_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_raw_data_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_set_runtime_parameters = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

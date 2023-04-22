@@ -50,10 +50,20 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::string_view get_name() const { return "EM3000PingRawData"; }
 
     // parameters (read when adding datagram infos)
+    std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters = std::make_shared<datagrams::RuntimeParameters>();
 
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
     //     _datagram_info_raw_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
+
+    void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> arg)
+    {
+        _runtime_parameters = std::move(arg);
+    }
+    const datagrams::RuntimeParameters& get_runtime_parameters() const
+    {
+        return *_runtime_parameters;
+    }
 
     // datagrams::RAW3
     //     _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
@@ -95,7 +105,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     ~EM3000PingRawData() = default;
 
     // ----- load datagrams -----
-    
 
     // void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>
     // parameter)

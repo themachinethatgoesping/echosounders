@@ -86,8 +86,23 @@ class EM3000PingDataInterfacePerFile
                                 ->template read_datagram_from_file<datagrams::RuntimeParameters>());
                         _runtime_parameter_buffer.add(
                             rp, std::to_string(rp->get_system_serial_number()));
-                        //     std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
-                        // _channel_parameter_buffer.add(channel, channel.ChannelID);
+
+                        // read ping counter from not deduplicated datagram
+                        auto ping_counter = rp->get_ping_counter();
+
+                        // create a new ping if it does not exist
+                        if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
+                        {
+                            pings_by_counter[ping_counter] = std::make_shared<t_ping>(base_ping);
+                        }
+
+                        // add deduplicated runtime parameters
+                        pings_by_counter[ping_counter]->set_runtime_parameters(
+                            _runtime_parameter_buffer.get(
+                                std::to_string(rp->get_system_serial_number())));
+
+                        // add runtime parameters to all transducers
+                        pings_by_counter[ping_counter]->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }

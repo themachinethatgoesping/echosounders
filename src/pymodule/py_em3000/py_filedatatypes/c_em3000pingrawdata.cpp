@@ -47,6 +47,12 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
             (CLASS_NAME).c_str(),
             DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingRawData))
 
+            // --- substructure access ---
+            .def(
+                "get_runtime_parameters",
+                 &t_EM3000PingRawData::get_runtime_parameters,
+                DOC_EM3000PingRawData(get_runtime_parameters))
+
             // --- raw_data data access ---
             .def("read_merged_watercolumndatagram",
                  &t_EM3000PingRawData::read_merged_watercolumndatagram,

@@ -76,10 +76,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return _raw_data.at(transducer_id);
     }
 
-   std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data()
-    {
-        return _raw_data;
-    }
+    std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data() { return _raw_data; }
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
@@ -92,7 +89,26 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        _raw_data[fmt::format("TRX-{}",system_serial_number)].add_datagram_info(datagram_info);
+        _raw_data[fmt::format("TRX-{}", system_serial_number)].add_datagram_info(datagram_info);
+    }
+
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
+    {
+        // update timestamp if it is much smaller or larger than the current one
+        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
+            _timestamp > datagram_info->get_timestamp())
+            _timestamp = datagram_info->get_timestamp();
+
+        for (auto& [k, v] : _raw_data)
+            v.add_datagram_info(datagram_info);
+    }
+
+    void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> runtime_parameters)
+    {
+        for (auto& [k, v] : _raw_data)
+        {
+            v.set_runtime_parameters(runtime_parameters);
+        }
     }
 
     void load_datagrams()
@@ -199,7 +215,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
         printer.append(t_base::__printer__(float_precision));
 
-        //printer.register_section("EM3000 ping infos");
+        // printer.register_section("EM3000 ping infos");
 
         // printer.register_string(
         //     "Sample data type",

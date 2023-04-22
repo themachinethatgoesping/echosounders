@@ -1,4 +1,4 @@
-//sourcehash: 636be4e4972c7c9af96625f071644ae9010fe16fc930c595585fe7988b3eb33c
+//sourcehash: 422636c3eb850c3e264c77ab32f8c7386a04a7a1f1d4150d7a52b84ea4f67af6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,9 +44,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_name = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_runtime_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_merged_watercolumndatagram = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_runtime_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_set_runtime_parameters = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

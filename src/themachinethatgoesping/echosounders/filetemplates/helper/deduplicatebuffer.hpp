@@ -43,6 +43,8 @@ struct ContentOnlyHash
 template<typename t_datagram, template<typename> typename t_KeyHasher = SlowHash>
 class DeduplicateBuffer
 {
+    // this should be unnecessary by defining std::unordered_map<size_t, std::shared_ptr<t_datagram>, KeyHasher>
+    // but for some reason that does not work ..
     t_KeyHasher<t_datagram> KeyHasher;
 
     std::unordered_map<std::string, std::shared_ptr<t_datagram>> _last_datagram_per_channel_id;
