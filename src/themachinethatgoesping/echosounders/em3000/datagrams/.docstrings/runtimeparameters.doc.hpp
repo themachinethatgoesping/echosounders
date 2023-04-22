@@ -1,4 +1,4 @@
-//sourcehash: 1761dae13644a68e5c14d9aef93b975e77d8fca614e832b84b65a716c597644c
+//sourcehash: d99127693d64e6a7c290ee953a9ba6b444e3fd8a7327880af17243dbddfd2db0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,7 +44,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_RuntimeParameters_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_absorption_coefficient = R"doc(< in 0.01 dB/km)doc";
 
@@ -160,6 +160,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_yaw_and_pitch_stabilization_mode = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_hash_content_only = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_maximum_depth = R"doc(< in meter)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_maximum_port_coverage = R"doc(< in degrees)doc";
@@ -249,8 +251,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_tvg_law_crossover_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_yaw_and_pitch_stabilization_mode = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_slow_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_sonar_head_or_transceiver_status = R"doc()doc";
 

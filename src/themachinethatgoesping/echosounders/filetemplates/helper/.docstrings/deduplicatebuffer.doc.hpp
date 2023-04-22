@@ -1,4 +1,4 @@
-//sourcehash: e0e4398f82580e30f3343db648a031283ecd375d7c2a0f73b2f0bb53d3a6de9a
+//sourcehash: 2319b87012a9bf2dccdc2f4555f01931a6cd79d5221a178a327bf486d2644864
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,9 +38,17 @@
 #endif
 
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_ContentOnlyHash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_ContentOnlyHash_operator_call = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_ContentOnlyHash_operator_call_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer_DeduplicateBuffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer_KeyHasher = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer_add = R"doc()doc";
 
@@ -51,6 +59,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helpe
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer_get_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_DeduplicateBuffer_last_datagram_per_channel_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_SlowHash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_SlowHash_operator_call = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_helper_SlowHash_operator_call_2 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

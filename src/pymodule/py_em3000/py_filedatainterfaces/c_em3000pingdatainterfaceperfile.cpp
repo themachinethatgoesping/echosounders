@@ -34,8 +34,13 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::em3000;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, em3000, filedatainterfaces, EM3000PingDataInterface
+#define DOC_EM3000PingDataInterfacePerFile(ARG)                                                    \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        em3000,                                                                                    \
+        filedatainterfaces,                                                                        \
+        EM3000PingDataInterfacePerFile,                                                            \
+        ARG)
 
 template<typename T_FileStream>
 void py_create_class_em3000pingdatainterfacePerFile(py::module& m, const std::string& CLASS_NAME)
@@ -55,14 +60,9 @@ void py_create_class_em3000pingdatainterfacePerFile(py::module& m, const std::st
                                                                   filedatainterfaces,
                                                                   EM3000PingDataInterfacePerFile))
 
-        //    .def("get_deduplicated_parameters",
-        //         &T_BaseClass::get_deduplicated_parameters,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             em3000,
-        //             filedatainterfaces,
-        //             EM3000PingDataInterfacePerFile,
-        //             get_deduplicated_parameters))
+            .def("get_deduplicated_runtime_parameters",
+                 &T_BaseClass::get_deduplicated_runtime_parameters,
+                 DOC_EM3000PingDataInterfacePerFile(get_deduplicated_runtime_parameters))
 
         //
         ;

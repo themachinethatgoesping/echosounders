@@ -223,6 +223,10 @@ void init_c_runtimeparameters(pybind11::module& m)
              &RuntimeParameters::operator==,
              DOC_RuntimeParameters(operator_eq),
              py::arg("other"))
+
+        .def("hash_content_only",
+             &RuntimeParameters::hash_content_only,
+             DOC_RuntimeParameters(hash_content_only))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RuntimeParameters)

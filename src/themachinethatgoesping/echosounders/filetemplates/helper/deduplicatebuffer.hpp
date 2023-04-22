@@ -24,23 +24,41 @@ namespace filetemplates {
 namespace helper {
 
 template<typename t_datagram>
+struct SlowHash
+{
+    size_t operator()(const t_datagram& arg) const { return arg.slow_hash(); }
+    size_t operator()(const std::shared_ptr<t_datagram>& arg) const { return arg->slow_hash(); }
+};
+
+template<typename t_datagram>
+struct ContentOnlyHash
+{
+    size_t operator()(const t_datagram& arg) const { return arg.hash_content_only(); }
+    size_t operator()(const std::shared_ptr<t_datagram>& arg) const
+    {
+        return arg->hash_content_only();
+    }
+};
+
+template<typename t_datagram, template<typename> typename t_KeyHasher = SlowHash>
 class DeduplicateBuffer
 {
+    t_KeyHasher<t_datagram> KeyHasher;
+
     std::unordered_map<std::string, std::shared_ptr<t_datagram>> _last_datagram_per_channel_id;
-    std::unordered_map<t_datagram, std::shared_ptr<t_datagram>>  _datagrams;
+    std::unordered_map<size_t, std::shared_ptr<t_datagram>>      _datagrams;
 
   public:
     DeduplicateBuffer() = default;
 
-    void add(const t_datagram& datagram, const std::string& channel_id)
+    void add(std::shared_ptr<t_datagram> datagram_ptr, const std::string& channel_id)
     {
         // add channel_ptr if channel is not in in channel_parameters
         // keys
-        auto it = _datagrams.find(datagram);
+        auto it = _datagrams.find(KeyHasher(datagram_ptr));
         if (it == _datagrams.end())
         {
-            auto datagram_ptr                         = std::make_shared<t_datagram>(datagram);
-            _datagrams[datagram]                      = datagram_ptr;
+            _datagrams[KeyHasher(datagram_ptr)]       = datagram_ptr;
             _last_datagram_per_channel_id[channel_id] = datagram_ptr;
         }
         else
@@ -54,12 +72,12 @@ class DeduplicateBuffer
         return _last_datagram_per_channel_id[channel_id];
     }
 
-    std::unordered_map<t_datagram, t_datagram> get_all()
+    std::vector<t_datagram> get_all()
     {
-        std::unordered_map<t_datagram, t_datagram> datagrams;
+        std::vector<t_datagram> datagrams;
         for (auto& [key, value] : _datagrams)
         {
-            datagrams[key] = *value;
+            datagrams.push_back(*value);
         }
         return datagrams;
     }

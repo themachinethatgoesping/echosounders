@@ -22,6 +22,15 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::xml_datagrams::XML_Parameter_Channel;
 
+#define DOC_XML_Parameter_Channel(ARG)                                                             \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simrad,                                                                                    \
+        datagrams,                                                                                 \
+        xml_datagrams,                                                                             \
+        XML_Parameter_Channel,                                                                     \
+        ARG)
+
 void init_c_xml_parameter_channel(pybind11::module& m)
 {
     py::class_<XML_Parameter_Channel>(m,
@@ -32,171 +41,57 @@ void init_c_xml_parameter_channel(pybind11::module& m)
                                           datagrams,
                                           xml_datagrams,
                                           XML_Parameter_Channel))
-        .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 xml_datagrams,
-                 XML_Parameter_Channel,
-                 XML_Parameter_Channel))
+        .def(py::init<>(), DOC_XML_Parameter_Channel(XML_Parameter_Channel))
 
         // ----- attributes -----
-        .def_readwrite("ChannelID",
-                       &XML_Parameter_Channel::ChannelID,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           ChannelID))
+        .def_readwrite(
+            "ChannelID", &XML_Parameter_Channel::ChannelID, DOC_XML_Parameter_Channel(ChannelID))
         .def_readwrite("ChannelMode",
                        &XML_Parameter_Channel::ChannelMode,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           ChannelMode))
-        .def_readwrite("PulseForm",
-                       &XML_Parameter_Channel::PulseForm,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           PulseForm))
+                       DOC_XML_Parameter_Channel(ChannelMode))
+        .def_readwrite(
+            "PulseForm", &XML_Parameter_Channel::PulseForm, DOC_XML_Parameter_Channel(PulseForm))
         .def_readwrite("FrequencyStart",
                        &XML_Parameter_Channel::FrequencyStart,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           FrequencyStart))
+                       DOC_XML_Parameter_Channel(FrequencyStart))
         .def_readwrite("FrequencyEnd",
                        &XML_Parameter_Channel::FrequencyEnd,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           FrequencyEnd))
-        .def_readwrite("BandWidth",
-                       &XML_Parameter_Channel::BandWidth,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           BandWidth))
-        .def_readwrite("Frequency",
-                       &XML_Parameter_Channel::Frequency,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           Frequency))
+                       DOC_XML_Parameter_Channel(FrequencyEnd))
+        .def_readwrite(
+            "BandWidth", &XML_Parameter_Channel::BandWidth, DOC_XML_Parameter_Channel(BandWidth))
+        .def_readwrite(
+            "Frequency", &XML_Parameter_Channel::Frequency, DOC_XML_Parameter_Channel(Frequency))
         .def_readwrite("PulseDuration",
                        &XML_Parameter_Channel::PulseDuration,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           PulseDuration))
+                       DOC_XML_Parameter_Channel(PulseDuration))
         .def_readwrite("PulseLength",
                        &XML_Parameter_Channel::PulseLength,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           PulseLength))
+                       DOC_XML_Parameter_Channel(PulseLength))
         .def_readwrite("SampleInterval",
                        &XML_Parameter_Channel::SampleInterval,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           SampleInterval))
+                       DOC_XML_Parameter_Channel(SampleInterval))
         .def_readwrite("TransducerDepth",
                        &XML_Parameter_Channel::TransducerDepth,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           TransducerDepth))
+                       DOC_XML_Parameter_Channel(TransducerDepth))
         .def_readwrite("TransmitPower",
                        &XML_Parameter_Channel::TransmitPower,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           TransmitPower))
-        .def_readwrite("Slope",
-                       &XML_Parameter_Channel::Slope,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           Slope))
+                       DOC_XML_Parameter_Channel(TransmitPower))
+        .def_readwrite("Slope", &XML_Parameter_Channel::Slope, DOC_XML_Parameter_Channel(Slope))
         .def_readwrite("SoundVelocity",
                        &XML_Parameter_Channel::SoundVelocity,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           SoundVelocity))
+                       DOC_XML_Parameter_Channel(SoundVelocity))
         .def_readwrite("unknown_children",
                        &XML_Parameter_Channel::unknown_children,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           unknown_children))
+                       DOC_XML_Parameter_Channel(unknown_children))
         .def_readwrite("unknown_attributes",
                        &XML_Parameter_Channel::unknown_attributes,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           xml_datagrams,
-                           XML_Parameter_Channel,
-                           unknown_attributes))
+                       DOC_XML_Parameter_Channel(unknown_attributes))
 
         // ----- methods -----
         .def("parsed_completely",
              &XML_Parameter_Channel::parsed_completely,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 xml_datagrams,
-                 XML_Parameter_Channel,
-                 parsed_completely))
+             DOC_XML_Parameter_Channel(parsed_completely))
+        .def("slow_hash", &XML_Parameter_Channel::slow_hash, DOC_XML_Parameter_Channel(slow_hash))
 
         // ----- pybind macros -----
         // default copy functions

@@ -40,8 +40,9 @@ class EM3000PingDataInterfacePerFile
         EM3000EnvironmentDataInterface<t_ifstream>,
         filedatacontainers::EM3000PingContainer<t_ifstream>>;
 
-    // filetemplates::helper::DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel>
-    //     _channel_parameter_buffer;
+    filetemplates::helper::DeduplicateBuffer<datagrams::RuntimeParameters,
+                                             filetemplates::helper::ContentOnlyHash>
+        _runtime_parameter_buffer;
 
   public:
     EM3000PingDataInterfacePerFile()
@@ -55,12 +56,7 @@ class EM3000PingDataInterfacePerFile
     }
     ~EM3000PingDataInterfacePerFile() = default;
 
-    // std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
-    //                    datagrams::xml_datagrams::XML_Parameter_Channel>
-    // get_deduplicated_parameters()
-    // {
-    //     return _channel_parameter_buffer.get_all();
-    // }
+    auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer.get_all(); }
 
     filedatacontainers::EM3000PingContainer<t_ifstream> read_pings()
     {
@@ -68,7 +64,7 @@ class EM3000PingDataInterfacePerFile
         using t_ping          = filedatatypes::EM3000Ping<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        std::map<uint16_t, t_ping_ptr> pings_by_counter;
+        std::unordered_map<uint16_t, t_ping_ptr> pings_by_counter;
 
         // read the file installation parameters and build a base ping
         auto param =
@@ -80,6 +76,21 @@ class EM3000PingDataInterfacePerFile
         {
             switch (type)
             {
+                case t_EM3000DatagramIdentifier::RuntimeParameters: {
+
+                    for (const auto& datagram_ptr : datagram_infos)
+                    {
+
+                        auto rp = std::make_shared<datagrams::RuntimeParameters>(
+                            datagram_ptr
+                                ->template read_datagram_from_file<datagrams::RuntimeParameters>());
+                        _runtime_parameter_buffer.add(
+                            rp, std::to_string(rp->get_system_serial_number()));
+                        //     std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode()).Channels[0];
+                        // _channel_parameter_buffer.add(channel, channel.ChannelID);
+                    }
+                    break;
+                }
                 case t_EM3000DatagramIdentifier::XYZDatagram:
                     [[fallthrough]];
                 case t_EM3000DatagramIdentifier::ExtraDetections:
@@ -95,8 +106,9 @@ class EM3000PingDataInterfacePerFile
                     for (const auto& datagram_ptr : datagram_infos)
                     {
                         // read the ping counter
-                        auto& ifs = datagram_ptr->get_stream_and_seek();
-                        ifs.seekg(16, std::ios::cur); // skip header
+                        auto& ifs =
+                            datagram_ptr->get_stream_and_seek(16); // offset=16 bytes (header size)
+                        // ifs.seekg(16, std::ios::cur); // skip header
                         uint16_t ping_counter, system_serial_number;
                         ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(uint16_t));
                         ifs.read(reinterpret_cast<char*>(&system_serial_number), sizeof(uint16_t));

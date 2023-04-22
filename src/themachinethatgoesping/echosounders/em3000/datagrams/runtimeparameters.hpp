@@ -335,7 +335,7 @@ class RuntimeParameters : public EM3000Datagram
         return from_stream(is, std::move(EM3000Datagram::from_stream(is, datagram_identifier)));
     }
 
-    void to_stream(std::ostream& os)
+    void to_stream(std::ostream& os) const
     {
         EM3000Datagram::to_stream(os);
 
@@ -350,6 +350,7 @@ class RuntimeParameters : public EM3000Datagram
 
         printer.append(EM3000Datagram::__printer__(float_precision));
         printer.register_section("datagram content");
+        printer.register_value("ping_counter", _ping_counter);
         printer.register_value("system_serial_number", _system_serial_number);
         printer.register_value("operator_station_status", _operator_station_status);
         printer.register_value("processing_unit_status", _processing_unit_status);
@@ -398,7 +399,7 @@ class RuntimeParameters : public EM3000Datagram
         return printer;
     }
 
-    xxh::hash_t<64> slow_hash() const
+    xxh::hash_t<64> hash_content_only() const
     {
         // hash streaming
         xxh::hash3_state_t<64> hash_stream;
@@ -412,7 +413,7 @@ class RuntimeParameters : public EM3000Datagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(RuntimeParameters)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RuntimeParameters)
 };
 
 } // namespace datagrams

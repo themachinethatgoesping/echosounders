@@ -303,7 +303,7 @@ class FileEM3000
                 header.skip(ifs);
                 break;
             }
-                // multibeam data datagrams
+            // multibeam data datagrams
             case t_EM3000DatagramIdentifier::XYZDatagram:
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::ExtraDetections:
@@ -328,15 +328,10 @@ class FileEM3000
                 break;
             }
                 // Configuration datagrams
-            case t_EM3000DatagramIdentifier::RuntimeParameters: {
-                // read and store runtime parameters
-                _configuration_interface->add_datagram_info(datagram_info);
-                datagram_info->template read_datagram_from_file<datagrams::RuntimeParameters>();
-                // _configuration_interface->add_runtime_parameters(
-                //     datagram_info->template
-                //     read_datagram_from_file<datagrams::RuntimeParameters>());
-                break;
-            }
+            case t_EM3000DatagramIdentifier::RuntimeParameters:
+                // also add RuntimeParameters to pingdatainterface for configuration matching
+                _ping_interface->add_datagram_info(datagram_info);
+                [[fallthrough]];
             case t_EM3000DatagramIdentifier::InstallationParametersStart:
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::InstallationParametersStop:

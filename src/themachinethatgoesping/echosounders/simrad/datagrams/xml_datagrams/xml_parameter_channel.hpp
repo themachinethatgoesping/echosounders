@@ -328,8 +328,8 @@ struct XML_Parameter_Channel
     }
 
     // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(
-        XML_Parameter_Channel)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(XML_Parameter_Channel)
 };
 
 }

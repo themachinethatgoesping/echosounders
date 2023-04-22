@@ -74,10 +74,10 @@ class DatagramInfo
 
         return ifs;
     }
-    t_ifstream& get_stream_and_seek()
+    t_ifstream& get_stream_and_seek(std::istream::pos_type offset = 0)
     {
         auto& ifs = get_stream();
-        ifs.seekg(_file_pos);
+        ifs.seekg(_file_pos + offset);
 
         return ifs;
     }

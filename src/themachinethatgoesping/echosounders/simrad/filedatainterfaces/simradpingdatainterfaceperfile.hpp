@@ -55,12 +55,7 @@ class SimradPingDataInterfacePerFile
     }
     ~SimradPingDataInterfacePerFile() = default;
 
-    std::unordered_map<datagrams::xml_datagrams::XML_Parameter_Channel,
-                       datagrams::xml_datagrams::XML_Parameter_Channel>
-    get_deduplicated_parameters()
-    {
-        return _channel_parameter_buffer.get_all();
-    }
+    auto get_deduplicated_parameters() { return _channel_parameter_buffer.get_all(); }
 
     filedatacontainers::SimradPingContainer<t_ifstream> read_pings()
     {
@@ -88,9 +83,10 @@ class SimradPingDataInterfacePerFile
                     if (xml_type == "Parameter")
                     {
                         auto channel =
-                            std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
-                                .Channels[0];
-                        _channel_parameter_buffer.add(channel, channel.ChannelID);
+                            std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
+                                    .Channels[0]);
+                        _channel_parameter_buffer.add(channel, channel->ChannelID);
                         break;
                     }
                     else if (xml_type == "InitialParameter")
@@ -99,7 +95,10 @@ class SimradPingDataInterfacePerFile
                             std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
                                 .Channels;
                         for (const auto& channel : channels)
-                            _channel_parameter_buffer.add(channel, channel.ChannelID);
+                            _channel_parameter_buffer.add(
+                                std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                    channel),
+                                channel.ChannelID);
                         break;
                     }
 
