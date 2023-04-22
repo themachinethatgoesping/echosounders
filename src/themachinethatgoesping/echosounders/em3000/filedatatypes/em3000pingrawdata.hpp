@@ -62,6 +62,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         auto& datagram_infos =
             this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram);
 
+        if (datagram_infos.empty())
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_merged_watercolumndatagram]: No water "
+                            "column datagram in ping!"));
+
         auto datagram =
             datagram_infos.at(0)->template read_datagram_from_file<datagrams::WaterColumnDatagram>(
                 skip_data);
