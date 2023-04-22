@@ -38,7 +38,7 @@ class InputFileManager
     size_t _total_file_size = 0;
 
     /* the actual input file stream */
-    const size_t                                  _max_streams_open = 5;
+    const size_t                                  _max_streams_open = 3;
     std::map<size_t, std::unique_ptr<t_ifstream>> _active_file_streams;
     std::deque<size_t>                            _active_file_numbers;
 
