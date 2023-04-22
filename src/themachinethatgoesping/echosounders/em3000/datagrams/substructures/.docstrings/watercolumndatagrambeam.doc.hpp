@@ -1,4 +1,4 @@
-//sourcehash: ff9d3791649ed221bc76f9d09e07afce921511e471654a55c6b67904aea09ac2
+//sourcehash: 249178fcc4ddea1f5152ca1b49f5b28b1463b4ca4876cf00c3f8840e57abc073
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -66,6 +66,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_number_of_samples = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_sample_position = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_samples_are_skipped = R"doc()doc";
@@ -83,6 +85,21 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_read_samples =
+R"doc(Read and return the sample data. THis is useful if the sample data was
+originally skipped
+
+Parameter ``ifs``:
+    Inputfile stream. Must be the same file the original structure was
+    read from
+
+Returns:
+    xt::xtensor<int8_t, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_sample_pos =
+R"doc(< the position of the sample data in the filestream. This < is used to
+load skipped sample data.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_samples = R"doc()doc";
 

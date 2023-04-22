@@ -88,24 +88,17 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
                            uint16_t                     system_serial_number)
     {
         // update timestamp if it is much smaller or larger than the current one
-        if (_timestamp < datagram_info->get_timestamp() ||
+        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        switch (datagram_info->get_datagram_identifier())
-        {
-            case t_EM3000DatagramIdentifier::WaterColumnDatagram: {
-                // auto datagram =
-                //     datagram_info->template
-                //     read_datagram_from_file<datagrams::WaterColumnDatagram>(
-                //         true);
-                break;
-            }
-            default:
-                break;
-        }
-
         _raw_data[fmt::format("TRX-{}",system_serial_number)].add_datagram_info(datagram_info);
+    }
+
+    void load_datagrams()
+    {
+        for (auto& raw : _raw_data)
+            raw.load_datagrams();
     }
 
     std::vector<std::string> get_transducer_ids() const override

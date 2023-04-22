@@ -9,6 +9,9 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
+#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
+
 #include "../../../themachinethatgoesping/echosounders/em3000/datagrams/watercolumndatagram.hpp"
 
 #include "module.hpp"
@@ -33,6 +36,11 @@ void init_c_watercolumndatagram(pybind11::module& m)
         "WaterColumnDatagram",
         DOC(themachinethatgoesping, echosounders, em3000, datagrams, WaterColumnDatagram))
         .def(py::init<>(), DOC_WaterColumnDatagram(WaterColumnDatagram))
+        // --- processed data access ---
+        .def("get_samples",
+             &WaterColumnDatagram::get_samples,
+             DOC_WaterColumnDatagram(get_samples))
+
         // --- convenient data access ---
         .def("set_ping_counter",
              &WaterColumnDatagram::set_ping_counter,

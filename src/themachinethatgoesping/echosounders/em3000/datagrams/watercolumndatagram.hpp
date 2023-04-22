@@ -72,6 +72,63 @@ class WaterColumnDatagram : public EM3000Datagram
     }
     ~WaterColumnDatagram() = default;
 
+    // ----- convinient processing -----
+    size_t get_max_number_of_samples() const
+    {
+        size_t max_samples = 0;
+        for (const auto& b : _beams)
+            if (b.get_number_of_samples() > max_samples)
+                max_samples = b.get_number_of_samples();
+        return max_samples;
+    }
+
+    // ----- processed data access -----
+    xt::xtensor<int8_t, 2> read_samples(std::istream& ifs) const
+    {
+        // determine shape
+        xt::xtensor<int8_t, 2> samples = xt::zeros<int8_t>(
+            xt::xtensor<int8_t, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+
+        for (unsigned int b = 0; b < _beams.size(); ++b)
+        {
+            xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs);
+
+            beamsamples *= 0.5f;
+            beamsamples -= _tvg_offset_in_db;
+
+            std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
+
+            using xt::placeholders::_;
+            xt::view(samples, b, xt ::range(_beams[b].get_number_of_samples(), _)) =
+                std::numeric_limits<float>::quiet_NaN();
+        }
+
+        return samples;
+    }
+
+    xt::xtensor<float, 2> get_samples() const
+    {
+        // determine shape
+        xt::xtensor<float, 2> samples = xt::empty<float>(
+            xt::xtensor<float, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+
+        for (unsigned int b = 0; b < _beams.size(); ++b)
+        {
+            xt::xtensor<float, 1> beamsamples = _beams[b].get_samples();
+
+            beamsamples *= 0.5f;
+            beamsamples -= _tvg_offset_in_db;
+
+            std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
+
+            using xt::placeholders::_;
+            xt::view(samples, b, xt ::range(_beams[b].get_number_of_samples(), _)) =
+                std::numeric_limits<float>::quiet_NaN();
+        }
+
+        return samples;
+    }
+
     // ----- convenient data access -----
     // getters
     uint16_t get_ping_counter() const { return _ping_counter; }
@@ -314,8 +371,7 @@ class WaterColumnDatagram : public EM3000Datagram
 
         if (_etx != 0x03)
             throw std::runtime_error(
-                fmt::format("WaterColumnDatagram: end identifier is not 0x03, but 0x{:x}",
-                _etx));
+                fmt::format("WaterColumnDatagram: end identifier is not 0x03, but 0x{:x}", _etx));
     }
 
     void to_stream(std::ostream& os)

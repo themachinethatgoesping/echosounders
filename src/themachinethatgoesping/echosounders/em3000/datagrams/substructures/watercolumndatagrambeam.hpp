@@ -51,6 +51,9 @@ class WaterColumnDatagramBeam
         false; ///< This flag is set if from_stream was called with the "skip_data" argument. Call
                ///< load_data or set_data to set it to false.
 
+    std::istream::pos_type _sample_pos; ///< the position of the sample data in the filestream. This
+                                        ///< is used to load skipped sample data.
+
   public:
     WaterColumnDatagramBeam()  = default;
     ~WaterColumnDatagramBeam() = default;
@@ -63,6 +66,7 @@ class WaterColumnDatagramBeam
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_beam_number() const { return _beam_number; }
+    std::istream::pos_type get_sample_position() const { return _sample_pos;}
 
     // setters
     void set_beam_pointing_angle(int16_t beam_pointing_angle)
@@ -90,7 +94,25 @@ class WaterColumnDatagramBeam
     bool get_samples_are_skipped() { return _samples_are_skipped; }
 
     // structure access
-    const xt::xtensor<int8_t, 1>& get_samples()
+    /**
+     * @brief Read and return the sample data. THis is useful if the sample data was originally skipped
+     * 
+     * @param ifs Inputfile stream. Must be the same file the original structure was read from
+     * @return xt::xtensor<int8_t, 1> 
+     */
+    xt::xtensor<int8_t, 1> read_samples(std::istream& ifs) const
+    {
+        xt::xtensor<int8_t, 1> samples =
+            xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ _number_of_samples }));
+
+        ifs.seekg(_sample_pos);
+
+        ifs.read(reinterpret_cast<char*>(samples.data()), _number_of_samples * sizeof(int8_t));
+
+        return samples;
+    }
+
+    const xt::xtensor<int8_t, 1>& get_samples() const
     {
         if (_samples_are_skipped)
             throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::get_samples]: The "
@@ -114,9 +136,14 @@ class WaterColumnDatagramBeam
      */
     float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.01f; }
 
-    xt::xtensor<float, 1> get_samples_in_db() const
+    xt::xtensor<float, 1> get_samples_in_db(float db_offset = 0.f) const
     {
-        return xt::xtensor<float, 1>(xt::eval(_samples * 0.5f));
+        if (_samples_are_skipped)
+            throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::get_samples]: The "
+                                                 "data is not available because it was skipped! "
+                                                 "Call load_data or set_data first.")));
+
+        return xt::xtensor<float, 1>(xt::eval(_samples * 0.5f - db_offset));
     }
 
     //----- to/from stream functions -----
@@ -127,6 +154,9 @@ class WaterColumnDatagramBeam
 
         // read the first part of the data
         is.read(reinterpret_cast<char*>(&data._beam_pointing_angle), 10 * sizeof(uint8_t));
+
+        // save the position of the samples of this beam
+        data._sample_pos = is.tellg();
 
         // read the sample amplitudes
         if (skip_data)

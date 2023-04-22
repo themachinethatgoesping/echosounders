@@ -1,4 +1,4 @@
-//sourcehash: ac47dce87ef4ce547aad17bcf8445d79bd490fb0eecfbeac0f4935951009ffcf
+//sourcehash: 06a6d2942559cf52c287285f54a8bcaf9748801f4ee10a2053d7685370e88929
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,6 +74,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_etx = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_max_number_of_samples = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_number_of_beams_in_datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_number_of_datagrams = R"doc()doc";
@@ -81,6 +83,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_number_of_transmit_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_ping_counter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_get_sampling_frequency = R"doc()doc";
 
@@ -135,6 +139,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_ping_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_read_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_sampling_frequency = R"doc()doc";
 
