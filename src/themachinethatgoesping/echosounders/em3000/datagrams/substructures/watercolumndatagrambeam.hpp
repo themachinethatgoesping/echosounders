@@ -241,7 +241,7 @@ class WaterColumnDatagramBeam
         // sample values
         printer.register_section("samples");
         if (!_samples_are_skipped)
-            printer.register_container("samples", _samples.value);
+            printer.register_container("samples", _samples);
         else
             printer.register_string("samples", "skipped");
 
