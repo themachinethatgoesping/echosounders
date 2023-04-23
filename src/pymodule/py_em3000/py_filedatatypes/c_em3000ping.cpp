@@ -57,6 +57,11 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                         &t_EM3000Ping::get_transducer_ids,
                         DOC_EM3000Ping(get_transducer_ids))
 
+                   .def("load_datagrams",
+                        &t_EM3000Ping::load_datagrams,
+                        DOC_EM3000Ping(load_datagrams),
+                        py::arg("skip_data") = true)
+
                    // --- ping interface extension ---
 
                    // --- raw_data data access ---

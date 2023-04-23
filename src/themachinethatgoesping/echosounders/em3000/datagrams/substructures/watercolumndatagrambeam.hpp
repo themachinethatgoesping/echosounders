@@ -44,6 +44,7 @@ class WaterColumnDatagramBeam
     uint8_t  _transmit_sector_number;
     uint8_t  _beam_number; ///< redundant info, max 255 even if more beams exist
 
+    //TODO: this should be an optional value because it takes to much space otherwise
     xt::xtensor<int8_t, 1> _samples; /// < in 0.5 dB steps
 
     // flags that do not belong to the datagramformat specification
@@ -66,7 +67,7 @@ class WaterColumnDatagramBeam
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_beam_number() const { return _beam_number; }
-    std::istream::pos_type get_sample_position() const { return _sample_pos;}
+    std::istream::pos_type get_sample_position() const { return _sample_pos; }
 
     // setters
     void set_beam_pointing_angle(int16_t beam_pointing_angle)
@@ -95,10 +96,11 @@ class WaterColumnDatagramBeam
 
     // structure access
     /**
-     * @brief Read and return the sample data. THis is useful if the sample data was originally skipped
-     * 
+     * @brief Read and return the sample data. THis is useful if the sample data was originally
+     * skipped
+     *
      * @param ifs Inputfile stream. Must be the same file the original structure was read from
-     * @return xt::xtensor<int8_t, 1> 
+     * @return xt::xtensor<int8_t, 1>
      */
     xt::xtensor<int8_t, 1> read_samples(std::istream& ifs) const
     {
@@ -238,7 +240,10 @@ class WaterColumnDatagramBeam
 
         // sample values
         printer.register_section("samples");
-        printer.register_container("samples", _samples);
+        if (!_samples_are_skipped)
+            printer.register_container("samples", _samples.value);
+        else
+            printer.register_string("samples", "skipped");
 
         // processed values
         printer.register_section("processed");

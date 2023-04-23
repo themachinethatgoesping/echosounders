@@ -111,10 +111,10 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         }
     }
 
-    void load_datagrams()
+    void load_datagrams(bool skip_data = true)
     {
-        for (auto& raw : _raw_data)
-            raw.load_datagrams();
+        for (auto& [key,raw] : _raw_data)
+            raw.load_datagrams(skip_data);
     }
 
     std::vector<std::string> get_transducer_ids() const override
