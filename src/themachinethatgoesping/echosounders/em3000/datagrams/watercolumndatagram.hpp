@@ -342,12 +342,12 @@ class WaterColumnDatagram : public EM3000Datagram
                             "exceeds number of datagrams [{}/{}]",
                             data.datagram_number,
                             _number_of_datagrams));
-        if (data.number_of_transmit_sectors > _number_of_transmit_sectors)
+        if (data.number_of_transmit_sectors != _number_of_transmit_sectors)
             throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
                                                  "number_of_transmit_sectors missmatch [{}/{}]",
                                                  data.number_of_transmit_sectors,
                                                  _number_of_transmit_sectors));
-        if (data.total_no_of_receive_beams > _total_no_of_receive_beams)
+        if (data.total_no_of_receive_beams != _total_no_of_receive_beams)
             throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
                                                  "total_no_of_receive_beams missmatch [{}/{}]",
                                                  data.total_no_of_receive_beams,
