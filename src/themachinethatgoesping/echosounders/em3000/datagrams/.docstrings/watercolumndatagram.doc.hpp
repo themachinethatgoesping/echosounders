@@ -1,4 +1,4 @@
-//sourcehash: 06a6d2942559cf52c287285f54a8bcaf9748801f4ee10a2053d7685370e88929
+//sourcehash: f6970ff9f79b28fa1260fa2a1ce1ba99446387a06220efa9de986f4c0fbe1d25
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,7 +58,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_datagram_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_etx = R"doc(< end identifier (always 0x03))doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_etx = R"doc(end identifier (always 0x03))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_from_stream = R"doc()doc";
 
@@ -126,11 +126,11 @@ R"doc(Get the transmit time heave in m
 Returns:
     _tx_time_heave * 0.01 m (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_number_of_beams_in_datagram = R"doc(< Beam vector of 2 elements)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_number_of_beams_in_datagram = R"doc(Beam vector of 2 elements)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_number_of_datagrams = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_number_of_transmit_sectors = R"doc(< Transmit_sector vector of 2 elements)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_number_of_transmit_sectors = R"doc(Transmit_sector vector of 2 elements)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_operator_eq = R"doc()doc";
 
@@ -184,7 +184,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_set_tx_time_heave = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_sound_speed = R"doc(< in 0.1 m/s)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_sound_speed = R"doc(in 0.1 m/s)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_spare = R"doc()doc";
 
@@ -204,7 +204,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_tvg_offset_in_db = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_tx_time_heave = R"doc(< in cm)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_tx_time_heave = R"doc(in cm)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
