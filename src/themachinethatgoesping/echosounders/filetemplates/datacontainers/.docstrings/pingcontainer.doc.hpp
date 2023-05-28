@@ -1,4 +1,4 @@
-//sourcehash: f8879dc9f246bff32e55f563a4d5ba8c8ac17c2fa34d92f97179c67b37209878
+//sourcehash: 2d77d902319f7579fa1eafc50ca3b602dddb1aa6aae4a6899dd2edaa03c30b7c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,13 +42,29 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingContainer = R"doc(Construct a new empty PingContainer object)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingVector =
+R"doc(Construct a new PingContainer object from a vector of pings
+
+Parameter ``pings:``:
+    vector of pings)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_time_diff = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_time_diff =
+R"doc(Split the data if the time difference between two subsequent datagrams
+is larger than arg Note: for this function to make sense the data
+should be sorted_in_time
+
+Parameter ``max_time_diff_seconds:``:
+    maximum time difference between two subsequent datagrams in
+    seconds
+
+Returns:
+    std::vector<PingContainer<type_Ping>>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_count_pings_per_channel_id = R"doc()doc";
 

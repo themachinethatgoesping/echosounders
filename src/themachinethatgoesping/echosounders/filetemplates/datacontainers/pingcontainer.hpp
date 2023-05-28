@@ -195,6 +195,13 @@ class PingContainer
         return vec;
     }
 
+    /**
+     * @brief  Split the data if the time difference between two subsequent datagrams is larger than arg
+     * Note: for this function to make sense the data should be sorted_in_time
+     * 
+     * @param max_time_diff_seconds: maximum time difference between two subsequent datagrams in seconds
+     * @return std::vector<PingContainer<type_Ping>> 
+     */
     std::vector<PingContainer<type_Ping>> break_by_time_diff(double max_time_diff_seconds) const
     {
         std::vector<PingContainer<type_Ping>> containers;

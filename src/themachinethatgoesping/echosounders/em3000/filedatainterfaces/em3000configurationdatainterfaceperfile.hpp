@@ -120,7 +120,7 @@ class EM3000ConfigurationDataInterfacePerFile
             _active_heading_sensor = param.get_active_heading_sensor();
 
         /* get the sensor configuration flag using STC */
-        switch (param.get_value_int("STC"))
+        switch (param.get_value_int("STC", 0 )) // if STC is not found: assume single tx + single rx
         {
             case 0: // Single TX + single RX
             {

@@ -1,4 +1,4 @@
-//sourcehash: 7e0c18a14011a7d6db7d528aa4c03ec5a5dda0004a9dbf7c27cee385df670705
+//sourcehash: 35b61143128ce4bd850b7c75522a597f22bc55216bfa394e95c23e15767d8da7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,7 +50,17 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_break_by_time_diff = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_break_by_time_diff =
+R"doc(Split the data if the time difference between two subsequent datagrams
+is larger than arg Note: for this function to make sense the data
+should be sorted_in_time
+
+Parameter ``max_time_diff_seconds:``:
+    maximum time difference between two subsequent datagrams in
+    seconds
+
+Returns:
+    std::vector<DatagramContainer>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_count_datagrams_per_type = R"doc()doc";
 
