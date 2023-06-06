@@ -21,13 +21,13 @@ TEST_CASE("SimradUnknown should support common functions", TESTTAG)
     // initialize class structure
     auto dat = SimradUnknown();
 
-    dat.raw_content = "this is raw test data :-)";
+    dat.set_raw_content("this is raw test data :-)");
 
     // set some variables
-    dat._Length       = simrad_long(12 + dat.raw_content.size());
-    dat._DatagramType = simrad_long(t_SimradDatagramIdentifier::XML0);
-    dat._LowDateTime  = 1;
-    dat._HighDateTime = 2;
+    dat.set_length(simrad_long(12 + dat.get_raw_content().size()));
+    dat.set_datagram_type(simrad_long(t_SimradDatagramIdentifier::XML0));
+    dat.set_low_date_time(1);
+    dat.set_high_date_time(2);
 
     // test inequality
     REQUIRE(dat != SimradUnknown());
@@ -48,7 +48,7 @@ TEST_CASE("SimradUnknown should support common functions", TESTTAG)
 
     //--- datagram concept ---
     // length
-    REQUIRE(size_t(dat.get_length()) == 12 + dat.raw_content.size());
+    REQUIRE(size_t(dat.get_length()) == 12 + dat.get_raw_content().size());
 
     // datagram type
     dat.set_datagram_identifier(t_SimradDatagramIdentifier::RAW3);
@@ -57,6 +57,6 @@ TEST_CASE("SimradUnknown should support common functions", TESTTAG)
     // timestamp (unixtime)
     dat.set_timestamp(123.123);
     REQUIRE(dat.get_timestamp() == Catch::Approx(123.123));
-    REQUIRE(dat._HighDateTime == 27111903);
-    REQUIRE(dat._LowDateTime == 513905712);
+    REQUIRE(dat.get_high_date_time() == 27111903);
+    REQUIRE(dat.get_low_date_time() == 513905712);
 }

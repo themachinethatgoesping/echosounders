@@ -23,48 +23,26 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::MRU0;
 using datagrams::SimradDatagram;
 
+#define DOC_MRU0(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, arg)
+
 void init_c_MRU0(pybind11::module& m)
 {
     py::class_<MRU0, datagrams::SimradDatagram>(
         m, "MRU0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, MRU0))
-        // --- convenient data access ---
-        .def_property("heave",
-                      &MRU0::get_heave,
-                      &MRU0::set_heave,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Heave))
-        .def_property("roll",
-                      &MRU0::get_roll,
-                      &MRU0::set_roll,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Roll))
-        .def_property("pitch",
-                      &MRU0::get_pitch,
-                      &MRU0::set_pitch,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Pitch))
-        .def_property("heading",
-                      &MRU0::get_heading,
-                      &MRU0::set_heading,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Heading))
+        .def(py::init<>(), DOC_MRU0(MRU0))
 
-        // --- raw data access ---
-        .def_readwrite("_raw_Heave",
-                       &MRU0::_Heave,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Heave))
-        .def_readwrite("_raw_Roll",
-                       &MRU0::_Roll,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Roll))
-        .def_readwrite("_raw_Pitch",
-                       &MRU0::_Pitch,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Pitch))
-        .def_readwrite("_raw_Heading",
-                       &MRU0::_Heading,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, Heading))
+        // --- convenient data access ---
+        .def("get_heave", &MRU0::get_heave, DOC_MRU0(heave))
+        .def("set_heave", &MRU0::set_heave, DOC_MRU0(heave))
+        .def("get_roll", &MRU0::get_roll, DOC_MRU0(roll))
+        .def("set_roll", &MRU0::set_roll, DOC_MRU0(roll))
+        .def("get_pitch", &MRU0::get_pitch, DOC_MRU0(pitch))
+        .def("set_pitch", &MRU0::set_pitch, DOC_MRU0(pitch))
+        .def("get_heading", &MRU0::get_heading, DOC_MRU0(heading))
+        .def("set_heading", &MRU0::set_heading, DOC_MRU0(heading))
 
         // ----- operators -----
-        .def("__eq__",
-             &MRU0::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, MRU0, operator_eq),
-             py::arg("other"))
+        .def("__eq__", &MRU0::operator==, DOC_MRU0(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(MRU0)

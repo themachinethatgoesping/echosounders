@@ -26,86 +26,45 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::RAW3;
 using datagrams::SimradDatagram;
 
+#define DOC_RAW3(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, arg)
+
 void init_c_RAW3(pybind11::module& m)
 {
 
     py::class_<RAW3, datagrams::SimradDatagram>(
         m, "RAW3", DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, RAW3))
-        // --- convenient data access ---
-        .def_property("channel_id",
-                      &RAW3::get_channel_id,
-                      &RAW3::set_channel_id,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, ChannelID))
-        .def_property_readonly("channel_id_stripped",
-                               &RAW3::get_channel_id,
-                               DOC(themachinethatgoesping,
-                                   echosounders,
-                                   simrad,
-                                   datagrams,
-                                   RAW3,
-                                   get_channel_id_stripped))
-        .def_property(
-            "data_type",
-            &RAW3::get_data_type,
-            &RAW3::set_data_type,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, get_data_type))
-        .def_property("number_of_complex_samples",
-                      &RAW3::get_number_of_complex_samples,
-                      &RAW3::set_number_of_complex_samples,
-                      DOC(themachinethatgoesping,
-                          echosounders,
-                          simrad,
-                          datagrams,
-                          RAW3,
-                          get_number_of_complex_samples))
-        .def_property("offset",
-                      &RAW3::get_offset,
-                      &RAW3::set_offset,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Offset))
-        .def_property("count",
-                      &RAW3::get_count,
-                      &RAW3::set_count,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Count))
-        .def_property(
-            "sample_data",
-            &RAW3::sample_data,
-            &RAW3::set_sample_data,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, sample_data))
+        .def(py::init<>(), DOC_RAW3(RAW3))
 
-        // --- raw data access ---
-        .def_readwrite(
-            "_raw_ChannelID",
-            &RAW3::_ChannelID,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, ChannelID))
-        .def_readwrite("_raw_Datatype",
-                       &RAW3::_Datatype,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Datatype))
-        .def_readwrite("_raw_NumberOfComplexSamples",
-                       &RAW3::_NumberOfComplexSamples,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           RAW3,
-                           NumberOfComplexSamples))
-        .def_readwrite("_raw_Spare_1",
-                       &RAW3::_Spare_1,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Spare_1))
-        .def_readwrite("_raw_Spare_2",
-                       &RAW3::_Spare_2,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Spare_2))
-        .def_readwrite("_raw_Offset",
-                       &RAW3::_Offset,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Offset))
-        .def_readwrite("_raw_Count",
-                       &RAW3::_Count,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, Count))
+        // --- convenient data access ---
+        .def("get_channel_id", &RAW3::get_channel_id, DOC_RAW3(channel_id))
+        .def("set_channel_id", &RAW3::set_channel_id, DOC_RAW3(channel_id))
+        .def("get_data_type", &RAW3::get_data_type, DOC_RAW3(data_type))
+        .def("set_data_type", &RAW3::set_data_type, DOC_RAW3(data_type))
+        .def("get_number_of_complex_samples",
+             &RAW3::get_number_of_complex_samples,
+             DOC_RAW3(data_type))
+        .def("set_number_of_complex_samples",
+             &RAW3::set_number_of_complex_samples,
+             DOC_RAW3(number_of_complex_samples))
+        .def("get_offset", &RAW3::get_offset, DOC_RAW3(offset))
+        .def("set_offset", &RAW3::set_offset, DOC_RAW3(offset))
+        .def("get_count", &RAW3::get_count, DOC_RAW3(count))
+        .def("set_count", &RAW3::set_count, DOC_RAW3(count))
+        .def("get_spare1", &RAW3::get_spare_1, DOC_RAW3(spare_1))
+        .def("set_spare1", &RAW3::set_spare_1, DOC_RAW3(spare_1))
+        .def("get_spare_2", &RAW3::get_spare_2, DOC_RAW3(spare_2))
+        .def("set_spare_2", &RAW3::set_spare_2, DOC_RAW3(spare_2))
+        .def("sample_data", &RAW3::sample_data, DOC_RAW3(sample_data))
+        .def("get_sample_data", &RAW3::get_sample_data, DOC_RAW3(sample_data))
+        .def("set_sample_data", &RAW3::set_sample_data, DOC_RAW3(sample_data))
+
+        // --- processed data access ---
+        .def("get_channel_id_stripped",
+             &RAW3::get_channel_id_stripped,
+             DOC_RAW3(get_channel_id_stripped))
+
         // ----- operators -----
-        .def("__eq__",
-             &RAW3::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, RAW3, operator_eq),
-             py::arg("other"))
+        .def("__eq__", &RAW3::operator==, DOC_RAW3(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3)

@@ -23,19 +23,21 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::SimradDatagram;
 using datagrams::XML0;
 
+#define DOC_XML0(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, arg)
+
 void init_c_XML0(pybind11::module& m)
 {
     py::class_<XML0, datagrams::SimradDatagram>(
         m, "XML0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, XML0))
+        .def(py::init<>(), DOC_XML0(XML0))
         // --- convenient data access ---
         .def("set_xml_content",
              &XML0::set_xml_content,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, set_xml_content),
+             DOC_XML0(set_xml_content),
              py::arg("xml_content"))
         .def("get_xml_content",
              &XML0::get_xml_content,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, get_xml_content))
+             DOC_XML0(get_xml_content))
         .def("get_xml_datagram_type",
              &XML0::get_xml_datagram_type,
              DOC(themachinethatgoesping,
@@ -47,11 +49,11 @@ void init_c_XML0(pybind11::module& m)
 
         .def("raw",
              &XML0::raw,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, raw))
+             DOC_XML0(raw))
 
         .def("decode",
              &XML0::decode,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, decode))
+             DOC_XML0(decode))
         // --- convenient data access ---
         .def("get_xml_datagram_type",
              &XML0::get_xml_datagram_type,
@@ -66,26 +68,22 @@ void init_c_XML0(pybind11::module& m)
         .def("test_xml",
              &XML0::test_xml,
              py::call_guard<py::scoped_ostream_redirect, py::scoped_ostream_redirect>(),
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, test_xml))
+             DOC_XML0(test_xml))
 
         // --- raw data access ---
-        .def_property(
-            "_raw_xml_content",
+        .def(
+            "get_raw_xml_content",
             &XML0::get_xml_content,
+            DOC_XML0(get_xml_content))
+        .def(
+            "set_raw_xml_content",
             &XML0::set_xml_content,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, xml_content))
-
-        // --- raw data access ---
-        .def_property(
-            "_raw_xml_content",
-            &XML0::get_xml_content,
-            &XML0::set_xml_content,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, get_xml_content))
+            DOC_XML0(set_xml_content))
 
         // ----- operators -----
         .def("__eq__",
              &XML0::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, XML0, operator_eq),
+             DOC_XML0(operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions

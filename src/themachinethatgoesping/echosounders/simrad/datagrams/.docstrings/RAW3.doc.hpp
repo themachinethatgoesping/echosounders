@@ -1,4 +1,4 @@
-//sourcehash: 8856fc3b6ca9d42d62e8efc8ef420cfbeee750d24050e029a3b69c305313a9ba
+//sourcehash: f56669a169e45ca75c3dbe58c6ff37eb7c2aacaab0ff1414bf3ff5631ae9de01
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,20 +40,8 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3 =
 R"doc(Sample binary datagram (RAW3) This datagram contains the sample data
-for each ping. The exact datatype and size depends on the Datatype
+for each ping. The exact datatype and size depends on the data_type
 field!)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_ChannelID = R"doc(< Channel identification (size is always 128))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Count = R"doc(< Number of samples in the datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Datatype = R"doc(< Datatype)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_NumberOfComplexSamples =
-R"doc(< Number of transducer samples per sample (used when < Datatype is
-complex))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Offset = R"doc(< First sample number in the datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_RAW3 = R"doc()doc";
 
@@ -61,11 +49,11 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_SampleData = R"doc(< Sample data)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_channel_id = R"doc(< Channel identification (size is always 128))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Spare_1 = R"doc(< Spare 1)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_count = R"doc(< Number of samples in the datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_Spare_2 = R"doc(< Spare 2)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_data_type = R"doc(< data_type)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_from_stream = R"doc()doc";
 
@@ -101,6 +89,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_get_spare_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_number_of_complex_samples =
+R"doc(< Number of transducer samples per sample (used when < data_type is
+complex))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_offset = R"doc(< First sample number in the datagram)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_ne = R"doc()doc";
@@ -111,7 +105,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_read_skipped_sample_data = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data =
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data = R"doc(< Sample data)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data_2 =
 R"doc(Get the sample data. The sample data is stored in a variant of xtensor
 containers. The exact type depends on the data type.
 
@@ -129,6 +125,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_offset = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_sample_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_spare_1 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_set_spare_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_spare_1 = R"doc(< Spare 1)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_spare_2 = R"doc(< Spare 2)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_to_stream = R"doc()doc";
 

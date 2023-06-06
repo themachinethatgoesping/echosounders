@@ -1,4 +1,4 @@
-//sourcehash: b258fecbca0639510632daad4d45dd66777a7c1317faa592873523ededcf475a
+//sourcehash: 2f0e49562fe64e6b0ab4c66a3be6477bf281c0a48eab0c2c4c45863070c361a6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 R"doc(< file position of this datagram TODO: is this the < same for ifstream
 and MappedFileStream?)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_from_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_datagram_identifier = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_file_nr = R"doc()doc";
@@ -81,6 +83,8 @@ Parameter ``skip_data``:
 t_DatagramType)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -26,69 +26,29 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::FIL1;
 using datagrams::SimradDatagram;
 
+#define DOC_FIL1(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, arg)
+
 void init_c_FIL1(pybind11::module& m)
 {
 
     py::class_<FIL1, datagrams::SimradDatagram>(
         m, "FIL1", DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, FIL1))
-        // --- convenient data access ---
-        .def_property("stage",
-                      &FIL1::get_stage,
-                      &FIL1::set_stage,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Stage))
-        .def_property("channel_id",
-                      &FIL1::get_channel_id,
-                      &FIL1::set_channel_id,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, ChannelID))
-        .def_property(
-            "no_of_coefficients",
-            &FIL1::get_no_of_coefficients,
-            &FIL1::set_no_of_coefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, NoOfCoefficients))
-        .def_property(
-            "decimation_factor",
-            &FIL1::get_decimation_factor,
-            &FIL1::set_decimation_factor,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, DecimationFactor))
-        .def_property(
-            "coefficients",
-            &FIL1::get_coefficients,
-            &FIL1::set_coefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Coefficients))
+        .def(py::init<>(), DOC_FIL1(FIL1))
 
-        // --- raw data access ---
-        .def_readwrite("_raw_Stage",
-                       &FIL1::_Stage,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Stage))
-        .def_readwrite("_raw_Spare_1",
-                       &FIL1::_Spare_1,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Spare_1))
-        .def_readwrite("_raw_Spare_2",
-                       &FIL1::_Spare_2,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Spare_2))
-        .def_readwrite(
-            "_raw_ChannelID",
-            &FIL1::_ChannelID,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, ChannelID))
-        .def_readwrite(
-            "_raw_NoOfCoefficients",
-            &FIL1::_NoOfCoefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, NoOfCoefficients))
-        .def_readwrite(
-            "_raw_DecimationFactor",
-            &FIL1::_DecimationFactor,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, DecimationFactor))
-        .def_readwrite(
-            "_raw_Coefficients",
-            &FIL1::_Coefficients,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, Coefficients))
+        // --- convenient data access ---
+        .def("get_stage", &FIL1::get_stage, DOC_FIL1(stage))
+        .def("set_stage", &FIL1::set_stage, DOC_FIL1(stage))
+        .def("get_channel_id", &FIL1::get_channel_id, DOC_FIL1(channel_id))
+        .def("set_channel_id", &FIL1::set_channel_id, DOC_FIL1(channel_id))
+        .def("get_no_of_coefficients", &FIL1::get_no_of_coefficients, DOC_FIL1(no_of_coefficients))
+        .def("set_no_of_coefficients", &FIL1::set_no_of_coefficients, DOC_FIL1(no_of_coefficients))
+        .def("get_decimation_factor", &FIL1::get_decimation_factor, DOC_FIL1(decimation_factor))
+        .def("set_decimation_factor", &FIL1::set_decimation_factor, DOC_FIL1(decimation_factor))
+        .def("get_coefficients", &FIL1::get_coefficients, DOC_FIL1(coefficients))
+        .def("set_coefficients", &FIL1::set_coefficients, DOC_FIL1(coefficients))
 
         // ----- operators -----
-        .def("__eq__",
-             &FIL1::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, FIL1, operator_eq),
-             py::arg("other"))
+        .def("__eq__", &FIL1::operator==, DOC_FIL1(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(FIL1)

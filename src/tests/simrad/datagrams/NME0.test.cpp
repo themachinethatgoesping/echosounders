@@ -27,8 +27,8 @@ TEST_CASE("NME0 should support common functions", TESTTAG)
 
     // set some variables
     dat1.set_timestamp(123);
-    dat1._nmea_base = sentence1;
-    dat2._nmea_base = sentence2;
+    dat1.set_nmea_base(sentence1);
+    dat2.set_nmea_base(sentence2);
 
     // test inequality
     REQUIRE(dat1 != dat2);

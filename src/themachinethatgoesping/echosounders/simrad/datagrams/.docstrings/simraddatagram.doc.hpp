@@ -1,4 +1,4 @@
-//sourcehash: 69909b5dba6ee346d33d315046087b2736615a489a32a43c69004ededb4a2260
+//sourcehash: b59f8955305fc0950d73bf9443f3e22915bbfe1edf2c9c0415fce2f08af13eca
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,19 +40,13 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_DatagramType = R"doc(< Raw: Datagram type as)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_HighDateTime = R"doc(< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_Length = R"doc(< Raw: Length of the datagram in bytes)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_LowDateTime = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_SimradDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_SimradDatagram_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_datagram_type = R"doc(< Raw: Datagram type as)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_from_stream = R"doc()doc";
 
@@ -60,15 +54,27 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_datagram_identifier = R"doc(Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...))doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_datagram_type = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_date_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_high_date_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_length =
 R"doc(length of the datagram in bytes (excluding the length fields at the
 beginning and end of the datagram))doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_low_date_time = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_get_timestamp =
 R"doc(unix timestamp in seconds since epoch (1970-01-01). Data is converted
 to/from internal windows high/low timestamp representation.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_high_date_time = R"doc(< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_length = R"doc(< Raw: Length of the datagram in bytes)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_low_date_time = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_operator_eq = R"doc()doc";
 
@@ -78,7 +84,13 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_datagram_identifier = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_datagram_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_high_date_time = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_length = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_low_date_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_set_timestamp = R"doc()doc";
 

@@ -21,108 +21,38 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::SimradDatagram;
 
+#define DOC_SimradDatagram(arg)                                                                    \
+    DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradDatagram, arg)
+
 void init_c_SimradDatagram(pybind11::module& m)
 {
     py::class_<SimradDatagram>(
         m,
         "SimradDatagram",
         DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradDatagram))
-        .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 SimradDatagram,
-                 SimradDatagram))
-        // --- convenient data access ---
-        .def_property("length",
-                      &SimradDatagram::get_length,
-                      &SimradDatagram::set_length,
-                      DOC(themachinethatgoesping,
-                          echosounders,
-                          simrad,
-                          datagrams,
-                          SimradDatagram,
-                          get_length))
-        .def_property("timestamp",
-                      &SimradDatagram::get_timestamp,
-                      &SimradDatagram::set_timestamp,
-                      DOC(themachinethatgoesping,
-                          echosounders,
-                          simrad,
-                          datagrams,
-                          SimradDatagram,
-                          get_timestamp))
-        .def_property("datagram_type",
-                      &SimradDatagram::get_datagram_identifier,
-                      &SimradDatagram::set_datagram_identifier,
-                      DOC(themachinethatgoesping,
-                          echosounders,
-                          simrad,
-                          datagrams,
-                          SimradDatagram,
-                          get_datagram_identifier))
-        .def("get_date_string",
-             &SimradDatagram::get_date_string,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 SimradDatagram,
-                 get_date_string),
-             py::arg("fractional_seconds_digits") = 2,
-             py::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
+        .def(py::init<>(), DOC_SimradDatagram(SimradDatagram))
 
-        // --- raw data access ---
-        .def_readwrite(
-            "_raw_Length",
-            &SimradDatagram::_Length,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradDatagram, Length))
-        .def_readwrite("_raw_DatagramType",
-                       &SimradDatagram::_DatagramType,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           SimradDatagram,
-                           DatagramType))
-        .def_readwrite("_raw_LowDateTime",
-                       &SimradDatagram::_LowDateTime,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           SimradDatagram,
-                           LowDateTime))
-        .def_readwrite("_raw_HighDateTime",
-                       &SimradDatagram::_HighDateTime,
-                       DOC(themachinethatgoesping,
-                           echosounders,
-                           simrad,
-                           datagrams,
-                           SimradDatagram,
-                           HighDateTime))
-        // .def("__call__",
-        //      py::overload_cast<double>(&LinearInterpolator::operator()),
-        //      DOC(themachinethatgoesping, tools, vectorinterpolators, I_Interpolator,
-        //      operator_call), py::arg("target_x"))
-        // .def("__call__",
-        //      py::overload_cast<const std::vector<double>&>(&LinearInterpolator::operator()),
-        //      DOC(themachinethatgoesping,
-        //          tools,
-        //          vectorinterpolators,
-        //          I_Interpolator,
-        //          operator_call_2),
-        //      py::arg("targets_x"))
+        // --- convenient data access ---
+        .def("get_length", &SimradDatagram::get_length, DOC_SimradDatagram(length))
+        .def("set_length", &SimradDatagram::set_length, DOC_SimradDatagram(length))
+        .def("get_datagram_type", &SimradDatagram::get_datagram_type, DOC_SimradDatagram(datagram_type))
+        .def("set_datagram_type", &SimradDatagram::set_datagram_type, DOC_SimradDatagram(datagram_type))
+        .def("get_low_date_time", &SimradDatagram::get_low_date_time, DOC_SimradDatagram(low_date_time))
+        .def("set_low_date_time", &SimradDatagram::set_low_date_time, DOC_SimradDatagram(low_date_time))
+        .def("get_high_date_time", &SimradDatagram::get_high_date_time, DOC_SimradDatagram(high_date_time))
+        .def("set_high_date_time", &SimradDatagram::set_high_date_time, DOC_SimradDatagram(high_date_time))
+
+        // --- processed data access
+        .def("get_timestamp", &SimradDatagram::get_timestamp, DOC_SimradDatagram(get_timestamp))
+        .def("set_timestamp", &SimradDatagram::set_timestamp, DOC_SimradDatagram(set_timestamp))
+        .def("get_datagram_identifier", &SimradDatagram::get_datagram_identifier, DOC_SimradDatagram(get_datagram_identifier))
+        .def("set_datagram_identifier", &SimradDatagram::set_datagram_identifier, DOC_SimradDatagram(set_datagram_identifier))
+        .def("get_date_string", &SimradDatagram::get_date_string, DOC_SimradDatagram(get_date_string))
+
         // ----- operators -----
         .def("__eq__",
              &SimradDatagram::operator==,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 SimradDatagram,
-                 operator_eq),
+             DOC_SimradDatagram(operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions

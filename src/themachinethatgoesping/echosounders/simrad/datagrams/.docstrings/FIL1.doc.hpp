@@ -1,4 +1,4 @@
-//sourcehash: 7f1baf662749d4d2b3fef679803bbcd2e41e184bd1fc7e460e8c4235fe6e07f7
+//sourcehash: bef7e0f18ac8105d63e93899baf1c2a51f0c962aa26c9e158958551769dca1e2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,25 +42,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FI
 R"doc(Filter binary datagram (FIL1) This datagram contains filter
 coefficients used by the EK80 to filter the received signal.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_ChannelID = R"doc(< Channel identification (size is always 128))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Coefficients = R"doc(< Filter coefficients, ...))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_DecimationFactor = R"doc(< Filter decimation factor)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_FIL1 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_FIL1_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_NoOfCoefficients = R"doc(< Number of complex filter coefficients)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Spare_1 = R"doc(< For future expansions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_channel_id = R"doc(< Channel identification (size is always 128))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Spare_2 = R"doc(< For future expansions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_coefficients = R"doc(< Filter coefficients, ...))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_Stage = R"doc(< Filter stage number)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_decimation_factor = R"doc(< Filter decimation factor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_from_stream = R"doc()doc";
 
@@ -82,6 +74,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FI
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_get_stage = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_no_of_coefficients = R"doc(< Number of complex filter coefficients)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_operator_ne = R"doc()doc";
@@ -101,6 +95,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FI
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_spare_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_set_stage = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_spare_1 = R"doc(< For future expansions)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_spare_2 = R"doc(< For future expansions)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_stage = R"doc(< Filter stage number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_FIL1_to_stream = R"doc()doc";
 

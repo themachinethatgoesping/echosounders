@@ -1,4 +1,4 @@
-//sourcehash: 1e0dd18332f2ddfe1dd33c98829ef2d6b9191bee896e2253c0b558de5bc7e0be
+//sourcehash: c360132c382fbdaeaebbaed23226e508f614b157c05db1eddb78439ae5e41125
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,8 +52,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TA
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_TAG0_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_Text = R"doc(< _Text annotation string (e.g. interesting fish shoal in echogram))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_from_stream_2 = R"doc()doc";
@@ -69,6 +67,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_set_text = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_text = R"doc(< _text annotation string (e.g. interesting fish shoal in echogram))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_to_stream = R"doc()doc";
 

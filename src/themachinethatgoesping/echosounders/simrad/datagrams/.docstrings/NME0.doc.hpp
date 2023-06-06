@@ -1,4 +1,4 @@
-//sourcehash: 9edbdcb7f2d64c542c286e5efa64a7981182ed553cce9a3c8a96f4ca39ebbf38
+//sourcehash: 22098ebc0b5c9a85bc3c658e2458788073f8bce01264c11fa0d9c5caecda9c9e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -62,6 +62,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_field_as_int = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_nmea_base = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sender_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sentence = R"doc()doc";
@@ -70,7 +72,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_get_sentence_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_nmea_base = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_nmea_base = R"doc(< Raw NMEA sentence)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_operator_eq = R"doc()doc";
 
@@ -79,6 +81,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_parse_fields = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_set_nmea_base = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_to_stream = R"doc()doc";
 

@@ -29,16 +29,17 @@ namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
-struct SimradDatagram
+class SimradDatagram
 {
+  protected:
     using t_DatagramIdentifier = t_SimradDatagramIdentifier;
 
-    simrad_long _Length;       ///< Raw: Length of the datagram in bytes
-    simrad_long _DatagramType; ///< Raw: Datagram type as
+    simrad_long _length;        ///< Raw: Length of the datagram in bytes
+    simrad_long _datagram_type; ///< Raw: Datagram type as
     simrad_long
-        _LowDateTime; ///< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01)
+        _low_date_time; ///< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01)
     simrad_long
-        _HighDateTime; ///< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01)
+        _high_date_time; ///< Raw: High part of Windows NT FILETIME (100ns ticks since 1601-01-01)
 
   protected:
     /**
@@ -50,17 +51,17 @@ struct SimradDatagram
     void _verify_datagram_end(std::istream& is) const
     {
         // verify that we are at the end of the datagram by reading the enclosing length field
-        // This should be the same as _Length if everything is ok
+        // This should be the same as _length if everything is ok
         simrad_long length;
         is.read(reinterpret_cast<char*>(&length), sizeof(length));
 
         // (the datagrams are encapsulated by length)
         // if the lengths do not match the datagrams was not read correctly
-        if (!is || length != _Length)
+        if (!is || length != _length)
         {
             auto error = fmt::format(
                 "ERROR[SimradDatagram]: Datagram length check failed (read). Expected: {}, got: {}",
-                _Length,
+                _length,
                 length);
             [[maybe_unused]] auto error_verbose =
                 fmt::format("{}\n--- read header ---\n{}\n---", error, info_string());
@@ -75,10 +76,10 @@ struct SimradDatagram
                    simrad_long datagram_type,
                    simrad_long low_data_time  = 0,
                    simrad_long high_date_time = 0)
-        : _Length(length)
-        , _DatagramType(datagram_type)
-        , _LowDateTime(low_data_time)
-        , _HighDateTime(high_date_time)
+        : _length(length)
+        , _datagram_type(datagram_type)
+        , _low_date_time(low_data_time)
+        , _high_date_time(high_date_time)
     {
     }
     SimradDatagram()          = default;
@@ -86,10 +87,10 @@ struct SimradDatagram
 
     void skip(std::istream& is) const
     {
-        // _Length is the length the datagram that is enclosed by _Length
+        // _length is the length the datagram that is enclosed by _length
         const static simrad_long tmp = sizeof(simrad_long) * 3;
 
-        is.seekg(_Length - tmp, std::ios::cur);
+        is.seekg(_length - tmp, std::ios::cur);
 
         // verify the datagram is read correctly by reading the length field at the end
         _verify_datagram_end(is);
@@ -100,8 +101,17 @@ struct SimradDatagram
      * @brief length of the datagram in bytes (excluding the length fields at the beginning and end
      * of the datagram)
      */
-    simrad_long get_length() const { return _Length; }
-    void        set_length(simrad_long length) { _Length = length; }
+    simrad_long get_length() const { return _length; }
+    void        set_length(simrad_long length) { _length = length; }
+
+    simrad_long get_datagram_type() const { return _datagram_type; }
+    void        set_datagram_type(simrad_long datagram_type) { _datagram_type = datagram_type; }
+
+    simrad_long get_low_date_time() const { return _low_date_time; }
+    void        set_low_date_time(simrad_long low_date_time) { _low_date_time = low_date_time; }
+
+    simrad_long get_high_date_time() const { return _high_date_time; }
+    void        set_high_date_time(simrad_long high_date_time) { _high_date_time = high_date_time; }
 
     /**
      * @brief Ek60 datagram type (XML0, FIL1, NME0, MRU0, RAW3, ...)
@@ -109,11 +119,11 @@ struct SimradDatagram
      */
     t_SimradDatagramIdentifier get_datagram_identifier() const
     {
-        return t_SimradDatagramIdentifier(_DatagramType);
+        return t_SimradDatagramIdentifier(_datagram_type);
     }
     void set_datagram_identifier(t_SimradDatagramIdentifier datagram_type)
     {
-        _DatagramType = simrad_long(datagram_type);
+        _datagram_type = simrad_long(datagram_type);
     }
 
     /**
@@ -122,12 +132,12 @@ struct SimradDatagram
      */
     double get_timestamp() const
     {
-        return tools::timeconv::windows_filetime_to_unixtime(_HighDateTime, _LowDateTime);
+        return tools::timeconv::windows_filetime_to_unixtime(_high_date_time, _low_date_time);
     }
 
     void set_timestamp(double unixtime)
     {
-        std::tie(_HighDateTime, _LowDateTime) =
+        std::tie(_high_date_time, _low_date_time) =
             tools::timeconv::unixtime_to_windows_filetime(unixtime);
     }
 
@@ -141,15 +151,15 @@ struct SimradDatagram
     // ----- operators -----
     bool operator==(const SimradDatagram& other) const
     {
-        return _Length == other._Length && _DatagramType == other._DatagramType &&
-               _LowDateTime == other._LowDateTime && _HighDateTime == other._HighDateTime;
+        return _length == other._length && _datagram_type == other._datagram_type &&
+               _low_date_time == other._low_date_time && _high_date_time == other._high_date_time;
     }
     bool operator!=(const SimradDatagram& other) const { return !operator==(other); }
 
     static SimradDatagram from_stream(std::istream& is)
     {
         SimradDatagram d;
-        is.read(reinterpret_cast<char*>(&d._Length), 4 * sizeof(simrad_long));
+        is.read(reinterpret_cast<char*>(&d._length), 4 * sizeof(simrad_long));
 
         return d;
     }
@@ -167,7 +177,7 @@ struct SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        os.write(reinterpret_cast<char*>(&_Length), 4 * sizeof(simrad_long));
+        os.write(reinterpret_cast<char*>(&_length), 4 * sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
@@ -184,10 +194,10 @@ struct SimradDatagram
 
         tools::classhelper::ObjectPrinter printer("SimradDatagram", float_precision);
 
-        printer.register_value("length", _Length, "bytes");
+        printer.register_value("length", _length, "bytes");
         printer.register_string(
-            "datagram_type",
-            datagram_identifier_to_string(t_SimradDatagramIdentifier(_DatagramType)));
+            "datagram_identifier",
+            datagram_identifier_to_string(t_SimradDatagramIdentifier(_datagram_type)));
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");

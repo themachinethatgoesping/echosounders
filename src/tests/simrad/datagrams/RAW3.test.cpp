@@ -35,39 +35,39 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
                                           t_RAW3DataType::ComplexFloat32,
                                           t_RAW3DataType::ComplexFloat16 };
 
-    dat._NumberOfComplexSamples = 3;
-    dat._Offset                 = 1;
-    dat._Count                  = 20;
+    dat.set_number_of_complex_samples(3);
+    dat.set_offset(1);
+    dat.set_count(20);
 
     for (const auto type : types)
     {
-        dat._Datatype = type;
+        dat.set_data_type(type);
         std::cerr << "Type: " << magic_enum::enum_name(type) << std::endl;
 
         switch (type)
         {
             case t_RAW3DataType::ComplexFloat32:
-                dat._SampleData = RAW3DataComplexFloat32(xt::xtensor<simrad_float, 3>::from_shape(
-                    { unsigned(dat._Count), dat.get_number_of_complex_samples(), 2 }));
+                dat.set_sample_data(RAW3DataComplexFloat32(xt::xtensor<simrad_float, 3>::from_shape(
+                    { unsigned(dat.get_count()), dat.get_number_of_complex_samples(), 2 })));
                 break;
             case t_RAW3DataType::PowerAndAngle:
-                dat._SampleData = RAW3DataPowerAndAngle(
-                    xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat._Count) }),
-                    xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
+                dat.set_sample_data(RAW3DataPowerAndAngle(
+                    xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat.get_count()) }),
+                    xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat.get_count()), 2 })));
                 break;
             case t_RAW3DataType::Power:
-                dat._SampleData = RAW3DataPower(
-                    xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat._Count) }));
+                dat.set_sample_data(RAW3DataPower(
+                    xt::xtensor<simrad_short, 1>::from_shape({ unsigned(dat.get_count()) })));
                 break;
             case t_RAW3DataType::Angle:
-                dat._SampleData =
-                    RAW3DataAngle(xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat._Count), 2 }));
+                dat.set_sample_data(RAW3DataAngle(
+                    xt::xtensor<int8_t, 2>::from_shape({ unsigned(dat.get_count()), 2 })));
                 break;
             default:
                 std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
-                                         magic_enum::enum_name(dat._Datatype))
+                                         magic_enum::enum_name(dat.get_data_type()))
                           << std::endl;
-                dat._SampleData = RAW3DataSkipped();
+                dat.set_sample_data(RAW3DataSkipped());
                 break;
         }
 
@@ -111,7 +111,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         // test reading header only
         dat.to_stream(buffer2);
         auto dat3 = RAW3::from_stream(buffer2, true);
-        if (!std::holds_alternative<RAW3DataSkipped>(dat._SampleData))
+        if (!std::holds_alternative<RAW3DataSkipped>(dat.get_sample_data()))
             REQUIRE(dat3 != dat);
 
         dat3.set_sample_data(dat.get_sample_data());
@@ -133,7 +133,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::RAW3);
         REQUIRE(dat.get_length() ==
                 simrad_long(12 + 140 +
-                            dat._Count * get_raw3datatype_size(dat.get_data_type()) *
+                            dat.get_count() * get_raw3datatype_size(dat.get_data_type()) *
                                 dat.get_number_of_complex_samples()));
     }
 }

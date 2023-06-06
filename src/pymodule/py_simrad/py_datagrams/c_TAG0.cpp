@@ -23,27 +23,20 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::SimradDatagram;
 using datagrams::TAG0;
 
+#define DOC_TAG0(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0, arg)
+
 void init_c_TAG0(pybind11::module& m)
 {
     py::class_<TAG0, datagrams::SimradDatagram>(
         m, "TAG0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0, TAG0))
-        // --- convenient data access ---
-        .def_property("text",
-                      &TAG0::get_text,
-                      &TAG0::set_text,
-                      DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0, Text))
+        .def(py::init<>(), DOC_TAG0(TAG0))
 
-        // --- raw data access ---
-        .def_readwrite("_raw_Text",
-                       &TAG0::_Text,
-                       DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0, Text))
+        // --- convenient data access ---
+        .def("get_text", &TAG0::get_text, DOC_TAG0(text))
+        .def("set_text", &TAG0::set_text, DOC_TAG0(text))
 
         // ----- operators -----
-        .def("__eq__",
-             &TAG0::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, TAG0, operator_eq),
-             py::arg("other"))
+        .def("__eq__", &TAG0::operator==, DOC_TAG0(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(TAG0)

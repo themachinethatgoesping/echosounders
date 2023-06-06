@@ -23,57 +23,36 @@ using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::NME0;
 using datagrams::SimradDatagram;
 
+#define DOC_NME0(arg) DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, arg)
+
 void init_c_NME0(pybind11::module& m)
 {
     py::class_<NME0, datagrams::SimradDatagram>(
         m, "NME0", DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0))
-        .def(py::init<>(), DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, NME0))
+        .def(py::init<>(), DOC_NME0(NME0))
+
         // --- convenient data access ---
-        .def_property_readonly(
-            "sender",
-            &NME0::get_sender_id,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_sender_id))
-        .def_property_readonly(
-            "type",
-            &NME0::get_sentence_type,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_sentence_type))
-        .def_property_readonly(
-            "name",
-            &NME0::get_sentence_id,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_sentence_id))
+        .def("get_nmea_base", &NME0::get_nmea_base, DOC_NME0(nmea_base))
+        .def("set_nmea_base", &NME0::set_nmea_base, DOC_NME0(nmea_base))
 
-        .def("field",
-             &NME0::get_field,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_field))
-        .def("field_float",
+        // --- processed data access ---
+        .def("get_sentence", &NME0::get_sentence, DOC_NME0(get_sentence))
+        .def("get_sender_id", &NME0::get_sender_id, DOC_NME0(get_sender_id))
+        .def("get_sentence_type", &NME0::get_sentence_type, DOC_NME0(get_sentence_type))
+        .def("get_sentence_id", &NME0::get_sentence_id, DOC_NME0(get_sentence_id))
+
+        .def("get_field", &NME0::get_field, DOC_NME0(get_field))
+        .def("get_field_as_floattype",
              &NME0::get_field_as_floattype<double>,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 NME0,
-                 get_field_as_floattype))
-        .def("field_int",
-             &NME0::get_field_as_int,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_field_as_int))
-        .def("parse_fields",
-             &NME0::parse_fields,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, parse_fields))
-        .def("decode",
-             &NME0::decode,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, decode))
+             DOC_NME0(get_field_as_floattype))
+        .def("get_field_as_int", &NME0::get_field_as_int, DOC_NME0(get_field_as_int))
 
-        // --- raw data access ---
-        .def_property_readonly(
-            "_raw_sentence",
-            &NME0::get_sentence,
-            DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, get_sentence))
+        // --- nmea functions ---
+        .def("parse_fields", &NME0::parse_fields, DOC_NME0(parse_fields))
+        .def("decode", &NME0::decode, DOC_NME0(decode))
 
         // ----- operators -----
-        .def("__eq__",
-             &NME0::operator==,
-             DOC(themachinethatgoesping, echosounders, simrad, datagrams, NME0, operator_eq),
-             py::arg("other"))
+        .def("__eq__", &NME0::operator==, DOC_NME0(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(NME0)

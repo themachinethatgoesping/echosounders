@@ -24,14 +24,14 @@ TEST_CASE("FIL1 should support common functions", TESTTAG)
 
     // set some variables
     dat.set_timestamp(123);
-    dat._Stage            = 10;
-    dat._DecimationFactor = 3;
-    dat._ChannelID        = "channel1";
-    auto coeff            = xt::xtensor<simrad_float, 2>({ { 1, 2, 3, 4 }, { 5, 6, 7, 8 } });
-    dat._Coefficients     = coeff;
+    dat.set_stage(10);
+    dat.set_decimation_factor(3);
+    dat.set_channel_id("channel1");
+    auto coeff = xt::xtensor<simrad_float, 2>({ { 1, 2, 3, 4 }, { 5, 6, 7, 8 } });
+    dat.set_coefficients(coeff);
 
-    auto dat2       = dat;
-    dat2._ChannelID = "channel2";
+    auto dat2 = dat;
+    dat2.set_channel_id("channel2");
 
     // test inequality
     REQUIRE(dat != dat2);
@@ -62,7 +62,8 @@ TEST_CASE("FIL1 should support common functions", TESTTAG)
     REQUIRE(dat.get_decimation_factor() == 3);
     REQUIRE(dat.get_no_of_coefficients() == 4);
     REQUIRE(dat.get_coefficients().size() == 8);
-    REQUIRE(themachinethatgoesping::tools::helper::approx_container(xt::flatten(dat._Coefficients),
+    auto coeff2 = dat.get_coefficients();
+    REQUIRE(themachinethatgoesping::tools::helper::approx_container(xt::flatten(coeff2),
                                                                     xt::flatten(coeff)));
 
     auto xcoeff = dat.get_coefficients();
@@ -76,5 +77,5 @@ TEST_CASE("FIL1 should support common functions", TESTTAG)
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_SimradDatagramIdentifier::FIL1);
     REQUIRE(dat.get_length() ==
-            simrad_long(12 + 136 + dat._NoOfCoefficients * 2 * sizeof(simrad_float)));
+            simrad_long(12 + 136 + dat.get_no_of_coefficients() * 2 * sizeof(simrad_float)));
 }

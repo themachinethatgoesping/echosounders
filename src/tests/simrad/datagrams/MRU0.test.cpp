@@ -22,13 +22,13 @@ TEST_CASE("MRU0 should support common functions", TESTTAG)
 
     // set some variables
     dat.set_timestamp(123);
-    dat._Heave   = 10;
-    dat._Roll    = 12;
-    dat._Pitch   = 13;
-    dat._Heading = 14;
+    dat.set_heave(10);
+    dat.set_roll(12);
+    dat.set_pitch(13);
+    dat.set_heading(14);
 
-    auto dat2     = dat;
-    dat2._Heading = 15;
+    auto dat2 = dat;
+    dat2.set_heading(15);
 
     // test inequality
     REQUIRE(dat != dat2);

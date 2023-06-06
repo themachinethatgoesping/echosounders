@@ -12,10 +12,10 @@ from themachinethatgoesping.echosounders.simrad.datagrams import SimradDatagram
 class Test_echosounders_simrad_SimradDatagram:
     def test_SimradDatagram_should_support_common_functions(self):
         dat = SimradDatagram()
-        dat._raw_Length = 100
-        dat._raw_DatagramType = 810306904
-        dat._raw_LowDateTime = 10
-        dat._raw_HighDateTime = 20
+        dat.set_length(100)
+        dat.set_datagram_type(810306904)
+        dat.set_low_date_time(10)
+        dat.set_high_date_time(20)
 
         print(dat)
 
@@ -26,7 +26,7 @@ class Test_echosounders_simrad_SimradDatagram:
         # copy
         dat2 = dat.copy()
         assert dat == dat2
-        dat2._raw_Length = 12
+        dat2.set_length(12)
         assert dat != dat2
 
         # binary

@@ -34,10 +34,10 @@ namespace datagrams {
  * because they are defined in the default coordinate system / value range.
  *
  */
-struct TAG0 : public SimradDatagram
+class TAG0 : public SimradDatagram
 {
     // ----- datagram content -----
-    std::string _Text; ///< _Text annotation string (e.g. interesting fish shoal in echogram)
+    std::string _text; ///< _text annotation string (e.g. interesting fish shoal in echogram)
 
   private:
     // ----- public constructors -----
@@ -55,7 +55,7 @@ struct TAG0 : public SimradDatagram
     TAG0(std::string text_anotation)
         : SimradDatagram(simrad_long(12 + text_anotation.size()),
                          simrad_long(t_SimradDatagramIdentifier::TAG0))
-        , _Text(std::move(text_anotation))
+        , _text(std::move(text_anotation))
     {
     }
     ~TAG0() = default;
@@ -63,20 +63,20 @@ struct TAG0 : public SimradDatagram
     // ----- operators -----
     bool operator==(const TAG0& other) const
     {
-        return SimradDatagram::operator==(other) && _Text == other._Text;
+        return SimradDatagram::operator==(other) && _text == other._text;
     }
     bool operator!=(const TAG0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
-    const std::string& get_text() const { return _Text; }
-    void               set_text(std::string text) { _Text = std::move(text); }
+    const std::string& get_text() const { return _text; }
+    void               set_text(std::string text) { _text = std::move(text); }
 
     // ----- file I/O -----
     static TAG0 from_stream(std::istream& is, SimradDatagram header)
     {
         TAG0 datagram(std::move(header));
-        datagram._Text.resize(datagram._Length - 12);
-        is.read(datagram._Text.data(), datagram._Text.size());
+        datagram._text.resize(datagram.get_length() - 12);
+        is.read(datagram._text.data(), datagram._text.size());
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -99,11 +99,11 @@ struct TAG0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = simrad_long(12 + _Text.size());
-        _DatagramType = simrad_long(t_SimradDatagramIdentifier::TAG0);
+        _length       = simrad_long(12 + _text.size());
+        _datagram_type = simrad_long(t_SimradDatagramIdentifier::TAG0);
         SimradDatagram::to_stream(os);
-        os.write(_Text.data(), _Text.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
+        os.write(_text.data(), _text.size());
+        os.write(reinterpret_cast<const char*>(&_length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----
@@ -114,7 +114,7 @@ struct TAG0 : public SimradDatagram
         printer.append(SimradDatagram::__printer__(float_precision));
 
         printer.register_section("Annotation data");
-        printer.register_string("Text", _Text);
+        printer.register_string("Text", _text);
 
         return printer;
     }

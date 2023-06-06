@@ -32,10 +32,10 @@ namespace datagrams {
  * This datagram contains NMEA sentences received by the EK60/EK80 transceiver.
  *
  */
-struct NME0 : public SimradDatagram
+class NME0 : public SimradDatagram
 {
     // ----- datagram content -----
-    navigation::nmea_0183::NMEA_Base _nmea_base;
+    navigation::nmea_0183::NMEA_Base _nmea_base; ///< Raw NMEA sentence
 
   private:
     // ----- public constructors -----
@@ -46,7 +46,7 @@ struct NME0 : public SimradDatagram
 
   public:
     // ----- constructors -----
-    NME0() { _DatagramType = simrad_long(t_SimradDatagramIdentifier::NME0); }
+    NME0() { _datagram_type = simrad_long(t_SimradDatagramIdentifier::NME0); }
     ~NME0() = default;
 
     // ----- operators -----
@@ -57,6 +57,13 @@ struct NME0 : public SimradDatagram
     bool operator!=(const NME0& other) const { return !operator==(other); }
 
     // ----- getter setter -----
+    const navigation::nmea_0183::NMEA_Base& get_nmea_base() const { return _nmea_base; }
+    void set_nmea_base(navigation::nmea_0183::NMEA_Base nmea_base)
+    {
+        _nmea_base = std::move(nmea_base);
+    }
+
+    // ----- processed data access -----
     std::string get_sender_id() const { return std::string(_nmea_base.get_sender_id()); }
     std::string get_sentence_type() const { return std::string(_nmea_base.get_sentence_type()); }
     std::string get_sentence_id() const { return std::string(_nmea_base.get_sentence_id()); }
@@ -80,7 +87,7 @@ struct NME0 : public SimradDatagram
     {
         NME0 datagram(std::move(header));
         datagram._nmea_base =
-            navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._Length - 12);
+            navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._length - 12);
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -103,11 +110,11 @@ struct NME0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = simrad_long(12 + _nmea_base.size());
-        _DatagramType = simrad_long(t_SimradDatagramIdentifier::NME0);
+        _length        = simrad_long(12 + _nmea_base.size());
+        _datagram_type = simrad_long(t_SimradDatagramIdentifier::NME0);
         SimradDatagram::to_stream(os);
         _nmea_base.to_stream_dont_write_size(os);
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(_Length));
+        os.write(reinterpret_cast<const char*>(&_length), sizeof(_length));
     }
 
     // ----- objectprinter -----

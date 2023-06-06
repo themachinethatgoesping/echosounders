@@ -22,10 +22,10 @@ TEST_CASE("SimradDatagram should support common functions", TESTTAG)
     auto dat = SimradDatagram();
 
     // set some variables
-    dat._Length       = 100;
-    dat._DatagramType = simrad_long(t_SimradDatagramIdentifier::XML0);
-    dat._LowDateTime  = 1;
-    dat._HighDateTime = 2;
+    dat.set_length(100);
+    dat.set_datagram_type(simrad_long(t_SimradDatagramIdentifier::XML0));
+    dat.set_low_date_time(1);
+    dat.set_high_date_time(2);
 
     // test inequality
     REQUIRE(dat != SimradDatagram());
@@ -57,6 +57,6 @@ TEST_CASE("SimradDatagram should support common functions", TESTTAG)
     // timestamp (unixtime)
     dat.set_timestamp(123.123);
     REQUIRE(dat.get_timestamp() == Catch::Approx(123.123));
-    REQUIRE(dat._HighDateTime == 27111903);
-    REQUIRE(dat._LowDateTime == 513905712);
+    REQUIRE(dat.get_high_date_time() == 27111903);
+    REQUIRE(dat.get_low_date_time() == 513905712);
 }

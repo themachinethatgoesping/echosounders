@@ -111,14 +111,14 @@ struct RAW3DataSkipped : public i_RAW3Data
         switch (data_type)
         {
             case t_RAW3DataType::PowerAndAngle: {
-                // write _Count.size() zeros
+                // write _count.size() zeros
                 auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::ComplexFloat32: {
-                // write _Count.size() zeros
+                // write _count.size() zeros
                 auto samples =
                     std::vector<simrad_complex_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
@@ -126,21 +126,21 @@ struct RAW3DataSkipped : public i_RAW3Data
                 break;
             }
             case t_RAW3DataType::Power: {
-                // write _Count.size() zeros
+                // write _count.size() zeros
                 auto samples = std::vector<simrad_short>(count, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::Angle: {
-                // write _Count.size() zeros
+                // write _count.size() zeros
                 auto samples = std::vector<uint8_t>(count * 2, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::ComplexFloat16: {
-                // write _Count.size() zeros
+                // write _count.size() zeros
                 auto samples = std::vector<simrad_float>(count * number_of_complex_samples, 0);
                 os.write(reinterpret_cast<char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));

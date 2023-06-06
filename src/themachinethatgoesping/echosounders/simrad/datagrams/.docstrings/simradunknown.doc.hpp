@@ -1,4 +1,4 @@
-//sourcehash: 0fb25d84680bc24c22ed5c2941d926574f2ae197d175def012bce6cfd3474955
+//sourcehash: 0e6fe59c5695b7754b1729b071f43d114a02cc23c114fd6f1272409d8e367685
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,13 +52,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_get_raw_content = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_raw_content = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_raw_content = R"doc(< raw content of the datagram as byte string;)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_set_raw_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_to_stream = R"doc()doc";
 

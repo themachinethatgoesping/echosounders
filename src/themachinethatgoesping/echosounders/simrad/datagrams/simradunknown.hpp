@@ -27,10 +27,10 @@ namespace echosounders {
 namespace simrad {
 namespace datagrams {
 
-struct SimradUnknown : public SimradDatagram
+class SimradUnknown : public SimradDatagram
 {
     // ----- datagram content -----
-    std::string raw_content;
+    std::string _raw_content; ///< raw content of the datagram as byte string;
 
   private:
     // ----- private constructors -----
@@ -44,10 +44,17 @@ struct SimradUnknown : public SimradDatagram
     SimradUnknown()  = default;
     ~SimradUnknown() = default;
 
+    // ----- accessors -----
+    const std::string& get_raw_content() const { return _raw_content; }
+    void               set_raw_content(std::string raw_content)
+    {
+        _raw_content = std::move(raw_content);
+    }
+
     // ----- operators -----
     bool operator==(const SimradUnknown& other) const
     {
-        return SimradDatagram::operator==(other) && raw_content == other.raw_content;
+        return SimradDatagram::operator==(other) && _raw_content == other._raw_content;
     }
     bool operator!=(const SimradUnknown& other) const { return !operator==(other); }
 
@@ -55,12 +62,12 @@ struct SimradUnknown : public SimradDatagram
     {
         SimradUnknown datagram(std::move(header));
 
-        if (datagram._Length > 12)
-            datagram.raw_content.resize(size_t(datagram._Length - 12));
+        if (datagram.get_length() > 12)
+            datagram._raw_content.resize(size_t(datagram.get_length() - 12));
         else
-            throw std::runtime_error("ERROR[SimradUnknown::from_stream]: _Length is too small");
+            throw std::runtime_error("ERROR[SimradUnknown::from_stream]: _length is too small");
 
-        is.read(datagram.raw_content.data(), datagram.raw_content.size());
+        is.read(datagram._raw_content.data(), datagram._raw_content.size());
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -81,11 +88,11 @@ struct SimradUnknown : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length = simrad_long(12 + raw_content.size());
+        set_length(simrad_long(12 + _raw_content.size()));
         SimradDatagram::to_stream(os);
 
-        os.write(raw_content.data(), raw_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
+        os.write(_raw_content.data(), _raw_content.size());
+        os.write(reinterpret_cast<const char*>(&_length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----

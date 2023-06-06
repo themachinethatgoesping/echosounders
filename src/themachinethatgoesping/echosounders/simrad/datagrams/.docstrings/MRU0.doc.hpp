@@ -1,4 +1,4 @@
-//sourcehash: be73f7c5c4a828970cd971f6799ac8404a860da0ec1ba914a21db3f4a671028f
+//sourcehash: 370635c201f0a2c07c9a89c2a13098c89bc62df416a6e4ed53016dde9b2c1823
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,17 +44,9 @@ pitch and heading as float values. Conveniently, these values can be
 used directly in themachinethatgoesping navigation processing because
 they are defined in the default coordinate system / value range.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Heading = R"doc(< Heading in degrees, 0° north, 90° east)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Heave = R"doc(< Heave in m, positive up)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_MRU0 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_MRU0_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Pitch = R"doc(< Pitch in degrees, positive nose up)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_Roll = R"doc(< Roll in degrees, positive port up)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
@@ -72,11 +64,19 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MR
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_get_roll = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_heading = R"doc(< Heading in degrees, 0° north, 90° east)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_heave = R"doc(< Heave in m, positive up)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_operator_ne = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_pitch = R"doc(< Pitch in degrees, positive nose up)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_roll = R"doc(< Roll in degrees, positive port up)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_MRU0_set_heading = R"doc()doc";
 

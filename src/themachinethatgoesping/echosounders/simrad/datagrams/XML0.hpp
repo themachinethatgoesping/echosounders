@@ -72,8 +72,8 @@ class XML0 : public SimradDatagram
     XML0(std::string xml_content = "")
         : _xml_content(std::move(xml_content))
     {
-        _Length       = simrad_long(_xml_content.size() + 12);
-        _DatagramType = simrad_long(t_SimradDatagramIdentifier::XML0);
+        _length       = simrad_long(_xml_content.size() + 12);
+        _datagram_type = simrad_long(t_SimradDatagramIdentifier::XML0);
     }
     ~XML0() = default;
 
@@ -141,7 +141,7 @@ class XML0 : public SimradDatagram
 
     void set_xml_content(std::string xml_content)
     {
-        _Length      = simrad_long(xml_content.size() + 12);
+        _length      = simrad_long(xml_content.size() + 12);
         _xml_content = std::move(xml_content);
     }
     const std::string& get_xml_content() const { return _xml_content; }
@@ -218,7 +218,7 @@ class XML0 : public SimradDatagram
     static XML0 from_stream(std::istream& is, SimradDatagram header)
     {
         XML0 datagram(std::move(header));
-        datagram._xml_content.resize(datagram._Length - 12);
+        datagram._xml_content.resize(datagram._length - 12);
         is.read(datagram._xml_content.data(), datagram._xml_content.size());
 
         // verify the datagram is read correctly by reading the length field at the end
@@ -242,11 +242,11 @@ class XML0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _Length       = simrad_long(12 + _xml_content.size());
-        _DatagramType = simrad_long(t_SimradDatagramIdentifier::XML0);
+        _length       = simrad_long(12 + _xml_content.size());
+        _datagram_type = simrad_long(t_SimradDatagramIdentifier::XML0);
         SimradDatagram::to_stream(os);
         os.write(_xml_content.data(), _xml_content.size());
-        os.write(reinterpret_cast<const char*>(&_Length), sizeof(simrad_long));
+        os.write(reinterpret_cast<const char*>(&_length), sizeof(simrad_long));
     }
 
     // ----- objectprinter -----

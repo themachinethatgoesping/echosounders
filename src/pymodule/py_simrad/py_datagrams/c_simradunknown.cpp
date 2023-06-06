@@ -22,41 +22,28 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simrad;
 using datagrams::SimradUnknown;
 
+#define DOC_SimradUnknown(arg)                                                                     \
+    DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradUnknown, arg)
+
 void init_c_simradunknown(pybind11::module& m)
 {
     py::class_<SimradUnknown, datagrams::SimradDatagram>(
         m,
         "SimradUnknown",
         DOC(themachinethatgoesping, echosounders, simrad, datagrams, SimradUnknown))
-        .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 SimradUnknown,
-                 SimradUnknown))
+        .def(py::init<>(), DOC_SimradUnknown(SimradUnknown))
         // --- convenient data access ---
-        .def_property(
-            "raw_content",
-            [](const SimradUnknown& self) { return py::bytes(self.raw_content); },
-            [](SimradUnknown& self, const py::bytes& value) { self.raw_content = value; },
-            DOC(themachinethatgoesping,
-                echosounders,
-                simrad,
-                datagrams,
-                SimradUnknown,
-                raw_content))
+        .def(
+            "get_raw_content",
+            [](const SimradUnknown& self) { return py::bytes(self.get_raw_content()); },
+            DOC_SimradUnknown(raw_content))
+        .def(
+            "set_raw_content",
+            [](SimradUnknown& self, const py::bytes& value) { self.set_raw_content(value); },
+            DOC_SimradUnknown(raw_content))
 
         // ----- operators -----
-        .def("__eq__",
-             &SimradUnknown::operator==,
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 simrad,
-                 datagrams,
-                 SimradUnknown,
-                 operator_eq),
-             py::arg("other"))
+        .def("__eq__", &SimradUnknown::operator==, DOC_SimradUnknown(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SimradUnknown)
