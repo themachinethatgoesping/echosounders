@@ -28,7 +28,7 @@ else
 endif
 
 # boost
-boost_dep = dependency('boost', modules: 'iostreams', static: true)
+boost_dep = dependency('boost', modules: 'iostreams', static: get_option('dynamic_boost').disabled())
 
 # pugixml
 pugixml_dep = subproject('pugixml', default_options: 'default_library=static').get_variable('pugixml_dep')
