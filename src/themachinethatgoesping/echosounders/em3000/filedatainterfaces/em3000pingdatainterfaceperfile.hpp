@@ -154,9 +154,22 @@ class EM3000PingDataInterfacePerFile
             // load transducer locations from navigation
             for (const auto& id : ping_ptr->get_transducer_ids())
             {
-                ping_ptr->set_geolocation(id,
-                                          this->navigation_data_interface().get_geolocation(
-                                              id, ping_ptr->get_timestamp()));
+                try
+                {
+                    ping_ptr->set_geolocation(id,
+                                              this->navigation_data_interface().get_geolocation(
+                                                  id, ping_ptr->get_timestamp()));
+                }
+                catch (std::exception& e)
+                {
+                    // throw more precise error
+                    throw std::runtime_error(fmt::format(
+                        "ERROR[EM3000PingDataInterfacePerFile::read_pings]: could not "
+                        "set geolocation ping transducer id {} at time {}\n ERROR was: {}",
+                        id,
+                        ping_ptr->get_timestamp(),
+                        e.what()));
+                }
             }
 
             pings.add_ping(std::move(ping_ptr));
