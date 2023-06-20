@@ -1,4 +1,4 @@
-//sourcehash: d99127693d64e6a7c290ee953a9ba6b444e3fd8a7327880af17243dbddfd2db0
+//sourcehash: 00bb33be9d39b470f0d972c2dae48bbc2a0233cfe82c35e4777e7064d2d5c47c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -110,19 +110,19 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_50hz = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_degree = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_degrees =
-R"doc(Get the receive bandwidth in degrees
-
-Returns:
-    _receive_bandwidth_degree * 0.1f (float))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_bandwidth_in_hertz =
 R"doc(Get the receive bandwidth in Hz
 
 Returns:
     _receive_bandwidth_50hz * 50.f (float))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_beamwidth_degree = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_receive_beamwidth_in_degrees =
+R"doc(Get the receive beamwidth in degrees
+
+Returns:
+    _receive_beamwidth_degree * 0.1f (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_get_sonar_head_or_transceiver_status = R"doc()doc";
 
@@ -192,7 +192,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_bandwidth_50hz = R"doc(< in 50 Hz resolution)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_bandwidth_degree = R"doc(< in 0.1 degrees)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_receive_beamwidth_degree = R"doc(< in 0.1 degrees)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_absorption_coefficient = R"doc()doc";
 
@@ -232,7 +232,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_bandwidth_50hz = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_bandwidth_degree = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_receive_beamwidth_degree = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_set_sonar_head_or_transceiver_status = R"doc()doc";
 

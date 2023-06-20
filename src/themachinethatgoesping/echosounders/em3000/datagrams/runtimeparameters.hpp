@@ -46,7 +46,7 @@ class RuntimeParameters : public EM3000Datagram
     uint16_t _transmit_pulse_length;                ///< in μs
     uint16_t _transmit_beamwidth;                   ///< in 0.1 degrees
     int8_t   _transmit_power_relative_maximum;      ///< in dB
-    uint8_t  _receive_bandwidth_degree;             ///< in 0.1 degrees
+    uint8_t  _receive_beamwidth_degree;             ///< in 0.1 degrees
     uint8_t  _receive_bandwidth_50hz;               ///< in 50 Hz resolution
     uint8_t  _mode2_or_receiver_fixed_gain_setting; ///< in dB
     uint8_t  _tvg_law_crossover_angle;              ///< in degrees
@@ -102,7 +102,7 @@ class RuntimeParameters : public EM3000Datagram
     uint16_t get_transmit_pulse_length() const { return _transmit_pulse_length; }
     uint16_t get_transmit_beamwidth() const { return _transmit_beamwidth; }
     int8_t  get_transmit_power_relative_maximum() const { return _transmit_power_relative_maximum; }
-    uint8_t get_receive_bandwidth_degree() const { return _receive_bandwidth_degree; }
+    uint8_t get_receive_beamwidth_degree() const { return _receive_beamwidth_degree; }
     uint8_t get_receive_bandwidth_50hz() const { return _receive_bandwidth_50hz; }
     uint8_t get_mode2_or_receiver_fixed_gain_setting() const
     {
@@ -169,9 +169,9 @@ class RuntimeParameters : public EM3000Datagram
     {
         _transmit_power_relative_maximum = transmit_power_relative_maximum;
     }
-    void set_receive_bandwidth_degree(uint8_t receive_bandwidth_degree)
+    void set_receive_beamwidth_degree(uint8_t receive_bandwidth_degree)
     {
-        _receive_bandwidth_degree = receive_bandwidth_degree;
+        _receive_beamwidth_degree = receive_bandwidth_degree;
     }
     void set_receive_bandwidth_50hz(uint8_t receive_bandwidth_50hz)
     {
@@ -250,11 +250,11 @@ class RuntimeParameters : public EM3000Datagram
     float get_transmit_beamwidth_in_degrees() const { return _transmit_beamwidth * 0.1f; }
 
     /**
-     * @brief Get the receive bandwidth in degrees
+     * @brief Get the receive beamwidth in degrees
      *
-     * @return _receive_bandwidth_degree * 0.1f (float)
+     * @return _receive_beamwidth_degree * 0.1f (float)
      */
-    float get_receive_bandwidth_in_degrees() const { return _receive_bandwidth_degree * 0.1f; }
+    float get_receive_beamwidth_in_degrees() const { return _receive_beamwidth_degree * 0.1f; }
 
     /**
      * @brief Get the receive bandwidth in Hz
@@ -285,7 +285,7 @@ class RuntimeParameters : public EM3000Datagram
                _transmit_pulse_length == other._transmit_pulse_length &&
                _transmit_beamwidth == other._transmit_beamwidth &&
                _transmit_power_relative_maximum == other._transmit_power_relative_maximum &&
-               _receive_bandwidth_degree == other._receive_bandwidth_degree &&
+               _receive_beamwidth_degree == other._receive_beamwidth_degree &&
                _receive_bandwidth_50hz == other._receive_bandwidth_50hz &&
                _mode2_or_receiver_fixed_gain_setting ==
                    other._mode2_or_receiver_fixed_gain_setting &&
@@ -366,7 +366,7 @@ class RuntimeParameters : public EM3000Datagram
         printer.register_value("transmit_beamwidth", _transmit_beamwidth, "0.1°");
         printer.register_value(
             "transmit_power_relative_maximum", _transmit_power_relative_maximum, "dB");
-        printer.register_value("receive_bandwidth_degree", _receive_bandwidth_degree, "0.1°");
+        printer.register_value("receive_bandwidth_degree", _receive_beamwidth_degree, "0.1°");
         printer.register_value("receive_bandwidth_50hz", _receive_bandwidth_50hz, "50Hz");
         printer.register_value(
             "mode2_or_receiver_fixed_gain_setting", _mode2_or_receiver_fixed_gain_setting, "dB");
@@ -392,7 +392,7 @@ class RuntimeParameters : public EM3000Datagram
         printer.register_value(
             "transmit_pulse_length", get_transmit_pulse_length_in_seconds(), "s");
         printer.register_value("transmit_beamwidth", get_transmit_beamwidth_in_degrees(), "°");
-        printer.register_value("receive_bandwidth", get_receive_bandwidth_in_degrees(), "°");
+        printer.register_value("receive_bandwidth", get_receive_beamwidth_in_degrees(), "°");
         printer.register_value("receive_bandwidth", get_receive_bandwidth_in_hertz(), "Hz");
         printer.register_value("transmit_along_tilt", get_transmit_along_tilt_in_degrees(), "°");
 

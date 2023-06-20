@@ -114,12 +114,12 @@ void init_c_runtimeparameters(pybind11::module& m)
         .def("get_transmit_power_relative_maximum",
              &RuntimeParameters::get_transmit_power_relative_maximum,
              DOC_RuntimeParameters(transmit_power_relative_maximum))
-        .def("set_receive_bandwidth_degree",
-             &RuntimeParameters::set_receive_bandwidth_degree,
-             DOC_RuntimeParameters(receive_bandwidth_degree))
-        .def("get_receive_bandwidth_degree",
-             &RuntimeParameters::get_receive_bandwidth_degree,
-             DOC_RuntimeParameters(receive_bandwidth_degree))
+        .def("set_receive_beamwidth_degree",
+             &RuntimeParameters::set_receive_beamwidth_degree,
+             DOC_RuntimeParameters(receive_beamwidth_degree))
+        .def("get_receive_beamwidth_degree",
+             &RuntimeParameters::get_receive_beamwidth_degree,
+             DOC_RuntimeParameters(receive_beamwidth_degree))
         .def("set_receive_bandwidth_50hz",
              &RuntimeParameters::set_receive_bandwidth_50hz,
              DOC_RuntimeParameters(receive_bandwidth_50hz))
@@ -203,9 +203,9 @@ void init_c_runtimeparameters(pybind11::module& m)
         .def("get_transmit_beamwidth_in_degrees",
              &RuntimeParameters::get_transmit_beamwidth_in_degrees,
              DOC_RuntimeParameters(get_transmit_beamwidth_in_degrees))
-        .def("get_receive_bandwidth_in_degrees",
-             &RuntimeParameters::get_receive_bandwidth_in_degrees,
-             DOC_RuntimeParameters(get_receive_bandwidth_in_degrees))
+        .def("get_receive_beamwidth_in_degrees",
+             &RuntimeParameters::get_receive_beamwidth_in_degrees,
+             DOC_RuntimeParameters(get_receive_beamwidth_in_degrees))
         .def("get_receive_bandwidth_in_hertz",
              &RuntimeParameters::get_receive_bandwidth_in_hertz,
              DOC_RuntimeParameters(get_receive_bandwidth_in_hertz))
