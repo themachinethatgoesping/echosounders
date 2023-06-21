@@ -606,7 +606,15 @@ class InstallationParameters : public EM3000Datagram
         // check unsupported options
         // unsupported_option_string(sensor_prefix + "M", "1", "get_position_system_offsets");
         // unsupported_option_string(sensor_prefix + "T", "1", "get_position_system_offsets");
+        try
+        {
         unsupported_option_string(sensor_prefix + "G", "WGS84", "get_position_system_offsets");
+        }
+        catch(std::exception& e)
+        {
+            std::cerr << "WARNING: " << e.what() << std::endl;
+        }
+
         unsupported_option_float(sensor_prefix + "D", 0.0f, "get_position_system_offsets");
 
         return get_sensor_offsets("Position system " + std::to_string(position_system_number),
