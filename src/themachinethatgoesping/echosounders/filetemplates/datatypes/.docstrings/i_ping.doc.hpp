@@ -1,4 +1,4 @@
-//sourcehash: 3499cab730ac51a122a74b3e8f4f6e705c23bd3f58df39996ad53f68fc3d5b1b
+//sourcehash: 10069c33424c900bce6741ca439f0ef3807cb42ab5626dd3d6058bb6609acb3a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -66,7 +66,23 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation =
+R"doc(Get the geolocation of the transducer with the specified
+transducer_id.
+
+Parameter ``transducer_id:``:
+    id of the transducer
+
+Returns:
+    const navigation::datastructures::GeoLocationLatLon&)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation_2 =
+R"doc(Get the geolocation of the transducer. In case of multi transducer
+configuration, the transducer that was selected with
+"select_transducer_id" is used.
+
+Returns:
+    const navigation::datastructures::GeoLocationLatLon&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_name = R"doc()doc";
 
@@ -95,7 +111,23 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_id =
+R"doc(Get the transducer id of the ping. In case multiple transducer ids are
+associated with a single ping, this function will return the one
+selected with the "select_transducer_id" function.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids =
+R"doc(Get all registered transducer ids (in case multiple transducers are
+associated with a single ping)
+
+Returns:
+    std::set<std::string>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids_as_string =
+R"doc(Get all register transducer ids as a string (useful for printing)
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
 
@@ -113,9 +145,34 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_release_data = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_select_transducer_id =
+R"doc(Select a transducer id that will be used by default when calling
+functions on this ping. (Useful when multiple transducers are
+associated with a single ping.)
+
+Parameter ``id``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_selected_transducer_id = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_channel_id = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation =
+R"doc(Set the geolocation of the transducer with the specified
+transducer_id.
+
+Parameter ``transducer_id:``:
+    id of the transducer
+
+Returns:
+    const navigation::datastructures::GeoLocationLatLon&)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation_2 =
+R"doc(Set the geolocation of the transducer. In case of multi transducer
+configuration, the transducer that was selected with
+"select_transducer_id" is used.
+
+Returns:
+    const navigation::datastructures::GeoLocationLatLon&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_timestamp = R"doc()doc";
 

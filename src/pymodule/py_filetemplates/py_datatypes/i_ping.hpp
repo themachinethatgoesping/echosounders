@@ -32,34 +32,50 @@ void add_ping_data_interface(T_PyClass& cls)
             &T_BaseClass::get_number_of_samples,
             DOC_I_Ping(get_number_of_samples));
 
+    // --- multi transducer configuration ---
+    cls.def("get_transducer_ids", &T_BaseClass::get_transducer_ids, DOC_I_Ping(get_transducer_ids));
+    cls.def("get_transducer_ids_as_string",
+            &T_BaseClass::get_transducer_ids_as_string,
+            DOC_I_Ping(get_transducer_ids_as_string));
+    cls.def("get_transducer_id", &T_BaseClass::get_transducer_id, DOC_I_Ping(get_transducer_id));
+    cls.def("select_transducer_id",
+            &T_BaseClass::select_transducer_id,
+            DOC_I_Ping(select_transducer_id),
+            py::arg("transducer_id"));
+
+    // --- ping info access ---
+    cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_I_Ping(get_file_nr));
+    cls.def("get_file_path", &T_BaseClass::get_file_path, DOC_I_Ping(get_file_path));
+
     // --- variable access ---
-    cls.def_property_readonly("get_channel_id",
-                              &T_BaseClass::get_channel_id,
-                              DOC_I_Ping(channel_id),
-                              py::return_value_policy::reference_internal);
+
+    cls.def("get_timestamp", &T_BaseClass::get_timestamp, DOC_I_Ping(timestamp));
+    cls.def(
+        "set_timestamp", &T_BaseClass::set_timestamp, DOC_I_Ping(timestamp), py::arg("timestamp"));
+    cls.def("get_channel_id", &T_BaseClass::get_channel_id, DOC_I_Ping(channel_id));
     cls.def("set_channel_id",
             &T_BaseClass::set_channel_id,
             DOC_I_Ping(channel_id),
             py::arg("channel_id"));
 
-    cls.def("get_timestamp",
-            &T_BaseClass::get_timestamp,
-            DOC_I_Ping(timestamp),
-            py::return_value_policy::reference_internal);
-    cls.def(
-        "set_timestamp", &T_BaseClass::set_timestamp, DOC_I_Ping(timestamp), py::arg("timestamp"));
     cls.def("get_geolocation",
-            &T_BaseClass::get_geolocation,
+            py::overload_cast<>(&T_BaseClass::get_geolocation),
+            DOC_I_Ping(geolocations));
+    cls.def("get_geolocation",
+            py::overload_cast<const std::string&>(&T_BaseClass::get_geolocation),
             DOC_I_Ping(geolocations),
             py::arg("transducer_id"));
+    cls.def("set_geolocation",
+            py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
+                &T_BaseClass::set_geolocation),
+            DOC_I_Ping(geolocations),
+            py::arg("geolocation_latlon"));
     cls.def("set_geolocation",
             py::overload_cast<const std::string&, navigation::datastructures::GeoLocationLatLon>(
                 &T_BaseClass::set_geolocation),
             DOC_I_Ping(geolocations),
             py::arg("transducer_id"),
             py::arg("geolocation_latlon"));
-    cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_I_Ping(get_file_nr));
-    cls.def("get_file_path", &T_BaseClass::get_file_path, DOC_I_Ping(get_file_path));
 
     // --- ping interface (Documentation states that these functions are not implemented) ---
     cls.def("get_angle", &T_BaseClass::get_angle, DOC_I_Ping(get_angle));

@@ -37,6 +37,9 @@ namespace datatypes {
 class I_Ping
 {
     std::string_view _name;
+    std::string      _selected_transducer_id =
+        ""; ///< In case of multi transducer ping, set the chosen transducer name here. If empty, no
+            ///< transducer name was chosen yet;
 
   protected:
     std::string_view get_name() const { return _name; }
@@ -58,35 +61,137 @@ class I_Ping
     virtual ~I_Ping() = default;
 
     //------ interface / accessors -----
-    const std::string& get_channel_id() const { return _channel_id; }
     double             get_timestamp() const { return _timestamp; }
+    const std::string& get_channel_id() const { return _channel_id; }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
-    void               set_timestamp(double timestamp) { _timestamp = timestamp; }
-    const navigation::datastructures::GeoLocationLatLon& get_geolocation(std::string transducer_id)
-    {
-        return _geolocations.at(transducer_id);
-    }
-    virtual std::vector<std::string> get_transducer_ids() const
-    {
-        std::vector<std::string> transducer_ids;
-
-        /* return the keys from _geolocations */
-        for (const auto& [k, v] : _geolocations)
-            transducer_ids.push_back(k);
-
-        return transducer_ids;
-    }
-
-    void set_geolocation(const std::string&                            transducer_id,
-                         navigation::datastructures::GeoLocationLatLon geolocation)
-    {
-        _geolocations[transducer_id] = std::move(geolocation);
-    }
 
     virtual size_t get_file_nr() const { throw not_implemented("get_file_nr", this->get_name()); }
     virtual std::string get_file_path() const
     {
         throw not_implemented("get_file_path", this->get_name());
+    }
+
+    //----- multi transducer selection -----
+    /**
+     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
+     * single ping)
+     *
+     * @return std::set<std::string>
+     */
+    virtual std::set<std::string> get_transducer_ids() const
+    {
+        std::set<std::string> transducer_ids;
+
+        /* return the keys from _geolocations */
+        for (const auto& [k, v] : _geolocations)
+            transducer_ids.insert(k);
+
+        return transducer_ids;
+    }
+
+    /**
+     * @brief Get all register transducer ids as a string (useful for printing)
+     *
+     * @return std::string
+     */
+    std::string get_transducer_ids_as_string() const
+    {
+        std::string ids = "";
+        for (const auto& id : get_transducer_ids())
+            ids += id + ",";
+        ids.pop_back();
+
+        return ids;
+    }
+
+    /**
+     * @brief Get the transducer id of the ping. In case multiple transducer ids are associated with
+     * a single ping, this function will return the one selected with the "select_transducer_id"
+     * function.
+     *
+     */
+    std::string get_transducer_id() const
+    {
+        // if a transducer id was selected, use this one
+        if (!_selected_transducer_id.empty())
+        {
+            return _selected_transducer_id;
+        }
+
+        auto transducer_ids = get_transducer_ids();
+        if (transducer_ids.size() == 1)
+            return *transducer_ids.begin();
+        if (transducer_ids.empty())
+            throw std::runtime_error("ERROR[get_transducer_id]: no transducer id registered! "
+                                     "Please report, this should not happen;");
+
+        throw std::domain_error(fmt::format(
+            "ERROR[get_transducer_id]: Multi transducer configuration. You have to select one of "
+            "the following transducer ids: [{}] using select_transducer_id() first.",
+            get_transducer_ids_as_string()));
+    }
+
+    /**
+     * @brief Select a transducer id that will be used by default when calling functions on this
+     * ping. (Useful when multiple transducers are associated with a single ping.)
+     *
+     * @param id
+     */
+    void select_transducer_id(std::string id)
+    {
+        if (get_transducer_ids().contains(id))
+            _selected_transducer_id = std::move(id);
+
+        throw std::domain_error(
+            fmt::format("ERROR[select_transducer_id]: Invalid transducer id. You may select one of "
+                        "the following ids: [{}] using select_transducer_id().",
+                        get_transducer_ids_as_string()));
+    }
+
+    void set_timestamp(double timestamp) { _timestamp = timestamp; }
+
+    /**
+     * @brief Get the geolocation of the transducer with the specified transducer_id.
+     *
+     * @param transducer_id: id of the transducer
+     * @return const navigation::datastructures::GeoLocationLatLon&
+     */
+    const navigation::datastructures::GeoLocationLatLon& get_geolocation(
+        const std::string& transducer_id)
+    {
+        return _geolocations.at(transducer_id);
+    }
+    /**
+     * @brief Get the geolocation of the transducer. In case of multi transducer configuration, the
+     * transducer that was selected with "select_transducer_id" is used.
+     *
+     * @return const navigation::datastructures::GeoLocationLatLon&
+     */
+    const navigation::datastructures::GeoLocationLatLon& get_geolocation()
+    {
+        return _geolocations.at(get_transducer_id());
+    }
+
+    /**
+     * @brief Set the geolocation of the transducer with the specified transducer_id.
+     *
+     * @param transducer_id: id of the transducer
+     * @return const navigation::datastructures::GeoLocationLatLon&
+     */
+    void set_geolocation(const std::string&                            transducer_id,
+                         navigation::datastructures::GeoLocationLatLon geolocation)
+    {
+        _geolocations[transducer_id] = std::move(geolocation);
+    }
+    /**
+     * @brief Set the geolocation of the transducer. In case of multi transducer configuration, the
+     * transducer that was selected with "select_transducer_id" is used.
+     *
+     * @return const navigation::datastructures::GeoLocationLatLon&
+     */
+    void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
+    {
+        _geolocations[get_transducer_id()] = std::move(geolocation);
     }
 
     //------ interface ------//
@@ -187,8 +292,18 @@ class I_Ping
         else
             printer.register_string("Features", features);
 
-        printer.register_section("Transducer locations");
-        printer.register_container("transducer_ids", get_transducer_ids());
+        if (get_transducer_ids().size() > 1)
+        {
+            printer.register_section("Transducer locations (multiple transducers)");
+            printer.register_container("transducer_ids", get_transducer_ids());
+            printer.register_string("selected_transducer_id",_selected_transducer_id);
+        }
+        else{
+            printer.register_section("Transducer location");
+            printer.register_string("transducer_id", get_transducer_id());
+
+        }
+
         for (const auto& [k, v] : this->_geolocations)
         {
             printer.register_section(k, '^');

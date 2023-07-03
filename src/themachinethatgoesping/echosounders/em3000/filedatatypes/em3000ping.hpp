@@ -117,13 +117,13 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             raw.load_datagrams(skip_data);
     }
 
-    std::vector<std::string> get_transducer_ids() const override
+    std::set<std::string> get_transducer_ids() const override
     {
-        std::vector<std::string> transducer_ids;
+        std::set<std::string> transducer_ids;
 
         /* return the keys from _geolocations */
         for (const auto& [k, v] : _raw_data)
-            transducer_ids.push_back(k);
+            transducer_ids.insert(k);
 
         return transducer_ids;
     }
