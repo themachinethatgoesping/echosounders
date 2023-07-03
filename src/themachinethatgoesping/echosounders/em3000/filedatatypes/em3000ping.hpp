@@ -76,7 +76,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return _raw_data.at(transducer_id);
     }
 
-    std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data() { return _raw_data; }
+    EM3000PingRawData<t_ifstream>& raw_data() { return _raw_data[get_transducer_id()]; }
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }

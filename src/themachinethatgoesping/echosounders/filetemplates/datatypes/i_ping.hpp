@@ -28,6 +28,7 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -139,13 +140,32 @@ class I_Ping
      */
     void select_transducer_id(std::string id)
     {
-        if (get_transducer_ids().contains(id))
+        auto transducer_ids = get_transducer_ids();
+        if (transducer_ids.contains(id))
             _selected_transducer_id = std::move(id);
+        else
+            throw std::domain_error(fmt::format(
+                "ERROR[select_transducer_id]: Invalid transducer id. You may select one of "
+                "the following ids: [{}] using select_transducer_id().",
+                get_transducer_ids_as_string()));
+    }
 
-        throw std::domain_error(
-            fmt::format("ERROR[select_transducer_id]: Invalid transducer id. You may select one of "
-                        "the following ids: [{}] using select_transducer_id().",
-                        get_transducer_ids_as_string()));
+    /**
+     * @brief Select a transducer id using the number (first, secpnd etc.). (Useful when multiple
+     * transducers are associated with a single ping.)
+     *
+     * @param transducer_number: number first, second etc.
+     */
+    void select_transducer_id(int transducer_number)
+    {
+        auto transducer_ids = get_transducer_ids();
+
+        auto pyindexer = tools::pyhelper::PyIndexer(transducer_ids.size());
+
+        auto it = transducer_ids.begin();
+        std::advance(it, pyindexer(transducer_number));
+
+        _selected_transducer_id = *it;
     }
 
     void set_timestamp(double timestamp) { _timestamp = timestamp; }
@@ -296,12 +316,12 @@ class I_Ping
         {
             printer.register_section("Transducer locations (multiple transducers)");
             printer.register_container("transducer_ids", get_transducer_ids());
-            printer.register_string("selected_transducer_id",_selected_transducer_id);
+            printer.register_string("selected_transducer_id", _selected_transducer_id);
         }
-        else{
+        else
+        {
             printer.register_section("Transducer location");
             printer.register_string("transducer_id", get_transducer_id());
-
         }
 
         for (const auto& [k, v] : this->_geolocations)

@@ -1,4 +1,4 @@
-//sourcehash: 10069c33424c900bce6741ca439f0ef3807cb42ab5626dd3d6058bb6609acb3a
+//sourcehash: e421864aa917ff63cb6898ecaad859eaee6b332d59ff36aec6946c642ef05d6a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -151,6 +151,13 @@ functions on this ping. (Useful when multiple transducers are
 associated with a single ping.)
 
 Parameter ``id``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_select_transducer_id_2 =
+R"doc(Select a transducer id using the number (first, secpnd etc.). (Useful
+when multiple transducers are associated with a single ping.)
+
+Parameter ``transducer_number:``:
+    number first, second etc.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_selected_transducer_id = R"doc()doc";
 
