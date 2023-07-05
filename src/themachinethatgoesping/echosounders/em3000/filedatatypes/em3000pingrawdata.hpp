@@ -139,7 +139,8 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             _sample_positions.push_back(b.get_sample_position());
         }
 
-        // _water_column_datagram->set_beams({});
+        _water_column_datagram =
+            std::make_shared<datagrams::WaterColumnDatagram>(water_column_datagram.without_beams());
     }
 
     // void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>

@@ -72,6 +72,13 @@ class WaterColumnDatagram : public EM3000Datagram
     }
     ~WaterColumnDatagram() = default;
 
+    WaterColumnDatagram without_beams () const
+    {
+        WaterColumnDatagram copy(*this);
+        copy._beams.clear();
+        return copy;
+    }
+
     // ----- convinient processing -----
     size_t get_max_number_of_samples() const
     {

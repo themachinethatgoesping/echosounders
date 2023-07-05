@@ -1,4 +1,4 @@
-//sourcehash: f6970ff9f79b28fa1260fa2a1ce1ba99446387a06220efa9de986f4c0fbe1d25
+//sourcehash: a41b2fd7e069064ea7fab0e28c45be0266b624ea14454698f8b2210b4cdaa2f5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -205,6 +205,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Wa
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_tvg_offset_in_db = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_tx_time_heave = R"doc(< in cm)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_WaterColumnDatagram_without_beams = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
