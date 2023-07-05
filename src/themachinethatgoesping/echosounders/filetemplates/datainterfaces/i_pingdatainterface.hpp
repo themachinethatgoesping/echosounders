@@ -142,11 +142,6 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             {
                 primary_interfaces_per_file[i]->init_from_file(force);
                 _ping_container.add_pings(primary_interfaces_per_file[i]->read_pings().get_pings());
-
-                for (const auto& ping : _ping_container.get_pings())
-                {
-                    _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
-                }
             }
             catch (std::exception& e)
             {
@@ -158,6 +153,12 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             }
             if (!existing_progressbar)
                 progress_bar.tick();
+        }
+
+        progress_bar.set_postfix("Merging pings by channel");
+        for (const auto& ping : _ping_container.get_pings())
+        {
+            _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
         }
 
         if (!existing_progressbar)

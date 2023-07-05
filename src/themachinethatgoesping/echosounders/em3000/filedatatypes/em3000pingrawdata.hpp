@@ -118,21 +118,28 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::vector<std::istream::pos_type> _sample_positions;
     void                                load_datagrams(bool skip_data = true)
     {
-        _water_column_datagram = std::make_shared<datagrams::WaterColumnDatagram>(
-            read_merged_watercolumndatagram(skip_data));
+        _beam_pointing_angles.clear();
+        _start_range_sample_numbers.clear();
+        _number_of_samples.clear();
+        _detected_range_in_samples.clear();
+        _transmit_sector_number.clear();
+        _beam_number.clear();
+        _sample_positions.clear();
 
-        // for (const auto& b : _water_column_datagram->beams())
-        // {
-        //     _beam_pointing_angles.push_back(b.get_beam_pointing_angle_in_degrees());
-        //     _start_range_sample_numbers.push_back(b.get_start_range_sample_number());
-        //     _number_of_samples.push_back(b.get_number_of_samples());
-        //     _detected_range_in_samples.push_back(b.get_detected_range_in_samples());
-        //     _transmit_sector_number.push_back(b.get_transmit_sector_number());
-        //     _beam_number.push_back(b.get_beam_number());
-        //     _sample_positions.push_back(b.get_sample_position());
-        // }
+        auto water_column_datagram = read_merged_watercolumndatagram(skip_data);
 
-       // _water_column_datagram->set_beams({});
+        for (const auto& b : water_column_datagram.beams())
+        {
+            _beam_pointing_angles.push_back(b.get_beam_pointing_angle_in_degrees());
+            _start_range_sample_numbers.push_back(b.get_start_range_sample_number());
+            _number_of_samples.push_back(b.get_number_of_samples());
+            _detected_range_in_samples.push_back(b.get_detected_range_in_samples());
+            _transmit_sector_number.push_back(b.get_transmit_sector_number());
+            _beam_number.push_back(b.get_beam_number());
+            _sample_positions.push_back(b.get_sample_position());
+        }
+
+        // _water_column_datagram->set_beams({});
     }
 
     // void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>
