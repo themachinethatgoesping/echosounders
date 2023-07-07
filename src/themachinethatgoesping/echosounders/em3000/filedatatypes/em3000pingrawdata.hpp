@@ -116,7 +116,14 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::vector<uint8_t>                _transmit_sector_number;
     std::vector<uint8_t>                _beam_number;
     std::vector<std::istream::pos_type> _sample_positions;
-    void                                load_datagrams(bool skip_data = true)
+
+    std::vector<uint16_t> _selected_beam_numbers;
+    std::vector<uint16_t> _selected_first_sample_per_beam;
+    std::vector<uint16_t> _selected_number_of_samples_per_beam;
+    uint16_t              _first_sample_ensemble;
+    uint16_t              _number_of_samples_ensemble;
+
+    void load_datagrams(bool skip_data = true)
     {
         _beam_pointing_angles.clear();
         _start_range_sample_numbers.clear();
@@ -126,8 +133,12 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         _beam_number.clear();
         _sample_positions.clear();
 
+        _first_sample_ensemble      = 0;
+        _number_of_samples_ensemble = 0;
+
         auto water_column_datagram = read_merged_watercolumndatagram(skip_data);
 
+        unsigned int counter = 0;
         for (const auto& b : water_column_datagram.beams())
         {
             _beam_pointing_angles.push_back(b.get_beam_pointing_angle_in_degrees());
@@ -137,10 +148,82 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             _transmit_sector_number.push_back(b.get_transmit_sector_number());
             _beam_number.push_back(b.get_beam_number());
             _sample_positions.push_back(b.get_sample_position());
+
+            _selected_beam_numbers.push_back(counter);
+            _selected_first_sample_per_beam.push_back(0);
+            _selected_number_of_samples_per_beam.push_back(b.get_number_of_samples());
+
+            _first_sample_ensemble =
+                std::min(_first_sample_ensemble, _selected_first_sample_per_beam[counter]);
+            ++counter;
+        }
+
+        counter = 0;
+        for ([[maybe_unused]] const auto& b : water_column_datagram.beams())
+        {
+            _number_of_samples_ensemble =
+                std::max(int(_number_of_samples_ensemble),
+                         _selected_first_sample_per_beam[counter] - _first_sample_ensemble +
+                             _selected_number_of_samples_per_beam[counter]);
         }
 
         _water_column_datagram =
             std::make_shared<datagrams::WaterColumnDatagram>(water_column_datagram.without_beams());
+    }
+
+    /**
+     * @brief read the selected samples from the selected beams and convert them to float
+     * @return xt::xtensor<float, 2>
+     */
+    xt::xtensor<float, 2> read_selected_samples()
+    {
+        xt::xtensor<float, 2> samples = xt::empty<float>(xt::xtensor<float, 2>::shape_type(
+            { _selected_beam_numbers.size(), _number_of_samples_ensemble }));
+
+        // here we assume that all beams / water column datagrams originate from the same file /
+        // file stream
+        auto& ifs =
+            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+                .at(0)
+                ->template get_stream();
+
+        for (size_t bn = 0; bn < _selected_beam_numbers.size(); ++bn)
+        {
+            size_t number_of_samples_to_read = _selected_number_of_samples_per_beam[bn];
+            size_t sample_offset             = _selected_first_sample_per_beam[bn] -
+                                   _first_sample_ensemble; // offset from ensemble start
+
+            if (number_of_samples_to_read + _selected_first_sample_per_beam[bn] >
+                _number_of_samples[bn])
+            {
+                number_of_samples_to_read =
+                    _number_of_samples[bn] - _selected_first_sample_per_beam[bn];
+            }
+
+            xt::xtensor<int8_t, 1> beam_samples =
+                datagrams::substructures::WaterColumnDatagramBeam::read_samples(
+                    ifs,
+                    _sample_positions[bn],
+                    _selected_first_sample_per_beam[bn],
+                    number_of_samples_to_read,
+                    _number_of_samples[bn]);
+
+            // beamsamples *= 0.5f;
+            // beamsamples -= _tvg_offset_in_db;
+
+            using xt::placeholders::_;
+            xt::view(samples, bn, xt ::range(_, sample_offset)) =
+                std::numeric_limits<float>::quiet_NaN();
+
+            xt::view(
+                samples, bn, xt ::range(sample_offset, sample_offset + number_of_samples_to_read)) =
+                beam_samples;
+
+            xt::view(samples, bn, xt ::range(sample_offset + number_of_samples_to_read, _)) =
+                std::numeric_limits<float>::quiet_NaN();
+        }
+
+        return samples;
     }
 
     // void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel>

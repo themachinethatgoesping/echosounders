@@ -58,6 +58,10 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(read_merged_watercolumndatagram),
                  py::arg("skip_data") = false)
 
+            .def("read_selected_samples",
+                 &t_EM3000PingRawData::read_selected_samples,
+                 DOC_EM3000PingRawData(read_selected_samples))
+
             // --- load data ---
             .def("load_datagrams",
                  &t_EM3000PingRawData::load_datagrams,

@@ -44,7 +44,7 @@ class WaterColumnDatagramBeam
     uint8_t  _transmit_sector_number;
     uint8_t  _beam_number; ///< redundant info, max 255 even if more beams exist
 
-    //TODO: this should be an optional value because it takes to much space otherwise
+    // TODO: this should be an optional value because it takes to much space otherwise
     xt::xtensor<int8_t, 1> _samples; /// < in 0.5 dB steps
 
     // flags that do not belong to the datagramformat specification
@@ -96,7 +96,7 @@ class WaterColumnDatagramBeam
 
     // structure access
     /**
-     * @brief Read and return the sample data. THis is useful if the sample data was originally
+     * @brief Read and return the sample data. This is useful if the sample data was originally
      * skipped
      *
      * @param ifs Inputfile stream. Must be the same file the original structure was read from
@@ -110,6 +110,45 @@ class WaterColumnDatagramBeam
         ifs.seekg(_sample_pos);
 
         ifs.read(reinterpret_cast<char*>(samples.data()), _number_of_samples * sizeof(int8_t));
+
+        return samples;
+    }
+
+    // structure access
+    /**
+     * @brief Read and return the sample data. This function allows for only reading a selected
+     * number of samples
+     *
+     * @param ifs Inputfile stream. Must be the same file the original structure was read from
+     * @param pos_first_samples The position of the first sample in the structure
+     * @param first_sample The first sample to read
+     * @param number_of_samples The number of samples to read
+     * @param number_of_samples_in_datagram The total number of samples in the datagram
+     * @param fill_val The value to fill the array with if the requested number of samples is
+     * @return xt::xtensor<int8_t, 1>
+     */
+    static xt::xtensor<int8_t, 1> read_samples(std::istream&           ifs,
+                                               std::ifstream::pos_type pos_first_sample,
+                                               size_t                  first_sample,
+                                               size_t                  number_of_samples,
+                                               size_t number_of_samples_in_datagram)
+    {
+        xt::xtensor<int8_t, 1> samples =
+            xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ number_of_samples }));
+
+        // do not read more samples than exist
+        if (first_sample + number_of_samples > number_of_samples_in_datagram)
+            throw std::range_error(
+                fmt::format("ERROR[WaterColumnDatagramBeam::read_samples]: The requested number of "
+                            "samples [{} + {}]"
+                            "exceeds the number of samples in the datagram [{}]!",
+                            first_sample,
+                            number_of_samples,
+                            number_of_samples_in_datagram));
+
+        ifs.seekg(pos_first_sample + std::ifstream::pos_type(first_sample * sizeof(int8_t)));
+
+        ifs.read(reinterpret_cast<char*>(samples.data()), number_of_samples * sizeof(int8_t));
 
         return samples;
     }

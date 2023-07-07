@@ -1,4 +1,4 @@
-//sourcehash: 40c01a2366d18f22d519dffde1c3311ed78682a96c562685653bc5f4ff6fa30e
+//sourcehash: 2527484f9c83c808f280a61c25e27832f1632509f1acb6b4840b1e98c7889ff1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,6 +48,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_detected_range_in_samples = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_first_sample_ensemble = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_runtime_parameters = R"doc()doc";
@@ -56,13 +58,28 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_number_of_samples = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_number_of_samples_ensemble = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_merged_watercolumndatagram = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_selected_samples =
+R"doc(read the selected samples from the selected beams and convert them to
+float
+
+Returns:
+    xt::xtensor<float, 2>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_runtime_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_sample_positions = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_selected_beam_numbers = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_selected_first_sample_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_selected_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_set_runtime_parameters = R"doc()doc";
 

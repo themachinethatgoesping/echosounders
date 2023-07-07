@@ -1,4 +1,4 @@
-//sourcehash: ecd3e01bb03f9e8c652390526e1066a7535adc3e1f3fd2059630b40c9e09442e
+//sourcehash: edfc381b6b42cc8bf6cabd54907eb1550d10aac580b32dc1dbf245ac6f4edccf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -87,12 +87,39 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_read_samples =
-R"doc(Read and return the sample data. THis is useful if the sample data was
+R"doc(Read and return the sample data. This is useful if the sample data was
 originally skipped
 
 Parameter ``ifs``:
     Inputfile stream. Must be the same file the original structure was
     read from
+
+Returns:
+    xt::xtensor<int8_t, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_read_samples_2 =
+R"doc(Read and return the sample data. This function allows for only reading
+a selected number of samples
+
+Parameter ``ifs``:
+    Inputfile stream. Must be the same file the original structure was
+    read from
+
+Parameter ``pos_first_samples``:
+    The position of the first sample in the structure
+
+Parameter ``first_sample``:
+    The first sample to read
+
+Parameter ``number_of_samples``:
+    The number of samples to read
+
+Parameter ``number_of_samples_in_datagram``:
+    The total number of samples in the datagram
+
+Parameter ``fill_val``:
+    The value to fill the array with if the requested number of
+    samples is
 
 Returns:
     xt::xtensor<int8_t, 1>)doc";

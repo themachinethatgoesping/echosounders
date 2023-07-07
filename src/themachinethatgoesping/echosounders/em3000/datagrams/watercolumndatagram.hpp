@@ -98,9 +98,9 @@ class WaterColumnDatagram : public EM3000Datagram
 
         for (unsigned int b = 0; b < _beams.size(); ++b)
         {
-            xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs);
+            xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs); // here we convert to float
 
-            beamsamples *= 0.5f;
+            beamsamples *= 0.5f; // samples are in 0.5 dB resolution
             beamsamples -= _tvg_offset_in_db;
 
             std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
