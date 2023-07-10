@@ -1,4 +1,4 @@
-//sourcehash: 2527484f9c83c808f280a61c25e27832f1632509f1acb6b4840b1e98c7889ff1
+//sourcehash: 18ac469a62d9474ac89b500b60020ad95aa267544a7d4ba9eeb47db86fd24789
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,8 +41,6 @@
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_EM3000PingRawData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_beam_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_beam_pointing_angles = R"doc()doc";
 

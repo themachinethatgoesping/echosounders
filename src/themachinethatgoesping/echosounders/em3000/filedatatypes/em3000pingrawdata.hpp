@@ -114,7 +114,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::vector<uint16_t>               _number_of_samples;
     std::vector<uint16_t>               _detected_range_in_samples;
     std::vector<uint8_t>                _transmit_sector_number;
-    std::vector<uint8_t>                _beam_number;
     std::vector<std::istream::pos_type> _sample_positions;
 
     std::vector<uint16_t> _selected_beam_numbers;
@@ -130,8 +129,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         _number_of_samples.clear();
         _detected_range_in_samples.clear();
         _transmit_sector_number.clear();
-        _beam_number.clear();
         _sample_positions.clear();
+
+        _selected_beam_numbers.clear();
+        _selected_first_sample_per_beam.clear();
+        _selected_number_of_samples_per_beam.clear();
 
         _first_sample_ensemble      = 0;
         _number_of_samples_ensemble = 0;
@@ -146,7 +148,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             _number_of_samples.push_back(b.get_number_of_samples());
             _detected_range_in_samples.push_back(b.get_detected_range_in_samples());
             _transmit_sector_number.push_back(b.get_transmit_sector_number());
-            _beam_number.push_back(b.get_beam_number());
             _sample_positions.push_back(b.get_sample_position());
 
             _selected_beam_numbers.push_back(counter);
@@ -161,10 +162,21 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         counter = 0;
         for ([[maybe_unused]] const auto& b : water_column_datagram.beams())
         {
-            _number_of_samples_ensemble =
-                std::max(int(_number_of_samples_ensemble),
-                         _selected_first_sample_per_beam[counter] - _first_sample_ensemble +
-                             _selected_number_of_samples_per_beam[counter]);
+            _number_of_samples_ensemble = std::max(
+                _number_of_samples_ensemble,
+                uint16_t(_selected_number_of_samples_per_beam[counter] +
+                         _selected_first_sample_per_beam[counter] - _first_sample_ensemble));
+
+            // if (_number_of_samples_ensemble != _selected_number_of_samples_per_beam[counter])
+            //     throw(std::runtime_error(fmt::format(
+            //         "Error[EM3000PingRawData::load_datagrams]: Number of samples in ensemble [{}]
+            //         is " "larger than the number of samples in the watercolumn datagram [{}]!
+            //         [{}, {}]", _number_of_samples_ensemble,
+            //         _selected_number_of_samples_per_beam[counter],
+            //         _selected_first_sample_per_beam[counter],
+            //         _first_sample_ensemble)));
+
+            ++counter;
         }
 
         _water_column_datagram =
@@ -212,15 +224,43 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             // beamsamples -= _tvg_offset_in_db;
 
             using xt::placeholders::_;
-            xt::view(samples, bn, xt ::range(_, sample_offset)) =
-                std::numeric_limits<float>::quiet_NaN();
+            try
+            {
+                xt ::view(samples, bn, xt ::range(_, sample_offset)) =
+                    std::numeric_limits<float>::quiet_NaN();
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(fmt::format("Exception[{}]: {}\n", 1, e.what()));
+            }
 
-            xt::view(
-                samples, bn, xt ::range(sample_offset, sample_offset + number_of_samples_to_read)) =
-                beam_samples;
+            try
+            {
+                xt::view(samples,
+                         bn,
+                         xt ::range(sample_offset, sample_offset + number_of_samples_to_read)) =
+                    beam_samples;
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(fmt::format("Exception[{}, {}, {}, {}, {}]: {}\n",
+                                                     2,
+                                                     sample_offset,
+                                                     number_of_samples_to_read,
+                                                     _number_of_samples_ensemble,
+                                                     _first_sample_ensemble,
+                                                     e.what()));
+            }
 
-            xt::view(samples, bn, xt ::range(sample_offset + number_of_samples_to_read, _)) =
-                std::numeric_limits<float>::quiet_NaN();
+            try
+            {
+                xt::view(samples, bn, xt ::range(sample_offset + number_of_samples_to_read, _)) =
+                    std::numeric_limits<float>::quiet_NaN();
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(fmt::format("Exception[{}]: {}\n", 3, e.what()));
+            }
         }
 
         return samples;
@@ -310,6 +350,21 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("Raw data infos");
+
+        printer.register_section("Selection infos");
+        printer.register_container("beam_pointing_angles", _beam_pointing_angles);
+        printer.register_container("start_range_sample_numbers", _start_range_sample_numbers);
+        printer.register_container("number_of_samples", _number_of_samples);
+        printer.register_container("detected_range_in_samples", _detected_range_in_samples);
+        printer.register_container("transmit_sector_number", _transmit_sector_number);
+
+        printer.register_container("selected_beam_numbers", _selected_beam_numbers);
+        printer.register_container("selected_first_sample_per_beam",
+                                   _selected_first_sample_per_beam);
+        printer.register_container("selected_number_of_samples_per_beam",
+                                   _selected_number_of_samples_per_beam);
+        printer.register_value("first_sample_ensemble", _first_sample_ensemble);
+        printer.register_value("number_of_samples_ensemble", _number_of_samples_ensemble);
 
         // convert _ping_data.get_data_type() to string using magic enum
         // printer.register_string("Raw data type",
