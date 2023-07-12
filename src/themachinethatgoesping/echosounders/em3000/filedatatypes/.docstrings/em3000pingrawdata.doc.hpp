@@ -1,4 +1,4 @@
-//sourcehash: 094bdf308e9faa681ee120f0b8533459281cae06408bf77bff64c1562ab8f83b
+//sourcehash: 3c9b3ceb5ed5236af9e85c24dfb599041ad36566e1040ff2ef3da6734144b899
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,9 +54,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_detected_range_in_samples = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_first_sample_ensemble = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_number_of_beams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_number_of_samples_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_number_of_samples_per_beam = R"doc()doc";
 
@@ -77,6 +81,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_start_range_sample_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_transmit_sector_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_init_beam_sample_selection = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_load_datagrams = R"doc()doc";
 
@@ -112,6 +118,24 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 R"doc(select the beams to be read from the water column datagram
 
 Parameter ``selected_beam_numbers``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_select_samples_by_first_last =
+R"doc(select the samples to be read from the water column datagram
+
+Parameter ``first_sample``:
+    first sample number in the datagram
+
+Parameter ``last_sample``:
+    last sample number in the datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_select_samples_by_range =
+R"doc(select the samples to be read from the water column datagram
+
+Parameter ``first_sample``:
+    First sample number in the datagram
+
+Parameter ``number_of_samples``:
+    Number of samples to read)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_selected_beam_numbers = R"doc()doc";
 

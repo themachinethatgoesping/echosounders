@@ -147,6 +147,12 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
             .def("get_number_of_beams",
                  &t_EM3000PingRawData::get_number_of_beams,
                  DOC_EM3000PingRawData(get_number_of_beams))
+            .def("get_first_sample_ensemble",
+                 &t_EM3000PingRawData::get_first_sample_ensemble,
+                 DOC_EM3000PingRawData(get_first_sample_ensemble))
+            .def("get_number_of_samples_ensemble",
+                 &t_EM3000PingRawData::get_number_of_samples_ensemble,
+                 DOC_EM3000PingRawData(get_number_of_samples_ensemble))
 
             // --- select beams/samples to be read ---
             .def("select_beams_by_number",
@@ -159,6 +165,18 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(select_beams_by_angle),
                  py::arg("min_angle"),
                  py::arg("max_angle"))
+
+            .def("select_samples_by_range",
+                 &t_EM3000PingRawData::select_samples_by_range,
+                 DOC_EM3000PingRawData(select_samples_by_range),
+                 py::arg("first_sample"),
+                 py::arg("number_of_samples"))
+
+            .def("select_samples_by_first_last",
+                 &t_EM3000PingRawData::select_samples_by_first_last,
+                 DOC_EM3000PingRawData(select_samples_by_first_last),
+                 py::arg("first_sample"),
+                 py::arg("last_sample"))
 
             // --- load data ---
             .def("load_datagrams",

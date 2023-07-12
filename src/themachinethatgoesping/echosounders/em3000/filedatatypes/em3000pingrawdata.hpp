@@ -107,7 +107,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
 
     // ----- getter/setters -----
     const std::vector<float>& get_beam_pointing_angles() const { return _beam_pointing_angles; }
-    std::vector<float> get_selected_beam_pointing_angles() const
+    std::vector<float>        get_selected_beam_pointing_angles() const
     {
         std::vector<float> selected_beam_pointing_angles;
         selected_beam_pointing_angles.reserve(_selected_beam_numbers.size());
@@ -161,6 +161,9 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return beam_numbers;
     }
 
+    uint16_t get_first_sample_ensemble() const { return _first_sample_ensemble; }
+    uint16_t get_number_of_samples_ensemble() const { return _number_of_samples_ensemble; }
+
     // ----- load datagrams -----
     std::vector<float>                  _beam_pointing_angles;
     std::vector<uint16_t>               _start_range_sample_numbers;
@@ -188,9 +191,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         _selected_first_sample_per_beam.clear();
         _selected_number_of_samples_per_beam.clear();
 
-        _first_sample_ensemble      = 0;
-        _number_of_samples_ensemble = 0;
-
         auto water_column_datagram = read_merged_watercolumndatagram(skip_data);
 
         unsigned int counter = 0;
@@ -206,34 +206,35 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             _selected_beam_numbers.push_back(counter);
             _selected_first_sample_per_beam.push_back(0);
             _selected_number_of_samples_per_beam.push_back(b.get_number_of_samples());
-
-            _first_sample_ensemble =
-                std::min(_first_sample_ensemble, _selected_first_sample_per_beam[counter]);
-            ++counter;
         }
 
-        counter = 0;
-        for ([[maybe_unused]] const auto& b : water_column_datagram.beams())
-        {
-            _number_of_samples_ensemble = std::max(
-                _number_of_samples_ensemble,
-                uint16_t(_selected_number_of_samples_per_beam[counter] +
-                         _selected_first_sample_per_beam[counter] - _first_sample_ensemble));
-
-            // if (_number_of_samples_ensemble != _selected_number_of_samples_per_beam[counter])
-            //     throw(std::runtime_error(fmt::format(
-            //         "Error[EM3000PingRawData::load_datagrams]: Number of samples in ensemble [{}]
-            //         is " "larger than the number of samples in the watercolumn datagram [{}]!
-            //         [{}, {}]", _number_of_samples_ensemble,
-            //         _selected_number_of_samples_per_beam[counter],
-            //         _selected_first_sample_per_beam[counter],
-            //         _first_sample_ensemble)));
-
-            ++counter;
-        }
+        init_beam_sample_selection();
 
         _water_column_datagram =
             std::make_shared<datagrams::WaterColumnDatagram>(water_column_datagram.without_beams());
+    }
+
+    void init_beam_sample_selection()
+    {
+        if (_selected_beam_numbers.empty())
+            return;
+
+        _first_sample_ensemble      = _selected_first_sample_per_beam[_selected_beam_numbers.at(0)];
+        _number_of_samples_ensemble = 0;
+
+        for (const auto bn : _selected_beam_numbers)
+        {
+            _first_sample_ensemble =
+                std::min(_first_sample_ensemble, _selected_first_sample_per_beam[bn]);
+        }
+
+        for (const auto bn : _selected_beam_numbers)
+        {
+            _number_of_samples_ensemble =
+                std::max(_number_of_samples_ensemble,
+                         uint16_t(_selected_number_of_samples_per_beam[bn] -
+                                  _first_sample_ensemble + _selected_first_sample_per_beam[bn]));
+        }
     }
 
     /**
@@ -244,6 +245,34 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     void select_beams_by_number(const std::vector<uint16_t>& selected_beam_numbers)
     {
         _selected_beam_numbers = selected_beam_numbers;
+        init_beam_sample_selection();
+    }
+
+    /**
+     * @brief select the samples to be read from the water column datagram
+     *
+     * @param first_sample First sample number in the datagram
+     * @param number_of_samples Number of samples to read
+     */
+    void select_samples_by_range(uint16_t first_sample, uint16_t number_of_samples)
+    {
+        for (size_t bn = 0; bn < _selected_number_of_samples_per_beam.size(); ++bn)
+        {
+            _selected_first_sample_per_beam[bn]      = first_sample;
+            _selected_number_of_samples_per_beam[bn] = number_of_samples;
+        }
+        init_beam_sample_selection();
+    }
+
+    /**
+     * @brief select the samples to be read from the water column datagram
+     *
+     * @param first_sample first sample number in the datagram
+     * @param last_sample last sample number in the datagram
+     */
+    void select_samples_by_first_last(uint16_t first_sample, uint16_t last_sample)
+    {
+        select_samples_by_range(first_sample, last_sample - first_sample + 1);
     }
 
     /**
@@ -263,6 +292,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                 _selected_beam_numbers.push_back(bn);
             }
         }
+        init_beam_sample_selection();
     }
 
     /**
@@ -291,9 +321,14 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             if (number_of_samples_to_read + _selected_first_sample_per_beam[bn] >
                 _number_of_samples_per_beam.at(bn))
             {
-                number_of_samples_to_read =
-                    _number_of_samples_per_beam[bn] - _selected_first_sample_per_beam[bn];
+                if (_selected_first_sample_per_beam[bn] >= _number_of_samples_per_beam[bn])
+                    number_of_samples_to_read = 0;
+                else
+                    // read only the samples that are available
+                    number_of_samples_to_read =
+                        _number_of_samples_per_beam[bn] - _selected_first_sample_per_beam[bn];
             }
+
             xt::xtensor<int8_t, 1> beam_samples =
                 datagrams::substructures::WaterColumnDatagramBeam::read_samples(
                     ifs,
