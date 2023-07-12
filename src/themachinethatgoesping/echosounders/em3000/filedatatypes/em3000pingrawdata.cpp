@@ -5,10 +5,8 @@
 // SPDX-License-Identifier: MPL-2.0
 //
 
-#pragma once
-
-/* generated doc strings */
-#include ".docstrings/em3000pingrawdata.doc.hpp"
+/* header*/
+#include "em3000pingrawdata.hpp"
 
 /* std includes */
 #include <filesystem>
