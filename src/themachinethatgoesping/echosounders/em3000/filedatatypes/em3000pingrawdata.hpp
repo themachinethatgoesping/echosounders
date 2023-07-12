@@ -197,7 +197,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         auto& ifs =
             this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram)
                 .at(0)
-                ->template get_stream();
+                ->get_stream();
 
         for (size_t bn = 0; bn < _selected_beam_numbers.size(); ++bn)
         {
