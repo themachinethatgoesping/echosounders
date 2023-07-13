@@ -5,11 +5,11 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-#include <themachinethatgoesping/echosounders/filetemplates/tools/pingsampleselector.hpp>
+#include <themachinethatgoesping/echosounders/pingtools/pingsampleselector.hpp>
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::tools;
+using namespace themachinethatgoesping::echosounders::pingtools;
 #define TESTTAG "[filetemplates]"
 
 TEST_CASE("PingSampleselector should support common functions", TESTTAG)

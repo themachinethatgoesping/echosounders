@@ -17,8 +17,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace filetemplates {
-namespace tools {
+namespace pingtools {
 
 class PingSampleSelector
 {
@@ -277,7 +276,6 @@ class PingSampleSelector
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace tools
-} // namespace filetemplates
+} // namespace pingtools
 } // namespace echosounders
 } // namespace themachinethatgoesping
