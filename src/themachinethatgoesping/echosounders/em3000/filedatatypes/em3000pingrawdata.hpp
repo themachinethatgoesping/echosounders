@@ -170,7 +170,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     boost::flyweights::flyweight<std::vector<float>>    _beam_pointing_angles;
     boost::flyweights::flyweight<std::vector<uint16_t>> _start_range_sample_numbers;
     boost::flyweights::flyweight<std::vector<uint16_t>> _number_of_samples_per_beam;
-    boost::flyweights::flyweight<std::vector<uint16_t>> _detected_range_in_samples;
+    std::vector<uint16_t>                               _detected_range_in_samples;
     boost::flyweights::flyweight<std::vector<uint8_t>>  _transmit_sector_number;
     std::vector<std::istream::pos_type>                 _sample_positions;
 
@@ -526,7 +526,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         printer.register_container("beam_pointing_angles", _beam_pointing_angles.get());
         printer.register_container("start_range_sample_numbers", _start_range_sample_numbers.get());
         printer.register_container("number_of_samples_per_bean", _number_of_samples_per_beam.get());
-        printer.register_container("detected_range_in_samples", _detected_range_in_samples.get());
+        printer.register_container("detected_range_in_samples", _detected_range_in_samples);
         printer.register_container("transmit_sector_number", _transmit_sector_number.get());
 
         printer.register_container("selected_beam_numbers", _selected_beam_numbers.get());
