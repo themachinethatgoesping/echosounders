@@ -8,6 +8,10 @@ module_name = 'echosounders'
 # -- sources
 sources = [
     'module.cpp',
+
+    'py_pingtools/module.cpp',
+    'py_pingtools/c_pingsampleselector.cpp',
+
     'py_simrad/module.cpp',
     'py_simrad/py_datagrams/module.cpp',
     'py_simrad/py_datagrams/c_simraddatagram.cpp',

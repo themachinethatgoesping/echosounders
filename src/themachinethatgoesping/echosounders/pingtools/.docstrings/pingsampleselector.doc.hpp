@@ -1,4 +1,4 @@
-//sourcehash: edd20b34599fbb94336a864b046ce9d366bd9218885c651e25e0297d58bb7312
+//sourcehash: bd457fda7efbf0e1272f9f292f58ec9cc54f1dc2c0779d01f8104f8e05399ae3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,13 +38,27 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_PingSampleSelector = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_PingSampleSelector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers (negative numbers reverse beam order))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers (negative numbers reverse beam order))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_from_stream =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_angle_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_number_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_step = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_number_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_range_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_step = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_from_stream =
 R"doc(Return a PingSampleSelector read from a binary stream
 
 Parameter ``is``:
@@ -53,43 +67,45 @@ Parameter ``is``:
 Returns:
     PingSampleSelector)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_beam_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_beam_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_max_beam_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_beam_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_max_beam_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_beam_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_max_sample_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_sample_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_max_sample_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_sample_range = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_min_beam_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_beam_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_min_beam_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_beam_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_min_sample_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_min_sample_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_range = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_get_sample_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_sample_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_max_beam_angle = R"doc(< max beam angle to select (°))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_angle = R"doc(< max beam angle to select (°))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_max_beam_number = R"doc(< max beam number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_number = R"doc(< max beam number to select (negative numbers count from end))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_max_sample_number = R"doc(< max sample number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_number = R"doc(< max sample number to select (negative numbers count from end))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_max_sample_range = R"doc(< max sample range to select (m))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_range = R"doc(< max sample range to select (m))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_min_beam_angle = R"doc(< min beam angle to select (°))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_angle = R"doc(< min beam angle to select (°))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_min_beam_number = R"doc(< min beam number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_number = R"doc(< min beam number to select (negative numbers count from end))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_min_sample_number = R"doc(< min sample number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_number = R"doc(< min sample number to select (negative numbers count from end))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_min_sample_range = R"doc(< min sample range to select (m))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_range = R"doc(< min sample range to select (m))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_printer =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
 See also: classhelper/objectprinter.hpp
 
@@ -99,35 +115,21 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers (negative numbers reverse sample order))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_beam_angle_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_angles = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_beam_number_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_numbers = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_beam_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_sample_range_by_numbers = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_sample_number_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_sample_range_by_ranges = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_sample_range_range = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_beam_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_reset_sample_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_sample_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers (negative numbers reverse sample order))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_select_beam_range_by_angles = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_select_beam_range_by_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_select_sample_range_by_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_select_sample_range_by_ranges = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_set_beam_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_set_sample_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_tools_PingSampleSelector_to_stream =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_to_stream =
 R"doc(Write a PingSampleSelector to a binary stream
 
 Parameter ``os``:
