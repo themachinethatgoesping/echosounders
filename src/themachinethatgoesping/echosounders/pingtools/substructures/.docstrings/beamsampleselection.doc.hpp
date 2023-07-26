@@ -1,4 +1,4 @@
-//sourcehash: c719476269df7bc1b627283c48a1f88fa05405302a64c7c29353a5759b881f4d
+//sourcehash: 797186e94172f1ff060b9bf69adfa31602468f06b021541b2c4dff420317a015
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,8 +60,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_substruct
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_number_of_samples_ensemble = R"doc(< max number of samples in the ensemble (computed))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_operator_eq_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro

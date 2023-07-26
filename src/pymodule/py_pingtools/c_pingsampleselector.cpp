@@ -9,8 +9,6 @@
 #include "../../themachinethatgoesping/echosounders/pingtools/pingsampleselector.hpp"
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "module.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {

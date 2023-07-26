@@ -1,4 +1,4 @@
-//sourcehash: bd9478c4b64def891a5da22dec55dafe196b4e79f303910e40440b499724e057
+//sourcehash: 3280f58427e9683294b55f25a7a0c0f04fa8ee9503c352c670449fbe14930aa0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -39,22 +39,6 @@
 
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection = R"doc(A struct to hold the selected beams/samples for a single transducer)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_beam_numbers = R"doc(< selected beam numbers)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_first_sample_number_ensemble = R"doc(< first sample number of the ensemble (computed))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_first_sample_number_per_beam = R"doc(< first sample number per beam)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_max_number_of_samples_per_beam = R"doc(< max number of samples per beam)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_number_of_samples_ensemble = R"doc(< max number of samples in the ensemble (computed))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_BeamSampleSelection_sample_step_ensemble = R"doc(< sample step size (same for the entire ensemble))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_PingSampleSelection = R"doc()doc";
 
