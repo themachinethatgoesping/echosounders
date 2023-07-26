@@ -6,7 +6,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/beamsampleselector.doc.hpp"
+#include ".docstrings/pingsampleselector.doc.hpp"
 
 /* std includes */
 #include <string>
@@ -21,7 +21,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
 
-class BeamSampleSelector
+class PingSampleSelector
 {
     std::optional<std::vector<std::string>> _transducer_ids; ///< if set: only use these transducers
     std::optional<std::vector<std::string>>
@@ -47,10 +47,10 @@ class BeamSampleSelector
     int _sample_step = 1; ///< step size for sample numbers (negative numbers reverse sample order)
 
   public:
-    BeamSampleSelector() = default;
+    PingSampleSelector() = default;
 
     // operators
-    bool operator==(const BeamSampleSelector& other) const
+    bool operator==(const PingSampleSelector& other) const
     {
         return _transducer_ids == other._transducer_ids &&
                _ignored_transducer_ids == other._ignored_transducer_ids &&
@@ -179,17 +179,17 @@ class BeamSampleSelector
 
     // ----- from/to binary -----
     /**
-     * @brief Return a BeamSampleSelector read from a binary stream
+     * @brief Return a PingSampleSelector read from a binary stream
      *
      * @param is input stream
-     * @return BeamSampleSelector
+     * @return PingSampleSelector
      */
-    static BeamSampleSelector from_stream(std::istream& is)
+    static PingSampleSelector from_stream(std::istream& is)
     {
         using themachinethatgoesping::tools::classhelper::stream::optional_container_from_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
 
-        BeamSampleSelector object;
+        PingSampleSelector object;
         object._transducer_ids = optional_container_from_stream<std::vector<std::string>>(is);
         object._ignored_transducer_ids =
             optional_container_from_stream<std::vector<std::string>>(is);
@@ -209,7 +209,7 @@ class BeamSampleSelector
     }
 
     /**
-     * @brief Write a BeamSampleSelector to a binary stream
+     * @brief Write a PingSampleSelector to a binary stream
      *
      * @param os output stream
      */
@@ -245,7 +245,7 @@ class BeamSampleSelector
     {
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
-        ObjectPrinter printer("BeamSampleSelector", float_precision);
+        ObjectPrinter printer("PingSampleSelector", float_precision);
 
         std::string inactive_filters;
 
@@ -314,7 +314,7 @@ class BeamSampleSelector
   public:
     // -- class helper function macros --
     // define to_binary and from_binary functions (needs to_stream and from_stream)
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(BeamSampleSelector)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PingSampleSelector)
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };

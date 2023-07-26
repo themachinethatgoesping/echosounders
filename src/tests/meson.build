@@ -8,8 +8,9 @@ testcomponent = 'echosounders'
 
 sources = [
     'tutorial.test.cpp',
-    'pingtools/beamsampleselector.test.cpp',
-    'pingtools/beamsampleselection.test.cpp',
+    'pingtools/pingsampleselector.test.cpp',
+    'pingtools/pingsampleselection.test.cpp',
+    'pingtools/substructures/beamsampleselection.test.cpp',
 
     'simrad/datagrams/simraddatagram.test.cpp',
     'simrad/datagrams/simradunknown.test.cpp',

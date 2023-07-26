@@ -10,8 +10,8 @@ sources = [
     'module.cpp',
 
     'py_pingtools/module.cpp',
-    'py_pingtools/c_beamsampleselection.cpp',
-    'py_pingtools/c_beamsampleselector.cpp',
+    'py_pingtools/c_pingsampleselection.cpp',
+    'py_pingtools/c_pingsampleselector.cpp',
 
     'py_simrad/module.cpp',
     'py_simrad/py_datagrams/module.cpp',
