@@ -28,25 +28,21 @@ class BeamSampleSelection
   public:
     struct SampleSelection
     {
-        uint16_t              first_beam_number   = 0;
-        uint16_t              max_number_of_beams = 0;
-        uint16_t              beam_step           = 1;
+        std::vector<uint16_t> beam_number;
         std::vector<uint16_t> first_sample_number_per_beam;
         std::vector<uint16_t> max_number_of_samples_per_beam;
-        uint16_t              sample_step = 1;
 
-        uint16_t first_sample_ensemble      = 0;
-        uint16_t number_of_samples_ensemble = 0;
+        uint16_t sample_step_ensemble         = 1;
+        uint16_t first_sample_number_ensemble = 0;
+        uint16_t number_of_samples_ensemble   = 0;
 
         bool operator==(const SampleSelection& other) const
         {
-            return first_beam_number == other.first_beam_number &&
-                   max_number_of_beams == other.max_number_of_beams &&
-                   beam_step == other.beam_step &&
+            return beam_number == other.beam_number &&
                    first_sample_number_per_beam == other.first_sample_number_per_beam &&
                    max_number_of_samples_per_beam == other.max_number_of_samples_per_beam &&
-                   sample_step == other.sample_step &&
-                   first_sample_ensemble == other.first_sample_ensemble &&
+                   sample_step_ensemble == other.sample_step_ensemble &&
+                   first_sample_number_ensemble == other.first_sample_number_ensemble &&
                    number_of_samples_ensemble == other.number_of_samples_ensemble;
         }
     };
@@ -132,15 +128,14 @@ class BeamSampleSelection
         for (const auto& [name, selection] : _sample_selections)
         {
             printer.register_section(fmt::format("SampleSelection Transducer '{}'", name));
-            printer.register_value("first_beam_number", selection.first_beam_number);
-            printer.register_value("max_number_of_beams", selection.max_number_of_beams);
-            printer.register_value("beam_step", selection.beam_step);
+            printer.register_container("beam_number", selection.beam_number);
             printer.register_container("first_sample_number_per_beam",
                                        selection.first_sample_number_per_beam);
             printer.register_container("max_number_of_samples_per_beam",
                                        selection.max_number_of_samples_per_beam);
-            printer.register_value("sample_step", selection.sample_step);
-            printer.register_value("first_sample_ensemble", selection.first_sample_ensemble);
+            printer.register_value("sample_step_ensemble", selection.sample_step_ensemble);
+            printer.register_value("first_number_sample_ensemble",
+                                   selection.first_sample_number_ensemble);
             printer.register_value("number_of_samples_ensemble",
                                    selection.number_of_samples_ensemble);
         }

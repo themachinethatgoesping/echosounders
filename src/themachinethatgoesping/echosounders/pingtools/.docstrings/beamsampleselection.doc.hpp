@@ -1,4 +1,4 @@
-//sourcehash: b1b1b7749c2e3465d4da1fa837b2c1f702e45394936123a34d2fb8f1b41cd182
+//sourcehash: eb08ac0645bd031bd5bd3595574108402b64ec8f564242eedda713214b0e3a11
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,15 +44,11 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_beam_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_beam_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_beam_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_ensemble = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_number_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_number_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_max_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_max_number_of_samples_per_beam = R"doc()doc";
 
@@ -60,7 +56,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_sample_step = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_sample_step_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_from_stream =
 R"doc(Return a BeamSampleSelection read from a binary stream
