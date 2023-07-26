@@ -5,17 +5,17 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-#include <themachinethatgoesping/echosounders/pingtools/pingsampleselector.hpp>
+#include <themachinethatgoesping/echosounders/pingtools/beamsampleselector.hpp>
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::pingtools;
 #define TESTTAG "[filetemplates]"
 
-TEST_CASE("PingSampleselector should support common functions", TESTTAG)
+TEST_CASE("BeamSampleSelector should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto obj = PingSampleSelector();
+    auto obj = BeamSampleSelector();
 
     // set some variables
     obj.select_beam_range_by_numbers(1, -1, 1);
@@ -44,23 +44,23 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
     REQUIRE(obj.get_beam_step() == 13);
 
     // test inequality
-    REQUIRE(obj != PingSampleSelector());
+    REQUIRE(obj != BeamSampleSelector());
 
     // test copy
-    REQUIRE(obj == PingSampleSelector(obj));
+    REQUIRE(obj == BeamSampleSelector(obj));
 
     // test binary
-    REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
+    REQUIRE(obj == BeamSampleSelector(obj.from_binary(obj.to_binary())));
 
     // test stream
     std::stringstream buffer;
     obj.to_stream(buffer);
-    REQUIRE(obj == PingSampleSelector(obj.from_stream(buffer)));
+    REQUIRE(obj == BeamSampleSelector(obj.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(obj.info_string().size() != 0);
 
     //--- Class concept ---
     obj.clear();
-    REQUIRE(obj == PingSampleSelector());
+    REQUIRE(obj == BeamSampleSelector());
 }

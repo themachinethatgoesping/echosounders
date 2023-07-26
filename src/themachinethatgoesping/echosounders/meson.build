@@ -15,7 +15,7 @@ headers = [
   'filetemplates/datacontainers/datagramcontainer.hpp',
   'filetemplates/datatypes/i_ping.hpp',
 
-  'pingtools/pingsampleselector.hpp',
+  'pingtools/beamsampleselector.hpp',
 
   'simrad/filesimradraw.hpp',
   'simrad/simrad_types.hpp',

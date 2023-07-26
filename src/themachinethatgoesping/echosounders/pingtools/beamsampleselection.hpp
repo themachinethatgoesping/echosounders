@@ -6,7 +6,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/pingsampleselection.doc.hpp"
+#include ".docstrings/beamsampleselection.doc.hpp"
 
 /* std includes */
 #include <map>
@@ -23,7 +23,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
 
-class PingSampleSelection
+class BeamSampleSelection
 {
   public:
     struct SampleSelection
@@ -55,26 +55,26 @@ class PingSampleSelection
     std::map<std::string, SampleSelection> _sample_selections;
 
   public:
-    PingSampleSelection() = default;
+    BeamSampleSelection() = default;
 
     // operators
-    bool operator==(const PingSampleSelection& other) const
+    bool operator==(const BeamSampleSelection& other) const
     {
         return _sample_selections == other._sample_selections;
     }
 
     // ----- from/to binary -----
     /**
-     * @brief Return a PingSampleSelection read from a binary stream
+     * @brief Return a BeamSampleSelection read from a binary stream
      *
      * @param is input stream
-     * @return PingSampleSelection
+     * @return BeamSampleSelection
      */
-    static PingSampleSelection from_stream(std::istream& is)
+    static BeamSampleSelection from_stream(std::istream& is)
     {
         using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
 
-        PingSampleSelection object;
+        BeamSampleSelection object;
         size_t              size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size));
 
@@ -93,7 +93,7 @@ class PingSampleSelection
     }
 
     /**
-     * @brief Write a PingSampleSelection to a binary stream
+     * @brief Write a BeamSampleSelection to a binary stream
      *
      * @param os output stream
      */
@@ -121,7 +121,7 @@ class PingSampleSelection
     {
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
-        ObjectPrinter printer("PingSampleSelection", float_precision);
+        ObjectPrinter printer("BeamSampleSelection", float_precision);
 
         if (_sample_selections.empty())
         {
@@ -151,7 +151,7 @@ class PingSampleSelection
   public:
     // -- class helper function macros --
     // define to_binary and from_binary functions (needs to_stream and from_stream)
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PingSampleSelection)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(BeamSampleSelection)
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };

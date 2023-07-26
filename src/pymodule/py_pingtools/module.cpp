@@ -13,8 +13,8 @@ namespace pymodule {
 namespace py_pingtools {
 
 // -- submodule declarations --
-void init_c_pingsampleselection(pybind11::module& m); // c_pingsampleselection.cpp
-void init_c_pingsampleselector(pybind11::module& m); // c_pingsampleselector.cpp
+void init_c_beamsampleselection(pybind11::module& m); // c_beamsampleselection.cpp
+void init_c_beamsampleselector(pybind11::module& m); // c_beamsampleselector.cpp
 
 // -- create submodule --
 void init_m_pingtools(py::module& m)
@@ -23,8 +23,8 @@ void init_m_pingtools(py::module& m)
     auto subm = m.def_submodule("pingtools", "Tools for working with ping objects.");
 
     // pingtool classes classes
-    init_c_pingsampleselection(subm);
-    init_c_pingsampleselector(subm);
+    init_c_beamsampleselection(subm);
+    init_c_beamsampleselector(subm);
 }
 
 }
