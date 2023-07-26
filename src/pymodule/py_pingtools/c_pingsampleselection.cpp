@@ -29,6 +29,13 @@ void init_c_pingsampleselection(pybind11::module& m)
         .def(py::init<>(), DOC_PingSampleSelection(PingSampleSelection))
 
         // --- convenient data access ---
+        .def("transducer_ids",
+             &PingSampleSelection::transducer_ids,
+             DOC_PingSampleSelection(transducer_ids))
+
+        .def("get_sample_selections",
+                &PingSampleSelection::get_sample_selections,
+                DOC_PingSampleSelection(get_sample_selections))
         
         // ----- operators -----
         .def("__eq__",

@@ -35,8 +35,17 @@ void init_c_beamsampleselection(pybind11::module& m)
 
         // --- convenient data access ---
         .def_readwrite("beam_numbers",
-             &BeamSampleSelection::beam_numbers,
-             DOC_BeamSampleSelection(beam_numbers))
+                       &BeamSampleSelection::beam_numbers,
+                       DOC_BeamSampleSelection(beam_numbers))
+        .def_readwrite("first_sample_number_per_beam",
+                       &BeamSampleSelection::first_sample_number_per_beam,
+                       DOC_BeamSampleSelection(first_sample_number_per_beam))
+        .def_readwrite("max_number_of_samples_per_beam",
+                       &BeamSampleSelection::max_number_of_samples_per_beam,
+                       DOC_BeamSampleSelection(max_number_of_samples_per_beam))
+        .def_readwrite("sample_step_ensemble",
+                       &BeamSampleSelection::sample_step_ensemble,
+                       DOC_BeamSampleSelection(sample_step_ensemble))
 
         // ----- operators -----
         .def("__eq__",

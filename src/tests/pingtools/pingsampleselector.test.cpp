@@ -20,8 +20,8 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
     // set some variables
     obj.select_transducer_ids({ "a", "b", "c" });
     obj.select_ignored_transducer_ids({ "d", "e", "f" });
-    REQUIRE(obj.get_transducer_ids() == std::vector<std::string>({ "a", "b", "c" }));
-    REQUIRE(obj.get_ignored_transducer_ids() == std::vector<std::string>({ "d", "e", "f" }));
+    REQUIRE(obj.get_transducer_ids() == std::set<std::string>({ "a", "b", "c" }));
+    REQUIRE(obj.get_ignored_transducer_ids() == std::set<std::string>({ "d", "e", "f" }));
     obj.clear_transducer_ids();
     REQUIRE(obj.get_transducer_ids() == std::nullopt);
     obj.clear_ignored_transducer_ids();

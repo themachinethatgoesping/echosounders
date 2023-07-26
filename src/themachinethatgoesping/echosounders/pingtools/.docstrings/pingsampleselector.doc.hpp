@@ -1,4 +1,4 @@
-//sourcehash: 83bacb3d8b9c175f2ca1a0ae9ca3fa9d166b970ec90eb393038b45632a944c1c
+//sourcehash: e9aebc1565129e4a4c60421c67f4c7497a373dc5c9fdf9c25f7001bd85760659
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_PingSampleSelector = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_apply_selection = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers (negative numbers reverse beam order))doc";
 

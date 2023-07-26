@@ -11,6 +11,7 @@
 #include "py_em3000/module.hpp"
 #include "py_pingtools/module.hpp"
 #include "py_simrad/module.hpp"
+#include "py_filetemplates/module.hpp"
 
 // declare modules
 // void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp
@@ -27,6 +28,7 @@ PYBIND11_MODULE(MODULE_NAME, m)
     m.attr("__version__") = MODULE_VERSION;
 
     // init_m_navtools(m);
+    py_filetemplates::init_m_filetemplates(m);
     py_pingtools::init_m_pingtools(m);
     py_simrad::init_m_simrad(m);
     py_em3000::init_m_em3000(m);

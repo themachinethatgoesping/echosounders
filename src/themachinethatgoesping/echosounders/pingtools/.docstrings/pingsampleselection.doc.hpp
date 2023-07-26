@@ -1,4 +1,4 @@
-//sourcehash: 3280f58427e9683294b55f25a7a0c0f04fa8ee9503c352c670449fbe14930aa0
+//sourcehash: 49f8fbe89f85a7abbec6e06ddabe5778c5a8a6bbdb8bd49c0216e35a24bdee7b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,12 @@ Parameter ``is``:
 Returns:
     PingSampleSelection)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_sample_selections =
+R"doc(Return the sample selections for each transducer
+
+Returns:
+    dict of sample selections)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_printer =
@@ -70,6 +76,12 @@ R"doc(Write a PingSampleSelection to a binary stream
 
 Parameter ``os``:
     output stream)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_transducer_ids =
+R"doc(Return the names of the transducers
+
+Returns:
+    std::set<std::string>)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

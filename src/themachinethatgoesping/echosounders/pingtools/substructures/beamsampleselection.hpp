@@ -25,7 +25,7 @@ namespace pingtools {
 namespace substructures {
 
 /**
- * @brief A struct to hold the selected beams/samples for a single transducer
+ * @brief A struct to hold the selected beams/sample range for a single transducer
  *
  */
 struct BeamSampleSelection
@@ -34,18 +34,14 @@ struct BeamSampleSelection
     std::vector<uint16_t> first_sample_number_per_beam;   ///< first sample number per beam
     std::vector<uint16_t> max_number_of_samples_per_beam; ///< max number of samples per beam
 
-    uint16_t sample_step_ensemble         = 1; ///< sample step size (same for the entire ensemble)
-    uint16_t first_sample_number_ensemble = 0; ///< first sample number of the ensemble (computed)
-    uint16_t number_of_samples_ensemble   = 0; ///< max number of samples in the ensemble (computed)
+    uint16_t sample_step_ensemble = 1; ///< sample step size (same for the entire ensemble)
 
     bool operator==(const BeamSampleSelection& other) const
     {
         return beam_numbers == other.beam_numbers &&
                first_sample_number_per_beam == other.first_sample_number_per_beam &&
                max_number_of_samples_per_beam == other.max_number_of_samples_per_beam &&
-               sample_step_ensemble == other.sample_step_ensemble &&
-               first_sample_number_ensemble == other.first_sample_number_ensemble &&
-               number_of_samples_ensemble == other.number_of_samples_ensemble;
+               sample_step_ensemble == other.sample_step_ensemble;
     }
 
     // ----- from/to binary -----
@@ -64,8 +60,8 @@ struct BeamSampleSelection
         object.first_sample_number_per_beam   = container_from_stream<std::vector<uint16_t>>(is);
         object.max_number_of_samples_per_beam = container_from_stream<std::vector<uint16_t>>(is);
 
-        // read rest
-        is.read(reinterpret_cast<char*>(&object.sample_step_ensemble), sizeof(uint16_t) * 3);
+        is.read(reinterpret_cast<char*>(&object.sample_step_ensemble),
+                sizeof(object.sample_step_ensemble));
 
         return object;
     }
@@ -82,7 +78,9 @@ struct BeamSampleSelection
         container_to_stream(os, beam_numbers);
         container_to_stream(os, first_sample_number_per_beam);
         container_to_stream(os, max_number_of_samples_per_beam);
-        os.write(reinterpret_cast<const char*>(&sample_step_ensemble), sizeof(uint16_t) * 3);
+
+        os.write(reinterpret_cast<const char*>(&sample_step_ensemble),
+                 sizeof(sample_step_ensemble));
     }
 
     // ----- printing -----
@@ -103,9 +101,8 @@ struct BeamSampleSelection
         printer.register_container("first_sample_number_per_beam", first_sample_number_per_beam);
         printer.register_container("max_number_of_samples_per_beam",
                                    max_number_of_samples_per_beam);
+
         printer.register_value("sample_step_ensemble", sample_step_ensemble);
-        printer.register_value("first_number_sample_ensemble", first_sample_number_ensemble);
-        printer.register_value("number_of_samples_ensemble", number_of_samples_ensemble);
 
         return printer;
     }

@@ -15,6 +15,7 @@
 #include <fstream>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 #include <fmt/core.h>
 
@@ -29,6 +30,9 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
+// #include "../../pingtools/pingsampleselector.hpp"
+// #include "../../pingtools/pingsampleselection.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -40,7 +40,7 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
 {
     using t_EM3000Ping = filedatatypes::EM3000Ping<T_FileStream>;
 
-    auto cls = py::class_<t_EM3000Ping>(
+    auto cls = py::class_<t_EM3000Ping, datatypes::I_Ping>(
                    m,
                    CLASS_NAME.c_str(),
                    DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))

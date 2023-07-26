@@ -13,6 +13,8 @@
 #include <vector>
 
 /* ping includes */
+#include "../filetemplates/datatypes/i_ping.hpp"
+#include "pingsampleselection.hpp"
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
@@ -23,8 +25,8 @@ namespace pingtools {
 
 class PingSampleSelector
 {
-    std::optional<std::vector<std::string>> _transducer_ids; ///< if set: only use these transducers
-    std::optional<std::vector<std::string>>
+    std::optional<std::set<std::string>> _transducer_ids; ///< if set: only use these transducers
+    std::optional<std::set<std::string>>
         _ignored_transducer_ids; ///< if set: ignore these transducers
 
     std::optional<int>
@@ -63,6 +65,34 @@ class PingSampleSelector
                _min_sample_range == other._min_sample_range &&
                _max_sample_range == other._max_sample_range && _beam_step == other._beam_step &&
                _sample_step == other._sample_step;
+    }
+
+    // get selection
+    // PingSampleSelection apply_selection(const filetemplates::datatypes::I_Ping& ping)
+    std::set<std::string> apply_selection(const filetemplates::datatypes::I_Ping& ping)
+    {
+        // select transducers according to the transducers
+        std::set<std::string> transducer_ids;
+        if (_transducer_ids)
+        {
+            for (const auto& trid : ping.get_transducer_ids())
+                if (_transducer_ids->contains(trid))
+                    transducer_ids.insert(trid);
+        }
+        else
+        {
+            transducer_ids = ping.get_transducer_ids();
+        }
+
+        if (_ignored_transducer_ids)
+            for (const auto& trid : *_ignored_transducer_ids)
+                transducer_ids.erase(trid);
+
+        // select beams according to the options
+
+        // select samples according to the options
+
+        return transducer_ids;
     }
 
     // getters
@@ -124,14 +154,14 @@ class PingSampleSelector
     }
 
     // selectors
-    void select_transducer_ids(std::vector<std::string> transducer_ids)
+    void select_transducer_ids(std::set<std::string> transducer_ids)
     {
-        _transducer_ids = transducer_ids;
+        _transducer_ids = std::move(transducer_ids);
     }
 
-    void select_ignored_transducer_ids(std::vector<std::string> ignored_transducer_ids)
+    void select_ignored_transducer_ids(std::set<std::string> ignored_transducer_ids)
     {
-        _ignored_transducer_ids = ignored_transducer_ids;
+        _ignored_transducer_ids = std::move(ignored_transducer_ids);
     }
 
     void select_beam_range_by_numbers(int                min_beam_number,
@@ -186,13 +216,12 @@ class PingSampleSelector
      */
     static PingSampleSelector from_stream(std::istream& is)
     {
-        using themachinethatgoesping::tools::classhelper::stream::optional_container_from_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
+        using themachinethatgoesping::tools::classhelper::stream::optional_set_from_stream;
 
         PingSampleSelector object;
-        object._transducer_ids = optional_container_from_stream<std::vector<std::string>>(is);
-        object._ignored_transducer_ids =
-            optional_container_from_stream<std::vector<std::string>>(is);
+        object._transducer_ids         = optional_set_from_stream<std::string>(is);
+        object._ignored_transducer_ids = optional_set_from_stream<std::string>(is);
 
         object._min_beam_number   = optional_from_stream<int>(is);
         object._max_beam_number   = optional_from_stream<int>(is);
@@ -215,11 +244,11 @@ class PingSampleSelector
      */
     void to_stream(std::ostream& os) const
     {
-        using themachinethatgoesping::tools::classhelper::stream::optional_container_to_stream;
+        using themachinethatgoesping::tools::classhelper::stream::optional_set_to_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_to_stream;
 
-        optional_container_to_stream(os, _transducer_ids);
-        optional_container_to_stream(os, _ignored_transducer_ids);
+        optional_set_to_stream(os, _transducer_ids);
+        optional_set_to_stream(os, _ignored_transducer_ids);
 
         optional_to_stream(os, _min_beam_number);
         optional_to_stream(os, _max_beam_number);

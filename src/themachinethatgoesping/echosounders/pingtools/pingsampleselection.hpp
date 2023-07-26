@@ -10,15 +10,16 @@
 
 /* std includes */
 #include <map>
+#include <set>
 
 /* external includes */
 #include <fmt/core.h>
 
 /* ping includes */
+#include <themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
-#include <themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -32,6 +33,29 @@ class PingSampleSelection
 
   public:
     PingSampleSelection() = default;
+
+    // --- convenient data access ---
+    /**
+     * @brief Return the names of the transducers
+     *
+     * @return std::set<std::string>
+     */
+    std::set<std::string> transducer_ids() const
+    {
+        std::set<std::string> ids;
+        for (const auto& [id, selection] : _sample_selections)
+        {
+            ids.insert(id);
+        }
+        return ids;
+    }
+
+    /**
+     * @brief Return the sample selections for each transducer
+     * 
+     * @return dict of sample selections
+     */
+    const auto& get_sample_selections () const { return _sample_selections; }
 
     // operators
     bool operator==(const PingSampleSelection& other) const
@@ -104,18 +128,10 @@ class PingSampleSelection
 
         for (const auto& [name, selection] : _sample_selections)
         {
-            printer.register_section(fmt::format("SampleSelection Transducer '{}'", name));
-            printer.register_container("beam_numbers", selection.beam_numbers);
-            printer.register_container("first_sample_number_per_beam",
-                                       selection.first_sample_number_per_beam);
-            printer.register_container("max_number_of_samples_per_beam",
-                                       selection.max_number_of_samples_per_beam);
-            printer.register_value("sample_step_ensemble", selection.sample_step_ensemble);
-            printer.register_value("first_number_sample_ensemble",
-                                   selection.first_sample_number_ensemble);
-            printer.register_value("number_of_samples_ensemble",
-                                   selection.number_of_samples_ensemble);
+            printer.register_section(fmt::format("BeamSampleSelection Transducer '{}'", name));
+            printer.append(selection.__printer__(float_precision), true);
         }
+
 
         return printer;
     }

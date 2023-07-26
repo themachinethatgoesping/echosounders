@@ -9,6 +9,9 @@ module_name = 'echosounders'
 sources = [
     'module.cpp',
 
+    'py_filetemplates/module.cpp',
+    'py_filetemplates/py_datatypes/i_ping.cpp',
+
     'py_pingtools/module.cpp',
     'py_pingtools/substructures/c_beamsampleselection.cpp',
     'py_pingtools/c_pingsampleselection.cpp',
