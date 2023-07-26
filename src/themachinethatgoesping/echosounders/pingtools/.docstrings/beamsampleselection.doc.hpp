@@ -1,4 +1,4 @@
-//sourcehash: eb08ac0645bd031bd5bd3595574108402b64ec8f564242eedda713214b0e3a11
+//sourcehash: 390eeb1f8465620df72943d6a2758df0838f2a3a9b10ced51079890e1454b446
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,7 +44,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_beam_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_beam_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_number_ensemble = R"doc()doc";
 

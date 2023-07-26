@@ -28,7 +28,7 @@ class BeamSampleSelection
   public:
     struct SampleSelection
     {
-        std::vector<uint16_t> beam_number;
+        std::vector<uint16_t> beam_numbers;
         std::vector<uint16_t> first_sample_number_per_beam;
         std::vector<uint16_t> max_number_of_samples_per_beam;
 
@@ -38,7 +38,7 @@ class BeamSampleSelection
 
         bool operator==(const SampleSelection& other) const
         {
-            return beam_number == other.beam_number &&
+            return beam_numbers == other.beam_numbers &&
                    first_sample_number_per_beam == other.first_sample_number_per_beam &&
                    max_number_of_samples_per_beam == other.max_number_of_samples_per_beam &&
                    sample_step_ensemble == other.sample_step_ensemble &&
@@ -128,7 +128,7 @@ class BeamSampleSelection
         for (const auto& [name, selection] : _sample_selections)
         {
             printer.register_section(fmt::format("SampleSelection Transducer '{}'", name));
-            printer.register_container("beam_number", selection.beam_number);
+            printer.register_container("beam_numbers", selection.beam_numbers);
             printer.register_container("first_sample_number_per_beam",
                                        selection.first_sample_number_per_beam);
             printer.register_container("max_number_of_samples_per_beam",
