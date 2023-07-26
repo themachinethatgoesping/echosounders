@@ -9,6 +9,8 @@
 #include ".docstrings/beamsampleselector.doc.hpp"
 
 /* std includes */
+#include <string>
+#include <vector>
 
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -21,6 +23,10 @@ namespace pingtools {
 
 class BeamSampleSelector
 {
+    std::optional<std::vector<std::string>> _transducer_ids; ///< if set: only use these transducers
+    std::optional<std::vector<std::string>>
+        _ignored_transducer_ids; ///< if set: ignore these transducers
+
     std::optional<int>
         _min_beam_number; ///< min beam number to select (negative numbers count from end)
     std::optional<int>
@@ -46,7 +52,9 @@ class BeamSampleSelector
     // operators
     bool operator==(const BeamSampleSelector& other) const
     {
-        return _min_beam_number == other._min_beam_number &&
+        return _transducer_ids == other._transducer_ids &&
+               _ignored_transducer_ids == other._ignored_transducer_ids &&
+               _min_beam_number == other._min_beam_number &&
                _max_beam_number == other._max_beam_number &&
                _min_sample_number == other._min_sample_number &&
                _max_sample_number == other._max_sample_number &&
@@ -58,16 +66,22 @@ class BeamSampleSelector
     }
 
     // getters
-    auto get_min_beam_number() const { return _min_beam_number; }
-    auto get_max_beam_number() const { return _max_beam_number; }
-    auto get_min_sample_number() const { return _min_sample_number; }
-    auto get_max_sample_number() const { return _max_sample_number; }
-    auto get_min_beam_angle() const { return _min_beam_angle; }
-    auto get_max_beam_angle() const { return _max_beam_angle; }
-    auto get_min_sample_range() const { return _min_sample_range; }
-    auto get_max_sample_range() const { return _max_sample_range; }
-    auto get_beam_step() const { return _beam_step; }
-    auto get_sample_step() const { return _sample_step; }
+    const auto& get_transducer_ids() const { return _transducer_ids; }
+    const auto& get_ignored_transducer_ids() const { return _ignored_transducer_ids; }
+    auto        get_min_beam_number() const { return _min_beam_number; }
+    auto        get_max_beam_number() const { return _max_beam_number; }
+    auto        get_min_sample_number() const { return _min_sample_number; }
+    auto        get_max_sample_number() const { return _max_sample_number; }
+    auto        get_min_beam_angle() const { return _min_beam_angle; }
+    auto        get_max_beam_angle() const { return _max_beam_angle; }
+    auto        get_min_sample_range() const { return _min_sample_range; }
+    auto        get_max_sample_range() const { return _max_sample_range; }
+    auto        get_beam_step() const { return _beam_step; }
+    auto        get_sample_step() const { return _sample_step; }
+
+    // resetters
+    void clear_transducer_ids() { _transducer_ids.reset(); }
+    void clear_ignored_transducer_ids() { _ignored_transducer_ids.reset(); }
 
     // resetters
     void clear_beam_number_range()
@@ -99,6 +113,8 @@ class BeamSampleSelector
 
     void clear()
     {
+        clear_transducer_ids();
+        clear_ignored_transducer_ids();
         clear_beam_number_range();
         clear_sample_number_range();
         clear_beam_angle_range();
@@ -108,6 +124,16 @@ class BeamSampleSelector
     }
 
     // selectors
+    void select_transducer_ids(std::vector<std::string> transducer_ids)
+    {
+        _transducer_ids = transducer_ids;
+    }
+
+    void select_ignored_transducer_ids(std::vector<std::string> ignored_transducer_ids)
+    {
+        _ignored_transducer_ids = ignored_transducer_ids;
+    }
+
     void select_beam_range_by_numbers(int                min_beam_number,
                                       int                max_beam_number,
                                       std::optional<int> beam_step = std::nullopt)
@@ -160,9 +186,14 @@ class BeamSampleSelector
      */
     static BeamSampleSelector from_stream(std::istream& is)
     {
+        using themachinethatgoesping::tools::classhelper::stream::optional_container_from_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
 
         BeamSampleSelector object;
+        object._transducer_ids = optional_container_from_stream<std::vector<std::string>>(is);
+        object._ignored_transducer_ids =
+            optional_container_from_stream<std::vector<std::string>>(is);
+
         object._min_beam_number   = optional_from_stream<int>(is);
         object._max_beam_number   = optional_from_stream<int>(is);
         object._min_sample_number = optional_from_stream<int>(is);
@@ -184,7 +215,11 @@ class BeamSampleSelector
      */
     void to_stream(std::ostream& os) const
     {
+        using themachinethatgoesping::tools::classhelper::stream::optional_container_to_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_to_stream;
+
+        optional_container_to_stream(os, _transducer_ids);
+        optional_container_to_stream(os, _ignored_transducer_ids);
 
         optional_to_stream(os, _min_beam_number);
         optional_to_stream(os, _max_beam_number);
@@ -215,6 +250,14 @@ class BeamSampleSelector
         std::string inactive_filters;
 
         printer.register_section("Active beam/sample filters");
+        if (_transducer_ids)
+            printer.register_container("transducer_ids", *_transducer_ids);
+        else
+            inactive_filters += "transducer_ids, ";
+        if (_ignored_transducer_ids)
+            printer.register_container("ignored_transducer_ids", *_ignored_transducer_ids);
+        else
+            inactive_filters += "ignored_transducer_ids, ";
         if (_min_beam_number)
             printer.register_value("min_beam_number", *_min_beam_number);
         else

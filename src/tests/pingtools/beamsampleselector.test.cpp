@@ -18,6 +18,15 @@ TEST_CASE("BeamSampleSelector should support common functions", TESTTAG)
     auto obj = BeamSampleSelector();
 
     // set some variables
+    obj.select_transducer_ids({ "a", "b", "c" });
+    obj.select_ignored_transducer_ids({ "d", "e", "f" });
+    REQUIRE(obj.get_transducer_ids() == std::vector<std::string>({ "a", "b", "c" }));
+    REQUIRE(obj.get_ignored_transducer_ids() == std::vector<std::string>({ "d", "e", "f" }));
+    obj.clear_transducer_ids();
+    REQUIRE(obj.get_transducer_ids() == std::nullopt);
+    obj.clear_ignored_transducer_ids();
+    REQUIRE(obj.get_ignored_transducer_ids() == std::nullopt);
+
     obj.select_beam_range_by_numbers(1, -1, 1);
     REQUIRE(obj.get_min_beam_number() == 1);
     REQUIRE(obj.get_max_beam_number() == -1);
