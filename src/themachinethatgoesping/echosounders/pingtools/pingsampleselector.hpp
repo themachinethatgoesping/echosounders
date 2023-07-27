@@ -109,9 +109,9 @@ class PingSampleSelector
             {
                 auto bn = beam_indexer(counter);
 
-                if (_min_beam_angle && beam_pointing_angles.at(bn) < *_min_beam_angle)
+                if (_min_beam_angle && beam_pointing_angles.unchecked(bn) < *_min_beam_angle)
                     continue;
-                if (_max_beam_angle && beam_pointing_angles.at(bn) > *_max_beam_angle)
+                if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
                     continue;
 
                 selection.add_beam(trid, bn);
