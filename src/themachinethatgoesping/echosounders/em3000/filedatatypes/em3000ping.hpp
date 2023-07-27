@@ -160,6 +160,11 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return get_raw_data(transducer_id).get_beam_pointing_angles();
     }
 
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(const std::string& transducer_id) const final
+    {
+        return get_raw_data(transducer_id).get_number_of_samples_per_beam();
+    }
+
     // void load_data() final { _raw_data.load_data(); }
     // void release_data() final { _raw_data.release_data(); }
 

@@ -1,4 +1,4 @@
-//sourcehash: 97e1e9146fd59c3c66c413fc8322abefe185dddb2dd559bb250096ea3e861ea2
+//sourcehash: 868dbd58cab33a2da2ebf74f79ac3bfb87d95e503fb24e1b1b35d780bdab3fb5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,6 +72,10 @@ Returns:
     classhelper::ObjectPrinter)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_sample_selections = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_sample_step_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_sample_step_ensemble_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_to_stream =
 R"doc(Write a PingSampleSelection to a binary stream

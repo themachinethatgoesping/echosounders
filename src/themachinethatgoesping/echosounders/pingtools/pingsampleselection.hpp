@@ -33,11 +33,28 @@ class PingSampleSelection
 
   public:
     PingSampleSelection() = default;
-    
+
     // --- add beams/samples ---
-    void add_beam(const std::string& transducer_id, size_t beam_nr)
+    void add_beam(const std::string& transducer_id,
+                  size_t             beam_nr,
+                  uint16_t           first_sample_number   = 0,
+                  uint16_t           max_number_of_samples = std::numeric_limits<uint16_t>::max())
     {
-        _sample_selections[transducer_id].add_beam(beam_nr);
+        _sample_selections[transducer_id].add_beam(
+            beam_nr, first_sample_number, max_number_of_samples);
+    }
+
+    void set_sample_step_ensemble(uint16_t sample_step_ensemble)
+    {
+        for (auto& [id, selection] : _sample_selections)
+        {
+            selection.set_sample_step_ensemble(sample_step_ensemble);
+        }
+    }
+
+    void set_sample_step_ensemble(const std::string& transducer_id, uint16_t sample_step_ensemble)
+    {
+        _sample_selections.at(transducer_id).set_sample_step_ensemble(sample_step_ensemble);
     }
 
     // --- convenient data access ---
@@ -58,10 +75,10 @@ class PingSampleSelection
 
     /**
      * @brief Return the sample selections for each transducer
-     * 
+     *
      * @return dict of sample selections
      */
-    const auto& get_sample_selections () const { return _sample_selections; }
+    const auto& get_sample_selections() const { return _sample_selections; }
 
     // operators
     bool operator==(const PingSampleSelection& other) const
@@ -137,7 +154,6 @@ class PingSampleSelection
             printer.register_section(fmt::format("BeamSampleSelection Transducer '{}'", name));
             printer.append(selection.__printer__(float_precision), true);
         }
-
 
         return printer;
     }

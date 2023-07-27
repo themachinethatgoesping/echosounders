@@ -17,7 +17,7 @@ namespace py_pingtools {
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::pingtools;
 
-#define DOC_PingSampleSelection(arg)                                                                \
+#define DOC_PingSampleSelection(arg)                                                               \
     DOC(themachinethatgoesping, echosounders, pingtools, PingSampleSelection, arg)
 
 void init_c_pingsampleselection(pybind11::module& m)
@@ -28,15 +28,36 @@ void init_c_pingsampleselection(pybind11::module& m)
         DOC(themachinethatgoesping, echosounders, pingtools, PingSampleSelection))
         .def(py::init<>(), DOC_PingSampleSelection(PingSampleSelection))
 
+        // --- add beams/samples ---
+        .def("add_beam",
+             &PingSampleSelection::add_beam,
+             DOC_PingSampleSelection(add_beam),
+             py::arg("transducer_id"),
+             py::arg("beam_nr"),
+             py::arg("first_sample_number")   = 0,
+             py::arg("max_number_of_samples") = std::numeric_limits<uint16_t>::max())
+
+        .def("set_sample_step_ensemble",
+             py::overload_cast<uint16_t>(&PingSampleSelection::set_sample_step_ensemble),
+             DOC_PingSampleSelection(set_sample_step_ensemble),
+             py::arg("sample_step_ensemble"))
+
+        .def("set_sample_step_ensemble",
+             py::overload_cast<const std::string&, uint16_t>(
+                 &PingSampleSelection::set_sample_step_ensemble),
+             DOC_PingSampleSelection(set_sample_step_ensemble),
+             py::arg("transducer_id"),
+             py::arg("sample_step_ensemble"))
+
         // --- convenient data access ---
         .def("transducer_ids",
              &PingSampleSelection::transducer_ids,
              DOC_PingSampleSelection(transducer_ids))
 
         .def("get_sample_selections",
-                &PingSampleSelection::get_sample_selections,
-                DOC_PingSampleSelection(get_sample_selections))
-        
+             &PingSampleSelection::get_sample_selections,
+             DOC_PingSampleSelection(get_sample_selections))
+
         // ----- operators -----
         .def("__eq__",
              &PingSampleSelection::operator==,

@@ -114,12 +114,21 @@ class PingSampleSelector
                 if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
                     continue;
 
-                selection.add_beam(trid, bn);
+                size_t number_of_samples = ping.get_number_of_samples_per_beam(trid).unchecked(bn);
+                size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
+                size_t max_sample_number =
+                    _max_sample_number ? *_max_sample_number : number_of_samples - 1;
+
+                tools::pyhelper::PyIndexer sample_indexer(
+                    number_of_samples, min_sample_number, max_sample_number, _sample_step);
+
+                selection.add_beam(trid, bn, sample_indexer(0), sample_indexer(-1));
                 bn++;
             }
         }
 
         // select samples according to the options
+        selection.set_sample_step_ensemble(_sample_step);
 
         return selection;
     }
