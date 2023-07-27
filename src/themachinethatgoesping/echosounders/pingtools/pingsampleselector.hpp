@@ -29,15 +29,11 @@ class PingSampleSelector
     std::optional<std::set<std::string>>
         _ignored_transducer_ids; ///< if set: ignore these transducers
 
-    std::optional<int>
-        _min_beam_number; ///< min beam number to select (negative numbers count from end)
-    std::optional<int>
-        _max_beam_number; ///< max beam number to select (negative numbers count from end)
+    std::optional<int> _min_beam_number; ///< min beam number to select
+    std::optional<int> _max_beam_number; ///< max beam number to select
 
-    std::optional<int>
-        _min_sample_number; ///< min sample number to select (negative numbers count from end)
-    std::optional<int>
-        _max_sample_number; ///< max sample number to select (negative numbers count from end)
+    std::optional<int> _min_sample_number; ///< min sample number to select
+    std::optional<int> _max_sample_number; ///< max sample number to select
 
     std::optional<float> _min_beam_angle; ///< min beam angle to select (°)
     std::optional<float> _max_beam_angle; ///< max beam angle to select (°)
@@ -64,12 +60,11 @@ class PingSampleSelector
                _max_beam_angle == other._max_beam_angle &&
                _min_sample_range == other._min_sample_range &&
                _max_sample_range == other._max_sample_range && _beam_step == other._beam_step &&
-               _sample_step == other._sample_step;
+               _beam_step == other._beam_step && _sample_step == other._sample_step;
     }
 
     // get selection
-    // PingSampleSelection apply_selection(const filetemplates::datatypes::I_Ping& ping)
-    std::set<std::string> apply_selection(const filetemplates::datatypes::I_Ping& ping)
+    PingSampleSelection apply_selection(const filetemplates::datatypes::I_Ping& ping)
     {
         // select transducers according to the transducers
         std::set<std::string> transducer_ids;
@@ -88,11 +83,45 @@ class PingSampleSelector
             for (const auto& trid : *_ignored_transducer_ids)
                 transducer_ids.erase(trid);
 
+        PingSampleSelection selection;
+
         // select beams according to the options
+        for (const auto& trid : transducer_ids)
+        {
+            const auto number_of_beams = ping.get_number_of_beams(trid);
+
+            const auto& beam_pointing_angles = ping.get_beam_pointing_angles(trid);
+            if (beam_pointing_angles.size() < number_of_beams)
+                throw std::runtime_error(fmt::format(
+                    "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
+                    beam_pointing_angles.size(),
+                    number_of_beams));
+
+            // convert min/max beam numbers to indices (if set, and according to python negative
+            // indexing)
+            size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
+            size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
+
+            tools::pyhelper::PyIndexer beam_indexer(
+                number_of_beams, min_beam_number, max_beam_number, _beam_step);
+
+            for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
+            {
+                auto bn = beam_indexer(counter);
+
+                if (_min_beam_angle && beam_pointing_angles.at(bn) < *_min_beam_angle)
+                    continue;
+                if (_max_beam_angle && beam_pointing_angles.at(bn) > *_max_beam_angle)
+                    continue;
+
+                selection.add_beam(trid, bn);
+                bn++;
+            }
+        }
 
         // select samples according to the options
 
-        return transducer_ids;
+        return selection;
     }
 
     // getters

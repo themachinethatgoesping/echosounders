@@ -7,6 +7,8 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
+#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
@@ -28,9 +30,29 @@ void add_ping_data_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    cls.def("get_number_of_samples",
-            &T_BaseClass::get_number_of_samples,
-            DOC_I_Ping(get_number_of_samples));
+    cls.def("get_number_of_beams",
+            py::overload_cast<const std::string&>(&T_BaseClass::get_number_of_beams, py::const_),
+            DOC_I_Ping(get_number_of_beams),
+            py::arg("transducer_id"));
+    cls.def("get_number_of_beams",
+            py::overload_cast<>(&T_BaseClass::get_number_of_beams, py::const_),
+            DOC_I_Ping(get_number_of_beams_2));
+
+    cls.def("get_number_of_samples_per_beam",
+            py::overload_cast<const std::string&>(&T_BaseClass::get_number_of_samples_per_beam, py::const_),
+            py::arg("transducer_id"),
+            DOC_I_Ping(get_number_of_samples_per_beam));
+    cls.def("get_number_of_samples_per_beam",
+            py::overload_cast<>(&T_BaseClass::get_number_of_samples_per_beam, py::const_),
+            DOC_I_Ping(get_number_of_samples_per_beam_2));
+
+    cls.def("get_beam_pointing_angles",
+            py::overload_cast<const std::string&>(&T_BaseClass::get_beam_pointing_angles, py::const_),
+            py::arg("transducer_id"),
+            DOC_I_Ping(get_beam_pointing_angles));
+    cls.def("get_beam_pointing_angles",
+            py::overload_cast<>(&T_BaseClass::get_beam_pointing_angles, py::const_),
+            DOC_I_Ping(get_beam_pointing_angles_2));
 
     // --- multi transducer configuration ---
     cls.def("get_transducer_ids", &T_BaseClass::get_transducer_ids, DOC_I_Ping(get_transducer_ids));
@@ -63,10 +85,10 @@ void add_ping_data_interface(T_PyClass& cls)
             py::arg("channel_id"));
 
     cls.def("get_geolocation",
-            py::overload_cast<>(&T_BaseClass::get_geolocation),
+            py::overload_cast<>(&T_BaseClass::get_geolocation, py::const_),
             DOC_I_Ping(geolocations));
     cls.def("get_geolocation",
-            py::overload_cast<const std::string&>(&T_BaseClass::get_geolocation),
+            py::overload_cast<const std::string&>(&T_BaseClass::get_geolocation, py::const_),
             DOC_I_Ping(geolocations),
             py::arg("transducer_id"));
     cls.def("set_geolocation",

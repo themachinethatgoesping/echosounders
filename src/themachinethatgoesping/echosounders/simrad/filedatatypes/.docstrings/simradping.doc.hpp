@@ -1,4 +1,4 @@
-//sourcehash: 52a30cc3b05c7e2a0f0e96bb2624846c70302ab5d560f4b2d63bdff1e7a01ff8
+//sourcehash: 258d8b137c9231a26f4074b938d1dd78ee73890c508c575753eaa6c3a15c52a6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,11 +54,15 @@ Throws:
 Returns:
     xt::xtensor<float, 2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_beam_pointing_angles = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_number_of_beams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_sv =
 R"doc(Compute volume backscattering strength (Sv) from raw data.

@@ -33,19 +33,35 @@ void init_c_beamsampleselection(pybind11::module& m)
                  substructures,
                  BeamSampleSelection))
 
+        // --- add beam/samples ---
+        .def("add_beam",
+             &BeamSampleSelection::add_beam,
+             DOC_BeamSampleSelection(add_beam),
+             py::arg("beam_number"),
+             py::arg("first_sample_number"),
+             py::arg("max_number_of_samples"))
+
+        .def("set_sample_step_ensemble",
+             &BeamSampleSelection::set_sample_step_ensemble,
+             py::arg("sample_step_ensemble"),
+             DOC_BeamSampleSelection(set_sample_step_ensemble))
+
         // --- convenient data access ---
-        .def_readwrite("beam_numbers",
-                       &BeamSampleSelection::beam_numbers,
-                       DOC_BeamSampleSelection(beam_numbers))
-        .def_readwrite("first_sample_number_per_beam",
-                       &BeamSampleSelection::first_sample_number_per_beam,
-                       DOC_BeamSampleSelection(first_sample_number_per_beam))
-        .def_readwrite("max_number_of_samples_per_beam",
-                       &BeamSampleSelection::max_number_of_samples_per_beam,
-                       DOC_BeamSampleSelection(max_number_of_samples_per_beam))
-        .def_readwrite("sample_step_ensemble",
-                       &BeamSampleSelection::sample_step_ensemble,
-                       DOC_BeamSampleSelection(sample_step_ensemble))
+        .def("get_number_of_beams",
+             &BeamSampleSelection::get_number_of_beams,
+             DOC_BeamSampleSelection(get_number_of_beams))
+        .def("get_beam_numbers",
+             &BeamSampleSelection::get_beam_numbers,
+             py::return_value_policy::reference_internal,
+             DOC_BeamSampleSelection(get_beam_numbers))
+        .def("get_first_sample_number_per_beam",
+             &BeamSampleSelection::get_first_sample_number_per_beam,
+             py::return_value_policy::reference_internal,
+             DOC_BeamSampleSelection(get_first_sample_number_per_beam))
+        .def("get_max_number_of_samples_per_beam",
+             &BeamSampleSelection::get_max_number_of_samples_per_beam,
+             py::return_value_policy::reference_internal,
+             DOC_BeamSampleSelection(get_max_number_of_samples_per_beam))
 
         // ----- operators -----
         .def("__eq__",

@@ -1,4 +1,4 @@
-//sourcehash: d34d0d772687e3ff0a96d103188e21f15343e8bd5b7d7e354c3af5722f6c9582
+//sourcehash: d1716279390242be3c7667da4cdb9523bf33a314e8b39de7f84ef9fecf3972ba
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,23 @@ current ping type.
 Returns:
     xt::xtensor<float, 2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles =
+R"doc(Get the beam pointing angles from a specific transducer in °. (Useful
+when multiple transducers are associated with a single ping.)
+
+Parameter ``transducer_id``:
+    $Returns:
+
+xt::xtensor<float, 1> in °)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_2 =
+R"doc(Get the beam pointing angles in °.
+
+Parameter ``transducer_id``:
+    $Returns:
+
+xt::xtensor<float, 1> in °)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_nr = R"doc()doc";
@@ -86,7 +103,37 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams =
+R"doc(Get the number of beams from a specific transducer (Useful when
+multiple transducers are associated with a single ping.)
+
+Parameter ``transducer_id``:
+    $Returns:
+
+size_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_2 =
+R"doc(Get the number of beams
+
+Returns:
+    size_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam =
+R"doc(Get the number of samples per beam from a specific transducer (Useful
+when multiple transducers are associated with a single ping.)
+
+Parameter ``transducer_id``:
+    $Returns:
+
+xt::xtensor<uint16_t, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_2 =
+R"doc(Get the number of samples per beam
+
+Parameter ``transducer_id``:
+    $Returns:
+
+xt::xtensor<uint16_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv =
 R"doc(Compute volume backscattering. If you see this comment, this function

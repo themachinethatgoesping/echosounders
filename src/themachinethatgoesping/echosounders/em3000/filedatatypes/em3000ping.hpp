@@ -73,10 +73,28 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     EM3000PingRawData<t_ifstream>& raw_data(const std::string& transducer_id)
     {
-        return _raw_data.at(transducer_id);
+        auto it = _raw_data.find(transducer_id);
+        if (it == _raw_data.end())
+            throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
+
+        return it->second;
     }
 
-    EM3000PingRawData<t_ifstream>& raw_data() { return _raw_data[get_transducer_id()]; }
+    EM3000PingRawData<t_ifstream>& raw_data() { return raw_data(get_transducer_id()); }
+
+    const EM3000PingRawData<t_ifstream>& get_raw_data(const std::string& transducer_id) const
+    {
+        auto it = _raw_data.find(transducer_id);
+        if (it == _raw_data.end())
+            throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
+
+        return it->second;
+    }
+
+    const EM3000PingRawData<t_ifstream>& get_raw_data() const
+    {
+        return get_raw_data(get_transducer_id());
+    }
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
@@ -113,7 +131,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     void load_datagrams(bool skip_data = true)
     {
-        for (auto& [key,raw] : _raw_data)
+        for (auto& [key, raw] : _raw_data)
             raw.load_datagrams(skip_data);
     }
 
@@ -129,7 +147,18 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     }
 
     // ----- I_Ping interface -----
-    // size_t get_number_of_samples() const final { return _raw_data._ping_data.get_count(); }
+    using t_base::get_number_of_beams;
+    using t_base::get_number_of_samples_per_beam;
+    using t_base::get_beam_pointing_angles;
+    size_t get_number_of_beams(const std::string& transducer_id) const final
+    {
+        return get_raw_data(transducer_id).get_beam_pointing_angles().size();
+    }
+
+    xt::xtensor<float, 1> get_beam_pointing_angles(const std::string& transducer_id) const final
+    {
+        return get_raw_data(transducer_id).get_beam_pointing_angles();
+    }
 
     // void load_data() final { _raw_data.load_data(); }
     // void release_data() final { _raw_data.release_data(); }

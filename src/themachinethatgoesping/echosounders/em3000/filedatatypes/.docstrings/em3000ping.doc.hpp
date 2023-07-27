@@ -1,4 +1,4 @@
-//sourcehash: afb2306eee474095f48defb5b976f2ee86dc96208d39417846d50a7dc6c40100
+//sourcehash: 7fad5b5c01e53f849885c6ac272d811cd547a64b6a61c7b83287d05b5523bb42
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,9 +50,17 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_file_path = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_beam_pointing_angles = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_number_of_beams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_raw_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_raw_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_transducer_ids = R"doc()doc";
 

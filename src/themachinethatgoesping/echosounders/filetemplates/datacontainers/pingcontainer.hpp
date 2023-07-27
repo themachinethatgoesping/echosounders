@@ -23,6 +23,7 @@
 #include <xtensor/xarray.hpp>
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xmath.hpp>
 
 // boost includes
 #include <boost/sort/sort.hpp> // for sort
@@ -102,8 +103,10 @@ class PingContainer
     size_t max_number_of_samples() const
     {
         size_t max_samples = 0;
-        for (size_t i : _pyindexer)
-            max_samples = std::max(max_samples, _pings[i]->get_number_of_samples());
+        for (size_t i : _pyindexer){
+            size_t local_max = xt::amax(_pings[i]->get_number_of_samples_per_beam())();
+            max_samples = std::max(max_samples, local_max);
+        }
 
         return max_samples;
     }
@@ -252,7 +255,7 @@ class PingContainer
 
     /**
      * @brief Compute some time statistics for the pings in the container
-     * The is_sorted variable is interpreted as follos:
+     * The is_sorted variable is interpreted as follows:
      *  - 1: the pings are sorted by time (ascending)
      *  - 0: the pings are not sorted by time
      * - -1: the pings are sorted by time (descending)

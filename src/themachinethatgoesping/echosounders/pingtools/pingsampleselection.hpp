@@ -33,6 +33,12 @@ class PingSampleSelection
 
   public:
     PingSampleSelection() = default;
+    
+    // --- add beams/samples ---
+    void add_beam(const std::string& transducer_id, size_t beam_nr)
+    {
+        _sample_selections[transducer_id].add_beam(beam_nr);
+    }
 
     // --- convenient data access ---
     /**

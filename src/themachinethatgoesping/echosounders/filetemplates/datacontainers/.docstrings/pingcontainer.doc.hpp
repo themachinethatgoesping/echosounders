@@ -1,4 +1,4 @@
-//sourcehash: 2d77d902319f7579fa1eafc50ca3b602dddb1aa6aae4a6899dd2edaa03c30b7c
+//sourcehash: 6e95ebf379a8debd66a7fea60b4e867e069c1b47166acea4e13b0ee5eac9c18c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -110,9 +110,9 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_timeinfo =
 R"doc(Compute some time statistics for the pings in the container The
-is_sorted variable is interpreted as follos: - 1: the pings are sorted
-by time (ascending) - 0: the pings are not sorted by time - -1: the
-pings are sorted by time (descending)
+is_sorted variable is interpreted as follows: - 1: the pings are
+sorted by time (ascending) - 0: the pings are not sorted by time - -1:
+the pings are sorted by time (descending)
 
 Returns:
     std::tuple<min_timestamp, max_timestamp, is_sorted()>)doc";

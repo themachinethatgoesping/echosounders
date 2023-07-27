@@ -1,4 +1,4 @@
-//sourcehash: e9aebc1565129e4a4c60421c67f4c7497a373dc5c9fdf9c25f7001bd85760659
+//sourcehash: a1361979770932277d273f1198f4d12740867575dfbe0c28ac776829fe42bea2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -101,17 +101,17 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_angle = R"doc(< max beam angle to select (°))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_number = R"doc(< max beam number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_number = R"doc(< max beam number to select)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_number = R"doc(< max sample number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_number = R"doc(< max sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_range = R"doc(< max sample range to select (m))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_angle = R"doc(< min beam angle to select (°))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_number = R"doc(< min beam number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_number = R"doc(< min beam number to select)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_number = R"doc(< min sample number to select (negative numbers count from end))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_number = R"doc(< min sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_range = R"doc(< min sample range to select (m))doc";
 
