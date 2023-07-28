@@ -249,7 +249,7 @@ class PingContainer
 
     size_t size() const { return _pyindexer.size(); }
 
-    const type_Ping& at(long index) const { return *_pings[_pyindexer(index)]; }
+    std::shared_ptr <type_Ping> at(long index) const { return _pings[_pyindexer(index)]; }
 
     // ----- common info functions -----
 

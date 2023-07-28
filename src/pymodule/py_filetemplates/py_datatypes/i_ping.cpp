@@ -29,7 +29,7 @@ void init_trampoline_i_ping(py::module& m)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
-    auto cls = py::class_<I_Ping>(
+    auto cls = py::class_<I_Ping, std::shared_ptr<I_Ping>>(
         m, "I_Ping", DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping));
 
     //     auto cls = py::class_<t_EM3000Ping>(

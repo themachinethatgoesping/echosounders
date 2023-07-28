@@ -16,6 +16,7 @@
 #include <fmt/core.h>
 
 /* ping includes */
+#include "../filetemplates/datatypes/i_ping.hpp"
 #include <themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
@@ -30,9 +31,13 @@ class PingSampleSelection
 
   private:
     std::map<std::string, substructures::BeamSampleSelection> _sample_selections;
+    std::shared_ptr<const filetemplates::datatypes::I_Ping>   _ping;
 
   public:
-    PingSampleSelection() = default;
+    PingSampleSelection(std::shared_ptr<const filetemplates::datatypes::I_Ping> ping)
+        : _ping(std::move(ping))
+    {
+    }
 
     // --- add beams/samples ---
     void add_beam(const std::string& transducer_id,
@@ -83,50 +88,8 @@ class PingSampleSelection
     // operators
     bool operator==(const PingSampleSelection& other) const
     {
+        //TODO: ping comparison
         return _sample_selections == other._sample_selections;
-    }
-
-    // ----- from/to binary -----
-    /**
-     * @brief Return a PingSampleSelection read from a binary stream
-     *
-     * @param is input stream
-     * @return PingSampleSelection
-     */
-    static PingSampleSelection from_stream(std::istream& is)
-    {
-        using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
-
-        PingSampleSelection object;
-        size_t              size;
-        is.read(reinterpret_cast<char*>(&size), sizeof(size));
-
-        for (size_t i = 0; i < size; ++i)
-        {
-            std::string name;
-            is.read(reinterpret_cast<char*>(&name), sizeof(name));
-
-            object._sample_selections[name] = substructures::BeamSampleSelection::from_stream(is);
-        }
-
-        return object;
-    }
-
-    /**
-     * @brief Write a PingSampleSelection to a binary stream
-     *
-     * @param os output stream
-     */
-    void to_stream(std::ostream& os) const
-    {
-        size_t size = _sample_selections.size();
-        os.write(reinterpret_cast<const char*>(&size), sizeof(size));
-
-        for (const auto& [name, selection] : _sample_selections)
-        {
-            os.write(reinterpret_cast<const char*>(&name), sizeof(name));
-            selection.to_stream(os);
-        }
     }
 
     // ----- printing -----
@@ -142,6 +105,7 @@ class PingSampleSelection
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
         ObjectPrinter printer("PingSampleSelection", float_precision);
+        printer.register_section("BeamSampleSelections");
 
         if (_sample_selections.empty())
         {
@@ -155,13 +119,14 @@ class PingSampleSelection
             printer.append(selection.__printer__(float_precision), true);
         }
 
+        printer.register_section("Ping");
+        printer.append(_ping->__printer__(float_precision));
+
         return printer;
     }
 
   public:
     // -- class helper function macros --
-    // define to_binary and from_binary functions (needs to_stream and from_stream)
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PingSampleSelection)
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };

@@ -26,7 +26,8 @@ void init_c_pingsampleselection(pybind11::module& m)
         m,
         "PingSampleSelection",
         DOC(themachinethatgoesping, echosounders, pingtools, PingSampleSelection))
-        .def(py::init<>(), DOC_PingSampleSelection(PingSampleSelection))
+        .def(py::init<std::shared_ptr<const filetemplates::datatypes::I_Ping>>(),
+             DOC_PingSampleSelection(PingSampleSelection))
 
         // --- add beams/samples ---
         .def("add_beam",
@@ -68,7 +69,7 @@ void init_c_pingsampleselection(pybind11::module& m)
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(PingSampleSelection)
         // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(PingSampleSelection)
+        //__PYCLASS_DEFAULT_BINARY__(PingSampleSelection)
         // default printing functions
         __PYCLASS_DEFAULT_PRINTING__(PingSampleSelection);
 }

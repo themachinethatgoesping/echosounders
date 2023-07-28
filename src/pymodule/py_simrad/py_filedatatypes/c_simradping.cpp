@@ -41,7 +41,7 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
     using t_SimradPing = filedatatypes::SimradPing<T_FileStream>;
 
     auto cls =
-        py::class_<t_SimradPing, datatypes::I_Ping>(
+        py::class_<t_SimradPing, datatypes::I_Ping, std::shared_ptr<t_SimradPing>>(
             m,
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))

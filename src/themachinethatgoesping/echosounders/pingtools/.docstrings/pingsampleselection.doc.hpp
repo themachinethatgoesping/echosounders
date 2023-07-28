@@ -1,4 +1,4 @@
-//sourcehash: 868dbd58cab33a2da2ebf74f79ac3bfb87d95e503fb24e1b1b35d780bdab3fb5
+//sourcehash: 541935ab263e83d15fb65d58a8a1e485087373fee8686e8b159488b61ed49825
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,15 +44,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_add_beam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_from_stream =
-R"doc(Return a PingSampleSelection read from a binary stream
-
-Parameter ``is``:
-    input stream
-
-Returns:
-    PingSampleSelection)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_sample_selections =
 R"doc(Return the sample selections for each transducer
 
@@ -60,6 +51,8 @@ Returns:
     dict of sample selections)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
@@ -76,12 +69,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_sample_step_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_sample_step_ensemble_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_to_stream =
-R"doc(Write a PingSampleSelection to a binary stream
-
-Parameter ``os``:
-    output stream)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_transducer_ids =
 R"doc(Return the names of the transducers

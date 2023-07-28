@@ -64,33 +64,34 @@ class PingSampleSelector
     }
 
     // get selection
-    PingSampleSelection apply_selection(const filetemplates::datatypes::I_Ping& ping)
+    PingSampleSelection apply_selection(
+        const std::shared_ptr<const filetemplates::datatypes::I_Ping>& ping)
     {
         // select transducers according to the transducers
         std::set<std::string> transducer_ids;
         if (_transducer_ids)
         {
-            for (const auto& trid : ping.get_transducer_ids())
+            for (const auto& trid : ping->get_transducer_ids())
                 if (_transducer_ids->contains(trid))
                     transducer_ids.insert(trid);
         }
         else
         {
-            transducer_ids = ping.get_transducer_ids();
+            transducer_ids = ping->get_transducer_ids();
         }
 
         if (_ignored_transducer_ids)
             for (const auto& trid : *_ignored_transducer_ids)
                 transducer_ids.erase(trid);
 
-        PingSampleSelection selection;
+        PingSampleSelection selection(ping);
 
         // select beams according to the options
         for (const auto& trid : transducer_ids)
         {
-            const auto number_of_beams = ping.get_number_of_beams(trid);
+            const auto number_of_beams = ping->get_number_of_beams(trid);
 
-            const auto& beam_pointing_angles = ping.get_beam_pointing_angles(trid);
+            const auto& beam_pointing_angles = ping->get_beam_pointing_angles(trid);
             if (beam_pointing_angles.size() < number_of_beams)
                 throw std::runtime_error(fmt::format(
                     "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
@@ -114,7 +115,7 @@ class PingSampleSelector
                 if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
                     continue;
 
-                size_t number_of_samples = ping.get_number_of_samples_per_beam(trid).unchecked(bn);
+                size_t number_of_samples = ping->get_number_of_samples_per_beam(trid).unchecked(bn);
                 size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
                 size_t max_sample_number =
                     _max_sample_number ? *_max_sample_number : number_of_samples - 1;

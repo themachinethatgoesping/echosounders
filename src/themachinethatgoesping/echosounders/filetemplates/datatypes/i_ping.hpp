@@ -13,9 +13,9 @@
 /* std includes */
 #include <filesystem>
 #include <fstream>
+#include <set>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include <fmt/core.h>
 
@@ -28,12 +28,10 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/hashhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
-#include <themachinethatgoesping/tools/hashhelper.hpp>
-// #include "../../pingtools/pingsampleselector.hpp"
-// #include "../../pingtools/pingsampleselection.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -223,13 +221,12 @@ class I_Ping
     virtual void load_data() { throw not_implemented("load_data", this->get_name()); }
     virtual void release_data() { throw not_implemented("release_data", this->get_name()); }
 
-
     /**
      * @brief Get the number of beams from a specific transducer
      * (Useful when multiple transducers are associated with a single ping.)
-     * 
-     * @param transducer_id 
-     * @return size_t 
+     *
+     * @param transducer_id
+     * @return size_t
      */
     virtual size_t get_number_of_beams([[maybe_unused]] const std::string& transducer_id) const
     {
@@ -238,31 +235,32 @@ class I_Ping
 
     /**
      * @brief Get the number of beams
-     * 
-     * @return size_t 
+     *
+     * @return size_t
      */
     virtual size_t get_number_of_beams() const
     {
-        return get_number_of_beams(get_transducer_id());
+        throw not_implemented("get_number_of_beams(PingSampleSelection)", this->get_name());
     }
 
     /**
      * @brief Get the number of samples per beam from a specific transducer
      * (Useful when multiple transducers are associated with a single ping.)
-     * 
-     * @param transducer_id 
-     * @return xt::xtensor<uint16_t, 1> 
+     *
+     * @param transducer_id
+     * @return xt::xtensor<uint16_t, 1>
      */
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam([[maybe_unused]] const std::string& transducer_id) const
+    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        [[maybe_unused]] const std::string& transducer_id) const
     {
         throw not_implemented("get_number_of_samples_per_beam(transducer_id)", this->get_name());
     }
 
     /**
      * @brief Get the number of samples per beam
-     * 
-     * @param transducer_id 
-     * @return xt::xtensor<uint16_t, 1> 
+     *
+     * @param transducer_id
+     * @return xt::xtensor<uint16_t, 1>
      */
     virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
     {
@@ -272,19 +270,20 @@ class I_Ping
     /**
      * @brief Get the beam pointing angles from a specific transducer in °.
      * (Useful when multiple transducers are associated with a single ping.)
-     * 
-     * @param transducer_id 
+     *
+     * @param transducer_id
      * @return xt::xtensor<float, 1> in °
      */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles([[maybe_unused]] const std::string& transducer_id) const
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const std::string& transducer_id) const
     {
         throw not_implemented("get_beam_pointing_angles(transducer_id)", this->get_name());
     }
 
     /**
      * @brief Get the beam pointing angles in °.
-     * 
-     * @param transducer_id 
+     *
+     * @param transducer_id
      * @return xt::xtensor<float, 1> in °
      */
     virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
