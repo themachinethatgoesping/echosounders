@@ -14,29 +14,29 @@ using namespace themachinethatgoesping::echosounders::pingtools;
 
 TEST_CASE("PingSampleSelection should support common functions", TESTTAG)
 {
-    // // initialize class structure
-    // auto obj = PingSampleSelection();
+    // initialize class structure
+    auto obj = PingSampleSelection();
 
-    // // set some variables
+    // set some variables
     
-    // // test inequality
-    // //REQUIRE(obj != PingSampleSelection());
+    // test inequality
+    //REQUIRE(obj != PingSampleSelection());
 
-    // // test copy
-    // REQUIRE(obj == PingSampleSelection(obj));
+    // test copy
+    REQUIRE(obj == PingSampleSelection(obj));
 
-    // // test binary
-    // REQUIRE(obj == PingSampleSelection(obj.from_binary(obj.to_binary())));
+    // test binary
+    REQUIRE(obj == PingSampleSelection(obj.from_binary(obj.to_binary())));
 
-    // // test stream
-    // std::stringstream buffer;
-    // obj.to_stream(buffer);
-    // REQUIRE(obj == PingSampleSelection(obj.from_stream(buffer)));
+    // test stream
+    std::stringstream buffer;
+    obj.to_stream(buffer);
+    REQUIRE(obj == PingSampleSelection(obj.from_stream(buffer)));
 
-    // // test print does not crash
-    // REQUIRE(obj.info_string().size() != 0);
+    // test print does not crash
+    REQUIRE(obj.info_string().size() != 0);
 
-    // //--- Class concept ---
-    // //obj.clear();
-    // REQUIRE(obj == PingSampleSelection());
+    //--- Class concept ---
+    //obj.clear();
+    REQUIRE(obj == PingSampleSelection());
 }

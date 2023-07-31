@@ -84,7 +84,7 @@ class PingSampleSelector
             for (const auto& trid : *_ignored_transducer_ids)
                 transducer_ids.erase(trid);
 
-        PingSampleSelection selection(ping);
+        PingSampleSelection selection;
 
         // select beams according to the options
         for (const auto& trid : transducer_ids)
