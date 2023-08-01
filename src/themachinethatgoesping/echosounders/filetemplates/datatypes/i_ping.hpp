@@ -258,6 +258,42 @@ class I_Ping
     }
 
     /**
+     * @brief Get the beam pointing angles in °.
+     *
+     * @param transducer_id
+     * @return xt::xtensor<float, 1> in °
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
+    {
+        return get_beam_pointing_angles(get_transducer_id());
+    }
+
+    /**
+     * @brief Get the beam pointing angles from a specific transducer in °.
+     * (Useful when multiple transducers are associated with a single ping.)
+     *
+     * @param transducer_id
+     * @return xt::xtensor<float, 1> in °
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const std::string& transducer_id) const
+    {
+        throw not_implemented("get_beam_pointing_angles(transducer_id)", this->get_name());
+    }
+
+    /**
+     * @brief Get the beam pointing angles in ° when specifying the beams and samples to select.
+     *
+     * @param selection: Structure containing information about which beams and samples to select.
+     * @return xt::xtensor<float, 1> in °
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
+    {
+        throw not_implemented("get_beam_pointing_angles(PingSampleSelection)", this->get_name());
+    }
+
+    /**
      * @brief Get the number of samples per beam
      *
      * @param transducer_id
@@ -290,32 +326,8 @@ class I_Ping
     virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
         [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
     {
-        throw not_implemented("get_number_of_samples_per_beam(PingSampleSelection)", this->get_name());
-    }
-
-
-    /**
-     * @brief Get the beam pointing angles from a specific transducer in °.
-     * (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param transducer_id
-     * @return xt::xtensor<float, 1> in °
-     */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
-        [[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented("get_beam_pointing_angles(transducer_id)", this->get_name());
-    }
-
-    /**
-     * @brief Get the beam pointing angles in °.
-     *
-     * @param transducer_id
-     * @return xt::xtensor<float, 1> in °
-     */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
-    {
-        return get_beam_pointing_angles(get_transducer_id());
+        throw not_implemented("get_number_of_samples_per_beam(PingSampleSelection)",
+                              this->get_name());
     }
 
     /**

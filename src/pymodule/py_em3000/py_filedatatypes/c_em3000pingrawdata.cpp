@@ -64,8 +64,14 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
 
             // --- getter/setter ---
             .def("get_beam_pointing_angles",
-                 &t_EM3000PingRawData::get_beam_pointing_angles,
+                 py::overload_cast<>(&t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
                  DOC_EM3000PingRawData(get_beam_pointing_angles))
+            .def("get_beam_pointing_angles",
+                 py::overload_cast<const pingtools::substructures::BeamSampleSelection&>(
+                     &t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
+                 DOC_EM3000PingRawData(get_beam_pointing_angles_2),
+                 py::arg("selection"))
+
             .def("get_number_of_samples_per_beam",
                  &t_EM3000PingRawData::get_number_of_samples_per_beam,
                  DOC_EM3000PingRawData(get_number_of_samples_per_beam))
@@ -74,12 +80,11 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(get_detected_range_in_samples))
             .def("get_transmit_sector_numbers",
                  &t_EM3000PingRawData::get_transmit_sector_numbers,
-                 DOC_EM3000PingRawData(get_transmit_sector_numbers))            
+                 DOC_EM3000PingRawData(get_transmit_sector_numbers))
             .def("get_number_of_beams",
                  &t_EM3000PingRawData::get_number_of_beams,
                  DOC_EM3000PingRawData(get_number_of_beams))
 
-            
             // --- load data ---
             .def("load_datagrams",
                  &t_EM3000PingRawData::load_datagrams,

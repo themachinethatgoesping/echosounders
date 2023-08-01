@@ -147,20 +147,70 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     }
 
     // ----- I_Ping interface -----
-    using t_base::get_number_of_beams;
     using t_base::get_beam_pointing_angles;
+    using t_base::get_number_of_beams;
     using t_base::get_number_of_samples_per_beam;
     using t_base::get_sv;
     using t_base::get_sv_stacked;
 
+    size_t get_number_of_beams() const final
+    {
+        size_t number_of_beams = 0;
+        for (const auto& [k, v] : _raw_data)
+            number_of_beams += v.get_number_of_beams();
+
+        return number_of_beams;
+    }
     size_t get_number_of_beams(const std::string& transducer_id) const final
     {
         return get_raw_data(transducer_id).get_beam_pointing_angles().size();
     }
 
+    xt::xtensor<float, 1> get_beam_pointing_angles() const final
+    {
+        auto   beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ get_number_of_beams() });
+        size_t bn                   = 0;
+
+        for (const auto& [k, v] : _raw_data)
+        {
+            size_t bn_end                                         = bn + v.get_number_of_beams();
+            xt::view(beam_pointing_angles, xt::range(bn, bn_end)) = v.get_beam_pointing_angles();
+            bn                                                    = bn_end;
+        }
+
+        return beam_pointing_angles;
+    }
     xt::xtensor<float, 1> get_beam_pointing_angles(const std::string& transducer_id) const final
     {
         return get_raw_data(transducer_id).get_beam_pointing_angles();
+    }
+    xt::xtensor<float, 1> get_beam_pointing_angles(
+        const pingtools::PingSampleSelection& selection) const final
+    {
+        auto beam_pointing_angles =
+            xt::xtensor<float, 1>::from_shape({ selection.get_number_of_beams() });
+        size_t bn = 0;
+
+        for (const auto& [transducer_id, bss] : selection.get_sample_selections())
+        {
+            size_t bn_end = bn + bss.get_number_of_beams();
+
+            auto it = _raw_data.find(transducer_id);
+            if (it != _raw_data.end())
+            {
+                xt::view(beam_pointing_angles, xt::range(bn, bn_end)) =
+                    it->second.get_beam_pointing_angles(bss);
+            }
+            else
+            {
+                xt::view(beam_pointing_angles, xt::range(bn, bn_end))
+                    .fill(std::numeric_limits<float>::quiet_NaN());
+            }
+
+            bn = bn_end;
+        }
+
+        return beam_pointing_angles;
     }
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(

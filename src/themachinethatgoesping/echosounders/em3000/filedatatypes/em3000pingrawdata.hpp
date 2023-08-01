@@ -110,11 +110,24 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
 
     // ----- getter/setters -----
     const xt::xtensor<float, 1>& get_beam_pointing_angles() const { return _beam_pointing_angles; }
-    // const xt::xtensor<float, 1>& get_beam_pointing_angles(
-    //     const pingtools::substructures::BeamSampleSelection& selection) const
-    // {
-    //     return _beam_pointing_angles;
-    // }
+    xt::xtensor<float, 1>        get_beam_pointing_angles(
+               const pingtools::substructures::BeamSampleSelection& selection) const
+    {
+        const auto beam_numbers = selection.get_beam_numbers();
+
+        auto beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+        for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
+        {
+            if (beam_numbers[nr] >= get_beam_pointing_angles().size())
+                beam_pointing_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
+            else
+                beam_pointing_angles.unchecked(nr) =
+                    get_beam_pointing_angles().unchecked(beam_numbers[nr]);
+        }
+
+        return beam_pointing_angles;
+    }
 
     const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam() const
     {

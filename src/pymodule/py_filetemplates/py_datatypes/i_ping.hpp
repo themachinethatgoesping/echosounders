@@ -30,6 +30,7 @@ void add_ping_data_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
 
+    // ----- ping interface -----
     cls.def("get_number_of_beams",
             py::overload_cast<>(&T_BaseClass::get_number_of_beams, py::const_),
             DOC_I_Ping(get_number_of_beams));
@@ -42,6 +43,20 @@ void add_ping_data_interface(T_PyClass& cls)
                 &T_BaseClass::get_number_of_beams, py::const_),
             DOC_I_Ping(get_number_of_beams_3),
             py::arg("selection"));
+
+    cls.def("get_beam_pointing_angles",
+            py::overload_cast<>(&T_BaseClass::get_beam_pointing_angles, py::const_),
+            DOC_I_Ping(get_beam_pointing_angles));
+    cls.def(
+        "get_beam_pointing_angles",
+        py::overload_cast<const std::string&>(&T_BaseClass::get_beam_pointing_angles, py::const_),
+        py::arg("transducer_id"),
+        DOC_I_Ping(get_beam_pointing_angles_2));
+    cls.def("get_beam_pointing_angles",
+            py::overload_cast<const pingtools::PingSampleSelection&>(
+                &T_BaseClass::get_beam_pointing_angles, py::const_),
+            py::arg("selection"),
+            DOC_I_Ping(get_beam_pointing_angles_3));
 
     cls.def("get_number_of_samples_per_beam",
             py::overload_cast<>(&T_BaseClass::get_number_of_samples_per_beam, py::const_),
@@ -61,15 +76,6 @@ void add_ping_data_interface(T_PyClass& cls)
                 &T_BaseClass::get_number_of_samples_per_beam, py::const_),
             py::arg("selection"),
             DOC_I_Ping(get_number_of_samples_per_beam_2));
-
-    cls.def(
-        "get_beam_pointing_angles",
-        py::overload_cast<const std::string&>(&T_BaseClass::get_beam_pointing_angles, py::const_),
-        py::arg("transducer_id"),
-        DOC_I_Ping(get_beam_pointing_angles));
-    cls.def("get_beam_pointing_angles",
-            py::overload_cast<>(&T_BaseClass::get_beam_pointing_angles, py::const_),
-            DOC_I_Ping(get_beam_pointing_angles_2));
 
     // --- multi transducer configuration ---
     cls.def("get_transducer_ids", &T_BaseClass::get_transducer_ids, DOC_I_Ping(get_transducer_ids));

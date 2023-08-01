@@ -1,4 +1,4 @@
-//sourcehash: a24e002e8c7659c9debc32b340a7c412831023b2161dff013eeb5c90bcb4cd53
+//sourcehash: e3ef46e700dba2f121e80945a35835bffb6761f31ef49572069e74a94fb85f0e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,14 @@ Returns:
     xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles =
+R"doc(Get the beam pointing angles in °.
+
+Parameter ``transducer_id``:
+    $Returns:
+
+xt::xtensor<float, 1> in °)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_2 =
 R"doc(Get the beam pointing angles from a specific transducer in °. (Useful
 when multiple transducers are associated with a single ping.)
 
@@ -69,13 +77,16 @@ Parameter ``transducer_id``:
 
 xt::xtensor<float, 1> in °)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_2 =
-R"doc(Get the beam pointing angles in °.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_3 =
+R"doc(Get the beam pointing angles in ° when specifying the beams and
+samples to select.
 
-Parameter ``transducer_id``:
-    $Returns:
+Parameter ``selection:``:
+    Structure containing information about which beams and samples to
+    select.
 
-xt::xtensor<float, 1> in °)doc";
+Returns:
+    xt::xtensor<float, 1> in °)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
