@@ -33,6 +33,8 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
+#include "../../pingtools/pingsampleselection.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -222,10 +224,20 @@ class I_Ping
     virtual void release_data() { throw not_implemented("release_data", this->get_name()); }
 
     /**
+     * @brief Get the number of beams
+     *
+     * @return size_t
+     */
+    virtual size_t get_number_of_beams() const
+    {
+        throw not_implemented("get_number_of_beams", this->get_name());
+    }
+
+    /**
      * @brief Get the number of beams from a specific transducer
      * (Useful when multiple transducers are associated with a single ping.)
      *
-     * @param transducer_id
+     * @param transducer_id transducer id
      * @return size_t
      */
     virtual size_t get_number_of_beams([[maybe_unused]] const std::string& transducer_id) const
@@ -234,26 +246,15 @@ class I_Ping
     }
 
     /**
-     * @brief Get the number of beams
+     * @brief Get the number of beams when specifying the beams and samples to select.
+     * Note: this function just returns selection.get_number_of_beams()
      *
+     * @param selection: Structure containing information about which beams and samples to select.
      * @return size_t
      */
-    virtual size_t get_number_of_beams() const
+    size_t get_number_of_beams(const pingtools::PingSampleSelection& selection) const
     {
-        throw not_implemented("get_number_of_beams(PingSampleSelection)", this->get_name());
-    }
-
-    /**
-     * @brief Get the number of samples per beam from a specific transducer
-     * (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param transducer_id
-     * @return xt::xtensor<uint16_t, 1>
-     */
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-        [[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented("get_number_of_samples_per_beam(transducer_id)", this->get_name());
+        return selection.get_number_of_beams();
     }
 
     /**
@@ -266,6 +267,32 @@ class I_Ping
     {
         return get_number_of_samples_per_beam(get_transducer_id());
     }
+
+    /**
+     * @brief Get the number of samples per beam of a specific transducer.
+     * (Useful when multiple transducers are associated with a single ping.)
+     *
+     * @param transducer_id: id of the transducer
+     * @return xt::xtensor<uint16_t, 1>
+     */
+    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        [[maybe_unused]] const std::string& transducer_id) const
+    {
+        throw not_implemented("get_number_of_samples_per_beam(transducer_id)", this->get_name());
+    }
+
+    /**
+     * @brief Get the number of samples per beam when specifying the beams and samples to select.
+     *
+     * @param selection: Structure containing information about which beams and samples to select.
+     * @return xt::xtensor<uint16_t, 1>
+     */
+    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
+    {
+        throw not_implemented("get_number_of_samples_per_beam(PingSampleSelection)", this->get_name());
+    }
+
 
     /**
      * @brief Get the beam pointing angles from a specific transducer in °.
@@ -304,15 +331,33 @@ class I_Ping
     }
 
     /**
+     * @brief Compute volume backscattering. If you see this comment, this function was not
+     * implemented for the current ping type.
+     *
+     * @param selection structure with selected transducer_ids/beams/samples considered for this
+     * function
+     * @param dB Output Sv in dB if true, or linear if false (default).
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_sv(
+        [[maybe_unused]] const pingtools::PingSampleSelection& selection,
+        [[maybe_unused]] bool                                  dB = false)
+    {
+        throw not_implemented("get_sv(PingSampleSelection)", this->get_name());
+    }
+
+    /**
      * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment,
      * this function was not implemented for the current ping type.
      *
+     * @param selection structure with selected transducer_ids/beams/samples considered for this
+     * function
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
     virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
-        throw not_implemented("get_sv_stacked", this->get_name());
+        throw not_implemented("get_sv_stacked(PingSampleSelection)", this->get_name());
     }
 
     /**

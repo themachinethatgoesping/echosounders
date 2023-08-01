@@ -46,13 +46,6 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
 
-            // --- ping interface (with individual documentation) ---
-            .def("get_angle", &t_SimradPing::get_angle, DOC_SimradPing(get_angle))
-            .def("get_sv", &t_SimradPing::get_sv, DOC_SimradPing(get_sv), py::arg("dB") = false)
-            .def("get_sv_stacked",
-                 &t_SimradPing::get_sv_stacked,
-                 DOC_SimradPing(get_sv_stacked),
-                 py::arg("dB") = false)
 
             // --- ping interface extension ---
             .def("set_geolocation",

@@ -1,4 +1,4 @@
-//sourcehash: ba76b6bb5d31a89f49f9263c8efd9c6ed63a5a88bcb8b3c779b1b47ad5c01d9a
+//sourcehash: 19af4f6d3b8bbde653e9c079a2dade4be78f1285d562c091f1953b853c92d6ad
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,9 +48,17 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_substruct
 R"doc(Add a beam to the selection
 
 Parameter ``beam_nr``:
-    beam number)doc";
+    beam number
+
+Parameter ``first_sample_number``:
+    first sample number to select
+
+Parameter ``last_sample_number_per_beam``:
+    last sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_beam_numbers = R"doc(< selected beam numbers)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_first_sample_number_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_first_sample_number_per_beam = R"doc(< first sample number per beam)doc";
 
@@ -69,13 +77,25 @@ R"doc(Return the beam numbers
 Returns:
     std::vector<uint16_t>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_first_sample_number_ensemble =
+R"doc(Return the first sample number of the ensemble
+
+Returns:
+    uint16_t)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_first_sample_number_per_beam =
 R"doc(Return the first sample number per beam
 
 Returns:
     std::vector<uint16_t>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_max_number_of_samples_per_beam =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_last_sample_number_ensemble =
+R"doc(Return the last sample number of the ensemble
+
+Returns:
+    uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_last_sample_number_per_beam =
 R"doc(Return the max number of samples per beam
 
 Returns:
@@ -87,13 +107,21 @@ R"doc(Return the number of beams
 Returns:
     size_t)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_number_of_samples_ensemble =
+R"doc(return the number of samples within the ensemble
+
+Returns:
+    uint16_t)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_sample_step_ensemble =
 R"doc(Return the sample step size
 
 Returns:
     uint16_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_max_number_of_samples_per_beam = R"doc(< max number of samples per beam)doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_last_sample_number_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_last_sample_number_per_beam = R"doc(< last sample number per beam)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_operator_eq = R"doc()doc";
 
@@ -108,6 +136,10 @@ Returns:
     classhelper::ObjectPrinter)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_sample_step_ensemble = R"doc(< sample step size (same for the entire ensemble))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_set_first_sample_number_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_set_last_sample_number_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_set_sample_step_ensemble = R"doc()doc";
 

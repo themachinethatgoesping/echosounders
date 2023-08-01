@@ -31,25 +31,42 @@ void add_ping_data_interface(T_PyClass& cls)
     namespace py = pybind11;
 
     cls.def("get_number_of_beams",
+            py::overload_cast<>(&T_BaseClass::get_number_of_beams, py::const_),
+            DOC_I_Ping(get_number_of_beams));
+    cls.def("get_number_of_beams",
             py::overload_cast<const std::string&>(&T_BaseClass::get_number_of_beams, py::const_),
-            DOC_I_Ping(get_number_of_beams),
+            DOC_I_Ping(get_number_of_beams_2),
             py::arg("transducer_id"));
     cls.def("get_number_of_beams",
-            py::overload_cast<>(&T_BaseClass::get_number_of_beams, py::const_),
-            DOC_I_Ping(get_number_of_beams_2));
+            py::overload_cast<const pingtools::PingSampleSelection&>(
+                &T_BaseClass::get_number_of_beams, py::const_),
+            DOC_I_Ping(get_number_of_beams_3),
+            py::arg("selection"));
 
-    cls.def("get_number_of_samples_per_beam",
-            py::overload_cast<const std::string&>(&T_BaseClass::get_number_of_samples_per_beam, py::const_),
-            py::arg("transducer_id"),
-            DOC_I_Ping(get_number_of_samples_per_beam));
     cls.def("get_number_of_samples_per_beam",
             py::overload_cast<>(&T_BaseClass::get_number_of_samples_per_beam, py::const_),
+            DOC_I_Ping(get_number_of_samples_per_beam));
+    cls.def("get_number_of_samples_per_beam",
+            py::overload_cast<const std::string&>(&T_BaseClass::get_number_of_samples_per_beam,
+                                                  py::const_),
+            py::arg("transducer_id"),
+            DOC_I_Ping(get_number_of_samples_per_beam_2));
+    cls.def("get_number_of_samples_per_beam",
+            py::overload_cast<const pingtools::PingSampleSelection&>(
+                &T_BaseClass::get_number_of_samples_per_beam, py::const_),
+            py::arg("selection"),
+            DOC_I_Ping(get_number_of_samples_per_beam_2));
+    cls.def("get_number_of_samples_per_beam",
+            py::overload_cast<const pingtools::PingSampleSelection&>(
+                &T_BaseClass::get_number_of_samples_per_beam, py::const_),
+            py::arg("selection"),
             DOC_I_Ping(get_number_of_samples_per_beam_2));
 
-    cls.def("get_beam_pointing_angles",
-            py::overload_cast<const std::string&>(&T_BaseClass::get_beam_pointing_angles, py::const_),
-            py::arg("transducer_id"),
-            DOC_I_Ping(get_beam_pointing_angles));
+    cls.def(
+        "get_beam_pointing_angles",
+        py::overload_cast<const std::string&>(&T_BaseClass::get_beam_pointing_angles, py::const_),
+        py::arg("transducer_id"),
+        DOC_I_Ping(get_beam_pointing_angles));
     cls.def("get_beam_pointing_angles",
             py::overload_cast<>(&T_BaseClass::get_beam_pointing_angles, py::const_),
             DOC_I_Ping(get_beam_pointing_angles_2));
@@ -105,7 +122,15 @@ void add_ping_data_interface(T_PyClass& cls)
 
     // --- ping interface (Documentation states that these functions are not implemented) ---
     cls.def("get_angle", &T_BaseClass::get_angle, DOC_I_Ping(get_angle));
-    cls.def("get_sv", &T_BaseClass::get_sv, DOC_I_Ping(get_sv), py::arg("dB") = false);
+    cls.def("get_sv",
+            py::overload_cast<bool>(&T_BaseClass::get_sv),
+            DOC_I_Ping(get_sv),
+            py::arg("dB") = false);
+    cls.def("get_sv",
+            py::overload_cast<const pingtools::PingSampleSelection&, bool>(&T_BaseClass::get_sv),
+            DOC_I_Ping(get_sv_2),
+            py::arg("selection"),
+            py::arg("dB") = false);
     cls.def("get_sv_stacked",
             &T_BaseClass::get_sv_stacked,
             DOC_I_Ping(get_sv_stacked),

@@ -33,6 +33,7 @@
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
+#include "../../pingtools/substructures/beamsampleselection.hpp"
 #include "../em3000_datagrams.hpp"
 #include "../filedatainterfaces/em3000datagraminterface.hpp"
 
@@ -109,6 +110,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
 
     // ----- getter/setters -----
     const xt::xtensor<float, 1>& get_beam_pointing_angles() const { return _beam_pointing_angles; }
+    // const xt::xtensor<float, 1>& get_beam_pointing_angles(
+    //     const pingtools::substructures::BeamSampleSelection& selection) const
+    // {
+    //     return _beam_pointing_angles;
+    // }
 
     const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam() const
     {
@@ -205,7 +211,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         // {
         //     size_t number_of_samples_to_read = selected_number_of_samples_per_beam.at(bn);
         //     size_t sample_offset             = selected_first_sample_per_beam.at(bn) -
-        //                            _first_sample_ensemble; // offset from ensemble start
+        //                            _first_sample_number_ensemble; // offset from ensemble start
 
         //     if (number_of_samples_to_read + selected_first_sample_per_beam[bn] >
         //         number_of_samples_per_beam.at(bn))
@@ -254,7 +260,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         //                                              sample_offset,
         //                                              number_of_samples_to_read,
         //                                              _number_of_samples_ensemble,
-        //                                              _first_sample_ensemble,
+        //                                              _first_sample_number_ensemble,
         //                                              e.what()));
         //     }
 

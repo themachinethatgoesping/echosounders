@@ -27,21 +27,31 @@ namespace pingtools {
 
 class PingSampleSelection
 {
-
-  private:
     std::map<std::string, substructures::BeamSampleSelection> _sample_selections;
 
   public:
     PingSampleSelection() = default;
 
     // --- add beams/samples ---
+    /**
+     * @brief Add a beam to the sample selection
+     *
+     * @param transducer_id transducer id of the beam
+     * @param beam_nr beam numer
+     * @param first_sample_number first sample to select (>0)
+     * @param last_sample_number last sample to select (>0)
+     */
     void add_beam(const std::string& transducer_id,
                   size_t             beam_nr,
-                  uint16_t           first_sample_number   = 0,
-                  uint16_t           max_number_of_samples = std::numeric_limits<uint16_t>::max())
+                  uint16_t           first_sample_number = 0,
+                  uint16_t           last_sample_number  = std::numeric_limits<uint16_t>::max())
     {
         _sample_selections[transducer_id].add_beam(
-            beam_nr, first_sample_number, max_number_of_samples);
+            beam_nr, first_sample_number, last_sample_number);
+
+        // synchronize sample range information
+        set_first_sample_number_ensemble(get_first_sample_number_ensemble());
+        set_last_sample_number_ensemble(get_last_sample_number_ensemble());
     }
 
     void set_sample_step_ensemble(uint16_t sample_step_ensemble)
@@ -52,9 +62,25 @@ class PingSampleSelection
         }
     }
 
-    void set_sample_step_ensemble(const std::string& transducer_id, uint16_t sample_step_ensemble)
+    uint16_t get_sample_step_ensemble() const
     {
-        _sample_selections.at(transducer_id).set_sample_step_ensemble(sample_step_ensemble);
+        uint16_t sample_step_ensemble = 0;
+
+        for (auto& [id, selection] : _sample_selections)
+        {
+            if (sample_step_ensemble == 0)
+            {
+                sample_step_ensemble = selection.get_sample_step_ensemble();
+            }
+            else if (sample_step_ensemble != selection.get_sample_step_ensemble())
+            {
+                throw std::runtime_error(
+                    "ERROR[PingSampleSelector::get_sample_step_ensemble] Sample step ensemble is "
+                    "not the same for all transducers");
+            }
+        }
+
+        return sample_step_ensemble;
     }
 
     // --- convenient data access ---
@@ -84,6 +110,107 @@ class PingSampleSelection
     bool operator==(const PingSampleSelection& other) const
     {
         return _sample_selections == other._sample_selections;
+    }
+
+    // ----- get information -----
+    /**
+     * @brief Return the number of beams in the sample selection
+     *
+     * @return size_t
+     */
+    size_t get_number_of_beams() const
+    {
+        size_t n = 0;
+        for (const auto& [id, selection] : _sample_selections)
+        {
+            n += selection.get_number_of_beams();
+        }
+        return n;
+    }
+
+    /**
+     * @brief Return the first sample number in the sample selection
+     *
+     * @return size_t
+     */
+    uint16_t get_first_sample_number_ensemble() const
+    {
+        if (_sample_selections.empty())
+        {
+            return 0;
+        }
+
+        uint16_t first_sample_number_ensemble = std::numeric_limits<uint16_t>::max();
+
+        for (const auto& [id, selection] : _sample_selections)
+        {
+            first_sample_number_ensemble = std::min(first_sample_number_ensemble,
+                                                    selection.get_first_sample_number_ensemble());
+        }
+
+        return first_sample_number_ensemble;
+    }
+
+    /**
+     * @brief Return the last sample number in the sample selection
+     *
+     * @return size_t
+     */
+    uint16_t get_last_sample_number_ensemble() const
+    {
+        uint16_t first_last_ensemble = 0;
+
+        for (const auto& [id, selection] : _sample_selections)
+        {
+            first_last_ensemble =
+                std::max(first_last_ensemble, selection.get_last_sample_number_ensemble());
+        }
+
+        return first_last_ensemble;
+    }
+
+    /**
+     * @brief Return the number of samples in the sample selection
+     *
+     * @return size_t
+     */
+    size_t get_number_of_samples_ensemble() const
+    {
+        size_t first_sample_number_ensemble = get_first_sample_number_ensemble();
+        size_t first_last_ensemble          = get_last_sample_number_ensemble();
+
+        if (first_sample_number_ensemble > first_last_ensemble)
+        {
+            return 0;
+        }
+
+        return first_last_ensemble - first_sample_number_ensemble + 1;
+    }
+
+    /**
+     * @brief Set the first sample number for the selection
+     *
+     * @param first_sample_number_ensemble First sample number in the selection
+     */
+    void set_first_sample_number_ensemble(size_t first_sample_number_ensemble)
+    {
+        for (auto& [id, selection] : _sample_selections)
+        {
+            selection.set_first_sample_number_ensemble(first_sample_number_ensemble);
+        }
+    }
+
+    /**
+     * @brief Set the last sample number for the selection
+     *
+     * @param last_sample_number_ensemble Last sample number in the selection
+     */
+    void set_last_sample_number_ensemble(size_t last_sample_number_ensemble)
+    {
+        for (auto& [id, selection] : _sample_selections)
+        {
+            selection.set_last_sample_number_ensemble(last_sample_number_ensemble);
+        }
     }
 
     // ----- from/to binary -----

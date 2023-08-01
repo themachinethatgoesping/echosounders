@@ -37,17 +37,38 @@ void init_c_pingsampleselection(pybind11::module& m)
              py::arg("first_sample_number")   = 0,
              py::arg("max_number_of_samples") = std::numeric_limits<uint16_t>::max())
 
-        .def("set_sample_step_ensemble",
-             py::overload_cast<uint16_t>(&PingSampleSelection::set_sample_step_ensemble),
-             DOC_PingSampleSelection(set_sample_step_ensemble),
-             py::arg("sample_step_ensemble"))
+        .def("set_first_sample_number_ensemble",
+             &PingSampleSelection::set_first_sample_number_ensemble,
+             DOC_PingSampleSelection(set_first_sample_number_ensemble),
+             py::arg("set_first_sample_number_ensemble"))
+        .def("set_last_sample_number_ensemble",
+             &PingSampleSelection::set_last_sample_number_ensemble,
+             DOC_PingSampleSelection(set_last_sample_number_ensemble),
+             py::arg("set_last_sample_number_ensemble"))
 
+        // ---- ensemble infos -----
         .def("set_sample_step_ensemble",
-             py::overload_cast<const std::string&, uint16_t>(
-                 &PingSampleSelection::set_sample_step_ensemble),
+             &PingSampleSelection::set_sample_step_ensemble,
              DOC_PingSampleSelection(set_sample_step_ensemble),
-             py::arg("transducer_id"),
              py::arg("sample_step_ensemble"))
+        .def("set_first_sample_number_ensemble",
+             &PingSampleSelection::set_first_sample_number_ensemble,
+             DOC_PingSampleSelection(set_first_sample_number_ensemble),
+             py::arg("set_first_sample_number_ensemble"))
+        .def("set_last_sample_number_ensemble",
+             &PingSampleSelection::set_last_sample_number_ensemble,
+             DOC_PingSampleSelection(set_last_sample_number_ensemble),
+             py::arg("set_last_sample_number_ensemble"))
+
+        .def("get_sample_step_ensemble",
+             &PingSampleSelection::get_sample_step_ensemble,
+             DOC_PingSampleSelection(get_sample_step_ensemble))
+        .def("get_first_sample_number_ensemble",
+             &PingSampleSelection::get_first_sample_number_ensemble,
+             DOC_PingSampleSelection(get_first_sample_number_ensemble))
+        .def("get_last_sample_number_ensemble",
+             &PingSampleSelection::get_last_sample_number_ensemble,
+             DOC_PingSampleSelection(get_last_sample_number_ensemble))
 
         // --- convenient data access ---
         .def("transducer_ids",
@@ -57,6 +78,14 @@ void init_c_pingsampleselection(pybind11::module& m)
         .def("get_sample_selections",
              &PingSampleSelection::get_sample_selections,
              DOC_PingSampleSelection(get_sample_selections))
+
+        // ----- get information -----
+        .def("get_number_of_beams",
+             &PingSampleSelection::get_number_of_beams,
+             DOC_PingSampleSelection(get_number_of_beams))
+        .def("get_number_of_samples_ensemble",
+             &PingSampleSelection::get_number_of_samples_ensemble,
+             DOC_PingSampleSelection(get_number_of_samples_ensemble))
 
         // ----- operators -----
         .def("__eq__",

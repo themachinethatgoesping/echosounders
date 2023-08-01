@@ -30,11 +30,15 @@ namespace substructures {
  */
 class BeamSampleSelection
 {
-    std::vector<uint16_t> _beam_numbers;                   ///< selected beam numbers
-    std::vector<uint16_t> _first_sample_number_per_beam;   ///< first sample number per beam
-    std::vector<uint16_t> _max_number_of_samples_per_beam; ///< max number of samples per beam
+    std::vector<uint16_t> _beam_numbers;                 ///< selected beam numbers
+    std::vector<uint16_t> _first_sample_number_per_beam; ///< first sample number per beam
+    std::vector<uint16_t> _last_sample_number_per_beam;  ///< last sample number per beam
 
-    uint16_t _sample_step_ensemble = 1; ///< sample step size (same for the entire ensemble)
+    uint16_t _sample_step_ensemble; ///< sample step size (same for the entire ensemble)
+    uint16_t _first_sample_number_ensemble =
+        0; ///< minimum sample number (min(first_sample_number_per_beam))
+    uint16_t _last_sample_number_ensemble =
+        0; ///< maximum sample number (max(last_sample_number_per_beam))
 
   public:
     BeamSampleSelection(uint16_t sample_step_ensemble = 1)
@@ -47,7 +51,7 @@ class BeamSampleSelection
     {
         return _beam_numbers == other._beam_numbers &&
                _first_sample_number_per_beam == other._first_sample_number_per_beam &&
-               _max_number_of_samples_per_beam == other._max_number_of_samples_per_beam &&
+               _last_sample_number_per_beam == other._last_sample_number_per_beam &&
                _sample_step_ensemble == other._sample_step_ensemble;
     }
 
@@ -56,19 +60,20 @@ class BeamSampleSelection
      * @brief Add a beam to the selection
      *
      * @param beam_nr beam number
+     * @param first_sample_number first sample number to select
+     * @param last_sample_number_per_beam last sample number to select
      */
     void add_beam(size_t   beam_nr,
-                  uint16_t first_sample_number   = 0,
-                  uint16_t max_number_of_samples = std::numeric_limits<uint16_t>::max())
+                  uint16_t first_sample_number = 0,
+                  uint16_t last_sample_number  = std::numeric_limits<uint16_t>::max())
     {
         _beam_numbers.push_back(beam_nr);
         _first_sample_number_per_beam.push_back(first_sample_number);
-        _max_number_of_samples_per_beam.push_back(max_number_of_samples);
-    }
+        _last_sample_number_per_beam.push_back(last_sample_number);
 
-    void set_sample_step_ensemble(uint16_t sample_step_ensemble)
-    {
-        _sample_step_ensemble = sample_step_ensemble;
+        _first_sample_number_ensemble =
+            std::min(_first_sample_number_ensemble, first_sample_number);
+        _last_sample_number_ensemble = std::max(_last_sample_number_ensemble, last_sample_number);
     }
 
     // ----- convenient data access -----
@@ -101,9 +106,25 @@ class BeamSampleSelection
      *
      * @return std::vector<uint16_t>
      */
-    const std::vector<uint16_t>& get_max_number_of_samples_per_beam() const
+    const std::vector<uint16_t>& get_last_sample_number_per_beam() const
     {
-        return _max_number_of_samples_per_beam;
+        return _last_sample_number_per_beam;
+    }
+
+    // ----- ensemble data -----
+    void set_sample_step_ensemble(uint16_t sample_step_ensemble)
+    {
+        _sample_step_ensemble = sample_step_ensemble;
+    }
+
+    void set_first_sample_number_ensemble(uint16_t first_sample_number_ensemble)
+    {
+        _first_sample_number_ensemble = first_sample_number_ensemble;
+    }
+
+    void set_last_sample_number_ensemble(uint16_t last_sample_number_ensemble)
+    {
+        _last_sample_number_ensemble = last_sample_number_ensemble;
     }
 
     /**
@@ -112,6 +133,32 @@ class BeamSampleSelection
      * @return uint16_t
      */
     uint16_t get_sample_step_ensemble() const { return _sample_step_ensemble; }
+
+    /**
+     * @brief Return the first sample number of the ensemble
+     *
+     * @return uint16_t
+     */
+    uint16_t get_first_sample_number_ensemble() const { return _first_sample_number_ensemble; }
+
+    /**
+     * @brief Return the last sample number of the ensemble
+     *
+     * @return uint16_t
+     */
+    uint16_t get_last_sample_number_ensemble() const { return _last_sample_number_ensemble; }
+
+    /**
+     * @brief return the number of samples within the ensemble
+     *
+     * @return uint16_t
+     */
+    uint16_t get_number_of_samples_ensemble() const
+    {
+        return (_last_sample_number_ensemble - _first_sample_number_ensemble) /
+                   _sample_step_ensemble +
+               1;
+    }
 
     // ----- from/to binary -----
     /**
@@ -125,9 +172,9 @@ class BeamSampleSelection
         using themachinethatgoesping::tools::classhelper::stream::container_from_stream;
 
         BeamSampleSelection object;
-        object._beam_numbers                   = container_from_stream<std::vector<uint16_t>>(is);
-        object._first_sample_number_per_beam   = container_from_stream<std::vector<uint16_t>>(is);
-        object._max_number_of_samples_per_beam = container_from_stream<std::vector<uint16_t>>(is);
+        object._beam_numbers                 = container_from_stream<std::vector<uint16_t>>(is);
+        object._first_sample_number_per_beam = container_from_stream<std::vector<uint16_t>>(is);
+        object._last_sample_number_per_beam  = container_from_stream<std::vector<uint16_t>>(is);
 
         is.read(reinterpret_cast<char*>(&object._sample_step_ensemble),
                 sizeof(object._sample_step_ensemble));
@@ -146,7 +193,7 @@ class BeamSampleSelection
 
         container_to_stream(os, _beam_numbers);
         container_to_stream(os, _first_sample_number_per_beam);
-        container_to_stream(os, _max_number_of_samples_per_beam);
+        container_to_stream(os, _last_sample_number_per_beam);
 
         os.write(reinterpret_cast<const char*>(&_sample_step_ensemble),
                  sizeof(_sample_step_ensemble));
@@ -168,8 +215,7 @@ class BeamSampleSelection
 
         printer.register_container("_beam_numbers", _beam_numbers);
         printer.register_container("_first_sample_number_per_beam", _first_sample_number_per_beam);
-        printer.register_container("_max_number_of_samples_per_beam",
-                                   _max_number_of_samples_per_beam);
+        printer.register_container("_last_sample_number_per_beam", _last_sample_number_per_beam);
 
         printer.register_value("_sample_step_ensemble", _sample_step_ensemble);
 

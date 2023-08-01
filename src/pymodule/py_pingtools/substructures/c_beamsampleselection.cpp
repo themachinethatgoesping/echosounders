@@ -45,6 +45,24 @@ void init_c_beamsampleselection(pybind11::module& m)
              &BeamSampleSelection::set_sample_step_ensemble,
              py::arg("sample_step_ensemble"),
              DOC_BeamSampleSelection(set_sample_step_ensemble))
+        .def("set_first_sample_number_ensemble",
+             &BeamSampleSelection::set_first_sample_number_ensemble,
+             py::arg("first_sample_number_ensemble"),
+             DOC_BeamSampleSelection(set_first_sample_number_ensemble))
+        .def("set_last_sample_number_ensemble",
+             &BeamSampleSelection::set_last_sample_number_ensemble,
+             py::arg("last_sample_number_ensemble"),
+             DOC_BeamSampleSelection(set_last_sample_number_ensemble))
+
+        .def("get_sample_step_ensemble",
+             &BeamSampleSelection::get_sample_step_ensemble,
+             DOC_BeamSampleSelection(get_sample_step_ensemble))
+        .def("get_first_sample_number_ensemble",
+             &BeamSampleSelection::get_first_sample_number_ensemble,
+             DOC_BeamSampleSelection(get_first_sample_number_ensemble))
+        .def("get_last_sample_number_ensemble",
+             &BeamSampleSelection::get_last_sample_number_ensemble,
+             DOC_BeamSampleSelection(get_last_sample_number_ensemble))
 
         // --- convenient data access ---
         .def("get_number_of_beams",
@@ -58,10 +76,10 @@ void init_c_beamsampleselection(pybind11::module& m)
              &BeamSampleSelection::get_first_sample_number_per_beam,
              py::return_value_policy::reference_internal,
              DOC_BeamSampleSelection(get_first_sample_number_per_beam))
-        .def("get_max_number_of_samples_per_beam",
-             &BeamSampleSelection::get_max_number_of_samples_per_beam,
+        .def("get_last_sample_number_per_beam",
+             &BeamSampleSelection::get_last_sample_number_per_beam,
              py::return_value_policy::reference_internal,
-             DOC_BeamSampleSelection(get_max_number_of_samples_per_beam))
+             DOC_BeamSampleSelection(get_last_sample_number_per_beam))
 
         // ----- operators -----
         .def("__eq__",

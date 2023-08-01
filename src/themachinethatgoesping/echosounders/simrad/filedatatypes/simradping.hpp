@@ -81,6 +81,8 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     using t_base::get_number_of_beams;
     using t_base::get_number_of_samples_per_beam;
     using t_base::get_beam_pointing_angles;
+    using t_base::get_sv;
+    using t_base::get_sv_stacked;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
     {

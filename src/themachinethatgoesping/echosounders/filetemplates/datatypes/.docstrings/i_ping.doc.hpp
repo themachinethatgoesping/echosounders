@@ -1,4 +1,4 @@
-//sourcehash: 665e7ddf37391824226d2ceb0bd80a435dfdfbb2081b35370f4d4cb5760682e5
+//sourcehash: a24e002e8c7659c9debc32b340a7c412831023b2161dff013eeb5c90bcb4cd53
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -104,23 +104,35 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams =
-R"doc(Get the number of beams from a specific transducer (Useful when
-multiple transducers are associated with a single ping.)
-
-Parameter ``transducer_id``:
-    $Returns:
-
-size_t)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_2 =
 R"doc(Get the number of beams
 
 Returns:
     size_t)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_2 =
+R"doc(Get the number of beams from a specific transducer (Useful when
+multiple transducers are associated with a single ping.)
+
+Parameter ``transducer_id``:
+    transducer id
+
+Returns:
+    size_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_3 =
+R"doc(Get the number of beams when specifying the beams and samples to
+select. Note: this function just returns
+selection.get_number_of_beams()
+
+Parameter ``selection:``:
+    Structure containing information about which beams and samples to
+    select.
+
+Returns:
+    size_t)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam =
-R"doc(Get the number of samples per beam from a specific transducer (Useful
-when multiple transducers are associated with a single ping.)
+R"doc(Get the number of samples per beam
 
 Parameter ``transducer_id``:
     $Returns:
@@ -128,12 +140,25 @@ Parameter ``transducer_id``:
 xt::xtensor<uint16_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_2 =
-R"doc(Get the number of samples per beam
+R"doc(Get the number of samples per beam of a specific transducer. (Useful
+when multiple transducers are associated with a single ping.)
 
-Parameter ``transducer_id``:
-    $Returns:
+Parameter ``transducer_id:``:
+    id of the transducer
 
-xt::xtensor<uint16_t, 1>)doc";
+Returns:
+    xt::xtensor<uint16_t, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_3 =
+R"doc(Get the number of samples per beam when specifying the beams and
+samples to select.
+
+Parameter ``selection:``:
+    Structure containing information about which beams and samples to
+    select.
+
+Returns:
+    xt::xtensor<uint16_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv =
 R"doc(Compute volume backscattering. If you see this comment, this function
@@ -145,10 +170,28 @@ Parameter ``dB``:
 Returns:
     xt::xtensor<float, 2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_2 =
+R"doc(Compute volume backscattering. If you see this comment, this function
+was not implemented for the current ping type.
+
+Parameter ``selection``:
+    structure with selected transducer_ids/beams/samples considered
+    for this function
+
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_stacked =
 R"doc(Compute stacked volume backscattering (sum over all beams). If you see
 this comment, this function was not implemented for the current ping
 type.
+
+Parameter ``selection``:
+    structure with selected transducer_ids/beams/samples considered
+    for this function
 
 Parameter ``dB``:
     Output Sv in dB if true, or linear if false (default).
