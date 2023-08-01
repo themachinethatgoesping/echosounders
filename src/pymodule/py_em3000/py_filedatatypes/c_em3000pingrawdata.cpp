@@ -73,8 +73,10 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  py::arg("selection"))
 
             .def("get_number_of_samples_per_beam",
-                 &t_EM3000PingRawData::get_number_of_samples_per_beam,
+                 py::overload_cast<>(&t_EM3000PingRawData::get_number_of_samples_per_beam,
+                                     py::const_),
                  DOC_EM3000PingRawData(get_number_of_samples_per_beam))
+
             .def("get_detected_range_in_samples",
                  &t_EM3000PingRawData::get_detected_range_in_samples,
                  DOC_EM3000PingRawData(get_detected_range_in_samples))

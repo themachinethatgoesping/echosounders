@@ -213,10 +213,53 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return beam_pointing_angles;
     }
 
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
+    {
+        auto number_of_samples_per_beam =
+            xt::xtensor<uint16_t, 1>::from_shape({ get_number_of_beams() });
+        size_t bn = 0;
+
+        for (const auto& [k, v] : _raw_data)
+        {
+            size_t bn_end = bn + v.get_number_of_beams();
+            xt::view(number_of_samples_per_beam, xt::range(bn, bn_end)) =
+                v.get_number_of_samples_per_beam();
+            bn = bn_end;
+        }
+
+        return number_of_samples_per_beam;
+    }
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
         const std::string& transducer_id) const final
     {
         return get_raw_data(transducer_id).get_number_of_samples_per_beam();
+    }
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        const pingtools::PingSampleSelection& selection)
+    {
+        auto number_of_samples_per_beam =
+            xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
+        size_t bn = 0;
+
+        for (const auto& [transducer_id, bss] : selection.get_sample_selections())
+        {
+            size_t bn_end = bn + bss.get_number_of_beams();
+
+            auto it = _raw_data.find(transducer_id);
+            if (it != _raw_data.end())
+            {
+                xt::view(number_of_samples_per_beam, xt::range(bn, bn_end)) =
+                    it->second.get_number_of_samples_per_beam(bss);
+            }
+            else
+            {
+                xt::view(number_of_samples_per_beam, xt::range(bn, bn_end)).fill(0);
+            }
+
+            bn = bn_end;
+        }
+
+        return number_of_samples_per_beam;
     }
 
     // ----- objectprinter -----

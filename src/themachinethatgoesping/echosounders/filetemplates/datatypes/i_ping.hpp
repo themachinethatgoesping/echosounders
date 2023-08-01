@@ -265,7 +265,7 @@ class I_Ping
      */
     virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
     {
-        return get_beam_pointing_angles(get_transducer_id());
+        throw not_implemented("get_beam_pointing_angles", this->get_name());
     }
 
     /**
@@ -301,7 +301,7 @@ class I_Ping
      */
     virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
     {
-        return get_number_of_samples_per_beam(get_transducer_id());
+        throw not_implemented("get_number_of_samples_per_beam", this->get_name());
     }
 
     /**
@@ -319,15 +319,20 @@ class I_Ping
 
     /**
      * @brief Get the number of samples per beam when specifying the beams and samples to select.
+     * Note: this function just returns an array of selection.get_number_of_samples_ensemble()
      *
      * @param selection: Structure containing information about which beams and samples to select.
      * @return xt::xtensor<uint16_t, 1>
      */
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
         [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
     {
-        throw not_implemented("get_number_of_samples_per_beam(PingSampleSelection)",
-                              this->get_name());
+        auto number_of_samples_per_beam =
+            xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
+
+        number_of_samples_per_beam.fill(selection.get_number_of_samples_ensemble());
+
+        return number_of_samples_per_beam;
     }
 
     /**

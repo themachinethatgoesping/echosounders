@@ -1,4 +1,4 @@
-//sourcehash: e3ef46e700dba2f121e80945a35835bffb6761f31ef49572069e74a94fb85f0e
+//sourcehash: e1f78b73cd83f9f59813547d3bbf0e2544d16ba1a95d793bf412aac0d8491c61
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -162,7 +162,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_3 =
 R"doc(Get the number of samples per beam when specifying the beams and
-samples to select.
+samples to select. Note: this function just returns an array of
+selection.get_number_of_samples_ensemble()
 
 Parameter ``selection:``:
     Structure containing information about which beams and samples to
