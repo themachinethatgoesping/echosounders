@@ -218,6 +218,8 @@ class BeamSampleSelection
         printer.register_container("_last_sample_number_per_beam", _last_sample_number_per_beam);
 
         printer.register_value("_sample_step_ensemble", _sample_step_ensemble);
+        printer.register_value("_first_sample_number_ensemble", _first_sample_number_ensemble);
+        printer.register_value("_last_sample_number_ensemble", _last_sample_number_ensemble);
 
         return printer;
     }
