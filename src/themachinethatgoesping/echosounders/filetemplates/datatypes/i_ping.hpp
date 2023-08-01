@@ -348,6 +348,21 @@ class I_Ping
     }
 
     /**
+     * @brief Compute volume backscattering of a specific transducer.
+     * (Useful when multiple transducers are associated with a single ping.)
+     * If you see this comment, this function was not implemented for the current ping type.
+     *
+     * @param transducer_id transducer id
+     * @param dB Output Sv in dB if true, or linear if false (default).
+     * @return xt::xtensor<float, 2>
+     */
+    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
+                                         [[maybe_unused]] bool               dB = false)
+    {
+        throw not_implemented("get_sv", this->get_name());
+    }
+
+    /**
      * @brief Compute volume backscattering. If you see this comment, this function was not
      * implemented for the current ping type.
      *

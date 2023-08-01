@@ -133,8 +133,13 @@ void add_ping_data_interface(T_PyClass& cls)
             DOC_I_Ping(get_sv),
             py::arg("dB") = false);
     cls.def("get_sv",
-            py::overload_cast<const pingtools::PingSampleSelection&, bool>(&T_BaseClass::get_sv),
+            py::overload_cast<const std::string&, bool>(&T_BaseClass::get_sv),
             DOC_I_Ping(get_sv_2),
+            py::arg("transducer_id"),
+            py::arg("dB") = false);
+    cls.def("get_sv",
+            py::overload_cast<const pingtools::PingSampleSelection&, bool>(&T_BaseClass::get_sv),
+            DOC_I_Ping(get_sv_3),
             py::arg("selection"),
             py::arg("dB") = false);
     cls.def("get_sv_stacked",

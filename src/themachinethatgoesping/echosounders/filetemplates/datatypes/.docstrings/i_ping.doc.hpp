@@ -1,4 +1,4 @@
-//sourcehash: e1f78b73cd83f9f59813547d3bbf0e2544d16ba1a95d793bf412aac0d8491c61
+//sourcehash: c1ea419498e1e6273ca6379612fc571e7b44277f1039eb52d2df90ca16a50fca
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -183,6 +183,21 @@ Returns:
     xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_2 =
+R"doc(Compute volume backscattering of a specific transducer. (Useful when
+multiple transducers are associated with a single ping.) If you see
+this comment, this function was not implemented for the current ping
+type.
+
+Parameter ``transducer_id``:
+    transducer id
+
+Parameter ``dB``:
+    Output Sv in dB if true, or linear if false (default).
+
+Returns:
+    xt::xtensor<float, 2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_3 =
 R"doc(Compute volume backscattering. If you see this comment, this function
 was not implemented for the current ping type.
 
