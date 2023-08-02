@@ -58,9 +58,13 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(read_merged_watercolumndatagram),
                  py::arg("skip_data") = false)
 
+            .def("read_all_samples",
+                 &t_EM3000PingRawData::read_all_samples,
+                 DOC_EM3000PingRawData(read_all_samples))
             .def("read_selected_samples",
                  &t_EM3000PingRawData::read_selected_samples,
-                 DOC_EM3000PingRawData(read_selected_samples))
+                 DOC_EM3000PingRawData(read_selected_samples),
+                 py::arg("selection"))
 
             // --- getter/setter ---
             .def("get_beam_pointing_angles",
@@ -72,6 +76,10 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(get_beam_pointing_angles_2),
                  py::arg("selection"))
 
+            .def("get_start_range_sample_numbers",
+                 py::overload_cast<>(&t_EM3000PingRawData::get_start_range_sample_numbers,
+                                     py::const_),
+                 DOC_EM3000PingRawData(get_start_range_sample_numbers))
             .def("get_number_of_samples_per_beam",
                  py::overload_cast<>(&t_EM3000PingRawData::get_number_of_samples_per_beam,
                                      py::const_),

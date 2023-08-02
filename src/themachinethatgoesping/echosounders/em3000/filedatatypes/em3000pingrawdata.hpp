@@ -129,6 +129,10 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return beam_pointing_angles;
     }
 
+    const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers() const
+    {
+        return _start_range_sample_numbers;
+    }
     const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam() const
     {
         return _number_of_samples_per_beam;
@@ -201,10 +205,24 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //  * @brief read all selected samples from the selected beams and convert them to float
     //  * @return xt::xtensor<float, 2>
     //  */
-    xt::xtensor<float, 2> read_all_samples()
+    xt::xtensor<float, 2> read_all_samples() const
     {
-        // build BeamSampleSelction
-        pingtools::substructures::BeamSampleSelection bss;
+        const auto& start_range_sample_numbers = get_start_range_sample_numbers();
+        const auto& number_of_samples_per_beam = get_number_of_samples_per_beam();
+
+        // build BeamSampleSelcetion
+        auto last_sample_number_per_beam =
+            start_range_sample_numbers + number_of_samples_per_beam - 1;
+
+        std::vector<uint16_t> first_snpb(start_range_sample_numbers.begin(),
+                                         start_range_sample_numbers.end());
+        std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
+                                        last_sample_number_per_beam.end());
+
+        pingtools::substructures::BeamSampleSelection bss(std::move(first_snpb),
+                                                          std::move(last_snpb));
+
+        return read_selected_samples(std::move(bss));
     }
 
     // /**
@@ -212,7 +230,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //  * @return xt::xtensor<float, 2>
     //  */
     xt::xtensor<float, 2> read_selected_samples(
-        const pingtools::substructures::BeamSampleSelection& bss)
+        const pingtools::substructures::BeamSampleSelection& bss) const
     {
 
         xt::xtensor<float, 2> samples = xt::empty<float>(xt::xtensor<float, 2>::shape_type(
@@ -221,7 +239,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         // here we assume that all beams / water column datagrams originate from the same file /
         // file stream
         auto& ifs =
-            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+            this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
                 .at(0)
                 ->get_stream();
 

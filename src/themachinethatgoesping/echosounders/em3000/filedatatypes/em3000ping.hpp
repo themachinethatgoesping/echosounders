@@ -270,10 +270,10 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
                                  [[maybe_unused]] bool               dB = false) const final
     {
-        throw not_implemented("get_sv", this->get_name());
+        return get_raw_data(transducer_id).read_all_samples();
     }
 
-    xt::xtensor<float, 1> get_sv([[maybe_unused]] const pingtools::PingSampleSelection& selection,
+    xt::xtensor<float, 2> get_sv([[maybe_unused]] const pingtools::PingSampleSelection& selection,
                                  [[maybe_unused]] bool dB = false) const final
     {
         throw not_implemented("get_sv(PingSampleSelection)", this->get_name());

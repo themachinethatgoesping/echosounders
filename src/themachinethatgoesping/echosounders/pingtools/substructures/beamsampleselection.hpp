@@ -36,7 +36,8 @@ class BeamSampleSelection
 
     uint16_t _sample_step_ensemble; ///< sample step size (same for the entire ensemble)
     uint16_t _first_sample_number_ensemble =
-        0; ///< minimum sample number (min(first_sample_number_per_beam))
+        std::numeric_limits<uint16_t>::max(); ///< minimum sample number
+                                              ///< (min(first_sample_number_per_beam))
     uint16_t _last_sample_number_ensemble =
         0; ///< maximum sample number (max(last_sample_number_per_beam))
 
@@ -74,6 +75,10 @@ class BeamSampleSelection
         std::iota(std::begin(_beam_numbers),
                   std::end(_beam_numbers),
                   0); // Fill vector with 0, 1, ..., number_of_beams-1.
+
+        // find min/max sample numbers
+        _first_sample_number_ensemble = *std::ranges::min_element(_first_sample_number_per_beam);
+        _last_sample_number_ensemble  = *std::ranges::max_element(_last_sample_number_per_beam);
     }
 
     // --- operators ---
@@ -82,7 +87,9 @@ class BeamSampleSelection
         return _beam_numbers == other._beam_numbers &&
                _first_sample_number_per_beam == other._first_sample_number_per_beam &&
                _last_sample_number_per_beam == other._last_sample_number_per_beam &&
-               _sample_step_ensemble == other._sample_step_ensemble;
+               _sample_step_ensemble == other._sample_step_ensemble &&
+               _first_sample_number_ensemble == other._first_sample_number_ensemble &&
+               _last_sample_number_ensemble == other._last_sample_number_ensemble;
     }
 
     // ----- add beams/samples -----
@@ -206,8 +213,8 @@ class BeamSampleSelection
         object._first_sample_number_per_beam = container_from_stream<std::vector<uint16_t>>(is);
         object._last_sample_number_per_beam  = container_from_stream<std::vector<uint16_t>>(is);
 
-        is.read(reinterpret_cast<char*>(&object._sample_step_ensemble),
-                sizeof(object._sample_step_ensemble));
+        // read other variables
+        is.read(reinterpret_cast<char*>(&object._sample_step_ensemble), sizeof(uint16_t) * 3);
 
         return object;
     }
@@ -225,8 +232,8 @@ class BeamSampleSelection
         container_to_stream(os, _first_sample_number_per_beam);
         container_to_stream(os, _last_sample_number_per_beam);
 
-        os.write(reinterpret_cast<const char*>(&_sample_step_ensemble),
-                 sizeof(_sample_step_ensemble));
+        // write other variables
+        os.write(reinterpret_cast<const char*>(&_sample_step_ensemble), sizeof(uint16_t) * 3);
     }
 
     // ----- printing -----

@@ -371,7 +371,7 @@ class I_Ping
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
-    virtual xt::xtensor<float, 1> get_sv(
+    virtual xt::xtensor<float, 2> get_sv(
         [[maybe_unused]] const pingtools::PingSampleSelection& selection,
         [[maybe_unused]] bool                                  dB = false) const
     {
