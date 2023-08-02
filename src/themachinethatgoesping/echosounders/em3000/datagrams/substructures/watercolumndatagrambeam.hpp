@@ -133,8 +133,7 @@ class WaterColumnDatagramBeam
                                                size_t                  number_of_samples,
                                                size_t number_of_samples_in_datagram)
     {
-        xt::xtensor<int8_t, 1> samples =
-            xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ number_of_samples }));
+        auto samples = xt::xtensor<int8_t, 1>::from_shape({ number_of_samples });
 
         // do not read more samples than exist
         if (first_sample + number_of_samples > number_of_samples_in_datagram)

@@ -232,9 +232,9 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     xt::xtensor<float, 2> read_selected_samples(
         const pingtools::substructures::BeamSampleSelection& bss) const
     {
-
-        xt::xtensor<float, 2> samples = xt::empty<float>(xt::xtensor<float, 2>::shape_type(
-            { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() }));
+        bss.print(std::cerr);
+        auto samples = xt::xtensor<float, 2>::from_shape(
+            { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() });
 
         // here we assume that all beams / water column datagrams originate from the same file /
         // file stream
@@ -243,105 +243,52 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                 .at(0)
                 ->get_stream();
 
-        // size_t bn_counter = 0; // counter for the selected beams
-        // for (const auto bn : bss.get_beam_numbers())
-        // {
-        //     // first_sample_number_per_beam always counts from 0
-        //     // if we want to read the first sample of the beam we have to add the offset
-        //     int local_first_sample_number = bss.get_first_sample_number_per_beam().at(bn_counter)
-        //     - _start_range_sample_numbers.at(bn); int local_last_sample_number =
-        //     bss.get_last_sample_number_per_beam().at(bn_counter) -
-        //     _start_range_sample_numbers.at(bn);
+        size_t bn_counter = 0; // counter for the selected beams
+        for (const auto bn : bss.get_beam_numbers())
+        {
+            // of beam number does not exist fill beam with nan
+            if (bn >= get_number_of_beams())
+            {
+                xt::view(samples, bn_counter, xt::all())
+                    .fill(std::numeric_limits<float>::quiet_NaN());
+                ++bn_counter;
+                continue;
+            }
 
-        //     int local_number_of_samples_to_read = local_last_sample_number -
-        //     local_first_sample_number;
+            // read samples
+            auto readsamplerange =
+                bss.get_read_sample_range(bn_counter,
+                                          get_start_range_sample_numbers().unchecked(bn),
+                                          get_number_of_samples_per_beam().unchecked(bn));
 
-        //     size_t first_sample_to_read = (local_first_sample_number >0) ?
-        //     size_t(local_first_sample_number) : 0; size_t number_of_samples_to_read =
-        //     (local_first_sample_number >0) ? size_t(local_first_sample_number) : 0;
+            xt::xtensor<int8_t, 1> beam_samples =
+                datagrams::substructures::WaterColumnDatagramBeam::read_samples(
+                    ifs,
+                    _sample_positions.unchecked(bn),
+                    readsamplerange.get_first_sample_to_read(),
+                    readsamplerange.get_number_of_samples_to_read(),
+                    get_number_of_samples_per_beam().unchecked(bn));
 
-        //     int number_of_samples_to_read = first_sample_offset +
+            // assign samples to output
+            xt::view(samples,
+                     bn_counter,
+                     xt::range(readsamplerange.get_first_read_sample_offset(),
+                               readsamplerange.get_last_read_sample_offset() + 1)) =
+                xt::cast<float>(beam_samples);
 
-        //     xt::xtensor<int8_t, 1> beam_samples =
-        //         datagrams::substructures::WaterColumnDatagramBeam::read_samples(
-        //             ifs,
-        //             _sample_positions.at(bn),
-        //             first_sample_offset,
-        //             number_of_samples_to_read,
-        //             number_of_samples_per_beam[bn]);
-        // }
+            // assign nan to samples that were not read
+            xt::view(
+                samples, bn_counter, xt::range(0, readsamplerange.get_first_read_sample_offset()))
+                .fill(std::numeric_limits<float>::quiet_NaN());
 
-        // size_t bn_counter = 0; // counter for the selected beams
-        // for (const auto bn : selected_beam_numbers)
-        // {
-        //     size_t number_of_samples_to_read = selected_number_of_samples_per_beam.at(bn);
-        //     size_t sample_offset             = selected_first_sample_per_beam.at(bn) -
-        //                            _first_sample_number_ensemble; // offset from ensemble start
+            using namespace xt::placeholders;
+            xt::view(samples,
+                     bn_counter,
+                     xt::range(readsamplerange.get_last_read_sample_offset() + 1, _))
+                .fill(std::numeric_limits<float>::quiet_NaN());
 
-        //     if (number_of_samples_to_read + selected_first_sample_per_beam[bn] >
-        //         number_of_samples_per_beam.at(bn))
-        //     {
-        //         if (selected_first_sample_per_beam[bn] >= number_of_samples_per_beam[bn])
-        //             number_of_samples_to_read = 0;
-        //         else
-        //             // read only the samples that are available
-        //             number_of_samples_to_read =
-        //                 number_of_samples_per_beam[bn] - selected_first_sample_per_beam[bn];
-        //     }
-
-        //     xt::xtensor<int8_t, 1> beam_samples =
-        //         datagrams::substructures::WaterColumnDatagramBeam::read_samples(
-        //             ifs,
-        //             _sample_positions.at(bn),
-        //             selected_first_sample_per_beam[bn],
-        //             number_of_samples_to_read,
-        //             number_of_samples_per_beam[bn]);
-
-        //     // // beamsamples *= 0.5f;
-        //     // // beamsamples -= _tvg_offset_in_db;
-
-        //     using xt::placeholders::_;
-        //     try
-        //     {
-        //         xt ::view(samples, bn_counter, xt ::range(_, sample_offset)) =
-        //             std::numeric_limits<float>::quiet_NaN();
-        //     }
-        //     catch (std::exception& e)
-        //     {
-        //         throw std::runtime_error(fmt::format("Exception[{}]: {}\n", 1, e.what()));
-        //     }
-
-        //     try
-        //     {
-        //         xt::view(samples,
-        //                  bn_counter,
-        //                  xt ::range(sample_offset, sample_offset + number_of_samples_to_read)) =
-        //             beam_samples;
-        //     }
-        //     catch (std::exception& e)
-        //     {
-        //         throw std::runtime_error(fmt::format("Exception[{}, {}, {}, {}, {}]: {}\n",
-        //                                              2,
-        //                                              sample_offset,
-        //                                              number_of_samples_to_read,
-        //                                              _number_of_samples_ensemble,
-        //                                              _first_sample_number_ensemble,
-        //                                              e.what()));
-        //     }
-
-        //     try
-        //     {
-        //         xt::view(
-        //             samples, bn_counter, xt ::range(sample_offset + number_of_samples_to_read,
-        //             _)) = std::numeric_limits<float>::quiet_NaN();
-        //     }
-        //     catch (std::exception& e)
-        //     {
-        //         throw std::runtime_error(fmt::format("Exception[{}]: {}\n", 3, e.what()));
-        //     }
-
-        //     ++bn_counter;
-        // }
+                ++ bn_counter;
+        }
 
         return samples;
     }
