@@ -1,4 +1,4 @@
-//sourcehash: 2e8b86bdc6f3df0829e8dccb01e2bb26183a84527df463cd9499820b2b85314a
+//sourcehash: a58c01bdaf58e3212be426936e9b7b11503dfb3a24ffcbb754a64c570c7a8ee1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,7 +44,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_substruct
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_ReadSampleRange_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_first_sample_offset = R"doc(< offset of the first read sample (compared to global sample < number))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_first_read_sample_offset = R"doc(< offset of the first read sample (compared to global sample < number))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_first_sample_to_read = R"doc(< first sample number to read (local to beam sample offset))doc";
 
@@ -57,7 +57,7 @@ Parameter ``is``:
 Returns:
     ReadSampleRange)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_first_sample_offset = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_first_read_sample_offset = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_first_sample_to_read =
 R"doc(Return the first sample number to read (local to beam sample offset)
@@ -65,11 +65,11 @@ R"doc(Return the first sample number to read (local to beam sample offset)
 Returns:
     uint16_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_last_sample_offset = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_last_read_sample_offset = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_number_of_samples_to_read = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_last_sample_offset = R"doc(< offset of the last read sample (compared to global sample number))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_last_read_sample_offset = R"doc(< offset of the last read sample (compared to global sample number))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_number_of_samples_to_read = R"doc(< number of samples to read (local to beam sample offset))doc";
 
@@ -90,6 +90,8 @@ R"doc(Write a ReadSampleRange to a binary stream
 
 Parameter ``os``:
     output stream)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_total_number_of_samples = R"doc(< number of samples in the output beam (including empty values))doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

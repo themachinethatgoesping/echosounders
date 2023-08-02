@@ -33,22 +33,24 @@ class ReadSampleRange
     uint16_t _first_sample_to_read; ///< first sample number to read (local to beam sample offset)
     uint16_t
         _number_of_samples_to_read; ///< number of samples to read (local to beam sample offset)
-    uint16_t _first_sample_offset;  ///< offset of the first read sample (compared to global sample
+    uint16_t _first_read_sample_offset;  ///< offset of the first read sample (compared to global sample
                                     ///< number)
     uint16_t
-        _last_sample_offset; ///< offset of the last read sample (compared to global sample number)
+        _last_read_sample_offset; ///< offset of the last read sample (compared to global sample number)
+    uint16_t
+        _total_number_of_samples; ///< number of samples in the output beam (including empty values)
 
     ReadSampleRange() {}
 
   public:
     ReadSampleRange(uint16_t first_sample_to_read,
                     uint16_t number_of_samples_to_read,
-                    uint16_t first_sample_offset,
-                    uint16_t last_sample_offset)
+                    uint16_t first_read_sample_offset,
+                    uint16_t last_read_sample_offset)
         : _first_sample_to_read(first_sample_to_read)
         , _number_of_samples_to_read(number_of_samples_to_read)
-        , _first_sample_offset(first_sample_offset)
-        , _last_sample_offset(last_sample_offset)
+        , _first_read_sample_offset(first_read_sample_offset)
+        , _last_read_sample_offset(last_read_sample_offset)
     {
     }
 
@@ -63,8 +65,8 @@ class ReadSampleRange
      */
     uint16_t get_first_sample_to_read() const { return _first_sample_to_read; }
     uint16_t get_number_of_samples_to_read() const { return _number_of_samples_to_read; }
-    uint16_t get_first_sample_offset() const { return _first_sample_offset; }
-    uint16_t get_last_sample_offset() const { return _last_sample_offset; }
+    uint16_t get_first_read_sample_offset() const { return _first_read_sample_offset; }
+    uint16_t get_last_read_sample_offset() const { return _last_read_sample_offset; }
 
     // ----- from/to binary -----
     /**
@@ -109,8 +111,8 @@ class ReadSampleRange
         printer.register_value("first_sample_to_read", _first_sample_to_read, "beamlocal");
         printer.register_value(
             "number_of_samples_to_read", _number_of_samples_to_read, "beamlocal");
-        printer.register_value("first_sample_offset", _first_sample_offset, "swathglobal");
-        printer.register_value("_last_sample_offset", _last_sample_offset, "swathglobal");
+        printer.register_value("first_read_sample_offset", _first_read_sample_offset, "swathglobal");
+        printer.register_value("last_read_sample_offset", _last_read_sample_offset, "swathglobal");
 
         return printer;
     }

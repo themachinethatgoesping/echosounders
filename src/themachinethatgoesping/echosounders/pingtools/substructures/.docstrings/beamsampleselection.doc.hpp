@@ -1,4 +1,4 @@
-//sourcehash: 66d2f117953137f44bf3ffbb29c02f5a47fd392e7f18b3f640cef203ba936546
+//sourcehash: 5d6545776ce5e8fd1e4527dcf61d2903ba27e5bbc887a8f967a190db6f66643e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -124,6 +124,21 @@ R"doc(return the number of samples within the ensemble
 
 Returns:
     uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_read_sample_range =
+R"doc(Return the read sample range for a given beam
+
+Parameter ``beam_index``:
+    index of the beam within the beam sample selection
+
+Parameter ``first_sample_offset``:
+    offset to the first sample (often 0)
+
+Parameter ``number_of_samples``:
+    number of samples in the real beam structure
+
+Returns:
+    ReadSampleRange read sample range)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_get_sample_step_ensemble =
 R"doc(Return the sample step size

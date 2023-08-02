@@ -22,8 +22,8 @@ TEST_CASE("ReadSampleRange should support common functions", TESTTAG)
     // test variables
     REQUIRE(obj.get_first_sample_to_read() == 2);
     REQUIRE(obj.get_number_of_samples_to_read() == 3);
-    REQUIRE(obj.get_first_sample_offset() == 4);
-    REQUIRE(obj.get_last_sample_offset() == 5);
+    REQUIRE(obj.get_first_read_sample_offset() == 4);
+    REQUIRE(obj.get_last_read_sample_offset() == 5);
 
     // test inequality
     REQUIRE(obj != ReadSampleRange(5, 4, 3, 2));

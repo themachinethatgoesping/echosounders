@@ -30,8 +30,8 @@ void init_c_readsamplerange(pybind11::module& m)
              DOC_ReadSampleRange(ReadSampleRange),
              py::arg("first_sample_to_read"),
              py::arg("number_of_samples_to_read"),
-             py::arg("first_sample_offset"),
-             py::arg("last_sample_offset"))
+             py::arg("first_read_sample_offset"),
+             py::arg("last_read_sample_offset"))
 
         // --- data access ---
         .def("get_first_sample_to_read",
@@ -40,12 +40,12 @@ void init_c_readsamplerange(pybind11::module& m)
         .def("get_number_of_samples_to_read",
              &ReadSampleRange::get_number_of_samples_to_read,
              DOC_ReadSampleRange(get_number_of_samples_to_read))
-        .def("get_first_sample_offset",
-             &ReadSampleRange::get_first_sample_offset,
-             DOC_ReadSampleRange(get_first_sample_offset))
-        .def("get_last_sample_offset",
-             &ReadSampleRange::get_last_sample_offset,
-             DOC_ReadSampleRange(get_last_sample_offset))
+        .def("get_first_read_sample_offset",
+             &ReadSampleRange::get_first_read_sample_offset,
+             DOC_ReadSampleRange(get_first_read_sample_offset))
+        .def("get_last_read_sample_offset",
+             &ReadSampleRange::get_last_read_sample_offset,
+             DOC_ReadSampleRange(get_last_read_sample_offset))
 
         // ----- operators -----
         .def("__eq__",

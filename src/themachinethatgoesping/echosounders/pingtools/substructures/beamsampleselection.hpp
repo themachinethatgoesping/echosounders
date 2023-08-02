@@ -9,7 +9,9 @@
 #include ".docstrings/beamsampleselection.doc.hpp"
 
 /* std includes */
+#include <algorithm>
 #include <map>
+#include <ranges>
 
 /* external includes */
 #include <fmt/core.h>
@@ -18,6 +20,8 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
+#include "readsamplerange.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -47,7 +51,66 @@ class BeamSampleSelection
     {
     }
 
-    // --- builders ---
+    // --- get read sample range ---
+    /**
+     * @brief Return the read sample range for a given beam
+     *
+     * @param beam_index index of the beam within the beam sample selection
+     * @param first_sample_offset offset to the first sample (often 0)
+     * @param number_of_samples number of samples in the real beam structure
+     * @return ReadSampleRange read sample range
+     */
+    ReadSampleRange get_read_sample_range(uint16_t beam_index,
+                                          uint16_t first_sample_offset_in_beam,
+                                          uint16_t number_of_samples_in_beam) const
+    {
+        if (beam_index >= get_number_of_beams())
+        {
+            throw std::runtime_error(fmt::format(
+                "BeamSampleSelection::get_read_sample_range: beam index {} out of range [0,{}]",
+                beam_index,
+                get_number_of_beams() - 1));
+        }
+
+        int first_beam_sample_to_read =
+            std::max(_first_sample_number_per_beam[beam_index], _first_sample_number_ensemble) -
+            first_sample_offset_in_beam;
+        if (first_beam_sample_to_read < 0)
+        {
+            first_beam_sample_to_read = 0;
+        }
+
+        int last_beam_sample_to_read =
+            std::min(_last_sample_number_per_beam[beam_index], _last_sample_number_ensemble) -
+            first_sample_offset_in_beam;
+        if (last_beam_sample_to_read < 0)
+        {
+            last_beam_sample_to_read = 0;
+        }
+        else if (last_beam_sample_to_read >= number_of_samples_in_beam)
+        {
+            last_beam_sample_to_read = number_of_samples_in_beam - 1;
+        }
+
+        int number_of_samples_to_read = last_beam_sample_to_read - first_beam_sample_to_read + 1;
+        if (number_of_samples_to_read < 0)
+        {
+            number_of_samples_to_read = 0;
+        }
+
+        uint16_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
+        uint16_t last_read_sample_offset  = last_beam_sample_to_read + first_sample_offset_in_beam;
+
+        if (last_read_sample_offset < first_read_sample_offset)
+        {
+            last_read_sample_offset = first_read_sample_offset;
+        }
+
+        return ReadSampleRange(uint16_t(first_beam_sample_to_read),
+                               uint16_t(number_of_samples_to_read),
+                               uint16_t(first_read_sample_offset),
+                               uint16_t(last_read_sample_offset));
+    }
 
     /**
      * @brief Initialize a beam sample selection from a whole swath

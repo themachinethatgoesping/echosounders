@@ -35,6 +35,14 @@ void init_c_beamsampleselection(pybind11::module& m)
              py::arg("last_sample_number_per_beam"),
              py::arg("sample_step_ensemble") = 1)
 
+        // --- get read sample range ---
+        .def("get_read_sample_range",
+             &BeamSampleSelection::get_read_sample_range,
+             DOC_BeamSampleSelection(get_read_sample_range),
+             py::arg("beam_index"),
+             py::arg("first_sample_offset_in_beam"),
+             py::arg("number_of_samples_in_beam"))
+
         // --- add beam/samples ---
         .def("add_beam",
              &BeamSampleSelection::add_beam,
