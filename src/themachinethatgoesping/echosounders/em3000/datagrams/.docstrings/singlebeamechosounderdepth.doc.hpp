@@ -1,4 +1,4 @@
-//sourcehash: 5c24d5cdf84d49b371914af316cde5129844fab2d44868c5de091e0a053a87bb
+//sourcehash: 5451b860689b359305edcd251a6ed8378b5e701214681efe2b67fa4b95d3b1b7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -104,8 +104,6 @@ R"doc(< time since midnight in milliseconds (from input < datagram if
 available))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SingleBeamEchoSounderDepth_printer = R"doc()doc";
 

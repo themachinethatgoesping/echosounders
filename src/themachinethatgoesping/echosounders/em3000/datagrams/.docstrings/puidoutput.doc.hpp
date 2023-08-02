@@ -1,4 +1,4 @@
-//sourcehash: f10602c7e8ffefe5f684359a03db6ec8ebfc5c60c0f65cf18c068891b2f9c538
+//sourcehash: a107457549962f09f1ff2289627ae90f31bea8eb6e8eb944825089b234749515
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -234,8 +234,6 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_host_ip_address = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUIDOutput_printer = R"doc()doc";
 

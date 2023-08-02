@@ -608,9 +608,9 @@ class InstallationParameters : public EM3000Datagram
         // unsupported_option_string(sensor_prefix + "T", "1", "get_position_system_offsets");
         try
         {
-        unsupported_option_string(sensor_prefix + "G", "WGS84", "get_position_system_offsets");
+            unsupported_option_string(sensor_prefix + "G", "WGS84", "get_position_system_offsets");
         }
-        catch(std::exception& e)
+        catch (std::exception& e)
         {
             std::cerr << "WARNING: " << e.what() << std::endl;
         }
@@ -874,16 +874,7 @@ class InstallationParameters : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const InstallationParameters& other) const
-    {
-        return EM3000Datagram::operator==(other) &&
-               _installation_parameters_counter == other._installation_parameters_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _secondary_system_serial_number == other._secondary_system_serial_number &&
-               _installation_parameters == other._installation_parameters && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const InstallationParameters& other) const { return !operator==(other); }
+    bool operator==(const InstallationParameters& other) const = default;
 
     //----- to/from stream functions -----
     static InstallationParameters from_stream(std::istream& is, EM3000Datagram header)

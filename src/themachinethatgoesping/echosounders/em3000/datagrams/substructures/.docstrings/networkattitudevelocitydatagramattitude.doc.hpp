@@ -1,4 +1,4 @@
-//sourcehash: 0707a158bf7e2ff047275d1d0bfe44c148fb2dffdcf6096ed38cb0cd180099a4
+//sourcehash: 6cb64eb45d22d84987606296fe49c713a57a9c0a4f8c14adcca5d07622b071ae
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -103,8 +103,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_number_of_bytes_in_input_datagram = R"doc(< Nx)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_NetworkAttitudeVelocityDatagramAttitude_pitch = R"doc(< in 0.01°)doc";
 

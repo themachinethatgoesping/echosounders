@@ -46,17 +46,10 @@ class SimradUnknown : public SimradDatagram
 
     // ----- accessors -----
     const std::string& get_raw_content() const { return _raw_content; }
-    void               set_raw_content(std::string raw_content)
-    {
-        _raw_content = std::move(raw_content);
-    }
+    void set_raw_content(std::string raw_content) { _raw_content = std::move(raw_content); }
 
     // ----- operators -----
-    bool operator==(const SimradUnknown& other) const
-    {
-        return SimradDatagram::operator==(other) && _raw_content == other._raw_content;
-    }
-    bool operator!=(const SimradUnknown& other) const { return !operator==(other); }
+    bool operator==(const SimradUnknown& other) const = default;
 
     static SimradUnknown from_stream(std::istream& is, SimradDatagram header)
     {

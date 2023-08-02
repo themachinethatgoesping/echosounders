@@ -18,9 +18,9 @@ TEST_CASE("PingSampleSelection should support common functions", TESTTAG)
     auto obj = PingSampleSelection();
 
     // set some variables
-    
+
     // test inequality
-    //REQUIRE(obj != PingSampleSelection());
+    // REQUIRE(obj != PingSampleSelection());
 
     // test copy
     REQUIRE(obj == PingSampleSelection(obj));
@@ -37,6 +37,6 @@ TEST_CASE("PingSampleSelection should support common functions", TESTTAG)
     REQUIRE(obj.info_string().size() != 0);
 
     //--- Class concept ---
-    //obj.clear();
+    // obj.clear();
     REQUIRE(obj == PingSampleSelection());
 }

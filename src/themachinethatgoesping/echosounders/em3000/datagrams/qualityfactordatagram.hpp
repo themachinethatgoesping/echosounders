@@ -126,17 +126,7 @@ class QualityFactorDatagram : public EM3000Datagram
     // ----- processed data access -----
 
     // ----- operators -----
-    bool operator==(const QualityFactorDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _number_of_receive_beams == other._number_of_receive_beams &&
-               _number_of_parameters_per_beam == other._number_of_parameters_per_beam &&
-               _spare == other._spare && _quality_factors == other._quality_factors &&
-               _spare_byte == other._spare_byte && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const QualityFactorDatagram& other) const { return !operator==(other); }
+    bool operator==(const QualityFactorDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static QualityFactorDatagram from_stream(std::istream& is, EM3000Datagram header)

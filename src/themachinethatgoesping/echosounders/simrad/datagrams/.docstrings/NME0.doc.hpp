@@ -1,4 +1,4 @@
-//sourcehash: 22098ebc0b5c9a85bc3c658e2458788073f8bce01264c11fa0d9c5caecda9c9e
+//sourcehash: b349ab067de61bf01712a5c7359754aeafab6ec425fc4e52510dfb03a392ac85
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -75,8 +75,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NM
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_nmea_base = R"doc(< Raw NMEA sentence)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_NME0_parse_fields = R"doc()doc";
 

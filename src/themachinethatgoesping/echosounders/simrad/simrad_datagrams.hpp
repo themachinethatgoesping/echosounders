@@ -39,7 +39,6 @@ namespace datagrams {
 using t_SimradDatagramVariant =
     std::variant<SimradDatagram, NME0, XML0, MRU0, RAW3, FIL1, TAG0, SimradUnknown>;
 
-
 struct SimradDatagramVariant
 {
     t_SimradDatagramVariant _datagram_variant;

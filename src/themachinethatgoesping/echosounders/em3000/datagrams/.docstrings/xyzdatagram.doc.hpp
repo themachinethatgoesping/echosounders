@@ -1,4 +1,4 @@
-//sourcehash: 1bdca58e516621944da497cb523e236cc17c5309fe8f994466100e7915aabfde
+//sourcehash: b8722d595d96eab2f6f6834bab1a7c0bc82aa87cfc187b062ca7dcf968e9f384
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -110,8 +110,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_number_of_valid_detections = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_ping_counter = R"doc(< 0-65535 ping number (in this file))doc";
 

@@ -127,20 +127,7 @@ class XYZDatagram : public EM3000Datagram
     double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
-    bool operator==(const XYZDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number && _heading == other._heading &&
-               _sound_speed == other._sound_speed &&
-               _transmit_transducer_depth == other._transmit_transducer_depth &&
-               _number_of_beams == other._number_of_beams &&
-               _number_of_valid_detections == other._number_of_valid_detections &&
-               _sampling_frequency == other._sampling_frequency &&
-               _scanning_info == other._scanning_info && _spare_bytes == other._spare_bytes &&
-               _beams == other._beams && _spare_byte == other._spare_byte && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const XYZDatagram& other) const { return !operator==(other); }
+    bool operator==(const XYZDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static XYZDatagram from_stream(std::istream& is, EM3000Datagram header)

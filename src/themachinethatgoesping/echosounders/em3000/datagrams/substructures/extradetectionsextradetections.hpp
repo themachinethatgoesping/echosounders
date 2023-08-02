@@ -208,33 +208,7 @@ class ExtraDetectionsExtraDetections
     }
 
     // ----- operators -----
-    bool operator==(const ExtraDetectionsExtraDetections& other) const
-    {
-        return _depth == other._depth && _across == other._across && _along == other._along &&
-               _delta_latitude == other._delta_latitude &&
-               _delta_longitude == other._delta_longitude &&
-               _beam_pointing_angle == other._beam_pointing_angle &&
-               _applied_pointing_angle_correction == other._applied_pointing_angle_correction &&
-               _two_way_travel_time == other._two_way_travel_time &&
-               _applied_two_way_travel_time_corrections ==
-                   other._applied_two_way_travel_time_corrections &&
-               _backscatter == other._backscatter &&
-               _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
-               _detection_info == other._detection_info && _spare == other._spare &&
-               _tx_sector_number == other._tx_sector_number &&
-               _detection_window_length == other._detection_window_length &&
-               _quality_factor_old == other._quality_factor_old &&
-               _real_time_cleaning_info == other._real_time_cleaning_info &&
-               _range_factor == other._range_factor &&
-               _detection_class_number == other._detection_class_number &&
-               _confidence_level == other._confidence_level && _qf_10 == other._qf_10 &&
-               _water_column_beam_number == other._water_column_beam_number &&
-               _beam_angle_across == other._beam_angle_across &&
-               _detected_range == other._detected_range &&
-               _number_of_raw_amplitude_samples == other._number_of_raw_amplitude_samples;
-    }
-
-    bool operator!=(const ExtraDetectionsExtraDetections& other) const { return !(*this == other); }
+    bool operator==(const ExtraDetectionsExtraDetections& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

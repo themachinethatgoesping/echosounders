@@ -1,4 +1,4 @@
-//sourcehash: db1a87f021890c16089a6f8831b48dd3aacab7f6aed72aa65ab0622ae1421d12
+//sourcehash: 103a157733fb66138f224534017547c7f1035a2bf267958f70e314133d943c42
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -122,8 +122,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Se
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_oblique_backscatter = R"doc(< in 0.01 dB (BSO))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_SeabedImageData_ping_counter = R"doc(< sequential number)doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 2218ca47a16315c2cb97c79a45504c9adf127f9454bcf69929bd701c8a946ee4
+//sourcehash: c37d0ddbcd3ee9f7f281151e2ec6638e82cbaf1e4d91d7588f0288b14db7cb7e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -80,8 +80,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_number_of_extra_detections = R"doc(<)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsDetectionClasses_printer = R"doc()doc";
 

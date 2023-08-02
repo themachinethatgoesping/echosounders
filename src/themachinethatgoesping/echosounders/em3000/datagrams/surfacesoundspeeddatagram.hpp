@@ -126,16 +126,7 @@ class SurfaceSoundSpeedDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const SurfaceSoundSpeedDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) &&
-               _sound_speed_counter == other._sound_speed_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _number_of_entries == other._number_of_entries &&
-               _times_and_sound_speeds == other._times_and_sound_speeds && _spare == other._spare &&
-               _etx == other._etx && _checksum == other._checksum;
-    }
-    bool operator!=(const SurfaceSoundSpeedDatagram& other) const { return !operator==(other); }
+    bool operator==(const SurfaceSoundSpeedDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static SurfaceSoundSpeedDatagram from_stream(std::istream& is, EM3000Datagram header)

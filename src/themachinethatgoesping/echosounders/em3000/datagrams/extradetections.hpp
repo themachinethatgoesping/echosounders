@@ -212,28 +212,7 @@ class ExtraDetections : public EM3000Datagram
     double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
-    bool operator==(const ExtraDetections& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _datagram_counter == other._datagram_counter &&
-               _datagram_version_id == other._datagram_version_id &&
-               _swath_counter == other._swath_counter && _swath_index == other._swath_index &&
-               _heading == other._heading && _sound_speed == other._sound_speed &&
-               _depth_of_reference_point == other._depth_of_reference_point &&
-               _water_column_sample_rate == other._water_column_sample_rate &&
-               _raw_amplitude_sample_rate == other._raw_amplitude_sample_rate &&
-               _number_of_detection_classes == other._number_of_detection_classes &&
-               _number_of_bytes_per_class == other._number_of_bytes_per_class &&
-               _number_of_alarm_flags == other._number_of_alarm_flags &&
-               _number_of_bytes_per_detection == other._number_of_bytes_per_detection &&
-               _detection_classes == other._detection_classes &&
-               _extra_detections == other._extra_detections &&
-               _raw_amplitude_samples == other._raw_amplitude_samples && _spare == other._spare &&
-               _etx == other._etx && _checksum == other._checksum;
-    }
-
-    bool operator!=(const ExtraDetections& other) const { return !operator==(other); }
+    bool operator==(const ExtraDetections& other) const = default;
 
     //----- to/from stream functions -----
     static ExtraDetections from_stream(std::istream& is, EM3000Datagram header)

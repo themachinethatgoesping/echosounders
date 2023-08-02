@@ -17,7 +17,7 @@ namespace py_pingtools {
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::pingtools::substructures;
 
-#define DOC_ReadSampleRange(arg)                                                                       \
+#define DOC_ReadSampleRange(arg)                                                                   \
     DOC(themachinethatgoesping, echosounders, pingtools, substructures, ReadSampleRange, arg)
 
 void init_c_readsamplerange(pybind11::module& m)
@@ -33,7 +33,6 @@ void init_c_readsamplerange(pybind11::module& m)
              py::arg("first_sample_offset"),
              py::arg("last_sample_offset"))
 
-        
         // --- data access ---
         .def("get_first_sample_to_read",
              &ReadSampleRange::get_first_sample_to_read,
@@ -49,7 +48,10 @@ void init_c_readsamplerange(pybind11::module& m)
              DOC_ReadSampleRange(get_last_sample_offset))
 
         // ----- operators -----
-        .def("__eq__", &ReadSampleRange::operator==, DOC_ReadSampleRange(operator_eq), py::arg("other"))
+        .def("__eq__",
+             &ReadSampleRange::operator==,
+             DOC_ReadSampleRange(operator_eq),
+             py::arg("other"))
 
         // ----- pybind macros -----
         // default copy functions

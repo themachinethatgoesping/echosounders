@@ -1,4 +1,4 @@
-//sourcehash: 0e6fe59c5695b7754b1729b071f43d114a02cc23c114fd6f1272409d8e367685
+//sourcehash: 3303705525d1cfceecdddb918fb5ac66da2f70538ac58c4b4c1572d495ae7bf4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,8 +55,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_get_raw_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradUnknown_printer = R"doc()doc";
 

@@ -126,18 +126,7 @@ class SingleBeamEchoSounderDepth : public EM3000Datagram
     float get_echo_sounder_depth_in_meters() const { return _echo_sounder_depth * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const SingleBeamEchoSounderDepth& other) const
-    {
-        return EM3000Datagram::operator==(other) &&
-               _echo_sounder_counter == other._echo_sounder_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _input_date == other._input_date &&
-               _input_time_since_midnight == other._input_time_since_midnight &&
-               _echo_sounder_depth == other._echo_sounder_depth &&
-               _source_identifier == other._source_identifier && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const SingleBeamEchoSounderDepth& other) const { return !operator==(other); }
+    bool operator==(const SingleBeamEchoSounderDepth& other) const = default;
 
     //----- to/from stream functions -----
     static SingleBeamEchoSounderDepth from_stream(std::istream& is, EM3000Datagram header)

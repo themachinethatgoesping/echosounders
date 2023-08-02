@@ -74,15 +74,7 @@ class WaterColumnDatagramTransmitSector
     float get_center_frequency_in_hz() const { return _center_frequency * 10.f; }
 
     // ----- operators -----
-    bool operator==(const WaterColumnDatagramTransmitSector& other) const
-    {
-        return _tilt_angle == other._tilt_angle && _center_frequency == other._center_frequency &&
-               _transmit_sector_number == other._transmit_sector_number && _spare == other._spare;
-    }
-    bool operator!=(const WaterColumnDatagramTransmitSector& other) const
-    {
-        return !(*this == other);
-    }
+    bool operator==(const WaterColumnDatagramTransmitSector& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

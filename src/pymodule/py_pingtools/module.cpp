@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <pybind11/pybind11.h>
 #include "module.hpp"
+#include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
@@ -13,10 +13,10 @@ namespace pymodule {
 namespace py_pingtools {
 
 // -- submodule declarations --
-void init_c_readsamplerange(pybind11::module& m); // substructures/c_readsamplerange.cpp
+void init_c_readsamplerange(pybind11::module& m);     // substructures/c_readsamplerange.cpp
 void init_c_beamsampleselection(pybind11::module& m); // substructures/c_beamsampleselection.cpp
 void init_c_pingsampleselection(pybind11::module& m); // c_pingsampleselection.cpp
-void init_c_pingsampleselector(pybind11::module& m); // c_pingsampleselector.cpp
+void init_c_pingsampleselector(pybind11::module& m);  // c_pingsampleselector.cpp
 
 // -- create submodule --
 void init_m_pingtools(py::module& m)

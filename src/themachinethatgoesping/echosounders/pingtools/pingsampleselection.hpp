@@ -107,10 +107,7 @@ class PingSampleSelection
     const auto& get_sample_selections() const { return _sample_selections; }
 
     // operators
-    bool operator==(const PingSampleSelection& other) const
-    {
-        return _sample_selections == other._sample_selections;
-    }
+    bool operator==(const PingSampleSelection& other) const = default;
 
     // ----- get information -----
     /**

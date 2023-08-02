@@ -114,14 +114,7 @@ class DepthOrHeightDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const DepthOrHeightDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _height_counter == other._height_counter &&
-               _system_serial_number == other._system_serial_number && _height == other._height &&
-               _height_type == other._height_type && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const DepthOrHeightDatagram& other) const { return !operator==(other); }
+    bool operator==(const DepthOrHeightDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static DepthOrHeightDatagram from_stream(std::istream& is, EM3000Datagram header)

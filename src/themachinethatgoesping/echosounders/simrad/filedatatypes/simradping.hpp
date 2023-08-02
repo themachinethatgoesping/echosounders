@@ -78,21 +78,18 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     }
 
     // ----- I_Ping interface -----
+    using t_base::get_beam_pointing_angles;
     using t_base::get_number_of_beams;
     using t_base::get_number_of_samples_per_beam;
-    using t_base::get_beam_pointing_angles;
     using t_base::get_sv;
     using t_base::get_sv_stacked;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
     {
-        return {uint16_t(_raw_data._ping_data.get_count())};
+        return { uint16_t(_raw_data._ping_data.get_count()) };
     }
     size_t                get_number_of_beams() const final { return 1; }
-    xt::xtensor<float, 1> get_beam_pointing_angles() const final
-    {
-        return {0};
-    }
+    xt::xtensor<float, 1> get_beam_pointing_angles() const final { return { 0 }; }
 
     // void load_data() final { _raw_data.load_data(); }
     // void release_data() final { _raw_data.release_data(); }

@@ -104,14 +104,7 @@ class SeabedImageDataBeam
     }
 
     // ----- operators -----
-    bool operator==(const SeabedImageDataBeam& other) const
-    {
-        return _sorting_direction == other._sorting_direction &&
-               _detection_info == other._detection_info &&
-               _number_of_samples == other._number_of_samples &&
-               _centre_sample_number == other._centre_sample_number;
-    }
-    bool operator!=(const SeabedImageDataBeam& other) const { return !(*this == other); }
+    bool operator==(const SeabedImageDataBeam& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

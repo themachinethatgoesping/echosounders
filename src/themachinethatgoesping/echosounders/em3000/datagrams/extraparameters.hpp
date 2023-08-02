@@ -94,15 +94,7 @@ class ExtraParameters : public EM3000Datagram
     // ----- processed data access -----
 
     // ----- operators -----
-    bool operator==(const ExtraParameters& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _content_identifier == other._content_identifier &&
-               _raw_content == other._raw_content && _spare == other._spare && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const ExtraParameters& other) const { return !operator==(other); }
+    bool operator==(const ExtraParameters& other) const = default;
 
     //----- to/from stream functions -----
     static ExtraParameters from_stream(std::istream& is, EM3000Datagram header)

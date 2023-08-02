@@ -61,11 +61,7 @@ class TAG0 : public SimradDatagram
     ~TAG0() = default;
 
     // ----- operators -----
-    bool operator==(const TAG0& other) const
-    {
-        return SimradDatagram::operator==(other) && _text == other._text;
-    }
-    bool operator!=(const TAG0& other) const { return !operator==(other); }
+    bool operator==(const TAG0& other) const = default;
 
     // ----- getter setter -----
     const std::string& get_text() const { return _text; }
@@ -99,7 +95,7 @@ class TAG0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _length       = simrad_long(12 + _text.size());
+        _length        = simrad_long(12 + _text.size());
         _datagram_type = simrad_long(t_SimradDatagramIdentifier::TAG0);
         SimradDatagram::to_stream(os);
         os.write(_text.data(), _text.size());

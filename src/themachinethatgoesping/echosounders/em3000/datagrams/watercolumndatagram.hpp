@@ -72,7 +72,7 @@ class WaterColumnDatagram : public EM3000Datagram
     }
     ~WaterColumnDatagram() = default;
 
-    WaterColumnDatagram without_beams () const
+    WaterColumnDatagram without_beams() const
     {
         WaterColumnDatagram copy(*this);
         copy._beams.clear();
@@ -98,7 +98,8 @@ class WaterColumnDatagram : public EM3000Datagram
 
         for (unsigned int b = 0; b < _beams.size(); ++b)
         {
-            xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs); // here we convert to float
+            xt::xtensor<float, 1> beamsamples =
+                _beams[b].read_samples(ifs); // here we convert to float
 
             beamsamples *= 0.5f; // samples are in 0.5 dB resolution
             beamsamples -= _tvg_offset_in_db;
@@ -243,26 +244,7 @@ class WaterColumnDatagram : public EM3000Datagram
     float get_tx_time_heave_in_m() const { return _tx_time_heave * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const WaterColumnDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _number_of_datagrams == other._number_of_datagrams &&
-               _datagram_number == other._datagram_number &&
-               _number_of_transmit_sectors == other._number_of_transmit_sectors &&
-               _total_no_of_receive_beams == other._total_no_of_receive_beams &&
-               _number_of_beams_in_datagram == other._number_of_beams_in_datagram &&
-               _sound_speed == other._sound_speed &&
-               _sampling_frequency == other._sampling_frequency &&
-               _tx_time_heave == other._tx_time_heave &&
-               _tvg_function_applied == other._tvg_function_applied &&
-               _tvg_offset_in_db == other._tvg_offset_in_db &&
-               _scanning_info == other._scanning_info && _spare == other._spare &&
-               _transmit_sectors == other._transmit_sectors && _beams == other._beams &&
-               _spare_byte == other._spare_byte && _etx == other._etx &&
-               _checksum == other._checksum && true;
-    }
-    bool operator!=(const WaterColumnDatagram& other) const { return !operator==(other); }
+    bool operator==(const WaterColumnDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static WaterColumnDatagram from_stream(std::istream&  is,

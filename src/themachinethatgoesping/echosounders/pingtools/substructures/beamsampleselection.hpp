@@ -82,15 +82,7 @@ class BeamSampleSelection
     }
 
     // --- operators ---
-    bool operator==(const BeamSampleSelection& other) const
-    {
-        return _beam_numbers == other._beam_numbers &&
-               _first_sample_number_per_beam == other._first_sample_number_per_beam &&
-               _last_sample_number_per_beam == other._last_sample_number_per_beam &&
-               _sample_step_ensemble == other._sample_step_ensemble &&
-               _first_sample_number_ensemble == other._first_sample_number_ensemble &&
-               _last_sample_number_ensemble == other._last_sample_number_ensemble;
-    }
+    bool operator==(const BeamSampleSelection& other) const = default;
 
     // ----- add beams/samples -----
     /**

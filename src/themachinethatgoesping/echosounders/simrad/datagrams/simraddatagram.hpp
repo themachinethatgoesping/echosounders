@@ -149,12 +149,7 @@ class SimradDatagram
     }
 
     // ----- operators -----
-    bool operator==(const SimradDatagram& other) const
-    {
-        return _length == other._length && _datagram_type == other._datagram_type &&
-               _low_date_time == other._low_date_time && _high_date_time == other._high_date_time;
-    }
-    bool operator!=(const SimradDatagram& other) const { return !operator==(other); }
+    bool operator==(const SimradDatagram& other) const = default;
 
     static SimradDatagram from_stream(std::istream& is)
     {

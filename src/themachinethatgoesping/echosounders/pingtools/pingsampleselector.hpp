@@ -48,20 +48,7 @@ class PingSampleSelector
     PingSampleSelector() = default;
 
     // operators
-    bool operator==(const PingSampleSelector& other) const
-    {
-        return _transducer_ids == other._transducer_ids &&
-               _ignored_transducer_ids == other._ignored_transducer_ids &&
-               _min_beam_number == other._min_beam_number &&
-               _max_beam_number == other._max_beam_number &&
-               _min_sample_number == other._min_sample_number &&
-               _max_sample_number == other._max_sample_number &&
-               _min_beam_angle == other._min_beam_angle &&
-               _max_beam_angle == other._max_beam_angle &&
-               _min_sample_range == other._min_sample_range &&
-               _max_sample_range == other._max_sample_range && _beam_step == other._beam_step &&
-               _beam_step == other._beam_step && _sample_step == other._sample_step;
-    }
+    bool operator==(const PingSampleSelector& other) const = default;
 
     // get selection
     PingSampleSelection apply_selection(

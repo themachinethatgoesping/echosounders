@@ -1,4 +1,4 @@
-//sourcehash: 42a13971688a8d96304772ba5c36d4226451387c0311d60d8c7661967e5a1fb1
+//sourcehash: cf196bdfc3b2f3fc898204f7a298643e88cd9c949880bef972d6351c29ebaeb2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -89,8 +89,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleTransmitSector_mean_absorption_coefficient = R"doc(< in 0.01 dB/km)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleTransmitSector_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleTransmitSector_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleTransmitSector_printer = R"doc()doc";
 

@@ -81,20 +81,7 @@ class ExtraDetectionsDetectionClasses
     double get_qf_threshold() const { return _qf_threshold_100 * 0.01; }
 
     // ----- operators -----
-    bool operator==(const ExtraDetectionsDetectionClasses& other) const
-    {
-        return _start_depth == other._start_depth && _stop_depth == other._stop_depth &&
-               _qf_threshold_100 == other._qf_threshold_100 &&
-               _bs_threshold == other._bs_threshold && _snr_threshold == other._snr_threshold &&
-               _alarm_threshold == other._alarm_threshold &&
-               _number_of_extra_detections == other._number_of_extra_detections &&
-               _show_class == other._show_class && _alarm_flag_1 == other._alarm_flag_1;
-    }
-
-    bool operator!=(const ExtraDetectionsDetectionClasses& other) const
-    {
-        return !(*this == other);
-    }
+    bool operator==(const ExtraDetectionsDetectionClasses& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

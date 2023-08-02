@@ -120,16 +120,7 @@ class HeadingDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const HeadingDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _heading_counter == other._heading_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _number_of_entries == other._number_of_entries &&
-               _times_and_headings == other._times_and_headings &&
-               _heading_indicator == other._heading_indicator && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const HeadingDatagram& other) const { return !operator==(other); }
+    bool operator==(const HeadingDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static HeadingDatagram from_stream(std::istream& is, EM3000Datagram header)

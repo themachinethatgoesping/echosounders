@@ -1,4 +1,4 @@
-//sourcehash: 09b707c9376629cd4f23ec20c968bf13684870963305958f5f8290f00c0c8454
+//sourcehash: 085fb11bb91f87498f6ea4ac64b793bf1fc77d92f4edd028a3da42d61cfbf532
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -117,8 +117,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_two_way_travel_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_printer = R"doc()doc";
 

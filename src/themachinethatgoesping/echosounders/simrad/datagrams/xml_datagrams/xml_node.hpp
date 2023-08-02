@@ -61,12 +61,7 @@ class XML_Node
     }
 
     // ----- operators -----
-    bool operator==(const XML_Node& other) const
-    {
-        return _name == other._name && _children == other._children &&
-               _attributes == other._attributes;
-    }
-    bool operator!=(const XML_Node& other) const { return !(*this == other); }
+    bool operator==(const XML_Node& other) const = default;
 
     // ----- getter/setter -----
     const std::string name() const { return _name; }

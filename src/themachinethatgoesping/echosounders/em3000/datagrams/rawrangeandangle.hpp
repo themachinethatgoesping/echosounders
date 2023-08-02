@@ -146,19 +146,7 @@ class RawRangeAndAngle : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const RawRangeAndAngle& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _sound_speed_at_transducer == other._sound_speed_at_transducer &&
-               _number_of_transmit_sectors == other._number_of_transmit_sectors &&
-               _number_of_receiver_beams == other._number_of_receiver_beams &&
-               _number_of_valid_detections == other._number_of_valid_detections &&
-               _sampling_frequency == other._sampling_frequency && _d_scale == other._d_scale &&
-               _transmit_sectors == other._transmit_sectors && _beams == other._beams &&
-               _spare == other._spare && _etx == other._etx && _checksum == other._checksum;
-    }
-    bool operator!=(const RawRangeAndAngle& other) const { return !operator==(other); }
+    bool operator==(const RawRangeAndAngle& other) const = default;
 
     //----- to/from stream functions -----
     static RawRangeAndAngle from_stream(std::istream& is, EM3000Datagram header)

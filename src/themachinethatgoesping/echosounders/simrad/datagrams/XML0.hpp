@@ -72,17 +72,13 @@ class XML0 : public SimradDatagram
     XML0(std::string xml_content = "")
         : _xml_content(std::move(xml_content))
     {
-        _length       = simrad_long(_xml_content.size() + 12);
+        _length        = simrad_long(_xml_content.size() + 12);
         _datagram_type = simrad_long(t_SimradDatagramIdentifier::XML0);
     }
     ~XML0() = default;
 
     // ----- operators -----
-    bool operator==(const XML0& other) const
-    {
-        return SimradDatagram::operator==(other) && _xml_content == other._xml_content;
-    }
-    bool operator!=(const XML0& other) const { return !operator==(other); }
+    bool operator==(const XML0& other) const = default;
 
     // ----- getter/setter
     xml_datagrams::XML_Node raw()
@@ -242,7 +238,7 @@ class XML0 : public SimradDatagram
 
     void to_stream(std::ostream& os)
     {
-        _length       = simrad_long(12 + _xml_content.size());
+        _length        = simrad_long(12 + _xml_content.size());
         _datagram_type = simrad_long(t_SimradDatagramIdentifier::XML0);
         SimradDatagram::to_stream(os);
         os.write(_xml_content.data(), _xml_content.size());

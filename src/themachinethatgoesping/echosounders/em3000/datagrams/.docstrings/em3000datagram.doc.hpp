@@ -1,4 +1,4 @@
-//sourcehash: 05d33093ed5b637294bc20d3ffece0a79821baa52399a7da99adb8cb7b479e07
+//sourcehash: 17411f188a5cd3f1921fe7b6bc263133921d0fae1997889edd48a9ecaa6398ff
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -88,8 +88,6 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_model_number = R"doc(< EM3000 model number (example: EM 3002 = 3002))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_printer = R"doc()doc";
 

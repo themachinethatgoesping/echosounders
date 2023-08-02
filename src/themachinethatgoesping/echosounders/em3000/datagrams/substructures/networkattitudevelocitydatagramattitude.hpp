@@ -109,17 +109,7 @@ class NetworkAttitudeVelocityDatagramAttitude
     float get_heading_in_degrees() const { return _heading * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const NetworkAttitudeVelocityDatagramAttitude& other) const
-    {
-        return _time == other._time && _roll == other._roll && _pitch == other._pitch &&
-               _heave == other._heave && _heading == other._heading &&
-               _number_of_bytes_in_input_datagram == other._number_of_bytes_in_input_datagram &&
-               _input_datagram == other._input_datagram;
-    }
-    bool operator!=(const NetworkAttitudeVelocityDatagramAttitude& other) const
-    {
-        return !(*this == other);
-    }
+    bool operator==(const NetworkAttitudeVelocityDatagramAttitude& other) const = default;
 
     //----- to/from stream functions -----
     static NetworkAttitudeVelocityDatagramAttitude from_stream(std::istream& is)

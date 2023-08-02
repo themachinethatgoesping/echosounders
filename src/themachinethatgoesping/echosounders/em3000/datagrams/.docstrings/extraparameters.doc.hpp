@@ -1,4 +1,4 @@
-//sourcehash: ff74b65ee35438c1633e62019068c5ce6d103981d0009aff8627042763307fb2
+//sourcehash: 78de6d30db4732e2ed831c84ffec48345b6cadbee39ca7af578d375269690ba1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -73,8 +73,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ex
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraParameters_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraParameters_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraParameters_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ExtraParameters_ping_counter = R"doc()doc";
 

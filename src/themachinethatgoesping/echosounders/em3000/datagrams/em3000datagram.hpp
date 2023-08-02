@@ -148,14 +148,7 @@ class EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const EM3000Datagram& other) const
-    {
-        return _bytes == other._bytes && _stx == other._stx &&
-               _datagram_identifier == other._datagram_identifier &&
-               _model_number == other._model_number && _date == other._date &&
-               _time_since_midnight == other._time_since_midnight;
-    }
-    bool operator!=(const EM3000Datagram& other) const { return !operator==(other); }
+    bool operator==(const EM3000Datagram& other) const = default;
 
     static EM3000Datagram from_stream(std::istream& is)
     {

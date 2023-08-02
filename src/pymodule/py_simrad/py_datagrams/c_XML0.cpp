@@ -35,9 +35,7 @@ void init_c_XML0(pybind11::module& m)
              &XML0::set_xml_content,
              DOC_XML0(set_xml_content),
              py::arg("xml_content"))
-        .def("get_xml_content",
-             &XML0::get_xml_content,
-             DOC_XML0(get_xml_content))
+        .def("get_xml_content", &XML0::get_xml_content, DOC_XML0(get_xml_content))
         .def("get_xml_datagram_type",
              &XML0::get_xml_datagram_type,
              DOC(themachinethatgoesping,
@@ -47,13 +45,9 @@ void init_c_XML0(pybind11::module& m)
                  XML0,
                  get_xml_datagram_type))
 
-        .def("raw",
-             &XML0::raw,
-             DOC_XML0(raw))
+        .def("raw", &XML0::raw, DOC_XML0(raw))
 
-        .def("decode",
-             &XML0::decode,
-             DOC_XML0(decode))
+        .def("decode", &XML0::decode, DOC_XML0(decode))
         // --- convenient data access ---
         .def("get_xml_datagram_type",
              &XML0::get_xml_datagram_type,
@@ -71,20 +65,11 @@ void init_c_XML0(pybind11::module& m)
              DOC_XML0(test_xml))
 
         // --- raw data access ---
-        .def(
-            "get_raw_xml_content",
-            &XML0::get_xml_content,
-            DOC_XML0(get_xml_content))
-        .def(
-            "set_raw_xml_content",
-            &XML0::set_xml_content,
-            DOC_XML0(set_xml_content))
+        .def("get_raw_xml_content", &XML0::get_xml_content, DOC_XML0(get_xml_content))
+        .def("set_raw_xml_content", &XML0::set_xml_content, DOC_XML0(set_xml_content))
 
         // ----- operators -----
-        .def("__eq__",
-             &XML0::operator==,
-             DOC_XML0(operator_eq),
-             py::arg("other"))
+        .def("__eq__", &XML0::operator==, DOC_XML0(operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML0)

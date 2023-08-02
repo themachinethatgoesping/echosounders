@@ -9,9 +9,9 @@
 
 // larger submodules
 #include "py_em3000/module.hpp"
+#include "py_filetemplates/module.hpp"
 #include "py_pingtools/module.hpp"
 #include "py_simrad/module.hpp"
-#include "py_filetemplates/module.hpp"
 
 // declare modules
 // void init_m_navtools(pybind11::module& m);                     // m_navtools.cpp

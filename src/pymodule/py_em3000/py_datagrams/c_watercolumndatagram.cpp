@@ -37,9 +37,7 @@ void init_c_watercolumndatagram(pybind11::module& m)
         DOC(themachinethatgoesping, echosounders, em3000, datagrams, WaterColumnDatagram))
         .def(py::init<>(), DOC_WaterColumnDatagram(WaterColumnDatagram))
         // --- processed data access ---
-        .def("get_samples",
-             &WaterColumnDatagram::get_samples,
-             DOC_WaterColumnDatagram(get_samples))
+        .def("get_samples", &WaterColumnDatagram::get_samples, DOC_WaterColumnDatagram(get_samples))
 
         // --- convenient data access ---
         .def("set_ping_counter",

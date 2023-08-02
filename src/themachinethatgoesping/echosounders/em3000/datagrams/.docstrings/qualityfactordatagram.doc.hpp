@@ -1,4 +1,4 @@
-//sourcehash: c86dc432b70e10b723baf97adabf1394cc3264b16c429b2693d086e683521c76
+//sourcehash: 1e88cd301d160dbdfeed5f7bb0afc44160aa8d3aa80771ebf89f69485df7c2d8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -87,8 +87,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Qu
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_number_of_receive_beams = R"doc(< Nrx)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_QualityFactorDatagram_ping_counter = R"doc(< 0-65535 ping number (in this file))doc";
 

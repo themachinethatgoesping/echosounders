@@ -1,4 +1,4 @@
-//sourcehash: 8ee8080a43fb0a5f9ce20410226e0c38f4366c08ea60983b0334de3a45163ea8
+//sourcehash: 7d9cc8f4608b2f5d08c30ce09420b9f7b3d2292698a600aca4f99326c6533c9f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -91,8 +91,6 @@ Returns:
     timestamp_external - timestamp)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ClockDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ClockDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_ClockDatagram_pps_active =
 R"doc(< 0 = inactive (Shows if the system clock is synchronized to an

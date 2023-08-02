@@ -1,4 +1,4 @@
-//sourcehash: ffe5a24cc60f911566e0c226bed0b8057fdbcc7e750ade24794e3bd5680d8423
+//sourcehash: 07353fde5a2c2921b1298afec81b18c15b1e877134459a138fdeee454ee57b6a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -96,8 +96,6 @@ complex))doc";
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_offset = R"doc(< First sample number in the datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_printer = R"doc()doc";
 

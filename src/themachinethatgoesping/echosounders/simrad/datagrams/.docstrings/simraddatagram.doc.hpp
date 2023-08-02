@@ -1,4 +1,4 @@
-//sourcehash: b59f8955305fc0950d73bf9443f3e22915bbfe1edf2c9c0415fce2f08af13eca
+//sourcehash: 6006a465f00f47d9fbf7e09b4b9510dde05adf74151d10e8497bbb3512752b1e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -77,8 +77,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_Si
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_low_date_time = R"doc(< Raw: Low part of Windows NT FILETIME (100ns ticks since 1601-01-01))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_SimradDatagram_printer = R"doc()doc";
 

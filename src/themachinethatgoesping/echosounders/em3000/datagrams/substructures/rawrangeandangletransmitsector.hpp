@@ -108,18 +108,7 @@ class RawRangeAndAngleTransmitSector
     }
 
     // ----- operators -----
-    bool operator==(const RawRangeAndAngleTransmitSector& other) const
-    {
-        return _tilt_angle == other._tilt_angle && _focus_range == other._focus_range &&
-               _signal_length == other._signal_length &&
-               _sector_transmit_delay == other._sector_transmit_delay &&
-               _centre_frequency == other._centre_frequency &&
-               _mean_absorption_coefficient == other._mean_absorption_coefficient &&
-               _signal_waveform_identifier == other._signal_waveform_identifier &&
-               _transmit_sector_number == other._transmit_sector_number &&
-               _signal_bandwidth == other._signal_bandwidth;
-    }
-    bool operator!=(const RawRangeAndAngleTransmitSector& other) const { return !(*this == other); }
+    bool operator==(const RawRangeAndAngleTransmitSector& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

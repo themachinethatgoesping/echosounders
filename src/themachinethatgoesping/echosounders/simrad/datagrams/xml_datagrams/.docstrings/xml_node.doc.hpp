@@ -1,4 +1,4 @@
-//sourcehash: 999cb22c81f78b0976f46ca76f540d68df8b728e3df5110304d144162e456c2b
+//sourcehash: 8715e177832c9b3ad5cf0c0faccdc6ee4d6c21da713dc6e2850e1b56760b5960
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,8 +71,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_name_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Node_printer = R"doc()doc";
 

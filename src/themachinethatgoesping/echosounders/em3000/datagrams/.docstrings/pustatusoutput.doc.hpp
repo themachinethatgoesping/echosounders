@@ -1,4 +1,4 @@
-//sourcehash: 81abcbeb02fd300f8ec28d034bce5df6d80572d39ddab13fd6247136eb3616ef
+//sourcehash: 05a3b5d23a7571b883b3a2032d042c10a7d91857513a995a87d2a486b9c12404
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -255,8 +255,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PU
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_mammal_protection_ramp = R"doc(<)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PUStatusOutput_ping_counter = R"doc(< of latest ping)doc";
 

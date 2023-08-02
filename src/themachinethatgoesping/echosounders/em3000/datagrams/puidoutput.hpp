@@ -382,25 +382,7 @@ class PUIDOutput : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const PUIDOutput& other) const
-    {
-        return EM3000Datagram::operator==(other) && _byte_order_flag == other._byte_order_flag &&
-               _system_serial_number == other._system_serial_number &&
-               _udp_port_no_1 == other._udp_port_no_1 && _udp_port_no_2 == other._udp_port_no_2 &&
-               _udp_port_no_3 == other._udp_port_no_3 && _udp_port_no_4 == other._udp_port_no_4 &&
-               _system_descriptor == other._system_descriptor &&
-               _pu_software_version == other._pu_software_version &&
-               _bsp_software_date == other._bsp_software_date &&
-               _sonar_transceiver_1_software_version ==
-                   other._sonar_transceiver_1_software_version &&
-               _sonar_transceiver_2_software_version ==
-                   other._sonar_transceiver_2_software_version &&
-               _host_ip_address == other._host_ip_address &&
-               _tx_opening_angle == other._tx_opening_angle &&
-               _rx_opening_angle == other._rx_opening_angle && _spare == other._spare &&
-               _etx == other._etx && _checksum == other._checksum;
-    }
-    bool operator!=(const PUIDOutput& other) const { return !operator==(other); }
+    bool operator==(const PUIDOutput& other) const = default;
 
     //----- to/from stream functions -----
     static PUIDOutput from_stream(std::istream& is, EM3000Datagram header)

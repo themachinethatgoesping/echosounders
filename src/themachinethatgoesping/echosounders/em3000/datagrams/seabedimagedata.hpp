@@ -173,22 +173,7 @@ class SeabedImageData : public EM3000Datagram
     float get_tvg_law_crossover_angle_in_degrees() const { return _tvg_law_crossover_angle * 0.1f; }
 
     // ----- operators -----
-    bool operator==(const SeabedImageData& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _sampling_frequency == other._sampling_frequency &&
-               _range_to_normal_incidence == other._range_to_normal_incidence &&
-               _normal_incidence_backscatter == other._normal_incidence_backscatter &&
-               _oblique_backscatter == other._oblique_backscatter &&
-               _tx_beamwidth_along == other._tx_beamwidth_along &&
-               _tvg_law_crossover_angle == other._tvg_law_crossover_angle &&
-               _number_of_valid_beams == other._number_of_valid_beams &&
-               _spare_byte == other._spare_byte && _etx == other._etx &&
-               _checksum == other._checksum && _beams == other._beams &&
-               _sample_amplitudes == other._sample_amplitudes;
-    }
-    bool operator!=(const SeabedImageData& other) const { return !operator==(other); }
+    bool operator==(const SeabedImageData& other) const = default;
 
     //----- to/from stream functions -----
     static SeabedImageData from_stream(std::istream& is, EM3000Datagram header)

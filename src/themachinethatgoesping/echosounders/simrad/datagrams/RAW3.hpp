@@ -85,18 +85,7 @@ class RAW3 : public SimradDatagram
     ~RAW3() = default;
 
     // ----- operators -----
-    bool operator==(const RAW3& other) const
-    {
-        using namespace tools::helper; // approx and approx_container
-
-        return SimradDatagram::operator==(other) && _channel_id == other._channel_id &&
-               _data_type == other._data_type &&
-               _number_of_complex_samples == other._number_of_complex_samples &&
-               _spare_1 == other._spare_1 && _spare_2 == other._spare_2 &&
-               _offset == other._offset && _count == other._count &&
-               _sample_data == other._sample_data;
-    }
-    bool operator!=(const RAW3& other) const { return !operator==(other); }
+    bool operator==(const RAW3& other) const = default;
 
     // ----- getter setter -----
     std::string_view get_channel_id() const { return std::string_view(_channel_id.data(), 128); }

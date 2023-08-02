@@ -1,4 +1,4 @@
-//sourcehash: 00bb33be9d39b470f0d972c2dae48bbc2a0233cfe82c35e4777e7064d2d5c47c
+//sourcehash: 732f95df0b520c8dafde3f0e3e88170baf4695fe66d32ce9084c5f1c8a004de1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -179,8 +179,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ru
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_mode2_or_receiver_fixed_gain_setting = R"doc(< in dB)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RuntimeParameters_operator_station_status = R"doc()doc";
 

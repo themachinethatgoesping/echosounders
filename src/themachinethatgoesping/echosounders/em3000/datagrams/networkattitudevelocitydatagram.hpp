@@ -249,19 +249,7 @@ class NetworkAttitudeVelocityDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const NetworkAttitudeVelocityDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) &&
-               _network_attitude_counter == other._network_attitude_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _number_of_entries == other._number_of_entries &&
-               _sensor_system_descriptor == other._sensor_system_descriptor && _etx == other._etx &&
-               _checksum == other._checksum && _attitudes == other._attitudes;
-    }
-    bool operator!=(const NetworkAttitudeVelocityDatagram& other) const
-    {
-        return !operator==(other);
-    }
+    bool operator==(const NetworkAttitudeVelocityDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static NetworkAttitudeVelocityDatagram from_stream(std::istream& is, EM3000Datagram header)

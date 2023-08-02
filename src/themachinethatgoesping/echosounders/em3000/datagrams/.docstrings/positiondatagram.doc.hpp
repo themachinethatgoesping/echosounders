@@ -1,4 +1,4 @@
-//sourcehash: 7415090640be607003062c8dfb0c9169699f50b9ccda35254b5616a9d205f216
+//sourcehash: 2f00328c545f38f98ad1a2d4fb9ee75e28f91da5e0d3faa43b8650638ee7b138
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -155,8 +155,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Po
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_longitude = R"doc(< longitude in 0.0000001° negative if western hemishpere)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_PositionDatagram_position_counter = R"doc()doc";
 

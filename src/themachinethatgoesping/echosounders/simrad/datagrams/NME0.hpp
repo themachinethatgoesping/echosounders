@@ -50,11 +50,7 @@ class NME0 : public SimradDatagram
     ~NME0() = default;
 
     // ----- operators -----
-    bool operator==(const NME0& other) const
-    {
-        return SimradDatagram::operator==(other) && _nmea_base == other._nmea_base;
-    }
-    bool operator!=(const NME0& other) const { return !operator==(other); }
+    bool operator==(const NME0& other) const = default;
 
     // ----- getter setter -----
     const navigation::nmea_0183::NMEA_Base& get_nmea_base() const { return _nmea_base; }

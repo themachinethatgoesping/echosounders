@@ -382,47 +382,7 @@ class PUStatusOutput : public EM3000Datagram
     float get_downward_velocity_in_meters_per_second() const { return _downward_velocity * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const PUStatusOutput& other) const
-    {
-        return EM3000Datagram::operator==(other) &&
-               _status_datagram_counter == other._status_datagram_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _ping_rate == other._ping_rate && _ping_counter == other._ping_counter &&
-               _distance_between_swath == other._distance_between_swath &&
-               _sensor_input_status_udp_port_2 == other._sensor_input_status_udp_port_2 &&
-               _sensor_input_status_serial_port_1 == other._sensor_input_status_serial_port_1 &&
-               _sensor_input_status_serial_port_2 == other._sensor_input_status_serial_port_2 &&
-               _sensor_input_status_serial_port_3 == other._sensor_input_status_serial_port_3 &&
-               _sensor_input_status_serial_port_4 == other._sensor_input_status_serial_port_4 &&
-               _pps_status == other._pps_status && _position_status == other._position_status &&
-               _attitude_status == other._attitude_status && _clock_status == other._clock_status &&
-               _heading_status == other._heading_status && _pu_status == other._pu_status &&
-               _last_received_heading == other._last_received_heading &&
-               _last_received_roll == other._last_received_roll &&
-               _last_received_pitch == other._last_received_pitch &&
-               _sound_speed_at_transducer == other._sound_speed_at_transducer &&
-               _last_received_depth == other._last_received_depth &&
-               _along_ship_velocity == other._along_ship_velocity &&
-               _attitude_velocity_sensor_status == other._attitude_velocity_sensor_status &&
-               _mammal_protection_ramp == other._mammal_protection_ramp &&
-               _backscatter_at_oblique_angle == other._backscatter_at_oblique_angle &&
-               _backscatter_at_normal_incidence == other._backscatter_at_normal_incidence &&
-               _fixed_gain == other._fixed_gain &&
-               _depth_to_normal_incidence == other._depth_to_normal_incidence &&
-               _range_to_normal_incidence == other._range_to_normal_incidence &&
-               _port_coverage == other._port_coverage &&
-               _starboard_coverage == other._starboard_coverage &&
-               _sound_speed_at_transducer_from_profile ==
-                   other._sound_speed_at_transducer_from_profile &&
-               _yaw_stabilization_angle == other._yaw_stabilization_angle &&
-               _across_ship_velocity == other._across_ship_velocity &&
-               _downward_velocity == other._downward_velocity &&
-               _em2040_cpu_temperature == other._em2040_cpu_temperature && _etx == other._etx &&
-               _checksum == other._checksum
-
-            ;
-    }
-    bool operator!=(const PUStatusOutput& other) const { return !operator==(other); }
+    bool operator==(const PUStatusOutput& other) const = default;
 
     //----- to/from stream functions -----
     static PUStatusOutput from_stream(std::istream& is, EM3000Datagram header)

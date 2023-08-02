@@ -187,19 +187,7 @@ class PositionDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const PositionDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _position_counter == other._position_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _latitude == other._latitude && _longitude == other._longitude &&
-               _position_fix_quality == other._position_fix_quality && _speed == other._speed &&
-               _course == other._course && _heading == other._heading &&
-               _position_system_descriptor == other._position_system_descriptor &&
-               _size_of_input_datagram == other._size_of_input_datagram &&
-               _input_datagram == other._input_datagram && _spare == other._spare &&
-               _etx == other._etx && _checksum == other._checksum;
-    }
-    bool operator!=(const PositionDatagram& other) const { return !operator==(other); }
+    bool operator==(const PositionDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static PositionDatagram from_stream(std::istream& is, EM3000Datagram header)

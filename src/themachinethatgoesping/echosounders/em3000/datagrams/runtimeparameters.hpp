@@ -271,37 +271,7 @@ class RuntimeParameters : public EM3000Datagram
     float get_transmit_along_tilt_in_degrees() const { return _transmit_along_tilt * 0.1f; }
 
     // ----- operators -----
-    bool operator==(const RuntimeParameters& other) const
-    {
-        return EM3000Datagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _operator_station_status == other._operator_station_status &&
-               _processing_unit_status == other._processing_unit_status &&
-               _bsp_status == other._bsp_status &&
-               _sonar_head_or_transceiver_status == other._sonar_head_or_transceiver_status &&
-               _mode == other._mode && _filter_identifier == other._filter_identifier &&
-               _minimum_depth == other._minimum_depth && _maximum_depth == other._maximum_depth &&
-               _absorption_coefficient == other._absorption_coefficient &&
-               _transmit_pulse_length == other._transmit_pulse_length &&
-               _transmit_beamwidth == other._transmit_beamwidth &&
-               _transmit_power_relative_maximum == other._transmit_power_relative_maximum &&
-               _receive_beamwidth_degree == other._receive_beamwidth_degree &&
-               _receive_bandwidth_50hz == other._receive_bandwidth_50hz &&
-               _mode2_or_receiver_fixed_gain_setting ==
-                   other._mode2_or_receiver_fixed_gain_setting &&
-               _tvg_law_crossover_angle == other._tvg_law_crossover_angle &&
-               _source_of_sound_speed_at_transducer == other._source_of_sound_speed_at_transducer &&
-               _maximum_port_swath_width == other._maximum_port_swath_width &&
-               _beam_spacing == other._beam_spacing &&
-               _maximum_port_coverage == other._maximum_port_coverage &&
-               _yaw_and_pitch_stabilization_mode == other._yaw_and_pitch_stabilization_mode &&
-               _maximum_starboard_coverage == other._maximum_starboard_coverage &&
-               _maximum_starboard_swath_width == other._maximum_starboard_swath_width &&
-               _transmit_along_tilt == other._transmit_along_tilt &&
-               _filter_identifier2 == other._filter_identifier2 && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const RuntimeParameters& other) const { return !operator==(other); }
+    bool operator==(const RuntimeParameters& other) const = default;
 
     //----- to/from stream functions -----
     static RuntimeParameters from_stream(std::istream& is, EM3000Datagram header)

@@ -145,18 +145,7 @@ class RawRangeAndAngleBeam
     }
 
     // ----- operators -----
-    bool operator==(const RawRangeAndAngleBeam& other) const
-    {
-        return _beam_pointing_angle == other._beam_pointing_angle &&
-               _transmit_sector_number == other._transmit_sector_number &&
-               _detection_info == other._detection_info &&
-               _detection_window_length_in_samples == other._detection_window_length_in_samples &&
-               _quality_factor == other._quality_factor && _d_corr == other._d_corr &&
-               _two_way_travel_time == other._two_way_travel_time &&
-               _reflectivity == other._reflectivity &&
-               _realtime_cleaning_info == other._realtime_cleaning_info && _spare == other._spare;
-    }
-    bool operator!=(const RawRangeAndAngleBeam& other) const { return !(*this == other); }
+    bool operator==(const RawRangeAndAngleBeam& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

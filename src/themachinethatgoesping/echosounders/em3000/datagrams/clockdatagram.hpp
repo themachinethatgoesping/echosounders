@@ -112,16 +112,7 @@ class ClockDatagram : public EM3000Datagram
     }
 
     // ----- operators -----
-    bool operator==(const ClockDatagram& other) const
-    {
-        return EM3000Datagram::operator==(other) && _clock_counter == other._clock_counter &&
-               _system_serial_number == other._system_serial_number &&
-               _date_external == other._date_external &&
-               _time_since_midnight_external == other._time_since_midnight_external &&
-               _pps_active == other._pps_active && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
-    bool operator!=(const ClockDatagram& other) const { return !operator==(other); }
+    bool operator==(const ClockDatagram& other) const = default;
 
     //----- to/from stream functions -----
     static ClockDatagram from_stream(std::istream& is, EM3000Datagram header)

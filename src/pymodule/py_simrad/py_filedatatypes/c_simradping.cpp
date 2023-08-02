@@ -40,25 +40,23 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
 {
     using t_SimradPing = filedatatypes::SimradPing<T_FileStream>;
 
-    auto cls =
-        py::class_<t_SimradPing, datatypes::I_Ping, std::shared_ptr<t_SimradPing>>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
+    auto cls = py::class_<t_SimradPing, datatypes::I_Ping, std::shared_ptr<t_SimradPing>>(
+                   m,
+                   CLASS_NAME.c_str(),
+                   DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
 
+                   // --- ping interface extension ---
+                   .def("set_geolocation",
+                        py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
+                            &t_SimradPing::set_geolocation),
+                        DOC_SimradPing(set_geolocation),
+                        py::arg("geolocation_latlon"))
 
-            // --- ping interface extension ---
-            .def("set_geolocation",
-                 py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
-                     &t_SimradPing::set_geolocation),
-                 DOC_SimradPing(set_geolocation),
-                 py::arg("geolocation_latlon"))
-
-            // --- raw_data data access ---
-            .def("raw_data",
-                 &t_SimradPing::raw_data,
-                 DOC_SimradPing(raw_data),
-                 py::return_value_policy::reference_internal)
+                   // --- raw_data data access ---
+                   .def("raw_data",
+                        &t_SimradPing::raw_data,
+                        DOC_SimradPing(raw_data),
+                        py::return_value_policy::reference_internal)
 
         // --- variable access ---
 

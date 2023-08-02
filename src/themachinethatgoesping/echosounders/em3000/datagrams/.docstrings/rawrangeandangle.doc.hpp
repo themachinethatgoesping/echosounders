@@ -1,4 +1,4 @@
-//sourcehash: bcd5db8ab84ce47fdfc0f145aa99bae1bbcd684919456c0d6327a82748c58bdb
+//sourcehash: 81a07454785a369041b9f30ef8fdccf8ab5da4f5ac2bd09a69b3898c9270969e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -104,8 +104,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ra
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_number_of_valid_detections = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_ping_counter = R"doc(< sequential number)doc";
 

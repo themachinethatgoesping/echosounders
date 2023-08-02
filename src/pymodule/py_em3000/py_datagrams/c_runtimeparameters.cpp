@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <pybind11/iostream.h>
-#include <pybind11/stl.h>
 #include <pybind11/pytypes.h>
+#include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>

@@ -22,8 +22,8 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
 #include <xtensor/xmath.hpp>
+#include <xtensor/xview.hpp>
 
 // boost includes
 #include <boost/sort/sort.hpp> // for sort
@@ -103,9 +103,10 @@ class PingContainer
     size_t max_number_of_samples() const
     {
         size_t max_samples = 0;
-        for (size_t i : _pyindexer){
+        for (size_t i : _pyindexer)
+        {
             size_t local_max = xt::amax(_pings[i]->get_number_of_samples_per_beam())();
-            max_samples = std::max(max_samples, local_max);
+            max_samples      = std::max(max_samples, local_max);
         }
 
         return max_samples;
@@ -199,11 +200,12 @@ class PingContainer
     }
 
     /**
-     * @brief  Split the data if the time difference between two subsequent datagrams is larger than arg
-     * Note: for this function to make sense the data should be sorted_in_time
-     * 
-     * @param max_time_diff_seconds: maximum time difference between two subsequent datagrams in seconds
-     * @return std::vector<PingContainer<type_Ping>> 
+     * @brief  Split the data if the time difference between two subsequent datagrams is larger than
+     * arg Note: for this function to make sense the data should be sorted_in_time
+     *
+     * @param max_time_diff_seconds: maximum time difference between two subsequent datagrams in
+     * seconds
+     * @return std::vector<PingContainer<type_Ping>>
      */
     std::vector<PingContainer<type_Ping>> break_by_time_diff(double max_time_diff_seconds) const
     {
@@ -249,7 +251,7 @@ class PingContainer
 
     size_t size() const { return _pyindexer.size(); }
 
-    std::shared_ptr <type_Ping> at(long index) const { return _pings[_pyindexer(index)]; }
+    std::shared_ptr<type_Ping> at(long index) const { return _pings[_pyindexer(index)]; }
 
     // ----- common info functions -----
 

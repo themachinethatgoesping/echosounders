@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <pybind11/pybind11.h>
 #include "module.hpp"
+#include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
@@ -21,7 +21,8 @@ void init_trampoline_i_ping(pybind11::module& m); // py_datatypes/i_ping.cpp
 void init_m_filetemplates(py::module& m)
 {
     // module description
-    auto subm = m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
+    auto subm =
+        m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
 
     // pingtool classes classes
     py_datatypes::init_trampoline_i_ping(subm);

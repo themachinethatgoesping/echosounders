@@ -1,4 +1,4 @@
-//sourcehash: c360132c382fbdaeaebbaed23226e508f614b157c05db1eddb78439ae5e41125
+//sourcehash: 4e158cc1b33ac634eb7b16f17aa03b62dc11d409de9e7e32e9bb385792e270fd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,8 +61,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_get_text = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_TAG0_printer = R"doc()doc";
 

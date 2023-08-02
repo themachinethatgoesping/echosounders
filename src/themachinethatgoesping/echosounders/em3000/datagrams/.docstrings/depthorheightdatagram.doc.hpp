@@ -1,4 +1,4 @@
-//sourcehash: a263c0699f6efd3170a5e0d66774a42ccc991652b5d709a0edc8dc0b272c3512
+//sourcehash: 6099eb6d7dd838d2a57fad505ff8efb05fd0c0f395cac1192fe5a1af891ddbe7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -89,8 +89,6 @@ R"doc(< 0: derived from GGK or GGA, 1-99 ???, 100 depth is taken from the <
 DepthOrheight datagram, 200: Input from depth sensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_DepthOrHeightDatagram_printer = R"doc()doc";
 

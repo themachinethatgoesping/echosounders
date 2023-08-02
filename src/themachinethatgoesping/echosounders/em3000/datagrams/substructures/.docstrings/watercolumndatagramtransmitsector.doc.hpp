@@ -1,4 +1,4 @@
-//sourcehash: 6b139f7d8bb5d25acc527151b2c545d4c7a25d1fddaa1c4cdb3501c4132d3db9
+//sourcehash: 8ef3eca26bf8a29d4c0ee2c1192fa1b645a4b342cd704c85c4742194cc145574
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,8 +65,6 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_transmit_sector_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_printer = R"doc()doc";
 

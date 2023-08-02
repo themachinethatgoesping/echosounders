@@ -1,4 +1,4 @@
-//sourcehash: 894e386711bd2f55b4a0e1b37e35b5ed8e50e16f08246d8ced8b985f89b2081b
+//sourcehash: 131aa42d0f07d624695dfe23a2e6dfdd7077c11454079e22d3337aab8629b84b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -91,8 +91,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_number_of_samples = R"doc(< per beam)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_SeabedImageDataBeam_printer = R"doc()doc";
 

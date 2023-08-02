@@ -238,7 +238,6 @@ class I_InputFile
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
                                                 t_ifstream>>
             datagram_infos; ///< all datagrams
-
     };
 
     // This function must be called at initialization!

@@ -35,19 +35,37 @@ void init_c_SimradDatagram(pybind11::module& m)
         // --- convenient data access ---
         .def("get_length", &SimradDatagram::get_length, DOC_SimradDatagram(length))
         .def("set_length", &SimradDatagram::set_length, DOC_SimradDatagram(length))
-        .def("get_datagram_type", &SimradDatagram::get_datagram_type, DOC_SimradDatagram(datagram_type))
-        .def("set_datagram_type", &SimradDatagram::set_datagram_type, DOC_SimradDatagram(datagram_type))
-        .def("get_low_date_time", &SimradDatagram::get_low_date_time, DOC_SimradDatagram(low_date_time))
-        .def("set_low_date_time", &SimradDatagram::set_low_date_time, DOC_SimradDatagram(low_date_time))
-        .def("get_high_date_time", &SimradDatagram::get_high_date_time, DOC_SimradDatagram(high_date_time))
-        .def("set_high_date_time", &SimradDatagram::set_high_date_time, DOC_SimradDatagram(high_date_time))
+        .def("get_datagram_type",
+             &SimradDatagram::get_datagram_type,
+             DOC_SimradDatagram(datagram_type))
+        .def("set_datagram_type",
+             &SimradDatagram::set_datagram_type,
+             DOC_SimradDatagram(datagram_type))
+        .def("get_low_date_time",
+             &SimradDatagram::get_low_date_time,
+             DOC_SimradDatagram(low_date_time))
+        .def("set_low_date_time",
+             &SimradDatagram::set_low_date_time,
+             DOC_SimradDatagram(low_date_time))
+        .def("get_high_date_time",
+             &SimradDatagram::get_high_date_time,
+             DOC_SimradDatagram(high_date_time))
+        .def("set_high_date_time",
+             &SimradDatagram::set_high_date_time,
+             DOC_SimradDatagram(high_date_time))
 
         // --- processed data access
         .def("get_timestamp", &SimradDatagram::get_timestamp, DOC_SimradDatagram(get_timestamp))
         .def("set_timestamp", &SimradDatagram::set_timestamp, DOC_SimradDatagram(set_timestamp))
-        .def("get_datagram_identifier", &SimradDatagram::get_datagram_identifier, DOC_SimradDatagram(get_datagram_identifier))
-        .def("set_datagram_identifier", &SimradDatagram::set_datagram_identifier, DOC_SimradDatagram(set_datagram_identifier))
-        .def("get_date_string", &SimradDatagram::get_date_string, DOC_SimradDatagram(get_date_string))
+        .def("get_datagram_identifier",
+             &SimradDatagram::get_datagram_identifier,
+             DOC_SimradDatagram(get_datagram_identifier))
+        .def("set_datagram_identifier",
+             &SimradDatagram::set_datagram_identifier,
+             DOC_SimradDatagram(set_datagram_identifier))
+        .def("get_date_string",
+             &SimradDatagram::get_date_string,
+             DOC_SimradDatagram(get_date_string))
 
         // ----- operators -----
         .def("__eq__",

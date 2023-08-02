@@ -1,4 +1,4 @@
-//sourcehash: 2d37f27984e86a25748b05eb11a5acb1184e99f7a91423aaceb8ecf22ca665cc
+//sourcehash: 36b896945924555c20c2d52ece62f7780a6f1d115bf25598ddca80ca4b7f2444
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,8 +63,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_ChannelConfiguration_get_transducer_offsets_struct = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_ChannelConfiguration_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_ChannelConfiguration_operator_ne = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_ChannelConfiguration_printer = R"doc()doc";
 

@@ -100,13 +100,7 @@ class AttitudeDatagramAttitude
     float get_heading_in_degrees() const { return _heading * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const AttitudeDatagramAttitude& other) const
-    {
-        return _time == other._time && _sensor_status == other._sensor_status &&
-               _roll == other._roll && _pitch == other._pitch && _heave == other._heave &&
-               _heading == other._heading;
-    }
-    bool operator!=(const AttitudeDatagramAttitude& other) const { return !(*this == other); }
+    bool operator==(const AttitudeDatagramAttitude& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

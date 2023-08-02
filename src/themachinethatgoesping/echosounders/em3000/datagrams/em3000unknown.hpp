@@ -78,12 +78,7 @@ class EM3000Unknown : public EM3000Datagram
     // bool verify_checksum() const { return _checksum == compute_checksum(); }
 
     // ----- operators -----
-    bool operator==(const EM3000Unknown& other) const
-    {
-        return EM3000Datagram::operator==(other) && _raw_content == other._raw_content &&
-               _etx == other._etx && _checksum == other._checksum;
-    }
-    bool operator!=(const EM3000Unknown& other) const { return !operator==(other); }
+    bool operator==(const EM3000Unknown& other) const = default;
 
     static EM3000Unknown from_stream(std::istream& is, EM3000Datagram header)
     {

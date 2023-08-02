@@ -42,9 +42,9 @@ class ReadSampleRange
 
   public:
     ReadSampleRange(uint16_t first_sample_to_read,
-                uint16_t number_of_samples_to_read,
-                uint16_t first_sample_offset,
-                uint16_t last_sample_offset)
+                    uint16_t number_of_samples_to_read,
+                    uint16_t first_sample_offset,
+                    uint16_t last_sample_offset)
         : _first_sample_to_read(first_sample_to_read)
         , _number_of_samples_to_read(number_of_samples_to_read)
         , _first_sample_offset(first_sample_offset)
@@ -54,7 +54,7 @@ class ReadSampleRange
 
     // ----- operators -----
     bool operator==(const ReadSampleRange& other) const = default;
- 
+
     // ----- accessors -----
     /**
      * @brief Return the first sample number to read (local to beam sample offset)

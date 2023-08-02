@@ -75,7 +75,8 @@ void EM3000DatagramInterface_add_interface_functions(T_PyClass& cls)
                         return py::cast(
                             self.template datagrams<
                                 datagrams::WaterColumnDatagram,
-                                datagrams::EM3000SkipDataFactory<datagrams::WaterColumnDatagram>>(type));
+                                datagrams::EM3000SkipDataFactory<datagrams::WaterColumnDatagram>>(
+                                type));
                     return py::cast(self.template datagrams<datagrams::WaterColumnDatagram>(type));
                 case t_EM3000DatagramIdentifier::QualityFactorDatagram:
                     return py::cast(

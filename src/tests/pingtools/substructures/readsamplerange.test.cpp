@@ -17,8 +17,7 @@ using namespace themachinethatgoesping::echosounders::pingtools::substructures;
 TEST_CASE("ReadSampleRange should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto obj = ReadSampleRange(2,3,4,5);
-
+    auto obj = ReadSampleRange(2, 3, 4, 5);
 
     // test variables
     REQUIRE(obj.get_first_sample_to_read() == 2);
@@ -27,7 +26,7 @@ TEST_CASE("ReadSampleRange should support common functions", TESTTAG)
     REQUIRE(obj.get_last_sample_offset() == 5);
 
     // test inequality
-    REQUIRE(obj != ReadSampleRange(5,4,3,2));
+    REQUIRE(obj != ReadSampleRange(5, 4, 3, 2));
 
     // test copy
     REQUIRE(obj == ReadSampleRange(obj));

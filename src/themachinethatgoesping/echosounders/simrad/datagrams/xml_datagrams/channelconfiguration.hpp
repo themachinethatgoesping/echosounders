@@ -102,13 +102,7 @@ class ChannelConfiguration
     }
 
     // ----- operators -----
-    bool operator==(const ChannelConfiguration& other) const
-    {
-        return _channel_id == other._channel_id && _sensor_offsets == other._sensor_offsets &&
-               _transceiver == other._transceiver && _channel == other._channel &&
-               _transducer_offsets == other._transducer_offsets;
-    }
-    bool operator!=(const ChannelConfiguration& other) const { return !operator==(other); }
+    bool operator==(const ChannelConfiguration& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
