@@ -46,6 +46,36 @@ class BeamSampleSelection
     {
     }
 
+    // --- builders ---
+
+    /**
+     * @brief Initialize a beam sample selection from a whole swath
+     *
+     * @param beam_nr beam number
+     * @param first_sample_number first sample number to select
+     * @param last_sample_number_per_beam last sample number to select
+     */
+    BeamSampleSelection(std::vector<uint16_t> first_sample_number_per_beam,
+                        std::vector<uint16_t> last_sample_number_per_beam,
+                        uint16_t              sample_step_ensemble = 1)
+        : _beam_numbers(std::vector<uint16_t>(first_sample_number_per_beam.size()))
+        , _first_sample_number_per_beam(std::move(first_sample_number_per_beam))
+        , _last_sample_number_per_beam(std::move(last_sample_number_per_beam))
+        , _sample_step_ensemble(sample_step_ensemble)
+    {
+        // check that size is equal
+        if (first_sample_number_per_beam.size() != last_sample_number_per_beam.size())
+            throw std::invalid_argument(fmt::format(
+                "ERROR[BeamSampleSelection::init]: first_sample_number_per_beam.size() ({}) != "
+                "last_sample_number_per_beam.size() ({})",
+                first_sample_number_per_beam.size(),
+                last_sample_number_per_beam.size()));
+
+        std::iota(std::begin(_beam_numbers),
+                  std::end(_beam_numbers),
+                  0); // Fill vector with 0, 1, ..., number_of_beams-1.
+    }
+
     // --- operators ---
     bool operator==(const BeamSampleSelection& other) const
     {

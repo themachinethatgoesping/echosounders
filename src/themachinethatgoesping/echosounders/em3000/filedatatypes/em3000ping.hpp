@@ -262,6 +262,23 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         return number_of_samples_per_beam;
     }
 
+    xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false) const final
+    {
+        throw not_implemented("get_sv", this->get_name());
+    }
+
+    xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
+                                 [[maybe_unused]] bool               dB = false) const final
+    {
+        throw not_implemented("get_sv", this->get_name());
+    }
+
+    xt::xtensor<float, 1> get_sv([[maybe_unused]] const pingtools::PingSampleSelection& selection,
+                                 [[maybe_unused]] bool dB = false) const final
+    {
+        throw not_implemented("get_sv(PingSampleSelection)", this->get_name());
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {

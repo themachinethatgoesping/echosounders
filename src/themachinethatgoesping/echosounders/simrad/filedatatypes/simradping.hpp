@@ -111,7 +111,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 2>
      */
-    xt::xtensor<float, 2> get_sv(bool dB = false) final
+    xt::xtensor<float, 2> get_sv(bool dB = false) const final
     {
         auto                  sample_data = _raw_data.get_sample_data();
         xt::xtensor<float, 1> sv          = tools::helper::visit_variant(

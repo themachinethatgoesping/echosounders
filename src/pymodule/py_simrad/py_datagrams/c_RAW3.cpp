@@ -54,7 +54,7 @@ void init_c_RAW3(pybind11::module& m)
         .def("set_spare1", &RAW3::set_spare_1, DOC_RAW3(spare_1))
         .def("get_spare_2", &RAW3::get_spare_2, DOC_RAW3(spare_2))
         .def("set_spare_2", &RAW3::set_spare_2, DOC_RAW3(spare_2))
-        .def("sample_data", &RAW3::sample_data, DOC_RAW3(sample_data))
+        .def("sample_data", py::overload_cast<>(&RAW3::sample_data), DOC_RAW3(sample_data))
         .def("get_sample_data", &RAW3::get_sample_data, DOC_RAW3(sample_data))
         .def("set_sample_data", &RAW3::set_sample_data, DOC_RAW3(sample_data))
 

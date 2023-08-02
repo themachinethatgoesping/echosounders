@@ -1,4 +1,4 @@
-//sourcehash: 694b4304d3bbcdd3175ecc5475e767515ae9c33ea4a24d38f7b6aca5cc3a8966
+//sourcehash: 40275edcdb77a6f1eba9e4a6094c32ab35995c3882c0d598244a54a0cf449955
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,6 +65,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_load_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_all_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_merged_watercolumndatagram = R"doc()doc";
 

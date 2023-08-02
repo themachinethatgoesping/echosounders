@@ -342,7 +342,7 @@ class I_Ping
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 2>
      */
-    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false)
+    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false) const
     {
         throw not_implemented("get_sv", this->get_name());
     }
@@ -357,7 +357,7 @@ class I_Ping
      * @return xt::xtensor<float, 2>
      */
     virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
-                                         [[maybe_unused]] bool               dB = false)
+                                         [[maybe_unused]] bool               dB = false) const
     {
         throw not_implemented("get_sv", this->get_name());
     }
@@ -373,7 +373,7 @@ class I_Ping
      */
     virtual xt::xtensor<float, 1> get_sv(
         [[maybe_unused]] const pingtools::PingSampleSelection& selection,
-        [[maybe_unused]] bool                                  dB = false)
+        [[maybe_unused]] bool                                  dB = false) const
     {
         throw not_implemented("get_sv(PingSampleSelection)", this->get_name());
     }
@@ -424,7 +424,7 @@ class I_Ping
         return features;
     }
 
-  private:
+  protected:
     struct not_implemented : public std::runtime_error
     {
         not_implemented(std::string_view method_name, std::string_view name)

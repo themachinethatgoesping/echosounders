@@ -1,4 +1,4 @@
-//sourcehash: f56669a169e45ca75c3dbe58c6ff37eb7c2aacaab0ff1414bf3ff5631ae9de01
+//sourcehash: ffe5a24cc60f911566e0c226bed0b8057fdbcc7e750ade24794e3bd5680d8423
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -110,6 +110,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RA
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data_2 =
 R"doc(Get the sample data. The sample data is stored in a variant of xtensor
 containers. The exact type depends on the data type.
+
+Returns:
+    raw3datatypes::RAW3DataVariant)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_RAW3_sample_data_3 =
+R"doc(Get the sample data. (const overload) The sample data is stored in a
+variant of xtensor containers. The exact type depends on the data
+type.
 
 Returns:
     raw3datatypes::RAW3DataVariant)doc";

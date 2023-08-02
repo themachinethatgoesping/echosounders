@@ -164,6 +164,15 @@ class RAW3 : public SimradDatagram
     raw3datatypes::RAW3DataVariant& sample_data() { return _sample_data; }
 
     /**
+     * @brief Get the sample data. (const overload)
+     * The sample data is stored in a variant of xtensor containers.
+     * The exact type depends on the data type.
+     *
+     * @return raw3datatypes::RAW3DataVariant
+     */
+    const raw3datatypes::RAW3DataVariant& sample_data() const { return _sample_data; }
+
+    /**
      * @brief Get the sample data.
      * The sample data is stored in a variant of xtensor containers.
      * The exact type depends on the data type.

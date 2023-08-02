@@ -129,16 +129,17 @@ void add_ping_data_interface(T_PyClass& cls)
     // --- ping interface (Documentation states that these functions are not implemented) ---
     cls.def("get_angle", &T_BaseClass::get_angle, DOC_I_Ping(get_angle));
     cls.def("get_sv",
-            py::overload_cast<bool>(&T_BaseClass::get_sv),
+            py::overload_cast<bool>(&T_BaseClass::get_sv, py::const_),
             DOC_I_Ping(get_sv),
             py::arg("dB") = false);
     cls.def("get_sv",
-            py::overload_cast<const std::string&, bool>(&T_BaseClass::get_sv),
+            py::overload_cast<const std::string&, bool>(&T_BaseClass::get_sv, py::const_),
             DOC_I_Ping(get_sv_2),
             py::arg("transducer_id"),
             py::arg("dB") = false);
     cls.def("get_sv",
-            py::overload_cast<const pingtools::PingSampleSelection&, bool>(&T_BaseClass::get_sv),
+            py::overload_cast<const pingtools::PingSampleSelection&, bool>(&T_BaseClass::get_sv,
+                                                                           py::const_),
             DOC_I_Ping(get_sv_3),
             py::arg("selection"),
             py::arg("dB") = false);

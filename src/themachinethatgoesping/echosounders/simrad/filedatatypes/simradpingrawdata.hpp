@@ -75,7 +75,7 @@ class SimradPingRawData
     }
 
     // ----- load skipped data -----
-    datagrams::raw3datatypes::RAW3DataVariant get_sample_data()
+    datagrams::raw3datatypes::RAW3DataVariant get_sample_data() const
     {
         if (std::holds_alternative<datagrams::raw3datatypes::RAW3DataSkipped>(
                 _ping_data.sample_data()))
@@ -84,7 +84,7 @@ class SimradPingRawData
         return _ping_data.sample_data();
     }
 
-    datagrams::raw3datatypes::RAW3DataVariant read_sample_data()
+    datagrams::raw3datatypes::RAW3DataVariant read_sample_data() const
     {
         return _ping_data.read_skipped_sample_data(_datagram_info_raw_data->get_stream(),
                                                    _datagram_info_raw_data->get_file_pos());

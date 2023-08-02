@@ -1,4 +1,4 @@
-//sourcehash: b35309364bee971e12613870344b22adda36688c7c3ee02c4b9ada6226195224
+//sourcehash: c6ad63243345a4c4148a959a0558b4988aae8c686ffb3282e116b7762f0149f7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,18 @@ R"doc(A class to hold the selected beams/sample range for a single
 transducer)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_BeamSampleSelection = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_BeamSampleSelection_2 =
+R"doc(Initialize a beam sample selection from a whole swath
+
+Parameter ``beam_nr``:
+    beam number
+
+Parameter ``first_sample_number``:
+    first sample number to select
+
+Parameter ``last_sample_number_per_beam``:
+    last sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSampleSelection_add_beam =
 R"doc(Add a beam to the selection

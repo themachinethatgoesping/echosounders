@@ -198,26 +198,32 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     }
 
     // /**
+    //  * @brief read all selected samples from the selected beams and convert them to float
+    //  * @return xt::xtensor<float, 2>
+    //  */
+    xt::xtensor<float, 2> read_all_samples()
+    {
+        // build BeamSampleSelction
+        pingtools::substructures::BeamSampleSelection bss;
+    }
+
+    // /**
     //  * @brief read the selected samples from the selected beams and convert them to float
     //  * @return xt::xtensor<float, 2>
     //  */
-    xt::xtensor<float, 2> read_selected_samples()
+    xt::xtensor<float, 2> read_selected_samples(
+        const pingtools::substructures::BeamSampleSelection& bss)
     {
-        // const auto& selected_beam_numbers          = _selected_beam_numbers.get();
-        // const auto& selected_first_sample_per_beam = _selected_first_sample_per_beam.get();
-        // const auto& selected_number_of_samples_per_beam =
-        //     _selected_number_of_samples_per_beam.get();
-        // const auto& number_of_samples_per_beam = _number_of_samples_per_beam.get();
 
-        // xt::xtensor<float, 2> samples = xt::empty<float>(xt::xtensor<float, 2>::shape_type(
-        //     { selected_beam_numbers.size(), _number_of_samples_ensemble }));
+        xt::xtensor<float, 2> samples = xt::empty<float>(xt::xtensor<float, 2>::shape_type(
+            { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() }));
 
-        // // here we assume that all beams / water column datagrams originate from the same file /
-        // // file stream
-        // auto& ifs =
-        //     this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram)
-        //         .at(0)
-        //         ->get_stream();
+        // here we assume that all beams / water column datagrams originate from the same file /
+        // file stream
+        auto& ifs =
+            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+                .at(0)
+                ->get_stream();
 
         // size_t bn_counter = 0; // counter for the selected beams
         // for (const auto bn : selected_beam_numbers)
@@ -291,8 +297,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         //     ++bn_counter;
         // }
 
-        // return samples;
-        return xt::xtensor<float, 2>();
+        return samples;
     }
 
   public:

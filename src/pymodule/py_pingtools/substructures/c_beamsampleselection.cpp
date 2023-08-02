@@ -26,12 +26,14 @@ void init_c_beamsampleselection(pybind11::module& m)
         m,
         "BeamSampleSelection",
         DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSampleSelection))
-        .def(py::init<>(),
-             DOC(themachinethatgoesping,
-                 echosounders,
-                 pingtools,
-                 substructures,
-                 BeamSampleSelection))
+        .def(py::init<uint16_t>(),
+             DOC_BeamSampleSelection(BeamSampleSelection),
+             py::arg("sample_step_ensemble") = 1)
+        .def(py::init<std::vector<uint16_t>, std::vector<uint16_t>, uint16_t>(),
+             DOC_BeamSampleSelection(BeamSampleSelection_2),
+             py::arg("first_sample_number_per_beam"),
+             py::arg("last_sample_number_per_beam"),
+             py::arg("sample_step_ensemble") = 1)
 
         // --- add beam/samples ---
         .def("add_beam",
