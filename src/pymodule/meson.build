@@ -14,6 +14,7 @@ sources = [
 
     'py_pingtools/module.cpp',
     'py_pingtools/substructures/c_beamsampleselection.cpp',
+    'py_pingtools/substructures/c_readsamplerange.cpp',
     'py_pingtools/c_pingsampleselection.cpp',
     'py_pingtools/c_pingsampleselector.cpp',
 

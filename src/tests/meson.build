@@ -11,6 +11,7 @@ sources = [
     'pingtools/pingsampleselector.test.cpp',
     'pingtools/pingsampleselection.test.cpp',
     'pingtools/substructures/beamsampleselection.test.cpp',
+    'pingtools/substructures/readsamplerange.test.cpp',
 
     'simrad/datagrams/simraddatagram.test.cpp',
     'simrad/datagrams/simradunknown.test.cpp',

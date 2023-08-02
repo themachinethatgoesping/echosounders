@@ -244,6 +244,31 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                 ->get_stream();
 
         // size_t bn_counter = 0; // counter for the selected beams
+        // for (const auto bn : bss.get_beam_numbers())
+        // {
+        //     // first_sample_number_per_beam always counts from 0
+        //     // if we want to read the first sample of the beam we have to add the offset
+        //     int local_first_sample_number = bss.get_first_sample_number_per_beam().at(bn_counter) - _start_range_sample_numbers.at(bn);
+        //     int local_last_sample_number = bss.get_last_sample_number_per_beam().at(bn_counter) - _start_range_sample_numbers.at(bn);
+
+            
+        //     int local_number_of_samples_to_read = local_last_sample_number - local_first_sample_number;
+
+        //     size_t first_sample_to_read = (local_first_sample_number >0) ? size_t(local_first_sample_number) : 0;
+        //     size_t number_of_samples_to_read = (local_first_sample_number >0) ? size_t(local_first_sample_number) : 0;
+
+        //     int number_of_samples_to_read = first_sample_offset + 
+
+        //     xt::xtensor<int8_t, 1> beam_samples =
+        //         datagrams::substructures::WaterColumnDatagramBeam::read_samples(
+        //             ifs,
+        //             _sample_positions.at(bn),
+        //             first_sample_offset,
+        //             number_of_samples_to_read,
+        //             number_of_samples_per_beam[bn]);
+        // }
+
+        // size_t bn_counter = 0; // counter for the selected beams
         // for (const auto bn : selected_beam_numbers)
         // {
         //     size_t number_of_samples_to_read = selected_number_of_samples_per_beam.at(bn);
