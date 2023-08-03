@@ -207,6 +207,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //  */
     xt::xtensor<float, 2> read_all_samples() const
     {
+        return read_selected_samples(get_beam_sample_selection_all());
+    }
+
+    auto get_beam_sample_selection_all() const
+    {
         const auto& start_range_sample_numbers = get_start_range_sample_numbers();
         const auto& number_of_samples_per_beam = get_number_of_samples_per_beam();
 
@@ -219,15 +224,32 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
                                         last_sample_number_per_beam.end());
 
-        pingtools::substructures::BeamSampleSelection bss(std::move(first_snpb),
-                                                          std::move(last_snpb));
-
-        return read_selected_samples(std::move(bss));
+        return pingtools::substructures::BeamSampleSelection(std::move(first_snpb),
+                                                             std::move(last_snpb));
     }
 
-    xt::xtensor<int8_t, 1> read_beam(
-        const pingtools::substructures::ReadSampleRange& rsr) const
+    auto& get_wci_ifs() const
     {
+        return this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+            .at(0)
+            ->get_stream();
+    }
+
+    auto read_beam_samples(uint16_t                                         bn,
+                           const pingtools::substructures::ReadSampleRange& rsr,
+                           t_ifstream&                                      ifs) const
+    {
+        // auto& ifs =
+        //     this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+        //         .at(0)
+        //         ->get_stream();
+
+        return datagrams::substructures::WaterColumnDatagramBeam::read_samples(
+            ifs,
+            _sample_positions.unchecked(bn),
+            rsr.get_first_sample_to_read(),
+            rsr.get_number_of_samples_to_read(),
+            get_number_of_samples_per_beam().unchecked(bn));
     }
 
     // /**
@@ -237,16 +259,12 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     xt::xtensor<float, 2> read_selected_samples(
         const pingtools::substructures::BeamSampleSelection& bss) const
     {
-        bss.print(std::cerr);
         auto samples = xt::xtensor<float, 2>::from_shape(
             { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() });
 
         // here we assume that all beams / water column datagrams originate from the same file /
         // file stream
-        auto& ifs =
-            this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
-                .at(0)
-                ->get_stream();
+        auto& ifs = get_wci_ifs();
 
         size_t bn_counter = 0; // counter for the selected beams
         for (const auto bn : bss.get_beam_numbers())
@@ -266,13 +284,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                                           get_start_range_sample_numbers().unchecked(bn),
                                           get_number_of_samples_per_beam().unchecked(bn));
 
-            xt::xtensor<int8_t, 1> beam_samples =
-                datagrams::substructures::WaterColumnDatagramBeam::read_samples(
-                    ifs,
-                    _sample_positions.unchecked(bn),
-                    readsamplerange.get_first_sample_to_read(),
-                    readsamplerange.get_number_of_samples_to_read(),
-                    get_number_of_samples_per_beam().unchecked(bn));
+            xt::xtensor<int8_t, 1> beam_samples = read_beam_samples(bn, readsamplerange, ifs);
 
             // assign samples to output
             xt::view(samples,

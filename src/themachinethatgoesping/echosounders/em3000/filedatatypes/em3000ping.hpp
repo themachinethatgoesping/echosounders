@@ -264,7 +264,17 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false) const final
     {
-        throw not_implemented("get_sv", this->get_name());
+        pingtools::PingSampleSelection selection_all;
+
+        for (const auto& trid : get_transducer_ids())
+        {
+            const auto& raw_data = get_raw_data(trid);
+            auto        bss      = raw_data.get_beam_sample_selection_all();
+
+            selection_all.add_beam_sample_selection(trid, bss);
+        }
+
+        return get_sv(selection_all, dB);
     }
 
     xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
@@ -276,7 +286,65 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     xt::xtensor<float, 2> get_sv([[maybe_unused]] const pingtools::PingSampleSelection& selection,
                                  [[maybe_unused]] bool dB = false) const final
     {
-        throw not_implemented("get_sv(PingSampleSelection)", this->get_name());
+        auto samples = xt::xtensor<float, 2>::from_shape(
+            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
+        // samples.fill(std::numeric_limits<float>::quiet_NaN());
+
+        size_t output_bn = 0;
+        for (const auto& [transducer_id, bss] : selection.get_sample_selections())
+        {
+            auto raw_it = _raw_data.find(transducer_id);
+            if (raw_it != _raw_data.end())
+            {
+
+                const auto& raw_data = raw_it->second;
+
+                auto& ifs = raw_data.get_wci_ifs();
+
+                size_t local_output_bn = 0;
+                for (const auto& bn : bss.get_beam_numbers())
+                {
+                    // read samples
+                    auto rsr = bss.get_read_sample_range(
+                        local_output_bn,
+                        raw_data.get_start_range_sample_numbers().unchecked(bn),
+                        raw_data.get_number_of_samples_per_beam().unchecked(bn));
+
+                    if (rsr.get_number_of_samples_to_read() > 0)
+                    {
+                        xt::xtensor<int8_t, 1> beam_samples =
+                            raw_data.read_beam_samples(bn, rsr, ifs);
+
+                        xt::view(samples,
+                                 output_bn,
+                                 xt::range(rsr.get_first_read_sample_offset(),
+                                           rsr.get_last_read_sample_offset() + 1)) =
+                            xt::cast<float>(beam_samples);
+                    }
+
+                    // assign nan to samples that were not read
+                    xt::view(samples, output_bn, xt::range(0, rsr.get_first_read_sample_offset()))
+                        .fill(std::numeric_limits<float>::quiet_NaN());
+
+                    using namespace xt::placeholders;
+                    xt::view(
+                        samples, output_bn, xt::range(rsr.get_last_read_sample_offset() + 1, _))
+                        .fill(std::numeric_limits<float>::quiet_NaN());
+
+                    ++local_output_bn;
+                    ++output_bn;
+                }
+            }
+            else
+            {
+                using namespace xt::placeholders;
+                xt::view(samples, xt::range(output_bn, bss.get_number_of_beams()), xt::all())
+                    .fill(std::numeric_limits<float>::quiet_NaN());
+                output_bn += bss.get_number_of_beams();
+            }
+        }
+
+        return samples;
     }
 
     // ----- objectprinter -----

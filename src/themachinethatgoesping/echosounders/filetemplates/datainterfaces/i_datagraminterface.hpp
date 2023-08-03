@@ -133,14 +133,14 @@ class I_DatagramInterface
     // void init_from_file() {};
 
     // ----- direct container access -----
-    std::vector<type_DatagramInfo_ptr> get_datagram_infos_all() const
+    const std::vector<type_DatagramInfo_ptr>& get_datagram_infos_all() const
     {
         return _datagram_infos_all;
     }
-    const std::vector<type_DatagramInfo_ptr>& get_datagram_infos_by_type(
+    std::vector<type_DatagramInfo_ptr> get_datagram_infos_by_type(
         t_DatagramIdentifier type) const
     {
-        return _datagram_infos_by_type.at(type);
+        return _datagram_infos_by_type.at_const(type);
     }
 
     size_t size() const { return _datagram_infos_all.size(); }

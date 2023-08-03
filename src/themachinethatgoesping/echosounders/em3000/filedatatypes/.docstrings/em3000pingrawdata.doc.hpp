@@ -1,4 +1,4 @@
-//sourcehash: 9501d20e1b7cbb03fb3268d3e78ac600e16582a3a79d7727e698fb5a47058018
+//sourcehash: 7dfdedb6196ade8b8117122de86035f366c96a6bae36cfcb269e19ba076ac080
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,6 +48,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_beam_pointing_angles_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_beam_sample_selection_all = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_detected_range_in_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_name = R"doc()doc";
@@ -64,11 +66,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_transmit_sector_numbers = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_wci_ifs = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_load_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_all_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_beam_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_merged_watercolumndatagram = R"doc()doc";
 

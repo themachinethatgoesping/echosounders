@@ -1,4 +1,4 @@
-//sourcehash: e43247cea017b3a2b7399a763b12db976398961f2ea24fab2f0bdcf61d12fb0c
+//sourcehash: c53e7af61f1b2b82fdf7715facd62281211d18fb34abd48c2de20a0bc0546487
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,6 +56,16 @@ Parameter ``first_sample_number``:
 
 Parameter ``last_sample_number``:
     last sample to select (>0))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_add_beam_sample_selection =
+R"doc(Add a beam sample selection for the specified transducer Note: if the
+transducer id exists, it will be overwritten
+
+Parameter ``transducer_id``:
+    transducer id of the beam
+
+Parameter ``BeamSampleSelection``:
+    BeamSampleSelection for this transducer.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_from_stream =
 R"doc(Return a PingSampleSelection read from a binary stream

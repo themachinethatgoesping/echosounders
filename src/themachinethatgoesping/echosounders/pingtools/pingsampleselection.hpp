@@ -54,6 +54,24 @@ class PingSampleSelection
         set_last_sample_number_ensemble(get_last_sample_number_ensemble());
     }
 
+    // --- add beams/samples ---
+    /**
+     * @brief Add a beam sample selection for the specified transducer
+     * Note: if the transducer id exists, it will be overwritten
+     *
+     * @param transducer_id transducer id of the beam
+     * @param BeamSampleSelection BeamSampleSelection for this transducer.
+     */
+    void add_beam_sample_selection(const std::string&                 transducer_id,
+                                   substructures::BeamSampleSelection bss)
+    {
+        _sample_selections[transducer_id] = bss;
+
+        // synchronize sample range information
+        set_first_sample_number_ensemble(get_first_sample_number_ensemble());
+        set_last_sample_number_ensemble(get_last_sample_number_ensemble());
+    }
+
     void set_sample_step_ensemble(uint16_t sample_step_ensemble)
     {
         for (auto& [id, selection] : _sample_selections)

@@ -36,6 +36,11 @@ void init_c_pingsampleselection(pybind11::module& m)
              py::arg("beam_nr"),
              py::arg("first_sample_number")   = 0,
              py::arg("max_number_of_samples") = std::numeric_limits<uint16_t>::max())
+        .def("add_beam_sample_selection",
+             &PingSampleSelection::add_beam_sample_selection,
+             DOC_PingSampleSelection(add_beam_sample_selection),
+             py::arg("transducer_id"),
+             py::arg("BeamSampleSelection"))
 
         .def("set_first_sample_number_ensemble",
              &PingSampleSelection::set_first_sample_number_ensemble,
