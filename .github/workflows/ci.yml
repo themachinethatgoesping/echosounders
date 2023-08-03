@@ -231,6 +231,15 @@ jobs:
   macos:
     name: ci on macOS
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx_compiler: ["$(brew --prefix llvm@16)/bin/clang++"]
+        cpp_std: [c++20]
+            
+          
+    env:
+      CXX: ${{matrix.cxx_compiler}}
       
     steps:
     
