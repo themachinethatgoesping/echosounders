@@ -210,7 +210,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         const auto& start_range_sample_numbers = get_start_range_sample_numbers();
         const auto& number_of_samples_per_beam = get_number_of_samples_per_beam();
 
-        // build BeamSampleSelcetion
+        // build BeamSampleSelection
         auto last_sample_number_per_beam =
             start_range_sample_numbers + number_of_samples_per_beam - 1;
 
