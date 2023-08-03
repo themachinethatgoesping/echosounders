@@ -225,6 +225,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return read_selected_samples(std::move(bss));
     }
 
+    xt::xtensor<int8_t, 1> read_beam(
+        const pingtools::substructures::ReadSampleRange& rsr) const
+    {
+    }
+
     // /**
     //  * @brief read the selected samples from the selected beams and convert them to float
     //  * @return xt::xtensor<float, 2>
@@ -287,7 +292,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                      xt::range(readsamplerange.get_last_read_sample_offset() + 1, _))
                 .fill(std::numeric_limits<float>::quiet_NaN());
 
-                ++ bn_counter;
+            ++bn_counter;
         }
 
         return samples;
