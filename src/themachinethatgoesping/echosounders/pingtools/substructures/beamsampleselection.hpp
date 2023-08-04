@@ -101,7 +101,7 @@ class BeamSampleSelection
 
         uint16_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
         uint16_t last_read_sample_offset =
-            first_read_sample_offset + (number_of_samples_to_read - 1) * _sample_step_ensemble;
+            first_read_sample_offset + (number_of_samples_to_read - 1)*_sample_step_ensemble;
 
         if (last_read_sample_offset < first_read_sample_offset)
         {
@@ -111,8 +111,7 @@ class BeamSampleSelection
         return ReadSampleRange(uint16_t(first_beam_sample_to_read),
                                uint16_t(number_of_samples_to_read),
                                uint16_t(first_read_sample_offset),
-                               uint16_t(last_read_sample_offset),
-                               uint16_t(_sample_step_ensemble));
+                               uint16_t(last_read_sample_offset));
     }
 
     /**

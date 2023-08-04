@@ -1,4 +1,4 @@
-//sourcehash: 9cae3a5def6f208aa7152533c446bcf810a79fb913da16d69cfbad5ab4e5e86b
+//sourcehash: 494f4eba69892d918e5776ae7fd4c99160be7abee9959b86163454a3547f30c0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,9 +69,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_substruct
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_number_of_samples_to_read = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_get_sample_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_last_read_sample_offset = R"doc(< offset of the last read sample (compared to global < sample number))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_last_read_sample_offset = R"doc(< offset of the last read sample (compared to global)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_number_of_samples_to_read = R"doc(< number of samples to read (local to beam sample offset))doc";
 
@@ -86,8 +84,6 @@ Parameter ``float_precision``:
 
 Returns:
     classhelper::ObjectPrinter)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_sample_step = R"doc(< step between samples)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_ReadSampleRange_to_stream =
 R"doc(Write a ReadSampleRange to a binary stream

@@ -17,17 +17,16 @@ using namespace themachinethatgoesping::echosounders::pingtools::substructures;
 TEST_CASE("ReadSampleRange should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto obj = ReadSampleRange(2, 3, 4, 5, 1);
+    auto obj = ReadSampleRange(2, 3, 4, 5);
 
     // test variables
     REQUIRE(obj.get_first_sample_to_read() == 2);
     REQUIRE(obj.get_number_of_samples_to_read() == 3);
     REQUIRE(obj.get_first_read_sample_offset() == 4);
     REQUIRE(obj.get_last_read_sample_offset() == 5);
-    REQUIRE(obj.get_sample_step() == 1);
 
     // test inequality
-    REQUIRE(obj != ReadSampleRange(5, 4, 3, 2, 2));
+    REQUIRE(obj != ReadSampleRange(5, 4, 3, 2));
 
     // test copy
     REQUIRE(obj == ReadSampleRange(obj));

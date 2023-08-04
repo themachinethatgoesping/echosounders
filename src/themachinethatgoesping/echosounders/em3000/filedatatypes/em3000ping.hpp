@@ -343,7 +343,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
                                 "--- RSR2 ---\n{}, {}, {}, {}\n"
                                 "--- view shape 1 ---\n({})\n"
                                 "--- view shape 2---\n({})\n"
-                                "--- beam_samples shape ---\n({})\n",
+                                "--- beam_samples shape ---\n({})\n"
+                                "--- beam_samples ---\n{} {}\n",
                                 e.what(),
                                 output_bn,
                                 local_output_bn,
@@ -355,7 +356,9 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
                                 rsr.get_last_read_sample_offset() + 1 - ensemble_offset,
                                 tmp1.shape()[0],
                                 tmp2.shape()[0],
-                                beam_samples.shape()[0])));
+                                beam_samples.shape()[0],
+                                raw_data.get_start_range_sample_numbers().unchecked(bn),
+                                raw_data.get_number_of_samples_per_beam().unchecked(bn))));
                         }
                     }
 

@@ -113,7 +113,7 @@ class PingSampleSelector
                     max_sample_number = number_of_samples - 1;
 
                 tools::pyhelper::PyIndexer sample_indexer(
-                    number_of_samples, min_sample_number, max_sample_number, _sample_step);
+                    number_of_samples, min_sample_number, max_sample_number + 1, _sample_step);
 
                 selection.add_beam(trid, bn, sample_indexer(0), sample_indexer(-1));
                 bn++;
