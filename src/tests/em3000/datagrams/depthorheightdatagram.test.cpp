@@ -33,7 +33,11 @@ TEST_CASE("DepthOrHeightDatagram should support common functions", TESTTAG)
     // REQUIRE(dat != DepthOrHeightDatagram());
 
     // test copy
-    REQUIRE(dat == DepthOrHeightDatagram(dat));
+    {
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("copy constructor: {}", DepthOrHeightDatagram(dat).info_string()));
+        REQUIRE(dat == DepthOrHeightDatagram(dat));
+    }
 
     // test binary
     REQUIRE(dat == DepthOrHeightDatagram(dat.from_binary(dat.to_binary())));

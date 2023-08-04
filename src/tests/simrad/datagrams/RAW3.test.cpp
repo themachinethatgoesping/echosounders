@@ -82,8 +82,16 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(RAW3() == RAW3());
 
         // test copy
-        REQUIRE(dat == RAW3(dat));
-        REQUIRE(dat2 == RAW3(dat2));
+        {
+            INFO(fmt::format("orig: {}", dat.info_string()));
+            INFO(fmt::format("copy constructor: {}", RAW3(dat).info_string()));
+            REQUIRE(dat == RAW3(dat));
+        }
+        {
+            INFO(fmt::format("orig: {}", dat2.info_string()));
+            INFO(fmt::format("copy constructor: {}", RAW3(dat2).info_string()));
+            REQUIRE(dat2 == RAW3(dat2));
+        }
 
         // dat.print(std::cerr);
 

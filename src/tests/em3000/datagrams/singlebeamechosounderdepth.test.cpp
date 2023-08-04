@@ -34,7 +34,11 @@ TEST_CASE("SingleBeamEchoSounderDepth should support common functions", TESTTAG)
     // REQUIRE(dat != SingleBeamEchoSounderDepth());
 
     // test copy
-    REQUIRE(dat == SingleBeamEchoSounderDepth(dat));
+    {
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("copy constructor: {}", SingleBeamEchoSounderDepth(dat).info_string()));
+        REQUIRE(dat == SingleBeamEchoSounderDepth(dat));
+    }
 
     // test binary
     REQUIRE(dat == SingleBeamEchoSounderDepth(dat.from_binary(dat.to_binary())));

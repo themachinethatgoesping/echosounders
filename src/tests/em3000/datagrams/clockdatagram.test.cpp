@@ -33,10 +33,18 @@ TEST_CASE("ClockDatagram should support common functions", TESTTAG)
     // REQUIRE(dat != ClockDatagram());
 
     // test copy
-    REQUIRE(dat == ClockDatagram(dat));
+    {
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("copy constructor: {}", ClockDatagram(dat).info_string()));
+        REQUIRE(dat == ClockDatagram(dat));
+    }
 
     // test binary
-    REQUIRE(dat == ClockDatagram(dat.from_binary(dat.to_binary())));
+    {
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("copy constructor: {}", ClockDatagram(dat).info_string()));
+        REQUIRE(dat == ClockDatagram(dat.from_binary(dat.to_binary())));
+    }
 
     // test stream
     std::stringstream buffer;
