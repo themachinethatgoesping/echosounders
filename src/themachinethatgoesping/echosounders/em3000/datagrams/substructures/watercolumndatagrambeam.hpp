@@ -131,6 +131,7 @@ class WaterColumnDatagramBeam
                                                std::ifstream::pos_type pos_first_sample,
                                                size_t                  first_sample,
                                                size_t                  number_of_samples,
+                                               size_t                  step_size,
                                                size_t number_of_samples_in_datagram)
     {
         auto samples = xt::xtensor<int8_t, 1>::from_shape({ number_of_samples });
@@ -147,7 +148,20 @@ class WaterColumnDatagramBeam
 
         ifs.seekg(pos_first_sample + std::ifstream::pos_type(first_sample * sizeof(int8_t)));
 
-        ifs.read(reinterpret_cast<char*>(samples.data()), number_of_samples * sizeof(int8_t));
+        if (step_size == 1)
+            ifs.read(reinterpret_cast<char*>(samples.data()), number_of_samples * sizeof(int8_t));
+        else
+        {
+            // skip size in bytes
+            const size_t skip_size = (step_size - 1) * sizeof(int8_t);
+
+            for (size_t i = 0; i < number_of_samples; i += step_size)
+            {
+                // increment stream position
+                ifs.read(reinterpret_cast<char*>(samples.data() + i), sizeof(int8_t));
+                ifs.seekg(skip_size, std::ios_base::cur);
+            }
+        }
 
         return samples;
     }

@@ -249,6 +249,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             _sample_positions.unchecked(bn),
             rsr.get_first_sample_to_read(),
             rsr.get_number_of_samples_to_read(),
+            rsr.get_sample_step(),
             get_number_of_samples_per_beam().unchecked(bn));
     }
 

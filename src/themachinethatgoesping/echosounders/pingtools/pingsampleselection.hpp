@@ -199,7 +199,8 @@ class PingSampleSelection
             return 0;
         }
 
-        return first_last_ensemble - first_sample_number_ensemble + 1;
+        return (first_last_ensemble - first_sample_number_ensemble) / get_sample_step_ensemble() +
+               1;
     }
 
     /**

@@ -32,10 +32,10 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
     REQUIRE(obj.get_max_beam_number() == -1);
     REQUIRE(obj.get_beam_step() == 1);
 
-    obj.select_sample_range_by_numbers(-2, 2, -2);
+    obj.select_sample_range_by_numbers(-2, 2, 2);
     REQUIRE(obj.get_min_sample_number() == -2);
     REQUIRE(obj.get_max_sample_number() == 2);
-    REQUIRE(obj.get_sample_step() == -2);
+    REQUIRE(obj.get_sample_step() == 2);
 
     obj.select_beam_range_by_angles(-3.3, 4.4, 10);
     REQUIRE(obj.get_min_beam_angle() == Catch::Approx(-3.3));

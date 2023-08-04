@@ -26,12 +26,13 @@ void init_c_readsamplerange(pybind11::module& m)
         m,
         "ReadSampleRange",
         DOC(themachinethatgoesping, echosounders, pingtools, substructures, ReadSampleRange))
-        .def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>(),
+        .def(py::init<uint16_t, uint16_t, uint16_t, uint16_t, uint16_t>(),
              DOC_ReadSampleRange(ReadSampleRange),
              py::arg("first_sample_to_read"),
              py::arg("number_of_samples_to_read"),
              py::arg("first_read_sample_offset"),
-             py::arg("last_read_sample_offset"))
+             py::arg("last_read_sample_offset"),
+             py::arg("sample_step") = 1)
 
         // --- data access ---
         .def("get_first_sample_to_read",
@@ -46,6 +47,9 @@ void init_c_readsamplerange(pybind11::module& m)
         .def("get_last_read_sample_offset",
              &ReadSampleRange::get_last_read_sample_offset,
              DOC_ReadSampleRange(get_last_read_sample_offset))
+        .def("get_sample_step",
+             &ReadSampleRange::get_sample_step,
+             DOC_ReadSampleRange(get_sample_step))
 
         // ----- operators -----
         .def("__eq__",

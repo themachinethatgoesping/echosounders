@@ -29,11 +29,11 @@ class PingSampleSelector
     std::optional<std::set<std::string>>
         _ignored_transducer_ids; ///< if set: ignore these transducers
 
-    std::optional<int> _min_beam_number; ///< min beam number to select
-    std::optional<int> _max_beam_number; ///< max beam number to select
+    std::optional<size_t> _min_beam_number; ///< min beam number to select
+    std::optional<size_t> _max_beam_number; ///< max beam number to select
 
-    std::optional<int> _min_sample_number; ///< min sample number to select
-    std::optional<int> _max_sample_number; ///< max sample number to select
+    std::optional<size_t> _min_sample_number; ///< min sample number to select
+    std::optional<size_t> _max_sample_number; ///< max sample number to select
 
     std::optional<float> _min_beam_angle; ///< min beam angle to select (°)
     std::optional<float> _max_beam_angle; ///< max beam angle to select (°)
@@ -41,8 +41,8 @@ class PingSampleSelector
     std::optional<float> _min_sample_range; ///< min sample range to select (m)
     std::optional<float> _max_sample_range; ///< max sample range to select (m)
 
-    int _beam_step   = 1; ///< step size for beam numbers (negative numbers reverse beam order)
-    int _sample_step = 1; ///< step size for sample numbers (negative numbers reverse sample order)
+    size_t _beam_step   = 1; ///< step size for beam numbers
+    size_t _sample_step = 1; ///< step size for sample numbers
 
   public:
     PingSampleSelector() = default;
@@ -106,6 +106,11 @@ class PingSampleSelector
                 size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
                 size_t max_sample_number =
                     _max_sample_number ? *_max_sample_number : number_of_samples - 1;
+
+                if (min_sample_number >= number_of_samples)
+                    continue;
+                if (max_sample_number >= number_of_samples)
+                    max_sample_number = number_of_samples - 1;
 
                 tools::pyhelper::PyIndexer sample_indexer(
                     number_of_samples, min_sample_number, max_sample_number, _sample_step);
@@ -190,9 +195,9 @@ class PingSampleSelector
         _ignored_transducer_ids = std::move(ignored_transducer_ids);
     }
 
-    void select_beam_range_by_numbers(int                min_beam_number,
-                                      int                max_beam_number,
-                                      std::optional<int> beam_step = std::nullopt)
+    void select_beam_range_by_numbers(size_t                min_beam_number,
+                                      size_t                max_beam_number,
+                                      std::optional<size_t> beam_step = std::nullopt)
     {
         _min_beam_number = min_beam_number;
         _max_beam_number = max_beam_number;
@@ -200,9 +205,9 @@ class PingSampleSelector
             _beam_step = *beam_step;
     }
 
-    void select_sample_range_by_numbers(int                min_sample_number,
-                                        int                max_sample_number,
-                                        std::optional<int> sample_step = std::nullopt)
+    void select_sample_range_by_numbers(size_t                min_sample_number,
+                                        size_t                max_sample_number,
+                                        std::optional<size_t> sample_step = std::nullopt)
     {
         _min_sample_number = min_sample_number;
         _max_sample_number = max_sample_number;
@@ -210,9 +215,9 @@ class PingSampleSelector
             _sample_step = *sample_step;
     }
 
-    void select_beam_range_by_angles(float              min_beam_angle,
-                                     float              max_beam_angle,
-                                     std::optional<int> beam_step = std::nullopt)
+    void select_beam_range_by_angles(float                 min_beam_angle,
+                                     float                 max_beam_angle,
+                                     std::optional<size_t> beam_step = std::nullopt)
     {
         _min_beam_angle = min_beam_angle;
         _max_beam_angle = max_beam_angle;
@@ -220,9 +225,9 @@ class PingSampleSelector
             _beam_step = *beam_step;
     }
 
-    void select_sample_range_by_ranges(float              min_sample_range,
-                                       float              max_sample_range,
-                                       std::optional<int> sample_step = std::nullopt)
+    void select_sample_range_by_ranges(float                 min_sample_range,
+                                       float                 max_sample_range,
+                                       std::optional<size_t> sample_step = std::nullopt)
     {
         _min_sample_range = min_sample_range;
         _max_sample_range = max_sample_range;
@@ -230,8 +235,8 @@ class PingSampleSelector
             _sample_step = *sample_step;
     }
 
-    void set_sample_step(int sample_step) { _sample_step = sample_step; }
-    void set_beam_step(int beam_step) { _beam_step = beam_step; }
+    void set_sample_step(size_t sample_step) { _sample_step = sample_step; }
+    void set_beam_step(size_t beam_step) { _beam_step = beam_step; }
 
     // ----- from/to binary -----
     /**
@@ -249,10 +254,10 @@ class PingSampleSelector
         object._transducer_ids         = optional_set_from_stream<std::string>(is);
         object._ignored_transducer_ids = optional_set_from_stream<std::string>(is);
 
-        object._min_beam_number   = optional_from_stream<int>(is);
-        object._max_beam_number   = optional_from_stream<int>(is);
-        object._min_sample_number = optional_from_stream<int>(is);
-        object._max_sample_number = optional_from_stream<int>(is);
+        object._min_beam_number   = optional_from_stream<size_t>(is);
+        object._max_beam_number   = optional_from_stream<size_t>(is);
+        object._min_sample_number = optional_from_stream<size_t>(is);
+        object._max_sample_number = optional_from_stream<size_t>(is);
         object._min_beam_angle    = optional_from_stream<float>(is);
         object._max_beam_angle    = optional_from_stream<float>(is);
         object._min_sample_range  = optional_from_stream<float>(is);

@@ -289,6 +289,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         auto samples = xt::xtensor<float, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
         // samples.fill(std::numeric_limits<float>::quiet_NaN());
+        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
 
         size_t output_bn = 0;
         for (const auto& [transducer_id, bss] : selection.get_sample_selections())
@@ -314,21 +315,60 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
                     {
                         xt::xtensor<int8_t, 1> beam_samples =
                             raw_data.read_beam_samples(bn, rsr, ifs);
-
-                        xt::view(samples,
-                                 output_bn,
-                                 xt::range(rsr.get_first_read_sample_offset(),
-                                           rsr.get_last_read_sample_offset() + 1)) =
-                            xt::cast<float>(beam_samples);
+                        try
+                        {
+                            xt::view(samples,
+                                     output_bn,
+                                     xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
+                                               rsr.get_last_read_sample_offset() + 1 -
+                                                   ensemble_offset)) =
+                                xt::cast<float>(beam_samples);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            auto tmp1 = xt::view(samples,
+                                                 output_bn,
+                                                 xt::range(rsr.get_first_read_sample_offset(),
+                                                           rsr.get_last_read_sample_offset() + 1));
+                            auto tmp2 = xt::view(
+                                samples,
+                                output_bn,
+                                xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
+                                          rsr.get_last_read_sample_offset() + 1 - ensemble_offset));
+                            throw(std::runtime_error(fmt::format(
+                                "Error casting beam samples to float: {}\n"
+                                "--- INFO ---\n"
+                                "output_bn: {} local_output_bn: {} ensemble_offset: {}\n"
+                                "--- RSR ---\n{}\n"
+                                "--- RSR2 ---\n{}, {}, {}, {}\n"
+                                "--- view shape 1 ---\n({})\n"
+                                "--- view shape 2---\n({})\n"
+                                "--- beam_samples shape ---\n({})\n",
+                                e.what(),
+                                output_bn,
+                                local_output_bn,
+                                ensemble_offset,
+                                rsr.info_string(),
+                                rsr.get_first_read_sample_offset(),
+                                rsr.get_last_read_sample_offset() + 1,
+                                rsr.get_first_read_sample_offset() - ensemble_offset,
+                                rsr.get_last_read_sample_offset() + 1 - ensemble_offset,
+                                tmp1.shape()[0],
+                                tmp2.shape()[0],
+                                beam_samples.shape()[0])));
+                        }
                     }
 
                     // assign nan to samples that were not read
-                    xt::view(samples, output_bn, xt::range(0, rsr.get_first_read_sample_offset()))
+                    xt::view(samples,
+                             output_bn,
+                             xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
                         .fill(std::numeric_limits<float>::quiet_NaN());
 
                     using namespace xt::placeholders;
-                    xt::view(
-                        samples, output_bn, xt::range(rsr.get_last_read_sample_offset() + 1, _))
+                    xt::view(samples,
+                             output_bn,
+                             xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
                         .fill(std::numeric_limits<float>::quiet_NaN());
 
                     ++local_output_bn;

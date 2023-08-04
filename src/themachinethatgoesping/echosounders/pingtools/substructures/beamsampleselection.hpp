@@ -92,14 +92,16 @@ class BeamSampleSelection
             last_beam_sample_to_read = number_of_samples_in_beam - 1;
         }
 
-        int number_of_samples_to_read = last_beam_sample_to_read - first_beam_sample_to_read + 1;
+        int number_of_samples_to_read =
+            (last_beam_sample_to_read - first_beam_sample_to_read) / _sample_step_ensemble + 1;
         if (number_of_samples_to_read < 0)
         {
             number_of_samples_to_read = 0;
         }
 
         uint16_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
-        uint16_t last_read_sample_offset  = last_beam_sample_to_read + first_sample_offset_in_beam;
+        uint16_t last_read_sample_offset =
+            first_read_sample_offset + (number_of_samples_to_read - 1) * _sample_step_ensemble;
 
         if (last_read_sample_offset < first_read_sample_offset)
         {
@@ -109,7 +111,8 @@ class BeamSampleSelection
         return ReadSampleRange(uint16_t(first_beam_sample_to_read),
                                uint16_t(number_of_samples_to_read),
                                uint16_t(first_read_sample_offset),
-                               uint16_t(last_read_sample_offset));
+                               uint16_t(last_read_sample_offset),
+                               uint16_t(_sample_step_ensemble));
     }
 
     /**

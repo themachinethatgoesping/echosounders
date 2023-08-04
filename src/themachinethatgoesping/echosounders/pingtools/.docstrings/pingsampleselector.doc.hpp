@@ -1,4 +1,4 @@
-//sourcehash: 44a9867ffd1deaeab8bd799fe584d10dfadaf37e3bf55fadc60a11012f1bbe22
+//sourcehash: f2b5a213ae9b75126ec704ad1975dfffc1258437870edad1f1f105e699e1dbe3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,7 +44,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_apply_selection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers (negative numbers reverse beam order))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear = R"doc()doc";
 
@@ -127,7 +127,7 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers (negative numbers reverse sample order))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_angles = R"doc()doc";
 
