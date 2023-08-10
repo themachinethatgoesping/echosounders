@@ -70,6 +70,7 @@ if build_machine.system() != 'linux'
                           omp_dep,
                           pugixml_dep,
                           tools_dep,
+                          algorithms_dep,
                           navigation_dep
                           ],
                         override_options: [
@@ -85,6 +86,7 @@ else
                           omp_dep,
                           pugixml_dep,
                           tools_dep,
+                          algorithms_dep,
                           navigation_dep
                           ],
                         override_options: [

@@ -40,6 +40,12 @@ if not tools_dep.found()
     tools_dep = subproject('tools', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('tools_dep')
 endif
 
+# algorithms
+algorithms_dep = dependency('themachinethatgoesping_algorithms', required: false)
+if not algorithms_dep.found()
+    algorithms_dep = subproject('algorithms', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('algorithms_dep')
+endif
+
 # -- python modules --
 if get_option('build_pythonmodule').enabled()
   pymod = import('python').find_installation(get_option('python_path'), pure: false)
