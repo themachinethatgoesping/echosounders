@@ -7,6 +7,8 @@
 
 #define FORCE_IMPORT_ARRAY // this is needed for xtensor-python but must only be included once
 
+#include <xtensor-python/pyarray.hpp> // Numpy bindings
+
 // larger submodules
 #include "py_em3000/module.hpp"
 #include "py_filetemplates/module.hpp"
