@@ -38,7 +38,6 @@ void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.c
 // -- create submodule --
 void init_m_simrad(pybind11::module& m)
 {
-    xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
     using namespace simrad;
 
     // module description

@@ -45,7 +45,6 @@ void init_c_fileem3000(pybind11::module& m); // c_fileem3000.cpp
 // -- create submodule --
 void init_m_em3000(pybind11::module& m)
 {
-    xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
     using namespace em3000;
 
     // module description
