@@ -172,6 +172,9 @@ class EM3000PingDataInterfacePerFile
                 }
             }
 
+            //load datagrams
+            ping_ptr->load_datagrams();
+
             pings.add_ping(std::move(ping_ptr));
         }
 

@@ -82,9 +82,26 @@ class I_Ping
      * @brief Get all registered transducer ids (in case multiple transducers are associated with a
      * single ping)
      *
+     * @return std::vector<std::string>
+     */
+    virtual std::vector<std::string> get_transducer_ids() const
+    {
+        std::vector<std::string> transducer_ids;
+
+        /* return the keys from _geolocations */
+        for (const auto& [k, v] : _geolocations)
+            transducer_ids.push_back(k);
+
+        return transducer_ids;
+    }
+
+    /**
+     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
+     * single ping) as a set (unique ids, order may be different)
+     *
      * @return std::set<std::string>
      */
-    virtual std::set<std::string> get_transducer_ids() const
+    virtual std::set<std::string> get_transducer_ids_as_set() const
     {
         std::set<std::string> transducer_ids;
 
@@ -146,7 +163,8 @@ class I_Ping
     void select_transducer_id(std::string id)
     {
         auto transducer_ids = get_transducer_ids();
-        if (transducer_ids.contains(id))
+
+        if (std::find(transducer_ids.begin(), transducer_ids.end(), id) != transducer_ids.end())
             _selected_transducer_id = std::move(id);
         else
             throw std::domain_error(fmt::format(

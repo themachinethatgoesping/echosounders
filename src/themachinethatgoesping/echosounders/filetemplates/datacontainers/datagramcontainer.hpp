@@ -181,11 +181,11 @@ class DatagramContainer
 
     std::vector<t_DatagramIdentifier> find_datagram_types() const
     {
-        std::set<t_DatagramIdentifier> datagram_identifiers;
+        std::vector<t_DatagramIdentifier> datagram_identifiers;
 
         for (const auto& datagram_info : _datagram_infos)
         {
-            datagram_identifiers.insert(datagram_info->get_datagram_identifier());
+            datagram_identifiers.push_back(datagram_info->get_datagram_identifier());
         }
 
         std::vector<t_DatagramIdentifier> vec;

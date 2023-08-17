@@ -1,4 +1,4 @@
-//sourcehash: ac366da2b9be2be1168fb5f2231e8bbe536d47cb0a25b4ab4e16ac7713f69101
+//sourcehash: 54b04d9525b31a885fa040efa3d2f2dfc7068888c75096c9821cd4efe6e22cb4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -146,7 +146,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 R"doc(Return the names of the transducers
 
 Returns:
-    std::set<std::string>)doc";
+    std::vector<std::string>)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

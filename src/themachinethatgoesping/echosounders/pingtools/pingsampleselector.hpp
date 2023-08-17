@@ -54,17 +54,18 @@ class PingSampleSelector
     PingSampleSelection apply_selection(
         const std::shared_ptr<const filetemplates::datatypes::I_Ping>& ping)
     {
+        auto transducer_ids_in_ping = ping->get_transducer_ids_as_set();
         // select transducers according to the transducers
         std::set<std::string> transducer_ids;
         if (_transducer_ids)
         {
-            for (const auto& trid : ping->get_transducer_ids())
+            for (const auto& trid : transducer_ids_in_ping)
                 if (_transducer_ids->contains(trid))
                     transducer_ids.insert(trid);
         }
         else
         {
-            transducer_ids = ping->get_transducer_ids();
+            transducer_ids = transducer_ids_in_ping;
         }
 
         if (_ignored_transducer_ids)

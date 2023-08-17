@@ -105,14 +105,14 @@ class PingSampleSelection
     /**
      * @brief Return the names of the transducers
      *
-     * @return std::set<std::string>
+     * @return std::vector<std::string>
      */
-    std::set<std::string> transducer_ids() const
+    std::vector<std::string> transducer_ids() const
     {
-        std::set<std::string> ids;
+        std::vector<std::string> ids;
         for (const auto& [id, selection] : _sample_selections)
         {
-            ids.insert(id);
+            ids.push_back(id);
         }
         return ids;
     }

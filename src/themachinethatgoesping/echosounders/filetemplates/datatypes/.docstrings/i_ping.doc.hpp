@@ -1,4 +1,4 @@
-//sourcehash: 5803bc781f331b7f473ca5da120de8f92ed39b00c0e6bffb713093362eece0bd
+//sourcehash: 9ba4fa142c5239f5528921b4c0a7ea25286ed27b594d6abaa65765b1f11c0c46
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -236,6 +236,14 @@ selected with the "select_transducer_id" function.)doc";
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids =
 R"doc(Get all registered transducer ids (in case multiple transducers are
 associated with a single ping)
+
+Returns:
+    std::vector<std::string>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids_as_set =
+R"doc(Get all registered transducer ids (in case multiple transducers are
+associated with a single ping) as a set (unique ids, order may be
+different)
 
 Returns:
     std::set<std::string>)doc";
