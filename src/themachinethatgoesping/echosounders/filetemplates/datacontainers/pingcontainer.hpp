@@ -187,14 +187,16 @@ class PingContainer
 
     std::vector<std::string> find_channel_ids() const
     {
-        std::vector<std::string> channel_ids;
+        std::set<std::string> channel_ids;
 
         for (const auto& ping : _pings)
         {
-            channel_ids.push_back(ping->get_channel_id());
+            channel_ids.insert(ping->get_channel_id());
         }
 
-        return channel_ids;
+        std::vector<std::string> vec;
+        std::copy(channel_ids.begin(), channel_ids.end(), std::back_inserter(vec));
+        return vec;
     }
 
     /**
