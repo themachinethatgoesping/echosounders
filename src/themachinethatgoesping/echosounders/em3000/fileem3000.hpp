@@ -208,24 +208,30 @@ class FileEM3000
             }
         }
 
-        progress_bar.init(0., double(2), fmt::format("Initializing file interfaces"));
+        auto number_of_primary_files = _configuration_interface->per_primary_file().size();
+
+        progress_bar.init(
+            0., number_of_primary_files * 2 + 4, fmt::format("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing configuration");
         _configuration_interface->init_from_file(force, progress_bar);
-        progress_bar.set_prefix("Initializing navigation");
-        _navigation_interface->init_from_file(force, progress_bar);
         progress_bar.tick();
+
+        progress_bar.set_prefix("Initializing navigation");
+        _navigation_interface->init_from_file(force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
         _environment_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         progress_bar.set_prefix("Initializing annotation");
         _annotation_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
         progress_bar.set_prefix("Initializing other");
         _otherfiledata_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
 
         progress_bar.set_prefix("Initializing ping interface");
-        _ping_interface->init_from_file(force, progress_bar);
-        progress_bar.tick();
+        _ping_interface->init_from_file(force, progress_bar, true);
         progress_bar.close(std::string("Done"));
     }
 
@@ -407,6 +413,7 @@ class FileEM3000
         auto interface_printer = t_base::__printer__(float_precision);
 
         printer.append(interface_printer);
+
 
         printer.register_section("Detected Pings");
         printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');

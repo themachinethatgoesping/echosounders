@@ -324,7 +324,7 @@ class PingContainer
             printer.register_value("Total", size());
 
         for (const auto& channel_id : channel_ids)
-            printer.register_value(channel_id, (*this)(channel_id).size());
+            printer.register_value(channel_id, this->operator()(channel_id).size());
 
         return printer;
     }

@@ -166,7 +166,9 @@ class I_FileDataInterface
         this->init_from_file(force, progress_bar.get());
     }
 
-    virtual void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar)
+    virtual void init_from_file(bool                                force,
+                                tools::progressbars::I_ProgressBar& progress_bar,
+                                bool                                external_progress_tick = false)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
@@ -189,7 +191,7 @@ class I_FileDataInterface
                 fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
             inter->init_from_file(force);
 
-            if (!existing_progressbar)
+            if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();
         }
 

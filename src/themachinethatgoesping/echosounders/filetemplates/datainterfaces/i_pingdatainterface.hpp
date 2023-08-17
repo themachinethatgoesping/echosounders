@@ -106,7 +106,9 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     }
 
     using I_FileDataInterface<t_PingDataInterfacePerFile>::init_from_file;
-    void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_from_file(bool                                force,
+                        tools::progressbars::I_ProgressBar& progress_bar,
+                        bool                                external_progress_tick = false) final
     {
         auto primary_interfaces_per_file = this->per_primary_file();
 
@@ -151,7 +153,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
                            i,
                            e.what());
             }
-            if (!existing_progressbar)
+            if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();
         }
 

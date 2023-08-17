@@ -83,7 +83,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     bool initialized() const override { return _initialized_navigation_interpolator; }
 
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
-    void init_from_file(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_from_file(bool                                force,
+                        tools::progressbars::I_ProgressBar& progress_bar,
+                        bool                                external_progress_tick = false) final
     {
         auto primary_interfaces_per_file = this->per_primary_file();
 
@@ -145,7 +147,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 //     i,
                 //     e.what());
             }
-            if (!existing_progressbar)
+            if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();
         }
 

@@ -1,4 +1,4 @@
-//sourcehash: 9ba4fa142c5239f5528921b4c0a7ea25286ed27b594d6abaa65765b1f11c0c46
+//sourcehash: d215690f57d99004b6148b647996924aa965b3659a25667e09808658183a53ad
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -269,22 +269,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_release_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_select_transducer_id =
-R"doc(Select a transducer id that will be used by default when calling
-functions on this ping. (Useful when multiple transducers are
-associated with a single ping.)
-
-Parameter ``id``:)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_select_transducer_id_2 =
-R"doc(Select a transducer id using the number (first, secpnd etc.). (Useful
-when multiple transducers are associated with a single ping.)
-
-Parameter ``transducer_number:``:
-    number first, second etc.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_selected_transducer_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_channel_id = R"doc()doc";
 

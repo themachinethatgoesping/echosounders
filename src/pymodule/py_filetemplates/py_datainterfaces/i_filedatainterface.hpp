@@ -63,11 +63,12 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             py::arg("show_progress") = true);
     cls.def("init_from_file",
             // py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
-            (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(bool, I_ProgressBar&, bool))(&T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC_FileDataInterface(init_from_file_2),
             py::arg("force"),
-            py::arg("progress_bar"));
+            py::arg("progress_bar"),
+            py::arg("external_progress_tick") = false);
 
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
     cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterface(initialized));

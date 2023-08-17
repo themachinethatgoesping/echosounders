@@ -83,14 +83,6 @@ void add_ping_data_interface(T_PyClass& cls)
             &T_BaseClass::get_transducer_ids_as_string,
             DOC_I_Ping(get_transducer_ids_as_string));
     cls.def("get_transducer_id", &T_BaseClass::get_transducer_id, DOC_I_Ping(get_transducer_id));
-    cls.def("select_transducer_id",
-            py::overload_cast<std::string>(&T_BaseClass::select_transducer_id),
-            DOC_I_Ping(select_transducer_id),
-            py::arg("transducer_id"));
-    cls.def("select_transducer_id",
-            py::overload_cast<int>(&T_BaseClass::select_transducer_id),
-            DOC_I_Ping(select_transducer_id),
-            py::arg("transducer_number"));
 
     // --- ping info access ---
     cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_I_Ping(get_file_nr));

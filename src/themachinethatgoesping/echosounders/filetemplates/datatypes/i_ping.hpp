@@ -43,9 +43,6 @@ namespace datatypes {
 class I_Ping
 {
     std::string_view _name;
-    std::string      _selected_transducer_id =
-        ""; ///< In case of multi transducer ping, set the chosen transducer name here. If empty, no
-            ///< transducer name was chosen yet;
 
   protected:
     std::string_view get_name() const { return _name; }
@@ -135,15 +132,9 @@ class I_Ping
      */
     std::string get_transducer_id() const
     {
-        // if a transducer id was selected, use this one
-        if (!_selected_transducer_id.empty())
-        {
-            return _selected_transducer_id;
-        }
-
         auto transducer_ids = get_transducer_ids();
         if (transducer_ids.size() == 1)
-            return *transducer_ids.begin();
+            return transducer_ids[0];
         if (transducer_ids.empty())
             throw std::runtime_error("ERROR[get_transducer_id]: no transducer id registered! "
                                      "Please report, this should not happen;");
@@ -152,43 +143,6 @@ class I_Ping
             "ERROR[get_transducer_id]: Multi transducer configuration. You have to select one of "
             "the following transducer ids: [{}] using select_transducer_id() first.",
             get_transducer_ids_as_string()));
-    }
-
-    /**
-     * @brief Select a transducer id that will be used by default when calling functions on this
-     * ping. (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param id
-     */
-    void select_transducer_id(std::string id)
-    {
-        auto transducer_ids = get_transducer_ids();
-
-        if (std::find(transducer_ids.begin(), transducer_ids.end(), id) != transducer_ids.end())
-            _selected_transducer_id = std::move(id);
-        else
-            throw std::domain_error(fmt::format(
-                "ERROR[select_transducer_id]: Invalid transducer id. You may select one of "
-                "the following ids: [{}] using select_transducer_id().",
-                get_transducer_ids_as_string()));
-    }
-
-    /**
-     * @brief Select a transducer id using the number (first, secpnd etc.). (Useful when multiple
-     * transducers are associated with a single ping.)
-     *
-     * @param transducer_number: number first, second etc.
-     */
-    void select_transducer_id(int transducer_number)
-    {
-        auto transducer_ids = get_transducer_ids();
-
-        auto pyindexer = tools::pyhelper::PyIndexer(transducer_ids.size());
-
-        auto it = transducer_ids.begin();
-        std::advance(it, pyindexer(transducer_number));
-
-        _selected_transducer_id = *it;
     }
 
     void set_timestamp(double timestamp) { _timestamp = timestamp; }
@@ -479,7 +433,6 @@ class I_Ping
         {
             printer.register_section("Transducer locations (multiple transducers)");
             printer.register_container("transducer_ids", get_transducer_ids());
-            printer.register_string("selected_transducer_id", _selected_transducer_id);
         }
         else
         {
