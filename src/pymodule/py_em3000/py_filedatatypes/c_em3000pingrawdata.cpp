@@ -94,6 +94,9 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
             .def("get_number_of_beams",
                  &t_EM3000PingRawData::get_number_of_beams,
                  DOC_EM3000PingRawData(get_number_of_beams))
+            .def("get_water_column_datagram",
+                 &t_EM3000PingRawData::get_water_column_datagram,
+                 DOC_EM3000PingRawData(get_water_column_datagram))
 
             // --- load data ---
             .def("load_datagrams",
