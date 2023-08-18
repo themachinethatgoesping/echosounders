@@ -155,7 +155,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return _water_column_datagram->get_number_of_beams_in_datagram();
     }
 
-    const auto get_water_column_datagram() const { return _water_column_datagram; }
+    const auto& get_water_column_datagram() const { return *_water_column_datagram; }
 
     // ----- load datagrams -----
     boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_pointing_angles;

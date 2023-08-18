@@ -153,17 +153,17 @@ class RawRangeAndAngleBeam
         tools::classhelper::ObjectPrinter printer("RawRangeAndAngleBeam", float_precision);
 
         // raw values
-        printer.register_value("_beam_pointing_angle", _beam_pointing_angle, "0.01°");
-        printer.register_value("_transmit_sector_number", _transmit_sector_number);
-        printer.register_string("_detection_info", fmt::format("0b{:08b}", _detection_info));
-        printer.register_value("_detection_window_length_in_samples",
+        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "0.01°");
+        printer.register_value("transmit_sector_number", _transmit_sector_number);
+        printer.register_string("detection_info", fmt::format("0b{:08b}", _detection_info));
+        printer.register_value("detection_window_length_in_samples",
                                _detection_window_length_in_samples);
-        printer.register_value("_quality_factor", _quality_factor);
-        printer.register_value("_d_corr", _d_corr);
-        printer.register_value("_two_way_travel_time", _two_way_travel_time, "s");
-        printer.register_value("_reflectivity", _reflectivity, "0.1 dB");
-        printer.register_value("_realtime_cleaning_info", _realtime_cleaning_info);
-        printer.register_value("_spare", _spare);
+        printer.register_value("quality_factor", _quality_factor);
+        printer.register_value("d_corr", _d_corr);
+        printer.register_value("two_way_travel_time", _two_way_travel_time, "s");
+        printer.register_value("reflectivity", _reflectivity, "0.1 dB");
+        printer.register_value("realtime_cleaning_info", _realtime_cleaning_info);
+        printer.register_value("spare", _spare);
 
         // processed values
         printer.register_section("processed");

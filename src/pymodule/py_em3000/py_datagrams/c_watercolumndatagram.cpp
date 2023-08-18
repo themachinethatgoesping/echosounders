@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <memory>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
@@ -31,7 +32,8 @@ using datagrams::WaterColumnDatagram;
 
 void init_c_watercolumndatagram(pybind11::module& m)
 {
-    py::class_<WaterColumnDatagram, datagrams::EM3000Datagram>(
+    py::class_<WaterColumnDatagram,
+               datagrams::EM3000Datagram>(
         m,
         "WaterColumnDatagram",
         DOC(themachinethatgoesping, echosounders, em3000, datagrams, WaterColumnDatagram))
