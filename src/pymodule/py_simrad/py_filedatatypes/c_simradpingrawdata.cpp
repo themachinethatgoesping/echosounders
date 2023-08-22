@@ -20,8 +20,6 @@
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 
-#include "../../py_filetemplates/py_datatypes/i_ping.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -40,7 +38,7 @@ void py_create_class_simradpingrawdata(py::module& m, const std::string& CLASS_N
 {
     using t_SimradPingRawData = filedatatypes::SimradPingRawData<T_FileStream>;
 
-    py::class_<t_SimradPingRawData>(
+    py::class_<t_SimradPingRawData, std::shared_ptr<t_SimradPingRawData>>(
         m,
         (CLASS_NAME).c_str(),
         DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPingRawData))

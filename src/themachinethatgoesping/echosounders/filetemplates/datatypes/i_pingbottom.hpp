@@ -34,7 +34,6 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../../pingtools/pingsampleselection.hpp"
-#include "i_ping.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -43,33 +42,32 @@ namespace datatypes {
 
 /**
  * @brief Interface for all ping bottom detection functions
- * 
+ *
  */
-template<typename T_Ping = I_Ping>
-class I_PingBottom : public T_Ping
+//template<typename T_Ping>
+class I_PingBottom
 {
-    std::string_view _name;
+    std::string             _name;
+    //std::shared_ptr<T_Ping> _ping;
 
   protected:
-    std::string_view get_name() const { return _name; }
-
-    std::shared_ptr<T_Ping> _ping;
+    const std::string& get_name() const { return _name; }
 
   public:
-    I_PingBottom(std::string_view name)
-        : _name(name)
+    I_PingBottom(std::string name)
+        : _name(std::move(name))
     {
     }
     virtual ~I_PingBottom() = default;
 
     //------ interface / accessors -----
+    //std::shared_ptr<T_Ping> get_ping() const { return _ping; }
+
     /**
      * @brief Get the base ping object
-     * 
-     * @return std::shared_ptr<I_Ping> 
+     *
+     * @return std::shared_ptr<I_Ping>
      */
-    std::shared_ptr<T_Ping> get_ping() const { return _ping; }
-    
 
     virtual bool has_xyz() const { return false; }
 
@@ -88,8 +86,9 @@ class I_PingBottom : public T_Ping
     struct not_implemented : public std::runtime_error
     {
         not_implemented(std::string_view method_name, std::string_view name)
-            : std::runtime_error(
-                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
+            : std::runtime_error(fmt::format("method {} not implemented for pingbottom type '{}'",
+                                             method_name,
+                                             name))
         {
         }
     };
@@ -100,8 +99,8 @@ class I_PingBottom : public T_Ping
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        printer.register_section("Ping infos");
-        printer.append(_ping->__printer__(float_precision));
+        //printer.register_section("Ping infos");
+        //printer.append(I_Ping::__printer__(float_precision));
 
         printer.register_section("Bottom detection infos");
         auto features     = this->feature_string();
@@ -110,7 +109,6 @@ class I_PingBottom : public T_Ping
             printer.register_string("Features", features, std::string("Not:") + not_features);
         else
             printer.register_string("Features", features);
-
 
         return printer;
     }

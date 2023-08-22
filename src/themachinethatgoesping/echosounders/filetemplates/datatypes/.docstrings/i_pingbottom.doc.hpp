@@ -1,4 +1,4 @@
-//sourcehash: f231995b4d842475572633dcf6a2b7f4152175183494e5258518d7a8edbac9e7
+//sourcehash: 63a4fa4e74ee091fd6b7786a76e631134da5f9728e173623f51a7918bc4709d7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,28 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom = R"doc(Interface for all ping bottom detection functions)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
+R"doc(Get the base ping object
+
+Returns:
+    std::shared_ptr<I_Ping>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_not_implemented = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_not_implemented_not_implemented = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

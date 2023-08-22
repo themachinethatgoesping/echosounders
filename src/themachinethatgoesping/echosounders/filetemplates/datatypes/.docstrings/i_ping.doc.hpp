@@ -1,4 +1,4 @@
-//sourcehash: b4078cc18b338a28ef8f5d2ff929981abe3474fca39e9fd486ec86f55efd1e04
+//sourcehash: 796ca33efe262c3c96c64a027a99809ccfe3748f757cc38b381211ecc3de92f2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,8 +40,6 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping =
 R"doc(Geolocation object holds lat,lon and attitude of the transducer. If
 not set manually, this variable is set by calling
@@ -55,7 +53,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocations = R"doc(< Geolocation of the transducer with the specified transducer_id. A)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle =
-R"doc(Compute the launch angle of the (sinle) target within each sample. If
+R"doc(Compute the launch angle of the (single) target within each sample. If
 you see this comment, this function was not implemented for the
 current ping type.
 
@@ -89,8 +87,6 @@ Parameter ``selection:``:
 
 Returns:
     xt::xtensor<float, 1> in °)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 

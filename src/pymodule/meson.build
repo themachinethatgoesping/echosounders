@@ -10,7 +10,8 @@ sources = [
     'module.cpp',
 
     'py_filetemplates/module.cpp',
-    'py_filetemplates/py_datatypes/i_ping.cpp',
+    'py_filetemplates/py_datatypes/c_i_ping.cpp',
+    'py_filetemplates/py_datatypes/c_i_pingbottom.cpp',
 
     'py_pingtools/module.cpp',
     'py_pingtools/substructures/c_beamsampleselection.cpp',

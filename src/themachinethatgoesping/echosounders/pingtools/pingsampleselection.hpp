@@ -16,10 +16,11 @@
 #include <fmt/core.h>
 
 /* ping includes */
-#include <themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
+#include "substructures/beamsampleselection.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

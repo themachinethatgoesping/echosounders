@@ -20,7 +20,6 @@
 #include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 
-#include "../../py_filetemplates/py_datatypes/i_ping.hpp"
 #include "../py_filedatainterfaces/c_em3000datagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -42,7 +41,7 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
     using t_EM3000PingRawData = filedatatypes::EM3000PingRawData<T_FileStream>;
 
     auto cls =
-        py::class_<t_EM3000PingRawData>(
+        py::class_<t_EM3000PingRawData, std::shared_ptr<t_EM3000PingRawData>>(
             m,
             (CLASS_NAME).c_str(),
             DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingRawData))

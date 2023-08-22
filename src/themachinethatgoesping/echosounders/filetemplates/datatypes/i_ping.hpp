@@ -35,18 +35,19 @@
 
 #include "../../pingtools/pingsampleselection.hpp"
 
+#include "i_pingbottom.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-class I_PingBottom;
 class I_Ping
 {
-    std::string_view _name;
+    std::string _name;
 
   protected:
-    std::string_view get_name() const { return _name; }
+    const std::string& get_name() const { return _name; }
 
     std::string _channel_id;    ///< channel id of the transducer
     double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
@@ -58,8 +59,8 @@ class I_Ping
                        /// ping.get_timestamp()).
 
   public:
-    I_Ping(std::string_view name)
-        : _name(name)
+    I_Ping(std::string name)
+        : _name(std::move(name))
     {
     }
     virtual ~I_Ping() = default;
@@ -366,7 +367,7 @@ class I_Ping
     }
 
     /**
-     * @brief Compute the launch angle of the (sinle) target within each sample. If you see this
+     * @brief Compute the launch angle of the (single) target within each sample. If you see this
      * comment, this function was not implemented for the current ping type.
      *
      * @return xt::xtensor<float, 2>
@@ -376,7 +377,15 @@ class I_Ping
         throw not_implemented("get_angle", this->get_name());
     }
 
-    virtual std::shared_ptr<I_PingBottom> get_bottom() { throw not_implemented("get_bottom", this->get_name()); }
+    // virtual std::shared_ptr<T_PingBottom> get_bottom()
+    // {
+    //     throw not_implemented("get_bottom", this->get_name());
+    // }
+
+    // virtual std::shared_ptr<I_PingBottom> get_i_bottom()
+    // {
+    //     return std::make_shared<I_PingBottom>("I_PingBottom");
+    // }
 
     virtual bool has_angle() const { return false; }
 
@@ -384,7 +393,7 @@ class I_Ping
 
     virtual bool has_bottom() const { return false; }
 
-    std::string feature_string(bool has_features = true) const
+    virtual std::string feature_string(bool has_features = true) const
     {
         std::string features = "";
         if (has_bottom() == has_features)

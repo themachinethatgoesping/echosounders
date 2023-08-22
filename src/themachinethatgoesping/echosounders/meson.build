@@ -8,6 +8,7 @@ headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
 sources = [
+  'filetemplates/datatypes/i_ping.cpp',
 ]
 
 headers = [

@@ -14,7 +14,8 @@ namespace py_filetemplates {
 
 // -- submodule declarations --
 namespace py_datatypes {
-void init_trampoline_i_ping(pybind11::module& m); // py_datatypes/i_ping.cpp
+void init_c_i_ping(pybind11::module& m); // py_datatypes/i_ping.cpp
+void init_c_i_pingbottom(pybind11::module& m); // py_datatypes/i_pingbottom.cpp
 }
 
 // -- create submodule --
@@ -25,7 +26,8 @@ void init_m_filetemplates(py::module& m)
         m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
 
     // pingtool classes classes
-    py_datatypes::init_trampoline_i_ping(subm);
+    py_datatypes::init_c_i_ping(subm);
+    py_datatypes::init_c_i_pingbottom(subm);
 }
 
 }

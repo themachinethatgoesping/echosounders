@@ -20,8 +20,6 @@
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/simrad/simrad_types.hpp"
 
-#include "../../py_filetemplates/py_datatypes/i_ping.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -67,15 +65,13 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
         //      operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        // __PYCLASS_DEFAULT_COPY__(SimradPing)
+         __PYCLASS_DEFAULT_COPY__(t_SimradPing)
         // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(SimradPing)
         // default printing functions
         //__PYCLASS_DEFAULT_PRINTING__(SimradPing)
         // end SimradPing
         ;
-
-    py_filetemplates::py_datatypes::py_i_ping::add_ping_data_interface<t_SimradPing>(cls);
 }
 
 void init_c_simradping(pybind11::module& m)

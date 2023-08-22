@@ -20,8 +20,6 @@
 #include "../../../themachinethatgoesping/echosounders/em3000/filedatatypes/em3000ping.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 
-#include "../../py_filetemplates/py_datatypes/i_ping.hpp"
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -75,25 +73,23 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                         DOC_EM3000Ping(raw_data),
                         py::return_value_policy::reference_internal)
 
-        // --- variable access ---
-        //.def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
+               // --- variable access ---
+               //.def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
 
-        // ----- operators -----
-        // .def("__eq__",
-        //      &EM3000Ping::operator==,
-        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000Ping,
-        //      operator_eq), py::arg("other"))
-        // ----- pybind macros -----
-        // default copy functions
-        // __PYCLASS_DEFAULT_COPY__(EM3000Ping)
+               // ----- operators -----
+               // .def("__eq__",
+               //      &EM3000Ping::operator==,
+               //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000Ping,
+               //      operator_eq), py::arg("other"))
+               // ----- pybind macros -----
+               // default copy functions
+               __PYCLASS_DEFAULT_COPY__(t_EM3000Ping)
         // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(EM3000Ping)
         // default printing functions
-        //__PYCLASS_DEFAULT_PRINTING__(EM3000Ping)
+        // __PYCLASS_DEFAULT_PRINTING__(EM3000Ping)
         // end EM3000Ping
         ;
-
-    py_filetemplates::py_datatypes::py_i_ping::add_ping_data_interface<t_EM3000Ping>(cls);
 }
 
 void init_c_em3000ping(pybind11::module& m)
