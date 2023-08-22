@@ -50,7 +50,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     // raw data
     // key = transducer_id ("TRX-'system_serial_number'")
-    std::map<std::string, EM3000PingRawData<t_ifstream>> _raw_data;
+    std::shared_ptr<std::map<std::string, EM3000PingRawData<t_ifstream>>> _raw_data;
 
     using t_base                = filetemplates::datatypes::I_Ping;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
@@ -62,30 +62,27 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         : t_base("EM3000Ping")
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
-    //, _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
         /* set i_ping parameters */
         set_channel_id(param.build_channel_id());
-
-        // this->_timestamp = _raw_data._datagram_info_raw_data->get_timestamp();
     }
     virtual ~EM3000Ping() = default;
 
     EM3000PingRawData<t_ifstream>& raw_data(const std::string& transducer_id)
     {
-        auto it = _raw_data.find(transducer_id);
-        if (it == _raw_data.end())
+        auto it = _raw_data->find(transducer_id);
+        if (it == _raw_data->end())
             throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
 
         return it->second;
     }
 
-    EM3000PingRawData<t_ifstream>& raw_data() { return raw_data(get_transducer_id()); }
+    const std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data() { return *_raw_data; }
 
     const EM3000PingRawData<t_ifstream>& get_raw_data(const std::string& transducer_id) const
     {
-        auto it = _raw_data.find(transducer_id);
-        if (it == _raw_data.end())
+        auto it = _raw_data->find(transducer_id);
+        if (it == _raw_data->end())
             throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
 
         return it->second;
@@ -107,7 +104,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        _raw_data[fmt::format("TRX-{}", system_serial_number)].add_datagram_info(datagram_info);
+        _raw_data->operator[](fmt::format("TRX-{}", system_serial_number)).add_datagram_info(datagram_info);
     }
 
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
@@ -117,13 +114,13 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        for (auto& [k, v] : _raw_data)
+        for (auto& [k, v] : *_raw_data)
             v.add_datagram_info(datagram_info);
     }
 
     void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> runtime_parameters)
     {
-        for (auto& [k, v] : _raw_data)
+        for (auto& [k, v] : *_raw_data)
         {
             v.set_runtime_parameters(runtime_parameters);
         }
@@ -131,7 +128,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     void load_datagrams(bool skip_data = true)
     {
-        for (auto& [key, raw] : _raw_data)
+        for (auto& [key, raw] : *_raw_data)
             raw.load_datagrams(skip_data);
     }
 
@@ -140,7 +137,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         std::vector<std::string> transducer_ids;
 
         /* return the keys from _geolocations */
-        for (const auto& [k, v] : _raw_data)
+        for (const auto& [k, v] : *_raw_data)
             transducer_ids.push_back(k);
 
         return transducer_ids;
@@ -156,7 +153,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     size_t get_number_of_beams() const final
     {
         size_t number_of_beams = 0;
-        for (const auto& [k, v] : _raw_data)
+        for (const auto& [k, v] : *_raw_data)
             number_of_beams += v.get_number_of_beams();
 
         return number_of_beams;
@@ -171,7 +168,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         auto   beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ get_number_of_beams() });
         size_t bn                   = 0;
 
-        for (const auto& [k, v] : _raw_data)
+        for (const auto& [k, v] : *_raw_data)
         {
             size_t bn_end                                         = bn + v.get_number_of_beams();
             xt::view(beam_pointing_angles, xt::range(bn, bn_end)) = v.get_beam_pointing_angles();
@@ -195,8 +192,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         {
             size_t bn_end = bn + bss.get_number_of_beams();
 
-            auto it = _raw_data.find(transducer_id);
-            if (it != _raw_data.end())
+            auto it = _raw_data->find(transducer_id);
+            if (it != _raw_data->end())
             {
                 xt::view(beam_pointing_angles, xt::range(bn, bn_end)) =
                     it->second.get_beam_pointing_angles(bss);
@@ -219,7 +216,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             xt::xtensor<uint16_t, 1>::from_shape({ get_number_of_beams() });
         size_t bn = 0;
 
-        for (const auto& [k, v] : _raw_data)
+        for (const auto& [k, v] : *_raw_data)
         {
             size_t bn_end = bn + v.get_number_of_beams();
             xt::view(number_of_samples_per_beam, xt::range(bn, bn_end)) =
@@ -245,8 +242,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         {
             size_t bn_end = bn + bss.get_number_of_beams();
 
-            auto it = _raw_data.find(transducer_id);
-            if (it != _raw_data.end())
+            auto it = _raw_data->find(transducer_id);
+            if (it != _raw_data->end())
             {
                 xt::view(number_of_samples_per_beam, xt::range(bn, bn_end)) =
                     it->second.get_number_of_samples_per_beam(bss);
@@ -294,8 +291,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         size_t output_bn = 0;
         for (const auto& [transducer_id, bss] : selection.get_sample_selections())
         {
-            auto raw_it = _raw_data.find(transducer_id);
-            if (raw_it != _raw_data.end())
+            auto raw_it = _raw_data->find(transducer_id);
+            if (raw_it != _raw_data->end())
             {
 
                 const auto& raw_data = raw_it->second;
@@ -401,7 +398,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
         // printer.register_string(
         //     "Sample data type",
-        //     std::string(magic_enum::enum_name(_raw_data._ping_data.get_data_type())));
+        //     std::string(magic_enum::enum_name(_raw_data->_ping_data.get_data_type())));
 
         // printer.register_section("Important members");
         // printer.register_string("raw_data", "EM3000PingRawData");

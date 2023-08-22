@@ -1,4 +1,4 @@
-//sourcehash: 796ca33efe262c3c96c64a027a99809ccfe3748f757cc38b381211ecc3de92f2
+//sourcehash: 6f284c46e8f355d3e794fef7d71293f33720231bb742e94fdab8e7107cf9af34
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,8 @@ R"doc(Geolocation object holds lat,lon and attitude of the transducer. If
 not set manually, this variable is set by calling
 file.I_navigation.get_geolocation(ping.get_channel_id(),
 ping.get_timestamp()).)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
 

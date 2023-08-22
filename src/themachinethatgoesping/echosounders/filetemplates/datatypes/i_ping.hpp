@@ -377,10 +377,10 @@ class I_Ping
         throw not_implemented("get_angle", this->get_name());
     }
 
-    // virtual std::shared_ptr<T_PingBottom> get_bottom()
-    // {
-    //     throw not_implemented("get_bottom", this->get_name());
-    // }
+    virtual const I_PingBottom& bottom()
+    {
+        throw not_implemented("bottom", this->get_name());
+    }
 
     // virtual std::shared_ptr<I_PingBottom> get_i_bottom()
     // {

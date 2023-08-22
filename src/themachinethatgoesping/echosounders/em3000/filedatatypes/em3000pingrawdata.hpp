@@ -69,8 +69,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return *_runtime_parameters;
     }
 
-    // datagrams::RAW3
-    //     _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
     datagrams::WaterColumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
     {
         auto& datagram_infos =
