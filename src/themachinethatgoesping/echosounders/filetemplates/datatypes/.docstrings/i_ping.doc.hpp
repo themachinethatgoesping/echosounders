@@ -1,4 +1,4 @@
-//sourcehash: d215690f57d99004b6148b647996924aa965b3659a25667e09808658183a53ad
+//sourcehash: b4078cc18b338a28ef8f5d2ff929981abe3474fca39e9fd486ec86f55efd1e04
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -39,6 +39,8 @@
 
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping =
 R"doc(Geolocation object holds lat,lon and attitude of the transducer. If
@@ -87,6 +89,8 @@ Parameter ``selection:``:
 
 Returns:
     xt::xtensor<float, 1> in °)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
@@ -255,6 +259,8 @@ Returns:
     std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_sv = R"doc()doc";
 
