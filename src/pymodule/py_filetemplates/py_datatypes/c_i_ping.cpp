@@ -147,7 +147,8 @@ void init_c_i_ping(pybind11::module& m)
                  DOC_I_Ping(get_sv_stacked),
                  py::arg("dB") = false)
 
-            .def_property_readonly("bottom", &I_Ping::bottom, DOC_I_Ping(bottom))
+            .def_property_readonly(
+                "bottom", py::overload_cast<>(&I_Ping::bottom), DOC_I_Ping(bottom))
 
             // --- ping interface (functions that indicate ping features ---
             .def("has_angle", &I_Ping::has_angle, DOC_I_Ping(has_angle))

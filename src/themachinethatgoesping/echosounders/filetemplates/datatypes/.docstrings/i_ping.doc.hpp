@@ -1,4 +1,4 @@
-//sourcehash: 726062df3dafdc5417940c16d57c196e968c3fda30cfd42cf4c8f65cb8b5cd93
+//sourcehash: 815f4ce1a3078582206a44035ab7305b70aa6ed1696dce1a20688016963deb27
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,8 @@ file.I_navigation.get_geolocation(ping.get_channel_id(),
 ping.get_timestamp()).)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
 

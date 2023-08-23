@@ -377,9 +377,10 @@ class I_Ping
         throw not_implemented("get_angle", this->get_name());
     }
 
+    virtual I_PingBottom&       bottom() { throw not_implemented("bottom", this->get_name()); }
     virtual const I_PingBottom& bottom() const
     {
-        throw not_implemented("bottom", this->get_name());
+        throw not_implemented("bottom (const ref)", this->get_name());
     }
 
     virtual bool has_angle() const { return false; }
@@ -444,12 +445,20 @@ class I_Ping
         else
             printer.register_string("Features", features);
 
-        features     = this->bottom().feature_string();
-        not_features = this->feature_string(false);
-        if (!not_features.empty())
-            printer.register_string("Bottom features", features, std::string("Not:") + not_features);
-        else
-            printer.register_string("Bottom features", features);
+        try
+        {
+            features     = this->bottom().feature_string();
+            not_features = this->bottom().feature_string(false);
+            if (!not_features.empty())
+                printer.register_string(
+                    "Bottom features", features, std::string("Not:") + not_features);
+            else
+                printer.register_string("Bottom features", features);
+        }
+        catch (not_implemented& e)
+        {
+            printer.register_string("Bottom features", "not implemented");
+        }
 
         if (get_transducer_ids().size() > 1)
         {

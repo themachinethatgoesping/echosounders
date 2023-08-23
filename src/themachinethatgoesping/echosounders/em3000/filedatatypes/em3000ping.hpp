@@ -33,6 +33,8 @@
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../em3000_datagrams.hpp"
+
+#include "em3000pingbottom.hpp"
 #include "em3000pingrawdata.hpp"
 
 namespace themachinethatgoesping {
@@ -54,6 +56,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         tools::helper::DefaultSharedPointerMap<std::string, EM3000PingRawData<t_ifstream>>;
     t_rawdatamap _raw_data;
 
+    EM3000PingBottom<t_ifstream> _bottom;
+
     using t_base                = filetemplates::datatypes::I_Ping;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
 
@@ -64,6 +68,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
         : t_base("EM3000Ping")
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
+        , _bottom(_raw_data)
     {
         /* set i_ping parameters */
         set_channel_id(param.build_channel_id());
@@ -388,6 +393,10 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
         return samples;
     }
+
+    // ----- bottom -----
+    EM3000PingBottom<t_ifstream>&       bottom() override { return _bottom; }
+    const EM3000PingBottom<t_ifstream>& bottom() const override { return _bottom; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
