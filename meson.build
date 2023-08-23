@@ -9,7 +9,7 @@ project(
   'cpp',
   license: 'MPL-2.0',
 
-  version: '0.19.2',
+  version: '0.19.3',
   default_options: ['warning_level=2', 'buildtype=release', 'cpp_std=c++20'],
   meson_version: '>=1.1' #first meson version to support c++20 with clang
 )
@@ -19,7 +19,11 @@ projectnamespace = 'themachinethatgoesping'
 # --- dependencies ---
 
 # system
-omp_dep = dependency('openmp')
+if meson.get_compiler('cpp').get_id() == 'clang-cl'
+  omp_dep = declare_dependency()
+else
+  omp_dep = dependency('openmp')
+endif
 
 # boost
 boost_dep = dependency('boost', modules: 'iostreams', static: get_option('dynamic_boost').disabled())
