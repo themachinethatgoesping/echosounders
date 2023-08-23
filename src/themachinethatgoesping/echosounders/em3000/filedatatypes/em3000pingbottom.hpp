@@ -44,14 +44,15 @@ template<typename t_ifstream>
 class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 {
     // raw data
-    using t_rawdatamap                      = std::map<std::string, EM3000PingRawData<t_ifstream>>;
-    std::shared_ptr<t_rawdatamap> _raw_data = std::make_shared<t_rawdatamap>();
+    using t_rawdatamap =
+        tools::helper::DefaultSharedPointerMap<std::string, EM3000PingRawData<t_ifstream>>;
+    t_rawdatamap _raw_data;
 
     using t_base                = filetemplates::datatypes::I_PingBottom;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
 
   public:
-    EM3000PingBottom(std::shared_ptr<t_rawdatamap> raw_data)
+    EM3000PingBottom(t_rawdatamap raw_data)
         : t_base("EM3000PingBottom")
         , _raw_data(std::move(raw_data))
     {
@@ -60,22 +61,22 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 
     EM3000PingRawData<t_ifstream>& raw_data(const std::string& transducer_id)
     {
-        auto it = _raw_data->find(transducer_id);
-        if (it == _raw_data->end())
+        auto it = _raw_data.find(transducer_id);
+        if (it == _raw_data.end())
             throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
 
-        return it->second;
+        return *(it->second);
     }
 
-    const std::map<std::string, EM3000PingRawData<t_ifstream>>& raw_data() { return *_raw_data; }
+    const typename t_rawdatamap::t_base& raw_data() { return _raw_data; }
 
     const EM3000PingRawData<t_ifstream>& get_raw_data(const std::string& transducer_id) const
     {
-        auto it = _raw_data->find(transducer_id);
-        if (it == _raw_data->end())
+        auto it = _raw_data.find(transducer_id);
+        if (it == _raw_data.end())
             throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
 
-        return it->second;
+        return *(it->second);
     }
 
     // ----- I_PingBottom interface -----
@@ -90,7 +91,7 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 
     bool has_xyz() const override
     {
-        for (const auto& [transducer_id, raw_data] : *_raw_data)
+        for (const auto& [transducer_id, raw_data] : _raw_data)
             if (has_xyz(transducer_id))
                 return true;
 
@@ -108,7 +109,7 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 
         // printer.register_string(
         //     "Sample data type",
-        //     std::string(magic_enum::enum_name(_raw_data->_ping_data.get_data_type())));
+        //     std::string(magic_enum::enum_name(_raw_data._ping_data.get_data_type())));
 
         // printer.register_section("Important members");
         // printer.register_string("raw_data", "EM3000PingRawData");
