@@ -377,15 +377,10 @@ class I_Ping
         throw not_implemented("get_angle", this->get_name());
     }
 
-    virtual const I_PingBottom& bottom()
+    virtual const I_PingBottom& bottom() const
     {
         throw not_implemented("bottom", this->get_name());
     }
-
-    // virtual std::shared_ptr<I_PingBottom> get_i_bottom()
-    // {
-    //     return std::make_shared<I_PingBottom>("I_PingBottom");
-    // }
 
     virtual bool has_angle() const { return false; }
 
@@ -448,6 +443,13 @@ class I_Ping
             printer.register_string("Features", features, std::string("Not:") + not_features);
         else
             printer.register_string("Features", features);
+
+        features     = this->bottom().feature_string();
+        not_features = this->feature_string(false);
+        if (!not_features.empty())
+            printer.register_string("Bottom features", features, std::string("Not:") + not_features);
+        else
+            printer.register_string("Bottom features", features);
 
         if (get_transducer_ids().size() > 1)
         {
