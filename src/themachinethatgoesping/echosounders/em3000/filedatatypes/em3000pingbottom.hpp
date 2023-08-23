@@ -44,13 +44,14 @@ template<typename t_ifstream>
 class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 {
     // raw data
-    std::shared_ptr<std::map<std::string, EM3000PingRawData<t_ifstream>>> _raw_data;
+    using t_rawdatamap                      = std::map<std::string, EM3000PingRawData<t_ifstream>>;
+    std::shared_ptr<t_rawdatamap> _raw_data = std::make_shared<t_rawdatamap>();
 
     using t_base                = filetemplates::datatypes::I_PingBottom;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
 
   public:
-    EM3000PingBottom(std::shared_ptr<std::map<std::string, EM3000PingRawData<t_ifstream>>> raw_data)
+    EM3000PingBottom(std::shared_ptr<t_rawdatamap> raw_data)
         : t_base("EM3000PingBottom")
         , _raw_data(std::move(raw_data))
     {

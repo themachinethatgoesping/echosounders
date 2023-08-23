@@ -27,6 +27,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
@@ -49,8 +50,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     // flags
 
     // raw data
-    // key = transducer_id ("TRX-'system_serial_number'")
-    std::shared_ptr<std::map<std::string, EM3000PingRawData<t_ifstream>>> _raw_data;
+    using t_rawdatamap                      = std::map<std::string, EM3000PingRawData<t_ifstream>>;
+    std::shared_ptr<t_rawdatamap> _raw_data = std::make_shared<t_rawdatamap>();
 
     using t_base                = filetemplates::datatypes::I_Ping;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
@@ -104,7 +105,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        _raw_data->operator[](fmt::format("TRX-{}", system_serial_number)).add_datagram_info(datagram_info);
+        _raw_data->operator[](fmt::format("TRX-{}", system_serial_number))
+            .add_datagram_info(datagram_info);
     }
 
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
