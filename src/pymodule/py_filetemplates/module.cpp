@@ -26,8 +26,8 @@ void init_m_filetemplates(py::module& m)
         m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
 
     // pingtool classes classes
-    py_datatypes::init_c_i_ping(subm);
     py_datatypes::init_c_i_pingbottom(subm);
+    py_datatypes::init_c_i_ping(subm);
 }
 
 }
