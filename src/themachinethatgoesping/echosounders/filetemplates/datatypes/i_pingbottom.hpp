@@ -46,11 +46,11 @@ namespace datatypes {
  * @brief Interface for all ping bottom detection functions
  *
  */
-// template<typename T_Ping>
-class I_PingBottom : public I_PingCommon
+class I_PingBottom : virtual public I_PingCommon
 {
-
   public:
+    using t_base = I_PingCommon;
+    
     I_PingBottom(std::string name)
         : I_PingCommon(std::move(name))
     {

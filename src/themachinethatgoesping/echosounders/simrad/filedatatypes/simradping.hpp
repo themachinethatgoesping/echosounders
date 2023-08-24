@@ -50,7 +50,9 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     SimradPing(filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
                                datagram_info_raw_data,
                datagrams::RAW3 ping_data)
-        : t_base("SimradPing")
+        : t_base::t_base("SimradPing") // calling base constructor (I_PingCommon) is necessary
+                                       // because of virtual inheritance
+        , t_base("SimradPing")
         , _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
 

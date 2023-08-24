@@ -43,7 +43,7 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-class I_Ping : public I_PingCommon
+class I_Ping : virtual public I_PingCommon
 {
   protected:
     std::string _channel_id;    ///< channel id of the transducer

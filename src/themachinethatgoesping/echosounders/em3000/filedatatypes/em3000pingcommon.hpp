@@ -8,6 +8,9 @@
 #pragma once
 
 /* generated doc strings */
+#include ".docstrings/em3000pingcommon.doc.hpp"
+
+/* generated doc strings */
 #include ".docstrings/em3000ping.doc.hpp"
 
 /* std includes */
@@ -52,7 +55,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     // flags
 
     // raw data
-    using t_rawdatamap                      = std::map<std::string, EM3000PingRawData<t_ifstream>>;
+    using t_rawdatamap = std::map<std::string, EM3000PingRawData<t_ifstream>>;
     std::shared_ptr<t_rawdatamap> _raw_data = std::make_shared<t_rawdatamap>();
 
     EM3000PingBottom<t_ifstream> _bottom;
@@ -64,9 +67,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     EM3000Ping(size_t                                   file_nr,
                std::string                              file_path,
                const datagrams::InstallationParameters& param)
-        : t_base::t_base("EM3000Ping") // calling base constructor (I_PingCommon) is necessary
-                                       // because of virtual inheritance
-        , t_base("EM3000Ping")
+        : t_base("EM3000Ping")
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
         , _bottom(_raw_data)
@@ -78,9 +79,7 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     // explicit copy constructor and assignment operators
     EM3000Ping(const EM3000Ping& other)
-        : t_base::t_base(other) // calling base constructor (I_PingCommon) is necessary
-                                // because of virtual inheritance
-        , t_base(other)
+        : t_base(other)
         , _file_nr(other._file_nr)
         , _file_path(other._file_path)
         , _raw_data(std::make_shared<t_rawdatamap>(*other._raw_data))

@@ -52,7 +52,8 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 
   public:
     EM3000PingBottom(std::shared_ptr<t_rawdatamap> raw_data)
-        : t_base("EM3000PingBottom")
+        : t_base::t_base("EM3000PingBottom") // necessary because of virtual inheritance
+        , t_base("EM3000PingBottom")
         , _raw_data(std::move(raw_data))
     {
     }
@@ -60,7 +61,8 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 
     // explicit copy constructor and assignment operators
     EM3000PingBottom(const EM3000PingBottom& other)
-        : t_base(other)
+        : t_base::t_base(other)
+        , t_base(other)
         , _raw_data(std::make_shared<t_rawdatamap>(*other._raw_data))
     {
     }
