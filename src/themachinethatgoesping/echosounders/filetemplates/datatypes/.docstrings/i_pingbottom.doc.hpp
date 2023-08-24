@@ -1,4 +1,4 @@
-//sourcehash: 6ed51fba006c9d1c2e40c97c41122cda3b5ac1c93f9536b09b9a117e3d334167
+//sourcehash: 98fbc1fbe87327ef5d11358cc14ac7e0064b8bafc1f80901b74bc4bc2570e556
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,8 +43,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_string = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
 R"doc(Get an XYZ object containing the XYZ position of the bottom detection
@@ -91,12 +89,6 @@ R"doc(Get the base ping object
 
 Returns:
     std::shared_ptr<I_Ping>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_name = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_not_implemented = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_not_implemented_not_implemented = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_printer = R"doc()doc";
 

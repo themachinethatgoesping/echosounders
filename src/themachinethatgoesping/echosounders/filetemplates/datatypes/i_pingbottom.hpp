@@ -35,6 +35,7 @@
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../../pingtools/pingsampleselection.hpp"
+#include "i_pingcommon.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,17 +47,12 @@ namespace datatypes {
  *
  */
 // template<typename T_Ping>
-class I_PingBottom
+class I_PingBottom : public I_PingCommon
 {
-    std::string _name;
-    // std::shared_ptr<T_Ping> _ping;
-
-  protected:
-    const std::string& get_name() const { return _name; }
 
   public:
     I_PingBottom(std::string name)
-        : _name(std::move(name))
+        : I_PingCommon(std::move(name))
     {
     }
     virtual ~I_PingBottom() = default;
@@ -82,7 +78,7 @@ class I_PingBottom
      */
     virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const
     {
-        throw not_implemented(__func__, _name);
+        throw not_implemented(__func__, get_name());
     }
 
     /**
@@ -95,10 +91,10 @@ class I_PingBottom
      * @param transducer_id transducer id (for multi transducer configurations)
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(const std::string& transducer_id)
-        const
+    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
+        [[maybe_unused]] const std::string& transducer_id) const
     {
-        throw not_implemented(__func__, _name);
+        throw not_implemented(__func__, get_name());
     }
 
     /**
@@ -118,7 +114,7 @@ class I_PingBottom
         throw not_implemented(__func__, this->get_name());
     }
 
-    std::string feature_string(bool has_features = true) const
+    std::string feature_string(bool has_features = true) const override
     {
         std::string features = "";
         if (has_xyz() == has_features)
@@ -129,25 +125,14 @@ class I_PingBottom
         return features;
     }
 
-  protected:
-    struct not_implemented : public std::runtime_error
-    {
-        not_implemented(std::string_view method_name, std::string_view name)
-            : std::runtime_error(fmt::format("method {} not implemented for pingbottom type '{}'",
-                                             method_name,
-                                             name))
-        {
-        }
-    };
-
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        // printer.register_section("Ping infos");
-        // printer.append(I_Ping::__printer__(float_precision));
+        // Transducers
+        printer.append(I_PingCommon::__printer__(float_precision));
 
         printer.register_section("Bottom detection infos");
         auto features     = this->feature_string();

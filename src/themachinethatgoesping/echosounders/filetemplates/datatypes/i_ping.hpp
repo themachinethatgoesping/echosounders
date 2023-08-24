@@ -36,19 +36,16 @@
 #include "../../pingtools/pingsampleselection.hpp"
 
 #include "i_pingbottom.hpp"
+#include "i_pingcommon.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-class I_Ping
+class I_Ping : public I_PingCommon
 {
-    std::string _name;
-
   protected:
-    const std::string& get_name() const { return _name; }
-
     std::string _channel_id;    ///< channel id of the transducer
     double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     std::map<std::string, navigation::datastructures::GeoLocationLatLon>
@@ -59,22 +56,13 @@ class I_Ping
                        /// ping.get_timestamp()).
 
   public:
+    using t_base = I_PingCommon;
+
     I_Ping(std::string name)
-        : _name(std::move(name))
+        : I_PingCommon(std::move(name))
     {
     }
     virtual ~I_Ping() = default;
-
-    //------ interface / accessors -----
-    double             get_timestamp() const { return _timestamp; }
-    const std::string& get_channel_id() const { return _channel_id; }
-    void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
-
-    virtual size_t get_file_nr() const { throw not_implemented("get_file_nr", this->get_name()); }
-    virtual std::string get_file_path() const
-    {
-        throw not_implemented("get_file_path", this->get_name());
-    }
 
     //----- multi transducer selection -----
     /**
@@ -83,7 +71,7 @@ class I_Ping
      *
      * @return std::vector<std::string>
      */
-    virtual std::vector<std::string> get_transducer_ids() const
+    std::vector<std::string> get_transducer_ids() const override
     {
         std::vector<std::string> transducer_ids;
 
@@ -100,7 +88,7 @@ class I_Ping
      *
      * @return std::set<std::string>
      */
-    virtual std::set<std::string> get_transducer_ids_as_set() const
+    std::set<std::string> get_transducer_ids_as_set() const override
     {
         std::set<std::string> transducer_ids;
 
@@ -111,40 +99,15 @@ class I_Ping
         return transducer_ids;
     }
 
-    /**
-     * @brief Get all register transducer ids as a string (useful for printing)
-     *
-     * @return std::string
-     */
-    std::string get_transducer_ids_as_string() const
+    //------ interface / accessors -----
+    double             get_timestamp() const { return _timestamp; }
+    const std::string& get_channel_id() const { return _channel_id; }
+    void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
+
+    virtual size_t get_file_nr() const { throw not_implemented("get_file_nr", this->get_name()); }
+    virtual std::string get_file_path() const
     {
-        std::string ids = "";
-        for (const auto& id : get_transducer_ids())
-            ids += id + ",";
-        ids.pop_back();
-
-        return ids;
-    }
-
-    /**
-     * @brief Get the transducer id of the ping. In case multiple transducer ids are associated with
-     * a single ping, this function will return the one selected with the "select_transducer_id"
-     * function.
-     *
-     */
-    std::string get_transducer_id() const
-    {
-        auto transducer_ids = get_transducer_ids();
-        if (transducer_ids.size() == 1)
-            return transducer_ids[0];
-        if (transducer_ids.empty())
-            throw std::runtime_error("ERROR[get_transducer_id]: no transducer id registered! "
-                                     "Please report, this should not happen;");
-
-        throw std::domain_error(fmt::format(
-            "ERROR[get_transducer_id]: Multi transducer configuration. You have to select one of "
-            "the following transducer ids: [{}] using select_transducer_id() first.",
-            get_transducer_ids_as_string()));
+        throw not_implemented("get_file_path", this->get_name());
     }
 
     void set_timestamp(double timestamp) { _timestamp = timestamp; }
@@ -460,16 +423,8 @@ class I_Ping
             printer.register_string("Bottom features", "not implemented");
         }
 
-        if (get_transducer_ids().size() > 1)
-        {
-            printer.register_section("Transducer locations (multiple transducers)");
-            printer.register_container("transducer_ids", get_transducer_ids());
-        }
-        else
-        {
-            printer.register_section("Transducer location");
-            printer.register_string("transducer_id", get_transducer_id());
-        }
+        // print transducer ids
+        printer.append(t_base::__printer__(float_precision));
 
         for (const auto& [k, v] : this->_geolocations)
         {

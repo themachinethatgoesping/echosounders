@@ -1,4 +1,4 @@
-//sourcehash: 815f4ce1a3078582206a44035ab7305b70aa6ed1696dce1a20688016963deb27
+//sourcehash: 804c398a006cde7c774e81d2d92b93afe801cb73d2d13b62a9f2a980aa196298
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,11 +40,7 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping =
-R"doc(Geolocation object holds lat,lon and attitude of the transducer. If
-not set manually, this variable is set by calling
-file.I_navigation.get_geolocation(ping.get_channel_id(),
-ping.get_timestamp()).)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom = R"doc()doc";
 
@@ -115,8 +111,6 @@ configuration, the transducer that was selected with
 
 Returns:
     const navigation::datastructures::GeoLocationLatLon&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams =
 R"doc(Get the number of beams
@@ -232,11 +226,6 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_id =
-R"doc(Get the transducer id of the ping. In case multiple transducer ids are
-associated with a single ping, this function will return the one
-selected with the "select_transducer_id" function.)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids =
 R"doc(Get all registered transducer ids (in case multiple transducers are
 associated with a single ping)
@@ -252,12 +241,6 @@ different)
 Returns:
     std::set<std::string>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids_as_string =
-R"doc(Get all register transducer ids as a string (useful for printing)
-
-Returns:
-    std::string)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_bottom = R"doc()doc";
@@ -265,8 +248,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_sv = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_load_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_not_implemented = R"doc()doc";
 

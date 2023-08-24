@@ -11,7 +11,6 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_ping.hpp"
-//
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -28,7 +27,7 @@ void init_c_i_ping(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
     auto cls =
-        py::class_<I_Ping, std::shared_ptr<I_Ping>>(
+        py::class_<I_Ping, I_PingCommon, std::shared_ptr<I_Ping>>(
             m,
             "I_Ping",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping))
@@ -80,19 +79,11 @@ void init_c_i_ping(pybind11::module& m)
                  py::arg("selection"),
                  DOC_I_Ping(get_number_of_samples_per_beam_2))
 
-            // --- multi transducer configuration ---
-            .def("get_transducer_ids", &I_Ping::get_transducer_ids, DOC_I_Ping(get_transducer_ids))
-            .def("get_transducer_ids_as_string",
-                 &I_Ping::get_transducer_ids_as_string,
-                 DOC_I_Ping(get_transducer_ids_as_string))
-            .def("get_transducer_id", &I_Ping::get_transducer_id, DOC_I_Ping(get_transducer_id))
-
             // --- ping info access ---
             .def("get_file_nr", &I_Ping::get_file_nr, DOC_I_Ping(get_file_nr))
             .def("get_file_path", &I_Ping::get_file_path, DOC_I_Ping(get_file_path))
 
             // --- variable access ---
-
             .def("get_timestamp", &I_Ping::get_timestamp, DOC_I_Ping(timestamp))
             .def("set_timestamp",
                  &I_Ping::set_timestamp,
@@ -153,10 +144,6 @@ void init_c_i_ping(pybind11::module& m)
             // --- ping interface (functions that indicate ping features ---
             .def("has_angle", &I_Ping::has_angle, DOC_I_Ping(has_angle))
             .def("has_sv", &I_Ping::has_sv, DOC_I_Ping(has_sv))
-            .def("feature_string",
-                 &I_Ping::feature_string,
-                 DOC_I_Ping(feature_string),
-                 py::arg("has_features") = true)
 
         // ----- pybind macros -----
         // default copy functions
