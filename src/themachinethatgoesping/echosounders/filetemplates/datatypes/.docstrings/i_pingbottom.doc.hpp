@@ -1,4 +1,4 @@
-//sourcehash: 63a4fa4e74ee091fd6b7786a76e631134da5f9728e173623f51a7918bc4709d7
+//sourcehash: 8c87e60a52486e3a43b1dc55252704b2b54546dd4b78e8884b3fd25a0b4b3eb1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
 R"doc(Get the base ping object
