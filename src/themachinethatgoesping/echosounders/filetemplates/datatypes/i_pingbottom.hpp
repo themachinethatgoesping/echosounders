@@ -51,8 +51,8 @@ class I_PingBottom : virtual public I_PingCommon
   public:
     using t_base = I_PingCommon;
     
-    I_PingBottom(std::string name)
-        : I_PingCommon(std::move(name))
+    I_PingBottom()
+        : I_PingCommon("I_PingBottom")
     {
     }
     virtual ~I_PingBottom() = default;

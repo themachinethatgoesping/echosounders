@@ -1,4 +1,4 @@
-//sourcehash: d571036939312e2ae48d771e48485f7cacde6c071686f3fb7e78d422d766725e
+//sourcehash: 7dde00f84a993964bb179a40f34b9a1454ba9d3206f964db8b7b195307744420
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,23 +42,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_EM3000PingBottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_EM3000PingBottom_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_raw_data = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_has_xyz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_has_xyz_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_operator_assign = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_raw_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_raw_data_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_raw_data_3 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

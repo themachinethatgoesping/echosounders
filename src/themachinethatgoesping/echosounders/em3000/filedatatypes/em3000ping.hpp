@@ -35,7 +35,7 @@
 #include "../em3000_datagrams.hpp"
 
 #include "em3000pingbottom.hpp"
-#include "em3000pingrawdata.hpp"
+#include "em3000pingcommon.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -43,30 +43,44 @@ namespace em3000 {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class EM3000Ping : public filetemplates::datatypes::I_Ping
+class EM3000Ping
+    : public filetemplates::datatypes::I_Ping
+    , public EM3000PingCommon<t_ifstream>
 {
     // file nr and path of primary file
     size_t      _file_nr;
     std::string _file_path;
 
-    // flags
-
-    // raw data
-    using t_rawdatamap                      = std::map<std::string, EM3000PingRawData<t_ifstream>>;
-    std::shared_ptr<t_rawdatamap> _raw_data = std::make_shared<t_rawdatamap>();
-
     EM3000PingBottom<t_ifstream> _bottom;
 
-    using t_base                = filetemplates::datatypes::I_Ping;
+  public:
+    using t_base0 =
+        filetemplates::datatypes::I_PingCommon; // this is the common ancestor which is virtually
+                                                // inherited by base1 and base2
+    using t_base1               = filetemplates::datatypes::I_Ping;
+    using t_base2               = EM3000PingCommon<t_ifstream>;
     using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
+
+    // select virtual overrides
+    // using t_base2::get_transducer_ids;
+    using t_base1::set_channel_id;
+
+  protected:
+    using t_base2::_raw_data;
+    using typename t_base2::t_rawdatamap;
+
+  public:
+    // selecting correct overrides
+    inline std::vector<std::string> get_transducer_ids() const override
+    {
+        return t_base2::get_transducer_ids();
+    }
 
   public:
     EM3000Ping(size_t                                   file_nr,
                std::string                              file_path,
                const datagrams::InstallationParameters& param)
-        : t_base::t_base("EM3000Ping") // calling base constructor (I_PingCommon) is necessary
-                                       // because of virtual inheritance
-        , t_base("EM3000Ping")
+        : t_base0("EM3000Ping")
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
         , _bottom(_raw_data)
@@ -78,21 +92,21 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
 
     // explicit copy constructor and assignment operators
     EM3000Ping(const EM3000Ping& other)
-        : t_base::t_base(other) // calling base constructor (I_PingCommon) is necessary
-                                // because of virtual inheritance
-        , t_base(other)
+        : t_base0(other) // calling base constructor (I_PingCommon) is necessary
+                         // because of virtual inheritance
+        , t_base1(other)
+        , t_base2(other)
         , _file_nr(other._file_nr)
         , _file_path(other._file_path)
-        , _raw_data(std::make_shared<t_rawdatamap>(*other._raw_data))
         , _bottom(_raw_data)
     {
     }
     EM3000Ping& operator=(const EM3000Ping& other)
     {
-        t_base::operator=(other);
+        t_base1::operator=(other);
+        t_base2::operator=(other);
         _file_nr   = other._file_nr;
         _file_path = other._file_path;
-        _raw_data  = std::make_shared<t_rawdatamap>(*other._raw_data);
         _bottom    = EM3000PingBottom<t_ifstream>(_raw_data);
         return *this;
     }
@@ -161,23 +175,12 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
             raw.load_datagrams(skip_data);
     }
 
-    std::vector<std::string> get_transducer_ids() const override
-    {
-        std::vector<std::string> transducer_ids;
-
-        /* return the keys from _geolocations */
-        for (const auto& [k, v] : *_raw_data)
-            transducer_ids.push_back(k);
-
-        return transducer_ids;
-    }
-
     // ----- I_Ping interface -----
-    using t_base::get_beam_pointing_angles;
-    using t_base::get_number_of_beams;
-    using t_base::get_number_of_samples_per_beam;
-    using t_base::get_sv;
-    using t_base::get_sv_stacked;
+    using t_base1::get_beam_pointing_angles;
+    using t_base1::get_number_of_beams;
+    using t_base1::get_number_of_samples_per_beam;
+    using t_base1::get_sv;
+    using t_base1::get_sv_stacked;
 
     size_t get_number_of_beams() const final
     {
@@ -425,7 +428,8 @@ class EM3000Ping : public filetemplates::datatypes::I_Ping
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        printer.append(t_base::__printer__(float_precision));
+        printer.append(t_base1::__printer__(float_precision));
+        // printer.append(t_base1::__printer__(float_precision));
 
         // printer.register_section("EM3000 ping infos");
 

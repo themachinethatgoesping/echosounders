@@ -67,17 +67,6 @@ class I_PingCommon
     }
 
     /**
-     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
-     * single ping) as a set (unique ids, order may be different)
-     *
-     * @return std::set<std::string>
-     */
-    virtual std::set<std::string> get_transducer_ids_as_set() const
-    {
-        throw not_implemented(__func__, get_name());
-    }
-
-    /**
      * @brief Get all register transducer ids as a string (useful for printing)
      *
      * @return std::string
@@ -90,6 +79,23 @@ class I_PingCommon
         ids.pop_back();
 
         return ids;
+    }
+
+    /**
+     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
+     * single ping) as a set (unique ids, order may be different)
+     *
+     * @return std::set<std::string>
+     */
+    std::set<std::string> get_transducer_ids_as_set() const
+    {
+        std::set<std::string> transducer_ids;
+
+        /* return the keys from _geolocations */
+        for (const auto& id : get_transducer_ids())
+            transducer_ids.insert(id);
+
+        return transducer_ids;
     }
 
     /**
@@ -146,7 +152,6 @@ class I_PingCommon
             printer.register_section("Transducer location");
             printer.register_string("transducer_id", get_transducer_id());
         }
-
 
         return printer;
     }

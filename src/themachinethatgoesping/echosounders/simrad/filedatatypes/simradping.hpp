@@ -44,15 +44,15 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 {
     SimradPingRawData<t_ifstream> _raw_data;
 
-    using t_base = filetemplates::datatypes::I_Ping;
+    using t_base0 = filetemplates::datatypes::I_PingCommon;
+    using t_base1 = filetemplates::datatypes::I_Ping;
 
   public:
     SimradPing(filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
                                datagram_info_raw_data,
                datagrams::RAW3 ping_data)
-        : t_base::t_base("SimradPing") // calling base constructor (I_PingCommon) is necessary
+        : t_base0("SimradPing") // calling base constructor (I_PingCommon) is necessary
                                        // because of virtual inheritance
-        , t_base("SimradPing")
         , _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
 
@@ -67,7 +67,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     SimradPingRawData<t_ifstream>& raw_data() { return _raw_data; }
 
-    using t_base::set_geolocation;
+    using t_base1::set_geolocation;
     void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
     {
         this->set_geolocation(this->get_channel_id(), std::move(geolocation));
@@ -80,11 +80,11 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     }
 
     // ----- I_Ping interface -----
-    using t_base::get_beam_pointing_angles;
-    using t_base::get_number_of_beams;
-    using t_base::get_number_of_samples_per_beam;
-    using t_base::get_sv;
-    using t_base::get_sv_stacked;
+    using t_base1::get_beam_pointing_angles;
+    using t_base1::get_number_of_beams;
+    using t_base1::get_number_of_samples_per_beam;
+    using t_base1::get_sv;
+    using t_base1::get_sv_stacked;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
     {

@@ -38,7 +38,10 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
 {
     using t_EM3000Ping = filedatatypes::EM3000Ping<T_FileStream>;
 
-    auto cls = py::class_<t_EM3000Ping, datatypes::I_Ping, std::shared_ptr<t_EM3000Ping>>(
+    auto cls = py::class_<t_EM3000Ping,
+                          datatypes::I_Ping,
+                          filedatatypes::EM3000PingCommon<T_FileStream>,
+                          std::shared_ptr<t_EM3000Ping>>(
                    m,
                    CLASS_NAME.c_str(),
                    DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))
@@ -51,27 +54,12 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                    //      DOC_EM3000Ping(get_sv_stacked),
                    //      py::arg("dB") = false)
 
-                   .def("get_transducer_ids",
-                        &t_EM3000Ping::get_transducer_ids,
-                        DOC_EM3000Ping(get_transducer_ids))
-
                    .def("load_datagrams",
                         &t_EM3000Ping::load_datagrams,
                         DOC_EM3000Ping(load_datagrams),
                         py::arg("skip_data") = true)
 
-                   // --- ping interface extension ---
-
-                   // --- raw_data data access ---
-                   .def("raw_data",
-                        py::overload_cast<const std::string&>(&t_EM3000Ping::raw_data),
-                        DOC_EM3000Ping(raw_data),
-                        py::return_value_policy::reference_internal,
-                        py::arg("transducer_id"))
-                   .def("raw_data",
-                        py::overload_cast<>(&t_EM3000Ping::raw_data),
-                        DOC_EM3000Ping(raw_data),
-                        py::return_value_policy::reference_internal)
+               // --- ping interface extension ---
 
                // --- variable access ---
                //.def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))

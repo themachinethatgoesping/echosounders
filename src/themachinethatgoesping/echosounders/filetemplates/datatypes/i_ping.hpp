@@ -58,8 +58,8 @@ class I_Ping : virtual public I_PingCommon
   public:
     using t_base = I_PingCommon;
 
-    I_Ping(std::string name)
-        : I_PingCommon(std::move(name))
+    I_Ping()
+        : I_PingCommon("I_Ping")
     {
     }
     virtual ~I_Ping() = default;
@@ -78,23 +78,6 @@ class I_Ping : virtual public I_PingCommon
         /* return the keys from _geolocations */
         for (const auto& [k, v] : _geolocations)
             transducer_ids.push_back(k);
-
-        return transducer_ids;
-    }
-
-    /**
-     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
-     * single ping) as a set (unique ids, order may be different)
-     *
-     * @return std::set<std::string>
-     */
-    std::set<std::string> get_transducer_ids_as_set() const override
-    {
-        std::set<std::string> transducer_ids;
-
-        /* return the keys from _geolocations */
-        for (const auto& [k, v] : _geolocations)
-            transducer_ids.insert(k);
 
         return transducer_ids;
     }

@@ -29,11 +29,13 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_pingbottom.hpp"
+
 #include "../em3000_datagrams.hpp"
 #include "../em3000_types.hpp"
-#include "em3000pingrawdata.hpp"
+
+#include "em3000pingcommon.hpp"
+
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -41,60 +43,30 @@ namespace em3000 {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
+class EM3000PingBottom
+    : public filetemplates::datatypes::I_PingBottom
+    , public EM3000PingCommon<t_ifstream>
 {
-    // raw data
-    using t_rawdatamap = std::map<std::string, EM3000PingRawData<t_ifstream>>;
-    std::shared_ptr<t_rawdatamap> _raw_data;
+  public:
+    using t_base0 = filetemplates::datatypes::I_PingCommon;
+    using t_base1 = filetemplates::datatypes::I_PingBottom;
+    using t_base2 = EM3000PingCommon<t_ifstream>;
 
-    using t_base                = filetemplates::datatypes::I_PingBottom;
-    using type_DatagramInfo_ptr = typename EM3000PingRawData<t_ifstream>::type_DatagramInfo_ptr;
+    using t_base2::_raw_data;
+    using typename t_base2::t_rawdatamap;
 
   public:
     EM3000PingBottom(std::shared_ptr<t_rawdatamap> raw_data)
-        : t_base::t_base("EM3000PingBottom") // necessary because of virtual inheritance
-        , t_base("EM3000PingBottom")
-        , _raw_data(std::move(raw_data))
+        : t_base0("EM3000PingBottom") // necessary because of virtual inheritance
+        //, t_base1("EM3000PingBottom"),
+        , t_base2(std::move(raw_data))
     {
     }
     virtual ~EM3000PingBottom() = default;
 
-    // explicit copy constructor and assignment operators
-    EM3000PingBottom(const EM3000PingBottom& other)
-        : t_base::t_base(other)
-        , t_base(other)
-        , _raw_data(std::make_shared<t_rawdatamap>(*other._raw_data))
-    {
-    }
-    EM3000PingBottom& operator=(const EM3000PingBottom& other)
-    {
-        t_base::operator=(other);
-        _raw_data = std::make_shared<t_rawdatamap>(*other._raw_data);
-        return *this;
-    }
-
-    EM3000PingRawData<t_ifstream>& raw_data(const std::string& transducer_id)
-    {
-        auto it = _raw_data->find(transducer_id);
-        if (it == _raw_data->end())
-            throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
-
-        return it->second;
-    }
-
-    const t_rawdatamap& raw_data() { return *_raw_data; }
-
-    const EM3000PingRawData<t_ifstream>& get_raw_data(const std::string& transducer_id) const
-    {
-        auto it = _raw_data->find(transducer_id);
-        if (it == _raw_data->end())
-            throw std::runtime_error(fmt::format("Transducer ID '{}' not found", transducer_id));
-
-        return it->second;
-    }
-
     // ----- I_PingBottom interface -----
-    using t_base::has_xyz;
+    using t_base1::has_xyz;
+    using t_base2::get_raw_data;
 
     bool has_xyz(const std::string& transducer_id) const
     {
@@ -117,7 +89,7 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
-        printer.append(t_base::__printer__(float_precision));
+        printer.append(t_base1::__printer__(float_precision));
 
         // printer.register_section("EM3000 ping infos");
 
@@ -133,6 +105,6 @@ class EM3000PingBottom : public filetemplates::datatypes::I_PingBottom
 };
 
 }
-} // namespace filetemplates
+} // namespace em3000
 } // namespace echosounders
 } // namespace themachinethatgoesping

@@ -1,4 +1,4 @@
-//sourcehash: 88eeda79c965cc1be11937b81aefeae653a629b8f905c3396b39ee43472aba71
+//sourcehash: 3b51af63ed830c71c4b8d72940327fb9fdb6b5b438ce458fda8d6bc34201bd3e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -232,14 +232,6 @@ associated with a single ping)
 
 Returns:
     std::vector<std::string>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids_as_set =
-R"doc(Get all registered transducer ids (in case multiple transducers are
-associated with a single ping) as a set (unique ids, order may be
-different)
-
-Returns:
-    std::set<std::string>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
 
