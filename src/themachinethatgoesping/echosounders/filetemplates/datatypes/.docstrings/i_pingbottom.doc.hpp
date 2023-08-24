@@ -1,4 +1,4 @@
-//sourcehash: 8c87e60a52486e3a43b1dc55252704b2b54546dd4b78e8884b3fd25a0b4b3eb1
+//sourcehash: 6ed51fba006c9d1c2e40c97c41122cda3b5ac1c93f9536b09b9a117e3d334167
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,7 +46,45 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
+R"doc(Get an XYZ object containing the XYZ position of the bottom detection
+Note: XYZ is in the local coordinate system of the ping! To convert it
+use algorithms::geoprocessing::georeferencer class or - Use
+get_xyz_utm() to get the bottom detection in UTM coordinates - Use
+get_xyz_latlon() to get the bottom detection in Latitude/Longitude
+coordinates
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_2 =
+R"doc(Get an XYZ object containing the XYZ position of the bottom detection
+Note: XYZ is in the local coordinate system of the ping! To convert it
+use algorithms::geoprocessing::georeferencer class or - Use
+get_xyz_utm() to get the bottom detection in UTM coordinates - Use
+get_xyz_latlon() to get the bottom detection in Latitude/Longitude
+coordinates
+
+Parameter ``transducer_id``:
+    transducer id (for multi transducer configurations)
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_3 =
+R"doc(Get an XYZ object containing the XYZ position of the bottom detection
+Note: XYZ is in the local coordinate system of the ping! To convert it
+use algorithms::geoprocessing::georeferencer class or - Use
+get_xyz_utm() to get the bottom detection in UTM coordinates - Use
+get_xyz_latlon() to get the bottom detection in Latitude/Longitude
+coordinates
+
+Parameter ``selection``:
+    structure with selected transducer_ids/beams/samples considered
+    for this function
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
 R"doc(Get the base ping object

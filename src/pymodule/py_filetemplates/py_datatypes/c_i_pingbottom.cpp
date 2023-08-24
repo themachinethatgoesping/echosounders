@@ -35,7 +35,9 @@ void init_c_i_pingbottom(pybind11::module& m)
 
             // ----- features -----
             .def("has_xyz", &I_PingBottom::has_xyz, DOC_I_PingBottom(has_xyz))
-            .def("get_xyz", &I_PingBottom::get_xyz, DOC_I_PingBottom(get_xyz))
+            .def("get_xyz",
+                 py::overload_cast<>(&I_PingBottom::get_xyz, py::const_),
+                 DOC_I_PingBottom(get_xyz))
 
         // ----- pybind macros -----
         // default copy functions

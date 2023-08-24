@@ -8,7 +8,6 @@ headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
 sources = [
-  'filetemplates/datatypes/i_ping.cpp',
 ]
 
 headers = [
@@ -71,8 +70,8 @@ if build_machine.system() != 'linux'
                           omp_dep,
                           pugixml_dep,
                           tools_dep,
-                          algorithms_dep,
-                          navigation_dep
+                          navigation_dep,
+                          algorithms_dep
                           ],
                         override_options: [
                           'b_lundef=false'
@@ -87,8 +86,8 @@ else
                           omp_dep,
                           pugixml_dep,
                           tools_dep,
-                          algorithms_dep,
-                          navigation_dep
+                          navigation_dep,
+                          algorithms_dep
                           ],
                         override_options: [
                           'b_lundef=false'
@@ -106,7 +105,8 @@ echosounders_dep = declare_dependency(
     omp_dep,
     pugixml_dep,
     tools_dep,
-    navigation_dep
+    navigation_dep,
+    algorithms_dep
   ],
   link_with : [echosounders_lib],
   include_directories : ['../../']
