@@ -1,4 +1,4 @@
-//sourcehash: 2c97b8e4d45af81ff98e3083e1f9afb8a2542d6c999668320f1439302f8c8aad
+//sourcehash: 327c3e2c94fc9640b8a2b5c3cbb2d95df0e88d45278527ae1e515a473fb261eb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -85,10 +85,22 @@ Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
-R"doc(Get the base ping object
+R"doc(Check this pings supports XYZ data
 
 Returns:
-    std::shared_ptr<I_Ping>)doc";
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz_2 =
+R"doc(Check if a specific transducer supports XYZ data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_printer = R"doc()doc";
 

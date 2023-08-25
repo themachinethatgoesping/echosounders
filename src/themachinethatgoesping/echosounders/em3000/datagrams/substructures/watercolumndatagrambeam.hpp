@@ -127,11 +127,11 @@ class WaterColumnDatagramBeam
      * @param fill_val The value to fill the array with if the requested number of samples is
      * @return xt::xtensor<int8_t, 1>
      */
-    static xt::xtensor<int8_t, 1> read_samples(std::istream&           ifs,
-                                               std::ifstream::pos_type pos_first_sample,
-                                               size_t                  first_sample,
-                                               size_t                  number_of_samples,
-                                               size_t number_of_samples_in_datagram)
+    static xt::xtensor<int8_t, 1> read_samples(std::istream&          ifs,
+                                               std::istream::pos_type pos_first_sample,
+                                               size_t                 first_sample,
+                                               size_t                 number_of_samples,
+                                               size_t                 number_of_samples_in_datagram)
     {
         auto samples = xt::xtensor<int8_t, 1>::from_shape({ number_of_samples });
 

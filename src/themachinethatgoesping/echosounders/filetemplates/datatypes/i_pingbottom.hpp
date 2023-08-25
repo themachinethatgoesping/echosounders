@@ -50,7 +50,7 @@ class I_PingBottom : virtual public I_PingCommon
 {
   public:
     using t_base = I_PingCommon;
-    
+
     I_PingBottom()
         : I_PingCommon("I_PingBottom")
     {
@@ -61,11 +61,20 @@ class I_PingBottom : virtual public I_PingCommon
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
 
     /**
-     * @brief Get the base ping object
+     * @brief Check this pings supports XYZ data
      *
-     * @return std::shared_ptr<I_Ping>
+     * @return true
+     * @return false
      */
     virtual bool has_xyz() const { return false; }
+
+    /**
+     * @brief Check if a specific transducer supports XYZ data
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_xyz([[maybe_unused]] const std::string& transducer_id) const { return false; }
 
     /**
      * @brief Get an XYZ object containing the XYZ position of the bottom detection

@@ -18,6 +18,8 @@
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
+#include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
+
 #include "../em3000_types.hpp"
 #include "em3000datagram.hpp"
 
@@ -35,6 +37,8 @@ cleaning for beam status (note 4 and 5).
  */
 class XYZDatagram : public EM3000Datagram
 {
+    using t_XYZ = algorithms::geoprocessing::datastructures::XYZ<1>;
+
   protected:
     uint16_t _ping_counter;              ///< 0-65535 ping number (in this file)
     uint16_t _system_serial_number;      ///< 100 -
@@ -62,6 +66,57 @@ class XYZDatagram : public EM3000Datagram
     // ----- public constructors -----
     XYZDatagram() { _datagram_identifier = t_EM3000DatagramIdentifier::XYZDatagram; }
     ~XYZDatagram() = default;
+
+    // ----- convenience functions -----
+    /**
+     * @brief Convert the XYZDatagramBeams to a XYZ structure
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    t_XYZ get_xyz() const
+    {
+        t_XYZ xyz({ _beams.size() });
+
+        for (unsigned int bn = 0; bn < _beams.size(); ++bn)
+        {
+            xyz.x.unchecked(bn) = _beams[bn].get_alongtrack_distance();
+            xyz.y.unchecked(bn) = _beams[bn].get_acrosstrack_distance();
+            xyz.z.unchecked(bn) = _beams[bn].get_depth();
+        }
+
+        return xyz;
+    }
+
+    /**
+     * @brief Convert the XYZDatagramBeams for a given beam_number vector to a XYZ structure
+     * Note: if a beam number is not found, the corresponding XYZ value will be NaN
+     *
+     * @param beam_numbers
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    t_XYZ get_xyz(const std::vector<uint16_t>& beam_numbers) const
+    {
+        t_XYZ xyz({ beam_numbers.size() });
+
+        for (const auto bn : beam_numbers)
+        {
+            if (bn > _number_of_beams)
+            {
+                xyz.x.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+                xyz.y.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+                xyz.z.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+            }
+            else
+            {
+                xyz.x.unchecked(bn) = _beams[bn].get_alongtrack_distance();
+                xyz.y.unchecked(bn) = _beams[bn].get_acrosstrack_distance();
+                xyz.z.unchecked(bn) = _beams[bn].get_depth();
+            }
+        }
+
+        return xyz;
+    }
 
     // ----- convenient data access -----
     // getters

@@ -15,6 +15,7 @@ sources = [
     'py_filetemplates/py_datatypes/c_i_pingbottom.cpp',
 
     'py_pingtools/module.cpp',
+    'py_pingtools/substructures/c_beamselection.cpp',
     'py_pingtools/substructures/c_beamsampleselection.cpp',
     'py_pingtools/substructures/c_readsamplerange.cpp',
     'py_pingtools/c_pingsampleselection.cpp',

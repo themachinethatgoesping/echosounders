@@ -136,6 +136,27 @@ class I_PingCommon
         }
     };
 
+  protected:
+    //------ interface / accessors -----
+    /**
+     * @brief Call a function for each transducer ID and return true if the function returns true
+     * for one of the transducers
+     */
+    bool true_for_each_transducer(std::function<bool(const std::string&)> func) const
+    {
+        return true_for_each_transducer(func, get_transducer_ids());
+    }
+
+    bool true_for_each_transducer(std::function<bool(const std::string&)> func,
+                                  std::vector<std::string>                transducer_ids) const
+    {
+        for (const auto& trid : transducer_ids)
+            if (func(trid))
+                return true;
+
+        return false;
+    }
+
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

@@ -311,6 +311,25 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return samples;
     }
 
+    // I_PingBottom functions
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz() const
+    {
+        algorithms::geoprocessing::datastructures::XYZ<1> xyz({get_number_of_beams()});
+
+        // for (const auto )
+        // {
+        //     xyz.unchecked(bn) = algorithms::geoprocessing::datastructures::XYZ<1>(
+        //         get_beam_pointing_angles().unchecked(bn),
+        //         get_detected_range_in_samples().unchecked(bn));
+        // }        
+    }
+
+    // algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(
+    //     const pingtools::substructures::BeamSelection& bs) const
+    // {
+
+    // }
+
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

@@ -10,6 +10,7 @@ sources = [
     'tutorial.test.cpp',
     'pingtools/pingsampleselector.test.cpp',
     'pingtools/pingsampleselection.test.cpp',
+    'pingtools/substructures/beamselection.test.cpp',
     'pingtools/substructures/beamsampleselection.test.cpp',
     'pingtools/substructures/readsamplerange.test.cpp',
 

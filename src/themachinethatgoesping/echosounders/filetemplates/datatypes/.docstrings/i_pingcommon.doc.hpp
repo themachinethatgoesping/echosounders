@@ -1,4 +1,4 @@
-//sourcehash: 2817e2b5c262629094ee2269b7f27688fdf21acf387aa39e8aad80d7d53d1753
+//sourcehash: b142775c17c6191dd0fc0a1a8695a27f12ef22c1717bc480f2fb6f14a06b20d2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -79,6 +79,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented_not_implemented = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_true_for_each_transducer =
+R"doc(Call a function for each transducer ID and return true if the function
+returns true for one of the transducers)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_true_for_each_transducer_2 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

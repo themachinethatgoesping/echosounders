@@ -14,6 +14,7 @@ namespace py_pingtools {
 
 // -- submodule declarations --
 void init_c_readsamplerange(pybind11::module& m);     // substructures/c_readsamplerange.cpp
+void init_c_beamselection(pybind11::module& m);       // substructures/c_beamselection.cpp
 void init_c_beamsampleselection(pybind11::module& m); // substructures/c_beamsampleselection.cpp
 void init_c_pingsampleselection(pybind11::module& m); // c_pingsampleselection.cpp
 void init_c_pingsampleselector(pybind11::module& m);  // c_pingsampleselector.cpp
@@ -26,6 +27,7 @@ void init_m_pingtools(py::module& m)
 
     // pingtool classes classes
     init_c_readsamplerange(subm);
+    init_c_beamselection(subm);
     init_c_beamsampleselection(subm);
     init_c_pingsampleselection(subm);
     init_c_pingsampleselector(subm);

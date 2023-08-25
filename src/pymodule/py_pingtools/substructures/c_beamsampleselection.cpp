@@ -22,7 +22,7 @@ using namespace themachinethatgoesping::echosounders::pingtools::substructures;
 
 void init_c_beamsampleselection(pybind11::module& m)
 {
-    py::class_<BeamSampleSelection>(
+    py::class_<BeamSampleSelection, BeamSelection, std::shared_ptr<BeamSampleSelection>>(
         m,
         "BeamSampleSelection",
         DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSampleSelection))
@@ -34,6 +34,9 @@ void init_c_beamsampleselection(pybind11::module& m)
              py::arg("first_sample_number_per_beam"),
              py::arg("last_sample_number_per_beam"),
              py::arg("sample_step_ensemble") = 1)
+        .def(py::init<BeamSelection>(),
+             DOC_BeamSampleSelection(BeamSampleSelection_3),
+             py::arg("beam_selection"))
 
         // --- get read sample range ---
         .def("get_read_sample_range",
@@ -75,13 +78,6 @@ void init_c_beamsampleselection(pybind11::module& m)
              DOC_BeamSampleSelection(get_last_sample_number_ensemble))
 
         // --- convenient data access ---
-        .def("get_number_of_beams",
-             &BeamSampleSelection::get_number_of_beams,
-             DOC_BeamSampleSelection(get_number_of_beams))
-        .def("get_beam_numbers",
-             &BeamSampleSelection::get_beam_numbers,
-             py::return_value_policy::reference_internal,
-             DOC_BeamSampleSelection(get_beam_numbers))
         .def("get_first_sample_number_per_beam",
              &BeamSampleSelection::get_first_sample_number_per_beam,
              py::return_value_policy::reference_internal,

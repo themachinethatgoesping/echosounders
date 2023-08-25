@@ -32,6 +32,15 @@ void init_c_xyzdatagram(pybind11::module& m)
         m, "XYZDatagram", DOC(themachinethatgoesping, echosounders, em3000, datagrams, XYZDatagram))
         .def(py::init<>(), DOC_XYZDatagram(XYZDatagram))
 
+        // --- convinience functions ---
+        .def("get_xyz",
+             py::overload_cast<>(&XYZDatagram::get_xyz, py::const_),
+             DOC_XYZDatagram(get_xyz))
+        .def("get_xyz",
+             py::overload_cast<const std::vector<uint16_t>&>(&XYZDatagram::get_xyz, py::const_),
+             DOC_XYZDatagram(get_xyz_2),
+             py::arg("beam_numbers"))
+
         // --- convenient data access ---
         .def("set_ping_counter", &XYZDatagram::set_ping_counter, DOC_XYZDatagram(ping_counter))
         .def("get_ping_counter", &XYZDatagram::get_ping_counter, DOC_XYZDatagram(ping_counter))

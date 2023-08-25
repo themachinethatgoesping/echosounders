@@ -36,7 +36,6 @@
 
 #include "em3000pingcommon.hpp"
 
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace em3000 {
@@ -68,20 +67,36 @@ class EM3000PingBottom
     using t_base1::has_xyz;
     using t_base2::get_raw_data;
 
-    bool has_xyz(const std::string& transducer_id) const
+    bool has_xyz() const override
+    {
+        for (const auto& trid : get_transducer_ids())
+            if (has_xyz(trid))
+                return true;
+
+        return false;
+    }
+    bool has_xyz(const std::string& transducer_id) const override
     {
         return get_raw_data(transducer_id)
                    .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::XYZDatagram)
                    .size() > 0;
     }
 
-    bool has_xyz() const override
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const override
     {
-        for (const auto& [transducer_id, raw_data] : *_raw_data)
-            if (has_xyz(transducer_id))
-                return true;
+        throw not_implemented(__func__, get_name());
+    }
 
-        return false;
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
+        [[maybe_unused]] const std::string& transducer_id) const override
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
+    virtual xt::xtensor<float, 2> get_xyz(
+        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const override
+    {
+        throw not_implemented(__func__, this->get_name());
     }
 
     // ----- objectprinter -----

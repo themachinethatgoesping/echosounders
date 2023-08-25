@@ -1,4 +1,4 @@
-//sourcehash: b8722d595d96eab2f6f6834bab1a7c0bc82aa87cfc187b062ca7dcf968e9f384
+//sourcehash: 09252b46158adaf813a53c68c20a63793dead0017ca136d3e891fb190767e896
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -102,6 +102,22 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_transmit_transducer_depth = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_xyz =
+R"doc(Convert the XYZDatagramBeams to a XYZ structure
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_get_xyz_2 =
+R"doc(Convert the XYZDatagramBeams for a given beam_number vector to a XYZ
+structure Note: if a beam number is not found, the corresponding XYZ
+value will be NaN
+
+Parameter ``beam_numbers``:
+    $Returns:
+
+algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_heading = R"doc(< (at TX time) in 0.01 degree)doc";
 
