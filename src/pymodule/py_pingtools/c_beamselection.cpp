@@ -6,7 +6,7 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
-#include "../../../themachinethatgoesping/echosounders/pingtools/substructures/beamselection.hpp"
+#include "../../themachinethatgoesping/echosounders/pingtools/beamselection.hpp"
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 namespace themachinethatgoesping {
@@ -15,17 +15,17 @@ namespace pymodule {
 namespace py_pingtools {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::pingtools::substructures;
+using namespace themachinethatgoesping::echosounders::pingtools;
 
 #define DOC_BeamSelection(arg)                                                                     \
-    DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSelection, arg)
+    DOC(themachinethatgoesping, echosounders, pingtools, BeamSelection, arg)
 
 void init_c_beamselection(pybind11::module& m)
 {
     py::class_<BeamSelection, std::shared_ptr<BeamSelection>>(
         m,
         "BeamSelection",
-        DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSelection))
+        DOC(themachinethatgoesping, echosounders, pingtools, BeamSelection))
         .def(py::init<>(), DOC_BeamSelection(BeamSelection))
         .def(py::init<uint16_t>(), DOC_BeamSelection(BeamSelection_2), py::arg("number_of_beams"))
         .def(py::init<std::vector<uint16_t>>(),

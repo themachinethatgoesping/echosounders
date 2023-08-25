@@ -1,4 +1,4 @@
-//sourcehash: 976598b5be24d377c8e671b22068da1e9eda36d7f6b1ea208205c594a88487f6
+//sourcehash: def36ea6d0c64947d959f577537085ad91f2294300a093eaea59580a6d328a5a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,12 +45,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_EM3000PingCommon_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_EM3000PingCommon_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_get_raw_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_get_raw_data_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_get_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingCommon_operator_assign = R"doc()doc";
 

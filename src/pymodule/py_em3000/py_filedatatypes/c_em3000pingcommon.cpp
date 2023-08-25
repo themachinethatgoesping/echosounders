@@ -41,24 +41,16 @@ void py_create_class_em3000pingcommon(py::module& m, const std::string& CLASS_NA
     auto cls =
         py::class_<t_EM3000PingCommon,
                    datatypes::I_PingCommon,
-                   std::shared_ptr<t_EM3000PingCommon>>(m,
-                                                        CLASS_NAME.c_str(),
-                                                        DOC(themachinethatgoesping,
-                                                            echosounders,
-                                                            em3000,
-                                                            filedatatypes,
-                                                            EM3000PingCommon))
+                   std::shared_ptr<t_EM3000PingCommon>>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingCommon))
 
             // --- raw_data data access ---
-            .def("raw_data",
-                 py::overload_cast<const std::string&>(&t_EM3000PingCommon::raw_data),
-                 DOC_EM3000PingCommon(raw_data),
-                 py::return_value_policy::reference_internal,
-                 py::arg("transducer_id"))
-            .def("raw_data",
-                 py::overload_cast<>(&t_EM3000PingCommon::raw_data),
-                 DOC_EM3000PingCommon(raw_data),
-                 py::return_value_policy::reference_internal)
+            .def_property_readonly("raw_data",
+                                   py::overload_cast<>(&t_EM3000PingCommon::raw_data),
+                                   DOC_EM3000PingCommon(raw_data),
+                                   py::return_value_policy::reference_internal)
 
         // --- variable access ---
         //.def("is_dual_rx", &t_EM3000PingCommon::is_dual_rx, DOC_EM3000PingCommon(is_dual_rx))

@@ -35,13 +35,6 @@ void init_c_pingsampleselector(pybind11::module& m)
              py::arg("ping"))
 
         // --- convenient data access ---
-        .def("get_transducer_ids",
-             &PingSampleSelector::get_transducer_ids,
-             DOC_PingSampleSelector(get_transducer_ids))
-        .def("get_ignored_transducer_ids",
-             &PingSampleSelector::get_ignored_transducer_ids,
-             DOC_PingSampleSelector(get_ignored_transducer_ids))
-
         .def("get_min_beam_number",
              &PingSampleSelector::get_min_beam_number,
              DOC_PingSampleSelector(min_beam_number))
@@ -72,12 +65,6 @@ void init_c_pingsampleselector(pybind11::module& m)
              DOC_PingSampleSelector(sample_step))
 
         // ----- clear range filters -----
-        .def("clear_transducer_ids",
-             &PingSampleSelector::clear_transducer_ids,
-             DOC_PingSampleSelector(clear_transducer_ids))
-        .def("clear_ignored_transducer_ids",
-             &PingSampleSelector::clear_ignored_transducer_ids,
-             DOC_PingSampleSelector(clear_ignored_transducer_ids))
         .def("clear_beam_number_range",
              &PingSampleSelector::clear_beam_number_range,
              DOC_PingSampleSelector(clear_beam_number_range))
@@ -99,14 +86,6 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("clear", &PingSampleSelector::clear, DOC_PingSampleSelector(clear))
 
         // ----- selectors -----
-        .def("select_transducer_ids",
-             &PingSampleSelector::select_transducer_ids,
-             DOC_PingSampleSelector(select_transducer_ids),
-             py::arg("transducer_ids"))
-        .def("select_ignored_transducer_ids",
-             &PingSampleSelector::select_ignored_transducer_ids,
-             DOC_PingSampleSelector(select_ignored_transducer_ids),
-             py::arg("ignored_transducer_ids"))
         .def("select_beam_range_by_numbers",
              &PingSampleSelector::select_beam_range_by_numbers,
              DOC_PingSampleSelector(select_beam_range_by_numbers),

@@ -1,4 +1,4 @@
-//sourcehash: 07dbc3bf7968279288d6bcec07764e764a9af87544da64ff08e620557cc50644
+//sourcehash: 9e86d55444d4ca97a97c8af1c0bb8ff487fc101f2603a9e079fdecd716685abe
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,15 +54,11 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_ignored_transducer_ids = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_number_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_range_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_from_stream =
 R"doc(Return a PingSampleSelector read from a binary stream
@@ -74,8 +70,6 @@ Returns:
     PingSampleSelector)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_beam_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_ignored_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_beam_angle = R"doc()doc";
 
@@ -94,10 +88,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_sample_step = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_transducer_ids = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_ignored_transducer_ids = R"doc(< if set: ignore these transducers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_angle = R"doc(< max beam angle to select (°))doc";
 
@@ -133,13 +123,9 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_numbers = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_ignored_transducer_ids = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_sample_range_by_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_sample_range_by_ranges = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_transducer_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_beam_step = R"doc()doc";
 
@@ -150,8 +136,6 @@ R"doc(Write a PingSampleSelector to a binary stream
 
 Parameter ``os``:
     output stream)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_transducer_ids = R"doc(< if set: only use these transducers)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

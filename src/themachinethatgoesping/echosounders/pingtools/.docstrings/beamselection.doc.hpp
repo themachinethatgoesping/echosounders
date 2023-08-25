@@ -1,4 +1,4 @@
-//sourcehash: 62795176098c57b2c39c489fe6307567847fdb76ed446452ab6c041045638a77
+//sourcehash: b86b8eba4ede2922f8d62d0a2beaafc3f466c2a6facf682148de1b37e73498d7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,25 +38,25 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection =
 R"doc(A class to hold the selected beams/sample range for a single
 transducer)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_BeamSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection_2 =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_BeamSelection_2 =
 R"doc(Initialize a beam sample selection from a whole swath
 
 Parameter ``number_of_beams``:
     number of beams in the swath)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection_3 =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_BeamSelection_3 =
 R"doc(Initialize a beam sample selection from a whole swath
 
 Parameter ``number_of_beams``:
     number of beams in the swath)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_add_beam =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_add_beam =
 R"doc(Add a beam to the selection
 
 Parameter ``beam_nr``:
@@ -68,9 +68,9 @@ Parameter ``first_sample_number``:
 Parameter ``last_sample_number_per_beam``:
     last sample number to select)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_beam_numbers = R"doc(< selected beam numbers)doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_beam_numbers = R"doc(< selected beam numbers)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_from_stream =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_from_stream =
 R"doc(Return a BeamSelection read from a binary stream
 
 Parameter ``is``:
@@ -79,21 +79,21 @@ Parameter ``is``:
 Returns:
     BeamSelection)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_get_beam_numbers =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_get_beam_numbers =
 R"doc(Return the beam numbers
 
 Returns:
     std::vector<uint16_t>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_get_number_of_beams =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_get_number_of_beams =
 R"doc(Return the number of beams
 
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_printer =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
 See also: classhelper/objectprinter.hpp
 
@@ -103,7 +103,7 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_to_stream =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_to_stream =
 R"doc(Write a BeamSelection to a binary stream
 
 Parameter ``os``:

@@ -7,11 +7,11 @@
 
 #include <xtensor/xtensor.hpp>
 
-#include <themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp>
+#include <themachinethatgoesping/echosounders/pingtools/beamsampleselection.hpp>
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::pingtools::substructures;
+using namespace themachinethatgoesping::echosounders::pingtools;
 #define TESTTAG "[filetemplates]"
 
 TEST_CASE("BeamSampleSelection should support common functions", TESTTAG)

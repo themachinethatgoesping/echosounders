@@ -33,7 +33,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../pingtools/pingsampleselection.hpp"
+#include "../../pingtools/beamsampleselection.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -54,71 +54,6 @@ class I_PingCommon
     }
     virtual ~I_PingCommon() = default;
 
-    //----- multi transducer selection -----
-    /**
-     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
-     * single ping)
-     *
-     * @return std::vector<std::string>
-     */
-    virtual std::vector<std::string> get_transducer_ids() const
-    {
-        throw not_implemented(__func__, get_name());
-    }
-
-    /**
-     * @brief Get all register transducer ids as a string (useful for printing)
-     *
-     * @return std::string
-     */
-    std::string get_transducer_ids_as_string() const
-    {
-        std::string ids = "";
-        for (const auto& id : get_transducer_ids())
-            ids += id + ",";
-        ids.pop_back();
-
-        return ids;
-    }
-
-    /**
-     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
-     * single ping) as a set (unique ids, order may be different)
-     *
-     * @return std::set<std::string>
-     */
-    std::set<std::string> get_transducer_ids_as_set() const
-    {
-        std::set<std::string> transducer_ids;
-
-        /* return the keys from _geolocations */
-        for (const auto& id : get_transducer_ids())
-            transducer_ids.insert(id);
-
-        return transducer_ids;
-    }
-
-    /**
-     * @brief Get the transducer id of the ping. In case multiple transducer ids are associated with
-     * a single ping, this function will return the one selected with the "select_transducer_id"
-     * function.
-     *
-     */
-    std::string get_transducer_id() const
-    {
-        auto transducer_ids = get_transducer_ids();
-        if (transducer_ids.size() == 1)
-            return transducer_ids[0];
-        if (transducer_ids.empty())
-            throw std::runtime_error("ERROR[get_transducer_id]: no transducer id registered! "
-                                     "Please report, this should not happen;");
-
-        throw std::domain_error(fmt::format(
-            "ERROR[get_transducer_id]: Multi transducer configuration. You have to select one of "
-            "the following transducer ids: [{}] using select_transducer_id() first.",
-            get_transducer_ids_as_string()));
-    }
-
     virtual std::string feature_string([[maybe_unused]] bool has_features = true) const
     {
         std::string features = "";
@@ -136,43 +71,11 @@ class I_PingCommon
         }
     };
 
-  protected:
-    //------ interface / accessors -----
-    /**
-     * @brief Call a function for each transducer ID and return true if the function returns true
-     * for one of the transducers
-     */
-    bool true_for_each_transducer(std::function<bool(const std::string&)> func) const
-    {
-        return true_for_each_transducer(func, get_transducer_ids());
-    }
-
-    bool true_for_each_transducer(std::function<bool(const std::string&)> func,
-                                  std::vector<std::string>                transducer_ids) const
-    {
-        for (const auto& trid : transducer_ids)
-            if (func(trid))
-                return true;
-
-        return false;
-    }
-
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
-
-        if (get_transducer_ids().size() > 1)
-        {
-            printer.register_section("Transducer locations (multiple transducers)");
-            printer.register_container("transducer_ids", get_transducer_ids());
-        }
-        else
-        {
-            printer.register_section("Transducer location");
-            printer.register_string("transducer_id", get_transducer_id());
-        }
 
         return printer;
     }

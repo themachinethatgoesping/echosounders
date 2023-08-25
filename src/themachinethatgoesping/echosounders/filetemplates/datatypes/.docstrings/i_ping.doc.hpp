@@ -1,4 +1,4 @@
-//sourcehash: 3b51af63ed830c71c4b8d72940327fb9fdb6b5b438ce458fda8d6bc34201bd3e
+//sourcehash: 6e3311a0c97d276886c307d35009c58c9adb4aec50eaeffea5595fcc3079c6f1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,7 +50,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_feature_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocations = R"doc(< Geolocation of the transducer with the specified transducer_id. A)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle =
 R"doc(Compute the launch angle of the (single) target within each sample. If
@@ -63,21 +63,10 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles =
 R"doc(Get the beam pointing angles in °.
 
-Parameter ``transducer_id``:
-    $Returns:
-
-xt::xtensor<float, 1> in °)doc";
+Returns:
+    xt::xtensor<float, 1> in °)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_2 =
-R"doc(Get the beam pointing angles from a specific transducer in °. (Useful
-when multiple transducers are associated with a single ping.)
-
-Parameter ``transducer_id``:
-    $Returns:
-
-xt::xtensor<float, 1> in °)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_3 =
 R"doc(Get the beam pointing angles in ° when specifying the beams and
 samples to select.
 
@@ -95,19 +84,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation =
-R"doc(Get the geolocation of the transducer with the specified
-transducer_id.
-
-Parameter ``transducer_id:``:
-    id of the transducer
-
-Returns:
-    const navigation::datastructures::GeoLocationLatLon&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation_2 =
-R"doc(Get the geolocation of the transducer. In case of multi transducer
-configuration, the transducer that was selected with
-"select_transducer_id" is used.
+R"doc(Get the geolocation of the transducer.
 
 Returns:
     const navigation::datastructures::GeoLocationLatLon&)doc";
@@ -119,16 +96,6 @@ Returns:
     size_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_2 =
-R"doc(Get the number of beams from a specific transducer (Useful when
-multiple transducers are associated with a single ping.)
-
-Parameter ``transducer_id``:
-    transducer id
-
-Returns:
-    size_t)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_3 =
 R"doc(Get the number of beams when specifying the beams and samples to
 select. Note: this function just returns
 selection.get_number_of_beams()
@@ -143,22 +110,10 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam =
 R"doc(Get the number of samples per beam
 
-Parameter ``transducer_id``:
-    $Returns:
-
-xt::xtensor<uint16_t, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_2 =
-R"doc(Get the number of samples per beam of a specific transducer. (Useful
-when multiple transducers are associated with a single ping.)
-
-Parameter ``transducer_id:``:
-    id of the transducer
-
 Returns:
     xt::xtensor<uint16_t, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_3 =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_2 =
 R"doc(Get the number of samples per beam when specifying the beams and
 samples to select. Note: this function just returns an array of
 selection.get_number_of_samples_ensemble()
@@ -181,27 +136,11 @@ Returns:
     xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_2 =
-R"doc(Compute volume backscattering of a specific transducer. (Useful when
-multiple transducers are associated with a single ping.) If you see
-this comment, this function was not implemented for the current ping
-type.
-
-Parameter ``transducer_id``:
-    transducer id
-
-Parameter ``dB``:
-    Output Sv in dB if true, or linear if false (default).
-
-Returns:
-    xt::xtensor<float, 2>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_3 =
 R"doc(Compute volume backscattering. If you see this comment, this function
 was not implemented for the current ping type.
 
 Parameter ``selection``:
-    structure with selected transducer_ids/beams/samples considered
-    for this function
+    structure with selected beams/samples considered for this function
 
 Parameter ``dB``:
     Output Sv in dB if true, or linear if false (default).
@@ -215,8 +154,7 @@ this comment, this function was not implemented for the current ping
 type.
 
 Parameter ``selection``:
-    structure with selected transducer_ids/beams/samples considered
-    for this function
+    structure with selected beams/samples considered for this function
 
 Parameter ``dB``:
     Output Sv in dB if true, or linear if false (default).
@@ -225,13 +163,6 @@ Returns:
     xt::xtensor<float, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_transducer_ids =
-R"doc(Get all registered transducer ids (in case multiple transducers are
-associated with a single ping)
-
-Returns:
-    std::vector<std::string>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
 
@@ -251,23 +182,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_channel_id = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation =
-R"doc(Set the geolocation of the transducer with the specified
-transducer_id.
-
-Parameter ``transducer_id:``:
-    id of the transducer
-
-Returns:
-    const navigation::datastructures::GeoLocationLatLon&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation_2 =
-R"doc(Set the geolocation of the transducer. In case of multi transducer
-configuration, the transducer that was selected with
-"select_transducer_id" is used.
-
-Returns:
-    const navigation::datastructures::GeoLocationLatLon&)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_geolocation = R"doc(Set the geolocation of the transducer.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_timestamp = R"doc()doc";
 

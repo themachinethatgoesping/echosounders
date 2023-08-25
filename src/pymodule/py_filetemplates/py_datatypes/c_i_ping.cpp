@@ -37,44 +37,25 @@ void init_c_i_ping(pybind11::module& m)
                  py::overload_cast<>(&I_Ping::get_number_of_beams, py::const_),
                  DOC_I_Ping(get_number_of_beams))
             .def("get_number_of_beams",
-                 py::overload_cast<const std::string&>(&I_Ping::get_number_of_beams, py::const_),
-                 DOC_I_Ping(get_number_of_beams_2),
-                 py::arg("transducer_id"))
-            .def("get_number_of_beams",
-                 py::overload_cast<const pingtools::PingSampleSelection&>(
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
                      &I_Ping::get_number_of_beams, py::const_),
-                 DOC_I_Ping(get_number_of_beams_3),
+                 DOC_I_Ping(get_number_of_beams_2),
                  py::arg("selection"))
 
             .def("get_beam_pointing_angles",
                  py::overload_cast<>(&I_Ping::get_beam_pointing_angles, py::const_),
                  DOC_I_Ping(get_beam_pointing_angles))
             .def("get_beam_pointing_angles",
-                 py::overload_cast<const std::string&>(&I_Ping::get_beam_pointing_angles,
-                                                       py::const_),
-                 py::arg("transducer_id"),
-                 DOC_I_Ping(get_beam_pointing_angles_2))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<const pingtools::PingSampleSelection&>(
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
                      &I_Ping::get_beam_pointing_angles, py::const_),
                  py::arg("selection"),
-                 DOC_I_Ping(get_beam_pointing_angles_3))
+                 DOC_I_Ping(get_beam_pointing_angles_2))
 
             .def("get_number_of_samples_per_beam",
                  py::overload_cast<>(&I_Ping::get_number_of_samples_per_beam, py::const_),
                  DOC_I_Ping(get_number_of_samples_per_beam))
             .def("get_number_of_samples_per_beam",
-                 py::overload_cast<const std::string&>(&I_Ping::get_number_of_samples_per_beam,
-                                                       py::const_),
-                 py::arg("transducer_id"),
-                 DOC_I_Ping(get_number_of_samples_per_beam_2))
-            .def("get_number_of_samples_per_beam",
-                 py::overload_cast<const pingtools::PingSampleSelection&>(
-                     &I_Ping::get_number_of_samples_per_beam, py::const_),
-                 py::arg("selection"),
-                 DOC_I_Ping(get_number_of_samples_per_beam_2))
-            .def("get_number_of_samples_per_beam",
-                 py::overload_cast<const pingtools::PingSampleSelection&>(
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
                      &I_Ping::get_number_of_samples_per_beam, py::const_),
                  py::arg("selection"),
                  DOC_I_Ping(get_number_of_samples_per_beam_2))
@@ -97,22 +78,11 @@ void init_c_i_ping(pybind11::module& m)
 
             .def("get_geolocation",
                  py::overload_cast<>(&I_Ping::get_geolocation, py::const_),
-                 DOC_I_Ping(geolocations))
-            .def("get_geolocation",
-                 py::overload_cast<const std::string&>(&I_Ping::get_geolocation, py::const_),
-                 DOC_I_Ping(geolocations),
-                 py::arg("transducer_id"))
+                 DOC_I_Ping(get_geolocation))
             .def("set_geolocation",
                  py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
                      &I_Ping::set_geolocation),
-                 DOC_I_Ping(geolocations),
-                 py::arg("geolocation_latlon"))
-            .def("set_geolocation",
-                 py::overload_cast<const std::string&,
-                                   navigation::datastructures::GeoLocationLatLon>(
-                     &I_Ping::set_geolocation),
-                 DOC_I_Ping(geolocations),
-                 py::arg("transducer_id"),
+                 DOC_I_Ping(get_geolocation),
                  py::arg("geolocation_latlon"))
 
             // --- ping interface (Documentation states that these functions are not implemented)
@@ -123,14 +93,9 @@ void init_c_i_ping(pybind11::module& m)
                  DOC_I_Ping(get_sv),
                  py::arg("dB") = false)
             .def("get_sv",
-                 py::overload_cast<const std::string&, bool>(&I_Ping::get_sv, py::const_),
-                 DOC_I_Ping(get_sv_2),
-                 py::arg("transducer_id"),
-                 py::arg("dB") = false)
-            .def("get_sv",
-                 py::overload_cast<const pingtools::PingSampleSelection&, bool>(&I_Ping::get_sv,
+                 py::overload_cast<const pingtools::BeamSampleSelection&, bool>(&I_Ping::get_sv,
                                                                                 py::const_),
-                 DOC_I_Ping(get_sv_3),
+                 DOC_I_Ping(get_sv_2),
                  py::arg("selection"),
                  py::arg("dB") = false)
             .def("get_sv_stacked",

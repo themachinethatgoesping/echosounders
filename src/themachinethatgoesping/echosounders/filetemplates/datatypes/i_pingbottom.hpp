@@ -34,7 +34,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../pingtools/pingsampleselection.hpp"
+#include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -69,14 +69,6 @@ class I_PingBottom : virtual public I_PingCommon
     virtual bool has_xyz() const { return false; }
 
     /**
-     * @brief Check if a specific transducer supports XYZ data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_xyz([[maybe_unused]] const std::string& transducer_id) const { return false; }
-
-    /**
      * @brief Get an XYZ object containing the XYZ position of the bottom detection
      * Note: XYZ is in the local coordinate system of the ping!
      * To convert it use algorithms::geoprocessing::georeferencer class or
@@ -97,28 +89,12 @@ class I_PingBottom : virtual public I_PingCommon
      * - Use get_xyz_utm() to get the bottom detection in UTM coordinates
      * - Use get_xyz_latlon() to get the bottom detection in Latitude/Longitude coordinates
      *
-     * @param transducer_id transducer id (for multi transducer configurations)
-     * @return algorithms::geoprocessing::datastructures::XYZ<1>
-     */
-    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        [[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented(__func__, get_name());
-    }
-
-    /**
-     * @brief Get an XYZ object containing the XYZ position of the bottom detection
-     * Note: XYZ is in the local coordinate system of the ping!
-     * To convert it use algorithms::geoprocessing::georeferencer class or
-     * - Use get_xyz_utm() to get the bottom detection in UTM coordinates
-     * - Use get_xyz_latlon() to get the bottom detection in Latitude/Longitude coordinates
-     *
      * @param selection structure with selected transducer_ids/beams/samples considered for this
      * function
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
     virtual xt::xtensor<float, 2> get_xyz(
-        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
     {
         throw not_implemented(__func__, this->get_name());
     }

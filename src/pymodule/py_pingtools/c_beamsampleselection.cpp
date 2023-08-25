@@ -6,7 +6,7 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
-#include "../../../themachinethatgoesping/echosounders/pingtools/substructures/beamsampleselection.hpp"
+#include "../../themachinethatgoesping/echosounders/pingtools/beamsampleselection.hpp"
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 namespace themachinethatgoesping {
@@ -15,17 +15,17 @@ namespace pymodule {
 namespace py_pingtools {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::pingtools::substructures;
+using namespace themachinethatgoesping::echosounders::pingtools;
 
 #define DOC_BeamSampleSelection(arg)                                                               \
-    DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSampleSelection, arg)
+    DOC(themachinethatgoesping, echosounders, pingtools, BeamSampleSelection, arg)
 
 void init_c_beamsampleselection(pybind11::module& m)
 {
     py::class_<BeamSampleSelection, BeamSelection, std::shared_ptr<BeamSampleSelection>>(
         m,
         "BeamSampleSelection",
-        DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSampleSelection))
+        DOC(themachinethatgoesping, echosounders, pingtools, BeamSampleSelection))
         .def(py::init<uint16_t>(),
              DOC_BeamSampleSelection(BeamSampleSelection),
              py::arg("sample_step_ensemble") = 1)
@@ -76,6 +76,9 @@ void init_c_beamsampleselection(pybind11::module& m)
         .def("get_last_sample_number_ensemble",
              &BeamSampleSelection::get_last_sample_number_ensemble,
              DOC_BeamSampleSelection(get_last_sample_number_ensemble))
+        .def("get_number_of_samples_ensemble",
+             &BeamSampleSelection::get_number_of_samples_ensemble,
+             DOC_BeamSampleSelection(get_number_of_samples_ensemble))
 
         // --- convenient data access ---
         .def("get_first_sample_number_per_beam",

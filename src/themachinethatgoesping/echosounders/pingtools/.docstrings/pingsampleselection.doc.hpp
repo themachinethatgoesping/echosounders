@@ -38,11 +38,11 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_PingSampleSelection = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_BeamSampleSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_add_beam =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_add_beam =
 R"doc(Add a beam to the sample selection
 
 Parameter ``transducer_id``:
@@ -57,7 +57,7 @@ Parameter ``first_sample_number``:
 Parameter ``last_sample_number``:
     last sample to select (>0))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_add_beam_sample_selection =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_add_beam_sample_selection =
 R"doc(Add a beam sample selection for the specified transducer Note: if the
 transducer id exists, it will be overwritten
 
@@ -67,50 +67,50 @@ Parameter ``transducer_id``:
 Parameter ``BeamSampleSelection``:
     BeamSampleSelection for this transducer.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_from_stream =
-R"doc(Return a PingSampleSelection read from a binary stream
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_from_stream =
+R"doc(Return a BeamSampleSelection read from a binary stream
 
 Parameter ``is``:
     input stream
 
 Returns:
-    PingSampleSelection)doc";
+    BeamSampleSelection)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_first_sample_number_ensemble =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_first_sample_number_ensemble =
 R"doc(Return the first sample number in the sample selection
 
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_last_sample_number_ensemble =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_last_sample_number_ensemble =
 R"doc(Return the last sample number in the sample selection
 
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_number_of_beams =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_number_of_beams =
 R"doc(Return the number of beams in the sample selection
 
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_number_of_samples_ensemble =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_number_of_samples_ensemble =
 R"doc(Return the number of samples in the sample selection
 
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_sample_selections =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_selections =
 R"doc(Return the sample selections for each transducer
 
 Returns:
     dict of sample selections)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_get_sample_step_ensemble = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_step_ensemble = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_printer =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
 See also: classhelper/objectprinter.hpp
 
@@ -120,29 +120,29 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_sample_selections = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_sample_selections = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_first_sample_number_ensemble =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_first_sample_number_ensemble =
 R"doc(Set the first sample number for the selection
 
 Parameter ``first_sample_number_ensemble``:
     First sample number in the selection)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_last_sample_number_ensemble =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_last_sample_number_ensemble =
 R"doc(Set the last sample number for the selection
 
 Parameter ``last_sample_number_ensemble``:
     Last sample number in the selection)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_set_sample_step_ensemble = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_sample_step_ensemble = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_to_stream =
-R"doc(Write a PingSampleSelection to a binary stream
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_to_stream =
+R"doc(Write a BeamSampleSelection to a binary stream
 
 Parameter ``os``:
     output stream)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelection_transducer_ids =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_transducer_ids =
 R"doc(Return the names of the transducers
 
 Returns:

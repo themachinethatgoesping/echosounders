@@ -1,4 +1,4 @@
-//sourcehash: 390eeb1f8465620df72943d6a2758df0838f2a3a9b10ced51079890e1454b446
+//sourcehash: 675143f18629b0a93d265d94fbdf87d4b5785a10c670434875a863e761b522d9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,25 +38,44 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection =
+R"doc(A class to hold the selected beams/sample range for a single
+transducer)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_BeamSampleSelection = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_BeamSampleSelection_2 =
+R"doc(Construct a new Beam Sample Selection object
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_beam_numbers = R"doc()doc";
+Parameter ``beam_selection``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_number_ensemble = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_BeamSampleSelection_3 =
+R"doc(Initialize a beam sample selection from a whole swath
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_first_sample_number_per_beam = R"doc()doc";
+Parameter ``beam_nr``:
+    beam number
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_max_number_of_samples_per_beam = R"doc()doc";
+Parameter ``first_sample_number``:
+    first sample number to select
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_number_of_samples_ensemble = R"doc()doc";
+Parameter ``last_sample_number_per_beam``:
+    last sample number to select)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_add_beam =
+R"doc(Add a beam to the selection
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_SampleSelection_sample_step_ensemble = R"doc()doc";
+Parameter ``beam_nr``:
+    beam number
+
+Parameter ``first_sample_number``:
+    first sample number to select
+
+Parameter ``last_sample_number_per_beam``:
+    last sample number to select)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_first_sample_number_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_first_sample_number_per_beam = R"doc(< first sample number per beam)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_from_stream =
 R"doc(Return a BeamSampleSelection read from a binary stream
@@ -66,6 +85,61 @@ Parameter ``is``:
 
 Returns:
     BeamSampleSelection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_first_sample_number_ensemble =
+R"doc(Return the first sample number of the ensemble
+
+Returns:
+    uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_first_sample_number_per_beam =
+R"doc(Return the first sample number per beam
+
+Returns:
+    std::vector<uint16_t>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_last_sample_number_ensemble =
+R"doc(Return the last sample number of the ensemble
+
+Returns:
+    uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_last_sample_number_per_beam =
+R"doc(Return the max number of samples per beam
+
+Returns:
+    std::vector<uint16_t>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_number_of_samples_ensemble =
+R"doc(return the number of samples within the ensemble
+
+Returns:
+    uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_read_sample_range =
+R"doc(Return the read sample range for a given beam
+
+Parameter ``beam_index``:
+    index of the beam within the beam sample selection
+
+Parameter ``first_sample_offset``:
+    offset to the first sample (often 0)
+
+Parameter ``number_of_samples``:
+    number of samples in the real beam structure
+
+Returns:
+    ReadSampleRange read sample range)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_step_ensemble =
+R"doc(Return the sample step size
+
+Returns:
+    uint16_t)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_last_sample_number_ensemble = R"doc(< maximum sample number < (max(last_sample_number_per_beam)))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_last_sample_number_per_beam = R"doc(< last sample number per beam)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_operator_eq = R"doc()doc";
 
@@ -79,7 +153,13 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_sample_selections = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_sample_step_ensemble = R"doc(< sample step size (same for the entire ensemble))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_first_sample_number_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_last_sample_number_ensemble = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_sample_step_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_to_stream =
 R"doc(Write a BeamSampleSelection to a binary stream

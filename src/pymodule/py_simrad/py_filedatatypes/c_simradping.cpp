@@ -44,11 +44,6 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
                    DOC(themachinethatgoesping, echosounders, simrad, filedatatypes, SimradPing))
 
                    // --- ping interface extension ---
-                   .def("set_geolocation",
-                        py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
-                            &t_SimradPing::set_geolocation),
-                        DOC_SimradPing(set_geolocation),
-                        py::arg("geolocation_latlon"))
 
                    // --- raw_data data access ---
                    .def("raw_data",

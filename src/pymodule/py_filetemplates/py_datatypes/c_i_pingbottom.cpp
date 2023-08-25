@@ -37,9 +37,6 @@ void init_c_i_pingbottom(pybind11::module& m)
             .def("has_xyz",
                  py::overload_cast<>(&I_PingBottom::has_xyz, py::const_),
                  DOC_I_PingBottom(has_xyz))
-            .def("has_xyz",
-                 py::overload_cast<const std::string&>(&I_PingBottom::has_xyz, py::const_),
-                 DOC_I_PingBottom(has_xyz_2))
             .def("get_xyz",
                  py::overload_cast<>(&I_PingBottom::get_xyz, py::const_),
                  DOC_I_PingBottom(get_xyz))

@@ -27,7 +27,6 @@
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
-namespace substructures {
 
 /**
  * @brief A class to hold the selected beams/sample range for a single transducer
@@ -329,7 +328,6 @@ class BeamSampleSelection : public BeamSelection
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace substructures
 } // namespace pingtools
 } // namespace echosounders
 } // namespace themachinethatgoesping

@@ -70,7 +70,7 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  py::overload_cast<>(&t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
                  DOC_EM3000PingRawData(get_beam_pointing_angles))
             .def("get_beam_pointing_angles",
-                 py::overload_cast<const pingtools::substructures::BeamSampleSelection&>(
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
                      &t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
                  DOC_EM3000PingRawData(get_beam_pointing_angles_2),
                  py::arg("selection"))
@@ -109,7 +109,7 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  py::overload_cast<>(&t_EM3000PingRawData::read_xyz),
                  DOC_EM3000PingRawData(read_xyz))
             .def("read_xyz",
-                 py::overload_cast<const pingtools::substructures::BeamSelection&>(
+                 py::overload_cast<const pingtools::BeamSelection&>(
                      &t_EM3000PingRawData::read_xyz),
                  DOC_EM3000PingRawData(read_xyz_2),
                  py::arg("selection"))

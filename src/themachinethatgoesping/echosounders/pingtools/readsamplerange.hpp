@@ -22,7 +22,6 @@
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
-namespace substructures {
 
 /**
  * @brief A class to hold range of samples for a single beam
@@ -123,7 +122,6 @@ class ReadSampleRange
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 
-} // namespace substructures
 } // namespace pingtools
 } // namespace echosounders
 } // namespace themachinethatgoesping

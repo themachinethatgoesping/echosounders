@@ -6,7 +6,7 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
-#include "../../../themachinethatgoesping/echosounders/pingtools/substructures/readsamplerange.hpp"
+#include "../../themachinethatgoesping/echosounders/pingtools/readsamplerange.hpp"
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 namespace themachinethatgoesping {
@@ -15,17 +15,17 @@ namespace pymodule {
 namespace py_pingtools {
 
 namespace py = pybind11;
-using namespace themachinethatgoesping::echosounders::pingtools::substructures;
+using namespace themachinethatgoesping::echosounders::pingtools;
 
 #define DOC_ReadSampleRange(arg)                                                                   \
-    DOC(themachinethatgoesping, echosounders, pingtools, substructures, ReadSampleRange, arg)
+    DOC(themachinethatgoesping, echosounders, pingtools, ReadSampleRange, arg)
 
 void init_c_readsamplerange(pybind11::module& m)
 {
     py::class_<ReadSampleRange>(
         m,
         "ReadSampleRange",
-        DOC(themachinethatgoesping, echosounders, pingtools, substructures, ReadSampleRange))
+        DOC(themachinethatgoesping, echosounders, pingtools, ReadSampleRange))
         .def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>(),
              DOC_ReadSampleRange(ReadSampleRange),
              py::arg("first_sample_to_read"),

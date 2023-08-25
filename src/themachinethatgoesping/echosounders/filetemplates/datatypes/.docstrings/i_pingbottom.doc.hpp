@@ -1,4 +1,4 @@
-//sourcehash: 327c3e2c94fc9640b8a2b5c3cbb2d95df0e88d45278527ae1e515a473fb261eb
+//sourcehash: 7fbcf6bc4aa7819207b884f76b9b97bd323ad25f4717d95e71e3580350e87f0a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,20 +63,6 @@ get_xyz_utm() to get the bottom detection in UTM coordinates - Use
 get_xyz_latlon() to get the bottom detection in Latitude/Longitude
 coordinates
 
-Parameter ``transducer_id``:
-    transducer id (for multi transducer configurations)
-
-Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_3 =
-R"doc(Get an XYZ object containing the XYZ position of the bottom detection
-Note: XYZ is in the local coordinate system of the ping! To convert it
-use algorithms::geoprocessing::georeferencer class or - Use
-get_xyz_utm() to get the bottom detection in UTM coordinates - Use
-get_xyz_latlon() to get the bottom detection in Latitude/Longitude
-coordinates
-
 Parameter ``selection``:
     structure with selected transducer_ids/beams/samples considered
     for this function
@@ -86,15 +72,6 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
 R"doc(Check this pings supports XYZ data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz_2 =
-R"doc(Check if a specific transducer supports XYZ data
 
 Returns:
     true

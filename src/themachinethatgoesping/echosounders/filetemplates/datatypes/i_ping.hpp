@@ -33,7 +33,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../pingtools/pingsampleselection.hpp"
+#include "../../pingtools/beamsampleselection.hpp"
 
 #include "i_pingbottom.hpp"
 #include "i_pingcommon.hpp"
@@ -48,12 +48,12 @@ class I_Ping : virtual public I_PingCommon
   protected:
     std::string _channel_id;    ///< channel id of the transducer
     double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
-    std::map<std::string, navigation::datastructures::GeoLocationLatLon>
-        _geolocations; ///< Geolocation of the transducer with the specified transducer_id. A
-                       /// Geolocation object holds lat,lon and attitude of
-                       /// the transducer. If not set manually, this variable is set by calling
-                       /// file.I_navigation.get_geolocation(ping.get_channel_id(),
-                       /// ping.get_timestamp()).
+    navigation::datastructures::GeoLocationLatLon
+        _geolocation; ///< Geolocation of the transducer. A
+                      /// Geolocation object holds lat,lon and attitude of
+                      /// the transducer. If not set manually, this variable is set by calling
+                      /// file.I_navigation.get_geolocation(ping.get_channel_id(),
+                      /// ping.get_timestamp()).
 
   public:
     using t_base = I_PingCommon;
@@ -63,24 +63,6 @@ class I_Ping : virtual public I_PingCommon
     {
     }
     virtual ~I_Ping() = default;
-
-    //----- multi transducer selection -----
-    /**
-     * @brief Get all registered transducer ids (in case multiple transducers are associated with a
-     * single ping)
-     *
-     * @return std::vector<std::string>
-     */
-    std::vector<std::string> get_transducer_ids() const override
-    {
-        std::vector<std::string> transducer_ids;
-
-        /* return the keys from _geolocations */
-        for (const auto& [k, v] : _geolocations)
-            transducer_ids.push_back(k);
-
-        return transducer_ids;
-    }
 
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
@@ -96,47 +78,21 @@ class I_Ping : virtual public I_PingCommon
     void set_timestamp(double timestamp) { _timestamp = timestamp; }
 
     /**
-     * @brief Get the geolocation of the transducer with the specified transducer_id.
-     *
-     * @param transducer_id: id of the transducer
-     * @return const navigation::datastructures::GeoLocationLatLon&
-     */
-    const navigation::datastructures::GeoLocationLatLon& get_geolocation(
-        const std::string& transducer_id) const
-    {
-        return _geolocations.at(transducer_id);
-    }
-    /**
-     * @brief Get the geolocation of the transducer. In case of multi transducer configuration, the
-     * transducer that was selected with "select_transducer_id" is used.
+     * @brief Get the geolocation of the transducer.
      *
      * @return const navigation::datastructures::GeoLocationLatLon&
      */
     const navigation::datastructures::GeoLocationLatLon& get_geolocation() const
     {
-        return _geolocations.at(get_transducer_id());
+        return _geolocation;
     }
 
     /**
-     * @brief Set the geolocation of the transducer with the specified transducer_id.
-     *
-     * @param transducer_id: id of the transducer
-     * @return const navigation::datastructures::GeoLocationLatLon&
-     */
-    void set_geolocation(const std::string&                            transducer_id,
-                         navigation::datastructures::GeoLocationLatLon geolocation)
-    {
-        _geolocations[transducer_id] = std::move(geolocation);
-    }
-    /**
-     * @brief Set the geolocation of the transducer. In case of multi transducer configuration, the
-     * transducer that was selected with "select_transducer_id" is used.
-     *
-     * @return const navigation::datastructures::GeoLocationLatLon&
+     * @brief Set the geolocation of the transducer.
      */
     void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
     {
-        _geolocations[get_transducer_id()] = std::move(geolocation);
+        _geolocation = std::move(geolocation);
     }
 
     //------ interface ------//
@@ -154,25 +110,13 @@ class I_Ping : virtual public I_PingCommon
     }
 
     /**
-     * @brief Get the number of beams from a specific transducer
-     * (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param transducer_id transducer id
-     * @return size_t
-     */
-    virtual size_t get_number_of_beams([[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented("get_number_of_beams(transducer_id)", this->get_name());
-    }
-
-    /**
      * @brief Get the number of beams when specifying the beams and samples to select.
      * Note: this function just returns selection.get_number_of_beams()
      *
      * @param selection: Structure containing information about which beams and samples to select.
      * @return size_t
      */
-    size_t get_number_of_beams(const pingtools::PingSampleSelection& selection) const
+    size_t get_number_of_beams(const pingtools::BeamSampleSelection& selection) const
     {
         return selection.get_number_of_beams();
     }
@@ -180,25 +124,11 @@ class I_Ping : virtual public I_PingCommon
     /**
      * @brief Get the beam pointing angles in °.
      *
-     * @param transducer_id
      * @return xt::xtensor<float, 1> in °
      */
     virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
     {
         throw not_implemented("get_beam_pointing_angles", this->get_name());
-    }
-
-    /**
-     * @brief Get the beam pointing angles from a specific transducer in °.
-     * (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param transducer_id
-     * @return xt::xtensor<float, 1> in °
-     */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
-        [[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented("get_beam_pointing_angles(transducer_id)", this->get_name());
     }
 
     /**
@@ -208,33 +138,19 @@ class I_Ping : virtual public I_PingCommon
      * @return xt::xtensor<float, 1> in °
      */
     virtual xt::xtensor<float, 1> get_beam_pointing_angles(
-        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
     {
-        throw not_implemented("get_beam_pointing_angles(PingSampleSelection)", this->get_name());
+        throw not_implemented("get_beam_pointing_angles(BeamSampleSelection)", this->get_name());
     }
 
     /**
      * @brief Get the number of samples per beam
      *
-     * @param transducer_id
      * @return xt::xtensor<uint16_t, 1>
      */
     virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
     {
         throw not_implemented("get_number_of_samples_per_beam", this->get_name());
-    }
-
-    /**
-     * @brief Get the number of samples per beam of a specific transducer.
-     * (Useful when multiple transducers are associated with a single ping.)
-     *
-     * @param transducer_id: id of the transducer
-     * @return xt::xtensor<uint16_t, 1>
-     */
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-        [[maybe_unused]] const std::string& transducer_id) const
-    {
-        throw not_implemented("get_number_of_samples_per_beam(transducer_id)", this->get_name());
     }
 
     /**
@@ -245,7 +161,7 @@ class I_Ping : virtual public I_PingCommon
      * @return xt::xtensor<uint16_t, 1>
      */
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
     {
         auto number_of_samples_per_beam =
             xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
@@ -268,48 +184,33 @@ class I_Ping : virtual public I_PingCommon
     }
 
     /**
-     * @brief Compute volume backscattering of a specific transducer.
-     * (Useful when multiple transducers are associated with a single ping.)
-     * If you see this comment, this function was not implemented for the current ping type.
-     *
-     * @param transducer_id transducer id
-     * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 2>
-     */
-    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] const std::string& transducer_id,
-                                         [[maybe_unused]] bool               dB = false) const
-    {
-        throw not_implemented("get_sv", this->get_name());
-    }
-
-    /**
      * @brief Compute volume backscattering. If you see this comment, this function was not
      * implemented for the current ping type.
      *
-     * @param selection structure with selected transducer_ids/beams/samples considered for this
+     * @param selection structure with selected beams/samples considered for this
      * function
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
     virtual xt::xtensor<float, 2> get_sv(
-        [[maybe_unused]] const pingtools::PingSampleSelection& selection,
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
         [[maybe_unused]] bool                                  dB = false) const
     {
-        throw not_implemented("get_sv(PingSampleSelection)", this->get_name());
+        throw not_implemented("get_sv(BeamSampleSelection)", this->get_name());
     }
 
     /**
      * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment,
      * this function was not implemented for the current ping type.
      *
-     * @param selection structure with selected transducer_ids/beams/samples considered for this
+     * @param selection structure with selected beams/samples considered for this
      * function
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
     virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
     {
-        throw not_implemented("get_sv_stacked(PingSampleSelection)", this->get_name());
+        throw not_implemented("get_sv_stacked", this->get_name());
     }
 
     /**
@@ -409,11 +310,8 @@ class I_Ping : virtual public I_PingCommon
         // print transducer ids
         printer.append(t_base::__printer__(float_precision));
 
-        for (const auto& [k, v] : this->_geolocations)
-        {
-            printer.register_section(k, '^');
-            printer.append(v.__printer__(float_precision));
-        }
+        printer.register_section("Geolocation");
+        printer.append(_geolocation.__printer__(float_precision));
 
         return printer;
     }

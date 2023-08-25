@@ -1,4 +1,4 @@
-//sourcehash: b142775c17c6191dd0fc0a1a8695a27f12ef22c1717bc480f2fb6f14a06b20d2
+//sourcehash: 453b02e23b38ae0832e94b9af4dd48de1c0b2ec1e109c98f547fdf94f59c54fb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,32 +46,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_transducer_id =
-R"doc(Get the transducer id of the ping. In case multiple transducer ids are
-associated with a single ping, this function will return the one
-selected with the "select_transducer_id" function.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_transducer_ids =
-R"doc(Get all registered transducer ids (in case multiple transducers are
-associated with a single ping)
-
-Returns:
-    std::vector<std::string>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_transducer_ids_as_set =
-R"doc(Get all registered transducer ids (in case multiple transducers are
-associated with a single ping) as a set (unique ids, order may be
-different)
-
-Returns:
-    std::set<std::string>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_transducer_ids_as_string =
-R"doc(Get all register transducer ids as a string (useful for printing)
-
-Returns:
-    std::string)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented = R"doc()doc";
@@ -79,12 +53,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented_not_implemented = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_true_for_each_transducer =
-R"doc(Call a function for each transducer ID and return true if the function
-returns true for one of the transducers)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_true_for_each_transducer_2 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

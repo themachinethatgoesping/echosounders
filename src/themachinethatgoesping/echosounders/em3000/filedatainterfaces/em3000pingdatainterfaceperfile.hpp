@@ -64,7 +64,7 @@ class EM3000PingDataInterfacePerFile
         using t_ping          = filedatatypes::EM3000Ping<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        std::unordered_map<uint16_t, t_ping_ptr> pings_by_counter;
+        std::map<uint16_t, std::map<uint16_t, t_ping_ptr>> pings_by_counter_by_id;
 
         // read the file installation parameters and build a base ping
         auto param =
@@ -88,21 +88,25 @@ class EM3000PingDataInterfacePerFile
                             rp, std::to_string(rp->get_system_serial_number()));
 
                         // read ping counter from not deduplicated datagram
-                        auto ping_counter = rp->get_ping_counter();
+                        auto ping_counter         = rp->get_ping_counter();
+                        auto system_serial_number = rp->get_system_serial_number();
 
                         // create a new ping if it does not exist
-                        if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
+                        if (pings_by_counter_by_id[ping_counter].find(system_serial_number) ==
+                            pings_by_counter_by_id[ping_counter].end())
                         {
-                            pings_by_counter[ping_counter] = std::make_shared<t_ping>(base_ping);
+                            pings_by_counter_by_id[ping_counter][system_serial_number] =
+                                std::make_shared<t_ping>(base_ping);
                         }
 
                         // add deduplicated runtime parameters
-                        pings_by_counter[ping_counter]->set_runtime_parameters(
-                            _runtime_parameter_buffer.get(
+                        pings_by_counter_by_id[ping_counter][system_serial_number]
+                            ->set_runtime_parameters(_runtime_parameter_buffer.get(
                                 std::to_string(rp->get_system_serial_number())));
 
-                        // add runtime parameters to all transducers
-                        pings_by_counter[ping_counter]->add_datagram_info(datagram_ptr);
+                        // add runtime parameters datagram
+                        pings_by_counter_by_id[ping_counter][system_serial_number]
+                            ->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }
@@ -129,15 +133,17 @@ class EM3000PingDataInterfacePerFile
                         ifs.read(reinterpret_cast<char*>(&system_serial_number), sizeof(uint16_t));
 
                         // create a new ping if it does not exist
-                        if (pings_by_counter.find(ping_counter) == pings_by_counter.end())
+                        if (pings_by_counter_by_id[ping_counter].find(system_serial_number) ==
+                            pings_by_counter_by_id[ping_counter].end())
                         {
-                            pings_by_counter[ping_counter] = std::make_shared<t_ping>(base_ping);
+                            pings_by_counter_by_id[ping_counter][system_serial_number] =
+                                std::make_shared<t_ping>(base_ping);
                         }
 
-                        auto& ping = pings_by_counter.at(ping_counter);
+                        auto& ping =
+                            pings_by_counter_by_id.at(ping_counter).at(system_serial_number);
 
-                        // ping->raw_data().add_datagram_info(datagram_ptr);
-                        ping->add_datagram_info(datagram_ptr, system_serial_number);
+                        ping->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }
@@ -149,16 +155,19 @@ class EM3000PingDataInterfacePerFile
 
         // loop through map and copy pings to vector
         t_pingcontainer pings;
-        for (auto [ping_counter, ping_ptr] : pings_by_counter)
+        for (auto [ping_counter, pings_by_id] : pings_by_counter_by_id)
         {
-            // load transducer locations from navigation
-            for (const auto& id : ping_ptr->get_transducer_ids())
+            for (auto [id, ping_ptr] : pings_by_id)
             {
+                std::string channel_id = fmt::format("TRX-{}", id);
+
+                ping_ptr->set_channel_id(channel_id);
+
+                // load transducer locations from navigation
                 try
                 {
-                    ping_ptr->set_geolocation(id,
-                                              this->navigation_data_interface().get_geolocation(
-                                                  id, ping_ptr->get_timestamp()));
+                    ping_ptr->set_geolocation(this->navigation_data_interface().get_geolocation(
+                        channel_id, ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {
@@ -170,12 +179,12 @@ class EM3000PingDataInterfacePerFile
                         ping_ptr->get_timestamp(),
                         e.what()));
                 }
+
+                // load datagrams
+                ping_ptr->load_datagrams();
+
+                pings.add_ping(std::move(ping_ptr));
             }
-
-            //load datagrams
-            ping_ptr->load_datagrams();
-
-            pings.add_ping(std::move(ping_ptr));
         }
 
         return pings;

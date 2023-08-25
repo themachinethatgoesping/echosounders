@@ -33,17 +33,6 @@ void init_c_i_pingcommon(pybind11::module& m)
             "I_PingCommon",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingCommon))
 
-            // --- multi transducer configuration ---
-            .def("get_transducer_ids",
-                 &I_PingCommon::get_transducer_ids,
-                 DOC_I_PingCommon(get_transducer_ids))
-            .def("get_transducer_ids_as_string",
-                 &I_PingCommon::get_transducer_ids_as_string,
-                 DOC_I_PingCommon(get_transducer_ids_as_string))
-            .def("get_transducer_id",
-                 &I_PingCommon::get_transducer_id,
-                 DOC_I_PingCommon(get_transducer_id))
-
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),

@@ -14,7 +14,7 @@
 
 /* ping includes */
 #include "../filetemplates/datatypes/i_ping.hpp"
-#include "pingsampleselection.hpp"
+#include "beamsampleselection.hpp"
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
@@ -25,10 +25,6 @@ namespace pingtools {
 
 class PingSampleSelector
 {
-    std::optional<std::set<std::string>> _transducer_ids; ///< if set: only use these transducers
-    std::optional<std::set<std::string>>
-        _ignored_transducer_ids; ///< if set: ignore these transducers
-
     std::optional<size_t> _min_beam_number; ///< min beam number to select
     std::optional<size_t> _max_beam_number; ///< max beam number to select
 
@@ -51,74 +47,54 @@ class PingSampleSelector
     bool operator==(const PingSampleSelector& other) const = default;
 
     // get selection
-    PingSampleSelection apply_selection(
+    BeamSampleSelection apply_selection(
         const std::shared_ptr<const filetemplates::datatypes::I_Ping>& ping)
     {
-        auto transducer_ids_in_ping = ping->get_transducer_ids_as_set();
-        // select transducers according to the transducers
-        std::set<std::string> transducer_ids;
-        if (_transducer_ids)
-        {
-            for (const auto& trid : transducer_ids_in_ping)
-                if (_transducer_ids->contains(trid))
-                    transducer_ids.insert(trid);
-        }
-        else
-        {
-            transducer_ids = transducer_ids_in_ping;
-        }
 
-        if (_ignored_transducer_ids)
-            for (const auto& trid : *_ignored_transducer_ids)
-                transducer_ids.erase(trid);
-
-        PingSampleSelection selection;
+        BeamSampleSelection selection;
 
         // select beams according to the options
-        for (const auto& trid : transducer_ids)
+        const auto number_of_beams = ping->get_number_of_beams();
+
+        const auto& beam_pointing_angles = ping->get_beam_pointing_angles();
+        if (beam_pointing_angles.size() < number_of_beams)
+            throw std::runtime_error(fmt::format(
+                "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
+                beam_pointing_angles.size(),
+                number_of_beams));
+
+        // convert min/max beam numbers to indices (if set, and according to python negative
+        // indexing)
+        size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
+        size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
+
+        tools::pyhelper::PyIndexer beam_indexer(
+            number_of_beams, min_beam_number, max_beam_number, _beam_step);
+
+        for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
         {
-            const auto number_of_beams = ping->get_number_of_beams(trid);
+            auto bn = beam_indexer(counter);
 
-            const auto& beam_pointing_angles = ping->get_beam_pointing_angles(trid);
-            if (beam_pointing_angles.size() < number_of_beams)
-                throw std::runtime_error(fmt::format(
-                    "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
-                    beam_pointing_angles.size(),
-                    number_of_beams));
+            if (_min_beam_angle && beam_pointing_angles.unchecked(bn) < *_min_beam_angle)
+                continue;
+            if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
+                continue;
 
-            // convert min/max beam numbers to indices (if set, and according to python negative
-            // indexing)
-            size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
-            size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
+            size_t number_of_samples = ping->get_number_of_samples_per_beam().unchecked(bn);
+            size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
+            size_t max_sample_number =
+                _max_sample_number ? *_max_sample_number : number_of_samples - 1;
 
-            tools::pyhelper::PyIndexer beam_indexer(
-                number_of_beams, min_beam_number, max_beam_number, _beam_step);
+            if (min_sample_number >= number_of_samples)
+                continue;
+            if (max_sample_number >= number_of_samples)
+                max_sample_number = number_of_samples - 1;
 
-            for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
-            {
-                auto bn = beam_indexer(counter);
+            tools::pyhelper::PyIndexer sample_indexer(
+                number_of_samples, min_sample_number, max_sample_number + 1, _sample_step);
 
-                if (_min_beam_angle && beam_pointing_angles.unchecked(bn) < *_min_beam_angle)
-                    continue;
-                if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
-                    continue;
-
-                size_t number_of_samples = ping->get_number_of_samples_per_beam(trid).unchecked(bn);
-                size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
-                size_t max_sample_number =
-                    _max_sample_number ? *_max_sample_number : number_of_samples - 1;
-
-                if (min_sample_number >= number_of_samples)
-                    continue;
-                if (max_sample_number >= number_of_samples)
-                    max_sample_number = number_of_samples - 1;
-
-                tools::pyhelper::PyIndexer sample_indexer(
-                    number_of_samples, min_sample_number, max_sample_number + 1, _sample_step);
-
-                selection.add_beam(trid, bn, sample_indexer(0), sample_indexer(-1));
-                bn++;
-            }
+            selection.add_beam(bn, sample_indexer(0), sample_indexer(-1));
+            bn++;
         }
 
         // select samples according to the options
@@ -128,22 +104,16 @@ class PingSampleSelector
     }
 
     // getters
-    const auto& get_transducer_ids() const { return _transducer_ids; }
-    const auto& get_ignored_transducer_ids() const { return _ignored_transducer_ids; }
-    auto        get_min_beam_number() const { return _min_beam_number; }
-    auto        get_max_beam_number() const { return _max_beam_number; }
-    auto        get_min_sample_number() const { return _min_sample_number; }
-    auto        get_max_sample_number() const { return _max_sample_number; }
-    auto        get_min_beam_angle() const { return _min_beam_angle; }
-    auto        get_max_beam_angle() const { return _max_beam_angle; }
-    auto        get_min_sample_range() const { return _min_sample_range; }
-    auto        get_max_sample_range() const { return _max_sample_range; }
-    auto        get_beam_step() const { return _beam_step; }
-    auto        get_sample_step() const { return _sample_step; }
-
-    // resetters
-    void clear_transducer_ids() { _transducer_ids.reset(); }
-    void clear_ignored_transducer_ids() { _ignored_transducer_ids.reset(); }
+    auto get_min_beam_number() const { return _min_beam_number; }
+    auto get_max_beam_number() const { return _max_beam_number; }
+    auto get_min_sample_number() const { return _min_sample_number; }
+    auto get_max_sample_number() const { return _max_sample_number; }
+    auto get_min_beam_angle() const { return _min_beam_angle; }
+    auto get_max_beam_angle() const { return _max_beam_angle; }
+    auto get_min_sample_range() const { return _min_sample_range; }
+    auto get_max_sample_range() const { return _max_sample_range; }
+    auto get_beam_step() const { return _beam_step; }
+    auto get_sample_step() const { return _sample_step; }
 
     // resetters
     void clear_beam_number_range()
@@ -175,8 +145,6 @@ class PingSampleSelector
 
     void clear()
     {
-        clear_transducer_ids();
-        clear_ignored_transducer_ids();
         clear_beam_number_range();
         clear_sample_number_range();
         clear_beam_angle_range();
@@ -186,15 +154,6 @@ class PingSampleSelector
     }
 
     // selectors
-    void select_transducer_ids(std::set<std::string> transducer_ids)
-    {
-        _transducer_ids = std::move(transducer_ids);
-    }
-
-    void select_ignored_transducer_ids(std::set<std::string> ignored_transducer_ids)
-    {
-        _ignored_transducer_ids = std::move(ignored_transducer_ids);
-    }
 
     void select_beam_range_by_numbers(size_t                min_beam_number,
                                       size_t                max_beam_number,
@@ -252,9 +211,6 @@ class PingSampleSelector
         using themachinethatgoesping::tools::classhelper::stream::optional_set_from_stream;
 
         PingSampleSelector object;
-        object._transducer_ids         = optional_set_from_stream<std::string>(is);
-        object._ignored_transducer_ids = optional_set_from_stream<std::string>(is);
-
         object._min_beam_number   = optional_from_stream<size_t>(is);
         object._max_beam_number   = optional_from_stream<size_t>(is);
         object._min_sample_number = optional_from_stream<size_t>(is);
@@ -278,9 +234,6 @@ class PingSampleSelector
     {
         using themachinethatgoesping::tools::classhelper::stream::optional_set_to_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_to_stream;
-
-        optional_set_to_stream(os, _transducer_ids);
-        optional_set_to_stream(os, _ignored_transducer_ids);
 
         optional_to_stream(os, _min_beam_number);
         optional_to_stream(os, _max_beam_number);
@@ -311,14 +264,6 @@ class PingSampleSelector
         std::string inactive_filters;
 
         printer.register_section("Active beam/sample filters");
-        if (_transducer_ids)
-            printer.register_container("transducer_ids", *_transducer_ids);
-        else
-            inactive_filters += "transducer_ids, ";
-        if (_ignored_transducer_ids)
-            printer.register_container("ignored_transducer_ids", *_ignored_transducer_ids);
-        else
-            inactive_filters += "ignored_transducer_ids, ";
         if (_min_beam_number)
             printer.register_value("min_beam_number", *_min_beam_number);
         else

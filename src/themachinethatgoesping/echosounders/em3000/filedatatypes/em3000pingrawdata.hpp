@@ -33,7 +33,7 @@
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
-#include "../../pingtools/substructures/beamsampleselection.hpp"
+#include "../../pingtools/beamsampleselection.hpp"
 #include "../em3000_datagrams.hpp"
 #include "../filedatainterfaces/em3000datagraminterface.hpp"
 
@@ -109,7 +109,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     // ----- getter/setters -----
     const xt::xtensor<float, 1>& get_beam_pointing_angles() const { return _beam_pointing_angles; }
     xt::xtensor<float, 1>        get_beam_pointing_angles(
-               const pingtools::substructures::BeamSampleSelection& selection) const
+               const pingtools::BeamSampleSelection& selection) const
     {
         const auto beam_numbers = selection.get_beam_numbers();
 
@@ -221,7 +221,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
                                         last_sample_number_per_beam.end());
 
-        return pingtools::substructures::BeamSampleSelection(std::move(first_snpb),
+        return pingtools::BeamSampleSelection(std::move(first_snpb),
                                                              std::move(last_snpb));
     }
 
@@ -234,7 +234,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     }
 
     auto read_beam_samples(uint16_t                                         bn,
-                           const pingtools::substructures::ReadSampleRange& rsr,
+                           const pingtools::ReadSampleRange& rsr,
                            t_ifstream&                                      ifs) const
     {
         // auto& ifs =
@@ -255,7 +255,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //  * @return xt::xtensor<float, 2>
     //  */
     xt::xtensor<float, 2> read_selected_samples(
-        const pingtools::substructures::BeamSampleSelection& bss) const
+        const pingtools::BeamSampleSelection& bss) const
     {
         auto samples = xt::xtensor<float, 2>::from_shape(
             { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() });
@@ -342,7 +342,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
     algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(
-        const pingtools::substructures::BeamSelection& bs)
+        const pingtools::BeamSelection& bs)
     {
         auto& datagram_infos =
             this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);

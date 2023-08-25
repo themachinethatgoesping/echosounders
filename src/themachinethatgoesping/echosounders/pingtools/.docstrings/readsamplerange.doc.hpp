@@ -1,4 +1,4 @@
-//sourcehash: 39206dab132cb3ec4b9d6fd8c8264e9d31e1f7bf74dbaf75e97b0453cea91acb
+//sourcehash: b27fd4f279341b6f007fbfb8cb9a44e1ed9813fd33d176d08282fa76bee112fc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,44 +38,44 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange = R"doc(A class to hold range of samples for a single beam)doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange = R"doc(A class to hold range of samples for a single beam)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_SampleRange = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_ReadSampleRange = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_SampleRange_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_ReadSampleRange_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_first_sample_offset = R"doc(< offset of the first read sample (compared to global sample < number))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_first_read_sample_offset = R"doc(< offset of the first read sample (compared to global < sample number))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_first_sample_to_read = R"doc(< first sample number to read (local to beam sample offset))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_first_sample_to_read = R"doc(< first sample number to read (local to beam sample offset))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_from_stream =
-R"doc(Return a SampleRange read from a binary stream
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_from_stream =
+R"doc(Return a ReadSampleRange read from a binary stream
 
 Parameter ``is``:
     input stream
 
 Returns:
-    SampleRange)doc";
+    ReadSampleRange)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_get_first_sample_offset = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_get_first_read_sample_offset = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_get_first_sample_to_read =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_get_first_sample_to_read =
 R"doc(Return the first sample number to read (local to beam sample offset)
 
 Returns:
     uint16_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_get_last_sample_offset = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_get_last_read_sample_offset = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_get_number_of_samples_to_read = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_get_number_of_samples_to_read = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_last_sample_offset = R"doc(< offset of the last read sample (compared to global sample number))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_last_read_sample_offset = R"doc(< offset of the last read sample (compared to global)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_number_of_samples_to_read = R"doc(< number of samples to read (local to beam sample offset))doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_number_of_samples_to_read = R"doc(< number of samples to read (local to beam sample offset))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_printer =
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
 See also: classhelper/objectprinter.hpp
 
@@ -85,8 +85,8 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_SampleRange_to_stream =
-R"doc(Write a SampleRange to a binary stream
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_to_stream =
+R"doc(Write a ReadSampleRange to a binary stream
 
 Parameter ``os``:
     output stream)doc";

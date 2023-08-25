@@ -52,10 +52,10 @@ class EM3000PingBottom
     using t_base2 = EM3000PingCommon<t_ifstream>;
 
     using t_base2::_raw_data;
-    using typename t_base2::t_rawdatamap;
+    using typename t_base2::t_rawdata;
 
   public:
-    EM3000PingBottom(std::shared_ptr<t_rawdatamap> raw_data)
+    EM3000PingBottom(std::shared_ptr<t_rawdata> raw_data)
         : t_base0("EM3000PingBottom") // necessary because of virtual inheritance
         //, t_base1("EM3000PingBottom"),
         , t_base2(std::move(raw_data))
@@ -65,19 +65,11 @@ class EM3000PingBottom
 
     // ----- I_PingBottom interface -----
     using t_base1::has_xyz;
-    using t_base2::get_raw_data;
+    using t_base2::raw_data;
 
     bool has_xyz() const override
     {
-        for (const auto& trid : get_transducer_ids())
-            if (has_xyz(trid))
-                return true;
-
-        return false;
-    }
-    bool has_xyz(const std::string& transducer_id) const override
-    {
-        return get_raw_data(transducer_id)
+        return raw_data()
                    .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::XYZDatagram)
                    .size() > 0;
     }
@@ -87,14 +79,8 @@ class EM3000PingBottom
         throw not_implemented(__func__, get_name());
     }
 
-    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        [[maybe_unused]] const std::string& transducer_id) const override
-    {
-        throw not_implemented(__func__, get_name());
-    }
-
     virtual xt::xtensor<float, 2> get_xyz(
-        [[maybe_unused]] const pingtools::PingSampleSelection& selection) const override
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const override
     {
         throw not_implemented(__func__, this->get_name());
     }
