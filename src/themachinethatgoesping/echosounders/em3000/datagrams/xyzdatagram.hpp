@@ -127,14 +127,18 @@ class XYZDatagram : public EM3000Datagram
      */
     static t_XYZ read_xyz(std::istream& ifs, size_t pos_xyzdatagram)
     {
+        // verify that the datagram identifier is correct
+        auto pos_xyzcontent = EM3000Datagram::skip_and_verify_header(
+            ifs, pos_xyzdatagram, t_EM3000DatagramIdentifier::XYZDatagram);
+
         // number of beams
-        ifs.seekg(size_t(pos_xyzdatagram) + 12 * sizeof(uint8_t));
+        ifs.seekg(12 * sizeof(uint8_t), std::ios::cur);
 
         uint16_t number_of_beams;
         ifs.read(reinterpret_cast<char*>(&number_of_beams), sizeof(uint16_t));
 
         t_XYZ  xyz({ number_of_beams });
-        auto   pos_beam    = pos_xyzdatagram + 24 * sizeof(uint8_t);
+        auto   pos_beam    = pos_xyzcontent + 24 * sizeof(uint8_t);
         size_t beam_offset = sizeof(substructures::XYZDatagramBeam);
 
         for (size_t bn = 0; bn < number_of_beams; ++bn)
@@ -162,12 +166,16 @@ class XYZDatagram : public EM3000Datagram
                           size_t                       pos_xyzdatagram,
                           const std::vector<uint16_t>& beam_numbers)
     {
-        ifs.seekg(pos_xyzdatagram + 12 * sizeof(uint8_t));
+        // verify that the datagram identifier is correct
+        auto pos_xyzcontent = EM3000Datagram::skip_and_verify_header(
+            ifs, pos_xyzdatagram, t_EM3000DatagramIdentifier::XYZDatagram);
+
+        ifs.seekg(12 * sizeof(uint8_t), std::ios::cur);
         uint16_t number_of_beams;
         ifs.read(reinterpret_cast<char*>(&number_of_beams), sizeof(uint16_t));
 
         t_XYZ  xyz({ number_of_beams });
-        auto   pos_beam    = pos_xyzdatagram + 24 * sizeof(uint8_t);
+        auto   pos_beam    = pos_xyzcontent + 24 * sizeof(uint8_t);
         size_t beam_offset = sizeof(substructures::XYZDatagramBeam);
 
         for (const auto bn : beam_numbers)

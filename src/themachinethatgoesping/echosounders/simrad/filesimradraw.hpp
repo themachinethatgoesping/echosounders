@@ -192,7 +192,7 @@ class FileSimradRaw
 
     filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
     callback_scan_packet(t_ifstream&                   ifs,
-                         typename t_ifstream::pos_type pos,
+                         size_t pos,
                          size_t                        file_paths_cnt) final
     {
         auto header = datagrams::SimradDatagram::from_stream(ifs);

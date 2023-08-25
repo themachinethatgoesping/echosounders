@@ -143,10 +143,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     {
         return _transmit_sector_numbers;
     }
-    const xt::xtensor<std::istream::pos_type, 1>& get_sample_positions() const
-    {
-        return _sample_positions;
-    }
+    const xt::xtensor<size_t, 1>& get_sample_positions() const { return _sample_positions; }
 
     uint16_t get_number_of_beams() const
     {
@@ -161,7 +158,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
     xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
     boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
-    xt::xtensor<std::istream::pos_type, 1>                 _sample_positions;
+    xt::xtensor<size_t, 1>                                 _sample_positions;
 
     void load_datagrams(bool skip_data = true)
     {
@@ -174,7 +171,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
-        auto sample_positions = xt::xtensor<std::istream::pos_type, 1>::from_shape({ nbeams });
+        auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
 
         size_t bn = 0;
         for (const auto& b : water_column_datagram.beams())
@@ -332,7 +329,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                             "ping!"));
 
         auto& stream = datagram_infos.at(0)->get_stream();
-        auto pos    = datagram_infos.at(0)->get_file_pos();
+        auto  pos    = datagram_infos.at(0)->get_file_pos();
 
         return datagrams::XYZDatagram::read_xyz(stream, pos);
     }
@@ -360,8 +357,8 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                 fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
                             "ping!"));
 
-        auto stream = datagram_infos.at(0)->get_stream();
-        auto pos    = datagram_infos.at(0)->get_file_pos();
+        auto& stream = datagram_infos.at(0)->get_stream();
+        auto  pos    = datagram_infos.at(0)->get_file_pos();
 
         return datagrams::XYZDatagram::read_xyz(stream, pos, bs.get_beam_numbers());
     }

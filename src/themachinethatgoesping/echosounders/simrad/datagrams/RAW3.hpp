@@ -173,9 +173,9 @@ class RAW3 : public SimradDatagram
 
     // ----- file I/O -----
     raw3datatypes::RAW3DataVariant read_skipped_sample_data(std::istream&          is,
-                                                            std::istream::pos_type header_pos) const
+                                                            size_t header_pos) const
     {
-        is.seekg(header_pos + std::istream::pos_type(152));
+        is.seekg(header_pos + size_t(152));
         return read_sample_data(is);
     }
 

@@ -205,7 +205,7 @@ class I_InputFile
     {
     }
     virtual datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
-    callback_scan_packet(t_ifstream& ifs, typename t_ifstream::pos_type pos, size_t file_paths_cnt)
+    callback_scan_packet(t_ifstream& ifs, size_t pos, size_t file_paths_cnt)
     {
         auto header = t_DatagramBase::from_stream(ifs);
         header.skip(ifs);
@@ -232,7 +232,7 @@ class I_InputFile
     {
 
         std::string                   file_path;
-        typename t_ifstream::pos_type file_size;
+        size_t file_size;
 
         /* header positions */
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
@@ -266,7 +266,7 @@ class I_InputFile
 
         try
         {
-            while (pos < file_info.file_size)
+            while (pos < signed(file_info.file_size))
             {
                 //  this function may return nonsense...
                 // auto header = t_DatagramBase::from_stream(ifs);

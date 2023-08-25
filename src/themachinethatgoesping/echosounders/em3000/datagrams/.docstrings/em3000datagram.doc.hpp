@@ -1,4 +1,4 @@
-//sourcehash: d1fc97a3d2a320cc864ff3a02a3cbf31607c8f6940141a7ac70dae6053380791
+//sourcehash: 314a76ddb77cf0431a072c83b8616516adee17c66bcb8d796eb87ea3ad8dc8d7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -104,6 +104,24 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_set_time_since_midnight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_skip = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_skip_and_verify_header =
+R"doc(This verifies that stream_pos describes the thought datagram and skips
+to the beginning of the datagram (without header) This is used to read
+some variables from a datagram directly (e.g. read_xyz from
+XYZDatagram)
+
+Parameter ``is``:
+    istream
+
+Parameter ``stream_pos``:
+    position of the datagram header
+
+Parameter ``identifier``:
+    datagram identifier
+
+Returns:
+    size_t position of the datagram without header)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_EM3000Datagram_stx = R"doc(< (start identifier))doc";
 

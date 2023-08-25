@@ -52,7 +52,7 @@ class WaterColumnDatagramBeam
         false; ///< This flag is set if from_stream was called with the "skip_data" argument. Call
                ///< load_data or set_data to set it to false.
 
-    std::istream::pos_type _sample_pos; ///< the position of the sample data in the filestream. This
+    size_t _sample_pos; ///< the position of the sample data in the filestream. This
                                         ///< is used to load skipped sample data.
 
   public:
@@ -67,7 +67,7 @@ class WaterColumnDatagramBeam
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_beam_number() const { return _beam_number; }
-    std::istream::pos_type get_sample_position() const { return _sample_pos; }
+    size_t get_sample_position() const { return _sample_pos; }
 
     // setters
     void set_beam_pointing_angle(int16_t beam_pointing_angle)
@@ -128,7 +128,7 @@ class WaterColumnDatagramBeam
      * @return xt::xtensor<int8_t, 1>
      */
     static xt::xtensor<int8_t, 1> read_samples(std::istream&          ifs,
-                                               std::istream::pos_type pos_first_sample,
+                                               size_t pos_first_sample,
                                                size_t                 first_sample,
                                                size_t                 number_of_samples,
                                                size_t                 number_of_samples_in_datagram)
@@ -145,7 +145,7 @@ class WaterColumnDatagramBeam
                             number_of_samples,
                             number_of_samples_in_datagram));
 
-        ifs.seekg(pos_first_sample + std::ifstream::pos_type(first_sample * sizeof(int8_t)));
+        ifs.seekg(pos_first_sample + size_t(first_sample * sizeof(int8_t)));
 
         ifs.read(reinterpret_cast<char*>(samples.data()), number_of_samples * sizeof(int8_t));
 

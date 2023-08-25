@@ -96,6 +96,37 @@ class EM3000Datagram
         _verify_datagram_end(is);
     }
 
+    /**
+     * @brief This verifies that stream_pos describes the thought datagram and skips to the
+     * beginning of the datagram (without header)
+     * This is used to read some variables from a datagram directly (e.g. read_xyz from XYZDatagram)
+     *
+     * @param is istream
+     * @param stream_pos position of the datagram header
+     * @param identifier datagram identifier
+     *
+     * @return size_t position of the datagram without header
+     */
+    static size_t skip_and_verify_header(std::istream&              is,
+                                         size_t                     stream_pos,
+                                         t_EM3000DatagramIdentifier identifier)
+    {
+        is.seekg(stream_pos + 5, std::ios::beg);
+
+        // read the datagram identifier
+        t_EM3000DatagramIdentifier datagram_identifier;
+        is.read(reinterpret_cast<char*>(&datagram_identifier), sizeof(t_EM3000DatagramIdentifier));
+        if (datagram_identifier != identifier)
+            throw std::runtime_error(fmt::format("EM3000Datagram::skip_and_verify_header: datagram "
+                                                 "identifier is not {}, but {}",
+                                                 datagram_type_to_string(identifier),
+                                                 datagram_type_to_string(datagram_identifier)));
+
+        is.seekg(10, std::ios::cur);
+
+        return is.tellg();
+    }
+
     // ----- convenient member access -----
     uint32_t             get_bytes() const { return _bytes; }
     uint8_t              get_stx() const { return _stx; }
@@ -168,7 +199,11 @@ class EM3000Datagram
         EM3000Datagram d = from_stream(is);
 
         if (d.get_datagram_identifier() != datagram_identifier)
-            throw std::runtime_error(fmt::format("EM3000Datagram: Datagram identifier mismatch!"));
+            throw std::runtime_error(
+                fmt::format("EM3000Datagram::skip_and_verify_header: datagram "
+                            "identifier is not {}, but {}",
+                            datagram_type_to_string(datagram_identifier),
+                            datagram_type_to_string(d.get_datagram_identifier())));
 
         return d;
     }

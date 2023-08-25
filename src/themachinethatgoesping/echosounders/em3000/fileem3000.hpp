@@ -278,7 +278,7 @@ class FileEM3000
 
     filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
     callback_scan_packet(t_ifstream&                   ifs,
-                         typename t_ifstream::pos_type pos,
+                         size_t pos,
                          size_t                        file_paths_cnt) final
     {
         auto header    = datagrams::EM3000Datagram::from_stream(ifs);
