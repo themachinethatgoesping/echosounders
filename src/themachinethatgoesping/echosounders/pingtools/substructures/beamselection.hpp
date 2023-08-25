@@ -53,6 +53,17 @@ class BeamSelection
                   0); // Fill vector with 0, 1, ..., number_of_beams-1.
     }
 
+    /**
+     * @brief Initialize a beam sample selection from a whole swath
+     *
+     * @param number_of_beams number of beams in the swath
+     */
+    BeamSelection(std::vector<uint16_t> beam_numbers)
+        : _beam_numbers(std::move(beam_numbers))
+    {
+    }
+
+
     // --- operators ---
     bool operator==(const BeamSelection& other) const = default;
 

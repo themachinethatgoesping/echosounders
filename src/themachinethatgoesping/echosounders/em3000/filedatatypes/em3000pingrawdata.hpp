@@ -327,11 +327,10 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             throw std::runtime_error(
                 fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
                             "ping!"));
+        auto datagram =
+            datagram_infos.at(0)->template read_datagram_from_file<datagrams::XYZDatagram>();
 
-        auto& stream = datagram_infos.at(0)->get_stream();
-        auto  pos    = datagram_infos.at(0)->get_file_pos();
-
-        return datagrams::XYZDatagram::read_xyz(stream, pos);
+        return datagram.get_xyz();
     }
 
     /**
@@ -356,11 +355,10 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             throw std::runtime_error(
                 fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
                             "ping!"));
+        auto datagram =
+            datagram_infos.at(0)->template read_datagram_from_file<datagrams::XYZDatagram>();
 
-        auto& stream = datagram_infos.at(0)->get_stream();
-        auto  pos    = datagram_infos.at(0)->get_file_pos();
-
-        return datagrams::XYZDatagram::read_xyz(stream, pos, bs.get_beam_numbers());
+        return datagram.get_xyz(bs.get_beam_numbers());
     }
 
   public:

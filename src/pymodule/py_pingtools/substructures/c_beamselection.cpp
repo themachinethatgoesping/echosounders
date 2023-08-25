@@ -28,6 +28,9 @@ void init_c_beamselection(pybind11::module& m)
         DOC(themachinethatgoesping, echosounders, pingtools, substructures, BeamSelection))
         .def(py::init<>(), DOC_BeamSelection(BeamSelection))
         .def(py::init<uint16_t>(), DOC_BeamSelection(BeamSelection_2), py::arg("number_of_beams"))
+        .def(py::init<std::vector<uint16_t>>(),
+             DOC_BeamSelection(BeamSelection_3),
+             py::arg("beam_numbers"))
 
         // --- add beam/samples ---
         .def("add_beam",

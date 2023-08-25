@@ -1,4 +1,4 @@
-//sourcehash: da7f030848a86d41f7845bfb402e5605f257873e6577cdfc194858fcf07f02dd
+//sourcehash: 62795176098c57b2c39c489fe6307567847fdb76ed446452ab6c041045638a77
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,12 @@ transducer)doc";
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection_2 =
+R"doc(Initialize a beam sample selection from a whole swath
+
+Parameter ``number_of_beams``:
+    number of beams in the swath)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_substructures_BeamSelection_BeamSelection_3 =
 R"doc(Initialize a beam sample selection from a whole swath
 
 Parameter ``number_of_beams``:
