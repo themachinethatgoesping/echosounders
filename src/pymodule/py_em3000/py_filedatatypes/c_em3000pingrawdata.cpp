@@ -104,25 +104,15 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(load_datagrams),
                  py::arg("skip_data") = true)
 
-        // .def_readonly("ping_data",
-        //               &t_EM3000PingRawData::_ping_data,
-        //               DOC_EM3000PingRawData(ping_data),
-        //               py::return_value_policy::reference_internal)
-        // .def("get_parameter",
-        //      &t_EM3000PingRawData::get_parameter,
-        //      DOC_EM3000PingRawData(get_parameter))
-
-        // .def("get_sample_data",
-        //      &t_EM3000PingRawData::get_sample_data,
-        //      DOC_EM3000PingRawData(get_sample_data))
-
-        // .def("has_angle", &t_EM3000PingRawData::has_angle, DOC_EM3000PingRawData(has_angle))
-        // .def("has_power", &t_EM3000PingRawData::has_power, DOC_EM3000PingRawData(has_power))
-
-        // .def("load_data", &t_EM3000PingRawData::load_data, DOC_EM3000PingRawData(load_data))
-        // .def(
-        //     "release_data", &t_EM3000PingRawData::release_data,
-        //     DOC_EM3000PingRawData(release_data))
+            // --- bottom detection ---
+            .def("read_xyz",
+                 py::overload_cast<>(&t_EM3000PingRawData::read_xyz),
+                 DOC_EM3000PingRawData(read_xyz))
+            .def("read_xyz",
+                 py::overload_cast<const pingtools::substructures::BeamSelection&>(
+                     &t_EM3000PingRawData::read_xyz),
+                 DOC_EM3000PingRawData(read_xyz_2),
+                 py::arg("selection"))
 
         // ----- this is also commented out in simrad equivalent-----
         // ----- operators -----

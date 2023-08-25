@@ -1,4 +1,4 @@
-//sourcehash: 09252b46158adaf813a53c68c20a63793dead0017ca136d3e891fb190767e896
+//sourcehash: c42fd04d5469b43e99a7fae89454bd2805c3ea9adf03620dba973b8bae11ad57
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -130,6 +130,34 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XY
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_ping_counter = R"doc(< 0-65535 ping number (in this file))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_read_xyz =
+R"doc(Read the XYZDatagramBeams and convert them to a XYZ structure
+
+Parameter ``ifs``:
+    input file stream
+
+Parameter ``pos_xyzdatagram``:
+    position of the XYZDatagram in the file
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_read_xyz_2 =
+R"doc(Read the XYZDatagramBeams for a given beam_number vector and convert
+them to a XYZ structure Note: if a beam number is not found, the
+corresponding XYZ value will be NaN
+
+Parameter ``ifs``:
+    input file stream
+
+Parameter ``pos_xyzdatagram``:
+    position of the XYZDatagram in the file
+
+Parameter ``beam_numbers``:
+    $Returns:
+
+algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_XYZDatagram_sampling_frequency = R"doc(< in Hz)doc";
 

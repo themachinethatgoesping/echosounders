@@ -117,6 +117,78 @@ class XYZDatagram : public EM3000Datagram
 
         return xyz;
     }
+    /**
+     * @brief Read the XYZDatagramBeams and convert them to a XYZ structure
+     *
+     * @param ifs input file stream
+     * @param pos_xyzdatagram position of the XYZDatagram in the file
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    static t_XYZ read_xyz(std::istream& ifs, size_t pos_xyzdatagram)
+    {
+        // number of beams
+        ifs.seekg(size_t(pos_xyzdatagram) + 12 * sizeof(uint8_t));
+
+        uint16_t number_of_beams;
+        ifs.read(reinterpret_cast<char*>(&number_of_beams), sizeof(uint16_t));
+
+        t_XYZ  xyz({ number_of_beams });
+        auto   pos_beam    = pos_xyzdatagram + 24 * sizeof(uint8_t);
+        size_t beam_offset = sizeof(substructures::XYZDatagramBeam);
+
+        for (size_t bn = 0; bn < number_of_beams; ++bn)
+        {
+            ifs.seekg(pos_beam + (beam_offset * bn));
+            ifs.read(reinterpret_cast<char*>(&(xyz.z.data()[bn])), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&(xyz.y.data()[bn])), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&(xyz.x.data()[bn])), sizeof(float));
+        }
+
+        return xyz;
+    }
+
+    /**
+     * @brief Read the XYZDatagramBeams for a given beam_number vector and convert them to a XYZ
+     * structure Note: if a beam number is not found, the corresponding XYZ value will be NaN
+     *
+     * @param ifs input file stream
+     * @param pos_xyzdatagram position of the XYZDatagram in the file
+     * @param beam_numbers
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    static t_XYZ read_xyz(std::istream&                ifs,
+                          size_t                       pos_xyzdatagram,
+                          const std::vector<uint16_t>& beam_numbers)
+    {
+        ifs.seekg(pos_xyzdatagram + 12 * sizeof(uint8_t));
+        uint16_t number_of_beams;
+        ifs.read(reinterpret_cast<char*>(&number_of_beams), sizeof(uint16_t));
+
+        t_XYZ  xyz({ number_of_beams });
+        auto   pos_beam    = pos_xyzdatagram + 24 * sizeof(uint8_t);
+        size_t beam_offset = sizeof(substructures::XYZDatagramBeam);
+
+        for (const auto bn : beam_numbers)
+        {
+            if (bn > number_of_beams)
+            {
+                xyz.x.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+                xyz.y.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+                xyz.z.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+            }
+            else
+            {
+                ifs.seekg(pos_beam + size_t(beam_offset * bn));
+                ifs.read(reinterpret_cast<char*>(&(xyz.z.data()[bn])), sizeof(float));
+                ifs.read(reinterpret_cast<char*>(&(xyz.y.data()[bn])), sizeof(float));
+                ifs.read(reinterpret_cast<char*>(&(xyz.x.data()[bn])), sizeof(float));
+            }
+        }
+
+        return xyz;
+    }
 
     // ----- convenient data access -----
     // getters

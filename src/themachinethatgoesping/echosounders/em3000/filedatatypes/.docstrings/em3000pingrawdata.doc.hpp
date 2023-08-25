@@ -1,4 +1,4 @@
-//sourcehash: 206187e75eeb029bede9583fdc2e6c6559b1bb142e3b4fcaa8b4608f62f6f793
+//sourcehash: 9b84f1db8945a2db0499b9eed2254d2349e0cae162f7bb0c518d6019dbfdd56f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -82,7 +82,22 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_selected_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_xyz = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_xyz =
+R"doc(read XYZ for the bottom detection datagram
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_xyz_2 =
+R"doc(read XYZ for the specified beams from the bottom detection datagram
+Note: if the beam numbers from the beam selection exceed the number of
+beams in the datagram, the corresponding XYZ values will be NaN
+
+Parameter ``bs``:
+    beam selection
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_runtime_parameters = R"doc()doc";
 

@@ -312,23 +312,59 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     }
 
     // I_PingBottom functions
-    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz() const
+    /**
+     * @brief read XYZ for the bottom detection datagram
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz()
     {
-        algorithms::geoprocessing::datastructures::XYZ<1> xyz({get_number_of_beams()});
+        auto& datagram_infos =
+            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);
 
-        // for (const auto )
-        // {
-        //     xyz.unchecked(bn) = algorithms::geoprocessing::datastructures::XYZ<1>(
-        //         get_beam_pointing_angles().unchecked(bn),
-        //         get_detected_range_in_samples().unchecked(bn));
-        // }        
+        if (datagram_infos.empty())
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_xyz]: No XYZDatagram in ping!"));
+
+        if (datagram_infos.size() > 1)
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
+                            "ping!"));
+
+        auto& stream = datagram_infos.at(0)->get_stream();
+        auto pos    = datagram_infos.at(0)->get_file_pos();
+
+        return datagrams::XYZDatagram::read_xyz(stream, pos);
     }
 
-    // algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(
-    //     const pingtools::substructures::BeamSelection& bs) const
-    // {
+    /**
+     * @brief read XYZ for the specified beams from the bottom detection datagram
+     * Note: if the beam numbers from the beam selection exceed the number of beams in the
+     * datagram, the corresponding XYZ values will be NaN
+     *
+     * @param bs beam selection
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(
+        const pingtools::substructures::BeamSelection& bs)
+    {
+        auto& datagram_infos =
+            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);
 
-    // }
+        if (datagram_infos.empty())
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_xyz]: No XYZDatagram in ping!"));
+
+        if (datagram_infos.size() > 1)
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
+                            "ping!"));
+
+        auto stream = datagram_infos.at(0)->get_stream();
+        auto pos    = datagram_infos.at(0)->get_file_pos();
+
+        return datagrams::XYZDatagram::read_xyz(stream, pos, bs.get_beam_numbers());
+    }
 
   public:
     // ----- objectprinter -----
