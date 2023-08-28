@@ -76,13 +76,13 @@ class EM3000PingBottom
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const override
     {
-        throw not_implemented(__func__, get_name());
+        return _raw_data->read_xyz();
     }
 
-    virtual xt::xtensor<float, 2> get_xyz(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const override
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
+        const pingtools::BeamSampleSelection& selection) const override
     {
-        throw not_implemented(__func__, this->get_name());
+        return _raw_data->read_xyz(selection);
     }
 
     // ----- objectprinter -----

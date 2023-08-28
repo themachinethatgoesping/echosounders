@@ -93,7 +93,7 @@ class I_PingBottom : virtual public I_PingCommon
      * function
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    virtual xt::xtensor<float, 2> get_xyz(
+    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
     {
         throw not_implemented(__func__, this->get_name());
