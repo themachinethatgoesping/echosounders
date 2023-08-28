@@ -61,14 +61,6 @@ class I_PingBottom : virtual public I_PingCommon
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
 
     /**
-     * @brief Check this pings supports XYZ data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_xyz() const { return false; }
-
-    /**
      * @brief Get an XYZ object containing the XYZ position of the bottom detection
      * Note: XYZ is in the local coordinate system of the ping!
      * To convert it use algorithms::geoprocessing::georeferencer class or
@@ -94,10 +86,47 @@ class I_PingBottom : virtual public I_PingCommon
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
     virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSelection& selection) const
     {
         throw not_implemented(__func__, this->get_name());
     }
+
+    /**
+     * @brief Get the two way travel times of the bottom detection samples
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_two_way_travel_times() const
+    {
+        throw not_implemented(__func__, this->get_name());
+    }
+
+    /**
+     * @brief Get the two way travel times of the bottom detection samples
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_two_way_travel_times(
+        [[maybe_unused]] const pingtools::BeamSelection& selection) const
+    {
+        throw not_implemented(__func__, this->get_name());
+    }
+
+    /**
+     * @brief Check this pings supports the extraction of two_way_travel_times
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_two_way_travel_times() const { return false; }
+
+    /**
+     * @brief Check this pings supports XYZ data
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_xyz() const { return false; }
 
     std::string feature_string(bool has_features = true) const override
     {

@@ -1,4 +1,4 @@
-//sourcehash: 69dc35b86e2ca386c5963b88321814c3cf80c0b329da50def4cbe91b87dfd1df
+//sourcehash: 5e1af800f9e4a30f058acdebfe617eaf84520cba0d964124f6547f63d0ed0c3f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,6 +44,18 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_string = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
+R"doc(Get the two way travel times of the bottom detection samples
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_2 =
+R"doc(Get the two way travel times of the bottom detection samples
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
 R"doc(Get an XYZ object containing the XYZ position of the bottom detection
 Note: XYZ is in the local coordinate system of the ping! To convert it
@@ -69,6 +81,15 @@ Parameter ``selection``:
 
 Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times =
+R"doc(Check this pings supports the extraction of two_way_travel_times
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
 R"doc(Check this pings supports XYZ data
