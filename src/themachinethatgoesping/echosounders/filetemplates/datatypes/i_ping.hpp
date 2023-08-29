@@ -96,6 +96,20 @@ class I_Ping : virtual public I_PingCommon
         _geolocation = std::move(geolocation);
     }
 
+    void load_data() override
+    {
+        if (has_bottom())
+            bottom().load_data();
+        if (has_watercolumn())
+            watercolumn().load_data();
+    }
+    void release_data() override
+    {
+        if (has_bottom())
+            bottom().release_data();
+        if (has_watercolumn())
+            watercolumn().release_data();
+    }
 
     /**
      * @brief Get the number of beams
