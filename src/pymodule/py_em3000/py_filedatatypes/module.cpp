@@ -13,10 +13,11 @@ namespace py_filedatatypes {
 namespace py = pybind11;
 
 // -- submodule declarations --
-void init_c_em3000pingrawdata(pybind11::module& m); // c_em3000pingrawdata.cpp
-void init_c_em3000pingcommon(pybind11::module& m);  // c_em3000pingbottom.cpp
-void init_c_em3000ping(pybind11::module& m);        // c_em3000ping.cpp
-void init_c_em3000pingbottom(pybind11::module& m);  // c_em3000pingbottom.cpp
+void init_c_em3000pingrawdata(pybind11::module& m);     // c_em3000pingrawdata.cpp
+void init_c_em3000pingcommon(pybind11::module& m);      // c_em3000pingbottom.cpp
+void init_c_em3000pingbottom(pybind11::module& m);      // c_em3000pingbottom.cpp
+void init_c_em3000pingwatercolumn(pybind11::module& m); // c_em3000pingwatercolumn.cpp
+void init_c_em3000ping(pybind11::module& m);            // c_em3000ping.cpp
 
 // -- create submodule --
 void init_m_em3000filedatatypes(pybind11::module& m)
@@ -25,6 +26,7 @@ void init_m_em3000filedatatypes(pybind11::module& m)
     init_c_em3000pingrawdata(subm);
     init_c_em3000pingcommon(subm);
     init_c_em3000pingbottom(subm);
+    init_c_em3000pingwatercolumn(subm);
     init_c_em3000ping(subm);
 }
 

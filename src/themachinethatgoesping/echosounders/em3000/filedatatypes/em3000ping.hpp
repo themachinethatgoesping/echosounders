@@ -36,6 +36,7 @@
 
 #include "em3000pingbottom.hpp"
 #include "em3000pingcommon.hpp"
+#include "em3000pingwatercolumn.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -51,7 +52,8 @@ class EM3000Ping
     size_t      _file_nr;
     std::string _file_path;
 
-    EM3000PingBottom<t_ifstream> _bottom;
+    EM3000PingBottom<t_ifstream>      _bottom;
+    EM3000PingWaterColumn<t_ifstream> _watercolumn;
 
   public:
     using t_base0 =
@@ -76,6 +78,7 @@ class EM3000Ping
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
         , _bottom(_raw_data)
+        , _watercolumn(_raw_data)
     {
         /* set i_ping parameters */
         set_channel_id(param.build_channel_id());
@@ -91,15 +94,17 @@ class EM3000Ping
         , _file_nr(other._file_nr)
         , _file_path(other._file_path)
         , _bottom(_raw_data)
+        , _watercolumn(_raw_data)
     {
     }
     EM3000Ping& operator=(const EM3000Ping& other)
     {
         t_base1::operator=(other);
         t_base2::operator=(other);
-        _file_nr   = other._file_nr;
-        _file_path = other._file_path;
-        _bottom    = EM3000PingBottom<t_ifstream>(_raw_data);
+        _file_nr     = other._file_nr;
+        _file_path   = other._file_path;
+        _bottom      = EM3000PingBottom<t_ifstream>(_raw_data);
+        _watercolumn = EM3000PingWatercolumn<t_ifstream>(_raw_data);
         return *this;
     }
 
@@ -210,7 +215,8 @@ class EM3000Ping
     }
 
     // ----- bottom -----
-    EM3000PingBottom<t_ifstream>&       bottom() override { return _bottom; }
+    EM3000PingBottom<t_ifstream>&      bottom() override { return _bottom; }
+    EM3000PingWaterColumn<t_ifstream>& watercolumn() override { return _watercolumn; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
