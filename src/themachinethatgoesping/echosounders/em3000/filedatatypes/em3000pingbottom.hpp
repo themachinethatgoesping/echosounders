@@ -54,6 +54,8 @@ class EM3000PingBottom
     using t_base2::_raw_data;
     using typename t_base2::t_rawdata;
 
+    //std::optional<xt::xtensor<float, 1>> _two_way_travel_times;
+
   public:
     EM3000PingBottom(std::shared_ptr<t_rawdata> raw_data)
         : t_base0("EM3000PingBottom") // necessary because of virtual inheritance
@@ -65,6 +67,7 @@ class EM3000PingBottom
 
     // ----- I_PingBottom interface -----
     using t_base1::has_xyz;
+    using t_base1::check_feature;
     using t_base2::raw_data;
 
     bool has_xyz() const override
@@ -83,12 +86,14 @@ class EM3000PingBottom
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const override
     {
+        check_feature(has_xyz(), "xyz", __func__);
         return _raw_data->read_xyz();
     }
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         const pingtools::BeamSelection& selection) const override
     {
+        check_feature(has_xyz(), "xyz", __func__);
         return _raw_data->read_xyz(selection);
     }
     /**
@@ -98,9 +103,11 @@ class EM3000PingBottom
      */
     virtual xt::xtensor<float, 1> get_two_way_travel_times() const
     {
+        check_feature(has_two_way_travel_times(), "get_two_way_travel_times", __func__);
+
         xt::xtensor<float, 1> twtt = _raw_data->get_detected_range_in_samples();
 
-        //twtt *= _raw_data->get_sample_interval();
+        // twtt *= _raw_data->get_sample_interval();
         throw not_implemented(__func__, this->get_name());
     }
 
@@ -112,6 +119,7 @@ class EM3000PingBottom
     virtual xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection) const
     {
+        check_feature(has_two_way_travel_times(), "get_two_way_travel_times", __func__);
         throw not_implemented(__func__, this->get_name());
     }
 

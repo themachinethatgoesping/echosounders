@@ -99,9 +99,9 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  py::return_value_policy::reference_internal)
 
             // --- load data ---
-            .def("load_datagrams",
-                 &t_EM3000PingRawData::load_datagrams,
-                 DOC_EM3000PingRawData(load_datagrams),
+            .def("loadgrams",
+                 &t_EM3000PingRawData::loadgrams,
+                 DOC_EM3000PingRawData(loadgrams),
                  py::arg("skip_data") = true)
 
             // --- bottom detection ---

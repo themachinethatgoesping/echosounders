@@ -89,8 +89,8 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     size_t                get_number_of_beams() const final { return 1; }
     xt::xtensor<float, 1> get_beam_pointing_angles() const final { return { 0 }; }
 
-    // void load_data() final { _raw_data.load_data(); }
-    // void release_data() final { _raw_data.release_data(); }
+    // void load() final { _raw_data.load(); }
+    // void load() final { _raw_data.load(); }
 
     /**
      * @brief Compute volume backscattering strength (Sv) from raw data.

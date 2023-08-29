@@ -96,19 +96,27 @@ class I_Ping : virtual public I_PingCommon
         _geolocation = std::move(geolocation);
     }
 
-    void load_data() override
+    void load() override
     {
         if (has_bottom())
-            bottom().load_data();
+            bottom().load();
         if (has_watercolumn())
-            watercolumn().load_data();
+            watercolumn().load();
     }
-    void release_data() override
+    void release() override
     {
         if (has_bottom())
-            bottom().release_data();
+            bottom().release();
         if (has_watercolumn())
-            watercolumn().release_data();
+            watercolumn().release();
+    }
+    bool loaded() override
+    {
+        if (has_bottom() && !bottom().loaded())
+            return false;
+        if (has_watercolumn() && !watercolumn().loaded())
+            return false;
+        return true;
     }
 
     /**

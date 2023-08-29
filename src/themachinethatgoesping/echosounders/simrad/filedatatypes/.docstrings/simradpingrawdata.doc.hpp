@@ -1,4 +1,4 @@
-//sourcehash: 62f46c3950e8c09729d592b38f98a566aa413ecbd0969d4dd7c90d9f8d184d1f
+//sourcehash: 78e7451f401a2b6ccbe1e3da84930638dc0676eec39a3fb4eed6208fbcd6befa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,7 +56,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_has_power = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_load_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_load = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_ping_data =
 R"doc(< when implementing EK60, this must become a variant type (RAW3 or
@@ -68,7 +68,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_read_sample_data = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_release_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPingRawData_release = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

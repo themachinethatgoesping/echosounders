@@ -54,9 +54,9 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                    //      DOC_EM3000Ping(get_sv_stacked),
                    //      py::arg("dB") = false)
 
-                   .def("load_datagrams",
-                        &t_EM3000Ping::load_datagrams,
-                        DOC_EM3000Ping(load_datagrams),
+                   .def("loadgrams",
+                        &t_EM3000Ping::loadgrams,
+                        DOC_EM3000Ping(loadgrams),
                         py::arg("skip_data") = true)
 
                // --- ping interface extension ---

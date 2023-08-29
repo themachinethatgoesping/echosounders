@@ -87,6 +87,7 @@ class EM3000PingCommon : virtual public filetemplates::datatypes::I_PingCommon
 
         return printer;
     }
+
 };
 
 }

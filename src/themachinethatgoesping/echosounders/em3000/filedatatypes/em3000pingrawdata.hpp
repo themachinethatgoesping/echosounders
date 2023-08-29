@@ -180,7 +180,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
     xt::xtensor<size_t, 1>                                 _sample_positions;
 
-    void load_datagrams(bool skip_data = true)
+    void loadgrams(bool skip_data = true)
     {
         auto water_column_datagram = read_merged_watercolumndatagram(skip_data);
         auto nbeams                = water_column_datagram.beams().size();

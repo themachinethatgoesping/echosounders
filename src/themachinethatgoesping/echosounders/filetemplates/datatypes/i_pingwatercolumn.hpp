@@ -65,7 +65,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      *
      * @return xt::xtensor<float,2>
      */
-    virtual xt::xarray<float> get_amplitudes() const
+    virtual xt::xtensor<float, 2> get_amplitudes() const
     {
         throw not_implemented(__func__, get_name());
     }
@@ -76,7 +76,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */
-    virtual xt::xarray<float> get_amplitudes(
+    virtual xt::xtensor<float, 2> get_amplitudes(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
     {
         throw not_implemented(__func__, this->get_name());

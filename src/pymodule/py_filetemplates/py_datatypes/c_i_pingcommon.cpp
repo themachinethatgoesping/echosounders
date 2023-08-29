@@ -37,8 +37,9 @@ void init_c_i_pingcommon(pybind11::module& m)
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),
                  py::arg("has_features") = true)
-            .def("load_data", &I_PingCommon::load_data, DOC_I_PingCommon(load_data))
-            .def("release_data", &I_PingCommon::release_data, DOC_I_PingCommon(release_data))
+            .def("load", &I_PingCommon::load, DOC_I_PingCommon(load))
+            .def("release", &I_PingCommon::release, DOC_I_PingCommon(release))
+            .def("loaded", &I_PingCommon::loaded, DOC_I_PingCommon(loaded))
 
         // ----- pybind macros -----
         // default copy functions

@@ -55,8 +55,9 @@ class I_PingCommon
     virtual ~I_PingCommon() = default;
 
     //------ interface ------//
-    virtual void load_data() { throw not_implemented("load_data", this->get_name()); }
-    virtual void release_data() { throw not_implemented("release_data", this->get_name()); }
+    virtual void load() { throw not_implemented("load", this->get_name()); }
+    virtual void release() { throw not_implemented("release", this->get_name()); }
+    virtual bool loaded() { throw not_implemented("load", this->get_name()); }
 
     virtual std::string feature_string([[maybe_unused]] bool has_features = true) const
     {
@@ -66,6 +67,21 @@ class I_PingCommon
     }
 
   protected:
+    // a function that calls a specified function (templated) that returns a boolean
+    // if this boolean is false, throw an exception
+    void check_feature(bool             has_feature,
+                       std::string_view feature_name,
+                       std::string_view function_name) const
+    {
+        if (!has_feature)
+        {
+            throw std::runtime_error(
+                fmt::format("Error[{}::{}]! The following feature is not available: {}",
+                            get_name(),
+                            function_name,
+                            feature_name));
+        }
+    }
     struct not_implemented : public std::runtime_error
     {
         not_implemented(std::string_view method_name, std::string_view name)

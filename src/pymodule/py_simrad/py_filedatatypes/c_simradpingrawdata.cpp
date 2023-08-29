@@ -59,9 +59,9 @@ void py_create_class_simradpingrawdata(py::module& m, const std::string& CLASS_N
         .def("has_angle", &t_SimradPingRawData::has_angle, DOC_SimradPingRawData(has_angle))
         .def("has_power", &t_SimradPingRawData::has_power, DOC_SimradPingRawData(has_power))
 
-        .def("load_data", &t_SimradPingRawData::load_data, DOC_SimradPingRawData(load_data))
+        .def("load", &t_SimradPingRawData::load, DOC_SimradPingRawData(load))
         .def(
-            "release_data", &t_SimradPingRawData::release_data, DOC_SimradPingRawData(release_data))
+            "load", &t_SimradPingRawData::load, DOC_SimradPingRawData(load))
 
         // ----- operators -----
         // .def("__eq__",

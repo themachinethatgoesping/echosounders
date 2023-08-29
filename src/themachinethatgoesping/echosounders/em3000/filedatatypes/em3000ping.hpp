@@ -126,7 +126,7 @@ class EM3000Ping
         _raw_data->set_runtime_parameters(runtime_parameters);
     }
 
-    void load_datagrams(bool skip_data = true) { _raw_data->load_datagrams(skip_data); }
+    void loadgrams(bool skip_data = true) { _raw_data->loadgrams(skip_data); }
 
     // ----- I_Ping interface -----
     using t_base1::get_beam_pointing_angles;

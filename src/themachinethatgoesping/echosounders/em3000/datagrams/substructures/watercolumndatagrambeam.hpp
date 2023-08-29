@@ -50,7 +50,7 @@ class WatercolumnDatagramBeam
     // flags that do not belong to the datagramformat specification
     bool _samples_are_skipped =
         false; ///< This flag is set if from_stream was called with the "skip_data" argument. Call
-               ///< load_data or set_data to set it to false.
+               ///< load or set_data to set it to false.
 
     size_t _sample_pos; ///< the position of the sample data in the filestream. This
                                         ///< is used to load skipped sample data.
@@ -157,7 +157,7 @@ class WatercolumnDatagramBeam
         if (_samples_are_skipped)
             throw(std::runtime_error(fmt::format("ERROR[WatercolumnDatagramBeam::get_samples]: The "
                                                  "data is not available because it was skipped! "
-                                                 "Call load_data or set_data first.")));
+                                                 "Call load or set_data first.")));
 
         return _samples;
     }
@@ -181,7 +181,7 @@ class WatercolumnDatagramBeam
         if (_samples_are_skipped)
             throw(std::runtime_error(fmt::format("ERROR[WatercolumnDatagramBeam::get_samples]: The "
                                                  "data is not available because it was skipped! "
-                                                 "Call load_data or set_data first.")));
+                                                 "Call load or set_data first.")));
 
         return xt::xtensor<float, 1>(xt::eval(_samples * 0.5f - db_offset));
     }
