@@ -74,7 +74,10 @@ class EM3000PingWatercolumn
                    .size() > 0;
     }
 
-    xt::xarray<float> get_amplitudes() const override { return _raw_data->read_amplitudes(); }
+    xt::xarray<float> get_amplitudes() const override
+    {
+        return get_amplitudes(_raw_data->get_beam_sample_selection_all());
+    }
 
     xt::xarray<float> get_amplitudes(const pingtools::BeamSampleSelection& selection) const override
     {
