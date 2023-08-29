@@ -96,9 +96,6 @@ class I_Ping : virtual public I_PingCommon
         _geolocation = std::move(geolocation);
     }
 
-    //------ interface ------//
-    virtual void load_data() { throw not_implemented("load_data", this->get_name()); }
-    virtual void release_data() { throw not_implemented("release_data", this->get_name()); }
 
     /**
      * @brief Get the number of beams

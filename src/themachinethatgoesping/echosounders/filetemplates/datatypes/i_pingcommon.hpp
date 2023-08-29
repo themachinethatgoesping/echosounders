@@ -54,6 +54,10 @@ class I_PingCommon
     }
     virtual ~I_PingCommon() = default;
 
+    //------ interface ------//
+    virtual void load_data() { throw not_implemented("load_data", this->get_name()); }
+    virtual void release_data() { throw not_implemented("release_data", this->get_name()); }
+
     virtual std::string feature_string([[maybe_unused]] bool has_features = true) const
     {
         std::string features = "";
