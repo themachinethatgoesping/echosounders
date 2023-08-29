@@ -1,4 +1,4 @@
-//sourcehash: fa0735c66625f7d01cc269a770d636c3fef1caaa7963d49d61e9cadff8821a71
+//sourcehash: 4e7ae0fe3de30056d2d961532662e9c84485f07d6d423035afbf577c5c31d7c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,19 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn = R"doc(Interface for all ping watercolumn functions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn = R"doc(Interface for all ping watercolumn functions)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_I_PingWaterColumn = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_I_PingWatercolumn = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_feature_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_feature_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_get_amplitudes =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes =
 R"doc(Get tha raw water amplitude data converted to float(32bit)
 
 Returns:
     xt::xtensor<float,2>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_get_amplitudes_2 =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes_2 =
 R"doc(Get tha raw water amplitude data converted to float(32bit)
 
 Parameter ``selection``:
@@ -59,7 +59,7 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<float,2>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_has_amplitudes =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data
 
 Returns:
@@ -68,7 +68,7 @@ Returns:
 Returns:
     false)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWaterColumn_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

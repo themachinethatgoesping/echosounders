@@ -118,7 +118,7 @@ class EM3000PingDataInterfacePerFile
                     [[fallthrough]];
                 case t_EM3000DatagramIdentifier::SeabedImageData:
                     [[fallthrough]];
-                case t_EM3000DatagramIdentifier::WaterColumnDatagram:
+                case t_EM3000DatagramIdentifier::WatercolumnDatagram:
                     [[fallthrough]];
                 case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
 

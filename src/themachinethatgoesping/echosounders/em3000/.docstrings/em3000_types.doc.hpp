@@ -1,4 +1,4 @@
-//sourcehash: f2428a707db3b9b20a7833e7ba6c055e33dc7c9907085e7062e3efa284719f50
+//sourcehash: e3eb0e657bf5afa507191ef63ed20e6b2dd14bafbe812df8a90b7447603c7c8b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -137,7 +137,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000Data
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_TideDatagram_NotImplemented = R"doc(< not yet implemented)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_WaterColumnDatagram = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_WatercolumnDatagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_t_EM3000DatagramIdentifier_XYZDatagram = R"doc()doc";
 

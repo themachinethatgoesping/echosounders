@@ -39,7 +39,7 @@ enum class t_EM3000DatagramIdentifier : uint8_t
     RawRangeAndAngle                   = 0x4e,
     SeabedImageDatagram_NotImplemented = 0x53, ///< not yet implemented
     SeabedImageData                    = 0x59,
-    WaterColumnDatagram                = 0x6b,
+    WatercolumnDatagram                = 0x6b,
     QualityFactorDatagram              = 0x4f,
 
     // External sensors

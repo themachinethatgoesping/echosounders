@@ -73,9 +73,9 @@ void init_m_em3000(pybind11::module& m)
             .value("SeabedImageData",
                    t_EM3000DatagramIdentifier::SeabedImageData,
                    DOC_t_EM3000DatagramIdentifier(SeabedImageData))
-            .value("WaterColumnDatagram",
-                   t_EM3000DatagramIdentifier::WaterColumnDatagram,
-                   DOC_t_EM3000DatagramIdentifier(WaterColumnDatagram))
+            .value("WatercolumnDatagram",
+                   t_EM3000DatagramIdentifier::WatercolumnDatagram,
+                   DOC_t_EM3000DatagramIdentifier(WatercolumnDatagram))
             .value("QualityFactorDatagram",
                    t_EM3000DatagramIdentifier::QualityFactorDatagram,
                    DOC_t_EM3000DatagramIdentifier(QualityFactorDatagram))

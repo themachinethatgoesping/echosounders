@@ -15,12 +15,12 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using namespace themachinethatgoesping::echosounders::em3000::datagrams;
 #define TESTTAG "[em3000]"
 
-TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
+TEST_CASE("WatercolumnDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat             = WaterColumnDatagram();
-    auto transmit_sector = substructures::WaterColumnDatagramTransmitSector();
-    auto beam            = substructures::WaterColumnDatagramBeam();
+    auto dat             = WatercolumnDatagram();
+    auto transmit_sector = substructures::WatercolumnDatagramTransmitSector();
+    auto beam            = substructures::WatercolumnDatagramBeam();
 
     // set some variables
     dat.set_bytes(100);
@@ -43,18 +43,18 @@ TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
     dat.set_beams({ beam });
 
     // test inequality
-    // REQUIRE(dat != WaterColumnDatagram());
+    // REQUIRE(dat != WatercolumnDatagram());
 
     // test copy
-    REQUIRE(dat == WaterColumnDatagram(dat));
+    REQUIRE(dat == WatercolumnDatagram(dat));
 
     // test binary
-    REQUIRE(dat == WaterColumnDatagram(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat == WatercolumnDatagram(dat.from_binary(dat.to_binary())));
 
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == WaterColumnDatagram(dat.from_stream(buffer)));
+    REQUIRE(dat == WatercolumnDatagram(dat.from_stream(buffer)));
 
     // test data skipping
     auto dat_skipped = dat;
@@ -64,9 +64,9 @@ TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
     }
     buffer.clear();
     dat.to_stream(buffer);
-    REQUIRE(dat == WaterColumnDatagram(dat.from_stream(buffer, false)));
+    REQUIRE(dat == WatercolumnDatagram(dat.from_stream(buffer, false)));
     dat.to_stream(buffer);
-    REQUIRE(dat_skipped == WaterColumnDatagram(dat.from_stream(buffer, true)));
+    REQUIRE(dat_skipped == WatercolumnDatagram(dat.from_stream(buffer, true)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -83,7 +83,7 @@ TEST_CASE("WaterColumnDatagram should support common functions", TESTTAG)
     CHECK(dat.beams()[0].get_transmit_sector_number() == Catch::Approx(191));
 
     // datagram type
-    REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::WaterColumnDatagram);
+    REQUIRE(dat.get_datagram_identifier() == t_EM3000DatagramIdentifier::WatercolumnDatagram);
 
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));

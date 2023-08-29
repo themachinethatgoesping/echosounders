@@ -31,47 +31,47 @@ using namespace themachinethatgoesping::echosounders::em3000;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
 #define DOC_EM3000Ping(ARG)                                                                        \
-    DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWaterColumn, ARG)
+    DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWatercolumn, ARG)
 
 template<typename T_FileStream>
 void py_create_class_em3000pingwatercolumn(py::module& m, const std::string& CLASS_NAME)
 {
-    using t_EM3000PingWaterColumn = filedatatypes::EM3000PingWaterColumn<T_FileStream>;
+    using t_EM3000PingWatercolumn = filedatatypes::EM3000PingWatercolumn<T_FileStream>;
 
     auto cls =
-        py::class_<t_EM3000PingWaterColumn,
-                   datatypes::I_PingWaterColumn,
+        py::class_<t_EM3000PingWatercolumn,
+                   datatypes::I_PingWatercolumn,
                    filedatatypes::EM3000PingCommon<T_FileStream>,
-                   std::shared_ptr<t_EM3000PingWaterColumn>>(
+                   std::shared_ptr<t_EM3000PingWatercolumn>>(
             m,
             CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWaterColumn))
+            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWatercolumn))
 
             // --- pingwatercolumn interface extension ---
 
         // --- variable access ---
-        //.def("is_dual_rx", &t_EM3000PingWaterColumn::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
+        //.def("is_dual_rx", &t_EM3000PingWatercolumn::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
 
         // ----- operators -----
         // .def("__eq__",
-        //      &EM3000PingWaterColumn::operator==,
-        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000PingWaterColumn,
+        //      &EM3000PingWatercolumn::operator==,
+        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000PingWatercolumn,
         //      operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(t_EM3000PingWaterColumn)
+        __PYCLASS_DEFAULT_COPY__(t_EM3000PingWatercolumn)
         // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(EM3000PingWaterColumn)
+        // __PYCLASS_DEFAULT_BINARY__(EM3000PingWatercolumn)
         // default printing functions
-        // __PYCLASS_DEFAULT_PRINTING__(EM3000PingWaterColumn)
-        // end EM3000PingWaterColumn
+        // __PYCLASS_DEFAULT_PRINTING__(EM3000PingWatercolumn)
+        // end EM3000PingWatercolumn
         ;
 }
 
 void init_c_em3000pingwatercolumn(pybind11::module& m)
 {
-    py_create_class_em3000pingwatercolumn<std::ifstream>(m, "EM3000PingWaterColumn");
-    py_create_class_em3000pingwatercolumn<datastreams::MappedFileStream>(m, "EM3000PingWaterColumn_mapped");
+    py_create_class_em3000pingwatercolumn<std::ifstream>(m, "EM3000PingWatercolumn");
+    py_create_class_em3000pingwatercolumn<datastreams::MappedFileStream>(m, "EM3000PingWatercolumn_mapped");
 }
 
 }

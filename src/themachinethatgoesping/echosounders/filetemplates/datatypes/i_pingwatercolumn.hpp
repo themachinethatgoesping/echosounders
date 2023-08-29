@@ -48,16 +48,16 @@ namespace datatypes {
  * @brief Interface for all ping watercolumn functions
  *
  */
-class I_PingWaterColumn : virtual public I_PingCommon
+class I_PingWatercolumn : virtual public I_PingCommon
 {
   public:
     using t_base = I_PingCommon;
 
-    I_PingWaterColumn()
-        : I_PingCommon("I_PingWaterColumn")
+    I_PingWatercolumn()
+        : I_PingCommon("I_PingWatercolumn")
     {
     }
-    virtual ~I_PingWaterColumn() = default;
+    virtual ~I_PingWatercolumn() = default;
 
     //------ interface / accessors -----
     /**
@@ -110,7 +110,7 @@ class I_PingWaterColumn : virtual public I_PingCommon
         // Transducers
         printer.append(I_PingCommon::__printer__(float_precision));
 
-        printer.register_section("WaterColumn detection infos");
+        printer.register_section("Watercolumn detection infos");
         auto features     = this->feature_string();
         auto not_features = this->feature_string(false);
         if (!not_features.empty())

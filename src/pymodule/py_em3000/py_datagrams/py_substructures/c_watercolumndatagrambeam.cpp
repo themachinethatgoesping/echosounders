@@ -23,104 +23,104 @@ namespace py_substructures {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::em3000;
-using datagrams::substructures::WaterColumnDatagramBeam;
+using datagrams::substructures::WatercolumnDatagramBeam;
 
-#define DOC_WaterColumnDatagramBeam(ARG)                                                           \
+#define DOC_WatercolumnDatagramBeam(ARG)                                                           \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         em3000,                                                                                    \
         datagrams,                                                                                 \
         substructures,                                                                             \
-        WaterColumnDatagramBeam,                                                                   \
+        WatercolumnDatagramBeam,                                                                   \
         ARG)
 
 void init_c_watercolumndatagrambeam(pybind11::module& m)
 {
 
-    py::class_<WaterColumnDatagramBeam>(m,
-                                        "WaterColumnDatagramBeam",
+    py::class_<WatercolumnDatagramBeam>(m,
+                                        "WatercolumnDatagramBeam",
                                         DOC(themachinethatgoesping,
                                             echosounders,
                                             em3000,
                                             datagrams,
                                             substructures,
-                                            WaterColumnDatagramBeam))
-        .def(py::init<>(), DOC_WaterColumnDatagramBeam(WaterColumnDatagramBeam))
+                                            WatercolumnDatagramBeam))
+        .def(py::init<>(), DOC_WatercolumnDatagramBeam(WatercolumnDatagramBeam))
         // --- convenient data access ---
         .def("set_beam_pointing_angle",
-             &WaterColumnDatagramBeam::set_beam_pointing_angle,
-             DOC_WaterColumnDatagramBeam(beam_pointing_angle))
+             &WatercolumnDatagramBeam::set_beam_pointing_angle,
+             DOC_WatercolumnDatagramBeam(beam_pointing_angle))
         .def("get_beam_pointing_angle",
-             &WaterColumnDatagramBeam::get_beam_pointing_angle,
-             DOC_WaterColumnDatagramBeam(beam_pointing_angle))
+             &WatercolumnDatagramBeam::get_beam_pointing_angle,
+             DOC_WatercolumnDatagramBeam(beam_pointing_angle))
         .def("set_start_range_sample_number",
-             &WaterColumnDatagramBeam::set_start_range_sample_number,
-             DOC_WaterColumnDatagramBeam(start_range_sample_number))
+             &WatercolumnDatagramBeam::set_start_range_sample_number,
+             DOC_WatercolumnDatagramBeam(start_range_sample_number))
         .def("get_start_range_sample_number",
-             &WaterColumnDatagramBeam::get_start_range_sample_number,
-             DOC_WaterColumnDatagramBeam(start_range_sample_number))
+             &WatercolumnDatagramBeam::get_start_range_sample_number,
+             DOC_WatercolumnDatagramBeam(start_range_sample_number))
         .def("set_number_of_samples",
-             &WaterColumnDatagramBeam::set_number_of_samples,
-             DOC_WaterColumnDatagramBeam(number_of_samples))
+             &WatercolumnDatagramBeam::set_number_of_samples,
+             DOC_WatercolumnDatagramBeam(number_of_samples))
         .def("get_number_of_samples",
-             &WaterColumnDatagramBeam::get_number_of_samples,
-             DOC_WaterColumnDatagramBeam(number_of_samples))
+             &WatercolumnDatagramBeam::get_number_of_samples,
+             DOC_WatercolumnDatagramBeam(number_of_samples))
         .def("set_detected_range_in_samples",
-             &WaterColumnDatagramBeam::set_detected_range_in_samples,
-             DOC_WaterColumnDatagramBeam(detected_range_in_samples))
+             &WatercolumnDatagramBeam::set_detected_range_in_samples,
+             DOC_WatercolumnDatagramBeam(detected_range_in_samples))
         .def("get_detected_range_in_samples",
-             &WaterColumnDatagramBeam::get_detected_range_in_samples,
-             DOC_WaterColumnDatagramBeam(detected_range_in_samples))
+             &WatercolumnDatagramBeam::get_detected_range_in_samples,
+             DOC_WatercolumnDatagramBeam(detected_range_in_samples))
         .def("set_transmit_sector_number",
-             &WaterColumnDatagramBeam::set_transmit_sector_number,
-             DOC_WaterColumnDatagramBeam(transmit_sector_number))
+             &WatercolumnDatagramBeam::set_transmit_sector_number,
+             DOC_WatercolumnDatagramBeam(transmit_sector_number))
         .def("get_transmit_sector_number",
-             &WaterColumnDatagramBeam::get_transmit_sector_number,
-             DOC_WaterColumnDatagramBeam(transmit_sector_number))
+             &WatercolumnDatagramBeam::get_transmit_sector_number,
+             DOC_WatercolumnDatagramBeam(transmit_sector_number))
         .def("set_beam_number",
-             &WaterColumnDatagramBeam::set_beam_number,
-             DOC_WaterColumnDatagramBeam(beam_number))
+             &WatercolumnDatagramBeam::set_beam_number,
+             DOC_WatercolumnDatagramBeam(beam_number))
         .def("get_beam_number",
-             &WaterColumnDatagramBeam::get_beam_number,
-             DOC_WaterColumnDatagramBeam(beam_number))
+             &WatercolumnDatagramBeam::get_beam_number,
+             DOC_WatercolumnDatagramBeam(beam_number))
 
         // --- data structure access ---
         .def("get_samples_are_skipped",
-             &WaterColumnDatagramBeam::get_samples_are_skipped,
-             DOC_WaterColumnDatagramBeam(samples_are_skipped),
+             &WatercolumnDatagramBeam::get_samples_are_skipped,
+             DOC_WatercolumnDatagramBeam(samples_are_skipped),
              py::return_value_policy::reference_internal)
         .def("get_samples",
-             &WaterColumnDatagramBeam::get_samples,
-             DOC_WaterColumnDatagramBeam(samples),
+             &WatercolumnDatagramBeam::get_samples,
+             DOC_WatercolumnDatagramBeam(samples),
              py::return_value_policy::reference_internal)
         .def("set_samples",
-             &WaterColumnDatagramBeam::set_samples,
-             DOC_WaterColumnDatagramBeam(samples))
+             &WatercolumnDatagramBeam::set_samples,
+             DOC_WatercolumnDatagramBeam(samples))
         .def("samples",
-             &WaterColumnDatagramBeam::samples,
-             DOC_WaterColumnDatagramBeam(samples),
+             &WatercolumnDatagramBeam::samples,
+             DOC_WatercolumnDatagramBeam(samples),
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_beam_pointing_angle_in_degrees",
-             &WaterColumnDatagramBeam::get_beam_pointing_angle_in_degrees,
-             DOC_WaterColumnDatagramBeam(get_beam_pointing_angle_in_degrees))
+             &WatercolumnDatagramBeam::get_beam_pointing_angle_in_degrees,
+             DOC_WatercolumnDatagramBeam(get_beam_pointing_angle_in_degrees))
         .def("get_samples_in_db",
-             &WaterColumnDatagramBeam::get_samples_in_db,
-             DOC_WaterColumnDatagramBeam(get_samples_in_db))
+             &WatercolumnDatagramBeam::get_samples_in_db,
+             DOC_WatercolumnDatagramBeam(get_samples_in_db))
 
         // ----- operators -----
         .def("__eq__",
-             &WaterColumnDatagramBeam::operator==,
-             DOC_WaterColumnDatagramBeam(operator_eq),
+             &WatercolumnDatagramBeam::operator==,
+             DOC_WatercolumnDatagramBeam(operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(WaterColumnDatagramBeam)
+        __PYCLASS_DEFAULT_COPY__(WatercolumnDatagramBeam)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(WaterColumnDatagramBeam)
+        __PYCLASS_DEFAULT_PRINTING__(WatercolumnDatagramBeam)
         // end LinearInterpolator
-        __PYCLASS_DEFAULT_BINARY__(WaterColumnDatagramBeam)
+        __PYCLASS_DEFAULT_BINARY__(WatercolumnDatagramBeam)
 
         ;
 }

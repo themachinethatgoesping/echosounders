@@ -1,4 +1,4 @@
-//sourcehash: 8ef3eca26bf8a29d4c0ee2c1192fa1b645a4b342cd704c85c4742194cc145574
+//sourcehash: 84012cee82619956db21ac39f374b8b948364bd263e2632e0b83b4b558a43cc9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,49 +38,49 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_WaterColumnDatagramTransmitSector = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_WatercolumnDatagramTransmitSector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_center_frequency = R"doc(< in 10 Hz)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_center_frequency = R"doc(< in 10 Hz)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_center_frequency = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_center_frequency = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_center_frequency_in_hz =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_center_frequency_in_hz =
 R"doc(get the center frequency in Hz
 
 Returns:
     _center_frequency * 10 Hz (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_tilt_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_tilt_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_tilt_angle_in_degrees =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_tilt_angle_in_degrees =
 R"doc(get the tilt angle in °
 
 Returns:
     _tilt_angle * 0.01° (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_get_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_get_transmit_sector_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_set_center_frequency = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_set_center_frequency = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_set_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_set_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_set_tilt_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_set_tilt_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_set_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_set_transmit_sector_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_spare = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_spare = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_tilt_angle = R"doc(< in 0.01°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_tilt_angle = R"doc(< in 0.01°)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramTransmitSector_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramTransmitSector_transmit_sector_number = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

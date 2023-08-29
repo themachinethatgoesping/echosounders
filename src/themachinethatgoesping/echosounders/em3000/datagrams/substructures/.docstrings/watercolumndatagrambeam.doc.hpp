@@ -1,4 +1,4 @@
-//sourcehash: fd04b431451755b5afc6957d78a2e6b41b3d40a2409f94c256473154593fafdc
+//sourcehash: e3b093a498077feb85ef4024bebfe433ad146488b9c2e70f3108a85d8c8b53f1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,55 +38,55 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_WaterColumnDatagramBeam = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_WatercolumnDatagramBeam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_beam_number = R"doc(< redundant info, max 255 even if more beams exist)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_beam_number = R"doc(< redundant info, max 255 even if more beams exist)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_beam_pointing_angle = R"doc(< re vertical in 0.01 steps°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_beam_pointing_angle = R"doc(< re vertical in 0.01 steps°)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_detected_range_in_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_detected_range_in_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_beam_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_beam_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_beam_pointing_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_beam_pointing_angle_in_degrees =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_beam_pointing_angle_in_degrees =
 R"doc(get the tilt angle in °
 
 Returns:
     _beam_pointing_angle * 0.1° (float))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_detected_range_in_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_detected_range_in_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_sample_position = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_sample_position = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_samples_are_skipped = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_samples_are_skipped = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_samples_in_db = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_samples_in_db = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_start_range_sample_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_start_range_sample_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_get_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_get_transmit_sector_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_operator_ne = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_read_samples =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_read_samples =
 R"doc(Read and return the sample data. This is useful if the sample data was
 originally skipped
 
@@ -97,7 +97,7 @@ Parameter ``ifs``:
 Returns:
     xt::xtensor<int8_t, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_read_samples_2 =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_read_samples_2 =
 R"doc(Read and return the sample data. This function allows for only reading
 a selected number of samples
 
@@ -124,35 +124,35 @@ Parameter ``fill_val``:
 Returns:
     xt::xtensor<int8_t, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_sample_pos =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_sample_pos =
 R"doc(< the position of the sample data in the filestream. This < is used to
 load skipped sample data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_samples_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_samples_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_samples_are_skipped = R"doc(< in 0.5 dB steps)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_samples_are_skipped = R"doc(< in 0.5 dB steps)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_beam_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_beam_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_beam_pointing_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_detected_range_in_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_detected_range_in_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_number_of_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_number_of_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_start_range_sample_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_start_range_sample_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_set_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_set_transmit_sector_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_start_range_sample_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_start_range_sample_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WaterColumnDatagramBeam_transmit_sector_number = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_WatercolumnDatagramBeam_transmit_sector_number = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

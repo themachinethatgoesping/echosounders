@@ -31,7 +31,7 @@ namespace substructures {
  * @brief
  *
  */
-class WaterColumnDatagramTransmitSector
+class WatercolumnDatagramTransmitSector
 {
     int16_t  _tilt_angle;       ///< in 0.01°
     uint16_t _center_frequency; ///< in 10 Hz
@@ -39,8 +39,8 @@ class WaterColumnDatagramTransmitSector
     uint8_t  _spare;
 
   public:
-    WaterColumnDatagramTransmitSector()  = default;
-    ~WaterColumnDatagramTransmitSector() = default;
+    WatercolumnDatagramTransmitSector()  = default;
+    ~WatercolumnDatagramTransmitSector() = default;
 
     // ----- convenient member access -----
     // getters
@@ -74,12 +74,12 @@ class WaterColumnDatagramTransmitSector
     float get_center_frequency_in_hz() const { return _center_frequency * 10.f; }
 
     // ----- operators -----
-    bool operator==(const WaterColumnDatagramTransmitSector& other) const = default;
+    bool operator==(const WatercolumnDatagramTransmitSector& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("WaterColumnDatagramTransmitSector",
+        tools::classhelper::ObjectPrinter printer("WatercolumnDatagramTransmitSector",
                                                   float_precision);
 
         // raw values

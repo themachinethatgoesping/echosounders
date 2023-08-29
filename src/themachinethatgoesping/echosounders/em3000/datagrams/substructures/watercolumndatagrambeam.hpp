@@ -35,7 +35,7 @@ namespace substructures {
  * @brief
  *
  */
-class WaterColumnDatagramBeam
+class WatercolumnDatagramBeam
 {
     int16_t  _beam_pointing_angle; ///< re vertical in 0.01 steps°
     uint16_t _start_range_sample_number;
@@ -56,8 +56,8 @@ class WaterColumnDatagramBeam
                                         ///< is used to load skipped sample data.
 
   public:
-    WaterColumnDatagramBeam()  = default;
-    ~WaterColumnDatagramBeam() = default;
+    WatercolumnDatagramBeam()  = default;
+    ~WatercolumnDatagramBeam() = default;
 
     // ----- convenient member access -----
     // getters
@@ -138,7 +138,7 @@ class WaterColumnDatagramBeam
         // do not read more samples than exist
         if (first_sample + number_of_samples > number_of_samples_in_datagram)
             throw std::range_error(
-                fmt::format("ERROR[WaterColumnDatagramBeam::read_samples]: The requested number of "
+                fmt::format("ERROR[WatercolumnDatagramBeam::read_samples]: The requested number of "
                             "samples [{} + {} ]"
                             "exceeds the number of samples in the datagram [{}]!",
                             first_sample,
@@ -155,7 +155,7 @@ class WaterColumnDatagramBeam
     const xt::xtensor<int8_t, 1>& get_samples() const
     {
         if (_samples_are_skipped)
-            throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::get_samples]: The "
+            throw(std::runtime_error(fmt::format("ERROR[WatercolumnDatagramBeam::get_samples]: The "
                                                  "data is not available because it was skipped! "
                                                  "Call load_data or set_data first.")));
 
@@ -179,7 +179,7 @@ class WaterColumnDatagramBeam
     xt::xtensor<float, 1> get_samples_in_db(float db_offset = 0.f) const
     {
         if (_samples_are_skipped)
-            throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::get_samples]: The "
+            throw(std::runtime_error(fmt::format("ERROR[WatercolumnDatagramBeam::get_samples]: The "
                                                  "data is not available because it was skipped! "
                                                  "Call load_data or set_data first.")));
 
@@ -187,10 +187,10 @@ class WaterColumnDatagramBeam
     }
 
     //----- to/from stream functions -----
-    static WaterColumnDatagramBeam from_stream(std::istream& is, bool skip_data = false)
+    static WatercolumnDatagramBeam from_stream(std::istream& is, bool skip_data = false)
     {
         // init the sample amplitudes structure with the correct size
-        WaterColumnDatagramBeam data;
+        WatercolumnDatagramBeam data;
 
         // read the first part of the data
         is.read(reinterpret_cast<char*>(&data._beam_pointing_angle), 10 * sizeof(uint8_t));
@@ -236,7 +236,7 @@ class WaterColumnDatagramBeam
         if (!_samples_are_skipped)
         {
             if (_samples.size() != _number_of_samples)
-                throw(std::runtime_error(fmt::format("ERROR[WaterColumnDatagramBeam::to_stream]: "
+                throw(std::runtime_error(fmt::format("ERROR[WatercolumnDatagramBeam::to_stream]: "
                                                      "The number of samples does not match the "
                                                      "number of samples in the sample amplitude "
                                                      "array!")));
@@ -251,7 +251,7 @@ class WaterColumnDatagramBeam
     }
 
     // ----- operators -----
-    bool operator==(const WaterColumnDatagramBeam& other) const
+    bool operator==(const WatercolumnDatagramBeam& other) const
     {
         return _beam_pointing_angle == other._beam_pointing_angle &&
                _start_range_sample_number == other._start_range_sample_number &&
@@ -260,12 +260,12 @@ class WaterColumnDatagramBeam
                _transmit_sector_number == other._transmit_sector_number &&
                _beam_number == other._beam_number && xt::all(xt::equal(_samples, other._samples));
     }
-    bool operator!=(const WaterColumnDatagramBeam& other) const { return !(*this == other); }
+    bool operator!=(const WatercolumnDatagramBeam& other) const { return !(*this == other); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("WaterColumnDatagramBeam", float_precision);
+        tools::classhelper::ObjectPrinter printer("WatercolumnDatagramBeam", float_precision);
 
         // raw values
         printer.register_value("beam_pointing_angle", _beam_pointing_angle, "0.01°");
@@ -292,7 +292,7 @@ class WaterColumnDatagramBeam
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(WaterColumnDatagramBeam)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(WatercolumnDatagramBeam)
 };
 
 } // namespace substructures

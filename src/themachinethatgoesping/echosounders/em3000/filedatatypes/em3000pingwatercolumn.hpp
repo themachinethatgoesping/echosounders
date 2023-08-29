@@ -70,7 +70,7 @@ class EM3000PingWatercolumn
     bool has_amplitudes() const override
     {
         return raw_data()
-                   .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+                   .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::WatercolumnDatagram)
                    .size() > 0;
     }
 

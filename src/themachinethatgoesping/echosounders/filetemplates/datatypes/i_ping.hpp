@@ -228,11 +228,11 @@ class I_Ping : virtual public I_PingCommon
     virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->get_name()); }
     const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
 
-    virtual I_PingWaterColumn& watercolumn()
+    virtual I_PingWatercolumn& watercolumn()
     {
         throw not_implemented("watercolumn", this->get_name());
     }
-    const I_PingWaterColumn& watercolumn() const
+    const I_PingWatercolumn& watercolumn() const
     {
         return const_cast<I_Ping*>(this)->watercolumn();
     }

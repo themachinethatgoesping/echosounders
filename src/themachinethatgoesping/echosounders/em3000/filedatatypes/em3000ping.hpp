@@ -53,7 +53,7 @@ class EM3000Ping
     std::string _file_path;
 
     EM3000PingBottom<t_ifstream>      _bottom;
-    EM3000PingWaterColumn<t_ifstream> _watercolumn;
+    EM3000PingWatercolumn<t_ifstream> _watercolumn;
 
   public:
     using t_base0 =
@@ -216,7 +216,7 @@ class EM3000Ping
 
     // ----- bottom -----
     EM3000PingBottom<t_ifstream>&      bottom() override { return _bottom; }
-    EM3000PingWaterColumn<t_ifstream>& watercolumn() override { return _watercolumn; }
+    EM3000PingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

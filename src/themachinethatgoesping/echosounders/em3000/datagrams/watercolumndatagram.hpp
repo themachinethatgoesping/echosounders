@@ -33,10 +33,10 @@ namespace datagrams {
  * @brief Used for EM 122, EM 302, EM 710, EM 2040, EM 3002.
  * The receiver beams are roll stabilized.
  */
-class WaterColumnDatagram : public EM3000Datagram
+class WatercolumnDatagram : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::WaterColumnDatagram;
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::WatercolumnDatagram;
 
   protected:
     uint16_t               _ping_counter;
@@ -53,8 +53,8 @@ class WaterColumnDatagram : public EM3000Datagram
     int8_t                 _tvg_offset_in_db;
     uint8_t                _scanning_info;
     std::array<uint8_t, 3> _spare;
-    std::vector<substructures::WaterColumnDatagramTransmitSector> _transmit_sectors;
-    std::vector<substructures::WaterColumnDatagramBeam>           _beams;
+    std::vector<substructures::WatercolumnDatagramTransmitSector> _transmit_sectors;
+    std::vector<substructures::WatercolumnDatagramBeam>           _beams;
 
     uint8_t  _spare_byte = 0;
     uint8_t  _etx        = 0x03; ///< end identifier (always 0x03)
@@ -62,22 +62,22 @@ class WaterColumnDatagram : public EM3000Datagram
 
   private:
     // ----- private constructors -----
-    explicit WaterColumnDatagram(EM3000Datagram header)
+    explicit WatercolumnDatagram(EM3000Datagram header)
         : EM3000Datagram(std::move(header))
     {
     }
 
   public:
     // ----- public constructors -----
-    WaterColumnDatagram()
+    WatercolumnDatagram()
     {
-        _datagram_identifier = t_EM3000DatagramIdentifier::WaterColumnDatagram;
+        _datagram_identifier = t_EM3000DatagramIdentifier::WatercolumnDatagram;
     }
-    ~WaterColumnDatagram() = default;
+    ~WatercolumnDatagram() = default;
 
-    WaterColumnDatagram without_beams() const
+    WatercolumnDatagram without_beams() const
     {
-        WaterColumnDatagram copy(*this);
+        WatercolumnDatagram copy(*this);
         copy._beams.clear();
         return copy;
     }
@@ -202,24 +202,24 @@ class WaterColumnDatagram : public EM3000Datagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- substructure access -----
-    const std::vector<substructures::WaterColumnDatagramTransmitSector>& get_transmit_sectors()
+    const std::vector<substructures::WatercolumnDatagramTransmitSector>& get_transmit_sectors()
         const
     {
         return _transmit_sectors;
     }
-    std::vector<substructures::WaterColumnDatagramTransmitSector>& transmit_sectors()
+    std::vector<substructures::WatercolumnDatagramTransmitSector>& transmit_sectors()
     {
         return _transmit_sectors;
     }
     void set_transmit_sectors(
-        std::vector<substructures::WaterColumnDatagramTransmitSector> transmit_sectors)
+        std::vector<substructures::WatercolumnDatagramTransmitSector> transmit_sectors)
     {
         _transmit_sectors = std::move(transmit_sectors);
     }
 
-    const std::vector<substructures::WaterColumnDatagramBeam>& get_beams() const { return _beams; }
-    std::vector<substructures::WaterColumnDatagramBeam>&       beams() { return _beams; }
-    void set_beams(std::vector<substructures::WaterColumnDatagramBeam> beams)
+    const std::vector<substructures::WatercolumnDatagramBeam>& get_beams() const { return _beams; }
+    std::vector<substructures::WatercolumnDatagramBeam>&       beams() { return _beams; }
+    void set_beams(std::vector<substructures::WatercolumnDatagramBeam> beams)
     {
         _beams = std::move(beams);
     }
@@ -247,19 +247,19 @@ class WaterColumnDatagram : public EM3000Datagram
     float get_tx_time_heave_in_m() const { return _tx_time_heave * 0.01f; }
 
     // ----- operators -----
-    bool operator==(const WaterColumnDatagram& other) const = default;
+    bool operator==(const WatercolumnDatagram& other) const = default;
 
     //----- to/from stream functions -----
-    static WaterColumnDatagram from_stream(std::istream&  is,
+    static WatercolumnDatagram from_stream(std::istream&  is,
                                            EM3000Datagram header,
                                            bool           skip_data = false)
     {
-        WaterColumnDatagram datagram(std::move(header));
+        WatercolumnDatagram datagram(std::move(header));
 
-        if (datagram._datagram_identifier != t_EM3000DatagramIdentifier::WaterColumnDatagram)
+        if (datagram._datagram_identifier != t_EM3000DatagramIdentifier::WatercolumnDatagram)
             throw std::runtime_error(fmt::format(
-                "WaterColumnDatagram: datagram identifier is not 0x{:02x}, but 0x{:02x}",
-                uint8_t(t_EM3000DatagramIdentifier::WaterColumnDatagram),
+                "WatercolumnDatagram: datagram identifier is not 0x{:02x}, but 0x{:02x}",
+                uint8_t(t_EM3000DatagramIdentifier::WatercolumnDatagram),
                 uint8_t(datagram._datagram_identifier)));
 
         // read first part of the datagram (until the first beam)
@@ -269,30 +269,30 @@ class WaterColumnDatagram : public EM3000Datagram
         datagram._transmit_sectors.resize(datagram._number_of_transmit_sectors);
         is.read(reinterpret_cast<char*>(datagram._transmit_sectors.data()),
                 datagram._number_of_transmit_sectors *
-                    sizeof(substructures::WaterColumnDatagramTransmitSector));
+                    sizeof(substructures::WatercolumnDatagramTransmitSector));
 
         // read the beams
         datagram._beams.reserve(datagram._number_of_beams_in_datagram);
         for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
             datagram._beams.push_back(
-                substructures::WaterColumnDatagramBeam::from_stream(is, skip_data));
+                substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
 
         if (datagram._etx != 0x03)
             throw std::runtime_error(fmt::format(
-                "WaterColumnDatagram: end identifier is not 0x03, but 0x{:x}", datagram._etx));
+                "WatercolumnDatagram: end identifier is not 0x03, but 0x{:x}", datagram._etx));
 
         return datagram;
     }
 
-    static WaterColumnDatagram from_stream(std::istream& is, bool skip_data = false)
+    static WatercolumnDatagram from_stream(std::istream& is, bool skip_data = false)
     {
         return from_stream(is, EM3000Datagram::from_stream(is), skip_data);
     }
 
-    static WaterColumnDatagram from_stream(std::istream&              is,
+    static WatercolumnDatagram from_stream(std::istream&              is,
                                            t_EM3000DatagramIdentifier datagram_identifier,
                                            bool                       skip_data = false)
     {
@@ -321,7 +321,7 @@ class WaterColumnDatagram : public EM3000Datagram
         if (_number_of_beams_in_datagram + data.number_of_beams_in_datagram >
             _total_no_of_receive_beams)
             throw std::runtime_error(
-                fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: number of append "
+                fmt::format("ERROR[WatercolumnDatagram::append_from_stream]: number of append "
                             "beams [{}] exceeds total number of beams [{}/{}]",
                             data.number_of_beams_in_datagram,
                             _number_of_beams_in_datagram,
@@ -330,24 +330,24 @@ class WaterColumnDatagram : public EM3000Datagram
         /* sanity checks */
         if (data.datagram_number > _number_of_datagrams)
             throw std::runtime_error(
-                fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: datagram number "
+                fmt::format("ERROR[WatercolumnDatagram::append_from_stream]: datagram number "
                             "exceeds number of datagrams [{}/{}]",
                             data.datagram_number,
                             _number_of_datagrams));
         if (data.number_of_transmit_sectors != _number_of_transmit_sectors)
-            throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
+            throw std::runtime_error(fmt::format("ERROR[WatercolumnDatagram::append_from_stream]: "
                                                  "number_of_transmit_sectors missmatch [{}/{}]",
                                                  data.number_of_transmit_sectors,
                                                  _number_of_transmit_sectors));
         if (data.total_no_of_receive_beams != _total_no_of_receive_beams)
-            throw std::runtime_error(fmt::format("ERROR[WaterColumnDatagram::append_from_stream]: "
+            throw std::runtime_error(fmt::format("ERROR[WatercolumnDatagram::append_from_stream]: "
                                                  "total_no_of_receive_beams missmatch [{}/{}]",
                                                  data.total_no_of_receive_beams,
                                                  _total_no_of_receive_beams));
 
         /* skip the rest of the data and the transmit sectors */
         is.seekg(14 + data.number_of_transmit_sectors *
-                          sizeof(substructures::WaterColumnDatagramTransmitSector),
+                          sizeof(substructures::WatercolumnDatagramTransmitSector),
                  std::ios_base::cur);
 
         /* update new number of beams in datagram */
@@ -356,14 +356,14 @@ class WaterColumnDatagram : public EM3000Datagram
         // read the additional beams
         _beams.reserve(_total_no_of_receive_beams);
         for (auto i = 0; i < data.number_of_beams_in_datagram; ++i)
-            _beams.push_back(substructures::WaterColumnDatagramBeam::from_stream(is, skip_data));
+            _beams.push_back(substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
 
         // read the rest of the datagram
         is.read(reinterpret_cast<char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
 
         if (_etx != 0x03)
             throw std::runtime_error(
-                fmt::format("WaterColumnDatagram: end identifier is not 0x03, but 0x{:x}", _etx));
+                fmt::format("WatercolumnDatagram: end identifier is not 0x03, but 0x{:x}", _etx));
     }
 
     void to_stream(std::ostream& os)
@@ -378,7 +378,7 @@ class WaterColumnDatagram : public EM3000Datagram
         // write the transmit sector
         os.write(reinterpret_cast<const char*>(_transmit_sectors.data()),
                  _number_of_transmit_sectors *
-                     sizeof(substructures::WaterColumnDatagramTransmitSector));
+                     sizeof(substructures::WatercolumnDatagramTransmitSector));
 
         // write the beams
         for (auto beam : _beams)
@@ -391,7 +391,7 @@ class WaterColumnDatagram : public EM3000Datagram
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("WaterColumnDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("WatercolumnDatagram", float_precision);
 
         printer.append(EM3000Datagram::__printer__(float_precision));
         printer.register_section("datagram content");
@@ -419,15 +419,15 @@ class WaterColumnDatagram : public EM3000Datagram
 
         printer.register_section("substructures");
         printer.register_value(
-            "transmit_sectors", _transmit_sectors.size(), "WaterColumnDatagramTransmitSector");
-        printer.register_value("beams", _beams.size(), "WaterColumnDatagramBeams");
+            "transmit_sectors", _transmit_sectors.size(), "WatercolumnDatagramTransmitSector");
+        printer.register_value("beams", _beams.size(), "WatercolumnDatagramBeams");
 
         return printer;
     }
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(WaterColumnDatagram)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(WatercolumnDatagram)
 };
 
 } // namespace datagrams

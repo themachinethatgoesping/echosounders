@@ -55,7 +55,7 @@ using t_EM3000DatagramVariant = std::variant<EM3000Datagram,
                                              ExtraDetections,
                                              RawRangeAndAngle,
                                              SeabedImageData,
-                                             WaterColumnDatagram,
+                                             WatercolumnDatagram,
                                              QualityFactorDatagram,
                                              AttitudeDatagram,
                                              NetworkAttitudeVelocityDatagram,
@@ -99,8 +99,8 @@ struct EM3000DatagramVariant
                 return t_EM3000DatagramVariant(RawRangeAndAngle::from_stream(is));
             case t_EM3000DatagramIdentifier::SeabedImageData:
                 return t_EM3000DatagramVariant(SeabedImageData::from_stream(is));
-            case t_EM3000DatagramIdentifier::WaterColumnDatagram:
-                return t_EM3000DatagramVariant(WaterColumnDatagram::from_stream(is, skip_data));
+            case t_EM3000DatagramIdentifier::WatercolumnDatagram:
+                return t_EM3000DatagramVariant(WatercolumnDatagram::from_stream(is, skip_data));
             case t_EM3000DatagramIdentifier::QualityFactorDatagram:
                 return t_EM3000DatagramVariant(datagrams::QualityFactorDatagram::from_stream(is));
             case t_EM3000DatagramIdentifier::AttitudeDatagram:

@@ -23,7 +23,7 @@ TEST_CASE("EM3000Datagram should support common functions", TESTTAG)
 
     // set some variables
     dat.set_bytes(100);
-    dat.set_datagram_identifier(t_EM3000DatagramIdentifier::WaterColumnDatagram);
+    dat.set_datagram_identifier(t_EM3000DatagramIdentifier::WatercolumnDatagram);
     dat.set_model_number(710);
     dat.set_date(20190423);
     dat.set_time_since_midnight(223727);

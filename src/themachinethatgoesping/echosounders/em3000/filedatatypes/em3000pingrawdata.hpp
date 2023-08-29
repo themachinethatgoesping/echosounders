@@ -53,8 +53,8 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
         std::make_shared<datagrams::RuntimeParameters>();
 
-    std::shared_ptr<datagrams::WaterColumnDatagram> _water_column_datagram =
-        std::make_shared<datagrams::WaterColumnDatagram>();
+    std::shared_ptr<datagrams::WatercolumnDatagram> _water_column_datagram =
+        std::make_shared<datagrams::WatercolumnDatagram>();
 
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
@@ -89,10 +89,10 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //     return datagram_info->template read_datagram_from_file<t_datagram>();
     // }
 
-    datagrams::WaterColumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
+    datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
     {
         auto& datagram_infos =
-            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WaterColumnDatagram);
+            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::WatercolumnDatagram);
 
         if (datagram_infos.empty())
             throw std::runtime_error(
@@ -100,7 +100,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                             "column datagram in ping!"));
 
         auto datagram =
-            datagram_infos.at(0)->template read_datagram_from_file<datagrams::WaterColumnDatagram>(
+            datagram_infos.at(0)->template read_datagram_from_file<datagrams::WatercolumnDatagram>(
                 skip_data);
 
         for (size_t i = 1; i < datagram_infos.size(); ++i)
@@ -215,7 +215,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         _transmit_sector_numbers    = std::move(transmit_sector_numbers);
 
         _water_column_datagram =
-            std::make_shared<datagrams::WaterColumnDatagram>(water_column_datagram.without_beams());
+            std::make_shared<datagrams::WatercolumnDatagram>(water_column_datagram.without_beams());
     }
 
     // /**
@@ -247,7 +247,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     auto& get_wci_ifs() const
     {
         return this->_datagram_infos_by_type
-            .at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+            .at_const(t_EM3000DatagramIdentifier::WatercolumnDatagram)
             .at(0)
             ->get_stream();
     }
@@ -257,11 +257,11 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
                            t_ifstream&                       ifs) const
     {
         // auto& ifs =
-        //     this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+        //     this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WatercolumnDatagram)
         //         .at(0)
         //         ->get_stream();
 
-        return datagrams::substructures::WaterColumnDatagramBeam::read_samples(
+        return datagrams::substructures::WatercolumnDatagramBeam::read_samples(
             ifs,
             _sample_positions.unchecked(bn),
             rsr.get_first_sample_to_read(),
