@@ -105,10 +105,14 @@ void init_c_i_ping(pybind11::module& m)
 
             .def_property_readonly(
                 "bottom", py::overload_cast<>(&I_Ping::bottom), DOC_I_Ping(bottom))
+            .def_property_readonly(
+                "watercolumn", py::overload_cast<>(&I_Ping::watercolumn), DOC_I_Ping(watercolumn))
 
             // --- ping interface (functions that indicate ping features ---
             .def("has_angle", &I_Ping::has_angle, DOC_I_Ping(has_angle))
             .def("has_sv", &I_Ping::has_sv, DOC_I_Ping(has_sv))
+            .def("has_bottom", &I_Ping::has_bottom, DOC_I_Ping(has_bottom))
+            .def("has_watercolumn", &I_Ping::has_watercolumn, DOC_I_Ping(has_watercolumn))
 
         // ----- pybind macros -----
         // default copy functions

@@ -14,9 +14,10 @@ namespace py_filetemplates {
 
 // -- submodule declarations --
 namespace py_datatypes {
-void init_c_i_pingcommon(pybind11::module& m); // py_datatypes/i_pingcommon.cpp
-void init_c_i_ping(pybind11::module& m);       // py_datatypes/i_ping.cpp
-void init_c_i_pingbottom(pybind11::module& m); // py_datatypes/i_pingbottom.cpp
+void init_c_i_pingcommon(pybind11::module& m);      // py_datatypes/i_pingcommon.cpp
+void init_c_i_ping(pybind11::module& m);            // py_datatypes/i_ping.cpp
+void init_c_i_pingbottom(pybind11::module& m);      // py_datatypes/i_pingbottom.cpp
+void init_c_i_PingWaterColumn(pybind11::module& m); // py_datatypes/i_pingwatercolumn.cpp
 }
 
 // -- create submodule --
@@ -29,6 +30,7 @@ void init_m_filetemplates(py::module& m)
     // pingtool classes classes
     py_datatypes::init_c_i_pingcommon(subm);
     py_datatypes::init_c_i_pingbottom(subm);
+    py_datatypes::init_c_i_PingWaterColumn(subm);
     py_datatypes::init_c_i_ping(subm);
 }
 

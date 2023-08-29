@@ -37,6 +37,7 @@
 
 #include "i_pingbottom.hpp"
 #include "i_pingcommon.hpp"
+#include "i_pingwatercolumn.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -224,10 +225,16 @@ class I_Ping : virtual public I_PingCommon
         throw not_implemented("get_angle", this->get_name());
     }
 
-    virtual I_PingBottom&       bottom() { throw not_implemented("bottom", this->get_name()); }
-    virtual const I_PingBottom& bottom() const
+    virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->get_name()); }
+    const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
+
+    virtual I_PingWaterColumn& watercolumn()
     {
-        throw not_implemented("bottom (const ref)", this->get_name());
+        throw not_implemented("watercolumn", this->get_name());
+    }
+    const I_PingWaterColumn& watercolumn() const
+    {
+        return const_cast<I_Ping*>(this)->watercolumn();
     }
 
     virtual bool has_angle() const { return false; }
@@ -235,6 +242,7 @@ class I_Ping : virtual public I_PingCommon
     virtual bool has_sv() const { return false; }
 
     virtual bool has_bottom() const { return false; }
+    virtual bool has_watercolumn() const { return false; }
 
     virtual std::string feature_string(bool has_features = true) const
     {
@@ -244,6 +252,12 @@ class I_Ping : virtual public I_PingCommon
             if (!features.empty())
                 features += ", ";
             features += "bottom";
+        }
+        if (has_watercolumn() == has_features)
+        {
+            if (!features.empty())
+                features += ", ";
+            features += "watercolumns";
         }
         if (has_sv() == has_features)
         {
@@ -320,7 +334,6 @@ class I_Ping : virtual public I_PingCommon
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
-
 }
 } // namespace filetemplates
 } // namespace echosounders

@@ -211,7 +211,6 @@ class EM3000Ping
 
     // ----- bottom -----
     EM3000PingBottom<t_ifstream>&       bottom() override { return _bottom; }
-    const EM3000PingBottom<t_ifstream>& bottom() const override { return _bottom; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
