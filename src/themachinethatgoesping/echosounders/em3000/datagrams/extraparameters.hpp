@@ -32,6 +32,9 @@ namespace datagrams {
 class ExtraParameters : public EM3000Datagram
 {
   public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::ExtraParameters;
+
+  public:
     // ----- enumerator datatypes -----
     enum class t_ContentIdentifier : uint16_t
     {

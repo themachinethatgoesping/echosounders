@@ -37,6 +37,7 @@ cleaning for beam status (note 4 and 5).
  */
 class XYZDatagram : public EM3000Datagram
 {
+  public:
     using t_XYZ = algorithms::geoprocessing::datastructures::XYZ<1>;
 
   protected:

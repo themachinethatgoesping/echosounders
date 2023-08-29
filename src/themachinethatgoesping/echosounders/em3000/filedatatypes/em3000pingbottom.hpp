@@ -77,7 +77,7 @@ class EM3000PingBottom
     virtual bool has_two_way_travel_times() const
     {
         return raw_data()
-                   .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::WaterColumnDatagram)
+                   .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::RawRangeAndAngle)
                    .size() > 0;
     }
 
@@ -87,7 +87,7 @@ class EM3000PingBottom
     }
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        const pingtools::BeamSampleSelection& selection) const override
+        const pingtools::BeamSelection& selection) const override
     {
         return _raw_data->read_xyz(selection);
     }
@@ -100,7 +100,8 @@ class EM3000PingBottom
     {
         xt::xtensor<float, 1> twtt = _raw_data->get_detected_range_in_samples();
 
-        twtt *= _raw_data->get_sample_interval();
+        //twtt *= _raw_data->get_sample_interval();
+        throw not_implemented(__func__, this->get_name());
     }
 
     /**

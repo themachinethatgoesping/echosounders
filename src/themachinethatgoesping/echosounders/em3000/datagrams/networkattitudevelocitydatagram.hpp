@@ -35,6 +35,9 @@ namespace datagrams {
  */
 class NetworkAttitudeVelocityDatagram : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::NetworkAttitudeVelocityDatagram;
+
   protected:
     uint16_t _network_attitude_counter;
     uint16_t _system_serial_number;

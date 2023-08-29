@@ -33,6 +33,9 @@ namespace datagrams {
  */
 class PUStatusOutput : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::PUStatusOutput;
+
   protected:
     uint16_t _status_datagram_counter;
     uint16_t _system_serial_number;

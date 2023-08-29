@@ -37,6 +37,9 @@ namespace datagrams {
  */
 class HeadingDatagram : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::HeadingDatagram;
+
   protected:
     uint16_t _heading_counter; ///< Sequential Number
     uint16_t _system_serial_number;

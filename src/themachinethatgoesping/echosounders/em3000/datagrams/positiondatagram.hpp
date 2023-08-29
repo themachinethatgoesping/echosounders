@@ -31,6 +31,9 @@ namespace datagrams {
  */
 class PositionDatagram : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::PositionDatagram;
+
   protected:
     uint16_t _position_counter;
     uint16_t _system_serial_number;

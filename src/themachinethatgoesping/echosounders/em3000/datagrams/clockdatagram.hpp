@@ -31,6 +31,9 @@ namespace datagrams {
  */
 class ClockDatagram : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::ClockDatagram;
+
   protected:
     uint16_t _clock_counter; ///< sequential number
     uint16_t _system_serial_number;

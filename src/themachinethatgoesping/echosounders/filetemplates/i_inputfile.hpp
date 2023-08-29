@@ -231,8 +231,8 @@ class I_InputFile
     struct FileInfos
     {
 
-        std::string                   file_path;
-        size_t file_size;
+        std::string file_path;
+        size_t      file_size;
 
         /* header positions */
         std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,

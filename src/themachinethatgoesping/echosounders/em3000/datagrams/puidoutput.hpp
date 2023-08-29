@@ -33,6 +33,9 @@ namespace datagrams {
  */
 class PUIDOutput : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::PUIDOutput;
+
   protected:
     uint16_t               _byte_order_flag;
     uint16_t               _system_serial_number;

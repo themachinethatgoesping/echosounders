@@ -37,6 +37,9 @@ namespace datagrams {
  */
 class SurfaceSoundSpeedDatagram : public EM3000Datagram
 {
+  public:
+    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::SurfaceSoundSpeedDatagram;
+
   protected:
     uint16_t _sound_speed_counter; ///< Sequential Number
     uint16_t _system_serial_number;

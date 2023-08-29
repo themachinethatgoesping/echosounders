@@ -69,6 +69,26 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return *_runtime_parameters;
     }
 
+    // template<typename t_datagram>
+    // t_datagram read_datagram_from_file(bool must_be_one = true)
+    // {
+    //     auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::t_DatagramIdentifier);
+
+    //     if (datagram_infos.empty())
+    //         throw std::runtime_error(
+    //             fmt::format("Error[EM3000PingRawData::read_datagram]: no datagram of type {} in "
+    //                         "ping!",
+    //                         datagram_type_to_string(t_datagram::t_DatagramIdentifier)));
+
+    //     if (datagram_infos.size() > 1 && must_be_one)
+    //         throw std::runtime_error(
+    //             fmt::format("Error[EM3000PingRawData::read_datagram]: more than one datagram of "
+    //                         "type {} in ping!",
+    //                         datagram_type_to_string(t_datagram::t_DatagramIdentifier)));
+
+    //     return datagram_info->template read_datagram_from_file<t_datagram>();
+    // }
+
     datagrams::WaterColumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
     {
         auto& datagram_infos =
@@ -221,8 +241,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
                                         last_sample_number_per_beam.end());
 
-        return pingtools::BeamSampleSelection(std::move(first_snpb),
-                                                             std::move(last_snpb));
+        return pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
     }
 
     auto& get_wci_ifs() const
@@ -233,9 +252,9 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
             ->get_stream();
     }
 
-    auto read_beam_samples(uint16_t                                         bn,
+    auto read_beam_samples(uint16_t                          bn,
                            const pingtools::ReadSampleRange& rsr,
-                           t_ifstream&                                      ifs) const
+                           t_ifstream&                       ifs) const
     {
         // auto& ifs =
         //     this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WaterColumnDatagram)
@@ -254,8 +273,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     //  * @brief read the selected samples from the selected beams and convert them to float
     //  * @return xt::xtensor<float, 2>
     //  */
-    xt::xtensor<float, 2> read_selected_samples(
-        const pingtools::BeamSampleSelection& bss) const
+    xt::xtensor<float, 2> read_selected_samples(const pingtools::BeamSampleSelection& bss) const
     {
         auto samples = xt::xtensor<float, 2>::from_shape(
             { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() });
@@ -341,8 +359,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
      * @param bs beam selection
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(
-        const pingtools::BeamSelection& bs)
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const pingtools::BeamSelection& bs)
     {
         auto& datagram_infos =
             this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);
