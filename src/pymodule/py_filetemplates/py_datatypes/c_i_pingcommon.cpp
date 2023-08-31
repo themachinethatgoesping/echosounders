@@ -3,6 +3,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+
+
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 #include <xtensor-python/pyarray.hpp>                  // Numpy bindings
@@ -36,7 +38,15 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),
-                 py::arg("has_features") = true)
+                 py::arg("available") = true)
+            .def("has_features", &I_PingCommon::has_features, DOC_I_PingCommon(has_features))
+            .def("registered_features",
+                 &I_PingCommon::registered_features,
+                 DOC_I_PingCommon(registered_features))
+            .def("has_feature",
+                 &I_PingCommon::has_feature,
+                 DOC_I_PingCommon(has_feature),
+                 py::arg("feature_name"))
             .def("load", &I_PingCommon::load, DOC_I_PingCommon(load))
             .def("release", &I_PingCommon::release, DOC_I_PingCommon(release))
             .def("loaded", &I_PingCommon::loaded, DOC_I_PingCommon(loaded))

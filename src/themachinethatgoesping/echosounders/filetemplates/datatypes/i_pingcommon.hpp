@@ -50,6 +50,17 @@ class I_PingCommon
     // map of features (names) and respective has_feature functions
     std::unordered_map<std::string, std::function<bool()>> _features;
 
+    /**
+     * @brief Register a feature
+     *
+     * @param feature_name
+     * @param has_feature
+     */
+    void register_feature(std::string feature_name, std::function<bool()> has_feature)
+    {
+        _features[feature_name] = has_feature;
+    }
+
   public:
     I_PingCommon(std::string name)
         : _name(std::move(name))
@@ -57,6 +68,12 @@ class I_PingCommon
     }
     virtual ~I_PingCommon() = default;
 
+    /**
+     * @brief Check if any of the registered features is available
+     *
+     * @return true
+     * @return false
+     */
     bool has_features() const
     {
         for (const auto& [feature_name, has_feature] : _features)
@@ -66,23 +83,52 @@ class I_PingCommon
         return false;
     }
 
-    void register_feature(std::string feature_name, std::function<bool()> has_feature)
-    {
-        _features[feature_name] = has_feature;
-    }
+    /**
+     * @brief Check if any of the registered features is available
+     *
+     * @return true
+     * @return false
+     */
+    bool has_feature(const std::string& feature_name) const { return _features.at(feature_name)(); }
 
-    std::string feature_string(bool has_features = true) const
+    /**
+     * @brief Get a string of all registered features that are available or not available
+     *
+     * @param available if True (default) return available features, else return not available
+     * features
+     * @return std::string
+     */
+    std::string feature_string(bool available = true) const
     {
         std::string features = "";
 
         for (const auto& [feature_name, has_feature] : _features)
         {
-            if (has_feature() == has_features)
+            if (has_feature() == available)
             {
                 if (!features.empty())
                     features += ", ";
                 features += feature_name;
             }
+        }
+
+        return features;
+    }
+
+    /**
+     * @brief Get a string of all registered features for this ping class
+     *
+     * @return std::string
+     */
+    std::string registered_features() const
+    {
+        std::string features = "";
+
+        for (const auto& [feature_name, has_feature] : _features)
+        {
+            if (!features.empty())
+                features += ", ";
+            features += feature_name;
         }
 
         return features;

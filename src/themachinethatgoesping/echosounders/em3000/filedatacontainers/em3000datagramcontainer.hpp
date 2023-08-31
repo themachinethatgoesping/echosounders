@@ -7,9 +7,6 @@
 /* generated doc strings */
 #include ".docstrings/em3000datagramcontainer.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/em3000filedatacontainers.doc.hpp"
-
 /* themachinethatgoesping includes */
 #include "../../filetemplates/datacontainers/datagramcontainer.hpp"
 #include "../../filetemplates/datacontainers/pingcontainer.hpp"

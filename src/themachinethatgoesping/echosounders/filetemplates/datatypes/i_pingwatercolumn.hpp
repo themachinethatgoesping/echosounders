@@ -52,10 +52,12 @@ class I_PingWatercolumn : virtual public I_PingCommon
 {
   public:
     using t_base = I_PingCommon;
+    using t_base::register_feature;
 
     I_PingWatercolumn()
         : I_PingCommon("I_PingWatercolumn")
     {
+        register_feature("amplitudes", [this]() { return this->has_amplitudes(); });
     }
     virtual ~I_PingWatercolumn() = default;
 
@@ -86,7 +88,6 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return false
      */
     virtual bool has_amplitudes() const { return false; }
-
 
   public:
     // ----- objectprinter -----

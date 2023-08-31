@@ -132,8 +132,8 @@ class EM3000Ping
     using t_base1::get_number_of_samples_per_beam;
     using t_base2::raw_data;
 
-    // size_t get_number_of_beams() const final { 
-    //     return _raw_data->get_number_of_beams(); 
+    // size_t get_number_of_beams() const final {
+    //     return _raw_data->get_number_of_beams();
     // }
 
     // xt::xtensor<float, 1> get_beam_pointing_angles() const final
@@ -157,7 +157,8 @@ class EM3000Ping
     //     return _raw_data->get_number_of_samples_per_beam(selection);
     // }
 
-
+    bool has_bottom() const override { return false; }
+    bool has_watercolumn() const override { return false; }
 
     // ----- bottom -----
     EM3000PingBottom<t_ifstream>&      bottom() override { return _bottom; }

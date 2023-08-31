@@ -58,10 +58,13 @@ class I_Ping : virtual public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
+    using t_base::register_feature;
 
     I_Ping()
         : I_PingCommon("I_Ping")
     {
+        register_feature("bottom", [this]() { return this->has_bottom(); });
+        register_feature("watercolumn", [this]() { return this->has_watercolumn(); });
     }
     virtual ~I_Ping() = default;
 
@@ -203,8 +206,8 @@ class I_Ping : virtual public I_PingCommon
         return const_cast<I_Ping*>(this)->watercolumn();
     }
 
-    bool has_bottom() const { return bottom().has_features(); }
-    bool has_watercolumn() const { return watercolumn().has_features(); }
+    virtual bool has_bottom() const { return false; }
+    virtual bool has_watercolumn() const { return false; }
 
   protected:
     struct not_implemented : public std::runtime_error
@@ -234,10 +237,10 @@ class I_Ping : virtual public I_PingCommon
 
         // print features
         printer.append(t_base::__printer__(float_precision));
-        if (has_bottom())
-            bottom().print_features(printer);
-        if (has_watercolumn())
-            watercolumn().print_features(printer);
+        // if (has_bottom())
+        //     bottom().print_features(printer);
+        // if (has_watercolumn())
+        //     watercolumn().print_features(printer);
 
         printer.register_section("Geolocation");
         printer.append(_geolocation.__printer__(float_precision));
