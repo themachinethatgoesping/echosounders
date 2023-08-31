@@ -126,93 +126,38 @@ class EM3000Ping
         _raw_data->set_runtime_parameters(runtime_parameters);
     }
 
-    void loadgrams(bool skip_data = true) { _raw_data->loadgrams(skip_data); }
-
     // ----- I_Ping interface -----
     using t_base1::get_beam_pointing_angles;
     using t_base1::get_number_of_beams;
     using t_base1::get_number_of_samples_per_beam;
-    using t_base1::get_sv;
-    using t_base1::get_sv_stacked;
     using t_base2::raw_data;
 
-    size_t get_number_of_beams() const final { return _raw_data->get_number_of_beams(); }
+    // size_t get_number_of_beams() const final { 
+    //     return _raw_data->get_number_of_beams(); 
+    // }
 
-    xt::xtensor<float, 1> get_beam_pointing_angles() const final
-    {
-        return raw_data().get_beam_pointing_angles();
-    }
+    // xt::xtensor<float, 1> get_beam_pointing_angles() const final
+    // {
+    //     return raw_data().get_beam_pointing_angles();
+    // }
 
-    xt::xtensor<float, 1> get_beam_pointing_angles(
-        const pingtools::BeamSampleSelection& selection) const final
-    {
-        return raw_data().get_beam_pointing_angles(selection);
-    }
+    // xt::xtensor<float, 1> get_beam_pointing_angles(
+    //     const pingtools::BeamSampleSelection& selection) const final
+    // {
+    //     return raw_data().get_beam_pointing_angles(selection);
+    // }
 
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
-    {
-        return _raw_data->get_number_of_samples_per_beam();
-    }
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-        const pingtools::BeamSampleSelection& selection)
-    {
-        return _raw_data->get_number_of_samples_per_beam(selection);
-    }
+    // xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
+    // {
+    //     return _raw_data->get_number_of_samples_per_beam();
+    // }
+    // xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+    //     const pingtools::BeamSampleSelection& selection)
+    // {
+    //     return _raw_data->get_number_of_samples_per_beam(selection);
+    // }
 
-    xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false) const final
-    {
-        return get_sv(_raw_data->get_beam_sample_selection_all(), dB);
-    }
 
-    xt::xtensor<float, 2> get_sv([[maybe_unused]] const pingtools::BeamSampleSelection& selection,
-                                 [[maybe_unused]] bool dB = false) const final
-    {
-        auto samples = xt::xtensor<float, 2>::from_shape(
-            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
-        // samples.fill(std::numeric_limits<float>::quiet_NaN());
-        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
-
-        size_t output_bn = 0;
-
-        auto& ifs = _raw_data->get_wci_ifs();
-
-        size_t local_output_bn = 0;
-        for (const auto& bn : selection.get_beam_numbers())
-        {
-            // read samples
-            auto rsr = selection.get_read_sample_range(
-                local_output_bn,
-                _raw_data->get_start_range_sample_numbers().unchecked(bn),
-                _raw_data->get_number_of_samples_per_beam().unchecked(bn));
-
-            if (rsr.get_number_of_samples_to_read() > 0)
-            {
-                xt::xtensor<int8_t, 1> beam_samples = _raw_data->read_beam_samples(bn, rsr, ifs);
-                xt::view(samples,
-                         output_bn,
-                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
-                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                    xt::cast<float>(beam_samples);
-            }
-
-            // assign nan to samples that were not read
-            xt::view(samples,
-                     output_bn,
-                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(samples,
-                     output_bn,
-                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            ++local_output_bn;
-            ++output_bn;
-        }
-
-        return samples;
-    }
 
     // ----- bottom -----
     EM3000PingBottom<t_ifstream>&      bottom() override { return _bottom; }

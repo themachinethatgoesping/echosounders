@@ -1,4 +1,4 @@
-//sourcehash: 5e1af800f9e4a30f058acdebfe617eaf84520cba0d964124f6547f63d0ed0c3f
+//sourcehash: ad3560ad81b299657fb73f65d0b661c9bad40b33b0f22e82f9335b0c9bb622a8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,8 +41,6 @@
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom = R"doc(Interface for all ping bottom detection functions)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
 R"doc(Get the two way travel times of the bottom detection samples

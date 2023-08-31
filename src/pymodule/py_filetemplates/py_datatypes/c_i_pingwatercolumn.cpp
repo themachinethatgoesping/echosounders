@@ -19,7 +19,7 @@ namespace pymodule {
 namespace py_filetemplates {
 namespace py_datatypes {
 
-#define DOC_I_PingWatercolumn(ARG)                                                                         \
+#define DOC_I_PingWatercolumn(ARG)                                                                 \
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
 
 void init_c_i_PingWatercolumn(pybind11::module& m)
@@ -27,27 +27,28 @@ void init_c_i_PingWatercolumn(pybind11::module& m)
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
-    auto cls = py::class_<I_PingWatercolumn, I_PingCommon, std::shared_ptr<I_PingWatercolumn>>(
-                   m,
-                   "I_PingWatercolumn",
-                   DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))
+    auto cls =
+        py::class_<I_PingWatercolumn, I_PingCommon, std::shared_ptr<I_PingWatercolumn>>(
+            m,
+            "I_PingWatercolumn",
+            DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))
 
-                   // ----- features -----
-                   .def("has_amplitudes",
-                        py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),
-                        DOC_I_PingWatercolumn(has_amplitudes))
-                   .def("get_amplitudes",
-                        py::overload_cast<>(&I_PingWatercolumn::get_amplitudes, py::const_),
-                        DOC_I_PingWatercolumn(get_amplitudes))
-                   .def("get_amplitudes",
-                        py::overload_cast<const pingtools::BeamSampleSelection&>(
-                            &I_PingWatercolumn::get_amplitudes, py::const_),
-                        DOC_I_PingWatercolumn(get_amplitudes),
-                        py::arg("beam_selection"))
+            // ----- features -----
+            .def("has_amplitudes",
+                 py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),
+                 DOC_I_PingWatercolumn(has_amplitudes))
+            .def("get_amplitudes",
+                 py::overload_cast<>(&I_PingWatercolumn::get_amplitudes),
+                 DOC_I_PingWatercolumn(get_amplitudes))
+            .def("get_amplitudes",
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
+                     &I_PingWatercolumn::get_amplitudes),
+                 DOC_I_PingWatercolumn(get_amplitudes),
+                 py::arg("beam_selection"))
 
-               // ----- pybind macros -----
-               // default copy functions
-               __PYCLASS_DEFAULT_COPY__(I_PingWatercolumn)
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(I_PingWatercolumn)
         // default printing functions
         // cls __PYCLASS_DEFAULT_PRINTING__(I_PingWatercolumn);
         ;

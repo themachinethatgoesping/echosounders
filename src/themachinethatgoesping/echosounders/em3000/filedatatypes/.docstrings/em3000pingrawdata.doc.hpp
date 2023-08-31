@@ -1,4 +1,4 @@
-//sourcehash: 2e978ceadf7bba87ab0475f16da071af4583911aafd03a1f4322b7ac338d2450
+//sourcehash: 8586fba3561febdc146a54b418df3d201d1d3d37f763cf070f6079a72821f106
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,45 +42,22 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_EM3000PingRawData = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_detected_range_in_samples = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_ifs =
+R"doc(Return the filestream associated with the first datagram of the
+specified type
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_beam_pointing_angles = R"doc()doc";
+Parameter ``datagram_identifier``:
+    $Returns:
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_beam_pointing_angles_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_beam_sample_selection_all = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_detected_range_in_samples = R"doc()doc";
+std::istream&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_number_of_beams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_number_of_samples_per_beam = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_runtime_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_sample_positions = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_start_range_sample_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_transmit_sector_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_water_column_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_get_wci_ifs = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_loadgrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_all_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_beam_samples = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_merged_watercolumndatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_selected_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_read_xyz =
 R"doc(read XYZ for the bottom detection datagram
@@ -101,11 +78,7 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_runtime_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_sample_positions = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_set_runtime_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingRawData_water_column_datagram = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

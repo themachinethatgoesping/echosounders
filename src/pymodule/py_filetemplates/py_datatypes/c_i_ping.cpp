@@ -87,21 +87,6 @@ void init_c_i_ping(pybind11::module& m)
 
             // --- ping interface (Documentation states that these functions are not implemented)
             // ---
-            .def("get_angle", &I_Ping::get_angle, DOC_I_Ping(get_angle))
-            .def("get_sv",
-                 py::overload_cast<bool>(&I_Ping::get_sv, py::const_),
-                 DOC_I_Ping(get_sv),
-                 py::arg("dB") = false)
-            .def("get_sv",
-                 py::overload_cast<const pingtools::BeamSampleSelection&, bool>(&I_Ping::get_sv,
-                                                                                py::const_),
-                 DOC_I_Ping(get_sv_2),
-                 py::arg("selection"),
-                 py::arg("dB") = false)
-            .def("get_sv_stacked",
-                 &I_Ping::get_sv_stacked,
-                 DOC_I_Ping(get_sv_stacked),
-                 py::arg("dB") = false)
 
             .def_property_readonly(
                 "bottom", py::overload_cast<>(&I_Ping::bottom), DOC_I_Ping(bottom))
@@ -109,8 +94,6 @@ void init_c_i_ping(pybind11::module& m)
                 "watercolumn", py::overload_cast<>(&I_Ping::watercolumn), DOC_I_Ping(watercolumn))
 
             // --- ping interface (functions that indicate ping features ---
-            .def("has_angle", &I_Ping::has_angle, DOC_I_Ping(has_angle))
-            .def("has_sv", &I_Ping::has_sv, DOC_I_Ping(has_sv))
             .def("has_bottom", &I_Ping::has_bottom, DOC_I_Ping(has_bottom))
             .def("has_watercolumn", &I_Ping::has_watercolumn, DOC_I_Ping(has_watercolumn))
 

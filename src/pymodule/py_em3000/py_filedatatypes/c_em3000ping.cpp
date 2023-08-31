@@ -42,36 +42,24 @@ void py_create_class_em3000ping(py::module& m, const std::string& CLASS_NAME)
                           datatypes::I_Ping,
                           filedatatypes::EM3000PingCommon<T_FileStream>,
                           std::shared_ptr<t_EM3000Ping>>(
-                   m,
-                   CLASS_NAME.c_str(),
-                   DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000Ping))
 
-                   // --- ping interface (with individual documentation) ---
-                   // .def("get_angle", &t_EM3000Ping::get_angle, DOC_EM3000Ping(get_angle))
-                   // .def("get_sv", &t_EM3000Ping::get_sv, DOC_EM3000Ping(get_sv), py::arg("dB") =
-                   // false) .def("get_sv_stacked",
-                   //      &t_EM3000Ping::get_sv_stacked,
-                   //      DOC_EM3000Ping(get_sv_stacked),
-                   //      py::arg("dB") = false)
+        // --- ping interface (with individual documentation) ---
 
-                   .def("loadgrams",
-                        &t_EM3000Ping::loadgrams,
-                        DOC_EM3000Ping(loadgrams),
-                        py::arg("skip_data") = true)
+        // --- ping interface extension ---
 
-               // --- ping interface extension ---
+        // --- variable access ---
 
-               // --- variable access ---
-               //.def("is_dual_rx", &t_EM3000Ping::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
-
-               // ----- operators -----
-               // .def("__eq__",
-               //      &EM3000Ping::operator==,
-               //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000Ping,
-               //      operator_eq), py::arg("other"))
-               // ----- pybind macros -----
-               // default copy functions
-               __PYCLASS_DEFAULT_COPY__(t_EM3000Ping)
+        // ----- operators -----
+        // .def("__eq__",
+        //      &EM3000Ping::operator==,
+        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000Ping,
+        //      operator_eq), py::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(t_EM3000Ping)
         // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(EM3000Ping)
         // default printing functions

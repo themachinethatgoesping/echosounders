@@ -1,4 +1,4 @@
-//sourcehash: 6105c1229b1d5361c5eff27ff49075d97e14eb6dcdc7024855a865b9311bd1fd
+//sourcehash: af0109edd13a60c962ea45de5c093e5550e58d7faa88ae25edb143c1c40d0328
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,17 +48,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_feature_string = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_angle =
-R"doc(Compute the launch angle of the (single) target within each sample. If
-you see this comment, this function was not implemented for the
-current ping type.
-
-Returns:
-    xt::xtensor<float, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles =
 R"doc(Get the beam pointing angles in °.
@@ -125,50 +115,9 @@ Parameter ``selection:``:
 Returns:
     xt::xtensor<uint16_t, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv =
-R"doc(Compute volume backscattering. If you see this comment, this function
-was not implemented for the current ping type.
-
-Parameter ``dB``:
-    Output Sv in dB if true, or linear if false (default).
-
-Returns:
-    xt::xtensor<float, 2>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_2 =
-R"doc(Compute volume backscattering. If you see this comment, this function
-was not implemented for the current ping type.
-
-Parameter ``selection``:
-    structure with selected beams/samples considered for this function
-
-Parameter ``dB``:
-    Output Sv in dB if true, or linear if false (default).
-
-Returns:
-    xt::xtensor<float, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sv_stacked =
-R"doc(Compute stacked volume backscattering (sum over all beams). If you see
-this comment, this function was not implemented for the current ping
-type.
-
-Parameter ``selection``:
-    structure with selected beams/samples considered for this function
-
-Parameter ``dB``:
-    Output Sv in dB if true, or linear if false (default).
-
-Returns:
-    xt::xtensor<float, 1>)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_angle = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_bottom = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_sv = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_watercolumn = R"doc()doc";
 

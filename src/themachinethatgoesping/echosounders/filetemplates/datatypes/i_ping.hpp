@@ -191,59 +191,6 @@ class I_Ping : virtual public I_PingCommon
         return number_of_samples_per_beam;
     }
 
-    /**
-     * @brief Compute volume backscattering. If you see this comment, this function was not
-     * implemented for the current ping type.
-     *
-     * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 2>
-     */
-    virtual xt::xtensor<float, 2> get_sv([[maybe_unused]] bool dB = false) const
-    {
-        throw not_implemented("get_sv", this->get_name());
-    }
-
-    /**
-     * @brief Compute volume backscattering. If you see this comment, this function was not
-     * implemented for the current ping type.
-     *
-     * @param selection structure with selected beams/samples considered for this
-     * function
-     * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 2> get_sv(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
-        [[maybe_unused]] bool                                  dB = false) const
-    {
-        throw not_implemented("get_sv(BeamSampleSelection)", this->get_name());
-    }
-
-    /**
-     * @brief Compute stacked volume backscattering (sum over all beams). If you see this comment,
-     * this function was not implemented for the current ping type.
-     *
-     * @param selection structure with selected beams/samples considered for this
-     * function
-     * @param dB Output Sv in dB if true, or linear if false (default).
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 1> get_sv_stacked([[maybe_unused]] bool dB = false)
-    {
-        throw not_implemented("get_sv_stacked", this->get_name());
-    }
-
-    /**
-     * @brief Compute the launch angle of the (single) target within each sample. If you see this
-     * comment, this function was not implemented for the current ping type.
-     *
-     * @return xt::xtensor<float, 2>
-     */
-    virtual xt::xtensor<float, 2> get_angle()
-    {
-        throw not_implemented("get_angle", this->get_name());
-    }
-
     virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->get_name()); }
     const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
 
@@ -256,41 +203,8 @@ class I_Ping : virtual public I_PingCommon
         return const_cast<I_Ping*>(this)->watercolumn();
     }
 
-    virtual bool has_angle() const { return false; }
-
-    virtual bool has_sv() const { return false; }
-
-    virtual bool has_bottom() const { return false; }
-    virtual bool has_watercolumn() const { return false; }
-
-    virtual std::string feature_string(bool has_features = true) const
-    {
-        std::string features = "";
-        if (has_bottom() == has_features)
-        {
-            if (!features.empty())
-                features += ", ";
-            features += "bottom";
-        }
-        if (has_watercolumn() == has_features)
-        {
-            if (!features.empty())
-                features += ", ";
-            features += "watercolumns";
-        }
-        if (has_sv() == has_features)
-        {
-            features += "sv";
-        }
-        if (has_angle() == has_features)
-        {
-            if (!features.empty())
-                features += ", ";
-            features += "angle";
-        }
-
-        return features;
-    }
+    bool has_bottom() const { return bottom().has_features(); }
+    bool has_watercolumn() const { return watercolumn().has_features(); }
 
   protected:
     struct not_implemented : public std::runtime_error
@@ -318,30 +232,12 @@ class I_Ping : virtual public I_PingCommon
         printer.register_string("Channel id", this->_channel_id);
         printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
 
-        auto features     = this->feature_string();
-        auto not_features = this->feature_string(false);
-        if (!not_features.empty())
-            printer.register_string("Features", features, std::string("Not:") + not_features);
-        else
-            printer.register_string("Features", features);
-
-        try
-        {
-            features     = this->bottom().feature_string();
-            not_features = this->bottom().feature_string(false);
-            if (!not_features.empty())
-                printer.register_string(
-                    "Bottom features", features, std::string("Not:") + not_features);
-            else
-                printer.register_string("Bottom features", features);
-        }
-        catch (not_implemented& e)
-        {
-            printer.register_string("Bottom features", "not implemented");
-        }
-
-        // print transducer ids
+        // print features
         printer.append(t_base::__printer__(float_precision));
+        if (has_bottom())
+            bottom().print_features(printer);
+        if (has_watercolumn())
+            watercolumn().print_features(printer);
 
         printer.register_section("Geolocation");
         printer.append(_geolocation.__printer__(float_precision));

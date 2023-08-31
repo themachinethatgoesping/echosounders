@@ -53,9 +53,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
         std::make_shared<datagrams::RuntimeParameters>();
 
-    std::shared_ptr<datagrams::WatercolumnDatagram> _water_column_datagram =
-        std::make_shared<datagrams::WatercolumnDatagram>();
-
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
     //     _datagram_info_raw_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
@@ -68,26 +65,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     {
         return *_runtime_parameters;
     }
-
-    // template<typename t_datagram>
-    // t_datagram read_datagram_from_file(bool must_be_one = true)
-    // {
-    //     auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::t_DatagramIdentifier);
-
-    //     if (datagram_infos.empty())
-    //         throw std::runtime_error(
-    //             fmt::format("Error[EM3000PingRawData::read_datagram]: no datagram of type {} in "
-    //                         "ping!",
-    //                         datagram_type_to_string(t_datagram::t_DatagramIdentifier)));
-
-    //     if (datagram_infos.size() > 1 && must_be_one)
-    //         throw std::runtime_error(
-    //             fmt::format("Error[EM3000PingRawData::read_datagram]: more than one datagram of "
-    //                         "type {} in ping!",
-    //                         datagram_type_to_string(t_datagram::t_DatagramIdentifier)));
-
-    //     return datagram_info->template read_datagram_from_file<t_datagram>();
-    // }
 
     datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
     {
@@ -126,204 +103,15 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
     // }
     ~EM3000PingRawData() = default;
 
-    // ----- getter/setters -----
-    const xt::xtensor<float, 1>& get_beam_pointing_angles() const { return _beam_pointing_angles; }
-    xt::xtensor<float, 1>        get_beam_pointing_angles(
-               const pingtools::BeamSampleSelection& selection) const
+    /**
+     * @brief Return the filestream associated with the first datagram of the specified type
+     *
+     * @param datagram_identifier
+     * @return std::istream&
+     */
+    auto& get_ifs(t_EM3000DatagramIdentifier datagram_identifier) const
     {
-        const auto beam_numbers = selection.get_beam_numbers();
-
-        auto beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
-
-        for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
-        {
-            if (beam_numbers[nr] >= get_beam_pointing_angles().size())
-                beam_pointing_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
-            else
-                beam_pointing_angles.unchecked(nr) =
-                    get_beam_pointing_angles().unchecked(beam_numbers[nr]);
-        }
-
-        return beam_pointing_angles;
-    }
-
-    const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers() const
-    {
-        return _start_range_sample_numbers;
-    }
-    const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam() const
-    {
-        return _number_of_samples_per_beam;
-    }
-    const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples() const
-    {
-        return _detected_range_in_samples;
-    }
-    const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers() const
-    {
-        return _transmit_sector_numbers;
-    }
-    const xt::xtensor<size_t, 1>& get_sample_positions() const { return _sample_positions; }
-
-    uint16_t get_number_of_beams() const
-    {
-        return _water_column_datagram->get_number_of_beams_in_datagram();
-    }
-
-    const auto& get_water_column_datagram() const { return *_water_column_datagram; }
-
-    // ----- load datagrams -----
-    boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_pointing_angles;
-    boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _start_range_sample_numbers;
-    boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
-    xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
-    boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
-    xt::xtensor<size_t, 1>                                 _sample_positions;
-
-    void loadgrams(bool skip_data = true)
-    {
-        auto water_column_datagram = read_merged_watercolumndatagram(skip_data);
-        auto nbeams                = water_column_datagram.beams().size();
-
-        // initialize arrays using from shape function
-        auto beam_pointing_angles       = xt::xtensor<float, 1>::from_shape({ nbeams });
-        auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-        auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-        auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-        auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
-        auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
-
-        size_t bn = 0;
-        for (const auto& b : water_column_datagram.beams())
-        {
-            sample_positions.unchecked(bn) = b.get_sample_position();
-
-            beam_pointing_angles.unchecked(bn)       = b.get_beam_pointing_angle_in_degrees();
-            detected_range_in_samples.unchecked(bn)  = b.get_detected_range_in_samples();
-            start_range_sample_numbers.unchecked(bn) = b.get_start_range_sample_number();
-            number_of_samples_per_beam.unchecked(bn) = b.get_number_of_samples();
-            transmit_sector_numbers.unchecked(bn)    = b.get_transmit_sector_number();
-
-            ++bn;
-        }
-
-        _sample_positions           = std::move(sample_positions);
-        _beam_pointing_angles       = std::move(beam_pointing_angles);
-        _start_range_sample_numbers = std::move(start_range_sample_numbers);
-        _number_of_samples_per_beam = std::move(number_of_samples_per_beam);
-        _detected_range_in_samples  = std::move(detected_range_in_samples);
-        _transmit_sector_numbers    = std::move(transmit_sector_numbers);
-
-        _water_column_datagram =
-            std::make_shared<datagrams::WatercolumnDatagram>(water_column_datagram.without_beams());
-    }
-
-    // /**
-    //  * @brief read all selected samples from the selected beams and convert them to float
-    //  * @return xt::xtensor<float, 2>
-    //  */
-    xt::xtensor<float, 2> read_all_samples() const
-    {
-        return read_selected_samples(get_beam_sample_selection_all());
-    }
-
-    auto get_beam_sample_selection_all() const
-    {
-        const auto& start_range_sample_numbers = get_start_range_sample_numbers();
-        const auto& number_of_samples_per_beam = get_number_of_samples_per_beam();
-
-        // build BeamSampleSelection
-        auto last_sample_number_per_beam =
-            start_range_sample_numbers + number_of_samples_per_beam - 1;
-
-        std::vector<uint16_t> first_snpb(start_range_sample_numbers.begin(),
-                                         start_range_sample_numbers.end());
-        std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
-                                        last_sample_number_per_beam.end());
-
-        return pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
-    }
-
-    auto& get_wci_ifs() const
-    {
-        return this->_datagram_infos_by_type
-            .at_const(t_EM3000DatagramIdentifier::WatercolumnDatagram)
-            .at(0)
-            ->get_stream();
-    }
-
-    auto read_beam_samples(uint16_t                          bn,
-                           const pingtools::ReadSampleRange& rsr,
-                           t_ifstream&                       ifs) const
-    {
-        // auto& ifs =
-        //     this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::WatercolumnDatagram)
-        //         .at(0)
-        //         ->get_stream();
-
-        return datagrams::substructures::WatercolumnDatagramBeam::read_samples(
-            ifs,
-            _sample_positions.unchecked(bn),
-            rsr.get_first_sample_to_read(),
-            rsr.get_number_of_samples_to_read(),
-            get_number_of_samples_per_beam().unchecked(bn));
-    }
-
-    // /**
-    //  * @brief read the selected samples from the selected beams and convert them to float
-    //  * @return xt::xtensor<float, 2>
-    //  */
-    xt::xtensor<float, 2> read_selected_samples(const pingtools::BeamSampleSelection& bss) const
-    {
-        auto samples = xt::xtensor<float, 2>::from_shape(
-            { bss.get_number_of_beams(), bss.get_number_of_samples_ensemble() });
-
-        // here we assume that all beams / water column datagrams originate from the same file /
-        // file stream
-        auto& ifs = get_wci_ifs();
-
-        size_t bn_counter = 0; // counter for the selected beams
-        for (const auto bn : bss.get_beam_numbers())
-        {
-            // of beam number does not exist fill beam with nan
-            if (bn >= get_number_of_beams())
-            {
-                xt::view(samples, bn_counter, xt::all())
-                    .fill(std::numeric_limits<float>::quiet_NaN());
-                ++bn_counter;
-                continue;
-            }
-
-            // read samples
-            auto readsamplerange =
-                bss.get_read_sample_range(bn_counter,
-                                          get_start_range_sample_numbers().unchecked(bn),
-                                          get_number_of_samples_per_beam().unchecked(bn));
-
-            xt::xtensor<int8_t, 1> beam_samples = read_beam_samples(bn, readsamplerange, ifs);
-
-            // assign samples to output
-            xt::view(samples,
-                     bn_counter,
-                     xt::range(readsamplerange.get_first_read_sample_offset(),
-                               readsamplerange.get_last_read_sample_offset() + 1)) =
-                xt::cast<float>(beam_samples);
-
-            // assign nan to samples that were not read
-            xt::view(
-                samples, bn_counter, xt::range(0, readsamplerange.get_first_read_sample_offset()))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(samples,
-                     bn_counter,
-                     xt::range(readsamplerange.get_last_read_sample_offset() + 1, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            ++bn_counter;
-        }
-
-        return samples;
+        return this->_datagram_infos_by_type.at_const(datagram_identifier).at(0)->get_stream();
     }
 
     // I_PingBottom functions
@@ -388,21 +176,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
 
         printer.register_section("Raw data infos");
 
-        printer.register_container("beam_pointing_angles", _beam_pointing_angles.get());
-        printer.register_container("start_range_sample_numbers", _start_range_sample_numbers.get());
-        printer.register_container("number_of_samples_per_bean", _number_of_samples_per_beam.get());
-        printer.register_container("detected_range_in_samples", _detected_range_in_samples);
-        printer.register_container("transmit_sector_numbers", _transmit_sector_numbers.get());
 
-        // convert _ping_data.get_data_type() to string using magic enum
-        // printer.register_string("Raw data type",
-        //                         std::string(magic_enum::enum_name(_ping_data.get_data_type())));
-        // printer.register_value("Has power", has_power());
-        // printer.register_value("Has angle", has_angle());
-
-        // printer.register_section("Important members");
-        // printer.register_string("ping_data", "RAW3DataVariant");
-        // printer.register_string("get_parameter()", "XML_Parameter_Channel");
 
         return printer;
     }

@@ -19,6 +19,8 @@
 
 #include <fmt/core.h>
 
+#include <boost/flyweight.hpp>
+
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
@@ -34,6 +36,7 @@
 #include "../em3000_datagrams.hpp"
 #include "../em3000_types.hpp"
 
+#include "_sub/watercolumninformation.hpp"
 #include "em3000pingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -54,56 +57,20 @@ class EM3000PingWatercolumn
     using t_base2::_raw_data;
     using typename t_base2::t_rawdata;
 
-    struct WaterColumnInformation
+    using WaterColumnInformation = _sub::WaterColumnInformation<t_rawdata>;
+
+  private:
+    std::shared_ptr<WaterColumnInformation>          _watercolumninformation;
+    bool                                             _beam_sample_selection_all_initialized = false;
+    boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
+
+    const WaterColumnInformation& get_wcinfos()
     {
-        boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_pointing_angles;
-        boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _start_range_sample_numbers;
-        boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
-        xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
-        boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
-        xt::xtensor<size_t, 1>                                 _sample_positions;
+        if (!loaded())
+            load();
 
-        datagrams::WatercolumnDatagram _water_column_datagram; //note, this will be safe without beams()
-
-        WaterColumnInformation(std::shared_ptr<t_rawdata> raw_data)
-        {
-            auto water_column_datagram = raw_data->read_merged_watercolumndatagram(true);
-            auto nbeams                = water_column_datagram.beams().size();
-
-            // initialize arrays using from shape function
-            auto beam_pointing_angles       = xt::xtensor<float, 1>::from_shape({ nbeams });
-            auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-            auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-            auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-            auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
-            auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
-
-            size_t bn = 0;
-            for (const auto& b : water_column_datagram.beams())
-            {
-                sample_positions.unchecked(bn) = b.get_sample_position();
-
-                beam_pointing_angles.unchecked(bn)       = b.get_beam_pointing_angle_in_degrees();
-                detected_range_in_samples.unchecked(bn)  = b.get_detected_range_in_samples();
-                start_range_sample_numbers.unchecked(bn) = b.get_start_range_sample_number();
-                number_of_samples_per_beam.unchecked(bn) = b.get_number_of_samples();
-                transmit_sector_numbers.unchecked(bn)    = b.get_transmit_sector_number();
-
-                ++bn;
-            }
-
-            _sample_positions           = std::move(sample_positions);
-            _beam_pointing_angles       = std::move(beam_pointing_angles);
-            _start_range_sample_numbers = std::move(start_range_sample_numbers);
-            _number_of_samples_per_beam = std::move(number_of_samples_per_beam);
-            _detected_range_in_samples  = std::move(detected_range_in_samples);
-            _transmit_sector_numbers    = std::move(transmit_sector_numbers);
-
-            _water_column_datagram = water_column_datagram.without_beams();
-        }
-    };
-
-    std::optional<WaterColumnInformation> _watercolumninformation;
+        return *_watercolumninformation;
+    }
 
   public:
     EM3000PingWatercolumn(std::shared_ptr<t_rawdata> raw_data)
@@ -115,9 +82,83 @@ class EM3000PingWatercolumn
     virtual ~EM3000PingWatercolumn() = default;
 
     // ----- I_PingCommon interface -----
-    void load() override { _watercolumninformation = WaterColumnInformation(_raw_data); }
+    void load() override
+    {
+        _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
+    }
     void release() override { _watercolumninformation.reset(); }
-    bool loaded() override { return _watercolumninformation.has_value(); }
+    bool loaded() override { return _watercolumninformation != nullptr; }
+
+    // ----- getter/setters -----
+    const xt::xtensor<float, 1>& get_beam_pointing_angles()
+    {
+        return get_wcinfos().get_beam_pointing_angles();
+    }
+    xt::xtensor<float, 1> get_beam_pointing_angles(const pingtools::BeamSampleSelection& selection)
+    {
+        const auto beam_numbers = selection.get_beam_numbers();
+
+        auto beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+        for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
+        {
+            if (beam_numbers[nr] >= get_beam_pointing_angles().size())
+                beam_pointing_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
+            else
+                beam_pointing_angles.unchecked(nr) =
+                    get_beam_pointing_angles().unchecked(beam_numbers[nr]);
+        }
+
+        return beam_pointing_angles;
+    }
+
+    const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers()
+    {
+        return get_wcinfos().get_start_range_sample_numbers();
+    }
+    const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam()
+    {
+        return get_wcinfos().get_number_of_samples_per_beam();
+    }
+    const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
+    {
+        return get_wcinfos().get_detected_range_in_samples();
+    }
+    const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers()
+    {
+        return get_wcinfos().get_transmit_sector_numbers();
+    }
+    const xt::xtensor<size_t, 1>& get_sample_positions()
+    {
+        return get_wcinfos().get_sample_positions();
+    }
+
+    uint16_t get_number_of_beams()
+    {
+        return get_wcinfos().get_water_column_datagram()->get_number_of_beams_in_datagram();
+    }
+
+    auto get_beam_sample_selection_all()
+    {
+        // if _beam_sample_selection_all flyweight was not yet initialized
+        if (!_beam_sample_selection_all_initialized)
+        {
+            // build BeamSampleSelection
+            auto last_sample_number_per_beam =
+                get_start_range_sample_numbers() + get_number_of_samples_per_beam() - 1;
+
+            std::vector<uint16_t> first_snpb(get_start_range_sample_numbers().begin(),
+                                             get_start_range_sample_numbers().end());
+            std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
+                                            last_sample_number_per_beam.end());
+
+            _beam_sample_selection_all =
+                pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
+            _beam_sample_selection_all_initialized = true;
+        }
+
+        return _beam_sample_selection_all;
+    }
 
     // ----- I_PingWatercolumn interface -----
     using t_base1::check_feature;
@@ -131,14 +172,16 @@ class EM3000PingWatercolumn
                    .size() > 0;
     }
 
-    xt::xtensor<float, 2> get_amplitudes() const override
+    xt::xtensor<float, 2> get_amplitudes() override
     {
-        return get_amplitudes(_raw_data->get_beam_sample_selection_all());
+        return get_amplitudes(get_beam_sample_selection_all());
     }
 
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) const override
+    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
     {
-        check_feature(has_amplitudes(), "amplitudes", "get_amplitudes");
+        check_feature("amplitudes", "get_amplitudes");
+
+        auto& wcinfos = get_wcinfos();
 
         auto amplitudes = xt::xtensor<float, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
@@ -148,7 +191,7 @@ class EM3000PingWatercolumn
 
         size_t output_bn = 0;
 
-        auto& ifs = _raw_data->get_wci_ifs();
+        auto& ifs = _raw_data->get_ifs(t_EM3000DatagramIdentifier::WatercolumnDatagram);
 
         size_t local_output_bn = 0;
         for (const auto& bn : selection.get_beam_numbers())
@@ -156,12 +199,12 @@ class EM3000PingWatercolumn
             // read amplitudes
             auto rsr = selection.get_read_sample_range(
                 local_output_bn,
-                _raw_data->get_start_range_sample_numbers().unchecked(bn),
-                _raw_data->get_number_of_samples_per_beam().unchecked(bn));
+                wcinfos.get_start_range_sample_numbers().unchecked(bn),
+                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
 
             if (rsr.get_number_of_samples_to_read() > 0)
             {
-                xt::xtensor<int8_t, 1> beam_amplitudes = _raw_data->read_beam_samples(bn, rsr, ifs);
+                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
                 xt::view(amplitudes,
                          output_bn,
                          xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
@@ -194,6 +237,18 @@ class EM3000PingWatercolumn
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
 
         printer.append(t_base1::__printer__(float_precision));
+
+        auto& wcinfos = get_wcinfos();
+
+        printer.register_container("beam_pointing_angles", wcinfos.get_beam_pointing_angles());
+        printer.register_container("start_range_sample_numbers",
+                                   wcinfos.get_start_range_sample_numbers());
+        printer.register_container("number_of_samples_per_bean",
+                                   wcinfos.get_number_of_samples_per_beam());
+        printer.register_container("detected_range_in_samples",
+                                   wcinfos.get_detected_range_in_samples());
+        printer.register_container("transmit_sector_numbers",
+                                   wcinfos.get_transmit_sector_numbers());
 
         return printer;
     }

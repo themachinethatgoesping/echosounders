@@ -52,7 +52,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
                                datagram_info_raw_data,
                datagrams::RAW3 ping_data)
         : t_base0("SimradPing") // calling base constructor (I_PingCommon) is necessary
-                                       // because of virtual inheritance
+                                // because of virtual inheritance
         , _raw_data(std::move(datagram_info_raw_data), std::move(ping_data))
     {
 
@@ -79,8 +79,6 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     using t_base1::get_beam_pointing_angles;
     using t_base1::get_number_of_beams;
     using t_base1::get_number_of_samples_per_beam;
-    using t_base1::get_sv;
-    using t_base1::get_sv_stacked;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
     {
@@ -106,7 +104,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 2>
      */
-    xt::xtensor<float, 2> get_sv(bool dB = false) const final
+    xt::xtensor<float, 2> get_sv(bool dB = false) const
     {
         auto                  sample_data = _raw_data.get_sample_data();
         xt::xtensor<float, 1> sv          = tools::helper::visit_variant(
@@ -130,7 +128,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
      * @param dB Output Sv in dB if true, or linear if false (default).
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_sv_stacked(bool dB = false) final
+    xt::xtensor<float, 1> get_sv_stacked(bool dB = false)
     {
         auto                  sample_data = _raw_data.get_sample_data();
         xt::xtensor<float, 1> sv          = tools::helper::visit_variant(
@@ -149,7 +147,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
      *
      * @return xt::xtensor<float, 2>
      */
-    xt::xtensor<float, 2> get_angle() final
+    xt::xtensor<float, 2> get_angle()
     {
         auto                  sample_data = _raw_data.get_sample_data();
         xt::xtensor<float, 2> angle =
@@ -158,9 +156,9 @@ class SimradPing : public filetemplates::datatypes::I_Ping
         return angle;
     }
 
-    bool has_angle() const final { return _raw_data.has_angle(); }
+    bool has_angle() const { return _raw_data.has_angle(); }
 
-    virtual bool has_sv() const final { return _raw_data.has_power(); }
+    virtual bool has_sv() const { return _raw_data.has_power(); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

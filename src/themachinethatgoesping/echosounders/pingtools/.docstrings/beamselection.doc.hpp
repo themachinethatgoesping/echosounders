@@ -1,4 +1,4 @@
-//sourcehash: b86b8eba4ede2922f8d62d0a2beaafc3f466c2a6facf682148de1b37e73498d7
+//sourcehash: 74094ad665f48ff0bf5ce8d9482c7db6f43d3a99008b6e16e0fa3f96b9c66363
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -103,11 +103,14 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_slow_hash = R"doc(provide fast version of the hash function)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_to_stream =
 R"doc(Write a BeamSelection to a binary stream
 
 Parameter ``os``:
     output stream)doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

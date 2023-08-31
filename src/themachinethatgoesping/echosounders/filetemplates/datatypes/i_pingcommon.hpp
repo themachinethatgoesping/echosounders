@@ -47,6 +47,9 @@ class I_PingCommon
   protected:
     const std::string& get_name() const { return _name; }
 
+    // map of features (names) and respective has_feature functions
+    std::unordered_map<std::string, std::function<bool()>> _features;
+
   public:
     I_PingCommon(std::string name)
         : _name(std::move(name))
@@ -54,26 +57,58 @@ class I_PingCommon
     }
     virtual ~I_PingCommon() = default;
 
+    bool has_features() const
+    {
+        for (const auto& [feature_name, has_feature] : _features)
+            if (has_feature())
+                return true;
+
+        return false;
+    }
+
+    void register_feature(std::string feature_name, std::function<bool()> has_feature)
+    {
+        _features[feature_name] = has_feature;
+    }
+
+    std::string feature_string(bool has_features = true) const
+    {
+        std::string features = "";
+
+        for (const auto& [feature_name, has_feature] : _features)
+        {
+            if (has_feature() == has_features)
+            {
+                if (!features.empty())
+                    features += ", ";
+                features += feature_name;
+            }
+        }
+
+        return features;
+    }
+
     //------ interface ------//
     virtual void load() { throw not_implemented("load", this->get_name()); }
     virtual void release() { throw not_implemented("release", this->get_name()); }
     virtual bool loaded() { throw not_implemented("load", this->get_name()); }
 
-    virtual std::string feature_string([[maybe_unused]] bool has_features = true) const
-    {
-        std::string features = "";
-
-        return features;
-    }
-
   protected:
     // a function that calls a specified function (templated) that returns a boolean
     // if this boolean is false, throw an exception
-    void check_feature(bool             has_feature,
-                       std::string_view feature_name,
-                       std::string_view function_name) const
+    void check_feature(std::string_view feature_name, std::string_view function_name) const
     {
-        if (!has_feature)
+        auto it = _features.find(feature_name.data());
+        if (it == _features.end())
+        {
+            throw std::runtime_error(fmt::format(
+                "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
+                get_name(),
+                function_name,
+                feature_name));
+        }
+
+        if (!it->second())
         {
             throw std::runtime_error(
                 fmt::format("Error[{}::{}]! The following feature is not available: {}",
@@ -92,10 +127,24 @@ class I_PingCommon
     };
 
   public:
+    void print_features(tools::classhelper::ObjectPrinter& printer,
+                        const std::string&                 prefix = "") const
+    {
+        auto features     = feature_string();
+        auto not_features = feature_string(false);
+        if (!not_features.empty())
+            printer.register_string(
+                prefix + "-Features", features, std::string("Not:") + not_features);
+        else
+            printer.register_string(prefix + "-Features", features);
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+
+        print_features(printer);
 
         return printer;
     }

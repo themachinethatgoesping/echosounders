@@ -57,53 +57,6 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  DOC_EM3000PingRawData(read_merged_watercolumndatagram),
                  py::arg("skip_data") = false)
 
-            .def("read_all_samples",
-                 &t_EM3000PingRawData::read_all_samples,
-                 DOC_EM3000PingRawData(read_all_samples))
-            .def("read_selected_samples",
-                 &t_EM3000PingRawData::read_selected_samples,
-                 DOC_EM3000PingRawData(read_selected_samples),
-                 py::arg("selection"))
-
-            // --- getter/setter ---
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<>(&t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
-                 DOC_EM3000PingRawData(get_beam_pointing_angles))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<const pingtools::BeamSampleSelection&>(
-                     &t_EM3000PingRawData::get_beam_pointing_angles, py::const_),
-                 DOC_EM3000PingRawData(get_beam_pointing_angles_2),
-                 py::arg("selection"))
-
-            .def("get_start_range_sample_numbers",
-                 py::overload_cast<>(&t_EM3000PingRawData::get_start_range_sample_numbers,
-                                     py::const_),
-                 DOC_EM3000PingRawData(get_start_range_sample_numbers))
-            .def("get_number_of_samples_per_beam",
-                 py::overload_cast<>(&t_EM3000PingRawData::get_number_of_samples_per_beam,
-                                     py::const_),
-                 DOC_EM3000PingRawData(get_number_of_samples_per_beam))
-
-            .def("get_detected_range_in_samples",
-                 &t_EM3000PingRawData::get_detected_range_in_samples,
-                 DOC_EM3000PingRawData(get_detected_range_in_samples))
-            .def("get_transmit_sector_numbers",
-                 &t_EM3000PingRawData::get_transmit_sector_numbers,
-                 DOC_EM3000PingRawData(get_transmit_sector_numbers))
-            .def("get_number_of_beams",
-                 &t_EM3000PingRawData::get_number_of_beams,
-                 DOC_EM3000PingRawData(get_number_of_beams))
-            .def("get_water_column_datagram",
-                 &t_EM3000PingRawData::get_water_column_datagram,
-                 DOC_EM3000PingRawData(get_water_column_datagram),
-                 py::return_value_policy::reference_internal)
-
-            // --- load data ---
-            .def("loadgrams",
-                 &t_EM3000PingRawData::loadgrams,
-                 DOC_EM3000PingRawData(loadgrams),
-                 py::arg("skip_data") = true)
-
             // --- bottom detection ---
             .def("read_xyz",
                  py::overload_cast<>(&t_EM3000PingRawData::read_xyz),

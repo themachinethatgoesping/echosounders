@@ -50,10 +50,13 @@ class I_PingBottom : virtual public I_PingCommon
 {
   public:
     using t_base = I_PingCommon;
+    using t_base::register_feature;
 
     I_PingBottom()
         : I_PingCommon("I_PingBottom")
     {
+        register_feature("two_way_travel_times", [this]() { return this->has_two_way_travel_times(); });
+        register_feature("xyz", [this]() { return this->has_xyz(); });
     }
     virtual ~I_PingBottom() = default;
 
@@ -127,17 +130,6 @@ class I_PingBottom : virtual public I_PingCommon
      * @return false
      */
     virtual bool has_xyz() const { return false; }
-
-    std::string feature_string(bool has_features = true) const override
-    {
-        std::string features = "";
-        if (has_xyz() == has_features)
-        {
-            features += "xyz";
-        }
-
-        return features;
-    }
 
   public:
     // ----- objectprinter -----

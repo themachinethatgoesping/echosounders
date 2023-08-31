@@ -65,10 +65,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      *
      * @return xt::xtensor<float,2>
      */
-    virtual xt::xtensor<float, 2> get_amplitudes() const
-    {
-        throw not_implemented(__func__, get_name());
-    }
+    virtual xt::xtensor<float, 2> get_amplitudes() { throw not_implemented(__func__, get_name()); }
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
@@ -77,7 +74,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_amplitudes(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
         throw not_implemented(__func__, this->get_name());
     }
@@ -90,16 +87,6 @@ class I_PingWatercolumn : virtual public I_PingCommon
      */
     virtual bool has_amplitudes() const { return false; }
 
-    std::string feature_string(bool has_features = true) const override
-    {
-        std::string features = "";
-        if (has_amplitudes() == has_features)
-        {
-            features += "amplitudes";
-        }
-
-        return features;
-    }
 
   public:
     // ----- objectprinter -----
