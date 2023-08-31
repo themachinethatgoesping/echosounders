@@ -72,7 +72,7 @@ if build_machine.system() != 'linux'
                           navigation_dep,
                           algorithms_dep
                           ],
-                          cpp_pch : 'pch/pch.hpp',
+                          # cpp_pch : 'pch/pch.hpp',
                         override_options: [
                           'b_lundef=false'
                       ],
@@ -89,7 +89,7 @@ else
                           navigation_dep,
                           algorithms_dep
                           ],
-                          cpp_pch : 'pch/pch.hpp',
+                          # cpp_pch : 'pch/pch.hpp',
                         override_options: [
                           'b_lundef=false'
                       ],
