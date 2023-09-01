@@ -24,7 +24,7 @@ namespace py_datatypes {
 #define DOC_I_PingWatercolumn(ARG)                                                                 \
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
 
-void init_c_i_PingWatercolumn(pybind11::module& m)
+void init_c_i_pingwatercolumn(pybind11::module& m)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
