@@ -67,6 +67,7 @@ class EM3000Ping
     using t_base1::set_channel_id;
 
   protected:
+    using t_base0::register_feature;
     using t_base2::_raw_data;
     using typename t_base2::t_rawdata;
 
@@ -75,6 +76,8 @@ class EM3000Ping
                std::string                              file_path,
                const datagrams::InstallationParameters& param)
         : t_base0("EM3000Ping")
+        , t_base1()
+        , t_base2()
         , _file_nr(file_nr)
         , _file_path(std::move(file_path))
         , _bottom(_raw_data)
@@ -84,29 +87,6 @@ class EM3000Ping
         set_channel_id(param.build_channel_id());
     }
     virtual ~EM3000Ping() = default;
-
-    // explicit copy constructor and assignment operators
-    EM3000Ping(const EM3000Ping& other)
-        : t_base0(other) // calling base constructor (I_PingCommon) is necessary
-                         // because of virtual inheritance
-        , t_base1(other)
-        , t_base2(other)
-        , _file_nr(other._file_nr)
-        , _file_path(other._file_path)
-        , _bottom(_raw_data)
-        , _watercolumn(_raw_data)
-    {
-    }
-    EM3000Ping& operator=(const EM3000Ping& other)
-    {
-        t_base1::operator=(other);
-        t_base2::operator=(other);
-        _file_nr     = other._file_nr;
-        _file_path   = other._file_path;
-        _bottom      = EM3000PingBottom<t_ifstream>(_raw_data);
-        _watercolumn = EM3000PingWatercolumn<t_ifstream>(_raw_data);
-        return *this;
-    }
 
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
@@ -157,10 +137,9 @@ class EM3000Ping
     //     return _raw_data->get_number_of_samples_per_beam(selection);
     // }
 
-    bool has_bottom() const override { return false; }
-    bool has_watercolumn() const override { return false; }
-
     // ----- bottom -----
+    using t_base1::bottom;
+    using t_base1::watercolumn;
     EM3000PingBottom<t_ifstream>&      bottom() override { return _bottom; }
     EM3000PingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
 

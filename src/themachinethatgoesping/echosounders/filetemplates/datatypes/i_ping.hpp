@@ -63,10 +63,21 @@ class I_Ping : virtual public I_PingCommon
     I_Ping()
         : I_PingCommon("I_Ping")
     {
-        register_feature("bottom", [this]() { return this->has_bottom(); });
-        register_feature("watercolumn", [this]() { return this->has_watercolumn(); });
+        register_feature("bottom", std::bind(&I_Ping::has_bottom, this));
+        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
     }
     virtual ~I_Ping() = default;
+
+    // copy constructor
+    I_Ping(const I_Ping& other)
+        : I_PingCommon(other)
+        , _channel_id(other._channel_id)
+        , _timestamp(other._timestamp)
+        , _geolocation(other._geolocation)
+    {
+        register_feature("bottom", std::bind(&I_Ping::has_bottom, this));
+        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
+    }
 
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
@@ -206,8 +217,28 @@ class I_Ping : virtual public I_PingCommon
         return const_cast<I_Ping*>(this)->watercolumn();
     }
 
-    virtual bool has_bottom() const { return false; }
-    virtual bool has_watercolumn() const { return false; }
+    virtual bool has_bottom() const
+    {
+        try
+        {
+            return bottom().has_features();
+        }
+        catch (const not_implemented& e)
+        {
+            return false;
+        }
+    }
+    virtual bool has_watercolumn() const
+    {
+        try
+        {
+            return watercolumn().has_features();
+        }
+        catch (const not_implemented& e)
+        {
+            return false;
+        }
+    }
 
   protected:
     struct not_implemented : public std::runtime_error
@@ -237,10 +268,10 @@ class I_Ping : virtual public I_PingCommon
 
         // print features
         printer.append(t_base::__printer__(float_precision));
-        // if (has_bottom())
-        //     bottom().print_features(printer);
-        // if (has_watercolumn())
-        //     watercolumn().print_features(printer);
+        if (has_bottom())
+            bottom().print_features(printer);
+        if (has_watercolumn())
+            watercolumn().print_features(printer);
 
         printer.register_section("Geolocation");
         printer.append(_geolocation.__printer__(float_precision));
@@ -251,6 +282,11 @@ class I_Ping : virtual public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  private:
+    // make move constructor private (otherwise this has to be implemented similar to the copy
+    // constructor)
+    I_Ping(I_Ping&&) = default;
 };
 }
 } // namespace filetemplates

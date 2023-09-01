@@ -57,9 +57,16 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn()
         : I_PingCommon("I_PingWatercolumn")
     {
-        register_feature("amplitudes", [this]() { return this->has_amplitudes(); });
+        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
     }
     virtual ~I_PingWatercolumn() = default;
+
+    // copy constructor
+    I_PingWatercolumn(const I_PingWatercolumn& other)
+        : I_PingCommon(other)
+    {
+        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
+    }
 
     //------ interface / accessors -----
     /**
@@ -112,6 +119,11 @@ class I_PingWatercolumn : virtual public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  private:
+    // make move constructor private (otherwise this has to be implemented similar to the copy
+    // constructor)
+    I_PingWatercolumn(I_PingWatercolumn&&) = default;
 };
 
 }

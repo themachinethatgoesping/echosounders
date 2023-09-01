@@ -55,10 +55,20 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom()
         : I_PingCommon("I_PingBottom")
     {
-        register_feature("two_way_travel_times", [this]() { return this->has_two_way_travel_times(); });
-        register_feature("xyz", [this]() { return this->has_xyz(); });
+        register_feature("two_way_travel_times",
+                         std::bind(&I_PingBottom::has_two_way_travel_times, this));
+        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
     }
     virtual ~I_PingBottom() = default;
+
+    // copy constructor
+    I_PingBottom(const I_PingBottom& other)
+        : I_PingCommon(other)
+    {
+        register_feature("two_way_travel_times",
+                         std::bind(&I_PingBottom::has_two_way_travel_times, this));
+        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
+    }
 
     //------ interface / accessors -----
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
@@ -154,6 +164,11 @@ class I_PingBottom : virtual public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  private:
+    // make move constructor private (otherwise this has to be implemented similar to the copy
+    // constructor)
+    I_PingBottom(I_PingBottom&&) = default;
 };
 
 }

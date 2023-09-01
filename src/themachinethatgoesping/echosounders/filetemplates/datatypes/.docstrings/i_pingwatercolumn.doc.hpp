@@ -1,4 +1,4 @@
-//sourcehash: a3ecfd4b65c754cc628b5f9c788b162bf35ca381bebd6c58a4869b8d8bea8c71
+//sourcehash: 581e39a2673081d1039918dcb436aba3584eac686c2275968aaa35e370711f59
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn = R"doc(Interface for all ping watercolumn functions)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_I_PingWatercolumn = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_I_PingWatercolumn_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes =
 R"doc(Get tha raw water amplitude data converted to float(32bit)

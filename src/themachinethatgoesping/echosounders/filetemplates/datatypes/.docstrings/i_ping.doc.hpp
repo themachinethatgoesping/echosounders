@@ -1,4 +1,4 @@
-//sourcehash: c1c22d1aa7979bed68ff486d9665fdb52d10add8aece9573dd32c185abd66a60
+//sourcehash: 4adc41913fc8df9fdb5f58cb67c7ceb6c72f5bf056cc0c5f78bec285b052b188
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_I_Ping_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: df00374011d6f5c2b5df0dcba24a42788451ae2d001590cbf5bf7eb7737e4788
+//sourcehash: 315728773741559d5e26e552ff3f5e2f1b0831887a7127568736b2f31af3c1b9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,8 +42,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_EM3000Ping = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_EM3000Ping_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_add_datagram_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_bottom = R"doc()doc";
@@ -57,12 +55,6 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_get_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_has_bottom = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_has_watercolumn = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_operator_assign = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_printer = R"doc()doc";
 
