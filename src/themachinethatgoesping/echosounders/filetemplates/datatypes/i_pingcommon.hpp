@@ -154,7 +154,7 @@ class I_PingCommon
                 feature_name));
         }
 
-        if (!it->second())
+        if (!((it->second)()))
         {
             throw std::runtime_error(
                 fmt::format("Error[{}::{}]! The following feature is not available: {}",

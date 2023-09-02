@@ -1,4 +1,4 @@
-//sourcehash: 315728773741559d5e26e552ff3f5e2f1b0831887a7127568736b2f31af3c1b9
+//sourcehash: 6cc68b8d29608e7c6626919954aae6536f33fbad23a1d8865c5a95bb62f3b516
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_bottom_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_deep_copy =
+R"doc(Provide a deep copy of the ping object (deep copy raw_data shared
+pointer)
+
+Parameter ``other``:
+    $Returns:
+
+EM3000Ping<t_ifstream>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000Ping_file_nr = R"doc()doc";
 

@@ -96,7 +96,7 @@ class EM3000PingDataInterfacePerFile
                             pings_by_counter_by_id[ping_counter].end())
                         {
                             pings_by_counter_by_id[ping_counter][system_serial_number] =
-                                std::make_shared<t_ping>(base_ping);
+                                std::make_shared<t_ping>(base_ping.deep_copy());
                         }
 
                         // add deduplicated runtime parameters
@@ -137,7 +137,7 @@ class EM3000PingDataInterfacePerFile
                             pings_by_counter_by_id[ping_counter].end())
                         {
                             pings_by_counter_by_id[ping_counter][system_serial_number] =
-                                std::make_shared<t_ping>(base_ping);
+                                std::make_shared<t_ping>(base_ping.deep_copy());
                         }
 
                         auto& ping =

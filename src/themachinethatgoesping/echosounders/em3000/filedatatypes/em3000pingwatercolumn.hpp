@@ -75,7 +75,7 @@ class EM3000PingWatercolumn
   public:
     EM3000PingWatercolumn(std::shared_ptr<t_rawdata> raw_data)
         : t_base0("EM3000PingWatercolumn") // necessary because of virtual inheritance
-        //, t_base1("EM3000PingWatercolumn"),
+        , t_base1()
         , t_base2(std::move(raw_data))
     {
     }
@@ -162,7 +162,7 @@ class EM3000PingWatercolumn
 
     // ----- I_PingWatercolumn interface -----
     using t_base1::check_feature;
-    using t_base1::has_amplitudes;
+    // using t_base1::has_amplitudes;
     using t_base2::raw_data;
 
     bool has_amplitudes() const override
@@ -174,12 +174,14 @@ class EM3000PingWatercolumn
 
     xt::xtensor<float, 2> get_amplitudes() override
     {
+        check_feature("amplitudes", __func__);
+        
         return get_amplitudes(get_beam_sample_selection_all());
     }
 
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
     {
-        check_feature("amplitudes", "get_amplitudes");
+        check_feature("amplitudes", __func__);
 
         auto& wcinfos = get_wcinfos();
 

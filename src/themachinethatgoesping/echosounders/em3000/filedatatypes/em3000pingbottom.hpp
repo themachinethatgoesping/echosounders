@@ -59,7 +59,7 @@ class EM3000PingBottom
   public:
     EM3000PingBottom(std::shared_ptr<t_rawdata> raw_data)
         : t_base0("EM3000PingBottom") // necessary because of virtual inheritance
-        //, t_base1("EM3000PingBottom"),
+        , t_base1()
         , t_base2(std::move(raw_data))
     {
     }
@@ -67,7 +67,7 @@ class EM3000PingBottom
 
     // ----- I_PingBottom interface -----
     using t_base1::check_feature;
-    using t_base1::has_xyz;
+    //using t_base1::has_xyz;
     using t_base2::raw_data;
 
     bool has_xyz() const override

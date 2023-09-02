@@ -62,21 +62,22 @@ class EM3000PingCommon : virtual public filetemplates::datatypes::I_PingCommon
     }
     virtual ~EM3000PingCommon() = default;
 
-    // explicit copy constructor and assignment operators
-    EM3000PingCommon(const EM3000PingCommon& other)
-        : t_base(other)
-        , _raw_data(std::make_shared<t_rawdata>(*other._raw_data))
-    {
-    }
-    EM3000PingCommon& operator=(const EM3000PingCommon& other)
-    {
-        t_base::operator=(other);
-        _raw_data = std::make_shared<t_rawdata>(*other._raw_data);
-        return *this;
-    }
+    // // explicit copy constructor and assignment operators
+    // EM3000PingCommon(const EM3000PingCommon& other)
+    //     : t_base(other)
+    //     , _raw_data(std::make_shared<t_rawdata>(*other._raw_data))
+    // {
+    // }
+    // EM3000PingCommon& operator=(const EM3000PingCommon& other)
+    // {
+    //     t_base::operator=(other);
+    //     _raw_data = std::make_shared<t_rawdata>(*other._raw_data);
+    //     return *this;
+    // }
 
     const t_rawdata& raw_data() const { return *_raw_data; }
     t_rawdata&       raw_data() { return *_raw_data; }
+    void set_raw_data(std::shared_ptr<t_rawdata> raw_data) { _raw_data = std::move(raw_data); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -87,7 +88,6 @@ class EM3000PingCommon : virtual public filetemplates::datatypes::I_PingCommon
 
         return printer;
     }
-
 };
 
 }

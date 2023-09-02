@@ -88,6 +88,24 @@ class EM3000Ping
     }
     virtual ~EM3000Ping() = default;
 
+    /**
+     * @brief Provide a deep copy of the ping object (deep copy raw_data shared pointer)
+     *
+     * @param other
+     * @return EM3000Ping<t_ifstream>
+     */
+    EM3000Ping<t_ifstream> deep_copy()
+    {
+        EM3000Ping<t_ifstream> ping = *this;
+
+        // copy the raw_data shared pointer and set it in the bottom and watercolumn objects
+        ping.set_raw_data(std::make_shared<t_rawdata>(*_raw_data));
+        ping.bottom().set_raw_data(ping._raw_data);
+        ping.watercolumn().set_raw_data(ping._raw_data);
+
+        return ping;
+    }
+
     size_t      get_file_nr() const final { return _file_nr; }
     std::string get_file_path() const final { return _file_path; }
 
