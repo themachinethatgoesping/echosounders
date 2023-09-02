@@ -60,9 +60,7 @@ class EM3000PingWatercolumn
     using WaterColumnInformation = _sub::WaterColumnInformation<t_rawdata>;
 
   private:
-    std::shared_ptr<WaterColumnInformation>          _watercolumninformation;
-    bool                                             _beam_sample_selection_all_initialized = false;
-    boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
+    std::shared_ptr<WaterColumnInformation> _watercolumninformation;
 
     const WaterColumnInformation& get_wcinfos()
     {
@@ -88,6 +86,14 @@ class EM3000PingWatercolumn
     }
     void release() override { _watercolumninformation.reset(); }
     bool loaded() override { return _watercolumninformation != nullptr; }
+
+    uint16_t get_number_of_beams() override
+    {
+        if (!has_amplitudes())
+            return 0;
+
+        return get_wcinfos().get_beam_pointing_angles().size();
+    }
 
     // ----- getter/setters -----
     const xt::xtensor<float, 1>& get_beam_pointing_angles()
@@ -116,9 +122,13 @@ class EM3000PingWatercolumn
     {
         return get_wcinfos().get_start_range_sample_numbers();
     }
-    const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam()
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() override
     {
         return get_wcinfos().get_number_of_samples_per_beam();
+    }
+    xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
+    {
+        return get_wcinfos().get_start_range_sample_numbers();
     }
     const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
     {
@@ -133,33 +143,6 @@ class EM3000PingWatercolumn
         return get_wcinfos().get_sample_positions();
     }
 
-    uint16_t get_number_of_beams()
-    {
-        return get_wcinfos().get_water_column_datagram()->get_number_of_beams_in_datagram();
-    }
-
-    auto get_beam_sample_selection_all()
-    {
-        // if _beam_sample_selection_all flyweight was not yet initialized
-        if (!_beam_sample_selection_all_initialized)
-        {
-            // build BeamSampleSelection
-            auto last_sample_number_per_beam =
-                get_start_range_sample_numbers() + get_number_of_samples_per_beam() - 1;
-
-            std::vector<uint16_t> first_snpb(get_start_range_sample_numbers().begin(),
-                                             get_start_range_sample_numbers().end());
-            std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
-                                            last_sample_number_per_beam.end());
-
-            _beam_sample_selection_all =
-                pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
-            _beam_sample_selection_all_initialized = true;
-        }
-
-        return _beam_sample_selection_all;
-    }
-
     // ----- I_PingWatercolumn interface -----
     using t_base1::check_feature;
     // using t_base1::has_amplitudes;
@@ -170,13 +153,6 @@ class EM3000PingWatercolumn
         return raw_data()
                    .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::WatercolumnDatagram)
                    .size() > 0;
-    }
-
-    xt::xtensor<float, 2> get_amplitudes() override
-    {
-        check_feature("amplitudes", __func__);
-
-        return get_amplitudes(get_beam_sample_selection_all());
     }
 
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override

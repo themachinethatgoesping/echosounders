@@ -1,4 +1,4 @@
-//sourcehash: 581e39a2673081d1039918dcb436aba3584eac686c2275968aaa35e370711f59
+//sourcehash: a6754b53dd129ec59185b6427f13f05fc8786612ada898c50263588627381360
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,6 +44,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_I_PingWatercolumn_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all_initialized = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes =
 R"doc(Get tha raw water amplitude data converted to float(32bit)
 
@@ -58,6 +62,16 @@ Parameter ``selection``:
 
 Returns:
     xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_sample_selection_all =
+R"doc(Get beam sample selection that selects all beams and samples
+
+Returns:
+    pingtools::BeamSampleSelection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data

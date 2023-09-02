@@ -1,4 +1,4 @@
-//sourcehash: 53146d1933213cad7687007f684aec36735f7a7f34d9ae03b46c693b43b50900
+//sourcehash: f7467419a44b73be3b03097eee517b028eafd136d666a40916f717dbdec6c93c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,21 +42,11 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_EM3000PingBottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_two_way_travel_times =
-R"doc(Get the two way travel times of the bottom detection samples
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_number_of_beams = R"doc()doc";
 
-Returns:
-    xt::xtensor<float, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_two_way_travel_times_2 =
-R"doc(Get the two way travel times of the bottom detection samples
-
-Returns:
-    xt::xtensor<float, 1>)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_two_way_travel_times = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_xyz = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_xyz_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_has_two_way_travel_times = R"doc()doc";
 

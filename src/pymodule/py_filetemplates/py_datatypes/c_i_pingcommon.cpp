@@ -33,6 +33,10 @@ void init_c_i_pingcommon(pybind11::module& m)
             "I_PingCommon",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingCommon))
 
+            .def("get_number_of_beams",
+                 &I_PingCommon::get_number_of_beams,
+                 DOC_I_PingCommon(get_number_of_beams))
+
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),

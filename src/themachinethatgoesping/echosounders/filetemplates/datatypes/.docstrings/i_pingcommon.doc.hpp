@@ -1,4 +1,4 @@
-//sourcehash: 04149f5859ffecc5d2eff47b00d8e04ad99a7869b08f7434cee527468cac11f2
+//sourcehash: a6604c6bbb8c7ce10d6e0e1164af2f7bc52af556f40c05e418021b74177647b5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,6 +56,12 @@ Returns:
     std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_number_of_beams =
+R"doc(Get the number of beams for this ping
+
+Returns:
+    uint16_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_feature =
 R"doc(Check if any of the registered features is available

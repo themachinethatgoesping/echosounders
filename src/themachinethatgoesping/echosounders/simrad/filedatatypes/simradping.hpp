@@ -84,8 +84,8 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     {
         return { uint16_t(_raw_data._ping_data.get_count()) };
     }
-    size_t                get_number_of_beams() const final { return 1; }
-    xt::xtensor<float, 1> get_beam_pointing_angles() const final { return { 0 }; }
+    uint16_t              get_number_of_beams() override { return 1; }
+    xt::xtensor<float, 1> get_beam_pointing_angles() const override { return { 0 }; }
 
     // void load() final { _raw_data.load(); }
     // void load() final { _raw_data.load(); }

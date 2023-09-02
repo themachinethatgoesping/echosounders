@@ -78,7 +78,23 @@ class EM3000PingBottom
         return true;
     }
 
+    uint16_t get_number_of_beams() override
+    {
+        if (has_xyz())
+            return raw_data()
+                .template read_first_datagram<datagrams::XYZDatagram>()
+                .get_number_of_beams();
+
+        if (has_two_way_travel_times())
+            return raw_data()
+                .template read_first_datagram<datagrams::RawRangeAndAngle>()
+                .get_number_of_receiver_beams();
+                
+        return 0;
+    }
+
     // ----- I_PingBottom interface -----
+
     using t_base1::check_feature;
     // using t_base1::has_xyz;
     using t_base2::raw_data;
@@ -97,38 +113,15 @@ class EM3000PingBottom
                    .size() > 0;
     }
 
-    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const override
-    {
-        check_feature("xyz", __func__);
-        return _raw_data->read_xyz();
-    }
-
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        const pingtools::BeamSelection& selection) const override
+        const pingtools::BeamSelection& selection) override
     {
         check_feature("xyz", __func__);
         return _raw_data->read_xyz(selection);
     }
-    /**
-     * @brief Get the two way travel times of the bottom detection samples
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 1> get_two_way_travel_times() const
-    {
-        check_feature("get_two_way_travel_times", __func__);
 
-        // twtt *= _raw_data->get_sample_interval();
-        throw not_implemented(__func__, this->get_name());
-    }
-
-    /**
-     * @brief Get the two way travel times of the bottom detection samples
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 1> get_two_way_travel_times(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) const
+    xt::xtensor<float, 1> get_two_way_travel_times(
+        [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
         check_feature("get_two_way_travel_times", __func__);
         throw not_implemented(__func__, this->get_name());

@@ -1,4 +1,4 @@
-//sourcehash: 4adc41913fc8df9fdb5f58cb67c7ceb6c72f5bf056cc0c5f78bec285b052b188
+//sourcehash: b40fe7e8a865e3747fa8ecd56cd43ca9306cf096a25edcd8621d5894c5e5c7a5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -81,23 +81,7 @@ R"doc(Get the geolocation of the transducer.
 Returns:
     const navigation::datastructures::GeoLocationLatLon&)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams =
-R"doc(Get the number of beams
-
-Returns:
-    size_t)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams_2 =
-R"doc(Get the number of beams when specifying the beams and samples to
-select. Note: this function just returns
-selection.get_number_of_beams()
-
-Parameter ``selection:``:
-    Structure containing information about which beams and samples to
-    select.
-
-Returns:
-    size_t)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam =
 R"doc(Get the number of samples per beam

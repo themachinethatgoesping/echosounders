@@ -48,7 +48,7 @@ class PingSampleSelector
 
     // get selection
     BeamSampleSelection apply_selection(
-        const std::shared_ptr<const filetemplates::datatypes::I_Ping>& ping)
+        const std::shared_ptr<filetemplates::datatypes::I_Ping>& ping)
     {
 
         BeamSampleSelection selection;

@@ -33,24 +33,26 @@ void init_c_i_pingbottom(pybind11::module& m)
             "I_PingBottom",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingBottom))
 
+            // ---- pingbottom interface ----
+            .def("get_beam_selection_all",
+                 py::overload_cast<>(&I_PingBottom::get_beam_selection_all),
+                 DOC_I_PingBottom(get_beam_selection_all))
+
             // ----- features -----
             .def("has_xyz",
                  py::overload_cast<>(&I_PingBottom::has_xyz, py::const_),
                  DOC_I_PingBottom(has_xyz))
+            .def("get_xyz", py::overload_cast<>(&I_PingBottom::get_xyz), DOC_I_PingBottom(get_xyz))
             .def("get_xyz",
-                 py::overload_cast<>(&I_PingBottom::get_xyz, py::const_),
-                 DOC_I_PingBottom(get_xyz))
-            .def("get_xyz",
-                 py::overload_cast<const pingtools::BeamSelection&>(&I_PingBottom::get_xyz,
-                                                                    py::const_),
+                 py::overload_cast<const pingtools::BeamSelection&>(&I_PingBottom::get_xyz),
                  DOC_I_PingBottom(get_xyz),
                  py::arg("beam_selection"))
             .def("get_two_way_travel_times",
-                 py::overload_cast<>(&I_PingBottom::get_two_way_travel_times, py::const_),
+                 py::overload_cast<>(&I_PingBottom::get_two_way_travel_times),
                  DOC_I_PingBottom(get_two_way_travel_times))
             .def("get_two_way_travel_times",
                  py::overload_cast<const pingtools::BeamSelection&>(
-                     &I_PingBottom::get_two_way_travel_times, py::const_),
+                     &I_PingBottom::get_two_way_travel_times),
                  DOC_I_PingBottom(get_two_way_travel_times),
                  py::arg("beam_selection"))
 

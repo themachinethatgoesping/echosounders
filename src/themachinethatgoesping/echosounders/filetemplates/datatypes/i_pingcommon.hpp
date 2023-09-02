@@ -68,6 +68,16 @@ class I_PingCommon
     }
     virtual ~I_PingCommon() = default;
 
+    // --- common functions for all ping types ---
+    /**
+     * @brief Get the number of beams for this ping
+     *
+     * @return uint16_t
+     */
+    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
+
+    
+
     /**
      * @brief Check if any of the registered features is available
      *

@@ -1,4 +1,4 @@
-//sourcehash: 6fbf500e76125cfed0ad3ffc60bffebe7ffd3795c4129cf52dbbe4ec74bb1b6b
+//sourcehash: 49071fc1c42409daf097b22bb00192e73d670f066726cb1339e798bb7e2105c5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
+R"doc(Get a beam selection object that selects all beams
+
+Returns:
+    pingtools::BeamSelection)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
 R"doc(Get the two way travel times of the bottom detection samples

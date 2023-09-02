@@ -34,7 +34,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../pingtools/beamsampleselection.hpp"
+#include "../../pingtools/beamselection.hpp"
 #include "i_pingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -70,6 +70,16 @@ class I_PingBottom : virtual public I_PingCommon
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
     }
 
+    /**
+     * @brief Get a beam selection object that selects all beams
+     *
+     * @return pingtools::BeamSelection
+     */
+    pingtools::BeamSelection get_beam_selection_all()
+    {
+        return pingtools::BeamSelection(get_number_of_beams());
+    }
+
     //------ interface / accessors -----
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
 
@@ -82,9 +92,9 @@ class I_PingBottom : virtual public I_PingCommon
      *
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz() const
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz()
     {
-        throw not_implemented(__func__, get_name());
+        return get_xyz(get_beam_selection_all());
     }
 
     /**
@@ -99,7 +109,7 @@ class I_PingBottom : virtual public I_PingCommon
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
     virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
         throw not_implemented(__func__, this->get_name());
     }
@@ -109,9 +119,9 @@ class I_PingBottom : virtual public I_PingCommon
      *
      * @return xt::xtensor<float, 1>
      */
-    virtual xt::xtensor<float, 1> get_two_way_travel_times() const
+    xt::xtensor<float, 1> get_two_way_travel_times()
     {
-        throw not_implemented(__func__, this->get_name());
+        return get_two_way_travel_times(get_beam_selection_all());
     }
 
     /**
@@ -120,7 +130,7 @@ class I_PingBottom : virtual public I_PingCommon
      * @return xt::xtensor<float, 1>
      */
     virtual xt::xtensor<float, 1> get_two_way_travel_times(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) const
+        [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
         throw not_implemented(__func__, this->get_name());
     }

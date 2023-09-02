@@ -20,6 +20,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
+
 #include <fmt/core.h>
 
 // xtensor includes
@@ -50,6 +52,9 @@ namespace datatypes {
  */
 class I_PingWatercolumn : virtual public I_PingCommon
 {
+    bool                                             _beam_sample_selection_all_initialized = false;
+    boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
+
   public:
     using t_base = I_PingCommon;
     using t_base::register_feature;
@@ -68,13 +73,54 @@ class I_PingWatercolumn : virtual public I_PingCommon
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
     }
 
+    virtual xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam()
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
+    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam()
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
+    /**
+     * @brief Get beam sample selection that selects all beams and samples
+     *
+     * @return pingtools::BeamSampleSelection
+     */
+    const pingtools::BeamSampleSelection& get_beam_sample_selection_all()
+    {
+        if (!_beam_sample_selection_all_initialized)
+        {
+            auto first_sample_offsets = get_first_sample_offset_per_beam();
+            auto number_of_samples    = get_number_of_samples_per_beam();
+
+            // build BeamSampleSelection
+            auto last_sample_number_per_beam = first_sample_offsets + number_of_samples - 1;
+
+            std::vector<uint16_t> first_snpb(first_sample_offsets.begin(),
+                                             first_sample_offsets.end());
+            std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
+                                            last_sample_number_per_beam.end());
+
+            _beam_sample_selection_all =
+                pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
+            _beam_sample_selection_all_initialized = true;
+        }
+
+        return _beam_sample_selection_all;
+    }
+
     //------ interface / accessors -----
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
      *
      * @return xt::xtensor<float,2>
      */
-    virtual xt::xtensor<float, 2> get_amplitudes() { throw not_implemented(__func__, get_name()); }
+    xt::xtensor<float, 2> get_amplitudes()
+    {
+        return get_amplitudes(get_beam_sample_selection_all());
+    }
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)

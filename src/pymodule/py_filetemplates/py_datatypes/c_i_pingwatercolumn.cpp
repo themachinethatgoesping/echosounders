@@ -33,6 +33,18 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             "I_PingWatercolumn",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))
 
+            // ---- pingwatercolumn interface ----
+            .def("get_beam_sample_selection_all",
+                 py::overload_cast<>(&I_PingWatercolumn::get_beam_sample_selection_all),
+                 DOC_I_PingWatercolumn(get_beam_sample_selection_all))
+
+            .def("get_first_sample_offset_per_beam",
+                 py::overload_cast<>(&I_PingWatercolumn::get_first_sample_offset_per_beam),
+                 DOC_I_PingWatercolumn(get_first_sample_offset_per_beam))
+            .def("get_number_of_samples_per_beam",
+                 py::overload_cast<>(&I_PingWatercolumn::get_number_of_samples_per_beam),
+                 DOC_I_PingWatercolumn(get_number_of_samples_per_beam))
+
             // ----- features -----
             .def("has_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),

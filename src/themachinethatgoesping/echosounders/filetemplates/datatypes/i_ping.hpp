@@ -79,6 +79,17 @@ class I_Ping : virtual public I_PingCommon
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
     }
 
+    // ----- i_ping_common_interface -----
+    uint16_t get_number_of_beams() override
+    {
+        if (has_bottom())
+            return bottom().get_number_of_beams();
+        else if (has_watercolumn())
+            return watercolumn().get_number_of_beams();
+
+        return 0;
+    }
+
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
     const std::string& get_channel_id() const { return _channel_id; }
@@ -131,28 +142,6 @@ class I_Ping : virtual public I_PingCommon
         if (has_watercolumn() && !watercolumn().loaded())
             return false;
         return true;
-    }
-
-    /**
-     * @brief Get the number of beams
-     *
-     * @return size_t
-     */
-    virtual size_t get_number_of_beams() const
-    {
-        throw not_implemented("get_number_of_beams", this->get_name());
-    }
-
-    /**
-     * @brief Get the number of beams when specifying the beams and samples to select.
-     * Note: this function just returns selection.get_number_of_beams()
-     *
-     * @param selection: Structure containing information about which beams and samples to select.
-     * @return size_t
-     */
-    size_t get_number_of_beams(const pingtools::BeamSampleSelection& selection) const
-    {
-        return selection.get_number_of_beams();
     }
 
     /**
