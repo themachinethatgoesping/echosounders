@@ -34,24 +34,6 @@ void init_c_i_ping(pybind11::module& m)
 
             // ----- ping interface -----
 
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<>(&I_Ping::get_beam_pointing_angles, py::const_),
-                 DOC_I_Ping(get_beam_pointing_angles))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<const pingtools::BeamSampleSelection&>(
-                     &I_Ping::get_beam_pointing_angles, py::const_),
-                 py::arg("selection"),
-                 DOC_I_Ping(get_beam_pointing_angles_2))
-
-            .def("get_number_of_samples_per_beam",
-                 py::overload_cast<>(&I_Ping::get_number_of_samples_per_beam, py::const_),
-                 DOC_I_Ping(get_number_of_samples_per_beam))
-            .def("get_number_of_samples_per_beam",
-                 py::overload_cast<const pingtools::BeamSampleSelection&>(
-                     &I_Ping::get_number_of_samples_per_beam, py::const_),
-                 py::arg("selection"),
-                 DOC_I_Ping(get_number_of_samples_per_beam_2))
-
             // --- ping info access ---
             .def("get_file_nr", &I_Ping::get_file_nr, DOC_I_Ping(get_file_nr))
             .def("get_file_path", &I_Ping::get_file_path, DOC_I_Ping(get_file_path))

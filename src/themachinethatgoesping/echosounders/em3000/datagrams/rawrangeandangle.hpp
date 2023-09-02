@@ -111,6 +111,45 @@ class RawRangeAndAngle : public EM3000Datagram
 
         return twtt;
     }
+    /**
+     * @brief Read the beam pointing angles from the RawRangeAndAngle structure
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_pointing_angles() const
+    {
+        auto bpa = xt::xtensor<float, 1>::from_shape({ _beams.size() });
+
+        for (unsigned int bn = 0; bn < _beams.size(); ++bn)
+        {
+            bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle();
+        }
+
+        return bpa;
+    }
+
+    /**
+     * @brief Read the two way travel times for given beam_number vector from the RawRangeAndAngle
+     * structure Note: if a beam number is not found, the corresponding time value will be NaN
+     *
+     * @param beam_numbers
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_pointing_angles(const std::vector<uint16_t>& beam_numbers) const
+    {
+        auto bpa = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+        for (const auto bn : beam_numbers)
+        {
+            if (bn > _beams.size())
+                bpa.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+            else
+                bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle();
+        }
+
+        return bpa;
+    }
 
     // ----- convenient data access -----
     uint16_t get_ping_counter() const { return _ping_counter; }

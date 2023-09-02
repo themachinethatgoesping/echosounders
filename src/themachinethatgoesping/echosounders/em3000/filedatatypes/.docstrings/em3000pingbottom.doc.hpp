@@ -1,4 +1,4 @@
-//sourcehash: a62d0700de97ff41afc8d959ce4ca53826689cd6c59f3a1c8e8ab434ec0c4e7d
+//sourcehash: b6d1b1530237851507c9c480f45261f6d2679c238746380912a772b0ef937495
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,11 +42,15 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_EM3000PingBottom = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_beam_pointing_angles = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_two_way_travel_times = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_get_xyz = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_has_beam_pointing_angles = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingBottom_has_two_way_travel_times = R"doc()doc";
 

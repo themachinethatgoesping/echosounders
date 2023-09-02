@@ -1,4 +1,4 @@
-//sourcehash: b40fe7e8a865e3747fa8ecd56cd43ca9306cf096a25edcd8621d5894c5e5c7a5
+//sourcehash: 8bf8e96fecacdb8708a4292575a35b06c36aaa1d2123d3e51b2779d7daf84957
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,22 +52,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles =
-R"doc(Get the beam pointing angles in °.
-
-Returns:
-    xt::xtensor<float, 1> in °)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles_2 =
-R"doc(Get the beam pointing angles in ° when specifying the beams and
-samples to select.
-
-Parameter ``selection:``:
-    Structure containing information about which beams and samples to
-    select.
-
-Returns:
-    xt::xtensor<float, 1> in °)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
@@ -82,24 +67,6 @@ Returns:
     const navigation::datastructures::GeoLocationLatLon&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam =
-R"doc(Get the number of samples per beam
-
-Returns:
-    xt::xtensor<uint16_t, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_samples_per_beam_2 =
-R"doc(Get the number of samples per beam when specifying the beams and
-samples to select. Note: this function just returns an array of
-selection.get_number_of_samples_ensemble()
-
-Parameter ``selection:``:
-    Structure containing information about which beams and samples to
-    select.
-
-Returns:
-    xt::xtensor<uint16_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 

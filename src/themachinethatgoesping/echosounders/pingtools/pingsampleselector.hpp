@@ -47,16 +47,15 @@ class PingSampleSelector
     bool operator==(const PingSampleSelector& other) const = default;
 
     // get selection
-    BeamSampleSelection apply_selection(
-        const std::shared_ptr<filetemplates::datatypes::I_Ping>& ping)
+    BeamSampleSelection apply_selection(std::shared_ptr<filetemplates::datatypes::I_Ping>& ping)
     {
-
         BeamSampleSelection selection;
 
         // select beams according to the options
-        const auto number_of_beams = ping->get_number_of_beams();
+        const auto number_of_beams            = ping->watercolumn().get_number_of_beams();
+        const auto number_of_samples_per_beam = ping->watercolumn().get_number_of_samples_per_beam();
 
-        const auto& beam_pointing_angles = ping->get_beam_pointing_angles();
+        const auto beam_pointing_angles = ping->watercolumn().get_beam_pointing_angles();
         if (beam_pointing_angles.size() < number_of_beams)
             throw std::runtime_error(fmt::format(
                 "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
@@ -80,7 +79,7 @@ class PingSampleSelector
             if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
                 continue;
 
-            size_t number_of_samples = ping->get_number_of_samples_per_beam().unchecked(bn);
+            size_t number_of_samples = number_of_samples_per_beam.unchecked(bn);
             size_t min_sample_number = _min_sample_number ? *_min_sample_number : 0;
             size_t max_sample_number =
                 _max_sample_number ? *_max_sample_number : number_of_samples - 1;

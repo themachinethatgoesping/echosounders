@@ -55,6 +55,8 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom()
         : I_PingCommon("I_PingBottom")
     {
+        register_feature("beam_pointing_angles",
+                         std::bind(&I_PingBottom::has_beam_pointing_angles, this));
         register_feature("two_way_travel_times",
                          std::bind(&I_PingBottom::has_two_way_travel_times, this));
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
@@ -65,19 +67,11 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom(const I_PingBottom& other)
         : I_PingCommon(other)
     {
+        register_feature("beam_pointing_angles",
+                         std::bind(&I_PingBottom::has_beam_pointing_angles, this));
         register_feature("two_way_travel_times",
                          std::bind(&I_PingBottom::has_two_way_travel_times, this));
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
-    }
-
-    /**
-     * @brief Get a beam selection object that selects all beams
-     *
-     * @return pingtools::BeamSelection
-     */
-    pingtools::BeamSelection get_beam_selection_all()
-    {
-        return pingtools::BeamSelection(get_number_of_beams());
     }
 
     //------ interface / accessors -----
@@ -134,6 +128,14 @@ class I_PingBottom : virtual public I_PingCommon
     {
         throw not_implemented(__func__, this->get_name());
     }
+
+    /**
+     * @brief Check this pings supports the extraction of beam_pointing_angles
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_beam_pointing_angles() const { return false; }
 
     /**
      * @brief Check this pings supports the extraction of two_way_travel_times

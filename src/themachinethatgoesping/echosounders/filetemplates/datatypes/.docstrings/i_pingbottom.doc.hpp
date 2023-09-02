@@ -1,4 +1,4 @@
-//sourcehash: 49071fc1c42409daf097b22bb00192e73d670f066726cb1339e798bb7e2105c5
+//sourcehash: 8e7f039c80e564e1fa33ddca3d0f81f88c1d9c751b483e7e43b4eb6585bb32d5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,12 +44,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
-R"doc(Get a beam selection object that selects all beams
-
-Returns:
-    pingtools::BeamSelection)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
 R"doc(Get the two way travel times of the bottom detection samples
 
@@ -87,6 +81,15 @@ Parameter ``selection``:
 
 Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_pointing_angles =
+R"doc(Check this pings supports the extraction of beam_pointing_angles
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times =
 R"doc(Check this pings supports the extraction of two_way_travel_times

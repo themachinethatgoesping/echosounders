@@ -70,13 +70,42 @@ class I_PingCommon
 
     // --- common functions for all ping types ---
     /**
+     * @brief Get a beam selection object that selects all beams
+     *
+     * @return pingtools::BeamSelection
+     */
+    pingtools::BeamSelection get_beam_selection_all()
+    {
+        return pingtools::BeamSelection(get_number_of_beams());
+    }
+
+    /**
      * @brief Get the number of beams for this ping
      *
      * @return uint16_t
      */
     virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
 
-    
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_pointing_angles()
+    {
+        return get_beam_pointing_angles(get_beam_selection_all());
+    }
+
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
+    {
+        throw not_implemented(__func__, get_name());
+    }
 
     /**
      * @brief Check if any of the registered features is available

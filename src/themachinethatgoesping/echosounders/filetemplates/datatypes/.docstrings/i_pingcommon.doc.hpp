@@ -1,4 +1,4 @@
-//sourcehash: a6604c6bbb8c7ce10d6e0e1164af2f7bc52af556f40c05e418021b74177647b5
+//sourcehash: 834216bca1c2d58a98cd69c0c5386cd7902377f1f204b81e9b7a7ff04ac77a58
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,6 +54,24 @@ Parameter ``available``:
 
 Returns:
     std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_beam_pointing_angles =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_beam_pointing_angles_2 =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_beam_selection_all =
+R"doc(Get a beam selection object that selects all beams
+
+Returns:
+    pingtools::BeamSelection)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_name = R"doc()doc";
 

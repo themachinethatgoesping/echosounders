@@ -90,6 +90,17 @@ class I_Ping : virtual public I_PingCommon
         return 0;
     }
 
+    using t_base::get_beam_pointing_angles;
+    xt::xtensor<float, 1> get_beam_pointing_angles(const pingtools::BeamSelection& bs) override
+    {
+        if (has_bottom())
+            return bottom().get_beam_pointing_angles(bs);
+        else if (has_watercolumn())
+            return watercolumn().get_beam_pointing_angles(bs);
+
+        return {};
+    }
+
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
     const std::string& get_channel_id() const { return _channel_id; }
@@ -144,56 +155,7 @@ class I_Ping : virtual public I_PingCommon
         return true;
     }
 
-    /**
-     * @brief Get the beam pointing angles in °.
-     *
-     * @return xt::xtensor<float, 1> in °
-     */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles() const
-    {
-        throw not_implemented("get_beam_pointing_angles", this->get_name());
-    }
-
-    /**
-     * @brief Get the beam pointing angles in ° when specifying the beams and samples to select.
-     *
-     * @param selection: Structure containing information about which beams and samples to select.
-     * @return xt::xtensor<float, 1> in °
-     */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
-    {
-        throw not_implemented("get_beam_pointing_angles(BeamSampleSelection)", this->get_name());
-    }
-
-    /**
-     * @brief Get the number of samples per beam
-     *
-     * @return xt::xtensor<uint16_t, 1>
-     */
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
-    {
-        throw not_implemented("get_number_of_samples_per_beam", this->get_name());
-    }
-
-    /**
-     * @brief Get the number of samples per beam when specifying the beams and samples to select.
-     * Note: this function just returns an array of selection.get_number_of_samples_ensemble()
-     *
-     * @param selection: Structure containing information about which beams and samples to select.
-     * @return xt::xtensor<uint16_t, 1>
-     */
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection) const
-    {
-        auto number_of_samples_per_beam =
-            xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
-
-        number_of_samples_per_beam.fill(selection.get_number_of_samples_ensemble());
-
-        return number_of_samples_per_beam;
-    }
-
+    // ----- ping interface -----
     virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->get_name()); }
     const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
 

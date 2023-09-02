@@ -105,8 +105,12 @@ class PingContainer
         size_t max_samples = 0;
         for (size_t i : _pyindexer)
         {
-            size_t local_max = xt::amax(_pings[i]->get_number_of_samples_per_beam())();
-            max_samples      = std::max(max_samples, local_max);
+            if (!_pings[i]->has_watercolumn())
+                continue;
+
+            size_t local_max =
+                xt::amax(_pings[i]->watercolumn().get_number_of_samples_per_beam())();
+            max_samples = std::max(max_samples, local_max);
         }
 
         return max_samples;
