@@ -42,6 +42,7 @@ void init_c_rawrangeandanglebeam(pybind11::module& m)
                                          substructures,
                                          RawRangeAndAngleBeam))
         .def(py::init<>(), DOC_RawRangeAndAngleBeam(RawRangeAndAngleBeam))
+
         // --- convenient data access ---
         .def("set_beam_pointing_angle",
              &RawRangeAndAngleBeam::set_beam_pointing_angle,

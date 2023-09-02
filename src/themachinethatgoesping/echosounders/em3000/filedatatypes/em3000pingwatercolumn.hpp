@@ -144,7 +144,6 @@ class EM3000PingWatercolumn
     }
 
     // ----- I_PingWatercolumn interface -----
-    using t_base1::check_feature;
     // using t_base1::has_amplitudes;
     using t_base2::raw_data;
 
@@ -157,8 +156,6 @@ class EM3000PingWatercolumn
 
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
     {
-        check_feature("amplitudes", __func__);
-
         auto& wcinfos = get_wcinfos();
 
         auto amplitudes = xt::xtensor<float, 2>::from_shape(

@@ -94,8 +94,6 @@ class EM3000PingBottom
     }
 
     // ----- I_PingBottom interface -----
-
-    using t_base1::check_feature;
     // using t_base1::has_xyz;
     using t_base2::raw_data;
 
@@ -116,15 +114,16 @@ class EM3000PingBottom
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         const pingtools::BeamSelection& selection) override
     {
-        check_feature("xyz", __func__);
         return _raw_data->read_xyz(selection);
     }
 
     xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
-        check_feature("two_way_travel_times", __func__);
-        throw not_implemented(__func__, this->get_name());
+
+        auto datagram = raw_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
+
+        return datagram.get_two_way_travel_times(selection.get_beam_numbers());
     }
 
     // ----- objectprinter -----

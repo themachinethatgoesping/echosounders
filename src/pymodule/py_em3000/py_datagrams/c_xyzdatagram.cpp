@@ -32,7 +32,7 @@ void init_c_xyzdatagram(pybind11::module& m)
         m, "XYZDatagram", DOC(themachinethatgoesping, echosounders, em3000, datagrams, XYZDatagram))
         .def(py::init<>(), DOC_XYZDatagram(XYZDatagram))
 
-        // --- convinience functions ---
+        // --- convenience functions ---
         .def("get_xyz",
              py::overload_cast<>(&XYZDatagram::get_xyz, py::const_),
              DOC_XYZDatagram(get_xyz))

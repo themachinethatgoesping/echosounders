@@ -13,6 +13,9 @@
 #include <string>
 #include <vector>
 
+// xtensor includes
+#include <xtensor/xtensor.hpp>
+
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
@@ -67,6 +70,47 @@ class RawRangeAndAngle : public EM3000Datagram
     // ----- public constructors -----
     RawRangeAndAngle() { _datagram_identifier = t_EM3000DatagramIdentifier::RawRangeAndAngle; }
     ~RawRangeAndAngle() = default;
+
+    // ----- convenience functions -----
+    /**
+     * @brief Read the two way travel times from the RawRangeAndAngle structure
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_two_way_travel_times() const
+    {
+        auto twtt = xt::xtensor<float, 1>::from_shape({ _beams.size() });
+
+        for (unsigned int bn = 0; bn < _beams.size(); ++bn)
+        {
+            twtt.unchecked(bn) = _beams[bn].get_two_way_travel_time();
+        }
+
+        return twtt;
+    }
+
+    /**
+     * @brief Read the two way travel times for given beam_number vector from the RawRangeAndAngle
+     * structure Note: if a beam number is not found, the corresponding time value will be NaN
+     *
+     * @param beam_numbers
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_two_way_travel_times(const std::vector<uint16_t>& beam_numbers) const
+    {
+        auto twtt = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+        for (const auto bn : beam_numbers)
+        {
+            if (bn > _beams.size())
+                twtt.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+            else
+                twtt.unchecked(bn) = _beams[bn].get_two_way_travel_time();
+        }
+
+        return twtt;
+    }
 
     // ----- convenient data access -----
     uint16_t get_ping_counter() const { return _ping_counter; }

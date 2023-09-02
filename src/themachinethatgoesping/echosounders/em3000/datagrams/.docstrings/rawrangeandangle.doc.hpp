@@ -1,4 +1,4 @@
-//sourcehash: 375aab1059e1585389fde28089f3a09110456be27b4c7c4e709a6dcd47329b2a
+//sourcehash: 543623e2453ad4d0cea1e0567d783a53d627b83d6fa8032769a5dce94dd062e7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -96,6 +96,22 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ra
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_transmit_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_two_way_travel_times =
+R"doc(Read the two way travel times from the RawRangeAndAngle structure
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_two_way_travel_times_2 =
+R"doc(Read the two way travel times for given beam_number vector from the
+RawRangeAndAngle structure Note: if a beam number is not found, the
+corresponding time value will be NaN
+
+Parameter ``beam_numbers``:
+    $Returns:
+
+xt::xtensor<float, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_number_of_receiver_beams = R"doc(< in Datagram nrx)doc";
 

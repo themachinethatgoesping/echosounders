@@ -33,6 +33,17 @@ void init_c_rawrangeandangle(pybind11::module& m)
         "RawRangeAndAngle",
         DOC(themachinethatgoesping, echosounders, em3000, datagrams, RawRangeAndAngle))
         .def(py::init<>(), DOC_RawRangeAndAngle(RawRangeAndAngle))
+        
+        // --- convenience functions ---
+        .def("get_two_way_travel_times",
+             py::overload_cast<>(&RawRangeAndAngle::get_two_way_travel_times, py::const_),
+             DOC_RawRangeAndAngle(get_two_way_travel_times))
+        .def("get_two_way_travel_times",
+             py::overload_cast<const std::vector<uint16_t>&>(
+                 &RawRangeAndAngle::get_two_way_travel_times, py::const_),
+             DOC_RawRangeAndAngle(get_two_way_travel_times_2),
+             py::arg("beam_numbers"))
+
         // --- convenient data access ---
         .def("set_ping_counter",
              &RawRangeAndAngle::set_ping_counter,
