@@ -89,7 +89,7 @@ class EM3000PingBottom
             return raw_data()
                 .template read_first_datagram<datagrams::RawRangeAndAngle>()
                 .get_number_of_receiver_beams();
-                
+
         return 0;
     }
 
@@ -123,7 +123,7 @@ class EM3000PingBottom
     xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
-        check_feature("get_two_way_travel_times", __func__);
+        check_feature("two_way_travel_times", __func__);
         throw not_implemented(__func__, this->get_name());
     }
 
