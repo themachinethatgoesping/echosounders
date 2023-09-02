@@ -172,8 +172,8 @@ class RAW3 : public SimradDatagram
     void set_sample_data(raw3datatypes::RAW3DataVariant sample_data) { _sample_data = sample_data; }
 
     // ----- file I/O -----
-    raw3datatypes::RAW3DataVariant read_skipped_sample_data(std::istream&          is,
-                                                            size_t header_pos) const
+    raw3datatypes::RAW3DataVariant read_skipped_sample_data(std::istream& is,
+                                                            size_t        header_pos) const
     {
         is.seekg(header_pos + size_t(152));
         return read_sample_data(is);

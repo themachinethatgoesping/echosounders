@@ -32,8 +32,7 @@ using datagrams::WatercolumnDatagram;
 
 void init_c_watercolumndatagram(pybind11::module& m)
 {
-    py::class_<WatercolumnDatagram,
-               datagrams::EM3000Datagram>(
+    py::class_<WatercolumnDatagram, datagrams::EM3000Datagram>(
         m,
         "WatercolumnDatagram",
         DOC(themachinethatgoesping, echosounders, em3000, datagrams, WatercolumnDatagram))

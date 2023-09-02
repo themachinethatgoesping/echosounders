@@ -277,9 +277,7 @@ class FileEM3000
     }
 
     filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
-    callback_scan_packet(t_ifstream&                   ifs,
-                         size_t pos,
-                         size_t                        file_paths_cnt) final
+    callback_scan_packet(t_ifstream& ifs, size_t pos, size_t file_paths_cnt) final
     {
         auto header    = datagrams::EM3000Datagram::from_stream(ifs);
         auto type      = header.get_datagram_identifier();
@@ -413,7 +411,6 @@ class FileEM3000
         auto interface_printer = t_base::__printer__(float_precision);
 
         printer.append(interface_printer);
-
 
         printer.register_section("Detected Pings");
         printer.append(_ping_interface->get_pings().__printer__(float_precision), false, '^');

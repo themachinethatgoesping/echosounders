@@ -45,8 +45,8 @@ namespace datagrams {
 class QualityFactorDatagram : public EM3000Datagram
 {
   public:
-    using t_Shape = xt::xtensor<float, 2>::shape_type; // shape type of the quality factors tensor    
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::QualityFactorDatagram;
+    using t_Shape = xt::xtensor<float, 2>::shape_type; // shape type of the quality factors tensor
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::QualityFactorDatagram;
 
   protected:
     uint16_t _ping_counter;                  ///< 0-65535 ping number (in this file)

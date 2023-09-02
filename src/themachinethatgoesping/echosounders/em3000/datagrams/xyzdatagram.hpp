@@ -38,7 +38,8 @@ cleaning for beam status (note 4 and 5).
 class XYZDatagram : public EM3000Datagram
 {
   public:
-    using t_XYZ = algorithms::geoprocessing::datastructures::XYZ<1>;
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::XYZDatagram;
+    using t_XYZ                              = algorithms::geoprocessing::datastructures::XYZ<1>;
 
   protected:
     uint16_t _ping_counter;              ///< 0-65535 ping number (in this file)

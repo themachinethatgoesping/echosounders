@@ -175,7 +175,7 @@ class EM3000PingWatercolumn
     xt::xtensor<float, 2> get_amplitudes() override
     {
         check_feature("amplitudes", __func__);
-        
+
         return get_amplitudes(get_beam_sample_selection_all());
     }
 

@@ -93,14 +93,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         : t_base("EM3000PingRawData")
     {
     }
-    // EM3000PingRawData(filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier,
-    //                                                              t_ifstream>
-    //                                                              datagram_info_raw_data,
-    //                   datagrams::RAW3                                        ping_data)
-    //     : _datagram_info_raw_data(std::move(datagram_info_raw_data))
-    //     , _ping_data(std::move(ping_data))
-    // {
-    // }
+
     ~EM3000PingRawData() = default;
 
     /**
@@ -114,6 +107,19 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         return this->_datagram_infos_by_type.at_const(datagram_identifier).at(0)->get_stream();
     }
 
+    template<typename t_datagram>
+    auto read_first_datagram()
+    {
+        auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
+
+        if (datagram_infos.empty())
+            throw std::runtime_error(
+                fmt::format("Error[EM3000PingRawData::read_datagram]: No {} datagram in ping!",
+                            datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
+
+        return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
+    }
+
     // I_PingBottom functions
     /**
      * @brief read XYZ for the bottom detection datagram
@@ -122,19 +128,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
      */
     algorithms::geoprocessing::datastructures::XYZ<1> read_xyz()
     {
-        auto& datagram_infos =
-            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);
-
-        if (datagram_infos.empty())
-            throw std::runtime_error(
-                fmt::format("Error[EM3000PingRawData::read_xyz]: No XYZDatagram in ping!"));
-
-        if (datagram_infos.size() > 1)
-            throw std::runtime_error(
-                fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
-                            "ping!"));
-        auto datagram =
-            datagram_infos.at(0)->template read_datagram_from_file<datagrams::XYZDatagram>();
+        auto datagram = read_first_datagram<datagrams::XYZDatagram>();
 
         return datagram.get_xyz();
     }
@@ -149,19 +143,7 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
      */
     algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const pingtools::BeamSelection& bs)
     {
-        auto& datagram_infos =
-            this->_datagram_infos_by_type.at(t_EM3000DatagramIdentifier::XYZDatagram);
-
-        if (datagram_infos.empty())
-            throw std::runtime_error(
-                fmt::format("Error[EM3000PingRawData::read_xyz]: No XYZDatagram in ping!"));
-
-        if (datagram_infos.size() > 1)
-            throw std::runtime_error(
-                fmt::format("Error[EM3000PingRawData::read_xyz]: More than one XYZDatagram in "
-                            "ping!"));
-        auto datagram =
-            datagram_infos.at(0)->template read_datagram_from_file<datagrams::XYZDatagram>();
+        auto datagram = read_first_datagram<datagrams::XYZDatagram>();
 
         return datagram.get_xyz(bs.get_beam_numbers());
     }
@@ -175,8 +157,6 @@ class EM3000PingRawData : public filedatainterfaces::EM3000DatagramInterface<t_i
         printer.append(t_base::__printer__(float_precision));
 
         printer.register_section("Raw data infos");
-
-
 
         return printer;
     }

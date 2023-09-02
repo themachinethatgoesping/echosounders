@@ -36,7 +36,7 @@ namespace datagrams {
 class WatercolumnDatagram : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::WatercolumnDatagram;
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::WatercolumnDatagram;
 
   protected:
     uint16_t               _ping_counter;

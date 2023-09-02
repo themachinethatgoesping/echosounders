@@ -48,7 +48,7 @@ class WaterColumnInformation
     xt::xtensor<size_t, 1>                                 _sample_positions;
 
     datagrams::WatercolumnDatagram
-        _water_column_datagram; // note, this will be safe without beams()
+        _water_column_datagram; // note, this will be safed without beams()
 
   public:
     WaterColumnInformation(std::shared_ptr<t_rawdata> raw_data)

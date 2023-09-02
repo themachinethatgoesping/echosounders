@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-
 #include <pybind11/iostream.h>
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
@@ -25,9 +23,7 @@ using namespace themachinethatgoesping::echosounders::pingtools;
 void init_c_readsamplerange(pybind11::module& m)
 {
     py::class_<ReadSampleRange>(
-        m,
-        "ReadSampleRange",
-        DOC(themachinethatgoesping, echosounders, pingtools, ReadSampleRange))
+        m, "ReadSampleRange", DOC(themachinethatgoesping, echosounders, pingtools, ReadSampleRange))
         .def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>(),
              DOC_ReadSampleRange(ReadSampleRange),
              py::arg("first_sample_to_read"),

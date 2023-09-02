@@ -3,8 +3,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>

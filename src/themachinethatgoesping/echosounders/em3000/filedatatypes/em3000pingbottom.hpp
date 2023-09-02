@@ -65,9 +65,22 @@ class EM3000PingBottom
     }
     virtual ~EM3000PingBottom() = default;
 
+    // ----- I_PingCommon interface -----
+    void load() override
+    {
+        // _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
+    }
+    void release() override
+    { //_watercolumninformation.reset();
+    }
+    bool loaded() override
+    { // return _watercolumninformation != nullptr;
+        return true;
+    }
+
     // ----- I_PingBottom interface -----
     using t_base1::check_feature;
-    //using t_base1::has_xyz;
+    // using t_base1::has_xyz;
     using t_base2::raw_data;
 
     bool has_xyz() const override

@@ -36,7 +36,7 @@ cleaning for beam status (note 4 and 5).
 class AttitudeDatagram : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::AttitudeDatagram;
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::AttitudeDatagram;
 
   protected:
     uint16_t _attitude_counter;

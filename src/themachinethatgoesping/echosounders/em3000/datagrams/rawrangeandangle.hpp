@@ -37,7 +37,7 @@ cleaning for beam status (note 4 and 5).
 class RawRangeAndAngle : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::RawRangeAndAngle;
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::RawRangeAndAngle;
 
   protected:
     uint16_t _ping_counter; ///< sequential number

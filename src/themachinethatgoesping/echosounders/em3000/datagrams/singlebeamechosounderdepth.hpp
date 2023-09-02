@@ -32,7 +32,8 @@ namespace datagrams {
 class SingleBeamEchoSounderDepth : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth;
+    static constexpr auto DatagramIdentifier =
+        t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth;
 
   protected:
     uint16_t _echo_sounder_counter; ///< Sequential Number

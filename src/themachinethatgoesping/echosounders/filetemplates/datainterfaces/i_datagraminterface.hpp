@@ -137,8 +137,7 @@ class I_DatagramInterface
     {
         return _datagram_infos_all;
     }
-    std::vector<type_DatagramInfo_ptr> get_datagram_infos_by_type(
-        t_DatagramIdentifier type) const
+    std::vector<type_DatagramInfo_ptr> get_datagram_infos_by_type(t_DatagramIdentifier type) const
     {
         return _datagram_infos_by_type.at_const(type);
     }

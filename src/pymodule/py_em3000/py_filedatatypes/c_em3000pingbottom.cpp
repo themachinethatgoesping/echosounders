@@ -3,8 +3,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
@@ -40,16 +38,15 @@ void py_create_class_em3000pingbottom(py::module& m, const std::string& CLASS_NA
 {
     using t_EM3000PingBottom = filedatatypes::EM3000PingBottom<T_FileStream>;
 
-    auto cls =
-        py::class_<t_EM3000PingBottom,
-                   datatypes::I_PingBottom,
-                   filedatatypes::EM3000PingCommon<T_FileStream>,
-                   std::shared_ptr<t_EM3000PingBottom>>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingBottom))
+    auto cls = py::class_<t_EM3000PingBottom,
+                          datatypes::I_PingBottom,
+                          filedatatypes::EM3000PingCommon<T_FileStream>,
+                          std::shared_ptr<t_EM3000PingBottom>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingBottom))
 
-            // --- pingbottom interface extension ---
+        // --- pingbottom interface extension ---
 
         // --- variable access ---
         //.def("is_dual_rx", &t_EM3000PingBottom::is_dual_rx, DOC_EM3000Ping(is_dual_rx))

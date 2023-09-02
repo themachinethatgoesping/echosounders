@@ -3,8 +3,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
@@ -40,16 +38,15 @@ void py_create_class_em3000pingwatercolumn(py::module& m, const std::string& CLA
 {
     using t_EM3000PingWatercolumn = filedatatypes::EM3000PingWatercolumn<T_FileStream>;
 
-    auto cls =
-        py::class_<t_EM3000PingWatercolumn,
-                   datatypes::I_PingWatercolumn,
-                   filedatatypes::EM3000PingCommon<T_FileStream>,
-                   std::shared_ptr<t_EM3000PingWatercolumn>>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWatercolumn))
+    auto cls = py::class_<t_EM3000PingWatercolumn,
+                          datatypes::I_PingWatercolumn,
+                          filedatatypes::EM3000PingCommon<T_FileStream>,
+                          std::shared_ptr<t_EM3000PingWatercolumn>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, em3000, filedatatypes, EM3000PingWatercolumn))
 
-            // --- pingwatercolumn interface extension ---
+        // --- pingwatercolumn interface extension ---
 
         // --- variable access ---
         //.def("is_dual_rx", &t_EM3000PingWatercolumn::is_dual_rx, DOC_EM3000Ping(is_dual_rx))
@@ -57,8 +54,8 @@ void py_create_class_em3000pingwatercolumn(py::module& m, const std::string& CLA
         // ----- operators -----
         // .def("__eq__",
         //      &EM3000PingWatercolumn::operator==,
-        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,  EM3000PingWatercolumn,
-        //      operator_eq), py::arg("other"))
+        //      DOC(themachinethatgoesping, echosounders, em3000, filedatatypes,
+        //      EM3000PingWatercolumn, operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_EM3000PingWatercolumn)
@@ -73,7 +70,8 @@ void py_create_class_em3000pingwatercolumn(py::module& m, const std::string& CLA
 void init_c_em3000pingwatercolumn(pybind11::module& m)
 {
     py_create_class_em3000pingwatercolumn<std::ifstream>(m, "EM3000PingWatercolumn");
-    py_create_class_em3000pingwatercolumn<datastreams::MappedFileStream>(m, "EM3000PingWatercolumn_mapped");
+    py_create_class_em3000pingwatercolumn<datastreams::MappedFileStream>(
+        m, "EM3000PingWatercolumn_mapped");
 }
 
 }

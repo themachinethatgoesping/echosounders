@@ -187,7 +187,8 @@ class InstallationParameters : public EM3000Datagram
   public:
     // TODO: InstallationParameters can also have a different datagram identifier
     // (InstallationParametersStop)
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::InstallationParametersStart;
+    static constexpr auto DatagramIdentifier =
+        t_EM3000DatagramIdentifier::InstallationParametersStart;
 
   protected:
     uint16_t _installation_parameters_counter; ///< Sequential Number

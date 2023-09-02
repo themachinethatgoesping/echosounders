@@ -12,8 +12,6 @@
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_ping.hpp"
 
-
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {

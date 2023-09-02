@@ -60,8 +60,7 @@ void py_create_class_simradpingrawdata(py::module& m, const std::string& CLASS_N
         .def("has_power", &t_SimradPingRawData::has_power, DOC_SimradPingRawData(has_power))
 
         .def("load", &t_SimradPingRawData::load, DOC_SimradPingRawData(load))
-        .def(
-            "load", &t_SimradPingRawData::load, DOC_SimradPingRawData(load))
+        .def("load", &t_SimradPingRawData::load, DOC_SimradPingRawData(load))
 
         // ----- operators -----
         // .def("__eq__",

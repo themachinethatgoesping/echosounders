@@ -32,7 +32,7 @@ namespace datagrams {
 class DepthOrHeightDatagram : public EM3000Datagram
 {
   public:
-    static const auto DatagramIdentifier = t_EM3000DatagramIdentifier::DepthOrHeightDatagram;
+    static constexpr auto DatagramIdentifier = t_EM3000DatagramIdentifier::DepthOrHeightDatagram;
 
   protected:
     uint16_t _height_counter; ///< Sequential Number

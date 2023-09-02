@@ -3,8 +3,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-
-
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
@@ -64,8 +62,7 @@ void py_create_class_em3000pingrawdata(py::module& m, const std::string& CLASS_N
                  py::overload_cast<>(&t_EM3000PingRawData::read_xyz),
                  DOC_EM3000PingRawData(read_xyz))
             .def("read_xyz",
-                 py::overload_cast<const pingtools::BeamSelection&>(
-                     &t_EM3000PingRawData::read_xyz),
+                 py::overload_cast<const pingtools::BeamSelection&>(&t_EM3000PingRawData::read_xyz),
                  DOC_EM3000PingRawData(read_xyz_2),
                  py::arg("selection"))
 

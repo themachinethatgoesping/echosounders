@@ -40,7 +40,7 @@ class DatagramInfo
         _input_file_manager; ///< input file manager
 
     size_t _file_pos; ///< file position of this datagram TODO: is this the
-                                             ///< same for ifstream and MappedFileStream?
+                      ///< same for ifstream and MappedFileStream?
 
     double               _timestamp;           ///< timestamp (unixtime) of this datagram
     t_DatagramIdentifier _datagram_identifier; ///< datagram type of this datagram
@@ -52,7 +52,7 @@ class DatagramInfo
 
   public:
     DatagramInfo(size_t                                                  file_nr,
-                 size_t                           file_pos,
+                 size_t                                                  file_pos,
                  std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
                  double                                                  timestamp,
                  t_DatagramIdentifier                                    datagram_identifier)
@@ -82,9 +82,9 @@ class DatagramInfo
 
         return ifs;
     }
-    double                        get_timestamp() const { return _timestamp; }
-    t_DatagramIdentifier          get_datagram_identifier() const { return _datagram_identifier; }
-    size_t get_file_pos() const { return _file_pos; }
+    double               get_timestamp() const { return _timestamp; }
+    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
+    size_t               get_file_pos() const { return _file_pos; }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType read_datagram_from_file()

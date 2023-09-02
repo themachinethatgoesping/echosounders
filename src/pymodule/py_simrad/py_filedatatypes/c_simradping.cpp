@@ -51,16 +51,16 @@ void py_create_class_simradping(py::module& m, const std::string& CLASS_NAME)
                         DOC_SimradPing(raw_data),
                         py::return_value_policy::reference_internal)
 
-        // --- variable access ---
+               // --- variable access ---
 
-        // ----- operators -----
-        // .def("__eq__",
-        //      &SimradPing::operator==,
-        //      DOC(themachinethatgoesping, echosounders, simrad, filedatatypes,  SimradPing,
-        //      operator_eq), py::arg("other"))
-        // ----- pybind macros -----
-        // default copy functions
-         __PYCLASS_DEFAULT_COPY__(t_SimradPing)
+               // ----- operators -----
+               // .def("__eq__",
+               //      &SimradPing::operator==,
+               //      DOC(themachinethatgoesping, echosounders, simrad, filedatatypes,  SimradPing,
+               //      operator_eq), py::arg("other"))
+               // ----- pybind macros -----
+               // default copy functions
+               __PYCLASS_DEFAULT_COPY__(t_SimradPing)
         // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(SimradPing)
         // default printing functions

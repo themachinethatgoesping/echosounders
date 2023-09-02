@@ -53,7 +53,7 @@ class WatercolumnDatagramBeam
                ///< load or set_data to set it to false.
 
     size_t _sample_pos; ///< the position of the sample data in the filestream. This
-                                        ///< is used to load skipped sample data.
+                        ///< is used to load skipped sample data.
 
   public:
     WatercolumnDatagramBeam()  = default;
@@ -67,7 +67,7 @@ class WatercolumnDatagramBeam
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_beam_number() const { return _beam_number; }
-    size_t get_sample_position() const { return _sample_pos; }
+    size_t   get_sample_position() const { return _sample_pos; }
 
     // setters
     void set_beam_pointing_angle(int16_t beam_pointing_angle)
@@ -127,11 +127,11 @@ class WatercolumnDatagramBeam
      * @param fill_val The value to fill the array with if the requested number of samples is
      * @return xt::xtensor<int8_t, 1>
      */
-    static xt::xtensor<int8_t, 1> read_samples(std::istream&          ifs,
-                                               size_t pos_first_sample,
-                                               size_t                 first_sample,
-                                               size_t                 number_of_samples,
-                                               size_t                 number_of_samples_in_datagram)
+    static xt::xtensor<int8_t, 1> read_samples(std::istream& ifs,
+                                               size_t        pos_first_sample,
+                                               size_t        first_sample,
+                                               size_t        number_of_samples,
+                                               size_t        number_of_samples_in_datagram)
     {
         auto samples = xt::xtensor<int8_t, 1>::from_shape({ number_of_samples });
 

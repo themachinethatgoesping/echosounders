@@ -24,7 +24,7 @@ namespace pymodule {
 PYBIND11_MODULE(MODULE_NAME, m)
 {
     xt::import_numpy(); // import numpy for xtensor (otherwise there will be weird segfaults)
-    
+
     pybind11::add_ostream_redirect(m, "ostream_redirect");
 
     m.doc() =
