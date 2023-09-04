@@ -145,7 +145,7 @@ class RawRangeAndAngle : public EM3000Datagram
             if (bn >= _beams.size())
                 bpa.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
             else
-                bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle();
+                bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle_in_degrees();
         }
 
         return bpa;
