@@ -1,4 +1,4 @@
-//sourcehash: a6754b53dd129ec59185b6427f13f05fc8786612ada898c50263588627381360
+//sourcehash: 1919ea8e269068cdd28fce8bb0ca33c15adc291c37dfd4f558e19ba415c9e072
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,12 +69,36 @@ R"doc(Get beam sample selection that selects all beams and samples
 Returns:
     pingtools::BeamSampleSelection)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_bottom_range_samples =
+R"doc(Get the sample number of the bottom detection for each beam
+
+Returns:
+    xt::xtensor<uint16_t, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_bottom_range_samples_2 =
+R"doc(Get the sample number of the bottom detection for each selected beam
+
+Parameter ``selection``:
+    Selection of Beams to extract
+
+Returns:
+    xt::xtensor<uint16_t, 1>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_bottom_range_samples =
+R"doc(Check this pings supports bottom range samples
 
 Returns:
     true

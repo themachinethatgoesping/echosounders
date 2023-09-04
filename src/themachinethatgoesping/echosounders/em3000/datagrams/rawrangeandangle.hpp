@@ -103,7 +103,7 @@ class RawRangeAndAngle : public EM3000Datagram
 
         for (const auto bn : beam_numbers)
         {
-            if (bn > _beams.size())
+            if (bn >= _beams.size())
                 twtt.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
             else
                 twtt.unchecked(bn) = _beams[bn].get_two_way_travel_time();
@@ -142,7 +142,7 @@ class RawRangeAndAngle : public EM3000Datagram
 
         for (const auto bn : beam_numbers)
         {
-            if (bn > _beams.size())
+            if (bn >= _beams.size())
                 bpa.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
             else
                 bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle();

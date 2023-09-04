@@ -103,7 +103,7 @@ class XYZDatagram : public EM3000Datagram
 
         for (const auto bn : beam_numbers)
         {
-            if (bn > _beams.size())
+            if (bn >= _beams.size())
             {
                 xyz.x.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
                 xyz.y.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();

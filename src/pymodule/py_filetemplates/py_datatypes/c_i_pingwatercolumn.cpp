@@ -58,6 +58,18 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  DOC_I_PingWatercolumn(get_amplitudes),
                  py::arg("beam_selection"))
 
+            .def("has_bottom_range_samples",
+                 py::overload_cast<>(&I_PingWatercolumn::has_bottom_range_samples, py::const_),
+                 DOC_I_PingWatercolumn(has_bottom_range_samples))
+            .def("get_bottom_range_samples",
+                 py::overload_cast<>(&I_PingWatercolumn::get_bottom_range_samples),
+                 DOC_I_PingWatercolumn(get_bottom_range_samples))
+            .def("get_bottom_range_samples",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_bottom_range_samples),
+                 DOC_I_PingWatercolumn(get_bottom_range_samples),
+                 py::arg("beam_selection"))
+
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(I_PingWatercolumn)

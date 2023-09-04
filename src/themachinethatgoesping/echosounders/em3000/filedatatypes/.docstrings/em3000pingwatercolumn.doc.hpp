@@ -1,4 +1,4 @@
-//sourcehash: 9ab29766aa00586e7a61afac01500daa6beb8ea5ecebe43f3c0e97394d68af7c
+//sourcehash: 39457e93844c95e03d864caae28fc027d1c0a7a7b68a68824b2dd7685e3fe9a5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,7 +46,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_get_beam_pointing_angles = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_get_beam_pointing_angles_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_get_bottom_range_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_get_detected_range_in_samples = R"doc()doc";
 
@@ -65,6 +65,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_get_wcinfos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_has_amplitudes = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_has_bottom_range_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_EM3000PingWatercolumn_load = R"doc()doc";
 

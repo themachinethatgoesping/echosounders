@@ -63,6 +63,8 @@ class I_PingWatercolumn : virtual public I_PingCommon
         : I_PingCommon("I_PingWatercolumn")
     {
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
+        register_feature("bottom_range_sample",
+                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
     virtual ~I_PingWatercolumn() = default;
 
@@ -71,6 +73,8 @@ class I_PingWatercolumn : virtual public I_PingCommon
         : I_PingCommon(other)
     {
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
+        register_feature("bottom_range_sample",
+                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 
     virtual xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam()
@@ -135,12 +139,42 @@ class I_PingWatercolumn : virtual public I_PingCommon
     }
 
     /**
+     * @brief Get the sample number of the bottom detection for each beam
+     *
+     * @return xt::xtensor<uint16_t, 1>
+     */
+    virtual xt::xtensor<uint16_t, 1> get_bottom_range_samples()
+    {
+        return get_bottom_range_samples(get_beam_selection_all());
+    }
+
+    /**
+     * @brief Get the sample number of the bottom detection for each selected beam
+     *
+     * @param selection Selection of Beams to extract
+     * @return xt::xtensor<uint16_t, 1>
+     */
+    virtual xt::xtensor<uint16_t, 1> get_bottom_range_samples(
+        [[maybe_unused]] const pingtools::BeamSelection& selection)
+    {
+        throw not_implemented(__func__, this->get_name());
+    }
+
+    /**
      * @brief Check this pings supports AMPLITUDES data
      *
      * @return true
      * @return false
      */
     virtual bool has_amplitudes() const { return false; }
+
+    /**
+     * @brief Check this pings supports bottom range samples
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_bottom_range_samples() const { return false; }
 
   public:
     // ----- objectprinter -----

@@ -96,23 +96,21 @@ class EM3000PingWatercolumn
     }
 
     // ----- getter/setters -----
-    const xt::xtensor<float, 1>& get_beam_pointing_angles()
-    {
-        return get_wcinfos().get_beam_pointing_angles();
-    }
-    xt::xtensor<float, 1> get_beam_pointing_angles(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<float, 1> get_beam_pointing_angles(
+        const pingtools::BeamSelection& selection) override
     {
         const auto beam_numbers = selection.get_beam_numbers();
 
         auto beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+        const auto& wcinfos       = get_wcinfos();
 
         for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
         {
-            if (beam_numbers[nr] >= get_beam_pointing_angles().size())
+            if (beam_numbers[nr] >= wcinfos.get_beam_pointing_angles().size())
                 beam_pointing_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
             else
                 beam_pointing_angles.unchecked(nr) =
-                    get_beam_pointing_angles().unchecked(beam_numbers[nr]);
+                    wcinfos.get_beam_pointing_angles().unchecked(beam_numbers[nr]);
         }
 
         return beam_pointing_angles;
@@ -152,6 +150,12 @@ class EM3000PingWatercolumn
         return raw_data()
                    .get_datagram_infos_by_type(t_EM3000DatagramIdentifier::WatercolumnDatagram)
                    .size() > 0;
+    }
+
+    bool has_bottom_range_samples() const override
+    {
+        // TODO: this is not true for datagrams in SonarMode!
+        return has_amplitudes();
     }
 
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
@@ -204,6 +208,27 @@ class EM3000PingWatercolumn
         }
 
         return amplitudes;
+    }
+
+    xt::xtensor<uint16_t, 1> get_bottom_range_samples(
+        const pingtools::BeamSelection& selection) override
+    {
+        auto bottom_range_samples =
+            xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
+
+        auto& range_samples         = get_wcinfos().get_detected_range_in_samples();
+        auto  number_of_beams       = get_number_of_beams();
+        auto& selected_beam_numbers = selection.get_beam_numbers();
+
+        for (size_t i = 0; i < selected_beam_numbers.size(); ++i)
+        {
+            if (selected_beam_numbers[i] < number_of_beams)
+                bottom_range_samples[i] = range_samples[selected_beam_numbers[i]];
+            else
+                bottom_range_samples[i] = 0;
+        }
+
+        return bottom_range_samples;
     }
 
     // ----- objectprinter -----
