@@ -68,7 +68,7 @@ class PingSampleSelector
         size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
 
         tools::pyhelper::PyIndexer beam_indexer(
-            number_of_beams, min_beam_number, max_beam_number, _beam_step);
+            number_of_beams, min_beam_number, max_beam_number+1, _beam_step);
 
         for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
         {
