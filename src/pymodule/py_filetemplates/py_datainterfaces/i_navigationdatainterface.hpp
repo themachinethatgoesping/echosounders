@@ -22,6 +22,14 @@ namespace py_filetemplates {
 namespace py_datainterfaces {
 namespace py_i_navigationdatainterface {
 
+#define DOC_I_NavigationDataInterface(ARG)                                                         \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datainterfaces,                                                                            \
+        I_NavigationDataInterface,                                                                 \
+        ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void NavigationDataInterface_add_interface(T_PyClass& cls)
 {
@@ -31,55 +39,27 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
 
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                configuration_data_interface));
+            DOC_I_NavigationDataInterface(configuration_data_interface));
     cls.def("get_navigation_data",
             &T_BaseClass::get_navigation_data,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                get_navigation_data));
+            DOC_I_NavigationDataInterface(get_navigation_data));
     cls.def("get_geolocation",
             &T_BaseClass::get_geolocation,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                get_geolocation),
+            DOC_I_NavigationDataInterface(get_geolocation),
             py::arg("channel_id"),
+            py::arg("timestamp"));
+    cls.def("get_sensor_data",
+            &T_BaseClass::get_sensor_data,
+            DOC_I_NavigationDataInterface(get_sensor_data),
             py::arg("timestamp"));
     cls.def("get_sensor_configuration",
             &T_BaseClass::get_sensor_configuration,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                get_sensor_configuration));
+            DOC_I_NavigationDataInterface(get_sensor_configuration));
     cls.def("set_sensor_configuration",
             &T_BaseClass::set_sensor_configuration,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                set_sensor_configuration),
+            DOC_I_NavigationDataInterface(set_sensor_configuration),
             py::arg("sensor_configuration"));
-    cls.def("channel_ids",
-            &T_BaseClass::channel_ids,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_NavigationDataInterface,
-                channel_ids));
+    cls.def("channel_ids", &T_BaseClass::channel_ids, DOC_I_NavigationDataInterface(channel_ids));
 }
 
 }

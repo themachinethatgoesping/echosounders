@@ -49,6 +49,9 @@ class I_Ping : virtual public I_PingCommon
   protected:
     std::string _channel_id;    ///< channel id of the transducer
     double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
+    navigation::datastructures::SensorDataLatLon                  _sensor_data_latlon;
+
     navigation::datastructures::GeoLocationLatLon
         _geolocation; ///< Geolocation of the transducer. A
                       /// Geolocation object holds lat,lon and attitude of
@@ -97,18 +100,39 @@ class I_Ping : virtual public I_PingCommon
      *
      * @return const navigation::datastructures::GeoLocationLatLon&
      */
-    const navigation::datastructures::GeoLocationLatLon& get_geolocation() const
+    navigation::datastructures::GeoLocationLatLon get_geolocation(
+        const std::string& target_id = "Transducer") const
     {
-        return _geolocation;
+        return get_sensor_configuration().compute_target_position(target_id, _sensor_data_latlon);
     }
 
-    /**
-     * @brief Set the geolocation of the transducer.
-     */
-    void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
+    const navigation::SensorConfiguration& get_sensor_configuration() const
     {
-        _geolocation = std::move(geolocation);
+        return _sensor_configuration.get();
     }
+
+    void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
+    {
+        _sensor_configuration = sensor_configuration;
+    }
+
+    const navigation::datastructures::SensorDataLatLon& get_sensor_data_latlon() const
+    {
+        return _sensor_data_latlon;
+    }
+
+    void set_sensor_data_latlon(const navigation::datastructures::SensorDataLatLon& sensor_data)
+    {
+        _sensor_data_latlon = sensor_data;
+    }
+
+    // /**
+    //  * @brief Set the geolocation of the transducer.
+    //  */
+    // void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
+    // {
+    //     _geolocation = std::move(geolocation);
+    // }
 
     void load() override
     {
@@ -203,7 +227,13 @@ class I_Ping : virtual public I_PingCommon
             watercolumn().print_features(printer);
 
         printer.register_section("Geolocation");
-        printer.append(_geolocation.__printer__(float_precision));
+        printer.append(get_geolocation("Transducer").__printer__(float_precision));
+
+        printer.register_section("Sensor data");
+        printer.append(_sensor_data_latlon.__printer__(float_precision));
+
+        printer.register_section("Sensor configuration");
+        printer.append(get_sensor_configuration().__printer__(float_precision));
 
         return printer;
     }

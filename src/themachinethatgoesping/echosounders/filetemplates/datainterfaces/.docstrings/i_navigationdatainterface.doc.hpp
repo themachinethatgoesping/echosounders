@@ -1,4 +1,4 @@
-//sourcehash: f8d896761ac539269cef1ef646273a6fd71a8e3f21505aeec119ba039c8339a4
+//sourcehash: 2631ce283c3007ed81f966eeadf3379a26ba9a90a77fc6280428476eceb9041e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,6 +59,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_sensor_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_init_from_file = R"doc()doc";
 

@@ -166,8 +166,14 @@ class EM3000PingDataInterfacePerFile
                 // load transducer locations from navigation
                 try
                 {
-                    ping_ptr->set_geolocation(this->navigation_data_interface().get_geolocation(
-                        channel_id, ping_ptr->get_timestamp()));
+                    auto sensor_configuration =
+                        this->navigation_data_interface().get_sensor_configuration();
+                    sensor_configuration.add_target("Transducer",
+                                                    sensor_configuration.get_target(channel_id));
+                    ping_ptr->set_sensor_configuration(std::move(sensor_configuration));
+                    ping_ptr->set_sensor_data_latlon(
+                        this->navigation_data_interface().get_sensor_data(
+                            ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {

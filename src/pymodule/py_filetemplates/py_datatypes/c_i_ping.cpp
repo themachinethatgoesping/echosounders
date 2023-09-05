@@ -50,14 +50,32 @@ void init_c_i_ping(pybind11::module& m)
                  DOC_I_Ping(channel_id),
                  py::arg("channel_id"))
 
+            .def("get_sensor_configuration",
+                 &I_Ping::get_sensor_configuration,
+                 DOC_I_Ping(sensor_configuration),
+                 py::return_value_policy::reference_internal)
+            .def("set_sensor_configuration",
+                 &I_Ping::set_sensor_configuration,
+                 DOC_I_Ping(sensor_configuration),
+                 py::arg("sensor_configuration"))
+            .def("get_sensor_data_latlon",
+                 &I_Ping::get_sensor_data_latlon,
+                 DOC_I_Ping(sensor_data_latlon),
+                 py::return_value_policy::reference_internal)
+            .def("set_sensor_data_latlon",
+                 &I_Ping::set_sensor_data_latlon,
+                 DOC_I_Ping(sensor_data_latlon),
+                 py::arg("sensor_data_latlon"))
             .def("get_geolocation",
-                 py::overload_cast<>(&I_Ping::get_geolocation, py::const_),
-                 DOC_I_Ping(get_geolocation))
-            .def("set_geolocation",
-                 py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
-                     &I_Ping::set_geolocation),
+                 py::overload_cast<const std::string&>(&I_Ping::get_geolocation, py::const_),
                  DOC_I_Ping(get_geolocation),
-                 py::arg("geolocation_latlon"))
+                 py::arg("target_id") = "Transducer")
+
+            // .def("set_geolocation",
+            //      py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
+            //          &I_Ping::set_geolocation),
+            //      DOC_I_Ping(get_geolocation),
+            //      py::arg("geolocation_latlon"))
 
             // --- ping interface (Documentation states that these functions are not implemented)
             // ---

@@ -167,6 +167,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolator(target_id, timestamp);
     }
 
+    navigation::datastructures::SensorDataLatLon get_sensor_data(double timestamp)
+    {
+        return _navigation_interpolator.get_sensor_data(timestamp);
+    }
+
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
     {
         _navigation_interpolator.set_sensor_configuration(sensor_configuration);

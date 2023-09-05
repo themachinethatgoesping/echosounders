@@ -67,8 +67,6 @@ class SimradPing : public filetemplates::datatypes::I_Ping
 
     SimradPingRawData<t_ifstream>& raw_data() { return _raw_data; }
 
-    using t_base1::set_geolocation;
-
     size_t get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
     std::string get_file_path() const final
     {

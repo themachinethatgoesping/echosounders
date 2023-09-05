@@ -121,8 +121,15 @@ class SimradPingDataInterfacePerFile
                     }
 
                     ping->raw_data().add_parameter(_channel_parameter_buffer.get(channel_id));
-                    ping->set_geolocation(this->navigation_data_interface().get_geolocation(
-                        channel_id, ping->get_timestamp()));
+
+                    auto sensor_configuration =
+                        this->navigation_data_interface().get_sensor_configuration();
+                    sensor_configuration.add_target("Transducer",
+                                                    sensor_configuration.get_target(channel_id));
+                    ping->set_sensor_configuration(std::move(sensor_configuration));
+
+                    ping->set_sensor_data_latlon(
+                        this->navigation_data_interface().get_sensor_data(ping->get_timestamp()));
 
                     pings.add_ping(ping);
                     break;
