@@ -266,7 +266,7 @@ class I_InputFile
 
         try
         {
-            while (pos < signed(file_info.file_size))
+            while (size_t(pos) < file_info.file_size)
             {
                 //  this function may return nonsense...
                 // auto header = t_DatagramBase::from_stream(ifs);
@@ -288,7 +288,10 @@ class I_InputFile
                 }
                 else
                 {
-                    break;
+                    if (size_t(pos) < file_info.file_size)
+                        throw std::runtime_error("File read incompletely.");
+                    else
+                        break;
                 }
             }
         }
