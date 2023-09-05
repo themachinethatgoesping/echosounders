@@ -79,28 +79,6 @@ class I_Ping : virtual public I_PingCommon
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
     }
 
-    // ----- i_ping_common_interface -----
-    uint16_t get_number_of_beams() override
-    {
-        if (has_bottom())
-            return bottom().get_number_of_beams();
-        else if (has_watercolumn())
-            return watercolumn().get_number_of_beams();
-
-        return 0;
-    }
-
-    using t_base::get_beam_pointing_angles;
-    xt::xtensor<float, 1> get_beam_pointing_angles(const pingtools::BeamSelection& bs) override
-    {
-        if (has_bottom())
-            return bottom().get_beam_pointing_angles(bs);
-        else if (has_watercolumn())
-            return watercolumn().get_beam_pointing_angles(bs);
-
-        return {};
-    }
-
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
     const std::string& get_channel_id() const { return _channel_id; }

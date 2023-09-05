@@ -1,4 +1,4 @@
-//sourcehash: 8e7f039c80e564e1fa33ddca3d0f81f88c1d9c751b483e7e43b4eb6585bb32d5
+//sourcehash: 6fd8e94b64021ee9714f6feea8ddff669c5a096a36b9d993aaf6b26159114793
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,30 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_pointing_angles =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_pointing_angles_2 =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
+R"doc(Get a beam selection object that selects all beams
+
+Returns:
+    pingtools::BeamSelection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams =
+R"doc(Get the number of beams for this ping
+
+Returns:
+    uint16_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
 R"doc(Get the two way travel times of the bottom detection samples

@@ -77,6 +77,45 @@ class I_PingWatercolumn : virtual public I_PingCommon
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 
+    // --- common functions for all ping types ---
+    /**
+     * @brief Get a beam selection object that selects all beams
+     *
+     * @return pingtools::BeamSelection
+     */
+    pingtools::BeamSelection get_beam_selection_all()
+    {
+        return pingtools::BeamSelection(get_number_of_beams());
+    }
+
+    /**
+     * @brief Get the number of beams for this ping
+     *
+     * @return uint16_t
+     */
+    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
+
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_pointing_angles()
+    {
+        return get_beam_pointing_angles(get_beam_selection_all());
+    }
+
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
     virtual xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam()
     {
         throw not_implemented(__func__, get_name());

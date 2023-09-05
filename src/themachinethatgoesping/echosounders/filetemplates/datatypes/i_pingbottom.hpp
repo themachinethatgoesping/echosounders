@@ -77,6 +77,45 @@ class I_PingBottom : virtual public I_PingCommon
     //------ interface / accessors -----
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
 
+    // --- common functions for all ping types ---
+    /**
+     * @brief Get a beam selection object that selects all beams
+     *
+     * @return pingtools::BeamSelection
+     */
+    pingtools::BeamSelection get_beam_selection_all()
+    {
+        return pingtools::BeamSelection(get_number_of_beams());
+    }
+
+    /**
+     * @brief Get the number of beams for this ping
+     *
+     * @return uint16_t
+     */
+    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
+
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_pointing_angles()
+    {
+        return get_beam_pointing_angles(get_beam_selection_all());
+    }
+
+    /**
+     * @brief Get the beam pointing angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
     /**
      * @brief Get an XYZ object containing the XYZ position of the bottom detection
      * Note: XYZ is in the local coordinate system of the ping!

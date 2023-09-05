@@ -1,4 +1,4 @@
-//sourcehash: 1919ea8e269068cdd28fce8bb0ca33c15adc291c37dfd4f558e19ba415c9e072
+//sourcehash: 91717f01755a434f01ee84683e1dca6c3b74beb0c19c3aa6e871407aeffcc8fc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,11 +63,29 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<float,2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_pointing_angles =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_pointing_angles_2 =
+R"doc(Get the beam pointing angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_sample_selection_all =
 R"doc(Get beam sample selection that selects all beams and samples
 
 Returns:
     pingtools::BeamSampleSelection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_selection_all =
+R"doc(Get a beam selection object that selects all beams
+
+Returns:
+    pingtools::BeamSelection)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_bottom_range_samples =
 R"doc(Get the sample number of the bottom detection for each beam
@@ -85,6 +103,12 @@ Returns:
     xt::xtensor<uint16_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_beams =
+R"doc(Get the number of beams for this ping
+
+Returns:
+    uint16_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 

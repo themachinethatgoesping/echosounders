@@ -125,8 +125,6 @@ class EM3000Ping
     }
 
     // ----- I_Ping interface -----
-    using t_base1::get_beam_pointing_angles;
-    using t_base1::get_number_of_beams;
     using t_base2::raw_data;
 
     // size_t get_number_of_beams() const final {

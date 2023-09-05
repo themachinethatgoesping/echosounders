@@ -34,6 +34,21 @@ void init_c_i_pingbottom(pybind11::module& m)
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingBottom))
 
             // ---- pingbottom interface ----
+            .def("get_beam_selection_all",
+                 py::overload_cast<>(&I_PingBottom::get_beam_selection_all),
+                 DOC_I_PingBottom(get_beam_selection_all))
+
+            .def("get_number_of_beams",
+                 &I_PingBottom::get_number_of_beams,
+                 DOC_I_PingBottom(get_number_of_beams))
+            .def("get_beam_pointing_angles",
+                 py::overload_cast<>(&I_PingBottom::get_beam_pointing_angles),
+                 DOC_I_PingBottom(get_beam_pointing_angles))
+            .def("get_beam_pointing_angles",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingBottom::get_beam_pointing_angles),
+                 DOC_I_PingBottom(get_beam_pointing_angles),
+                 py::arg("beam_selection"))
 
             // ----- features -----
             .def("has_beam_pointing_angles",

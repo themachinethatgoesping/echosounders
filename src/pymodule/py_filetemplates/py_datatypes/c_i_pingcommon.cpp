@@ -33,22 +33,6 @@ void init_c_i_pingcommon(pybind11::module& m)
             "I_PingCommon",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingCommon))
 
-            .def("get_beam_selection_all",
-                 py::overload_cast<>(&I_PingCommon::get_beam_selection_all),
-                 DOC_I_PingCommon(get_beam_selection_all))
-
-            .def("get_number_of_beams",
-                 &I_PingCommon::get_number_of_beams,
-                 DOC_I_PingCommon(get_number_of_beams))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<>(&I_PingCommon::get_beam_pointing_angles),
-                 DOC_I_PingCommon(get_beam_pointing_angles))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<const pingtools::BeamSelection&>(
-                     &I_PingCommon::get_beam_pointing_angles),
-                 DOC_I_PingCommon(get_beam_pointing_angles),
-                 py::arg("beam_selection"))
-
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),

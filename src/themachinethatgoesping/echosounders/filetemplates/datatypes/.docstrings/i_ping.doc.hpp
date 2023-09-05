@@ -1,4 +1,4 @@
-//sourcehash: 8bf8e96fecacdb8708a4292575a35b06c36aaa1d2123d3e51b2779d7daf84957
+//sourcehash: b8892c162467ab1d55b80cc01e3182b3a896eb09182d0151c0ffece64f44a980
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,8 +52,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_beam_pointing_angles = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_nr = R"doc()doc";
@@ -65,8 +63,6 @@ R"doc(Get the geolocation of the transducer.
 
 Returns:
     const navigation::datastructures::GeoLocationLatLon&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_timestamp = R"doc()doc";
 
