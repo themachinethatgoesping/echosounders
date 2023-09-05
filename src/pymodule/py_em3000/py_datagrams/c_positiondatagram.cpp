@@ -75,6 +75,12 @@ void init_c_positiondatagram(pybind11::module& m)
         .def("get_size_of_input_datagram",
              &PositionDatagram::get_size_of_input_datagram,
              DOC_PositionDatagram(size_of_input_datagram))
+        .def("set_input_datagram",
+             &PositionDatagram::set_input_datagram,
+             DOC_PositionDatagram(set_input_datagram))
+        .def("get_input_datagram",
+             &PositionDatagram::get_input_datagram,
+             DOC_PositionDatagram(get_input_datagram))
 
         // --- processed member access ---
         .def("get_latitude_in_degrees",
