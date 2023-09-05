@@ -220,6 +220,9 @@ class EM3000ConfigurationDataInterfacePerFile
         // add the depth sensor
         config.set_depth_source(param.get_depth_sensor_offsets());
 
+        // add the waterline offset
+        config.set_waterline_offset(param.get_water_line_vertical_location_in_meters());
+
         // add the gyro
         config.set_attitude_source(param.get_attitude_sensor_offsets(_active_pitch_roll_sensor));
 
