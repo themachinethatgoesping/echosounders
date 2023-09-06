@@ -1,4 +1,4 @@
-//sourcehash: e84958b477ac6107a5307862a80a3879c13e97a452f6e1f0260781ed71f353a6
+//sourcehash: 60c29d655591c0ae16a611b7fde03d40bbf9b4eaf74e88ae16bb4226d39a0c31
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,7 +48,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_FileInfoData_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_datagram_infos = R"doc(< all datagrams)doc";
 
@@ -88,6 +88,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_I_InputFile_5 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_I_InputFile_6 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_append_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_append_file_2 = R"doc()doc";
@@ -95,6 +97,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_append_files = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_append_files_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_cached_index_per_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_callback_scan_new_file_begin = R"doc()doc";
 
@@ -106,9 +110,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_datagram_interface_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_file_infos_per_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_get_index = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_get_cached_file_index = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_init_interfaces = R"doc()doc";
 

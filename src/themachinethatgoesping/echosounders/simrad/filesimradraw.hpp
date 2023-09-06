@@ -45,6 +45,7 @@ class FileSimradRaw
     : public filetemplates::I_InputFile<datagrams::SimradDatagram,
                                         filedatainterfaces::SimradDatagramInterface<t_ifstream>>
 {
+  public:
     // ----- types -----
     using t_base =
         filetemplates::I_InputFile<datagrams::SimradDatagram,
@@ -62,6 +63,10 @@ class FileSimradRaw
     using t_OtherFileDataDataInterface =
         typename filedatainterfaces::SimradOtherFileDataInterface<t_ifstream>;
 
+    using typename t_base::FileInfoData;
+    using typename t_base::FileInfos;
+
+  private:
     // ----- file data interfaces -----
     std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
         std::make_shared<t_ConfigurationDataInterface>();
@@ -85,32 +90,44 @@ class FileSimradRaw
     // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileSimradRaw(const std::string& file_path, bool init = true, bool show_progress = true)
+    FileSimradRaw(const std::string&                         file_path,
+                  const std::map<std::string, FileInfoData>& cached_index =
+                      std::map<std::string, FileInfoData>(),
+                  bool init          = true,
+                  bool show_progress = true)
+        : t_base(cached_index)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileSimradRaw(const std::string&                  file_path,
-                  bool                                init,
-                  tools::progressbars::I_ProgressBar& progress_bar)
+    FileSimradRaw(const std::string&                         file_path,
+                  const std::map<std::string, FileInfoData>& cached_index,
+                  bool                                       init,
+                  tools::progressbars::I_ProgressBar&        progress_bar)
+        : t_base(cached_index)
     {
         this->append_file(file_path, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
 
-    FileSimradRaw(const std::vector<std::string>& file_paths,
-                  bool                            init          = true,
-                  bool                            show_progress = true)
+    FileSimradRaw(const std::vector<std::string>&            file_paths,
+                  const std::map<std::string, FileInfoData>& cached_index =
+                      std::map<std::string, FileInfoData>(),
+                  bool init          = true,
+                  bool show_progress = true)
+        : t_base(cached_index)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileSimradRaw(const std::vector<std::string>&     file_paths,
-                  bool                                init,
-                  tools::progressbars::I_ProgressBar& progress_bar)
+    FileSimradRaw(const std::vector<std::string>&            file_paths,
+                  const std::map<std::string, FileInfoData>& cached_index,
+                  bool                                       init,
+                  tools::progressbars::I_ProgressBar&        progress_bar)
+        : t_base(cached_index)
     {
         this->append_files(file_paths, progress_bar);
         if (init)
@@ -190,34 +207,22 @@ class FileSimradRaw
     {
     }
 
-    filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
-    callback_scan_packet(t_ifstream& ifs, size_t pos, size_t file_paths_cnt) final
+    void callback_scan_packet(
+        const filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>&
+            datagram_info) final
     {
-        auto header = datagrams::SimradDatagram::from_stream(ifs);
-        auto type   = header.get_datagram_identifier();
-
-        auto datagram_info = std::make_shared<
-            filetemplates::datatypes::DatagramInfo<t_SimradDatagramIdentifier, t_ifstream>>(
-            file_paths_cnt,
-            pos,
-            this->_input_file_manager,
-            header.get_timestamp(),
-            header.get_datagram_identifier());
-
-        switch (type)
+        switch (datagram_info->get_datagram_identifier())
         {
             case t_SimradDatagramIdentifier::MRU0:
                 [[fallthrough]];
             case t_SimradDatagramIdentifier::NME0: {
                 _navigation_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
+                auto xml = datagram_info->template read_datagram_from_file<datagrams::XML0>();
 
-                auto xml = datagrams::XML0::from_stream(ifs, header);
-
-                if (!ifs.good())
+                if (!datagram_info->get_stream().good())
                     break;
 
                 auto xml_type = xml.get_xml_datagram_type();
@@ -247,26 +252,21 @@ class FileSimradRaw
             }
             case t_SimradDatagramIdentifier::RAW3: {
                 _ping_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::FIL1: {
                 _configuration_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             case t_SimradDatagramIdentifier::TAG0: {
                 _annotation_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             default: {
                 _otherfiledata_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
         }
-        return datagram_info;
     }
 
   public:

@@ -41,6 +41,7 @@ class FileEM3000
     : public filetemplates::I_InputFile<datagrams::EM3000Datagram,
                                         filedatainterfaces::EM3000DatagramInterface<t_ifstream>>
 {
+  public:
     using t_base =
         filetemplates::I_InputFile<datagrams::EM3000Datagram,
                                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
@@ -58,6 +59,10 @@ class FileEM3000
         typename filedatainterfaces::EM3000EnvironmentDataInterface<t_ifstream>;
     using t_PingDataInterface = typename filedatainterfaces::EM3000PingDataInterface<t_ifstream>;
 
+    using typename t_base::FileInfoData;
+    using typename t_base::FileInfos;
+
+  private:
     // ----- file data interfaces -----
     std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
         std::make_shared<t_OtherFileDataInterface>();
@@ -81,32 +86,44 @@ class FileEM3000
     // t_EM3000DatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileEM3000(const std::string& file_path, bool init = true, bool show_progress = true)
+    FileEM3000(const std::string&                         file_path,
+               const std::map<std::string, FileInfoData>& cached_index =
+                   std::map<std::string, FileInfoData>(),
+               bool init          = true,
+               bool show_progress = true)
+        : t_base(cached_index)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000(const std::string&                  file_path,
-               bool                                init,
-               tools::progressbars::I_ProgressBar& progress_bar)
+    FileEM3000(const std::string&                         file_path,
+               const std::map<std::string, FileInfoData>& cached_index,
+               bool                                       init,
+               tools::progressbars::I_ProgressBar&        progress_bar)
+        : t_base(cached_index)
     {
         this->append_file(file_path, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
 
-    FileEM3000(const std::vector<std::string>& file_paths,
-               bool                            init          = true,
-               bool                            show_progress = true)
+    FileEM3000(const std::vector<std::string>&            file_paths,
+               const std::map<std::string, FileInfoData>& cached_index =
+                   std::map<std::string, FileInfoData>(),
+               bool init          = true,
+               bool show_progress = true)
+        : t_base(cached_index)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000(const std::vector<std::string>&     file_paths,
-               bool                                init,
-               tools::progressbars::I_ProgressBar& progress_bar)
+    FileEM3000(const std::vector<std::string>&            file_paths,
+               const std::map<std::string, FileInfoData>& cached_index,
+               bool                                       init,
+               tools::progressbars::I_ProgressBar&        progress_bar)
+        : t_base(cached_index)
     {
         this->append_files(file_paths, progress_bar);
         if (init)
@@ -232,7 +249,7 @@ class FileEM3000
 
         progress_bar.set_prefix("Initializing ping interface");
         _ping_interface->init_from_file(force, progress_bar, true);
-        
+
         progress_bar.close(std::string("Done"));
     }
 
@@ -277,18 +294,11 @@ class FileEM3000
     {
     }
 
-    filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
-    callback_scan_packet(t_ifstream& ifs, size_t pos, size_t file_paths_cnt) final
+    void callback_scan_packet(
+        const filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>&
+            datagram_info) final
     {
-        auto header    = datagrams::EM3000Datagram::from_stream(ifs);
-        auto type      = header.get_datagram_identifier();
-        auto timestamp = header.get_timestamp();
-
-        auto datagram_info = std::make_shared<
-            filetemplates::datatypes::DatagramInfo<t_EM3000DatagramIdentifier, t_ifstream>>(
-            file_paths_cnt, pos, this->_input_file_manager, timestamp, type);
-
-        switch (type)
+        switch (datagram_info->get_datagram_identifier())
         {
                 // Navigation datagrams
             case t_EM3000DatagramIdentifier::AttitudeDatagram:
@@ -305,7 +315,6 @@ class FileEM3000
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::SingleBeamEchoSounderDepth: {
                 _navigation_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             // multibeam data datagrams
@@ -321,7 +330,6 @@ class FileEM3000
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
                 _ping_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
                 // Environment datagrams
@@ -329,7 +337,6 @@ class FileEM3000
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::SoundSpeedProfileDatagram: {
                 _environment_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
                 // Configuration datagrams
@@ -343,17 +350,13 @@ class FileEM3000
                 [[fallthrough]];
             case t_EM3000DatagramIdentifier::ExtraParameters: {
                 _configuration_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
             default: {
                 _otherfiledata_interface->add_datagram_info(datagram_info);
-                header.skip(ifs);
                 break;
             }
         }
-
-        return datagram_info;
     }
 
   public:

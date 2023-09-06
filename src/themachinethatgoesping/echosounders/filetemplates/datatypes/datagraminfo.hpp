@@ -35,8 +35,6 @@ namespace datatypes {
 template<typename t_DatagramIdentifier>
 class DatagramInfoData
 {
-    DatagramInfoData() = default; // for from_stream()
-
   protected:
     size_t               _file_pos;
     double               _timestamp;           ///< timestamp (unixtime) of this datagram
@@ -47,6 +45,7 @@ class DatagramInfoData
     using type_DatagramIdentifier = t_DatagramIdentifier;
     using t_base                  = DatagramInfoData<t_DatagramIdentifier>;
 
+    DatagramInfoData() = default; 
     DatagramInfoData(const DatagramInfoData&) = default;
 
     DatagramInfoData(size_t file_pos, double timestamp, t_DatagramIdentifier datagram_identifier)
@@ -95,7 +94,7 @@ class DatagramInfoData
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(DatagramInfoData<t_DatagramIdentifier>)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(DatagramInfoData<t_DatagramIdentifier>)
 };
 
 template<typename t_DatagramIdentifier, typename t_ifstream>
