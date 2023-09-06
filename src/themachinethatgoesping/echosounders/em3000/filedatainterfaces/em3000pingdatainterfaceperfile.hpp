@@ -64,7 +64,8 @@ class EM3000PingDataInterfacePerFile
         using t_ping          = filedatatypes::EM3000Ping<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        std::map<uint16_t, std::map<uint16_t, t_ping_ptr>> pings_by_counter_by_id;
+        std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
+            pings_by_counter_by_id;
 
         // read the file installation parameters and build a base ping
         auto param =
@@ -92,21 +93,23 @@ class EM3000PingDataInterfacePerFile
                         auto system_serial_number = rp->get_system_serial_number();
 
                         // create a new ping if it does not exist
-                        if (pings_by_counter_by_id[ping_counter].find(system_serial_number) ==
-                            pings_by_counter_by_id[ping_counter].end())
+                        auto ping_it =
+                            pings_by_counter_by_id[ping_counter].find(system_serial_number);
+                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
                         {
                             pings_by_counter_by_id[ping_counter][system_serial_number] =
                                 std::make_shared<t_ping>(base_ping.deep_copy());
+
+                            ping_it =
+                                pings_by_counter_by_id[ping_counter].find(system_serial_number);
                         }
 
                         // add deduplicated runtime parameters
-                        pings_by_counter_by_id[ping_counter][system_serial_number]
-                            ->set_runtime_parameters(_runtime_parameter_buffer.get(
-                                std::to_string(rp->get_system_serial_number())));
+                        ping_it->second->set_runtime_parameters(_runtime_parameter_buffer.get(
+                            std::to_string(rp->get_system_serial_number())));
 
                         // add runtime parameters datagram
-                        pings_by_counter_by_id[ping_counter][system_serial_number]
-                            ->add_datagram_info(datagram_ptr);
+                        ping_it->second->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }
@@ -133,17 +136,18 @@ class EM3000PingDataInterfacePerFile
                         ifs.read(reinterpret_cast<char*>(&system_serial_number), sizeof(uint16_t));
 
                         // create a new ping if it does not exist
-                        if (pings_by_counter_by_id[ping_counter].find(system_serial_number) ==
-                            pings_by_counter_by_id[ping_counter].end())
+                        auto ping_it =
+                            pings_by_counter_by_id[ping_counter].find(system_serial_number);
+                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
                         {
                             pings_by_counter_by_id[ping_counter][system_serial_number] =
                                 std::make_shared<t_ping>(base_ping.deep_copy());
+
+                            ping_it =
+                                pings_by_counter_by_id[ping_counter].find(system_serial_number);
                         }
 
-                        auto& ping =
-                            pings_by_counter_by_id.at(ping_counter).at(system_serial_number);
-
-                        ping->add_datagram_info(datagram_ptr);
+                        ping_it->second->add_datagram_info(datagram_ptr);
                     }
                     break;
                 }
@@ -185,9 +189,6 @@ class EM3000PingDataInterfacePerFile
                         ping_ptr->get_timestamp(),
                         e.what()));
                 }
-
-                // load datagrams
-                // ping_ptr->loadgrams();
 
                 pings.add_ping(std::move(ping_ptr));
             }

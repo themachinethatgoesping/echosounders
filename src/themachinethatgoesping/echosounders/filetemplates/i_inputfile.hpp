@@ -282,7 +282,7 @@ class I_InputFile
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));
 
-                    file_info.datagram_infos.push_back(datagram_info);
+                    file_info.datagram_infos.push_back(std::move(datagram_info));
 
                     pos = pos_new;
                 }

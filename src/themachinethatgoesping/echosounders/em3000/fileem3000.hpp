@@ -232,6 +232,7 @@ class FileEM3000
 
         progress_bar.set_prefix("Initializing ping interface");
         _ping_interface->init_from_file(force, progress_bar, true);
+        
         progress_bar.close(std::string("Done"));
     }
 
@@ -345,53 +346,6 @@ class FileEM3000
                 header.skip(ifs);
                 break;
             }
-                //     case t_EM3000DatagramIdentifier::XML0: {
-
-                //         auto xml = datagrams::XML0::from_stream(ifs, header);
-
-                //         if (!ifs.good())
-                //             break;
-
-                //         auto xml_type = xml.get_xml_datagram_type();
-
-                //         if (xml_type == "Parameter")
-                //         {
-                //             _ping_interface->add_datagram_info(datagram_info);
-                //         }
-                //         else if (xml_type == "InitialParameter")
-                //         {
-                //             _ping_interface->add_datagram_info(datagram_info);
-                //         }
-                //         else if (xml_type == "Configuration")
-                //         {
-                //             _configuration_interface->add_datagram_info(datagram_info);
-                //         }
-                //         else if (xml_type == "Environment")
-                //         {
-                //             _environment_interface->add_datagram_info(datagram_info);
-                //         }
-                //         else
-                //         {
-                //             _otherfiledata_interface->add_datagram_info(datagram_info);
-                //         }
-                //         // don't skip here, because the XML datagram was read already
-                //         break;
-                //     }
-                //     case t_EM3000DatagramIdentifier::RAW3: {
-                //         _ping_interface->add_datagram_info(datagram_info);
-                //         header.skip(ifs);
-                //         break;
-                //     }
-                //     case t_EM3000DatagramIdentifier::FIL1: {
-                //         _configuration_interface->add_datagram_info(datagram_info);
-                //         header.skip(ifs);
-                //         break;
-                //     }
-                //     case t_EM3000DatagramIdentifier::TAG0: {
-                //         _annotation_interface->add_datagram_info(datagram_info);
-                //         header.skip(ifs);
-                //         break;
-                //     }
             default: {
                 _otherfiledata_interface->add_datagram_info(datagram_info);
                 header.skip(ifs);
