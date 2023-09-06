@@ -65,11 +65,14 @@ inline simrad_long SimradDatagram_type_from_string(std::string_view value)
 
 // ----- interface? -----
 
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 inline std::string datagram_identifier_to_string(simrad::t_SimradDatagramIdentifier value)
 {
     return tools::helper::int_as_string<simrad::simrad_long>(simrad::simrad_long(value));
 }
 
+
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(simrad::t_SimradDatagramIdentifier datagram_type)
 {
     // this should work, but doesn't

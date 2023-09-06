@@ -1,4 +1,4 @@
-//sourcehash: 2beda81f91225cd72ff4eda9f0b292fe7d4d2f1b157e51e4f81a84ebaa07fcd2
+//sourcehash: 6826d3f53f81791cab6f87c426c1e8b5eed8941295764b1f2e6641adc51572f5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,31 +40,49 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_DatagramInfoData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_DatagramInfoData_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_DatagramInfoData_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_datagram_identifier = R"doc(< datagram type of this datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_file_pos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_datagram_identifier = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_file_pos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_timestamp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_to_stream = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_DatagramInfo = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_datagram_identifier = R"doc(< datagram type of this datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_DatagramInfo_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_file_nr = R"doc(< file number of this datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_file_pos =
-R"doc(< file position of this datagram TODO: is this the < same for ifstream
-and MappedFileStream?)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_datagram_identifier = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_file_pos = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_stream_and_seek = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_get_timestamp = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_input_file_manager = R"doc(< input file manager)doc";
 
@@ -81,10 +99,6 @@ Parameter ``skip_data``:
     $Returns:
 
 t_DatagramType)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

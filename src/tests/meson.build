@@ -8,6 +8,9 @@ testcomponent = 'echosounders'
 
 sources = [
     'tutorial.test.cpp',
+
+    'filetemplates/datatypes/datagraminfodata.test.cpp',
+
     'pingtools/pingsampleselector.test.cpp',
     'pingtools/beamselection.test.cpp',
     'pingtools/beamsampleselection.test.cpp',

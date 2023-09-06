@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
+#include <deque>
 
 #include <fmt/core.h>
 

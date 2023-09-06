@@ -82,6 +82,9 @@ void add_open_file_interface(T_PyClass& cls)
     //             py::call_guard<py::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile,
     //             append_file), py::arg("file_path"), py::arg("progress_bar"));
+    cls.def("get_index",
+            &T_BaseClass::get_index,
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, get_index));
 
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)

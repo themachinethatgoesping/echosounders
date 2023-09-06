@@ -32,23 +32,91 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-template<typename t_DatagramIdentifier, typename t_ifstream>
-class DatagramInfo
+template<typename t_DatagramIdentifier>
+class DatagramInfoData
 {
-    size_t _file_nr; ///< file number of this datagram
-    std::shared_ptr<internal::InputFileManager<t_ifstream>>
-        _input_file_manager; ///< input file manager
+    DatagramInfoData() = default; // for from_stream()
 
-    size_t _file_pos; ///< file position of this datagram TODO: is this the
-                      ///< same for ifstream and MappedFileStream?
-
+  protected:
+    size_t               _file_pos;
     double               _timestamp;           ///< timestamp (unixtime) of this datagram
     t_DatagramIdentifier _datagram_identifier; ///< datagram type of this datagram
 
   public:
     // member types
     using type_DatagramIdentifier = t_DatagramIdentifier;
+    using t_base                  = DatagramInfoData<t_DatagramIdentifier>;
+
+    DatagramInfoData(const DatagramInfoData&) = default;
+
+    DatagramInfoData(size_t file_pos, double timestamp, t_DatagramIdentifier datagram_identifier)
+        : _file_pos(file_pos)
+        , _timestamp(timestamp)
+        , _datagram_identifier(datagram_identifier)
+    {
+    }
+
+    double               get_timestamp() const { return _timestamp; }
+    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
+    size_t               get_file_pos() const { return _file_pos; }
+
+    bool operator==(const t_base& ) const = default;
+
+    // ----- to/from stream interface -----
+    static DatagramInfoData<t_DatagramIdentifier> from_stream(std::istream& is)
+    {
+        DatagramInfoData<t_DatagramIdentifier> data;
+
+        is.read(reinterpret_cast<char*>(&data._file_pos),
+                sizeof(DatagramInfoData<t_DatagramIdentifier>));
+
+        return data;
+    }
+
+    void to_stream(std::ostream& os) const
+    {
+        os.write(reinterpret_cast<const char*>(&_file_pos),
+                 sizeof(DatagramInfoData<t_DatagramIdentifier>));
+    }
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
+
+        // raw values
+        printer.register_value("file_pos", size_t(_file_pos));
+        printer.register_value("timestamp", _timestamp);
+        printer.register_value("datagram_identifier",
+                               datagram_identifier_to_string(_datagram_identifier));
+
+        return printer;
+    }
+
+    // ----- class helper macros -----
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(DatagramInfoData<t_DatagramIdentifier>)
+};
+
+template<typename t_DatagramIdentifier, typename t_ifstream>
+class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
+{
+  public:
+    // member types
+    using type_DatagramIdentifier = t_DatagramIdentifier;
     using type_ifstream           = t_ifstream;
+    using t_base                  = DatagramInfoData<t_DatagramIdentifier>;
+
+  private:
+    size_t _file_nr; ///< file number of this datagram
+    std::shared_ptr<internal::InputFileManager<t_ifstream>>
+        _input_file_manager; ///< input file manager
+
+    using t_base::_datagram_identifier;
+    using t_base::_file_pos;
+    using t_base::_timestamp;
+    // using from_stream; // make these private
+    // using to_stream;   // make these private
 
   public:
     DatagramInfo(size_t                                                  file_nr,
@@ -56,13 +124,23 @@ class DatagramInfo
                  std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
                  double                                                  timestamp,
                  t_DatagramIdentifier                                    datagram_identifier)
-        : _file_nr(file_nr)
+        : DatagramInfoData<t_DatagramIdentifier>(file_pos, timestamp, datagram_identifier)
+        , _file_nr(file_nr)
         , _input_file_manager(input_file_manager)
-        , _file_pos(file_pos)
-        , _timestamp(timestamp)
-        , _datagram_identifier(datagram_identifier)
     {
     }
+    DatagramInfo(size_t                                                  file_nr,
+                 std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
+                 DatagramInfoData<t_DatagramIdentifier>                  datagram_info_data)
+        : DatagramInfoData<t_DatagramIdentifier>(std::move(datagram_info_data))
+        , _file_nr(file_nr)
+        , _input_file_manager(input_file_manager)
+    {
+    }
+
+    using t_base::get_datagram_identifier;
+    using t_base::get_file_pos;
+    using t_base::get_timestamp;
 
     size_t             get_file_nr() const { return _file_nr; }
     const std::string& get_file_path() const
@@ -82,9 +160,6 @@ class DatagramInfo
 
         return ifs;
     }
-    double               get_timestamp() const { return _timestamp; }
-    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
-    size_t               get_file_pos() const { return _file_pos; }
 
     template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
     t_DatagramType read_datagram_from_file()
@@ -109,33 +184,6 @@ class DatagramInfo
         auto& ifs = this->get_stream_and_seek();
 
         return t_DatagramTypeFactory::from_stream(ifs, this->get_datagram_identifier(), skip_data);
-    }
-
-    // ----- to/from stream interface -----
-    static DatagramInfo<t_DatagramIdentifier, t_ifstream> from_stream(
-        t_ifstream&                                             ifs,
-        size_t                                                  file_nr,
-        std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager)
-    {
-        size_t file_pos;
-        ifs.read(reinterpret_cast<char*>(&file_pos), sizeof(file_pos));
-
-        double timestamp;
-        ifs.read(reinterpret_cast<char*>(&timestamp), sizeof(timestamp));
-
-        t_DatagramIdentifier datagram_identifier;
-        ifs.read(reinterpret_cast<char*>(&datagram_identifier), sizeof(datagram_identifier));
-
-        return DatagramInfo<t_DatagramIdentifier, t_ifstream>(
-            file_nr, file_pos, input_file_manager, timestamp, datagram_identifier);
-    }
-
-    void to_stream(t_ifstream& ifs) const
-    {
-        ifs.write(reinterpret_cast<const char*>(&_file_pos), sizeof(_file_pos));
-        ifs.write(reinterpret_cast<const char*>(&_timestamp), sizeof(_timestamp));
-        ifs.write(reinterpret_cast<const char*>(&_datagram_identifier),
-                  sizeof(_datagram_identifier));
     }
 };
 

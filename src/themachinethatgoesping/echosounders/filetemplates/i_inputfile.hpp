@@ -25,6 +25,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "datacontainers/datagramcontainer.hpp"
@@ -50,9 +51,14 @@ class I_InputFile
     // using t_FileDataInterface  = typename datainterfaces::I_FileDataInterface<
     //     datainterfaces::I_FileDataInterfacePerFile<t_DatagramInterface>>;
 
+    struct FileInfos;
+    struct FileInfoData;
+
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
+
+    std::map<std::string, FileInfos> _file_infos_per_file_path;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -168,8 +174,124 @@ class I_InputFile
         FileInfos file_info = scan_for_datagrams(
             file_path, _input_file_manager->get_file_paths()->size() - 1, ifi, progress_bar);
 
+        _file_infos_per_file_path[file_path] = file_info;
         _datagram_interface.add_datagram_infos(file_info.datagram_infos);
     }
+
+    auto get_index() const
+    {
+        std::map<std::string, FileInfoData> file_infos_per_file_path;
+
+        for (auto& [file_path, file_info] : _file_infos_per_file_path)
+        {
+            file_infos_per_file_path[file_path] = FileInfoData(file_info);
+        }
+
+        return file_infos_per_file_path;
+    }
+
+    struct FileInfoData
+    {
+        std::string file_path;
+        size_t      file_size;
+
+        /* header positions */
+        std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
+            datagram_infos; ///< all datagrams
+
+        FileInfoData() = default;
+        FileInfoData(const FileInfos& file_info)
+            : file_path(file_info.file_path)
+            , file_size(file_info.file_size)
+        {
+            for (auto& datagram_info : file_info.datagram_infos)
+            {
+                datagram_infos.push_back(*datagram_info);
+            }
+        }
+        bool operator==(const FileInfoData&) const = default;
+
+        // ----- to/from stream interface -----
+        static FileInfoData from_stream(std::istream& is)
+        {
+            FileInfoData data;
+
+            data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
+            is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
+
+            size_t size;
+            is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
+            data.datagram_infos.resize(size);
+            for (size_t i = 0; i < size; ++i)
+            {
+                data.datagram_infos[i] =
+                    datatypes::DatagramInfoData<t_DatagramIdentifier>::from_stream(is);
+            }
+
+            return data;
+        }
+
+        void to_stream(std::ostream& os) const
+        {
+            tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
+            os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
+
+            size_t size = datagram_infos.size();
+            os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+            for (size_t i = 0; i < size; ++i)
+            {
+                datagram_infos[i].to_stream(os);
+            }
+        }
+
+        // ----- objectprinter -----
+        tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+        {
+            tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
+
+            // raw values
+            printer.register_string("file_path", file_path);
+            printer.register_value("file_size", size_t(file_size));
+
+            printer.register_value("datagrams", datagram_infos.size());
+
+            return printer;
+        }
+
+        // ----- class helper macros -----
+        __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+        __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(FileInfoData)
+    };
+
+    /**
+     * @brief struct for storing the file infos (returned by scan_for_datagrams)
+     *
+     */
+    struct FileInfos
+    {
+        std::string file_path;
+        size_t      file_size;
+
+        /* header positions */
+        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
+                                                t_ifstream>>
+            datagram_infos; ///< all datagrams
+
+        FileInfos() = default;
+        FileInfos(size_t                                                  file_nr,
+                  std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
+                  const FileInfoData&                                     file_info_data)
+            : file_path(file_info_data.file_path)
+            , file_size(file_info_data.file_size)
+        {
+            for (auto& datagram_info : file_info_data.datagram_infos)
+            {
+                datagram_infos.push_back(
+                    std::make_shared<datatypes::DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
+                        file_nr, input_file_manager, datagram_info));
+            }
+        }
+    };
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -223,22 +345,6 @@ class I_InputFile
         // datagram_info->datagram_identifier = header.get_datagram_identifier();
         return datagram_info;
     }
-
-    /**
-     * @brief struct for storing the file infos (returned by scan_for_datagrams)
-     *
-     */
-    struct FileInfos
-    {
-
-        std::string file_path;
-        size_t      file_size;
-
-        /* header positions */
-        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
-                                                t_ifstream>>
-            datagram_infos; ///< all datagrams
-    };
 
     // This function must be called at initialization!
     virtual FileInfos scan_for_datagrams(const std::string&                  file_path,

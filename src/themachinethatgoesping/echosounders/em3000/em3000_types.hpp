@@ -10,13 +10,17 @@
 #include ".docstrings/em3000_types.doc.hpp"
 
 #include <complex>
+
+#include <magic_enum.hpp>
+#include <fmt/core.h>
+
 #include <themachinethatgoesping/tools/helper.hpp>
 
+
 /**
- * @brief Type definitions for Ek60 types according to Ek60 Reference manual
- * see also http://www.em3000.net/em3000_ref_english/default.htm
+ * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram formats specificaztion
+ * see also https://www.kongsberg.com/contentassets/47d7f3d5d4fa4c1b980d9861d1c70c12/160692_em_datagram_formats.pdf
  *
- * Note: these definitions are valid for EK60 and the EK80 files.
  */
 
 /*  */
