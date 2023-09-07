@@ -10,6 +10,9 @@
 #include ".docstrings/simrad_types.doc.hpp"
 
 #include <complex>
+
+#include <magic_enum.hpp>
+
 #include <themachinethatgoesping/tools/helper.hpp>
 
 /**

@@ -13,13 +13,15 @@ namespace py_filedatatypes {
 namespace py = pybind11;
 
 // -- submodule declarations --
-void init_c_simradping(pybind11::module& m);        // c_simradping.cpp
-void init_c_simradpingrawdata(pybind11::module& m); // c_simradpingrawdata.cpp
+void init_c_simradfileinfodata(pybind11::module& m); // c_simradfileinfodata.cpp
+void init_c_simradping(pybind11::module& m);         // c_simradping.cpp
+void init_c_simradpingrawdata(pybind11::module& m);  // c_simradpingrawdata.cpp
 
 // -- create submodule --
 void init_m_simradfiledatatypes(pybind11::module& m)
 {
     auto subm = m.def_submodule("filetypes", "Simrad EK60 and EK80 file data types");
+    init_c_simradfileinfodata(subm);
     init_c_simradpingrawdata(subm);
     init_c_simradping(subm);
 }

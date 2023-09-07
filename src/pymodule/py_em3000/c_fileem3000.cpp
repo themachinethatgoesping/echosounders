@@ -45,9 +45,6 @@ void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates; // this holds py_i_inputfile and py_datagramcontainer
 
-    // add index class
-    py_i_inputfile::add_file_index_types<FileEM3000<T_FileStream>>(m, CLASS_NAME);
-
     // initialize class
     auto cls = py::class_<FileEM3000<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, em3000, FileEM3000));

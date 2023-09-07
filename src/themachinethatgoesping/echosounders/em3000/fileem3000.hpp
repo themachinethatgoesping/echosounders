@@ -87,8 +87,8 @@ class FileEM3000
     //     I_InputFile;
 
     FileEM3000(const std::string&                         file_path,
-               const std::map<std::string, FileInfoData>& cached_index =
-                   std::map<std::string, FileInfoData>(),
+               const std::unordered_map<std::string, FileInfoData>& cached_index =
+                   std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
                bool show_progress = true)
         : t_base(cached_index)
@@ -98,7 +98,7 @@ class FileEM3000
             init_interfaces(false, show_progress);
     }
     FileEM3000(const std::string&                         file_path,
-               const std::map<std::string, FileInfoData>& cached_index,
+               const std::unordered_map<std::string, FileInfoData>& cached_index,
                bool                                       init,
                tools::progressbars::I_ProgressBar&        progress_bar)
         : t_base(cached_index)
@@ -109,8 +109,8 @@ class FileEM3000
     }
 
     FileEM3000(const std::vector<std::string>&            file_paths,
-               const std::map<std::string, FileInfoData>& cached_index =
-                   std::map<std::string, FileInfoData>(),
+               const std::unordered_map<std::string, FileInfoData>& cached_index =
+                   std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
                bool show_progress = true)
         : t_base(cached_index)
@@ -120,7 +120,7 @@ class FileEM3000
             init_interfaces(false, show_progress);
     }
     FileEM3000(const std::vector<std::string>&            file_paths,
-               const std::map<std::string, FileInfoData>& cached_index,
+               const std::unordered_map<std::string, FileInfoData>& cached_index,
                bool                                       init,
                tools::progressbars::I_ProgressBar&        progress_bar)
         : t_base(cached_index)
@@ -144,8 +144,8 @@ class FileEM3000
         _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
 
         // link wcd/all files
-        std::map<std::string, size_t> wcd_files;
-        std::map<std::string, size_t> all_files;
+        std::unordered_map<std::string, size_t> wcd_files;
+        std::unordered_map<std::string, size_t> all_files;
         const auto&                   file_paths = *(this->_input_file_manager->get_file_paths());
 
         // sort the files into wcd and all files
@@ -294,9 +294,8 @@ class FileEM3000
     {
     }
 
-    filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
-    callback_scan_packet(
-        const filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>&
+    void callback_scan_packet(
+        filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
             datagram_info) final
     {
         switch (datagram_info->get_datagram_identifier())
@@ -372,8 +371,6 @@ class FileEM3000
                 break;
             }
         }
-
-        return datagram_info;
     }
 
   public:

@@ -43,9 +43,6 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates; // this holds py_i_inputfile and py_datagramcontainer
 
-    // add index class
-    py_i_inputfile::add_file_index_types<FileSimradRaw<T_FileStream>>(m, CLASS_NAME);
-
     // initialize class
     auto cls = py::class_<FileSimradRaw<T_FileStream>>(
         m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simrad, FileSimradRaw));
@@ -113,6 +110,9 @@ void py_create_class_FileSimradRaw(py::module& m, const std::string& CLASS_NAME)
 
 void init_c_filesimradraw(pybind11::module& m)
 {
+    // add index class
+    //py_i_inputfile::add_file_index_types<simrad::t_SimradDatagramIdentifier>(m, "FileInfoData_raw");
+
     py_create_class_FileSimradRaw<std::ifstream>(m, "FileSimradRaw");
     py_create_class_FileSimradRaw<datastreams::MappedFileStream>(m, "FileSimradRaw_mapped");
 }

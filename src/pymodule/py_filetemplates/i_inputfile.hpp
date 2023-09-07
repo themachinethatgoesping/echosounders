@@ -21,39 +21,6 @@ namespace pymodule {
 namespace py_filetemplates {
 namespace py_i_inputfile {
 
-#define DOC_FileInfoData(ARG)                                                                      \
-    DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, FileInfoData, ARG)
-
-template<typename T_BaseClass>
-void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
-{
-    namespace py = pybind11;
-    using namespace themachinethatgoesping::tools::progressbars;
-    using t_FileInfoData = typename T_BaseClass::FileInfoData;
-
-    py::class_<t_FileInfoData>(
-        m,
-        (CLASS_NAME + "_FileInfoData").c_str(),
-        DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, FileInfoData))
-        .def(py::init<>(), DOC_FileInfoData(FileInfoData))
-        // --- processed data access ---
-        .def_readwrite("file_path", &t_FileInfoData::file_path, DOC_FileInfoData(file_path))
-        .def_readwrite("file_size", &t_FileInfoData::file_size, DOC_FileInfoData(file_size))
-        .def_readwrite(
-            "datagram_infos", &t_FileInfoData::datagram_infos, DOC_FileInfoData(datagram_infos))
-
-        // ----- operators -----
-        .def("__eq__", &t_FileInfoData::operator==, DOC_FileInfoData(operator_eq), py::arg("other"))
-
-        // ----- pybind macros -----
-        // default copy functions
-        __PYCLASS_DEFAULT_COPY__(t_FileInfoData)
-        // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(t_FileInfoData)
-        // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(t_FileInfoData);
-}
-
 template<typename T_BaseClass, typename T_PyClass>
 void add_default_constructors(T_PyClass& cls)
 {
@@ -61,16 +28,18 @@ void add_default_constructors(T_PyClass& cls)
     using namespace themachinethatgoesping::tools::progressbars;
     using t_FileInfoData = typename T_BaseClass::FileInfoData;
 
-    cls.def(
-        py::init<const std::string&, const std::map<std::string, t_FileInfoData>&, bool, bool>(),
-        py::call_guard<py::scoped_ostream_redirect>(),
-        DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile),
-        py::arg("file_path"),
-        py::arg("cached_index")  = std::map<std::string, t_FileInfoData>(),
-        py::arg("init")          = true,
-        py::arg("show_progress") = true);
     cls.def(py::init<const std::string&,
-                     const std::map<std::string, t_FileInfoData>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
+                     bool,
+                     bool>(),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile),
+            py::arg("file_path"),
+            py::arg("cached_index")  = std::unordered_map<std::string, t_FileInfoData>(),
+            py::arg("init")          = true,
+            py::arg("show_progress") = true);
+    cls.def(py::init<const std::string&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
@@ -80,17 +49,17 @@ void add_default_constructors(T_PyClass& cls)
             py::arg("init"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::map<std::string, t_FileInfoData>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFile, I_InputFile_3),
             py::arg("file_path"),
-            py::arg("cached_index")  = std::map<std::string, t_FileInfoData>(),
+            py::arg("cached_index")  = std::unordered_map<std::string, t_FileInfoData>(),
             py::arg("init")          = true,
             py::arg("show_progress") = true);
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::map<std::string, t_FileInfoData>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),

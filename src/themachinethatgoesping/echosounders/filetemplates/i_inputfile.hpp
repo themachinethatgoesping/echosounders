@@ -32,6 +32,7 @@
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
 #include "datatypes/datagraminfo.hpp"
+#include "datatypes/fileinfo.hpp"
 #include "internal/inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -51,14 +52,14 @@ class I_InputFile
     // using t_FileDataInterface  = typename datainterfaces::I_FileDataInterface<
     //     datainterfaces::I_FileDataInterfacePerFile<t_DatagramInterface>>;
 
-    struct FileInfos;
-    struct FileInfoData;
+    using FileInfos    = typename datatypes::FileInfos<t_DatagramIdentifier, t_ifstream>;
+    using FileInfoData = typename datatypes::FileInfoData<t_DatagramIdentifier>;
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
 
-    std::map<std::string, FileInfoData> _cached_index_per_file_path;
+    std::unordered_map<std::string, FileInfoData> _cached_index_per_file_path;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -69,15 +70,15 @@ class I_InputFile
 
     I_InputFile() = default;
 
-    I_InputFile(const std::map<std::string, FileInfoData>& cached_index)
+    I_InputFile(const std::unordered_map<std::string, FileInfoData>& cached_index)
         : _cached_index_per_file_path(cached_index)
     {
     }
 
   public:
-    I_InputFile(const std::string&                         file_path,
-                const std::map<std::string, FileInfoData>& cached_index =
-                    std::map<std::string, FileInfoData>(),
+    I_InputFile(const std::string&                                   file_path,
+                const std::unordered_map<std::string, FileInfoData>& cached_index =
+                    std::unordered_map<std::string, FileInfoData>(),
                 bool init          = true,
                 bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
@@ -86,10 +87,10 @@ class I_InputFile
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFile(const std::string&                         file_path,
-                const std::map<std::string, FileInfoData>& cached_index,
-                bool                                       init,
-                tools::progressbars::I_ProgressBar&        progress_bar)
+    I_InputFile(const std::string&                                   file_path,
+                const std::unordered_map<std::string, FileInfoData>& cached_index,
+                bool                                                 init,
+                tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_file(file_path, progress_bar);
@@ -97,9 +98,9 @@ class I_InputFile
             init_interfaces(false, progress_bar);
     }
 
-    I_InputFile(const std::vector<std::string>&            file_paths,
-                const std::map<std::string, FileInfoData>& cached_index =
-                    std::map<std::string, FileInfoData>(),
+    I_InputFile(const std::vector<std::string>&                      file_paths,
+                const std::unordered_map<std::string, FileInfoData>& cached_index =
+                    std::unordered_map<std::string, FileInfoData>(),
                 bool init          = true,
                 bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
@@ -108,10 +109,10 @@ class I_InputFile
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFile(const std::vector<std::string>&            file_paths,
-                const std::map<std::string, FileInfoData>& cached_index,
-                bool                                       init,
-                tools::progressbars::I_ProgressBar&        progress_bar)
+    I_InputFile(const std::vector<std::string>&                      file_paths,
+                const std::unordered_map<std::string, FileInfoData>& cached_index,
+                bool                                                 init,
+                tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_files(file_paths, progress_bar);
@@ -217,9 +218,13 @@ class I_InputFile
 
             double pos = 0.;
             // call callback functions
-            for (auto& datagram_info : file_info.datagram_infos)
+            for (size_t i = 0; i < file_info.datagram_infos.size(); ++i)
             {
-                datagram_info = callback_scan_packet(datagram_info);
+                const auto& datagram_info = file_info.datagram_infos[i];
+                callback_scan_packet(datagram_info);
+
+                // update cached index per file (in case the callback modified the datagram info)
+                it->second.datagram_infos[i] = *datagram_info;
 
                 double pos_new = double(datagram_info->get_file_pos());
 
@@ -229,128 +234,13 @@ class I_InputFile
             }
             callback_scan_new_file_end(file_path, file_nr);
 
-            //_cached_index_per_file_path[file_path] = FileInfoData(file_info);
-
             if (close_progressbar)
                 progress_bar.close(std::string("Found: ") +
                                    std::to_string(file_info.datagram_infos.size()) + " datagrams");
         }
     }
 
-    auto get_cached_file_index() const
-    {
-        std::map<std::string, FileInfoData> file_infos_per_file_path;
-
-        for (auto& [file_path, file_info] : _cached_index_per_file_path)
-        {
-            file_infos_per_file_path[file_path] = FileInfoData(file_info);
-        }
-
-        return file_infos_per_file_path;
-    }
-
-    struct FileInfoData
-    {
-        std::string file_path;
-        size_t      file_size;
-
-        /* header positions */
-        std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
-            datagram_infos; ///< all datagrams
-
-        FileInfoData() = default;
-        FileInfoData(const FileInfos& file_info)
-            : file_path(file_info.file_path)
-            , file_size(file_info.file_size)
-        {
-            for (auto& datagram_info : file_info.datagram_infos)
-            {
-                datagram_infos.push_back(*datagram_info);
-            }
-        }
-        bool operator==(const FileInfoData&) const = default;
-
-        // ----- to/from stream interface -----
-        static FileInfoData from_stream(std::istream& is)
-        {
-            FileInfoData data;
-
-            data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
-            is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
-
-            size_t size;
-            is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
-            data.datagram_infos.resize(size);
-            for (size_t i = 0; i < size; ++i)
-            {
-                data.datagram_infos[i] =
-                    datatypes::DatagramInfoData<t_DatagramIdentifier>::from_stream(is);
-            }
-
-            return data;
-        }
-
-        void to_stream(std::ostream& os) const
-        {
-            tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
-            os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
-
-            size_t size = datagram_infos.size();
-            os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
-            for (size_t i = 0; i < size; ++i)
-            {
-                datagram_infos[i].to_stream(os);
-            }
-        }
-
-        // ----- objectprinter -----
-        tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
-        {
-            tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
-
-            // raw values
-            printer.register_string("file_path", file_path);
-            printer.register_value("file_size", size_t(file_size));
-
-            printer.register_value("datagrams", datagram_infos.size());
-
-            return printer;
-        }
-
-        // ----- class helper macros -----
-        __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-        __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileInfoData)
-    };
-
-    /**
-     * @brief struct for storing the file infos (returned by scan_for_datagrams)
-     *
-     */
-    struct FileInfos
-    {
-        std::string file_path;
-        size_t      file_size;
-
-        /* header positions */
-        std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
-                                                t_ifstream>>
-            datagram_infos; ///< all datagrams
-
-        FileInfos() = default;
-        FileInfos(size_t                                                  file_nr,
-                  std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
-                  const FileInfoData&                                     file_info_data)
-            : file_path(file_info_data.file_path)
-            , file_size(file_info_data.file_size)
-        {
-            for (auto& datagram_info : file_info_data.datagram_infos)
-            {
-                datagram_infos.push_back(
-                    std::make_shared<datatypes::DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
-                        file_nr, input_file_manager, datagram_info));
-            }
-        }
-    };
+    auto get_cached_file_index() const { return _cached_index_per_file_path; }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
@@ -385,11 +275,10 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> callback_scan_packet(
-        [[maybe_unused]] const datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>&
-                    datagram_info)
+    virtual void callback_scan_packet(
+        [[maybe_unused]] datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
+            datagram_info)
     {
-        return datagram_info;
     }
 
     // This function must be called at initialization!
@@ -433,7 +322,7 @@ class I_InputFile
                         header.get_timestamp(),
                         header.get_datagram_identifier());
 
-                datagram_info = callback_scan_packet(datagram_info);
+                callback_scan_packet(datagram_info);
 
                 // this function checks if the datagram content is senseful
                 if (ifs.good())

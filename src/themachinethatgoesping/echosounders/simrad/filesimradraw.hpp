@@ -94,9 +94,9 @@ class FileSimradRaw
     // t_SimradDatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileSimradRaw(const std::string&                         file_path,
-                  const std::map<std::string, FileInfoData>& cached_index =
-                      std::map<std::string, FileInfoData>(),
+    FileSimradRaw(const std::string&                                   file_path,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index =
+                      std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
                   bool show_progress = true)
         : t_base(cached_index)
@@ -105,10 +105,10 @@ class FileSimradRaw
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileSimradRaw(const std::string&                         file_path,
-                  const std::map<std::string, FileInfoData>& cached_index,
-                  bool                                       init,
-                  tools::progressbars::I_ProgressBar&        progress_bar)
+    FileSimradRaw(const std::string&                                   file_path,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index,
+                  bool                                                 init,
+                  tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
     {
         this->append_file(file_path, progress_bar);
@@ -116,9 +116,9 @@ class FileSimradRaw
             init_interfaces(false, progress_bar);
     }
 
-    FileSimradRaw(const std::vector<std::string>&            file_paths,
-                  const std::map<std::string, FileInfoData>& cached_index =
-                      std::map<std::string, FileInfoData>(),
+    FileSimradRaw(const std::vector<std::string>&                      file_paths,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index =
+                      std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
                   bool show_progress = true)
         : t_base(cached_index)
@@ -127,10 +127,10 @@ class FileSimradRaw
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileSimradRaw(const std::vector<std::string>&            file_paths,
-                  const std::map<std::string, FileInfoData>& cached_index,
-                  bool                                       init,
-                  tools::progressbars::I_ProgressBar&        progress_bar)
+    FileSimradRaw(const std::vector<std::string>&                      file_paths,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index,
+                  bool                                                 init,
+                  tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
     {
         this->append_files(file_paths, progress_bar);
@@ -211,9 +211,8 @@ class FileSimradRaw
     {
     }
 
-    filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
-    callback_scan_packet(
-        const filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>&
+    void callback_scan_packet(
+        filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
             datagram_info) final
     {
         switch (datagram_info->get_datagram_identifier())
@@ -225,30 +224,27 @@ class FileSimradRaw
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
-                const auto& xml_type = datagram_info->get_extra_infos();
-
-                if (xml_type.empty())
+                // speed up decision making by using a map lookup
+                static constexpr frozen::map<frozen::string, int, 5> xml_type_map = {
+                    { "Parameter", 1 },        { "Configuration", 2 }, { "Environment", 3 },
+                    { "InitialParameter", 4 }, { "invalid", 5 },
+                };
+                
+                if (datagram_info->get_extra_infos().empty())
                 {
-                    throw std::runtime_error(
-                        fmt::format("XML0 datagram is invalid: {}", datagram_info->info_string()));
                     auto& ifs = datagram_info->get_stream_and_seek();
 
                     // this also changes xml_type since it is a reference
-                    datagram_info->set_extra_infos(
-                        datagrams::XML0::get_xml_datagram_type_from_stream(ifs));
+                    auto xml_type = datagrams::XML0::get_xml_datagram_type_from_stream(ifs);
+                    
+                    datagram_info->set_extra_infos(xml_type);
 
                     if (!datagram_info->get_stream().good())
                         break;
                 }
 
-                // speed up decision making by using a map lookup
-                static constexpr frozen::map<frozen::string, int, 5> xml_type_map = {
-                    { "Parameter", 1 },        
-                    { "Configuration", 2 }, { "Environment", 3 },
-                    { "InitialParameter", 4 }, { "invalid", 5 },
-                };
-
-                const auto xml_type_it = xml_type_map.find(frozen::string(xml_type));
+                const auto xml_type_it =
+                    xml_type_map.find(frozen::string(datagram_info->get_extra_infos()));
 
                 switch (xml_type_it->second)
                 {
@@ -292,8 +288,6 @@ class FileSimradRaw
                 break;
             }
         }
-
-        return datagram_info;
     }
 
   public:

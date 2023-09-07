@@ -1,4 +1,4 @@
-//sourcehash: a4059a94cd6950c0f20c81642d7b76f3d1ae90510679589c518e05c1b3d7e23c
+//sourcehash: 4527c7ba4afca9a37a16d545f88aaf5e8fe2259c68729378690a1199bdb542f9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -39,44 +39,6 @@
 
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_FileInfoData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_FileInfoData_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_datagram_infos = R"doc(< all datagrams)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_file_size = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfoData_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos = R"doc(struct for storing the file infos (returned by scan_for_datagrams))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_2 = R"doc(struct for storing the file infos (returned by scan_for_datagrams))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_FileInfos = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_FileInfos_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_datagram_infos = R"doc(< all datagrams)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_FileInfos_file_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFile_I_InputFile = R"doc()doc";
 
