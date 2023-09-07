@@ -210,6 +210,54 @@ class XML0 : public SimradDatagram
         return "invalid";
     }
 
+    /**
+     * @brief Get the xml datagram type from input stream without reading the entire datagram
+     * content
+     *
+     * @param is
+     * @return std::string
+     */
+    static inline std::string get_xml_datagram_type_from_stream(std::istream& is)
+    {
+        return get_xml_datagram_type_from_stream(is, SimradDatagram::from_stream(is));
+    }
+
+    /**
+     * @brief Get the xml datagram type from input stream without reading the entire datagram
+     * content
+     *
+     * @param is
+     * @return std::string
+     */
+    static inline std::string get_xml_datagram_type_from_stream(std::istream&  is,
+                                                                SimradDatagram header)
+    {
+        // this assumes that the stream is at the beginning of the datagram (after the header)
+        std::string xml_content;
+
+        size_t buffer_size = std::min(64, header.get_length() - 12);
+
+        xml_content.resize(buffer_size);
+
+        is.read(xml_content.data(), buffer_size);
+
+        // start at seven because the xml tag must be at least "<?xml?>"
+        unsigned int i = 7;
+        for (; i < xml_content.size(); ++i)
+        {
+            if (xml_content[i] == '<')
+                break;
+        }
+
+        for (unsigned int j = ++i; j < xml_content.size(); ++j)
+        {
+            if (xml_content[j] == ' ' || xml_content[j] == '>')
+                return xml_content.substr(i, j - i);
+        }
+
+        return "invalid";
+    }
+
     // ----- file I/O -----
     static XML0 from_stream(std::istream& is, SimradDatagram header)
     {

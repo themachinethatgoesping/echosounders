@@ -88,7 +88,7 @@ class SimradDatagram
     void skip(std::istream& is) const
     {
         // _length is the length the datagram that is enclosed by _length
-        const static simrad_long tmp = sizeof(simrad_long) * 3;
+        static constexpr simrad_long tmp = sizeof(simrad_long) * 3;
 
         is.seekg(_length - tmp, std::ios::cur);
 

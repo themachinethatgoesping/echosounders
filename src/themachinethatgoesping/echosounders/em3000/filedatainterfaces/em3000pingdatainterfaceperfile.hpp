@@ -81,7 +81,6 @@ class EM3000PingDataInterfacePerFile
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-
                         auto rp = std::make_shared<datagrams::RuntimeParameters>(
                             datagram_ptr
                                 ->template read_datagram_from_file<datagrams::RuntimeParameters>());
@@ -121,30 +120,46 @@ class EM3000PingDataInterfacePerFile
                     [[fallthrough]];
                 case t_EM3000DatagramIdentifier::SeabedImageData:
                     [[fallthrough]];
-                case t_EM3000DatagramIdentifier::WatercolumnDatagram:
+                case t_EM3000DatagramIdentifier::QualityFactorDatagram:
                     [[fallthrough]];
-                case t_EM3000DatagramIdentifier::QualityFactorDatagram: {
+                case t_EM3000DatagramIdentifier::WatercolumnDatagram: {
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-                        // read the ping counter
-                        auto& ifs =
-                            datagram_ptr->get_stream_and_seek(16); // offset=16 bytes (header size)
-                        // ifs.seekg(16, std::ios::cur); // skip header
-                        uint16_t ping_counter, system_serial_number;
-                        ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(uint16_t));
-                        ifs.read(reinterpret_cast<char*>(&system_serial_number), sizeof(uint16_t));
+                        std::array<uint16_t, 2> counter_snumber;
+
+                        if (datagram_ptr->get_extra_infos().size() == 4)
+                        {
+                            // reinterprete string (datagram_ptr->get_extra_infos()) as
+                            // std::array<uint16_t, 2>
+                            std::memcpy(counter_snumber.data(),
+                                        datagram_ptr->get_extra_infos().data(),
+                                        sizeof(uint16_t) * 2);
+                        }
+                        else
+                        {
+                            // read the ping counter
+                            auto& ifs = datagram_ptr->get_stream_and_seek(
+                                16); // offset=16 bytes (header size)
+
+                            // ifs.seekg(16, std::ios::cur); // skip header
+                            ifs.read(reinterpret_cast<char*>(&counter_snumber),
+                                     sizeof(uint16_t) * 2);
+
+                            datagram_ptr->set_extra_infos(std::string(
+                                reinterpret_cast<char*>(&counter_snumber), sizeof(uint16_t) * 2));
+                        }
 
                         // create a new ping if it does not exist
                         auto ping_it =
-                            pings_by_counter_by_id[ping_counter].find(system_serial_number);
-                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
+                            pings_by_counter_by_id[counter_snumber[0]].find(counter_snumber[1]);
+                        if (ping_it == pings_by_counter_by_id[counter_snumber[0]].end())
                         {
-                            pings_by_counter_by_id[ping_counter][system_serial_number] =
+                            pings_by_counter_by_id[counter_snumber[0]][counter_snumber[1]] =
                                 std::make_shared<t_ping>(base_ping.deep_copy());
 
                             ping_it =
-                                pings_by_counter_by_id[ping_counter].find(system_serial_number);
+                                pings_by_counter_by_id[counter_snumber[0]].find(counter_snumber[1]);
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);

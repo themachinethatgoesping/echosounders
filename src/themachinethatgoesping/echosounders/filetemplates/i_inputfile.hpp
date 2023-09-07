@@ -219,7 +219,7 @@ class I_InputFile
             // call callback functions
             for (auto& datagram_info : file_info.datagram_infos)
             {
-                callback_scan_packet(datagram_info);
+                datagram_info = callback_scan_packet(datagram_info);
 
                 double pos_new = double(datagram_info->get_file_pos());
 
@@ -228,6 +228,8 @@ class I_InputFile
                 pos = pos_new;
             }
             callback_scan_new_file_end(file_path, file_nr);
+
+            //_cached_index_per_file_path[file_path] = FileInfoData(file_info);
 
             if (close_progressbar)
                 progress_bar.close(std::string("Found: ") +
@@ -383,10 +385,11 @@ class I_InputFile
                                             [[maybe_unused]] size_t             file_paths_cnt)
     {
     }
-    virtual void callback_scan_packet(
+    virtual datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream> callback_scan_packet(
         [[maybe_unused]] const datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>&
-            datagram_info)
+                    datagram_info)
     {
+        return datagram_info;
     }
 
     // This function must be called at initialization!
@@ -430,7 +433,7 @@ class I_InputFile
                         header.get_timestamp(),
                         header.get_datagram_identifier());
 
-                callback_scan_packet(datagram_info);
+                datagram_info = callback_scan_packet(datagram_info);
 
                 // this function checks if the datagram content is senseful
                 if (ifs.good())

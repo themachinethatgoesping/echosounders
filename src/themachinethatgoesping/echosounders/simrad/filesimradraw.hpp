@@ -10,7 +10,14 @@
 #include ".docstrings/filesimradraw.doc.hpp"
 
 /* library includes */
+#include <frozen/map.h>
+#include <frozen/string.h>
+#include <frozen/unordered_map.h>
 #include <magic_enum.hpp>
+
+/* simrad types */
+#include "simrad_datagrams.hpp"
+#include "simrad_types.hpp"
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -32,9 +39,6 @@
 #include "filedatatypes/simradping.hpp"
 
 #include "filedatacontainers/simradfiledatacontainers.hpp"
-
-#include "simrad_datagrams.hpp"
-#include "simrad_types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -207,7 +211,8 @@ class FileSimradRaw
     {
     }
 
-    void callback_scan_packet(
+    filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>
+    callback_scan_packet(
         const filetemplates::datatypes::DatagramInfo_ptr<t_SimradDatagramIdentifier, t_ifstream>&
             datagram_info) final
     {
@@ -220,34 +225,54 @@ class FileSimradRaw
                 break;
             }
             case t_SimradDatagramIdentifier::XML0: {
-                auto xml = datagram_info->template read_datagram_from_file<datagrams::XML0>();
+                const auto& xml_type = datagram_info->get_extra_infos();
 
-                if (!datagram_info->get_stream().good())
-                    break;
+                if (xml_type.empty())
+                {
+                    throw std::runtime_error(
+                        fmt::format("XML0 datagram is invalid: {}", datagram_info->info_string()));
+                    auto& ifs = datagram_info->get_stream_and_seek();
 
-                auto xml_type = xml.get_xml_datagram_type();
+                    // this also changes xml_type since it is a reference
+                    datagram_info->set_extra_infos(
+                        datagrams::XML0::get_xml_datagram_type_from_stream(ifs));
 
-                if (xml_type == "Parameter")
-                {
-                    _ping_interface->add_datagram_info(datagram_info);
+                    if (!datagram_info->get_stream().good())
+                        break;
                 }
-                else if (xml_type == "InitialParameter")
+
+                // speed up decision making by using a map lookup
+                static constexpr frozen::map<frozen::string, int, 5> xml_type_map = {
+                    { "Parameter", 1 },        
+                    { "Configuration", 2 }, { "Environment", 3 },
+                    { "InitialParameter", 4 }, { "invalid", 5 },
+                };
+
+                const auto xml_type_it = xml_type_map.find(frozen::string(xml_type));
+
+                switch (xml_type_it->second)
                 {
-                    _ping_interface->add_datagram_info(datagram_info);
+                    case 1: //"Parameter"
+                        _ping_interface->add_datagram_info(datagram_info);
+                        break;
+                    case 2: //"Configuration"
+                        _configuration_interface->add_datagram_info(datagram_info);
+                        break;
+                    case 3: //"Environment"
+                        _environment_interface->add_datagram_info(datagram_info);
+                        break;
+                    case 4: //"InitialParameter"
+                        _ping_interface->add_datagram_info(datagram_info);
+                        break;
+                    case 5: //"invalid"
+                        throw std::runtime_error(fmt::format("XML0 datagram is invalid: {}",
+                                                             datagram_info->info_string()));
+                        break;
+                    default:
+                        _otherfiledata_interface->add_datagram_info(datagram_info);
+                        break;
                 }
-                else if (xml_type == "Configuration")
-                {
-                    _configuration_interface->add_datagram_info(datagram_info);
-                }
-                else if (xml_type == "Environment")
-                {
-                    _environment_interface->add_datagram_info(datagram_info);
-                }
-                else
-                {
-                    _otherfiledata_interface->add_datagram_info(datagram_info);
-                }
-                // don't skip here, because the XML datagram was read already
+
                 break;
             }
             case t_SimradDatagramIdentifier::RAW3: {
@@ -267,6 +292,8 @@ class FileSimradRaw
                 break;
             }
         }
+
+        return datagram_info;
     }
 
   public:

@@ -1,4 +1,4 @@
-//sourcehash: 3066a6930bf76047f2b27a90936090ad04d961a55ddcd4d79c33b71b88389a26
+//sourcehash: 23ca7d3372bd705a225713647cf9265cf8d3bfa0b7ec90612959bda1ed1c365d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,11 +52,17 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_datagram_identifier = R"doc(< datagram type of this datagram)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_extra_infos = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_file_pos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_datagram_identifier = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_extra_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_extra_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_file_pos = R"doc()doc";
 
@@ -65,6 +71,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_set_extra_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_set_extra_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
 

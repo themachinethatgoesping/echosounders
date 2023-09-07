@@ -1,4 +1,4 @@
-//sourcehash: 0bea5d43ea206143dc78b3f55a84d2bbcfd0064ab18b39034c2b311f6715c508
+//sourcehash: b248aeb5a1fa3e86bb8cc764d194c10a296b108c330d55f92512e4c7e258bf1c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,24 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XM
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_datagram_type = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_datagram_type_from_stream =
+R"doc(Get the xml datagram type from input stream without reading the entire
+datagram content
+
+Parameter ``is``:
+    $Returns:
+
+std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_get_xml_datagram_type_from_stream_2 =
+R"doc(Get the xml datagram type from input stream without reading the entire
+datagram content
+
+Parameter ``is``:
+    $Returns:
+
+std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_XML0_operator_eq = R"doc()doc";
 

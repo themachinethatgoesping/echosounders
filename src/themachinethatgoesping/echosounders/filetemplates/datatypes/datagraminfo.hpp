@@ -40,12 +40,14 @@ class DatagramInfoData
     double               _timestamp;           ///< timestamp (unixtime) of this datagram
     t_DatagramIdentifier _datagram_identifier; ///< datagram type of this datagram
 
+    std::string _extra_infos;
+
   public:
     // member types
     using type_DatagramIdentifier = t_DatagramIdentifier;
     using t_base                  = DatagramInfoData<t_DatagramIdentifier>;
 
-    DatagramInfoData() = default; 
+    DatagramInfoData()                        = default;
     DatagramInfoData(const DatagramInfoData&) = default;
 
     DatagramInfoData(size_t file_pos, double timestamp, t_DatagramIdentifier datagram_identifier)
@@ -59,23 +61,50 @@ class DatagramInfoData
     t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
     size_t               get_file_pos() const { return _file_pos; }
 
-    bool operator==(const t_base& ) const = default;
+    void set_extra_infos(std::string extra_infos) { _extra_infos = std::move(extra_infos); }
+    template<typename t_ExtraInfo>
+    void set_extra_info(size_t pos, t_ExtraInfo extra_info)
+    {
+        _extra_infos.resize(pos + pos * sizeof(t_ExtraInfo));
+
+        reinterpret_cast<t_ExtraInfo*>(_extra_infos.data() + pos * sizeof(t_ExtraInfo))[0] =
+            extra_info;
+    }
+
+    const std::string& get_extra_infos() const { return _extra_infos; }
+    template<typename t_ExtraInfo>
+    t_ExtraInfo get_extra_info(size_t pos) const
+    {
+        if (pos + sizeof(t_ExtraInfo) > _extra_infos.size())
+            throw std::runtime_error(
+                fmt::format("DatagramInfoData: extra info at pos {} is not available", pos));
+
+        return reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data() + pos)[0];
+    }
+
+    bool operator==(const t_base&) const = default;
 
     // ----- to/from stream interface -----
     static DatagramInfoData<t_DatagramIdentifier> from_stream(std::istream& is)
     {
         DatagramInfoData<t_DatagramIdentifier> data;
 
-        is.read(reinterpret_cast<char*>(&data._file_pos),
-                sizeof(DatagramInfoData<t_DatagramIdentifier>));
+        constexpr static auto size = sizeof(size_t) + sizeof(double) + sizeof(t_DatagramIdentifier);
+
+        is.read(reinterpret_cast<char*>(&data._file_pos), size);
+
+        data._extra_infos = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         return data;
     }
 
     void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(&_file_pos),
-                 sizeof(DatagramInfoData<t_DatagramIdentifier>));
+        constexpr static auto size = sizeof(size_t) + sizeof(double) + sizeof(t_DatagramIdentifier);
+
+        os.write(reinterpret_cast<const char*>(&_file_pos), size);
+
+        tools::classhelper::stream::container_to_stream(os, _extra_infos);
     }
 
     // ----- objectprinter -----
@@ -112,6 +141,7 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
         _input_file_manager; ///< input file manager
 
     using t_base::_datagram_identifier;
+    using t_base::_extra_infos;
     using t_base::_file_pos;
     using t_base::_timestamp;
     // using from_stream; // make these private
@@ -138,6 +168,7 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
     }
 
     using t_base::get_datagram_identifier;
+    using t_base::get_extra_infos;
     using t_base::get_file_pos;
     using t_base::get_timestamp;
 

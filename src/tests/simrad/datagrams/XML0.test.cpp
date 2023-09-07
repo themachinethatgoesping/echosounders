@@ -49,7 +49,7 @@ TEST_CASE("XML0 should support common functions", TESTTAG)
     REQUIRE(dat == XML0(dat.from_binary(dat.to_binary())));
 
     // test stream
-    std::stringstream buffer;
+    std::stringstream buffer, buffer2, buffer3;
     dat.to_stream(buffer);
     REQUIRE(dat == XML0(dat.from_stream(buffer)));
 
@@ -59,6 +59,12 @@ TEST_CASE("XML0 should support common functions", TESTTAG)
     // --- test data access ---
     REQUIRE(dat.get_xml_datagram_type() == "Environment");
     REQUIRE(dat2.get_xml_datagram_type() == "Parameter");
+
+    // test get_datagram_type_from_stream()
+    dat.to_stream(buffer2);
+    REQUIRE(XML0::get_xml_datagram_type_from_stream(buffer2) == "Environment");
+    dat2.to_stream(buffer3);
+    REQUIRE(XML0::get_xml_datagram_type_from_stream(buffer3) == "Parameter");
 
     //--- datagram concept ---
 

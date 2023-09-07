@@ -10,7 +10,8 @@
 #include <themachinethatgoesping/echosounders/em3000/em3000_types.hpp>
 #include <themachinethatgoesping/echosounders/simrad/simrad_types.hpp>
 
-// note: this must be defined below the em3000/simrad includes otherwise datagram_identifier_to_string is unknown
+// note: this must be defined below the em3000/simrad includes otherwise
+// datagram_identifier_to_string is unknown
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/datagraminfo.hpp>
 
 // using namespace testing;
@@ -24,6 +25,8 @@ void test(t_DatagramInfoData& obj)
 {
     auto obj2 = t_DatagramInfoData(
         obj.get_file_pos() + 10, obj.get_timestamp() - 12, obj.get_datagram_identifier());
+
+    obj.set_extra_infos("test");
 
     // test inequality
     CHECK(obj != obj2);
@@ -41,6 +44,10 @@ void test(t_DatagramInfoData& obj)
 
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
+
+    // test extra infos
+    obj2 = DatagramInfoData(obj.from_binary(obj.to_binary()));
+    CHECK(obj2.get_extra_infos() == "test");
 }
 
 TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
