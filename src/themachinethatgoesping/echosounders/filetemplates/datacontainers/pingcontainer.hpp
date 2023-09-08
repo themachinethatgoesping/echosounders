@@ -16,6 +16,13 @@
 #include <unordered_map>
 #include <vector>
 
+/* themachinethatgoesping includes */
+#include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/progressbars.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
+
 #include <fmt/core.h>
 
 // xtensor includes
@@ -27,12 +34,6 @@
 
 // boost includes
 #include <boost/sort/sort.hpp> // for sort
-
-/* themachinethatgoesping includes */
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -235,6 +236,52 @@ class PingContainer
         return containers;
     }
 
+    /**
+     * @brief  Split the data in containers that have all requested features and containers that
+     * miss any of them
+     *
+     * @param and_features: ping will be sorted into first container if all features are present
+     * @param or_features: ping will be sorted into second container if any of the features is
+     * @return std::array<PingContainer<type_Ping>, 2>
+     */
+    std::array<PingContainer<type_Ping>, 2> break_by_features(
+        const std::vector<std::string>& and_features = {},
+        const std::vector<std::string>& or_features  = {}) const
+    {
+        std::array<PingContainer<type_Ping>, 2> containers;
+
+        for (const auto& ping : _pings)
+        {
+            for (const auto& feature : and_features)
+            {
+                if (!ping->has_feature(feature))
+                {
+                    containers[1].add_ping(ping);
+                    goto next_ping;
+                }
+            }
+
+            if (!or_features.empty())
+            {
+                for (const auto& feature : or_features)
+                {
+                    if (ping->has_feature(feature))
+                    {
+                        containers[0].add_ping(ping);
+                        goto next_ping;
+                    }
+                }
+                containers[1].add_ping(ping);
+                goto next_ping;
+            }
+            containers[0].add_ping(ping);
+
+        next_ping:;
+        }
+
+        return containers;
+    }
+
     // sort _datagram_infos_all by timestamp in _datagram_timestamps
     PingContainer<type_Ping> get_sorted_by_time() const
     {
@@ -301,6 +348,27 @@ class PingContainer
         }
 
         return std::make_tuple(min_time, max_time, is_sorted);
+    }
+
+    /**
+     * @brief  Split the data into a map of sensor configurations
+     * TODL: this function makes pybind11_mkdoc crash
+     *
+     * @return ping container map
+     */
+    std::unordered_map<navigation::SensorConfiguration, PingContainer<type_Ping>>
+    break_by_sensor_configuration() const
+    {
+        std::unordered_map<navigation::SensorConfiguration, PingContainer<type_Ping>> containers;
+
+        for (const auto& ping : _pings)
+        {
+            auto sensor_configuration = ping->get_sensor_configuration();
+            sensor_configuration.remove_target("Transducer");
+            containers[sensor_configuration].add_ping(ping);
+        }
+
+        return containers;
     }
 
     // ----- objectprinter -----

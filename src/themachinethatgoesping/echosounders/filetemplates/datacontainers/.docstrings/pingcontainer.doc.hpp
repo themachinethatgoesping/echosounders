@@ -1,4 +1,4 @@
-//sourcehash: 58111d4670e1de683380056eaacf58c08e4be3b4741272564627d8448223e213
+//sourcehash: ad8c93f43164557361526a417c7c60cdf285886ab0a3a2a270c45c2c04a1b87b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,6 +54,21 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_at = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_features =
+R"doc(Split the data in containers that have all requested features and
+containers that miss any of them
+
+Parameter ``and_features:``:
+    ping will be sorted into first container if all features are
+    present
+
+Parameter ``or_features:``:
+    ping will be sorted into second container if any of the features
+    is
+
+Returns:
+    std::array<PingContainer<type_Ping>, 2>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_time_diff =
 R"doc(Split the data if the time difference between two subsequent datagrams
 is larger than arg Note: for this function to make sense the data
@@ -91,8 +106,6 @@ R"doc(Construct a new PingContainer object from a vector of pings
 
 Parameter ``pings:``:
     vector of pings)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pyindexer = R"doc()doc";
 

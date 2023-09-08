@@ -20,6 +20,9 @@ namespace py_filetemplates {
 namespace py_datacontainers {
 namespace py_pingcontainer {
 
+#define DOC_PingContainer(ARG)                                                                     \
+    DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer, ARG)
+
 template<typename T_BaseClass, typename T_PyClass>
 void _PingContainer_add_interface(T_PyClass& cls)
 {
@@ -28,124 +31,67 @@ void _PingContainer_add_interface(T_PyClass& cls)
     /* get ping infos */
     cls.def("max_number_of_samples",
             &T_BaseClass::max_number_of_samples,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                max_number_of_samples));
+            DOC_PingContainer(max_number_of_samples));
 
     /* implement breakers */
     cls.def("break_by_time_diff",
             &T_BaseClass::break_by_time_diff,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                break_by_time_diff),
+            DOC_PingContainer(break_by_time_diff),
             py::arg("max_time_diff_seconds"));
+
+    cls.def("break_by_features",
+            &T_BaseClass::break_by_features,
+            DOC_PingContainer(break_by_features),
+            py::arg("and_features") = std::vector<std::string>(),
+            py::arg("or_features")  = std::vector<std::string>());
+
+    cls.def("break_by_sensor_configuration",
+            &T_BaseClass::break_by_sensor_configuration
+            // ,DOC_PingContainer(break_by_sensor_configuration) TODO: doc makes mkdoc crash
+            );
 
     /* implement sorters */
     cls.def("get_sorted_by_time",
             &T_BaseClass::get_sorted_by_time,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                get_sorted_by_time));
+            DOC_PingContainer(get_sorted_by_time));
 
     /* implement find info functions */
     cls.def("count_pings_per_channel_id",
             &T_BaseClass::count_pings_per_channel_id,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                count_pings_per_channel_id));
+            DOC_PingContainer(count_pings_per_channel_id));
 
-    cls.def("find_channel_ids",
-            &T_BaseClass::find_channel_ids,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                find_channel_ids));
+    cls.def(
+        "find_channel_ids", &T_BaseClass::find_channel_ids, DOC_PingContainer(find_channel_ids));
 
     /* ping filters */
     cls.def("__call__",
             py::overload_cast<const std::string&>(&T_BaseClass::operator(), py::const_),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                operator_call_2),
+            DOC_PingContainer(operator_call_2),
             py::arg("channel_id"));
     cls.def(
         "__call__",
         py::overload_cast<const std::vector<std::string>&>(&T_BaseClass::operator(), py::const_),
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datacontainers,
-            PingContainer,
-            operator_call_3),
+        DOC_PingContainer(operator_call_3),
         py::arg("channel_ids"));
 
     /* datagram reading */
-    cls.def("size",
-            &T_BaseClass::size,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                size));
-    cls.def("__len__",
-            &T_BaseClass::size,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                size));
-    cls.def("get_pings",
-            &T_BaseClass::get_pings,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                get_pings));
-    cls.def(
-        "__getitem__",
-        &T_BaseClass::at,
-        DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer, at),
-        py::arg("index"),
-        pybind11::return_value_policy::reference_internal);
+    cls.def("size", &T_BaseClass::size, DOC_PingContainer(size));
+    cls.def("__len__", &T_BaseClass::size, DOC_PingContainer(size));
+    cls.def("get_pings", &T_BaseClass::get_pings, DOC_PingContainer(get_pings));
+    cls.def("__getitem__",
+            &T_BaseClass::at,
+            DOC_PingContainer(at),
+            py::arg("index"),
+            pybind11::return_value_policy::reference_internal);
     cls.def("__getitem__",
             py::overload_cast<const tools::pyhelper::PyIndexer::Slice&>(&T_BaseClass::operator(),
                                                                         py::const_),
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                operator_call),
+            DOC_PingContainer(operator_call),
             py::arg("slice"),
             pybind11::return_value_policy::reference_internal);
     cls.def("__reversed__",
             &T_BaseClass::reversed,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datacontainers,
-                PingContainer,
-                reversed),
+            DOC_PingContainer(reversed),
             pybind11::return_value_policy::reference_internal);
 }
 
@@ -162,20 +108,9 @@ void create_PingContainerType(pybind11::module& m, const std::string& ITERATOR_N
             m,
             ITERATOR_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer))
-            .def(py::init<>(),
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     filetemplates,
-                     datacontainers,
-                     PingContainer,
-                     PingContainer))
+            .def(py::init<>(), DOC_PingContainer(PingContainer))
             .def(py::init<std::vector<std::shared_ptr<T_PingType>>>(),
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     filetemplates,
-                     datacontainers,
-                     PingContainer,
-                     PingContainer))
+                 DOC_PingContainer(PingContainer))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
