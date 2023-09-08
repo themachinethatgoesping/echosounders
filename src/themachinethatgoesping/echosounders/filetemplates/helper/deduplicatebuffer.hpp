@@ -24,10 +24,10 @@ namespace filetemplates {
 namespace helper {
 
 template<typename t_datagram>
-struct SlowHash
+struct BinaryHash
 {
-    size_t operator()(const t_datagram& arg) const { return arg.slow_hash(); }
-    size_t operator()(const std::shared_ptr<t_datagram>& arg) const { return arg->slow_hash(); }
+    size_t operator()(const t_datagram& arg) const { return arg.binary_hash(); }
+    size_t operator()(const std::shared_ptr<t_datagram>& arg) const { return arg->binary_hash(); }
 };
 
 template<typename t_datagram>
@@ -40,7 +40,7 @@ struct ContentOnlyHash
     }
 };
 
-template<typename t_datagram, template<typename> typename t_KeyHasher = SlowHash>
+template<typename t_datagram, template<typename> typename t_KeyHasher = BinaryHash>
 class DeduplicateBuffer
 {
     // this should be unnecessary by defining std::unordered_map<size_t,

@@ -1,4 +1,4 @@
-//sourcehash: e53772091423a75e14a6a9eb1f4a2ff4e632de6fdfe850a4660eea7f19f21eee
+//sourcehash: cb8a676ffadff5794ac99006493fc5feca48dcb0749aa4cbff96f9b1b63ad76a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,7 +64,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_PulseLength = R"doc(< used for cv ( PulseForm == 0))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_SampleInterval = R"doc()doc";
 
@@ -95,8 +95,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xm
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_parsed_completely = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_slow_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream = R"doc()doc";
 

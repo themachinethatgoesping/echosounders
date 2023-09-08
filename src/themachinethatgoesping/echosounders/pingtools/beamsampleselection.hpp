@@ -320,31 +320,11 @@ class BeamSampleSelection : public BeamSelection
         return printer;
     }
 
-    /**
-     * @brief provide fast version of the hash function
-     *
-     */
-    xxh::hash_t<64> slow_hash() const
-    {
-        xxh::hash3_state_t<64> hash_stream;
-        auto                   base_hash = BeamSelection::slow_hash();
-
-        hash_stream.update(&base_hash, sizeof(base_hash));
-
-        hash_stream.update(_first_sample_number_per_beam.data(),
-                           _first_sample_number_per_beam.size() *
-                               sizeof(decltype(_first_sample_number_per_beam)::value_type));
-        hash_stream.update(_last_sample_number_per_beam.data(),
-                           _last_sample_number_per_beam.size() *
-                               sizeof(decltype(_last_sample_number_per_beam)::value_type));
-        hash_stream.update(&_sample_step_ensemble, sizeof(uint16_t) * 3);
-        return hash_stream.digest();
-    }
 
   public:
     // -- class helper function macros --
     // define to_binary and from_binary functions (needs to_stream and from_stream)
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(BeamSampleSelection)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(BeamSampleSelection)
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
@@ -359,7 +339,7 @@ class BeamSampleSelection : public BeamSelection
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const BeamSampleSelection& data)
 {
-    return data.slow_hash();
+    return data.binary_hash();
 }
 
 } // namespace pingtools

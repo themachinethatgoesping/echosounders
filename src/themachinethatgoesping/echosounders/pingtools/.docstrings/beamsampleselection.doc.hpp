@@ -1,4 +1,4 @@
-//sourcehash: 6aeb1311eef7fc99434dfaa61ec5e06c57e2ece89cdbc8b7b00f14fb8f6ec585
+//sourcehash: 862a2bb81a6a18d0c674e447a1748724c8257762545d2fe5536f1223431491d8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -160,8 +160,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_last_sample_number_ensemble = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_set_sample_step_ensemble = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_slow_hash = R"doc(provide fast version of the hash function)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_to_stream =
 R"doc(Write a BeamSampleSelection to a binary stream

@@ -91,7 +91,6 @@ void init_c_xml_parameter_channel(pybind11::module& m)
         .def("parsed_completely",
              &XML_Parameter_Channel::parsed_completely,
              DOC_XML_Parameter_Channel(parsed_completely))
-        .def("slow_hash", &XML_Parameter_Channel::slow_hash, DOC_XML_Parameter_Channel(slow_hash))
 
         // ----- pybind macros -----
         // default copy functions

@@ -150,14 +150,14 @@ class I_InputFile
         size_t total_file_size = 0;
         size_t datagrams_old   = _datagram_interface.size();
 
-        progress_bar.init(0., double(file_paths.size()), "indexing files");
+        progress_bar.init(0., double(file_paths.size() - 1), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
             progress_bar.set_postfix(fmt::format("get file size {}/{}", i + 1, file_paths.size()));
             total_file_size += std::filesystem::file_size(file_paths[i]);
         }
 
-        progress_bar.init(0, double(total_file_size), "indexing files");
+        progress_bar.init(0, double(total_file_size - 1), "indexing files");
         for (unsigned int i = 0; i < file_paths.size(); ++i)
         {
             // progress_bar.set_postfix with the last 30 characters of the file path
@@ -209,7 +209,7 @@ class I_InputFile
                                             ///< initialized within this function
             if (!progress_bar.is_initialized())
             {
-                progress_bar.init(0., double(file_info.file_size), "indexing file");
+                progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
                 close_progressbar = true;
             }
             callback_scan_new_file_begin(file_path, file_nr);
@@ -302,7 +302,7 @@ class I_InputFile
                                         ///< initialized within this function
         if (!progress_bar.is_initialized())
         {
-            progress_bar.init(0., double(file_info.file_size), "indexing file");
+            progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
             close_progressbar = true;
         }
         auto pos = ifs.tellg();

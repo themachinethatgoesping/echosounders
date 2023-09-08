@@ -315,21 +315,9 @@ struct XML_Parameter_Channel
         return printer;
     }
 
-    xxh::hash_t<64> slow_hash() const
-    {
-        // hash streaming
-        xxh::hash3_state_t<64> hash_stream;
-
-        hash_stream.update(ChannelID);
-        hash_stream.update(&ChannelMode, sizeof(ChannelMode) + 12 * sizeof(double));
-        hash_stream.update(PingId);
-
-        return hash_stream.digest();
-    }
-
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(XML_Parameter_Channel)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter_Channel)
 };
 
 }
@@ -346,7 +334,7 @@ struct hash<
     size_t operator()(const themachinethatgoesping::echosounders::simrad::datagrams::xml_datagrams::
                           XML_Parameter_Channel& arg) const
     {
-        return arg.slow_hash();
+        return arg.binary_hash();
     }
 };
 }
