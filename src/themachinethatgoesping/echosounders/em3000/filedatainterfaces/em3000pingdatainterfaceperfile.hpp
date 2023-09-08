@@ -71,6 +71,9 @@ class EM3000PingDataInterfacePerFile
         auto param =
             this->configuration_data_interface_for_file_const().get_installation_parameters();
 
+        const auto& base_sensor_configuration =
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+
         t_ping base_ping(this->get_file_nr(), this->get_file_path(), param);
 
         for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
@@ -185,14 +188,14 @@ class EM3000PingDataInterfacePerFile
                 // load transducer locations from navigation
                 try
                 {
-                    auto sensor_configuration =
-                        this->navigation_data_interface().get_sensor_configuration();
+                    auto sensor_configuration = base_sensor_configuration;
                     sensor_configuration.add_target("Transducer",
                                                     sensor_configuration.get_target(channel_id));
-                    ping_ptr->set_sensor_configuration(std::move(sensor_configuration));
+                    ping_ptr->set_sensor_configuration(sensor_configuration);
+
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(
-                            ping_ptr->get_timestamp()));
+                            base_sensor_configuration, ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {

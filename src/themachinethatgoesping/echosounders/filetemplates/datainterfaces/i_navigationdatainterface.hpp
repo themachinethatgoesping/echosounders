@@ -49,10 +49,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         typename t_NavigationDataInterfacePerFile::type_ConfigurationDataInterface;
 
   protected:
-    navigation::NavigationInterpolatorLatLon _navigation_interpolator{
-        navigation::SensorConfiguration()
-    };
-    bool _initialized_navigation_interpolator = false;
+    std::unordered_map<navigation::SensorConfiguration, navigation::NavigationInterpolatorLatLon>
+         _navigation_interpolators;
+    bool _initialized_navigation_interpolators = false;
 
     std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
@@ -77,10 +76,10 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
     bool initialized_navigation_interpolator() const
     {
-        return _initialized_navigation_interpolator;
+        return _initialized_navigation_interpolators;
     }
-    void deinitialize() override { _initialized_navigation_interpolator = false; }
-    bool initialized() const override { return _initialized_navigation_interpolator; }
+    void deinitialize() override { _initialized_navigation_interpolators = false; }
+    bool initialized() const override { return _initialized_navigation_interpolators; }
 
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(bool                                force,
@@ -94,7 +93,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
-        if (!force && _initialized_navigation_interpolator)
+        if (!force && _initialized_navigation_interpolators)
         {
             // note: at this moment, navigation interpolator does not react if the configuration
             // changes ...
@@ -124,18 +123,26 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             existing_progressbar = false;
         }
 
-        primary_interfaces_per_file.front()->init_from_file(force);
-        _navigation_interpolator = primary_interfaces_per_file.front()->read_navigation_data();
-
-        for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
+        for (size_t i = 0; i < primary_interfaces_per_file.size(); ++i)
         {
             progress_bar.set_postfix(fmt::format("{}/{}", i, primary_interfaces_per_file.size()));
 
             try
             {
-                primary_interfaces_per_file[i]->init_from_file(force);
-                _navigation_interpolator.merge(
-                    primary_interfaces_per_file[i]->read_navigation_data());
+                const auto& sensor_configuration =
+                    _configuration_data_interface->get_sensor_configuration(
+                        primary_interfaces_per_file[i]->get_file_nr());
+
+                auto it = _navigation_interpolators.find(sensor_configuration);
+                if (it == _navigation_interpolators.end())
+                {
+                    _navigation_interpolators[sensor_configuration] =
+                        primary_interfaces_per_file[i]->read_navigation_data();
+                }
+                else
+                {
+                    it->second.merge(primary_interfaces_per_file[i]->read_navigation_data());
+                }
             }
             catch (std::exception& e)
             {
@@ -151,40 +158,56 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 progress_bar.tick();
         }
 
-        _initialized_navigation_interpolator = true;
+        _initialized_navigation_interpolators = true;
         if (!existing_progressbar)
             progress_bar.close(std::string("Done"));
     }
 
-    navigation::NavigationInterpolatorLatLon& get_navigation_data()
+    auto& get_navigation_interpolators() { return _navigation_interpolators; }
+
+    auto& get_navigation_interpolator(const navigation::SensorConfiguration& sensor_configuration)
     {
-        return _navigation_interpolator;
+        return _navigation_interpolators.at(sensor_configuration);
     }
 
-    navigation::datastructures::GeoLocationLatLon get_geolocation(const std::string& target_id,
-                                                                  double             timestamp)
+    navigation::datastructures::GeoLocationLatLon get_geolocation(
+        const navigation::SensorConfiguration& sensor_configuration,
+        const std::string&                     target_id,
+        double                                 timestamp)
     {
-        return _navigation_interpolator(target_id, timestamp);
+        return _navigation_interpolators.at(sensor_configuration)(target_id, timestamp);
     }
 
-    navigation::datastructures::SensorDataLatLon get_sensor_data(double timestamp)
+    navigation::datastructures::SensorDataLatLon get_sensor_data(
+        const navigation::SensorConfiguration& sensor_configuration,
+        double                                 timestamp)
     {
-        return _navigation_interpolator.get_sensor_data(timestamp);
+        return _navigation_interpolators.at(sensor_configuration).get_sensor_data(timestamp);
     }
 
-    void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
+    std::vector<std::string> channel_ids() const
     {
-        _navigation_interpolator.set_sensor_configuration(sensor_configuration);
+        std::vector<std::string> channel_ids;
+
+        for (const auto& [sensor_configuration, navigation_interpolator] :
+             _navigation_interpolators)
+        {
+            for (const auto& target_id :
+                 navigation_interpolator.get_sensor_configuration().get_target_ids())
+            {
+                channel_ids.push_back(target_id);
+            }
+        }
+
+        return channel_ids;
     }
 
-    const navigation::SensorConfiguration& get_sensor_configuration() const
+    std::vector<std::string> channel_ids(
+        const navigation::SensorConfiguration& sensor_configuration) const
     {
-        return _navigation_interpolator.get_sensor_configuration();
-    }
-
-    std::vector<std::string_view> channel_ids() const
-    {
-        return _navigation_interpolator.get_sensor_configuration().get_target_ids();
+        return _navigation_interpolators.at(sensor_configuration)
+            .get_sensor_configuration()
+            .get_target_ids();
     }
 
     // ----- old -----

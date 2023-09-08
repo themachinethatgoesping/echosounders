@@ -40,26 +40,32 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
     cls.def("configuration_data_interface",
             &T_BaseClass::configuration_data_interface,
             DOC_I_NavigationDataInterface(configuration_data_interface));
-    cls.def("get_navigation_data",
-            &T_BaseClass::get_navigation_data,
-            DOC_I_NavigationDataInterface(get_navigation_data));
+    cls.def("get_navigation_interpolators",
+            &T_BaseClass::get_navigation_interpolators,
+            DOC_I_NavigationDataInterface(get_navigation_interpolators));
+    cls.def("get_navigation_interpolator",
+            &T_BaseClass::get_navigation_interpolator,
+            DOC_I_NavigationDataInterface(get_navigation_interpolator),
+            py::arg("sensor_configuration"));
     cls.def("get_geolocation",
             &T_BaseClass::get_geolocation,
             DOC_I_NavigationDataInterface(get_geolocation),
+            py::arg("sensor_configuration"),
             py::arg("channel_id"),
             py::arg("timestamp"));
     cls.def("get_sensor_data",
             &T_BaseClass::get_sensor_data,
             DOC_I_NavigationDataInterface(get_sensor_data),
+            py::arg("sensor_configuration"),
             py::arg("timestamp"));
-    cls.def("get_sensor_configuration",
-            &T_BaseClass::get_sensor_configuration,
-            DOC_I_NavigationDataInterface(get_sensor_configuration));
-    cls.def("set_sensor_configuration",
-            &T_BaseClass::set_sensor_configuration,
-            DOC_I_NavigationDataInterface(set_sensor_configuration),
+    cls.def("channel_ids",
+            py::overload_cast<>(&T_BaseClass::channel_ids, py::const_),
+            DOC_I_NavigationDataInterface(channel_ids));
+    cls.def("channel_ids",
+            py::overload_cast<const navigation::SensorConfiguration&>(&T_BaseClass::channel_ids,
+                                                                      py::const_),
+            DOC_I_NavigationDataInterface(channel_ids_2),
             py::arg("sensor_configuration"));
-    cls.def("channel_ids", &T_BaseClass::channel_ids, DOC_I_NavigationDataInterface(channel_ids));
 }
 
 }

@@ -55,7 +55,7 @@ class EM3000NavigationDataInterfacePerFile
             this->configuration_data_interface_const().get_sensor_configuration(
                 this->get_file_nr()));
 
-        auto config =
+        const auto& config =
             this->configuration_data_interface_const().per_file_const(this->get_file_nr());
 
         /* ----- scan through position datagrams ----- */

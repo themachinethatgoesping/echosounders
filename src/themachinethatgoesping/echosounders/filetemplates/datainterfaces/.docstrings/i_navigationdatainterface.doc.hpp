@@ -1,4 +1,4 @@
-//sourcehash: e05f798403adbbe2993c89f407888e8649df76282001ebbbce5f99e92d438f92
+//sourcehash: 7761fc70a8fa010750a82108898342894f227cbc9ddfedc4152b3d2810a311da
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,6 +46,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_channel_ids = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_channel_ids_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_configuration_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_configuration_data_interface_2 = R"doc()doc";
@@ -56,9 +58,9 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_geolocation = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_sensor_configuration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_sensor_data = R"doc()doc";
 
@@ -68,13 +70,11 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized_navigation_interpolator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized_navigation_interpolator_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized_navigation_interpolators = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_navigation_interpolator = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_set_sensor_configuration = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

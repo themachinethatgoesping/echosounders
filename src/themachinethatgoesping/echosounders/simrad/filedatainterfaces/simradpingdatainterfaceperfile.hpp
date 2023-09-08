@@ -61,6 +61,9 @@ class SimradPingDataInterfacePerFile
     {
         filedatacontainers::SimradPingContainer<t_ifstream> pings;
 
+        const auto& base_sensor_configuration =
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+
         for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
             auto type = datagram_ptr->get_datagram_identifier();
@@ -122,14 +125,13 @@ class SimradPingDataInterfacePerFile
 
                     ping->raw_data().add_parameter(_channel_parameter_buffer.get(channel_id));
 
-                    auto sensor_configuration =
-                        this->navigation_data_interface().get_sensor_configuration();
+                    auto sensor_configuration = base_sensor_configuration;
                     sensor_configuration.add_target("Transducer",
                                                     sensor_configuration.get_target(channel_id));
-                    ping->set_sensor_configuration(std::move(sensor_configuration));
+                    ping->set_sensor_configuration(sensor_configuration);
 
-                    ping->set_sensor_data_latlon(
-                        this->navigation_data_interface().get_sensor_data(ping->get_timestamp()));
+                    ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
+                        base_sensor_configuration, ping->get_timestamp()));
 
                     pings.add_ping(ping);
                     break;
