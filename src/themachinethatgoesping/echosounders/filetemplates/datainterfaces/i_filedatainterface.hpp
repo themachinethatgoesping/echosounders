@@ -96,6 +96,19 @@ class I_FileDataInterface
         deinitialize();
     }
 
+    static std::vector<std::shared_ptr<t_filedatainterface_perfile>> sort_by_time(
+        std::vector<std::shared_ptr<t_filedatainterface_perfile>> interfaces)
+    {
+        boost::sort::pdqsort(
+            interfaces.begin(), interfaces.end(), [](const auto& lhs, const auto& rhs) {
+                if (lhs->get_timestamp_first() < rhs->get_timestamp_first())
+                    return true;
+                return false;
+            });
+
+        return interfaces;
+    }
+
     /**
      * @brief get a vector with references to the per file interfaces
      * This is useful for iterating over all files
@@ -119,8 +132,6 @@ class I_FileDataInterface
         std::vector<std::shared_ptr<t_filedatainterface_perfile>> primary_files;
         for (const auto& file : _interface_per_file)
         {
-            file->get_timestamp_first();
-
             if (file->is_primary_file())
                 primary_files.push_back(file);
         }
@@ -143,7 +154,6 @@ class I_FileDataInterface
             if (file->is_secondary_file())
                 secondary_files.push_back(file);
         }
-
         return secondary_files;
     }
 

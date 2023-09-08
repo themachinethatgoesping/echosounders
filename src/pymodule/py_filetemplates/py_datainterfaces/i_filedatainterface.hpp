@@ -35,6 +35,11 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     using namespace themachinethatgoesping::tools::progressbars;
 
     /* datagram access */
+    cls.def_static("sort_by_time",
+                   &T_BaseClass::sort_by_time,
+                   DOC_FileDataInterface(sort_by_time),
+                   py::arg("fileinterfaces"));
+
     cls.def(
         "per_file", py::overload_cast<>(&T_BaseClass::per_file), DOC_FileDataInterface(per_file));
     cls.def("per_file",

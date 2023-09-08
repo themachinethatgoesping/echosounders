@@ -1,4 +1,4 @@
-//sourcehash: 41acae60d8c9913e9659ec5d425aa4533efe8a1f84dd6f43bf1fc52fd9f17549
+//sourcehash: db45b66c07cea55b3fac4fe55d1c28185d4ce460577f16ec964b4b6afc6e16b2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -94,6 +94,8 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_pyindexer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_sort_by_time = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterface_verify_linked_file_interfaces_are_consistent = R"doc(This functions throws if linked file interfaces are not consistent)doc";
 
