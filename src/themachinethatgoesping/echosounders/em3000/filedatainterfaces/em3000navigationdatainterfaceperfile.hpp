@@ -49,6 +49,8 @@ class EM3000NavigationDataInterfacePerFile
     }
     ~EM3000NavigationDataInterfacePerFile() = default;
 
+    
+
     navigation::NavigationInterpolatorLatLon read_navigation_data() const final
     {
         navigation::NavigationInterpolatorLatLon navi(
@@ -91,28 +93,29 @@ class EM3000NavigationDataInterfacePerFile
         }
 
         /* ----- scan through depth/height datagrams ----- */
-        std::vector<double> depths;
-        std::vector<double> times_depth;
-        for (auto& packet : this->_datagram_infos_by_type.at_const(
-                 t_EM3000DatagramIdentifier::DepthOrHeightDatagram))
-        {
-            auto datagram =
-                packet->template read_datagram_from_file<datagrams::DepthOrHeightDatagram>();
+        // for now ignore depth datagrams
+        // std::vector<double> depths;
+        // std::vector<double> times_depth;
+        // for (auto& packet : this->_datagram_infos_by_type.at_const(
+        //          t_EM3000DatagramIdentifier::DepthOrHeightDatagram))
+        // {
+        //     auto datagram =
+        //         packet->template read_datagram_from_file<datagrams::DepthOrHeightDatagram>();
 
-            double timestamp = datagram.get_timestamp();
+        //     double timestamp = datagram.get_timestamp();
 
-            if (!times_depth.empty())
-                if (!(times_depth.back() < timestamp))
-                    throw std::runtime_error(fmt::format(
-                        "ERROR in file [{}]: {} "
-                        "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
-                        "timestamps are not strictly increasing. This is not supported yet.",
-                        this->get_file_nr(),
-                        this->get_file_path()));
+        //     if (!times_depth.empty())
+        //         if (!(times_depth.back() < timestamp))
+        //             throw std::runtime_error(fmt::format(
+        //                 "ERROR in file [{}]: {} "
+        //                 "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+        //                 "timestamps are not strictly increasing. This is not supported yet.",
+        //                 this->get_file_nr(),
+        //                 this->get_file_path()));
 
-            times_depth.push_back(timestamp);
-            depths.push_back(-datagram.get_height_in_meters());
-        }
+        //     times_depth.push_back(timestamp);
+        //     depths.push_back(-datagram.get_height_in_meters());
+        // }
 
         /* ----- scan through attitude datagrams ----- */
         std::vector<double> headings_attitudes, pitchs, rolls, heaves;
@@ -211,7 +214,7 @@ class EM3000NavigationDataInterfacePerFile
         navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
         navi.set_data_heave(std::move(times_heave), std::move(heaves));
         navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
-        navi.set_data_depth(std::move(times_depth), std::move(depths));
+        //navi.set_data_depth(std::move(times_depth), std::move(depths));
 
         return navi;
     }
