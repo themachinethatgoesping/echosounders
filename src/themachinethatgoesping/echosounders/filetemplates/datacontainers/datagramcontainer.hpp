@@ -310,7 +310,7 @@ class DatagramContainer
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("pyindex: {}\n", _pyindexer(index));
             msg += fmt::format("__datagram_infos.size(): {}\n", _datagram_infos.size());
-            msg += fmt::format("pos: {}\n", static_cast<long long>(datagram_info->get_file_pos()));
+            msg += fmt::format("pos: {}\n", static_cast<uint64_t>(datagram_info->get_file_pos()));
             throw std::runtime_error(msg);
         }
     }
