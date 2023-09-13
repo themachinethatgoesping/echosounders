@@ -131,15 +131,15 @@ class EM3000Ping
     //     return _raw_data->get_number_of_beams();
     // }
 
-    // xt::xtensor<float, 1> get_beam_pointing_angles() const final
+    // xt::xtensor<float, 1> get_beam_crosstrack_angles() const final
     // {
-    //     return raw_data().get_beam_pointing_angles();
+    //     return raw_data().get_beam_crosstrack_angles();
     // }
 
-    // xt::xtensor<float, 1> get_beam_pointing_angles(
+    // xt::xtensor<float, 1> get_beam_crosstrack_angles(
     //     const pingtools::BeamSampleSelection& selection) const final
     // {
-    //     return raw_data().get_beam_pointing_angles(selection);
+    //     return raw_data().get_beam_crosstrack_angles(selection);
     // }
 
     // xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final

@@ -1,4 +1,4 @@
-//sourcehash: a81445f4c0394052d4d4c1b3fe12d6cb2f863221c2d95121953acca156c62880
+//sourcehash: 74d61b71e1b55539bba727b9c5823714bd6513be1826cd4d1e721fff884feac6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,7 +52,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatype
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_sub_WaterColumnInformation_get_beam_pointing_angles = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_sub_WaterColumnInformation_get_beam_crosstrack_angles = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatatypes_sub_WaterColumnInformation_get_detected_range_in_samples = R"doc()doc";
 

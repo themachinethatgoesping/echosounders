@@ -73,12 +73,12 @@ void init_c_extradetectionsextradetections(pybind11::module& m)
         .def("get_delta_longitude",
              &ExtraDetectionsExtraDetections::get_delta_longitude,
              DOC_ExtraDetectionsExtraDetections(delta_longitude))
-        .def("set_beam_pointing_angle",
-             &ExtraDetectionsExtraDetections::set_beam_pointing_angle,
-             DOC_ExtraDetectionsExtraDetections(beam_pointing_angle))
-        .def("get_beam_pointing_angle",
-             &ExtraDetectionsExtraDetections::get_beam_pointing_angle,
-             DOC_ExtraDetectionsExtraDetections(beam_pointing_angle))
+        .def("set_beam_crosstrack_angle",
+             &ExtraDetectionsExtraDetections::set_beam_crosstrack_angle,
+             DOC_ExtraDetectionsExtraDetections(beam_crosstrack_angle))
+        .def("get_beam_crosstrack_angle",
+             &ExtraDetectionsExtraDetections::get_beam_crosstrack_angle,
+             DOC_ExtraDetectionsExtraDetections(beam_crosstrack_angle))
         .def("set_applied_pointing_angle_correction",
              &ExtraDetectionsExtraDetections::set_applied_pointing_angle_correction,
              DOC_ExtraDetectionsExtraDetections(applied_pointing_angle_correction))

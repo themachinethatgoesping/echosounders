@@ -104,21 +104,42 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
 
     /**
-     * @brief Get the beam pointing angles for this ping in °
+     * @brief Get the beam crosstrack angles for this ping in °
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_pointing_angles()
+    xt::xtensor<float, 1> get_beam_crosstrack_angles()
     {
-        return get_beam_pointing_angles(get_beam_selection_all());
+        return get_beam_crosstrack_angles(get_beam_selection_all());
     }
 
     /**
-     * @brief Get the beam pointing angles for this ping in °
+     * @brief Get the beam crosstrack angles for this ping in °
      *
      * @return xt::xtensor<float, 1>
      */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+    virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
+    {
+        throw not_implemented(__func__, get_name());
+    }
+
+    /**
+     * @brief Get the beam alongtrack angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 1> get_beam_alongtrack_angles()
+    {
+        return get_beam_alongtrack_angles(get_beam_selection_all());
+    }
+
+    /**
+     * @brief Get the beam alongtrack angles for this ping in °
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    virtual xt::xtensor<float, 1> get_beam_alongtrack_angles(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, get_name());

@@ -37,7 +37,7 @@ namespace substructures {
  */
 class WatercolumnDatagramBeam
 {
-    int16_t  _beam_pointing_angle; ///< re vertical in 0.01 steps°
+    int16_t  _beam_crosstrack_angle; ///< re vertical in 0.01 steps°
     uint16_t _start_range_sample_number;
     uint16_t _number_of_samples;
     uint16_t _detected_range_in_samples;
@@ -61,7 +61,7 @@ class WatercolumnDatagramBeam
 
     // ----- convenient member access -----
     // getters
-    int16_t  get_beam_pointing_angle() const { return _beam_pointing_angle; }
+    int16_t  get_beam_crosstrack_angle() const { return _beam_crosstrack_angle; }
     uint16_t get_start_range_sample_number() const { return _start_range_sample_number; }
     uint16_t get_number_of_samples() const { return _number_of_samples; }
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
@@ -70,9 +70,9 @@ class WatercolumnDatagramBeam
     size_t   get_sample_position() const { return _sample_pos; }
 
     // setters
-    void set_beam_pointing_angle(int16_t beam_pointing_angle)
+    void set_beam_crosstrack_angle(int16_t beam_crosstrack_angle)
     {
-        _beam_pointing_angle = beam_pointing_angle;
+        _beam_crosstrack_angle = beam_crosstrack_angle;
     }
     void set_start_range_sample_number(uint16_t start_range_sample_number)
     {
@@ -172,9 +172,9 @@ class WatercolumnDatagramBeam
     /**
      * @brief get the tilt angle in °
      *
-     * @return _beam_pointing_angle * 0.1° (float)
+     * @return _beam_crosstrack_angle * 0.1° (float)
      */
-    float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.01f; }
+    float get_beam_crosstrack_angle_in_degrees() const { return _beam_crosstrack_angle * 0.01f; }
 
     xt::xtensor<float, 1> get_samples_in_db(float db_offset = 0.f) const
     {
@@ -193,7 +193,7 @@ class WatercolumnDatagramBeam
         WatercolumnDatagramBeam data;
 
         // read the first part of the data
-        is.read(reinterpret_cast<char*>(&data._beam_pointing_angle), 10 * sizeof(uint8_t));
+        is.read(reinterpret_cast<char*>(&data._beam_crosstrack_angle), 10 * sizeof(uint8_t));
 
         // save the position of the samples of this beam
         data._sample_pos = is.tellg();
@@ -230,7 +230,7 @@ class WatercolumnDatagramBeam
         _number_of_samples = _samples.size();
 
         // write the first part of the data
-        os.write(reinterpret_cast<const char*>(&_beam_pointing_angle), 10 * sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&_beam_crosstrack_angle), 10 * sizeof(uint8_t));
 
         // write the sample amplitudes
         if (!_samples_are_skipped)
@@ -253,7 +253,7 @@ class WatercolumnDatagramBeam
     // ----- operators -----
     bool operator==(const WatercolumnDatagramBeam& other) const
     {
-        return _beam_pointing_angle == other._beam_pointing_angle &&
+        return _beam_crosstrack_angle == other._beam_crosstrack_angle &&
                _start_range_sample_number == other._start_range_sample_number &&
                _number_of_samples == other._number_of_samples &&
                _detected_range_in_samples == other._detected_range_in_samples &&
@@ -268,7 +268,7 @@ class WatercolumnDatagramBeam
         tools::classhelper::ObjectPrinter printer("WatercolumnDatagramBeam", float_precision);
 
         // raw values
-        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "0.01°");
+        printer.register_value("beam_crosstrack_angle", _beam_crosstrack_angle, "0.01°");
 
         printer.register_value("start_range_sample_number", _start_range_sample_number);
         printer.register_value("number_of_samples", _number_of_samples);
@@ -285,7 +285,7 @@ class WatercolumnDatagramBeam
 
         // processed values
         printer.register_section("processed");
-        printer.register_value("beam_pointing_angle", get_beam_pointing_angle_in_degrees(), "°");
+        printer.register_value("beam_crosstrack_angle", get_beam_crosstrack_angle_in_degrees(), "°");
 
         return printer;
     }

@@ -1,4 +1,4 @@
-//sourcehash: 8dc84551342cd893654115e868034e4dc7b707993eb64ec1db6ba482a9c6544e
+//sourcehash: 772841dd0bee32f45c4ac8839f265d4fb6c423247d9c62bbc095020e7cbaf2ed
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,7 +46,7 @@ depth and ray bending through the water column have been applied.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_RawRangeAndAngleBeam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_beam_crosstrack_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_d_corr = R"doc()doc";
 
@@ -66,13 +66,13 @@ Returns:
 Returns:
     false)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_beam_crosstrack_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_beam_pointing_angle_in_degrees =
-R"doc(Get the beam pointing angle in °
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_beam_crosstrack_angle_in_degrees =
+R"doc(Get the beam crosstrack angle in °
 
 Returns:
-    _beam_pointing_angle * 0.01 (float))doc";
+    _beam_crosstrack_angle * 0.01 (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_get_d_corr = R"doc()doc";
 
@@ -126,7 +126,7 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_reflectivity = R"doc(< in 0.1 dB resolution)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_set_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_set_beam_crosstrack_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_RawRangeAndAngleBeam_set_d_corr = R"doc()doc";
 

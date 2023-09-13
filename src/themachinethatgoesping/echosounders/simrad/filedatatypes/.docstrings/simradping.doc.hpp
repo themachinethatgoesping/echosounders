@@ -1,4 +1,4 @@
-//sourcehash: 5f7459cc7a5b1ba85fd441898439aceaf32986887e297adb6de4a4d40bec1e06
+//sourcehash: ecf2653ef0baddf65eddb787eeea6713d23fe7f55189a0c8b50bfbba2f53a09a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,7 +54,7 @@ Throws:
 Returns:
     xt::xtensor<float, 2>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_beam_pointing_angles = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_beam_crosstrack_angles = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simrad_filedatatypes_SimradPing_get_file_nr = R"doc()doc";
 

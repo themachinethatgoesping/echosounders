@@ -43,13 +43,13 @@ void init_c_rawrangeandangle(pybind11::module& m)
                  &RawRangeAndAngle::get_two_way_travel_times, py::const_),
              DOC_RawRangeAndAngle(get_two_way_travel_times_2),
              py::arg("beam_numbers"))
-        .def("get_beam_pointing_angles",
-             py::overload_cast<>(&RawRangeAndAngle::get_beam_pointing_angles, py::const_),
-             DOC_RawRangeAndAngle(get_beam_pointing_angles))
-        .def("get_beam_pointing_angles",
+        .def("get_beam_crosstrack_angles",
+             py::overload_cast<>(&RawRangeAndAngle::get_beam_crosstrack_angles, py::const_),
+             DOC_RawRangeAndAngle(get_beam_crosstrack_angles))
+        .def("get_beam_crosstrack_angles",
              py::overload_cast<const std::vector<uint16_t>&>(
-                 &RawRangeAndAngle::get_beam_pointing_angles, py::const_),
-             DOC_RawRangeAndAngle(get_beam_pointing_angles_2),
+                 &RawRangeAndAngle::get_beam_crosstrack_angles, py::const_),
+             DOC_RawRangeAndAngle(get_beam_crosstrack_angles_2),
              py::arg("beam_numbers"))
 
         // --- convenient data access ---

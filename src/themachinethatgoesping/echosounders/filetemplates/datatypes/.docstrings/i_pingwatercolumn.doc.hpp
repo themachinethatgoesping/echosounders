@@ -1,4 +1,4 @@
-//sourcehash: 3dcfaf12df159ac5fd586b085d149224dc05ceb13904ee536e92e68375de87d4
+//sourcehash: de57abe7f19cae95fc8e9054b301f2bb460e8f3c128c71ceb570a5cbebf57203
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,14 +63,26 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<float,2>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_pointing_angles =
-R"doc(Get the beam pointing angles for this ping in °
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_alongtrack_angles =
+R"doc(Get the beam alongtrack angles for this ping in °
 
 Returns:
     xt::xtensor<float, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_pointing_angles_2 =
-R"doc(Get the beam pointing angles for this ping in °
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_alongtrack_angles_2 =
+R"doc(Get the beam alongtrack angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles =
+R"doc(Get the beam crosstrack angles for this ping in °
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles_2 =
+R"doc(Get the beam crosstrack angles for this ping in °
 
 Returns:
     xt::xtensor<float, 1>)doc";

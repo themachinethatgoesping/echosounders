@@ -1,4 +1,4 @@
-//sourcehash: 6fd8e94b64021ee9714f6feea8ddff669c5a096a36b9d993aaf6b26159114793
+//sourcehash: ae0ebcaab134cb064396bede65b7076e3467189c831bb62dd0ed788322ddfaeb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,14 +44,14 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_pointing_angles =
-R"doc(Get the beam pointing angles for this ping in °
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles =
+R"doc(Get the beam crosstrack angles for this ping in °
 
 Returns:
     xt::xtensor<float, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_pointing_angles_2 =
-R"doc(Get the beam pointing angles for this ping in °
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_2 =
+R"doc(Get the beam crosstrack angles for this ping in °
 
 Returns:
     xt::xtensor<float, 1>)doc";
@@ -106,8 +106,8 @@ Parameter ``selection``:
 Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_pointing_angles =
-R"doc(Check this pings supports the extraction of beam_pointing_angles
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles =
+R"doc(Check this pings supports the extraction of beam_crosstrack_angles
 
 Returns:
     true

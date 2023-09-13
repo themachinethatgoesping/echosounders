@@ -44,12 +44,12 @@ void init_c_rawrangeandanglebeam(pybind11::module& m)
         .def(py::init<>(), DOC_RawRangeAndAngleBeam(RawRangeAndAngleBeam))
 
         // --- convenient data access ---
-        .def("set_beam_pointing_angle",
-             &RawRangeAndAngleBeam::set_beam_pointing_angle,
-             DOC_RawRangeAndAngleBeam(beam_pointing_angle))
-        .def("get_beam_pointing_angle",
-             &RawRangeAndAngleBeam::get_beam_pointing_angle,
-             DOC_RawRangeAndAngleBeam(beam_pointing_angle))
+        .def("set_beam_crosstrack_angle",
+             &RawRangeAndAngleBeam::set_beam_crosstrack_angle,
+             DOC_RawRangeAndAngleBeam(beam_crosstrack_angle))
+        .def("get_beam_crosstrack_angle",
+             &RawRangeAndAngleBeam::get_beam_crosstrack_angle,
+             DOC_RawRangeAndAngleBeam(beam_crosstrack_angle))
         .def("set_transmit_sector_number",
              &RawRangeAndAngleBeam::set_transmit_sector_number,
              DOC_RawRangeAndAngleBeam(transmit_sector_number))
@@ -98,9 +98,9 @@ void init_c_rawrangeandanglebeam(pybind11::module& m)
         .def("get_spare", &RawRangeAndAngleBeam::get_spare, DOC_RawRangeAndAngleBeam(spare))
 
         // --- processed member access ---
-        .def("get_beam_pointing_angle_in_degrees",
-             &RawRangeAndAngleBeam::get_beam_pointing_angle_in_degrees,
-             DOC_RawRangeAndAngleBeam(get_beam_pointing_angle_in_degrees))
+        .def("get_beam_crosstrack_angle_in_degrees",
+             &RawRangeAndAngleBeam::get_beam_crosstrack_angle_in_degrees,
+             DOC_RawRangeAndAngleBeam(get_beam_crosstrack_angle_in_degrees))
         .def("get_reflectivity_in_db",
              &RawRangeAndAngleBeam::get_reflectivity_in_db,
              DOC_RawRangeAndAngleBeam(get_reflectivity_in_db))

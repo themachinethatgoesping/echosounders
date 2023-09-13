@@ -97,7 +97,7 @@ class EM3000PingBottom
     // using t_base1::has_xyz;
     using t_base2::raw_data;
 
-    bool has_beam_pointing_angles() const override { return has_two_way_travel_times(); }
+    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
 
     bool has_xyz() const override
     {
@@ -127,12 +127,12 @@ class EM3000PingBottom
         return datagram.get_two_way_travel_times(selection.get_beam_numbers());
     }
 
-    xt::xtensor<float, 1> get_beam_pointing_angles(
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
     {
         auto datagram = raw_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 
-        return datagram.get_beam_pointing_angles(selection.get_beam_numbers());
+        return datagram.get_beam_crosstrack_angles(selection.get_beam_numbers());
     }
 
     // ----- objectprinter -----

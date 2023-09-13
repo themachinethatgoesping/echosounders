@@ -46,13 +46,21 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("get_number_of_beams",
                  &I_PingWatercolumn::get_number_of_beams,
                  DOC_I_PingWatercolumn(get_number_of_beams))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<>(&I_PingWatercolumn::get_beam_pointing_angles),
-                 DOC_I_PingWatercolumn(get_beam_pointing_angles))
-            .def("get_beam_pointing_angles",
+            .def("get_beam_crosstrack_angles",
+                 py::overload_cast<>(&I_PingWatercolumn::get_beam_crosstrack_angles),
+                 DOC_I_PingWatercolumn(get_beam_crosstrack_angles))
+            .def("get_beam_crosstrack_angles",
                  py::overload_cast<const pingtools::BeamSelection&>(
-                     &I_PingWatercolumn::get_beam_pointing_angles),
-                 DOC_I_PingWatercolumn(get_beam_pointing_angles),
+                     &I_PingWatercolumn::get_beam_crosstrack_angles),
+                 DOC_I_PingWatercolumn(get_beam_crosstrack_angles),
+                 py::arg("beam_selection"))
+            .def("get_beam_alongtrack_angles",
+                 py::overload_cast<>(&I_PingWatercolumn::get_beam_alongtrack_angles),
+                 DOC_I_PingWatercolumn(get_beam_alongtrack_angles))
+            .def("get_beam_alongtrack_angles",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_beam_alongtrack_angles),
+                 DOC_I_PingWatercolumn(get_beam_alongtrack_angles),
                  py::arg("beam_selection"))
 
             .def("get_beam_sample_selection_all",

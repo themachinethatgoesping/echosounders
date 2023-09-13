@@ -112,17 +112,17 @@ class RawRangeAndAngle : public EM3000Datagram
         return twtt;
     }
     /**
-     * @brief Read the beam pointing angles from the RawRangeAndAngle structure
+     * @brief Read the beam crosstrack angles from the RawRangeAndAngle structure
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_pointing_angles() const
+    xt::xtensor<float, 1> get_beam_crosstrack_angles() const
     {
         auto bpa = xt::xtensor<float, 1>::from_shape({ _beams.size() });
 
         for (unsigned int bn = 0; bn < _beams.size(); ++bn)
         {
-            bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle();
+            bpa.unchecked(bn) = _beams[bn].get_beam_crosstrack_angle();
         }
 
         return bpa;
@@ -136,7 +136,7 @@ class RawRangeAndAngle : public EM3000Datagram
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_pointing_angles(const std::vector<uint16_t>& beam_numbers) const
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(const std::vector<uint16_t>& beam_numbers) const
     {
         auto bpa = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
 
@@ -145,7 +145,7 @@ class RawRangeAndAngle : public EM3000Datagram
             if (bn >= _beams.size())
                 bpa.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
             else
-                bpa.unchecked(bn) = _beams[bn].get_beam_pointing_angle_in_degrees();
+                bpa.unchecked(bn) = _beams[bn].get_beam_crosstrack_angle_in_degrees();
         }
 
         return bpa;

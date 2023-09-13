@@ -92,7 +92,7 @@ class EM3000PingWatercolumn
         if (!has_amplitudes())
             return 0;
 
-        return get_wcinfos().get_beam_pointing_angles().size();
+        return get_wcinfos().get_beam_crosstrack_angles().size();
     }
 
     // common variable access
@@ -102,24 +102,50 @@ class EM3000PingWatercolumn
     }
 
     // ----- getter/setters -----
-    xt::xtensor<float, 1> get_beam_pointing_angles(
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
     {
         const auto beam_numbers = selection.get_beam_numbers();
 
-        auto beam_pointing_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
-        const auto& wcinfos       = get_wcinfos();
+        auto beam_crosstrack_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+        const auto& wcinfos         = get_wcinfos();
 
         for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
         {
-            if (beam_numbers[nr] >= wcinfos.get_beam_pointing_angles().size())
-                beam_pointing_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
+            if (beam_numbers[nr] >= wcinfos.get_beam_crosstrack_angles().size())
+                beam_crosstrack_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
             else
-                beam_pointing_angles.unchecked(nr) =
-                    wcinfos.get_beam_pointing_angles().unchecked(beam_numbers[nr]);
+                beam_crosstrack_angles.unchecked(nr) =
+                    wcinfos.get_beam_crosstrack_angles().unchecked(beam_numbers[nr]);
         }
 
-        return beam_pointing_angles;
+        return beam_crosstrack_angles;
+    }
+
+    xt::xtensor<float, 1> get_beam_alongtrack_angles(
+        const pingtools::BeamSelection& selection) override
+    {
+        const auto beam_numbers = selection.get_beam_numbers();
+
+        auto beam_alongtrack_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+        const auto& wcinfos         = get_wcinfos();
+        const auto& wcidata         = wcinfos.get_water_column_datagram();
+        const auto& transmit_sector_numbers = wcinfos.get_transmit_sector_numbers();
+
+        std::vector<float> transmit_sector_angles;
+        for (const auto& ts : wcidata.get_transmit_sectors())
+            transmit_sector_angles.push_back(ts.get_tilt_angle_in_degrees());
+
+        for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
+        {
+            auto bn = beam_numbers[nr];
+            if (bn >= wcinfos.get_beam_crosstrack_angles().size())
+                beam_alongtrack_angles.unchecked(nr) = std::numeric_limits<float>::quiet_NaN();
+
+            beam_alongtrack_angles[nr] = transmit_sector_angles[transmit_sector_numbers[bn]];
+        }
+
+        return beam_alongtrack_angles;
     }
 
     const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers()
@@ -246,7 +272,7 @@ class EM3000PingWatercolumn
 
         auto& wcinfos = get_wcinfos();
 
-        printer.register_container("beam_pointing_angles", wcinfos.get_beam_pointing_angles());
+        printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles());
         printer.register_container("start_range_sample_numbers",
                                    wcinfos.get_start_range_sample_numbers());
         printer.register_container("number_of_samples_per_bean",

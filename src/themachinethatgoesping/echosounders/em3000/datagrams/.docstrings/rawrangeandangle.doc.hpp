@@ -1,4 +1,4 @@
-//sourcehash: 2f9028f0f81c2057fb81990beaa9e58f187557b8d5a351fa45fc8ab918826fbd
+//sourcehash: 7487399d918f66311b2eb0d8bb15c380f82ad988a7d25d3529fed6cd1be4c13e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,13 +65,13 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_Ra
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_from_stream_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_beam_pointing_angles =
-R"doc(Read the beam pointing angles from the RawRangeAndAngle structure
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_beam_crosstrack_angles =
+R"doc(Read the beam crosstrack angles from the RawRangeAndAngle structure
 
 Returns:
     xt::xtensor<float, 1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_beam_pointing_angles_2 =
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_RawRangeAndAngle_get_beam_crosstrack_angles_2 =
 R"doc(Read the two way travel times for given beam_number vector from the
 RawRangeAndAngle structure Note: if a beam number is not found, the
 corresponding time value will be NaN

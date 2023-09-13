@@ -55,8 +55,8 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom()
         : I_PingCommon("I_PingBottom")
     {
-        register_feature("beam_pointing_angles",
-                         std::bind(&I_PingBottom::has_beam_pointing_angles, this));
+        register_feature("beam_crosstrack_angles",
+                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
         register_feature("two_way_travel_times",
                          std::bind(&I_PingBottom::has_two_way_travel_times, this));
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
@@ -67,8 +67,8 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom(const I_PingBottom& other)
         : I_PingCommon(other)
     {
-        register_feature("beam_pointing_angles",
-                         std::bind(&I_PingBottom::has_beam_pointing_angles, this));
+        register_feature("beam_crosstrack_angles",
+                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
         register_feature("two_way_travel_times",
                          std::bind(&I_PingBottom::has_two_way_travel_times, this));
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
@@ -96,21 +96,21 @@ class I_PingBottom : virtual public I_PingCommon
     virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
 
     /**
-     * @brief Get the beam pointing angles for this ping in °
+     * @brief Get the beam crosstrack angles for this ping in °
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_pointing_angles()
+    xt::xtensor<float, 1> get_beam_crosstrack_angles()
     {
-        return get_beam_pointing_angles(get_beam_selection_all());
+        return get_beam_crosstrack_angles(get_beam_selection_all());
     }
 
     /**
-     * @brief Get the beam pointing angles for this ping in °
+     * @brief Get the beam crosstrack angles for this ping in °
      *
      * @return xt::xtensor<float, 1>
      */
-    virtual xt::xtensor<float, 1> get_beam_pointing_angles(
+    virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, get_name());
@@ -169,12 +169,12 @@ class I_PingBottom : virtual public I_PingCommon
     }
 
     /**
-     * @brief Check this pings supports the extraction of beam_pointing_angles
+     * @brief Check this pings supports the extraction of beam_crosstrack_angles
      *
      * @return true
      * @return false
      */
-    virtual bool has_beam_pointing_angles() const { return false; }
+    virtual bool has_beam_crosstrack_angles() const { return false; }
 
     /**
      * @brief Check this pings supports the extraction of two_way_travel_times

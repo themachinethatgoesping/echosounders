@@ -55,11 +55,11 @@ class PingSampleSelector
         const auto number_of_beams            = ping->watercolumn().get_number_of_beams();
         const auto number_of_samples_per_beam = ping->watercolumn().get_number_of_samples_per_beam();
 
-        const auto beam_pointing_angles = ping->watercolumn().get_beam_pointing_angles();
-        if (beam_pointing_angles.size() < number_of_beams)
+        const auto beam_crosstrack_angles = ping->watercolumn().get_beam_crosstrack_angles();
+        if (beam_crosstrack_angles.size() < number_of_beams)
             throw std::runtime_error(fmt::format(
-                "Number of beam pointing angles ({}) is smaller than the number of beams ({})",
-                beam_pointing_angles.size(),
+                "Number of beam crosstrack angles ({}) is smaller than the number of beams ({})",
+                beam_crosstrack_angles.size(),
                 number_of_beams));
 
         // convert min/max beam numbers to indices (if set, and according to python negative
@@ -74,9 +74,9 @@ class PingSampleSelector
         {
             auto bn = beam_indexer(counter);
 
-            if (_min_beam_angle && beam_pointing_angles.unchecked(bn) < *_min_beam_angle)
+            if (_min_beam_angle && beam_crosstrack_angles.unchecked(bn) < *_min_beam_angle)
                 continue;
-            if (_max_beam_angle && beam_pointing_angles.unchecked(bn) > *_max_beam_angle)
+            if (_max_beam_angle && beam_crosstrack_angles.unchecked(bn) > *_max_beam_angle)
                 continue;
 
             size_t number_of_samples = number_of_samples_per_beam.unchecked(bn);

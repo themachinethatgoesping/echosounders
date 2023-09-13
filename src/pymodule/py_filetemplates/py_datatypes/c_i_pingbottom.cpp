@@ -41,19 +41,19 @@ void init_c_i_pingbottom(pybind11::module& m)
             .def("get_number_of_beams",
                  &I_PingBottom::get_number_of_beams,
                  DOC_I_PingBottom(get_number_of_beams))
-            .def("get_beam_pointing_angles",
-                 py::overload_cast<>(&I_PingBottom::get_beam_pointing_angles),
-                 DOC_I_PingBottom(get_beam_pointing_angles))
-            .def("get_beam_pointing_angles",
+            .def("get_beam_crosstrack_angles",
+                 py::overload_cast<>(&I_PingBottom::get_beam_crosstrack_angles),
+                 DOC_I_PingBottom(get_beam_crosstrack_angles))
+            .def("get_beam_crosstrack_angles",
                  py::overload_cast<const pingtools::BeamSelection&>(
-                     &I_PingBottom::get_beam_pointing_angles),
-                 DOC_I_PingBottom(get_beam_pointing_angles),
+                     &I_PingBottom::get_beam_crosstrack_angles),
+                 DOC_I_PingBottom(get_beam_crosstrack_angles),
                  py::arg("beam_selection"))
 
             // ----- features -----
-            .def("has_beam_pointing_angles",
-                 py::overload_cast<>(&I_PingBottom::has_beam_pointing_angles, py::const_),
-                 DOC_I_PingBottom(has_beam_pointing_angles))
+            .def("has_beam_crosstrack_angles",
+                 py::overload_cast<>(&I_PingBottom::has_beam_crosstrack_angles, py::const_),
+                 DOC_I_PingBottom(has_beam_crosstrack_angles))
             .def("has_xyz",
                  py::overload_cast<>(&I_PingBottom::has_xyz, py::const_),
                  DOC_I_PingBottom(has_xyz))

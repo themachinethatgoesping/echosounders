@@ -1,4 +1,4 @@
-//sourcehash: 800d484f4fd360f4708e16406fcced339ed4b72a9033113ddf233ddd4c4a8026
+//sourcehash: 3812e68f12683509dd6f5b7e719e077552dbcba6d856641fb4ad3c4046d74c85
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,9 +54,9 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_beam_angle_across = R"doc(< re vertical °)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_beam_incidence_angle_adjustment = R"doc(< IBA in 0.1°)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_beam_crosstrack_angle = R"doc(< deg. re array)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_beam_pointing_angle = R"doc(< deg. re array)doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_beam_incidence_angle_adjustment = R"doc(< IBA in 0.1°)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_confidence_level = R"doc(<)doc";
 
@@ -104,9 +104,9 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_beam_angle_across = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_beam_incidence_angle_adjustment = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_beam_crosstrack_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_beam_incidence_angle_adjustment = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_get_confidence_level = R"doc()doc";
 
@@ -192,9 +192,9 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_su
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_beam_angle_across = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_beam_incidence_angle_adjustment = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_beam_crosstrack_angle = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_beam_pointing_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_beam_incidence_angle_adjustment = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_datagrams_substructures_ExtraDetectionsExtraDetections_set_confidence_level = R"doc()doc";
 

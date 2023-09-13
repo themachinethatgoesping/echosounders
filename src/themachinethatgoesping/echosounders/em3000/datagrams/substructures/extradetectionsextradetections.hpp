@@ -36,7 +36,7 @@ class ExtraDetectionsExtraDetections
     float    _along;                                   ///< x in m
     float    _delta_latitude;                          ///< °
     float    _delta_longitude;                         ///< °
-    float    _beam_pointing_angle;                     ///< deg. re array
+    float    _beam_crosstrack_angle;                     ///< deg. re array
     float    _applied_pointing_angle_correction;       ///<
     float    _two_way_travel_time;                     ///< s
     float    _applied_two_way_travel_time_corrections; ///< seconds, f.ex. Doppler correction
@@ -67,7 +67,7 @@ class ExtraDetectionsExtraDetections
     float get_along() const { return _along; }
     float get_delta_latitude() const { return _delta_latitude; }
     float get_delta_longitude() const { return _delta_longitude; }
-    float get_beam_pointing_angle() const { return _beam_pointing_angle; }
+    float get_beam_crosstrack_angle() const { return _beam_crosstrack_angle; }
     float get_applied_pointing_angle_correction() const
     {
         return _applied_pointing_angle_correction;
@@ -102,9 +102,9 @@ class ExtraDetectionsExtraDetections
     void set_along(float along) { _along = along; }
     void set_delta_latitude(float delta_latitude) { _delta_latitude = delta_latitude; }
     void set_delta_longitude(float delta_longitude) { _delta_longitude = delta_longitude; }
-    void set_beam_pointing_angle(float beam_pointing_angle)
+    void set_beam_crosstrack_angle(float beam_crosstrack_angle)
     {
-        _beam_pointing_angle = beam_pointing_angle;
+        _beam_crosstrack_angle = beam_crosstrack_angle;
     }
     void set_applied_pointing_angle_correction(float applied_pointing_angle_correction)
     {
@@ -222,7 +222,7 @@ class ExtraDetectionsExtraDetections
         printer.register_value("along", _along, "x in m");
         printer.register_value("delta_latitude", _delta_latitude, "°");
         printer.register_value("delta_longitude", _delta_longitude, "°");
-        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "deg. re array");
+        printer.register_value("beam_crosstrack_angle", _beam_crosstrack_angle, "deg. re array");
         printer.register_value("applied_pointing_angle_correction",
                                _applied_pointing_angle_correction);
         printer.register_value("two_way_travel_time", _two_way_travel_time, "s");

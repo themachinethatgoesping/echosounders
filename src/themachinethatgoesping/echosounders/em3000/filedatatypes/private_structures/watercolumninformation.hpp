@@ -40,7 +40,7 @@ namespace sub {
 template<typename t_rawdata>
 class WaterColumnInformation
 {
-    boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_pointing_angles;
+    boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_crosstrack_angles;
     boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _start_range_sample_numbers;
     boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
     xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
@@ -57,7 +57,7 @@ class WaterColumnInformation
         auto nbeams                = water_column_datagram.beams().size();
 
         // initialize arrays using from shape function
-        auto beam_pointing_angles       = xt::xtensor<float, 1>::from_shape({ nbeams });
+        auto beam_crosstrack_angles       = xt::xtensor<float, 1>::from_shape({ nbeams });
         auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
@@ -69,7 +69,7 @@ class WaterColumnInformation
         {
             sample_positions.unchecked(bn) = b.get_sample_position();
 
-            beam_pointing_angles.unchecked(bn)       = b.get_beam_pointing_angle_in_degrees();
+            beam_crosstrack_angles.unchecked(bn)       = b.get_beam_crosstrack_angle_in_degrees();
             detected_range_in_samples.unchecked(bn)  = b.get_detected_range_in_samples();
             start_range_sample_numbers.unchecked(bn) = b.get_start_range_sample_number();
             number_of_samples_per_beam.unchecked(bn) = b.get_number_of_samples();
@@ -79,7 +79,7 @@ class WaterColumnInformation
         }
 
         _sample_positions           = std::move(sample_positions);
-        _beam_pointing_angles       = std::move(beam_pointing_angles);
+        _beam_crosstrack_angles       = std::move(beam_crosstrack_angles);
         _start_range_sample_numbers = std::move(start_range_sample_numbers);
         _number_of_samples_per_beam = std::move(number_of_samples_per_beam);
         _detected_range_in_samples  = std::move(detected_range_in_samples);
@@ -102,9 +102,9 @@ class WaterColumnInformation
     }
 
     // accessors
-    const xt::xtensor<float, 1>& get_beam_pointing_angles() const
+    const xt::xtensor<float, 1>& get_beam_crosstrack_angles() const
     {
-        return _beam_pointing_angles.get();
+        return _beam_crosstrack_angles.get();
     }
     const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers() const
     {

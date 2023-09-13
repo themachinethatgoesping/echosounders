@@ -47,12 +47,12 @@ void init_c_watercolumndatagrambeam(pybind11::module& m)
                                             WatercolumnDatagramBeam))
         .def(py::init<>(), DOC_WatercolumnDatagramBeam(WatercolumnDatagramBeam))
         // --- convenient data access ---
-        .def("set_beam_pointing_angle",
-             &WatercolumnDatagramBeam::set_beam_pointing_angle,
-             DOC_WatercolumnDatagramBeam(beam_pointing_angle))
-        .def("get_beam_pointing_angle",
-             &WatercolumnDatagramBeam::get_beam_pointing_angle,
-             DOC_WatercolumnDatagramBeam(beam_pointing_angle))
+        .def("set_beam_crosstrack_angle",
+             &WatercolumnDatagramBeam::set_beam_crosstrack_angle,
+             DOC_WatercolumnDatagramBeam(beam_crosstrack_angle))
+        .def("get_beam_crosstrack_angle",
+             &WatercolumnDatagramBeam::get_beam_crosstrack_angle,
+             DOC_WatercolumnDatagramBeam(beam_crosstrack_angle))
         .def("set_start_range_sample_number",
              &WatercolumnDatagramBeam::set_start_range_sample_number,
              DOC_WatercolumnDatagramBeam(start_range_sample_number))
@@ -102,9 +102,9 @@ void init_c_watercolumndatagrambeam(pybind11::module& m)
              py::return_value_policy::reference_internal)
 
         // --- processed member access ---
-        .def("get_beam_pointing_angle_in_degrees",
-             &WatercolumnDatagramBeam::get_beam_pointing_angle_in_degrees,
-             DOC_WatercolumnDatagramBeam(get_beam_pointing_angle_in_degrees))
+        .def("get_beam_crosstrack_angle_in_degrees",
+             &WatercolumnDatagramBeam::get_beam_crosstrack_angle_in_degrees,
+             DOC_WatercolumnDatagramBeam(get_beam_crosstrack_angle_in_degrees))
         .def("get_samples_in_db",
              &WatercolumnDatagramBeam::get_samples_in_db,
              DOC_WatercolumnDatagramBeam(get_samples_in_db))

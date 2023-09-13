@@ -35,7 +35,7 @@ namespace substructures {
  */
 class RawRangeAndAngleBeam
 {
-    int16_t  _beam_pointing_angle; /// M relative RX array in 0.01°
+    int16_t  _beam_crosstrack_angle; /// M relative RX array in 0.01°
     uint8_t  _transmit_sector_number;
     uint8_t  _detection_info;
     uint16_t _detection_window_length_in_samples;
@@ -52,7 +52,7 @@ class RawRangeAndAngleBeam
 
     // ----- convenient member access -----
     // get
-    int16_t  get_beam_pointing_angle() const { return _beam_pointing_angle; }
+    int16_t  get_beam_crosstrack_angle() const { return _beam_crosstrack_angle; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_detection_info() const { return _detection_info; }
     uint16_t get_detection_window_length_in_samples() const
@@ -67,9 +67,9 @@ class RawRangeAndAngleBeam
     uint8_t get_spare() const { return _spare; }
 
     // set
-    void set_beam_pointing_angle(int16_t beam_pointing_angle)
+    void set_beam_crosstrack_angle(int16_t beam_crosstrack_angle)
     {
-        _beam_pointing_angle = beam_pointing_angle;
+        _beam_crosstrack_angle = beam_crosstrack_angle;
     }
     void set_transmit_sector_number(uint8_t transmit_sector_number)
     {
@@ -95,11 +95,11 @@ class RawRangeAndAngleBeam
 
     // ----- processed member access -----
     /**
-     * @brief Get the beam pointing angle in °
+     * @brief Get the beam crosstrack angle in °
      *
-     * @return _beam_pointing_angle * 0.01 (float)
+     * @return _beam_crosstrack_angle * 0.01 (float)
      */
-    float get_beam_pointing_angle_in_degrees() const { return _beam_pointing_angle * 0.01; }
+    float get_beam_crosstrack_angle_in_degrees() const { return _beam_crosstrack_angle * 0.01; }
 
     /**
      * @brief Get the reflectivity in db
@@ -153,7 +153,7 @@ class RawRangeAndAngleBeam
         tools::classhelper::ObjectPrinter printer("RawRangeAndAngleBeam", float_precision);
 
         // raw values
-        printer.register_value("beam_pointing_angle", _beam_pointing_angle, "0.01°");
+        printer.register_value("beam_crosstrack_angle", _beam_crosstrack_angle, "0.01°");
         printer.register_value("transmit_sector_number", _transmit_sector_number);
         printer.register_string("detection_info", fmt::format("0b{:08b}", _detection_info));
         printer.register_value("detection_window_length_in_samples",
@@ -167,7 +167,7 @@ class RawRangeAndAngleBeam
 
         // processed values
         printer.register_section("processed");
-        printer.register_value("beam_pointing_angle", get_beam_pointing_angle_in_degrees(), "°");
+        printer.register_value("beam_crosstrack_angle", get_beam_crosstrack_angle_in_degrees(), "°");
         printer.register_value("reflectivity", get_reflectivity_in_db(), "dB");
         printer.register_value("detection_is_valid", get_detection_is_valid());
         printer.register_enum("detection_type", get_detection_type());

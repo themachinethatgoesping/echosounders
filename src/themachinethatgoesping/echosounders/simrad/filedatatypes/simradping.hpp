@@ -74,7 +74,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     }
 
     // ----- I_Ping interface -----
-    // using t_base1::get_beam_pointing_angles;
+    // using t_base1::get_beam_crosstrack_angles;
     // using t_base1::get_number_of_beams;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
@@ -82,7 +82,7 @@ class SimradPing : public filetemplates::datatypes::I_Ping
         return { uint16_t(_raw_data._ping_data.get_count()) };
     }
     uint16_t              get_number_of_beams()  { return 1; }
-    xt::xtensor<float, 1> get_beam_pointing_angles(const pingtools::BeamSelection& bs) 
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(const pingtools::BeamSelection& bs) 
     {
         auto bpa = xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
         bpa.fill(0.f);
