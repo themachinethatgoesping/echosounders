@@ -95,6 +95,12 @@ class EM3000PingWatercolumn
         return get_wcinfos().get_beam_pointing_angles().size();
     }
 
+    // common variable access
+    float get_sample_interval() override
+    {
+        return 1 / get_wcinfos().get_water_column_datagram().get_sampling_frequency_in_hz();
+    }
+
     // ----- getter/setters -----
     xt::xtensor<float, 1> get_beam_pointing_angles(
         const pingtools::BeamSelection& selection) override

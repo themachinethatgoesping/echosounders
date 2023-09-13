@@ -77,6 +77,14 @@ class I_PingWatercolumn : virtual public I_PingCommon
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 
+    // ---  common variable access ---
+    /**
+     * @brief Get the sample interval in seconds
+     *
+     * @return float
+     */
+    virtual float get_sample_interval() { throw not_implemented(__func__, get_name()); }
+
     // --- common functions for all ping types ---
     /**
      * @brief Get a beam selection object that selects all beams

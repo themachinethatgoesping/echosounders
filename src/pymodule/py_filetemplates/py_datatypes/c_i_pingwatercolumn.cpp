@@ -33,6 +33,11 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             "I_PingWatercolumn",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))
 
+            // ----- common variable access -----
+            .def("get_sample_interval",
+                 &I_PingWatercolumn::get_sample_interval,
+                 DOC_I_PingWatercolumn(get_sample_interval))
+
             // ---- pingwatercolumn interface ----
             .def("get_beam_selection_all",
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_selection_all),
