@@ -66,7 +66,7 @@ class EM3000PingBottom
     virtual ~EM3000PingBottom() = default;
 
     // ----- I_PingCommon interface -----
-    void load() override
+    void load([[maybe_unused]] bool force = false) override
     {
         // _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
     }

@@ -64,8 +64,7 @@ class EM3000PingWatercolumn
 
     const WaterColumnInformation& get_wcinfos()
     {
-        if (!loaded())
-            load();
+        load();
 
         return *_watercolumninformation;
     }
@@ -80,8 +79,11 @@ class EM3000PingWatercolumn
     virtual ~EM3000PingWatercolumn() = default;
 
     // ----- I_PingCommon interface -----
-    void load() override
+    void load(bool force = false) override
     {
+        if (loaded() && !force)
+            return;
+
         _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
     }
     void release() override { _watercolumninformation.reset(); }

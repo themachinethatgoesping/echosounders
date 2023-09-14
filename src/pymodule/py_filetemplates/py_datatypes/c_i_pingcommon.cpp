@@ -45,7 +45,7 @@ void init_c_i_pingcommon(pybind11::module& m)
                  &I_PingCommon::has_feature,
                  DOC_I_PingCommon(has_feature),
                  py::arg("feature_name"))
-            .def("load", &I_PingCommon::load, DOC_I_PingCommon(load))
+            .def("load", &I_PingCommon::load, DOC_I_PingCommon(load), py::arg("force") = false)
             .def("release", &I_PingCommon::release, DOC_I_PingCommon(release))
             .def("loaded", &I_PingCommon::loaded, DOC_I_PingCommon(loaded))
 

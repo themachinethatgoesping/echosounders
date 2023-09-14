@@ -135,7 +135,7 @@ class I_PingCommon
     }
 
     //------ interface ------//
-    virtual void load() { throw not_implemented("load", this->get_name()); }
+    virtual void load([[maybe_unused]] bool force = false) { throw not_implemented("load", this->get_name()); }
     virtual void release() { throw not_implemented("release", this->get_name()); }
     virtual bool loaded() { throw not_implemented("load", this->get_name()); }
 
