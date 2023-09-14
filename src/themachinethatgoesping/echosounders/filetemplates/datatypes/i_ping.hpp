@@ -47,8 +47,9 @@ namespace datatypes {
 class I_Ping : virtual public I_PingCommon
 {
   protected:
-    std::string _channel_id;    ///< channel id of the transducer
-    double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    std::string _channel_id;            ///< channel id of the transducer
+    double      _timestamp         = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    size_t      _file_ping_counter = 0; ///< counter of the ping in the file (starting at 0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
     navigation::datastructures::SensorDataLatLon                  _sensor_data_latlon;
 
@@ -86,6 +87,9 @@ class I_Ping : virtual public I_PingCommon
     double             get_timestamp() const { return _timestamp; }
     const std::string& get_channel_id() const { return _channel_id; }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
+
+    size_t get_file_ping_counter() const { return _file_ping_counter; }
+    void set_file_ping_counter(size_t file_ping_counter) { _file_ping_counter = file_ping_counter; }
 
     virtual size_t get_file_nr() const { throw not_implemented("get_file_nr", this->get_name()); }
     virtual std::string get_file_path() const

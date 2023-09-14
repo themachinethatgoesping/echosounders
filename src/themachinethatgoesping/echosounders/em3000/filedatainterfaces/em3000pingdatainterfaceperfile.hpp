@@ -104,6 +104,8 @@ class EM3000PingDataInterfacePerFile
 
                             ping_it =
                                 pings_by_counter_by_id[ping_counter].find(system_serial_number);
+
+                            ping_it->second->set_file_ping_counter(ping_counter);
                         }
 
                         // add deduplicated runtime parameters
@@ -129,7 +131,7 @@ class EM3000PingDataInterfacePerFile
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-                        std::array<uint16_t, 2> counter_snumber;
+                        std::array<uint16_t, 2> counter_snumber; // [ping counter, serial number]
 
                         if (datagram_ptr->get_extra_infos().size() == 4)
                         {
@@ -163,6 +165,8 @@ class EM3000PingDataInterfacePerFile
 
                             ping_it =
                                 pings_by_counter_by_id[counter_snumber[0]].find(counter_snumber[1]);
+
+                            ping_it->second->set_file_ping_counter(counter_snumber[0]);
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);

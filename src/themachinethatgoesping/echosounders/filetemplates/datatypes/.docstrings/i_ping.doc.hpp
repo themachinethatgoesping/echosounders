@@ -1,4 +1,4 @@
-//sourcehash: 1a9023259108f571ee53cdbd8fd1ae8831732f3b97c4dac36457da69cca44a4f
+//sourcehash: 64c86aa57fe56462f71db9a07a302529653fd973dcc5ba4459fd15236db06e82
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_file_ping_counter = R"doc(< counter of the ping in the file (starting at 0))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_channel_id = R"doc()doc";
@@ -57,6 +59,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_file_ping_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation =
 R"doc(Get the geolocation of the transducer.
@@ -91,6 +95,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_sensor_data_latlon = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_channel_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_file_ping_counter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_set_sensor_configuration = R"doc()doc";
 

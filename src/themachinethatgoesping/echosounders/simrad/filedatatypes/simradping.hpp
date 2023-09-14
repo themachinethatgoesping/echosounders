@@ -76,6 +76,8 @@ class SimradPing : public filetemplates::datatypes::I_Ping
     // ----- I_Ping interface -----
     // using t_base1::get_beam_crosstrack_angles;
     // using t_base1::get_number_of_beams;
+    using t_base1::get_file_ping_counter;
+    using t_base1::set_file_ping_counter;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
     {

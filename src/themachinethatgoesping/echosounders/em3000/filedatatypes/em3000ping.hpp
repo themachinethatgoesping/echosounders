@@ -126,6 +126,8 @@ class EM3000Ping
 
     // ----- I_Ping interface -----
     using t_base2::raw_data;
+    using t_base1::get_file_ping_counter;
+    using t_base1::set_file_ping_counter;
 
     // ----- bottom -----
     using t_base1::bottom;

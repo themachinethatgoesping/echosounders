@@ -133,6 +133,8 @@ class SimradPingDataInterfacePerFile
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
                         base_sensor_configuration, ping->get_timestamp()));
 
+                    ping->set_file_ping_counter(pings.size());
+
                     pings.add_ping(ping);
                     break;
                 }
