@@ -1,4 +1,4 @@
-//sourcehash: de57abe7f19cae95fc8e9054b301f2bb460e8f3c128c71ceb570a5cbebf57203
+//sourcehash: 973614a258d3f48da0462161c26fb6e6730103530397c039e6f25b8b1199af0c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -123,6 +123,8 @@ Returns:
     uint16_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sample_interval =
 R"doc(Get the sample interval in seconds

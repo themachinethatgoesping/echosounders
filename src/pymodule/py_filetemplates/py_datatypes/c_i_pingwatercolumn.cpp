@@ -73,6 +73,10 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("get_number_of_samples_per_beam",
                  py::overload_cast<>(&I_PingWatercolumn::get_number_of_samples_per_beam),
                  DOC_I_PingWatercolumn(get_number_of_samples_per_beam))
+            .def("get_number_of_samples_per_beam",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_number_of_samples_per_beam),
+                 DOC_I_PingWatercolumn(get_number_of_samples_per_beam_2))
 
             // ----- features -----
             .def("has_amplitudes",

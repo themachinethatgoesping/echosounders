@@ -127,31 +127,6 @@ class EM3000Ping
     // ----- I_Ping interface -----
     using t_base2::raw_data;
 
-    // size_t get_number_of_beams() const final {
-    //     return _raw_data->get_number_of_beams();
-    // }
-
-    // xt::xtensor<float, 1> get_beam_crosstrack_angles() const final
-    // {
-    //     return raw_data().get_beam_crosstrack_angles();
-    // }
-
-    // xt::xtensor<float, 1> get_beam_crosstrack_angles(
-    //     const pingtools::BeamSampleSelection& selection) const final
-    // {
-    //     return raw_data().get_beam_crosstrack_angles(selection);
-    // }
-
-    // xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const final
-    // {
-    //     return _raw_data->get_number_of_samples_per_beam();
-    // }
-    // xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
-    //     const pingtools::BeamSampleSelection& selection)
-    // {
-    //     return _raw_data->get_number_of_samples_per_beam(selection);
-    // }
-
     // ----- bottom -----
     using t_base1::bottom;
     using t_base1::watercolumn;

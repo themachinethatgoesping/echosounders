@@ -150,7 +150,12 @@ class I_PingWatercolumn : virtual public I_PingCommon
         throw not_implemented(__func__, get_name());
     }
 
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam()
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam()
+    {
+        return get_number_of_samples_per_beam(get_beam_selection_all());
+    }
+    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, get_name());
     }

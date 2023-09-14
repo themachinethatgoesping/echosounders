@@ -152,9 +152,24 @@ class EM3000PingWatercolumn
     {
         return get_wcinfos().get_start_range_sample_numbers();
     }
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() override
+    using t_base1::get_number_of_samples_per_beam;
+    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+        const pingtools::BeamSelection& bs) override
     {
-        return get_wcinfos().get_number_of_samples_per_beam();
+        xt::xtensor<uint16_t, 1> samples       = xt::empty<uint16_t>({ bs.get_number_of_beams() });
+        const auto& number_of_samples_per_beam = get_wcinfos().get_number_of_samples_per_beam();
+        const auto& beam_numbers               = bs.get_beam_numbers();
+
+        for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
+        {
+            auto bn = beam_numbers[nr];
+
+            if (bn >= number_of_samples_per_beam.size())
+                samples.unchecked(nr) = 0;
+            else
+                samples.unchecked(nr) = number_of_samples_per_beam.unchecked(bn);
+        }
+        return samples;
     }
     xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
     {
