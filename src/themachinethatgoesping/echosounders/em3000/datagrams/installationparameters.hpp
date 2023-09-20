@@ -405,6 +405,8 @@ class InstallationParameters : public EM3000Datagram
 
         switch (stc)
         {
+            case t_EM3000SystemTransducerConfiguration::SingleHead:
+                [[fallthrough]];
             case t_EM3000SystemTransducerConfiguration::SingleTXSingleRX:
                 return false;
             case t_EM3000SystemTransducerConfiguration::SingleTXDualRX:

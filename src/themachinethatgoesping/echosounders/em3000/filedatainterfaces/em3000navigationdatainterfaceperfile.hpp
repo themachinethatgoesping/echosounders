@@ -185,9 +185,12 @@ class EM3000NavigationDataInterfacePerFile
                             throw std::runtime_error(fmt::format(
                                 "ERROR in file [{}]: {} "
                                 "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
-                                "heading datagrams are not in chronological order.",
+                                "heading datagrams are not in chronological order. "
+                                "Found heading datagram with timestamp {} after heading datagram with timestamp {}",
                                 this->get_file_nr(),
-                                this->get_file_path()));
+                                this->get_file_path(),
+                                packet_timestamp,
+                                times_heading_attitude.back()));
 
                     times_heading_attitude.push_back(packet_timestamp);
                     headings_attitudes.push_back(attitude.get_heading_in_degrees());
