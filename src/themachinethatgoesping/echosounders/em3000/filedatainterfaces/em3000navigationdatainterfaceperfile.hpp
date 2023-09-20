@@ -49,8 +49,6 @@ class EM3000NavigationDataInterfacePerFile
     }
     ~EM3000NavigationDataInterfacePerFile() = default;
 
-    
-
     navigation::NavigationInterpolatorLatLon read_navigation_data() const final
     {
         navigation::NavigationInterpolatorLatLon navi(
@@ -164,51 +162,31 @@ class EM3000NavigationDataInterfacePerFile
 
                 if (use_pitch_sensor)
                 {
-                    if (!times_pitch_roll.empty())
-                        if (!(times_pitch_roll.back() < packet_timestamp))
-                            throw std::runtime_error(fmt::format(
-                                "ERROR in file [{}]: {} "
-                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
-                                "pitch and roll datagrams are not in chronological order.",
-                                this->get_file_nr(),
-                                this->get_file_path()));
-
-                    times_pitch_roll.push_back(packet_timestamp);
-                    pitchs.push_back(attitude.get_pitch_in_degrees());
-                    rolls.push_back(attitude.get_roll_in_degrees());
+                    if (packet_timestamp_in_range(times_pitch_roll, packet_timestamp, "pitch"))
+                    {
+                        times_pitch_roll.push_back(packet_timestamp);
+                        pitchs.push_back(attitude.get_pitch_in_degrees());
+                        rolls.push_back(attitude.get_roll_in_degrees());
+                    }
                 }
 
                 if (use_heading_sensor)
                 {
-                    if (!times_heading_attitude.empty())
-                        if (!(times_heading_attitude.back() < packet_timestamp))
-                            throw std::runtime_error(fmt::format(
-                                "ERROR in file [{}]: {} "
-                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
-                                "heading datagrams are not in chronological order. "
-                                "Found heading datagram with timestamp {} after heading datagram with timestamp {}",
-                                this->get_file_nr(),
-                                this->get_file_path(),
-                                packet_timestamp,
-                                times_heading_attitude.back()));
-
-                    times_heading_attitude.push_back(packet_timestamp);
-                    headings_attitudes.push_back(attitude.get_heading_in_degrees());
+                    if (packet_timestamp_in_range(
+                            times_heading_attitude, packet_timestamp, "heading"))
+                    {
+                        times_heading_attitude.push_back(packet_timestamp);
+                        headings_attitudes.push_back(attitude.get_heading_in_degrees());
+                    }
                 }
 
                 if (use_heave_sensor)
                 {
-                    if (!times_heave.empty())
-                        if (!(times_heave.back() < packet_timestamp))
-                            throw std::runtime_error(fmt::format(
-                                "ERROR in file [{}]: {} "
-                                "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
-                                "heave datagrams are not in chronological order.",
-                                this->get_file_nr(),
-                                this->get_file_path()));
-
-                    times_heave.push_back(packet_timestamp);
-                    heaves.push_back(attitude.get_heave_in_meters());
+                    if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
+                    {
+                        times_heave.push_back(packet_timestamp);
+                        heaves.push_back(attitude.get_heave_in_meters());
+                    }
                 }
             }
         }
@@ -217,91 +195,11 @@ class EM3000NavigationDataInterfacePerFile
         navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
         navi.set_data_heave(std::move(times_heave), std::move(heaves));
         navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
-        //navi.set_data_depth(std::move(times_depth), std::move(depths));
+        // navi.set_data_depth(std::move(times_depth), std::move(depths));
 
         return navi;
     }
 
-    //     /* scan through NMEA data */
-    //     std::vector<double> lats, lons, gps_times, depths;
-
-    //     for (auto& packet :
-    //          this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::NME0))
-    //     {
-    //         auto nme0 = packet->template read_datagram_from_file<datagrams::NME0>();
-
-    //         if (nme0.get_sentence_type() == "GGA")
-    //         {
-    //             auto gga     = std::get<navigation::nmea_0183::NMEA_GGA>(nme0.decode());
-    //             auto quality = gga.get_quality();
-
-    //             if (quality < _min_gga_quality || quality > _max_gga_quality)
-    //                 continue;
-
-    //             // TODO: correct with gps time
-    //             auto packet_timestamp = nme0.get_timestamp();
-    //             if (!gps_times.empty())
-    //                 if (!(gps_times.back() < packet_timestamp))
-    //                     continue;
-
-    //             auto lat = gga.get_latitude();
-    //             auto lon = gga.get_longitude();
-    //             auto alt = gga.get_altitude();
-
-    //             if (!std::isfinite(lat) || !std::isfinite(lon) || !std::isfinite(alt))
-    //                 continue;
-
-    //             lats.push_back(lat);
-    //             lons.push_back(lon);
-    //             gps_times.push_back(packet_timestamp);
-    //             // depths.push_back(-alt); ?
-    //             depths.push_back(alt);
-    //         }
-    //     }
-
-    //     std::vector<double> headings, pitchs, rolls, heaves, mru0_times;
-
-    //     for (auto& packet :
-    //          this->_datagram_infos_by_type.at_const(t_EM3000DatagramIdentifier::MRU0))
-    //     {
-    //         auto mru0 = packet->template read_datagram_from_file<datagrams::MRU0>();
-
-    //         auto packet_timestamp = mru0.get_timestamp();
-    //         if (!mru0_times.empty())
-    //             if (!(mru0_times.back() < packet_timestamp))
-    //                 continue;
-
-    //         auto heading = mru0.get_heading();
-    //         auto pitch   = mru0.get_pitch();
-    //         auto roll    = mru0.get_roll();
-    //         auto heave   = mru0.get_heave();
-
-    //         if (!std::isfinite(heading) || !std::isfinite(pitch) || !std::isfinite(roll) ||
-    //             !std::isfinite(heave))
-    //             continue;
-
-    //         headings.push_back(heading);
-    //         pitchs.push_back(pitch);
-    //         rolls.push_back(roll);
-    //         heaves.push_back(heave);
-    //         mru0_times.push_back(packet_timestamp);
-    //     }
-
-    //     navi.set_data_attitude(mru0_times, pitchs, rolls);
-    //     navi.set_data_heading(mru0_times, headings);
-    //     navi.set_data_heave(mru0_times, heaves);
-    //     navi.set_data_position(gps_times, lats, lons);
-    //     navi.set_data_depth(gps_times, depths);
-
-    //     return navi;
-    // }
-
-    // ----- em3000 specific functions -----
-    /* interface setup */
-    // void set_min_gga_quality(int min_gga_quality) { _min_gga_quality = min_gga_quality; }
-    // void set_max_gga_quality(int max_gga_quality) { _max_gga_quality = max_gga_quality; }
-    // int  get_min_gga_quality() const { return _min_gga_quality; }
-    // int  get_max_gga_quality() const { return _max_gga_quality; }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
@@ -314,6 +212,42 @@ class EM3000NavigationDataInterfacePerFile
         printer.register_section("EM3000NavigationDataInterfacePerFile");
 
         return printer;
+    }
+
+  private:
+    /**
+     * @brief Internat function to check if a attitude timestamp is within the allowed time range (>
+     * then previous attitude) If the timestamp is equal than the previous one, it is ignored
+     * (return false). If the timestamp is smaller than the previous one, an exception is thrown.
+     *
+     * @param times vector with previous packet time_stamps of this attitude type
+     * @param packet_timestamp packet timestamp to check
+     * @param attitude_name name of the attitude type (heading, pitch, roll, heave)
+     * @return true
+     * @return false
+     */
+    bool packet_timestamp_in_range(const std::vector<double>& times,
+                                   double                     packet_timestamp,
+                                   std::string_view           attitude_name) const
+    {
+        if (times.empty())
+            return true;
+
+        // TODO: this silently ignores datagrams with the same timestamp as the previous one (e.g.
+        // time distance < 1ms) This should generate a warning within a log file
+        if (times.back() == packet_timestamp)
+            return false;
+
+        if (times.back() > packet_timestamp)
+            throw std::runtime_error(
+                fmt::format("ERROR in file [{}]: {} "
+                            "\nEM3000NavigationDataInterfacePerFile::read_navigation_data: "
+                            "{} datagrams are not in chronological order.",
+                            this->get_file_nr(),
+                            this->get_file_path(),
+                            attitude_name));
+
+        return true;
     }
 };
 

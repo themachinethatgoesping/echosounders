@@ -1,4 +1,4 @@
-//sourcehash: 2ba9ede018ab7de3acc7960c2d79ce01b0d38e878797b29f301537ccaa703647
+//sourcehash: 70c3cacc02b7b58175c483f307757fa0420a0fc470c85ab8f35c00c4ab0746c9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,27 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainte
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_EM3000NavigationDataInterfacePerFile = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_EM3000NavigationDataInterfacePerFile_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_packet_timestamp_in_range =
+R"doc(Internat function to check if a attitude timestamp is within the
+allowed time range (> then previous attitude) If the timestamp is
+equal than the previous one, it is ignored (return false). If the
+timestamp is smaller than the previous one, an exception is thrown.
+
+Parameter ``times``:
+    vector with previous packet time_stamps of this attitude type
+
+Parameter ``packet_timestamp``:
+    packet timestamp to check
+
+Parameter ``attitude_name``:
+    name of the attitude type (heading, pitch, roll, heave)
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_filedatainterfaces_EM3000NavigationDataInterfacePerFile_printer = R"doc()doc";
 
