@@ -185,7 +185,8 @@ class EM3000NavigationDataInterfacePerFile
                     if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
                     {
                         times_heave.push_back(packet_timestamp);
-                        heaves.push_back(attitude.get_heave_in_meters());
+                        //TODO heave: heave should be positive upwards, but it seems it is positive downwards for the belgica data
+                        heaves.push_back(-attitude.get_heave_in_meters());
                     }
                 }
             }
