@@ -153,11 +153,14 @@ class FileEM3000
         {
             // use std filesystem to get the file name (without extension) and file extension
             std::filesystem::path file_path(file_paths[file_nr]);
-            std::string           file_name = file_path.stem().string();
+            //std::string           file_name = file_path.stem().string();
+            std::string           file_name = file_path.parent_path() / file_path.stem();
             std::string           file_ext  = file_path.extension().string();
 
             if (file_ext == ".all")
             {
+                // this should not happen anymore since the files are no compared by full path
+                // TODO: confirm and remove
                 if (all_files.find(file_name) != all_files.end())
                 {
                     throw std::runtime_error(
@@ -172,6 +175,8 @@ class FileEM3000
             }
             else if (file_ext == ".wcd")
             {
+                // this should not happen anymore since the files are no compared by full path
+                // TODO: confirm and remove
                 if (wcd_files.find(file_name) != wcd_files.end())
                 {
                     throw std::runtime_error(
