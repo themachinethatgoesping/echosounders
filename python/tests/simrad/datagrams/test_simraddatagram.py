@@ -6,7 +6,8 @@
 # pylint: disable=protected-access
 # pylint: disable=no-self-use
 
-from themachinethatgoesping.echosounders.simrad.datagrams import SimradDatagram
+from themachinethatgoesping.echosounders import simrad
+SimradDatagram = simrad.datagrams.SimradDatagram
 
 
 class Test_echosounders_simrad_SimradDatagram:

@@ -7,4 +7,10 @@
 # pylint: disable=no-self-use
 
 import themachinethatgoesping.echosounders as echo
-import themachinethatgoesping.echosounders.simrad as simrad
+# import themachinethatgoesping.echosounders.simrad as simrad
+# import themachinethatgoesping.echosounders.em3000 as em3000
+
+from themachinethatgoesping.echosounders import simrad
+from themachinethatgoesping.echosounders import em3000
+
+

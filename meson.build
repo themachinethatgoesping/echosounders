@@ -9,7 +9,7 @@ project(
   'cpp',
   license: 'MPL-2.0',
 
-  version: '0.27.7',
+  version: '0.28.0',
   default_options: ['warning_level=2', 'buildtype=release', 'cpp_std=c++20'],
   meson_version: '>=1.1' #first meson version to support c++20 with clang
 )
@@ -77,4 +77,4 @@ endif
 subdir('src')
  
 # add python files
-#subdir('python')
+subdir('python')
