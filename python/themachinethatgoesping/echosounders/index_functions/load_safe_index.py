@@ -4,10 +4,15 @@
 
 import os
 from pathlib import Path
+import pickle
+from collections import defaultdict
+
+from themachinethatgoesping.echosounders import em3000, simrad
 
 def get_index_file_name(folder_path, 
                         index_root, 
-                        index_name) -> Path:
+                        index_name,
+                        create_dir = True) -> Path:
     
     if index_root is None:
             return Path(folder_path) / Path(index_name)
@@ -18,7 +23,8 @@ def get_index_file_name(folder_path,
 
     index_file = index_file.joinpath(root_path, *folder_path.parts[1:], index_name)
     
-    os.makedirs(index_file.parent, exist_ok = True)
+    if create_dir:
+        os.makedirs(index_file.parent, exist_ok = True)
     
     return index_file
 
@@ -28,7 +34,8 @@ def load_index_files(file_paths,
                      index_name = 'tmtgp.index', 
                      index_root = 'index', 
                      update_index = None, 
-                     verbose = False):
+                     verbose = False,
+                     create_dir = True):
     
     if update_index is None:
         index = {}
@@ -39,30 +46,33 @@ def load_index_files(file_paths,
     
     # look for existing files in each folder
     for fp in file_paths:
-        folder_path,file = os.path.split(fp)
-        
-        index_file = get_index_file_name(folder_path, index_root, index_name)            
-        
-        if index_file in loaded_index_files:
-            continue
+        try:
+            folder_path,file = os.path.split(fp)
             
-        loaded_index_files.add(index_file)
-        
-        if os.path.exists(index_file) and not force_new:
-            if verbose:
-                print('Open:', index_file)
-            load_index = pickle.load(open(index_file,'rb'))
-            index.update(load_index)
+            index_file = get_index_file_name(folder_path, index_root, index_name, create_dir = create_dir)            
+            
+            if index_file in loaded_index_files:
+                continue
+                
+            loaded_index_files.add(index_file)
+            
+            if os.path.exists(index_file) and not force_new:
+                if verbose:
+                    print('Open:', index_file)
+                load_index = pickle.load(open(index_file,'rb'))
+                index.update(load_index)
+        except:
+            pass
             
     return index
 
-def update_index_files(cached_index_dict, force_new = False, index_name = 'tmtgp.index', index_root = 'index', verbose = False):
+def update_index_files(cached_index_dict, force_new = False, index_name = 'tmtgp.index', index_root = 'index', verbose = False, create_dir = True):
     
     # group index dict into per folder index files
     index_per_folder = defaultdict(dict)
     for k,v in cached_index_dict.items():
         folder_path,file = os.path.split(k)        
-        index_file = get_index_file_name(folder_path, index_root, index_name)    
+        index_file = get_index_file_name(folder_path, index_root, index_name, create_dir = create_dir)    
         index_per_folder[index_file].update({k:v})
         
     # write an index file into each folder
@@ -73,7 +83,10 @@ def update_index_files(cached_index_dict, force_new = False, index_name = 'tmtgp
         if not os.path.exists(index_file) or force_new:
             write_index = {}
         else:
-            write_index = pickle.load(open(index_file,'rb'))
+            try:
+                write_index = pickle.load(open(index_file,'rb'))
+            except:
+                write_index = {}
             
         write_index.update(index)
         pickle.dump(write_index, open(index_file,'wb'))

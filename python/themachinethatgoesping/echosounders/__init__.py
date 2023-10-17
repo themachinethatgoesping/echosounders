@@ -5,10 +5,10 @@
 import importlib
 from pkgutil import extend_path as __extend_path__
 
-# python only modules
-from . import index_functions# flake8: noqa
-
 # c++ module
 from themachinethatgoesping.echosounders_cppy import *  # flake8: noqa
+
+# python only modules
+from . import index_functions# flake8: noqa
 
 __version__ = "@PROJECT_VERSION@"
