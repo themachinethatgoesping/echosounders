@@ -86,7 +86,7 @@ class FileEM3000
     // t_EM3000DatagramIdentifier, t_ifstream>::
     //     I_InputFile;
 
-    FileEM3000(const std::string&                         file_path,
+    FileEM3000(const std::string&                                   file_path,
                const std::unordered_map<std::string, FileInfoData>& cached_index =
                    std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
@@ -97,10 +97,10 @@ class FileEM3000
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000(const std::string&                         file_path,
+    FileEM3000(const std::string&                                   file_path,
                const std::unordered_map<std::string, FileInfoData>& cached_index,
-               bool                                       init,
-               tools::progressbars::I_ProgressBar&        progress_bar)
+               bool                                                 init,
+               tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
     {
         this->append_file(file_path, progress_bar);
@@ -108,7 +108,7 @@ class FileEM3000
             init_interfaces(false, progress_bar);
     }
 
-    FileEM3000(const std::vector<std::string>&            file_paths,
+    FileEM3000(const std::vector<std::string>&                      file_paths,
                const std::unordered_map<std::string, FileInfoData>& cached_index =
                    std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
@@ -119,10 +119,10 @@ class FileEM3000
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileEM3000(const std::vector<std::string>&            file_paths,
+    FileEM3000(const std::vector<std::string>&                      file_paths,
                const std::unordered_map<std::string, FileInfoData>& cached_index,
-               bool                                       init,
-               tools::progressbars::I_ProgressBar&        progress_bar)
+               bool                                                 init,
+               tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
     {
         this->append_files(file_paths, progress_bar);
@@ -146,16 +146,16 @@ class FileEM3000
         // link wcd/all files
         std::unordered_map<std::string, size_t> wcd_files;
         std::unordered_map<std::string, size_t> all_files;
-        const auto&                   file_paths = *(this->_input_file_manager->get_file_paths());
+        const auto& file_paths = *(this->_input_file_manager->get_file_paths());
 
         // sort the files into wcd and all files
         for (unsigned int file_nr = 0; file_nr < file_paths.size(); ++file_nr)
         {
             // use std filesystem to get the file name (without extension) and file extension
             std::filesystem::path file_path(file_paths[file_nr]);
-            //std::string           file_name = file_path.stem().string();
-            std::string           file_name = file_path.parent_path() / file_path.stem();
-            std::string           file_ext  = file_path.extension().string();
+            // std::string           file_name = file_path.stem().string();
+            std::string file_name = (file_path.parent_path() / file_path.stem()).string();
+            std::string file_ext  = file_path.extension().string();
 
             if (file_ext == ".all")
             {
