@@ -27,15 +27,22 @@ class Test_echosounders_index_functions:
             create_dir = False
         )
         
-        base_path = Path.cwd()
-        # get base path without root as single Path object
-        base_path_no_root = Path("")
-        for p in Path.cwd().parts[1:]:
+        base_path = Path.cwd()                
+        base_path_no_root = ""
+            
+        for i,p in enumerate(base_path.parts):
+            if i == 0:
+                if p[0] == "/":
+                    if len(base_path_no_root) > 1:
+                        p = p[1:]
+                    else:
+                        continue
+                
             base_path_no_root = base_path_no_root / Path(p)
+            
+            
         expected_result = Path(base_path) / Path("index_root") / Path("root_") / Path(base_path_no_root) / Path("folder_path/index_name")
         
         assert index_file1 == Path("folder_path/index_name")
         assert index_file2 == expected_result
-        
-        
        
