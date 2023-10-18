@@ -31,8 +31,10 @@ void init_c_i_ping(pybind11::module& m)
             m,
             "I_Ping",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping))
+            .def(py::init<>(), DOC_I_Ping(I_Ping))
 
             // ----- ping interface -----
+            // define init
 
             // --- ping info access ---
             .def("get_file_nr", &I_Ping::get_file_nr, DOC_I_Ping(get_file_nr))

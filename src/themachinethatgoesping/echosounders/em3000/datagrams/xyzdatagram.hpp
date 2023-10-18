@@ -222,7 +222,7 @@ class XYZDatagram : public EM3000Datagram
 
     static XYZDatagram from_stream(std::istream& is, t_EM3000DatagramIdentifier datagram_identifier)
     {
-        return from_stream(is, std::move(EM3000Datagram::from_stream(is, datagram_identifier)));
+        return from_stream(is, EM3000Datagram::from_stream(is, datagram_identifier));
     }
 
     void to_stream(std::ostream& os)

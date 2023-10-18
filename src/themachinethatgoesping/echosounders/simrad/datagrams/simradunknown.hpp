@@ -76,7 +76,7 @@ class SimradUnknown : public SimradDatagram
     static SimradUnknown from_stream(std::istream&              is,
                                      t_SimradDatagramIdentifier datagram_identifier)
     {
-        return from_stream(is, std::move(SimradDatagram::from_stream(is, datagram_identifier)));
+        return from_stream(is, SimradDatagram::from_stream(is, datagram_identifier));
     }
 
     void to_stream(std::ostream& os)
