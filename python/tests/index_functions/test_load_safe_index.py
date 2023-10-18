@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
-#
 # SPDX-License-Identifier: MPL-2.0
+# SPDX-FileCopyrightText: 2022 - 2023 
+# Peter Urban, Ghent University
 
 # ignore pylint warning protected-access
 # pylint: disable=protected-access
@@ -9,10 +9,11 @@
 from pathlib import Path
 
 from themachinethatgoesping.echosounders import index_functions
+import tempfile
 
 
 class Test_echosounders_index_functions:
-    def test_get_index_file_name(self):
+    def test_get_index_file_name_no_root(self):
         index_file1 = index_functions.get_index_file_name(
             folder_path="folder_path",
             index_root=None,
@@ -45,4 +46,4 @@ class Test_echosounders_index_functions:
         
         assert index_file1 == Path("folder_path/index_name")
         assert index_file2 == expected_result
-       
+        
