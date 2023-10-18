@@ -8,7 +8,11 @@ from collections import defaultdict
 from typing import List, Dict, Union
 
 
-def get_index_file_name(folder_path: Union[str, Path], index_root: Union[str, Path, None] = None, index_name: str = 'tmtgp.index', create_dir: bool = True) -> Path:
+def get_index_file_name(
+    folder_path: Union[str, Path], 
+    index_root: Union[str, Path, None] = None, 
+    index_name: str = 'tmtgp.index', 
+    create_dir: bool = True) -> Path:
     """Return the path to the index file for a given folder path
 
     Parameters
