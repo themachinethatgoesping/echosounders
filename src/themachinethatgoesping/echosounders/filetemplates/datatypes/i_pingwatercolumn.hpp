@@ -201,7 +201,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
-     *
+     *    
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */

@@ -146,12 +146,15 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             }
             catch (std::exception& e)
             {
+                // compare checksum of primary_interfaces_per_file[i] and primary_interfaces_per_file[i-1]
+                
+
                 // TODO:Use logging
                 fmt::print(
                     std::cerr,
-                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}): {}\n",
+                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}) because: {}\n",
                     this->get_name(),
-                    i,
+                    primary_interfaces_per_file[i]->get_file_nr(),
                     e.what());
             }
             if (!existing_progressbar || external_progress_tick)
