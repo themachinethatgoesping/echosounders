@@ -7,6 +7,7 @@
 # pylint: disable=no-self-use
 
 from pathlib import Path
+import os
 
 from themachinethatgoesping.echosounders import index_functions
 import tempfile
@@ -38,11 +39,13 @@ class Test_echosounders_index_functions:
         # Create a Path object for the index path.
         index_path = Path(base_path) / Path("index_root")
 
-        # Create a root path based on the first part of the current working directory.
-        root_path = 'root_' + base_path.parts[0]
+            
+        index_file = Path(os.path.abspath('index_root'))
+        folder_path = Path(os.path.abspath('folder_path'))
+        root_path = 'root_' + folder_path.parts[0]
 
-        # Create the expected result by joining the index path, root path, and folder path and index name.
-        expected_result = index_path.joinpath(root_path, *base_path.parts[1:], 'folder_path', 'index_name')
+        expected_result = index_file.joinpath(root_path, *folder_path.parts[1:], "index_name")
+
         
         # Check that the function returns the expected results.
         assert index_file1 == Path("folder_path/index_name")
