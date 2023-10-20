@@ -146,8 +146,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             }
             catch (std::exception& e)
             {
-                // compare checksum of primary_interfaces_per_file[i] and primary_interfaces_per_file[i-1]
-                
+                // TODO: compare files with checksum to avoid loading duplicates                
 
                 // TODO:Use logging
                 fmt::print(

@@ -29,14 +29,14 @@ void _add_DatagramReading(T_PyClass& cls)
     /* get datagram infos */
 
     /* implement breakers */
-    cls.def("break_by_time_diff",
-            &T_BaseClass::break_by_time_diff,
+    cls.def("split_by_time_diff",
+            &T_BaseClass::split_by_time_diff,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datacontainers,
                 DatagramContainer,
-                break_by_time_diff),
+                split_by_time_diff),
             py::arg("max_time_diff_seconds"));
 
     /* implement sorters */

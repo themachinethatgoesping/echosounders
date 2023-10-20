@@ -1,4 +1,4 @@
-//sourcehash: ad8c93f43164557361526a417c7c60cdf285886ab0a3a2a270c45c2c04a1b87b
+//sourcehash: bf4a380336348cf93425edc93165b135f866a09eb8ff127dfe093202d75dde4c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,33 +54,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_features =
-R"doc(Split the data in containers that have all requested features and
-containers that miss any of them
-
-Parameter ``and_features:``:
-    ping will be sorted into first container if all features are
-    present
-
-Parameter ``or_features:``:
-    ping will be sorted into second container if any of the features
-    is
-
-Returns:
-    std::array<PingContainer<type_Ping>, 2>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_break_by_time_diff =
-R"doc(Split the data if the time difference between two subsequent datagrams
-is larger than arg Note: for this function to make sense the data
-should be sorted_in_time
-
-Parameter ``max_time_diff_seconds:``:
-    maximum time difference between two subsequent datagrams in
-    seconds
-
-Returns:
-    std::vector<PingContainer<type_Ping>>)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_count_pings_per_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_find_channel_ids = R"doc()doc";
@@ -120,6 +93,33 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_set_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_features =
+R"doc(Split the data in containers that have all requested features and
+containers that miss any of them
+
+Parameter ``and_features:``:
+    ping will be sorted into first container if all features are
+    present
+
+Parameter ``or_features:``:
+    ping will be sorted into second container if any of the features
+    is
+
+Returns:
+    std::array<PingContainer<type_Ping>, 2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_time_diff =
+R"doc(Split the data if the time difference between two subsequent datagrams
+is larger than arg Note: for this function to make sense the data
+should be sorted_in_time
+
+Parameter ``max_time_diff_seconds:``:
+    maximum time difference between two subsequent datagrams in
+    seconds
+
+Returns:
+    std::vector<PingContainer<type_Ping>>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_timeinfo =
 R"doc(Compute some time statistics for the pings in the container The

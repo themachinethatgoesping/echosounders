@@ -212,7 +212,7 @@ class PingContainer
      * seconds
      * @return std::vector<PingContainer<type_Ping>>
      */
-    std::vector<PingContainer<type_Ping>> break_by_time_diff(double max_time_diff_seconds) const
+    std::vector<PingContainer<type_Ping>> split_by_time_diff(double max_time_diff_seconds) const
     {
         std::vector<PingContainer<type_Ping>> containers;
 
@@ -244,7 +244,7 @@ class PingContainer
      * @param or_features: ping will be sorted into second container if any of the features is
      * @return std::array<PingContainer<type_Ping>, 2>
      */
-    std::array<PingContainer<type_Ping>, 2> break_by_features(
+    std::array<PingContainer<type_Ping>, 2> split_by_features(
         const std::vector<std::string>& and_features = {},
         const std::vector<std::string>& or_features  = {}) const
     {
@@ -357,7 +357,7 @@ class PingContainer
      * @return ping container map
      */
     std::unordered_map<navigation::SensorConfiguration, PingContainer<type_Ping>>
-    break_by_sensor_configuration() const
+    split_by_sensor_configuration() const
     {
         std::unordered_map<navigation::SensorConfiguration, PingContainer<type_Ping>> containers;
 

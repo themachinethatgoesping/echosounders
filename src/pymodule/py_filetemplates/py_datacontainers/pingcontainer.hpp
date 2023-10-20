@@ -34,20 +34,20 @@ void _PingContainer_add_interface(T_PyClass& cls)
             DOC_PingContainer(max_number_of_samples));
 
     /* implement breakers */
-    cls.def("break_by_time_diff",
-            &T_BaseClass::break_by_time_diff,
-            DOC_PingContainer(break_by_time_diff),
+    cls.def("split_by_time_diff",
+            &T_BaseClass::split_by_time_diff,
+            DOC_PingContainer(split_by_time_diff),
             py::arg("max_time_diff_seconds"));
 
-    cls.def("break_by_features",
-            &T_BaseClass::break_by_features,
-            DOC_PingContainer(break_by_features),
+    cls.def("split_by_features",
+            &T_BaseClass::split_by_features,
+            DOC_PingContainer(split_by_features),
             py::arg("and_features") = std::vector<std::string>(),
             py::arg("or_features")  = std::vector<std::string>());
 
-    cls.def("break_by_sensor_configuration",
-            &T_BaseClass::break_by_sensor_configuration
-            // ,DOC_PingContainer(break_by_sensor_configuration) TODO: doc makes mkdoc crash
+    cls.def("split_by_sensor_configuration",
+            &T_BaseClass::split_by_sensor_configuration
+            // ,DOC_PingContainer(split_by_sensor_configuration) TODO: doc makes mkdoc crash
             );
 
     /* implement sorters */

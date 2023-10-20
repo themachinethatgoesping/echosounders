@@ -202,7 +202,7 @@ class DatagramContainer
      * seconds
      * @return std::vector<DatagramContainer>
      */
-    std::vector<DatagramContainer> break_by_time_diff(double max_time_diff_seconds) const
+    std::vector<DatagramContainer> split_by_time_diff(double max_time_diff_seconds) const
     {
         std::vector<DatagramContainer> containers;
 

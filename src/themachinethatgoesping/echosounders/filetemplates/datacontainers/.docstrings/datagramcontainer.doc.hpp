@@ -1,4 +1,4 @@
-//sourcehash: 4fab6d7b228fb65b598fc16eed039efd3fa1800b5ac9a1be91a3242971720bbd
+//sourcehash: b349498910750e674c0957f1fec489ce3774caa683c52bcd9a9fab9b147f5dd5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,18 +50,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_at = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_break_by_time_diff =
-R"doc(Split the data if the time difference between two subsequent datagrams
-is larger than arg Note: for this function to make sense the data
-should be sorted_in_time
-
-Parameter ``max_time_diff_seconds:``:
-    maximum time difference between two subsequent datagrams in
-    seconds
-
-Returns:
-    std::vector<DatagramContainer>)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_count_datagrams_per_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_datagram_infos = R"doc()doc";
@@ -89,6 +77,18 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_set_datagram_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_split_by_time_diff =
+R"doc(Split the data if the time difference between two subsequent datagrams
+is larger than arg Note: for this function to make sense the data
+should be sorted_in_time
+
+Parameter ``max_time_diff_seconds:``:
+    maximum time difference between two subsequent datagrams in
+    seconds
+
+Returns:
+    std::vector<DatagramContainer>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_timeinfo =
 R"doc(Compute some time statistics for the datagram_infos in the container
