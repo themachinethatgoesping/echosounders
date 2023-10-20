@@ -48,6 +48,6 @@ class Test_echosounders_index_functions:
 
         
         # Check that the function returns the expected results.
-        #assert index_file1 == Path("folder_path/index_name")
-        #assert index_file2 == expected_result
+        assert index_file1 == Path("folder_path/index_name")
+        assert index_file2 == expected_result
         
