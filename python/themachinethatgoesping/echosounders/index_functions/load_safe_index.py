@@ -38,6 +38,7 @@ def get_index_file_name(
     index_file = Path(os.path.abspath(index_root))
     folder_path = Path(os.path.abspath(folder_path))
     root_path = 'root_' + folder_path.parts[0]
+    root_path = root_path.replace(':', '')
 
     index_file = index_file.joinpath(root_path, *folder_path.parts[1:], index_name)
     

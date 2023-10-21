@@ -43,6 +43,7 @@ class Test_echosounders_index_functions:
         index_file = Path(os.path.abspath('index_root'))
         folder_path = Path(os.path.abspath('folder_path'))
         root_path = 'root_' + folder_path.parts[0]
+        root_path = root_path.replace(':', '')
 
         expected_result = index_file.joinpath(root_path, *folder_path.parts[1:], "index_name")
 
