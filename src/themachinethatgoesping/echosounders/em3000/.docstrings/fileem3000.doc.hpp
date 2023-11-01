@@ -1,4 +1,4 @@
-//sourcehash: 5149aa33e6cd9b5f5141f8a83086ad98def6ab7d8d27091686b8623b2fc8ea04
+//sourcehash: 6729fd28a8a7bce8ae2e607538b8f0699ba1f88be6142204f13582f1594aeae4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_e
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_init_interfaces = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_link_all_and_wcd_files = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_navigation_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_navigation_interface_2 = R"doc()doc";
@@ -89,6 +91,8 @@ static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_p
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_pings_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_em3000_FileEM3000_setup_interfaces = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

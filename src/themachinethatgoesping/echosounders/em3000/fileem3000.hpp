@@ -94,6 +94,7 @@ class FileEM3000
         : t_base(cached_index)
     {
         this->append_file(file_path, show_progress);
+        setup_interfaces();
         if (init)
             init_interfaces(false, show_progress);
     }
@@ -116,6 +117,7 @@ class FileEM3000
         : t_base(cached_index)
     {
         this->append_files(file_paths, show_progress);
+        setup_interfaces();
         if (init)
             init_interfaces(false, show_progress);
     }
@@ -126,24 +128,14 @@ class FileEM3000
         : t_base(cached_index)
     {
         this->append_files(file_paths, progress_bar);
+        setup_interfaces();
         if (init)
             init_interfaces(false, progress_bar);
     }
     ~FileEM3000() = default;
 
-    using t_base::init_interfaces;
-    void init_interfaces([[maybe_unused]] bool               force,
-                         tools::progressbars::I_ProgressBar& progress_bar) final
+    void link_all_and_wcd_files()
     {
-        // add file info
-        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
-
-        // link wcd/all files
         std::unordered_map<std::string, size_t> wcd_files;
         std::unordered_map<std::string, size_t> all_files;
         const auto& file_paths = *(this->_input_file_manager->get_file_paths());
@@ -153,8 +145,8 @@ class FileEM3000
         {
             // use std filesystem to get the file name (without extension) and file extension
             std::filesystem::path file_path(file_paths[file_nr]);
-            // std::string           file_name = file_path.stem().string();
-            std::string file_name = (file_path.parent_path() / file_path.stem()).string();
+            std::string           file_name = file_path.stem().string(); //match files per name
+            // std::string file_name = (file_path.parent_path() / file_path.stem()).string();
             std::string file_ext  = file_path.extension().string();
 
             if (file_ext == ".all")
@@ -230,8 +222,30 @@ class FileEM3000
             }
         }
 
-        auto number_of_primary_files = _configuration_interface->per_primary_file().size();
+    }
 
+    void setup_interfaces()
+    {
+
+        // add file info
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
+
+        // link wcd/all files
+        link_all_and_wcd_files();
+    }
+
+    using t_base::init_interfaces;
+    void init_interfaces([[maybe_unused]] bool               force,
+                         tools::progressbars::I_ProgressBar& progress_bar) final
+    {
+        setup_interfaces();
+
+        auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
             0., number_of_primary_files * 2 + 4, fmt::format("Initializing file interfaces"));
 
