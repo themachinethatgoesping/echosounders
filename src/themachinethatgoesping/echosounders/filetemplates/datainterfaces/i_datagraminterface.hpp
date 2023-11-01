@@ -44,6 +44,7 @@ class I_DatagramInterface
         _name; ///< name of the datagram container (useful for debugging derived classes)
 
     double _timestamp_first = 0; ///< smallest timestamp (>0) of all registered datagrams
+    double _timestamp_last  = 0; ///< largest timestamp (>0) of all registered datagrams
 
   protected:
     std::string_view get_name() const { return _name; }
@@ -72,7 +73,12 @@ class I_DatagramInterface
     // }
 
   public:
-    double get_timestamp_first() const { return _timestamp_first; }
+    double                    get_timestamp_first() const { return _timestamp_first; }
+    double                    get_timestamp_last() const { return _timestamp_first; }
+    std::pair<double, double> get_timestamp_range() const
+    {
+        return std::make_pair(_timestamp_first, _timestamp_last);
+    }
     // /**
     //  * @brief This functions allows derived classes to add custom functionality
     //  *
@@ -92,8 +98,13 @@ class I_DatagramInterface
         auto timestamp = datagram_info->get_timestamp();
 
         if (timestamp > 0)
+        {
             if (timestamp < _timestamp_first || _timestamp_first == 0)
                 _timestamp_first = timestamp;
+
+            if (timestamp > _timestamp_last || _timestamp_last == 0)
+                _timestamp_last = timestamp;
+        }
 
         // add_datagram_info_callback(datagram_info);
     }
@@ -118,8 +129,13 @@ class I_DatagramInterface
             auto timestamp = datagram_info->get_timestamp();
 
             if (timestamp > 0)
+            {
                 if (timestamp < _timestamp_first || _timestamp_first == 0)
                     _timestamp_first = timestamp;
+
+                if (timestamp > _timestamp_last || _timestamp_last == 0)
+                    _timestamp_last = timestamp;
+            }
         }
     }
 
@@ -184,9 +200,12 @@ class I_DatagramInterface
         tools::classhelper::ObjectPrinter printer(_name, float_precision);
 
         printer.register_section("Detected datagrams");
-        std::string time_str =
+        std::string time_str_0 =
             tools::timeconv::unixtime_to_datestring(_timestamp_first, 2, "%d/%m/%Y %H:%M:%S");
-        printer.register_value("timestamp_first", time_str);
+        std::string time_str_1 =
+            tools::timeconv::unixtime_to_datestring(_timestamp_last, 2, "%d/%m/%Y %H:%M:%S");
+        printer.register_container("timestamp_first", time_str_0);
+        printer.register_container("timestamp_last", time_str_1);
         printer.register_value("Total", _datagram_infos_all.size(), "");
         for (const auto& kv : _datagram_infos_by_type)
         {

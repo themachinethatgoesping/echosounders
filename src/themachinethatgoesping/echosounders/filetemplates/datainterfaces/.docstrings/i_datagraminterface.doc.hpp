@@ -1,4 +1,4 @@
-//sourcehash: bcc25c95ef106f4287bcd0a61d4755170928119d0a26e4f0a12a63290275e567
+//sourcehash: 776f81d9d7199d9b21a5ad7e7007160a616f515972d3142c13dfc406357efc9c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_timestamp_first = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_timestamp_last = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_timestamp_range = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_keys = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_name =
@@ -85,6 +89,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_size_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_timestamp_first = R"doc(< smallest timestamp (>0) of all registered datagrams)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_timestamp_last = R"doc(< largest timestamp (>0) of all registered datagrams)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

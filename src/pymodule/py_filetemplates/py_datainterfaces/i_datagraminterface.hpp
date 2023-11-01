@@ -45,6 +45,12 @@ void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
     cls.def("get_timestamp_first",
             &T_BaseClass::get_timestamp_first,
             DOC_DatagramInterface(get_timestamp_first));
+    cls.def("get_timestamp_last",
+            &T_BaseClass::get_timestamp_last,
+            DOC_DatagramInterface(get_timestamp_last));
+    cls.def("get_timestamp_range",
+            &T_BaseClass::get_timestamp_range,
+            DOC_DatagramInterface(get_timestamp_range));
 
     cls.def("keys", &T_BaseClass::keys, DOC_DatagramInterface(keys));
 }
