@@ -58,6 +58,10 @@ void py_create_class_fileem3000(py::module& m, const std::string& CLASS_NAME)
 
     //----- iterators via () operator -----
     cls.def_property_readonly(
+        "datagramdata_interface",
+        py::overload_cast<>(&FileEM3000<T_FileStream>::datagramdata_interface),
+        DOC_FileEM3000(datagramdata_interface));
+    cls.def_property_readonly(
         "configuration_interface",
         py::overload_cast<>(&FileEM3000<T_FileStream>::configuration_interface),
         DOC_FileEM3000(configuration_interface));

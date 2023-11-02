@@ -60,6 +60,8 @@
 #include <themachinethatgoesping/echosounders/em3000/em3000_types.hpp>
 #include <themachinethatgoesping/echosounders/em3000/filedatacontainers/em3000datagramcontainer.hpp>
 #include <themachinethatgoesping/echosounders/em3000/filedatacontainers/em3000pingcontainer.hpp>
+#include <themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000datagramdatainterface.hpp>
+#include <themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000datagramdatainterfaceperfile.hpp>
 #include <themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000annotationdatainterface.hpp>
 #include <themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000annotationdatainterfaceperfile.hpp>
 #include <themachinethatgoesping/echosounders/em3000/filedatainterfaces/em3000configurationdatainterface.hpp>

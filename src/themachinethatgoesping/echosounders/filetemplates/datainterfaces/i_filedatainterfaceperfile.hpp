@@ -68,19 +68,25 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     {
         if (file_interface_main->_linked_file != nullptr)
             throw std::runtime_error(
-                fmt::format("file_interface_main [{}] '{}' is already linked "
+                fmt::format("file_interface_main [{}] '{}' cannot be linked to [{}] '{}' because "
+                            "it is already linked "
                             "to file_interface_extension: [{}] '{}'",
                             file_interface_main->get_file_nr(),
                             file_interface_main->get_file_path(),
+                            file_interface_extension->get_file_nr(),
+                            file_interface_extension->get_file_path(),
                             file_interface_main->_linked_file->get_file_nr(),
                             file_interface_main->_linked_file->get_file_path()));
 
         if (file_interface_extension->_linked_file != nullptr)
             throw std::runtime_error(
-                fmt::format("file_interface_extension [{}] '{}' is already "
+                fmt::format("file_interface_extension [{}] '{}' cannot be linked to [{}] '{}' "
+                            "because it is already linked "
                             "linked to file_interface_main: [{}] '{}'",
                             file_interface_extension->get_file_nr(),
                             file_interface_extension->get_file_path(),
+                            file_interface_main->get_file_nr(),
+                            file_interface_main->get_file_path(),
                             file_interface_extension->_linked_file->get_file_nr(),
                             file_interface_extension->_linked_file->get_file_path()));
 

@@ -15,6 +15,9 @@ namespace py = pybind11;
 // -- submodule declarations --
 void init_c_EM3000DatagramInterface(py::module& m); // c_em3000datagraminterface.cpp
 
+void init_c_em3000datagramdatainterface(pybind11::module& m); // c_em3000datagramdatainterface.cpp
+void init_c_em3000datagramdatainterfaceperfile(
+    pybind11::module& m); // c_em3000datagramdatainterfaceperfile.cpp
 void init_c_em3000configurationdatainterface(
     pybind11::module& m); // c_em3000configurationdatainterface.cpp
 void init_c_em3000configurationdatainterfaceperfile(
@@ -44,6 +47,8 @@ void init_m_em3000filedatainterfaces(pybind11::module& m)
                                 "EM3000 (kongsberg .all/.wcd) file data interface classes");
 
     init_c_EM3000DatagramInterface(subm);
+    init_c_em3000datagramdatainterface(subm);
+    init_c_em3000datagramdatainterfaceperfile(subm);
     init_c_em3000configurationdatainterface(subm);
     init_c_em3000configurationdatainterfaceperfile(subm);
     init_c_em3000navigationdatainterface(subm);

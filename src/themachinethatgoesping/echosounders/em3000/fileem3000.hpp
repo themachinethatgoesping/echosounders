@@ -24,6 +24,7 @@
 #include "em3000_datagrams.hpp"
 #include "em3000_types.hpp"
 
+#include "filedatainterfaces/em3000datagramdatainterface.hpp"
 #include "filedatainterfaces/em3000annotationdatainterface.hpp"
 #include "filedatainterfaces/em3000configurationdatainterface.hpp"
 #include "filedatainterfaces/em3000datagraminterface.hpp"
@@ -47,6 +48,8 @@ class FileEM3000
                                    filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
 
     // ----- types -----
+    using t_DatagramDataInterface =
+        typename filedatainterfaces::EM3000DatagramDataInterface<t_ifstream>;
     using t_OtherFileDataInterface =
         typename filedatainterfaces::EM3000OtherFileDataInterface<t_ifstream>;
     using t_AnnotationDataInterface =
@@ -64,6 +67,8 @@ class FileEM3000
 
   private:
     // ----- file data interfaces -----
+    std::shared_ptr<t_DatagramDataInterface> _datagramdata_interface =
+        std::make_shared<t_DatagramDataInterface>();
     std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
         std::make_shared<t_OtherFileDataInterface>();
     std::shared_ptr<t_AnnotationDataInterface> _annotation_interface =
@@ -202,6 +207,9 @@ class FileEM3000
             {
                 auto all_file_nr = all_path->second;
                 t_filedatainterface::link_file_interfaces(
+                    _datagramdata_interface->per_file_ptr(all_file_nr),
+                    _datagramdata_interface->per_file_ptr(wcd_file_nr));
+                t_filedatainterface::link_file_interfaces(
                     _configuration_interface->per_file_ptr(all_file_nr),
                     _configuration_interface->per_file_ptr(wcd_file_nr));
                 t_filedatainterface::link_file_interfaces(
@@ -226,8 +234,8 @@ class FileEM3000
 
     void setup_interfaces()
     {
-
         // add file info
+        _datagramdata_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
@@ -247,7 +255,11 @@ class FileEM3000
 
         auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
-            0., number_of_primary_files * 2 + 4, fmt::format("Initializing file interfaces"));
+            0., number_of_primary_files * 2 + 5, fmt::format("Initializing file interfaces"));
+
+        progress_bar.set_prefix("Initializing datagramdata interface");
+        _datagramdata_interface->init_from_file(force, progress_bar);
+        progress_bar.tick();
 
         progress_bar.set_prefix("Initializing configuration");
         _configuration_interface->init_from_file(force, progress_bar);
@@ -272,6 +284,7 @@ class FileEM3000
         progress_bar.close(std::string("Done"));
     }
 
+    auto& datagramdata_interface() { return *_datagramdata_interface; }
     auto& configuration_interface() { return *_configuration_interface; }
     auto& navigation_interface() { return *_navigation_interface; }
     auto& environment_interface() { return *_environment_interface; }
@@ -301,6 +314,7 @@ class FileEM3000
     {
         // TODO: this is a bit ugly since updates all files and not just the new ones
         // add file info
+        _datagramdata_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
         _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
@@ -317,6 +331,7 @@ class FileEM3000
         filetemplates::datatypes::DatagramInfo_ptr<t_EM3000DatagramIdentifier, t_ifstream>
             datagram_info) final
     {
+        _datagramdata_interface->add_datagram_info(datagram_info);
         switch (datagram_info->get_datagram_identifier())
         {
                 // Navigation datagrams
