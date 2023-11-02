@@ -141,8 +141,8 @@ class FileEM3000
 
     void link_all_and_wcd_files()
     {
-        std::unordered_map<std::string, size_t> wcd_files;
-        std::unordered_map<std::string, size_t> all_files;
+        std::unordered_map<std::string, std::vector<std::tuple<double, double, size_t>>> wcd_files;
+        std::unordered_map<std::string, std::vector<std::tuple<double, double, size_t>>> all_files;
         const auto& file_paths = *(this->_input_file_manager->get_file_paths());
 
         // sort the files into wcd and all files
@@ -151,40 +151,21 @@ class FileEM3000
             // use std filesystem to get the file name (without extension) and file extension
             std::filesystem::path file_path(file_paths[file_nr]);
             std::string           file_name = file_path.stem().string(); // match files per name
-            // std::string file_name = (file_path.parent_path() / file_path.stem()).string(); //match files per path
+            // std::string file_name = (file_path.parent_path() / file_path.stem()).string();
+            // //match files per path
             std::string file_ext = file_path.extension().string();
+
+            double start_time =
+                _datagramdata_interface->per_file_ptr(file_nr)->get_timestamp_first();
+            double end_time = _datagramdata_interface->per_file_ptr(file_nr)->get_timestamp_last();
 
             if (file_ext == ".all")
             {
-                // this should not happen anymore since the files are no compared by full path
-                // TODO: confirm and remove
-                if (all_files.find(file_name) != all_files.end())
-                {
-                    throw std::runtime_error(
-                        fmt::format("Multiple .all files with the same name: \n[{}]: {}\n[{}]: {}",
-                                    file_nr,
-                                    file_paths[file_nr],
-                                    all_files[file_name],
-                                    file_paths[all_files[file_name]]));
-                }
-
-                all_files[file_name] = file_nr;
+                all_files[file_name].push_back(std::make_tuple(start_time, end_time, file_nr));
             }
             else if (file_ext == ".wcd")
             {
-                // this should not happen anymore since the files are no compared by full path
-                // TODO: confirm and remove
-                if (wcd_files.find(file_name) != wcd_files.end())
-                {
-                    throw std::runtime_error(
-                        fmt::format("Multiple .wcd files with the same name: \n[{}]: {}\n[{}]: {}",
-                                    file_nr,
-                                    file_paths[file_nr],
-                                    wcd_files[file_name],
-                                    file_paths[wcd_files[file_name]]));
-                }
-
-                wcd_files[file_name] = file_nr;
+                wcd_files[file_name].push_back(std::make_tuple(start_time, end_time, file_nr));
             }
             else
             {
@@ -194,39 +175,82 @@ class FileEM3000
         }
 
         // link the wcd to matching all files
-        for (const auto& [file_name, wcd_file_nr] : wcd_files)
+        for (const auto& [file_name, wcd_file_list] : wcd_files)
         {
             using t_filedatainterface =
                 typename filetemplates::datainterfaces::I_FileDataInterfacePerFile<
                     filedatainterfaces::EM3000DatagramInterface<t_ifstream>>;
 
-            auto all_path = all_files.find(file_name);
-
-            // check if there is a matching all file
-            if (all_path != all_files.end())
+            if (wcd_file_list.empty())
             {
-                auto all_file_nr = all_path->second;
-                t_filedatainterface::link_file_interfaces(
-                    _datagramdata_interface->per_file_ptr(all_file_nr),
-                    _datagramdata_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _configuration_interface->per_file_ptr(all_file_nr),
-                    _configuration_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _navigation_interface->per_file_ptr(all_file_nr),
-                    _navigation_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _environment_interface->per_file_ptr(all_file_nr),
-                    _environment_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _annotation_interface->per_file_ptr(all_file_nr),
-                    _annotation_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _otherfiledata_interface->per_file_ptr(all_file_nr),
-                    _otherfiledata_interface->per_file_ptr(wcd_file_nr));
-                t_filedatainterface::link_file_interfaces(
-                    _ping_interface->per_file_ptr(all_file_nr),
-                    _ping_interface->per_file_ptr(wcd_file_nr));
+                continue;
+            }
+
+            for (const auto& [wcd_start_time, wcd_end_time, wcd_file_nr] : wcd_file_list)
+            {
+                auto all_path = all_files.find(file_name);
+
+                // check if there is a matching all file
+                if (all_path != all_files.end())
+                {
+                    auto file_list = all_path->second;
+                    if (file_list.empty())
+                    {
+                        continue;
+                    }
+
+                    double all_start_time = std::get<0>(file_list[0]);
+                    double all_end_time   = std::get<1>(file_list[0]);
+                    size_t all_file_nr    = std::get<2>(file_list[0]);
+                    double time_overlap   = std::min(all_end_time, wcd_end_time) -
+                                          std::max(all_start_time, wcd_start_time);
+
+                    // find the all file with the largest time overlap
+                    for (unsigned int i = 1; i < file_list.size(); ++i)
+                    {
+                        double _start_time   = std::get<0>(file_list[i]);
+                        double _end_time     = std::get<1>(file_list[i]);
+                        size_t _file_nr      = std::get<2>(file_list[i]);
+                        double _time_overlap = std::min(_end_time, wcd_end_time) -
+                                               std::max(_start_time, wcd_start_time);
+
+                        if (_time_overlap > time_overlap)
+                        {
+                            all_start_time = _start_time;
+                            all_end_time   = _end_time;
+                            all_file_nr    = _file_nr;
+                            time_overlap   = _time_overlap;
+                        }
+                    }
+
+                    if (time_overlap < 0)
+                    {
+                        /// TODO: this event should be logged
+                        continue;
+                    }
+
+                    t_filedatainterface::link_file_interfaces(
+                        _datagramdata_interface->per_file_ptr(all_file_nr),
+                        _datagramdata_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _configuration_interface->per_file_ptr(all_file_nr),
+                        _configuration_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _navigation_interface->per_file_ptr(all_file_nr),
+                        _navigation_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _environment_interface->per_file_ptr(all_file_nr),
+                        _environment_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _annotation_interface->per_file_ptr(all_file_nr),
+                        _annotation_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _otherfiledata_interface->per_file_ptr(all_file_nr),
+                        _otherfiledata_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _ping_interface->per_file_ptr(all_file_nr),
+                        _ping_interface->per_file_ptr(wcd_file_nr));
+                }
             }
         }
     }

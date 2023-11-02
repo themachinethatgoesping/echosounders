@@ -74,7 +74,7 @@ class I_DatagramInterface
 
   public:
     double                    get_timestamp_first() const { return _timestamp_first; }
-    double                    get_timestamp_last() const { return _timestamp_first; }
+    double                    get_timestamp_last() const { return _timestamp_last; }
     std::pair<double, double> get_timestamp_range() const
     {
         return std::make_pair(_timestamp_first, _timestamp_last);
