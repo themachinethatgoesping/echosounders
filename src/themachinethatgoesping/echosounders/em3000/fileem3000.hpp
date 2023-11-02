@@ -24,9 +24,9 @@
 #include "em3000_datagrams.hpp"
 #include "em3000_types.hpp"
 
-#include "filedatainterfaces/em3000datagramdatainterface.hpp"
 #include "filedatainterfaces/em3000annotationdatainterface.hpp"
 #include "filedatainterfaces/em3000configurationdatainterface.hpp"
+#include "filedatainterfaces/em3000datagramdatainterface.hpp"
 #include "filedatainterfaces/em3000datagraminterface.hpp"
 #include "filedatainterfaces/em3000environmentdatainterface.hpp"
 #include "filedatainterfaces/em3000navigationdatainterface.hpp"
@@ -150,9 +150,9 @@ class FileEM3000
         {
             // use std filesystem to get the file name (without extension) and file extension
             std::filesystem::path file_path(file_paths[file_nr]);
-            // std::string           file_name = file_path.stem().string(); //match files per name
-            std::string file_name = (file_path.parent_path() / file_path.stem()).string();
-            std::string file_ext  = file_path.extension().string();
+            std::string           file_name = file_path.stem().string(); // match files per name
+            // std::string file_name = (file_path.parent_path() / file_path.stem()).string(); //match files per path
+            std::string file_ext = file_path.extension().string();
 
             if (file_ext == ".all")
             {
@@ -229,7 +229,6 @@ class FileEM3000
                     _ping_interface->per_file_ptr(wcd_file_nr));
             }
         }
-
     }
 
     void setup_interfaces()

@@ -204,8 +204,8 @@ class I_DatagramInterface
             tools::timeconv::unixtime_to_datestring(_timestamp_first, 2, "%d/%m/%Y %H:%M:%S");
         std::string time_str_1 =
             tools::timeconv::unixtime_to_datestring(_timestamp_last, 2, "%d/%m/%Y %H:%M:%S");
-        printer.register_container("timestamp_first", time_str_0);
-        printer.register_container("timestamp_last", time_str_1);
+        printer.register_string("timestamp_first", time_str_0);
+        printer.register_string("timestamp_last", time_str_1);
         printer.register_value("Total", _datagram_infos_all.size(), "");
         for (const auto& kv : _datagram_infos_by_type)
         {
