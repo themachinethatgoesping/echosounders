@@ -4,3 +4,4 @@
 
 
 from .load_safe_index import *
+from .find_files import *

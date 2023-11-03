@@ -7,7 +7,6 @@ import pickle
 from collections import defaultdict
 from typing import List, Dict, Union
 
-
 def get_index_file_name(
     folder_path: Union[str, Path], 
     index_root: Union[str, Path, None] = None, 
@@ -49,7 +48,13 @@ def get_index_file_name(
 
 
 def load_index_files(
-    file_paths: List[str], force_new: bool = False, index_name: str = 'tmtgp.index', index_root: str = 'index', update_index: Dict[str, str] = None, verbose: bool = False, create_dir: bool = True) -> Dict[str, str]:
+    file_paths: List[str], 
+    force_new: bool = False, 
+    index_name: str = 'tmtgp.index', 
+    index_root: str = 'index', 
+    update_index: Dict[str, str] = None, 
+    verbose: bool = False, 
+    create_dir: bool = True) -> Dict[str, str]:
     """Load index files for a given list of file paths
 
     Parameters
