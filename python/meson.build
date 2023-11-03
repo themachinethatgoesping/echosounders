@@ -8,6 +8,7 @@ sources = [
 
     'themachinethatgoesping/echosounders/index_functions/__init__.py',
     'themachinethatgoesping/echosounders/index_functions/load_safe_index.py',
+    'themachinethatgoesping/echosounders/index_functions/find_files.py',
 ]
 
 init_configuration = configuration_data({
