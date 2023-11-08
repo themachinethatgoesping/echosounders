@@ -159,7 +159,7 @@ def find_files(folders: List[str], endings: List[str], remove_duplicated_files: 
     for folder in folders:
         for ending in endings:
             # use pathlib's rglob method to recursively search for files with the given ending
-            file_paths += list(Path(folder).rglob(f'*.{ending}'))
+            file_paths += list(Path(folder).rglob(f'*{ending}'))
 
     # convert the file paths to strings
     file_paths = [str(f) for f in file_paths]
