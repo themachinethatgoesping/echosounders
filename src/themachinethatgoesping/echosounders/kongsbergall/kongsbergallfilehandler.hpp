@@ -18,20 +18,20 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "filetemplates/datacontainers/pingcontainer.hpp"
-#include "filetemplates/i_inputfilehandler.hpp"
+#include "../filetemplates/datacontainers/pingcontainer.hpp"
+#include "../filetemplates/i_inputfilehandler.hpp"
 
-#include "kongsbergall/datagrams.hpp"
-#include "kongsbergall/types.hpp"
+#include "datagrams.hpp"
+#include "types.hpp"
 
-#include "kongsbergall/filedatainterfaces/kongsbergallannotationdatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergallconfigurationdatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergalldatagramdatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergalldatagraminterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergallenvironmentdatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergallnavigationdatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergallotherfiledatainterface.hpp"
-#include "kongsbergall/filedatainterfaces/kongsbergallpingdatainterface.hpp"
+#include "filedatainterfaces/kongsbergallannotationdatainterface.hpp"
+#include "filedatainterfaces/kongsbergallconfigurationdatainterface.hpp"
+#include "filedatainterfaces/kongsbergalldatagramdatainterface.hpp"
+#include "filedatainterfaces/kongsbergalldatagraminterface.hpp"
+#include "filedatainterfaces/kongsbergallenvironmentdatainterface.hpp"
+#include "filedatainterfaces/kongsbergallnavigationdatainterface.hpp"
+#include "filedatainterfaces/kongsbergallotherfiledatainterface.hpp"
+#include "filedatainterfaces/kongsbergallpingdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

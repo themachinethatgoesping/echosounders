@@ -20,7 +20,7 @@
 
 #include "../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
-#include "../../themachinethatgoesping/echosounders/kongsbergallfilehandler.hpp"
+#include "../../themachinethatgoesping/echosounders/kongsbergall/kongsbergallfilehandler.hpp"
 
 #include "module.hpp"
 

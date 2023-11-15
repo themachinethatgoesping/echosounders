@@ -16,8 +16,8 @@
 #include <magic_enum.hpp>
 
 /* simradraw types */
-#include "simradraw/datagrams.hpp"
-#include "simradraw/types.hpp"
+#include "datagrams.hpp"
+#include "types.hpp"
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -25,20 +25,20 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "filetemplates/datacontainers/pingcontainer.hpp"
-#include "filetemplates/i_inputfilehandler.hpp"
+#include "../filetemplates/datacontainers/pingcontainer.hpp"
+#include "../filetemplates/i_inputfilehandler.hpp"
 
-#include "simradraw/filedatainterfaces/simradrawannotationdatainterface.hpp"
-#include "simradraw/filedatainterfaces/simradrawconfigurationdatainterface.hpp"
-#include "simradraw/filedatainterfaces/simradrawenvironmentdatainterface.hpp"
-#include "simradraw/filedatainterfaces/simradrawnavigationdatainterface.hpp"
-#include "simradraw/filedatainterfaces/simradrawotherfiledatainterface.hpp"
-#include "simradraw/filedatainterfaces/simradrawpingdatainterface.hpp"
+#include "filedatainterfaces/simradrawannotationdatainterface.hpp"
+#include "filedatainterfaces/simradrawconfigurationdatainterface.hpp"
+#include "filedatainterfaces/simradrawenvironmentdatainterface.hpp"
+#include "filedatainterfaces/simradrawnavigationdatainterface.hpp"
+#include "filedatainterfaces/simradrawotherfiledatainterface.hpp"
+#include "filedatainterfaces/simradrawpingdatainterface.hpp"
 
-#include "simradraw/filedatainterfaces/simradrawdatagraminterface.hpp"
-#include "simradraw/filedatatypes/simradrawping.hpp"
+#include "filedatainterfaces/simradrawdatagraminterface.hpp"
+#include "filedatatypes/simradrawping.hpp"
 
-#include "simradraw/filedatacontainers/simradrawfiledatacontainers.hpp"
+#include "filedatacontainers/simradrawfiledatacontainers.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

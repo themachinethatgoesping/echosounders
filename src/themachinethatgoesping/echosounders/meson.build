@@ -18,7 +18,7 @@ headers = [
   'pingtools/pingsampleselector.hpp',
   'pingtools/beamsampleselection.hpp',
 
-  'simradrawfilehandler.hpp',
+  'simradraw/simradrawfilehandler.hpp',
   'simradraw/types.hpp',
   'simradraw/datagrams.hpp',
   'simradraw/filedatatypes/simradrawping.hpp',

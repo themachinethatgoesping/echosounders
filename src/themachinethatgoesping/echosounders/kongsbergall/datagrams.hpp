@@ -9,9 +9,6 @@
 /* generated doc strings */
 #include ".docstrings/datagrams.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/kongsbergall_datagrams.doc.hpp"
-
 #include "datagrams/attitudedatagram.hpp"
 #include "datagrams/clockdatagram.hpp"
 #include "datagrams/depthorheightdatagram.hpp"
