@@ -8,6 +8,9 @@
 /* generated doc strings */
 #include ".docstrings/inputfilemanager.doc.hpp"
 
+/* generated doc strings */
+#include ".docstrings/inputfilemanager.doc.hpp"
+
 // #include "i_datagram.h"
 // #include "i_datagramcontent.h"
 // #include "i_datagramheader.h"

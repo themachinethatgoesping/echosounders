@@ -7,10 +7,10 @@
 
 #include <xtensor/xtensor.hpp>
 
-#include <themachinethatgoesping/echosounders/em3000/em3000_types.hpp>
-#include <themachinethatgoesping/echosounders/simrad/simrad_types.hpp>
+#include <themachinethatgoesping/echosounders/kongsbergall/kongsbergall_types.hpp>
+#include <themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp>
 
-// note: this must be defined below the em3000/simrad includes otherwise
+// note: this must be defined below the kongsbergall/simradraw includes otherwise
 // datagram_identifier_to_string is unknown
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/datagraminfo.hpp>
 
@@ -52,21 +52,21 @@ void test(t_DatagramInfoData& obj)
 
 TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
 {
-    SECTION("EM3000")
+    SECTION("KongsbergAll")
     {
         // initialize class structure
-        auto obj = DatagramInfoData<em3000::t_EM3000DatagramIdentifier>(
-            1002, 1234567890.1234567890, em3000::t_EM3000DatagramIdentifier::AttitudeDatagram);
+        auto obj = DatagramInfoData<kongsbergall::t_KongsbergAllDatagramIdentifier>(
+            1002, 1234567890.1234567890, kongsbergall::t_KongsbergAllDatagramIdentifier::AttitudeDatagram);
 
         // test common functions
         test(obj);
     }
 
-    SECTION("Simrad")
+    SECTION("SimradRaw")
     {
         // initialize class structure
-        auto obj = DatagramInfoData<simrad::t_SimradDatagramIdentifier>(
-            1002, 1234567890.1234567890, simrad::t_SimradDatagramIdentifier::RAW3);
+        auto obj = DatagramInfoData<simradraw::t_SimradRawDatagramIdentifier>(
+            1002, 1234567890.1234567890, simradraw::t_SimradRawDatagramIdentifier::RAW3);
 
         // test common functions
         test(obj);
