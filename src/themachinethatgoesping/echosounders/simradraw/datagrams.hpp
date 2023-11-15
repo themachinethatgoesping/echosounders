@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/simradraw_datagrams.doc.hpp"
+#include ".docstrings/datagrams.doc.hpp"
 
 #include "datagrams/FIL1.hpp"
 #include "datagrams/MRU0.hpp"
@@ -17,7 +17,7 @@
 #include "datagrams/XML0.hpp"
 #include "datagrams/simradrawdatagram.hpp"
 #include "datagrams/simradrawunknown.hpp"
-#include "simradraw_types.hpp"
+#include "types.hpp"
 
 #include <pybind11/pybind11.h>
 

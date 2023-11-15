@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/kongsbergall_types.doc.hpp"
+#include ".docstrings/types.doc.hpp"
 
 #include <complex>
 

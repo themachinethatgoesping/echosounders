@@ -21,8 +21,8 @@
 #include "filetemplates/datacontainers/pingcontainer.hpp"
 #include "filetemplates/i_inputfilehandler.hpp"
 
-#include "kongsbergall/kongsbergall_datagrams.hpp"
-#include "kongsbergall/kongsbergall_types.hpp"
+#include "kongsbergall/datagrams.hpp"
+#include "kongsbergall/types.hpp"
 
 #include "kongsbergall/filedatainterfaces/kongsbergallannotationdatainterface.hpp"
 #include "kongsbergall/filedatainterfaces/kongsbergallconfigurationdatainterface.hpp"

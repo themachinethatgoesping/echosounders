@@ -19,8 +19,8 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/simradrawfilehandler.hpp"
-#include "../../themachinethatgoesping/echosounders/simradraw/simradraw_datagrams.hpp"
-#include "../../themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp"
+#include "../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 #include "module.hpp"
 

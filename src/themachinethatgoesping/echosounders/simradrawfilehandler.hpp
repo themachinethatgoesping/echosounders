@@ -16,8 +16,8 @@
 #include <magic_enum.hpp>
 
 /* simradraw types */
-#include "simradraw/simradraw_datagrams.hpp"
-#include "simradraw/simradraw_types.hpp"
+#include "simradraw/datagrams.hpp"
+#include "simradraw/types.hpp"
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>

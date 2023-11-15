@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/simradraw_types.doc.hpp"
+#include ".docstrings/types.doc.hpp"
 
 #include <complex>
 

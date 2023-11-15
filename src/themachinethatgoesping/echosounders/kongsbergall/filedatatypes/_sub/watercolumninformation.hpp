@@ -19,8 +19,8 @@
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
-#include "../../kongsbergall_datagrams.hpp"
-#include "../../kongsbergall_types.hpp"
+#include "../../datagrams.hpp"
+#include "../../types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

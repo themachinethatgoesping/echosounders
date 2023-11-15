@@ -31,7 +31,7 @@
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
-#include "../simradraw_datagrams.hpp"
+#include "../datagrams.hpp"
 #include "simradrawpingrawdata.hpp"
 
 namespace themachinethatgoesping {

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/kongsbergall_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 #include "../../py_filetemplates/py_datatypes/c_i_fileinfodata.hpp"
 
 namespace themachinethatgoesping {

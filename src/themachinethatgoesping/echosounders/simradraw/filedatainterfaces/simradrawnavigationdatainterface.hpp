@@ -20,8 +20,8 @@
 #include "../../filetemplates/datainterfaces/i_navigationdatainterface.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
-#include "../simradraw_datagrams.hpp"
-#include "../simradraw_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawnavigationdatainterfaceperfile.hpp"
 

@@ -7,8 +7,8 @@
 
 #include <xtensor/xtensor.hpp>
 
-#include <themachinethatgoesping/echosounders/kongsbergall/kongsbergall_types.hpp>
-#include <themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp>
+#include <themachinethatgoesping/echosounders/kongsbergall/types.hpp>
+#include <themachinethatgoesping/echosounders/simradraw/types.hpp>
 
 // note: this must be defined below the kongsbergall/simradraw includes otherwise
 // datagram_identifier_to_string is unknown

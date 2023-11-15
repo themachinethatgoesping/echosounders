@@ -11,7 +11,7 @@
 
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp"
+#include "../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 #include "module.hpp"
 

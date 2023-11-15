@@ -20,8 +20,8 @@
 #include "../../filetemplates/helper/deduplicatebuffer.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
-#include "../simradraw_datagrams.hpp"
-#include "../simradraw_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterface.hpp"
 #include "simradrawpingdatainterfaceperfile.hpp"

@@ -1,4 +1,4 @@
-//sourcehash: d82f21e32186cde3de069dfc5f73db87542d7a907f00678561ce97e77479fc87
+//sourcehash: 2ad02f8f59b1d441e144b482d6618452645211c2acb2136329eddaa4bbc7de61
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,37 +38,27 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_datagram_variant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_operator_call =
-R"doc(This is the visitor function that tries to convert the internal
-variant to the specified type.
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc()doc";
 
-Template parameter ``t_ProgressBar``:
-    $Parameter ``progress_bar``:
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_FIL1 = R"doc(< Filter datagram)doc";
 
-ProgressBar class that is derived from I_ProgressBar
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_MRU0 = R"doc(< Motion datagram)doc";
 
-Returns:
-    I_ProgressBar&)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_RAW3 = R"doc(< Raw sample data datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< ???)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

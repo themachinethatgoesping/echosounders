@@ -33,8 +33,8 @@
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
-#include "../kongsbergall_datagrams.hpp"
-#include "../kongsbergall_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "_sub/watercolumninformation.hpp"
 #include "kongsbergallpingcommon.hpp"

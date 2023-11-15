@@ -7,6 +7,9 @@
 #pragma once
 
 /* generated doc strings */
+#include ".docstrings/datagrams.doc.hpp"
+
+/* generated doc strings */
 #include ".docstrings/kongsbergall_datagrams.doc.hpp"
 
 #include "datagrams/attitudedatagram.hpp"
@@ -31,7 +34,7 @@
 #include "datagrams/surfacesoundspeeddatagram.hpp"
 #include "datagrams/watercolumndatagram.hpp"
 #include "datagrams/xyzdatagram.hpp"
-#include "kongsbergall_types.hpp"
+#include "types.hpp"
 
 #include <pybind11/pybind11.h>
 

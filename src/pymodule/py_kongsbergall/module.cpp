@@ -11,7 +11,7 @@
 
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/kongsbergall/kongsbergall_types.hpp"
+#include "../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 
 #include "module.hpp"
 

@@ -32,7 +32,7 @@
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_pingcommon.hpp"
-#include "../kongsbergall_datagrams.hpp"
+#include "../datagrams.hpp"
 
 #include "kongsbergallpingrawdata.hpp"
 

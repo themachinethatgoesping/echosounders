@@ -31,8 +31,8 @@
 
 #include "../../filetemplates/datatypes/i_pingbottom.hpp"
 
-#include "../kongsbergall_datagrams.hpp"
-#include "../kongsbergall_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "kongsbergallpingcommon.hpp"
 

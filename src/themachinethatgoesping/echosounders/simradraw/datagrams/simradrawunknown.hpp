@@ -19,7 +19,7 @@
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../simradraw_types.hpp"
+#include "../types.hpp"
 #include "simradrawdatagram.hpp"
 
 namespace themachinethatgoesping {

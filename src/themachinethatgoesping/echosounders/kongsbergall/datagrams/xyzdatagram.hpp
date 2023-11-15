@@ -20,7 +20,7 @@
 
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
 
-#include "../kongsbergall_types.hpp"
+#include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/xyzdatagrambeam.hpp"

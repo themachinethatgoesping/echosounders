@@ -1,4 +1,4 @@
-//sourcehash: f65369ec078a87ad5ccba38e15400ee8fdbc349b8d75d5697271b2196e0f8570
+//sourcehash: c2123067eb65b0e3b17c49d8433dd9262e610f658c4f88f98299b142379487fc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,20 +32,3 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-#if defined(__GNUG__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
-
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface_KongsbergAllConfigurationDataInterface = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface_printer = R"doc()doc";
-
-#if defined(__GNUG__)
-#pragma GCC diagnostic pop
-#endif
-
-

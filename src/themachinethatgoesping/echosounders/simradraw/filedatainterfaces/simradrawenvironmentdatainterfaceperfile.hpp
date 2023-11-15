@@ -19,8 +19,8 @@
 #include "../../filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
-#include "../simradraw_datagrams.hpp"
-#include "../simradraw_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawnavigationdatainterface.hpp"
 

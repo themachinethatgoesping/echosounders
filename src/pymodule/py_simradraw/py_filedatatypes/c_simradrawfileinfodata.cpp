@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "../../../themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 #include "../../py_filetemplates/py_datatypes/c_i_fileinfodata.hpp"
 
 namespace themachinethatgoesping {

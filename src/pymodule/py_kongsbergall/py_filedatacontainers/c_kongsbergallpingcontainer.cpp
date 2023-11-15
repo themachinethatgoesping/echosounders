@@ -15,8 +15,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/kongsbergall_datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/kongsbergall_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatacontainers/kongsbergallpingcontainer.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 

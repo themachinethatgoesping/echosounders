@@ -22,7 +22,7 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../../filetemplates/datainterfaces/i_datagraminterface.hpp"
-#include "../kongsbergall_types.hpp"
+#include "../types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

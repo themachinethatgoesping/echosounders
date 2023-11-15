@@ -20,8 +20,8 @@
 #include "../../filetemplates/helper/deduplicatebuffer.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
-#include "../kongsbergall_datagrams.hpp"
-#include "../kongsbergall_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 #include "kongsbergallenvironmentdatainterface.hpp"
 #include "kongsbergallpingdatainterfaceperfile.hpp"

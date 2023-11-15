@@ -20,7 +20,7 @@
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../kongsbergall_types.hpp"
+#include "../types.hpp"
 // #include "../misc/DateTime.h"
 // #include "DSMToolsLib/HelperFunctions.h"
 

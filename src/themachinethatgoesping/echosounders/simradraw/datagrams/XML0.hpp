@@ -22,7 +22,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../simradraw_types.hpp"
+#include "../types.hpp"
 #include "simradrawdatagram.hpp"
 #include "xml_datagrams/helper.hpp"
 #include "xml_datagrams/xml_configuration.hpp"

@@ -19,8 +19,8 @@
 
 #include "../../filetemplates/datainterfaces/i_annotationdatainterface.hpp"
 
-#include "../kongsbergall_datagrams.hpp"
-#include "../kongsbergall_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "kongsbergallannotationdatainterfaceperfile.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 

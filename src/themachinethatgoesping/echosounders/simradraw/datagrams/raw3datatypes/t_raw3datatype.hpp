@@ -27,7 +27,7 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include "../../simradraw_types.hpp"
+#include "../../types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

@@ -20,8 +20,8 @@
 #include "simradrawconfigurationdatainterface.hpp"
 
 #include "../filedatacontainers/simradrawfiledatacontainers.hpp"
-#include "../simradraw_datagrams.hpp"
-#include "../simradraw_types.hpp"
+#include "../datagrams.hpp"
+#include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterface.hpp"
 

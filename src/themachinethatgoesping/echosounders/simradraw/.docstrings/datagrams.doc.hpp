@@ -1,4 +1,4 @@
-//sourcehash: 95e5dba47fbd01c9455cce3fe7a295cda09adde7f599c1aa5409949268a61aba
+//sourcehash: f34d1ad5c76ce38c2704b1eb7e7da69cbb78904420995b7a57f2b8e51f07acbd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,17 +38,17 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant_KongsbergAllDatagramVariant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant_KongsbergAllDatagramVariant_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant_datagram_variant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_datagram_variant = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagramVariant_operator_call =
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_operator_call =
 R"doc(This is the visitor function that tries to convert the internal
 variant to the specified type.
 
@@ -60,15 +60,15 @@ ProgressBar class that is derived from I_ProgressBar
 Returns:
     I_ProgressBar&)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllSkipDataFactory = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllSkipDataFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllSkipDataFactory_from_stream_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllSkipDataVariantFactory = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllSkipDataVariantFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory_from_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

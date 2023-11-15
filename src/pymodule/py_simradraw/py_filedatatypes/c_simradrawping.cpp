@@ -17,8 +17,8 @@
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/simradraw_datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

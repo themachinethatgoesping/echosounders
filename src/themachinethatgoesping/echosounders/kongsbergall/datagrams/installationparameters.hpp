@@ -25,7 +25,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
-#include "../kongsbergall_types.hpp"
+#include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
 
 namespace themachinethatgoesping {
