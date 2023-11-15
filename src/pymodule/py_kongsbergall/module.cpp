@@ -31,7 +31,7 @@ namespace pymodule {
 namespace py_kongsbergall {
 
 // -- submodule declarations --
-void init_c_filehandlerkongsbergall(pybind11::module& m); // c_filehandlerkongsbergall.cpp
+void init_c_kongsbergallfilehandler(pybind11::module& m); // c_kongsbergallfilehandler.cpp
 
 // void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
@@ -236,7 +236,7 @@ void init_m_kongsbergall(pybind11::module& m)
     py_filedatainterfaces::init_m_kongsbergallfiledatainterfaces(subm);
 
     // kongsbergall classes
-    init_c_filehandlerkongsbergall(subm);
+    init_c_kongsbergallfilehandler(subm);
 
     // init_c_file_test_functions(subm);
 }

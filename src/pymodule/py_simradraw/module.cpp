@@ -31,7 +31,7 @@ namespace pymodule {
 namespace py_simradraw {
 
 // -- submodule declarations --
-void init_c_filehandlersimradraw(pybind11::module& m); // c_filehandlersimradraw.cpp
+void init_c_simradrawfilehandler(pybind11::module& m); // c_simradrawfilehandler.cpp
 
 void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
@@ -119,7 +119,7 @@ void init_m_simradraw(pybind11::module& m)
     py_filedatainterfaces::init_m_simradrawfiledatainterfaces(subm);
 
     // simradraw classes
-    init_c_filehandlersimradraw(subm);
+    init_c_simradrawfilehandler(subm);
 
     init_c_file_test_functions(subm);
 }

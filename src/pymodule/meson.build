@@ -80,7 +80,7 @@ sources = [
     'py_simradraw/py_filedatacontainers/module.cpp',
     'py_simradraw/py_filedatacontainers/c_simradrawdatagramcontainer.cpp',
     'py_simradraw/py_filedatacontainers/c_simradrawpingcontainer.cpp',
-    'py_simradraw/c_filehandlersimradraw.cpp',
+    'py_simradraw/c_simradrawfilehandler.cpp',
     'py_simradraw/c_file_test_functions.cpp',
 
     'py_kongsbergall/py_datagrams/py_substructures/enum_detectiontype.cpp',
@@ -146,7 +146,7 @@ sources = [
     'py_kongsbergall/py_filedatatypes/c_kongsbergallpingwatercolumn.cpp',
     'py_kongsbergall/py_filedatatypes/c_kongsbergallping.cpp',
     'py_kongsbergall/module.cpp',
-    'py_kongsbergall/c_filehandlerkongsbergall.cpp',
+    'py_kongsbergall/c_kongsbergallfilehandler.cpp',
 ]
 
 # define python module

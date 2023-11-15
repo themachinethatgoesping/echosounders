@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/filehandlerkongsbergall.doc.hpp"
+#include ".docstrings/kongsbergallfilehandler.doc.hpp"
 
 /* library includes */
 #include <magic_enum.hpp>
@@ -18,27 +18,27 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../filetemplates/datacontainers/pingcontainer.hpp"
-#include "../filetemplates/i_inputfilehandler.hpp"
+#include "filetemplates/datacontainers/pingcontainer.hpp"
+#include "filetemplates/i_inputfilehandler.hpp"
 
-#include "kongsbergall_datagrams.hpp"
-#include "kongsbergall_types.hpp"
+#include "kongsbergall/kongsbergall_datagrams.hpp"
+#include "kongsbergall/kongsbergall_types.hpp"
 
-#include "filedatainterfaces/kongsbergallannotationdatainterface.hpp"
-#include "filedatainterfaces/kongsbergallconfigurationdatainterface.hpp"
-#include "filedatainterfaces/kongsbergalldatagramdatainterface.hpp"
-#include "filedatainterfaces/kongsbergalldatagraminterface.hpp"
-#include "filedatainterfaces/kongsbergallenvironmentdatainterface.hpp"
-#include "filedatainterfaces/kongsbergallnavigationdatainterface.hpp"
-#include "filedatainterfaces/kongsbergallotherfiledatainterface.hpp"
-#include "filedatainterfaces/kongsbergallpingdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallannotationdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallconfigurationdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergalldatagramdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergalldatagraminterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallenvironmentdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallnavigationdatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallotherfiledatainterface.hpp"
+#include "kongsbergall/filedatainterfaces/kongsbergallpingdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 
 template<typename t_ifstream>
-class FileHandlerKongsbergAll
+class KongsbergAllFileHandler
     : public filetemplates::I_InputFileHandler<datagrams::KongsbergAllDatagram,
                                         filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>>
 {
@@ -91,7 +91,7 @@ class FileHandlerKongsbergAll
     // t_KongsbergAllDatagramIdentifier, t_ifstream>::
     //     I_InputFileHandler;
 
-    FileHandlerKongsbergAll(const std::string&                                   file_path,
+    KongsbergAllFileHandler(const std::string&                                   file_path,
                const std::unordered_map<std::string, FileInfoData>& cached_index =
                    std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
@@ -103,7 +103,7 @@ class FileHandlerKongsbergAll
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileHandlerKongsbergAll(const std::string&                                   file_path,
+    KongsbergAllFileHandler(const std::string&                                   file_path,
                const std::unordered_map<std::string, FileInfoData>& cached_index,
                bool                                                 init,
                tools::progressbars::I_ProgressBar&                  progress_bar)
@@ -114,7 +114,7 @@ class FileHandlerKongsbergAll
             init_interfaces(false, progress_bar);
     }
 
-    FileHandlerKongsbergAll(const std::vector<std::string>&                      file_paths,
+    KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
                const std::unordered_map<std::string, FileInfoData>& cached_index =
                    std::unordered_map<std::string, FileInfoData>(),
                bool init          = true,
@@ -126,7 +126,7 @@ class FileHandlerKongsbergAll
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileHandlerKongsbergAll(const std::vector<std::string>&                      file_paths,
+    KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
                const std::unordered_map<std::string, FileInfoData>& cached_index,
                bool                                                 init,
                tools::progressbars::I_ProgressBar&                  progress_bar)
@@ -137,7 +137,7 @@ class FileHandlerKongsbergAll
         if (init)
             init_interfaces(false, progress_bar);
     }
-    ~FileHandlerKongsbergAll() = default;
+    ~KongsbergAllFileHandler() = default;
 
     void link_all_and_wcd_files()
     {
@@ -434,7 +434,7 @@ class FileHandlerKongsbergAll
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("FileHandlerKongsbergAll", float_precision);
+        tools::classhelper::ObjectPrinter printer("KongsbergAllFileHandler", float_precision);
 
         auto interface_printer = t_base::__printer__(float_precision);
 

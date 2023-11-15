@@ -18,7 +18,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simradraw/filehandlersimradraw.hpp"
+#include "../../themachinethatgoesping/echosounders/simradrawfilehandler.hpp"
 #include "../../themachinethatgoesping/echosounders/simradraw/simradraw_datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/simradraw/simradraw_types.hpp"
 
@@ -37,7 +37,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-void test_speed_all(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi)
+void test_speed_all(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi)
 {
     // get current time
     auto                     start = std::chrono::high_resolution_clock::now();
@@ -62,7 +62,7 @@ void test_speed_all(const FileHandlerSimradRaw<datastreams::MappedFileStream>& i
 }
 
 template<typename T_DatagramType>
-void test_speed_content(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi,
+void test_speed_content(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi,
                         t_SimradRawDatagramIdentifier                          type)
 {
     // get current time
@@ -86,7 +86,7 @@ void test_speed_content(const FileHandlerSimradRaw<datastreams::MappedFileStream
             .count()));
 }
 
-void test_speed_decode_nmea(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi)
+void test_speed_decode_nmea(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
@@ -131,7 +131,7 @@ void test_speed_decode_nmea(const FileHandlerSimradRaw<datastreams::MappedFileSt
             .count()));
 }
 
-void test_speed_decode_xml(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi, int level = 10)
+void test_speed_decode_xml(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi, int level = 10)
 {
     // get current time
     auto start = std::chrono::high_resolution_clock::now();
@@ -177,7 +177,7 @@ void test_speed_decode_xml(const FileHandlerSimradRaw<datastreams::MappedFileStr
             .count()));
 }
 
-void test_speed_type(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi,
+void test_speed_type(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi,
                      t_SimradRawDatagramIdentifier                          type)
 {
     switch (type)
@@ -206,7 +206,7 @@ void test_speed_type(const FileHandlerSimradRaw<datastreams::MappedFileStream>& 
     }
 }
 
-void test_speed_header(const FileHandlerSimradRaw<datastreams::MappedFileStream>& ifi,
+void test_speed_header(const SimradRawFileHandler<datastreams::MappedFileStream>& ifi,
                        t_SimradRawDatagramIdentifier                          type)
 {
     // get current time

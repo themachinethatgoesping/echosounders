@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/filehandlersimradraw.doc.hpp"
+#include ".docstrings/simradrawfilehandler.doc.hpp"
 
 /* library includes */
 #include <frozen/map.h>
@@ -16,8 +16,8 @@
 #include <magic_enum.hpp>
 
 /* simradraw types */
-#include "simradraw_datagrams.hpp"
-#include "simradraw_types.hpp"
+#include "simradraw/simradraw_datagrams.hpp"
+#include "simradraw/simradraw_types.hpp"
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -25,27 +25,27 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../filetemplates/datacontainers/pingcontainer.hpp"
-#include "../filetemplates/i_inputfilehandler.hpp"
+#include "filetemplates/datacontainers/pingcontainer.hpp"
+#include "filetemplates/i_inputfilehandler.hpp"
 
-#include "filedatainterfaces/simradrawannotationdatainterface.hpp"
-#include "filedatainterfaces/simradrawconfigurationdatainterface.hpp"
-#include "filedatainterfaces/simradrawenvironmentdatainterface.hpp"
-#include "filedatainterfaces/simradrawnavigationdatainterface.hpp"
-#include "filedatainterfaces/simradrawotherfiledatainterface.hpp"
-#include "filedatainterfaces/simradrawpingdatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawannotationdatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawconfigurationdatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawenvironmentdatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawnavigationdatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawotherfiledatainterface.hpp"
+#include "simradraw/filedatainterfaces/simradrawpingdatainterface.hpp"
 
-#include "filedatainterfaces/simradrawdatagraminterface.hpp"
-#include "filedatatypes/simradrawping.hpp"
+#include "simradraw/filedatainterfaces/simradrawdatagraminterface.hpp"
+#include "simradraw/filedatatypes/simradrawping.hpp"
 
-#include "filedatacontainers/simradrawfiledatacontainers.hpp"
+#include "simradraw/filedatacontainers/simradrawfiledatacontainers.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 
 template<typename t_ifstream>
-class FileHandlerSimradRaw
+class SimradRawFileHandler
     : public filetemplates::I_InputFileHandler<datagrams::SimradRawDatagram,
                                         filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>
 {
@@ -94,7 +94,7 @@ class FileHandlerSimradRaw
     // t_SimradRawDatagramIdentifier, t_ifstream>::
     //     I_InputFileHandler;
 
-    FileHandlerSimradRaw(const std::string&                                   file_path,
+    SimradRawFileHandler(const std::string&                                   file_path,
                   const std::unordered_map<std::string, FileInfoData>& cached_index =
                       std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
@@ -105,7 +105,7 @@ class FileHandlerSimradRaw
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileHandlerSimradRaw(const std::string&                                   file_path,
+    SimradRawFileHandler(const std::string&                                   file_path,
                   const std::unordered_map<std::string, FileInfoData>& cached_index,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
@@ -116,7 +116,7 @@ class FileHandlerSimradRaw
             init_interfaces(false, progress_bar);
     }
 
-    FileHandlerSimradRaw(const std::vector<std::string>&                      file_paths,
+    SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
                   const std::unordered_map<std::string, FileInfoData>& cached_index =
                       std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
@@ -127,7 +127,7 @@ class FileHandlerSimradRaw
         if (init)
             init_interfaces(false, show_progress);
     }
-    FileHandlerSimradRaw(const std::vector<std::string>&                      file_paths,
+    SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
                   const std::unordered_map<std::string, FileInfoData>& cached_index,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
@@ -137,7 +137,7 @@ class FileHandlerSimradRaw
         if (init)
             init_interfaces(false, progress_bar);
     }
-    ~FileHandlerSimradRaw() = default;
+    ~SimradRawFileHandler() = default;
 
     using t_base::init_interfaces;
     void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
@@ -294,7 +294,7 @@ class FileHandlerSimradRaw
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("FileHandlerSimradRaw", float_precision);
+        tools::classhelper::ObjectPrinter printer("SimradRawFileHandler", float_precision);
 
         auto interface_printer = t_base::__printer__(float_precision);
 
