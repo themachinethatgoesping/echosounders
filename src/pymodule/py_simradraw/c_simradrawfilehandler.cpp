@@ -84,17 +84,10 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
         DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, otherfiledata_interface));
 
     cls.def("pings",
-            py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::pings, py::const_),
+            py::overload_cast<bool>(&SimradRawFileHandler<T_FileStream>::pings, py::const_),
+            py::arg("sorted_by_time") = true,
             DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, pings));
-    cls.def("pings",
-            py::overload_cast<const std::string&>(&SimradRawFileHandler<T_FileStream>::pings, py::const_),
-            DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, pings_2),
-            py::arg("channel_id"));
-    cls.def("pings",
-            py::overload_cast<const std::vector<std::string>&>(&SimradRawFileHandler<T_FileStream>::pings,
-                                                               py::const_),
-            DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, pings_3),
-            py::arg("channel_ids"));
+            
     cls.def("channel_ids",
             &SimradRawFileHandler<T_FileStream>::channel_ids,
             DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, channel_ids));

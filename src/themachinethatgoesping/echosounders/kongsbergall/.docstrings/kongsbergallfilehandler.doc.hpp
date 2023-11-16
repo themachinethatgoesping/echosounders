@@ -1,4 +1,4 @@
-//sourcehash: 2b0b42d6fb02ae1a7cfc7d31bed4cce71ba9808a2a1c8027d9c45c5d41c4d892
+//sourcehash: 7ee024e7951dd8be2d18cfdb78698f1e4ab25d5f557e4aa682c24eaca3e2b0b8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -89,10 +89,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_Kongsb
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_ping_interface_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_pings = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_pings_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_pings_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_printer = R"doc()doc";
 

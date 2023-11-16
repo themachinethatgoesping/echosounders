@@ -315,20 +315,15 @@ class KongsbergAllFileHandler
     auto& otherfiledata_interface() { return *_otherfiledata_interface; }
     auto& ping_interface() { return *_ping_interface; }
 
-    filedatacontainers::KongsbergAllPingContainer<t_ifstream> pings() const
+    filedatacontainers::KongsbergAllPingContainer<t_ifstream> pings(bool sorted_by_time = true) const
     {
+        if (sorted_by_time)
+        {
+            return _ping_interface->get_pings().get_sorted_by_time();
+        }
         return _ping_interface->get_pings();
     }
 
-    filedatacontainers::KongsbergAllPingContainer<t_ifstream> pings(const std::string& channel_id) const
-    {
-        return _ping_interface->get_pings(channel_id);
-    }
-    filedatacontainers::KongsbergAllPingContainer<t_ifstream> pings(
-        const std::vector<std::string>& channel_ids) const
-    {
-        return _ping_interface->get_pings()(channel_ids);
-    }
     std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
   protected:

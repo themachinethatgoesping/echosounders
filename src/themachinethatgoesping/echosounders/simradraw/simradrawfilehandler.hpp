@@ -176,20 +176,15 @@ class SimradRawFileHandler
     auto& annotation_interface() { return *_annotation_interface; }
     auto& otherfiledata_interface() { return *_otherfiledata_interface; }
 
-    filedatacontainers::SimradRawPingContainer<t_ifstream> pings() const
+    filedatacontainers::SimradRawPingContainer<t_ifstream> pings(bool sorted_by_time) const
     {
+        if (sorted_by_time)
+        {
+            return _ping_interface->get_pings().get_sorted_by_time();
+        }
         return _ping_interface->get_pings();
     }
 
-    filedatacontainers::SimradRawPingContainer<t_ifstream> pings(const std::string& channel_id) const
-    {
-        return _ping_interface->get_pings(channel_id);
-    }
-    filedatacontainers::SimradRawPingContainer<t_ifstream> pings(
-        const std::vector<std::string>& channel_ids) const
-    {
-        return _ping_interface->get_pings()(channel_ids);
-    }
 
     std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
