@@ -46,8 +46,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     size_t      _file_nr   = std::numeric_limits<size_t>::max();
     std::string _file_path = "not registered";
 
-    std::shared_ptr<I_FileDataInterfacePerFile> _linked_file;
-    bool                                        _is_primary_file = true;
+    std::shared_ptr<I_FileDataInterfacePerFile> _linked_secondary_file;
+    std::weak_ptr<I_FileDataInterfacePerFile>   _linked_primary_file;
 
     std::vector<typename t_base::type_DatagramIdentifier> _used_extension_datagram_identifiers;
     std::vector<typename t_base::type_DatagramIdentifier> _ignored_extension_datagram_identifiers;
@@ -66,7 +66,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         std::shared_ptr<I_FileDataInterfacePerFile> file_interface_main,
         std::shared_ptr<I_FileDataInterfacePerFile> file_interface_extension)
     {
-        if (file_interface_main->_linked_file != nullptr)
+        if (file_interface_main->has_linked_file())
             throw std::runtime_error(
                 fmt::format("Main {} [{}] '{}' cannot be linked to [{}] '{}' because "
                             "it is already linked "
@@ -76,10 +76,10 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                             file_interface_main->get_file_path(),
                             file_interface_extension->get_file_nr(),
                             file_interface_extension->get_file_path(),
-                            file_interface_main->_linked_file->get_file_nr(),
-                            file_interface_main->_linked_file->get_file_path()));
+                            file_interface_main->get_linked_file()->get_file_nr(),
+                            file_interface_main->get_linked_file()->get_file_path()));
 
-        if (file_interface_extension->_linked_file != nullptr)
+        if (file_interface_extension->has_linked_file())
             throw std::runtime_error(
                 fmt::format("Extension {} [{}] '{}' cannot be linked to [{}] '{}' "
                             "because it is already linked "
@@ -89,14 +89,11 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                             file_interface_extension->get_file_path(),
                             file_interface_main->get_file_nr(),
                             file_interface_main->get_file_path(),
-                            file_interface_extension->_linked_file->get_file_nr(),
-                            file_interface_extension->_linked_file->get_file_path()));
+                            file_interface_extension->get_linked_file()->get_file_nr(),
+                            file_interface_extension->get_linked_file()->get_file_path()));
 
-        file_interface_main->_is_primary_file      = true;
-        file_interface_extension->_is_primary_file = false;
-
-        file_interface_main->_linked_file      = file_interface_extension;
-        file_interface_extension->_linked_file = file_interface_main;
+        file_interface_main->_linked_secondary_file    = file_interface_extension;
+        file_interface_extension->_linked_primary_file = file_interface_main;
 
         // check which datagram_identifiers in the extension file do not exist in the main file
         for (const auto& [key, datagrams] : file_interface_extension->_datagram_infos_by_type)
@@ -173,15 +170,17 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      */
     size_t get_linked_file_nr() const
     {
-        if (_linked_file == nullptr)
-            throw std::runtime_error("get_linked_file_nr: no linked file");
 
-        return _linked_file->get_file_nr();
+        if (has_linked_file())
+            return _linked_secondary_file->get_file_nr();
+
+        throw std::runtime_error("get_linked_file_nr: no linked file");
     }
 
     /**
      * @brief Get the file name
-     * This function assumes that the file name is the same for all datagrams in the file
+     * This function assumes that the file name is the same for_linked_file all datagrams in the
+     * file
      *
      * @return std::string
      */
@@ -199,9 +198,35 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return _file_path;
     }
 
-    bool is_primary_file() const { return _is_primary_file; }
-    bool is_secondary_file() const { return !_is_primary_file; }
-    bool has_linked_file() const { return _linked_file != nullptr; }
+    bool is_primary_file() const { return !is_secondary_file(); }
+    bool is_secondary_file() const
+    {
+        if (_linked_primary_file.lock())
+            return true;
+
+        return false;
+    }
+    bool has_linked_file() const
+    {
+        if (_linked_secondary_file)
+            return true;
+
+        if (_linked_primary_file.lock())
+            return true;
+
+        return false;
+    }
+    std::shared_ptr<I_FileDataInterfacePerFile> get_linked_file() const
+    {
+        if (_linked_secondary_file)
+            return _linked_secondary_file;
+
+        auto ptr = _linked_primary_file.lock();
+        if (ptr)
+            return ptr;
+
+        throw std::runtime_error("get_linked_file: no linked file");
+    }
 
     /**
      * @brief Get the file name of the linked file
@@ -210,10 +235,10 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      */
     std::string get_linked_file_path() const
     {
-        if (_linked_file == nullptr)
-            throw std::runtime_error("get_linked_file_path: no linked file");
+        if (has_linked_file())
+            return get_linked_file()->get_file_path();
 
-        return _linked_file->get_file_path();
+        throw std::runtime_error("get_linked_file_path: no linked file");
     }
 
     // ----- objectprinter -----

@@ -198,3 +198,30 @@ def find_files(
         print(f"Found {len(file_paths)} files")
 
     return file_paths
+    
+def find_folders_with_files(
+    folders: Union[str, List[str]], 
+    endings: Union[str, List[str]], 
+    followlinks: bool = False,
+    verbose: bool = True) -> List[str]:
+    """
+    Find folders that contain files with specified endings.
+
+    Args:
+        folders (Union[str, List[str]]): Path or list of paths to search for files.
+        endings (Union[str, List[str]]): File endings to filter files.
+        followlinks (bool, optional): Whether to follow symbolic links. Defaults to False.
+        verbose (bool, optional): Whether to display progress information. Defaults to True.
+
+    Returns:
+        List[str]: List of folders that contain files with specified endings.
+    """
+
+    file_paths = find_files(folders,endings,remove_duplicated_files=False,followlinks=followlinks,verbose=verbose)
+
+    folders_with_files = list(set([os.path.dirname(f) for f in file_paths]))
+
+    return folders_with_files
+
+
+    

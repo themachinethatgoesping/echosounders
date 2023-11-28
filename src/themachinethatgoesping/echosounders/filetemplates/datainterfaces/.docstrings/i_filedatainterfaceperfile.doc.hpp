@@ -1,4 +1,4 @@
-//sourcehash: 1e0187a7e277ca33a2047fb2e54b1c0a8cd9ae72fca9f506310f92f797e0cf7e
+//sourcehash: 1c187e69b11d714e2b27961e68c104de4fd376eb8c147ec69fe0a5919de6e291
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,10 +59,12 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_file_path =
 R"doc(Get the file name This function assumes that the file name is the same
-for all datagrams in the file
+for_linked_file all datagrams in the file
 
 Returns:
     std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_linked_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_linked_file_nr =
 R"doc(Get the file nr of the linked file
@@ -86,13 +88,13 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_primary_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_primary_file_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_secondary_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_link_file_interfaces = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_linked_file = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_linked_primary_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_linked_secondary_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_printer = R"doc()doc";
 
