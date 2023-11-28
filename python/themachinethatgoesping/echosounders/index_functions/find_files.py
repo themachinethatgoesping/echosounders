@@ -132,16 +132,24 @@ def remove_duplicates(file_paths: List[str], hash_read_size_mb: Union[int, None]
     return new_file_paths
 
 
-def find_files(folders: List[str], endings: List[str], remove_duplicated_files: bool = True, verbose: bool = True) -> List[str]:
+
+def find_files(
+    folders: Union[str, List[str]], 
+    endings: Union[str, List[str]], 
+    followlinks: bool = False,
+    remove_duplicated_files: bool = True, 
+    verbose: bool = True) -> List[str]:
     """
     Recursively searches for files with the given endings in the specified folders.
 
     Parameters
     ----------
-    folders : List[str]
-        A list of folder paths to search for files in.
-    endings : List[str]
-        A list of file endings to search for (e.g. 'txt', 'pdf', etc.).
+    folders : Union[str, List[str]]
+        The folders to search for files.
+    endings : Union[str, List[str]]
+        The file endings to match.
+    followlinks : bool, optional
+        If True, follows symbolic links. Defaults to False.
     remove_duplicated_files : bool, optional
         If True, removes any duplicate files found (comparing first file name then hash). Defaults to True.
     verbose : bool, optional
@@ -154,12 +162,22 @@ def find_files(folders: List[str], endings: List[str], remove_duplicated_files: 
     """
     # initialize an empty list to store file paths
     file_paths = []
+
+    # convert folders to list if it is a string or a pathlib.Path object
+    if isinstance(folders, (str, Path)):
+        folders = [folders]
+
+    # convert endings to list if it is a string
+    if isinstance(endings, str):
+        endings = [endings]
     
     # iterate over each folder and ending to search for files
     for folder in folders:
-        for ending in endings:
-            # use pathlib's rglob method to recursively search for files with the given ending
-            file_paths += list(Path(folder).rglob(f'*{ending}'))
+        for r,d,f in os.walk(folder, followlinks=followlinks):
+            for file in f:
+                for ending in endings:
+                    if file.endswith(ending):
+                        file_paths.append(os.path.join(r,file))
 
     # convert the file paths to strings
     file_paths = [str(f) for f in file_paths]
