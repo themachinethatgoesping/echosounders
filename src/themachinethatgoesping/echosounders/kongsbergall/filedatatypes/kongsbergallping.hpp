@@ -106,8 +106,8 @@ class KongsbergAllPing
         return ping;
     }
 
-    size_t      get_file_nr() const final { return _file_nr; }
-    std::string get_file_path() const final { return _file_path; }
+    size_t      get_file_nr() const { return _file_nr; }
+    std::string get_file_path() const { return _file_path; }
 
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
@@ -126,8 +126,6 @@ class KongsbergAllPing
 
     // ----- I_Ping interface -----
     using t_base2::raw_data;
-    using t_base1::get_file_ping_counter;
-    using t_base1::set_file_ping_counter;
 
     // ----- bottom -----
     using t_base1::bottom;

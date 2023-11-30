@@ -1,4 +1,4 @@
-//sourcehash: 528cf964fd64931b25b2d7a33e491cc41b0aad8441a927ba6deffcbd75fff54e
+//sourcehash: 844ef318908268ca654c05d199f9f4b84189c7b5572c71aa4706ec1c5f59d1c5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,6 +42,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_KongsbergAllPingRawData = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_file_numbers = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_file_paths = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_ifs =
 R"doc(Return the filestream associated with the first datagram of the
 specified type
@@ -53,7 +57,11 @@ std::istream&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_name = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_primary_file_path = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_get_runtime_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_must_have_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingRawData_printer = R"doc()doc";
 

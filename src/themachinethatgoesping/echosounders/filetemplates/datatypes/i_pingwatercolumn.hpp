@@ -1,3 +1,10 @@
+/**
+ * @brief Interface for all ping watercolumn functions
+ *
+ * This interface provides functions for accessing and manipulating ping watercolumn data.
+ * It includes methods for retrieving beam selection, beam angles, sample intervals, amplitudes,
+ * and bottom range samples.
+ */
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
@@ -41,6 +48,12 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
+/**
+ * @namespace themachinethatgoesping
+ * @brief Namespace for the machine that goes ping
+ *
+ * This namespace contains classes and functions related to the machine that goes ping.
+ */
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -49,6 +62,12 @@ namespace datatypes {
 /**
  * @brief Interface for all ping watercolumn functions
  *
+ */
+/**
+ * @class I_PingWatercolumn
+ * @brief Interface for watercolumn ping data.
+ *
+ * This class represents an interface for accessing watercolumn ping data. It inherits from the I_PingCommon class and provides additional functions and variables specific to watercolumn pings.
  */
 class I_PingWatercolumn : virtual public I_PingCommon
 {

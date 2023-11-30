@@ -11,6 +11,7 @@ sources = [
 
     'py_filetemplates/module.cpp',
     'py_filetemplates/py_datatypes/c_i_pingcommon.cpp',
+    'py_filetemplates/py_datatypes/c_i_pingrawdata.cpp',
     'py_filetemplates/py_datatypes/c_i_ping.cpp',
     'py_filetemplates/py_datatypes/c_i_pingbottom.cpp',
     'py_filetemplates/py_datatypes/c_i_pingwatercolumn.cpp',

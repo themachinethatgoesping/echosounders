@@ -67,17 +67,13 @@ class SimradRawPing : public filetemplates::datatypes::I_Ping
 
     SimradRawPingRawData<t_ifstream>& raw_data() { return _raw_data; }
 
-    size_t get_file_nr() const final { return _raw_data._datagram_info_raw_data->get_file_nr(); }
-    std::string get_file_path() const final
+    size_t get_file_nr() const { return _raw_data._datagram_info_raw_data->get_file_nr(); }
+    std::string get_file_path() const 
     {
         return _raw_data._datagram_info_raw_data->get_file_path();
     }
 
     // ----- I_Ping interface -----
-    // using t_base1::get_beam_crosstrack_angles;
-    // using t_base1::get_number_of_beams;
-    using t_base1::get_file_ping_counter;
-    using t_base1::set_file_ping_counter;
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam() const
     {

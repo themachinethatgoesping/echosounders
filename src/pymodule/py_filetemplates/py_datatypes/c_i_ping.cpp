@@ -36,17 +36,6 @@ void init_c_i_ping(pybind11::module& m)
             // ----- ping interface -----
             // define init
 
-            // --- ping info access ---
-            .def("get_file_nr", &I_Ping::get_file_nr, DOC_I_Ping(get_file_nr))
-            .def("get_file_path", &I_Ping::get_file_path, DOC_I_Ping(get_file_path))
-            .def("get_file_ping_counter",
-                 &I_Ping::get_file_ping_counter,
-                 DOC_I_Ping(get_file_ping_counter))
-            .def("set_file_ping_counter",
-                 &I_Ping::set_file_ping_counter,
-                 DOC_I_Ping(set_file_ping_counter),
-                 py::arg("file_ping_counter"))
-
             // --- variable access ---
             .def("get_timestamp", &I_Ping::get_timestamp, DOC_I_Ping(timestamp))
             .def("set_timestamp",

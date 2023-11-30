@@ -215,6 +215,11 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
 
         return t_DatagramTypeFactory::from_stream(ifs, this->get_datagram_identifier(), skip_data);
     }
+
+    auto file_nr_to_file_path(size_t file_nr) const
+    {
+        return _input_file_manager->get_file_path(file_nr);
+    }
 };
 
 template<typename t_DatagramIdentifier, typename t_ifstream>

@@ -1,4 +1,4 @@
-//sourcehash: 06aa2daefb38f2afd2061f9064ceee296fcc0db7c5193ab5f48edea663399fdf
+//sourcehash: 7e1238763fb43774c424c2f6eac06cc58b17fa3b76fd07d45ff3807164c2dbf6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,14 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn = R"doc(Interface for all ping watercolumn functions)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn =
+R"doc(Interface for all ping watercolumn functions
+
+@class I_PingWatercolumn Interface for watercolumn ping data.
+
+This class represents an interface for accessing watercolumn ping
+data. It inherits from the I_PingCommon class and provides additional
+functions and variables specific to watercolumn pings.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_I_PingWatercolumn = R"doc()doc";
 

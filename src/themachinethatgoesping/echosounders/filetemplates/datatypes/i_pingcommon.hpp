@@ -1,3 +1,16 @@
+/**
+ * @file i_pingcommon.hpp
+ * @brief This file contains the declaration of the I_PingCommon class.
+ *
+ * The I_PingCommon class is an abstract base class that represents a common interface for ping data types.
+ * It provides functionality to register and check features, load and release data, and retrieve information about the available features.
+ *
+ * @author Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+ * @author Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
+ * @author Peter Urban, Ghent University
+ * 
+ * SPDX-License-Identifier: MPL-2.0
+ */
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
@@ -35,6 +48,11 @@
 
 #include "../../pingtools/beamsampleselection.hpp"
 
+/**
+ * @namespace themachinethatgoesping
+ * @brief Namespace for the machine that goes ping.
+ * This namespace contains classes and functions related to the machine that goes ping.
+ */
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
