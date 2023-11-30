@@ -62,7 +62,7 @@ class I_EnvironmentDataInterfacePerFile
         throw std::runtime_error(
             fmt::format("I_EnvironmentDataInterfacePerFile({}): cannot be initialized without "
                         "existing configuration_data_interface",
-                        this->get_name()));
+                        this->class_name()));
     }
 
     I_EnvironmentDataInterfacePerFile(
@@ -97,13 +97,13 @@ class I_EnvironmentDataInterfacePerFile
     //     throw std::runtime_error(
     //         fmt::format("I_EnvironmentDataInterfacePerFile({}): read_environment_data() not "
     //                     "implemented",
-    //                     this->get_name()));
+    //                     this->class_name()));
     // }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));

@@ -60,10 +60,8 @@ namespace datatypes {
 
 class I_PingCommon
 {
-    std::string _name;
-
   protected:
-    const std::string& get_name() const { return _name; }
+    virtual std::string class_name() const { return "I_PingCommon"; }
 
     // map of features (names) and respective has_feature functions
     std::unordered_map<std::string, std::function<bool()>> _features;
@@ -80,8 +78,7 @@ class I_PingCommon
     }
 
   public:
-    I_PingCommon(std::string name)
-        : _name(std::move(name))
+    I_PingCommon()
     {
     }
     virtual ~I_PingCommon() = default;
@@ -153,9 +150,9 @@ class I_PingCommon
     }
 
     //------ interface ------//
-    virtual void load([[maybe_unused]] bool force = false) { throw not_implemented("load", this->get_name()); }
-    virtual void release() { throw not_implemented("release", this->get_name()); }
-    virtual bool loaded() { throw not_implemented("load", this->get_name()); }
+    virtual void load([[maybe_unused]] bool force = false) { throw not_implemented("load", this->class_name()); }
+    virtual void release() { throw not_implemented("release", this->class_name()); }
+    virtual bool loaded() { throw not_implemented("load", this->class_name()); }
 
   protected:
     // a function that calls a specified function (templated) that returns a boolean
@@ -167,7 +164,7 @@ class I_PingCommon
         {
             throw std::runtime_error(fmt::format(
                 "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
-                get_name(),
+                class_name(),
                 function_name,
                 feature_name));
         }
@@ -176,7 +173,7 @@ class I_PingCommon
         {
             throw std::runtime_error(
                 fmt::format("Error[{}::{}]! The following feature is not available: {}",
-                            get_name(),
+                            class_name(),
                             function_name,
                             feature_name));
         }
@@ -206,7 +203,7 @@ class I_PingCommon
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         print_features(printer);
 

@@ -1,4 +1,4 @@
-//sourcehash: 85b02fb9e3b79197e53c3176f0588f05b528b26e52d1b34049effc045ba54679
+//sourcehash: 777ceaa1eaebe10f7666331eb653779f4afd13595c6421ad73ba172461ffc46c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,9 +44,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_add_parameter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_datagram_info_file_data = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_class_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_datagram_info_file_data = R"doc(< this can be RAW3 (EK80) or RAW0 (EK60))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_parameter = R"doc()doc";
 

@@ -45,7 +45,7 @@ template<typename t_ifstream>
 class SimradRawPingFileData
 {
     std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
-    std::string_view get_name() const { return "SimradRawPingFileData"; }
+    std::string_view class_name() const { return "SimradRawPingFileData"; }
 
   public:
     filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
@@ -141,7 +141,7 @@ class SimradRawPingFileData
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.register_section("Raw data infos");
 

@@ -33,7 +33,7 @@ void init_c_i_raw3data(pybind11::module& m)
         "i_RAW3Data",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, raw3datatypes, i_RAW3Data))
         .def(py::init<std::string_view>(), DOC_i_RAW3Data(i_RAW3Data), py::arg("name"))
-        .def("get_name", &i_RAW3Data::get_name, DOC_i_RAW3Data(get_name))
+        .def("class_name", &i_RAW3Data::class_name, DOC_i_RAW3Data(class_name))
         .def("has_power", &i_RAW3Data::has_power, DOC_i_RAW3Data(has_power))
         .def("has_angle", &i_RAW3Data::has_angle, DOC_i_RAW3Data(has_angle))
         .def("get_power", &i_RAW3Data::get_power, DOC_i_RAW3Data(get_power), py::arg("dB") = false)

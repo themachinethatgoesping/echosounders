@@ -73,7 +73,7 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     }
     xt::xtensor<simradraw_float, 2> get_angle() const final
     {
-        throw std::runtime_error("get_angle() not yet implemented for " + std::string(get_name()));
+        throw std::runtime_error("get_angle() not yet implemented for " + std::string(class_name()));
     }
 
     // ----- operator overloads -----

@@ -47,11 +47,14 @@ class SimradRawPing : public filetemplates::datatypes::I_Ping
     using t_base0 = filetemplates::datatypes::I_PingCommon;
     using t_base1 = filetemplates::datatypes::I_Ping;
 
+  protected:
+    std::string class_name() const override { return "SimradRawPing"; }
+
   public:
     SimradRawPing(filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
                                datagram_info_file_data,
                datagrams::RAW3 ping_data)
-        : t_base0("SimradRawPing") // calling base constructor (I_PingCommon) is necessary
+        : t_base0() // calling base constructor (I_PingCommon) is necessary
                                 // because of virtual inheritance
         , _file_data(std::move(datagram_info_file_data), std::move(ping_data))
     {
@@ -163,7 +166,7 @@ class SimradRawPing : public filetemplates::datatypes::I_Ping
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base::__printer__(float_precision));
 

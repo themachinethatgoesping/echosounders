@@ -1,4 +1,4 @@
-//sourcehash: e3f5efb757514fc1c1cd022bf94896ef69b9184d5ba71eb6085d7a454a3b4b55
+//sourcehash: c552a22937e3ce3d39d4bdd3e0a71838c664c190827e9620e0569efb9098aa9f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,6 +49,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_bottom_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_channel_id = R"doc(< channel id of the transducer)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_geolocation = R"doc(< Geolocation of the transducer. A)doc";
 

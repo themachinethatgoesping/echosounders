@@ -55,23 +55,23 @@ class KongsbergAllPing
     using t_base0 =
         filetemplates::datatypes::I_PingCommon; // this is the common ancestor which is virtually
                                                 // inherited by base1 and base2
-    using t_base1               = filetemplates::datatypes::I_Ping;
-    using t_base2               = KongsbergAllPingCommon<t_ifstream>;
-    using type_DatagramInfo_ptr = typename KongsbergAllPingFileData<t_ifstream>::type_DatagramInfo_ptr;
+    using t_base1 = filetemplates::datatypes::I_Ping;
+    using t_base2 = KongsbergAllPingCommon<t_ifstream>;
+    using type_DatagramInfo_ptr =
+        typename KongsbergAllPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 
     // select virtual overrides
     using t_base1::set_channel_id;
 
   protected:
+    std::string class_name() const override { return "KongsbergAllPing"; }
     using t_base0::register_feature;
     using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
   public:
-    KongsbergAllPing(size_t                                   file_nr,
-               std::string                              file_path,
-               const datagrams::InstallationParameters& param)
-        : t_base0("KongsbergAllPing")
+    KongsbergAllPing(const datagrams::InstallationParameters& param)
+        : t_base0()
         , t_base1()
         , t_base2()
         , _bottom(_file_data)
@@ -127,7 +127,7 @@ class KongsbergAllPing
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base1::__printer__(float_precision));
         // printer.append(t_base1::__printer__(float_precision));

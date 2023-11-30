@@ -1,4 +1,4 @@
-//sourcehash: 12e060584565e3961ca1c8daf64d582abdd63b1af7add7860ed82fa36ef65900
+//sourcehash: 7ddd1544920e37352e34a98facc9b53bac48d063ae5cc82f46a279129fd06e87
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,8 @@ R"doc(Constructor for I_PingFileData.
 Parameter ``name``:
     The name of the ping data.)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_class_name = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_file_ping_counter = R"doc(< Counter of the ping in the file (starting at 0))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_numbers =
@@ -85,12 +87,6 @@ R"doc(Get the file ping counter.
 Returns:
     size_t The file ping counter.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_name =
-R"doc(Get the name of the ping data.
-
-Returns:
-    const std::string& The name of the ping data.)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_primary_file_nr =
 R"doc(Get the primary file number of this ping.
 
@@ -105,8 +101,6 @@ Returns:
 
 Throws:
     not_implemented Exception if not implemented.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_name = R"doc(< Name of the ping data.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_not_implemented =
 R"doc(@struct not_implemented Exception thrown when a method is not

@@ -10,7 +10,6 @@
 /* generated doc strings */
 #include ".docstrings/kongsbergallpingfiledata.doc.hpp"
 
-
 /* std includes */
 #include <filesystem>
 #include <fstream>
@@ -52,9 +51,6 @@ class KongsbergAllPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
-    // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
-    std::string_view get_name() const { return "KongsbergAllPingFileData"; }
-
     // parameters (read when adding datagram infos)
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
         std::make_shared<datagrams::RuntimeParameters>();
@@ -91,10 +87,14 @@ class KongsbergAllPingFileData
         return datagram;
     }
 
+  protected:
+    // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
+    std::string class_name() const override { return "KongsbergAllPingFileData"; }
+
   public:
     KongsbergAllPingFileData()
-        : t_base1("KongsbergAllPingFileData")
-        , t_base2("KongsbergAllPingFileData")
+        : t_base1()
+        , t_base2()
     {
     }
 
@@ -204,7 +204,7 @@ class KongsbergAllPingFileData
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base1::__printer__(float_precision));
         printer.append(t_base2::__printer__(float_precision));

@@ -1,4 +1,4 @@
-//sourcehash: e0fbd227b49ebc0bbf804182bfddac84bb80ac0fb4bb9fe1b3d59218e9ffdac7
+//sourcehash: efc395cf673031c4af4eeed7dc8aba559391db76226d617e33625bc3237bba5e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_bottom_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_deep_copy =
 R"doc(Provide a deep copy of the ping object (deep copy file_data shared

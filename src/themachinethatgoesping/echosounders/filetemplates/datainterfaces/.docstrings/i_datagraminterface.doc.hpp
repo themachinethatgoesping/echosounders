@@ -1,4 +1,4 @@
-//sourcehash: c084f9d7b67be6ec006384a1a1273ef1a07922d6059ffdd2ae6b9e85cba6be63
+//sourcehash: b5b8c52d28edfb28c3910c4f12a860285ac59cc098ae3a7fba547413c36fc372
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,6 +46,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_add_datagram_infos = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_class_name = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_datagram_identifier_to_string = R"doc()doc";
@@ -65,8 +67,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_datagram_infos_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_datagram_infos_by_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_DatagramInterface_get_timestamp_first = R"doc()doc";
 

@@ -118,7 +118,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         {
             progress_bar.init(0.,
                               double(primary_interfaces_per_file.size()),
-                              fmt::format("Initializing {} from file data", this->get_name()));
+                              fmt::format("Initializing {} from file data", this->class_name()));
 
             existing_progressbar = false;
         }
@@ -152,7 +152,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 fmt::print(
                     std::cerr,
                     "WARNING[{}::init_from_file]: Could not merge file navigation ({}) because: {}\n",
-                    this->get_name(),
+                    this->class_name(),
                     primary_interfaces_per_file[i]->get_file_nr(),
                     e.what());
             }
@@ -235,7 +235,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));

@@ -45,18 +45,19 @@ template<typename t_ifstream>
 class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCommon
 {
   protected:
+    std::string class_name() const override { return "KongsbergAllPingCommon"; }
     // raw data
-    using t_rawdata                      = KongsbergAllPingFileData<t_ifstream>;
+    using t_rawdata                       = KongsbergAllPingFileData<t_ifstream>;
     std::shared_ptr<t_rawdata> _file_data = std::make_shared<t_rawdata>();
 
   public:
     using t_base = filetemplates::datatypes::I_PingCommon;
     KongsbergAllPingCommon()
-        : t_base("KongsbergAllPingCommon")
+        : t_base()
     {
     }
     KongsbergAllPingCommon(std::shared_ptr<t_rawdata> file_data)
-        : t_base("KongsbergAllPingCommon")
+        : t_base()
         , _file_data(std::move(file_data))
     {
     }
@@ -82,7 +83,7 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base::__printer__(float_precision));
 

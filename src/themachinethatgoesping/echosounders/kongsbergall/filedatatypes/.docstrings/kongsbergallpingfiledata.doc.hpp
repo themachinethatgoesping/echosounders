@@ -1,4 +1,4 @@
-//sourcehash: c00b26f18f5570218061d27040e1b20c0bd39d36cc1b88f9c989b1e42a342c33
+//sourcehash: 203a648082c99122951cb86de1fce7152e3e615a8231b7ee669f0dbb23f38473
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,6 +42,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_KongsbergAllPingFileData = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_class_name = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_file_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_file_paths = R"doc()doc";
@@ -54,8 +56,6 @@ Parameter ``datagram_identifier``:
     $Returns:
 
 std::istream&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_primary_file_path = R"doc()doc";
 

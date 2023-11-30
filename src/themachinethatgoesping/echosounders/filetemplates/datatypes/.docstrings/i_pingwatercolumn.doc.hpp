@@ -1,4 +1,4 @@
-//sourcehash: 7e1238763fb43774c424c2f6eac06cc58b17fa3b76fd07d45ff3807164c2dbf6
+//sourcehash: 6d266cd2030b0f4482f16a83e5d13e8749386b50c47d384d9e29ea6a8b75f518
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,6 +54,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all_initialized = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes =
 R"doc(Get tha raw water amplitude data converted to float(32bit)

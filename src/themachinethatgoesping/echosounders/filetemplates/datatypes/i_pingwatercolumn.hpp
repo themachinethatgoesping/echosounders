@@ -48,12 +48,6 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
-/**
- * @namespace themachinethatgoesping
- * @brief Namespace for the machine that goes ping
- *
- * This namespace contains classes and functions related to the machine that goes ping.
- */
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -74,12 +68,15 @@ class I_PingWatercolumn : virtual public I_PingCommon
     bool                                             _beam_sample_selection_all_initialized = false;
     boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
 
+  protected:
+    std::string class_name() const override { return "I_PingWatercolumn"; }
+
   public:
     using t_base = I_PingCommon;
     using t_base::register_feature;
 
     I_PingWatercolumn()
-        : I_PingCommon("I_PingWatercolumn")
+        : I_PingCommon()
     {
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
         register_feature("bottom_range_sample",
@@ -102,7 +99,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      *
      * @return float
      */
-    virtual float get_sample_interval() { throw not_implemented(__func__, get_name()); }
+    virtual float get_sample_interval() { throw not_implemented(__func__, class_name()); }
 
     // --- common functions for all ping types ---
     /**
@@ -120,7 +117,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      *
      * @return uint16_t
      */
-    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
+    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Get the beam crosstrack angles for this ping in °
@@ -140,7 +137,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
-        throw not_implemented(__func__, get_name());
+        throw not_implemented(__func__, class_name());
     }
 
     /**
@@ -161,12 +158,12 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual xt::xtensor<float, 1> get_beam_alongtrack_angles(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
-        throw not_implemented(__func__, get_name());
+        throw not_implemented(__func__, class_name());
     }
 
     virtual xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam()
     {
-        throw not_implemented(__func__, get_name());
+        throw not_implemented(__func__, class_name());
     }
 
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam()
@@ -176,7 +173,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
-        throw not_implemented(__func__, get_name());
+        throw not_implemented(__func__, class_name());
     }
 
     /**
@@ -227,7 +224,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual xt::xtensor<float, 2> get_amplitudes(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->get_name());
+        throw not_implemented(__func__, this->class_name());
     }
 
     /**
@@ -249,7 +246,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
     virtual xt::xtensor<uint16_t, 1> get_bottom_range_samples(
         [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
-        throw not_implemented(__func__, this->get_name());
+        throw not_implemented(__func__, this->class_name());
     }
 
     /**
@@ -272,7 +269,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // Transducers
         printer.append(I_PingCommon::__printer__(float_precision));

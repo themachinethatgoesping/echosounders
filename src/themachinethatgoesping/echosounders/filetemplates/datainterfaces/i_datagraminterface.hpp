@@ -47,7 +47,7 @@ class I_DatagramInterface
     double _timestamp_last  = 0; ///< largest timestamp (>0) of all registered datagrams
 
   protected:
-    std::string_view get_name() const { return _name; }
+    std::string_view class_name() const { return _name; }
 
     /* datagram infos */
     std::vector<type_DatagramInfo_ptr> _datagram_infos_all;

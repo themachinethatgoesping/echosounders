@@ -1,4 +1,4 @@
-//sourcehash: 42746319ca7ff71ff1d2d90dbe9180573e607965a91fec361e632dfb4caa4d39
+//sourcehash: dc4ca5fa01175e1db4f4b19cfc2399393721f4bae8ae630edd2907888630ea1f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,9 +43,9 @@ R"doc(Interface class for all RAW3 datatypes The RAW3 datagram contains a
 number of different data types. - power - angle - power and angle -
 complex float 32 - ...)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_i_RAW3Data_get_angle = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_i_RAW3Data_class_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_i_RAW3Data_get_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_i_RAW3Data_get_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_i_RAW3Data_get_power = R"doc()doc";
 

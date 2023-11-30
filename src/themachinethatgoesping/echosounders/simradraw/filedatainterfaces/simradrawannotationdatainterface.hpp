@@ -55,7 +55,7 @@ class SimradRawAnnotationDataInterface
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base::__printer__(float_precision));
         return printer;

@@ -1,4 +1,4 @@
-//sourcehash: abddda4f74d48f9cbad7b313fd5d5e2d00ff41590c6cd54b01f3fcd3ce6a1e22
+//sourcehash: 4710f771915ad97d40f1f786389fc4506d6b55e51b56eef53e005dcd68490c97
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_KongsbergAllPingBottom = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_beam_crosstrack_angles = R"doc()doc";
 

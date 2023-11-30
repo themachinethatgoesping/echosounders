@@ -1,4 +1,4 @@
-//sourcehash: ae0ebcaab134cb064396bede65b7076e3467189c831bb62dd0ed788322ddfaeb
+//sourcehash: f00ae8423dcf64ce1a159c32205896c87b022e6516bfdd5b97b5ec1428f66914
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles =
 R"doc(Get the beam crosstrack angles for this ping in °

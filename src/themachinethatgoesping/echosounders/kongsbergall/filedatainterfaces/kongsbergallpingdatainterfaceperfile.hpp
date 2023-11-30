@@ -75,7 +75,7 @@ class KongsbergAllPingDataInterfacePerFile
         const auto& base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
-        t_ping base_ping(this->get_file_nr(), this->get_file_path(), param);
+        t_ping base_ping(param);
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
 
         for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
@@ -228,7 +228,7 @@ class KongsbergAllPingDataInterfacePerFile
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));

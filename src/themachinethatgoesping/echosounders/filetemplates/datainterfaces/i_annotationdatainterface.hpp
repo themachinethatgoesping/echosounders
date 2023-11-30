@@ -53,7 +53,7 @@ class I_AnnotationDataInterface : public I_FileDataInterface<t_annotationdataint
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision));

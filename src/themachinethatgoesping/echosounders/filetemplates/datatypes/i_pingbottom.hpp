@@ -48,12 +48,15 @@ namespace datatypes {
  */
 class I_PingBottom : virtual public I_PingCommon
 {
+  protected:
+    std::string class_name() const override { return "I_PingBottom"; }
+
   public:
     using t_base = I_PingCommon;
     using t_base::register_feature;
 
     I_PingBottom()
-        : I_PingCommon("I_PingBottom")
+        : I_PingCommon()
     {
         register_feature("beam_crosstrack_angles",
                          std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
@@ -93,7 +96,7 @@ class I_PingBottom : virtual public I_PingCommon
      *
      * @return uint16_t
      */
-    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, get_name()); }
+    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Get the beam crosstrack angles for this ping in °
@@ -113,7 +116,7 @@ class I_PingBottom : virtual public I_PingCommon
     virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
-        throw not_implemented(__func__, get_name());
+        throw not_implemented(__func__, class_name());
     }
 
     /**
@@ -144,7 +147,7 @@ class I_PingBottom : virtual public I_PingCommon
     virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
-        throw not_implemented(__func__, this->get_name());
+        throw not_implemented(__func__, this->class_name());
     }
 
     /**
@@ -165,7 +168,7 @@ class I_PingBottom : virtual public I_PingCommon
     virtual xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
-        throw not_implemented(__func__, this->get_name());
+        throw not_implemented(__func__, this->class_name());
     }
 
     /**
@@ -196,7 +199,7 @@ class I_PingBottom : virtual public I_PingCommon
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // Transducers
         printer.append(I_PingCommon::__printer__(float_precision));

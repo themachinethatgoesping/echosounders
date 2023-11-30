@@ -68,7 +68,7 @@ class I_PingDataInterfacePerFile
         throw std::runtime_error(
             fmt::format("I_PingDataInterfacePerFile({}): cannot be initialized without "
                         "existing configuration_data_interface",
-                        this->get_name()));
+                        this->class_name()));
     }
 
     I_PingDataInterfacePerFile(
@@ -121,7 +121,7 @@ class I_PingDataInterfacePerFile
     {
         throw std::runtime_error(fmt::format("I_PingDataInterfacePerFile({}): read_ping_data() not "
                                              "implemented",
-                                             this->get_name()));
+                                             this->class_name()));
     }
 
     void init_from_file([[maybe_unused]] bool force = false) final { return; }
@@ -129,7 +129,7 @@ class I_PingDataInterfacePerFile
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));

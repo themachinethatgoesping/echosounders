@@ -58,7 +58,7 @@ class i_RAW3Data
     virtual ~i_RAW3Data() = default;
 
     // ----- class interface -----
-    std::string_view get_name() const { return _name; }
+    std::string_view class_name() const { return _name; }
 
     virtual bool has_power() const { return false; }
     virtual bool has_angle() const { return false; }

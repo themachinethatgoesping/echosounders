@@ -54,24 +54,18 @@ namespace datatypes {
  * of the ping data.
  */
 class I_PingFileData {
-    std::string _name; ///< Name of the ping data.
-
     size_t _file_ping_counter = 0; ///< Counter of the ping in the file (starting at 0)
     size_t _primary_file_nr = 0;   ///< File number of the primary file
 
 protected:
-    /**
-     * @brief Get the name of the ping data.
-     * @return const std::string& The name of the ping data.
-     */
-    const std::string& get_name() const { return _name; }
+    virtual std::string class_name() const { return "I_PingFileData"; }
 
 public:
     /**
      * @brief Constructor for I_PingFileData.
      * @param name The name of the ping data.
      */
-    I_PingFileData(std::string name) : _name(std::move(name)) {}
+    I_PingFileData() = default;
 
     /**
      * @brief Destructor for I_PingFileData.
@@ -108,7 +102,7 @@ public:
      * @throws not_implemented Exception if not implemented.
      */
     virtual std::vector<size_t> get_file_numbers() const {
-        throw not_implemented("get_file_numbers", this->get_name());
+        throw not_implemented("get_file_numbers", this->class_name());
     }
 
     /**
@@ -117,7 +111,7 @@ public:
      * @throws not_implemented Exception if not implemented.
      */
     virtual std::string get_primary_file_path() const {
-        throw not_implemented("get_primary_file_path", this->get_name());
+        throw not_implemented("get_primary_file_path", this->class_name());
     }
 
     /**
@@ -126,7 +120,7 @@ public:
      * @throws not_implemented Exception if not implemented.
      */
     virtual std::vector<std::string> get_file_paths() const {
-        throw not_implemented("get_file_paths", this->get_name());
+        throw not_implemented("get_file_paths", this->class_name());
     }
 
 protected:
@@ -152,7 +146,7 @@ public:
      * @return tools::classhelper::ObjectPrinter The ObjectPrinter instance.
      */
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.register_string("Primary source file", this->get_primary_file_path(),
                                                         std::to_string(this->get_primary_file_nr()));

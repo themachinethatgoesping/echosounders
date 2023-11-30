@@ -48,7 +48,7 @@ class I_FileDataInterface
     using type_DatagramInterface = typename type_FileDataInterface_PerFile::type_DatagramInterface;
 
   protected:
-    std::string_view get_name() const { return _name; }
+    std::string_view class_name() const { return _name; }
 
     std::vector<std::shared_ptr<t_filedatainterface_perfile>> _interface_per_file;
     tools::pyhelper::PyIndexer                                _pyindexer;
@@ -240,7 +240,7 @@ class I_FileDataInterface
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         auto primary_files   = this->per_primary_file();
         auto secondary_files = this->per_secondary_file();

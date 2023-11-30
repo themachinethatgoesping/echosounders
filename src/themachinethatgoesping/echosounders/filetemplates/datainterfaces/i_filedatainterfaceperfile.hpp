@@ -71,7 +71,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                 fmt::format("Main {} [{}] '{}' cannot be linked to [{}] '{}' because "
                             "it is already linked "
                             "to file_interface_extension: [{}] '{}'",
-                            file_interface_main->get_name(),
+                            file_interface_main->class_name(),
                             file_interface_main->get_file_nr(),
                             file_interface_main->get_file_path(),
                             file_interface_extension->get_file_nr(),
@@ -84,7 +84,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                 fmt::format("Extension {} [{}] '{}' cannot be linked to [{}] '{}' "
                             "because it is already linked "
                             "linked to file_interface_main: [{}] '{}'",
-                            file_interface_extension->get_name(),
+                            file_interface_extension->class_name(),
                             file_interface_extension->get_file_nr(),
                             file_interface_extension->get_file_path(),
                             file_interface_main->get_file_nr(),
@@ -244,7 +244,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));

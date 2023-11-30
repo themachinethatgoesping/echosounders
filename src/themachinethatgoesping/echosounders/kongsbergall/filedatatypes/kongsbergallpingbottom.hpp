@@ -54,11 +54,12 @@ class KongsbergAllPingBottom
     using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
-    // std::optional<xt::xtensor<float, 1>> _two_way_travel_times;
+  protected:
+    std::string class_name() const override { return "KongsbergAllPingBottom"; }
 
   public:
     KongsbergAllPingBottom(std::shared_ptr<t_rawdata> file_data)
-        : t_base0("KongsbergAllPingBottom") // necessary because of virtual inheritance
+        : t_base0() // necessary because of virtual inheritance
         , t_base1()
         , t_base2(std::move(file_data))
     {
@@ -138,7 +139,7 @@ class KongsbergAllPingBottom
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.append(t_base1::__printer__(float_precision));
 

@@ -47,8 +47,11 @@ namespace datatypes {
 class I_Ping : virtual public I_PingCommon
 {
   protected:
-    std::string _channel_id;            ///< channel id of the transducer
-    double      _timestamp         = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    std::string class_name() const override { return "I_Ping"; }
+
+  protected:
+    std::string _channel_id;    ///< channel id of the transducer
+    double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
     navigation::datastructures::SensorDataLatLon                  _sensor_data_latlon;
 
@@ -64,7 +67,7 @@ class I_Ping : virtual public I_PingCommon
     using t_base::register_feature;
 
     I_Ping()
-        : I_PingCommon("I_Ping")
+        : I_PingCommon()
     {
         register_feature("bottom", std::bind(&I_Ping::has_bottom, this));
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
@@ -152,12 +155,12 @@ class I_Ping : virtual public I_PingCommon
     }
 
     // ----- ping interface -----
-    virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->get_name()); }
+    virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->class_name()); }
     const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
 
     virtual I_PingWatercolumn& watercolumn()
     {
-        throw not_implemented("watercolumn", this->get_name());
+        throw not_implemented("watercolumn", this->class_name());
     }
     const I_PingWatercolumn& watercolumn() const
     {
@@ -201,7 +204,7 @@ class I_Ping : virtual public I_PingCommon
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         printer.register_section("Ping infos");
 

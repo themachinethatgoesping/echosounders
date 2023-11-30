@@ -62,7 +62,7 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
     virtual navigation::SensorConfiguration read_sensor_configuration()
     {
         throw std::runtime_error(
-            fmt::format("read_sensor_configuration not implemented for {}", this->get_name()));
+            fmt::format("read_sensor_configuration not implemented for {}", this->class_name()));
     }
 
     bool initialized_sensor_configuration() const { return _initialized_sensor_configuration; }
@@ -113,7 +113,7 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer(this->get_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision));
