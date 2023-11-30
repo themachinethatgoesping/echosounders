@@ -34,7 +34,7 @@
 #include "../../filetemplates/datatypes/i_pingcommon.hpp"
 #include "../datagrams.hpp"
 
-#include "kongsbergallpingrawdata.hpp"
+#include "kongsbergallpingfiledata.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,8 +46,8 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
 {
   protected:
     // raw data
-    using t_rawdata                      = KongsbergAllPingRawData<t_ifstream>;
-    std::shared_ptr<t_rawdata> _raw_data = std::make_shared<t_rawdata>();
+    using t_rawdata                      = KongsbergAllPingFileData<t_ifstream>;
+    std::shared_ptr<t_rawdata> _file_data = std::make_shared<t_rawdata>();
 
   public:
     using t_base = filetemplates::datatypes::I_PingCommon;
@@ -55,9 +55,9 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
         : t_base("KongsbergAllPingCommon")
     {
     }
-    KongsbergAllPingCommon(std::shared_ptr<t_rawdata> raw_Data)
+    KongsbergAllPingCommon(std::shared_ptr<t_rawdata> file_data)
         : t_base("KongsbergAllPingCommon")
-        , _raw_data(std::move(raw_Data))
+        , _file_data(std::move(file_data))
     {
     }
     virtual ~KongsbergAllPingCommon() = default;
@@ -65,19 +65,19 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
     // // explicit copy constructor and assignment operators
     // KongsbergAllPingCommon(const KongsbergAllPingCommon& other)
     //     : t_base(other)
-    //     , _raw_data(std::make_shared<t_rawdata>(*other._raw_data))
+    //     , _file_data(std::make_shared<t_rawdata>(*other._file_data))
     // {
     // }
     // KongsbergAllPingCommon& operator=(const KongsbergAllPingCommon& other)
     // {
     //     t_base::operator=(other);
-    //     _raw_data = std::make_shared<t_rawdata>(*other._raw_data);
+    //     _file_data = std::make_shared<t_rawdata>(*other._file_data);
     //     return *this;
     // }
 
-    const t_rawdata& raw_data() const { return *_raw_data; }
-    t_rawdata&       raw_data() { return *_raw_data; }
-    void set_raw_data(std::shared_ptr<t_rawdata> raw_data) { _raw_data = std::move(raw_data); }
+    const t_rawdata& file_data() const { return *_file_data; }
+    t_rawdata&       file_data() { return *_file_data; }
+    void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

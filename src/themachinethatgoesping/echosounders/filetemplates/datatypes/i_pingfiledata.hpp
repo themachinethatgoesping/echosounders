@@ -8,7 +8,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/i_pingrawdata.doc.hpp"
+#include ".docstrings/i_pingfiledata.doc.hpp"
 
 /* std includes */
 #include <filesystem>
@@ -41,7 +41,7 @@ namespace filetemplates {
 namespace datatypes {
 
 /**
- * @class I_PingRawData
+ * @class I_PingFileData
  * @brief Interface for raw ping data.
  *
  * This class defines an interface for raw ping data. It provides methods to access and manipulate
@@ -53,7 +53,7 @@ namespace datatypes {
  * The class provides a `__printer__` function for object printing, which can be used to print the properties
  * of the ping data.
  */
-class I_PingRawData {
+class I_PingFileData {
     std::string _name; ///< Name of the ping data.
 
     size_t _file_ping_counter = 0; ///< Counter of the ping in the file (starting at 0)
@@ -68,15 +68,15 @@ protected:
 
 public:
     /**
-     * @brief Constructor for I_PingRawData.
+     * @brief Constructor for I_PingFileData.
      * @param name The name of the ping data.
      */
-    I_PingRawData(std::string name) : _name(std::move(name)) {}
+    I_PingFileData(std::string name) : _name(std::move(name)) {}
 
     /**
-     * @brief Destructor for I_PingRawData.
+     * @brief Destructor for I_PingFileData.
      */
-    virtual ~I_PingRawData() = default;
+    virtual ~I_PingFileData() = default;
 
     /**
      * @brief Get the file ping counter.
@@ -147,7 +147,7 @@ protected:
 
 public:
     /**
-     * @brief ObjectPrinter for I_PingRawData.
+     * @brief ObjectPrinter for I_PingFileData.
      * @param float_precision The float precision for printing.
      * @return tools::classhelper::ObjectPrinter The ObjectPrinter instance.
      */

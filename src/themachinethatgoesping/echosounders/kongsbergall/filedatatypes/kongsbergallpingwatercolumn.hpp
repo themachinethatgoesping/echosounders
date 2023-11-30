@@ -54,7 +54,7 @@ class KongsbergAllPingWatercolumn
     using t_base1 = filetemplates::datatypes::I_PingWatercolumn;
     using t_base2 = KongsbergAllPingCommon<t_ifstream>;
 
-    using t_base2::_raw_data;
+    using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
     using WaterColumnInformation = _sub::WaterColumnInformation<t_rawdata>;
@@ -70,10 +70,10 @@ class KongsbergAllPingWatercolumn
     }
 
   public:
-    KongsbergAllPingWatercolumn(std::shared_ptr<t_rawdata> raw_data)
+    KongsbergAllPingWatercolumn(std::shared_ptr<t_rawdata> file_data)
         : t_base0("KongsbergAllPingWatercolumn") // necessary because of virtual inheritance
         , t_base1()
-        , t_base2(std::move(raw_data))
+        , t_base2(std::move(file_data))
     {
     }
     virtual ~KongsbergAllPingWatercolumn() = default;
@@ -84,7 +84,7 @@ class KongsbergAllPingWatercolumn
         if (loaded() && !force)
             return;
 
-        _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
+        _watercolumninformation = std::make_shared<WaterColumnInformation>(_file_data);
     }
     void release() override { _watercolumninformation.reset(); }
     bool loaded() override { return _watercolumninformation != nullptr; }
@@ -192,11 +192,11 @@ class KongsbergAllPingWatercolumn
 
     // ----- I_PingWatercolumn interface -----
     // using t_base1::has_amplitudes;
-    using t_base2::raw_data;
+    using t_base2::file_data;
 
     bool has_amplitudes() const override
     {
-        return raw_data()
+        return file_data()
                    .get_datagram_infos_by_type(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram)
                    .size() > 0;
     }
@@ -219,7 +219,7 @@ class KongsbergAllPingWatercolumn
 
         size_t output_bn = 0;
 
-        auto& ifs = _raw_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
 
         size_t local_output_bn = 0;
         for (const auto& bn : selection.get_beam_numbers())

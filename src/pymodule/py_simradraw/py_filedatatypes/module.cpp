@@ -15,14 +15,14 @@ namespace py = pybind11;
 // -- submodule declarations --
 void init_c_simradrawfileinfodata(pybind11::module& m); // c_simradrawfileinfodata.cpp
 void init_c_simradrawping(pybind11::module& m);         // c_simradrawping.cpp
-void init_c_simradrawpingrawdata(pybind11::module& m);  // c_simradrawpingrawdata.cpp
+void init_c_simradrawPingFileData(pybind11::module& m);  // c_simradrawpingfiledata.cpp
 
 // -- create submodule --
 void init_m_simradrawfiledatatypes(pybind11::module& m)
 {
     auto subm = m.def_submodule("filetypes", "SimradRaw EK60 and EK80 file data types");
     init_c_simradrawfileinfodata(subm);
-    init_c_simradrawpingrawdata(subm);
+    init_c_simradrawPingFileData(subm);
     init_c_simradrawping(subm);
 }
 

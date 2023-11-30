@@ -123,7 +123,7 @@ class SimradRawPingDataInterfacePerFile
                         break;
                     }
 
-                    ping->raw_data().add_parameter(_channel_parameter_buffer.get(channel_id));
+                    ping->file_data().add_parameter(_channel_parameter_buffer.get(channel_id));
 
                     auto sensor_configuration = base_sensor_configuration;
                     sensor_configuration.add_target("Transducer",
@@ -133,7 +133,7 @@ class SimradRawPingDataInterfacePerFile
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
                         base_sensor_configuration, ping->get_timestamp()));
 
-                    //ping->raw_data().set_file_ping_counter(pings.size());
+                    //ping->file_data().set_file_ping_counter(pings.size());
 
                     pings.add_ping(ping);
                     break;

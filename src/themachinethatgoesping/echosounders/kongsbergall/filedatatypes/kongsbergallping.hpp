@@ -48,10 +48,6 @@ class KongsbergAllPing
     : public filetemplates::datatypes::I_Ping
     , public KongsbergAllPingCommon<t_ifstream>
 {
-    // file nr and path of primary file
-    size_t      _file_nr;
-    std::string _file_path;
-
     KongsbergAllPingBottom<t_ifstream>      _bottom;
     KongsbergAllPingWatercolumn<t_ifstream> _watercolumn;
 
@@ -61,14 +57,14 @@ class KongsbergAllPing
                                                 // inherited by base1 and base2
     using t_base1               = filetemplates::datatypes::I_Ping;
     using t_base2               = KongsbergAllPingCommon<t_ifstream>;
-    using type_DatagramInfo_ptr = typename KongsbergAllPingRawData<t_ifstream>::type_DatagramInfo_ptr;
+    using type_DatagramInfo_ptr = typename KongsbergAllPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 
     // select virtual overrides
     using t_base1::set_channel_id;
 
   protected:
     using t_base0::register_feature;
-    using t_base2::_raw_data;
+    using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
   public:
@@ -78,10 +74,8 @@ class KongsbergAllPing
         : t_base0("KongsbergAllPing")
         , t_base1()
         , t_base2()
-        , _file_nr(file_nr)
-        , _file_path(std::move(file_path))
-        , _bottom(_raw_data)
-        , _watercolumn(_raw_data)
+        , _bottom(_file_data)
+        , _watercolumn(_file_data)
     {
         /* set i_ping parameters */
         set_channel_id(param.build_channel_id());
@@ -89,7 +83,7 @@ class KongsbergAllPing
     virtual ~KongsbergAllPing() = default;
 
     /**
-     * @brief Provide a deep copy of the ping object (deep copy raw_data shared pointer)
+     * @brief Provide a deep copy of the ping object (deep copy file_data shared pointer)
      *
      * @param other
      * @return KongsbergAllPing<t_ifstream>
@@ -98,16 +92,13 @@ class KongsbergAllPing
     {
         KongsbergAllPing<t_ifstream> ping = *this;
 
-        // copy the raw_data shared pointer and set it in the bottom and watercolumn objects
-        ping.set_raw_data(std::make_shared<t_rawdata>(*_raw_data));
-        ping.bottom().set_raw_data(ping._raw_data);
-        ping.watercolumn().set_raw_data(ping._raw_data);
+        // copy the file_data shared pointer and set it in the bottom and watercolumn objects
+        ping.set_file_data(std::make_shared<t_rawdata>(*_file_data));
+        ping.bottom().set_file_data(ping._file_data);
+        ping.watercolumn().set_file_data(ping._file_data);
 
         return ping;
     }
-
-    size_t      get_file_nr() const { return _file_nr; }
-    std::string get_file_path() const { return _file_path; }
 
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
@@ -116,16 +107,16 @@ class KongsbergAllPing
             _timestamp > datagram_info->get_timestamp())
             _timestamp = datagram_info->get_timestamp();
 
-        _raw_data->add_datagram_info(datagram_info);
+        _file_data->add_datagram_info(datagram_info);
     }
 
     void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> runtime_parameters)
     {
-        _raw_data->set_runtime_parameters(runtime_parameters);
+        _file_data->set_runtime_parameters(runtime_parameters);
     }
 
     // ----- I_Ping interface -----
-    using t_base2::raw_data;
+    using t_base2::file_data;
 
     // ----- bottom -----
     using t_base1::bottom;
@@ -145,10 +136,10 @@ class KongsbergAllPing
 
         // printer.register_string(
         //     "Sample data type",
-        //     std::string(magic_enum::enum_name(_raw_data->_ping_data.get_data_type())));
+        //     std::string(magic_enum::enum_name(_file_data->_ping_data.get_data_type())));
 
         // printer.register_section("Important members");
-        // printer.register_string("raw_data", "KongsbergAllPingRawData");
+        // printer.register_string("file_data", "KongsbergAllPingFileData");
 
         return printer;
     }

@@ -1,4 +1,4 @@
-//sourcehash: a35cee65e375d3e95a09f918415465c1eb4ec9836c985239443dade0f70e714d
+//sourcehash: 12e060584565e3961ca1c8daf64d582abdd63b1af7add7860ed82fa36ef65900
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,8 +38,8 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData =
-R"doc(@class I_PingRawData Interface for raw ping data.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData =
+R"doc(@class I_PingFileData Interface for raw ping data.
 
 This class defines an interface for raw ping data. It provides methods
 to access and manipulate the properties of the ping data, such as the
@@ -52,15 +52,15 @@ which is thrown when a method is not implemented.
 The class provides a `__printer__` function for object printing, which
 can be used to print the properties of the ping data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_I_PingRawData =
-R"doc(Constructor for I_PingRawData.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_I_PingFileData =
+R"doc(Constructor for I_PingFileData.
 
 Parameter ``name``:
     The name of the ping data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_file_ping_counter = R"doc(< Counter of the ping in the file (starting at 0))doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_file_ping_counter = R"doc(< Counter of the ping in the file (starting at 0))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_file_numbers =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_numbers =
 R"doc(Get the file numbers of the contained datagrams.
 
 Returns:
@@ -69,7 +69,7 @@ Returns:
 Throws:
     not_implemented Exception if not implemented.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_file_paths =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_paths =
 R"doc(Get the file paths.
 
 Returns:
@@ -79,25 +79,25 @@ Returns:
 Throws:
     not_implemented Exception if not implemented.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_file_ping_counter =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_ping_counter =
 R"doc(Get the file ping counter.
 
 Returns:
     size_t The file ping counter.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_name =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_name =
 R"doc(Get the name of the ping data.
 
 Returns:
     const std::string& The name of the ping data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_primary_file_nr =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_primary_file_nr =
 R"doc(Get the primary file number of this ping.
 
 Returns:
     size_t The primary file number.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_get_primary_file_path =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_primary_file_path =
 R"doc(Get the primary file path of this ping.
 
 Returns:
@@ -106,13 +106,13 @@ Returns:
 Throws:
     not_implemented Exception if not implemented.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_name = R"doc(< Name of the ping data.)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_name = R"doc(< Name of the ping data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_not_implemented =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_not_implemented =
 R"doc(@struct not_implemented Exception thrown when a method is not
 implemented.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_not_implemented_not_implemented =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_not_implemented_not_implemented =
 R"doc(Constructor for not_implemented.
 
 Parameter ``method_name``:
@@ -121,10 +121,10 @@ Parameter ``method_name``:
 Parameter ``name``:
     The name of the ping data.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_primary_file_nr = R"doc(< File number of the primary file)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_primary_file_nr = R"doc(< File number of the primary file)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_printer =
-R"doc(ObjectPrinter for I_PingRawData.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_printer =
+R"doc(ObjectPrinter for I_PingFileData.
 
 Parameter ``float_precision``:
     The float precision for printing.
@@ -132,13 +132,13 @@ Parameter ``float_precision``:
 Returns:
     tools::classhelper::ObjectPrinter The ObjectPrinter instance.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_set_file_ping_counter =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_set_file_ping_counter =
 R"doc(Set the file ping counter.
 
 Parameter ``file_ping_counter``:
     The file ping counter to set.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingRawData_set_primary_file_nr =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_set_primary_file_nr =
 R"doc(Set the primary file number for this ping.
 
 Parameter ``primary_file_nr``:

@@ -45,10 +45,10 @@ void py_create_class_simradrawping(py::module& m, const std::string& CLASS_NAME)
 
                    // --- ping interface extension ---
 
-                   // --- raw_data data access ---
-                   .def("raw_data",
-                        &t_SimradRawPing::raw_data,
-                        DOC_SimradRawPing(raw_data),
+                   // --- file_data data access ---
+                   .def("file_data",
+                        &t_SimradRawPing::file_data,
+                        DOC_SimradRawPing(file_data),
                         py::return_value_policy::reference_internal)
 
                // --- variable access ---

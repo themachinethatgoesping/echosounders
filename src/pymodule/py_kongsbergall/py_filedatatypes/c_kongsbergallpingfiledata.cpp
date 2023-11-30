@@ -32,48 +32,48 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_KongsbergAllPingRawData(ARG)                                                           \
+#define DOC_KongsbergAllPingFileData(ARG)                                                           \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         kongsbergall,                                                                              \
         filedatatypes,                                                                             \
-        KongsbergAllPingRawData,                                                                   \
+        KongsbergAllPingFileData,                                                                   \
         ARG)
 
 template<typename T_FileStream>
-void py_create_class_kongsbergallpingrawdata(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& CLASS_NAME)
 {
-    using t_KongsbergAllPingRawData = filedatatypes::KongsbergAllPingRawData<T_FileStream>;
+    using t_KongsbergAllPingFileData = filedatatypes::KongsbergAllPingFileData<T_FileStream>;
 
-    auto cls = py::class_<t_KongsbergAllPingRawData,
-                          std::shared_ptr<t_KongsbergAllPingRawData>,
-                          datatypes::I_PingRawData>(m,
+    auto cls = py::class_<t_KongsbergAllPingFileData,
+                          std::shared_ptr<t_KongsbergAllPingFileData>,
+                          datatypes::I_PingFileData>(m,
                                                     (CLASS_NAME).c_str(),
                                                     DOC(themachinethatgoesping,
                                                         echosounders,
                                                         kongsbergall,
                                                         filedatatypes,
-                                                        KongsbergAllPingRawData))
+                                                        KongsbergAllPingFileData))
 
                    // --- substructure access ---
                    .def("get_runtime_parameters",
-                        &t_KongsbergAllPingRawData::get_runtime_parameters,
-                        DOC_KongsbergAllPingRawData(get_runtime_parameters))
+                        &t_KongsbergAllPingFileData::get_runtime_parameters,
+                        DOC_KongsbergAllPingFileData(get_runtime_parameters))
 
-                   // --- raw_data data access ---
+                   // --- file_data data access ---
                    .def("read_merged_watercolumndatagram",
-                        &t_KongsbergAllPingRawData::read_merged_watercolumndatagram,
-                        DOC_KongsbergAllPingRawData(read_merged_watercolumndatagram),
+                        &t_KongsbergAllPingFileData::read_merged_watercolumndatagram,
+                        DOC_KongsbergAllPingFileData(read_merged_watercolumndatagram),
                         py::arg("skip_data") = false)
 
                    // --- bottom detection ---
                    .def("read_xyz",
-                        py::overload_cast<>(&t_KongsbergAllPingRawData::read_xyz),
-                        DOC_KongsbergAllPingRawData(read_xyz))
+                        py::overload_cast<>(&t_KongsbergAllPingFileData::read_xyz),
+                        DOC_KongsbergAllPingFileData(read_xyz))
                    .def("read_xyz",
                         py::overload_cast<const pingtools::BeamSelection&>(
-                            &t_KongsbergAllPingRawData::read_xyz),
-                        DOC_KongsbergAllPingRawData(read_xyz_2),
+                            &t_KongsbergAllPingFileData::read_xyz),
+                        DOC_KongsbergAllPingFileData(read_xyz_2),
                         py::arg("selection"))
 
                // ----- this is also commented out in simradraw equivalent-----
@@ -84,24 +84,24 @@ void py_create_class_kongsbergallpingrawdata(py::module& m, const std::string& C
                //      KongsbergAllPing, operator_eq), py::arg("other"))
                // ----- pybind macros -----
                // default copy functions
-               __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingRawData)
+               __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingFileData)
                // default binary functions
-               __PYCLASS_DEFAULT_PRINTING__(t_KongsbergAllPingRawData)
+               __PYCLASS_DEFAULT_PRINTING__(t_KongsbergAllPingFileData)
         // end KongsbergAllPing
         ;
 
     // inherit from KongsbergAllDatagramInterface
     py_filedatainterfaces::KongsbergAllDatagramInterface_add_interface_functions<
-        t_KongsbergAllPingRawData>(cls);
-    // py_i_datagraminterface::add_InterfaceFunctions<t_KongsbergAllPingRawData>(cls);
+        t_KongsbergAllPingFileData>(cls);
+    // py_i_datagraminterface::add_InterfaceFunctions<t_KongsbergAllPingFileData>(cls);
 }
 
-void init_c_kongsbergallpingrawdata(pybind11::module& m)
+void init_c_kongsbergallPingFileData(pybind11::module& m)
 {
 
-    py_create_class_kongsbergallpingrawdata<std::ifstream>(m, "KongsbergAllPingRawData");
-    py_create_class_kongsbergallpingrawdata<datastreams::MappedFileStream>(
-        m, "KongsbergAllPingRawData_mapped");
+    py_create_class_kongsbergallPingFileData<std::ifstream>(m, "KongsbergAllPingFileData");
+    py_create_class_kongsbergallPingFileData<datastreams::MappedFileStream>(
+        m, "KongsbergAllPingFileData_mapped");
 }
 
 }

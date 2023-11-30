@@ -1,4 +1,4 @@
-//sourcehash: a722163e8cf20f1939b4598d07519d813a689f4cd24bdd8d16370e22921d9063
+//sourcehash: 8ebbe2daf840438383e4abc901b1f5b173863fb1d61fe63138bd1e2f320d56e2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,10 +42,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_SimradRawPing = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_file_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_file_data_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_get_angle =
 R"doc(Returns the single target detection launch angle for each sample.
 
-This function calls: ping.raw_data.get_sample_data().get_angle()
+This function calls: ping.file_data.get_sample_data().get_angle()
 
 Throws:
     exception-object if angle data is not available for the specific
@@ -67,7 +71,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_get_sv =
 R"doc(Compute volume backscattering strength (Sv) from raw data.
 
-This function calls: ping.raw_data.get_sample_data().get_power(dB)
+This function calls: ping.file_data.get_sample_data().get_power(dB)
 
 For single beam systems, this function returns the same value as
 get_sv_stacked (since there is only one beam to stack) However, the
@@ -87,7 +91,7 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_get_sv_stacked =
 R"doc(Compute volume backscattering strength (Sv) from raw data.
 
-This function calls: ping.raw_data.get_sample_data().get_power(dB)
+This function calls: ping.file_data.get_sample_data().get_power(dB)
 
 For single beam systems, this function returns the same value as
 get_sv (since there is only one beam to stack) However, the return
@@ -109,10 +113,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_has_sv = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_raw_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_raw_data_2 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

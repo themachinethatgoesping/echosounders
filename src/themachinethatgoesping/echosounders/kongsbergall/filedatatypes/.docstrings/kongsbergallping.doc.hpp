@@ -1,4 +1,4 @@
-//sourcehash: cf1c29406b227e64732763397d1d84ca936da5da745934b780f70ce894177e1d
+//sourcehash: e0fbd227b49ebc0bbf804182bfddac84bb80ac0fb4bb9fe1b3d59218e9ffdac7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,21 +49,13 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_bottom_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_deep_copy =
-R"doc(Provide a deep copy of the ping object (deep copy raw_data shared
+R"doc(Provide a deep copy of the ping object (deep copy file_data shared
 pointer)
 
 Parameter ``other``:
     $Returns:
 
 KongsbergAllPing<t_ifstream>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_file_nr = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_get_file_nr = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_get_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_printer = R"doc()doc";
 

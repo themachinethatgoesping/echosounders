@@ -30,37 +30,37 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_SimradRawPingRawData(ARG)                                                                 \
-    DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingRawData, ARG)
+#define DOC_SimradRawPingFileData(ARG)                                                                 \
+    DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData, ARG)
 
 template<typename T_FileStream>
-void py_create_class_simradrawpingrawdata(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLASS_NAME)
 {
-    using t_SimradRawPingRawData = filedatatypes::SimradRawPingRawData<T_FileStream>;
+    using t_SimradRawPingFileData = filedatatypes::SimradRawPingFileData<T_FileStream>;
 
-    py::class_<t_SimradRawPingRawData, std::shared_ptr<t_SimradRawPingRawData>>(
+    py::class_<t_SimradRawPingFileData, std::shared_ptr<t_SimradRawPingFileData>>(
         m,
         (CLASS_NAME).c_str(),
-        DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingRawData))
+        DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData))
 
-        // --- raw_data data access ---
+        // --- file_data data access ---
         .def_readonly("ping_data",
-                      &t_SimradRawPingRawData::_ping_data,
-                      DOC_SimradRawPingRawData(ping_data),
+                      &t_SimradRawPingFileData::_ping_data,
+                      DOC_SimradRawPingFileData(ping_data),
                       py::return_value_policy::reference_internal)
         .def("get_parameter",
-             &t_SimradRawPingRawData::get_parameter,
-             DOC_SimradRawPingRawData(get_parameter))
+             &t_SimradRawPingFileData::get_parameter,
+             DOC_SimradRawPingFileData(get_parameter))
 
         .def("get_sample_data",
-             &t_SimradRawPingRawData::get_sample_data,
-             DOC_SimradRawPingRawData(get_sample_data))
+             &t_SimradRawPingFileData::get_sample_data,
+             DOC_SimradRawPingFileData(get_sample_data))
 
-        .def("has_angle", &t_SimradRawPingRawData::has_angle, DOC_SimradRawPingRawData(has_angle))
-        .def("has_power", &t_SimradRawPingRawData::has_power, DOC_SimradRawPingRawData(has_power))
+        .def("has_angle", &t_SimradRawPingFileData::has_angle, DOC_SimradRawPingFileData(has_angle))
+        .def("has_power", &t_SimradRawPingFileData::has_power, DOC_SimradRawPingFileData(has_power))
 
-        .def("load", &t_SimradRawPingRawData::load, DOC_SimradRawPingRawData(load))
-        .def("load", &t_SimradRawPingRawData::load, DOC_SimradRawPingRawData(load))
+        .def("load", &t_SimradRawPingFileData::load, DOC_SimradRawPingFileData(load))
+        .def("load", &t_SimradRawPingFileData::load, DOC_SimradRawPingFileData(load))
 
         // ----- operators -----
         // .def("__eq__",
@@ -69,18 +69,18 @@ void py_create_class_simradrawpingrawdata(py::module& m, const std::string& CLAS
         //      operator_eq), py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(t_SimradRawPingRawData)
+        __PYCLASS_DEFAULT_COPY__(t_SimradRawPingFileData)
         // default binary functions
-        __PYCLASS_DEFAULT_PRINTING__(t_SimradRawPingRawData)
+        __PYCLASS_DEFAULT_PRINTING__(t_SimradRawPingFileData)
         // end SimradRawPing
         ;
 }
 
-void init_c_simradrawpingrawdata(pybind11::module& m)
+void init_c_simradrawPingFileData(pybind11::module& m)
 {
 
-    py_create_class_simradrawpingrawdata<std::ifstream>(m, "SimradRawPingRawData");
-    py_create_class_simradrawpingrawdata<datastreams::MappedFileStream>(m, "SimradRawPingRawData_mapped");
+    py_create_class_simradrawPingFileData<std::ifstream>(m, "SimradRawPingFileData");
+    py_create_class_simradrawPingFileData<datastreams::MappedFileStream>(m, "SimradRawPingFileData_mapped");
 }
 
 }

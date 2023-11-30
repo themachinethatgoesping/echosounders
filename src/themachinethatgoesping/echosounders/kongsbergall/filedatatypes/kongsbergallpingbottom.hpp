@@ -51,16 +51,16 @@ class KongsbergAllPingBottom
     using t_base1 = filetemplates::datatypes::I_PingBottom;
     using t_base2 = KongsbergAllPingCommon<t_ifstream>;
 
-    using t_base2::_raw_data;
+    using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
     // std::optional<xt::xtensor<float, 1>> _two_way_travel_times;
 
   public:
-    KongsbergAllPingBottom(std::shared_ptr<t_rawdata> raw_data)
+    KongsbergAllPingBottom(std::shared_ptr<t_rawdata> file_data)
         : t_base0("KongsbergAllPingBottom") // necessary because of virtual inheritance
         , t_base1()
-        , t_base2(std::move(raw_data))
+        , t_base2(std::move(file_data))
     {
     }
     virtual ~KongsbergAllPingBottom() = default;
@@ -68,7 +68,7 @@ class KongsbergAllPingBottom
     // ----- I_PingCommon interface -----
     void load([[maybe_unused]] bool force = false) override
     {
-        // _watercolumninformation = std::make_shared<WaterColumnInformation>(_raw_data);
+        // _watercolumninformation = std::make_shared<WaterColumnInformation>(_file_data);
     }
     void release() override
     { //_watercolumninformation.reset();
@@ -81,12 +81,12 @@ class KongsbergAllPingBottom
     uint16_t get_number_of_beams() override
     {
         if (has_xyz())
-            return raw_data()
+            return file_data()
                 .template read_first_datagram<datagrams::XYZDatagram>()
                 .get_number_of_beams();
 
         if (has_two_way_travel_times())
-            return raw_data()
+            return file_data()
                 .template read_first_datagram<datagrams::RawRangeAndAngle>()
                 .get_number_of_receiver_beams();
 
@@ -95,20 +95,20 @@ class KongsbergAllPingBottom
 
     // ----- I_PingBottom interface -----
     // using t_base1::has_xyz;
-    using t_base2::raw_data;
+    using t_base2::file_data;
 
     bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
 
     bool has_xyz() const override
     {
-        return raw_data()
+        return file_data()
                    .get_datagram_infos_by_type(t_KongsbergAllDatagramIdentifier::XYZDatagram)
                    .size() > 0;
     }
 
     virtual bool has_two_way_travel_times() const
     {
-        return raw_data()
+        return file_data()
                    .get_datagram_infos_by_type(t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
                    .size() > 0;
     }
@@ -116,13 +116,13 @@ class KongsbergAllPingBottom
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         const pingtools::BeamSelection& selection) override
     {
-        return _raw_data->read_xyz(selection);
+        return _file_data->read_xyz(selection);
     }
 
     xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
-        auto datagram = raw_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
+        auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 
         return datagram.get_two_way_travel_times(selection.get_beam_numbers());
     }
@@ -130,7 +130,7 @@ class KongsbergAllPingBottom
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
     {
-        auto datagram = raw_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
+        auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 
         return datagram.get_beam_crosstrack_angles(selection.get_beam_numbers());
     }
@@ -146,10 +146,10 @@ class KongsbergAllPingBottom
 
         // printer.register_string(
         //     "Sample data type",
-        //     std::string(magic_enum::enum_name(_raw_data->_ping_data.get_data_type())));
+        //     std::string(magic_enum::enum_name(_file_data->_ping_data.get_data_type())));
 
         // printer.register_section("Important members");
-        // printer.register_string("raw_data", "KongsbergAllPingRawData");
+        // printer.register_string("file_data", "KongsbergAllPingFileData");
 
         return printer;
     }

@@ -46,10 +46,10 @@ void py_create_class_kongsbergallpingcommon(py::module& m, const std::string& CL
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingCommon))
 
-            // --- raw_data data access ---
-            .def_property_readonly("raw_data",
-                                   py::overload_cast<>(&t_KongsbergAllPingCommon::raw_data),
-                                   DOC_KongsbergAllPingCommon(raw_data),
+            // --- file_data data access ---
+            .def_property_readonly("file_data",
+                                   py::overload_cast<>(&t_KongsbergAllPingCommon::file_data),
+                                   DOC_KongsbergAllPingCommon(file_data),
                                    py::return_value_policy::reference_internal)
 
         // --- variable access ---

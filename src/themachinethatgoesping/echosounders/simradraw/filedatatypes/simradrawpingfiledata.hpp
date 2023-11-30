@@ -8,7 +8,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/simradrawpingrawdata.doc.hpp"
+#include ".docstrings/simradrawpingfiledata.doc.hpp"
 
 /* generated doc strings */
 #include ".docstrings/simradrawping.doc.hpp"
@@ -42,27 +42,27 @@ namespace simradraw {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class SimradRawPingRawData
+class SimradRawPingFileData
 {
     std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
-    std::string_view get_name() const { return "SimradRawPingRawData"; }
+    std::string_view get_name() const { return "SimradRawPingFileData"; }
 
   public:
     filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
-        _datagram_info_raw_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
+        _datagram_info_file_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
 
     datagrams::RAW3
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
 
   public:
-    SimradRawPingRawData(filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier,
-                                                                 t_ifstream> datagram_info_raw_data,
+    SimradRawPingFileData(filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier,
+                                                                 t_ifstream> datagram_info_file_data,
                       datagrams::RAW3                                        ping_data)
-        : _datagram_info_raw_data(std::move(datagram_info_raw_data))
+        : _datagram_info_file_data(std::move(datagram_info_file_data))
         , _ping_data(std::move(ping_data))
     {
     }
-    ~SimradRawPingRawData() = default;
+    ~SimradRawPingFileData() = default;
 
     void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
@@ -86,8 +86,8 @@ class SimradRawPingRawData
 
     datagrams::raw3datatypes::RAW3DataVariant read_sample_data() const
     {
-        return _ping_data.read_skipped_sample_data(_datagram_info_raw_data->get_stream(),
-                                                   _datagram_info_raw_data->get_file_pos());
+        return _ping_data.read_skipped_sample_data(_datagram_info_file_data->get_stream(),
+                                                   _datagram_info_file_data->get_file_pos());
     }
 
     void load() { _ping_data.sample_data() = read_sample_data(); }

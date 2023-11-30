@@ -76,7 +76,7 @@ class KongsbergAllPingDataInterfacePerFile
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
         t_ping base_ping(this->get_file_nr(), this->get_file_path(), param);
-        base_ping.raw_data().set_primary_file_nr(this->get_file_nr());
+        base_ping.file_data().set_primary_file_nr(this->get_file_nr());
 
         for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
         {
@@ -168,7 +168,7 @@ class KongsbergAllPingDataInterfacePerFile
                             ping_it =
                                 pings_by_counter_by_id[counter_snumber[0]].find(counter_snumber[1]);
 
-                            ping_it->second->raw_data().set_file_ping_counter(counter_snumber[0]);
+                            ping_it->second->file_data().set_file_ping_counter(counter_snumber[0]);
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);

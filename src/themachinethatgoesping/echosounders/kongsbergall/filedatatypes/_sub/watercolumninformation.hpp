@@ -51,9 +51,9 @@ class WaterColumnInformation
         _water_column_datagram; // note, this will be safed without beams()
 
   public:
-    WaterColumnInformation(std::shared_ptr<t_rawdata> raw_data)
+    WaterColumnInformation(std::shared_ptr<t_rawdata> file_data)
     {
-        auto water_column_datagram = raw_data->read_merged_watercolumndatagram(true);
+        auto water_column_datagram = file_data->read_merged_watercolumndatagram(true);
         auto nbeams                = water_column_datagram.beams().size();
 
         // initialize arrays using from shape function

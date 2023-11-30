@@ -8,7 +8,8 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/kongsbergallpingrawdata.doc.hpp"
+#include ".docstrings/kongsbergallpingfiledata.doc.hpp"
+
 
 /* std includes */
 #include <filesystem>
@@ -33,7 +34,7 @@
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
-#include "../../filetemplates/datatypes/i_pingrawdata.hpp"
+#include "../../filetemplates/datatypes/i_pingfiledata.hpp"
 #include "../../pingtools/beamsampleselection.hpp"
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/kongsbergalldatagraminterface.hpp"
@@ -44,15 +45,15 @@ namespace kongsbergall {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class KongsbergAllPingRawData
-    : public filetemplates::datatypes::I_PingRawData
+class KongsbergAllPingFileData
+    : public filetemplates::datatypes::I_PingFileData
     , public filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>
 {
-    using t_base1 = filetemplates::datatypes::I_PingRawData;
+    using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
     // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
-    std::string_view get_name() const { return "KongsbergAllPingRawData"; }
+    std::string_view get_name() const { return "KongsbergAllPingFileData"; }
 
     // parameters (read when adding datagram infos)
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
@@ -75,7 +76,7 @@ class KongsbergAllPingRawData
 
         if (datagram_infos.empty())
             throw std::runtime_error(fmt::format(
-                "Error[KongsbergAllPingRawData::read_merged_watercolumndatagram]: No water "
+                "Error[KongsbergAllPingFileData::read_merged_watercolumndatagram]: No water "
                 "column datagram in ping!"));
 
         auto datagram =
@@ -91,13 +92,13 @@ class KongsbergAllPingRawData
     }
 
   public:
-    KongsbergAllPingRawData()
-        : t_base1("KongsbergAllPingRawData")
-        , t_base2("KongsbergAllPingRawData")
+    KongsbergAllPingFileData()
+        : t_base1("KongsbergAllPingFileData")
+        , t_base2("KongsbergAllPingFileData")
     {
     }
 
-    ~KongsbergAllPingRawData() = default;
+    ~KongsbergAllPingFileData() = default;
 
     /**
      * @brief Return the filestream associated with the first datagram of the specified type
@@ -117,7 +118,7 @@ class KongsbergAllPingRawData
 
         if (datagram_infos.empty())
             throw std::runtime_error(fmt::format(
-                "Error[KongsbergAllPingRawData::read_datagram]: No {} datagram in ping!",
+                "Error[KongsbergAllPingFileData::read_datagram]: No {} datagram in ping!",
                 datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
 
         return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
@@ -151,7 +152,7 @@ class KongsbergAllPingRawData
         return datagram.get_xyz(bs.get_beam_numbers());
     }
 
-    // ----- I_PingRawData Interface -----
+    // ----- I_PingFileData Interface -----
 
     std::vector<size_t> get_file_numbers() const final
     {
@@ -196,7 +197,7 @@ class KongsbergAllPingRawData
     {
         if (this->_datagram_infos_all.empty())
             throw std::runtime_error(fmt::format(
-                "Error[KongsbergAllPingRawData::{}]: No datagram in ping!", method_name));
+                "Error[KongsbergAllPingFileData::{}]: No datagram in ping!", method_name));
     }
 
   public:
