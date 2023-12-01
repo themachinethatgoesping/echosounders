@@ -108,7 +108,7 @@ def remove_duplicates(file_paths: List[str], hash_read_size_mb: Union[int, None]
         number_files_per_folder[os.path.dirname(file)] += 1
 
     # Iterate over the files grouped by their basename
-    for f_name,f_paths  in tqdm(fdict.items(),desc='removing duplicates', delay=1):
+    for f_name,f_paths  in tqdm(fdict.items(),desc='removing duplicates', delay=3):
         # If there are multiple files with the same basename
         if len(f_paths) > 1:
             # Group the files by their hash
