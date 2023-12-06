@@ -57,7 +57,7 @@ class WatercolumnDatagramBeam
 
   public:
     WatercolumnDatagramBeam()  = default;
-    ~WatercolumnDatagramBeam() = default;
+    virtual ~WatercolumnDatagramBeam() = default;
 
     // ----- convenient member access -----
     // getters
