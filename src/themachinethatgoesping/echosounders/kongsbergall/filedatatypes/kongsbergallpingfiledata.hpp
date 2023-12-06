@@ -38,6 +38,9 @@
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/kongsbergalldatagraminterface.hpp"
 
+// #include "_sub/systeminformation.hpp"
+#include "_sub/watercolumninformation.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
@@ -54,6 +57,47 @@ class KongsbergAllPingFileData
     // parameters (read when adding datagram infos)
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
         std::make_shared<datagrams::RuntimeParameters>();
+
+    // using SystemInformation      = _sub::SystemInformation<KongsbergAllPingFileData>;
+
+  private:
+    std::shared_ptr<_sub::WaterColumnInformation> _watercolumninformation;
+    //  std::shared_ptr<SystemInformation>      _systeminformation;
+
+  public:
+    void load_wci(bool force = false)
+    {
+        if (wci_loaded() && !force)
+            return;
+
+        _watercolumninformation =
+            std::make_shared<_sub::WaterColumnInformation>(read_merged_watercolumndatagram(true));
+    }
+    void load_sys(bool force = false)
+    {
+        if (sys_loaded() && !force)
+            return;
+
+        //_systeminformation = std::make_shared<SystemInformation>(*this);
+    }
+    void release_wci() { _watercolumninformation.reset(); }
+    void release_sys() {} //_systeminformation.reset(); }
+    bool wci_loaded() { return _watercolumninformation != nullptr; }
+    bool sys_loaded() { return true; } // return _systeminformation != nullptr; }
+
+    const _sub::WaterColumnInformation& get_wcinfos()
+    {
+        load_wci();
+
+        return *_watercolumninformation;
+    }
+
+    // const SystemInformation& get_sysinfos()
+    // {
+    //     load_sys();
+
+    //     return *_systeminformation;
+    // }
 
   public:
     void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> arg)

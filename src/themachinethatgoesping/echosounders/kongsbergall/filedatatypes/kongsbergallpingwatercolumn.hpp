@@ -36,7 +36,6 @@
 #include "../datagrams.hpp"
 #include "../types.hpp"
 
-#include "_sub/watercolumninformation.hpp"
 #include "kongsbergallpingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -57,18 +56,6 @@ class KongsbergAllPingWatercolumn
     using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 
-    using WaterColumnInformation = _sub::WaterColumnInformation<t_rawdata>;
-
-  private:
-    std::shared_ptr<WaterColumnInformation> _watercolumninformation;
-
-    const WaterColumnInformation& get_wcinfos()
-    {
-        load();
-
-        return *_watercolumninformation;
-    }
-
   protected:
     std::string class_name() const override { return "KongsbergAllPingWatercolumn"; }
 
@@ -84,26 +71,29 @@ class KongsbergAllPingWatercolumn
     // ----- I_PingCommon interface -----
     void load(bool force = false) override
     {
-        if (loaded() && !force)
-            return;
-
-        _watercolumninformation = std::make_shared<WaterColumnInformation>(_file_data);
+        _file_data->load_wci(force);
+        _file_data->load_sys(force);
     }
-    void release() override { _watercolumninformation.reset(); }
-    bool loaded() override { return _watercolumninformation != nullptr; }
+    void release() override
+    {
+        _file_data->release_wci();
+        _file_data->release_sys();
+    }
+    bool loaded() override { return _file_data->wci_loaded() && _file_data->sys_loaded(); }
 
     uint16_t get_number_of_beams() override
     {
         if (!has_amplitudes())
             return 0;
 
-        return get_wcinfos().get_beam_crosstrack_angles().size();
+        return _file_data->get_wcinfos().get_beam_crosstrack_angles().size();
     }
 
     // common variable access
     float get_sample_interval() override
     {
-        return 1 / get_wcinfos().get_water_column_datagram().get_sampling_frequency_in_hz();
+        return 1 /
+               _file_data->get_wcinfos().get_water_column_datagram().get_sampling_frequency_in_hz();
     }
 
     // ----- getter/setters -----
@@ -113,7 +103,7 @@ class KongsbergAllPingWatercolumn
         const auto beam_numbers = selection.get_beam_numbers();
 
         auto beam_crosstrack_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
-        const auto& wcinfos         = get_wcinfos();
+        const auto& wcinfos         = _file_data->get_wcinfos();
 
         for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
         {
@@ -133,7 +123,7 @@ class KongsbergAllPingWatercolumn
         const auto beam_numbers = selection.get_beam_numbers();
 
         auto beam_alongtrack_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
-        const auto& wcinfos         = get_wcinfos();
+        const auto& wcinfos         = _file_data->get_wcinfos();
         const auto& wcidata         = wcinfos.get_water_column_datagram();
         const auto& transmit_sector_numbers = wcinfos.get_transmit_sector_numbers();
 
@@ -155,15 +145,16 @@ class KongsbergAllPingWatercolumn
 
     const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers()
     {
-        return get_wcinfos().get_start_range_sample_numbers();
+        return _file_data->get_wcinfos().get_start_range_sample_numbers();
     }
     using t_base1::get_number_of_samples_per_beam;
     xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
         const pingtools::BeamSelection& bs) override
     {
-        xt::xtensor<uint16_t, 1> samples       = xt::empty<uint16_t>({ bs.get_number_of_beams() });
-        const auto& number_of_samples_per_beam = get_wcinfos().get_number_of_samples_per_beam();
-        const auto& beam_numbers               = bs.get_beam_numbers();
+        xt::xtensor<uint16_t, 1> samples = xt::empty<uint16_t>({ bs.get_number_of_beams() });
+        const auto&              number_of_samples_per_beam =
+            _file_data->get_wcinfos().get_number_of_samples_per_beam();
+        const auto& beam_numbers = bs.get_beam_numbers();
 
         for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)
         {
@@ -178,19 +169,19 @@ class KongsbergAllPingWatercolumn
     }
     xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
     {
-        return get_wcinfos().get_start_range_sample_numbers();
+        return _file_data->get_wcinfos().get_start_range_sample_numbers();
     }
     const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
     {
-        return get_wcinfos().get_detected_range_in_samples();
+        return _file_data->get_wcinfos().get_detected_range_in_samples();
     }
     const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers()
     {
-        return get_wcinfos().get_transmit_sector_numbers();
+        return _file_data->get_wcinfos().get_transmit_sector_numbers();
     }
     const xt::xtensor<size_t, 1>& get_sample_positions()
     {
-        return get_wcinfos().get_sample_positions();
+        return _file_data->get_wcinfos().get_sample_positions();
     }
 
     // ----- I_PingWatercolumn interface -----
@@ -213,7 +204,7 @@ class KongsbergAllPingWatercolumn
 
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
     {
-        auto& wcinfos = get_wcinfos();
+        auto& wcinfos = _file_data->get_wcinfos();
 
         auto amplitudes = xt::xtensor<float, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
@@ -269,7 +260,7 @@ class KongsbergAllPingWatercolumn
         auto bottom_range_samples =
             xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
 
-        auto& range_samples         = get_wcinfos().get_detected_range_in_samples();
+        auto& range_samples         = _file_data->get_wcinfos().get_detected_range_in_samples();
         auto  number_of_beams       = get_number_of_beams();
         auto& selected_beam_numbers = selection.get_beam_numbers();
 
@@ -291,7 +282,7 @@ class KongsbergAllPingWatercolumn
 
         printer.append(t_base1::__printer__(float_precision));
 
-        auto& wcinfos = get_wcinfos();
+        auto& wcinfos = _file_data->get_wcinfos();
 
         printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles());
         printer.register_container("start_range_sample_numbers",

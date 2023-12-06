@@ -1,4 +1,4 @@
-//sourcehash: 090ccbbda3b4b683b18c5e2cff2db9deec6e063af08e2fe09634387450926c31
+//sourcehash: 8ef8d4658aebfb7b9b1849d2ccffa4771d8b5f471fd551e195ee5c2a4fe30834
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation =
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
 R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
 used to store information necessary to efficiently read water column
 data from the file. It does not hold the actual water column samples
@@ -48,29 +48,9 @@ API or pybind11 interface.
 
 Template parameter ``t_rawdata``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_beam_crosstrack_angles = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_detected_range_in_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_number_of_samples_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_sample_positions = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_start_range_sample_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_transmit_sector_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_water_column_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_read_beam_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_sample_positions = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_water_column_datagram = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

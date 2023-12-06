@@ -1,4 +1,4 @@
-//sourcehash: 9437e55eec46effab7d6b7482b69059e2b4e2b6755cafb82aaa518383ee97189
+//sourcehash: e055bbdb8557e0d53a54f8337f22200f3d88fab0cd09aadfd0a8078881990769
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,8 +68,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_transmit_sector_numbers = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_wcinfos = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_amplitudes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_bottom_range_samples = R"doc()doc";
@@ -81,8 +79,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_release = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_watercolumninformation = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

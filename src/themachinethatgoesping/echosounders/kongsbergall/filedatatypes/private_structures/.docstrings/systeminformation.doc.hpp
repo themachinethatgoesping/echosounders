@@ -1,4 +1,4 @@
-//sourcehash: 3c1894f4033a4ebbf2793e9e0016aca8c28b140d36edf352f5098eedd9cfdb0d
+//sourcehash: fb4f66f9f71678c346dad0f17811858a41dbd87bef88ff330080305e2f2b2869
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,22 +49,6 @@ API or pybind11 interface.
 Template parameter ``t_rawdata``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_beam_crosstrack_angles = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_detected_range_in_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_number_of_samples_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_sample_positions = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_start_range_sample_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_transmit_sector_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_water_column_datagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_read_beam_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
 

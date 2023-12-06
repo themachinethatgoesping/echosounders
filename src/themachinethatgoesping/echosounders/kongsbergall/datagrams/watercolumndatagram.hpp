@@ -36,7 +36,8 @@ namespace datagrams {
 class WatercolumnDatagram : public KongsbergAllDatagram
 {
   public:
-    static constexpr auto DatagramIdentifier = t_KongsbergAllDatagramIdentifier::WatercolumnDatagram;
+    static constexpr auto DatagramIdentifier =
+        t_KongsbergAllDatagramIdentifier::WatercolumnDatagram;
 
   protected:
     uint16_t               _ping_counter;
@@ -73,14 +74,7 @@ class WatercolumnDatagram : public KongsbergAllDatagram
     {
         _datagram_identifier = t_KongsbergAllDatagramIdentifier::WatercolumnDatagram;
     }
-    ~WatercolumnDatagram() = default;
-
-    WatercolumnDatagram without_beams() const
-    {
-        WatercolumnDatagram copy(*this);
-        copy._beams.clear();
-        return copy;
-    }
+    virtual ~WatercolumnDatagram() = default;
 
     // ----- convinient processing -----
     size_t get_max_number_of_samples() const
@@ -250,9 +244,9 @@ class WatercolumnDatagram : public KongsbergAllDatagram
     bool operator==(const WatercolumnDatagram& other) const = default;
 
     //----- to/from stream functions -----
-    static WatercolumnDatagram from_stream(std::istream&  is,
+    static WatercolumnDatagram from_stream(std::istream&        is,
                                            KongsbergAllDatagram header,
-                                           bool           skip_data = false)
+                                           bool                 skip_data = false)
     {
         WatercolumnDatagram datagram(std::move(header));
 
@@ -292,11 +286,12 @@ class WatercolumnDatagram : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is), skip_data);
     }
 
-    static WatercolumnDatagram from_stream(std::istream&              is,
+    static WatercolumnDatagram from_stream(std::istream&                    is,
                                            t_KongsbergAllDatagramIdentifier datagram_identifier,
-                                           bool                       skip_data = false)
+                                           bool                             skip_data = false)
     {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier), skip_data);
+        return from_stream(
+            is, KongsbergAllDatagram::from_stream(is, datagram_identifier), skip_data);
     }
 
     void append_from_stream(std::istream& is)

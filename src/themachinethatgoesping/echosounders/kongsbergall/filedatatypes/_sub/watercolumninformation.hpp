@@ -29,15 +29,13 @@ namespace filedatatypes {
 namespace _sub {
 
 /**
- * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store information
- * necessary to efficiently read water column data from the file.
- * It does not hold the actual water column samples
+ * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
+ * information necessary to efficiently read water column data from the file. It does not hold the
+ * actual water column samples
  *
  * Note this is a private substructure and is thus not part of the public API or pybind11 interface.
  *
- * @tparam t_rawdata
  */
-template<typename t_rawdata>
 class WaterColumnInformation
 {
     boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_crosstrack_angles;
@@ -48,16 +46,15 @@ class WaterColumnInformation
     xt::xtensor<size_t, 1>                                 _sample_positions;
 
     datagrams::WatercolumnDatagram
-        _water_column_datagram; // note, this will be safed without beams()
+        _water_column_datagram; // note, this will be saved without beams()
 
   public:
-    WaterColumnInformation(std::shared_ptr<t_rawdata> file_data)
+    WaterColumnInformation(datagrams::WatercolumnDatagram water_column_datagram)
     {
-        auto water_column_datagram = file_data->read_merged_watercolumndatagram(true);
-        auto nbeams                = water_column_datagram.beams().size();
+        auto nbeams = water_column_datagram.get_beams().size();
 
         // initialize arrays using from shape function
-        auto beam_crosstrack_angles       = xt::xtensor<float, 1>::from_shape({ nbeams });
+        auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ nbeams });
         auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
@@ -65,11 +62,11 @@ class WaterColumnInformation
         auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
 
         size_t bn = 0;
-        for (const auto& b : water_column_datagram.beams())
+        for (const auto& b : water_column_datagram.get_beams())
         {
             sample_positions.unchecked(bn) = b.get_sample_position();
 
-            beam_crosstrack_angles.unchecked(bn)       = b.get_beam_crosstrack_angle_in_degrees();
+            beam_crosstrack_angles.unchecked(bn)     = b.get_beam_crosstrack_angle_in_degrees();
             detected_range_in_samples.unchecked(bn)  = b.get_detected_range_in_samples();
             start_range_sample_numbers.unchecked(bn) = b.get_start_range_sample_number();
             number_of_samples_per_beam.unchecked(bn) = b.get_number_of_samples();
@@ -79,13 +76,14 @@ class WaterColumnInformation
         }
 
         _sample_positions           = std::move(sample_positions);
-        _beam_crosstrack_angles       = std::move(beam_crosstrack_angles);
+        _beam_crosstrack_angles     = std::move(beam_crosstrack_angles);
         _start_range_sample_numbers = std::move(start_range_sample_numbers);
         _number_of_samples_per_beam = std::move(number_of_samples_per_beam);
         _detected_range_in_samples  = std::move(detected_range_in_samples);
         _transmit_sector_numbers    = std::move(transmit_sector_numbers);
 
-        _water_column_datagram = water_column_datagram.without_beams();
+        water_column_datagram.beams().clear();
+        _water_column_datagram = std::move(water_column_datagram);
     }
 
     template<typename t_ifstream>

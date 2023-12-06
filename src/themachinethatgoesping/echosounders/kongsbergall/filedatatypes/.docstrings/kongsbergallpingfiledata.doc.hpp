@@ -1,4 +1,4 @@
-//sourcehash: 203a648082c99122951cb86de1fce7152e3e615a8231b7ee669f0dbb23f38473
+//sourcehash: 96fe03d384e9811553801ce122815d97594d8072d103eb9953b34dac858d630a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,12 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_runtime_parameters = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_wcinfos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_load_sys = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_load_wci = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_must_have_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_printer = R"doc()doc";
@@ -86,9 +92,19 @@ Parameter ``bs``:
 Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_release_sys = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_release_wci = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_runtime_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_runtime_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_sys_loaded = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_watercolumninformation = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_wci_loaded = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

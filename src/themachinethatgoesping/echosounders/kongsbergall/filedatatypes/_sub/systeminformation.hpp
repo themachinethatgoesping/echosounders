@@ -29,7 +29,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace filedatatypes {
-namespace sub {
+namespace _sub {
 
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
@@ -51,18 +51,20 @@ class SystemInformation
   public:
     SystemInformation(std::shared_ptr<t_rawdata> file_data)
     {
-        using algorithms::signalprocessing::types::TxSignalType;
+        using algorithms::signalprocessing::types::t_TxSignalType;
         using namespace algorithms::signalprocessing::datastructures;
 
         // best if RawRangeAndAngle datagram exists
         auto raw_range_and_angle_datagrams = file_data.get_datagram_infos_by_type(
             t_KongsbergAllDatagramIdentifier::RawRangeAndAngle);
 
+        std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+            tx_signal_parameters;
+
         if (raw_range_and_angle_datagrams.size() > 0)
         {
-            auto datagram =
-                raw_range_and_angle_datagrams.at(0)
-                    ->template read_datagram_from_file<datagrams::RawRangeAndAngle>(skip_data);
+            auto datagram = raw_range_and_angle_datagrams.at(0)
+                                ->template read_datagram_from_file<datagrams::RawRangeAndAngle>();
 
             auto transmit_sectors = datagram.get_transmit_sectors();
 
@@ -72,24 +74,23 @@ class SystemInformation
 
                 switch (tx_signal_type)
                 {
-                    case TxSignalType::CW: {
-                        _tx_signal_parameters.push_back(
-                            CWSignalParameters tx_signal_parameters(ts.get_centre_frequency(),
-                                                                    ts.get_signal_bandwidth(),
-                                                                    ts.get_signal_length()));
+                    case t_TxSignalType::CW: {
+                        tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
+                                                                          ts.get_signal_bandwidth(),
+                                                                          ts.get_signal_length()));
                     }
-                    case TxSignalType::FM_UP_SWEEP:
+                    case t_TxSignalType::FM_UP_SWEEP:
                         [[fallthrough]];
-                    case TxSignalType::FM_DOWN_SWEEP: {
+                    case t_TxSignalType::FM_DOWN_SWEEP: {
                         throw std::runtime_error(
                             "FM_UP_SWEEP and FM_DOWN_SWEEP transmit signal types are not "
                             "supported yet");
-                        // auto tx_signal_parameters = ts.get_tx_signal_parameters();
-                        // _tx_signal_parameters     = tx_signal_parameters;
                         break;
                     }
                 }
             }
+
+            _tx_signal_parameters = tx_signal_parameters;
         }
     }
 };

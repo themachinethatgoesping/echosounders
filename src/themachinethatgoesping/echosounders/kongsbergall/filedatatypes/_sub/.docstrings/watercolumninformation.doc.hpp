@@ -1,4 +1,4 @@
-//sourcehash: 4bec093f3d65dc5b96d98497c14cfad35c3abbcd4c23a76312ce6bb49c0638a6
+//sourcehash: 3ac32d8a9ca9445fa84c8a7d39da710922ed395e3b8c4ae9b1a0462c072e2bd4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,9 +44,7 @@ used to store information necessary to efficiently read water column
 data from the file. It does not hold the actual water column samples
 
 Note this is a private substructure and is thus not part of the public
-API or pybind11 interface.
-
-Template parameter ``t_rawdata``:)doc";
+API or pybind11 interface.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation = R"doc()doc";
 
