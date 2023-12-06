@@ -1,4 +1,4 @@
-//sourcehash: a9d7957d7ed2a2274cc4b7c89f06853d49dcaecac31d106fa0f46fb044e65f43
+//sourcehash: 5f9d8adf6f653167745e4ee840def4c4c31094b02058887327a7f05aad92a09b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -85,6 +85,8 @@ Returns:
     _tilt_angle * 0.01 (float))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_transmit_sector_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_tx_signal_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_mean_absorption_coefficient = R"doc(< in 0.01 dB/km)doc";
 

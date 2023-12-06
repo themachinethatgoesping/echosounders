@@ -44,6 +44,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
@@ -92,6 +93,14 @@ class I_PingWatercolumn : virtual public I_PingCommon
         register_feature("bottom_range_sample",
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
+
+    // --- transmit signal infos ---
+    /**
+     * @brief Get the transmit signal infos
+     *
+     * @return TxSignalInfos
+     */
+    //virtual TxSignalInfos get_tx_signal_infos() { throw not_implemented(__func__, class_name()); }
 
     // ---  common variable access ---
     /**

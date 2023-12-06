@@ -13,6 +13,7 @@
 #include <string>
 
 // themachinethatgoesping import
+#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
@@ -107,6 +108,21 @@ class RawRangeAndAngleTransmitSector
         return _mean_absorption_coefficient * 0.00001f;
     }
 
+    algorithms::signalprocessing::types::t_TxSignalType get_tx_signal_type() const
+    {
+        switch (_signal_waveform_identifier)
+        {
+            case 0:
+                return algorithms::signalprocessing::types::t_TxSignalType::CW;
+            case 1:
+                return algorithms::signalprocessing::types::t_TxSignalType::FM_UP_SWEEP;
+            case 2:
+                return algorithms::signalprocessing::types::t_TxSignalType::FM_DOWN_SWEEP;
+            default:
+                return algorithms::signalprocessing::types::t_TxSignalType::OTHER;
+        }
+    }
+
     // ----- operators -----
     bool operator==(const RawRangeAndAngleTransmitSector& other) const = default;
 
@@ -134,6 +150,9 @@ class RawRangeAndAngleTransmitSector
         printer.register_value("focus_range", get_focus_range_in_m(), "m");
         printer.register_value(
             "mean_absorption_coefficient", get_mean_absorption_coefficient_in_dB_per_m(), "dB/m");
+        printer.register_value(
+            "tx_signal_type",
+            algorithms::signalprocessing::types::to_string(get_tx_signal_type()));
 
         return printer;
     }

@@ -96,7 +96,8 @@ void init_c_rawrangeandangletransmitsector(pybind11::module& m)
              DOC_RawRangeAndAngleTransmitSector(signal_bandwidth))
         .def("get_signal_bandwidth",
              &RawRangeAndAngleTransmitSector::get_signal_bandwidth,
-             DOC_RawRangeAndAngleTransmitSector(signal_bandwidth))
+             DOC_RawRangeAndAngleTransmitSector(signal_bandwidth))             
+             
 
         // --- processed member access ---
         .def("get_tilt_angle_in_degrees",
@@ -108,6 +109,9 @@ void init_c_rawrangeandangletransmitsector(pybind11::module& m)
         .def("get_mean_absorption_coefficient_in_dB_per_m",
              &RawRangeAndAngleTransmitSector::get_mean_absorption_coefficient_in_dB_per_m,
              DOC_RawRangeAndAngleTransmitSector(get_mean_absorption_coefficient_in_dB_per_m))
+        .def("get_tx_signal_type",
+             &RawRangeAndAngleTransmitSector::get_tx_signal_type,
+             DOC_RawRangeAndAngleTransmitSector(get_tx_signal_type))
 
         // ----- operators -----
         .def("__eq__",

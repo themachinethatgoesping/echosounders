@@ -13,6 +13,7 @@
 using namespace std;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using namespace themachinethatgoesping::echosounders::kongsbergall::datagrams;
+using namespace themachinethatgoesping::algorithms::signalprocessing::types;
 #define TESTTAG "[kongsbergall]"
 
 TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
@@ -36,6 +37,7 @@ TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
 
     transmit_sector.set_mean_absorption_coefficient(101);
     transmit_sector.set_tilt_angle(191);
+    transmit_sector.set_signal_waveform_identifier(1); // FM_UP_SWEEP
     dat.set_transmit_sectors({ transmit_sector });
 
     beam.set_quality_factor(101);
@@ -67,6 +69,7 @@ TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
     CHECK(dat.get_sampling_frequency() == Catch::Approx(204.f));
     CHECK(dat.transmit_sectors()[0].get_mean_absorption_coefficient_in_dB_per_m() ==
           Catch::Approx(0.001010f));
+    CHECK(dat.transmit_sectors()[0].get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
     CHECK(dat.transmit_sectors()[0].get_tilt_angle_in_degrees() == Catch::Approx(1.91));
     CHECK(dat.beams()[0].get_quality_factor() == Catch::Approx(101));
     CHECK(dat.beams()[0].get_reflectivity_in_db() == Catch::Approx(19.1f));
