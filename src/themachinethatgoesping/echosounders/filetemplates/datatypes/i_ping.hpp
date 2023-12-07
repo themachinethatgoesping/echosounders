@@ -224,11 +224,11 @@ class I_Ping : virtual public I_PingCommon
         printer.register_section("Geolocation");
         printer.append(get_geolocation("Transducer").__printer__(float_precision));
 
-        printer.register_section("Sensor data");
-        printer.append(_sensor_data_latlon.__printer__(float_precision));
+        //printer.register_section("Sensor data");
+        //printer.append(_sensor_data_latlon.__printer__(float_precision));
 
-        printer.register_section("Sensor configuration");
-        printer.append(get_sensor_configuration().__printer__(float_precision));
+        //printer.register_section("Sensor configuration");
+        //printer.append(get_sensor_configuration().__printer__(float_precision));
 
         return printer;
     }

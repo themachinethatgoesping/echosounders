@@ -2,13 +2,14 @@
  * @file i_pingcommon.hpp
  * @brief This file contains the declaration of the I_PingCommon class.
  *
- * The I_PingCommon class is an abstract base class that represents a common interface for ping data types.
- * It provides functionality to register and check features, load and release data, and retrieve information about the available features.
+ * The I_PingCommon class is an abstract base class that represents a common interface for ping data
+ * types. It provides functionality to register and check features, load and release data, and
+ * retrieve information about the available features.
  *
  * @author Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
  * @author Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
  * @author Peter Urban, Ghent University
- * 
+ *
  * SPDX-License-Identifier: MPL-2.0
  */
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
@@ -39,14 +40,14 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
-#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
-#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 
 #include "../../pingtools/beamsampleselection.hpp"
 
@@ -82,12 +83,19 @@ class I_PingCommon
   public:
     I_PingCommon()
     {
-        register_feature("tx_signal_parameters", std::bind(&I_PingCommon::has_tx_signal_parameters, this));
+        register_feature("tx_signal_parameters",
+                         std::bind(&I_PingCommon::has_tx_signal_parameters, this));
     }
     virtual ~I_PingCommon() = default;
 
     // ----- interface functions -----
-    virtual const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>& get_tx_signal_parameters() const
+    /**
+     * @brief Get the transmission signal parameters per sector.
+     *  
+     * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+     */
+    virtual const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+    get_tx_signal_parameters()
     {
         throw not_implemented(__func__, this->class_name());
     }
@@ -163,7 +171,10 @@ class I_PingCommon
     }
 
     //------ interface ------//
-    virtual void load([[maybe_unused]] bool force = false) { throw not_implemented("load", this->class_name()); }
+    virtual void load([[maybe_unused]] bool force = false)
+    {
+        throw not_implemented("load", this->class_name());
+    }
     virtual void release() { throw not_implemented("release", this->class_name()); }
     virtual bool loaded() { throw not_implemented("load", this->class_name()); }
 
