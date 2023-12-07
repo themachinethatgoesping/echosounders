@@ -38,9 +38,7 @@ namespace _sub {
  *
  * Note this is a private substructure and is thus not part of the public API or pybind11 interface.
  *
- * @tparam t_rawdata
  */
-template<typename t_rawdata>
 class SystemInformation
 {
     // transmit signal parameters per sector
@@ -49,49 +47,39 @@ class SystemInformation
         _tx_signal_parameters;
 
   public:
-    SystemInformation(std::shared_ptr<t_rawdata> file_data)
+    SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
     {
         using algorithms::signalprocessing::types::t_TxSignalType;
         using namespace algorithms::signalprocessing::datastructures;
 
-        // best if RawRangeAndAngle datagram exists
-        auto raw_range_and_angle_datagrams = file_data.get_datagram_infos_by_type(
-            t_KongsbergAllDatagramIdentifier::RawRangeAndAngle);
-
         std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
             tx_signal_parameters;
 
-        if (raw_range_and_angle_datagrams.size() > 0)
+        auto transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+
+        for (const auto& ts : transmit_sectors)
         {
-            auto datagram = raw_range_and_angle_datagrams.at(0)
-                                ->template read_datagram_from_file<datagrams::RawRangeAndAngle>();
+            auto tx_signal_type = ts.get_tx_signal_type();
 
-            auto transmit_sectors = datagram.get_transmit_sectors();
-
-            for (const auto& ts : transmit_sectors)
+            switch (tx_signal_type)
             {
-                auto tx_signal_type = ts.get_tx_signal_type();
-
-                switch (tx_signal_type)
-                {
-                    case t_TxSignalType::CW: {
-                        tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
-                                                                          ts.get_signal_bandwidth(),
-                                                                          ts.get_signal_length()));
-                    }
-                    case t_TxSignalType::FM_UP_SWEEP:
-                        [[fallthrough]];
-                    case t_TxSignalType::FM_DOWN_SWEEP: {
-                        throw std::runtime_error(
-                            "FM_UP_SWEEP and FM_DOWN_SWEEP transmit signal types are not "
-                            "supported yet");
-                        break;
-                    }
+                case t_TxSignalType::CW: {
+                    tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
+                                                                      ts.get_signal_bandwidth(),
+                                                                      ts.get_signal_length()));
+                }
+                case t_TxSignalType::FM_UP_SWEEP:
+                    [[fallthrough]];
+                case t_TxSignalType::FM_DOWN_SWEEP: {
+                    throw std::runtime_error(
+                        "FM_UP_SWEEP and FM_DOWN_SWEEP transmit signal types are not "
+                        "supported yet");
+                    break;
                 }
             }
-
-            _tx_signal_parameters = tx_signal_parameters;
         }
+
+        _tx_signal_parameters = tx_signal_parameters;
     }
 };
 

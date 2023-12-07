@@ -38,7 +38,7 @@
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/kongsbergalldatagraminterface.hpp"
 
-// #include "_sub/systeminformation.hpp"
+#include "_sub/systeminformation.hpp"
 #include "_sub/watercolumninformation.hpp"
 
 namespace themachinethatgoesping {
@@ -58,11 +58,9 @@ class KongsbergAllPingFileData
     std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
         std::make_shared<datagrams::RuntimeParameters>();
 
-    // using SystemInformation      = _sub::SystemInformation<KongsbergAllPingFileData>;
-
   private:
     std::shared_ptr<_sub::WaterColumnInformation> _watercolumninformation;
-    //  std::shared_ptr<SystemInformation>      _systeminformation;
+    std::shared_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
     void load_wci(bool force = false)
@@ -78,12 +76,13 @@ class KongsbergAllPingFileData
         if (sys_loaded() && !force)
             return;
 
-        //_systeminformation = std::make_shared<SystemInformation>(*this);
+        _systeminformation =
+            std::make_shared<_sub::SystemInformation>(read_first_datagram<datagrams::RawRangeAndAngle>());
     }
     void release_wci() { _watercolumninformation.reset(); }
-    void release_sys() {} //_systeminformation.reset(); }
+    void release_sys() { _systeminformation.reset(); }
     bool wci_loaded() { return _watercolumninformation != nullptr; }
-    bool sys_loaded() { return true; } // return _systeminformation != nullptr; }
+    bool sys_loaded() { return _systeminformation != nullptr; }
 
     const _sub::WaterColumnInformation& get_wcinfos()
     {
@@ -92,12 +91,12 @@ class KongsbergAllPingFileData
         return *_watercolumninformation;
     }
 
-    // const SystemInformation& get_sysinfos()
-    // {
-    //     load_sys();
+    const _sub::SystemInformation& get_sysinfos()
+    {
+        load_sys();
 
-    //     return *_systeminformation;
-    // }
+        return *_systeminformation;
+    }
 
   public:
     void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> arg)
