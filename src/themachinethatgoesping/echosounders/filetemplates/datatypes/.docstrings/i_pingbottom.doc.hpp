@@ -1,4 +1,4 @@
-//sourcehash: f00ae8423dcf64ce1a159c32205896c87b022e6516bfdd5b97b5ec1428f66914
+//sourcehash: 7ad6ee0572c3c38bdbc904232cb1e7a919e964bd0ee750a51c6f3d6067b778ba
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,8 @@ R"doc(Get the beam crosstrack angles for this ping in °
 Returns:
     xt::xtensor<float, 1>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
 R"doc(Get a beam selection object that selects all beams
 
@@ -81,6 +83,8 @@ R"doc(Get the two way travel times of the bottom detection samples
 
 Returns:
     xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
 R"doc(Get an XYZ object containing the XYZ position of the bottom detection

@@ -1,4 +1,4 @@
-//sourcehash: 640aedff2ebd851f398ae5b70742e7d7be9d995e3e0a1ae788b87dcf08e7db7a
+//sourcehash: 39114cfe5a2cc1485e2ec9c092694c992bbffddf63cbe72868f176d31e5480cc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -96,6 +96,8 @@ R"doc(Get the beam crosstrack angles for this ping in °
 Returns:
     xt::xtensor<float, 1>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_sample_selection_all =
 R"doc(Get beam sample selection that selects all beams and samples
 
@@ -140,6 +142,8 @@ R"doc(Get the sample interval in seconds
 
 Returns:
     float)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data

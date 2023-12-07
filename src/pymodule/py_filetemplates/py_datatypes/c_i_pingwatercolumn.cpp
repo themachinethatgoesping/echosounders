@@ -33,6 +33,14 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             "I_PingWatercolumn",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))
 
+            // ----- sector information -----
+            .def("get_tx_sector_per_beam",
+                 py::overload_cast<>(&I_PingWatercolumn::get_tx_sector_per_beam),
+                 DOC_I_PingWatercolumn(get_tx_sector_per_beam))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
+
             // ----- common variable access -----
             .def("get_sample_interval",
                  &I_PingWatercolumn::get_sample_interval,

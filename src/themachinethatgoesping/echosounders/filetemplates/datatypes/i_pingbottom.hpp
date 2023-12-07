@@ -77,6 +77,17 @@ class I_PingBottom : virtual public I_PingCommon
         register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
     }
 
+    // --- sector infos ---
+    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
+    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
     //------ interface / accessors -----
     // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
 

@@ -38,13 +38,13 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
-#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
@@ -62,7 +62,8 @@ namespace datatypes {
  * @class I_PingWatercolumn
  * @brief Interface for watercolumn ping data.
  *
- * This class represents an interface for accessing watercolumn ping data. It inherits from the I_PingCommon class and provides additional functions and variables specific to watercolumn pings.
+ * This class represents an interface for accessing watercolumn ping data. It inherits from the
+ * I_PingCommon class and provides additional functions and variables specific to watercolumn pings.
  */
 class I_PingWatercolumn : virtual public I_PingCommon
 {
@@ -94,13 +95,16 @@ class I_PingWatercolumn : virtual public I_PingCommon
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 
-    // --- transmit signal infos ---
-    /**
-     * @brief Get the transmit signal infos
-     *
-     * @return TxSignalInfos
-     */
-    //virtual TxSignalInfos get_tx_signal_infos() { throw not_implemented(__func__, class_name()); }
+    // --- sector infos ---
+    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
+    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    {
+        throw not_implemented(__func__, class_name());
+    }
 
     // ---  common variable access ---
     /**
@@ -226,7 +230,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
-     *    
+     *
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */

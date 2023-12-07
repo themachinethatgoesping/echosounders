@@ -85,6 +85,8 @@ class I_PingCommon
     {
         register_feature("tx_signal_parameters",
                          std::bind(&I_PingCommon::has_tx_signal_parameters, this));
+        register_feature("number_of_tx_sectors",
+                         std::bind(&I_PingCommon::has_tx_sector_information, this));
     }
     virtual ~I_PingCommon() = default;
 
@@ -100,7 +102,20 @@ class I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
+    /**
+     * @brief Get the number of transmission sectors.
+     * 
+     * This function returns the number of transmission sectors for the echosounder.
+     * 
+     * @return The number of transmission sectors.
+     */
+    virtual size_t get_number_of_tx_sectors()
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
     virtual bool has_tx_signal_parameters() const { return false; }
+    virtual bool has_tx_sector_information() const { return false; }
 
     // ----- generic features functions -----
 

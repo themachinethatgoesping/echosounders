@@ -66,6 +66,18 @@ class KongsbergAllPingBottom
     }
     virtual ~KongsbergAllPingBottom() = default;
 
+
+    // --- sector infos ---
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
     // ----- I_PingCommon interface -----
     void load([[maybe_unused]] bool force = false) override { _file_data->load_sys(force); }
     void release() override { _file_data->release_sys(); }

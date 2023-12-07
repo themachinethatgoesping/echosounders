@@ -33,6 +33,14 @@ void init_c_i_pingbottom(pybind11::module& m)
             "I_PingBottom",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingBottom))
 
+            // ----- sector information -----
+            .def("get_tx_sector_per_beam",
+                 py::overload_cast<>(&I_PingBottom::get_tx_sector_per_beam),
+                 DOC_I_PingBottom(get_tx_sector_per_beam))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<>(&I_PingBottom::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingBottom(get_beam_numbers_per_tx_sector))
+
             // ---- pingbottom interface ----
             .def("get_beam_selection_all",
                  py::overload_cast<>(&I_PingBottom::get_beam_selection_all),

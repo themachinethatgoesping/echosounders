@@ -68,6 +68,29 @@ class KongsbergAllPingWatercolumn
     }
     virtual ~KongsbergAllPingWatercolumn() = default;
 
+    // --- sector infos ---
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
+    {
+        file_data().get_wcinfos()->get_transmit_sector_numbers();
+    }
+
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
+    {
+        std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
+
+        auto sector_per_beam = get_tx_sector_per_beam();
+
+        for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
+        {
+            if (sector_per_beam[i] >= beam_numbers_per_tx_sector.size())
+                beam_numbers_per_tx_sector.resize(sector_per_beam[i] + 1);
+
+            beam_numbers_per_tx_sector[sector_per_beam[i]].push_back(i);
+        }
+
+        return beam_numbers_per_tx_sector;
+    }
+
     // ----- I_PingCommon interface -----
     void load(bool force = false) override
     {

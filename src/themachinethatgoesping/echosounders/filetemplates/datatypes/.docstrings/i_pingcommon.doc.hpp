@@ -1,4 +1,4 @@
-//sourcehash: 7774c62c88eec5296d0bbdc43f150f19d66c5018465581c1b14d73ceed44aa87
+//sourcehash: 55e678bde66b8545c8e5116aadbdcc04365c19ef05fbb631e3f48bb27349877a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,7 +57,21 @@ Parameter ``available``:
 Returns:
     std::string)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_tx_signal_parameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_number_of_tx_sectors =
+R"doc(Get the number of transmission sectors.
+
+This function returns the number of transmission sectors for the
+echosounder.
+
+Returns:
+    The number of transmission sectors.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_tx_signal_parameters =
+R"doc(Get the transmission signal parameters per sector.
+
+Returns:
+    const std::vector<algorithms::signalprocessing::datastructures::Tx
+    SignalParameters>&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_feature =
 R"doc(Check if any of the registered features is available
@@ -76,6 +90,8 @@ Returns:
 
 Returns:
     false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_tx_sector_information = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_tx_signal_parameters = R"doc()doc";
 
