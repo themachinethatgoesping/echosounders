@@ -101,10 +101,11 @@ class SystemInformation
 
         for (const auto& ts : transmit_sectors)
         {
-            GenericSignalParameters(ts.get_center_frequency(),
-                                    NAN,
-                                    NAN,
-                                    algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN);
+            tx_signal_parameters.push_back(GenericSignalParameters(
+                ts.get_center_frequency(),
+                NAN,
+                NAN,
+                algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
         }
 
         _tx_signal_parameters = tx_signal_parameters;
