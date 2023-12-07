@@ -94,6 +94,21 @@ class I_PingCommon
                          std::bind(&I_PingCommon::has_tx_sector_information, this),
                          false);
     }
+
+    // copy constructor
+    // do not copy features, they must be reregistered if the object is copied
+    // otherwise the functions will point to the old object
+    I_PingCommon([[maybe_unused]] const I_PingCommon& other)
+        //: _features(other._features)
+        //, _main_features(other._main_features)
+    {
+        register_feature("tx_signal_parameters",
+                         std::bind(&I_PingCommon::has_tx_signal_parameters, this),
+                         false);
+        register_feature("number_of_tx_sectors",
+                         std::bind(&I_PingCommon::has_tx_sector_information, this),
+                         false);
+    }
     virtual ~I_PingCommon() = default;
 
     // ----- interface functions -----
