@@ -59,10 +59,10 @@ class I_PingBottom : virtual public I_PingCommon
         : I_PingCommon()
     {
         register_feature("beam_crosstrack_angles",
-                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
+                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this), false);
         register_feature("two_way_travel_times",
-                         std::bind(&I_PingBottom::has_two_way_travel_times, this));
-        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
+                         std::bind(&I_PingBottom::has_two_way_travel_times, this), true);
+        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this), true);
     }
     virtual ~I_PingBottom() = default;
 
@@ -71,10 +71,10 @@ class I_PingBottom : virtual public I_PingCommon
         : I_PingCommon(other)
     {
         register_feature("beam_crosstrack_angles",
-                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
+                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this), false);
         register_feature("two_way_travel_times",
-                         std::bind(&I_PingBottom::has_two_way_travel_times, this));
-        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this));
+                         std::bind(&I_PingBottom::has_two_way_travel_times, this), true);
+        register_feature("xyz", std::bind(&I_PingBottom::has_xyz, this), true);
     }
 
     // --- sector infos ---

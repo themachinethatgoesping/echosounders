@@ -1,4 +1,4 @@
-//sourcehash: 55e678bde66b8545c8e5116aadbdcc04365c19ef05fbb631e3f48bb27349877a
+//sourcehash: 8481bb87dbd5e08a2637e788ba2e27199f36037a2c6eac33f1ec6cef8979fda7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -91,6 +91,15 @@ Returns:
 Returns:
     false)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_main_features =
+R"doc(Check if any of the registered main features is available
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_tx_sector_information = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_tx_signal_parameters = R"doc()doc";
@@ -98,6 +107,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_load = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_loaded = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_main_features =
+R"doc(Get a string of all registered main features for this ping class
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented = R"doc()doc";
 

@@ -79,7 +79,7 @@ class KongsbergAllPingBottom
     }
 
     // ----- I_PingCommon interface -----
-    void load([[maybe_unused]] bool force = false) override { _file_data->load_sys(force); }
+    void load(bool force = false) override { _file_data->load_sys(force); }
     void release() override { _file_data->release_sys(); }
     bool loaded() override { return _file_data->sys_loaded(); }
 

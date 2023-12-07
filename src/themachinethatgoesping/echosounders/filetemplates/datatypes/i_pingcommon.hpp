@@ -68,6 +68,7 @@ class I_PingCommon
 
     // map of features (names) and respective has_feature functions
     std::unordered_map<std::string, std::function<bool()>> _features;
+    std::unordered_map<std::string, std::function<bool()>> _main_features;
 
     /**
      * @brief Register a feature
@@ -75,25 +76,30 @@ class I_PingCommon
      * @param feature_name
      * @param has_feature
      */
-    void register_feature(std::string feature_name, std::function<bool()> has_feature)
+    void register_feature(std::string feature_name, std::function<bool()> has_feature, bool main)
     {
         _features[feature_name] = has_feature;
+
+        if (main)
+            _main_features[feature_name] = has_feature;
     }
 
   public:
     I_PingCommon()
     {
         register_feature("tx_signal_parameters",
-                         std::bind(&I_PingCommon::has_tx_signal_parameters, this));
+                         std::bind(&I_PingCommon::has_tx_signal_parameters, this),
+                         false);
         register_feature("number_of_tx_sectors",
-                         std::bind(&I_PingCommon::has_tx_sector_information, this));
+                         std::bind(&I_PingCommon::has_tx_sector_information, this),
+                         false);
     }
     virtual ~I_PingCommon() = default;
 
     // ----- interface functions -----
     /**
      * @brief Get the transmission signal parameters per sector.
-     *  
+     *
      * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
      */
     virtual const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
@@ -104,9 +110,9 @@ class I_PingCommon
 
     /**
      * @brief Get the number of transmission sectors.
-     * 
+     *
      * This function returns the number of transmission sectors for the echosounder.
-     * 
+     *
      * @return The number of transmission sectors.
      */
     virtual size_t get_number_of_tx_sectors()
@@ -128,6 +134,21 @@ class I_PingCommon
     bool has_features() const
     {
         for (const auto& [feature_name, has_feature] : _features)
+            if (has_feature())
+                return true;
+
+        return false;
+    }
+
+    /**
+     * @brief Check if any of the registered main features is available
+     *
+     * @return true
+     * @return false
+     */
+    bool has_main_features() const
+    {
+        for (const auto& [feature_name, has_feature] : _main_features)
             if (has_feature())
                 return true;
 
@@ -176,6 +197,25 @@ class I_PingCommon
         std::string features = "";
 
         for (const auto& [feature_name, has_feature] : _features)
+        {
+            if (!features.empty())
+                features += ", ";
+            features += feature_name;
+        }
+
+        return features;
+    }
+
+    /**
+     * @brief Get a string of all registered main features for this ping class
+     *
+     * @return std::string
+     */
+    std::string main_features() const
+    {
+        std::string features = "";
+
+        for (const auto& [feature_name, has_feature] : _main_features)
         {
             if (!features.empty())
                 features += ", ";

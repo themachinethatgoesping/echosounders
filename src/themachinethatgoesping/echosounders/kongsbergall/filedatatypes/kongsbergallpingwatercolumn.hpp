@@ -71,7 +71,7 @@ class KongsbergAllPingWatercolumn
     // --- sector infos ---
     xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
     {
-        file_data().get_wcinfos()->get_transmit_sector_numbers();
+        return file_data().get_wcinfos().get_transmit_sector_numbers();
     }
 
     std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override

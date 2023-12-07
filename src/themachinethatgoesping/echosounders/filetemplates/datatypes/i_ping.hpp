@@ -69,8 +69,8 @@ class I_Ping : virtual public I_PingCommon
     I_Ping()
         : I_PingCommon()
     {
-        register_feature("bottom", std::bind(&I_Ping::has_bottom, this));
-        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
+        register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
+        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
     }
     virtual ~I_Ping() = default;
 
@@ -81,8 +81,8 @@ class I_Ping : virtual public I_PingCommon
         , _timestamp(other._timestamp)
         , _geolocation(other._geolocation)
     {
-        register_feature("bottom", std::bind(&I_Ping::has_bottom, this));
-        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this));
+        register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
+        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
     }
 
     //------ interface / accessors -----
@@ -171,7 +171,7 @@ class I_Ping : virtual public I_PingCommon
     {
         try
         {
-            return bottom().has_features();
+            return bottom().has_main_features();
         }
         catch (const not_implemented& e)
         {
@@ -182,7 +182,7 @@ class I_Ping : virtual public I_PingCommon
     {
         try
         {
-            return watercolumn().has_features();
+            return watercolumn().has_main_features();
         }
         catch (const not_implemented& e)
         {

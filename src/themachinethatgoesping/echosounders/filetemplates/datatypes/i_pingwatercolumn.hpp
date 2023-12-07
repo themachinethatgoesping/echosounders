@@ -80,9 +80,10 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn()
         : I_PingCommon()
     {
-        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
+        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
         register_feature("bottom_range_sample",
-                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
+                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
+                         false);
     }
     virtual ~I_PingWatercolumn() = default;
 
@@ -90,9 +91,10 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn(const I_PingWatercolumn& other)
         : I_PingCommon(other)
     {
-        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this));
+        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
         register_feature("bottom_range_sample",
-                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
+                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
+                         false);
     }
 
     // --- sector infos ---
