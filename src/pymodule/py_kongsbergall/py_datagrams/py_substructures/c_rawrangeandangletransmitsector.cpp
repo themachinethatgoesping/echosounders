@@ -67,12 +67,12 @@ void init_c_rawrangeandangletransmitsector(pybind11::module& m)
         .def("get_sector_transmit_delay",
              &RawRangeAndAngleTransmitSector::get_sector_transmit_delay,
              DOC_RawRangeAndAngleTransmitSector(sector_transmit_delay))
-        .def("set_centre_frequency",
-             &RawRangeAndAngleTransmitSector::set_centre_frequency,
-             DOC_RawRangeAndAngleTransmitSector(centre_frequency))
-        .def("get_centre_frequency",
-             &RawRangeAndAngleTransmitSector::get_centre_frequency,
-             DOC_RawRangeAndAngleTransmitSector(centre_frequency))
+        .def("set_center_frequency",
+             &RawRangeAndAngleTransmitSector::set_center_frequency,
+             DOC_RawRangeAndAngleTransmitSector(center_frequency))
+        .def("get_center_frequency",
+             &RawRangeAndAngleTransmitSector::get_center_frequency,
+             DOC_RawRangeAndAngleTransmitSector(center_frequency))
         .def("set_mean_absorption_coefficient",
              &RawRangeAndAngleTransmitSector::set_mean_absorption_coefficient,
              DOC_RawRangeAndAngleTransmitSector(mean_absorption_coefficient))

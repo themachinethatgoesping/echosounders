@@ -56,7 +56,7 @@ class SystemInformation
         std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
             tx_signal_parameters;
 
-        auto transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+        const auto& transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
 
         for (const auto& ts : transmit_sectors)
         {
@@ -65,7 +65,7 @@ class SystemInformation
             switch (tx_signal_type)
             {
                 case t_TxSignalType::CW: {
-                    tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
+                    tx_signal_parameters.push_back(CWSignalParameters(ts.get_center_frequency(),
                                                                       ts.get_signal_bandwidth(),
                                                                       ts.get_signal_length()));
                     break;
@@ -73,7 +73,7 @@ class SystemInformation
                 case t_TxSignalType::FM_UP_SWEEP:
                     [[fallthrough]];
                 case t_TxSignalType::FM_DOWN_SWEEP: {
-                    tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency(),
+                    tx_signal_parameters.push_back(FMSignalParameters(ts.get_center_frequency(),
                                                                       ts.get_signal_bandwidth(),
                                                                       ts.get_signal_length(),
                                                                       tx_signal_type));
@@ -93,30 +93,14 @@ class SystemInformation
         std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
             tx_signal_parameters;
 
-        auto transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+        const auto& transmit_sectors = wci_infos.get_water_column_datagram().get_transmit_sectors();
 
         for (const auto& ts : transmit_sectors)
         {
-            auto tx_signal_type = ts.get_tx_signal_type();
-
-            switch (tx_signal_type)
-            {
-                case t_TxSignalType::CW: {
-                    tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
-                                                                      ts.get_signal_bandwidth(),
-                                                                      ts.get_signal_length()));
-                    break;
-                }
-                case t_TxSignalType::FM_UP_SWEEP:
-                    [[fallthrough]];
-                case t_TxSignalType::FM_DOWN_SWEEP: {
-                    tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency(),
-                                                                      ts.get_signal_bandwidth(),
-                                                                      ts.get_signal_length(),
-                                                                      tx_signal_type));
-                    break;
-                }
-            }
+            GenericSignalParameters(ts.get_center_frequency(),
+                                    NAN,
+                                    NAN,
+                                    algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN)
         }
 
         _tx_signal_parameters = tx_signal_parameters;

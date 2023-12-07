@@ -74,7 +74,7 @@ class SystemInformation
                 {
                     case TxSignalType::CW: {
                         _tx_signal_parameters.push_back(
-                            CWSignalParameters tx_signal_parameters(ts.get_centre_frequency(),
+                            CWSignalParameters tx_signal_parameters(ts.get_center_frequency(),
                                                                     ts.get_signal_bandwidth(),
                                                                     ts.get_signal_length()));
                     }

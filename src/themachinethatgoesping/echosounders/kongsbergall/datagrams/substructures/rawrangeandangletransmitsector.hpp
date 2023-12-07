@@ -40,7 +40,7 @@ class RawRangeAndAngleTransmitSector
     uint16_t _focus_range;                 ///< in 0.1m 0 = no focus applied
     float    _signal_length;               ///< in s
     float    _sector_transmit_delay;       ///< relative first TX pulse, in s
-    float    _centre_frequency;            ///< in Hz
+    float    _center_frequency;            ///< in Hz
     uint16_t _mean_absorption_coefficient; ///< in 0.01 dB/km
     uint8_t  _signal_waveform_identifier;
     uint8_t  _transmit_sector_number;
@@ -55,7 +55,7 @@ class RawRangeAndAngleTransmitSector
     uint16_t get_focus_range() const { return _focus_range; }
     float    get_signal_length() const { return _signal_length; }
     float    get_sector_transmit_delay() const { return _sector_transmit_delay; }
-    float    get_centre_frequency() const { return _centre_frequency; }
+    float    get_center_frequency() const { return _center_frequency; }
     uint16_t get_mean_absorption_coefficient() const { return _mean_absorption_coefficient; }
     uint8_t  get_signal_waveform_identifier() const { return _signal_waveform_identifier; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
@@ -68,7 +68,7 @@ class RawRangeAndAngleTransmitSector
     {
         _sector_transmit_delay = sector_transmit_delay;
     }
-    void set_centre_frequency(float centre_frequency) { _centre_frequency = centre_frequency; }
+    void set_center_frequency(float center_frequency) { _center_frequency = center_frequency; }
     void set_mean_absorption_coefficient(uint16_t mean_absorption_coefficient)
     {
         _mean_absorption_coefficient = mean_absorption_coefficient;
@@ -137,7 +137,7 @@ class RawRangeAndAngleTransmitSector
         printer.register_value("focus_range", _focus_range, "0.1m");
         printer.register_value("signal_length", _signal_length, "s");
         printer.register_value("sector_transmit_delay", _sector_transmit_delay, "s");
-        printer.register_value("centre_frequency", _centre_frequency, "Hz");
+        printer.register_value("center_frequency", _center_frequency, "Hz");
         printer.register_value(
             "mean_absorption_coefficient", _mean_absorption_coefficient, "0.01 dB/km");
         printer.register_value("signal_waveform_identifier", _signal_waveform_identifier);

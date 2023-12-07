@@ -1,4 +1,4 @@
-//sourcehash: 70ba4bc94ecfe266cd0eb85035a9e56fc54aa4a8881814221078b96805a1ebd1
+//sourcehash: 3a0d149cb6b70fd04c66d12927a074815091084f99916a3e8311c59decb98c07
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,11 +46,11 @@ depth and ray bending through the water column have been applied.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_RawRangeAndAngleTransmitSector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_centre_frequency = R"doc(< in Hz)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_center_frequency = R"doc(< in Hz)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_focus_range = R"doc(< in 0.1m 0 = no focus applied)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_centre_frequency = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_center_frequency = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_focus_range = R"doc()doc";
 
@@ -96,7 +96,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_sector_transmit_delay = R"doc(< relative first TX pulse, in s)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_set_centre_frequency = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_set_center_frequency = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_set_focus_range = R"doc()doc";
 
