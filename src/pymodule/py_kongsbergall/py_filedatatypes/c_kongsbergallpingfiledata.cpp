@@ -55,6 +55,11 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
                                                         filedatatypes,
                                                         KongsbergAllPingFileData))
 
+                   // --- substructure access ---
+                   .def("get_runtime_parameters",
+                        &t_KongsbergAllPingFileData::get_runtime_parameters,
+                        DOC_KongsbergAllPingFileData(get_runtime_parameters))
+
                    // --- file_data data access ---
                    .def("read_merged_watercolumndatagram",
                         &t_KongsbergAllPingFileData::read_merged_watercolumndatagram,

@@ -60,6 +60,10 @@ void py_create_class_kongsbergallpingdatainterfacePerFile(py::module& m, const s
                                                                   filedatainterfaces,
                                                                   KongsbergAllPingDataInterfacePerFile))
 
+            .def("get_deduplicated_runtime_parameters",
+                 &T_BaseClass::get_deduplicated_runtime_parameters,
+                 DOC_KongsbergAllPingDataInterfacePerFile(get_deduplicated_runtime_parameters))
+
         //
         ;
 

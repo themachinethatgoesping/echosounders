@@ -1,4 +1,4 @@
-//sourcehash: 54e850b49a2fe0bf0076dcf58b74b499281508c53bc784bd55c99b220e81336c
+//sourcehash: efc395cf673031c4af4eeed7dc8aba559391db76226d617e33625bc3237bba5e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ Parameter ``other``:
 KongsbergAllPing<t_ifstream>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_set_runtime_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_watercolumn = R"doc()doc";
 
