@@ -67,13 +67,15 @@ class SystemInformation
                     tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
                                                                       ts.get_signal_bandwidth(),
                                                                       ts.get_signal_length()));
+                    break;
                 }
                 case t_TxSignalType::FM_UP_SWEEP:
                     [[fallthrough]];
                 case t_TxSignalType::FM_DOWN_SWEEP: {
-                    throw std::runtime_error(
-                        "FM_UP_SWEEP and FM_DOWN_SWEEP transmit signal types are not "
-                        "supported yet");
+                    tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency(),
+                                                                      ts.get_signal_bandwidth(),
+                                                                      ts.get_signal_length(),
+                                                                      tx_signal_type));
                     break;
                 }
             }
