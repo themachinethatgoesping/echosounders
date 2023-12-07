@@ -67,17 +67,9 @@ class KongsbergAllPingBottom
     virtual ~KongsbergAllPingBottom() = default;
 
     // ----- I_PingCommon interface -----
-    void load([[maybe_unused]] bool force = false) override
-    {
-        // _watercolumninformation = std::make_shared<WaterColumnInformation>(_file_data);
-    }
-    void release() override
-    { //_watercolumninformation.reset();
-    }
-    bool loaded() override
-    { // return _watercolumninformation != nullptr;
-        return true;
-    }
+    void load([[maybe_unused]] bool force = false) override { _file_data->load_sys(force); }
+    void release() override { _file_data->release_sys(); }
+    bool loaded() override { return _file_data->sys_loaded(); }
 
     uint16_t get_number_of_beams() override
     {
