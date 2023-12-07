@@ -17,7 +17,6 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
-#include "../../filetemplates/helper/deduplicatebuffer.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
 #include "../datagrams.hpp"

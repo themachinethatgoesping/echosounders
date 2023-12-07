@@ -40,10 +40,6 @@ class KongsbergAllPingDataInterfacePerFile
         KongsbergAllEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::KongsbergAllPingContainer<t_ifstream>>;
 
-    filetemplates::helper::DeduplicateBuffer<datagrams::RuntimeParameters,
-                                             filetemplates::helper::ContentOnlyHash>
-        _runtime_parameter_buffer;
-
   public:
     KongsbergAllPingDataInterfacePerFile()
         : t_base("KongsbergAllPingDataInterfacePerFile")
@@ -56,8 +52,6 @@ class KongsbergAllPingDataInterfacePerFile
     {
     }
     ~KongsbergAllPingDataInterfacePerFile() = default;
-
-    auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer.get_all(); }
 
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings()
     {
@@ -82,43 +76,8 @@ class KongsbergAllPingDataInterfacePerFile
         {
             switch (type)
             {
-                case t_KongsbergAllDatagramIdentifier::RuntimeParameters: {
-
-                    for (const auto& datagram_ptr : datagram_infos)
-                    {
-                        auto rp = std::make_shared<datagrams::RuntimeParameters>(
-                            datagram_ptr
-                                ->template read_datagram_from_file<datagrams::RuntimeParameters>());
-                        _runtime_parameter_buffer.add(
-                            rp, std::to_string(rp->get_system_serial_number()));
-
-                        // read ping counter from not deduplicated datagram
-                        auto ping_counter         = rp->get_ping_counter();
-                        auto system_serial_number = rp->get_system_serial_number();
-
-                        // create a new ping if it does not exist
-                        auto ping_it =
-                            pings_by_counter_by_id[ping_counter].find(system_serial_number);
-                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
-                        {
-                            pings_by_counter_by_id[ping_counter][system_serial_number] =
-                                std::make_shared<t_ping>(base_ping.deep_copy());
-
-                            ping_it =
-                                pings_by_counter_by_id[ping_counter].find(system_serial_number);
-
-                            // ping_it->second->set_file_ping_counter(ping_counter);
-                        }
-
-                        // add deduplicated runtime parameters
-                        ping_it->second->set_runtime_parameters(_runtime_parameter_buffer.get(
-                            std::to_string(rp->get_system_serial_number())));
-
-                        // add runtime parameters datagram
-                        ping_it->second->add_datagram_info(datagram_ptr);
-                    }
-                    break;
-                }
+                case t_KongsbergAllDatagramIdentifier::RuntimeParameters: 
+                    [[fallthrough]];
                 case t_KongsbergAllDatagramIdentifier::XYZDatagram:
                     [[fallthrough]];
                 case t_KongsbergAllDatagramIdentifier::ExtraDetections:
