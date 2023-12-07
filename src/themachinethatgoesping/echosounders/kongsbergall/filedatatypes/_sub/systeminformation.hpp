@@ -79,6 +79,10 @@ class SystemInformation
                                                                       tx_signal_type));
                     break;
                 }
+                default:
+                    // this should not happen since the get_tx_signal_type should return a valid
+                    // type
+                    throw std::runtime_error("Unknown transmit signal type");
             }
         }
 
@@ -100,7 +104,7 @@ class SystemInformation
             GenericSignalParameters(ts.get_center_frequency(),
                                     NAN,
                                     NAN,
-                                    algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN)
+                                    algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN);
         }
 
         _tx_signal_parameters = tx_signal_parameters;
