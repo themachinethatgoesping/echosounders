@@ -24,6 +24,7 @@
 
 #include "../../datagrams.hpp"
 #include "../../types.hpp"
+#include "watercolumninformation.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -48,6 +49,43 @@ class SystemInformation
 
   public:
     SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
+    {
+        using algorithms::signalprocessing::types::t_TxSignalType;
+        using namespace algorithms::signalprocessing::datastructures;
+
+        std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+            tx_signal_parameters;
+
+        auto transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+
+        for (const auto& ts : transmit_sectors)
+        {
+            auto tx_signal_type = ts.get_tx_signal_type();
+
+            switch (tx_signal_type)
+            {
+                case t_TxSignalType::CW: {
+                    tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency(),
+                                                                      ts.get_signal_bandwidth(),
+                                                                      ts.get_signal_length()));
+                    break;
+                }
+                case t_TxSignalType::FM_UP_SWEEP:
+                    [[fallthrough]];
+                case t_TxSignalType::FM_DOWN_SWEEP: {
+                    tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency(),
+                                                                      ts.get_signal_bandwidth(),
+                                                                      ts.get_signal_length(),
+                                                                      tx_signal_type));
+                    break;
+                }
+            }
+        }
+
+        _tx_signal_parameters = tx_signal_parameters;
+    }
+
+    SystemInformation(const WaterColumnInformation& wci_infos)
     {
         using algorithms::signalprocessing::types::t_TxSignalType;
         using namespace algorithms::signalprocessing::datastructures;

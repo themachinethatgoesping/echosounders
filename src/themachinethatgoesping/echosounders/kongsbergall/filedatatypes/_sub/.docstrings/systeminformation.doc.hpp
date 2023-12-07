@@ -1,4 +1,4 @@
-//sourcehash: e24cfba18500bfb476382db5f59feae1471f1489662d9afe1aa55aff0ddfb558
+//sourcehash: 2375a6440d98136bc84df1e5025e0ecf12e79512f77f79a0c044b3e7b25bccc5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,8 @@ Note this is a private substructure and is thus not part of the public
 API or pybind11 interface.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
 

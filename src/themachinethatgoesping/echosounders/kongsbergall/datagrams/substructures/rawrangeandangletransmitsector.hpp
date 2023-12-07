@@ -119,7 +119,7 @@ class RawRangeAndAngleTransmitSector
             case 2:
                 return algorithms::signalprocessing::types::t_TxSignalType::FM_DOWN_SWEEP;
             default:
-                return algorithms::signalprocessing::types::t_TxSignalType::OTHER;
+                return algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN;
         }
     }
 
