@@ -113,6 +113,23 @@ class KongsbergAllPingFileData
         return *_runtime_parameters;
     }
 
+    bool has_datagram_type(t_KongsbergAllDatagramIdentifier datagram_identifier) const
+    {
+        return this->_datagram_infos_by_type.at_const(datagram_identifier).size() > 0;
+    }
+
+    bool has_any_of_datagram_types(
+        const std::vector<t_KongsbergAllDatagramIdentifier>& datagram_identifiers) const
+    {
+        for (const auto& datagram_identifier : datagram_identifiers)
+        {
+            if (this->has_datagram_type(datagram_identifier))
+                return true;
+        }
+
+        return false;
+    }
+
     datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
     {
         auto& datagram_infos =

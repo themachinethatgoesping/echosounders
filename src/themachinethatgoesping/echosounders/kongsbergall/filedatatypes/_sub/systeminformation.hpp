@@ -109,6 +109,13 @@ class SystemInformation
 
         _tx_signal_parameters = tx_signal_parameters;
     }
+
+    // ----- getters -----
+    const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+    get_tx_signal_parameters() const
+    {
+        return _tx_signal_parameters;
+    }
 };
 
 } // namespace substructures

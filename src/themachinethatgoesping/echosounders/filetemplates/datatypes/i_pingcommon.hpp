@@ -45,6 +45,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 
 #include "../../pingtools/beamsampleselection.hpp"
 
@@ -80,8 +82,19 @@ class I_PingCommon
   public:
     I_PingCommon()
     {
+        register_feature("tx_signal_parameters", std::bind(&I_PingCommon::has_tx_signal_parameters, this));
     }
     virtual ~I_PingCommon() = default;
+
+    // ----- interface functions -----
+    virtual const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>& get_tx_signal_parameters() const
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    virtual bool has_tx_signal_parameters() const { return false; }
+
+    // ----- generic features functions -----
 
     /**
      * @brief Check if any of the registered features is available

@@ -33,6 +33,13 @@ void init_c_i_pingcommon(pybind11::module& m)
             "I_PingCommon",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingCommon))
 
+            .def("has_tx_signal_parameters",
+                 &I_PingCommon::has_tx_signal_parameters,
+                 DOC_I_PingCommon(has_tx_signal_parameters))
+            .def("get_tx_signal_parameters",
+                 &I_PingCommon::get_tx_signal_parameters,
+                 DOC_I_PingCommon(get_tx_signal_parameters))
+
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),

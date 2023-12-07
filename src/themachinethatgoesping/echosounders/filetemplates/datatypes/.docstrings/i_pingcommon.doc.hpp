@@ -1,4 +1,4 @@
-//sourcehash: 8e7e95d580f2009e0b4f5e8c114f53022d44ecf1f0d6ab863121b35f5c5946e7
+//sourcehash: a7b74ef70ef3fb9e8c89d3a90fccd920aecf80546c35a55668b6a6a485f4cc57
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,6 +57,8 @@ Parameter ``available``:
 Returns:
     std::string)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_tx_signal_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_feature =
 R"doc(Check if any of the registered features is available
 
@@ -74,6 +76,8 @@ Returns:
 
 Returns:
     false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_load = R"doc()doc";
 
