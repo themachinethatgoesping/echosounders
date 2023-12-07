@@ -77,12 +77,11 @@ class KongsbergAllPingFileData
             return;
 
         if (has_datagram_type<datagrams::RawRangeAndAngle>())
-            _systeminformation =
-                std::make_shared<_sub::SystemInformation>(read_first_datagram<datagrams::RawRangeAndAngle>());
-                
-        else if (has_datagram_type<datagrams::WatercolumnDatagram>())
-            _systeminformation =
-                std::make_shared<_sub::SystemInformation>(get_wcinfos());
+            _systeminformation = std::make_shared<_sub::SystemInformation>(
+                read_first_datagram<datagrams::RawRangeAndAngle>());
+
+        else
+            _systeminformation = std::make_shared<_sub::SystemInformation>(get_wcinfos());
     }
     void release_wci() { _watercolumninformation.reset(); }
     void release_sys() { _systeminformation.reset(); }
