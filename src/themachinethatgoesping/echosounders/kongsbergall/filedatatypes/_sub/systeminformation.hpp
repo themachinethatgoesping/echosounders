@@ -52,7 +52,7 @@ struct _SYSInfos
 };
 
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
-std::size_t hash_value(const _SYSInfos& data)
+inline std::size_t hash_value(const _SYSInfos& data)
 {
     xxh::hash3_state_t<64>               hash;
     boost::iostreams::stream<XXHashSink> stream(hash);

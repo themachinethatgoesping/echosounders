@@ -140,11 +140,10 @@ class KongsbergAllPingWatercolumn
 
         auto beam_alongtrack_angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
         const auto& wcinfos         = _file_data->get_wcinfos();
-        const auto& wcidata         = wcinfos.get_water_column_datagram();
         const auto& transmit_sector_numbers = wcinfos.get_transmit_sector_numbers();
 
         std::vector<float> transmit_sector_angles;
-        for (const auto& ts : wcidata.get_transmit_sectors())
+        for (const auto& ts : wcinfos.get_transmit_sectors())
             transmit_sector_angles.push_back(ts.get_tilt_angle_in_degrees());
 
         for (unsigned int nr = 0; nr < beam_numbers.size(); ++nr)

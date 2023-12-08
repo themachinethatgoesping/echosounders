@@ -41,11 +41,6 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
                  DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
 
-            // ----- common variable access -----
-            .def("get_sample_interval",
-                 &I_PingWatercolumn::get_sample_interval,
-                 DOC_I_PingWatercolumn(get_sample_interval))
-
             // ---- pingwatercolumn interface ----
             .def("get_beam_selection_all",
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_selection_all),
