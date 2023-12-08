@@ -1,4 +1,4 @@
-//sourcehash: ca798e05c6f65a38c12fb74282d8c3db2a38711218830e41e232dd6af044e860
+//sourcehash: 20990ef2b457d878fdb6b353c969a636c12b5e76c50e0363a4f0604dc70ec3ce
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,6 +38,18 @@
 #endif
 
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_sampling_frequency_in_hz = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
 R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
 used to store information necessary to efficiently read water column
@@ -50,9 +62,14 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_sampling_frequency_in_hz = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_sys_infos = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

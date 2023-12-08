@@ -1,4 +1,4 @@
-//sourcehash: 2fd6cbb781a4d1de7ee9b4165c7f22218d7380ec2880b1f663d009c3134e9c8b
+//sourcehash: f0cc608e040edd21cd97fcddac012db9d86230804ba977e05e09837a18c232dd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,6 +67,12 @@ echosounder.
 
 Returns:
     The number of transmission sectors.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_sample_interval =
+R"doc(Get the sample interval in seconds
+
+Returns:
+    float)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_get_tx_signal_parameters =
 R"doc(Get the transmission signal parameters per sector.

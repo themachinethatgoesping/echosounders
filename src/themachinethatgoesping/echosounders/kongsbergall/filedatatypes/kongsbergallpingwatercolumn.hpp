@@ -112,13 +112,6 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_beam_crosstrack_angles().size();
     }
 
-    // common variable access
-    float get_sample_interval() override
-    {
-        return 1 /
-               _file_data->get_wcinfos().get_water_column_datagram().get_sampling_frequency_in_hz();
-    }
-
     // ----- getter/setters -----
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
@@ -229,7 +222,7 @@ class KongsbergAllPingWatercolumn
     {
         auto& wcinfos = _file_data->get_wcinfos();
 
-    auto amplitudes = xt::xtensor<float, 2>::from_shape(
+        auto amplitudes = xt::xtensor<float, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
 
         // samples.fill(std::numeric_limits<float>::quiet_NaN());

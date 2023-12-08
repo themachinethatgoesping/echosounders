@@ -51,6 +51,7 @@ struct _SYSInfos
     bool operator==(_SYSInfos const& other) const = default;
 };
 
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
 std::size_t hash_value(const _SYSInfos& data)
 {
     xxh::hash3_state_t<64>               hash;
