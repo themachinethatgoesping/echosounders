@@ -20,16 +20,19 @@ TEST_CASE("_WCIInfos reproduce precomputed hashes", TESTTAG)
 {
         _WCIInfos wcii;
 
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 495241482871176679);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 5377294635745409996ULL);
 
         wcii.sound_speed_at_transducer = 1500.0f;
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 3265208575908355811);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 11906803725422541395ULL);
 
         wcii.tvg_function_applied = 10;
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 6546545802866969296);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 10793065508294209563ULL);
 
         wcii.tvg_offset_in_db = 30;
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 6349861338966340202);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 17999953697931353017ULL);
+
+        wcii.sampling_frequency_in_hz = 23450.0f;
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 12384024258331840569ULL);
 
         themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::WatercolumnDatagramTransmitSector ts1,ts2;
         ts1.set_tilt_angle(10);
@@ -43,8 +46,8 @@ TEST_CASE("_WCIInfos reproduce precomputed hashes", TESTTAG)
         ts2.set_spare(2);
 
         wcii.transmit_sectors.push_back(ts1);
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 1321669163776458181);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 5612708217887030279ULL);
 
         wcii.transmit_sectors.push_back(ts2);
-        CHECK(boost::hash<_WCIInfos>{}(wcii) == 12086023559814157178);
+        CHECK(boost::hash<_WCIInfos>{}(wcii) == 4939658469529714773ULL);
 }
