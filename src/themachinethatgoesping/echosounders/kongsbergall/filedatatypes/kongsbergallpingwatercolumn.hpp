@@ -229,7 +229,7 @@ class KongsbergAllPingWatercolumn
     {
         auto& wcinfos = _file_data->get_wcinfos();
 
-        auto amplitudes = xt::xtensor<float, 2>::from_shape(
+    auto amplitudes = xt::xtensor<float, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
 
         // samples.fill(std::numeric_limits<float>::quiet_NaN());

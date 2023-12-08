@@ -1,4 +1,4 @@
-//sourcehash: 101042a761f5935601d7c5327c6e0651c256910a9f63c1b296c9fff7b4528288
+//sourcehash: 7ffa12014dbc3a01222d1f74512c459a45054b6ef0ecdbe9e7a39facee1f1970
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -147,6 +147,15 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_av =
+R"doc(Check this pings supports AV data
 
 Returns:
     true

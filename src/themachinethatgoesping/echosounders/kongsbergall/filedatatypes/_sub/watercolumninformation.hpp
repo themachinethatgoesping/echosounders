@@ -22,11 +22,51 @@
 #include "../../datagrams.hpp"
 #include "../../types.hpp"
 
+#include "../../../pingtools/readsamplerange.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
+
+struct _WCIInfos
+{
+    float   sound_speed_at_transducer = 0.0f;
+    uint8_t tvg_function_applied      = 0;
+    int8_t  tvg_offset_in_db          = 0;
+    std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> transmit_sectors;
+
+    _WCIInfos() = default;
+
+    _WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram)
+    {
+        sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
+        tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
+        tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
+
+        transmit_sectors = water_column_datagram.get_transmit_sectors();
+    }
+
+    bool operator ==(_WCIInfos const& other) const = default;
+};
+
+std::size_t hash_value(const _WCIInfos& data)
+{
+    xxh::hash3_state_t<64>               hash;
+    boost::iostreams::stream<XXHashSink> stream(hash);
+
+    stream.write(reinterpret_cast<const char*>(&data.sound_speed_at_transducer),
+                 sizeof(float) + sizeof(uint8_t) + sizeof(int8_t));
+
+    for (const auto& ts : data.transmit_sectors)
+    {
+        stream.write(reinterpret_cast<const char*>(&ts), sizeof(ts));
+    }
+
+    stream.flush();
+    return hash.digest();
+}
 
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
@@ -45,11 +85,12 @@ class WaterColumnInformation
     boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
     xt::xtensor<size_t, 1>                                 _sample_positions;
 
-    datagrams::WatercolumnDatagram
-        _water_column_datagram; // note, this will be saved without beams()
+    boost::flyweights::flyweight<_WCIInfos> _wci_infos;
+    // datagrams::WatercolumnDatagram
+    //     _water_column_datagram; // note, this will be saved without beams()
 
   public:
-    WaterColumnInformation(datagrams::WatercolumnDatagram water_column_datagram)
+    WaterColumnInformation(const datagrams::WatercolumnDatagram& water_column_datagram)
     {
         auto nbeams = water_column_datagram.get_beams().size();
 
@@ -82,8 +123,7 @@ class WaterColumnInformation
         _detected_range_in_samples  = std::move(detected_range_in_samples);
         _transmit_sector_numbers    = std::move(transmit_sector_numbers);
 
-        water_column_datagram.beams().clear();
-        _water_column_datagram = std::move(water_column_datagram);
+        _wci_infos = _WCIInfos(water_column_datagram);
     }
 
     template<typename t_ifstream>
@@ -121,13 +161,18 @@ class WaterColumnInformation
         return _transmit_sector_numbers.get();
     }
     const xt::xtensor<size_t, 1>&         get_sample_positions() const { return _sample_positions; }
-    const datagrams::WatercolumnDatagram& get_water_column_datagram() const
+
+    float   get_sound_speed_at_transducer() const { return _wci_infos.get().sound_speed_at_transducer; }
+    uint8_t get_tvg_function_applied() const { return _wci_infos.get().tvg_function_applied; }
+    int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().tvg_offset_in_db; }
+    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>& get_transmit_sectors()
+        const
     {
-        return _water_column_datagram;
+        return _wci_infos.get().transmit_sectors;
     }
 };
 
-} // namespace substructures
+} // namespace _sub
 } // namespace filedatatypes
 } // namespace kongsbergall
 } // namespace echosounders

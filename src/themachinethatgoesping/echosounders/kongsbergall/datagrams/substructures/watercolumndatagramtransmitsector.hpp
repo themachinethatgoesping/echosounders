@@ -58,6 +58,8 @@ class WatercolumnDatagramTransmitSector
     }
     void set_spare(uint8_t spare) { _spare = spare; }
 
+    // for hashing
+
     // ----- processed member access -----
     /**
      * @brief get the tilt angle in °

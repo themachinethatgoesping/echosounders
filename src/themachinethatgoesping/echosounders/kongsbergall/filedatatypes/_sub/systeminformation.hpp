@@ -97,7 +97,7 @@ class SystemInformation
         std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
             tx_signal_parameters;
 
-        const auto& transmit_sectors = wci_infos.get_water_column_datagram().get_transmit_sectors();
+        const auto& transmit_sectors = wci_infos.get_transmit_sectors();
 
         for (const auto& ts : transmit_sectors)
         {

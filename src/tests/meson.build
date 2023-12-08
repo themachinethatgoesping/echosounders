@@ -55,6 +55,8 @@ sources = [
     'kongsbergall/datagrams/extraparameters.test.cpp',
     'kongsbergall/datagrams/pustatusoutput.test.cpp',
     'kongsbergall/datagrams/puidoutput.test.cpp',
+
+    'kongsbergall/filedatatypes/_sub/_wciinfos.test.cpp',
 ]
 
 foreach source : sources

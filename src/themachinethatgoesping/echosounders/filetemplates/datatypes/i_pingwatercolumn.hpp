@@ -81,6 +81,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
         : I_PingCommon()
     {
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
+        register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
         register_feature("bottom_range_sample",
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
                          false);
@@ -92,6 +93,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
         : I_PingCommon(other)
     {
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
+        register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
         register_feature("bottom_range_sample",
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
                          false);
@@ -271,6 +273,14 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return false
      */
     virtual bool has_amplitudes() const { return false; }
+
+    /**
+     * @brief Check this pings supports AV data
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_av() const { return false; }
 
     /**
      * @brief Check this pings supports bottom range samples

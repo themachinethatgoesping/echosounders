@@ -33,7 +33,7 @@
 #include "datagrams/xyzdatagram.hpp"
 #include "types.hpp"
 
-#include <pybind11/pybind11.h>
+//#include <pybind11/pybind11.h>
 
 /**
  * @brief Type definitions for EM datagram format specifications
