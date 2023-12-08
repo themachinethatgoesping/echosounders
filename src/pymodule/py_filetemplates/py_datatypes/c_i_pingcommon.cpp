@@ -50,6 +50,14 @@ void init_c_i_pingcommon(pybind11::module& m)
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),
                  py::arg("available") = true)
+            .def("has_any_of_features",
+                 &I_PingCommon::has_any_of_features,
+                 DOC_I_PingCommon(has_any_of_features),
+                 py::arg("feature_names"))
+            .def("has_all_of_features",
+                 &I_PingCommon::has_all_of_features,
+                 DOC_I_PingCommon(has_all_of_features),
+                 py::arg("feature_names"))
             .def("has_features", &I_PingCommon::has_features, DOC_I_PingCommon(has_features))
             .def("has_main_features",
                  &I_PingCommon::has_main_features,
@@ -57,9 +65,7 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("registered_features",
                  &I_PingCommon::registered_features,
                  DOC_I_PingCommon(registered_features))
-            .def("main_features",
-                 &I_PingCommon::main_features,
-                 DOC_I_PingCommon(main_features))
+            .def("main_features", &I_PingCommon::main_features, DOC_I_PingCommon(main_features))
             .def("has_feature",
                  &I_PingCommon::has_feature,
                  DOC_I_PingCommon(has_feature),

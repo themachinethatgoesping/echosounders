@@ -1,4 +1,4 @@
-//sourcehash: b0d53cdcc3f9ee43833e42e68bca34db4d9ca42f18ec4c82c1a6e433a45befed
+//sourcehash: 2fd6cbb781a4d1de7ee9b4165c7f22218d7380ec2880b1f663d009c3134e9c8b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,6 +74,24 @@ R"doc(Get the transmission signal parameters per sector.
 Returns:
     const std::vector<algorithms::signalprocessing::datastructures::Tx
     SignalParameters>&)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_all_of_features =
+R"doc(Check if all of the specified features are available
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_any_of_features =
+R"doc(Check if any of the specified features is available
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_feature =
 R"doc(Check if any of the registered features is available

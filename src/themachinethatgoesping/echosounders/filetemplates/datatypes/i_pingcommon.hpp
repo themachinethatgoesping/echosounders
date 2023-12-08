@@ -156,6 +156,64 @@ class I_PingCommon
     }
 
     /**
+     * @brief Check if any of the specified features is available
+     *
+     * @return true
+     * @return false
+     */
+    bool has_any_of_features(const std::vector<std::string>& features) const
+    {
+        for (const auto& feature_name : features)
+        {
+            auto it = _features.find(feature_name);
+            if (it != _features.end())
+            {
+                if (it->second())
+                    return true;
+            }
+            else
+            {
+                throw std::runtime_error(fmt::format(
+                    "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
+                    class_name(),
+                    __func__,
+                    feature_name));
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @brief Check if all of the specified features are available
+     *
+     * @return true
+     * @return false
+     */
+    bool has_all_of_features(const std::vector<std::string>& features) const
+    {
+        for (const auto& feature_name : features)
+        {
+            auto it = _features.find(feature_name);
+            if (it != _features.end())
+            {
+                if (!it->second())
+                    return false;
+            }
+            else
+            {
+                throw std::runtime_error(fmt::format(
+                    "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
+                    class_name(),
+                    __func__,
+                    feature_name));
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @brief Check if any of the registered main features is available
      *
      * @return true
