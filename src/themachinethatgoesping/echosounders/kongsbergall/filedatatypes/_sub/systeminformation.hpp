@@ -19,6 +19,7 @@
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
+#include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 

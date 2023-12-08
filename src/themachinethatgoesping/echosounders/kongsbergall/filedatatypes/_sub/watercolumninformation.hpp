@@ -23,6 +23,7 @@
 #include "../../types.hpp"
 
 #include "../../../pingtools/readsamplerange.hpp"
+#include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -35,7 +36,7 @@ struct _WCIInfos
     float   sound_speed_at_transducer = 0.0f;
     uint8_t tvg_function_applied      = 0;
     int8_t  tvg_offset_in_db          = 0;
-    float sampling_frequency_in_hz = 0.0f;
+    float   sampling_frequency_in_hz  = 0.0f;
     std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> transmit_sectors;
 
     _WCIInfos() = default;
@@ -45,12 +46,12 @@ struct _WCIInfos
         sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
         tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
         tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
-        sampling_frequency_in_hz          = water_column_datagram.get_sampling_frequency_in_hz();
+        sampling_frequency_in_hz  = water_column_datagram.get_sampling_frequency_in_hz();
 
         transmit_sectors = water_column_datagram.get_transmit_sectors();
     }
 
-    bool operator ==(_WCIInfos const& other) const = default;
+    bool operator==(_WCIInfos const& other) const = default;
 };
 
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
@@ -163,13 +164,16 @@ class WaterColumnInformation
     {
         return _transmit_sector_numbers.get();
     }
-    const xt::xtensor<size_t, 1>&         get_sample_positions() const { return _sample_positions; }
+    const xt::xtensor<size_t, 1>& get_sample_positions() const { return _sample_positions; }
 
-    float   get_sound_speed_at_transducer() const { return _wci_infos.get().sound_speed_at_transducer; }
+    float get_sound_speed_at_transducer() const
+    {
+        return _wci_infos.get().sound_speed_at_transducer;
+    }
     uint8_t get_tvg_function_applied() const { return _wci_infos.get().tvg_function_applied; }
     int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().tvg_offset_in_db; }
-    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>& get_transmit_sectors()
-        const
+    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
+    get_transmit_sectors() const
     {
         return _wci_infos.get().transmit_sectors;
     }
