@@ -29,12 +29,12 @@ template<typename T_type, size_t dim>
 void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
 {
     using t_tensor = xt::pytensor<T_type, dim>;
+    using t_class  = KongsbergAllAmpltitudeConverter<t_tensor>;
 
     std::string name =
         fmt::format("KongsbergAllAmpltitudeConverter_{}d_{}", dim, typeid(T_type).name());
 
-    py::class_<KongsbergAllAmpltitudeConverter<t_tensor>,
-               std::shared_ptr<KongsbergAllAmpltitudeConverter<t_tensor>>>(
+    py::class_<t_class, std::shared_ptr<t_class>>(
         m,
         name.c_str(),
         DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllAmpltitudeConverter))
@@ -63,71 +63,70 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
 
         // --- setters ---
         .def("set_range_factor",
-             py::overload_cast<t_tensor, float, float, float>(
-                 &KongsbergAllAmpltitudeConverter::set_range_factor),
+             py::overload_cast<const t_tensor&, float, float, float>(&t_class::set_range_factor),
              py::arg("sample_numbers"),
              py::arg("sample_interval"),
              py::arg("sound_velocity"),
              py::arg("X"),
              DOC_KongsbergAllAmpltitudeConverter(set_range_factor))
         .def("set_range_factor",
-             py::overload_cast<t_tensor, float>(&KongsbergAllAmpltitudeConverter::set_range_factor),
+             py::overload_cast<const t_tensor&, float>(&t_class::set_range_factor),
              py::arg("ranges"),
              py::arg("X"),
              DOC_KongsbergAllAmpltitudeConverter(set_range_factor_2))
         .def("set_pulse_factor",
-             py::overload_cast<float, float>(&KongsbergAllAmpltitudeConverter::set_pulse_factor),
+             py::overload_cast<float, float>(&t_class::set_pulse_factor),
              py::arg("sound_velocity"),
              py::arg("effective_pulse_length"),
              DOC_KongsbergAllAmpltitudeConverter(set_pulse_factor))
         .def("set_pulse_factor",
-             py::overload_cast<t_tensor, float>(&KongsbergAllAmpltitudeConverter::set_pulse_factor),
+             py::overload_cast<const t_tensor&, float>(&t_class::set_pulse_factor),
              py::arg("sound_velocity"),
              py::arg("effective_pulse_length"),
              DOC_KongsbergAllAmpltitudeConverter(set_pulse_factor_2))
         .def("set_static_factor",
-             py::overload_cast<float>(&KongsbergAllAmpltitudeConverter::set_static_factor),
+             py::overload_cast<float>(&t_class::set_static_factor),
              py::arg("system_gain_offset"),
              DOC_KongsbergAllAmpltitudeConverter(set_static_factor))
 
         // --- getters ---
-        .def("get_total_factor",
-             &KongsbergAllAmpltitudeConverter::get_total_factor,
-             DOC_KongsbergAllAmpltitudeConverter(get_total_factor))
+        .def("get_total_compensation_factor",
+             &t_class::get_total_compensation_factor,
+             DOC_KongsbergAllAmpltitudeConverter(get_total_compensation_factor))
         .def("get_range_factor",
-             &KongsbergAllAmpltitudeConverter::get_range_factor,
+             &t_class::get_range_factor,
              DOC_KongsbergAllAmpltitudeConverter(get_range_factor))
         .def("get_pulse_factor",
-             &KongsbergAllAmpltitudeConverter::get_pulse_factor,
+             &t_class::get_pulse_factor,
              DOC_KongsbergAllAmpltitudeConverter(get_pulse_factor))
         .def("get_static_factor",
-             &KongsbergAllAmpltitudeConverter::get_static_factor,
+             &t_class::get_static_factor,
              DOC_KongsbergAllAmpltitudeConverter(get_static_factor))
 
         // --- operators ---
         .def("__call__",
-             &KongsbergAllAmpltitudeConverter::operator(),
+             &t_class::operator(),
              DOC_KongsbergAllAmpltitudeConverter(operator_call),
              py::arg("amplitudes"))
 
         .def("__eq__",
-             &KongsbergAllAmpltitudeConverter::operator==,
+             &t_class::operator==,
              DOC_KongsbergAllAmpltitudeConverter(operator_eq),
              py::arg("other"))
 
         // ----- operators -----
         .def("__eq__",
-             &KongsbergAllAmpltitudeConverter::operator==,
+             &t_class::operator==,
              DOC_KongsbergAllAmpltitudeConverter(operator_eq),
              py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
-        // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
-        // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
-        // end LinearInterpolator
+        //    __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
+        //    // default binary functions
+        //    __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
+        //    // default printing functions
+        //    __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
+        //    // end LinearInterpolator
         ;
 }
 

@@ -46,34 +46,34 @@ class KongsbergAllAmpltitudeConverter
     bool _total_factor_is_computed = false;
 
   public:
-    KongsbergAllAmpltitudeConverter(T_xt  sample_numbers,
-                                    float sample_interval,
-                                    float X,
-                                    float effective_pulse_length,
-                                    float sound_velocity,
-                                    float GOFF)
+    KongsbergAllAmpltitudeConverter(const T_xt& sample_numbers,
+                                    float       sample_interval,
+                                    float       X,
+                                    float       effective_pulse_length,
+                                    float       sound_velocity,
+                                    float       GOFF)
     {
         set_range_factor(sample_numbers, sample_interval, sound_velocity, X);
         set_pulse_factor(sound_velocity, effective_pulse_length);
         set_static_factor(GOFF);
     }
 
-    KongsbergAllAmpltitudeConverter(T_xt  ranges,
-                                    float X,
-                                    float effective_pulse_length,
-                                    float sound_velocity,
-                                    float GOFF)
+    KongsbergAllAmpltitudeConverter(const T_xt& ranges,
+                                    float       X,
+                                    float       effective_pulse_length,
+                                    float       sound_velocity,
+                                    float       GOFF)
     {
         set_range_factor(ranges, X);
         set_pulse_factor(sound_velocity, effective_pulse_length);
         set_static_factor(GOFF);
     }
 
-    KongsbergAllAmpltitudeConverter(T_xt  ranges,
-                                    float X,
-                                    float effective_pulse_length,
-                                    T_xt  sound_velocity,
-                                    float GOFF)
+    KongsbergAllAmpltitudeConverter(const T_xt& ranges,
+                                    float       X,
+                                    float       effective_pulse_length,
+                                    const T_xt& sound_velocity,
+                                    float       GOFF)
     {
         set_range_factor(ranges, X);
         set_pulse_factor(sound_velocity, effective_pulse_length);
@@ -158,7 +158,7 @@ class KongsbergAllAmpltitudeConverter
     bool  get_sound_velocity_is_array() { return _sound_velocity_is_array; }
 
     // ----- operators -----
-    void operator()(const T_xt& amplitudes)
+    T_xt operator()(const T_xt& amplitudes)
     {
         return xt::eval(amplitudes * 0.5) + get_total_compensation_factor();
     }
