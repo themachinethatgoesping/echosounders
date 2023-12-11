@@ -199,6 +199,14 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_sample_positions();
     }
 
+    float get_sound_speed_at_transducer() override
+    {
+        return _file_data->get_wcinfos().get_sound_speed_at_transducer();
+    }
+
+    uint8_t get_tvg_function_applied() const { return _file_data->get_wcinfos().get_tvg_function_applied();}
+    int8_t  get_tvg_offset() const { return _file_data->get_wcinfos().get_tvg_offset_in_db();}
+
     // ----- I_PingWatercolumn interface -----
     // using t_base1::has_amplitudes;
     using t_base2::file_data;

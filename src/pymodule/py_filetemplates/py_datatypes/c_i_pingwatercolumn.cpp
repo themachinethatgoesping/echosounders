@@ -81,6 +81,11 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                      &I_PingWatercolumn::get_number_of_samples_per_beam),
                  DOC_I_PingWatercolumn(get_number_of_samples_per_beam_2))
 
+            // ----- common parameters -----
+            .def("get_sound_speed_at_transducer",
+                 &I_PingWatercolumn::get_sound_speed_at_transducer,
+                 DOC_I_PingWatercolumn(get_sound_speed_at_transducer))
+
             // ----- features -----
             .def("has_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),

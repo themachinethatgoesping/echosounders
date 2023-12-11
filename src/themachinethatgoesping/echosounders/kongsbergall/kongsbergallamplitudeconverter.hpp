@@ -48,54 +48,54 @@ class KongsbergAllAmpltitudeConverter
   public:
     KongsbergAllAmpltitudeConverter(const T_xt& sample_numbers,
                                     float       sample_interval,
-                                    float       X,
+                                    float       tvg_factor_applied,
                                     float       effective_pulse_length,
                                     float       sound_velocity,
-                                    float       GOFF)
+                                    float       tvg_offset)
     {
-        set_range_factor(sample_numbers, sample_interval, sound_velocity, X);
+        set_range_factor(sample_numbers, sample_interval, sound_velocity, tvg_factor_applied);
         set_pulse_factor(sound_velocity, effective_pulse_length);
-        set_static_factor(GOFF);
+        set_static_factor(tvg_offset);
     }
 
     KongsbergAllAmpltitudeConverter(const T_xt& ranges,
-                                    float       X,
+                                    float       tvg_factor_applied,
                                     float       effective_pulse_length,
                                     float       sound_velocity,
-                                    float       GOFF)
+                                    float       tvg_offset)
     {
-        set_range_factor(ranges, X);
+        set_range_factor(ranges, tvg_factor_applied);
         set_pulse_factor(sound_velocity, effective_pulse_length);
-        set_static_factor(GOFF);
+        set_static_factor(tvg_offset);
     }
 
     KongsbergAllAmpltitudeConverter(const T_xt& ranges,
-                                    float       X,
+                                    float       tvg_factor_applied,
                                     float       effective_pulse_length,
                                     const T_xt& sound_velocity,
-                                    float       GOFF)
+                                    float       tvg_offset)
     {
-        set_range_factor(ranges, X);
+        set_range_factor(ranges, tvg_factor_applied);
         set_pulse_factor(sound_velocity, effective_pulse_length);
-        set_static_factor(GOFF);
+        set_static_factor(tvg_offset);
     }
 
     // ----- setters -----
     void set_range_factor(const T_xt& sample_numbers,
                           float       sample_interval,
                           float       sound_velocity,
-                          float       X)
+                          float       tvg_factor_applied)
     {
-        float tmp    = 20 - X; // switching (X-20) to makes the factor negative
+        float tmp    = 20 - tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
         float tmp_2  = sound_velocity * sample_interval * 0.5;
         auto  ranges = _range_factor =
             xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
         _total_factor_is_computed = false;
     }
 
-    void set_range_factor(const T_xt& ranges, float X)
+    void set_range_factor(const T_xt& ranges, float tvg_factor_applied)
     {
-        float tmp                 = 20 - X; // switching (X-20) to makes the factor negative
+        float tmp                 = 20 - tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
         _range_factor             = xt::eval(tmp * xt::eval(xt::log10(ranges)));
         _total_factor_is_computed = false;
     }
@@ -116,29 +116,35 @@ class KongsbergAllAmpltitudeConverter
         _total_factor_is_computed = false;
     }
 
-    void set_static_factor(float GOFF)
+    void set_static_factor(float tvg_offset)
     {
-        _static_factor            = -GOFF;
+        _static_factor            = -tvg_offset;
         _total_factor_is_computed = false;
+    }
+
+    // ----- compute ------
+    void compute_total_compensation_factor()
+    {
+        if (_total_factor_is_computed)
+            return;
+
+        if (_sound_velocity_is_array)
+        {
+            _total_factor =
+                xt::eval(xt::eval(_range_factor + _pulse_factor_array) + _static_factor);
+        }
+        else
+        {
+            _total_factor = xt::eval(_range_factor + (_pulse_factor_val + _static_factor));
+        }
+
+        _total_factor_is_computed = true;
     }
 
     // ----- getters -----
     T_xt get_total_compensation_factor()
     {
-        if (!_total_factor_is_computed)
-        {
-            if (_sound_velocity_is_array)
-            {
-                _total_factor =
-                    xt::eval(xt::eval(_range_factor + _pulse_factor_array) + _static_factor);
-            }
-            else
-            {
-                _total_factor = xt::eval(_range_factor + (_pulse_factor_val + _static_factor));
-            }
-
-            _total_factor_is_computed = true;
-        }
+        compute_total_compensation_factor();
         return _total_factor;
     }
 

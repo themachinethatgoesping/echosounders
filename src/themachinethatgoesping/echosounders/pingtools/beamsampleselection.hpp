@@ -266,7 +266,15 @@ class BeamSampleSelection : public BeamSelection
                                  _sample_step_ensemble);
 
         // return copy of sample_numbers_ensemble for each beam as 2d array
-        return xt::tile(sample_numbers_ensemble, get_number_of_beams());
+        xt::xtensor<uint16_t, 2> sample_numbers_ensemble_2d = xt::xtensor<uint16_t, 2>::from_shape(
+            { get_number_of_beams(), get_number_of_samples_ensemble() });
+
+        for (uint16_t bn = 0 ; bn <  get_number_of_beams(); ++bn)
+        {
+            xt::view(sample_numbers_ensemble_2d, bn) = sample_numbers_ensemble;
+        }
+
+        return sample_numbers_ensemble_2d;
     }
 
     std::vector<uint16_t> get_sample_numbers_as_vector() const

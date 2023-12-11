@@ -41,24 +41,24 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
         .def(py::init<t_tensor, float, float, float, float, float>(),
              py::arg("sample_numbers"),
              py::arg("sample_interval"),
-             py::arg("X"),
+             py::arg("tvg_factor_applied"),
              py::arg("effective_pulse_length"),
              py::arg("sound_velocity"),
-             py::arg("GOFF"),
+             py::arg("tvg_offset"),
              DOC_KongsbergAllAmpltitudeConverter(KongsbergAllAmpltitudeConverter))
         .def(py::init<t_tensor, float, float, float, float>(),
              py::arg("ranges"),
-             py::arg("X"),
+             py::arg("tvg_factor_applied"),
              py::arg("effective_pulse_length"),
              py::arg("sound_velocity"),
-             py::arg("GOFF"),
+             py::arg("tvg_offset"),
              DOC_KongsbergAllAmpltitudeConverter(KongsbergAllAmpltitudeConverter_2))
         .def(py::init<t_tensor, float, float, t_tensor, float>(),
              py::arg("ranges"),
-             py::arg("X"),
+             py::arg("tvg_factor_applied"),
              py::arg("effective_pulse_length"),
              py::arg("sound_velocity"),
-             py::arg("GOFF"),
+             py::arg("tvg_offset"),
              DOC_KongsbergAllAmpltitudeConverter(KongsbergAllAmpltitudeConverter_3))
 
         // --- setters ---
@@ -67,12 +67,12 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
              py::arg("sample_numbers"),
              py::arg("sample_interval"),
              py::arg("sound_velocity"),
-             py::arg("X"),
+             py::arg("tvg_factor_applied"),
              DOC_KongsbergAllAmpltitudeConverter(set_range_factor))
         .def("set_range_factor",
              py::overload_cast<const t_tensor&, float>(&t_class::set_range_factor),
              py::arg("ranges"),
-             py::arg("X"),
+             py::arg("tvg_factor_applied"),
              DOC_KongsbergAllAmpltitudeConverter(set_range_factor_2))
         .def("set_pulse_factor",
              py::overload_cast<float, float>(&t_class::set_pulse_factor),
@@ -113,6 +113,10 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
              &t_class::operator==,
              DOC_KongsbergAllAmpltitudeConverter(operator_eq),
              py::arg("other"))
+
+        .def("compute_total_compensation_factor",
+             &t_class::compute_total_compensation_factor,
+             DOC_KongsbergAllAmpltitudeConverter(compute_total_compensation_factor))
 
         // ----- operators -----
         .def("__eq__",

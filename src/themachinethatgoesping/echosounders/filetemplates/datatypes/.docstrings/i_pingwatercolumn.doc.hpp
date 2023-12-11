@@ -1,4 +1,4 @@
-//sourcehash: b8d9a7293bb5f5f59e2f2e2dcc1fbe67d6a6c76bd4977fc2d068a4927104845b
+//sourcehash: 9906d0b5bfa052cfb0abb181138b44b784d4ce958fd51d1d0df7d31d1c08d9d4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -136,6 +136,8 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 24d554307bd26d8edde32b08409a0e7611d579ca37cb5414e60f184e2aac523d
+//sourcehash: 4f6634f81fdc37e5cb1996d2e82945dedb146b2c43af909a6ca0f8cd2805950e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_Kongsb
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllAmpltitudeConverter_KongsbergAllAmpltitudeConverter_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllAmpltitudeConverter_KongsbergAllAmpltitudeConverter_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllAmpltitudeConverter_compute_total_compensation_factor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllAmpltitudeConverter_get_pulse_factor = R"doc()doc";
 

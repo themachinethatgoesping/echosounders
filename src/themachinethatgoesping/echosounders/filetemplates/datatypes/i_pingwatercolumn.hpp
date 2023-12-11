@@ -187,6 +187,11 @@ class I_PingWatercolumn : virtual public I_PingCommon
         throw not_implemented(__func__, class_name());
     }
 
+    virtual float get_sound_speed_at_transducer()
+    {
+        throw not_implemented(__func__, class_name());
+    }
+
     /**
      * @brief Get beam sample selection that selects all beams and samples
      *
