@@ -86,16 +86,19 @@ class KongsbergAllAmpltitudeConverter
                           float       sound_velocity,
                           float       tvg_factor_applied)
     {
-        float tmp    = 20 - tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
-        float tmp_2  = sound_velocity * sample_interval * 0.5;
-        auto  ranges = _range_factor =
-            xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
+        float tmp =
+            20 -
+            tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
+        float tmp_2         = sound_velocity * sample_interval * 0.5;
+        auto  _range_factor = xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
         _total_factor_is_computed = false;
     }
 
     void set_range_factor(const T_xt& ranges, float tvg_factor_applied)
     {
-        float tmp                 = 20 - tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
+        float tmp =
+            20 -
+            tvg_factor_applied; // switching (tvg_factor_applied-20) to makes the factor negative
         _range_factor             = xt::eval(tmp * xt::eval(xt::log10(ranges)));
         _total_factor_is_computed = false;
     }

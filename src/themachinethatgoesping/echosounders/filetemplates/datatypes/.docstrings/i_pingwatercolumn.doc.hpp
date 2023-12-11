@@ -1,4 +1,4 @@
-//sourcehash: 9906d0b5bfa052cfb0abb181138b44b784d4ce958fd51d1d0df7d31d1c08d9d4
+//sourcehash: 6b51761d9bd944240b26a105379334588a3cdb66c574f9c3782637b6171ce43b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,6 +65,23 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_amplitudes_2 =
 R"doc(Get tha raw water amplitude data converted to float(32bit)
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_av =
+R"doc(Get tha amplitude data converted to AV (uncalibrated volume
+scattering)
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_av_2 =
+R"doc(Get tha amplitude data converted to AV (uncalibrated volume
+scattering)
 
 Parameter ``selection``:
     Selection of Beams and Samples to extract

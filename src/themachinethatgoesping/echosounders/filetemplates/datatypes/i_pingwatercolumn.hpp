@@ -232,12 +232,34 @@ class I_PingWatercolumn : virtual public I_PingCommon
     }
 
     /**
+     * @brief Get tha amplitude data converted to AV (uncalibrated volume scattering)
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_av()
+    {
+        return get_av(get_beam_sample_selection_all());
+    }
+
+    /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
      *
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_amplitudes(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get tha amplitude data converted to AV (uncalibrated volume scattering)
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_av(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
         throw not_implemented(__func__, this->class_name());

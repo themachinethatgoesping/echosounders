@@ -204,8 +204,11 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_sound_speed_at_transducer();
     }
 
-    uint8_t get_tvg_function_applied() const { return _file_data->get_wcinfos().get_tvg_function_applied();}
-    int8_t  get_tvg_offset() const { return _file_data->get_wcinfos().get_tvg_offset_in_db();}
+    uint8_t get_tvg_function_applied() const
+    {
+        return _file_data->get_wcinfos().get_tvg_function_applied();
+    }
+    int8_t get_tvg_offset() const { return _file_data->get_wcinfos().get_tvg_offset_in_db(); }
 
     // ----- I_PingWatercolumn interface -----
     // using t_base1::has_amplitudes;
@@ -275,6 +278,42 @@ class KongsbergAllPingWatercolumn
         }
 
         return amplitudes;
+    }
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    {
+        auto& wcinfos = _file_data->get_wcinfos();
+
+        auto  amplitudes     = get_amplitudes(bs);
+        float sound_velocity = get_sound_speed_at_transducer();
+
+        // compute range factor (per sample)
+        auto  sample_numbers = bs.get_sample_numbers_ensemble();
+        float tmp            = get_tvg_factor_applied() - 20;
+        float tmp_2          = sound_velocity * get_sample_interval() * 0.5;
+        auto  _range_factor = xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
+
+        // compute pulse factor (per beam)
+        xt::xtensor<float, 1> _pulse_factor =
+            xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
+        auto        signal_parameters       = get_tx_signal_parameters();
+        const auto& beam_numbers            = bs.get_beam_numbers();
+        auto        sector_numbers_per_beam = get_tx_sector_per_beam();
+
+        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+        {
+            _pulse_factor[bi] =
+                std::log10(sound_velocity *
+                           signal_parameters[sector_numbers_per_beam[beam_numbers[bi]]]
+                               .effective_pulse_duration *
+                           0.5);
+        }
+
+        // apply factors
+        xt::xtensor<float, 2> av = xt::eval(amplitudes - _range_factor);
+        av                       = xt::eval(av - _pulse_factor);
+        av                       = xt::eval(av - get_tvg_offset());
+
+        return av;
     }
 
     xt::xtensor<uint16_t, 1> get_bottom_range_samples(

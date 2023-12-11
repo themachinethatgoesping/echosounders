@@ -90,6 +90,9 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("has_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),
                  DOC_I_PingWatercolumn(has_amplitudes))
+            .def("has_av",
+                 py::overload_cast<>(&I_PingWatercolumn::has_av, py::const_),
+                 DOC_I_PingWatercolumn(has_av))
             .def("get_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::get_amplitudes),
                  DOC_I_PingWatercolumn(get_amplitudes))
@@ -97,6 +100,14 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  py::overload_cast<const pingtools::BeamSampleSelection&>(
                      &I_PingWatercolumn::get_amplitudes),
                  DOC_I_PingWatercolumn(get_amplitudes),
+                 py::arg("beam_selection"))
+            .def("get_av",
+                 py::overload_cast<>(&I_PingWatercolumn::get_av),
+                 DOC_I_PingWatercolumn(get_av))
+            .def("get_av",
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
+                     &I_PingWatercolumn::get_av),
+                 DOC_I_PingWatercolumn(get_av),
                  py::arg("beam_selection"))
 
             .def("has_bottom_range_samples",
