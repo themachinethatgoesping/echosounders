@@ -32,6 +32,7 @@ namespace py_kongsbergall {
 
 // -- submodule declarations --
 void init_c_kongsbergallfilehandler(pybind11::module& m); // c_kongsbergallfilehandler.cpp
+void init_c_kongsbergallamplitudeconverter(pybind11::module& m); // c_kongsbergallamplitudeconverter.cpp
 
 // void init_c_file_test_functions(pybind11::module& m); // c_file_test_functions.cpp
 
@@ -237,6 +238,7 @@ void init_m_kongsbergall(pybind11::module& m)
 
     // kongsbergall classes
     init_c_kongsbergallfilehandler(subm);
+    init_c_kongsbergallamplitudeconverter(subm);
 
     // init_c_file_test_functions(subm);
 }

@@ -148,6 +148,7 @@ sources = [
     'py_kongsbergall/py_filedatatypes/c_kongsbergallping.cpp',
     'py_kongsbergall/module.cpp',
     'py_kongsbergall/c_kongsbergallfilehandler.cpp',
+    'py_kongsbergall/c_kongsbergallamplitudeconverter.cpp',
 ]
 
 # define python module
