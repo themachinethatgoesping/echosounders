@@ -49,7 +49,7 @@ void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::strin
         // --- pingwatercolumn interface extension ---
 
         // --- variable access ---
-        .def("get_tvg_function_applied", &t_KongsbergAllPingWatercolumn::get_tvg_function_applied, DOC_KongsbergAllPing(get_tvg_function_applied))
+        .def("get_tvg_factor_applied", &t_KongsbergAllPingWatercolumn::get_tvg_factor_applied, DOC_KongsbergAllPing(get_tvg_factor_applied))
         .def("get_tvg_offset", &t_KongsbergAllPingWatercolumn::get_tvg_offset, DOC_KongsbergAllPing(get_tvg_offset))
 
         // ----- operators -----

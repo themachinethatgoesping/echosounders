@@ -170,7 +170,7 @@ class WaterColumnInformation
     {
         return _wci_infos.get().sound_speed_at_transducer;
     }
-    uint8_t get_tvg_function_applied() const { return _wci_infos.get().tvg_function_applied; }
+    uint8_t get_tvg_factor_applied() const { return _wci_infos.get().tvg_function_applied; }
     int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().tvg_offset_in_db; }
     const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
     get_transmit_sectors() const

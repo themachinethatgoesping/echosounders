@@ -106,7 +106,7 @@ void init_c_watercolumndatagram(pybind11::module& m)
              DOC_WatercolumnDatagram(tvg_function_applied))
         .def("get_tvg_function_applied",
              &WatercolumnDatagram::get_tvg_function_applied,
-             DOC_WatercolumnDatagram(tvg_function_applied))
+             DOC_WatercolumnDatagram(get_tvg_function_applied))
         .def("set_tvg_offset_in_db",
              &WatercolumnDatagram::set_tvg_offset_in_db,
              DOC_WatercolumnDatagram(tvg_offset_in_db))

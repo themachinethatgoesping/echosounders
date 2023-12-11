@@ -204,9 +204,9 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_sound_speed_at_transducer();
     }
 
-    uint8_t get_tvg_function_applied() const
+    uint8_t get_tvg_factor_applied() const
     {
-        return _file_data->get_wcinfos().get_tvg_function_applied();
+        return _file_data->get_wcinfos().get_tvg_factor_applied();
     }
     int8_t get_tvg_offset() const { return _file_data->get_wcinfos().get_tvg_offset_in_db(); }
 
@@ -281,16 +281,14 @@ class KongsbergAllPingWatercolumn
     }
     xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
     {
-        auto& wcinfos = _file_data->get_wcinfos();
-
-        auto  amplitudes     = get_amplitudes(bs);
+        auto  amplitudes     = xt::eval(get_amplitudes(bs) * 0.5);
         float sound_velocity = get_sound_speed_at_transducer();
 
         // compute range factor (per sample)
-        auto  sample_numbers = bs.get_sample_numbers_ensemble();
-        float tmp            = get_tvg_factor_applied() - 20;
-        float tmp_2          = sound_velocity * get_sample_interval() * 0.5;
-        auto  _range_factor = xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
+        xt::xtensor<float, 2> sample_numbers = bs.get_sample_numbers_ensemble() + 0.5;
+        float                 tmp            = get_tvg_factor_applied() - 20;
+        float                 tmp_2          = sound_velocity * get_sample_interval() * 0.5;
+        auto _range_factor = xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
 
         // compute pulse factor (per beam)
         xt::xtensor<float, 1> _pulse_factor =
@@ -299,19 +297,40 @@ class KongsbergAllPingWatercolumn
         const auto& beam_numbers            = bs.get_beam_numbers();
         auto        sector_numbers_per_beam = get_tx_sector_per_beam();
 
+        xt::xtensor<float, 1> pulse_factor_per_sector =
+            xt::empty<float>({ signal_parameters.size() });
+        for (unsigned int si = 0; si < signal_parameters.size(); ++si)
+        {
+            const auto& sigparam        = signal_parameters[si];
+            pulse_factor_per_sector[si] = tools::helper::visit_variant(
+                sigparam,
+                [sound_velocity](
+                    const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
+                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                },
+                [sound_velocity](
+                    const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
+                    // TODO: correct computation for FM?
+                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                },
+                [sound_velocity](
+                    const algorithms::signalprocessing::datastructures::GenericSignalParameters&
+                        param) {
+                    // TODO: throw warning?
+                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                });
+        }
+
         for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
         {
-            _pulse_factor[bi] =
-                std::log10(sound_velocity *
-                           signal_parameters[sector_numbers_per_beam[beam_numbers[bi]]]
-                               .effective_pulse_duration *
-                           0.5);
+            _pulse_factor[bi] = pulse_factor_per_sector[sector_numbers_per_beam[beam_numbers[bi]]];
         }
 
         // apply factors
         xt::xtensor<float, 2> av = xt::eval(amplitudes - _range_factor);
-        av                       = xt::eval(av - _pulse_factor);
-        av                       = xt::eval(av - get_tvg_offset());
+        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+            xt::row(av, bi) = xt::eval(xt::row(av, bi) - _pulse_factor.unchecked(bi));
+        av = xt::eval(av - get_tvg_offset());
 
         return av;
     }

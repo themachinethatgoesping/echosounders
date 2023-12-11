@@ -1,4 +1,4 @@
-//sourcehash: 0d5f69938e9a58690fcee469184fd2c60e3983768e1c2e219500505b78b13779
+//sourcehash: 48f9441823b0e122659b781c71e856359ccf0c627030948fc52f9bb333fde36d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -86,7 +86,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_transmit_sectors = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_tvg_function_applied = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_tvg_factor_applied = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_tvg_offset_in_db = R"doc()doc";
 
