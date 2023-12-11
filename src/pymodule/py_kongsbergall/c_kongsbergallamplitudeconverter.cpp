@@ -23,24 +23,21 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 
 #define DOC_KongsbergAllAmpltitudeConverter(ARG)                                                   \
-    DOC(themachinethatgoesping,                                                                    \
-        echosounders,                                                                              \
-        kongsbergall,                                                                              \
-        KongsbergAllAmpltitudeConverter,                                                           \
-        ARG)
+    DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllAmpltitudeConverter, ARG)
 
-template<typename T_type, typename T_dim>
-void init_c_kongsbergallamplitudeconverter(pybind11::module& m)
+template<typename T_type, size_t dim>
+void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
 {
-    using t_tensor = xt::pytensor<T_type, T_dim>;
+    using t_tensor = xt::pytensor<T_type, dim>;
 
-    py::class_<KongsbergAllAmpltitudeConverter<t_tensor>, algorithms::KongsbergAllDatagram>(
+    std::string name =
+        fmt::format("KongsbergAllAmpltitudeConverter_{}d_{}", dim, typeid(T_type).name());
+
+    py::class_<KongsbergAllAmpltitudeConverter<t_tensor>,
+               std::shared_ptr<KongsbergAllAmpltitudeConverter<t_tensor>>>(
         m,
-        "KongsbergAllAmpltitudeConverter",
-        DOC(themachinethatgoesping,
-            echosounders,
-            kongsbergall,
-            KongsbergAllAmpltitudeConverter))
+        name.c_str(),
+        DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllAmpltitudeConverter))
         .def(py::init<t_tensor, float, float, float, float, float>(),
              py::arg("sample_numbers"),
              py::arg("sample_interval"),
@@ -133,6 +130,15 @@ void init_c_kongsbergallamplitudeconverter(pybind11::module& m)
         // end LinearInterpolator
         ;
 }
+
+void init_c_kongsbergallamplitudeconverter(pybind11::module& m)
+{
+    create_c_kongsbergallamplitudeconverter<float, 1>(m);
+    create_c_kongsbergallamplitudeconverter<float, 2>(m);
+    create_c_kongsbergallamplitudeconverter<double, 1>(m);
+    create_c_kongsbergallamplitudeconverter<double, 2>(m);
+}
+
 }
 }
 }
