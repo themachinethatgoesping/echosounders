@@ -102,7 +102,7 @@ class KongsbergAllAmpltitudeConverter
 
     void set_pulse_factor(float sound_velocity, float pulse_length)
     {
-        _pulse_factor_val = std::log10(sound_velocity * -pulse_length * 0.5);
+        _pulse_factor_val = std::log10(sound_velocity * pulse_length * 0.5);
 
         _sound_velocity_is_array  = false;
         _total_factor_is_computed = false;
@@ -110,7 +110,7 @@ class KongsbergAllAmpltitudeConverter
 
     void set_pulse_factor(const T_xt& sound_velocity, float pulse_length)
     {
-        _pulse_factor_array = xt::eval(xt::log10(xt::eval(sound_velocity * (-pulse_length * 0.5))));
+        _pulse_factor_array = xt::eval(xt::log10(xt::eval(sound_velocity * (pulse_length * 0.5))));
 
         _sound_velocity_is_array  = true;
         _total_factor_is_computed = false;
@@ -118,7 +118,7 @@ class KongsbergAllAmpltitudeConverter
 
     void set_static_factor(float tvg_offset)
     {
-        _static_factor            = -tvg_offset;
+        _static_factor            = tvg_offset;
         _total_factor_is_computed = false;
     }
 
@@ -131,11 +131,11 @@ class KongsbergAllAmpltitudeConverter
         if (_sound_velocity_is_array)
         {
             _total_factor =
-                xt::eval(xt::eval(_range_factor + _pulse_factor_array) + _static_factor);
+                xt::eval(xt::eval(_range_factor - _pulse_factor_array) - _static_factor);
         }
         else
         {
-            _total_factor = xt::eval(_range_factor + (_pulse_factor_val + _static_factor));
+            _total_factor = xt::eval(_range_factor - (_pulse_factor_val - _static_factor));
         }
 
         _total_factor_is_computed = true;
