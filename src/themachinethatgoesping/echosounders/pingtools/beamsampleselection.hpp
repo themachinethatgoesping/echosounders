@@ -258,12 +258,19 @@ class BeamSampleSelection : public BeamSelection
                1;
     }
 
-    xt::xtensor<uint16_t, 2> get_sample_numbers_ensemble() const
+    xt::xtensor<uint16_t, 1> get_sample_numbers_ensemble_1d() const
     {
         xt::xtensor<uint16_t, 1> sample_numbers_ensemble =
             xt::arange<uint16_t>(_first_sample_number_ensemble,
                                  _last_sample_number_ensemble + _sample_step_ensemble,
                                  _sample_step_ensemble);
+
+        return sample_numbers_ensemble;
+    }
+
+    xt::xtensor<uint16_t, 2> get_sample_numbers_ensemble_2d() const
+    {
+        xt::xtensor<uint16_t, 1> sample_numbers_ensemble = get_sample_numbers_ensemble_1d();
 
         // return copy of sample_numbers_ensemble for each beam as 2d array
         xt::xtensor<uint16_t, 2> sample_numbers_ensemble_2d = xt::xtensor<uint16_t, 2>::from_shape(
@@ -277,25 +284,6 @@ class BeamSampleSelection : public BeamSelection
         return sample_numbers_ensemble_2d;
     }
 
-    std::vector<uint16_t> get_sample_numbers_as_vector() const
-    {
-        std::vector<uint16_t> sample_numbers;
-        sample_numbers.reserve(get_number_of_samples_ensemble() * get_number_of_beams());
-
-        for (uint16_t beam_nr : get_beam_numbers())
-        {
-            uint16_t first_sample_number = _first_sample_number_per_beam[beam_nr];
-            uint16_t last_sample_number  = _last_sample_number_per_beam[beam_nr];
-
-            for (uint16_t sample_number = first_sample_number; sample_number <= last_sample_number;
-                 sample_number += _sample_step_ensemble)
-            {
-                sample_numbers.push_back(sample_number);
-            }
-        }
-
-        return sample_numbers;
-    }
 
     // ----- from/to binary -----
   public:

@@ -281,17 +281,22 @@ class KongsbergAllPingWatercolumn
     }
     xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
     {
-        auto  amplitudes     = xt::eval(get_amplitudes(bs) * 0.5);
+        // get and convert amplitudes to dB
+        xt::xtensor<float, 2> av         = get_amplitudes(bs) * 0.5f;
+        auto                  tvg_offset = get_tvg_offset();
+
+        // get information
         float sound_velocity = get_sound_speed_at_transducer();
 
         // compute range factor (per sample)
-        xt::xtensor<float, 2> sample_numbers = bs.get_sample_numbers_ensemble() + 0.5;
-        float                 tmp            = get_tvg_factor_applied() - 20;
-        float                 tmp_2          = sound_velocity * get_sample_interval() * 0.5;
-        auto _range_factor = xt::eval(tmp * xt::eval(xt::log10(xt::eval(sample_numbers * tmp_2))));
+        float tmp   = get_tvg_factor_applied() - 20.f;
+        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
+
+        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
+        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor * tmp_2)));
 
         // compute pulse factor (per beam)
-        xt::xtensor<float, 1> _pulse_factor =
+        xt::xtensor<float, 1> pulse_factor =
             xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
         auto        signal_parameters       = get_tx_signal_parameters();
         const auto& beam_numbers            = bs.get_beam_numbers();
@@ -321,17 +326,29 @@ class KongsbergAllPingWatercolumn
                 });
         }
 
+        // this is the same as substracting tvg_offset from av later but faster
+        pulse_factor_per_sector += tvg_offset;
+
         for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
         {
-            _pulse_factor[bi] = pulse_factor_per_sector[sector_numbers_per_beam[beam_numbers[bi]]];
+            pulse_factor[bi] = pulse_factor_per_sector[sector_numbers_per_beam[beam_numbers[bi]]];
         }
 
-        // apply factors
-        xt::xtensor<float, 2> av = xt::eval(amplitudes - _range_factor);
-        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-            xt::row(av, bi) = xt::eval(xt::row(av, bi) - _pulse_factor.unchecked(bi));
-        av = xt::eval(av - get_tvg_offset());
+        // TODO: speed up using graphics card?
+        // // apply factors
+        // range factor (here the broadcasting is faster than the loop)
+        // for (unsigned int si = 0; si < range_factor.size(); ++si)
+        //      xt::col(av, si) -= range_factor[si];
 
+        av -= xt::view(range_factor, xt::newaxis(), xt::all());
+
+        // pulse factor (here the loop is faster than broadcasting)
+        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+            xt::row(av, bi) -= pulse_factor.unchecked(bi);
+
+        //av -= xt::view(pulse_factor, xt::all(), xt::newaxis());
+
+        // return av - tvg_offset; // this is done earlier for speed
         return av;
     }
 

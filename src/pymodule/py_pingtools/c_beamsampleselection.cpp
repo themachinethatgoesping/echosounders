@@ -51,12 +51,12 @@ void init_c_beamsampleselection(pybind11::module& m)
              py::arg("number_of_samples_in_beam"))
 
         // --- get sample numbers ---
-        .def("get_sample_numbers_ensemble",
-             &BeamSampleSelection::get_sample_numbers_ensemble,
-             DOC_BeamSampleSelection(get_sample_numbers_ensemble))
-        .def("get_sample_numbers_as_vector",
-             &BeamSampleSelection::get_sample_numbers_as_vector,
-             DOC_BeamSampleSelection(get_sample_numbers_as_vector))
+        .def("get_sample_numbers_ensemble_1d",
+             &BeamSampleSelection::get_sample_numbers_ensemble_1d,
+             DOC_BeamSampleSelection(get_sample_numbers_ensemble_1d))
+        .def("get_sample_numbers_ensemble_2d",
+             &BeamSampleSelection::get_sample_numbers_ensemble_2d,
+             DOC_BeamSampleSelection(get_sample_numbers_ensemble_2d))
 
 
         // --- add beam/samples ---

@@ -1,4 +1,4 @@
-//sourcehash: c4bba4f506a7ae1aa28406b5f028b956bcf0e60a619268f8d75f4ba88c3548db
+//sourcehash: 30dc08cb52c09fa15ff4c79ff1bd5d9a9f3c19cbf21b936964c1258f671830ca
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -131,9 +131,9 @@ Parameter ``number_of_samples``:
 Returns:
     ReadSampleRange read sample range)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_numbers_as_vector = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_numbers_ensemble_1d = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_numbers_ensemble = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_numbers_ensemble_2d = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_sample_step_ensemble =
 R"doc(Return the sample step size
