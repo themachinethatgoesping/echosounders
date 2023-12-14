@@ -77,10 +77,10 @@ class I_InputFileHandler
 
   public:
     I_InputFileHandler(const std::string&                                   file_path,
-                const std::unordered_map<std::string, FileInfoData>& cached_index =
-                    std::unordered_map<std::string, FileInfoData>(),
-                bool init          = true,
-                bool show_progress = true)
+                       const std::unordered_map<std::string, FileInfoData>& cached_index =
+                           std::unordered_map<std::string, FileInfoData>(),
+                       bool init          = true,
+                       bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
     {
         append_file(file_path, show_progress);
@@ -88,9 +88,9 @@ class I_InputFileHandler
             init_interfaces(false, show_progress);
     }
     I_InputFileHandler(const std::string&                                   file_path,
-                const std::unordered_map<std::string, FileInfoData>& cached_index,
-                bool                                                 init,
-                tools::progressbars::I_ProgressBar&                  progress_bar)
+                       const std::unordered_map<std::string, FileInfoData>& cached_index,
+                       bool                                                 init,
+                       tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_file(file_path, progress_bar);
@@ -99,10 +99,10 @@ class I_InputFileHandler
     }
 
     I_InputFileHandler(const std::vector<std::string>&                      file_paths,
-                const std::unordered_map<std::string, FileInfoData>& cached_index =
-                    std::unordered_map<std::string, FileInfoData>(),
-                bool init          = true,
-                bool show_progress = true)
+                       const std::unordered_map<std::string, FileInfoData>& cached_index =
+                           std::unordered_map<std::string, FileInfoData>(),
+                       bool init          = true,
+                       bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
     {
         append_files(file_paths, show_progress);
@@ -110,9 +110,9 @@ class I_InputFileHandler
             init_interfaces(false, show_progress);
     }
     I_InputFileHandler(const std::vector<std::string>&                      file_paths,
-                const std::unordered_map<std::string, FileInfoData>& cached_index,
-                bool                                                 init,
-                tools::progressbars::I_ProgressBar&                  progress_bar)
+                       const std::unordered_map<std::string, FileInfoData>& cached_index,
+                       bool                                                 init,
+                       tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_files(file_paths, progress_bar);
@@ -178,7 +178,6 @@ class I_InputFileHandler
 
     void append_file(const std::string& file_path, bool show_progress = true)
     {
-
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
 
         append_file(file_path, progress_bar.get());
@@ -186,7 +185,19 @@ class I_InputFileHandler
 
     void append_file(const std::string& file_path, tools::progressbars::I_ProgressBar& progress_bar)
     {
-        _input_file_manager->append_file(file_path);
+        try
+        {
+            _input_file_manager->append_file(file_path);
+        }
+        catch (std::exception& e)
+        {
+            std::cerr << fmt::format("WARNING: could not open file ({}).\nError message: '{}'",
+                                     file_path,
+                                     e.what())
+                      << std::endl;
+            return;
+        }
+
         auto file_nr = _input_file_manager->get_file_paths()->size() - 1;
 
         // check if file exists in index
