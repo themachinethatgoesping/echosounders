@@ -36,7 +36,7 @@ struct _WCIInfos
     float   sound_speed_at_transducer = 0.0f;
     uint8_t tvg_function_applied      = 0;
     int8_t  tvg_offset_in_db          = 0;
-    float   sampling_frequency_in_hz  = 0.0f;
+    float   sampling_interval         = 0.0f;
     std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> transmit_sectors;
 
     _WCIInfos() = default;
@@ -46,7 +46,7 @@ struct _WCIInfos
         sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
         tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
         tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
-        sampling_frequency_in_hz  = water_column_datagram.get_sampling_frequency_in_hz();
+        sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
 
         transmit_sectors = water_column_datagram.get_transmit_sectors();
     }
@@ -177,7 +177,7 @@ class WaterColumnInformation
     {
         return _wci_infos.get().transmit_sectors;
     }
-    float get_sampling_frequency_in_hz() const { return _wci_infos.get().sampling_frequency_in_hz; }
+    float get_sample_interval() const { return _wci_infos.get().sampling_interval; }
 };
 
 } // namespace _sub

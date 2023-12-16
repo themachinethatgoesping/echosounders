@@ -204,6 +204,8 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_sound_speed_at_transducer();
     }
 
+    float get_sample_interval() override { return _file_data->get_wcinfos().get_sample_interval(); }
+
     uint8_t get_tvg_factor_applied() const
     {
         return _file_data->get_wcinfos().get_tvg_factor_applied();
@@ -346,7 +348,7 @@ class KongsbergAllPingWatercolumn
         for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
             xt::row(av, bi) -= pulse_factor.unchecked(bi);
 
-        //av -= xt::view(pulse_factor, xt::all(), xt::newaxis());
+        // av -= xt::view(pulse_factor, xt::all(), xt::newaxis());
 
         // return av - tvg_offset; // this is done earlier for speed
         return av;

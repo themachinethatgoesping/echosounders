@@ -1,4 +1,4 @@
-//sourcehash: f55de86148d3d10cba3fe1f3bf84aefb4974abadd146cfa632e6f402b69cddad
+//sourcehash: 8cac6e698a8b3ee20fac271cd449968b35c431d9837ce2a174596d37bfe89159
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,6 +63,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_sample_interval = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_sample_positions = R"doc()doc";
 

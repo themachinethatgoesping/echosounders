@@ -124,13 +124,6 @@ class I_PingCommon
     }
 
     /**
-     * @brief Get the sample interval in seconds
-     *
-     * @return float
-     */
-    virtual float get_sample_interval() { throw not_implemented(__func__, class_name()); }
-
-    /**
      * @brief Get the number of transmission sectors.
      *
      * This function returns the number of transmission sectors for the echosounder.

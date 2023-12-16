@@ -1,4 +1,4 @@
-//sourcehash: 6b51761d9bd944240b26a105379334588a3cdb66c574f9c3782637b6171ce43b
+//sourcehash: 05f2ea89af92802c221b08ebf57899809bc5816d250cf7e024e3d2866f041b15
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -153,6 +153,12 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sample_interval =
+R"doc(Get the sample interval in seconds
+
+Returns:
+    float)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
 

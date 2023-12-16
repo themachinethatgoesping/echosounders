@@ -86,6 +86,10 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  &I_PingWatercolumn::get_sound_speed_at_transducer,
                  DOC_I_PingWatercolumn(get_sound_speed_at_transducer))
 
+            .def("get_sample_interval",
+                 &I_PingWatercolumn::get_sample_interval,
+                 DOC_I_PingWatercolumn(get_sample_interval))
+
             // ----- features -----
             .def("has_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::has_amplitudes, py::const_),

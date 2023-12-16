@@ -1,4 +1,4 @@
-//sourcehash: 605dd317f69382688e60ca855ab0d14507fee544dadbbf05893ccade3bc2831b
+//sourcehash: 31bf1009ad94a5b2cc3e3145032aac2c0c9bbaf7bcaedca89f480cc2ac5183e0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,13 +42,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos_3 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_sampling_frequency_in_hz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
 R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
@@ -61,8 +55,6 @@ API or pybind11 interface.)doc";
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_sampling_frequency_in_hz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
 

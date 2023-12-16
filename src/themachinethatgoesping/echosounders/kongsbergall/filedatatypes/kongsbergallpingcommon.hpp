@@ -75,12 +75,6 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
         return has_tx_signal_parameters();
     }
 
-    // common variable access
-    float get_sample_interval() override
-    {
-        return 1 / _file_data->get_sysinfos().get_sampling_frequency_in_hz();
-    }
-
     const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
     get_tx_signal_parameters() override
     {

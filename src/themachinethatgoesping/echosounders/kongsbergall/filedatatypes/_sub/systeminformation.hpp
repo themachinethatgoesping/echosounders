@@ -19,9 +19,9 @@
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
-#include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
+#include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
 
 #include "../../datagrams.hpp"
@@ -36,19 +36,9 @@ namespace _sub {
 
 struct _SYSInfos
 {
-    float sampling_frequency_in_hz = 0.0f;
+    // float sampling_frequency_in_hz = 0.0f;
 
     _SYSInfos() = default;
-
-    _SYSInfos(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
-    {
-        sampling_frequency_in_hz = raw_range_and_angle_datagram.get_sampling_frequency();
-    }
-
-    _SYSInfos(const WaterColumnInformation& water_column_information)
-    {
-        sampling_frequency_in_hz = water_column_information.get_sampling_frequency_in_hz();
-    }
 
     bool operator==(_SYSInfos const& other) const = default;
 };
@@ -59,7 +49,7 @@ inline std::size_t hash_value(const _SYSInfos& data)
     xxh::hash3_state_t<64>               hash;
     boost::iostreams::stream<XXHashSink> stream(hash);
 
-    stream.write(reinterpret_cast<const char*>(&data.sampling_frequency_in_hz), sizeof(float));
+    // stream.write(reinterpret_cast<const char*>(&data.sampling_frequency_in_hz), sizeof(float));
 
     stream.flush();
     return hash.digest();
@@ -123,7 +113,7 @@ class SystemInformation
 
         _tx_signal_parameters = tx_signal_parameters;
 
-        _sys_infos = _SYSInfos(raw_range_and_angle_datagram);
+        //_sys_infos = _SYSInfos(raw_range_and_angle_datagram);
     }
 
     SystemInformation(const WaterColumnInformation& wci_infos)
@@ -147,7 +137,7 @@ class SystemInformation
 
         _tx_signal_parameters = tx_signal_parameters;
 
-        _sys_infos = _SYSInfos(wci_infos);
+        //_sys_infos = _SYSInfos(wci_infos);
     }
 
     // ----- getters -----
@@ -155,11 +145,6 @@ class SystemInformation
     get_tx_signal_parameters() const
     {
         return _tx_signal_parameters;
-    }
-
-    float get_sampling_frequency_in_hz() const
-    {
-        return _sys_infos.get().sampling_frequency_in_hz;
     }
 };
 

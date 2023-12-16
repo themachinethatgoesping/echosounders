@@ -45,9 +45,6 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("get_number_of_tx_sectors",
                  &I_PingCommon::get_number_of_tx_sectors,
                  DOC_I_PingCommon(get_number_of_tx_sectors))
-            .def("get_sample_interval",
-                 &I_PingCommon::get_sample_interval,
-                 DOC_I_PingCommon(get_sample_interval))
 
             .def("feature_string",
                  &I_PingCommon::feature_string,

@@ -31,7 +31,7 @@ TEST_CASE("_WCIInfos reproduce precomputed hashes", TESTTAG)
         wcii.tvg_offset_in_db = 30;
         CHECK(boost::hash<_WCIInfos>{}(wcii) == 17999953697931353017ULL);
 
-        wcii.sampling_frequency_in_hz = 23450.0f;
+        wcii.sampling_interval = 23450.0f;
         CHECK(boost::hash<_WCIInfos>{}(wcii) == 12384024258331840569ULL);
 
         themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::WatercolumnDatagramTransmitSector ts1,ts2;

@@ -99,6 +99,16 @@ class I_PingWatercolumn : virtual public I_PingCommon
                          false);
     }
 
+    // --- water column sampling infos ---
+
+    /**
+     * @brief Get the sample interval in seconds
+     *
+     * @return float
+     */
+    virtual float get_sample_interval() { throw not_implemented(__func__, class_name()); }
+
+
     // --- sector infos ---
     virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
     {
