@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 
 #include "../../themachinethatgoesping/echosounders/pingtools/beamselection.hpp"
+#include "../../themachinethatgoesping/echosounders/pingtools/beamsampleselection.hpp"
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 namespace themachinethatgoesping {
@@ -25,6 +26,7 @@ void init_c_beamselection(pybind11::module& m)
     py::class_<BeamSelection, std::shared_ptr<BeamSelection>>(
         m, "BeamSelection", DOC(themachinethatgoesping, echosounders, pingtools, BeamSelection))
         .def(py::init<>(), DOC_BeamSelection(BeamSelection))
+        .def(py::init<const BeamSampleSelection& >(), DOC_BeamSelection(BeamSelection), py::arg("beam_sample_selection"))
         .def(py::init<uint16_t>(), DOC_BeamSelection(BeamSelection_2), py::arg("number_of_beams"))
         .def(py::init<std::vector<uint16_t>>(),
              DOC_BeamSelection(BeamSelection_3),
