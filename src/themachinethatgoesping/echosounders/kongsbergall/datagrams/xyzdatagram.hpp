@@ -101,19 +101,20 @@ class XYZDatagram : public KongsbergAllDatagram
     {
         t_XYZ xyz({ beam_numbers.size() });
 
-        for (const auto bn : beam_numbers)
+        for (unsigned int bi = 0; bi < beam_numbers.size(); ++bi)
         {
+            auto bn = beam_numbers[bi];
             if (bn >= _beams.size())
             {
-                xyz.x.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
-                xyz.y.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
-                xyz.z.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+                xyz.x.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
+                xyz.y.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
+                xyz.z.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
             }
             else
             {
-                xyz.x.unchecked(bn) = _beams[bn].get_alongtrack_distance();
-                xyz.y.unchecked(bn) = _beams[bn].get_acrosstrack_distance();
-                xyz.z.unchecked(bn) = _beams[bn].get_depth();
+                xyz.x.unchecked(bi) = _beams[bn].get_alongtrack_distance();
+                xyz.y.unchecked(bi) = _beams[bn].get_acrosstrack_distance();
+                xyz.z.unchecked(bi) = _beams[bn].get_depth();
             }
         }
 
