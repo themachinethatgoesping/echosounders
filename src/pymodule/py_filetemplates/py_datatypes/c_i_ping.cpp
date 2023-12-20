@@ -70,7 +70,7 @@ void init_c_i_ping(pybind11::module& m)
                  py::arg("target_id") = "Transducer")
 
             // .def("set_geolocation",
-            //      py::overload_cast<navigation::datastructures::GeoLocationLatLon>(
+            //      py::overload_cast<navigation::datastructures::GeolocationLatLon>(
             //          &I_Ping::set_geolocation),
             //      DOC_I_Ping(get_geolocation),
             //      py::arg("geolocation_latlon"))

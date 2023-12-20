@@ -172,7 +172,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.at(sensor_configuration);
     }
 
-    navigation::datastructures::GeoLocationLatLon get_geolocation(
+    navigation::datastructures::GeolocationLatLon get_geolocation(
         const navigation::SensorConfiguration& sensor_configuration,
         const std::string&                     target_id,
         double                                 timestamp)
@@ -180,7 +180,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.at(sensor_configuration)(target_id, timestamp);
     }
 
-    navigation::datastructures::SensorDataLatLon get_sensor_data(
+    navigation::datastructures::SensordataLatLon get_sensor_data(
         const navigation::SensorConfiguration& sensor_configuration,
         double                                 timestamp)
     {

@@ -1,4 +1,4 @@
-//sourcehash: f52dcec4978a6d028faf5f1299ec215eef13fc9f6150aaf97a9d756fc6ee27de
+//sourcehash: c21c9dd76eaeb76a1b86e9d8ec0067d1cefba9b2d2c157e385c5f094fc1523bd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,7 +60,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 R"doc(Get the geolocation of the transducer.
 
 Returns:
-    const navigation::datastructures::GeoLocationLatLon&)doc";
+    const navigation::datastructures::GeolocationLatLon&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration = R"doc()doc";
 

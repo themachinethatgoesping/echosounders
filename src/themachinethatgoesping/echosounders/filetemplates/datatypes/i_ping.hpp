@@ -53,9 +53,9 @@ class I_Ping : virtual public I_PingCommon
     std::string _channel_id;    ///< channel id of the transducer
     double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
-    navigation::datastructures::SensorDataLatLon                  _sensor_data_latlon;
+    navigation::datastructures::SensordataLatLon                  _sensor_data_latlon;
 
-    navigation::datastructures::GeoLocationLatLon
+    navigation::datastructures::GeolocationLatLon
         _geolocation; ///< Geolocation of the transducer. A
                       /// Geolocation object holds lat,lon and attitude of
                       /// the transducer. If not set manually, this variable is set by calling
@@ -95,9 +95,9 @@ class I_Ping : virtual public I_PingCommon
     /**
      * @brief Get the geolocation of the transducer.
      *
-     * @return const navigation::datastructures::GeoLocationLatLon&
+     * @return const navigation::datastructures::GeolocationLatLon&
      */
-    navigation::datastructures::GeoLocationLatLon get_geolocation(
+    navigation::datastructures::GeolocationLatLon get_geolocation(
         const std::string& target_id = "Transducer") const
     {
         return get_sensor_configuration().compute_target_position(target_id, _sensor_data_latlon);
@@ -113,12 +113,12 @@ class I_Ping : virtual public I_PingCommon
         _sensor_configuration = sensor_configuration;
     }
 
-    const navigation::datastructures::SensorDataLatLon& get_sensor_data_latlon() const
+    const navigation::datastructures::SensordataLatLon& get_sensor_data_latlon() const
     {
         return _sensor_data_latlon;
     }
 
-    void set_sensor_data_latlon(const navigation::datastructures::SensorDataLatLon& sensor_data)
+    void set_sensor_data_latlon(const navigation::datastructures::SensordataLatLon& sensor_data)
     {
         _sensor_data_latlon = sensor_data;
     }
@@ -126,7 +126,7 @@ class I_Ping : virtual public I_PingCommon
     // /**
     //  * @brief Set the geolocation of the transducer.
     //  */
-    // void set_geolocation(navigation::datastructures::GeoLocationLatLon geolocation)
+    // void set_geolocation(navigation::datastructures::GeolocationLatLon geolocation)
     // {
     //     _geolocation = std::move(geolocation);
     // }
