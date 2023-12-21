@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
+#include <themachinethatgoesping/tools_pybind/datetime.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams/kongsbergalldatagram.hpp"
 
@@ -37,16 +38,36 @@ void init_c_kongsbergalldatagram(pybind11::module& m)
         // --- convenient data access ---
         .def("get_bytes",
              &KongsbergAllDatagram::get_bytes,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, bytes))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 bytes))
         .def("set_bytes",
              &KongsbergAllDatagram::set_bytes,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, bytes))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 bytes))
         .def("get_stx",
              &KongsbergAllDatagram::get_stx,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, stx))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 stx))
         .def("set_stx",
              &KongsbergAllDatagram::set_stx,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, stx))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 stx))
         .def("get_datagram_identifier",
              &KongsbergAllDatagram::get_datagram_identifier,
              DOC(themachinethatgoesping,
@@ -81,10 +102,20 @@ void init_c_kongsbergalldatagram(pybind11::module& m)
                  model_number))
         .def("get_date",
              &KongsbergAllDatagram::get_date,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, date))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 date))
         .def("set_date",
              &KongsbergAllDatagram::set_date,
-             DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram, date))
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 date))
         .def("get_time_since_midnight",
              &KongsbergAllDatagram::get_time_since_midnight,
              DOC(themachinethatgoesping,
@@ -111,6 +142,15 @@ void init_c_kongsbergalldatagram(pybind11::module& m)
                  datagrams,
                  KongsbergAllDatagram,
                  get_timestamp))
+
+        .def(
+            "get_datetime",
+            [](const KongsbergAllDatagram& self, double timezone_offset_hours) {
+                return tools::pybind_helper::unixtime_to_datetime(self.get_timestamp(),
+                                                                  timezone_offset_hours);
+            },
+            py::arg("timezone_offset_hours") = 0.,
+            "Return the timestamp as datetime object")
 
         .def("get_date_string",
              &KongsbergAllDatagram::get_date_string,

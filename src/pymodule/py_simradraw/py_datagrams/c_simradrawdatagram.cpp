@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
+#include <themachinethatgoesping/tools_pybind/datetime.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simradraw/datagrams/simradrawdatagram.hpp"
 
@@ -21,7 +22,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using datagrams::SimradRawDatagram;
 
-#define DOC_SimradRawDatagram(arg)                                                                    \
+#define DOC_SimradRawDatagram(arg)                                                                 \
     DOC(themachinethatgoesping, echosounders, simradraw, datagrams, SimradRawDatagram, arg)
 
 void init_c_SimradRawDatagram(pybind11::module& m)
@@ -55,8 +56,12 @@ void init_c_SimradRawDatagram(pybind11::module& m)
              DOC_SimradRawDatagram(high_date_time))
 
         // --- processed data access
-        .def("get_timestamp", &SimradRawDatagram::get_timestamp, DOC_SimradRawDatagram(get_timestamp))
-        .def("set_timestamp", &SimradRawDatagram::set_timestamp, DOC_SimradRawDatagram(set_timestamp))
+        .def("get_timestamp",
+             &SimradRawDatagram::get_timestamp,
+             DOC_SimradRawDatagram(get_timestamp))
+        .def("set_timestamp",
+             &SimradRawDatagram::set_timestamp,
+             DOC_SimradRawDatagram(set_timestamp))
         .def("get_datagram_identifier",
              &SimradRawDatagram::get_datagram_identifier,
              DOC_SimradRawDatagram(get_datagram_identifier))
@@ -66,6 +71,23 @@ void init_c_SimradRawDatagram(pybind11::module& m)
         .def("get_date_string",
              &SimradRawDatagram::get_date_string,
              DOC_SimradRawDatagram(get_date_string))
+
+        // ----- datetime access -----
+        .def(
+            "get_datetime",
+            [](const SimradRawDatagram& self, double timezone_offset_hours) {
+                return tools::pybind_helper::unixtime_to_datetime(self.get_timestamp(),
+                                                                  timezone_offset_hours);
+            },
+            py::arg("timezone_offset_hours") = 0.,
+            "Return the timestamp as datetime object")
+        .def(
+            "set_datetime",
+            [](SimradRawDatagram& self, const pybind11::handle& datetime) {
+                self.set_timestamp(tools::pybind_helper::datetime_to_unixtime(datetime));
+            },
+            py::arg("datetime"),
+            "Set the timestamp using a datetime object")
 
         // ----- operators -----
         .def("__eq__",

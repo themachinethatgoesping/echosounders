@@ -9,6 +9,7 @@
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
+#include <themachinethatgoesping/tools_pybind/datetime.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_ping.hpp"
 
@@ -42,6 +43,22 @@ void init_c_i_ping(pybind11::module& m)
                  &I_Ping::set_timestamp,
                  DOC_I_Ping(timestamp),
                  py::arg("timestamp"))
+            .def(
+                "get_datetime",
+                [](const I_Ping& self, double timezone_offset_hours) {
+                    return tools::pybind_helper::unixtime_to_datetime(self.get_timestamp(),
+                                                                      timezone_offset_hours);
+                },
+                py::arg("timezone_offset_hours") = 0.,
+                "Return the timestamp as datetime object")
+            .def(
+                "set_datetime",
+                [](I_Ping& self, const pybind11::handle& datetime) {
+                    self.set_timestamp(tools::pybind_helper::datetime_to_unixtime(datetime));
+                },
+                py::arg("datetime"),
+                "Set the timestamp using a datetime object")
+
             .def("get_channel_id", &I_Ping::get_channel_id, DOC_I_Ping(channel_id))
             .def("set_channel_id",
                  &I_Ping::set_channel_id,
