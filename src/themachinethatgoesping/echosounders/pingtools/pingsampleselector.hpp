@@ -47,15 +47,15 @@ class PingSampleSelector
     bool operator==(const PingSampleSelector& other) const = default;
 
     // get selection
-    BeamSampleSelection apply_selection(std::shared_ptr<filetemplates::datatypes::I_Ping>& ping)
+    BeamSampleSelection apply_selection(filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
     {
         BeamSampleSelection selection;
 
         // select beams according to the options
-        const auto number_of_beams            = ping->watercolumn().get_number_of_beams();
-        const auto number_of_samples_per_beam = ping->watercolumn().get_number_of_samples_per_beam();
+        const auto number_of_beams            = ping_watercolumn.get_number_of_beams();
+        const auto number_of_samples_per_beam = ping_watercolumn.get_number_of_samples_per_beam();
 
-        const auto beam_crosstrack_angles = ping->watercolumn().get_beam_crosstrack_angles();
+        const auto beam_crosstrack_angles = ping_watercolumn.get_beam_crosstrack_angles();
         if (beam_crosstrack_angles.size() < number_of_beams)
             throw std::runtime_error(fmt::format(
                 "Number of beam crosstrack angles ({}) is smaller than the number of beams ({})",
@@ -68,7 +68,7 @@ class PingSampleSelector
         size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
 
         tools::pyhelper::PyIndexer beam_indexer(
-            number_of_beams, min_beam_number, max_beam_number+1, _beam_step);
+            number_of_beams, min_beam_number, max_beam_number + 1, _beam_step);
 
         for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
         {
@@ -93,11 +93,51 @@ class PingSampleSelector
                 number_of_samples, min_sample_number, max_sample_number + 1, _sample_step);
 
             selection.add_beam(bn, sample_indexer(0), sample_indexer(-1));
+
             bn++;
         }
 
         // select samples according to the options
         selection.set_sample_step_ensemble(_sample_step);
+
+        return selection;
+    }
+
+    // get selection
+    BeamSelection apply_selection(filetemplates::datatypes::I_PingBottom& ping_bottom)
+    {
+        BeamSelection selection;
+
+        // select beams according to the options
+        const auto number_of_beams            = ping_bottom.get_number_of_beams();
+
+        const auto beam_crosstrack_angles = ping_bottom.get_beam_crosstrack_angles();
+        if (beam_crosstrack_angles.size() < number_of_beams)
+            throw std::runtime_error(fmt::format(
+                "Number of beam crosstrack angles ({}) is smaller than the number of beams ({})",
+                beam_crosstrack_angles.size(),
+                number_of_beams));
+
+        // convert min/max beam numbers to indices (if set, and according to python negative
+        // indexing)
+        size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
+        size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
+
+        tools::pyhelper::PyIndexer beam_indexer(
+            number_of_beams, min_beam_number, max_beam_number + 1, _beam_step);
+
+        for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
+        {
+            auto bn = beam_indexer(counter);
+
+            if (_min_beam_angle && beam_crosstrack_angles.unchecked(bn) < *_min_beam_angle)
+                continue;
+            if (_max_beam_angle && beam_crosstrack_angles.unchecked(bn) > *_max_beam_angle)
+                continue;
+
+            selection.add_beam(bn);
+            bn++;
+        }
 
         return selection;
     }

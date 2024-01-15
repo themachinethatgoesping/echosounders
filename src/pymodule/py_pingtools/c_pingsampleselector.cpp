@@ -30,9 +30,13 @@ void init_c_pingsampleselector(pybind11::module& m)
 
         // --- main interface ---
         .def("apply_selection",
-             &PingSampleSelector::apply_selection,
+             py::overload_cast<filetemplates::datatypes::I_PingWatercolumn&>(&PingSampleSelector::apply_selection),
              DOC_PingSampleSelector(apply_selection),
-             py::arg("ping"))
+             py::arg("ping_watercolumn"))
+        .def("apply_selection",
+             py::overload_cast<filetemplates::datatypes::I_PingBottom&>(&PingSampleSelector::apply_selection),
+             DOC_PingSampleSelector(apply_selection),
+             py::arg("ping_bottom"))
 
         // --- convenient data access ---
         .def("get_min_beam_number",
