@@ -1,4 +1,4 @@
-//sourcehash: 777ceaa1eaebe10f7666331eb653779f4afd13595c6421ad73ba172461ffc46c
+//sourcehash: 95c7e2f2ce2e1ebbb56e5bfeceb5be44be9b36523886921930c36480af3ce2c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,6 +41,8 @@
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_SimradRawPingFileData = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_SimradRawPingFileData_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_add_parameter = R"doc()doc";
 

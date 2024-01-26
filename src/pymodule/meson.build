@@ -77,6 +77,7 @@ sources = [
     'py_simradraw/py_filedatatypes/module.cpp',
     'py_simradraw/py_filedatatypes/c_simradrawfileinfodata.cpp',
     'py_simradraw/py_filedatatypes/c_simradrawpingfiledata.cpp',
+    'py_simradraw/py_filedatatypes/c_simradrawpingcommon.cpp',
     'py_simradraw/py_filedatatypes/c_simradrawping.cpp',
     'py_simradraw/py_filedatacontainers/module.cpp',
     'py_simradraw/py_filedatacontainers/c_simradrawdatagramcontainer.cpp',

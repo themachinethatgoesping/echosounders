@@ -30,7 +30,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_SimradRawPingFileData(ARG)                                                                 \
+#define DOc_simradrawpingfiledata(ARG)                                                                 \
     DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData, ARG)
 
 template<typename T_FileStream>
@@ -46,21 +46,21 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
         // --- file_data data access ---
         .def_readonly("ping_data",
                       &t_SimradRawPingFileData::_ping_data,
-                      DOC_SimradRawPingFileData(ping_data),
+                      DOc_simradrawpingfiledata(ping_data),
                       py::return_value_policy::reference_internal)
         .def("get_parameter",
              &t_SimradRawPingFileData::get_parameter,
-             DOC_SimradRawPingFileData(get_parameter))
+             DOc_simradrawpingfiledata(get_parameter))
 
         .def("get_sample_data",
              &t_SimradRawPingFileData::get_sample_data,
-             DOC_SimradRawPingFileData(get_sample_data))
+             DOc_simradrawpingfiledata(get_sample_data))
 
-        .def("has_angle", &t_SimradRawPingFileData::has_angle, DOC_SimradRawPingFileData(has_angle))
-        .def("has_power", &t_SimradRawPingFileData::has_power, DOC_SimradRawPingFileData(has_power))
+        .def("has_angle", &t_SimradRawPingFileData::has_angle, DOc_simradrawpingfiledata(has_angle))
+        .def("has_power", &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
 
-        .def("load", &t_SimradRawPingFileData::load, DOC_SimradRawPingFileData(load))
-        .def("load", &t_SimradRawPingFileData::load, DOC_SimradRawPingFileData(load))
+        .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
+        .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
 
         // ----- operators -----
         // .def("__eq__",
@@ -76,7 +76,7 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
         ;
 }
 
-void init_c_simradrawPingFileData(pybind11::module& m)
+void init_c_simradrawpingfiledata(pybind11::module& m)
 {
 
     py_create_class_simradrawPingFileData<std::ifstream>(m, "SimradRawPingFileData");

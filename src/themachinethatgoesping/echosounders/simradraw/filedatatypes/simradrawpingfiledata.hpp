@@ -55,6 +55,7 @@ class SimradRawPingFileData
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
 
   public:
+    SimradRawPingFileData() = default;
     SimradRawPingFileData(filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier,
                                                                  t_ifstream> datagram_info_file_data,
                       datagrams::RAW3                                        ping_data)

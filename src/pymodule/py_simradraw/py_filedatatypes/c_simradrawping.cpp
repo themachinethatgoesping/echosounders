@@ -16,8 +16,8 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 namespace themachinethatgoesping {
@@ -30,7 +30,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_SimradRawPing(ARG)                                                                        \
+#define DOC_SimradRawPing(ARG)                                                                     \
     DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing, ARG)
 
 template<typename T_FileStream>
@@ -38,29 +38,33 @@ void py_create_class_simradrawping(py::module& m, const std::string& CLASS_NAME)
 {
     using t_SimradRawPing = filedatatypes::SimradRawPing<T_FileStream>;
 
-    auto cls = py::class_<t_SimradRawPing, datatypes::I_Ping, std::shared_ptr<t_SimradRawPing>>(
-                   m,
-                   CLASS_NAME.c_str(),
-                   DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))
+    auto cls =
+        py::class_<t_SimradRawPing,
+                   datatypes::I_Ping,
+                   filedatatypes::SimradRawPingCommon<T_FileStream>,
+                   std::shared_ptr<t_SimradRawPing>>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))
 
-                   // --- ping interface extension ---
+            // --- ping interface extension ---
 
-                   // --- file_data data access ---
-                   .def("file_data",
-                        &t_SimradRawPing::file_data,
-                        DOC_SimradRawPing(file_data),
-                        py::return_value_policy::reference_internal)
+            // --- file_data data access ---
+            .def("file_data",
+                 &t_SimradRawPing::file_data,
+                 DOC_SimradRawPing(file_data),
+                 py::return_value_policy::reference_internal)
 
-               // --- variable access ---
+        // --- variable access ---
 
-               // ----- operators -----
-               // .def("__eq__",
-               //      &SimradRawPing::operator==,
-               //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,  SimradRawPing,
-               //      operator_eq), py::arg("other"))
-               // ----- pybind macros -----
-               // default copy functions
-               __PYCLASS_DEFAULT_COPY__(t_SimradRawPing)
+        // ----- operators -----
+        // .def("__eq__",
+        //      &SimradRawPing::operator==,
+        //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,  SimradRawPing,
+        //      operator_eq), py::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(t_SimradRawPing)
         // default binary functions
         // __PYCLASS_DEFAULT_BINARY__(SimradRawPing)
         // default printing functions
