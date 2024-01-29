@@ -50,10 +50,10 @@ class RAW3 : public SimradRawDatagram
     raw3datatypes::t_RAW3DataType _data_type;  ///< data_type
     uint8_t _number_of_complex_samples; ///< Number of transducer samples per sample (used when
                                         ///< data_type is complex)
-    simradraw_char _spare_1;               ///< Spare 1
-    simradraw_char _spare_2;               ///< Spare 2
-    simradraw_long _offset;                ///< First sample number in the datagram
-    simradraw_long _count;                 ///< Number of samples in the datagram
+    simradraw_char _spare_1;            ///< Spare 1
+    simradraw_char _spare_2;            ///< Spare 2
+    simradraw_long _offset;             ///< First sample number in the datagram
+    simradraw_long _count;              ///< Number of samples in the datagram
 
     raw3datatypes::RAW3DataVariant _sample_data; ///< Sample data
 
@@ -135,13 +135,13 @@ class RAW3 : public SimradRawDatagram
     }
 
     simradraw_char get_spare_1() const { return _spare_1; }
-    void        set_spare_1(simradraw_char spare_1) { _spare_1 = std::move(spare_1); }
+    void           set_spare_1(simradraw_char spare_1) { _spare_1 = std::move(spare_1); }
     simradraw_char get_spare_2() const { return _spare_2; }
-    void        set_spare_2(simradraw_char spare_2) { _spare_2 = std::move(spare_2); }
+    void           set_spare_2(simradraw_char spare_2) { _spare_2 = std::move(spare_2); }
     simradraw_long get_offset() const { return _offset; }
-    void        set_offset(simradraw_long offset) { _offset = std::move(offset); }
+    void           set_offset(simradraw_long offset) { _offset = std::move(offset); }
     simradraw_long get_count() const { return _count; }
-    void        set_count(simradraw_long count) { _count = std::move(count); }
+    void           set_count(simradraw_long count) { _count = std::move(count); }
 
     /**
      * @brief Get the sample data.
@@ -204,7 +204,10 @@ class RAW3 : public SimradRawDatagram
         }
     }
 
-    static RAW3 from_stream(std::istream& is, SimradRawDatagram header, bool skip_sample_data = false)
+    static RAW3 from_stream(std::istream&     is,
+                            SimradRawDatagram header,
+                            bool              skip_sample_data            = false,
+                            bool              seek_end_when_skipping_data = true)
     {
         using namespace raw3datatypes;
 
@@ -213,6 +216,11 @@ class RAW3 : public SimradRawDatagram
 
         if (skip_sample_data)
         {
+            if (!seek_end_when_skipping_data)
+                return datagram; // the next step seeks the end of the datagram to verify the
+                                 // checksum and make sure the stream positions points to the next
+                                 // datagram. If this is not required, we can return here.
+
             datagram._sample_data =
                 RAW3DataSkipped::from_stream(is,
                                              datagram._count,
@@ -229,23 +237,28 @@ class RAW3 : public SimradRawDatagram
         return datagram;
     }
 
-    static RAW3 from_stream(std::istream& is, bool skip_sample_data = false)
+    static RAW3 from_stream(std::istream& is,
+                            bool          skip_sample_data            = false,
+                            bool          seek_end_when_skipping_data = true)
     {
         return from_stream(is,
                            SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::RAW3),
-                           skip_sample_data);
+                           skip_sample_data,
+                           seek_end_when_skipping_data);
     }
 
-    static RAW3 from_stream(std::istream&              is,
+    static RAW3 from_stream(std::istream&                 is,
                             t_SimradRawDatagramIdentifier type,
-                            bool                       skip_sample_data = false)
+                            bool                          skip_sample_data            = false,
+                            bool                          seek_end_when_skipping_data = true)
     {
         if (type != t_SimradRawDatagramIdentifier::RAW3)
             throw std::runtime_error("RAW3::from_stream: wrong datagram type");
 
         return from_stream(is,
                            SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::RAW3),
-                           skip_sample_data);
+                           skip_sample_data,
+                           seek_end_when_skipping_data);
     }
 
     void to_stream(std::ostream& os)

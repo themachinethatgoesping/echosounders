@@ -110,7 +110,7 @@ class SimradRawPingDataInterfacePerFile
                 }
                 case t_SimradRawDatagramIdentifier::RAW3: {
                     auto& ifs  = datagram_ptr->get_stream_and_seek();
-                    auto  raw3 = datagrams::RAW3::from_stream(ifs, true);
+                    auto  raw3 = datagrams::RAW3::from_stream(ifs, true, false);
 
                     if (!ifs.good())
                     {
