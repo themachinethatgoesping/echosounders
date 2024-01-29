@@ -62,6 +62,8 @@ sources = [
     'py_simradraw/py_datagrams/py_raw3datatypes/c_raw3dataskipped.cpp',
     'py_simradraw/py_filedatainterfaces/module.cpp',
     'py_simradraw/py_filedatainterfaces/c_simradrawdatagraminterface.cpp',
+    'py_simradraw/py_filedatainterfaces/c_simradrawdatagramdatainterface.cpp',
+    'py_simradraw/py_filedatainterfaces/c_simradrawdatagramdatainterfaceperfile.cpp',
     'py_simradraw/py_filedatainterfaces/c_simradrawconfigurationdatainterface.cpp',
     'py_simradraw/py_filedatainterfaces/c_simradrawconfigurationdatainterfaceperfile.cpp',
     'py_simradraw/py_filedatainterfaces/c_simradrawnavigationdatainterface.cpp',

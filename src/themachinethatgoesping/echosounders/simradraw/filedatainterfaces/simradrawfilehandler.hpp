@@ -56,8 +56,6 @@ class SimradRawFileHandler
         filetemplates::I_InputFileHandler<datagrams::SimradRawDatagram,
                                    filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>;
 
-    using t_DatagramDataInterface =
-        typename filedatainterfaces::SimradRawDatagramDataInterface<t_ifstream>;
     using t_ConfigurationDataInterface =
         typename filedatainterfaces::SimradRawConfigurationDataInterface<t_ifstream>;
     using t_NavigationDataInterface =
@@ -220,8 +218,6 @@ class SimradRawFileHandler
         filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
             datagram_info) final
     {
-        _datagramdata_interface->add_datagram_info(datagram_info);
-        
         switch (datagram_info->get_datagram_identifier())
         {
             case t_SimradRawDatagramIdentifier::MRU0:

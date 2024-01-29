@@ -38,29 +38,29 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
 {
     using t_SimradRawPingFileData = filedatatypes::SimradRawPingFileData<T_FileStream>;
 
-    py::class_<t_SimradRawPingFileData, std::shared_ptr<t_SimradRawPingFileData>>(
+    py::class_<t_SimradRawPingFileData, datatypes::I_PingFileData, std::shared_ptr<t_SimradRawPingFileData>>(
         m,
         (CLASS_NAME).c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData))
 
         // --- file_data data access ---
-        .def_readonly("ping_data",
-                      &t_SimradRawPingFileData::_ping_data,
-                      DOc_simradrawpingfiledata(ping_data),
-                      py::return_value_policy::reference_internal)
-        .def("get_parameter",
-             &t_SimradRawPingFileData::get_parameter,
-             DOc_simradrawpingfiledata(get_parameter))
+        // .def_readonly("ping_data",
+        //               &t_SimradRawPingFileData::_ping_data,
+        //               DOc_simradrawpingfiledata(ping_data),
+        //               py::return_value_policy::reference_internal)
+        // .def("get_parameter",
+        //      &t_SimradRawPingFileData::get_parameter,
+        //      DOc_simradrawpingfiledata(get_parameter))
 
-        .def("get_sample_data",
-             &t_SimradRawPingFileData::get_sample_data,
-             DOc_simradrawpingfiledata(get_sample_data))
+        // .def("get_sample_data",
+        //      &t_SimradRawPingFileData::get_sample_data,
+        //      DOc_simradrawpingfiledata(get_sample_data))
 
-        .def("has_angle", &t_SimradRawPingFileData::has_angle, DOc_simradrawpingfiledata(has_angle))
-        .def("has_power", &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
+        // .def("has_angle", &t_SimradRawPingFileData::has_angle, DOc_simradrawpingfiledata(has_angle))
+        // .def("has_power", &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
 
-        .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
-        .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
+        // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
+        // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
 
         // ----- operators -----
         // .def("__eq__",

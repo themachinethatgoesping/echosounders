@@ -1,4 +1,4 @@
-//sourcehash: dec1a67fc495fdfcee7804d84e9bbba508965f5219a3f5dcff14e3c57e3aecd1
+//sourcehash: 78a95677db9f40db73128f1fa8b5c131854587a7e1c75564a45b66ee38162fbc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,11 +42,19 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_3 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_set_file_data = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -45,7 +45,6 @@ class SimradRawPing
     : public filetemplates::datatypes::I_Ping
     , public SimradRawPingCommon<t_ifstream>
 {
-    SimradRawPingFileData<t_ifstream> _file_data;
 
     using t_base0 = filetemplates::datatypes::I_PingCommon;
     using t_base1 = filetemplates::datatypes::I_Ping;
@@ -66,19 +65,17 @@ class SimradRawPing
         : t_base0()
         , t_base1()
         , t_base2()
-        , _file_data(std::move(datagram_info_file_data), std::move(ping_data))
+        //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
     {
 
         /* set i_ping parameters */
         // substring of channel_id until the first \x00 character
-        auto channel_id = _file_data._ping_data.get_channel_id();
-        set_channel_id(std::string(channel_id.substr(0, channel_id.find('\x00'))));
+        // auto channel_id = _file_data._ping_data.get_channel_id();
+        // set_channel_id(std::string(channel_id.substr(0, channel_id.find('\x00'))));
 
-        this->_timestamp = _file_data._datagram_info_file_data->get_timestamp();
+        // this->_timestamp = _file_data._datagram_info_file_data->get_timestamp();
     }
     virtual ~SimradRawPing() = default;
-
-    SimradRawPingFileData<t_ifstream>& file_data() { return _file_data; }
 
     // size_t      get_file_nr() const { return _file_data._datagram_info_file_data->get_file_nr(); }
     // std::string get_file_path() const

@@ -52,15 +52,16 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
 
   public:
     using t_base = filetemplates::datatypes::I_PingCommon;
+
     SimradRawPingCommon()
         : t_base()
     {
     }
-    // SimradRawPingCommon(std::shared_ptr<t_rawdata> file_data)
-    //     : t_base()
-    //     , _file_data(std::move(file_data))
-    // {
-    // }
+    SimradRawPingCommon(std::shared_ptr<t_rawdata> file_data)
+        : t_base()
+        , _file_data(std::move(file_data))
+    {
+    }
     virtual ~SimradRawPingCommon() = default;
 
     // ----- i_pingcommon interface -----
@@ -86,9 +87,9 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
     //     return 1;
     // }
 
-    // const t_rawdata& file_data() const { return *_file_data; }
-    // t_rawdata&       file_data() { return *_file_data; }
-    // void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
+    const t_rawdata& file_data() const { return *_file_data; }
+    t_rawdata&       file_data() { return *_file_data; }
+    void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

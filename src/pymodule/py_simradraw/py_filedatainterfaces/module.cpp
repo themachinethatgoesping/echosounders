@@ -15,8 +15,12 @@ namespace py = pybind11;
 // -- submodule declarations --
 void init_c_SimradRawDatagramInterface(py::module& m); // c_simradrawdatagraminterface.cpp
 
+void init_c_simradrawdatagramdatainterface(
+    pybind11::module& m); // c_simradrawdatagramdatainterface.cpp
+void init_c_simradrawdatagramdatainterfaceperfile(
+    pybind11::module& m); // c_simradrawdatagramdatainterfaceperfile.cpp
 void init_c_simradrawconfigurationdatainterface(
-    pybind11::module& m); // c_simradrawconfigurationdatainterface.cpp
+    pybind11::module& m); // c_simradrawdatagramdatainterface.cpp
 void init_c_simradrawconfigurationdatainterfaceperfile(
     pybind11::module& m); // c_simradrawconfigurationdatainterfaceperfile.cpp
 void init_c_simradrawnavigationdatainterface(
@@ -44,6 +48,8 @@ void init_m_simradrawfiledatainterfaces(pybind11::module& m)
         m.def_submodule("filedatainterfaces", "SimradRaw EK60 and EK80 file data interface classes");
 
     init_c_SimradRawDatagramInterface(subm);
+    init_c_simradrawdatagramdatainterface(subm);
+    init_c_simradrawdatagramdatainterfaceperfile(subm);
     init_c_simradrawconfigurationdatainterface(subm);
     init_c_simradrawconfigurationdatainterfaceperfile(subm);
     init_c_simradrawnavigationdatainterface(subm);

@@ -1,4 +1,4 @@
-//sourcehash: e34078c1b885dbda3566a8f35ee61498b32baa672fac89aad5cb7e8b1f73959b
+//sourcehash: 1b17275cab5ae5be495dc097ff1163d76eb2e15cd456264049897b5c8bbe1332
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,29 +38,19 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterfacePerFile =
+R"doc(FileDataInterface (for single files) for packages that fit neither of
+the other FileDataInterfaces (Configuration, Navigation, Annotation,
+Environment, Ping)
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_SimradRawPingFileData = R"doc()doc";
+No datagram caching is implemented for this interface. Accessed
+packages are always read from file
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_add_parameter = R"doc()doc";
+Template parameter ``t_ifstream``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_class_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterfacePerFile_SimradRawDatagramDataInterfacePerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_parameter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_sample_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_angle = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_power = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_load = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_read_sample_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_release = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterfacePerFile_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
