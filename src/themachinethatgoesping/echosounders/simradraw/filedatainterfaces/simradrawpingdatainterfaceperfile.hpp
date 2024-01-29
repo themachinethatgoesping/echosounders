@@ -120,6 +120,7 @@ class SimradRawPingDataInterfacePerFile
 
                     // create ping from raw3 datagram
                     auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>();
+                    ping->add_datagram_info(datagram_ptr);
 
                     // set channel_id
                     // substring of channel_id until the first \x00 character
@@ -140,7 +141,6 @@ class SimradRawPingDataInterfacePerFile
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
                         base_sensor_configuration, ping->get_timestamp()));
 
-                    ping->add_datagram_info(datagram_ptr);
 
                     pings.add_ping(ping);
                     break;
