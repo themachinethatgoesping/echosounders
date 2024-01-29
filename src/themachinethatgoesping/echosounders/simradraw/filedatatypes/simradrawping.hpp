@@ -50,35 +50,27 @@ class SimradRawPing
     using t_base1 = filetemplates::datatypes::I_Ping;
     using t_base2 = SimradRawPingCommon<t_ifstream>;
 
-    //using type_DatagramInfo_ptr = typename SimradRawPingFileData<t_ifstream>::type_DatagramInfo_ptr;
+    using type_DatagramInfo_ptr = typename SimradRawPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 
-    // select virtual overrides
-    using t_base1::set_channel_id;
 
   protected:
     std::string class_name() const override { return "SimradRawPing"; }
 
   public:
-    SimradRawPing(filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier,
-                                                             t_ifstream> datagram_info_file_data,
-                  datagrams::RAW3                                        ping_data)
+    SimradRawPing()
         : t_base0()
         , t_base1()
         , t_base2()
-        //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
+    //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
     {
-
-        /* set i_ping parameters */
-        // substring of channel_id until the first \x00 character
-        // auto channel_id = _file_data._ping_data.get_channel_id();
-        // set_channel_id(std::string(channel_id.substr(0, channel_id.find('\x00'))));
-
-        // this->_timestamp = _file_data._datagram_info_file_data->get_timestamp();
     }
     virtual ~SimradRawPing() = default;
 
-    // size_t      get_file_nr() const { return _file_data._datagram_info_file_data->get_file_nr(); }
-    // std::string get_file_path() const
+    // select virtual overrides
+    using t_base1::set_channel_id;
+
+    // size_t      get_file_nr() const { return _file_data._datagram_info_file_data->get_file_nr();
+    // } std::string get_file_path() const
     // {
     //     return _file_data._datagram_info_file_data->get_file_path();
     // }
@@ -97,11 +89,18 @@ class SimradRawPing
     //     return bpa;
     // }
 
-    // void load() final { _file_data.load(); }
-    // void load() final { _file_data.load(); }
-
     // ----- I_Ping interface -----
-    //using t_base2::file_data;
+    using t_base2::file_data;
+
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
+    {
+        // update timestamp if it is much smaller or larger than the current one
+        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
+            _timestamp > datagram_info->get_timestamp())
+            _timestamp = datagram_info->get_timestamp();
+
+        file_data().add_datagram_info(datagram_info);
+    }
 
     // ----- bottom -----
     using t_base1::bottom;

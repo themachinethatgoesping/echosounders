@@ -221,7 +221,7 @@ class SimradRawFileHandler
             datagram_info) final
     {
         _datagramdata_interface->add_datagram_info(datagram_info);
-        
+
         switch (datagram_info->get_datagram_identifier())
         {
             case t_SimradRawDatagramIdentifier::MRU0:

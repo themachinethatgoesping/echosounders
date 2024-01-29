@@ -320,6 +320,7 @@ struct XML_Parameter_Channel
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter_Channel)
 };
 
+
 }
 }
 }

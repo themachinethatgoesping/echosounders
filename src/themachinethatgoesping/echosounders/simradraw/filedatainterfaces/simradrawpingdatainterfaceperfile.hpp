@@ -19,8 +19,8 @@
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
-#include "../filedatacontainers/simradrawfiledatacontainers.hpp"
 #include "../datagrams.hpp"
+#include "../filedatacontainers/simradrawfiledatacontainers.hpp"
 #include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterface.hpp"
@@ -112,19 +112,26 @@ class SimradRawPingDataInterfacePerFile
                     auto& ifs  = datagram_ptr->get_stream_and_seek();
                     auto  raw3 = datagrams::RAW3::from_stream(ifs, true);
 
-                    auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>(
-                        datagram_ptr, std::move(raw3));
-
-                    auto channel_id = ping->get_channel_id();
-
                     if (!ifs.good())
                     {
                         fmt::print(std::cerr, "Error reading RAW3 datagram");
                         break;
                     }
 
+                    // create ping from raw3 datagram
+                    auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>();
+
+                    // set channel_id
+                    // substring of channel_id until the first \x00 character
+                    auto raw_channel_id = raw3.get_channel_id();
+                    auto channel_id =
+                        std::string(raw_channel_id.substr(0, raw_channel_id.find('\x00')));
+                    ping->set_channel_id(channel_id);
+
+                    // add parameters
                     ping->file_data().add_parameter(_channel_parameter_buffer.get(channel_id));
 
+                    // set sensor configuration
                     auto sensor_configuration = base_sensor_configuration;
                     sensor_configuration.add_target("Transducer",
                                                     sensor_configuration.get_target(channel_id));
@@ -133,7 +140,7 @@ class SimradRawPingDataInterfacePerFile
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
                         base_sensor_configuration, ping->get_timestamp()));
 
-                    //ping->file_data().set_file_ping_counter(pings.size());
+                    ping->add_datagram_info(datagram_ptr);
 
                     pings.add_ping(ping);
                     break;
