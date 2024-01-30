@@ -150,7 +150,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         //navigation data interface needs configuraiton data interface to be initialized
         if (!this->_configuration_data_interface->is_initialized())
         {
-            this->_configuration_data_interface->init_from_file(false, progress_bar, external_progress_tick);
+            this->_configuration_data_interface->init_from_file(false, progress_bar);
         }
 
         auto primary_interfaces_per_file = this->per_primary_file();
