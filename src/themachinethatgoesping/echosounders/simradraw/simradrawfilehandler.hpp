@@ -178,6 +178,7 @@ class SimradRawFileHandler
         progress_bar.close(std::string("Done"));
     }
 
+    auto& datagramdata_interface() { return *_datagramdata_interface; }
     auto& configuration_interface() { return *_configuration_interface; }
     auto& navigation_interface() { return *_navigation_interface; }
     auto& environment_interface() { return *_environment_interface; }

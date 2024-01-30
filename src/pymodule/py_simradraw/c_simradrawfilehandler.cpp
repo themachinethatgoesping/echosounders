@@ -59,6 +59,10 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
 
     //----- iterators via () operator -----
     cls.def_property_readonly(
+        "datagramdata_interface",
+        py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::datagramdata_interface),
+        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, datagramdata_interface));
+    cls.def_property_readonly(
         "configuration_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::configuration_interface),
         DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, configuration_interface));
