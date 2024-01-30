@@ -93,6 +93,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         bool                                external_progress_tick = false)
     {
         auto interfaces_per_file = this->per_file();
+        auto config_interfaces_per_file =
+            this->_configuration_data_interface->per_file();
         std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> cache_per_file;
 
         bool existing_progressbar = true;
@@ -110,6 +112,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         for (size_t i = 0; i < interfaces_per_file.size(); ++i)
         {
             progress_bar.set_postfix(fmt::format("{}/{}", i, interfaces_per_file.size()));
+            
+            if (!config_interfaces_per_file[i]->is_initialized())
+            {
+                config_interfaces_per_file[i]->init_from_file();
+            }
 
             cache_per_file[interfaces_per_file[i]->get_file_path()] =
                 interfaces_per_file[i]->read_navigation_data();
