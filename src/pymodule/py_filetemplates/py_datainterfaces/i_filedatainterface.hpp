@@ -57,6 +57,9 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::verify_linked_file_interfaces_are_consistent,
             DOC_FileDataInterface(verify_linked_file_interfaces_are_consistent));
 
+    cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterface(initialized));
+    cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
+
     cls.def("init_from_file",
             // py::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //
             // compiler error on windows, but cstyle cast works
