@@ -76,6 +76,12 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
     }
     const navigation::SensorConfiguration& get_sensor_configuration() const
     {
+        if (!_is_initialized_sensor_configuration)
+            throw std::runtime_error(
+                fmt::format("ERROR[get_sensor_configuration]: Sensor configuration not initialized "
+                            "for file {}",
+                            this->get_file_path())
+
         return _sensor_configuration;
     }
 
