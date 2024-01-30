@@ -117,11 +117,11 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             return;
         }
 
-        // // init navigation interface
-        // if (!this->navigation_data_interface().is_initialized())
-        // {
-        //     this->navigation_data_interface().init_from_file(false, progress_bar);
-        // }
+        // init navigation interface
+        if (!this->navigation_data_interface().is_initialized())
+        {
+            this->navigation_data_interface().init_from_file(false, progress_bar);
+        }
 
         bool existing_progressbar = true;
 
