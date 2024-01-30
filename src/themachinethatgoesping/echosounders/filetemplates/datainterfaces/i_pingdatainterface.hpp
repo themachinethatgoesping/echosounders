@@ -120,7 +120,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         // init navigation interface
         if (!this->navigation_data_interface().is_initialized())
         {
-            this->navigation_data_interface().init_from_file(false, progress_bar);
+            this->navigation_data_interface().init_from_file(false, progress_bar, external_progress_tick);
         }
 
         bool existing_progressbar = true;
