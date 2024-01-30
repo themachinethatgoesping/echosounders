@@ -34,6 +34,7 @@ template<typename T_BaseClass, typename T_PyClass>
 void NavigationDataInterface_add_interface(T_PyClass& cls)
 {
     namespace py = pybind11;
+    using namespace themachinethatgoesping::tools::progressbars;
 
     py_i_filedatainterface::FileDataInterface_add_interface<T_BaseClass>(cls);
 
@@ -66,6 +67,18 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                                                                       py::const_),
             DOC_I_NavigationDataInterface(channel_ids_2),
             py::arg("sensor_configuration"));
+
+    cls.def("get_navigation_cache",
+            py::overload_cast<bool>(&T_BaseClass::get_navigation_cache),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC_I_NavigationDataInterface(get_navigation_cache),
+            py::arg("show_progress") = true);
+    cls.def("get_navigation_cache",
+            py::overload_cast<I_ProgressBar&, bool>(&T_BaseClass::get_navigation_cache),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC_I_NavigationDataInterface(get_navigation_cache),
+            py::arg("progress_bar"),
+            py::arg("external_progress_tick") = false);
 }
 
 }

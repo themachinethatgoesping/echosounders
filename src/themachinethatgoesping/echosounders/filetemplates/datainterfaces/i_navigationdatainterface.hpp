@@ -81,6 +81,48 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     void deinitialize() override { _initialized_navigation_interpolators = false; }
     bool initialized() const override { return _initialized_navigation_interpolators; }
 
+    std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> get_navigation_cache(
+        bool show_progress = true)
+    {
+        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
+        return this->get_navigation_cache(progress_bar.get());
+    }
+
+    std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> get_navigation_cache(
+        tools::progressbars::I_ProgressBar& progress_bar,
+        bool                                external_progress_tick = false)
+    {
+        auto interfaces_per_file = this->per_file();
+        std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> cache_per_file;
+
+        bool existing_progressbar = true;
+
+        if (!progress_bar.is_initialized())
+        {
+            progress_bar.init(0.,
+                              double(interfaces_per_file.size()),
+                              fmt::format("Creating navigation cache from files", this->class_name()));
+
+            existing_progressbar = false;
+        }
+
+        for (size_t i = 0; i < interfaces_per_file.size(); ++i)
+        {
+            progress_bar.set_postfix(fmt::format("{}/{}", i, interfaces_per_file.size()));
+
+            cache_per_file[interfaces_per_file[i]->get_file_path()] =
+                interfaces_per_file[i]->read_navigation_data();
+
+            if (!existing_progressbar || external_progress_tick)
+                progress_bar.tick();
+        }
+
+        if (!existing_progressbar)
+            progress_bar.close(std::string("Done"));
+
+        return cache_per_file;
+    }
+
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(bool                                force,
                         tools::progressbars::I_ProgressBar& progress_bar,
@@ -146,15 +188,15 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             }
             catch (std::exception& e)
             {
-                // TODO: compare files with checksum to avoid loading duplicates                
+                // TODO: compare files with checksum to avoid loading duplicates
 
                 // TODO:Use logging
-                fmt::print(
-                    std::cerr,
-                    "WARNING[{}::init_from_file]: Could not merge file navigation ({}) because: {}\n",
-                    this->class_name(),
-                    primary_interfaces_per_file[i]->get_file_nr(),
-                    e.what());
+                fmt::print(std::cerr,
+                           "WARNING[{}::init_from_file]: Could not merge file navigation ({}) "
+                           "because: {}\n",
+                           this->class_name(),
+                           primary_interfaces_per_file[i]->get_file_nr(),
+                           e.what());
             }
             if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();
