@@ -51,7 +51,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
   protected:
     std::unordered_map<navigation::SensorConfiguration, navigation::NavigationInterpolatorLatLon>
          _navigation_interpolators;
-    bool _initialized_navigation_interpolators = false;
+    bool _is_initialized_navigation_interpolators = false;
 
     std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
@@ -74,12 +74,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return *_configuration_data_interface;
     }
 
-    bool initialized_navigation_interpolator() const
+    bool is_initialized_navigation_interpolator() const
     {
-        return _initialized_navigation_interpolators;
+        return _is_initialized_navigation_interpolators;
     }
-    void deinitialize() override { _initialized_navigation_interpolators = false; }
-    bool initialized() const override { return _initialized_navigation_interpolators; }
+    void deinitialize() override { _is_initialized_navigation_interpolators = false; }
+    bool is_initialized() const override { return _is_initialized_navigation_interpolators; }
 
     std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> get_navigation_cache(
         bool show_progress = true)
@@ -154,7 +154,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
-        if (!force && _initialized_navigation_interpolators)
+        if (!force && _is_initialized_navigation_interpolators)
         {
             // note: at this moment, navigation interpolator does not react if the configuration
             // changes ...
@@ -171,7 +171,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                   });
 
         // // init configuration interface
-        // if (!this->_configuration_data_interface->initialized())
+        // if (!this->_configuration_data_interface->is_initialized())
         // {
         //     _configuration_data_interface->init_from_file(false, progress_bar);
         // }
@@ -223,7 +223,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 progress_bar.tick();
         }
 
-        _initialized_navigation_interpolators = true;
+        _is_initialized_navigation_interpolators = true;
         if (!existing_progressbar)
             progress_bar.close(std::string("Done"));
     }

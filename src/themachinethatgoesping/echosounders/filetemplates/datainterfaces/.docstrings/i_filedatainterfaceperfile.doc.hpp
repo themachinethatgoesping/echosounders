@@ -1,4 +1,4 @@
-//sourcehash: a6d852a4d101ff8943d1dbb352f59f150464f54fd692ba468b2d15ca7922a3a8
+//sourcehash: 89bc848c0c24071cb841714503c017e4d621716e41825601b4e699a2b8bd1b65
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -84,7 +84,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_init_from_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_initialized = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_is_primary_file = R"doc()doc";
 

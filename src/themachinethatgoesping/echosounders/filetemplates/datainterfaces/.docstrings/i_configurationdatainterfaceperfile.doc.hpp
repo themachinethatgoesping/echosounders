@@ -1,4 +1,4 @@
-//sourcehash: fab1eed02c3215cf41d4ff51bd4fca5e9bed4eef0400d7541960a16815c728aa
+//sourcehash: b5f1591e2b4f35adf52596bb36f4a1404c91668638dbe838a8372cbc88e6f1c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,11 +48,11 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_init_from_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_is_initialized = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized_sensor_configuration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_is_initialized_sensor_configuration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_initialized_sensor_configuration_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_is_initialized_sensor_configuration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_printer = R"doc()doc";
 

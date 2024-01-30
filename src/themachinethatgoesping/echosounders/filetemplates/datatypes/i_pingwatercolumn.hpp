@@ -67,7 +67,7 @@ namespace datatypes {
  */
 class I_PingWatercolumn : virtual public I_PingCommon
 {
-    bool                                             _beam_sample_selection_all_initialized = false;
+    bool                                             _beam_sample_selection_all_is_initialized = false;
     boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
 
   protected:
@@ -209,7 +209,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      */
     const pingtools::BeamSampleSelection& get_beam_sample_selection_all()
     {
-        if (!_beam_sample_selection_all_initialized)
+        if (!_beam_sample_selection_all_is_initialized)
         {
             auto first_sample_offsets = get_first_sample_offset_per_beam();
             auto number_of_samples    = get_number_of_samples_per_beam();
@@ -224,7 +224,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
 
             _beam_sample_selection_all =
                 pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
-            _beam_sample_selection_all_initialized = true;
+            _beam_sample_selection_all_is_initialized = true;
         }
 
         return _beam_sample_selection_all;

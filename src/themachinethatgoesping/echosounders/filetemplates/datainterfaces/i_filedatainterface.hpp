@@ -170,27 +170,6 @@ class I_FileDataInterface
         return _interface_per_file[_pyindexer(pyindex)];
     }
 
-    virtual bool initialized() const
-    {
-        for (const std::shared_ptr<t_filedatainterface_perfile>& inter : this->_interface_per_file)
-        {
-            if (!inter->initialized())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    virtual void deinitialize()
-    {
-        for (std::shared_ptr<t_filedatainterface_perfile>& inter : this->_interface_per_file)
-        {
-            inter->deinitialize();
-        }
-    }
-
     void init_from_file(bool force = false, bool show_progress = true)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
@@ -244,11 +223,11 @@ class I_FileDataInterface
         }
     }
 
-    virtual bool initialized() const
+    virtual bool is_initialized() const
     {
         for (const std::shared_ptr<t_filedatainterface_perfile>& inter : this->_interface_per_file)
         {
-            if (!inter->initialized())
+            if (!inter->is_initialized())
             {
                 return false;
             }

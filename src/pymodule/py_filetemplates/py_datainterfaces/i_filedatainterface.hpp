@@ -57,7 +57,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::verify_linked_file_interfaces_are_consistent,
             DOC_FileDataInterface(verify_linked_file_interfaces_are_consistent));
 
-    cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterface(initialized));
+    cls.def("is_initialized", &T_BaseClass::is_initialized, DOC_FileDataInterface(is_initialized));
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
 
     cls.def("init_from_file",
@@ -79,7 +79,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             py::arg("external_progress_tick") = false);
 
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
-    cls.def("initialized", &T_BaseClass::initialized, DOC_FileDataInterface(initialized));
+    cls.def("is_initialized", &T_BaseClass::is_initialized, DOC_FileDataInterface(is_initialized));
 
     // ----- ping convenience functions -----
     /* default copy functions */

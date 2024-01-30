@@ -59,7 +59,7 @@ class I_NavigationDataInterfacePerFile
         : t_base(name)
     {
         throw std::runtime_error(
-            fmt::format("I_NavigationDataInterfacePerFile({}): cannot be initialized without "
+            fmt::format("I_NavigationDataInterfacePerFile({}): cannot be is_initialized without "
                         "existing configuration_data_interface",
                         this->class_name()));
     }

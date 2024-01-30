@@ -118,7 +118,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         }
 
         // // init navigation interface
-        // if (!this->navigation_data_interface().initialized())
+        // if (!this->navigation_data_interface().is_initialized())
         // {
         //     this->navigation_data_interface().init_from_file(false, progress_bar);
         // }

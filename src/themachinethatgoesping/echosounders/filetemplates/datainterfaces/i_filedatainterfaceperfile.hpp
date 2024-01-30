@@ -120,19 +120,19 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 
     virtual void init_from_file([[maybe_unused]] bool force = false)
     {
-        // this file does not need to be initialized
+        // this file does not need to be is_initialized
         return;
     }
 
     virtual void deinitialize()
     {
-        // this file does not need to be deinitialized
+        // this file does not need to be deis_initialized
         return;
     }
 
-    virtual bool initialized() const
+    virtual bool is_initialized() const
     {
-        // this file is always initialized
+        // this file is always is_initialized
         return true;
     }
 

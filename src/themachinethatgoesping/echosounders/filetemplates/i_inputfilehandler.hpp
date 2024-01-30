@@ -217,7 +217,7 @@ class I_InputFileHandler
             FileInfos file_info(file_nr, _input_file_manager, it->second);
 
             bool close_progressbar = false; ///< only close the progressbar if it was
-                                            ///< initialized within this function
+                                            ///< is_initialized within this function
             if (!progress_bar.is_initialized())
             {
                 progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
@@ -310,7 +310,7 @@ class I_InputFileHandler
 
         file_info.file_size    = std::filesystem::file_size(file_path);
         bool close_progressbar = false; ///< only close the progressbar if it was
-                                        ///< initialized within this function
+                                        ///< is_initialized within this function
         if (!progress_bar.is_initialized())
         {
             progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
@@ -338,7 +338,7 @@ class I_InputFileHandler
                 // this function checks if the datagram content is senseful
                 if (ifs.good())
                 {
-                    // update using tick to allow progressbar that was initialized by
+                    // update using tick to allow progressbar that was is_initialized by
                     // append_files to work
                     auto pos_new = ifs.tellg();
                     progress_bar.tick(double(pos_new - pos));

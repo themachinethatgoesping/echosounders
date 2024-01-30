@@ -1,4 +1,4 @@
-//sourcehash: 1b24e4986ba86680471fcdf3a528cf7ade113640762f0bdbf04f8000c9ab9a5d
+//sourcehash: f592de3c21000a932c9131f70b6f94dab33e4aba9f826beb12d5a7de239ca7fa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,11 +74,11 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_init_from_file_or_cache_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_is_initialized = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized_navigation_interpolator = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_is_initialized_navigation_interpolator = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_initialized_navigation_interpolators = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_is_initialized_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_navigation_interpolators = R"doc()doc";
 

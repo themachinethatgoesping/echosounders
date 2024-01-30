@@ -49,7 +49,7 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
   private:
     navigation::SensorConfiguration _sensor_configuration;
 
-    bool _initialized_sensor_configuration = false;
+    bool _is_initialized_sensor_configuration = false;
 
   public:
     I_ConfigurationDataInterfacePerFile(
@@ -65,13 +65,13 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
             fmt::format("read_sensor_configuration not implemented for {}", this->class_name()));
     }
 
-    bool initialized_sensor_configuration() const { return _initialized_sensor_configuration; }
-    void deinitialize() override { _initialized_sensor_configuration = false; }
-    bool initialized() const override { return _initialized_sensor_configuration; }
+    bool is_initialized_sensor_configuration() const { return _is_initialized_sensor_configuration; }
+    void deinitialize() override { _is_initialized_sensor_configuration = false; }
+    bool is_initialized() const override { return _is_initialized_sensor_configuration; }
 
     void set_sensor_configuration(navigation::SensorConfiguration sensor_configuration)
     {
-        _initialized_sensor_configuration = true;
+        _is_initialized_sensor_configuration = true;
         _sensor_configuration             = std::move(sensor_configuration);
     }
     const navigation::SensorConfiguration& get_sensor_configuration() const
@@ -83,10 +83,10 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
     {
         try
         {
-            if (force || !_initialized_sensor_configuration)
+            if (force || !_is_initialized_sensor_configuration)
             {
                 _sensor_configuration             = this->read_sensor_configuration();
-                _initialized_sensor_configuration = true;
+                _is_initialized_sensor_configuration = true;
             }
         }
         catch (std::exception& e)

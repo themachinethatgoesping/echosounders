@@ -1,4 +1,4 @@
-//sourcehash: 05f2ea89af92802c221b08ebf57899809bc5816d250cf7e024e3d2866f041b15
+//sourcehash: dfda60e5c3e280c519c6e6c21382a9bfe81bda86b299c1c3cb8de6ef79f7d58b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -53,7 +53,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all_initialized = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_beam_sample_selection_all_is_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_class_name = R"doc()doc";
 
