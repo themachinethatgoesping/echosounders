@@ -75,7 +75,8 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                 bool))(&T_BaseClass::init_from_file_or_cache),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC_I_NavigationDataInterface(init_from_file_or_cache),
-            py::arg("cache")         = {},
+            py::arg("cache") =
+                std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>(),
             py::arg("force")         = false,
             py::arg("show_progress") = true);
     cls.def("init_from_file_or_cache",
