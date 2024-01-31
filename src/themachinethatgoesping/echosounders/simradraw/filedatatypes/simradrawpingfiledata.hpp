@@ -81,9 +81,9 @@ class SimradRawPingFileData
     // }
     ~SimradRawPingFileData() = default;
 
-    void add_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
+    void add_parameter(datagrams::xml_datagrams::XML_Parameter_Channel parameter)
     {
-        _ping_parameter = parameter;
+        _ping_parameter = std::move(parameter);
     }
 
     const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const

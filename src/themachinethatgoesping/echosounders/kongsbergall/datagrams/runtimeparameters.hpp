@@ -389,6 +389,20 @@ class RuntimeParameters : public KongsbergAllDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RuntimeParameters)
 };
 
+/**
+ * @brief Provide a boost hash function for RuntimeParameters
+ * - Note: this is needed to use RuntimeParameters as boost::flyweight
+ * - IMPORTANT: this hash function only uses the content of the RuntimeParameters for hashing (not information from header e.g. timestamp, ping counter etc.)
+ *
+ * @param data
+ * @return std::size_t
+ */
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+inline size_t hash_value(const RuntimeParameters& data)
+{
+    return data.hash_content_only();
+}
+
 } // namespace datagrams
 } // namespace kongsbergall
 } // namespace echosounders

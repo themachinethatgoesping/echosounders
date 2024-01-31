@@ -55,8 +55,7 @@ class KongsbergAllPingFileData
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
     // parameters (read when adding datagram infos)
-    std::shared_ptr<datagrams::RuntimeParameters> _runtime_parameters =
-        std::make_shared<datagrams::RuntimeParameters>();
+    boost::flyweight<datagrams::RuntimeParameters> _runtime_parameters;
 
   private:
     std::shared_ptr<_sub::WaterColumnInformation> _watercolumninformation;
@@ -106,13 +105,13 @@ class KongsbergAllPingFileData
     }
 
   public:
-    void set_runtime_parameters(std::shared_ptr<datagrams::RuntimeParameters> arg)
+    void set_runtime_parameters(const datagrams::RuntimeParameters& arg)
     {
-        _runtime_parameters = std::move(arg);
+        _runtime_parameters = arg;
     }
     const datagrams::RuntimeParameters& get_runtime_parameters() const
     {
-        return *_runtime_parameters;
+        return _runtime_parameters.get();
     }
 
     bool has_datagram_type(t_KongsbergAllDatagramIdentifier datagram_identifier) const

@@ -1,4 +1,4 @@
-//sourcehash: 90f399384060849cba73de98c791fe8534a6d14a115a063dfe856d4ad7ed8e08
+//sourcehash: 8b694e0aeefd3e6cf58ce93bba0b182dfa392cad9b9d7eb91b418cfba2f97bb1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -269,6 +269,18 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_tvg_law_crossover_angle = R"doc(< in degrees)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_yaw_and_pitch_stabilization_mode = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_hash_value =
+R"doc(Provide a boost hash function for RuntimeParameters - Note: this is
+needed to use RuntimeParameters as boost::flyweight - IMPORTANT: this
+hash function only uses the content of the RuntimeParameters for
+hashing (not information from header e.g. timestamp, ping counter
+etc.)
+
+Parameter ``data``:
+    $Returns:
+
+std::size_t)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

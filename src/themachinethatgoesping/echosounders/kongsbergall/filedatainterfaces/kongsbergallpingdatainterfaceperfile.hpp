@@ -9,6 +9,9 @@
 /* generated doc strings */
 #include ".docstrings/kongsbergallpingdatainterfaceperfile.doc.hpp"
 
+/* std includes */
+#include <map>
+
 /* library includes */
 #include <magic_enum.hpp>
 
@@ -40,9 +43,7 @@ class KongsbergAllPingDataInterfacePerFile
         KongsbergAllEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::KongsbergAllPingContainer<t_ifstream>>;
 
-    filetemplates::helper::DeduplicateBuffer<datagrams::RuntimeParameters,
-                                             filetemplates::helper::ContentOnlyHash>
-        _runtime_parameter_buffer;
+    std::map<std::string, datagrams::RuntimeParameters> _runtime_parameter_buffer;
 
   public:
     KongsbergAllPingDataInterfacePerFile()
@@ -57,7 +58,7 @@ class KongsbergAllPingDataInterfacePerFile
     }
     ~KongsbergAllPingDataInterfacePerFile() = default;
 
-    auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer.get_all(); }
+    auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer; }
 
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings()
     {
@@ -86,15 +87,15 @@ class KongsbergAllPingDataInterfacePerFile
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-                        auto rp = std::make_shared<datagrams::RuntimeParameters>(
+                        auto rp =
                             datagram_ptr
-                                ->template read_datagram_from_file<datagrams::RuntimeParameters>());
-                        _runtime_parameter_buffer.add(
-                            rp, std::to_string(rp->get_system_serial_number()));
+                                ->template read_datagram_from_file<datagrams::RuntimeParameters>();
+                        _runtime_parameter_buffer[std::to_string(rp.get_system_serial_number())] =
+                            rp;
 
                         // read ping counter from not deduplicated datagram
-                        auto ping_counter         = rp->get_ping_counter();
-                        auto system_serial_number = rp->get_system_serial_number();
+                        auto ping_counter         = rp.get_ping_counter();
+                        auto system_serial_number = rp.get_system_serial_number();
 
                         // create a new ping if it does not exist
                         auto ping_it =
@@ -111,8 +112,8 @@ class KongsbergAllPingDataInterfacePerFile
                         }
 
                         // add deduplicated runtime parameters
-                        ping_it->second->set_runtime_parameters(_runtime_parameter_buffer.get(
-                            std::to_string(rp->get_system_serial_number())));
+                        ping_it->second->set_runtime_parameters(_runtime_parameter_buffer.at(
+                            std::to_string(rp.get_system_serial_number())));
 
                         // add runtime parameters datagram
                         ping_it->second->add_datagram_info(datagram_ptr);

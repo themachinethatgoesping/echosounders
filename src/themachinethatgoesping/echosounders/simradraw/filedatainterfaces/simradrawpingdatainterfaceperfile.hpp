@@ -9,7 +9,11 @@
 /* generated doc strings */
 #include ".docstrings/simradrawpingdatainterfaceperfile.doc.hpp"
 
+/* std includes */
+#include <map>
+
 /* library includes */
+#include <boost/flyweight.hpp>
 #include <magic_enum.hpp>
 
 /* themachinethatgoesping includes */
@@ -40,7 +44,7 @@ class SimradRawPingDataInterfacePerFile
         SimradRawEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::SimradRawPingContainer<t_ifstream>>;
 
-    filetemplates::helper::DeduplicateBuffer<datagrams::xml_datagrams::XML_Parameter_Channel>
+    std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel>
         _channel_parameter_buffer;
 
   public:
@@ -55,7 +59,7 @@ class SimradRawPingDataInterfacePerFile
     }
     ~SimradRawPingDataInterfacePerFile() = default;
 
-    auto get_deduplicated_parameters() { return _channel_parameter_buffer.get_all(); }
+    auto get_deduplicated_parameters() { return _channel_parameter_buffer; }
 
     filedatacontainers::SimradRawPingContainer<t_ifstream> read_pings()
     {
@@ -84,11 +88,11 @@ class SimradRawPingDataInterfacePerFile
 
                     if (xml_type == "Parameter")
                     {
-                        auto channel =
-                            std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
-                                std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
-                                    .Channels[0]);
-                        _channel_parameter_buffer.add(channel, channel->ChannelID);
+                        auto channels =
+                            std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
+                                .Channels;
+                        for (const auto& channel : channels)
+                            _channel_parameter_buffer[channel.ChannelID] = channel;
                         break;
                     }
                     else if (xml_type == "InitialParameter")
@@ -97,10 +101,7 @@ class SimradRawPingDataInterfacePerFile
                             std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
                                 .Channels;
                         for (const auto& channel : channels)
-                            _channel_parameter_buffer.add(
-                                std::make_shared<datagrams::xml_datagrams::XML_Parameter_Channel>(
-                                    channel),
-                                channel.ChannelID);
+                            _channel_parameter_buffer[channel.ChannelID] = channel;
                         break;
                     }
 
@@ -131,7 +132,7 @@ class SimradRawPingDataInterfacePerFile
                     // add parameters
                     ping->file_data().set_file_ping_counter(pings.size());
                     ping->file_data().set_primary_file_nr(this->get_file_nr());
-                    ping->file_data().add_parameter(_channel_parameter_buffer.get(channel_id));
+                    ping->file_data().add_parameter(_channel_parameter_buffer.at(channel_id));
 
                     // set sensor configuration
                     auto sensor_configuration = base_sensor_configuration;
