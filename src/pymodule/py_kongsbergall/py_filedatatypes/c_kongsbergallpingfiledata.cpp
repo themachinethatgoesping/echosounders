@@ -93,7 +93,6 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
     // inherit from KongsbergAllDatagramInterface
     py_filedatainterfaces::KongsbergAllDatagramInterface_add_interface_functions<
         t_KongsbergAllPingFileData>(cls);
-    // py_i_datagraminterface::add_InterfaceFunctions<t_KongsbergAllPingFileData>(cls);
 }
 
 void init_c_kongsbergallPingFileData(pybind11::module& m)

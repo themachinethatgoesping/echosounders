@@ -16,9 +16,11 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
+
+#include "../py_filedatainterfaces/c_simradrawdatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -30,7 +32,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOc_simradrawpingfiledata(ARG)                                                                 \
+#define DOc_simradrawpingfiledata(ARG)                                                             \
     DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData, ARG)
 
 template<typename T_FileStream>
@@ -38,7 +40,9 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
 {
     using t_SimradRawPingFileData = filedatatypes::SimradRawPingFileData<T_FileStream>;
 
-    py::class_<t_SimradRawPingFileData, datatypes::I_PingFileData, std::shared_ptr<t_SimradRawPingFileData>>(
+    auto cls = py::class_<t_SimradRawPingFileData,
+                          datatypes::I_PingFileData,
+                          std::shared_ptr<t_SimradRawPingFileData>>(
         m,
         (CLASS_NAME).c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData))
@@ -56,8 +60,9 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
         //      &t_SimradRawPingFileData::get_sample_data,
         //      DOc_simradrawpingfiledata(get_sample_data))
 
-        // .def("has_angle", &t_SimradRawPingFileData::has_angle, DOc_simradrawpingfiledata(has_angle))
-        // .def("has_power", &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
+        // .def("has_angle", &t_SimradRawPingFileData::has_angle,
+        // DOc_simradrawpingfiledata(has_angle)) .def("has_power",
+        // &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
 
         // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
         // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
@@ -74,13 +79,18 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
         __PYCLASS_DEFAULT_PRINTING__(t_SimradRawPingFileData)
         // end SimradRawPing
         ;
+
+    // inherit from SimradRawDatagramInterface
+    py_filedatainterfaces::SimradRawDatagramInterface_add_interface_functions<
+        t_SimradRawPingFileData>(cls);
 }
 
 void init_c_simradrawpingfiledata(pybind11::module& m)
 {
 
     py_create_class_simradrawPingFileData<std::ifstream>(m, "SimradRawPingFileData");
-    py_create_class_simradrawPingFileData<datastreams::MappedFileStream>(m, "SimradRawPingFileData_mapped");
+    py_create_class_simradrawPingFileData<datastreams::MappedFileStream>(
+        m, "SimradRawPingFileData_mapped");
 }
 
 }
