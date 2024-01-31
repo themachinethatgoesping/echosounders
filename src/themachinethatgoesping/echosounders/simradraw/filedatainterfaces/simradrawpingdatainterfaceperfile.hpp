@@ -71,7 +71,6 @@ class SimradRawPingDataInterfacePerFile
             switch (type)
             {
                 case t_SimradRawDatagramIdentifier::XML0: {
-
                     auto& ifs = datagram_ptr->get_stream_and_seek();
                     auto  xml = datagrams::XML0::from_stream(ifs);
 
