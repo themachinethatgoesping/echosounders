@@ -1,4 +1,4 @@
-//sourcehash: 6927e3cafaa8d2ef5bf071f614d2d06c14c6796e0d4b080be01e5404d04aab9b
+//sourcehash: a1dc8249662f1712682ee528bcdb433e767d749b27a11f4dbdf09aa60440ef5f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -101,6 +101,15 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_attributes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_children = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value =
+R"doc(Provide a boost hash function for XML_Parameter_Channel - Note: this
+is needed to use XML_Parameter_Channel as boost::flyweight
+
+Parameter ``data``:
+    $Returns:
+
+std::size_t)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

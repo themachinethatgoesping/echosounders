@@ -320,6 +320,18 @@ struct XML_Parameter_Channel
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter_Channel)
 };
 
+/**
+ * @brief Provide a boost hash function for XML_Parameter_Channel
+ * - Note: this is needed to use XML_Parameter_Channel as boost::flyweight
+ *
+ * @param data
+ * @return std::size_t
+ */
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+inline size_t hash_value(const XML_Parameter_Channel& data)
+{
+    return data.binary_hash();
+}
 
 }
 }

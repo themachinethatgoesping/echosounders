@@ -20,6 +20,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
 #include <fmt/core.h>
 
 // xtensor includes
@@ -51,7 +52,7 @@ class SimradRawPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::SimradRawDatagramInterface<t_ifstream>;
 
-    std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
+    boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string class_name() const override { return "SimradRawPingFileData"; }
 
   public:
@@ -80,14 +81,14 @@ class SimradRawPingFileData
     // }
     ~SimradRawPingFileData() = default;
 
-    void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
+    void add_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
-        _ping_parameter = std::move(parameter);
+        _ping_parameter = parameter;
     }
 
     const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const
     {
-        return *_ping_parameter;
+        return _ping_parameter.get();
     }
 
     // ----- load skipped data -----
