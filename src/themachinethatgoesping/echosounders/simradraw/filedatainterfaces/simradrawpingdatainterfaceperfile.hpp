@@ -129,6 +129,8 @@ class SimradRawPingDataInterfacePerFile
                     ping->set_channel_id(channel_id);
 
                     // add parameters
+                    ping->file_data().set_file_ping_counter(pings.size());
+                    ping->file_data().set_primary_file_nr(this->get_file_nr());
                     ping->file_data().add_parameter(_channel_parameter_buffer.get(channel_id));
 
                     // set sensor configuration
@@ -139,7 +141,6 @@ class SimradRawPingDataInterfacePerFile
 
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
                         base_sensor_configuration, ping->get_timestamp()));
-
 
                     pings.add_ping(ping);
                     break;
