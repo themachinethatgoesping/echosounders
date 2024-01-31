@@ -51,7 +51,7 @@ class SimradRawPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::SimradRawDatagramInterface<t_ifstream>;
 
-    // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
+    std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string class_name() const override { return "SimradRawPingFileData"; }
 
   public:
@@ -82,12 +82,12 @@ class SimradRawPingFileData
 
     void add_parameter(std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
-        //_ping_parameter = std::move(parameter);
+        _ping_parameter = std::move(parameter);
     }
 
     const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const
     {
-        // return *_ping_parameter;
+        return *_ping_parameter;
     }
 
     // ----- load skipped data -----
@@ -155,6 +155,53 @@ class SimradRawPingFileData
         //     default:
         //         throw std::runtime_error("Unknown data type");
         // }
+    }
+
+    // ----- I_PingFileData Interface -----
+    std::vector<size_t> get_file_numbers() const final
+    {
+        std::vector<size_t> fnr     = { get_primary_file_nr() };
+        std::set<size_t>    fnr_set = { get_primary_file_nr() };
+
+        for (const auto& datagram_info : this->_datagram_infos_all)
+        {
+            auto nr = datagram_info->get_file_nr();
+            if (!fnr_set.contains(nr))
+            {
+                fnr.push_back(nr);
+                fnr_set.insert(nr);
+            }
+        }
+
+        return fnr;
+    }
+    std::string get_primary_file_path() const final
+    {
+        must_have_datagrams("get_primary_file_path");
+
+        return this->_datagram_infos_all.at(0)->file_nr_to_file_path(get_primary_file_nr());
+    }
+    std::vector<std::string> get_file_paths() const final
+    {
+        must_have_datagrams("get_file_paths");
+
+        auto fnrs = get_file_numbers();
+
+        std::vector<std::string> fps;
+
+        for (const auto& fnr : fnrs)
+        {
+            fps.push_back(this->_datagram_infos_all.at(0)->file_nr_to_file_path(fnr));
+        }
+
+        return fps;
+    }
+
+    void must_have_datagrams(std::string_view method_name) const
+    {
+        if (this->_datagram_infos_all.empty())
+            throw std::runtime_error(
+                fmt::format("{}: No datagram in ping!", __func__, method_name));
     }
 
   public:

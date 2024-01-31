@@ -228,7 +228,6 @@ class KongsbergAllPingFileData
     }
 
     // ----- I_PingFileData Interface -----
-
     std::vector<size_t> get_file_numbers() const final
     {
         std::vector<size_t> fnr     = { get_primary_file_nr() };
@@ -272,7 +271,7 @@ class KongsbergAllPingFileData
     {
         if (this->_datagram_infos_all.empty())
             throw std::runtime_error(fmt::format(
-                "Error[KongsbergAllPingFileData::{}]: No datagram in ping!", method_name));
+                "{}: No datagram in ping!", __func__, method_name));
     }
 
   public:

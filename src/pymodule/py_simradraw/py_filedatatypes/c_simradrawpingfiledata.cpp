@@ -52,9 +52,9 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
         //               &t_SimradRawPingFileData::_ping_data,
         //               DOc_simradrawpingfiledata(ping_data),
         //               py::return_value_policy::reference_internal)
-        // .def("get_parameter",
-        //      &t_SimradRawPingFileData::get_parameter,
-        //      DOc_simradrawpingfiledata(get_parameter))
+        .def("get_parameter",
+             &t_SimradRawPingFileData::get_parameter,
+             DOc_simradrawpingfiledata(get_parameter))
 
         // .def("get_sample_data",
         //      &t_SimradRawPingFileData::get_sample_data,
