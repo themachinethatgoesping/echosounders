@@ -113,12 +113,20 @@ class PackageCacheBuffer
     std::string         _filename;
     std::unordered_map<size_t, std::string> _hash_cache;
     std::unordered_map<size_t, std::string> _package_buffer;
-    // std::unordered_map<size_t, PackageCache<t_CachingResult>> _package_cache_buffer;
 
   public:
     PackageCacheBuffer(const std::string& filename)
         : _filename(filename){};
     virtual ~PackageCacheBuffer() = default;
+
+    const std::string& get_filename() const { return _filename; }
+
+    const std::unordered_map<size_t, std::string>& get_hash_cache() const { return _hash_cache; }
+
+    const std::unordered_map<size_t, std::string>& get_package_buffer() const
+    {
+        return _package_buffer;
+    }
 
     template<typename t_CachedPackage>
     void add_package(size_t                 package_nr,

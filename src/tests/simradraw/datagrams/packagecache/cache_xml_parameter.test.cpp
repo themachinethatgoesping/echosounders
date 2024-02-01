@@ -46,6 +46,8 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
 
     package_cache_buffer.add_package(package_cache);
     package_cache_buffer.add_package(12, 2, 3, channel2);
+    package_cache_buffer.add_package(22, 2, 3, channel);
+    package_cache_buffer.add_package(24, 2, 3, channel2);
 
     SECTION("PackageCacheBuffer: test basic access")
     {
@@ -57,6 +59,9 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     REQUIRE(channel == package_cache_buffer.get_package(0,0,0));
     REQUIRE(channel2 == package_cache_buffer.get_package(12,2,3));
     REQUIRE_THROWS(package_cache_buffer.get_package(1,2,3));
+
+    REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
+    REQUIRE(package_cache_buffer.get_hash_cache().size() == 2);
     }
 }
 

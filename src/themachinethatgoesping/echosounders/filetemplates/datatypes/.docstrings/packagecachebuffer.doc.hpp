@@ -1,4 +1,4 @@
-//sourcehash: aad50e57ee73fafbc9b1786c7fc7c5ae9e3dee109fe9f9402d793637b27eb525
+//sourcehash: abf064436de03bbb1224bc27d0008199872e5526bfbefdc2a1111958438f5bbf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,7 +52,13 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_filename = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_get_filename = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_get_hash_cache = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_get_package = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_get_package_buffer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCacheBuffer_get_package_cache = R"doc()doc";
 
