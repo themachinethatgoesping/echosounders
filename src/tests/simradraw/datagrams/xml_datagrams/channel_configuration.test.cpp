@@ -36,10 +36,7 @@ std::string xml_string =
     "520W CH2: 497W CH3: 490W CH4: 490W&#x0D;&#x0A;TRD1: Unable to detect "
     "transducer&#x0D;&#x0A;TRD2: Unable to detect transducer&#x0D;&#x0A;TRD3: Unable to detect "
     "transducer&#x0D;&#x0A;TRD4: Unable to detect transducer&#x0D;&#x0A;\" "
-    "TransceiverSoftwareVersion=\"2.54\" TransceiverNumber=\"1\" TransceiverType=\"WBT\">\n        "
-    "    <Channels>\n                <Channel ChannelID=\"WBT 400040-15 ES38-7_ES\" "
-    "LogicalChannelID=\"WBT 400040-15 ES38-7\" ChannelIdShort=\"ES38-7 Serial No: 331 - Narrow\" "
-    "MaxTxPowerTransceiver=\"2000\" HWChannelConfiguration=\"15\" "
+    "TransceiverSoftwareVersion=\"2.54\" TransceiverNumber=\"1\" TransceiverType=\cache_
     "PulseDuration=\"0.000256;0.000512;0.001024;0.002048;0.004096\" "
     "PulseDurationFM=\"0.000512;0.001024;0.002048;0.004096;0.008192\">\n                    "
     "<Transducer TransducerName=\"ES38-7\" ArticleNumber=\"321842\" SerialNumber=\"331\" "

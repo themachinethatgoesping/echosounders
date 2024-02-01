@@ -1,4 +1,4 @@
-//sourcehash: a1dc8249662f1712682ee528bcdb433e767d749b27a11f4dbdf09aa60440ef5f
+//sourcehash: bf627114506800e52a2ae80e54d54251d6c7a8b033ad1384c30272488a6e8d22
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -82,6 +82,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_initialize = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_initialize_channel_structure = R"doc()doc";
@@ -97,6 +99,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_attributes = R"doc()doc";
 

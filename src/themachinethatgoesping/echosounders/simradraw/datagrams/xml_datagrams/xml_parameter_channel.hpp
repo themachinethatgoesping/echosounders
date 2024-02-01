@@ -18,6 +18,7 @@
 #include <boost/algorithm/string/find.hpp>
 
 #include <pugixml.hpp>
+#include <xxhash.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -315,6 +316,28 @@ struct XML_Parameter_Channel
         return printer;
     }
 
+    // ----- functions used for PackageCache -----
+    static XML_Parameter_Channel from_stream(
+        std::istream&                                  is,
+        const std::unordered_map<size_t, std::string>& hash_cache)
+    {
+        size_t hash;
+        is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
+
+        return from_binary(hash_cache.at(hash));
+    }
+
+    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
+    {
+        auto        cache = this->to_binary();
+        size_t hash = xxh::xxhash3<64>(cache);
+
+        if (!hash_cache.contains(hash))
+            hash_cache[hash] = std::move(cache);
+
+        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
+    }
+
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Parameter_Channel)
@@ -341,11 +364,11 @@ inline size_t hash_value(const XML_Parameter_Channel& data)
 
 namespace std {
 template<>
-struct hash<
-    themachinethatgoesping::echosounders::simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>
+struct hash<themachinethatgoesping::echosounders::simradraw::datagrams::xml_datagrams::
+                XML_Parameter_Channel>
 {
-    size_t operator()(const themachinethatgoesping::echosounders::simradraw::datagrams::xml_datagrams::
-                          XML_Parameter_Channel& arg) const
+    size_t operator()(const themachinethatgoesping::echosounders::simradraw::datagrams::
+                          xml_datagrams::XML_Parameter_Channel& arg) const
     {
         return arg.binary_hash();
     }

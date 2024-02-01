@@ -32,6 +32,7 @@ sources = [
     'simradraw/datagrams/xml_datagrams/xml_sensor.test.cpp',
     'simradraw/datagrams/xml_datagrams/xml_pingsequence.test.cpp',
     'simradraw/datagrams/xml_datagrams/xml_configuration.test.cpp',
+    'simradraw/datagrams/packagecache/cache_xml_parameter.test.cpp',
 
     'kongsbergall/datagrams/kongsbergalldatagram.test.cpp',
     'kongsbergall/datagrams/kongsbergallunknown.test.cpp',

@@ -21,6 +21,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
+#include "../../filetemplates/datatypes/packagecachebuffer.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
 #include "../datagrams.hpp"
@@ -91,6 +92,7 @@ class SimradRawPingDataInterfacePerFile
                         auto channels =
                             std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
                                 .Channels;
+                                
                         for (const auto& channel : channels)
                             _channel_parameter_buffer[channel.ChannelID] = channel;
                         break;
