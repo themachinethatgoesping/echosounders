@@ -26,6 +26,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
@@ -110,16 +111,14 @@ class PackageCacheBuffer
 {
   protected:
     virtual std::string class_name() const { return fmt::format("PackageCacheBuffer"); }
-    std::string         _filename;
     std::unordered_map<size_t, std::string> _hash_cache;
     std::unordered_map<size_t, std::string> _package_buffer;
 
   public:
-    PackageCacheBuffer(const std::string& filename)
-        : _filename(filename){};
+    PackageCacheBuffer()          = default;
     virtual ~PackageCacheBuffer() = default;
 
-    const std::string& get_filename() const { return _filename; }
+    bool operator==(const PackageCacheBuffer& other) const = default;
 
     const std::unordered_map<size_t, std::string>& get_hash_cache() const { return _hash_cache; }
 
@@ -182,6 +181,109 @@ class PackageCacheBuffer
     t_CachingResult get_package(size_t package_nr, size_t file_pos, double timestamp) const
     {
         return get_package_cache(package_nr, file_pos, timestamp).get();
+    }
+
+    void to_stream(std::ostream& os) const
+    {
+        // write hash cache
+        {
+            size_t map_size = _hash_cache.size();
+            os.write(reinterpret_cast<const char*>(&map_size), sizeof(size_t));
+            for (const auto& [hash, buffer] : _hash_cache)
+            {
+                size_t buffer_size = buffer.size();
+                os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
+                os.write(reinterpret_cast<const char*>(&buffer_size), sizeof(buffer_size));
+                os.write(reinterpret_cast<const char*>(buffer.data()), sizeof(char) * buffer_size);
+            }
+        }
+
+        // write package buffer
+        {
+            size_t map_size = _package_buffer.size();
+            os.write(reinterpret_cast<const char*>(&map_size), sizeof(size_t));
+            for (const auto& [package_nr, buffer] : _package_buffer)
+            {
+                size_t buffer_size = buffer.size();
+                os.write(reinterpret_cast<const char*>(&package_nr), sizeof(package_nr));
+                os.write(reinterpret_cast<const char*>(&buffer_size), sizeof(buffer_size));
+                os.write(reinterpret_cast<const char*>(buffer.data()), sizeof(char) * buffer_size);
+            }
+        }
+    }
+
+    static PackageCacheBuffer from_stream(std::istream& is)
+    {
+        PackageCacheBuffer data;
+
+        // read hash cache
+        {
+            size_t map_size;
+            is.read(reinterpret_cast<char*>(&map_size), sizeof(size_t));
+            for (size_t i = 0; i < map_size; i++)
+            {
+                size_t hash;
+                size_t buffer_size;
+                is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
+                is.read(reinterpret_cast<char*>(&buffer_size), sizeof(buffer_size));
+                std::string buffer;
+                buffer.resize(buffer_size);
+                is.read(reinterpret_cast<char*>(buffer.data()), sizeof(char) * buffer_size);
+                data._hash_cache[hash] = std::move(buffer);
+            }
+        }
+
+        // read package buffer
+        {
+            size_t map_size;
+            is.read(reinterpret_cast<char*>(&map_size), sizeof(size_t));
+            for (size_t i = 0; i < map_size; i++)
+            {
+                size_t package_nr;
+                size_t buffer_size;
+                is.read(reinterpret_cast<char*>(&package_nr), sizeof(package_nr));
+                is.read(reinterpret_cast<char*>(&buffer_size), sizeof(buffer_size));
+                std::string buffer;
+                buffer.resize(buffer_size);
+                is.read(reinterpret_cast<char*>(buffer.data()), sizeof(char) * buffer_size);
+                data._package_buffer[package_nr] = std::move(buffer);
+            }
+        }
+
+        return data;
+    }
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    {
+        tools::classhelper::ObjectPrinter printer("PackageCacheBuffer", float_precision);
+
+        print_bytes("hash_cache", _hash_cache, printer);
+        print_bytes("package_cache", _package_buffer, printer);
+
+        printer.register_value("hash_cache", _hash_cache.size(), "elements");
+        printer.register_value("package_cache", _package_buffer.size(), "elements");
+        return printer;
+    }
+
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PackageCacheBuffer)
+
+    private:
+    void print_bytes(const std::string& name, const std::unordered_map<size_t, std::string>& cache_map, tools::classhelper::ObjectPrinter& printer) const
+    {
+        size_t bytes = 0;
+        for (const auto& [key, buffer] : cache_map)
+            bytes += buffer.size();
+
+        if (bytes < 1024)
+            printer.register_value(name, bytes, "bytes");
+        else if (bytes < 1024 * 1024)
+            printer.register_value(name, double(bytes) / 1024., "KB");
+        else if (bytes < 1024 * 1024 * 1024)
+            printer.register_value(name, double(bytes) / 1024. / 1024., "MB");
+        else
+            printer.register_value(name, double(bytes) / 1024. / 1024. / 1024., "GB");
     }
 };
 

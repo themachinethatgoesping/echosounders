@@ -42,7 +42,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     auto channel2 = channel;
     channel2.ChannelID      = "Different ID with funny number 1234567890";
 
-    PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer("filepath1");
+    PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
     package_cache_buffer.add_package(12, 2, 3, channel2);
@@ -63,6 +63,13 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
     REQUIRE(package_cache_buffer.get_hash_cache().size() == 2);
     }
+
+    // test to/from binary
+    REQUIRE(package_cache_buffer != PackageCacheBuffer<XML_Parameter_Channel>());
+    REQUIRE(package_cache_buffer == package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
+
+    INFO(package_cache_buffer.info_string());
+    REQUIRE(package_cache_buffer.info_string() != "");
 }
 
 TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG)
