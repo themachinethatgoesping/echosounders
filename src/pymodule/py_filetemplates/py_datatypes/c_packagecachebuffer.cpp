@@ -49,7 +49,6 @@ void init_packagecachebuffer(pybind11::module& m, const std::string& typestr = "
             .def("add_package",
                  &t_PackageCacheBuffer::template add_package<t_CachedPackage>,
                  DOC_PackageCacheBuffer(add_package_2),
-                 py::arg("package_nr"),
                  py::arg("file_pos"),
                  py::arg("timestamp"),
                  py::arg("package"),
@@ -57,7 +56,6 @@ void init_packagecachebuffer(pybind11::module& m, const std::string& typestr = "
             .def("get_package",
                  &t_PackageCacheBuffer::get_package,
                  DOC_PackageCacheBuffer(get_package),
-                 py::arg("package_nr"),
                  py::arg("file_pos"),
                  py::arg("timestamp"),
                  py::arg("sub_package_nr") = 0)

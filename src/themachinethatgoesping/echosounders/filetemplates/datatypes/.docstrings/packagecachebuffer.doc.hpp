@@ -1,4 +1,4 @@
-//sourcehash: 5d99599a8c19babaedd7dfab758ecdaba10ce42414d5f64c0f39de135415dce7
+//sourcehash: 2e85e4e4c8741c4c81b4aa0bdad102957fdfbe09909ab6a653c4573634cab124
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -90,13 +90,13 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_get_file_pos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_get_package_nr = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_get_sub_package_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_get_timestamp = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_package_nr = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_sub_package_nr = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_PackageCache_timestamp = R"doc()doc";
 

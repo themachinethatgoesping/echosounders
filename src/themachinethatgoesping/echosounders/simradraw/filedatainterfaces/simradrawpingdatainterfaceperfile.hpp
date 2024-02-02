@@ -66,7 +66,9 @@ class SimradRawPingDataInterfacePerFile
     {
         filedatacontainers::SimradRawPingContainer<t_ifstream> pings;
 
-        filetemplates::datatypes::PackageCacheBuffer<datagrams::xml_datagrams::XML_Parameter_Channel> package_buffer;
+        filetemplates::datatypes::PackageCacheBuffer<
+            datagrams::xml_datagrams::XML_Parameter_Channel>
+            package_buffer;
 
         const auto& base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
@@ -94,9 +96,15 @@ class SimradRawPingDataInterfacePerFile
                         auto channels =
                             std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
                                 .Channels;
-                                
-                        for (const auto& channel : channels)
-                            _channel_parameter_buffer[channel.ChannelID] = channel;
+
+                        for (unsigned int i = 0; i < channels.size(); i++)
+                        {
+                            _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
+                            package_buffer.add_package(datagram_ptr->get_file_pos(),
+                                                       datagram_ptr->get_timestamp(),
+                                                       channels[i],
+                                                       i);
+                        }
                         break;
                     }
                     else if (xml_type == "InitialParameter")
@@ -104,8 +112,14 @@ class SimradRawPingDataInterfacePerFile
                         auto channels =
                             std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
                                 .Channels;
-                        for (const auto& channel : channels)
-                            _channel_parameter_buffer[channel.ChannelID] = channel;
+                        for (unsigned int i = 0; i < channels.size(); i++)
+                        {
+                            _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
+                            package_buffer.add_package(datagram_ptr->get_file_pos(),
+                                                       datagram_ptr->get_timestamp(),
+                                                       channels[i],
+                                                       i);
+                        }
                         break;
                     }
 
@@ -165,6 +179,8 @@ class SimradRawPingDataInterfacePerFile
                 }
             }
         }
+
+        //package_buffer.print(std::cerr);
 
         return pings;
     }
