@@ -112,10 +112,9 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
     // test to/from binary
     SECTION("PackageCache: to/from binary")
     {
-        INFO(dat.info_string());
-        // INFO(package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache)
-        //          .get()
-        //          .info_string());
+        // package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache)
+        //     .get()
+        //     .info_string();
         // REQUIRE(dat ==
         //         package_cache.from_binary(package_cache.to_binary(hash_cache),
         //         hash_cache).get());
@@ -144,7 +143,6 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         { unsigned(dat.get_count()), dat.get_number_of_complex_samples(), 2 });
     data.fill(1.0);
     dat.set_sample_data(RAW3DataComplexFloat32(data));
-
 
     auto dat2 = dat;
     dat2.set_channel_id("channel2");

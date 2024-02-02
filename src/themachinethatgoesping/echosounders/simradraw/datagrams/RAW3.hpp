@@ -216,10 +216,16 @@ class RAW3 : public SimradRawDatagram
 
         if (skip_sample_data)
         {
-            if (!seek_end_when_skipping_data)
-                return datagram; // the next step seeks the end of the datagram to verify the
-                                 // checksum and make sure the stream positions points to the next
-                                 // datagram. If this is not required, we can return here.
+            if (seek_end_when_skipping_data)
+            {
+                // the next step seeks the end of the
+                // datagram to verify the checksum and make
+                // sure the stream positions points to the
+                // next datagram. If this is not required, we
+                // can return here.
+                datagram._sample_data = RAW3DataSkipped();
+                return datagram;
+            }
 
             datagram._sample_data =
                 RAW3DataSkipped::from_stream(is,
