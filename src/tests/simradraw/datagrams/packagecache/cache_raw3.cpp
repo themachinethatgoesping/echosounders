@@ -94,10 +94,7 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
     auto type = t_RAW3DataType::ComplexFloat32;
     dat.set_data_type(type);
 
-    auto data = xt::xtensor<simradraw_float, 3>::from_shape(
-        { unsigned(dat.get_count()), dat.get_number_of_complex_samples(), 2 });
-    data.fill(1.0);
-    dat.set_sample_data(RAW3DataComplexFloat32(data));
+    dat.set_sample_data(RAW3DataSkipped());
 
     auto dat2 = dat;
     dat2.set_channel_id("channel2");
@@ -112,14 +109,11 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
     // test to/from binary
     SECTION("PackageCache: to/from binary")
     {
-        // package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache)
-        //     .get()
-        //     .info_string();
-        // REQUIRE(dat ==
-        //         package_cache.from_binary(package_cache.to_binary(hash_cache),
-        //         hash_cache).get());
-        // REQUIRE(package_cache ==
-        //         package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
+        REQUIRE(dat ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache),
+                hash_cache).get());
+        REQUIRE(package_cache ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
     }
 }
 
@@ -193,18 +187,6 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
     // dat.print(std::cerr);
 
     // test binary
-    if (type == t_RAW3DataType::ComplexFloat32)
-    {
-        std::cerr << "-----" << std::endl;
-        std::cerr << "dat" << std::endl;
-        std::cerr << "-----" << std::endl;
-        dat.print(std::cerr);
-        std::cerr << "-----" << std::endl;
-        std::cerr << "bin" << std::endl;
-        std::cerr << "-----" << std::endl;
-        RAW3::from_binary(dat.to_binary()).print(std::cerr);
-        std::cerr << "-----" << std::endl;
-    }
     REQUIRE(dat.get_datagram_identifier() == t_SimradRawDatagramIdentifier::RAW3);
     REQUIRE(dat.get_length() ==
             simradraw_long(12 + 140 +

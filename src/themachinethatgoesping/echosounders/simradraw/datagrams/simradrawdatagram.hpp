@@ -170,9 +170,9 @@ class SimradRawDatagram
         return d;
     }
 
-    void to_stream(std::ostream& os)
+    void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<char*>(&_length), 4 * sizeof(simradraw_long));
+        os.write(reinterpret_cast<const char*>(&_length), 4 * sizeof(simradraw_long));
     }
 
     // ----- objectprinter -----

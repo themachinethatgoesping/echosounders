@@ -1,4 +1,4 @@
-//sourcehash: 54029ce5795a13a2e4745d3b60365d5fb60723b5f3c90b09d72458ea25b1bfe2
+//sourcehash: 2c4921e8e9f740422ca43eb4be484f532df038caeabbee588e55279d2b6171e1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -91,7 +91,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_get_spare_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_hash_header_only = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_hash_content_without_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_number_of_complex_samples =
 R"doc(< Number of transducer samples per sample (used when < data_type is

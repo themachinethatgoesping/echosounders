@@ -68,7 +68,8 @@ class SimradRawPingDataInterfacePerFile
 
         filetemplates::datatypes::PackageCacheBuffer<
             datagrams::xml_datagrams::XML_Parameter_Channel>
-            package_buffer;
+                                                                      package_buffer_xml;
+        filetemplates::datatypes::PackageCacheBuffer<datagrams::RAW3> package_buffer_raw3;
 
         const auto& base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
@@ -100,10 +101,10 @@ class SimradRawPingDataInterfacePerFile
                         for (unsigned int i = 0; i < channels.size(); i++)
                         {
                             _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
-                            package_buffer.add_package(datagram_ptr->get_file_pos(),
-                                                       datagram_ptr->get_timestamp(),
-                                                       channels[i],
-                                                       i);
+                            package_buffer_xml.add_package(datagram_ptr->get_file_pos(),
+                                                           datagram_ptr->get_timestamp(),
+                                                           channels[i],
+                                                           i);
                         }
                         break;
                     }
@@ -115,10 +116,10 @@ class SimradRawPingDataInterfacePerFile
                         for (unsigned int i = 0; i < channels.size(); i++)
                         {
                             _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
-                            package_buffer.add_package(datagram_ptr->get_file_pos(),
-                                                       datagram_ptr->get_timestamp(),
-                                                       channels[i],
-                                                       i);
+                            package_buffer_xml.add_package(datagram_ptr->get_file_pos(),
+                                                           datagram_ptr->get_timestamp(),
+                                                           channels[i],
+                                                           i);
                         }
                         break;
                     }
@@ -135,6 +136,9 @@ class SimradRawPingDataInterfacePerFile
                         fmt::print(std::cerr, "Error reading RAW3 datagram");
                         break;
                     }
+
+                    package_buffer_raw3.add_package(
+                        datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp(), raw3);
 
                     // create ping from raw3 datagram
                     auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>();
@@ -180,7 +184,8 @@ class SimradRawPingDataInterfacePerFile
             }
         }
 
-        //package_buffer.print(std::cerr);
+        package_buffer_xml.print(std::cerr);
+        package_buffer_raw3.print(std::cerr);
 
         return pings;
     }

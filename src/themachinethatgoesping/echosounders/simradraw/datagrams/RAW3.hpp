@@ -342,12 +342,20 @@ class RAW3 : public SimradRawDatagram
     static RAW3 from_stream(std::istream&                                  is,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
+        RAW3 datagram(SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::RAW3));
+
         size_t hash;
         is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
 
-        std::stringstream buffer_stream{ hash_cache.at(hash) };
+        const auto& buffer = hash_cache.at(hash);
+        if (buffer.size() != 140)
+            throw std::runtime_error("RAW3::from_stream: invalid cached buffer size");
 
-        return from_stream(buffer_stream, true, false);
+        memcpy(datagram._channel_id.data(), buffer.data(), 140);
+
+        datagram._sample_data = raw3datatypes::RAW3DataSkipped();
+
+        return datagram;
     }
 
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
@@ -361,10 +369,11 @@ class RAW3 : public SimradRawDatagram
         if (!hash_cache.contains(hash))
             hash_cache[hash] = std::move(cache);
 
+        SimradRawDatagram::to_stream(os);
         os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
     }
 
-    xxh::hash_t<64> hash_header_only() const
+    xxh::hash_t<64> hash_content_without_samples() const
     {
         // hash streaming
         xxh::hash3_state_t<64> hash_stream;
@@ -391,7 +400,7 @@ class RAW3 : public SimradRawDatagram
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const RAW3& data)
 {
-    return data.hash_header_only();
+    return data.hash_content_without_samples();
 }
 
 }
