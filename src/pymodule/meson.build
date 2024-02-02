@@ -79,6 +79,7 @@ sources = [
   'py_filetemplates/py_datatypes/c_i_pingcommon.cpp',
   'py_filetemplates/py_datatypes/c_i_pingfiledata.cpp',
   'py_filetemplates/py_datatypes/c_i_pingwatercolumn.cpp',
+  'py_filetemplates/py_datatypes/c_packagecachebuffer.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',

@@ -115,6 +115,8 @@ class PackageCacheBuffer
     std::unordered_map<size_t, std::string> _package_buffer;
 
   public:
+    using type_CachingResult = t_CachingResult;
+
     PackageCacheBuffer()          = default;
     virtual ~PackageCacheBuffer() = default;
 
