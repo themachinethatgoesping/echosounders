@@ -332,10 +332,61 @@ class RAW3 : public SimradRawDatagram
         return printer;
     }
 
+    // ----- functions used for PackageCache -----
+    static RAW3 from_stream(std::istream&                                  is,
+                            const std::unordered_map<size_t, std::string>& hash_cache)
+    {
+        size_t hash;
+        is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
+
+        std::stringstream buffer_stream{ hash_cache.at(hash) };
+
+        return from_stream(buffer_stream, true, false);
+    }
+
+    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
+    {
+        std::string cache;
+        cache.resize(140);
+        memcpy(cache.data(), _channel_id.data(), 140);
+
+        size_t hash = xxh::xxhash3<64>(cache);
+
+        if (!hash_cache.contains(hash))
+            hash_cache[hash] = std::move(cache);
+
+        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
+    }
+
+    xxh::hash_t<64> hash_header_only() const
+    {
+        // hash streaming
+        xxh::hash3_state_t<64> hash_stream;
+
+        // use all variables starting from system_serial number
+        // ignore e.g. timestamp and ping_counter to be useful in the deduplicate buffer
+        hash_stream.update(_channel_id.data(), 140);
+
+        return hash_stream.digest();
+    }
+
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(RAW3)
 };
+
+/**
+ * @brief Provide a boost hash function for XML_Parameter_Channel
+ * - Note: this is needed to use XML_Parameter_Channel as boost::flyweight
+ *
+ * @param data
+ * @return std::size_t
+ */
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+inline size_t hash_value(const RAW3& data)
+{
+    return data.hash_header_only();
+}
 
 }
 }

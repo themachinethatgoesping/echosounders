@@ -1,4 +1,4 @@
-//sourcehash: b648d50d02f92d63cbf392d689d21a2fda5ed8c587c791df37e7bec604de51e6
+//sourcehash: e46fd7c1be0b36ad6f50cf5f75c97bc277866a44ce9a8b40abc83efd1e48cdb2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_from_stream_4 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_get_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_get_channel_id_stripped = R"doc()doc";
@@ -88,6 +90,8 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_get_spare_1 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_get_spare_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_hash_header_only = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_number_of_complex_samples =
 R"doc(< Number of transducer samples per sample (used when < data_type is
@@ -141,6 +145,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_spare_2 = R"doc(< Spare 2)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_RAW3_to_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_hash_value =
+R"doc(Provide a boost hash function for XML_Parameter_Channel - Note: this
+is needed to use XML_Parameter_Channel as boost::flyweight
+
+Parameter ``data``:
+    $Returns:
+
+std::size_t)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

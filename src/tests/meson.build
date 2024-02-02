@@ -40,6 +40,7 @@ sources = [
   'simradraw/datagrams/XML0.test.cpp',
   'simradraw/datagrams/simradrawdatagram.test.cpp',
   'simradraw/datagrams/simradrawunknown.test.cpp',
+  'simradraw/datagrams/packagecache/cache_raw3.cpp',
   'simradraw/datagrams/packagecache/cache_xml_parameter.test.cpp',
   'simradraw/datagrams/xml_datagrams/xml_configuration.test.cpp',
   'simradraw/datagrams/xml_datagrams/xml_environment.test.cpp',
