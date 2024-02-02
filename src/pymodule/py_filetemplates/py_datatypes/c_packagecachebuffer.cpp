@@ -52,13 +52,15 @@ void init_packagecachebuffer(pybind11::module& m, const std::string& typestr = "
                  py::arg("package_nr"),
                  py::arg("file_pos"),
                  py::arg("timestamp"),
-                 py::arg("package"))
+                 py::arg("package"),
+                 py::arg("sub_package_nr") = 0)
             .def("get_package",
                  &t_PackageCacheBuffer::get_package,
                  DOC_PackageCacheBuffer(get_package),
                  py::arg("package_nr"),
                  py::arg("file_pos"),
-                 py::arg("timestamp"))
+                 py::arg("timestamp"),
+                 py::arg("sub_package_nr") = 0)
 
             .def("get_hash_cache",
                  &t_PackageCacheBuffer::get_hash_cache,

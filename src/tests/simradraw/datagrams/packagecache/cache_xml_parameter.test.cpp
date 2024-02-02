@@ -39,8 +39,10 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     PackageCache<XML_Parameter_Channel> package_cache(0, 0, 0, channel);
 
     // test packagecachebuffer
-    auto channel2 = channel;
-    channel2.ChannelID      = "Different ID with funny number 1234567890";
+    auto channel2      = channel;
+    auto channel3      = channel;
+    channel2.ChannelID = "Different ID with funny number 1234567890";
+    channel3.ChannelID = "Some text";
 
     PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
 
@@ -48,25 +50,30 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     package_cache_buffer.add_package(12, 2, 3, channel2);
     package_cache_buffer.add_package(22, 2, 3, channel);
     package_cache_buffer.add_package(24, 2, 3, channel2);
+    package_cache_buffer.add_package(24, 2, 3, channel3, 1);
 
     SECTION("PackageCacheBuffer: test basic access")
     {
-    INFO(channel.info_string());
-    INFO(package_cache_buffer.get_package(0,0,0).info_string());
-    INFO("--- channel 2 ---");
-    INFO(channel2.info_string());
-    INFO(package_cache_buffer.get_package(12,2,3).info_string());
-    REQUIRE(channel == package_cache_buffer.get_package(0,0,0));
-    REQUIRE(channel2 == package_cache_buffer.get_package(12,2,3));
-    REQUIRE_THROWS(package_cache_buffer.get_package(1,2,3));
+        INFO(channel.info_string());
+        INFO(package_cache_buffer.get_package(0, 0, 0).info_string());
+        INFO("--- channel 2 ---");
+        INFO(channel2.info_string());
+        INFO(package_cache_buffer.get_package(12, 2, 3).info_string());
+        REQUIRE(channel == package_cache_buffer.get_package(0, 0, 0));
+        REQUIRE(channel2 == package_cache_buffer.get_package(12, 2, 3));
+        REQUIRE_THROWS(package_cache_buffer.get_package(1, 2, 3));
 
-    REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
-    REQUIRE(package_cache_buffer.get_hash_cache().size() == 2);
+        REQUIRE(channel3 == package_cache_buffer.get_package(24, 2, 3, 1));
+        REQUIRE(channel2 == package_cache_buffer.get_package(24, 2, 3, 0));
+
+        REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
+        REQUIRE(package_cache_buffer.get_hash_cache().size() == 3);
     }
 
     // test to/from binary
     REQUIRE(package_cache_buffer != PackageCacheBuffer<XML_Parameter_Channel>());
-    REQUIRE(package_cache_buffer == package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
+    REQUIRE(package_cache_buffer ==
+            package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 
     INFO(package_cache_buffer.info_string());
     REQUIRE(package_cache_buffer.info_string() != "");
@@ -96,12 +103,15 @@ TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG
     // test to/from binary
     SECTION("PackageCache: to/from binary")
     {
-    INFO(channel.info_string());
-    INFO(package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get().info_string());
-    REQUIRE(channel == package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
-    REQUIRE(package_cache == package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
+        INFO(channel.info_string());
+        INFO(package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache)
+                 .get()
+                 .info_string());
+        REQUIRE(channel ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
+        REQUIRE(package_cache ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
     }
-
 }
 
 TEST_CASE("XML_Parameter_Channel should support common functions", TESTTAG)

@@ -45,6 +45,7 @@ class PackageCache
     size_t              package_nr;
     size_t              file_pos;
     double              timestamp;
+    unsigned int        sub_package_nr;
 
     t_CachingResult _caching_result;
 
@@ -54,24 +55,28 @@ class PackageCache
     PackageCache(size_t                 package_nr,
                  size_t                 file_pos,
                  double                 timestamp,
-                 const t_CachedPackage& package)
+                 const t_CachedPackage& package,
+                 unsigned int           sub_package_nr = 0)
         : package_nr(package_nr)
         , file_pos(file_pos)
         , timestamp(timestamp)
         , _caching_result(package)
+        , sub_package_nr(sub_package_nr)
     {
     }
     virtual ~PackageCache() = default;
 
-    size_t get_package_nr() const { return package_nr; }
-    size_t get_file_pos() const { return file_pos; }
-    double get_timestamp() const { return timestamp; }
+    size_t       get_package_nr() const { return package_nr; }
+    size_t       get_file_pos() const { return file_pos; }
+    double       get_timestamp() const { return timestamp; }
+    unsigned int get_sub_package_nr() const { return sub_package_nr; }
 
     bool operator==(const PackageCache& other) const = default;
 
     void to_stream(std::ostream& stream, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        constexpr size_t size = sizeof(package_nr) + sizeof(file_pos) + sizeof(timestamp);
+        constexpr size_t size =
+            sizeof(package_nr) + sizeof(file_pos) + sizeof(timestamp) + sizeof(sub_package_nr);
 
         stream.write(reinterpret_cast<const char*>(&package_nr), size);
         _caching_result.to_stream(stream, hash_cache);
@@ -79,8 +84,9 @@ class PackageCache
     static auto from_stream(std::istream&                                  stream,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        constexpr size_t size = sizeof(package_nr) + sizeof(file_pos) + sizeof(timestamp);
-        PackageCache     package;
+        constexpr size_t size =
+            sizeof(package_nr) + sizeof(file_pos) + sizeof(timestamp) + sizeof(sub_package_nr);
+        PackageCache package;
         stream.read(reinterpret_cast<char*>(&package.package_nr), size);
         package._caching_result = package._caching_result.from_stream(stream, hash_cache);
 
@@ -111,8 +117,8 @@ class PackageCacheBuffer
 {
   protected:
     virtual std::string class_name() const { return fmt::format("PackageCacheBuffer"); }
-    std::unordered_map<size_t, std::string> _hash_cache;
-    std::unordered_map<size_t, std::string> _package_buffer;
+    std::unordered_map<size_t, std::string>              _hash_cache;
+    std::unordered_map<size_t, std::vector<std::string>> _package_buffer;
 
   public:
     using type_CachingResult = t_CachingResult;
@@ -124,7 +130,7 @@ class PackageCacheBuffer
 
     const std::unordered_map<size_t, std::string>& get_hash_cache() const { return _hash_cache; }
 
-    const std::unordered_map<size_t, std::string>& get_package_buffer() const
+    const std::unordered_map<size_t, std::vector<std::string>>& get_package_buffer() const
     {
         return _package_buffer;
     }
@@ -133,19 +139,27 @@ class PackageCacheBuffer
     void add_package(size_t                 package_nr,
                      size_t                 file_pos,
                      double                 timestamp,
-                     const t_CachedPackage& package)
+                     const t_CachedPackage& package,
+                     unsigned int           sub_package_nr = 0)
     {
-        add_package(PackageCache<t_CachingResult>(package_nr, file_pos, timestamp, package));
+        add_package(PackageCache<t_CachingResult>(
+            package_nr, file_pos, timestamp, package, sub_package_nr));
     }
 
     void add_package(const PackageCache<t_CachingResult>& package)
     {
-        _package_buffer[package.get_package_nr()] = package.to_binary(_hash_cache);
+        auto& package_buffer = _package_buffer[package.get_package_nr()];
+
+        if (package_buffer.size() <= package.get_sub_package_nr())
+            package_buffer.resize(package.get_sub_package_nr() + 1);
+
+        package_buffer[package.get_sub_package_nr()] = package.to_binary(_hash_cache);
     }
 
-    PackageCache<t_CachingResult> get_package_cache(size_t package_nr,
-                                                    size_t file_pos,
-                                                    double timestamp) const
+    PackageCache<t_CachingResult> get_package_cache(size_t       package_nr,
+                                                    size_t       file_pos,
+                                                    double       timestamp,
+                                                    unsigned int sub_package_nr = 0) const
     {
         const auto package_it = _package_buffer.find(package_nr);
 
@@ -153,8 +167,14 @@ class PackageCacheBuffer
             throw std::runtime_error(
                 fmt::format("{}: package {} not found in cache", class_name(), package_nr));
 
-        PackageCache<t_CachingResult> package_cache =
-            PackageCache<t_CachingResult>::from_binary(package_it->second, _hash_cache);
+        if (package_it->second.size() <= sub_package_nr)
+            throw std::runtime_error(fmt::format("{}: package {} has no sub_package_nr {}",
+                                                 class_name(),
+                                                 package_nr,
+                                                 sub_package_nr));
+
+        PackageCache<t_CachingResult> package_cache = PackageCache<t_CachingResult>::from_binary(
+            package_it->second[sub_package_nr], _hash_cache);
 
         if (package_cache.get_package_nr() != package_nr)
             throw std::runtime_error(fmt::format("{}: package {} has package_nr {} instead of {}",
@@ -177,12 +197,23 @@ class PackageCacheBuffer
                                                  package_cache.get_timestamp(),
                                                  timestamp));
 
+        if (package_cache.get_sub_package_nr() != sub_package_nr)
+            throw std::runtime_error(
+                fmt::format("{}: package {} has sub_package_nr {} instead of {}",
+                            class_name(),
+                            package_nr,
+                            package_cache.get_sub_package_nr(),
+                            sub_package_nr));
+
         return package_cache;
     }
 
-    t_CachingResult get_package(size_t package_nr, size_t file_pos, double timestamp) const
+    t_CachingResult get_package(size_t       package_nr,
+                                size_t       file_pos,
+                                double       timestamp,
+                                unsigned int sub_package_nr = 0) const
     {
-        return get_package_cache(package_nr, file_pos, timestamp).get();
+        return get_package_cache(package_nr, file_pos, timestamp, sub_package_nr).get();
     }
 
     void to_stream(std::ostream& os) const
@@ -204,12 +235,18 @@ class PackageCacheBuffer
         {
             size_t map_size = _package_buffer.size();
             os.write(reinterpret_cast<const char*>(&map_size), sizeof(size_t));
-            for (const auto& [package_nr, buffer] : _package_buffer)
+            for (const auto& [package_nr, subpackages] : _package_buffer)
             {
-                size_t buffer_size = buffer.size();
                 os.write(reinterpret_cast<const char*>(&package_nr), sizeof(package_nr));
-                os.write(reinterpret_cast<const char*>(&buffer_size), sizeof(buffer_size));
-                os.write(reinterpret_cast<const char*>(buffer.data()), sizeof(char) * buffer_size);
+                size_t subpackage_size = subpackages.size();
+                os.write(reinterpret_cast<const char*>(&subpackage_size), sizeof(subpackage_size));
+                for (const auto& buffer : subpackages)
+                {
+                    size_t buffer_size = buffer.size();
+                    os.write(reinterpret_cast<const char*>(&buffer_size), sizeof(buffer_size));
+                    os.write(reinterpret_cast<const char*>(buffer.data()),
+                             sizeof(char) * buffer_size);
+                }
             }
         }
     }
@@ -242,13 +279,20 @@ class PackageCacheBuffer
             for (size_t i = 0; i < map_size; i++)
             {
                 size_t package_nr;
-                size_t buffer_size;
                 is.read(reinterpret_cast<char*>(&package_nr), sizeof(package_nr));
-                is.read(reinterpret_cast<char*>(&buffer_size), sizeof(buffer_size));
-                std::string buffer;
-                buffer.resize(buffer_size);
-                is.read(reinterpret_cast<char*>(buffer.data()), sizeof(char) * buffer_size);
-                data._package_buffer[package_nr] = std::move(buffer);
+                size_t subpackage_size;
+                is.read(reinterpret_cast<char*>(&subpackage_size), sizeof(subpackage_size));
+                std::vector<std::string> subpackages;
+                subpackages.resize(subpackage_size);
+                for (size_t j = 0; j < subpackage_size; j++)
+                {
+                    size_t buffer_size;
+                    is.read(reinterpret_cast<char*>(&buffer_size), sizeof(buffer_size));
+                    subpackages[j].resize(buffer_size);
+                    is.read(reinterpret_cast<char*>(subpackages[j].data()),
+                            sizeof(char) * buffer_size);
+                }
+                data._package_buffer[package_nr] = std::move(subpackages);
             }
         }
 
@@ -260,8 +304,17 @@ class PackageCacheBuffer
     {
         tools::classhelper::ObjectPrinter printer("PackageCacheBuffer", float_precision);
 
-        print_bytes("hash_cache", _hash_cache, printer);
-        print_bytes("package_cache", _package_buffer, printer);
+        size_t bytes_hash = 0;
+        for (const auto& [key, buffer] : _hash_cache)
+            bytes_hash += buffer.size();
+
+        size_t bytes_package = 0;
+        for (const auto& [key, subpackages] : _package_buffer)
+            for (const auto& buffer : subpackages)
+                bytes_package += buffer.size();
+
+        print_bytes("hash_cache", bytes_hash, printer);
+        print_bytes("package_cache", bytes_package, printer);
 
         printer.register_value("hash_cache", _hash_cache.size(), "elements");
         printer.register_value("package_cache", _package_buffer.size(), "elements");
@@ -271,12 +324,11 @@ class PackageCacheBuffer
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PackageCacheBuffer)
 
-    private:
-    void print_bytes(const std::string& name, const std::unordered_map<size_t, std::string>& cache_map, tools::classhelper::ObjectPrinter& printer) const
+  private:
+    void print_bytes(const std::string&                 name,
+                     size_t                             bytes,
+                     tools::classhelper::ObjectPrinter& printer) const
     {
-        size_t bytes = 0;
-        for (const auto& [key, buffer] : cache_map)
-            bytes += buffer.size();
 
         if (bytes < 1024)
             printer.register_value(name, bytes, "bytes");
