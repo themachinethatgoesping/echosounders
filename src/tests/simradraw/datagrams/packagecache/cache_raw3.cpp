@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/RAW3.hpp>
 
 // using namespace testing;
@@ -20,7 +20,7 @@ using namespace themachinethatgoesping::echosounders::simradraw::datagrams::raw3
 
 using Catch::Approx;
 
-// TEST_CASE("RAW3 should be usable with PackageCacheBuffer", TESTTAG)
+// TEST_CASE("RAW3 should be usable with FilePackageCache", TESTTAG)
 // {
 //     // initialize class structure
 //     RAW3 channel;
@@ -38,13 +38,13 @@ using Catch::Approx;
 
 //     PackageCache<RAW3> package_cache(0, 0, channel);
 
-//     // test packagecachebuffer
+//     // test filepackagecache
 //     auto channel2      = channel;
 //     auto channel3      = channel;
 //     channel2.ChannelID = "Different ID with funny number 1234567890";
 //     channel3.ChannelID = "Some text";
 
-//     PackageCacheBuffer<RAW3> package_cache_buffer;
+//     FilePackageCache<RAW3> package_cache_buffer;
 
 //     package_cache_buffer.add_package(package_cache);
 //     package_cache_buffer.add_package(12, 3, channel2);
@@ -52,7 +52,7 @@ using Catch::Approx;
 //     package_cache_buffer.add_package(24, 3, channel2);
 //     package_cache_buffer.add_package(24, 3, channel3, 1);
 
-//     SECTION("PackageCacheBuffer: test basic access")
+//     SECTION("FilePackageCache: test basic access")
 //     {
 //         INFO(channel.info_string());
 //         INFO(package_cache_buffer.get_package(0, 0).info_string());
@@ -71,7 +71,7 @@ using Catch::Approx;
 //     }
 
 //     // test to/from binary
-//     REQUIRE(package_cache_buffer != PackageCacheBuffer<RAW3>());
+//     REQUIRE(package_cache_buffer != FilePackageCache<RAW3>());
 //     REQUIRE(package_cache_buffer ==
 //             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 

@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xml_parameter_channel.hpp>
 
 // using namespace testing;
@@ -20,7 +20,7 @@ using themachinethatgoesping::echosounders::simradraw::datagrams::xml_datagrams:
 
 using Catch::Approx;
 
-TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TESTTAG)
+TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTAG)
 {
     // initialize class structure
     XML_Parameter_Channel channel;
@@ -38,13 +38,13 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
 
     cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
 
-    // test packagecachebuffer
+    // test filepackagecache
     auto channel2      = channel;
     auto channel3      = channel;
     channel2.ChannelID = "Different ID with funny number 1234567890";
     channel3.ChannelID = "Some text";
 
-    cache_structures::PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
+    cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
     package_cache_buffer.add_package(12, 3, channel2);
@@ -52,7 +52,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     package_cache_buffer.add_package(24, 3, channel2);
     package_cache_buffer.add_package(24, 3, channel3, 1);
 
-    SECTION("PackageCacheBuffer: test basic access")
+    SECTION("FilePackageCache: test basic access")
     {
         INFO(channel.info_string());
         INFO(package_cache_buffer.get_package(0, 0).info_string());
@@ -71,7 +71,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     }
 
     // test to/from binary
-    REQUIRE(package_cache_buffer != cache_structures::PackageCacheBuffer<XML_Parameter_Channel>());
+    REQUIRE(package_cache_buffer != cache_structures::FilePackageCache<XML_Parameter_Channel>());
     REQUIRE(package_cache_buffer ==
             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 

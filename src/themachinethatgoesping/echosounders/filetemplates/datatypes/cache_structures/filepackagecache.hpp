@@ -6,7 +6,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/packagecachebuffer.doc.hpp"
+#include ".docstrings/filepackagecache.doc.hpp"
 
 /* std includes */
 #include <filesystem>
@@ -108,20 +108,20 @@ class PackageCache
 };
 
 template<typename t_CachingResult>
-class PackageCacheBuffer
+class FilePackageCache
 {
   protected:
-    virtual std::string class_name() const { return fmt::format("PackageCacheBuffer"); }
+    virtual std::string class_name() const { return fmt::format("FilePackageCache"); }
     std::unordered_map<size_t, std::string>              _hash_cache;
     std::unordered_map<size_t, std::vector<std::string>> _package_buffer;
 
   public:
     using type_CachingResult = t_CachingResult;
 
-    PackageCacheBuffer()          = default;
-    virtual ~PackageCacheBuffer() = default;
+    FilePackageCache()          = default;
+    virtual ~FilePackageCache() = default;
 
-    bool operator==(const PackageCacheBuffer& other) const = default;
+    bool operator==(const FilePackageCache& other) const = default;
 
     const std::unordered_map<size_t, std::string>& get_hash_cache() const { return _hash_cache; }
 
@@ -233,9 +233,9 @@ class PackageCacheBuffer
         }
     }
 
-    static PackageCacheBuffer from_stream(std::istream& is)
+    static FilePackageCache from_stream(std::istream& is)
     {
-        PackageCacheBuffer data;
+        FilePackageCache data;
 
         // read hash cache
         {
@@ -284,7 +284,7 @@ class PackageCacheBuffer
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("PackageCacheBuffer", float_precision);
+        tools::classhelper::ObjectPrinter printer("FilePackageCache", float_precision);
 
         size_t bytes_hash = 0;
         for (const auto& [key, buffer] : _hash_cache)
@@ -304,7 +304,7 @@ class PackageCacheBuffer
     }
 
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PackageCacheBuffer)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageCache)
 
   private:
     void print_bytes(const std::string&                 name,

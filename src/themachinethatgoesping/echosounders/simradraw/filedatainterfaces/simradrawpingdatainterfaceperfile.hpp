@@ -21,7 +21,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
-#include "../../filetemplates/datatypes/cache_structures/packagecachebuffer.hpp"
+#include "../../filetemplates/datatypes/cache_structures/filepackagecache.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
 #include "../datagrams.hpp"
@@ -66,10 +66,10 @@ class SimradRawPingDataInterfacePerFile
     {
         filedatacontainers::SimradRawPingContainer<t_ifstream> pings;
 
-        filetemplates::datatypes::cache_structures::PackageCacheBuffer<
+        filetemplates::datatypes::cache_structures::FilePackageCache<
             datagrams::xml_datagrams::XML_Parameter_Channel>
             package_buffer_xml;
-        filetemplates::datatypes::cache_structures::PackageCacheBuffer<datagrams::RAW3>
+        filetemplates::datatypes::cache_structures::FilePackageCache<datagrams::RAW3>
             package_buffer_raw3;
 
         const auto& base_sensor_configuration =
