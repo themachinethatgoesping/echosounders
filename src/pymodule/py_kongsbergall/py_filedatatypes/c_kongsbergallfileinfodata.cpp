@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
-#include "../../py_filetemplates/py_datatypes/c_i_fileinfodata.hpp"
+#include "../../py_filetemplates/py_datatypes/py_cache_structures/c_i_fileinfodata.hpp"
+#include <themachinethatgoesping/echosounders/kongsbergall/types.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -19,8 +19,9 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 void init_c_kongsbergallfileinfodata(pybind11::module& m)
 {
     // add index class
-    py_filetemplates::py_datatypes::add_file_index_types<
-        datatypes::FileInfoData<t_KongsbergAllDatagramIdentifier>>(m, "FileInfoData_kongsbergall");
+    py_filetemplates::py_datatypes::py_cache_structures::add_file_index_types<
+        datatypes::cache_structures::FileInfoData<t_KongsbergAllDatagramIdentifier>>(
+        m, "FileInfoData_kongsbergall");
 }
 
 }

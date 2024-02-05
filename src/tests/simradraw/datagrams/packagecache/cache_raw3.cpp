@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/packagecachebuffer.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/RAW3.hpp>
 
 // using namespace testing;
@@ -101,7 +101,7 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<RAW3> package_cache(0, 0, dat);
+    cache_structures::PackageCache<RAW3> package_cache(0, 0, dat);
 
     // test basic access
     REQUIRE(dat == package_cache.get());
@@ -110,8 +110,7 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
     SECTION("PackageCache: to/from binary")
     {
         REQUIRE(dat ==
-                package_cache.from_binary(package_cache.to_binary(hash_cache),
-                hash_cache).get());
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
         REQUIRE(package_cache ==
                 package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
     }

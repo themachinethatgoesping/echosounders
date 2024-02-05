@@ -31,8 +31,8 @@
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
+#include "datatypes/cache_structures/fileinfo.hpp"
 #include "datatypes/datagraminfo.hpp"
-#include "datatypes/fileinfo.hpp"
 #include "internal/inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -52,8 +52,9 @@ class I_InputFileHandler
     // using t_FileDataInterface  = typename datainterfaces::I_FileDataInterface<
     //     datainterfaces::I_FileDataInterfacePerFile<t_DatagramInterface>>;
 
-    using FileInfos    = typename datatypes::FileInfos<t_DatagramIdentifier, t_ifstream>;
-    using FileInfoData = typename datatypes::FileInfoData<t_DatagramIdentifier>;
+    using FileInfos =
+        typename datatypes::cache_structures::FileInfos<t_DatagramIdentifier, t_ifstream>;
+    using FileInfoData = typename datatypes::cache_structures::FileInfoData<t_DatagramIdentifier>;
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =

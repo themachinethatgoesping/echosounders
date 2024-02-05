@@ -6,16 +6,23 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/fileinfo.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/fileinfo.hpp>
 
 #define DOC_FileInfoData(ARG)                                                                      \
-    DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, FileInfoData, ARG)
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datatypes,                                                                                 \
+        cache_structures,                                                                          \
+        FileInfoData,                                                                              \
+        ARG)
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_filetemplates {
 namespace py_datatypes {
+namespace py_cache_structures {
 
 template<typename t_FileInfoData>
 void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
@@ -23,10 +30,14 @@ void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
 
-    py::class_<t_FileInfoData>(
-        m,
-        (CLASS_NAME + "_FileInfoData").c_str(),
-        DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, FileInfoData))
+    py::class_<t_FileInfoData>(m,
+                               (CLASS_NAME + "_FileInfoData").c_str(),
+                               DOC(themachinethatgoesping,
+                                   echosounders,
+                                   filetemplates,
+                                   datatypes,
+                                   cache_structures,
+                                   FileInfoData))
         .def(py::init<>(), DOC_FileInfoData(FileInfoData))
         // --- processed data access ---
         .def_readwrite("file_path", &t_FileInfoData::file_path, DOC_FileInfoData(file_path))
@@ -46,6 +57,7 @@ void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
         __PYCLASS_DEFAULT_PRINTING__(t_FileInfoData);
 }
 
+} // namespace py_cache_structures
 } // namespace py_datatypes
 } // namespace py_filetemplates
 } // namespace pymodule

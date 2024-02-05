@@ -36,6 +36,7 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
+namespace cache_structures {
 
 template<typename t_CachingResult>
 class PackageCache
@@ -322,7 +323,8 @@ class PackageCacheBuffer
     }
 };
 
-}
+} // namespace cache_structures
+} // namespace datatypes
 } // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping

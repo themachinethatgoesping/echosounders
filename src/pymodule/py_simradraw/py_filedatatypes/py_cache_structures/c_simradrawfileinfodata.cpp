@@ -3,14 +3,15 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
-#include "../../py_filetemplates/py_datatypes/c_i_fileinfodata.hpp"
+#include "../../../py_filetemplates/py_datatypes/py_cache_structures/c_i_fileinfodata.hpp"
+#include <themachinethatgoesping/echosounders/simradraw/types.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_simradraw {
 namespace py_filedatatypes {
+namespace py_cache_structures {
 
 namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
@@ -19,12 +20,14 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 void init_c_simradrawfileinfodata(pybind11::module& m)
 {
     // add index class
-    py_filetemplates::py_datatypes::add_file_index_types<
-        datatypes::FileInfoData<t_SimradRawDatagramIdentifier>>(m, "FileInfoData_simradraw");
+    py_filetemplates::py_datatypes::py_cache_structures::add_file_index_types<
+        datatypes::cache_structures::FileInfoData<t_SimradRawDatagramIdentifier>>(
+        m, "FileInfoData_simradraw");
 }
 
-}
-}
-}
-}
-}
+} // namespace py_cache_structures
+} // namespace py_filedatatypes
+} // namespace py_simraddraw
+} // namespace pymodule
+} // namespace echosounders
+} // namespace themachinethatgoesping

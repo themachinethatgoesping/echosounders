@@ -10,9 +10,6 @@
 /* generated doc strings */
 #include ".docstrings/fileinfo.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/datagraminfo.doc.hpp"
-
 #include <fstream>
 #include <limits>
 #include <memory>
@@ -28,13 +25,14 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../internal/inputfilemanager.hpp"
-#include "datagraminfo.hpp"
+#include "../../internal/inputfilemanager.hpp"
+#include "../datagraminfo.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
+namespace cache_structures {
 
 template<typename t_DatagramIdentifier>
 struct FileInfoData
@@ -53,7 +51,7 @@ struct FileInfoData
         , file_size(file_info.file_size)
     {
         datagram_infos.reserve(file_info.datagram_infos.size());
-        
+
         for (auto& datagram_info : file_info.datagram_infos)
         {
             datagram_infos.push_back(*datagram_info);
@@ -144,7 +142,8 @@ struct FileInfos
     }
 };
 
-}
-}
-}
-}
+} // namespace cache_structures
+} // namespace datatypes
+} // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping

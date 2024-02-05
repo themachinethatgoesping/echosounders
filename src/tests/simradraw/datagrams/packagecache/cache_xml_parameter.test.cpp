@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/packagecachebuffer.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xml_parameter_channel.hpp>
 
 // using namespace testing;
@@ -36,7 +36,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
 
     // test packagecachebuffer
     auto channel2      = channel;
@@ -44,7 +44,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     channel2.ChannelID = "Different ID with funny number 1234567890";
     channel3.ChannelID = "Some text";
 
-    PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
+    cache_structures::PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
     package_cache_buffer.add_package(12, 3, channel2);
@@ -71,7 +71,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TEST
     }
 
     // test to/from binary
-    REQUIRE(package_cache_buffer != PackageCacheBuffer<XML_Parameter_Channel>());
+    REQUIRE(package_cache_buffer != cache_structures::PackageCacheBuffer<XML_Parameter_Channel>());
     REQUIRE(package_cache_buffer ==
             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 
@@ -95,7 +95,7 @@ TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
 
     // test basic access
     REQUIRE(channel == package_cache.get());

@@ -79,7 +79,7 @@ sources = [
   'py_filetemplates/py_datatypes/c_i_pingcommon.cpp',
   'py_filetemplates/py_datatypes/c_i_pingfiledata.cpp',
   'py_filetemplates/py_datatypes/c_i_pingwatercolumn.cpp',
-  'py_filetemplates/py_datatypes/c_packagecachebuffer.cpp',
+  'py_filetemplates/py_datatypes/py_cache_structures/c_packagecachebuffer.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',
@@ -144,11 +144,11 @@ sources = [
   'py_simradraw/py_datagrams/py_raw3datatypes/c_raw3datapowerandangle.cpp',
   'py_simradraw/py_datagrams/py_raw3datatypes/c_raw3dataskipped.cpp',
   'py_simradraw/py_datagrams/py_raw3datatypes/module.cpp',
-  'py_simradraw/py_filedatatypes/c_simradrawfileinfodata.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawping.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawpingcommon.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawpingfiledata.cpp',
   'py_simradraw/py_filedatatypes/module.cpp',
+  'py_simradraw/py_filedatatypes/py_cache_structures/c_simradrawfileinfodata.cpp',
 ]
 
 # define python module
