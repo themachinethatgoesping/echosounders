@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 // -- submodule declarations --
 namespace py_cache_structures {
-void init_c_simradrawFilePackageIndex(pybind11::module& m); // c_simradrawFilePackageIndex.cpp
+void init_c_simradrawfileinfodata(pybind11::module& m); // c_simradrawfileinfodata.cpp
 }
 
 void init_c_simradrawpingcommon(pybind11::module& m);   // c_simradrawpingcommon.cpp
@@ -25,7 +25,7 @@ void init_c_simradrawpingfiledata(pybind11::module& m); // c_simradrawpingfileda
 void init_m_simradrawfiledatatypes(pybind11::module& m)
 {
     auto subm = m.def_submodule("filetypes", "SimradRaw EK60 and EK80 file data types");
-    py_cache_structures::init_c_simradrawFilePackageIndex(subm);
+    py_cache_structures::init_c_simradrawfileinfodata(subm);
     init_c_simradrawpingfiledata(subm);
     init_c_simradrawpingcommon(subm);
     init_c_simradrawping(subm);

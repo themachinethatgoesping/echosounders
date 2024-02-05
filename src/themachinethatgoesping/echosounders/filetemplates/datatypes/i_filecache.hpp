@@ -31,7 +31,6 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "cache_structures/fileinfo.hpp"
 #include "../internal/inputfilemanager.hpp"
 #include "datagraminfo.hpp"
 
@@ -41,19 +40,19 @@ namespace filetemplates {
 namespace datatypes {
 
 template<typename t_DatagramIdentifier>
-struct I_FileCache
+struct FileInfoData
 {
-    std::string file_name;
+    std::string file_path;
     size_t      file_size;
 
     /* header positions */
     std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
         datagram_infos; ///< all datagrams
 
-    I_FileCache() = default;
+    FileInfoData() = default;
     template<typename t_FileInfos>
-    I_FileCache(const t_FileInfos& file_info)
-        : file_name(file_info.file_name)
+    FileInfoData(const t_FileInfos& file_info)
+        : file_path(file_info.file_path)
         , file_size(file_info.file_size)
     {
         datagram_infos.reserve(file_info.datagram_infos.size());
@@ -63,14 +62,14 @@ struct I_FileCache
             datagram_infos.push_back(*datagram_info);
         }
     }
-    bool operator==(const I_FileCache&) const = default;
+    bool operator==(const FileInfoData&) const = default;
 
     // ----- to/from stream interface -----
-    static I_FileCache from_stream(std::istream& is)
+    static FileInfoData from_stream(std::istream& is)
     {
-        I_FileCache data;
+        FileInfoData data;
 
-        data.file_name = tools::classhelper::stream::container_from_stream<std::string>(is);
+        data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
 
         size_t size;
@@ -87,7 +86,7 @@ struct I_FileCache
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelper::stream::container_to_stream<std::string>(os, file_name);
+        tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
         os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
 
         size_t size = datagram_infos.size();
@@ -104,7 +103,7 @@ struct I_FileCache
         tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
 
         // raw values
-        printer.register_string("file_name", file_name);
+        printer.register_string("file_path", file_path);
         printer.register_value("file_size", size_t(file_size));
 
         printer.register_value("datagrams", datagram_infos.size());
@@ -114,9 +113,39 @@ struct I_FileCache
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(I_FileCache)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileInfoData)
 };
 
+/**
+ * @brief struct for storing the file infos (returned by scan_for_datagrams)
+ *
+ */
+template<typename t_DatagramIdentifier, typename t_ifstream>
+struct FileInfos
+{
+    std::string file_path;
+    size_t      file_size;
+
+    /* header positions */
+    std::vector<datatypes::DatagramInfo_ptr<t_DatagramIdentifier,
+                                            t_ifstream>>
+        datagram_infos; ///< all datagrams
+
+    FileInfos() = default;
+    FileInfos(size_t                                                  file_nr,
+              std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
+              const FileInfoData<t_DatagramIdentifier>&               file_info_data)
+        : file_path(file_info_data.file_path)
+        , file_size(file_info_data.file_size)
+    {
+        for (auto& datagram_info : file_info_data.datagram_infos)
+        {
+            datagram_infos.push_back(
+                std::make_shared<datatypes::DatagramInfo<t_DatagramIdentifier, t_ifstream>>(
+                    file_nr, input_file_manager, datagram_info));
+        }
+    }
+};
 
 }
 }

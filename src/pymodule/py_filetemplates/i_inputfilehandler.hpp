@@ -26,20 +26,20 @@ void add_default_constructors(T_PyClass& cls)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
-    using t_FilePackageIndex = typename T_BaseClass::FilePackageIndex;
+    using t_FileInfoData = typename T_BaseClass::FileInfoData;
 
     cls.def(py::init<const std::string&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler),
             py::arg("file_path"),
-            py::arg("cached_index")  = std::unordered_map<std::string, t_FilePackageIndex>(),
+            py::arg("cached_index")  = std::unordered_map<std::string, t_FileInfoData>(),
             py::arg("init")          = true,
             py::arg("show_progress") = true);
     cls.def(py::init<const std::string&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
@@ -49,17 +49,17 @@ void add_default_constructors(T_PyClass& cls)
             py::arg("init"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler_3),
             py::arg("file_path"),
-            py::arg("cached_index")  = std::unordered_map<std::string, t_FilePackageIndex>(),
+            py::arg("cached_index")  = std::unordered_map<std::string, t_FileInfoData>(),
             py::arg("init")          = true,
             py::arg("show_progress") = true);
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, t_FileInfoData>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),

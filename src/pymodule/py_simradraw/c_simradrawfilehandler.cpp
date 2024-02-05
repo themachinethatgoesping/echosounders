@@ -108,7 +108,7 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
 void init_c_simradrawfilehandler(pybind11::module& m)
 {
     // add index class
-    //py_i_inputfilehandler::add_file_index_types<simradraw::t_SimradRawDatagramIdentifier>(m, "FilePackageIndex_raw");
+    //py_i_inputfilehandler::add_file_index_types<simradraw::t_SimradRawDatagramIdentifier>(m, "FileInfoData_raw");
 
     py_create_class_SimradRawFileHandler<std::ifstream>(m, "SimradRawFileHandler");
     py_create_class_SimradRawFileHandler<datastreams::MappedFileStream>(m, "SimradRawFileHandler_mapped");

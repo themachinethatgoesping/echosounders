@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "../../../py_filetemplates/py_datatypes/py_cache_structures/c_i_FilePackageIndex.hpp"
+#include "../../../py_filetemplates/py_datatypes/py_cache_structures/c_i_fileinfodata.hpp"
 #include <themachinethatgoesping/echosounders/simradraw/types.hpp>
 
 namespace themachinethatgoesping {
@@ -17,12 +17,12 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-void init_c_simradrawFilePackageIndex(pybind11::module& m)
+void init_c_simradrawfileinfodata(pybind11::module& m)
 {
     // add index class
     py_filetemplates::py_datatypes::py_cache_structures::add_file_index_types<
-        datatypes::cache_structures::FilePackageIndex<t_SimradRawDatagramIdentifier>>(
-        m, "FilePackageIndex_simradraw");
+        datatypes::cache_structures::FileInfoData<t_SimradRawDatagramIdentifier>>(
+        m, "FileInfoData_simradraw");
 }
 
 } // namespace py_cache_structures

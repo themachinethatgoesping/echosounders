@@ -64,7 +64,7 @@ class KongsbergAllFileHandler
     using t_PingDataInterface =
         typename filedatainterfaces::KongsbergAllPingDataInterface<t_ifstream>;
 
-    using typename t_base::FilePackageIndex;
+    using typename t_base::FileInfoData;
     using typename t_base::FileInfos;
 
   private:
@@ -94,8 +94,8 @@ class KongsbergAllFileHandler
     //     I_InputFileHandler;
 
     KongsbergAllFileHandler(const std::string&                                   file_path,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                                std::unordered_map<std::string, FilePackageIndex>(),
+                            const std::unordered_map<std::string, FileInfoData>& cached_index =
+                                std::unordered_map<std::string, FileInfoData>(),
                             bool init          = true,
                             bool show_progress = true)
         : t_base(cached_index)
@@ -106,7 +106,7 @@ class KongsbergAllFileHandler
             init_interfaces(false, show_progress);
     }
     KongsbergAllFileHandler(const std::string&                                   file_path,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                            const std::unordered_map<std::string, FileInfoData>& cached_index,
                             bool                                                 init,
                             tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
@@ -117,8 +117,8 @@ class KongsbergAllFileHandler
     }
 
     KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                                std::unordered_map<std::string, FilePackageIndex>(),
+                            const std::unordered_map<std::string, FileInfoData>& cached_index =
+                                std::unordered_map<std::string, FileInfoData>(),
                             bool init          = true,
                             bool show_progress = true)
         : t_base(cached_index)
@@ -129,7 +129,7 @@ class KongsbergAllFileHandler
             init_interfaces(false, show_progress);
     }
     KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                            const std::unordered_map<std::string, FileInfoData>& cached_index,
                             bool                                                 init,
                             tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)

@@ -70,7 +70,7 @@ class SimradRawFileHandler
     using t_OtherFileDataInterface =
         typename filedatainterfaces::SimradRawOtherFileDataInterface<t_ifstream>;
 
-    using typename t_base::FilePackageIndex;
+    using typename t_base::FileInfoData;
     using typename t_base::FileInfos;
 
   private:
@@ -100,8 +100,8 @@ class SimradRawFileHandler
     //     I_InputFileHandler;
 
     SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                      std::unordered_map<std::string, FilePackageIndex>(),
+                  const std::unordered_map<std::string, FileInfoData>& cached_index =
+                      std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
                   bool show_progress = true)
         : t_base(cached_index)
@@ -111,7 +111,7 @@ class SimradRawFileHandler
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
@@ -122,8 +122,8 @@ class SimradRawFileHandler
     }
 
     SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                      std::unordered_map<std::string, FilePackageIndex>(),
+                  const std::unordered_map<std::string, FileInfoData>& cached_index =
+                      std::unordered_map<std::string, FileInfoData>(),
                   bool init          = true,
                   bool show_progress = true)
         : t_base(cached_index)
@@ -133,7 +133,7 @@ class SimradRawFileHandler
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                  const std::unordered_map<std::string, FileInfoData>& cached_index,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
         : t_base(cached_index)
