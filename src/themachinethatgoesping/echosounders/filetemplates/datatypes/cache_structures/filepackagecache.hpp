@@ -6,7 +6,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/packagecachebuffer.doc.hpp"
+#include ".docstrings/filepackagecache.doc.hpp"
 
 /* std includes */
 #include <filesystem>
@@ -39,10 +39,10 @@ namespace datatypes {
 namespace cache_structures {
 
 template<typename t_CachingResult>
-class PackageCache
+class FilePackageCache
 {
   protected:
-    virtual std::string class_name() const { return fmt::format("PackageCache"); }
+    virtual std::string class_name() const { return fmt::format("FilePackageCache"); }
     size_t              file_pos;
     double              timestamp;
     unsigned int        sub_package_nr;
@@ -50,9 +50,9 @@ class PackageCache
     t_CachingResult _caching_result;
 
   public:
-    PackageCache() = default;
+    FilePackageCache() = default;
     template<typename t_CachedPackage>
-    PackageCache(size_t                 file_pos,
+    FilePackageCache(size_t                 file_pos,
                  double                 timestamp,
                  const t_CachedPackage& package,
                  unsigned int           sub_package_nr = 0)
@@ -62,13 +62,13 @@ class PackageCache
         , sub_package_nr(sub_package_nr)
     {
     }
-    virtual ~PackageCache() = default;
+    virtual ~FilePackageCache() = default;
 
     size_t       get_file_pos() const { return file_pos; }
     double       get_timestamp() const { return timestamp; }
     unsigned int get_sub_package_nr() const { return sub_package_nr; }
 
-    bool operator==(const PackageCache& other) const = default;
+    bool operator==(const FilePackageCache& other) const = default;
 
     void to_stream(std::ostream& stream, std::unordered_map<size_t, std::string>& hash_cache) const
     {
@@ -81,7 +81,7 @@ class PackageCache
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
         constexpr size_t size = sizeof(file_pos) + sizeof(timestamp) + sizeof(sub_package_nr);
-        PackageCache     package;
+        FilePackageCache     package;
         stream.read(reinterpret_cast<char*>(&package.file_pos), size);
         package._caching_result = package._caching_result.from_stream(stream, hash_cache);
 
@@ -108,20 +108,20 @@ class PackageCache
 };
 
 template<typename t_CachingResult>
-class PackageCacheBuffer
+class FilePackageCache
 {
   protected:
-    virtual std::string class_name() const { return fmt::format("PackageCacheBuffer"); }
+    virtual std::string class_name() const { return fmt::format("FilePackageCache"); }
     std::unordered_map<size_t, std::string>              _hash_cache;
     std::unordered_map<size_t, std::vector<std::string>> _package_buffer;
 
   public:
     using type_CachingResult = t_CachingResult;
 
-    PackageCacheBuffer()          = default;
-    virtual ~PackageCacheBuffer() = default;
+    FilePackageCache()          = default;
+    virtual ~FilePackageCache() = default;
 
-    bool operator==(const PackageCacheBuffer& other) const = default;
+    bool operator==(const FilePackageCache& other) const = default;
 
     const std::unordered_map<size_t, std::string>& get_hash_cache() const { return _hash_cache; }
 
@@ -136,10 +136,10 @@ class PackageCacheBuffer
                      const t_CachedPackage& package,
                      unsigned int           sub_package_nr = 0)
     {
-        add_package(PackageCache<t_CachingResult>(file_pos, timestamp, package, sub_package_nr));
+        add_package(FilePackageCache<t_CachingResult>(file_pos, timestamp, package, sub_package_nr));
     }
 
-    void add_package(const PackageCache<t_CachingResult>& package)
+    void add_package(const FilePackageCache<t_CachingResult>& package)
     {
         auto& package_buffer = _package_buffer[package.get_file_pos()];
 
@@ -149,7 +149,7 @@ class PackageCacheBuffer
         package_buffer[package.get_sub_package_nr()] = package.to_binary(_hash_cache);
     }
 
-    PackageCache<t_CachingResult> get_package_cache(size_t       file_pos,
+    FilePackageCache<t_CachingResult> get_package_cache(size_t       file_pos,
                                                     double       timestamp,
                                                     unsigned int sub_package_nr = 0) const
     {
@@ -163,7 +163,7 @@ class PackageCacheBuffer
             throw std::runtime_error(fmt::format(
                 "{}: package {} has no sub_package_nr {}", class_name(), file_pos, sub_package_nr));
 
-        PackageCache<t_CachingResult> package_cache = PackageCache<t_CachingResult>::from_binary(
+        FilePackageCache<t_CachingResult> package_cache = FilePackageCache<t_CachingResult>::from_binary(
             package_it->second[sub_package_nr], _hash_cache);
 
         if (package_cache.get_file_pos() != file_pos)
@@ -233,9 +233,9 @@ class PackageCacheBuffer
         }
     }
 
-    static PackageCacheBuffer from_stream(std::istream& is)
+    static FilePackageCache from_stream(std::istream& is)
     {
-        PackageCacheBuffer data;
+        FilePackageCache data;
 
         // read hash cache
         {
@@ -284,7 +284,7 @@ class PackageCacheBuffer
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
-        tools::classhelper::ObjectPrinter printer("PackageCacheBuffer", float_precision);
+        tools::classhelper::ObjectPrinter printer("FilePackageCache", float_precision);
 
         size_t bytes_hash = 0;
         for (const auto& [key, buffer] : _hash_cache)
@@ -304,7 +304,7 @@ class PackageCacheBuffer
     }
 
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PackageCacheBuffer)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageCache)
 
   private:
     void print_bytes(const std::string&                 name,

@@ -338,7 +338,7 @@ class RAW3 : public SimradRawDatagram
         return printer;
     }
 
-    // ----- functions used for PackageCache -----
+    // ----- functions used for FilePackageCache -----
     static RAW3 from_stream(std::istream&                                  is,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
