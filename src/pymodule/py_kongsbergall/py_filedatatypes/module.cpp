@@ -13,7 +13,7 @@ namespace py_filedatatypes {
 namespace py = pybind11;
 
 // -- submodule declarations --
-void init_c_kongsbergallfileinfodata(pybind11::module& m);    // c_kongsbergallfileinfodata.cpp
+void init_c_kongsbergallFilePackageIndex(pybind11::module& m);    // c_kongsbergallFilePackageIndex.cpp
 void init_c_kongsbergallPingFileData(pybind11::module& m);     // c_kongsbergallpingfiledata.cpp
 void init_c_kongsbergallpingcommon(pybind11::module& m);      // c_kongsbergallpingbottom.cpp
 void init_c_kongsbergallpingbottom(pybind11::module& m);      // c_kongsbergallpingbottom.cpp
@@ -25,7 +25,7 @@ void init_m_kongsbergallfiledatatypes(pybind11::module& m)
 {
     auto subm = m.def_submodule("filetypes", "KongsbergAll EK60 and EK80 file data types");
 
-    init_c_kongsbergallfileinfodata(subm);
+    init_c_kongsbergallFilePackageIndex(subm);
     init_c_kongsbergallPingFileData(subm);
     init_c_kongsbergallpingcommon(subm);
     init_c_kongsbergallpingbottom(subm);

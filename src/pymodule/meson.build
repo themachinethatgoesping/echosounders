@@ -66,7 +66,7 @@ sources = [
   'py_kongsbergall/py_datagrams/py_substructures/c_xyzdatagrambeam.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/enum_detectiontype.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/module.cpp',
-  'py_kongsbergall/py_filedatatypes/c_kongsbergallfileinfodata.cpp',
+  'py_kongsbergall/py_filedatatypes/c_kongsbergallFilePackageIndex.cpp',
   'py_kongsbergall/py_filedatatypes/c_kongsbergallping.cpp',
   'py_kongsbergall/py_filedatatypes/c_kongsbergallpingbottom.cpp',
   'py_kongsbergall/py_filedatatypes/c_kongsbergallpingcommon.cpp',
@@ -148,7 +148,7 @@ sources = [
   'py_simradraw/py_filedatatypes/c_simradrawpingcommon.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawpingfiledata.cpp',
   'py_simradraw/py_filedatatypes/module.cpp',
-  'py_simradraw/py_filedatatypes/py_cache_structures/c_simradrawfileinfodata.cpp',
+  'py_simradraw/py_filedatatypes/py_cache_structures/c_simradrawFilePackageIndex.cpp',
 ]
 
 # define python module
