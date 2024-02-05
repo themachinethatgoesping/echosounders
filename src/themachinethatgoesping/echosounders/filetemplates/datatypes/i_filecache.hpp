@@ -40,36 +40,36 @@ namespace filetemplates {
 namespace datatypes {
 
 template<typename t_DatagramIdentifier>
-struct I_FileCache
+struct FilePackageIndex
 {
-    std::string file_name;
+    std::string file_path;
     size_t      file_size;
 
     /* header positions */
     std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
         datagram_infos; ///< all datagrams
 
-    I_FileCache() = default;
+    FilePackageIndex() = default;
     template<typename t_FileInfos>
-    I_FileCache(const t_FileInfos& file_info)
-        : file_name(file_info.file_name)
+    FilePackageIndex(const t_FileInfos& file_info)
+        : file_path(file_info.file_path)
         , file_size(file_info.file_size)
     {
         datagram_infos.reserve(file_info.datagram_infos.size());
-
+        
         for (auto& datagram_info : file_info.datagram_infos)
         {
             datagram_infos.push_back(*datagram_info);
         }
     }
-    bool operator==(const I_FileCache&) const = default;
+    bool operator==(const FilePackageIndex&) const = default;
 
     // ----- to/from stream interface -----
-    static I_FileCache from_stream(std::istream& is)
+    static FilePackageIndex from_stream(std::istream& is)
     {
-        I_FileCache data;
+        FilePackageIndex data;
 
-        data.file_name = tools::classhelper::stream::container_from_stream<std::string>(is);
+        data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
 
         size_t size;
@@ -86,7 +86,7 @@ struct I_FileCache
 
     void to_stream(std::ostream& os) const
     {
-        tools::classhelper::stream::container_to_stream<std::string>(os, file_name);
+        tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
         os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
 
         size_t size = datagram_infos.size();
@@ -103,7 +103,7 @@ struct I_FileCache
         tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
 
         // raw values
-        printer.register_string("file_name", file_name);
+        printer.register_string("file_path", file_path);
         printer.register_value("file_size", size_t(file_size));
 
         printer.register_value("datagrams", datagram_infos.size());
@@ -113,7 +113,7 @@ struct I_FileCache
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(I_FileCache)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageIndex)
 };
 
 /**
@@ -123,7 +123,7 @@ struct I_FileCache
 template<typename t_DatagramIdentifier, typename t_ifstream>
 struct FileInfos
 {
-    std::string file_name;
+    std::string file_path;
     size_t      file_size;
 
     /* header positions */
@@ -134,8 +134,8 @@ struct FileInfos
     FileInfos() = default;
     FileInfos(size_t                                                  file_nr,
               std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
-              const I_FileCache<t_DatagramIdentifier>&                file_info_data)
-        : file_name(file_info_data.file_name)
+              const FilePackageIndex<t_DatagramIdentifier>&               file_info_data)
+        : file_path(file_info_data.file_path)
         , file_size(file_info_data.file_size)
     {
         for (auto& datagram_info : file_info_data.datagram_infos)

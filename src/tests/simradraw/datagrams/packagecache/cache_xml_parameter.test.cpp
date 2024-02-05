@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xml_parameter_channel.hpp>
 
 // using namespace testing;
@@ -20,7 +20,7 @@ using themachinethatgoesping::echosounders::simradraw::datagrams::xml_datagrams:
 
 using Catch::Approx;
 
-TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTAG)
+TEST_CASE("XML_Parameter_Channel should be usable with PackageCacheBuffer", TESTTAG)
 {
     // initialize class structure
     XML_Parameter_Channel channel;
@@ -36,15 +36,15 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
 
-    // test filepackagecache
+    // test packagecachebuffer
     auto channel2      = channel;
     auto channel3      = channel;
     channel2.ChannelID = "Different ID with funny number 1234567890";
     channel3.ChannelID = "Some text";
 
-    cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache_buffer;
+    cache_structures::PackageCacheBuffer<XML_Parameter_Channel> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
     package_cache_buffer.add_package(12, 3, channel2);
@@ -52,7 +52,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     package_cache_buffer.add_package(24, 3, channel2);
     package_cache_buffer.add_package(24, 3, channel3, 1);
 
-    SECTION("FilePackageCache: test basic access")
+    SECTION("PackageCacheBuffer: test basic access")
     {
         INFO(channel.info_string());
         INFO(package_cache_buffer.get_package(0, 0).info_string());
@@ -71,7 +71,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     }
 
     // test to/from binary
-    REQUIRE(package_cache_buffer != cache_structures::FilePackageCache<XML_Parameter_Channel>());
+    REQUIRE(package_cache_buffer != cache_structures::PackageCacheBuffer<XML_Parameter_Channel>());
     REQUIRE(package_cache_buffer ==
             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 
@@ -79,7 +79,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     REQUIRE(package_cache_buffer.info_string() != "");
 }
 
-TEST_CASE("XML_Parameter_Channel should be convertible to FilePackageCache", TESTTAG)
+TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG)
 {
     // initialize class structure
     XML_Parameter_Channel channel;
@@ -95,13 +95,13 @@ TEST_CASE("XML_Parameter_Channel should be convertible to FilePackageCache", TES
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
 
     // test basic access
     REQUIRE(channel == package_cache.get());
 
     // test to/from binary
-    SECTION("FilePackageCache: to/from binary")
+    SECTION("PackageCache: to/from binary")
     {
         INFO(channel.info_string());
         INFO(package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache)

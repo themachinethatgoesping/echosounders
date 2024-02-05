@@ -11,7 +11,7 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 #include <themachinethatgoesping/tools_pybind/datetime.hpp>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecachebuffer.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xml_parameter_channel.hpp>
 
 namespace themachinethatgoesping {
@@ -21,37 +21,37 @@ namespace py_filetemplates {
 namespace py_datatypes {
 namespace py_cache_structures {
 
-#define DOC_FilePackageCache(ARG)                                                                  \
+#define DOC_PackageCacheBuffer(ARG)                                                                \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         filetemplates,                                                                             \
         datatypes,                                                                                 \
         cache_structures,                                                                          \
-        FilePackageCache,                                                                          \
+        PackageCacheBuffer,                                                                        \
         ARG)
 
 template<typename t_CachedPackage>
-void init_filepackagecache(pybind11::module& m, const std::string& typestr = "")
+void init_packagecachebuffer(pybind11::module& m, const std::string& typestr = "")
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::
         cache_structures;
 
-    using t_FilePackageCache = FilePackageCache<t_CachedPackage>;
+    using t_PackageCacheBuffer = PackageCacheBuffer<t_CachedPackage>;
 
-    auto cls = py::class_<t_FilePackageCache, std::shared_ptr<t_FilePackageCache>>(
+    auto cls = py::class_<t_PackageCacheBuffer, std::shared_ptr<t_PackageCacheBuffer>>(
                    m,
-                   fmt::format("FilePackageCache<{}>", typestr).c_str(),
+                   fmt::format("PackageCacheBuffer<{}>", typestr).c_str(),
                    DOC(themachinethatgoesping,
                        echosounders,
                        filetemplates,
                        datatypes,
                        cache_structures,
-                       FilePackageCache))
-                   .def(py::init<>(), DOC_FilePackageCache(FilePackageCache))
+                       PackageCacheBuffer))
+                   .def(py::init<>(), DOC_PackageCacheBuffer(PackageCacheBuffer))
                    .def("__eq__",
-                        &t_FilePackageCache::operator==,
-                        DOC_FilePackageCache(operator_eq),
+                        &t_PackageCacheBuffer::operator==,
+                        DOC_PackageCacheBuffer(operator_eq),
                         py::arg("other"))
 
                    // ----- ping interface -----
@@ -59,40 +59,40 @@ void init_filepackagecache(pybind11::module& m, const std::string& typestr = "")
 
                    // --- variable access ---
                    .def("add_package",
-                        &t_FilePackageCache::template add_package<t_CachedPackage>,
-                        DOC_FilePackageCache(add_package_2),
+                        &t_PackageCacheBuffer::template add_package<t_CachedPackage>,
+                        DOC_PackageCacheBuffer(add_package_2),
                         py::arg("file_pos"),
                         py::arg("timestamp"),
                         py::arg("package"),
                         py::arg("sub_package_nr") = 0)
                    .def("get_package",
-                        &t_FilePackageCache::get_package,
-                        DOC_FilePackageCache(get_package),
+                        &t_PackageCacheBuffer::get_package,
+                        DOC_PackageCacheBuffer(get_package),
                         py::arg("file_pos"),
                         py::arg("timestamp"),
                         py::arg("sub_package_nr") = 0)
 
                    .def("get_hash_cache",
-                        &t_FilePackageCache::get_hash_cache,
-                        DOC_FilePackageCache(get_hash_cache))
+                        &t_PackageCacheBuffer::get_hash_cache,
+                        DOC_PackageCacheBuffer(get_hash_cache))
                    .def("get_package_buffer",
-                        &t_FilePackageCache::get_package_buffer,
-                        DOC_FilePackageCache(get_package_buffer))
+                        &t_PackageCacheBuffer::get_package_buffer,
+                        DOC_PackageCacheBuffer(get_package_buffer))
 
                // ----- pybind macros -----
                // default copy functions
-               __PYCLASS_DEFAULT_COPY__(t_FilePackageCache)
+               __PYCLASS_DEFAULT_COPY__(t_PackageCacheBuffer)
                // default binary functions
-               __PYCLASS_DEFAULT_BINARY__(t_FilePackageCache)
+               __PYCLASS_DEFAULT_BINARY__(t_PackageCacheBuffer)
                // default printing functions
-               __PYCLASS_DEFAULT_PRINTING__(t_FilePackageCache)
+               __PYCLASS_DEFAULT_PRINTING__(t_PackageCacheBuffer)
         // end of class definition
         ;
 }
 
-void init_c_filepackagecache(pybind11::module& m)
+void init_c_packagecachebuffer(pybind11::module& m)
 {
-    init_filepackagecache<simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>(
+    init_packagecachebuffer<simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>(
         m, "XML_Parameter_Channel");
 }
 

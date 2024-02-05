@@ -40,37 +40,37 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCache = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_FilePackageCache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_PackageCacheBuffer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_add_package = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_add_package = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_add_package_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_add_package_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_class_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_class_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_hash_cache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_get_hash_cache = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_package = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_get_package = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_package_buffer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_get_package_buffer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_package_cache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_get_package_cache = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_hash_cache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_hash_cache = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_package_buffer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_package_buffer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCacheBuffer_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCache_PackageCache = R"doc()doc";
 

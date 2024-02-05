@@ -316,7 +316,7 @@ struct XML_Parameter_Channel
         return printer;
     }
 
-    // ----- functions used for FilePackageCache -----
+    // ----- functions used for PackageCache -----
     static XML_Parameter_Channel from_stream(
         std::istream&                                  is,
         const std::unordered_map<size_t, std::string>& hash_cache)
