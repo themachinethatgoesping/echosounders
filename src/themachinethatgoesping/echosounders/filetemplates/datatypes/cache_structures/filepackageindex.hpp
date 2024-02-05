@@ -42,7 +42,7 @@ struct FilePackageIndex
 
     /* header positions */
     std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
-        datagram_infos; ///< all datagrams
+        datagram_info_data; ///< all datagrams
 
     FilePackageIndex() = default;
     template<typename t_FileInfos>
@@ -50,11 +50,11 @@ struct FilePackageIndex
         : file_path(file_info.file_path)
         , file_size(file_info.file_size)
     {
-        datagram_infos.reserve(file_info.datagram_infos.size());
+        datagram_info_data.reserve(file_info.datagram_infos.size());
 
         for (auto& datagram_info : file_info.datagram_infos)
         {
-            datagram_infos.push_back(*datagram_info);
+            datagram_info_data.push_back(*datagram_info);
         }
     }
     bool operator==(const FilePackageIndex&) const = default;
@@ -69,10 +69,10 @@ struct FilePackageIndex
 
         size_t size;
         is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
-        data.datagram_infos.resize(size);
+        data.datagram_info_data.resize(size);
         for (size_t i = 0; i < size; ++i)
         {
-            data.datagram_infos[i] =
+            data.datagram_info_data[i] =
                 datatypes::DatagramInfoData<t_DatagramIdentifier>::from_stream(is);
         }
 
@@ -84,11 +84,11 @@ struct FilePackageIndex
         tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
         os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
 
-        size_t size = datagram_infos.size();
+        size_t size = datagram_info_data.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
         for (size_t i = 0; i < size; ++i)
         {
-            datagram_infos[i].to_stream(os);
+            datagram_info_data[i].to_stream(os);
         }
     }
 
@@ -101,7 +101,7 @@ struct FilePackageIndex
         printer.register_string("file_path", file_path);
         printer.register_value("file_size", size_t(file_size));
 
-        printer.register_value("datagrams", datagram_infos.size());
+        printer.register_value("datagrams", datagram_info_data.size());
 
         return printer;
     }
@@ -110,7 +110,6 @@ struct FilePackageIndex
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageIndex)
 };
-
 
 } // namespace cache_structures
 } // namespace datatypes

@@ -27,14 +27,12 @@
 
 #include "../../internal/inputfilemanager.hpp"
 #include "../datagraminfo.hpp"
-#include "filepackageindex.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 namespace cache_structures {
-
 
 /**
  * @brief struct for storing the file infos (returned by scan_for_datagrams)
@@ -52,13 +50,16 @@ struct FileInfos
         datagram_infos; ///< all datagrams
 
     FileInfos() = default;
-    FileInfos(size_t                                                  file_nr,
-              std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
-              const FilePackageIndex<t_DatagramIdentifier>&               file_info_data)
-        : file_path(file_info_data.file_path)
-        , file_size(file_info_data.file_size)
+    FileInfos(
+        size_t                                                                file_nr,
+        const std::string&                                                    file_path,
+        const size_t                                                          file_size,
+        const std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>& datagram_info_data,
+        std::shared_ptr<internal::InputFileManager<t_ifstream>>               input_file_manager)
+        : file_path(file_path)
+        , file_size(file_size)
     {
-        for (auto& datagram_info : file_info_data.datagram_infos)
+        for (auto& datagram_info : datagram_info_data)
         {
             datagram_infos.push_back(
                 std::make_shared<datatypes::DatagramInfo<t_DatagramIdentifier, t_ifstream>>(

@@ -33,6 +33,7 @@
 
 #include "../internal/inputfilemanager.hpp"
 #include "datagraminfo.hpp"
+#include "cache_structures/filepackageindex.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,8 +47,7 @@ struct I_FileCache
     size_t      file_size;
 
     /* header positions */
-    std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
-        datagram_infos; ///< all datagrams
+    cache_structures::FilePackageCache<t_DatagramIdentifier> _file_package_cache;
 
     I_FileCache() = default;
     template<typename t_FileInfos>

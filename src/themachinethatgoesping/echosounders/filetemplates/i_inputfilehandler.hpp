@@ -31,8 +31,8 @@
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
-#include "datatypes/cache_structures/filepackageindex.hpp"
 #include "datatypes/cache_structures/fileinfos.hpp"
+#include "datatypes/cache_structures/filepackageindex.hpp"
 #include "datatypes/datagraminfo.hpp"
 #include "internal/inputfilemanager.hpp"
 
@@ -55,7 +55,8 @@ class I_InputFileHandler
 
     using FileInfos =
         typename datatypes::cache_structures::FileInfos<t_DatagramIdentifier, t_ifstream>;
-    using FilePackageIndex = typename datatypes::cache_structures::FilePackageIndex<t_DatagramIdentifier>;
+    using FilePackageIndex =
+        typename datatypes::cache_structures::FilePackageIndex<t_DatagramIdentifier>;
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
@@ -78,7 +79,7 @@ class I_InputFileHandler
     }
 
   public:
-    I_InputFileHandler(const std::string&                                   file_path,
+    I_InputFileHandler(const std::string&                                       file_path,
                        const std::unordered_map<std::string, FilePackageIndex>& cached_index =
                            std::unordered_map<std::string, FilePackageIndex>(),
                        bool init          = true,
@@ -89,10 +90,10 @@ class I_InputFileHandler
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFileHandler(const std::string&                                   file_path,
+    I_InputFileHandler(const std::string&                                       file_path,
                        const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                       bool                                                 init,
-                       tools::progressbars::I_ProgressBar&                  progress_bar)
+                       bool                                                     init,
+                       tools::progressbars::I_ProgressBar&                      progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_file(file_path, progress_bar);
@@ -100,7 +101,7 @@ class I_InputFileHandler
             init_interfaces(false, progress_bar);
     }
 
-    I_InputFileHandler(const std::vector<std::string>&                      file_paths,
+    I_InputFileHandler(const std::vector<std::string>&                          file_paths,
                        const std::unordered_map<std::string, FilePackageIndex>& cached_index =
                            std::unordered_map<std::string, FilePackageIndex>(),
                        bool init          = true,
@@ -111,10 +112,10 @@ class I_InputFileHandler
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFileHandler(const std::vector<std::string>&                      file_paths,
+    I_InputFileHandler(const std::vector<std::string>&                          file_paths,
                        const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                       bool                                                 init,
-                       tools::progressbars::I_ProgressBar&                  progress_bar)
+                       bool                                                     init,
+                       tools::progressbars::I_ProgressBar&                      progress_bar)
         : _cached_index_per_file_path(cached_index)
     {
         append_files(file_paths, progress_bar);
@@ -216,7 +217,12 @@ class I_InputFileHandler
         else
         {
             // load datagram infos from index
-            FileInfos file_info(file_nr, _input_file_manager, it->second);
+            FileInfos file_info(file_nr,
+                                file_path,
+                                it->second.file_size, // TODO: instead of just copying, here we
+                                                      // should check if the file size matches
+                                it->second.datagram_info_data,
+                                _input_file_manager);
 
             bool close_progressbar = false; ///< only close the progressbar if it was
                                             ///< is_initialized within this function
@@ -237,7 +243,7 @@ class I_InputFileHandler
                 callback_scan_packet(datagram_info);
 
                 // update cached index per file (in case the callback modified the datagram info)
-                it->second.datagram_infos[i] = *datagram_info;
+                it->second.datagram_info_data[i] = *datagram_info;
 
                 double pos_new = double(datagram_info->get_file_pos());
 
