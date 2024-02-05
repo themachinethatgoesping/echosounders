@@ -4,6 +4,9 @@
 
 #---------- general test case header --------------
 
+# --- add unittest_data directory as define (UNITTEST_DATA_DIR) ---
+test_data_dir = '-DUNITTEST_DATA_DIR="@0@"'.format(meson.current_source_dir() + '/unittest_data')
+
 testcomponent = 'echosounders'
 
 sources = [
@@ -51,6 +54,7 @@ sources = [
   'simradraw/datagrams/xml_datagrams/xml_pingsequence.test.cpp',
   'simradraw/datagrams/xml_datagrams/xml_sensor.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
+  'filetemplates/datatypes/filecache.test.cpp',
   'pingtools/beamsampleselection.test.cpp',
   'pingtools/beamselection.test.cpp',
   'pingtools/pingsampleselector.test.cpp',
@@ -68,6 +72,7 @@ foreach source : sources
             override_options: [
             ],
             #install : true
+            cpp_args: [test_data_dir]
             )
 
     test(testname,testexe)
