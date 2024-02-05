@@ -54,13 +54,13 @@ class I_InputFileHandler
 
     using FileInfos =
         typename datatypes::cache_structures::FileInfos<t_DatagramIdentifier, t_ifstream>;
-    using FileInfoData = typename datatypes::cache_structures::FileInfoData<t_DatagramIdentifier>;
+    using FilePackageIndex = typename datatypes::cache_structures::FilePackageIndex<t_DatagramIdentifier>;
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
 
-    std::unordered_map<std::string, FileInfoData> _cached_index_per_file_path;
+    std::unordered_map<std::string, FilePackageIndex> _cached_index_per_file_path;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -71,15 +71,15 @@ class I_InputFileHandler
 
     I_InputFileHandler() = default;
 
-    I_InputFileHandler(const std::unordered_map<std::string, FileInfoData>& cached_index)
+    I_InputFileHandler(const std::unordered_map<std::string, FilePackageIndex>& cached_index)
         : _cached_index_per_file_path(cached_index)
     {
     }
 
   public:
     I_InputFileHandler(const std::string&                                   file_path,
-                       const std::unordered_map<std::string, FileInfoData>& cached_index =
-                           std::unordered_map<std::string, FileInfoData>(),
+                       const std::unordered_map<std::string, FilePackageIndex>& cached_index =
+                           std::unordered_map<std::string, FilePackageIndex>(),
                        bool init          = true,
                        bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
@@ -89,7 +89,7 @@ class I_InputFileHandler
             init_interfaces(false, show_progress);
     }
     I_InputFileHandler(const std::string&                                   file_path,
-                       const std::unordered_map<std::string, FileInfoData>& cached_index,
+                       const std::unordered_map<std::string, FilePackageIndex>& cached_index,
                        bool                                                 init,
                        tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
@@ -100,8 +100,8 @@ class I_InputFileHandler
     }
 
     I_InputFileHandler(const std::vector<std::string>&                      file_paths,
-                       const std::unordered_map<std::string, FileInfoData>& cached_index =
-                           std::unordered_map<std::string, FileInfoData>(),
+                       const std::unordered_map<std::string, FilePackageIndex>& cached_index =
+                           std::unordered_map<std::string, FilePackageIndex>(),
                        bool init          = true,
                        bool show_progress = true)
         : _cached_index_per_file_path(cached_index)
@@ -111,7 +111,7 @@ class I_InputFileHandler
             init_interfaces(false, show_progress);
     }
     I_InputFileHandler(const std::vector<std::string>&                      file_paths,
-                       const std::unordered_map<std::string, FileInfoData>& cached_index,
+                       const std::unordered_map<std::string, FilePackageIndex>& cached_index,
                        bool                                                 init,
                        tools::progressbars::I_ProgressBar&                  progress_bar)
         : _cached_index_per_file_path(cached_index)
@@ -209,7 +209,7 @@ class I_InputFileHandler
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
 
-            _cached_index_per_file_path[file_path] = FileInfoData(file_info);
+            _cached_index_per_file_path[file_path] = FilePackageIndex(file_info);
             _datagram_interface.add_datagram_infos(file_info.datagram_infos);
         }
         else

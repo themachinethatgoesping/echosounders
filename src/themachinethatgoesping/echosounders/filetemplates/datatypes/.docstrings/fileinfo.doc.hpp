@@ -38,27 +38,27 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_FileInfoData = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_FilePackageIndex = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_FileInfoData_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_FilePackageIndex_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_datagram_infos = R"doc(< all datagrams)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_datagram_infos = R"doc(< all datagrams)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_file_path = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_file_size = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_operator_eq = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfoData_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FilePackageIndex_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileInfos = R"doc(struct for storing the file infos (returned by scan_for_datagrams))doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: bfde5b9c323c748693df1d298746468bfb74c98e2e6b1bba6c17135a5be02b39
+//sourcehash: ce3abe75ec87c250c48a280e712a6f95375ac40664154588aceae54fa68892e2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,28 +38,6 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_FileInfoData = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_FileInfoData_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_datagram_infos = R"doc(< all datagrams)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_file_size = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfoData_to_stream = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos = R"doc(struct for storing the file infos (returned by scan_for_datagrams))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_FileInfos = R"doc()doc";
@@ -71,6 +49,28 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_file_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_FilePackageIndex = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_FilePackageIndex_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_datagram_infos = R"doc(< all datagrams)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_file_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

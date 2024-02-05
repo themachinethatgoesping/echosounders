@@ -40,7 +40,7 @@ namespace filetemplates {
 namespace datatypes {
 
 template<typename t_DatagramIdentifier>
-struct FileInfoData
+struct FilePackageIndex
 {
     std::string file_path;
     size_t      file_size;
@@ -49,9 +49,9 @@ struct FileInfoData
     std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
         datagram_infos; ///< all datagrams
 
-    FileInfoData() = default;
+    FilePackageIndex() = default;
     template<typename t_FileInfos>
-    FileInfoData(const t_FileInfos& file_info)
+    FilePackageIndex(const t_FileInfos& file_info)
         : file_path(file_info.file_path)
         , file_size(file_info.file_size)
     {
@@ -62,12 +62,12 @@ struct FileInfoData
             datagram_infos.push_back(*datagram_info);
         }
     }
-    bool operator==(const FileInfoData&) const = default;
+    bool operator==(const FilePackageIndex&) const = default;
 
     // ----- to/from stream interface -----
-    static FileInfoData from_stream(std::istream& is)
+    static FilePackageIndex from_stream(std::istream& is)
     {
-        FileInfoData data;
+        FilePackageIndex data;
 
         data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
@@ -113,7 +113,7 @@ struct FileInfoData
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileInfoData)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageIndex)
 };
 
 /**
@@ -134,7 +134,7 @@ struct FileInfos
     FileInfos() = default;
     FileInfos(size_t                                                  file_nr,
               std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
-              const FileInfoData<t_DatagramIdentifier>&               file_info_data)
+              const FilePackageIndex<t_DatagramIdentifier>&               file_info_data)
         : file_path(file_info_data.file_path)
         , file_size(file_info_data.file_size)
     {
