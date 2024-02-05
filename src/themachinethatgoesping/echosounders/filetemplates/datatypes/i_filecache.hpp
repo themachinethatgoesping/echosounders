@@ -40,7 +40,7 @@ namespace filetemplates {
 namespace datatypes {
 
 template<typename t_DatagramIdentifier>
-struct FilePackageIndex
+struct I_FileCache
 {
     std::string file_path;
     size_t      file_size;
@@ -49,9 +49,9 @@ struct FilePackageIndex
     std::vector<datatypes::DatagramInfoData<t_DatagramIdentifier>>
         datagram_infos; ///< all datagrams
 
-    FilePackageIndex() = default;
+    I_FileCache() = default;
     template<typename t_FileInfos>
-    FilePackageIndex(const t_FileInfos& file_info)
+    I_FileCache(const t_FileInfos& file_info)
         : file_path(file_info.file_path)
         , file_size(file_info.file_size)
     {
@@ -62,12 +62,12 @@ struct FilePackageIndex
             datagram_infos.push_back(*datagram_info);
         }
     }
-    bool operator==(const FilePackageIndex&) const = default;
+    bool operator==(const I_FileCache&) const = default;
 
     // ----- to/from stream interface -----
-    static FilePackageIndex from_stream(std::istream& is)
+    static I_FileCache from_stream(std::istream& is)
     {
-        FilePackageIndex data;
+        I_FileCache data;
 
         data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
@@ -113,7 +113,7 @@ struct FilePackageIndex
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageIndex)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(I_FileCache)
 };
 
 /**
@@ -134,7 +134,7 @@ struct FileInfos
     FileInfos() = default;
     FileInfos(size_t                                                  file_nr,
               std::shared_ptr<internal::InputFileManager<t_ifstream>> input_file_manager,
-              const FilePackageIndex<t_DatagramIdentifier>&               file_info_data)
+              const I_FileCache<t_DatagramIdentifier>&               file_info_data)
         : file_path(file_info_data.file_path)
         , file_size(file_info_data.file_size)
     {
