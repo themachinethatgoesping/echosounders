@@ -6,15 +6,15 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/fileinfo.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackageindex.hpp>
 
-#define DOC_FilePackageIndex(ARG)                                                                      \
+#define DOC_FilePackageIndex(ARG)                                                                  \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         filetemplates,                                                                             \
         datatypes,                                                                                 \
         cache_structures,                                                                          \
-        FilePackageIndex,                                                                              \
+        FilePackageIndex,                                                                          \
         ARG)
 
 namespace themachinethatgoesping {
@@ -31,22 +31,26 @@ void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
     using namespace themachinethatgoesping::tools::progressbars;
 
     py::class_<t_FilePackageIndex>(m,
-                               (CLASS_NAME + "_FilePackageIndex").c_str(),
-                               DOC(themachinethatgoesping,
-                                   echosounders,
-                                   filetemplates,
-                                   datatypes,
-                                   cache_structures,
-                                   FilePackageIndex))
+                                   (CLASS_NAME + "_FilePackageIndex").c_str(),
+                                   DOC(themachinethatgoesping,
+                                       echosounders,
+                                       filetemplates,
+                                       datatypes,
+                                       cache_structures,
+                                       FilePackageIndex))
         .def(py::init<>(), DOC_FilePackageIndex(FilePackageIndex))
         // --- processed data access ---
         .def_readwrite("file_path", &t_FilePackageIndex::file_path, DOC_FilePackageIndex(file_path))
         .def_readwrite("file_size", &t_FilePackageIndex::file_size, DOC_FilePackageIndex(file_size))
-        .def_readwrite(
-            "datagram_infos", &t_FilePackageIndex::datagram_infos, DOC_FilePackageIndex(datagram_infos))
+        .def_readwrite("datagram_infos",
+                       &t_FilePackageIndex::datagram_infos,
+                       DOC_FilePackageIndex(datagram_infos))
 
         // ----- operators -----
-        .def("__eq__", &t_FilePackageIndex::operator==, DOC_FilePackageIndex(operator_eq), py::arg("other"))
+        .def("__eq__",
+             &t_FilePackageIndex::operator==,
+             DOC_FilePackageIndex(operator_eq),
+             py::arg("other"))
 
         // ----- pybind macros -----
         // default copy functions

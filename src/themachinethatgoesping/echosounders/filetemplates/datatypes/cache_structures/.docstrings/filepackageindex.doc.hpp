@@ -1,4 +1,4 @@
-//sourcehash: ce3abe75ec87c250c48a280e712a6f95375ac40664154588aceae54fa68892e2
+//sourcehash: 23476742b9a17c2402e519245ab0b843c962bd1cebd04c730638c813a0466c90
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,18 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos = R"doc(struct for storing the file infos (returned by scan_for_datagrams))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_FileInfos = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_FileInfos_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_datagram_infos = R"doc(< all datagrams)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FileInfos_file_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageIndex = R"doc()doc";
 

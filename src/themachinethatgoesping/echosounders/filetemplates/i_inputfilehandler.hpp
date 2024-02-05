@@ -31,7 +31,8 @@
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
-#include "datatypes/cache_structures/fileinfo.hpp"
+#include "datatypes/cache_structures/filepackageindex.hpp"
+#include "datatypes/cache_structures/fileinfos.hpp"
 #include "datatypes/datagraminfo.hpp"
 #include "internal/inputfilemanager.hpp"
 
