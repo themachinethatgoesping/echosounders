@@ -295,9 +295,8 @@ class FilePackageCache
             for (const auto& buffer : subpackages)
                 bytes_package += buffer.size();
 
-        print_bytes("hash_cache", bytes_hash, printer);
-        print_bytes("package_cache", bytes_package, printer);
-
+        printer.register_value_bytes("hash_cache", bytes_hash);
+        printer.register_value_bytes("package_cache", bytes_package);
         printer.register_value("hash_cache", _hash_cache.size(), "elements");
         printer.register_value("package_cache", _package_buffer.size(), "elements");
         return printer;
@@ -305,22 +304,6 @@ class FilePackageCache
 
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FilePackageCache)
-
-  private:
-    void print_bytes(const std::string&                 name,
-                     size_t                             bytes,
-                     tools::classhelper::ObjectPrinter& printer) const
-    {
-
-        if (bytes < 1024)
-            printer.register_value(name, bytes, "bytes");
-        else if (bytes < 1024 * 1024)
-            printer.register_value(name, double(bytes) / 1024., "KB");
-        else if (bytes < 1024 * 1024 * 1024)
-            printer.register_value(name, double(bytes) / 1024. / 1024., "MB");
-        else
-            printer.register_value(name, double(bytes) / 1024. / 1024. / 1024., "GB");
-    }
 };
 
 } // namespace cache_structures
