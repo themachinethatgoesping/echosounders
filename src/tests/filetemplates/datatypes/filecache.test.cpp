@@ -22,7 +22,7 @@ using namespace themachinethatgoesping::echosounders;
 
 std::string test_data_path =
     std::string(UNITTEST_DATA_DIR) + "/filetemplates/datatypes/filecache.test/";
-    
+
 auto test_data_file_0     = test_data_path + "filecache.test.data.0";     // empty file
 auto test_data_file_valid = test_data_path + "filecache.test.data.valid"; // file with valid content
 auto test_data_file_invalid =
@@ -82,7 +82,7 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
     {
         FileCache     cache_data(test_data_file_tmp, "test.wcd", 1000);
         std::ofstream ofs(test_data_file_tmp);
-        cache_data.header_to_stream(ofs);
+        cache_data.to_stream(ofs);
         ofs.close();
 
         FileCache cache_data2(test_data_file_tmp, "test.wcd", 1000);
@@ -93,12 +93,28 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
 TEST_CASE("FileCache should support common functions", TESTTAG)
 {
     // read valid test file
-    FileCache cache_data(test_data_file_valid, "test.wcd", 1000);
+    FileCache dat(test_data_file_valid, "test.wcd", 1000);
+
+    // test copy
+    REQUIRE(dat == FileCache(dat));
+
+    // test binary
+    REQUIRE(dat == FileCache(dat.from_binary(dat.to_binary())));
+
+    // test stream
+    std::stringstream buffer;
+    dat.to_stream(buffer);
+    REQUIRE(dat == FileCache(dat.from_stream(buffer)));
 
     // test print does not crash
-    REQUIRE(cache_data.info_string().size() != 0);
+    REQUIRE(dat.info_string().size() != 0);
+
+    //--- datagram concept ---
+
+    // test print does not crash
+    REQUIRE(dat.info_string().size() != 0);
 
     // // --- test data access ---
-    REQUIRE(cache_data.get_file_name() == "test.wcd");
-    REQUIRE(cache_data.get_file_size() == 1000);
+    REQUIRE(dat.get_file_name() == "test.wcd");
+    REQUIRE(dat.get_file_size() == 1000);
 }

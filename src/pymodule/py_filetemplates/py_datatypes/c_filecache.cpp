@@ -10,8 +10,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/filecache.hpp"
-//
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/filecache.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,11 +45,13 @@ void init_c_filecache(pybind11::module& m)
             // accessors
             .def("get_file_name", &FileCache::get_file_name, DOC_FileCache(file_name))
             .def("get_file_size", &FileCache::get_file_size, DOC_FileCache(file_size))
-            .def("get_cache_header", &FileCache::get_cache_header, DOC_FileCache(cache_header))
+            .def("get_cache_buffer", &FileCache::get_cache_buffer, DOC_FileCache(cache_buffer))
 
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(FileCache)
+        // default binary functions
+        __PYCLASS_DEFAULT_BINARY__(FileCache)
         // default printing functions
         __PYCLASS_DEFAULT_PRINTING__(FileCache);
 }

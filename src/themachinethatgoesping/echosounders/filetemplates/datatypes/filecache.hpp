@@ -47,9 +47,9 @@ class FileCache
     size_t      _file_size; // for reference / checking file validity
 
     /* cache positions */
-    // positions of caches in files, first is first stream position, second is size in bytes
-    // If not initialized, this file was not written or read yet
-    std::unordered_map<std::string, std::pair<size_t, size_t>> _cache_header;
+    // positions of caches in files, first is first stream position, second is the position of the
+    // end of the cache If not initialized, this file was not written or read yet
+    std::unordered_map<std::string, std::string> _cache_buffer;
 
   public:
     FileCache(const std::string& file_name, size_t file_size)
@@ -92,14 +92,26 @@ class FileCache
 
     size_t get_file_size() const { return _file_size; }
 
-    const std::unordered_map<std::string, std::pair<size_t, size_t>>& get_cache_header() const
+    const std::unordered_map<std::string, std::string>& get_cache_buffer() const
     {
-        return _cache_header;
+        return _cache_buffer;
     }
+
+    // ----- cache handling -----
+    // template<typename t_Cache>
+    // void add_cache(const std::string& name, const t_Cache& cache)
+    // {
+    //     size_t position     = cache.get_position();
+    //     size_t size         = cache.get_size();
+    //     _cache_header[name] = std::make_pair(position, size);
+    // }
+    // {
+    //     _cache_header[name] = std::make_pair(position, size);
+    // }
 
     // ----- to/from stream interface -----
 
-    void header_to_stream(std::ostream& os) const
+    void to_stream(std::ostream& os) const
     {
         write_type_id(os);
         write_type_version(os);
@@ -107,14 +119,27 @@ class FileCache
         tools::classhelper::stream::container_to_stream<std::string>(os, _file_name);
         os.write(reinterpret_cast<const char*>(&_file_size), sizeof(size_t));
 
-        size_t size = _cache_header.size();
+        size_t size = _cache_buffer.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
-        for (auto& [key, value] : _cache_header)
+        for (auto& [key, value] : _cache_buffer)
         {
             tools::classhelper::stream::container_to_stream<std::string>(os, key);
-            os.write(reinterpret_cast<const char*>(&value.first), sizeof(size_t));
-            os.write(reinterpret_cast<const char*>(&value.second), sizeof(size_t));
+            tools::classhelper::stream::container_to_stream<std::string>(os, value);
         }
+    }
+
+    static FileCache from_stream(std::istream& is)
+    {
+        read_check_type_id(is);
+        if (!read_check_type_version(is))
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[FileCache]: Invalid type version in file cache"));
+        }
+
+        FileCache cache("", 0);
+        cache.read_header_content_from_stream(is);
+        return cache;
     }
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
@@ -131,9 +156,10 @@ class FileCache
 
         // cache infos
         printer.register_section("cache infos");
-        for (auto& [key, value] : _cache_header)
+        for (auto& [key, value] : _cache_buffer)
         {
-            printer.register_value_bytes(key, value.second);
+            size_t buffer_size = value.size();
+            printer.register_value_bytes(key, buffer_size);
         }
 
         return printer;
@@ -141,7 +167,7 @@ class FileCache
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    //__STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileCache)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileCache)
 
   private:
     void read_header_content_from_stream(std::istream& is)
@@ -154,11 +180,8 @@ class FileCache
 
         for (size_t i = 0; i < size; ++i)
         {
-            std::string key = tools::classhelper::stream::container_from_stream<std::string>(is);
-            size_t      first, second;
-            is.read(reinterpret_cast<char*>(&first), sizeof(size_t));
-            is.read(reinterpret_cast<char*>(&second), sizeof(size_t));
-            _cache_header[key] = std::make_pair(first, second);
+            std::string key    = tools::classhelper::stream::container_from_stream<std::string>(is);
+            _cache_buffer[key] = tools::classhelper::stream::container_from_stream<std::string>(is);
         }
     }
 
