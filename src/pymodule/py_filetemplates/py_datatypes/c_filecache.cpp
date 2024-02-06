@@ -59,6 +59,9 @@ void init_c_filecache(pybind11::module& m)
             .def("get_file_name", &FileCache::get_file_name, DOC_FileCache(file_name))
             .def("get_file_size", &FileCache::get_file_size, DOC_FileCache(file_size))
             .def("get_cache_buffer", &FileCache::get_cache_buffer, DOC_FileCache(cache_buffer))
+            .def("get_cache_buffer_header",
+                 &FileCache::get_cache_buffer_header,
+                 DOC_FileCache(cache_buffer_header))
 
         // ----- pybind macros -----
         // default copy functions
