@@ -98,16 +98,17 @@ class FileCache
     }
 
     // ----- cache handling -----
-    // template<typename t_Cache>
-    // void add_cache(const std::string& name, const t_Cache& cache)
-    // {
-    //     size_t position     = cache.get_position();
-    //     size_t size         = cache.get_size();
-    //     _cache_header[name] = std::make_pair(position, size);
-    // }
-    // {
-    //     _cache_header[name] = std::make_pair(position, size);
-    // }
+    template<typename t_Cache>
+    void add_package_cache(const std::string& name, const t_Cache& cache)
+    {
+        _cache_buffer[name] = cache.to_binary();
+    }
+
+    template<typename t_Cache>
+    t_Cache get_package_cache(const std::string& name) const
+    {
+        return t_Cache::from_binary(_cache_buffer.at(name));
+    }
 
     // ----- to/from stream interface -----
 

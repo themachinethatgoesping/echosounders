@@ -38,6 +38,15 @@ auto test_data_file_wrongversion =
 auto test_data_file_tmp =
     test_data_path + "filecache.test.data.tmp"; // temporary file that will be created
 
+// update valid test file
+{
+    FileCache cache_data(test_data_file_valid, "test.wcd", 1000);
+    std::ofstream ofs(test_data_file_valid);
+    cache_data.to_stream(ofs);
+    ofs.close();
+
+}
+
 TEST_CASE("FileCache should be able to create files but not overwrite existing non-FileCache files",
           TESTTAG)
 {
@@ -81,7 +90,7 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
     SECTION("create a temporary file, read and write it")
     {
         FileCache     cache_data(test_data_file_tmp, "test.wcd", 1000);
-        std::ofstream ofs(test_data_file_tmp);
+        std::ofstream ofs(test_data_file_tmp, std::ios::binary);
         cache_data.to_stream(ofs);
         ofs.close();
 
