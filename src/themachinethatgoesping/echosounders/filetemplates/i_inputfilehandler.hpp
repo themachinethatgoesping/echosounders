@@ -117,7 +117,7 @@ class I_InputFileHandler
         if (init)
             init_interfaces(false, show_progress);
     }
-    
+
     I_InputFileHandler(
         const std::vector<std::string>&                     file_paths,
         const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,

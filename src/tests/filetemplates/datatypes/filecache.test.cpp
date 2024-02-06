@@ -53,6 +53,7 @@ auto get_test_datagram()
     return test_datagram;
 }
 
+
 TEST_CASE("FileCache should be able to create files but not overwrite existing non-FileCache files",
           TESTTAG)
 {
@@ -174,4 +175,35 @@ TEST_CASE("FileCache should support common functions", TESTTAG)
     REQUIRE(dat2.get_file_name() == "test.wcd");
     REQUIRE(dat.get_file_size() == 1000);
     REQUIRE(dat2.get_file_size() == 1000);
+}
+
+TEST_CASE("FileCache should support partial loading", TESTTAG)
+{
+    auto test_datagram = get_test_datagram();
+    auto test_datagram2 = get_test_datagram();
+    test_datagram2.set_timestamp(1234);
+
+    // read valid test file
+    FileCache dat1(test_data_file_valid, "test.wcd", 1000);
+
+    // add datagram info to cache
+    dat1.add_to_cache("test_datagram", test_datagram);
+    dat1.add_to_cache("test_datagram2", test_datagram2);
+
+    // test copy and binary equality
+    REQUIRE(dat1 == FileCache(dat1));
+    REQUIRE(dat1 == FileCache(dat1.from_binary(dat1.to_binary())));
+
+    // delete temporary file if it exists
+    if (std::filesystem::exists(test_data_file_tmp))
+    {
+        std::filesystem::remove(test_data_file_tmp);
+    }
+
+    // write to temporary file
+    dat1.to_file(test_data_file_tmp);
+
+    FileCache dat2(test_data_file_tmp, "test.wcd", 1000);
+    REQUIRE(dat1 == dat2);
+
 }

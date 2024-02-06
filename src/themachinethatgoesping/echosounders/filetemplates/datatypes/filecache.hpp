@@ -205,11 +205,8 @@ class FileCache
         os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
 
         auto cache_buffer_header_position = os.tellp(); // save position to update later
-        for (auto i = 0; i < _cache_buffer_header.size(); ++i)
+        for (auto& [key, pos1, pos2] : _cache_buffer_header)
         {
-            auto& [key, pos1, pos2]      = _cache_buffer_header[i];
-            cache_buffer_header_map[key] = i;
-
             tools::classhelper::stream::container_to_stream<std::string>(os, key);
             os.write(reinterpret_cast<const char*>(&pos1), sizeof(size_t));
             os.write(reinterpret_cast<const char*>(&pos2), sizeof(size_t));
@@ -218,10 +215,11 @@ class FileCache
         // --- write cache_buffer ---
         size = _cache_buffer.size();
         os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
-        for (auto& [key, value] : _cache_buffer)
+        for (auto& [key, pos1, pos2] : _cache_buffer_header)
         {
-            auto& [key_, pos1, pos2] = _cache_buffer_header.at(cache_buffer_header_map[key]);
-            pos1                     = os.tellp(); // update start position
+            auto& value = _cache_buffer[key];
+
+            pos1 = os.tellp(); // update start position
             tools::classhelper::stream::container_to_stream<std::string>(os, key);
             tools::classhelper::stream::container_to_stream<std::string>(os, value);
             pos2 = os.tellp(); // update end position
@@ -309,7 +307,11 @@ class FileCache
             if (pos1 != is.tellg())
             {
                 throw std::runtime_error(
-                    fmt::format("ERROR[FileCache]: Invalid cache position in file cache"));
+                    fmt::format("ERROR[FileCache]: Invalid cache position in "
+                                "file cache [begin]. Expected: {} got {} key {}",
+                                pos1,
+                                size_t(is.tellg()),
+                                key_));
             }
 
             std::string key    = tools::classhelper::stream::container_from_stream<std::string>(is);
@@ -325,8 +327,11 @@ class FileCache
 
             if (pos2 != is.tellg())
             {
-                throw std::runtime_error(
-                    fmt::format("ERROR[FileCache]: Invalid cache position in file cache"));
+                throw std::runtime_error(fmt::format("ERROR[FileCache]: Invalid cache position in "
+                                                     "file cache [end]. Expected: {} got {} key {}",
+                                                     pos1,
+                                                     size_t(is.tellg()),
+                                                     key));
             }
         }
     }
