@@ -29,43 +29,59 @@ void add_default_constructors(T_PyClass& cls)
     using t_FilePackageIndex = typename T_BaseClass::FilePackageIndex;
 
     cls.def(py::init<const std::string&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, std::string>&,
                      bool,
                      bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                I_InputFileHandler),
             py::arg("file_path"),
-            py::arg("cached_index")  = std::unordered_map<std::string, t_FilePackageIndex>(),
-            py::arg("init")          = true,
-            py::arg("show_progress") = true);
+            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("init")                       = true,
+            py::arg("show_progress")              = true);
     cls.def(py::init<const std::string&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, std::string>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler_2),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                I_InputFileHandler_2),
             py::arg("file_path"),
-            py::arg("cached_index"),
+            py::arg("cached_paths_per_file_path"),
             py::arg("init"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, std::string>&,
                      bool,
                      bool>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler_3),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                I_InputFileHandler_3),
             py::arg("file_path"),
-            py::arg("cached_index")  = std::unordered_map<std::string, t_FilePackageIndex>(),
-            py::arg("init")          = true,
-            py::arg("show_progress") = true);
+            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("init")                       = true,
+            py::arg("show_progress")              = true);
     cls.def(py::init<const std::vector<std::string>&,
-                     const std::unordered_map<std::string, t_FilePackageIndex>&,
+                     const std::unordered_map<std::string, std::string>&,
                      bool,
                      I_ProgressBar&>(),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, I_InputFileHandler_4),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                I_InputFileHandler_4),
             py::arg("file_paths"),
-            py::arg("cached_index"),
+            py::arg("cached_paths_per_file_path"),
             py::arg("init"),
             py::arg("progress_bar"));
 }
@@ -99,29 +115,36 @@ void add_open_file_interface(T_PyClass& cls)
     //             py::call_guard<py::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
     //             append_file), py::arg("file_path"), py::arg("progress_bar"));
-    cls.def("get_cached_file_index",
-            &T_BaseClass::get_cached_file_index,
+    cls.def("get_cached_paths_per_file_path",
+            &T_BaseClass::get_cached_paths_per_file_path,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 I_InputFileHandler,
-                get_cached_file_index));
+                get_cached_paths_per_file_path));
 
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)
             (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_interfaces),
             py::call_guard<py::scoped_ostream_redirect>(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, init_interfaces),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                init_interfaces),
             py::arg("force")         = false,
             py::arg("show_progress") = true);
-    cls.def(
-        "init_interfaces",
-        // (https://github.com/pybind/pybind11/issues/1153)
-        (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_interfaces),
-        py::call_guard<py::scoped_ostream_redirect>(),
-        DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, init_interfaces_2),
-        py::arg("force"),
-        py::arg("progress_bar"));
+    cls.def("init_interfaces",
+            // (https://github.com/pybind/pybind11/issues/1153)
+            (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_interfaces),
+            py::call_guard<py::scoped_ostream_redirect>(),
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                I_InputFileHandler,
+                init_interfaces_2),
+            py::arg("force"),
+            py::arg("progress_bar"));
 }
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -129,10 +152,13 @@ void add_default_containers(T_PyClass& cls)
 {
     namespace py = pybind11;
 
-    cls.def_property_readonly(
-        "datagram_interface",
-        py::overload_cast<>(&T_BaseClass::datagram_interface, py::const_),
-        DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler, datagram_interface));
+    cls.def_property_readonly("datagram_interface",
+                              py::overload_cast<>(&T_BaseClass::datagram_interface, py::const_),
+                              DOC(themachinethatgoesping,
+                                  echosounders,
+                                  filetemplates,
+                                  I_InputFileHandler,
+                                  datagram_interface));
 }
 
 }

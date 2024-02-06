@@ -59,7 +59,7 @@ struct FilePackageIndex
     }
     bool operator==(const FilePackageIndex&) const = default;
 
-    // ----- to/from stream interface -----
+    // ----- to/from stream interface ----- 
     static FilePackageIndex from_stream(std::istream& is)
     {
         FilePackageIndex data;

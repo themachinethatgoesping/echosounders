@@ -64,8 +64,8 @@ class KongsbergAllFileHandler
     using t_PingDataInterface =
         typename filedatainterfaces::KongsbergAllPingDataInterface<t_ifstream>;
 
-    using typename t_base::FilePackageIndex;
     using typename t_base::FileInfos;
+    using typename t_base::FilePackageIndex;
 
   private:
     // ----- file data interfaces -----
@@ -93,46 +93,50 @@ class KongsbergAllFileHandler
     // t_KongsbergAllDatagramIdentifier, t_ifstream>::
     //     I_InputFileHandler;
 
-    KongsbergAllFileHandler(const std::string&                                   file_path,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                                std::unordered_map<std::string, FilePackageIndex>(),
-                            bool init          = true,
-                            bool show_progress = true)
-        : t_base(cached_index)
+    KongsbergAllFileHandler(
+        const std::string&                                  file_path,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+            std::unordered_map<std::string, std::string>(),
+        bool init          = true,
+        bool show_progress = true)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_file(file_path, show_progress);
         setup_interfaces();
         if (init)
             init_interfaces(false, show_progress);
     }
-    KongsbergAllFileHandler(const std::string&                                   file_path,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                            bool                                                 init,
-                            tools::progressbars::I_ProgressBar&                  progress_bar)
-        : t_base(cached_index)
+    KongsbergAllFileHandler(
+        const std::string&                                  file_path,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                init,
+        tools::progressbars::I_ProgressBar&                 progress_bar)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_file(file_path, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
 
-    KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                                std::unordered_map<std::string, FilePackageIndex>(),
-                            bool init          = true,
-                            bool show_progress = true)
-        : t_base(cached_index)
+    KongsbergAllFileHandler(
+        const std::vector<std::string>&                     file_paths,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+            std::unordered_map<std::string, std::string>(),
+        bool init          = true,
+        bool show_progress = true)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_files(file_paths, show_progress);
         setup_interfaces();
         if (init)
             init_interfaces(false, show_progress);
     }
-    KongsbergAllFileHandler(const std::vector<std::string>&                      file_paths,
-                            const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                            bool                                                 init,
-                            tools::progressbars::I_ProgressBar&                  progress_bar)
-        : t_base(cached_index)
+    KongsbergAllFileHandler(
+        const std::vector<std::string>&                     file_paths,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                init,
+        tools::progressbars::I_ProgressBar&                 progress_bar)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_files(file_paths, progress_bar);
         setup_interfaces();

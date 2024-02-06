@@ -100,21 +100,21 @@ class SimradRawFileHandler
     //     I_InputFileHandler;
 
     SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                      std::unordered_map<std::string, FilePackageIndex>(),
+                  const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+                      std::unordered_map<std::string, std::string>(),
                   bool init          = true,
                   bool show_progress = true)
-        : t_base(cached_index)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                  const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
-        : t_base(cached_index)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_file(file_path, progress_bar);
         if (init)
@@ -122,21 +122,21 @@ class SimradRawFileHandler
     }
 
     SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                      std::unordered_map<std::string, FilePackageIndex>(),
+                  const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+                      std::unordered_map<std::string, std::string>(),
                   bool init          = true,
                   bool show_progress = true)
-        : t_base(cached_index)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, FilePackageIndex>& cached_index,
+                  const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
                   bool                                                 init,
                   tools::progressbars::I_ProgressBar&                  progress_bar)
-        : t_base(cached_index)
+        : t_base(cached_paths_per_file_path)
     {
         this->append_files(file_paths, progress_bar);
         if (init)

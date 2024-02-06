@@ -62,7 +62,7 @@ class I_InputFileHandler
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
 
-    std::unordered_map<std::string, FilePackageIndex> _cached_index_per_file_path;
+    std::unordered_map<std::string, std::string> _cached_paths_per_file_path;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -73,50 +73,55 @@ class I_InputFileHandler
 
     I_InputFileHandler() = default;
 
-    I_InputFileHandler(const std::unordered_map<std::string, FilePackageIndex>& cached_index)
-        : _cached_index_per_file_path(cached_index)
+    I_InputFileHandler(
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path)
+        : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
     }
 
   public:
-    I_InputFileHandler(const std::string&                                       file_path,
-                       const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                           std::unordered_map<std::string, FilePackageIndex>(),
-                       bool init          = true,
-                       bool show_progress = true)
-        : _cached_index_per_file_path(cached_index)
+    I_InputFileHandler(
+        const std::string&                                  file_path,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+            std::unordered_map<std::string, std::string>(),
+        bool init          = true,
+        bool show_progress = true)
+        : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFileHandler(const std::string&                                       file_path,
-                       const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                       bool                                                     init,
-                       tools::progressbars::I_ProgressBar&                      progress_bar)
-        : _cached_index_per_file_path(cached_index)
+    I_InputFileHandler(
+        const std::string&                                  file_path,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                init,
+        tools::progressbars::I_ProgressBar&                 progress_bar)
+        : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_file(file_path, progress_bar);
         if (init)
             init_interfaces(false, progress_bar);
     }
 
-    I_InputFileHandler(const std::vector<std::string>&                          file_paths,
-                       const std::unordered_map<std::string, FilePackageIndex>& cached_index =
-                           std::unordered_map<std::string, FilePackageIndex>(),
-                       bool init          = true,
-                       bool show_progress = true)
-        : _cached_index_per_file_path(cached_index)
+    I_InputFileHandler(
+        const std::vector<std::string>&                     file_paths,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+            std::unordered_map<std::string, std::string>(),
+        bool init          = true,
+        bool show_progress = true)
+        : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFileHandler(const std::vector<std::string>&                          file_paths,
-                       const std::unordered_map<std::string, FilePackageIndex>& cached_index,
-                       bool                                                     init,
-                       tools::progressbars::I_ProgressBar&                      progress_bar)
-        : _cached_index_per_file_path(cached_index)
+    I_InputFileHandler(
+        const std::vector<std::string>&                     file_paths,
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                init,
+        tools::progressbars::I_ProgressBar&                 progress_bar)
+        : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_files(file_paths, progress_bar);
         if (init)
@@ -204,62 +209,62 @@ class I_InputFileHandler
         auto file_nr = _input_file_manager->get_file_paths()->size() - 1;
 
         // check if file exists in index
-        auto it = _cached_index_per_file_path.find(file_path);
+        auto it = _cached_paths_per_file_path.find(file_path);
 
-        if (it == _cached_index_per_file_path.end())
+        if (it == _cached_paths_per_file_path.end())
         {
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
 
-            _cached_index_per_file_path[file_path] = FilePackageIndex(file_info);
+            //_cached_index_per_file_path[file_path] = FilePackageIndex(file_info);
             _datagram_interface.add_datagram_infos(file_info.datagram_infos);
         }
         else
         {
             // load datagram infos from index
-            FileInfos file_info(file_nr,
-                                file_path,
-                                it->second.file_size, // TODO: instead of just copying, here we
-                                                      // should check if the file size matches
-                                it->second.datagram_info_data,
-                                _input_file_manager);
+            // FileInfos file_info(file_nr,
+            //                     file_path,
+            //                     it->second.file_size, // TODO: instead of just copying, here we
+            //                                           // should check if the file size matches
+            //                     it->second.datagram_info_data,
+            //                     _input_file_manager);
 
-            bool close_progressbar = false; ///< only close the progressbar if it was
-                                            ///< is_initialized within this function
-            if (!progress_bar.is_initialized())
-            {
-                progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
-                close_progressbar = true;
-            }
-            callback_scan_new_file_begin(file_path, file_nr);
+            // bool close_progressbar = false; ///< only close the progressbar if it was
+            //                                 ///< is_initialized within this function
+            // if (!progress_bar.is_initialized())
+            // {
+            //     progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
+            //     close_progressbar = true;
+            // }
+            // callback_scan_new_file_begin(file_path, file_nr);
 
-            _datagram_interface.add_datagram_infos(file_info.datagram_infos);
+            // _datagram_interface.add_datagram_infos(file_info.datagram_infos);
 
-            double pos = 0.;
-            // call callback functions
-            for (size_t i = 0; i < file_info.datagram_infos.size(); ++i)
-            {
-                const auto& datagram_info = file_info.datagram_infos[i];
-                callback_scan_packet(datagram_info);
+            // double pos = 0.;
+            // // call callback functions
+            // for (size_t i = 0; i < file_info.datagram_infos.size(); ++i)
+            // {
+            //     const auto& datagram_info = file_info.datagram_infos[i];
+            //     callback_scan_packet(datagram_info);
 
-                // update cached index per file (in case the callback modified the datagram info)
-                it->second.datagram_info_data[i] = *datagram_info;
+            //     // update cached index per file (in case the callback modified the datagram info)
+            //     it->second.datagram_info_data[i] = *datagram_info;
 
-                double pos_new = double(datagram_info->get_file_pos());
+            //     double pos_new = double(datagram_info->get_file_pos());
 
-                progress_bar.tick(pos_new - pos);
+            //     progress_bar.tick(pos_new - pos);
 
-                pos = pos_new;
-            }
-            callback_scan_new_file_end(file_path, file_nr);
+            //     pos = pos_new;
+            // }
+            // callback_scan_new_file_end(file_path, file_nr);
 
-            if (close_progressbar)
-                progress_bar.close(std::string("Found: ") +
-                                   std::to_string(file_info.datagram_infos.size()) + " datagrams");
+            // if (close_progressbar)
+            //     progress_bar.close(std::string("Found: ") +
+            //                        std::to_string(file_info.datagram_infos.size()) + " datagrams");
         }
     }
 
-    auto get_cached_file_index() const { return _cached_index_per_file_path; }
+    auto get_cached_paths_per_file_path() const { return _cached_paths_per_file_path; }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>
