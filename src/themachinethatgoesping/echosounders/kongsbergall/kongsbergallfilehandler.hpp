@@ -95,11 +95,11 @@ class KongsbergAllFileHandler
 
     KongsbergAllFileHandler(
         const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+        const std::unordered_map<std::string, std::string>& file_cache_paths =
             std::unordered_map<std::string, std::string>(),
         bool init          = true,
         bool show_progress = true)
-        : t_base(cached_paths_per_file_path)
+        : t_base(file_cache_paths)
     {
         this->append_file(file_path, show_progress);
         setup_interfaces();
@@ -108,10 +108,10 @@ class KongsbergAllFileHandler
     }
     KongsbergAllFileHandler(
         const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                init,
         tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(cached_paths_per_file_path)
+        : t_base(file_cache_paths)
     {
         this->append_file(file_path, progress_bar);
         if (init)
@@ -120,11 +120,11 @@ class KongsbergAllFileHandler
 
     KongsbergAllFileHandler(
         const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+        const std::unordered_map<std::string, std::string>& file_cache_paths =
             std::unordered_map<std::string, std::string>(),
         bool init          = true,
         bool show_progress = true)
-        : t_base(cached_paths_per_file_path)
+        : t_base(file_cache_paths)
     {
         this->append_files(file_paths, show_progress);
         setup_interfaces();
@@ -133,10 +133,10 @@ class KongsbergAllFileHandler
     }
     KongsbergAllFileHandler(
         const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                init,
         tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(cached_paths_per_file_path)
+        : t_base(file_cache_paths)
     {
         this->append_files(file_paths, progress_bar);
         setup_interfaces();

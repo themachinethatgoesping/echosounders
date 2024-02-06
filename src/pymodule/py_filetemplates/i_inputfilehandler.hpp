@@ -39,7 +39,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler),
             py::arg("file_path"),
-            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("file_cache_paths") = std::unordered_map<std::string, std::string>(),
             py::arg("init")                       = true,
             py::arg("show_progress")              = true);
     cls.def(py::init<const std::string&,
@@ -53,7 +53,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_2),
             py::arg("file_path"),
-            py::arg("cached_paths_per_file_path"),
+            py::arg("file_cache_paths"),
             py::arg("init"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&,
@@ -67,7 +67,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_3),
             py::arg("file_path"),
-            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("file_cache_paths") = std::unordered_map<std::string, std::string>(),
             py::arg("init")                       = true,
             py::arg("show_progress")              = true);
     cls.def(py::init<const std::vector<std::string>&,
@@ -81,7 +81,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_4),
             py::arg("file_paths"),
-            py::arg("cached_paths_per_file_path"),
+            py::arg("file_cache_paths"),
             py::arg("init"),
             py::arg("progress_bar"));
 }

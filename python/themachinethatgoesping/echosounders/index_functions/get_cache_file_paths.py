@@ -7,17 +7,17 @@ import pickle
 from collections import defaultdict
 from typing import List, Dict, Union
 
-def get_cache_file_name(
-    folder_path: Union[str, Path], 
+def get_cache_file_path(
+    file_path: Union[str, Path], 
     cache_root: Union[str, Path, None] = None, 
-    cache_name: str = 'tmtgp.index', 
+    cache_file_ending: str = '.tmtgp.cache', 
     create_dir: bool = True) -> Path:
     """Return the path to the cache file for a given folder path
 
     Parameters
     ----------
-    folder_path : str or Path
-        The path to the folder containing files that are indexed
+    file_path : str or Path
+        The path to the file that is indexed
     cache_root : str or Path, optional
         The path to the root folder containing all cache files. If None, the cache file will be in the same folder as the data files
     cache_name : str, optional
@@ -32,24 +32,24 @@ def get_cache_file_name(
     """
     
     if cache_root is None:
-        return Path(folder_path) / Path(cache_name)
+        return str(Path(file_path + cache_file_ending))
             
     cache_file = Path(os.path.abspath(cache_root))
-    folder_path = Path(os.path.abspath(folder_path))
-    root_path = 'root_' + folder_path.parts[0]
+    file_path = Path(os.path.abspath(file_path))
+    root_path = 'root_' + file_path.parts[0]
     root_path = root_path.replace(':', '')
 
-    cache_file = cache_file.joinpath(root_path, *folder_path.parts[1:], cache_name)
+    cache_file = Path(str(cache_file.joinpath(root_path, *file_path.parts[1:])) + cache_file_ending)
     
     if create_dir:
         os.makedirs(cache_file.parent, exist_ok=True)
     
-    return cache_file
+    return str(cache_file)
 
 
 def get_cache_file_paths(
     file_paths: List[str], 
-    cache_name: str = 'tmtgp.index', 
+    cache_file_ending: str = '.tmtgp.cache', 
     cache_root: str = 'cache', 
     update_cache: Dict[str, str] = None, 
     verbose: bool = False, 
@@ -89,14 +89,15 @@ def get_cache_file_paths(
         try:
             folder_path, file = os.path.split(fp)
             
-            index_file = get_cache_file_name(folder_path, cache_root, cache_name, create_dir=create_dir)            
+            index_file = get_cache_file_path(fp, cache_root, cache_file_ending, create_dir=create_dir)            
             
             if index_file in loaded_index_cache_files:
                 continue
                 
             loaded_index_cache_files.add(index_file)
-            cache_file_paths.update(index_file)
-        except:
+            cache_file_paths[fp] = index_file
+        except Exception as e:
+            raise e
             pass
             
     return cache_file_paths

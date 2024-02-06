@@ -76,19 +76,19 @@ class I_InputFileHandler
     I_InputFileHandler() = default;
 
     I_InputFileHandler(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path)
-        : _cached_paths_per_file_path(cached_paths_per_file_path)
+        const std::unordered_map<std::string, std::string>& file_cache_paths)
+        : _cached_paths_per_file_path(file_cache_paths)
     {
     }
 
   public:
     I_InputFileHandler(
         const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+        const std::unordered_map<std::string, std::string>& file_cache_paths =
             std::unordered_map<std::string, std::string>(),
         bool init          = true,
         bool show_progress = true)
-        : _cached_paths_per_file_path(cached_paths_per_file_path)
+        : _cached_paths_per_file_path(file_cache_paths)
     {
         append_file(file_path, show_progress);
         if (init)
@@ -96,10 +96,10 @@ class I_InputFileHandler
     }
     I_InputFileHandler(
         const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                init,
         tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _cached_paths_per_file_path(cached_paths_per_file_path)
+        : _cached_paths_per_file_path(file_cache_paths)
     {
         append_file(file_path, progress_bar);
         if (init)
@@ -108,11 +108,11 @@ class I_InputFileHandler
 
     I_InputFileHandler(
         const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+        const std::unordered_map<std::string, std::string>& file_cache_paths =
             std::unordered_map<std::string, std::string>(),
         bool init          = true,
         bool show_progress = true)
-        : _cached_paths_per_file_path(cached_paths_per_file_path)
+        : _cached_paths_per_file_path(file_cache_paths)
     {
         append_files(file_paths, show_progress);
         if (init)
@@ -121,10 +121,10 @@ class I_InputFileHandler
 
     I_InputFileHandler(
         const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                init,
         tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _cached_paths_per_file_path(cached_paths_per_file_path)
+        : _cached_paths_per_file_path(file_cache_paths)
     {
         append_files(file_paths, progress_bar);
         if (init)

@@ -5,5 +5,5 @@
 
 from .load_safe_index_cache import *
 from .load_safe_navigation_cache import *
-from .get_cache_file_paths import get_cache_file_paths
+from .get_cache_file_paths import *
 from .find_files import *
