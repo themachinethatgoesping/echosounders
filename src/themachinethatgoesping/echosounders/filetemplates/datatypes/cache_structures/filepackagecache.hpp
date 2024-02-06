@@ -149,7 +149,7 @@ class FilePackageCache
         package_buffer[package.get_sub_package_nr()] = package.to_binary(_hash_cache);
     }
 
-    PackageCache<t_CachingResult> get_package_cache(size_t       file_pos,
+    PackageCache<t_CachingResult> get_from_cache(size_t       file_pos,
                                                     double       timestamp,
                                                     unsigned int sub_package_nr = 0) const
     {
@@ -195,7 +195,7 @@ class FilePackageCache
                                 double       timestamp,
                                 unsigned int sub_package_nr = 0) const
     {
-        return get_package_cache(file_pos, timestamp, sub_package_nr).get();
+        return get_from_cache(file_pos, timestamp, sub_package_nr).get();
     }
 
     void to_stream(std::ostream& os) const

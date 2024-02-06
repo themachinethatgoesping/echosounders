@@ -58,7 +58,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_package_buffer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_package_cache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_get_from_cache = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_FilePackageCache_hash_cache = R"doc()doc";
 

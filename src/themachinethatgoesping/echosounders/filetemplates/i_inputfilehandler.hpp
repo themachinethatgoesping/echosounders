@@ -31,6 +31,7 @@
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
+#include "datatypes/filecache.hpp"
 #include "datatypes/cache_structures/fileinfos.hpp"
 #include "datatypes/cache_structures/filepackageindex.hpp"
 #include "datatypes/datagraminfo.hpp"
@@ -113,10 +114,7 @@ class I_InputFileHandler
         : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_files(file_paths, show_progress);
-        if (init)
-            init_interfaces(false, show_progress);
-    }
-    I_InputFileHandler(
+                     I_ProgressBar&>(),
         const std::vector<std::string>&                     file_paths,
         const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
         bool                                                init,

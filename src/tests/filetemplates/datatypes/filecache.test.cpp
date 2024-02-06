@@ -7,7 +7,9 @@
 
 #include <xtensor/xtensor.hpp>
 
+#include <themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp>
 #include <themachinethatgoesping/echosounders/kongsbergall/types.hpp>
+#include <themachinethatgoesping/echosounders/simradraw/datagrams.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/types.hpp>
 
 // note: this must be defined below the kongsbergall/simradraw includes otherwise
@@ -38,10 +40,23 @@ auto test_data_file_wrongversion =
 auto test_data_file_tmp =
     test_data_path + "filecache.test.data.tmp"; // temporary file that will be created
 
+// static test datagram for testing the FileCache
+auto get_test_datagram()
+{
+    simradraw::datagrams::MRU0 test_datagram;
+    test_datagram.set_timestamp(123);
+    test_datagram.set_heave(10);
+    test_datagram.set_roll(12);
+    test_datagram.set_pitch(13);
+    test_datagram.set_heading(14);
+
+    return test_datagram;
+}
 
 TEST_CASE("FileCache should be able to create files but not overwrite existing non-FileCache files",
           TESTTAG)
 {
+    auto test_datagram = get_test_datagram();
 
     INFO("Test data path: " << test_data_path);
     // test if test_data/filecache.test.data0 exists
@@ -64,12 +79,29 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
         REQUIRE_THROWS(FileCache(test_data_file_invalid, "test.wcd", 1000));
         REQUIRE_THROWS(FileCache(test_data_file_invalid_file_name, "test.wcd", 1000));
         REQUIRE_THROWS(FileCache(test_data_file_invalid_file_size, "test.wcd", 1000));
+
+        FileCache cache_data(test_data_file_valid, "test.wcd", 1000);
+        REQUIRE_THROWS(cache_data.path_is_valid(test_data_file_0));
+        REQUIRE_THROWS(cache_data.path_is_valid(test_data_file_invalid));
+        REQUIRE(!cache_data.path_is_valid(test_data_file_invalid_file_name));
+        REQUIRE(!cache_data.path_is_valid(test_data_file_invalid_file_size));
+
+        REQUIRE_THROWS(cache_data.to_file(test_data_file_0, true));
+        REQUIRE_THROWS(cache_data.to_file(test_data_file_invalid, true));
+
+        // should not throw even though file is invalid
+        cache_data.to_file(test_data_file_invalid_file_name, true);
+        cache_data.to_file(test_data_file_invalid_file_size, true);
     }
 
     SECTION("wrong FileCache version should create a new empty file")
     {
         FileCache cache_data(test_data_file_wrongversion, "test_new_version.wcd", 1000);
         REQUIRE(cache_data.get_file_name() == "test_new_version.wcd");
+
+        // path should be invalid, but overwrite should work
+        REQUIRE(!cache_data.path_is_valid(test_data_file_wrongversion));
+        cache_data.to_file(test_data_file_wrongversion, true);
     }
 
     SECTION("valid file should be read")
@@ -77,30 +109,52 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
         FileCache cache_data(test_data_file_valid, "test.wcd", 1000);
         REQUIRE(cache_data.get_file_name() == "test.wcd");
         REQUIRE(cache_data.get_file_size() == 1000);
+
+        // path should be valid, overwrite should work
+        REQUIRE(cache_data.path_is_valid(test_data_file_valid));
+        cache_data.to_file(test_data_file_valid, true);
     }
 
     SECTION("create a temporary file, read and write it")
     {
-        FileCache     cache_data(test_data_file_tmp, "test.wcd", 1000);
+        FileCache cache_data(test_data_file_tmp, "test.wcd", 1000);
+        cache_data.add_to_cache("test_datagram", test_datagram);
+
         std::ofstream ofs(test_data_file_tmp, std::ios::binary);
         cache_data.to_stream(ofs);
         ofs.close();
 
         FileCache cache_data2(test_data_file_tmp, "test.wcd", 1000);
         REQUIRE(cache_data == cache_data2);
+        REQUIRE(cache_data2.get_from_cache<decltype(test_datagram)>("test_datagram") ==
+                test_datagram);
+
+        // path should be valid, overwrite should work
+        REQUIRE(cache_data.path_is_valid(test_data_file_tmp));
+        cache_data.to_file(test_data_file_tmp, true);
     }
 }
 
 TEST_CASE("FileCache should support common functions", TESTTAG)
 {
+    auto test_datagram = get_test_datagram();
+
     // read valid test file
     FileCache dat(test_data_file_valid, "test.wcd", 1000);
+    FileCache dat2(test_data_file_valid, "test.wcd", 1000);
+
+    // test equality
+    REQUIRE(dat == dat2);
+    dat2.add_to_cache("test_datagram", test_datagram);
+    REQUIRE(dat != dat2);
 
     // test copy
     REQUIRE(dat == FileCache(dat));
+    REQUIRE(dat2 == FileCache(dat2));
 
     // test binary
     REQUIRE(dat == FileCache(dat.from_binary(dat.to_binary())));
+    REQUIRE(dat2 == FileCache(dat2.from_binary(dat2.to_binary())));
 
     // test stream
     std::stringstream buffer;
@@ -109,13 +163,15 @@ TEST_CASE("FileCache should support common functions", TESTTAG)
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
+    REQUIRE(dat2.info_string().size() != 0);
 
     //--- datagram concept ---
-
-    // test print does not crash
-    REQUIRE(dat.info_string().size() != 0);
+    REQUIRE_THROWS(dat.get_from_cache<decltype(test_datagram)>("test_datagram"));
+    REQUIRE(dat2.get_from_cache<decltype(test_datagram)>("test_datagram") == test_datagram);
 
     // // --- test data access ---
     REQUIRE(dat.get_file_name() == "test.wcd");
+    REQUIRE(dat2.get_file_name() == "test.wcd");
     REQUIRE(dat.get_file_size() == 1000);
+    REQUIRE(dat2.get_file_size() == 1000);
 }

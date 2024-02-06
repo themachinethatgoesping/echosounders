@@ -84,6 +84,52 @@ class FileCache
         }
     }
 
+    bool path_is_valid(const std::string& cache_path) const
+    {
+        if (std::filesystem::exists(cache_path))
+        {
+            // verify that the file is a valid FileCache
+            std::ifstream is(cache_path, std::ios::binary);
+
+            // this function will throw if it is not a valid FileCache
+            read_check_type_id(is);
+
+            // check if the version is correct
+            if (!read_check_type_version(is))
+                return false;
+
+            FileCache cache("", 0);
+            cache.read_header_content_from_stream(is);
+            if (_file_name != cache.get_file_name() || _file_size != cache.get_file_size())
+                return false;
+        }
+        return true;
+    }
+
+    void to_file(const std::string& cache_path, bool emulate_only = false) const
+    {
+
+        // only do something if this throws (id mismatch)
+        path_is_valid(cache_path);
+
+        // do not write if only emulating
+        if (emulate_only)
+            return;
+
+        // create directories if does not exist
+        std::filesystem::create_directories(std::filesystem::path(cache_path).parent_path());
+
+        std::ofstream os(cache_path, std::ios::binary);
+
+        if (!os.is_open())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[FileCache]: Could not open file for writing: {}", cache_path));
+        }
+
+        to_stream(os);
+    }
+
     bool operator==(const FileCache&) const = default;
 
     // ----- getters -----
@@ -99,13 +145,13 @@ class FileCache
 
     // ----- cache handling -----
     template<typename t_Cache>
-    void add_package_cache(const std::string& name, const t_Cache& cache)
+    void add_to_cache(const std::string& name, t_Cache& cache)
     {
         _cache_buffer[name] = cache.to_binary();
     }
 
     template<typename t_Cache>
-    t_Cache get_package_cache(const std::string& name) const
+    t_Cache get_from_cache(const std::string& name) const
     {
         return t_Cache::from_binary(_cache_buffer.at(name));
     }

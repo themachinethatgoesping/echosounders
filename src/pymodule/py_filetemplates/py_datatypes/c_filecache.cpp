@@ -41,12 +41,19 @@ void init_c_filecache(pybind11::module& m)
                  py::arg("file_size"),
                  DOC_FileCache(FileCache))
             .def("__eq__", &FileCache::operator==, DOC_FileCache(operator_eq), py::arg("other"))
+            .def("to_file",
+                 &FileCache::to_file,
+                 DOC_FileCache(to_file),
+                 py::arg("cache_path"),
+                 py::arg("emulate_only") = false)
 
             // cache handling
-          //   .def(
-          //       "add_cache", &FileCache::template add_cache<std::string>, DOC_FileCache(add_cache), py::arg("cache_name"))
-          //   .def(
-          //       "get_cache", &FileCache::template get_cache<std::string>, DOC_FileCache(get_cache), py::arg("cache_name"))
+            //   .def(
+            //       "add_cache", &FileCache::template add_cache<std::string>,
+            //       DOC_FileCache(add_cache), py::arg("cache_name"))
+            //   .def(
+            //       "get_cache", &FileCache::template get_cache<std::string>,
+            //       DOC_FileCache(get_cache), py::arg("cache_name"))
 
             // accessors
             .def("get_file_name", &FileCache::get_file_name, DOC_FileCache(file_name))
