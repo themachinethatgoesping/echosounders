@@ -15,10 +15,11 @@ namespace py_filetemplates {
 // -- submodule declarations --
 namespace py_datatypes {
 void init_c_i_pingcommon(pybind11::module& m);      // py_datatypes/i_pingcommon.cpp
-void init_c_i_PingFileData(pybind11::module& m);    // py_datatypes/i_pingfiledata.cpp
+void init_c_i_pingfiledata(pybind11::module& m);    // py_datatypes/i_pingfiledata.cpp
 void init_c_i_ping(pybind11::module& m);            // py_datatypes/i_ping.cpp
 void init_c_i_pingbottom(pybind11::module& m);      // py_datatypes/i_pingbottom.cpp
 void init_c_i_pingwatercolumn(pybind11::module& m); // py_datatypes/i_pingwatercolumn.cpp
+void init_c_filecache(pybind11::module& m);    // py_datatypes/c_filecache.cpp
 namespace py_cache_structures {
 void init_c_filepackagecache(
     pybind11::module& m); // py_datatypes/cache_structures/init_c_filepackagecache.cpp
@@ -34,11 +35,12 @@ void init_m_filetemplates(py::module& m)
 
     // pingtool classes classes
     py_datatypes::init_c_i_pingcommon(subm);
-    py_datatypes::init_c_i_PingFileData(subm);
+    py_datatypes::init_c_i_pingfiledata(subm);
     py_datatypes::init_c_i_pingbottom(subm);
     py_datatypes::init_c_i_pingwatercolumn(subm);
     py_datatypes::init_c_i_ping(subm);
     py_datatypes::py_cache_structures::init_c_filepackagecache(subm);
+    py_datatypes::init_c_filecache(subm);
 }
 
 }

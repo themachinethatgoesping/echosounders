@@ -88,15 +88,9 @@ class FileCache
 
     // ----- getters -----
 
-    const std::string& get_file_name() const
-    {
-        return _file_name;
-    }
+    const std::string& get_file_name() const { return _file_name; }
 
-    size_t get_file_size() const
-    {
-        return _file_size;
-    }
+    size_t get_file_size() const { return _file_size; }
 
     const std::unordered_map<std::string, std::pair<size_t, size_t>>& get_cache_header() const
     {

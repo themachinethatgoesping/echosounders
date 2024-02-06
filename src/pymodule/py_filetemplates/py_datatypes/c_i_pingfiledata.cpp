@@ -22,7 +22,7 @@ namespace py_datatypes {
 #define DOC_I_PingFileData(ARG)                                                                     \
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingFileData, ARG)
 
-void init_c_i_PingFileData(pybind11::module& m)
+void init_c_i_pingfiledata(pybind11::module& m)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
