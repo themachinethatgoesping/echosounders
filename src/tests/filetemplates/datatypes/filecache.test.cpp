@@ -53,7 +53,6 @@ auto get_test_datagram()
     return test_datagram;
 }
 
-
 TEST_CASE("FileCache should be able to create files but not overwrite existing non-FileCache files",
           TESTTAG)
 {
@@ -87,12 +86,12 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
         REQUIRE(!cache_data.path_is_valid(test_data_file_invalid_file_name));
         REQUIRE(!cache_data.path_is_valid(test_data_file_invalid_file_size));
 
-        REQUIRE_THROWS(cache_data.to_file(test_data_file_0, true));
-        REQUIRE_THROWS(cache_data.to_file(test_data_file_invalid, true));
+        REQUIRE_THROWS(cache_data.update_file(test_data_file_0, true));
+        REQUIRE_THROWS(cache_data.update_file(test_data_file_invalid, true));
 
         // should not throw even though file is invalid
-        cache_data.to_file(test_data_file_invalid_file_name, true);
-        cache_data.to_file(test_data_file_invalid_file_size, true);
+        cache_data.update_file(test_data_file_invalid_file_name, true);
+        cache_data.update_file(test_data_file_invalid_file_size, true);
     }
 
     SECTION("wrong FileCache version should create a new empty file")
@@ -102,7 +101,7 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
 
         // path should be invalid, but overwrite should work
         REQUIRE(!cache_data.path_is_valid(test_data_file_wrongversion));
-        cache_data.to_file(test_data_file_wrongversion, true);
+        cache_data.update_file(test_data_file_wrongversion, true);
     }
 
     SECTION("valid file should be read")
@@ -113,7 +112,7 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
 
         // path should be valid, overwrite should work
         REQUIRE(cache_data.path_is_valid(test_data_file_valid));
-        cache_data.to_file(test_data_file_valid, true);
+        cache_data.update_file(test_data_file_valid, true);
     }
 
     SECTION("create a temporary file, read and write it")
@@ -132,13 +131,20 @@ TEST_CASE("FileCache should be able to create files but not overwrite existing n
 
         // path should be valid, overwrite should work
         REQUIRE(cache_data.path_is_valid(test_data_file_tmp));
-        cache_data.to_file(test_data_file_tmp, true);
+        cache_data.update_file(test_data_file_tmp, true);
     }
 }
 
 TEST_CASE("FileCache should support common functions", TESTTAG)
 {
-    auto test_datagram = get_test_datagram();
+    auto test_datagram  = get_test_datagram();
+    auto test_datagram2 = get_test_datagram();
+    auto test_datagram3 = get_test_datagram();
+    auto test_datagram4 = get_test_datagram();
+
+    test_datagram2.set_timestamp(1234);
+    test_datagram3.set_timestamp(12345);
+    test_datagram4.set_timestamp(123456);
 
     // read valid test file
     FileCache dat(test_data_file_valid, "test.wcd", 1000);
@@ -175,13 +181,56 @@ TEST_CASE("FileCache should support common functions", TESTTAG)
     REQUIRE(dat2.get_file_name() == "test.wcd");
     REQUIRE(dat.get_file_size() == 1000);
     REQUIRE(dat2.get_file_size() == 1000);
+
+    // --- adding existing name to cache should delete the old one
+    dat2.add_to_cache("test_datagram2", test_datagram2);
+    dat2.add_to_cache("test_datagram3", test_datagram3);
+    dat2.add_to_cache("test_datagram4", test_datagram4);
+    REQUIRE(dat2.get_cache_names() ==
+            std::vector<std::string>(
+                { "test_datagram", "test_datagram2", "test_datagram3", "test_datagram4" }));
+
+    dat2.add_to_cache("test_datagram2", test_datagram2);
+    REQUIRE(dat2.get_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2" }));
+
+
+    // --- check if updating existing files works correctly
+
+    // write to temporary file
+    dat2.update_file(test_data_file_tmp);
+
+    // partially load temporary file
+    FileCache dat3(test_data_file_tmp, "test.wcd", 1000, { "test_datagram2" });
+    REQUIRE_THROWS(dat3.get_from_cache<decltype(test_datagram)>("test_datagram") == test_datagram);
+    REQUIRE(dat3.get_from_cache<decltype(test_datagram)>("test_datagram2") == test_datagram2);
+
+    // add additional datagram
+    dat3.add_to_cache("test_datagram3", test_datagram3);
+
+    // update_file
+    dat3.update_file(test_data_file_tmp);
+
+    // load file again and make sure that all datagrams exist
+    FileCache dat4(test_data_file_tmp, "test.wcd", 1000);
+    REQUIRE(dat4.get_from_cache<decltype(test_datagram)>("test_datagram") == test_datagram);
+    REQUIRE(dat4.get_from_cache<decltype(test_datagram)>("test_datagram2") == test_datagram2);
+    REQUIRE(dat4.get_from_cache<decltype(test_datagram)>("test_datagram3") == test_datagram3);
+
+    // --- check partial reading does not crash when loading non-existing datagrams ---
+    FileCache dat5(test_data_file_tmp, "test.wcd", 1000, { "test_datagram2", "test_datagram_not here" });
+    REQUIRE(dat5.get_from_cache<decltype(test_datagram)>("test_datagram2") == test_datagram2);
+    REQUIRE_THROWS(dat5.get_from_cache<decltype(test_datagram)>("test_datagram_not here"));
+    REQUIRE(dat5.get_from_cache<decltype(test_datagram)>("test_datagram_not", test_datagram) == test_datagram);
 }
 
 TEST_CASE("FileCache should support partial loading", TESTTAG)
 {
-    auto test_datagram = get_test_datagram();
+    auto test_datagram  = get_test_datagram();
     auto test_datagram2 = get_test_datagram();
+    auto test_datagram3 = get_test_datagram();
     test_datagram2.set_timestamp(1234);
+    test_datagram3.set_timestamp(12345);
 
     // read valid test file
     FileCache dat1(test_data_file_valid, "test.wcd", 1000);
@@ -189,6 +238,7 @@ TEST_CASE("FileCache should support partial loading", TESTTAG)
     // add datagram info to cache
     dat1.add_to_cache("test_datagram", test_datagram);
     dat1.add_to_cache("test_datagram2", test_datagram2);
+    dat1.add_to_cache("test_datagram3", test_datagram3);
 
     // test copy and binary equality
     REQUIRE(dat1 == FileCache(dat1));
@@ -201,9 +251,100 @@ TEST_CASE("FileCache should support partial loading", TESTTAG)
     }
 
     // write to temporary file
-    dat1.to_file(test_data_file_tmp);
+    dat1.update_file(test_data_file_tmp);
 
     FileCache dat2(test_data_file_tmp, "test.wcd", 1000);
-    REQUIRE(dat1 == dat2);
+    FileCache dat3(test_data_file_tmp,
+                   "test.wcd",
+                   1000,
+                   { "test_datagram", "test_datagram2", "test_datagram3" });
+    FileCache dat4(test_data_file_tmp,
+                   "test.wcd",
+                   1000,
+                   { "test_datagram2", "test_datagram3", "test_datagram" });
 
+    FileCache dat5(test_data_file_tmp, "test.wcd", 1000, { "test_datagram" });
+    FileCache dat6(test_data_file_tmp, "test.wcd", 1000, { "test_datagram2" });
+    FileCache dat7(test_data_file_tmp, "test.wcd", 1000, { "test_datagram3" });
+
+    FileCache dat8(test_data_file_tmp, "test.wcd", 1000, { "test_datagram", "test_datagram2" });
+    FileCache dat9(test_data_file_tmp, "test.wcd", 1000, { "test_datagram", "test_datagram3" });
+    FileCache dat10(test_data_file_tmp, "test.wcd", 1000, { "test_datagram2", "test_datagram3" });
+    FileCache dat11(test_data_file_tmp, "test.wcd", 1000, { "test_datagram3", "test_datagram2" });
+    FileCache dat12(test_data_file_tmp, "test.wcd", 1000, { "test_datagram3", "test_datagram" });
+
+    // test loaded cache names
+    REQUIRE(dat1.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat2.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat3.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat4.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat5.get_loaded_cache_names() == std::vector<std::string>({ "test_datagram" }));
+    REQUIRE(dat6.get_loaded_cache_names() == std::vector<std::string>({ "test_datagram2" }));
+    REQUIRE(dat7.get_loaded_cache_names() == std::vector<std::string>({ "test_datagram3" }));
+    REQUIRE(dat8.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram2" }));
+    REQUIRE(dat9.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram3" }));
+    REQUIRE(dat10.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat11.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram2", "test_datagram3" }));
+    REQUIRE(dat12.get_loaded_cache_names() ==
+            std::vector<std::string>({ "test_datagram", "test_datagram3" }));
+
+    REQUIRE(dat1 == dat2);
+    REQUIRE(dat1 == dat3);
+    REQUIRE(dat1 == dat4);
+    REQUIRE(dat1 != dat5);
+    REQUIRE(dat1 != dat6);
+    REQUIRE(dat1 != dat7);
+    REQUIRE(dat1 != dat8);
+    REQUIRE(dat1 != dat9);
+    REQUIRE(dat1 != dat10);
+    REQUIRE(dat1 != dat11);
+    REQUIRE(dat1 != dat12);
+
+    // headers should be the same for all files
+    for (const auto& dat_ : { dat2, dat3, dat4, dat5, dat6, dat7, dat8, dat9, dat10, dat11, dat12 })
+    {
+        REQUIRE(dat1.get_file_name() == dat_.get_file_name());
+        REQUIRE(dat1.get_file_size() == dat_.get_file_size());
+        REQUIRE(dat1.get_cache_buffer_header() == dat1.get_cache_buffer_header());
+        REQUIRE(dat1.get_cache_names() == dat_.get_cache_names());
+
+        // loaded and not loaded cache names should be different
+        for (const auto& loaded_cache_name : dat1.get_loaded_cache_names())
+            for (const auto& not_loaded_cache_name : dat1.get_not_loaded_cache_names())
+                REQUIRE(loaded_cache_name != not_loaded_cache_name);
+    }
+
+    // check if test_datagram can be retrieved
+    for (const auto& dat_ : { dat1, dat2, dat3, dat4, dat5, dat8, dat9, dat12 })
+    {
+        REQUIRE(test_datagram == dat_.get_from_cache<decltype(test_datagram)>("test_datagram"));
+    }
+
+    for (const auto& dat_ : { dat6, dat7, dat10, dat11 })
+        REQUIRE_THROWS(test_datagram ==
+                       dat_.get_from_cache<decltype(test_datagram)>("test_datagram"));
+
+    // check if test_datagram2 can be retrieved
+    for (const auto& dat_ : { dat1, dat2, dat3, dat4, dat6, dat8, dat10, dat11 })
+        REQUIRE(test_datagram2 == dat_.get_from_cache<decltype(test_datagram2)>("test_datagram2"));
+
+    for (const auto& dat_ : { dat5, dat7, dat9, dat12 })
+        REQUIRE_THROWS(test_datagram2 ==
+                       dat_.get_from_cache<decltype(test_datagram2)>("test_datagram2"));
+
+    // check if test_datagram3 can be retrieved
+    for (const auto& dat_ : { dat1, dat2, dat3, dat4, dat7, dat9, dat10, dat11, dat12 })
+        REQUIRE(test_datagram3 == dat_.get_from_cache<decltype(test_datagram3)>("test_datagram3"));
+
+    for (const auto& dat_ : { dat5, dat6, dat8 })
+        REQUIRE_THROWS(test_datagram3 ==
+                       dat_.get_from_cache<decltype(test_datagram3)>("test_datagram3"));
 }

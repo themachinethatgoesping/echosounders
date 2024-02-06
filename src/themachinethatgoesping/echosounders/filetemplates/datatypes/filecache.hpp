@@ -58,7 +58,10 @@ class FileCache
         , _file_size(file_size)
     {
     }
-    FileCache(const std::string& cache_path, const std::string& file_name, size_t file_size)
+    FileCache(const std::string&              cache_path,
+              const std::string&              file_name,
+              size_t                          file_size,
+              const std::vector<std::string>& cache_keys = std::vector<std::string>())
         : _file_name(file_name)
         , _file_size(file_size)
     {
@@ -81,8 +84,48 @@ class FileCache
                         _file_name,
                         _file_size));
                 }
+
+                if (cache_keys.empty())
+                    read_cache_buffer_from_stream(is);
+                else
+                    read_cache_buffer_from_stream(is, cache_keys);
             }
         }
+    }
+
+    std::vector<std::string> get_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            keys.push_back(key);
+        }
+        return keys;
+    }
+
+    std::vector<std::string> get_loaded_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            if (_cache_buffer.find(key) != _cache_buffer.end())
+                keys.push_back(key);
+        }
+        return keys;
+    }
+
+    std::vector<std::string> get_not_loaded_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            if (_cache_buffer.find(key) == _cache_buffer.end())
+                keys.push_back(key);
+        }
+        return keys;
     }
 
     bool path_is_valid(const std::string& cache_path) const
@@ -107,11 +150,23 @@ class FileCache
         return true;
     }
 
-    void to_file(const std::string& cache_path, bool emulate_only = false)
+    void update_file(const std::string& cache_path, bool emulate_only = false)
     {
 
-        // only do something if this throws (id mismatch)
-        path_is_valid(cache_path);
+        // if path is valid load all keys that are not loaded but exist in the old file
+        // else just create a new file existing file
+        if (path_is_valid(cache_path))
+        {
+            auto not_loaded_cache_names = get_not_loaded_cache_names();
+            // read old cache (only keys that are also in the new cache but not loaded yet)
+            FileCache old_cache(cache_path, _file_name, _file_size, not_loaded_cache_names);
+
+            // add old cache to new cache
+            for (const auto& key : not_loaded_cache_names)
+            {
+                _cache_buffer[key] = old_cache._cache_buffer[key];
+            }
+        }
 
         // do not write if only emulating
         if (emulate_only)
@@ -156,7 +211,7 @@ class FileCache
         // if name exists in header get the position
         // clear all entries after that position
         std::vector<std::string> valid_keys;
-        for (auto i = 0; i < _cache_buffer_header.size(); ++i)
+        for (size_t i = 0; i < _cache_buffer_header.size(); ++i)
         {
             valid_keys.push_back(std::get<0>(_cache_buffer_header[i]));
             if (std::get<0>(_cache_buffer_header[i]) == name)
@@ -185,7 +240,26 @@ class FileCache
     template<typename t_Cache>
     t_Cache get_from_cache(const std::string& name) const
     {
-        return t_Cache::from_binary(_cache_buffer.at(name));
+        auto it = _cache_buffer.find(name);
+
+        if (it == _cache_buffer.end())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[FileCache]: Cache not found in file cache: {}", name));
+        }
+
+        return t_Cache::from_binary(it->second);
+    }
+
+    template<typename t_Cache>
+    t_Cache get_from_cache(const std::string& name, const t_Cache& default_val) const
+    {
+        auto it = _cache_buffer.find(name);
+
+        if (it == _cache_buffer.end())
+            return default_val;
+
+        return t_Cache::from_binary(it->second);
     }
 
     // ----- to/from stream interface -----
@@ -247,6 +321,7 @@ class FileCache
 
         FileCache cache("", 0);
         cache.read_header_content_from_stream(is);
+        cache.read_cache_buffer_from_stream(is);
         return cache;
     }
 
@@ -262,8 +337,16 @@ class FileCache
         printer.register_string("file_name", _file_name);
         printer.register_value_bytes("file_size", size_t(_file_size));
 
+        // cache in file
+        printer.register_section("cache in file");
+        for (auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            size_t buffer_size = pos2 - pos1;
+            printer.register_value_bytes(key, buffer_size);
+        }
+
         // cache infos
-        printer.register_section("cache infos");
+        printer.register_section("loaded cache");
         for (auto& [key, value] : _cache_buffer)
         {
             size_t buffer_size = value.size();
@@ -296,15 +379,18 @@ class FileCache
             is.read(reinterpret_cast<char*>(&pos2), sizeof(size_t));
             _cache_buffer_header.push_back(std::make_tuple(key, pos1, pos2));
         }
+    }
 
-        // --- read cache_buffer ---
+    void read_cache_buffer_from_stream(std::istream& is)
+    {
+        size_t size = 0;
         is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
 
         for (size_t i = 0; i < size; ++i)
         {
             auto& [key_, pos1, pos2] = _cache_buffer_header[i];
 
-            if (pos1 != is.tellg())
+            if (pos1 != size_t(is.tellg()))
             {
                 throw std::runtime_error(
                     fmt::format("ERROR[FileCache]: Invalid cache position in "
@@ -325,7 +411,45 @@ class FileCache
                     key));
             }
 
-            if (pos2 != is.tellg())
+            if (pos2 != size_t(is.tellg()))
+            {
+                throw std::runtime_error(fmt::format("ERROR[FileCache]: Invalid cache position in "
+                                                     "file cache [end]. Expected: {} got {} key {}",
+                                                     pos1,
+                                                     size_t(is.tellg()),
+                                                     key));
+            }
+        }
+    }
+
+    void read_cache_buffer_from_stream(std::istream& is, const std::vector<std::string>& cache_keys)
+    {
+        for (const auto& cache_key : cache_keys)
+        {
+            auto it =
+                std::find_if(_cache_buffer_header.begin(),
+                             _cache_buffer_header.end(),
+                             [&cache_key](auto& tuple) { return std::get<0>(tuple) == cache_key; });
+
+            if (it == _cache_buffer_header.end())
+                continue;
+
+            // read
+            auto& [key_, pos1, pos2] = *it;
+            is.seekg(pos1); // go to start position
+            std::string key    = tools::classhelper::stream::container_from_stream<std::string>(is);
+            _cache_buffer[key] = tools::classhelper::stream::container_from_stream<std::string>(is);
+
+            // verify
+            if (key != key_)
+            {
+                throw std::runtime_error(fmt::format(
+                    "ERROR[FileCache]: Invalid cache key in file cache Expected: {} got {}",
+                    key_,
+                    key));
+            }
+
+            if (pos2 != size_t(is.tellg()))
             {
                 throw std::runtime_error(fmt::format("ERROR[FileCache]: Invalid cache position in "
                                                      "file cache [end]. Expected: {} got {} key {}",

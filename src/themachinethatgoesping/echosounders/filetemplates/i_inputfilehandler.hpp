@@ -213,6 +213,7 @@ class I_InputFileHandler
         // check if file exists in index
         auto it = _cached_paths_per_file_path.find(file_path);
 
+        // if no cache file path is found, scan for datagrams, do not use or update the index
         if (it == _cached_paths_per_file_path.end())
         {
             // scan for datagram headers

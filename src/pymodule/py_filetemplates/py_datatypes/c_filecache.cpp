@@ -35,17 +35,30 @@ void init_c_filecache(pybind11::module& m)
                  py::arg("file_name"),
                  py::arg("file_size"),
                  DOC_FileCache(FileCache))
-            .def(py::init<const std::string&, const std::string&, size_t>(),
+            .def(py::init<const std::string&,
+                          const std::string&,
+                          size_t,
+                          const std::vector<std::string>&>(),
                  py::arg("cache_path"),
                  py::arg("file_name"),
                  py::arg("file_size"),
+                 py::arg("cache_keys") = std::vector<std::string>(),
                  DOC_FileCache(FileCache))
             .def("__eq__", &FileCache::operator==, DOC_FileCache(operator_eq), py::arg("other"))
-            .def("to_file",
-                 &FileCache::to_file,
-                 DOC_FileCache(to_file),
+            .def("update_file",
+                 &FileCache::update_file,
+                 DOC_FileCache(update_file),
                  py::arg("cache_path"),
                  py::arg("emulate_only") = false)
+
+            // get cache names
+            .def("get_cache_names", &FileCache::get_cache_names, DOC_FileCache(get_cache_names))
+            .def("get_loaded_cache_names",
+                 &FileCache::get_loaded_cache_names,
+                 DOC_FileCache(get_loaded_cache_names))
+            .def("get_not_loaded_cache_names",
+                 &FileCache::get_not_loaded_cache_names,
+                 DOC_FileCache(get_not_loaded_cache_names))
 
             // cache handling
             //   .def(
