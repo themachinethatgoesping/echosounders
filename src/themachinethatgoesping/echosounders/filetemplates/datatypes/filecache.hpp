@@ -237,6 +237,14 @@ class FileCache
         _cache_buffer[name] = cache.to_binary();
     }
 
+    bool has_cache(const std::string& name) const
+    {
+        return std::find_if(_cache_buffer_header.begin(),
+                            _cache_buffer_header.end(),
+                            [&name](auto& tuple) { return std::get<0>(tuple) == name; }) !=
+               _cache_buffer_header.end();
+    }
+
     template<typename t_Cache>
     t_Cache get_from_cache(const std::string& name) const
     {
@@ -244,8 +252,12 @@ class FileCache
 
         if (it == _cache_buffer.end())
         {
-            throw std::runtime_error(
-                fmt::format("ERROR[FileCache]: Cache not found in file cache: {}", name));
+            if (has_cache(name))
+                throw std::runtime_error(
+                    fmt::format("ERROR[FileCache]: Cache not loaded: {}", name));
+            else
+                throw std::runtime_error(
+                    fmt::format("ERROR[FileCache]: Cache not found in file cache: {}", name));
         }
 
         return t_Cache::from_binary(it->second);

@@ -221,6 +221,8 @@ TEST_CASE("FileCache should support common functions", TESTTAG)
     FileCache dat5(test_data_file_tmp, "test.wcd", 1000, { "test_datagram2", "test_datagram_not here" });
     REQUIRE(dat5.get_from_cache<decltype(test_datagram)>("test_datagram2") == test_datagram2);
     REQUIRE_THROWS(dat5.get_from_cache<decltype(test_datagram)>("test_datagram_not here"));
+    REQUIRE(dat5.has_cache("test_datagram2"));
+    REQUIRE(!dat5.has_cache("test_datagram_not here"));
     REQUIRE(dat5.get_from_cache<decltype(test_datagram)>("test_datagram_not", test_datagram) == test_datagram);
 }
 

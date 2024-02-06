@@ -59,6 +59,8 @@ void init_c_filecache(pybind11::module& m)
             .def("get_not_loaded_cache_names",
                  &FileCache::get_not_loaded_cache_names,
                  DOC_FileCache(get_not_loaded_cache_names))
+            .def(
+                "has_cache", &FileCache::has_cache, DOC_FileCache(has_cache), py::arg("cache_name"))
 
             // cache handling
             //   .def(

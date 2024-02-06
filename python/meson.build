@@ -7,6 +7,7 @@ sources = [
   'themachinethatgoesping/echosounders/__init__.py',
   'themachinethatgoesping/echosounders/index_functions/__init__.py',
   'themachinethatgoesping/echosounders/index_functions/find_files.py',
+  'themachinethatgoesping/echosounders/index_functions/get_cache_file_paths.py',
   'themachinethatgoesping/echosounders/index_functions/load_safe_index_cache.py',
   'themachinethatgoesping/echosounders/index_functions/load_safe_navigation_cache.py',
 ]

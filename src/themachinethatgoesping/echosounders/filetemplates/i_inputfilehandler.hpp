@@ -54,6 +54,7 @@ class I_InputFileHandler
     // using t_FileDataInterface  = typename datainterfaces::I_FileDataInterface<
     //     datainterfaces::I_FileDataInterfacePerFile<t_DatagramInterface>>;
 
+    using t_FileCache = typename datatypes::FileCache;
     using FileInfos =
         typename datatypes::cache_structures::FileInfos<t_DatagramIdentifier, t_ifstream>;
     using FilePackageIndex =
@@ -224,47 +225,76 @@ class I_InputFileHandler
         }
         else
         {
-            // load datagram infos from index
-            // FileInfos file_info(file_nr,
-            //                     file_path,
-            //                     it->second.file_size, // TODO: instead of just copying, here we
-            //                                           // should check if the file size matches
-            //                     it->second.datagram_info_data,
-            //                     _input_file_manager);
+            const auto& cache_file_path = it->second;
 
-            // bool close_progressbar = false; ///< only close the progressbar if it was
-            //                                 ///< is_initialized within this function
-            // if (!progress_bar.is_initialized())
-            // {
-            //     progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
-            //     close_progressbar = true;
-            // }
-            // callback_scan_new_file_begin(file_path, file_nr);
+            // load FilePackageIndex from cache
+            datatypes::FileCache file_cache(cache_file_path,
+                                            file_path,
+                                            std::filesystem::file_size(file_path),
+                                            { "FilePackageIndex" });
 
-            // _datagram_interface.add_datagram_infos(file_info.datagram_infos);
+            if (!file_cache.has_cache("FilePackageIndex"))
+            {
+                // scan for datagram headers
+                FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
 
-            // double pos = 0.;
-            // // call callback functions
-            // for (size_t i = 0; i < file_info.datagram_infos.size(); ++i)
-            // {
-            //     const auto& datagram_info = file_info.datagram_infos[i];
-            //     callback_scan_packet(datagram_info);
+                // add to cache
+                FilePackageIndex file_package_index(file_info);
+                file_cache.add_to_cache("FilePackageIndex", file_package_index);
+                _datagram_interface.add_datagram_infos(file_info.datagram_infos);
 
-            //     // update cached index per file (in case the callback modified the datagram info)
-            //     it->second.datagram_info_data[i] = *datagram_info;
+                // update cache file
+                file_cache.update_file(cache_file_path);
+            }
+            else
+            {
+                auto file_package_index =
+                    file_cache.get_from_cache<FilePackageIndex>("FilePackageIndex");
 
-            //     double pos_new = double(datagram_info->get_file_pos());
+                // load datagram infos from index
+                FileInfos file_info(
+                    file_nr,
+                    file_path,
+                    file_package_index.file_size, // TODO: instead of just copying, here we
+                                                  // should check if the file size matches
+                    file_package_index.datagram_info_data,
+                    _input_file_manager);
 
-            //     progress_bar.tick(pos_new - pos);
+                bool close_progressbar = false; ///< only close the progressbar if it was
+                                                ///< is_initialized within this function
+                if (!progress_bar.is_initialized())
+                {
+                    progress_bar.init(0., double(file_info.file_size - 1), "indexing file");
+                    close_progressbar = true;
+                }
+                callback_scan_new_file_begin(file_path, file_nr);
 
-            //     pos = pos_new;
-            // }
-            // callback_scan_new_file_end(file_path, file_nr);
+                _datagram_interface.add_datagram_infos(file_info.datagram_infos);
 
-            // if (close_progressbar)
-            //     progress_bar.close(std::string("Found: ") +
-            //                        std::to_string(file_info.datagram_infos.size()) + "
-            //                        datagrams");
+                double pos = 0.;
+                // call callback functions
+                for (size_t i = 0; i < file_info.datagram_infos.size(); ++i)
+                {
+                    const auto& datagram_info = file_info.datagram_infos[i];
+                    callback_scan_packet(datagram_info);
+
+                    // update cached index per file (in case the callback modified the datagram
+                    // info)
+                    file_package_index.datagram_info_data[i] = *datagram_info;
+
+                    double pos_new = double(datagram_info->get_file_pos());
+
+                    progress_bar.tick(pos_new - pos);
+
+                    pos = pos_new;
+                }
+                callback_scan_new_file_end(file_path, file_nr);
+
+                if (close_progressbar)
+                    progress_bar.close(std::string("Found: ") +
+                                       std::to_string(file_info.datagram_infos.size()) +
+                                       " datagrams");
+            }
         }
     }
 
