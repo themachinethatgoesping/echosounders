@@ -49,6 +49,6 @@ class Test_echosounders_index_functions:
 
         
         # Check that the function returns the expected results.
-        assert index_file1 == "folder_path/file.txt.cache"
+        assert Path(index_file1) == Path("folder_path/file.txt.cache")
         assert index_file2 == str(expected_result)
         

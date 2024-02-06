@@ -118,7 +118,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         }
     }
 
-    virtual void init_from_file([[maybe_unused]] bool force = false)
+    virtual void init_from_file([[maybe_unused]] const std::string& file_cache_path,[[maybe_unused]] bool force = false)
     {
         // this file does not need to be is_initialized
         return;

@@ -106,9 +106,11 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     }
 
     using I_FileDataInterface<t_PingDataInterfacePerFile>::init_from_file;
-    void init_from_file(bool                                force,
-                        tools::progressbars::I_ProgressBar& progress_bar,
-                        bool                                external_progress_tick = false) final
+    void init_from_file(
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                force,
+        tools::progressbars::I_ProgressBar&                 progress_bar,
+        bool                                                external_progress_tick = false) final
     {
         auto primary_interfaces_per_file = this->per_primary_file();
 
@@ -120,7 +122,8 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         // init navigation interface
         if (!this->navigation_data_interface().is_initialized())
         {
-            this->navigation_data_interface().init_from_file(false, progress_bar);
+            this->navigation_data_interface().init_from_file(
+                cached_paths_per_file_path, false, progress_bar);
         }
 
         bool existing_progressbar = true;
@@ -133,7 +136,12 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             existing_progressbar = false;
         }
 
-        primary_interfaces_per_file.front()->init_from_file(force);
+        std::string cached_file_path_primary_file =
+            tools::helper::get_with_default(cached_paths_per_file_path,
+                                            primary_interfaces_per_file.front()->get_file_path(),
+                                            std::string(""));
+
+        primary_interfaces_per_file.front()->init_from_file(cached_file_path_primary_file, force);
         _ping_container = primary_interfaces_per_file.front()->read_pings();
 
         for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
@@ -142,7 +150,13 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
 
             try
             {
-                primary_interfaces_per_file[i]->init_from_file(force);
+
+                std::string cached_file_path =
+                    tools::helper::get_with_default(cached_paths_per_file_path,
+                                                    primary_interfaces_per_file[i]->get_file_path(),
+                                                    std::string(""));
+
+                primary_interfaces_per_file[i]->init_from_file(cached_file_path, force);
                 _ping_container.add_pings(primary_interfaces_per_file[i]->read_pings().get_pings());
             }
             catch (std::exception& e)

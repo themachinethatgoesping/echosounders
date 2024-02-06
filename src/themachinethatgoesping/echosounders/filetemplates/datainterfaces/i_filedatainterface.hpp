@@ -170,15 +170,20 @@ class I_FileDataInterface
         return _interface_per_file[_pyindexer(pyindex)];
     }
 
-    void init_from_file(bool force = false, bool show_progress = true)
+    void init_from_file(
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                force         = false,
+        bool                                                show_progress = true)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_from_file(force, progress_bar.get());
+        this->init_from_file(cached_paths_per_file_path, force, progress_bar.get());
     }
 
-    virtual void init_from_file(bool                                force,
-                                tools::progressbars::I_ProgressBar& progress_bar,
-                                bool                                external_progress_tick = false)
+    virtual void init_from_file(
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        bool                                                force,
+        tools::progressbars::I_ProgressBar&                 progress_bar,
+        bool                                                external_progress_tick = false)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
@@ -199,7 +204,14 @@ class I_FileDataInterface
         {
             progress_bar.set_postfix(
                 fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
-            inter->init_from_file(force);
+
+            std::string cache_file_path = "";
+            if (cached_paths_per_file_path.find(inter->get_file_path()) !=
+                cached_paths_per_file_path.end())
+            {
+                cache_file_path = cached_paths_per_file_path.at(inter->get_file_path());
+            }
+            inter->init_from_file(cache_file_path, force);
 
             if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();

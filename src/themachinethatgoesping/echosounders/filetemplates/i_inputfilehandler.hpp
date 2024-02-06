@@ -75,30 +75,27 @@ class I_InputFileHandler
 
     I_InputFileHandler() = default;
 
-    I_InputFileHandler(
-        const std::unordered_map<std::string, std::string>& file_cache_paths)
+    I_InputFileHandler(const std::unordered_map<std::string, std::string>& file_cache_paths)
         : _cached_paths_per_file_path(file_cache_paths)
     {
     }
 
   public:
-    I_InputFileHandler(
-        const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& file_cache_paths =
-            std::unordered_map<std::string, std::string>(),
-        bool init          = true,
-        bool show_progress = true)
+    I_InputFileHandler(const std::string&                                  file_path,
+                       const std::unordered_map<std::string, std::string>& file_cache_paths =
+                           std::unordered_map<std::string, std::string>(),
+                       bool init          = true,
+                       bool show_progress = true)
         : _cached_paths_per_file_path(file_cache_paths)
     {
         append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    I_InputFileHandler(
-        const std::string&                                  file_path,
-        const std::unordered_map<std::string, std::string>& file_cache_paths,
-        bool                                                init,
-        tools::progressbars::I_ProgressBar&                 progress_bar)
+    I_InputFileHandler(const std::string&                                  file_path,
+                       const std::unordered_map<std::string, std::string>& file_cache_paths,
+                       bool                                                init,
+                       tools::progressbars::I_ProgressBar&                 progress_bar)
         : _cached_paths_per_file_path(file_cache_paths)
     {
         append_file(file_path, progress_bar);
@@ -106,12 +103,11 @@ class I_InputFileHandler
             init_interfaces(false, progress_bar);
     }
 
-    I_InputFileHandler(
-        const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& file_cache_paths =
-            std::unordered_map<std::string, std::string>(),
-        bool init          = true,
-        bool show_progress = true)
+    I_InputFileHandler(const std::vector<std::string>&                     file_paths,
+                       const std::unordered_map<std::string, std::string>& file_cache_paths =
+                           std::unordered_map<std::string, std::string>(),
+                       bool init          = true,
+                       bool show_progress = true)
         : _cached_paths_per_file_path(file_cache_paths)
     {
         append_files(file_paths, show_progress);
@@ -119,11 +115,10 @@ class I_InputFileHandler
             init_interfaces(false, show_progress);
     }
 
-    I_InputFileHandler(
-        const std::vector<std::string>&                     file_paths,
-        const std::unordered_map<std::string, std::string>& file_cache_paths,
-        bool                                                init,
-        tools::progressbars::I_ProgressBar&                 progress_bar)
+    I_InputFileHandler(const std::vector<std::string>&                     file_paths,
+                       const std::unordered_map<std::string, std::string>& file_cache_paths,
+                       bool                                                init,
+                       tools::progressbars::I_ProgressBar&                 progress_bar)
         : _cached_paths_per_file_path(file_cache_paths)
     {
         append_files(file_paths, progress_bar);
@@ -298,7 +293,10 @@ class I_InputFileHandler
         }
     }
 
-    auto get_cached_paths_per_file_path() const { return _cached_paths_per_file_path; }
+    const auto& get_cached_paths_per_file_path() const
+    {
+        return _cached_paths_per_file_path;
+    }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>

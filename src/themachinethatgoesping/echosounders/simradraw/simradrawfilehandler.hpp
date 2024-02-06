@@ -28,9 +28,9 @@
 #include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfilehandler.hpp"
 
-#include "filedatainterfaces/simradrawdatagramdatainterface.hpp"
 #include "filedatainterfaces/simradrawannotationdatainterface.hpp"
 #include "filedatainterfaces/simradrawconfigurationdatainterface.hpp"
+#include "filedatainterfaces/simradrawdatagramdatainterface.hpp"
 #include "filedatainterfaces/simradrawenvironmentdatainterface.hpp"
 #include "filedatainterfaces/simradrawnavigationdatainterface.hpp"
 #include "filedatainterfaces/simradrawotherfiledatainterface.hpp"
@@ -47,14 +47,15 @@ namespace simradraw {
 
 template<typename t_ifstream>
 class SimradRawFileHandler
-    : public filetemplates::I_InputFileHandler<datagrams::SimradRawDatagram,
-                                        filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>
+    : public filetemplates::I_InputFileHandler<
+          datagrams::SimradRawDatagram,
+          filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>
 {
   public:
     // ----- types -----
-    using t_base =
-        filetemplates::I_InputFileHandler<datagrams::SimradRawDatagram,
-                                   filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>;
+    using t_base = filetemplates::I_InputFileHandler<
+        datagrams::SimradRawDatagram,
+        filedatainterfaces::SimradRawDatagramInterface<t_ifstream>>;
 
     using t_DatagramDataInterface =
         typename filedatainterfaces::SimradRawDatagramDataInterface<t_ifstream>;
@@ -70,8 +71,8 @@ class SimradRawFileHandler
     using t_OtherFileDataInterface =
         typename filedatainterfaces::SimradRawOtherFileDataInterface<t_ifstream>;
 
-    using typename t_base::FilePackageIndex;
     using typename t_base::FileInfos;
+    using typename t_base::FilePackageIndex;
 
   private:
     // ----- file data interfaces -----
@@ -99,21 +100,21 @@ class SimradRawFileHandler
     // t_SimradRawDatagramIdentifier, t_ifstream>::
     //     I_InputFileHandler;
 
-    SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, std::string>& file_cache_paths =
-                      std::unordered_map<std::string, std::string>(),
-                  bool init          = true,
-                  bool show_progress = true)
+    SimradRawFileHandler(const std::string&                                  file_path,
+                         const std::unordered_map<std::string, std::string>& file_cache_paths =
+                             std::unordered_map<std::string, std::string>(),
+                         bool init          = true,
+                         bool show_progress = true)
         : t_base(file_cache_paths)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    SimradRawFileHandler(const std::string&                                   file_path,
-                  const std::unordered_map<std::string, std::string>& file_cache_paths,
-                  bool                                                 init,
-                  tools::progressbars::I_ProgressBar&                  progress_bar)
+    SimradRawFileHandler(const std::string&                                  file_path,
+                         const std::unordered_map<std::string, std::string>& file_cache_paths,
+                         bool                                                init,
+                         tools::progressbars::I_ProgressBar&                 progress_bar)
         : t_base(file_cache_paths)
     {
         this->append_file(file_path, progress_bar);
@@ -121,21 +122,21 @@ class SimradRawFileHandler
             init_interfaces(false, progress_bar);
     }
 
-    SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, std::string>& file_cache_paths =
-                      std::unordered_map<std::string, std::string>(),
-                  bool init          = true,
-                  bool show_progress = true)
+    SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
+                         const std::unordered_map<std::string, std::string>& file_cache_paths =
+                             std::unordered_map<std::string, std::string>(),
+                         bool init          = true,
+                         bool show_progress = true)
         : t_base(file_cache_paths)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
-    SimradRawFileHandler(const std::vector<std::string>&                      file_paths,
-                  const std::unordered_map<std::string, std::string>& file_cache_paths,
-                  bool                                                 init,
-                  tools::progressbars::I_ProgressBar&                  progress_bar)
+    SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
+                         const std::unordered_map<std::string, std::string>& file_cache_paths,
+                         bool                                                init,
+                         tools::progressbars::I_ProgressBar&                 progress_bar)
         : t_base(file_cache_paths)
     {
         this->append_files(file_paths, progress_bar);
@@ -152,28 +153,35 @@ class SimradRawFileHandler
             0., number_of_primary_files * 2 + 5, fmt::format("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing datagramdata interface");
-        _datagramdata_interface->init_from_file(force, progress_bar);
+        _datagramdata_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing configuration");
-        _configuration_interface->init_from_file(force, progress_bar);
+        _configuration_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
-        _navigation_interface->init_from_file(force, progress_bar, true);
+        _navigation_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
-        _environment_interface->init_from_file(force, progress_bar);
+        _environment_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing annotation");
-        _annotation_interface->init_from_file(force, progress_bar);
+        _annotation_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing other");
-        _otherfiledata_interface->init_from_file(force, progress_bar);
+        _otherfiledata_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing ping interface");
-        _ping_interface->init_from_file(force, progress_bar, true);
+        _ping_interface->init_from_file(
+            this->get_cached_paths_per_file_path(), force, progress_bar, true);
 
         progress_bar.close(std::string("Done"));
     }
@@ -194,7 +202,6 @@ class SimradRawFileHandler
         }
         return _ping_interface->get_pings();
     }
-
 
     std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
 
@@ -237,14 +244,14 @@ class SimradRawFileHandler
                     { "Parameter", 1 },        { "Configuration", 2 }, { "Environment", 3 },
                     { "InitialParameter", 4 }, { "invalid", 5 },
                 };
-                
+
                 if (datagram_info->get_extra_infos().empty())
                 {
                     auto& ifs = datagram_info->get_stream_and_seek();
 
                     // this also changes xml_type since it is a reference
                     auto xml_type = datagrams::XML0::get_xml_datagram_type_from_stream(ifs);
-                    
+
                     datagram_info->set_extra_infos(xml_type);
 
                     if (!datagram_info->get_stream().good())

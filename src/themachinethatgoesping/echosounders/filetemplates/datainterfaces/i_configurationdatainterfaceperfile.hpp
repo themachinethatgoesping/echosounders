@@ -88,7 +88,8 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
         return _sensor_configuration;
     }
 
-    void init_from_file(bool force = false) final
+    void init_from_file([[maybe_unused]] const std::string& cache_file_path = "",
+                        bool                                force           = false) final
     {
         try
         {

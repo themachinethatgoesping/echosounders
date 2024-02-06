@@ -124,7 +124,11 @@ class I_PingDataInterfacePerFile
                                              this->class_name()));
     }
 
-    void init_from_file([[maybe_unused]] bool force = false) final { return; }
+    void init_from_file([[maybe_unused]] const std::string& file_cache_path,
+                        [[maybe_unused]] bool               force = false) final
+    {
+        return;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

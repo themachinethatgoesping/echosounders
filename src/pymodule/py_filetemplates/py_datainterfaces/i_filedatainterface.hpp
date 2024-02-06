@@ -64,16 +64,21 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             // py::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //
             // compiler error on windows, but cstyle cast works
             // (https://github.com/pybind/pybind11/issues/1153)
-            (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(const std::unordered_map<std::string, std::string>&, bool, bool))(
+                &T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC_FileDataInterface(init_from_file),
-            py::arg("force")         = false,
-            py::arg("show_progress") = true);
+            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("force")                      = false,
+            py::arg("show_progress")              = true);
     cls.def("init_from_file",
             // py::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
-            (void(T_BaseClass::*)(bool, I_ProgressBar&, bool))(&T_BaseClass::init_from_file),
+            (void(T_BaseClass::*)(
+                const std::unordered_map<std::string, std::string>&, bool, I_ProgressBar&, bool))(
+                &T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC_FileDataInterface(init_from_file_2),
+            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
             py::arg("force"),
             py::arg("progress_bar"),
             py::arg("external_progress_tick") = false);
