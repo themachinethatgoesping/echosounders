@@ -1,4 +1,4 @@
-//sourcehash: d20c2ad998fb9fb230b08011e4b1098b7d3abadfac6149be87a749d86e147292
+//sourcehash: cf71b2a132bab56167345d4f510aa6471cd64eeb85d018de1e5ca15332c60890
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,11 +50,41 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_I_InputFileHandler_5 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_I_InputFileHandler_6 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_append_file = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_append_file_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_append_files = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_append_files_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_cached_paths_per_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_callback_scan_new_file_begin = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_callback_scan_new_file_end = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_callback_scan_packet = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_datagram_interface = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_datagram_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_get_cached_paths_per_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_init_interfaces = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_init_interfaces_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_input_file_manager = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_reset_ifstream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_scan_for_datagrams = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

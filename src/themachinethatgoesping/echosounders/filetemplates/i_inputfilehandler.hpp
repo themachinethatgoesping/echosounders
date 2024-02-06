@@ -31,10 +31,10 @@
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
 #include "datainterfaces/i_filedatainterface.hpp"
-#include "datatypes/filecache.hpp"
 #include "datatypes/cache_structures/fileinfos.hpp"
 #include "datatypes/cache_structures/filepackageindex.hpp"
 #include "datatypes/datagraminfo.hpp"
+#include "datatypes/filecache.hpp"
 #include "internal/inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -114,7 +114,11 @@ class I_InputFileHandler
         : _cached_paths_per_file_path(cached_paths_per_file_path)
     {
         append_files(file_paths, show_progress);
-                     I_ProgressBar&>(),
+        if (init)
+            init_interfaces(false, show_progress);
+    }
+    
+    I_InputFileHandler(
         const std::vector<std::string>&                     file_paths,
         const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
         bool                                                init,
@@ -258,7 +262,8 @@ class I_InputFileHandler
 
             // if (close_progressbar)
             //     progress_bar.close(std::string("Found: ") +
-            //                        std::to_string(file_info.datagram_infos.size()) + " datagrams");
+            //                        std::to_string(file_info.datagram_infos.size()) + "
+            //                        datagrams");
         }
     }
 
