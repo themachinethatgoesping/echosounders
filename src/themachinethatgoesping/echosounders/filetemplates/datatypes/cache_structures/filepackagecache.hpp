@@ -32,80 +32,13 @@
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
+#include "packagecache.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 namespace cache_structures {
-
-template<typename t_CachingResult>
-class PackageCache
-{
-  protected:
-    virtual std::string class_name() const { return fmt::format("PackageCache"); }
-    size_t              _file_pos;
-    double              _timestamp;
-    unsigned int        _sub_package_nr;
-
-    t_CachingResult _caching_result;
-
-  public:
-    PackageCache() = default;
-    template<typename t_CachedPackage>
-    PackageCache(size_t                 file_pos,
-                 double                 timestamp,
-                 const t_CachedPackage& package,
-                 unsigned int           sub_package_nr = 0)
-        : _file_pos(file_pos)
-        , _timestamp(timestamp)
-        , _sub_package_nr(sub_package_nr)
-        , _caching_result(package)
-    {
-    }
-    virtual ~PackageCache() = default;
-
-    size_t       get_file_pos() const { return _file_pos; }
-    double       get_timestamp() const { return _timestamp; }
-    unsigned int get_sub_package_nr() const { return _sub_package_nr; }
-
-    bool operator==(const PackageCache& other) const = default;
-
-    void to_stream(std::ostream& stream, std::unordered_map<size_t, std::string>& hash_cache) const
-    {
-        constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
-
-        stream.write(reinterpret_cast<const char*>(&_file_pos), size);
-        _caching_result.to_stream(stream, hash_cache);
-    }
-    static auto from_stream(std::istream&                                  stream,
-                            const std::unordered_map<size_t, std::string>& hash_cache)
-    {
-        constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
-        PackageCache     package;
-        stream.read(reinterpret_cast<char*>(&package._file_pos), size);
-        package._caching_result = package._caching_result.from_stream(stream, hash_cache);
-
-        return package;
-    }
-
-    std::string to_binary(std::unordered_map<size_t, std::string>& hash_cache) const
-    {
-        std::stringstream buffer_stream;
-
-        to_stream(buffer_stream, hash_cache);
-        return buffer_stream.str();
-    };
-
-    static auto from_binary(const std::string&                             buffer,
-                            const std::unordered_map<size_t, std::string>& hash_cache)
-    {
-        std::stringstream buffer_stream{ buffer };
-
-        return from_stream(buffer_stream, hash_cache);
-    };
-
-    const auto& get() const { return _caching_result; }
-};
 
 template<typename t_CachingResult>
 class FilePackageCache
