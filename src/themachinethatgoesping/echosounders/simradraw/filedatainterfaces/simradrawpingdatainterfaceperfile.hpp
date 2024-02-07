@@ -253,8 +253,7 @@ class SimradRawPingDataInterfacePerFile
         // update cache
         if (!cache_file_path.empty())
         {
-            if (!file_cache.has_cache("FilePackageCache<XML_Parameter_Channel>") ||
-                !file_cache.has_cache("FilePackageCache<RAW3>"))
+            if (cache_updated)
             {
                 file_cache.add_to_cache("FilePackageCache<XML_Parameter_Channel>",
                                         package_buffer_xml);
