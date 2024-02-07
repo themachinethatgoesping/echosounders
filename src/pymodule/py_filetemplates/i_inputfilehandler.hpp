@@ -26,7 +26,6 @@ void add_default_constructors(T_PyClass& cls)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::tools::progressbars;
-    using t_FilePackageIndex = typename T_BaseClass::FilePackageIndex;
 
     cls.def(py::init<const std::string&,
                      const std::unordered_map<std::string, std::string>&,
