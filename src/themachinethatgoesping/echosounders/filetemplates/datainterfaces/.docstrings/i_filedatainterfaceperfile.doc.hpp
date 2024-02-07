@@ -1,4 +1,4 @@
-//sourcehash: c3a82b5f44eae24d0585ce8a0a8ba26a404446c000413699375415779433fa74
+//sourcehash: 7153402d0194565843bee0903ac23861ada4598b8404cc87434118e277f424ed
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_file_path = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_file_name = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_file_nr =
 R"doc(Get the file nr This function assumes that the file nr is the same for
 all datagrams in the file
@@ -63,6 +65,8 @@ for_linked_file all datagrams in the file
 
 Returns:
     std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_file_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_FileDataInterfacePerFile_get_linked_file = R"doc()doc";
 

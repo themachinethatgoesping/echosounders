@@ -118,7 +118,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         }
     }
 
-    virtual void init_from_file([[maybe_unused]] const std::string& file_cache_path,[[maybe_unused]] bool force = false)
+    virtual void init_from_file([[maybe_unused]] const std::string& file_cache_path,
+                                [[maybe_unused]] bool               force = false)
     {
         // this file does not need to be is_initialized
         return;
@@ -197,6 +198,13 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 
         return _file_path;
     }
+
+    std::string get_file_name() const
+    {
+        return std::filesystem::path(get_file_path()).parent_path().string();
+    }
+
+    size_t get_file_size() const { return std::filesystem::file_size(get_file_path()); }
 
     bool is_primary_file() const { return !is_secondary_file(); }
     bool is_secondary_file() const

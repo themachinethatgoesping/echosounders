@@ -29,6 +29,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
+#include "../datatypes/filecache.hpp"
 #include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
@@ -88,75 +89,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return this->get_navigation_cache(progress_bar.get());
     }
 
-    std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> get_navigation_cache(
-        tools::progressbars::I_ProgressBar& progress_bar,
-        bool                                external_progress_tick = false)
-    {
-        auto interfaces_per_file        = this->per_file();
-        auto config_interfaces_per_file = this->_configuration_data_interface->per_file();
-        std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> cache_per_file;
-
-        bool existing_progressbar = true;
-
-        if (!progress_bar.is_initialized())
-        {
-            progress_bar.init(
-                0.,
-                double(interfaces_per_file.size()),
-                fmt::format("Creating navigation cache from files", this->class_name()));
-
-            existing_progressbar = false;
-        }
-
-        for (size_t i = 0; i < interfaces_per_file.size(); ++i)
-        {
-            progress_bar.set_postfix(fmt::format("{}/{}", i, interfaces_per_file.size()));
-
-            if (!config_interfaces_per_file[i]->is_initialized())
-            {
-                config_interfaces_per_file[i]->init_from_file();
-            }
-
-            cache_per_file[interfaces_per_file[i]->get_file_path()] =
-                interfaces_per_file[i]->read_navigation_data();
-
-            if (!existing_progressbar || external_progress_tick)
-                progress_bar.tick();
-        }
-
-        if (!existing_progressbar)
-            progress_bar.close(std::string("Done"));
-
-        return cache_per_file;
-    }
-
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(
         const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
         bool                                                force,
         tools::progressbars::I_ProgressBar&                 progress_bar,
         bool                                                external_progress_tick = false) final
-    {
-        init_from_file_or_cache(
-            cached_paths_per_file_path, {}, force, progress_bar, external_progress_tick);
-    }
-
-    void init_from_file_or_cache(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
-        const std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>& cache = {},
-        bool force         = false,
-        bool show_progress = true)
-    {
-        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_from_file_or_cache(cached_paths_per_file_path, cache, force, progress_bar.get());
-    }
-
-    void init_from_file_or_cache(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
-        const std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>& cache,
-        bool                                                                             force,
-        tools::progressbars::I_ProgressBar& progress_bar,
-        bool                                external_progress_tick = false)
     {
         // navigation data interface needs configuraiton data interface to be initialized
         if (!this->_configuration_data_interface->is_initialized())
@@ -218,11 +156,13 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 if (it == _navigation_interpolators.end())
                 {
                     _navigation_interpolators[sensor_configuration] =
-                        read_or_from_cache(*primary_interfaces_per_file[i], cache);
+                        read_navigation_from_file_or_cache(*primary_interfaces_per_file[i],
+                                                           cached_paths_per_file_path);
                 }
                 else
                 {
-                    it->second.merge(read_or_from_cache(*primary_interfaces_per_file[i], cache));
+                    it->second.merge(read_navigation_from_file_or_cache(
+                        *primary_interfaces_per_file[i], cached_paths_per_file_path));
                 }
             }
             catch (std::exception& e)
@@ -331,20 +271,25 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
   private:
-    navigation::NavigationInterpolatorLatLon read_or_from_cache(
-        t_NavigationDataInterfacePerFile& navigation_data_interface_per_file,
-        const std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>& cache)
+    navigation::NavigationInterpolatorLatLon read_navigation_from_file_or_cache(
+        t_NavigationDataInterfacePerFile&                   navigation_data_interface_per_file,
+        const std::unordered_map<std::string, std::string>& cache_file_paths)
     {
-        auto cache_it = cache.find(navigation_data_interface_per_file.get_file_path());
+        auto cache_it = cache_file_paths.find(navigation_data_interface_per_file.get_file_path());
 
-        if (cache_it == cache.end())
+        if (cache_it != cache_file_paths.end())
         {
-            return navigation_data_interface_per_file.read_navigation_data();
+            datatypes::FileCache file_cache(cache_it->second,
+                                            navigation_data_interface_per_file.get_file_name(),
+                                            navigation_data_interface_per_file.get_file_size(),
+                                            { "NavigationInterpolatorLatLon" });
+
+            if (file_cache.has_cache("NavigationInterpolatorLatLon"))
+                return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
+                    "NavigationInterpolatorLatLon");
         }
-        else
-        {
-            return cache_it->second;
-        }
+
+        return navigation_data_interface_per_file.read_navigation_data();
     }
 };
 

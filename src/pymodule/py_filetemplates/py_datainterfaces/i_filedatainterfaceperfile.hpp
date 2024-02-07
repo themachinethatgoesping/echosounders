@@ -36,18 +36,24 @@ void FileDataInterfacePerFile_add_interface(T_PyClass& cls)
             &T_BaseClass::init_from_file,
             DOC_FileDataInterfacePerFile(init_from_file),
             py::arg("cache_file_path") = "",
-            py::arg("force") = false);
+            py::arg("force")           = false);
     cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_FileDataInterfacePerFile(get_file_nr));
     cls.def("get_linked_file_nr",
             &T_BaseClass::get_linked_file_nr,
             DOC_FileDataInterfacePerFile(get_linked_file_nr));
     cls.def(
         "get_file_path", &T_BaseClass::get_file_path, DOC_FileDataInterfacePerFile(get_file_path));
+    cls.def(
+        "get_file_name", &T_BaseClass::get_file_name, DOC_FileDataInterfacePerFile(get_file_name));
+    cls.def(
+        "get_file_size", &T_BaseClass::get_file_size, DOC_FileDataInterfacePerFile(get_file_size));
     cls.def("get_linked_file_path",
             &T_BaseClass::get_linked_file_path,
             DOC_FileDataInterfacePerFile(get_linked_file_path));
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterfacePerFile(deinitialize));
-    cls.def("is_initialized", &T_BaseClass::is_initialized, DOC_FileDataInterfacePerFile(is_initialized));
+    cls.def("is_initialized",
+            &T_BaseClass::is_initialized,
+            DOC_FileDataInterfacePerFile(is_initialized));
     cls.def("is_primary_file",
             &T_BaseClass::is_primary_file,
             DOC_FileDataInterfacePerFile(is_primary_file));

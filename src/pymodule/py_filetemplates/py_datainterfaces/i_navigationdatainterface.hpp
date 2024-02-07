@@ -67,46 +67,6 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
                                                                       py::const_),
             DOC_I_NavigationDataInterface(channel_ids_2),
             py::arg("sensor_configuration"));
-
-    cls.def("init_from_file_or_cache",
-            (void(T_BaseClass::*)(
-                const std::unordered_map<std::string, std::string>&,
-                const std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>&,
-                bool,
-                bool))(&T_BaseClass::init_from_file_or_cache),
-            py::call_guard<py::scoped_ostream_redirect>(),
-            DOC_I_NavigationDataInterface(init_from_file_or_cache),
-            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
-            py::arg("cache") =
-                std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>(),
-            py::arg("force")         = false,
-            py::arg("show_progress") = true);
-    cls.def("init_from_file_or_cache",
-            (void(T_BaseClass::*)(
-                const std::unordered_map<std::string, std::string>&,
-                const std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon>&,
-                bool,
-                I_ProgressBar&,
-                bool))(&T_BaseClass::init_from_file_or_cache),
-            py::call_guard<py::scoped_ostream_redirect>(),
-            DOC_I_NavigationDataInterface(init_from_file_or_cache_2),
-            py::arg("cached_paths_per_file_path"),
-            py::arg("cache"),
-            py::arg("force"),
-            py::arg("progress_bar"),
-            py::arg("external_progress_tick") = false);
-
-    cls.def("get_navigation_cache",
-            py::overload_cast<bool>(&T_BaseClass::get_navigation_cache),
-            py::call_guard<py::scoped_ostream_redirect>(),
-            DOC_I_NavigationDataInterface(get_navigation_cache),
-            py::arg("show_progress") = true);
-    cls.def("get_navigation_cache",
-            py::overload_cast<I_ProgressBar&, bool>(&T_BaseClass::get_navigation_cache),
-            py::call_guard<py::scoped_ostream_redirect>(),
-            DOC_I_NavigationDataInterface(get_navigation_cache),
-            py::arg("progress_bar"),
-            py::arg("external_progress_tick") = false);
 }
 
 }

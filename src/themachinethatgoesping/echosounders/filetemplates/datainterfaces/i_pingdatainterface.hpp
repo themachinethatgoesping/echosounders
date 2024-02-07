@@ -137,7 +137,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         }
 
         std::string cached_file_path_primary_file =
-            tools::helper::get_with_default(cached_paths_per_file_path,
+            tools::helper::get_from_map_with_default(cached_paths_per_file_path,
                                             primary_interfaces_per_file.front()->get_file_path(),
                                             std::string(""));
 
@@ -152,7 +152,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             {
 
                 std::string cached_file_path =
-                    tools::helper::get_with_default(cached_paths_per_file_path,
+                    tools::helper::get_from_map_with_default(cached_paths_per_file_path,
                                                     primary_interfaces_per_file[i]->get_file_path(),
                                                     std::string(""));
 
