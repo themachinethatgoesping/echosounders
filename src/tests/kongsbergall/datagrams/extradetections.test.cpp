@@ -46,7 +46,14 @@ TEST_CASE("ExtraDetections should support common functions", TESTTAG)
     // REQUIRE(dat != ExtraDetections());
 
     // test copy
-    REQUIRE(dat == ExtraDetections(dat));
+    {
+        INFO("--- COPY START ---");
+        INFO(dat.info_string());
+        INFO("---");
+        INFO(ExtraDetections(dat).info_string());
+        INFO("--- COPY END ---");
+        REQUIRE(dat == ExtraDetections(dat));
+    }
 
     // test binary
     REQUIRE(dat == ExtraDetections(dat.from_binary(dat.to_binary())));
