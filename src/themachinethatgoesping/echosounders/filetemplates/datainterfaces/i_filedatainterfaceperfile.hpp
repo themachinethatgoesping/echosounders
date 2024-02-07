@@ -201,7 +201,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
 
     std::string get_file_name() const
     {
-        return std::filesystem::path(get_file_path()).parent_path().string();
+        return std::filesystem::path(get_file_path()).filename().string();
     }
 
     size_t get_file_size() const { return std::filesystem::file_size(get_file_path()); }

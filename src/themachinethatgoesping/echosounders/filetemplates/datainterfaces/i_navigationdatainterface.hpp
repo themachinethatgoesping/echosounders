@@ -277,19 +277,29 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     {
         auto cache_it = cache_file_paths.find(navigation_data_interface_per_file.get_file_path());
 
-        if (cache_it != cache_file_paths.end())
-        {
-            datatypes::FileCache file_cache(cache_it->second,
-                                            navigation_data_interface_per_file.get_file_name(),
-                                            navigation_data_interface_per_file.get_file_size(),
-                                            { "NavigationInterpolatorLatLon" });
+        // if file is not in cache, read navigation data from file and return
+        if (cache_it == cache_file_paths.end())
+            return navigation_data_interface_per_file.read_navigation_data();
 
-            if (file_cache.has_cache("NavigationInterpolatorLatLon"))
-                return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
-                    "NavigationInterpolatorLatLon");
-        }
+        // open file_cache
+        datatypes::FileCache file_cache(cache_it->second,
+                                        navigation_data_interface_per_file.get_file_path(),
+                                        navigation_data_interface_per_file.get_file_size(),
+                                        { "NavigationInterpolatorLatLon" });
 
-        return navigation_data_interface_per_file.read_navigation_data();
+        // if navigation interpolator is in cache, return it
+        if (file_cache.has_cache("NavigationInterpolatorLatLon"))
+            return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
+                "NavigationInterpolatorLatLon");
+
+        // read navigation interpolator from file
+        auto navigation_interpolator = navigation_data_interface_per_file.read_navigation_data();
+
+        // cache navigation interpolator
+        file_cache.add_to_cache("NavigationInterpolatorLatLon", navigation_interpolator);
+        file_cache.update_file(cache_it->second);
+
+        return navigation_interpolator;
     }
 };
 
