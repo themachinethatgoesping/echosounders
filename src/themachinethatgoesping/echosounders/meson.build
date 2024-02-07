@@ -312,6 +312,7 @@ headers = [
   'filetemplates/datatypes/cache_structures/.docstrings/filepackagecache.doc.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/filepackageindex.doc.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/packagecache.doc.hpp',
+  'filetemplates/datatypes/cache_structures/.docstrings/tuplepackage.doc.hpp',
   'filetemplates/datatypes/.docstrings/datagraminfo.doc.hpp',
   'filetemplates/datatypes/.docstrings/filecache.doc.hpp',
   'filetemplates/datatypes/.docstrings/i_filecache.doc.hpp',

@@ -40,6 +40,19 @@ TEST_CASE("TuplePackage should support common functions", TESTTAG)
     dat.to_stream(buffer);
     REQUIRE(dat == dat.from_stream(buffer));
 
+    // test stream reading should be simple binary representation
+    // This is not the case! (tuple often inverts the order of the elements, so we cannot use this test here)
+    // buffer.clear();
+    // size_t a = 1000;
+    // double b = -3.14;
+    // int    c = -42;
+    // buffer.write(reinterpret_cast<const char*>(&a), sizeof(a));
+    // buffer.write(reinterpret_cast<const char*>(&b), sizeof(b));
+    // buffer.write(reinterpret_cast<const char*>(&c), sizeof(c));
+    // auto dat3 = dat.from_stream(buffer);
+    // INFO(dat3.info_string());
+    // REQUIRE(dat == dat3);
+
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
 

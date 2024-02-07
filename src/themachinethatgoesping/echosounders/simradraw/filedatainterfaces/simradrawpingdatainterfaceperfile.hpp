@@ -64,7 +64,9 @@ class SimradRawPingDataInterfacePerFile
     auto get_deduplicated_parameters() { return _channel_parameter_buffer; }
 
     filedatacontainers::SimradRawPingContainer<t_ifstream> read_pings(
-        const std::string& cache_file_path = "")
+
+        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+            std::unordered_map<std::string, std::string>()) override
     {
         using t_cache_XML_Parameter_Channel =
             filetemplates::datatypes::cache_structures::FilePackageCache<
@@ -75,6 +77,10 @@ class SimradRawPingDataInterfacePerFile
         using t_FileCache = filetemplates::datatypes::FileCache;
 
         filedatacontainers::SimradRawPingContainer<t_ifstream> pings;
+
+        // -- get cache file path (assumes there is only one file) --
+        std::string cache_file_path = tools::helper::get_from_map_with_default(
+            cached_paths_per_file_path, this->get_file_path(), std::string(""));
 
         // -- create package cache_structures --
         bool                          cache_updated = false;

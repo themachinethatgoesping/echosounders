@@ -56,7 +56,7 @@ sources = [
   'simradraw/datatypes/packagecache/cache_xml_parameter.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
-  'filetemplates/datatypes/packagecache/cache_tuplepackage.cpp',
+  'filetemplates/datatypes/packagecache/cache_tuplepackage.test.cpp',
   'pingtools/beamsampleselection.test.cpp',
   'pingtools/beamselection.test.cpp',
   'pingtools/pingsampleselector.test.cpp',

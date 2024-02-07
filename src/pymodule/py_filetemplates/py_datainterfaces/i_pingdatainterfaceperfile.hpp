@@ -48,7 +48,10 @@ void PingDataInterfacePerFile_add_interface(T_PyClass& cls)
     cls.def("environment_data_interface",
             &T_BaseClass::environment_data_interface,
             DOC_PingDataInterfacePerFile(environment_data_interface));
-    cls.def("read_pings", &T_BaseClass::read_pings, DOC_PingDataInterfacePerFile(read_pings), py::arg("cache_file_path"));
+    cls.def("read_pings",
+            &T_BaseClass::read_pings,
+            DOC_PingDataInterfacePerFile(read_pings),
+            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string,std::string> ());
 }
 
 }

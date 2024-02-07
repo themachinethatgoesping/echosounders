@@ -65,7 +65,8 @@ class KongsbergAllPingDataInterfacePerFile
     auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer; }
 
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
-        const std::string& cache_file_path = "")
+        const std::unordered_map<std::string,std::string>&  cached_paths_per_file_path =
+            std::unordered_map<std::string,std::string> ()) override
     {
         using t_pingcontainer = filedatacontainers::KongsbergAllPingContainer<t_ifstream>;
         using t_ping          = filedatatypes::KongsbergAllPing<t_ifstream>;
@@ -78,6 +79,11 @@ class KongsbergAllPingDataInterfacePerFile
 
         using t_FileCache = filetemplates::datatypes::FileCache;
 
+        // -- get cache file path (assumes there is only one file) --
+        std::string cache_file_path = tools::helper::get_from_map_with_default(
+            cached_paths_per_file_path, this->get_file_path(), std::string(""));
+
+
         // -- create package cache_structures --
         bool                            cache_updated = false;
         t_FileCache                     file_cache(this->get_file_path(), this->get_file_size());
@@ -88,12 +94,12 @@ class KongsbergAllPingDataInterfacePerFile
             file_cache = t_FileCache(cache_file_path,
                                      this->get_file_path(),
                                      this->get_file_size(),
-                                     { "PingCounterSerialNumber" });
+                                     { "PingCounterSerialNumber<v1>" });
 
-            if (file_cache.has_cache("PingCounterSerialNumber"))
+            if (file_cache.has_cache("PingCounterSerialNumber<v1>"))
                 package_buffer_pingcounterserialnumber =
                     file_cache.get_from_cache<t_cache_PingCounterSerialNumber>(
-                        "PingCounterSerialNumber");
+                        "PingCounterSerialNumber<v1>");
         }
 
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
@@ -181,7 +187,9 @@ class KongsbergAllPingDataInterfacePerFile
 
                             // ifs.seekg(16, std::ios::cur); // skip header
                             ifs.read(reinterpret_cast<char*>(&std::get<0>(counter_snumber)),
-                                     sizeof(uint16_t) * 2);
+                                     sizeof(uint16_t));
+                            ifs.read(reinterpret_cast<char*>(&std::get<1>(counter_snumber)),
+                                     sizeof(uint16_t));
 
                             // update the cache
                             if (!cache_file_path.empty())
@@ -193,6 +201,10 @@ class KongsbergAllPingDataInterfacePerFile
                                 cache_updated = true;
                             }
                         }
+
+                        // throw(std::runtime_error(fmt::format("counter_snumber: {}",
+                        //                                           std::get<0>(counter_snumber),
+                        //                                           std::get<1>(counter_snumber))));
 
                         // create a new ping if it does not exist
                         auto ping_it = pings_by_counter_by_id[std::get<0>(counter_snumber)].find(
@@ -260,7 +272,7 @@ class KongsbergAllPingDataInterfacePerFile
         // update cache
         if (cache_updated)
         {
-            file_cache.add_to_cache("PingCounterSerialNumber",
+            file_cache.add_to_cache("PingCounterSerialNumber<v1>",
                                     package_buffer_pingcounterserialnumber);
 
             file_cache.update_file(cache_file_path);
