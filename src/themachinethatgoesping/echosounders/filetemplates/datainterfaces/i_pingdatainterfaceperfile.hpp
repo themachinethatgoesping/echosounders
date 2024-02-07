@@ -117,7 +117,7 @@ class I_PingDataInterfacePerFile
             this->get_file_nr());
     }
 
-    virtual t_PingContainer read_pings()
+    virtual t_PingContainer read_pings(const std::string& cache_file_path = "")
     {
         throw std::runtime_error(fmt::format("I_PingDataInterfacePerFile({}): read_ping_data() not "
                                              "implemented",

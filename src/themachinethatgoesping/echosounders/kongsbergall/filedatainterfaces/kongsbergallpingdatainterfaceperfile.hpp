@@ -60,7 +60,8 @@ class KongsbergAllPingDataInterfacePerFile
 
     auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer; }
 
-    filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings()
+    filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
+        const std::string& cache_file_path = "")
     {
         using t_pingcontainer = filedatacontainers::KongsbergAllPingContainer<t_ifstream>;
         using t_ping          = filedatatypes::KongsbergAllPing<t_ifstream>;

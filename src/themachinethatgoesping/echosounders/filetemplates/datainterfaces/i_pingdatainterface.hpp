@@ -157,7 +157,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
                                                     std::string(""));
 
                 primary_interfaces_per_file[i]->init_from_file(cached_file_path, force);
-                _ping_container.add_pings(primary_interfaces_per_file[i]->read_pings().get_pings());
+                _ping_container.add_pings(primary_interfaces_per_file[i]->read_pings(cached_file_path).get_pings());
             }
             catch (std::exception& e)
             {
