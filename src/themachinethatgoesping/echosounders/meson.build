@@ -307,6 +307,7 @@ headers = [
   'filetemplates/datatypes/cache_structures/filepackagecache.hpp',
   'filetemplates/datatypes/cache_structures/filepackageindex.hpp',
   'filetemplates/datatypes/cache_structures/packagecache.hpp',
+  'filetemplates/datatypes/cache_structures/tuplepackage.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/fileinfos.doc.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/filepackagecache.doc.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/filepackageindex.doc.hpp',

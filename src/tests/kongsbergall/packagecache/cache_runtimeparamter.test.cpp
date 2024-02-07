@@ -1,29 +1,27 @@
-// // SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
-// //
-// // SPDX-License-Identifier: MPL-2.0
+// SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+//
+// SPDX-License-Identifier: MPL-2.0
 
-// #include <catch2/catch_approx.hpp>
-// #include <catch2/catch_test_macros.hpp>
-// #include <filesystem>
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <filesystem>
 
-// #include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
-// #include <themachinethatgoesping/echosounders/kongsbergall/datagrams/xml_datagrams/xml_parameter_channel.hpp>
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
+#include <themachinethatgoesping/echosounders/kongsbergall/datagrams/runtimeparameters.hpp>
 
-// // using namespace testing;
-// using namespace std;
-// using namespace themachinethatgoesping::echosounders::kongsbergall;
-// using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
-// using themachinethatgoesping::echosounders::kongsbergall::datagrams::xml_datagrams::
-//     XML_Parameter_Channel;
+// using namespace testing;
+using namespace std;
+using namespace themachinethatgoesping::echosounders::kongsbergall;
+using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
+using themachinethatgoesping::echosounders::kongsbergall::datagrams::RuntimeParameters;
 
-// #define TESTTAG "[kongsbergall]"
+#define TESTTAG "[kongsbergall]"
 
-// using Catch::Approx;
+using Catch::Approx;
 
-// TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTAG)
-// {
+TEST_CASE("RuntimeParameters should be usable with FilePackageCache", TESTTAG) {}
 //     // initialize class structure
-//     XML_Parameter_Channel channel;
+//     RuntimeParameters channel;
 
 //     channel.ChannelID      = "WBT Mini 261197-15 ES38-7";
 //     channel.ChannelMode    = 0;
@@ -36,7 +34,7 @@
 
 //     std::unordered_map<size_t, std::string> hash_cache;
 
-//     cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+//     cache_structures::PackageCache<RuntimeParameters> package_cache(0, 0, channel);
 
 //     // test filepackagecache
 //     auto channel2      = channel;
@@ -44,7 +42,7 @@
 //     channel2.ChannelID = "Different ID with funny number 1234567890";
 //     channel3.ChannelID = "Some text";
 
-//     cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache_buffer;
+//     cache_structures::FilePackageCache<RuntimeParameters> package_cache_buffer;
 
 //     package_cache_buffer.add_package(package_cache);
 //     package_cache_buffer.add_package(12, 3, channel2);
@@ -76,7 +74,7 @@
 //     }
 
 //     // test to/from binary
-//     REQUIRE(package_cache_buffer != cache_structures::FilePackageCache<XML_Parameter_Channel>());
+//     REQUIRE(package_cache_buffer != cache_structures::FilePackageCache<RuntimeParameters>());
 //     REQUIRE(package_cache_buffer ==
 //             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
 
@@ -107,10 +105,10 @@
 //     }
 // }
 
-// TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG)
+// TEST_CASE("RuntimeParameters should be convertible to PackageCache", TESTTAG)
 // {
 //     // initialize class structure
-//     XML_Parameter_Channel channel;
+//     RuntimeParameters channel;
 
 //     channel.ChannelID      = "WBT Mini 261197-15 ES38-7";
 //     channel.ChannelMode    = 0;
@@ -123,7 +121,7 @@
 
 //     std::unordered_map<size_t, std::string> hash_cache;
 
-//     cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+//     cache_structures::PackageCache<RuntimeParameters> package_cache(0, 0, channel);
 
 //     // test basic access
 //     REQUIRE(channel == package_cache.get());
@@ -136,16 +134,17 @@
 //                  .get()
 //                  .info_string());
 //         REQUIRE(channel ==
-//                 package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
+//                 package_cache.from_binary(package_cache.to_binary(hash_cache),
+//                 hash_cache).get());
 //         REQUIRE(package_cache ==
 //                 package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
 //     }
 // }
 
-// TEST_CASE("XML_Parameter_Channel should support common functions", TESTTAG)
+// TEST_CASE("RuntimeParameters should support common functions", TESTTAG)
 // {
 //     // initialize class structure
-//     XML_Parameter_Channel channel;
+//     RuntimeParameters channel;
 
 //     channel.ChannelID      = "WBT Mini 261197-15 ES38-7";
 //     channel.ChannelMode    = 0;
@@ -157,23 +156,23 @@
 //     channel.Slope          = 0.5;
 
 //     // test inequality
-//     REQUIRE(channel != XML_Parameter_Channel());
+//     REQUIRE(channel != RuntimeParameters());
 
 //     // test equality for empty structure (this catches e.g. NAN/INF compare issues)
-//     REQUIRE(XML_Parameter_Channel() == XML_Parameter_Channel());
+//     REQUIRE(RuntimeParameters() == RuntimeParameters());
 
 //     // test copy
 //     INFO(channel.info_string());
-//     INFO(XML_Parameter_Channel(channel).info_string());
-//     REQUIRE(channel == XML_Parameter_Channel(channel));
+//     INFO(RuntimeParameters(channel).info_string());
+//     REQUIRE(channel == RuntimeParameters(channel));
 
 //     // test binary
-//     REQUIRE(channel == XML_Parameter_Channel::from_binary(channel.to_binary()));
+//     REQUIRE(channel == RuntimeParameters::from_binary(channel.to_binary()));
 
 //     // test stream
 //     std::stringstream buffer;
 //     channel.to_stream(buffer);
-//     REQUIRE(channel == XML_Parameter_Channel::from_stream(buffer));
+//     REQUIRE(channel == RuntimeParameters::from_stream(buffer));
 
 //     // test print does not crash
 //     REQUIRE(channel.info_string().size() != 0);
