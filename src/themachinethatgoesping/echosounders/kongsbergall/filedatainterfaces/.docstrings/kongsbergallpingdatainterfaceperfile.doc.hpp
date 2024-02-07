@@ -1,4 +1,4 @@
-//sourcehash: d5553fd939362c802fbb89b64009d74bc34d256ccf7c0a4a851cb060873dfa76
+//sourcehash: 26cad36cd913f53b96f0a25b2a03883a671f09c02d34283ee3ba8606153d7855
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,20 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_read_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_runtime_parameter_buffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_package_counter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_t_package_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_t_package_info_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_package_info_t_package_info_3 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
