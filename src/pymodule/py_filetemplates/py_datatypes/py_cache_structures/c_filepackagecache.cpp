@@ -21,13 +21,13 @@ namespace py_filetemplates {
 namespace py_datatypes {
 namespace py_cache_structures {
 
-#define DOC_FilePackageCache(ARG)                                                                \
+#define DOC_FilePackageCache(ARG)                                                                  \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         filetemplates,                                                                             \
         datatypes,                                                                                 \
         cache_structures,                                                                          \
-        FilePackageCache,                                                                        \
+        FilePackageCache,                                                                          \
         ARG)
 
 template<typename t_CachedPackage>
@@ -71,6 +71,19 @@ void init_filepackagecache(pybind11::module& m, const std::string& typestr = "")
                         py::arg("file_pos"),
                         py::arg("timestamp"),
                         py::arg("sub_package_nr") = 0)
+                   .def("get_packages",
+                        &t_FilePackageCache::get_packages,
+                        DOC_FilePackageCache(get_packages),
+                        py::arg("file_pos"),
+                        py::arg("timestamp"))
+                   .def("get_subpackage_count",
+                        &t_FilePackageCache::get_subpackage_count,
+                        DOC_FilePackageCache(get_subpackage_count),
+                        py::arg("file_pos"))
+                   .def("has_package",
+                        &t_FilePackageCache::has_package,
+                        DOC_FilePackageCache(has_package),
+                        py::arg("file_pos"))
 
                    .def("get_hash_cache",
                         &t_FilePackageCache::get_hash_cache,

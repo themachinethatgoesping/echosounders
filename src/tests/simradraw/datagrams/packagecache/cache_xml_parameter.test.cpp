@@ -52,6 +52,11 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     package_cache_buffer.add_package(24, 3, channel2);
     package_cache_buffer.add_package(24, 3, channel3, 1);
 
+    REQUIRE(package_cache_buffer.has_package(0));
+    REQUIRE(!package_cache_buffer.has_package(1));
+    REQUIRE(package_cache_buffer.has_package(22));
+    REQUIRE(package_cache_buffer.has_package(24));
+
     SECTION("FilePackageCache: test basic access")
     {
         INFO(channel.info_string());
@@ -77,6 +82,29 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
 
     INFO(package_cache_buffer.info_string());
     REQUIRE(package_cache_buffer.info_string() != "");
+
+    SECTION("FilePackageCache: test multi-channel support")
+    {
+        REQUIRE(package_cache_buffer.get_subpackage_count(0) == 1);
+        REQUIRE(package_cache_buffer.get_subpackage_count(1) == 0);
+        REQUIRE(package_cache_buffer.get_subpackage_count(24) == 2);
+        REQUIRE(package_cache_buffer.get_subpackage_count(12) == 1);
+
+        auto packages_0  = package_cache_buffer.get_packages(0, 0);
+        REQUIRE_THROWS(package_cache_buffer.get_packages(0, 3));
+        auto packages_12 = package_cache_buffer.get_packages(12, 3);
+        auto packages_24 = package_cache_buffer.get_packages(24, 3);
+        REQUIRE_THROWS(package_cache_buffer.get_packages(1, 1));
+
+        REQUIRE(packages_0.size() == 1);
+        REQUIRE(packages_12.size() == 1);
+        REQUIRE(packages_24.size() == 2);
+
+        REQUIRE(packages_0[0] == channel);
+        REQUIRE(packages_12[0] == channel2);
+        REQUIRE(packages_24[0] == channel2);
+        REQUIRE(packages_24[1] == channel3);
+    }
 }
 
 TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG)

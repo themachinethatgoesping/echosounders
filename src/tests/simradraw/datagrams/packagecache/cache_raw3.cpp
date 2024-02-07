@@ -22,61 +22,7 @@ using Catch::Approx;
 
 // TEST_CASE("RAW3 should be usable with FilePackageCache", TESTTAG)
 // {
-//     // initialize class structure
-//     RAW3 channel;
-
-//     channel.ChannelID      = "WBT Mini 261197-15 ES38-7";
-//     channel.ChannelMode    = 0;
-//     channel.PulseForm      = 0;
-//     channel.Frequency      = 38000;
-//     channel.PulseDuration  = 0.002048;
-//     channel.SampleInterval = 5.2E-05;
-//     channel.TransmitPower  = 1000;
-//     channel.Slope          = 0.5;
-
-//     std::unordered_map<size_t, std::string> hash_cache;
-
-//     PackageCache<RAW3> package_cache(0, 0, channel);
-
-//     // test filepackagecache
-//     auto channel2      = channel;
-//     auto channel3      = channel;
-//     channel2.ChannelID = "Different ID with funny number 1234567890";
-//     channel3.ChannelID = "Some text";
-
-//     FilePackageCache<RAW3> package_cache_buffer;
-
-//     package_cache_buffer.add_package(package_cache);
-//     package_cache_buffer.add_package(12, 3, channel2);
-//     package_cache_buffer.add_package(22, 3, channel);
-//     package_cache_buffer.add_package(24, 3, channel2);
-//     package_cache_buffer.add_package(24, 3, channel3, 1);
-
-//     SECTION("FilePackageCache: test basic access")
-//     {
-//         INFO(channel.info_string());
-//         INFO(package_cache_buffer.get_package(0, 0).info_string());
-//         INFO("--- channel 2 ---");
-//         INFO(channel2.info_string());
-//         INFO(package_cache_buffer.get_package(12, 3).info_string());
-//         REQUIRE(channel == package_cache_buffer.get_package(0, 0));
-//         REQUIRE(channel2 == package_cache_buffer.get_package(12, 3));
-//         REQUIRE_THROWS(package_cache_buffer.get_package(1, 3));
-
-//         REQUIRE(channel3 == package_cache_buffer.get_package(24, 3, 1));
-//         REQUIRE(channel2 == package_cache_buffer.get_package(24, 3, 0));
-
-//         REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
-//         REQUIRE(package_cache_buffer.get_hash_cache().size() == 3);
-//     }
-
-//     // test to/from binary
-//     REQUIRE(package_cache_buffer != FilePackageCache<RAW3>());
-//     REQUIRE(package_cache_buffer ==
-//             package_cache_buffer.from_binary(package_cache_buffer.to_binary()));
-
-//     INFO(package_cache_buffer.info_string());
-//     REQUIRE(package_cache_buffer.info_string() != "");
+//     // this is tested enough in cache_xml_parameter.test.cpp
 // }
 
 TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)

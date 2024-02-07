@@ -149,6 +149,11 @@ class FilePackageCache
         package_buffer[package.get_sub_package_nr()] = package.to_binary(_hash_cache);
     }
 
+    bool has_package(size_t file_pos) const
+    {
+        return _package_buffer.find(file_pos) != _package_buffer.end();
+    }
+
     PackageCache<t_CachingResult> get_from_cache(size_t       file_pos,
                                                  double       timestamp,
                                                  unsigned int sub_package_nr = 0) const
@@ -191,11 +196,37 @@ class FilePackageCache
         return package_cache;
     }
 
+    unsigned int get_subpackage_count(size_t file_pos) const
+    {
+        const auto package_it = _package_buffer.find(file_pos);
+
+        if (package_it == _package_buffer.end())
+            return 0;
+
+        return package_it->second.size();
+    }
+
     t_CachingResult get_package(size_t       file_pos,
                                 double       timestamp,
                                 unsigned int sub_package_nr = 0) const
     {
         return get_from_cache(file_pos, timestamp, sub_package_nr).get();
+    }
+
+    std::vector<t_CachingResult> get_packages(size_t file_pos, double timestamp) const
+    {
+        const auto package_it = _package_buffer.find(file_pos);
+
+        if (package_it == _package_buffer.end())
+            throw std::runtime_error(
+                fmt::format("{}: package {} not found in cache", class_name(), file_pos));
+
+        std::vector<t_CachingResult> packages;
+        auto                         subpackage_count = package_it->second.size();
+        for (unsigned int i = 0; i < subpackage_count; ++i)
+            packages.push_back(get_from_cache(file_pos, timestamp, i).get());
+
+        return packages;
     }
 
     void to_stream(std::ostream& os) const
