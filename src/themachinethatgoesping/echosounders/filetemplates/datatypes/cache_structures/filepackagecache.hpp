@@ -43,9 +43,9 @@ class PackageCache
 {
   protected:
     virtual std::string class_name() const { return fmt::format("PackageCache"); }
-    size_t              file_pos;
-    double              timestamp;
-    unsigned int        sub_package_nr;
+    size_t              _file_pos;
+    double              _timestamp;
+    unsigned int        _sub_package_nr;
 
     t_CachingResult _caching_result;
 
@@ -56,33 +56,33 @@ class PackageCache
                  double                 timestamp,
                  const t_CachedPackage& package,
                  unsigned int           sub_package_nr = 0)
-        : file_pos(file_pos)
-        , timestamp(timestamp)
+        : _file_pos(file_pos)
+        , _timestamp(timestamp)
+        , _sub_package_nr(sub_package_nr)
         , _caching_result(package)
-        , sub_package_nr(sub_package_nr)
     {
     }
     virtual ~PackageCache() = default;
 
-    size_t       get_file_pos() const { return file_pos; }
-    double       get_timestamp() const { return timestamp; }
-    unsigned int get_sub_package_nr() const { return sub_package_nr; }
+    size_t       get_file_pos() const { return _file_pos; }
+    double       get_timestamp() const { return _timestamp; }
+    unsigned int get_sub_package_nr() const { return _sub_package_nr; }
 
     bool operator==(const PackageCache& other) const = default;
 
     void to_stream(std::ostream& stream, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        constexpr size_t size = sizeof(file_pos) + sizeof(timestamp) + sizeof(sub_package_nr);
+        constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
 
-        stream.write(reinterpret_cast<const char*>(&file_pos), size);
+        stream.write(reinterpret_cast<const char*>(&_file_pos), size);
         _caching_result.to_stream(stream, hash_cache);
     }
     static auto from_stream(std::istream&                                  stream,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        constexpr size_t size = sizeof(file_pos) + sizeof(timestamp) + sizeof(sub_package_nr);
+        constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
         PackageCache     package;
-        stream.read(reinterpret_cast<char*>(&package.file_pos), size);
+        stream.read(reinterpret_cast<char*>(&package._file_pos), size);
         package._caching_result = package._caching_result.from_stream(stream, hash_cache);
 
         return package;
@@ -150,8 +150,8 @@ class FilePackageCache
     }
 
     PackageCache<t_CachingResult> get_from_cache(size_t       file_pos,
-                                                    double       timestamp,
-                                                    unsigned int sub_package_nr = 0) const
+                                                 double       timestamp,
+                                                 unsigned int sub_package_nr = 0) const
     {
         const auto package_it = _package_buffer.find(file_pos);
 
