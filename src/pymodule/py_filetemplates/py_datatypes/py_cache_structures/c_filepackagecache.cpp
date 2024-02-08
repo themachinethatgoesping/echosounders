@@ -13,6 +13,7 @@
 
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackagecache.hpp>
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xml_parameter_channel.hpp>
+#include <themachinethatgoesping/echosounders/kongsbergall/datagrams/runtimeparameters.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -107,6 +108,8 @@ void init_c_filepackagecache(pybind11::module& m)
 {
     init_filepackagecache<simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>(
         m, "XML_Parameter_Channel");
+    init_filepackagecache<kongsbergall::datagrams::RuntimeParameters>(
+        m, "RuntimeParameters");
 }
 
 }

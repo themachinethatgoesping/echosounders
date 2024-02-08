@@ -11,6 +11,7 @@
 
 /* std includes */
 #include <map>
+#include <memory>
 
 /* library includes */
 #include <magic_enum.hpp>
@@ -47,8 +48,6 @@ class KongsbergAllPingDataInterfacePerFile
         KongsbergAllEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::KongsbergAllPingContainer<t_ifstream>>;
 
-    std::map<std::string, datagrams::RuntimeParameters> _runtime_parameter_buffer;
-
   public:
     KongsbergAllPingDataInterfacePerFile()
         : t_base("KongsbergAllPingDataInterfacePerFile")
@@ -62,8 +61,6 @@ class KongsbergAllPingDataInterfacePerFile
     }
     ~KongsbergAllPingDataInterfacePerFile() = default;
 
-    auto get_deduplicated_runtime_parameters() { return _runtime_parameter_buffer; }
-
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
         const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
             std::unordered_map<std::string, std::string>()) override
@@ -72,36 +69,18 @@ class KongsbergAllPingDataInterfacePerFile
         using t_ping          = filedatatypes::KongsbergAllPing<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        using t_PingCounterSerialNumber =
-            filetemplates::datatypes::cache_structures::StructPackage<t_package_info>;
-        using t_cache_PingCounterSerialNumber =
-            filetemplates::datatypes::cache_structures::FilePackageCache<t_PingCounterSerialNumber>;
-
-        using t_FileCache = filetemplates::datatypes::FileCache;
-
-        // -- get cache file path (assumes there is only one file) --
-        std::string cache_file_path = tools::helper::get_from_map_with_default(
-            cached_paths_per_file_path, this->get_file_path(), std::string(""));
+        // -- get cache file path for primary and secondary file --
+        std::map<size_t, KongsbergPingCacheHandler> file_cache_path_per_file_nr;
 
         // -- create package cache_structures --
-        bool                            cache_updated = false;
-        t_FileCache                     file_cache(this->get_file_path(), this->get_file_size());
-        t_cache_PingCounterSerialNumber package_buffer_pingcounterserialnumber;
+        file_cache_path_per_file_nr[this->get_file_nr()] =
+            KongsbergPingCacheHandler(cached_paths_per_file_path, *this);
+
+        if (this->has_linked_file())
+            file_cache_path_per_file_nr[this->get_linked_file_nr()] =
+                KongsbergPingCacheHandler(cached_paths_per_file_path, *(this->get_linked_file()));
+
         // initialize class structure
-
-        if (!cache_file_path.empty())
-        {
-            file_cache = t_FileCache(cache_file_path,
-                                     this->get_file_path(),
-                                     this->get_file_size(),
-                                     { "PingCounterSerialNumber<v0.1>" });
-
-            if (file_cache.has_cache("PingCounterSerialNumber<v0.1>"))
-                package_buffer_pingcounterserialnumber =
-                    file_cache.get_from_cache<t_cache_PingCounterSerialNumber>(
-                        "PingCounterSerialNumber<v0.1>");
-        }
-
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
             pings_by_counter_by_id;
 
@@ -123,15 +102,18 @@ class KongsbergAllPingDataInterfacePerFile
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-                        auto rp =
-                            datagram_ptr
-                                ->template read_datagram_from_file<datagrams::RuntimeParameters>();
-                        _runtime_parameter_buffer[std::to_string(rp.get_system_serial_number())] =
-                            rp;
-
                         // read ping counter from not deduplicated datagram
-                        auto ping_counter         = rp.get_ping_counter();
-                        auto system_serial_number = rp.get_system_serial_number();
+                        if (datagram_ptr->get_extra_infos().size() != 4)
+                            throw std::runtime_error(fmt::format(
+                                "KongsbergAllPingDataInterfacePerFile::read_pings: "
+                                "DatagramInfoData: extra info for datagram {} at pos "
+                                "{} is not available",
+                                datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
+                                datagram_ptr->get_file_pos()));
+
+                        uint16_t ping_counter = datagram_ptr->template get_extra_info<uint16_t>(0);
+                        uint16_t system_serial_number =
+                            datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
 
                         // create a new ping if it does not exist
                         auto ping_it =
@@ -143,13 +125,12 @@ class KongsbergAllPingDataInterfacePerFile
 
                             ping_it =
                                 pings_by_counter_by_id[ping_counter].find(system_serial_number);
-
-                            // ping_it->second->set_file_ping_counter(ping_counter);
                         }
 
-                        // add deduplicated runtime parameters
-                        ping_it->second->set_runtime_parameters(_runtime_parameter_buffer.at(
-                            std::to_string(rp.get_system_serial_number())));
+                        // add runtime parameters (will be deduplicated as boost flyweight)
+                        ping_it->second->set_runtime_parameters(
+                            file_cache_path_per_file_nr[datagram_ptr->get_file_nr()]
+                                .read_or_get_runtimeparameters(datagram_ptr));
 
                         // add runtime parameters datagram
                         ping_it->second->add_datagram_info(datagram_ptr);
@@ -243,13 +224,8 @@ class KongsbergAllPingDataInterfacePerFile
         }
 
         // update cache
-        if (cache_updated)
-        {
-            // file_cache.add_to_cache("PingCounterSerialNumber<v0.1>",
-            //                         package_buffer_pingcounterserialnumber);
-
-            file_cache.update_file(cache_file_path);
-        }
+        for (auto& [file_nr, cache_handler] : file_cache_path_per_file_nr)
+            cache_handler.update_cache_file();
 
         return pings;
     }
@@ -271,23 +247,86 @@ class KongsbergAllPingDataInterfacePerFile
     }
 
   private:
-    struct t_package_info
+    class KongsbergPingCacheHandler
     {
-        uint16_t package_counter;
-        uint16_t serial_number;
+        using t_FileCache = filetemplates::datatypes::FileCache;
+        using t_cache_RuntimeParameters =
+            filetemplates::datatypes::cache_structures::FilePackageCache<
+                datagrams::RuntimeParameters>;
 
-        t_package_info() = default;
-        t_package_info(uint16_t package_counter, uint16_t serial_number)
-            : package_counter(package_counter)
-            , serial_number(serial_number)
+        bool                         _update_cache = false;
+        std::string                  _cache_file_path;
+        std::unique_ptr<t_FileCache> _file_cache;
+
+      public:
+        // cache_structures
+        t_cache_RuntimeParameters _buffer_runtimeparameters;
+
+      public:
+        KongsbergPingCacheHandler() = default;
+
+        template<typename t_FileDataInterface>
+        KongsbergPingCacheHandler(
+            const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+            const t_FileDataInterface&                          PingDataInterface)
         {
-        }
-        t_package_info(const t_package_info&) = default;
+            const auto cache_file_it =
+                cached_paths_per_file_path.find(PingDataInterface.get_file_path());
+            if (cache_file_it == cached_paths_per_file_path.end())
+                // leave _file_cache uninitialized
+                return;
 
-        bool operator==(const t_package_info& other) const = default;
+            _cache_file_path = cache_file_it->second;
+
+            _file_cache = std::make_unique<t_FileCache>(
+                t_FileCache(_cache_file_path,
+                            PingDataInterface.get_file_path(),
+                            PingDataInterface.get_file_size(),
+                            { "FilePackageCache<RuntimeParameters>" }));
+
+            if (_file_cache->has_cache("FilePackageCache<RuntimeParameters>"))
+                _buffer_runtimeparameters = _file_cache->get_from_cache<t_cache_RuntimeParameters>(
+                    "FilePackageCache<RuntimeParameters>");
+        }
+
+        operator bool() const { return bool(_file_cache); }
+
+        template<typename t_datagram_ptr>
+        datagrams::RuntimeParameters read_or_get_runtimeparameters(
+            const t_datagram_ptr& datagram_ptr)
+        {
+            if (!_file_cache)
+                return datagram_ptr
+                    ->template read_datagram_from_file<datagrams::RuntimeParameters>();
+
+            if (_buffer_runtimeparameters.has_package(datagram_ptr->get_file_pos()))
+                return _buffer_runtimeparameters.get_package(datagram_ptr->get_file_pos(),
+                                                             datagram_ptr->get_timestamp());
+
+            _update_cache = true;
+            auto rp =
+                datagram_ptr->template read_datagram_from_file<datagrams::RuntimeParameters>();
+
+            _buffer_runtimeparameters.add_package(
+                datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp(), rp);
+
+            return rp;
+        }
+
+        void update_cache_file()
+        {
+            if (!_file_cache)
+                return;
+
+            if (_update_cache)
+            {
+                _file_cache->add_to_cache("FilePackageCache<RuntimeParameters>",
+                                          _buffer_runtimeparameters);
+                _file_cache->update_file(_cache_file_path);
+            }
+        }
     };
 };
-
 }
 } // namespace kongsbergall
 } // namespace echosounders

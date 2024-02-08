@@ -380,6 +380,10 @@ class KongsbergAllFileHandler
                 break;
             }
             // multibeam data datagrams
+            case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
+                // also add RuntimeParameters to configuration data interface
+                //_configuration_interface->add_datagram_info(datagram_info);
+                [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::XYZDatagram:
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::ExtraDetections:
@@ -420,10 +424,6 @@ class KongsbergAllFileHandler
                 break;
             }
                 // Configuration datagrams
-            case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
-                // also add RuntimeParameters to pingdatainterface for configuration matching
-                _ping_interface->add_datagram_info(datagram_info);
-                [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::InstallationParametersStart:
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::InstallationParametersStop:

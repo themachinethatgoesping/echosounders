@@ -34,16 +34,17 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define DOC_KongsbergAllPingDataInterfacePerFile(ARG)                                                    \
+#define DOC_KongsbergAllPingDataInterfacePerFile(ARG)                                              \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kongsbergall,                                                                                    \
+        kongsbergall,                                                                              \
         filedatainterfaces,                                                                        \
-        KongsbergAllPingDataInterfacePerFile,                                                            \
+        KongsbergAllPingDataInterfacePerFile,                                                      \
         ARG)
 
 template<typename T_FileStream>
-void py_create_class_kongsbergallpingdatainterfacePerFile(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_kongsbergallpingdatainterfacePerFile(py::module&        m,
+                                                          const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates; // this holds py_i_DatagramInterface and
                                       // py_i_DatagramInterface
@@ -51,18 +52,14 @@ void py_create_class_kongsbergallpingdatainterfacePerFile(py::module& m, const s
     using T_BaseClass = filedatainterfaces::KongsbergAllPingDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls =
-        py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(m,
-                                                              CLASS_NAME.c_str(),
-                                                              DOC(themachinethatgoesping,
-                                                                  echosounders,
-                                                                  kongsbergall,
-                                                                  filedatainterfaces,
-                                                                  KongsbergAllPingDataInterfacePerFile))
-
-            .def("get_deduplicated_runtime_parameters",
-                 &T_BaseClass::get_deduplicated_runtime_parameters,
-                 DOC_KongsbergAllPingDataInterfacePerFile(get_deduplicated_runtime_parameters))
+    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping,
+            echosounders,
+            kongsbergall,
+            filedatainterfaces,
+            KongsbergAllPingDataInterfacePerFile))
 
         //
         ;
@@ -76,8 +73,8 @@ void py_create_class_kongsbergallpingdatainterfacePerFile(py::module& m, const s
 void init_c_kongsbergallpingdatainterfaceperfile(pybind11::module& m)
 {
 
-    py_create_class_kongsbergallpingdatainterfacePerFile<std::ifstream>(m,
-                                                                  "KongsbergAllPingDataInterfacePerFile");
+    py_create_class_kongsbergallpingdatainterfacePerFile<std::ifstream>(
+        m, "KongsbergAllPingDataInterfacePerFile");
     py_create_class_kongsbergallpingdatainterfacePerFile<datastreams::MappedFileStream>(
         m, "KongsbergAllPingDataInterfacePerFile_mapped");
 }

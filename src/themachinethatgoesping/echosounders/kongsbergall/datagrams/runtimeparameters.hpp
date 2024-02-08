@@ -76,8 +76,8 @@ class RuntimeParameters : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit RuntimeParameters(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
+    explicit RuntimeParameters(const KongsbergAllDatagram& header)
+        : KongsbergAllDatagram(header)
     {
     }
 
@@ -87,7 +87,7 @@ class RuntimeParameters : public KongsbergAllDatagram
     {
         _datagram_identifier = t_KongsbergAllDatagramIdentifier::RuntimeParameters;
     }
-    ~RuntimeParameters() = default;
+    ~RuntimeParameters()                              = default;
 
     // ----- convenient data access -----
     // getters

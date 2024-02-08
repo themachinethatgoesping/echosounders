@@ -65,6 +65,17 @@ class PackageCache
         , _caching_result(package)
     {
     }
+    // template<typename t_CachedPackage>
+    // PackageCache(size_t                 file_pos,
+    //              double                 timestamp,
+    //              const t_CachedPackage& package,
+    //              unsigned int           sub_package_nr = 0)
+    //     : _file_pos(file_pos)
+    //     , _timestamp(timestamp)
+    //     , _sub_package_nr(sub_package_nr)
+    //     , _caching_result(package)
+    // {
+    // }
     virtual ~PackageCache() = default;
 
     size_t       get_file_pos() const { return _file_pos; }
