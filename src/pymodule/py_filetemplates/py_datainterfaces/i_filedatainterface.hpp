@@ -78,7 +78,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
                 &T_BaseClass::init_from_file),
             py::call_guard<py::scoped_ostream_redirect>(),
             DOC_FileDataInterface(init_from_file_2),
-            py::arg("cached_paths_per_file_path") = std::unordered_map<std::string, std::string>(),
+            py::arg("cached_paths_per_file_path"),
             py::arg("force"),
             py::arg("progress_bar"),
             py::arg("external_progress_tick") = false);
