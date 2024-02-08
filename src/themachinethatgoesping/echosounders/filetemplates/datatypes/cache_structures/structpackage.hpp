@@ -116,8 +116,8 @@ class StructPackage : public t_struct
  * @return std::size_t
  */
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
-template<class T, class... Ts>
-inline size_t hash_value(const StructPackage<T, Ts...>& data)
+template<typename t_struct>
+inline size_t hash_value(const StructPackage<t_struct>& data)
 {
     return data.binary_hash();
 }
