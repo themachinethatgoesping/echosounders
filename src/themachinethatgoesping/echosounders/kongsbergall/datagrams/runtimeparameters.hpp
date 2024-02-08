@@ -83,7 +83,10 @@ class RuntimeParameters : public KongsbergAllDatagram
 
   public:
     // ----- public constructors -----
-    RuntimeParameters() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::RuntimeParameters; }
+    RuntimeParameters()
+    {
+        _datagram_identifier = t_KongsbergAllDatagramIdentifier::RuntimeParameters;
+    }
     ~RuntimeParameters() = default;
 
     // ----- convenient data access -----
@@ -302,7 +305,7 @@ class RuntimeParameters : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is));
     }
 
-    static RuntimeParameters from_stream(std::istream&              is,
+    static RuntimeParameters from_stream(std::istream&                    is,
                                          t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
@@ -387,12 +390,35 @@ class RuntimeParameters : public KongsbergAllDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RuntimeParameters)
+
+    // ----- functions used for PackageCache -----
+    static RuntimeParameters from_stream(std::istream&                                  is,
+                                         const std::unordered_map<size_t, std::string>& hash_cache)
+    {
+        size_t hash;
+        is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
+
+        return from_binary(hash_cache.at(hash));
+    }
+
+    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
+    {
+        size_t hash = this->hash_content_only();
+
+        if (!hash_cache.contains(hash))
+        {
+            hash_cache[hash] = this->to_binary();
+        }
+
+        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
+    }
 };
 
 /**
  * @brief Provide a boost hash function for RuntimeParameters
  * - Note: this is needed to use RuntimeParameters as boost::flyweight
- * - IMPORTANT: this hash function only uses the content of the RuntimeParameters for hashing (not information from header e.g. timestamp, ping counter etc.)
+ * - IMPORTANT: this hash function only uses the content of the RuntimeParameters for hashing (not
+ * information from header e.g. timestamp, ping counter etc.)
  *
  * @param data
  * @return std::size_t

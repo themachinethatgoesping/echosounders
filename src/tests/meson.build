@@ -11,7 +11,6 @@ testcomponent = 'echosounders'
 
 sources = [
   'tutorial.test.cpp',
-  'kongsbergall/packagecache/cache_runtimeparamter.test.cpp',
   'kongsbergall/datagrams/attitudedatagram.test.cpp',
   'kongsbergall/datagrams/clockdatagram.test.cpp',
   'kongsbergall/datagrams/depthorheightdatagram.test.cpp',
