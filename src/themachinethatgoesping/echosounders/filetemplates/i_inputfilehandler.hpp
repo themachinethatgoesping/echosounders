@@ -26,6 +26,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/exceptions/version_error.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "datacontainers/datagramcontainer.hpp"
@@ -209,42 +210,36 @@ class I_InputFileHandler
         // check if file exists in index
         auto it = _cached_paths_per_file_path.find(file_path);
 
-        // if no cache file path is found, scan for datagrams, do not use or update the index
-        if (it == _cached_paths_per_file_path.end())
+        // if cache file path is not found, scan file without caching
+        if (it != _cached_paths_per_file_path.end())
         {
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
 
             //_cached_index_per_file_path[file_path] = FilePackageIndex(file_info);
             _datagram_interface.add_datagram_infos(file_info.datagram_infos);
+
+            return;
         }
-        else
+
+        // -- cache is found / initialize file cache --
+        const auto& cache_file_path = it->second;
+
+        // load FilePackageIndex from cache
+        datatypes::FileCache file_cache(cache_file_path,
+                                        file_path,
+                                        std::filesystem::file_size(file_path),
+                                        { "FilePackageIndex" });
+
+        if (file_cache.has_cache("FilePackageIndex"))
         {
-            const auto& cache_file_path = it->second;
-
-            // load FilePackageIndex from cache
-            datatypes::FileCache file_cache(cache_file_path,
-                                            file_path,
-                                            std::filesystem::file_size(file_path),
-                                            { "FilePackageIndex" });
-
-            if (!file_cache.has_cache("FilePackageIndex"))
-            {
-                // scan for datagram headers
-                FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
-
-                // add to cache
-                FilePackageIndex file_package_index(file_info);
-                file_cache.add_to_cache("FilePackageIndex", file_package_index);
-                _datagram_interface.add_datagram_infos(file_info.datagram_infos);
-
-                // update cache file
-                file_cache.update_file(cache_file_path);
-            }
-            else
+            bool package_index_initialized = false;
+            try
             {
                 auto file_package_index =
                     file_cache.get_from_cache<FilePackageIndex>("FilePackageIndex");
+
+                package_index_initialized = true;
 
                 // load datagram infos from index
                 FileInfos file_info(
@@ -289,14 +284,34 @@ class I_InputFileHandler
                     progress_bar.close(std::string("Found: ") +
                                        std::to_string(file_info.datagram_infos.size()) +
                                        " datagrams");
+
+                return;
+            }
+            catch (tools::exceptions::version_error& e)
+            { // if the error was not thrown during the
+                // initialization of the package index, rethrow
+                if (package_index_initialized)
+                    throw;
+
+                // cache version mismatch, continue outside if loop
             }
         }
+
+        // cache was not found or had wrong version
+
+        // scan for datagram headers
+        FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
+
+        // add to cache
+        FilePackageIndex file_package_index(file_info);
+        file_cache.add_to_cache("FilePackageIndex", file_package_index);
+        _datagram_interface.add_datagram_infos(file_info.datagram_infos);
+
+        // update cache file
+        file_cache.update_file(cache_file_path);
     }
 
-    const auto& get_cached_paths_per_file_path() const
-    {
-        return _cached_paths_per_file_path;
-    }
+    const auto& get_cached_paths_per_file_path() const { return _cached_paths_per_file_path; }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>

@@ -22,6 +22,7 @@
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/exceptions/version_error.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
@@ -37,6 +38,8 @@ namespace cache_structures {
 template<typename t_DatagramIdentifier>
 struct FilePackageIndex
 {
+    inline static constexpr std::string_view _type_version = "#FPIv1.0#";
+
     std::string file_path;
     size_t      file_size;
 
@@ -59,10 +62,18 @@ struct FilePackageIndex
     }
     bool operator==(const FilePackageIndex&) const = default;
 
-    // ----- to/from stream interface ----- 
+    // ----- to/from stream interface -----
     static FilePackageIndex from_stream(std::istream& is)
     {
         FilePackageIndex data;
+
+        // check version
+        std::string version = tools::classhelper::stream::container_from_stream<std::string>(is);
+        if (version != _type_version)
+        {
+            throw tools::exceptions::version_error(fmt::format(
+                "FilePackageIndex: version mismatch: {} != {}", version, _type_version));
+        }
 
         data.file_path = tools::classhelper::stream::container_from_stream<std::string>(is);
         is.read(reinterpret_cast<char*>(&data.file_size), sizeof(size_t));
@@ -81,6 +92,9 @@ struct FilePackageIndex
 
     void to_stream(std::ostream& os) const
     {
+        tools::classhelper::stream::container_to_stream<std::string>(os,
+                                                                     std::string(_type_version));
+
         tools::classhelper::stream::container_to_stream<std::string>(os, file_path);
         os.write(reinterpret_cast<const char*>(&file_size), sizeof(size_t));
 
