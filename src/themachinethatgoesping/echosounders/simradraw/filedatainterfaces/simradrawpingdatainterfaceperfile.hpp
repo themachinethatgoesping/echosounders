@@ -115,6 +115,9 @@ class SimradRawPingDataInterfacePerFile
             switch (type)
             {
                 case t_SimradRawDatagramIdentifier::XML0: {
+                    // Note: PingDataInterface should only include Parameter or InitialParameter
+                    // datagram
+
                     // load from cache if available
                     if (!cache_file_path.empty())
                         if (package_buffer_xml.has_package(datagram_ptr->get_file_pos()))

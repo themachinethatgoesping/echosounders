@@ -170,59 +170,28 @@ class KongsbergAllPingDataInterfacePerFile
 
                     for (const auto& datagram_ptr : datagram_infos)
                     {
-                        t_PingCounterSerialNumber counter_snumber;
+                        if (datagram_ptr->get_extra_infos().size() != 4)
+                            throw std::runtime_error(fmt::format(
+                                "KongsbergAllPingDataInterfacePerFile::read_pings: "
+                                "DatagramInfoData: extra info for datagram {} at pos "
+                                "{} is not available",
+                                datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
+                                datagram_ptr->get_file_pos()));
 
-                        if (!cache_file_path.empty() &&
-                            package_buffer_pingcounterserialnumber.has_package(
-                                datagram_ptr->get_file_pos()))
-                        {
-                            counter_snumber = package_buffer_pingcounterserialnumber.get_package(
-                                datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp());
-                        }
-                        else
-                        {
-                            // read the ping counter
-                            auto& ifs = datagram_ptr->get_stream_and_seek(
-                                16); // offset=16 bytes (header size)
-
-                            // ifs.seekg(16, std::ios::cur); // skip header
-                            counter_snumber = t_PingCounterSerialNumber::from_stream(ifs);
-                            // ifs.read(reinterpret_cast<char*>(&counter_snumber.package_counter),
-                            //          sizeof(uint16_t));
-                            // ifs.read(reinterpret_cast<char*>(&counter_snumber.serial_number),
-                            //          sizeof(uint16_t));
-
-                            // update the cache
-                            if (!cache_file_path.empty())
-                            {
-                                package_buffer_pingcounterserialnumber.add_package(
-                                    datagram_ptr->get_file_pos(),
-                                    datagram_ptr->get_timestamp(),
-                                    counter_snumber);
-                                cache_updated = true;
-                            }
-                        }
-
-                        // throw(std::runtime_error(fmt::format("counter_snumber: {}",
-                        //                                           counter_snumber.package_counter,
-                        //                                           counter_snumber.serial_number)));
+                        uint16_t ping_counter = datagram_ptr->template get_extra_info<uint16_t>(0);
+                        uint16_t serial_number =
+                            datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
 
                         // create a new ping if it does not exist
-                        auto ping_it = pings_by_counter_by_id[counter_snumber.package_counter].find(
-                            counter_snumber.serial_number);
-                        if (ping_it ==
-                            pings_by_counter_by_id[counter_snumber.package_counter].end())
+                        auto ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
+                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
                         {
-                            pings_by_counter_by_id[counter_snumber.package_counter]
-                                                  [counter_snumber.serial_number] =
-                                                      std::make_shared<t_ping>(
-                                                          base_ping.deep_copy());
+                            pings_by_counter_by_id[ping_counter][serial_number] =
+                                std::make_shared<t_ping>(base_ping.deep_copy());
 
-                            ping_it = pings_by_counter_by_id[counter_snumber.package_counter].find(
-                                counter_snumber.serial_number);
+                            ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
 
-                            ping_it->second->file_data().set_file_ping_counter(
-                                counter_snumber.package_counter);
+                            ping_it->second->file_data().set_file_ping_counter(ping_counter);
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);
@@ -276,8 +245,8 @@ class KongsbergAllPingDataInterfacePerFile
         // update cache
         if (cache_updated)
         {
-            file_cache.add_to_cache("PingCounterSerialNumber<v0.1>",
-                                    package_buffer_pingcounterserialnumber);
+            // file_cache.add_to_cache("PingCounterSerialNumber<v0.1>",
+            //                         package_buffer_pingcounterserialnumber);
 
             file_cache.update_file(cache_file_path);
         }

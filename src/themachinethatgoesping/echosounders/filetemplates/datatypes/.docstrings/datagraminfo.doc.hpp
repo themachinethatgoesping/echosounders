@@ -1,4 +1,4 @@
-//sourcehash: ee2223d0d7bda492031497350189ef4d3e962c7b4df55e2f2e4d3af3082bfad9
+//sourcehash: 0d17b2e9e425529fa27485fede441de9452a37b34857e11f7a303def524e1d1b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_add_extra_info = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_datagram_identifier = R"doc(< datagram type of this datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_extra_infos = R"doc()doc";
@@ -57,6 +59,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_file_pos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_from_stream_no_extra_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_datagram_identifier = R"doc()doc";
 
@@ -79,6 +83,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_timestamp = R"doc(< timestamp (unixtime) of this datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_to_stream_no_extra_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfo_DatagramInfo = R"doc()doc";
 

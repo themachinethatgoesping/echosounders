@@ -61,31 +61,38 @@ class DatagramInfoData
     t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
     size_t               get_file_pos() const { return _file_pos; }
 
-    void set_extra_infos(std::string extra_infos) { _extra_infos = std::move(extra_infos); }
+    //void set_extra_infos(const std::string& extra_infos) { _extra_infos = extra_infos; }
+    void set_extra_infos(std::string_view extra_infos) { _extra_infos = std::string(extra_infos); }
     template<typename t_ExtraInfo>
-    void set_extra_info(size_t pos, t_ExtraInfo extra_info)
+    void set_extra_info(size_t offset, const t_ExtraInfo& extra_info)
     {
-        _extra_infos.resize(pos + pos * sizeof(t_ExtraInfo));
+        _extra_infos.resize(offset + sizeof(t_ExtraInfo));
 
-        reinterpret_cast<t_ExtraInfo*>(_extra_infos.data() + pos * sizeof(t_ExtraInfo))[0] =
-            extra_info;
+        memcpy(_extra_infos.data() + offset, &extra_info, sizeof(t_ExtraInfo));
+    }
+
+    template<typename t_ExtraInfo>
+    void add_extra_info(const t_ExtraInfo& extra_info)
+    {
+        auto offset = _extra_infos.size();
+        set_extra_info(offset, extra_info);
     }
 
     const std::string& get_extra_infos() const { return _extra_infos; }
     template<typename t_ExtraInfo>
-    t_ExtraInfo get_extra_info(size_t pos) const
+    t_ExtraInfo get_extra_info(size_t offset) const
     {
-        if (pos + sizeof(t_ExtraInfo) > _extra_infos.size())
+        if (offset + sizeof(t_ExtraInfo) > _extra_infos.size())
             throw std::runtime_error(
-                fmt::format("DatagramInfoData: extra info at pos {} is not available", pos));
+                fmt::format("DatagramInfoData: extra info at offset {} is not available", offset));
 
-        return reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data() + pos)[0];
+        return reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data() + offset)[0];
     }
 
     bool operator==(const t_base&) const = default;
 
     // ----- to/from stream interface -----
-    static DatagramInfoData<t_DatagramIdentifier> from_stream(std::istream& is)
+    static DatagramInfoData<t_DatagramIdentifier> from_stream_no_extra_infos(std::istream& is)
     {
         DatagramInfoData<t_DatagramIdentifier> data;
 
@@ -93,18 +100,28 @@ class DatagramInfoData
 
         is.read(reinterpret_cast<char*>(&data._file_pos), size);
 
+        return data;
+    }
+
+    static DatagramInfoData<t_DatagramIdentifier> from_stream(std::istream& is)
+    {
+        DatagramInfoData<t_DatagramIdentifier> data = from_stream_no_extra_infos(is);
         data._extra_infos = tools::classhelper::stream::container_from_stream<std::string>(is);
 
         return data;
     }
 
-    void to_stream(std::ostream& os) const
+    void to_stream_no_extra_infos(std::ostream& os) const
     {
         constexpr static auto size = sizeof(size_t) + sizeof(double) + sizeof(t_DatagramIdentifier);
 
         os.write(reinterpret_cast<const char*>(&_file_pos), size);
+    }
 
-        tools::classhelper::stream::container_to_stream(os, _extra_infos);
+    void to_stream(std::ostream& os) const
+    {
+        to_stream_no_extra_infos(os);
+        tools::classhelper::stream::container_to_stream<std::string>(os, _extra_infos);
     }
 
     // ----- objectprinter -----

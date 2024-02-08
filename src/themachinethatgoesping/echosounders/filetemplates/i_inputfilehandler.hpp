@@ -211,7 +211,7 @@ class I_InputFileHandler
         auto it = _cached_paths_per_file_path.find(file_path);
 
         // if cache file path is not found, scan file without caching
-        if (it != _cached_paths_per_file_path.end())
+        if (it == _cached_paths_per_file_path.end())
         {
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);

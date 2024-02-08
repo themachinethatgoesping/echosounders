@@ -397,13 +397,17 @@ class KongsbergAllFileHandler
                     auto& ifs =
                         datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
 
-                    std::array<uint16_t, 2> counter_snumber;
+                    struct
+                    {
+                        uint16_t ping_counter;
+                        uint16_t serial_number;
+                    } counter_snumber;
 
                     // ifs.seekg(16, std::ios::cur); // skip header
-                    ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(uint16_t) * 2);
+                    ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
 
-                    datagram_info->set_extra_infos(std::string(
-                        reinterpret_cast<char*>(&counter_snumber), sizeof(uint16_t) * 2));
+                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
+                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
                 }
                 _ping_interface->add_datagram_info(datagram_info);
                 break;
