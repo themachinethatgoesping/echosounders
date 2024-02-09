@@ -112,6 +112,7 @@ class KongsbergAllFileHandler
         : t_base(file_cache_paths)
     {
         this->append_file(file_path, progress_bar);
+        setup_interfaces();
         if (init)
             init_interfaces(false, progress_bar);
     }
@@ -259,6 +260,7 @@ class KongsbergAllFileHandler
 
     void setup_interfaces()
     {
+        return;
         // TODO: link_all_and_wcd_files crashes if this is called twice
 
         // add file info
