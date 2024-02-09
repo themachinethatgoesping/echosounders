@@ -117,9 +117,9 @@ class I_DatagramInterface
         }
     }
 
-    void set_datagram_infos(std::vector<type_DatagramInfo_ptr> datagram_infos)
+    void set_datagram_infos(const std::vector<type_DatagramInfo_ptr>& datagram_infos)
     {
-        _datagram_infos_all = std::move(datagram_infos);
+        _datagram_infos_all = datagram_infos;
 
         for (const auto& datagram_info : _datagram_infos_all)
         {
