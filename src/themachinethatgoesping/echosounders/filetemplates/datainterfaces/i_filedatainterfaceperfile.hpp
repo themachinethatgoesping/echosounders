@@ -136,10 +136,10 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return true;
     }
 
-    virtual void add_file_information(size_t file_nr, std::string file_path)
+    virtual void add_file_information(size_t file_nr, std::string_view file_path)
     {
         _file_nr   = file_nr;
-        _file_path = std::move(file_path);
+        _file_path = std::string(file_path);
     }
 
     /**
