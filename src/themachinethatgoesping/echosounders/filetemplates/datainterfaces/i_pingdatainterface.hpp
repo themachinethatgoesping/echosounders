@@ -62,7 +62,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     tools::helper::DefaultSharedPointerMap<std::string, type_PingContainer>
         _ping_container_by_channel;
 
-    std::shared_ptr<type_EnvironmentDataInterface> _environment_data_interface;
+    std::weak_ptr<type_EnvironmentDataInterface> _environment_data_interface;
 
   public:
     I_PingDataInterface(std::shared_ptr<type_EnvironmentDataInterface> environment_data_interface,
@@ -75,28 +75,28 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return _environment_data_interface->configuration_data_interface();
+        return _environment_data_interface.lock()->configuration_data_interface();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return _environment_data_interface->configuration_data_interface_const();
+        return _environment_data_interface.lock()->configuration_data_interface_const();
     }
     type_NavigationDataInterface& navigation_data_interface()
     {
-        return _environment_data_interface->navigation_data_interface();
+        return _environment_data_interface.lock()->navigation_data_interface();
     }
     const type_NavigationDataInterface& navigation_data_interface_const() const
     {
-        return _environment_data_interface->navigation_data_interface_const();
+        return _environment_data_interface.lock()->navigation_data_interface_const();
     }
 
     type_EnvironmentDataInterface& environment_data_interface()
     {
-        return *_environment_data_interface;
+        return *_environment_data_interface.lock();
     }
     const type_EnvironmentDataInterface& environment_data_interface_const() const
     {
-        return *_environment_data_interface;
+        return *_environment_data_interface.lock();
     }
 
     const type_PingContainer& get_pings() const { return _ping_container; }
@@ -201,14 +201,14 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     {
         if (file_nr >= this->_interface_per_file.size())
         {
-            this->_environment_data_interface->add_file_interface(file_nr);
+            this->_environment_data_interface.lock()->add_file_interface(file_nr);
 
             this->_interface_per_file.reserve(file_nr + 1);
 
             for (size_t i = this->_interface_per_file.size(); i <= file_nr; ++i)
             {
                 this->_interface_per_file.push_back(std::make_shared<t_PingDataInterfacePerFile>(
-                    this->_environment_data_interface));
+                    this->_environment_data_interface.lock()));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }

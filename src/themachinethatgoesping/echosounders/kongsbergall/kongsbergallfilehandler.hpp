@@ -260,18 +260,6 @@ class KongsbergAllFileHandler
 
     void setup_interfaces()
     {
-        return;
-        // TODO: link_all_and_wcd_files crashes if this is called twice
-
-        // add file info
-        _datagramdata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
-
         // link wcd/all files
         link_all_and_wcd_files();
     }

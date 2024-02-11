@@ -55,7 +55,7 @@ class I_EnvironmentDataInterface : public I_FileDataInterface<t_EnvironmentDataI
     //     environment::SensorConfiguration()
     // };
 
-    std::shared_ptr<type_NavigationDataInterface> _navigation_data_interface;
+    std::weak_ptr<type_NavigationDataInterface> _navigation_data_interface;
 
   public:
     I_EnvironmentDataInterface(
@@ -69,20 +69,20 @@ class I_EnvironmentDataInterface : public I_FileDataInterface<t_EnvironmentDataI
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return _navigation_data_interface->configuration_data_interface();
+        return _navigation_data_interface.lock()->configuration_data_interface();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return _navigation_data_interface->configuration_data_interface_const();
+        return _navigation_data_interface.lock()->configuration_data_interface_const();
     }
 
     type_NavigationDataInterface& navigation_data_interface()
     {
-        return *_navigation_data_interface;
+        return *_navigation_data_interface.lock();
     }
     const type_NavigationDataInterface& navigation_data_interface_const() const
     {
-        return *_navigation_data_interface;
+        return *_navigation_data_interface.lock();
     }
 
     using I_FileDataInterface<t_EnvironmentDataInterfacePerFile>::init_from_file;
@@ -98,7 +98,7 @@ class I_EnvironmentDataInterface : public I_FileDataInterface<t_EnvironmentDataI
     {
         if (file_nr >= this->_interface_per_file.size())
         {
-            this->_navigation_data_interface->add_file_interface(file_nr);
+            this->_navigation_data_interface.lock()->add_file_interface(file_nr);
 
             this->_interface_per_file.reserve(file_nr + 1);
 
@@ -106,7 +106,7 @@ class I_EnvironmentDataInterface : public I_FileDataInterface<t_EnvironmentDataI
             {
                 this->_interface_per_file.push_back(
                     std::make_shared<t_EnvironmentDataInterfacePerFile>(
-                        this->_navigation_data_interface));
+                        this->_navigation_data_interface.lock()));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }

@@ -45,8 +45,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     size_t      _file_nr   = std::numeric_limits<size_t>::max();
     std::string _file_path = "not registered";
 
-    std::shared_ptr<I_FileDataInterfacePerFile> _linked_secondary_file;
-    std::weak_ptr<I_FileDataInterfacePerFile>   _linked_primary_file;
+    std::weak_ptr<I_FileDataInterfacePerFile> _linked_secondary_file;
+    std::weak_ptr<I_FileDataInterfacePerFile> _linked_primary_file;
 
     std::vector<typename t_base::type_DatagramIdentifier> _used_extension_datagram_identifiers;
     std::vector<typename t_base::type_DatagramIdentifier> _ignored_extension_datagram_identifiers;
@@ -170,11 +170,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      */
     size_t get_linked_file_nr() const
     {
-
-        if (has_linked_file())
-            return _linked_secondary_file->get_file_nr();
-
-        throw std::runtime_error("get_linked_file_nr: no linked file");
+        return get_linked_file()->get_file_nr();
     }
 
     /**
@@ -215,7 +211,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     }
     bool has_linked_file() const
     {
-        if (_linked_secondary_file)
+        if (_linked_secondary_file.lock())
             return true;
 
         if (_linked_primary_file.lock())
@@ -225,10 +221,11 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     }
     std::shared_ptr<I_FileDataInterfacePerFile> get_linked_file() const
     {
-        if (_linked_secondary_file)
-            return _linked_secondary_file;
+        auto ptr = _linked_secondary_file.lock();
+        if (ptr)
+            return ptr;
 
-        auto ptr = _linked_primary_file.lock();
+        ptr = _linked_primary_file.lock();
         if (ptr)
             return ptr;
 
@@ -240,13 +237,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return std::string
      */
-    std::string get_linked_file_path() const
-    {
-        if (has_linked_file())
-            return get_linked_file()->get_file_path();
-
-        throw std::runtime_error("get_linked_file_path: no linked file");
-    }
+    std::string get_linked_file_path() const { return get_linked_file()->get_file_path(); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

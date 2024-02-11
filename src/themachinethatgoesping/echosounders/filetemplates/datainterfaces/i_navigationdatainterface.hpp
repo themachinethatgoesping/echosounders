@@ -54,7 +54,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
          _navigation_interpolators;
     bool _is_initialized_navigation_interpolators = false;
 
-    std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
+    std::weak_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
     I_NavigationDataInterface(
@@ -68,11 +68,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return *_configuration_data_interface;
+        return *_configuration_data_interface.lock();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return *_configuration_data_interface;
+        return *_configuration_data_interface.lock();
     }
 
     bool is_initialized_navigation_interpolator() const
@@ -97,9 +97,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         bool                                                external_progress_tick = false) final
     {
         // navigation data interface needs configuraiton data interface to be initialized
-        if (!this->_configuration_data_interface->is_initialized())
+        if (!this->_configuration_data_interface.lock()->is_initialized())
         {
-            this->_configuration_data_interface->init_from_file(
+            this->_configuration_data_interface.lock()->init_from_file(
                 cached_paths_per_file_path, false, progress_bar);
         }
 
@@ -149,7 +149,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             try
             {
                 const auto& sensor_configuration =
-                    _configuration_data_interface->get_sensor_configuration(
+                    _configuration_data_interface.lock()->get_sensor_configuration(
                         primary_interfaces_per_file[i]->get_file_nr());
 
                 auto it = _navigation_interpolators.find(sensor_configuration);
@@ -239,7 +239,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     {
         if (file_nr >= this->_interface_per_file.size())
         {
-            this->_configuration_data_interface->add_file_interface(file_nr);
+            this->_configuration_data_interface.lock()->add_file_interface(file_nr);
 
             this->_interface_per_file.reserve(file_nr + 1);
 
@@ -247,7 +247,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             {
                 this->_interface_per_file.push_back(
                     std::make_shared<t_NavigationDataInterfacePerFile>(
-                        this->_configuration_data_interface));
+                        this->_configuration_data_interface.lock()));
             }
             this->_pyindexer.reset(this->_interface_per_file.size());
         }

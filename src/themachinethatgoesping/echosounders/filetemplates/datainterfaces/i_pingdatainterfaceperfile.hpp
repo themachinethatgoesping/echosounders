@@ -59,7 +59,7 @@ class I_PingDataInterfacePerFile
     using type_Ping          = typename t_PingContainer::type_Ping;
 
   protected:
-    std::shared_ptr<t_EnvironmentDataInterface> _environment_data_interface;
+    std::weak_ptr<t_EnvironmentDataInterface> _environment_data_interface;
 
   public:
     I_PingDataInterfacePerFile(std::string_view name = "I_PingDataInterfacePerFile")
@@ -82,38 +82,38 @@ class I_PingDataInterfacePerFile
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return _environment_data_interface->configuration_data_interface();
+        return _environment_data_interface.lock()->configuration_data_interface();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return _environment_data_interface->configuration_data_interface_const();
+        return _environment_data_interface.lock()->configuration_data_interface_const();
     }
     type_NavigationDataInterface& navigation_data_interface()
     {
-        return _environment_data_interface->navigation_data_interface();
+        return _environment_data_interface.lock()->navigation_data_interface();
     }
     const type_NavigationDataInterface& navigation_data_interface_Const() const
     {
-        return _environment_data_interface->navigation_data_interface_const();
+        return _environment_data_interface.lock()->navigation_data_interface_const();
     }
     type_EnvironmentDataInterface& environment_data_interface()
     {
-        return *_environment_data_interface;
+        return *_environment_data_interface.lock();
     }
     const type_EnvironmentDataInterface& environment_data_interface_const() const
     {
-        return *_environment_data_interface;
+        return *_environment_data_interface.lock();
     }
 
     type_ConfigurationDataInterfacePerFile& configuration_data_interface_for_file()
     {
-        return _environment_data_interface->configuration_data_interface().per_file(
+        return _environment_data_interface.lock()->configuration_data_interface().per_file(
             this->get_file_nr());
     }
     const type_ConfigurationDataInterfacePerFile& configuration_data_interface_for_file_const()
         const
     {
-        return _environment_data_interface->configuration_data_interface_const().per_file_const(
+        return _environment_data_interface.lock()->configuration_data_interface_const().per_file_const(
             this->get_file_nr());
     }
 

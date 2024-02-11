@@ -52,7 +52,7 @@ class I_NavigationDataInterfacePerFile
     using type_ConfigurationDataInterface = t_ConfigurationDataInterface;
 
   protected:
-    std::shared_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
+    std::weak_ptr<type_ConfigurationDataInterface> _configuration_data_interface;
 
   public:
     I_NavigationDataInterfacePerFile(std::string_view name = "I_NavigationDataInterfacePerFile")
@@ -75,11 +75,11 @@ class I_NavigationDataInterfacePerFile
 
     type_ConfigurationDataInterface& configuration_data_interface()
     {
-        return *_configuration_data_interface;
+        return *_configuration_data_interface.lock();
     }
     const type_ConfigurationDataInterface& configuration_data_interface_const() const
     {
-        return *_configuration_data_interface;
+        return *_configuration_data_interface.lock();
     }
 
     virtual navigation::NavigationInterpolatorLatLon read_navigation_data() const

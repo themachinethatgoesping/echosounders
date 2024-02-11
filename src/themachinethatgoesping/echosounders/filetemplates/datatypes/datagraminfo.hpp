@@ -57,11 +57,13 @@ class DatagramInfoData
     {
     }
 
+    virtual ~DatagramInfoData() = default;
+
     double               get_timestamp() const { return _timestamp; }
     t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
     size_t               get_file_pos() const { return _file_pos; }
 
-    //void set_extra_infos(const std::string& extra_infos) { _extra_infos = extra_infos; }
+    // void set_extra_infos(const std::string& extra_infos) { _extra_infos = extra_infos; }
     void set_extra_infos(std::string_view extra_infos) { _extra_infos = std::string(extra_infos); }
     template<typename t_ExtraInfo>
     void set_extra_info(size_t offset, const t_ExtraInfo& extra_info)
@@ -154,7 +156,7 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
 
   private:
     size_t _file_nr; ///< file number of this datagram
-    std::shared_ptr<internal::InputFileManager<t_ifstream>>
+    std::weak_ptr<internal::InputFileManager<t_ifstream>>
         _input_file_manager; ///< input file manager
 
     using t_base::_datagram_identifier;
@@ -184,6 +186,8 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
     {
     }
 
+    virtual ~DatagramInfo() = default;
+
     using t_base::get_datagram_identifier;
     using t_base::get_extra_infos;
     using t_base::get_file_pos;
@@ -192,11 +196,11 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
     size_t             get_file_nr() const { return _file_nr; }
     const std::string& get_file_path() const
     {
-        return _input_file_manager->get_file_path(_file_nr);
+        return _input_file_manager.lock()->get_file_path(_file_nr);
     }
     t_ifstream& get_stream()
     {
-        auto& ifs = _input_file_manager->get_active_stream(_file_nr);
+        auto& ifs = _input_file_manager.lock()->get_active_stream(_file_nr);
 
         return ifs;
     }
@@ -235,7 +239,7 @@ class DatagramInfo : public DatagramInfoData<t_DatagramIdentifier>
 
     auto file_nr_to_file_path(size_t file_nr) const
     {
-        return _input_file_manager->get_file_path(file_nr);
+        return _input_file_manager.lock()->get_file_path(file_nr);
     }
 };
 
