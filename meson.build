@@ -31,8 +31,7 @@ elif  meson.get_compiler('cpp').get_id() == 'clang'
   # compile_args : ['-fopenmp'],
   # dependencies : [libomp]
   # )
-  omp_dep = declare_dependency(
-  )
+  omp_dep = dependency('openmp')
 else
   omp_dep = dependency('openmp')
 endif
