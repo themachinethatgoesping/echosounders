@@ -1,4 +1,4 @@
-//sourcehash: af29b567ecf8d56d32e230e4ac195ce66f56052d509d21fc351b5db499d1f00f
+//sourcehash: a96e85f3ac3221af327c502c430a900cae1ed3cebedd433ce678d1f8e3c16954
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_add_datagram_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_class_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_watercolumn = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPing_watercolumn_2 = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

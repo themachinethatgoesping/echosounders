@@ -47,14 +47,15 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
   protected:
     std::string class_name() const override { return "SimradRawPingCommon"; }
     // raw data
-    using t_rawdata                       = SimradRawPingFileData<t_ifstream>;
-    std::shared_ptr<t_rawdata> _file_data = std::make_shared<t_rawdata>();
+    using t_rawdata = SimradRawPingFileData<t_ifstream>;
+    std::shared_ptr<t_rawdata> _file_data;
 
   public:
     using t_base = filetemplates::datatypes::I_PingCommon;
 
-    SimradRawPingCommon()
+    SimradRawPingCommon(const datagrams::RAW3& raw3_datagram)
         : t_base()
+        , _file_data(std::make_shared<t_rawdata>(raw3_datagram))
     {
     }
     SimradRawPingCommon(std::shared_ptr<t_rawdata> file_data)
@@ -86,6 +87,17 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
     // {
     //     return 1;
     // }
+
+    void beam_selection_must_be_one(std::string_view                      method_name,
+                                    const pingtools::BeamSampleSelection& selection) const
+    {
+        if (selection.get_number_of_beams() == 1)
+            if (selection.get_beam_numbers()[0] == 0)
+                return;
+
+        throw std::runtime_error(fmt::format(
+            "{}: SimradRaw functions do not support beam selections yet!", __func__, method_name));
+    }
 
     const t_rawdata& file_data() const { return *_file_data; }
     t_rawdata&       file_data() { return *_file_data; }

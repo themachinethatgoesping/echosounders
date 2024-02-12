@@ -1,4 +1,4 @@
-//sourcehash: b0eb634e0c0490f86c271c2af72a4f3a54932277a0c4c3baa8a933ff4c81725e
+//sourcehash: 1e8e19e4c955c17f1c5f754af669e68bd5b6656dbe890964ec5c94ff95aa082d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,25 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_SimradRawPingDataInterfacePerFile = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_SimradRawPingBottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_SimradRawPingDataInterfacePerFile_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_class_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_channel_parameter_buffer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_get_deduplicated_parameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_number_of_beams = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_tx_sector_per_beam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawPingDataInterfacePerFile_read_pings = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_two_way_travel_times = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_xyz = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

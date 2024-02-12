@@ -1,4 +1,4 @@
-//sourcehash: 78a95677db9f40db73128f1fa8b5c131854587a7e1c75564a45b66ee38162fbc
+//sourcehash: 132c0023d21eff1323679594597317d2e6f7a8fcaae928139b82b04c3aa27919
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_beam_selection_must_be_one = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_class_name = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 6b1aea1125e62b6e5e9fa221e4921d2691ccf596ba21cca99e6d004cd4659a7c
+//sourcehash: 3c5c1c1bcacfdcb35df6fe111efe606667380dae43826cbb947eb020d1215794
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,8 +42,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_SimradRawPingFileData = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_add_parameter = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_file_numbers = R"doc()doc";
@@ -52,9 +50,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_parameter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_ping_data = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_sample_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_angle = R"doc()doc";
 
@@ -64,6 +62,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_must_have_datagrams = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_data =
+R"doc(< when implementing EK60, this must become a variant type (RAW3 or
+RAW0))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_parameter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_printer = R"doc()doc";
@@ -71,6 +73,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_read_sample_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_release = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_parameter = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

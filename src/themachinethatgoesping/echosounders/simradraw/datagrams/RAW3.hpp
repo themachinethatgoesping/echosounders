@@ -326,8 +326,8 @@ class RAW3 : public SimradRawDatagram
         printer.register_value("complex samples", _number_of_complex_samples);
         printer.register_value("spare_1", _spare_1);
         printer.register_value("spare_2", _spare_2);
-        printer.register_value("_offset", _offset);
-        printer.register_value("_count", _count);
+        printer.register_value("offset", _offset);
+        printer.register_value("count", _count);
 
         printer.register_section(
             fmt::format("sample data ({})", magic_enum::enum_name(_data_type)));

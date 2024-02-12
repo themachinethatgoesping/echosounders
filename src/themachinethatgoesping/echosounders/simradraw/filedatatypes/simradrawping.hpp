@@ -32,8 +32,10 @@
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../datagrams.hpp"
+#include "simradrawpingbottom.hpp"
 #include "simradrawpingcommon.hpp"
 #include "simradrawpingfiledata.hpp"
+#include "simradrawpingwatercolumn.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -52,17 +54,23 @@ class SimradRawPing
 
     using type_DatagramInfo_ptr = typename SimradRawPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 
-
-  protected:
+    using t_base0::register_feature;
+    using t_base2::_file_data;
     std::string class_name() const override { return "SimradRawPing"; }
 
+    SimradRawPingWatercolumn<t_ifstream> _watercolumn;
+
   public:
-    SimradRawPing()
+    SimradRawPing(const datagrams::RAW3& raw3_datagram)
         : t_base0()
         , t_base1()
-        , t_base2()
+        , t_base2(raw3_datagram)
+        , _watercolumn(_file_data)
     //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
     {
+        auto raw_channel_id = raw3_datagram.get_channel_id();
+        auto channel_id     = std::string(raw_channel_id.substr(0, raw_channel_id.find('\x00')));
+        this->set_channel_id(channel_id);
     }
     virtual ~SimradRawPing() = default;
 
@@ -106,7 +114,7 @@ class SimradRawPing
     using t_base1::bottom;
     using t_base1::watercolumn;
     // SimradRawPingBottom<t_ifstream>&      bottom() override { return _bottom; }
-    // SimradRawPingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
+    SimradRawPingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
 
     // /**
     //  * @brief Compute volume backscattering strength (Sv) from raw data.

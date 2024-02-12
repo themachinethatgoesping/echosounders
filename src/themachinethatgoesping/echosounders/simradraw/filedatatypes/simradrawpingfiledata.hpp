@@ -52,38 +52,29 @@ class SimradRawPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::SimradRawDatagramInterface<t_ifstream>;
 
-    boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string class_name() const override { return "SimradRawPingFileData"; }
+
+    datagrams::RAW3
+        _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
+    boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
 
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
     //     _datagram_info_file_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
 
-    // datagrams::RAW3
-    //     _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
-
   public:
-    SimradRawPingFileData()
+    SimradRawPingFileData(const datagrams::RAW3& raw3_datagram)
         : t_base1()
         , t_base2()
+        , _ping_data(raw3_datagram)
     {
     }
 
-    // SimradRawPingFileData(
-    //     filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
-    //                     datagram_info_file_data,
-    //     datagrams::RAW3 ping_data)
-    //     : t_base1()
-    //     , t_base2()
-    //     , _datagram_info_file_data(std::move(datagram_info_file_data))
-    //     , _ping_data(std::move(ping_data))
-    // {
-    // }
     ~SimradRawPingFileData() = default;
 
-    void add_parameter(datagrams::xml_datagrams::XML_Parameter_Channel parameter)
+    void set_parameter(const datagrams::xml_datagrams::XML_Parameter_Channel& parameter)
     {
-        _ping_parameter = std::move(parameter);
+        _ping_parameter = parameter;
     }
 
     const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const
@@ -91,20 +82,21 @@ class SimradRawPingFileData
         return _ping_parameter.get();
     }
 
+    const datagrams::RAW3 get_ping_data() const { return _ping_data; }
+
     // ----- load skipped data -----
-    datagrams::raw3datatypes::RAW3DataVariant get_sample_data() const
+    // TODO: add function to only read samples within a specific range
+    xt::xtensor<float, 1> read_sample_data(bool dB = false) const
     {
-        // if (std::holds_alternative<datagrams::raw3datatypes::RAW3DataSkipped>(
-        //         _ping_data.sample_data()))
-        //     return read_sample_data();
+        // this assumes that there is exactly one RAW3 datagram saved for this ping
+        const auto& datagram_infos =
+            this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::RAW3).at(0);
 
-        // return _ping_data.sample_data();
-    }
+        auto sample_data = _ping_data.read_skipped_sample_data(datagram_infos->get_stream(),
+                                                               datagram_infos->get_file_pos());
 
-    datagrams::raw3datatypes::RAW3DataVariant read_sample_data() const
-    {
-        // return _ping_data.read_skipped_sample_data(_datagram_info_file_data->get_stream(),
-        //                                           _datagram_info_file_data->get_file_pos());
+        return tools::helper::visit_variant(sample_data,
+                                            [dB](auto& data) { return data.get_power(dB); });
     }
 
     void load()
@@ -118,44 +110,44 @@ class SimradRawPingFileData
     // ----- i_RAW3Data interface -----
     bool has_power() const
     {
-        // using namespace datagrams::raw3datatypes;
+        using namespace datagrams::raw3datatypes;
 
-        // switch (_ping_data.get_data_type())
-        // {
-        //     case t_RAW3DataType::Angle:
-        //         return false;
-        //     case t_RAW3DataType::Power:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::ComplexFloat32:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::PowerAndAngle:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::ComplexFloat16:
-        //         return true;
-        //     default:
-        //         throw std::runtime_error("Unknown data type");
-        // }
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::Angle:
+                return false;
+            case t_RAW3DataType::Power:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat32:
+                [[fallthrough]];
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat16:
+                return true;
+            default:
+                throw std::runtime_error("Unknown data type");
+        }
     }
 
     bool has_angle() const
     {
-        // using namespace datagrams::raw3datatypes;
+        using namespace datagrams::raw3datatypes;
 
-        // switch (_ping_data.get_data_type())
-        // {
-        //     case t_RAW3DataType::Power:
-        //         return false;
-        //     case t_RAW3DataType::Angle:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::ComplexFloat32:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::PowerAndAngle:
-        //         [[fallthrough]];
-        //     case t_RAW3DataType::ComplexFloat16:
-        //         return true;
-        //     default:
-        //         throw std::runtime_error("Unknown data type");
-        // }
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::Power:
+                return false;
+            case t_RAW3DataType::Angle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat32:
+                [[fallthrough]];
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat16:
+                return true;
+            default:
+                throw std::runtime_error("Unknown data type");
+        }
     }
 
     // ----- I_PingFileData Interface -----

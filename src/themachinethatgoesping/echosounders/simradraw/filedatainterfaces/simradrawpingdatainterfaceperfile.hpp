@@ -216,25 +216,21 @@ class SimradRawPingDataInterfacePerFile
                     }
 
                     // create ping from raw3 datagram
-                    auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>();
+                    auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>(raw3);
                     ping->add_datagram_info(datagram_ptr);
 
                     // set channel_id
                     // substring of channel_id until the first \x00 character
-                    auto raw_channel_id = raw3.get_channel_id();
-                    auto channel_id =
-                        std::string(raw_channel_id.substr(0, raw_channel_id.find('\x00')));
-                    ping->set_channel_id(channel_id);
 
                     // add parameters
                     ping->file_data().set_file_ping_counter(pings.size());
                     ping->file_data().set_primary_file_nr(this->get_file_nr());
-                    ping->file_data().add_parameter(_channel_parameter_buffer.at(channel_id));
+                    ping->file_data().set_parameter(_channel_parameter_buffer.at(ping->get_channel_id()));
 
                     // set sensor configuration
                     auto sensor_configuration = base_sensor_configuration;
                     sensor_configuration.add_target("Transducer",
-                                                    sensor_configuration.get_target(channel_id));
+                                                    sensor_configuration.get_target(ping->get_channel_id()));
                     ping->set_sensor_configuration(sensor_configuration);
 
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(

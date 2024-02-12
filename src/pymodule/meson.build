@@ -146,8 +146,10 @@ sources = [
   'py_simradraw/py_datagrams/py_raw3datatypes/c_raw3dataskipped.cpp',
   'py_simradraw/py_datagrams/py_raw3datatypes/module.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawping.cpp',
+  'py_simradraw/py_filedatatypes/c_simradrawpingbottom.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawpingcommon.cpp',
   'py_simradraw/py_filedatatypes/c_simradrawpingfiledata.cpp',
+  'py_simradraw/py_filedatatypes/c_simradrawpingwatercolumn.cpp',
   'py_simradraw/py_filedatatypes/module.cpp',
   'py_simradraw/py_filedatatypes/py_cache_structures/c_simradrawfileinfodata.cpp',
 ]
@@ -162,7 +164,6 @@ py_navigation = pymod.extension_module(
         pybind11_dep,
         python3_dep],
     link_language : 'cpp',
-    cpp_args:['-fPIC'],
     # cpp_pch : 'pch/pch.hpp',
     override_options: [
     ],

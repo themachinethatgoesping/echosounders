@@ -17,9 +17,11 @@ namespace py_cache_structures {
 void init_c_simradrawfilepackageindex(pybind11::module& m); // c_simradrawfilepackageindex.cpp
 }
 
-void init_c_simradrawpingcommon(pybind11::module& m);   // c_simradrawpingcommon.cpp
-void init_c_simradrawping(pybind11::module& m);         // c_simradrawping.cpp
-void init_c_simradrawpingfiledata(pybind11::module& m); // c_simradrawpingfiledata.cpp
+void init_c_simradrawpingcommon(pybind11::module& m);      // c_simradrawpingcommon.cpp
+void init_c_simradrawping(pybind11::module& m);            // c_simradrawping.cpp
+void init_c_simradrawpingfiledata(pybind11::module& m);    // c_simradrawpingfiledata.cpp
+void init_c_simradrawpingbottom(pybind11::module& m);      // c_simradrawpingbottom.cpp
+void init_c_simradrawpingwatercolumn(pybind11::module& m); // c_simradrawpingwatercolumn.cpp
 
 // -- create submodule --
 void init_m_simradrawfiledatatypes(pybind11::module& m)
@@ -28,6 +30,8 @@ void init_m_simradrawfiledatatypes(pybind11::module& m)
     py_cache_structures::init_c_simradrawfilepackageindex(subm);
     init_c_simradrawpingfiledata(subm);
     init_c_simradrawpingcommon(subm);
+    init_c_simradrawpingbottom(subm);
+    init_c_simradrawpingwatercolumn(subm);
     init_c_simradrawping(subm);
 }
 
