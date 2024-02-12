@@ -49,6 +49,9 @@ class SimradRawPingDataInterfacePerFile
     std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel>
         _channel_parameter_buffer;
 
+    bool                                      _environment_buffer_initialized = false;
+    datagrams::xml_datagrams::XML_Environment _environment_buffer;
+
   public:
     SimradRawPingDataInterfacePerFile()
         : t_base("SimradRawPingDataInterfacePerFile")
@@ -60,8 +63,6 @@ class SimradRawPingDataInterfacePerFile
     {
     }
     ~SimradRawPingDataInterfacePerFile() = default;
-
-    auto get_deduplicated_parameters() { return _channel_parameter_buffer; }
 
     filedatacontainers::SimradRawPingContainer<t_ifstream> read_pings(
 
@@ -117,6 +118,7 @@ class SimradRawPingDataInterfacePerFile
                 case t_SimradRawDatagramIdentifier::XML0: {
                     // Note: PingDataInterface should only include Parameter or InitialParameter
                     // datagram
+                    // Note: Environment is also possible, but is not cached
 
                     // load from cache if available
                     if (!cache_file_path.empty())
@@ -183,6 +185,13 @@ class SimradRawPingDataInterfacePerFile
                         }
                         break;
                     }
+                    else if (xml_type == "Environment")
+                    {
+                        _environment_buffer =
+                            std::get<datagrams::xml_datagrams::XML_Environment>(xml.decode());
+                        _environment_buffer_initialized = true;
+                        break;
+                    }
 
                     fmt::print(std::cerr, "WARNING: unexpected xml datagram type: {}\n", xml_type);
                     break;
@@ -225,12 +234,18 @@ class SimradRawPingDataInterfacePerFile
                     // add parameters
                     ping->file_data().set_file_ping_counter(pings.size());
                     ping->file_data().set_primary_file_nr(this->get_file_nr());
-                    ping->file_data().set_parameter(_channel_parameter_buffer.at(ping->get_channel_id()));
+                    ping->file_data().set_parameter(
+                        _channel_parameter_buffer.at(ping->get_channel_id()));
+
+                    if (!_environment_buffer_initialized)
+                        throw std::runtime_error(
+                            fmt::format("Error no XML environment datagram found prior to ping!"));
+                    ping->file_data().set_environment(_environment_buffer);
 
                     // set sensor configuration
                     auto sensor_configuration = base_sensor_configuration;
-                    sensor_configuration.add_target("Transducer",
-                                                    sensor_configuration.get_target(ping->get_channel_id()));
+                    sensor_configuration.add_target(
+                        "Transducer", sensor_configuration.get_target(ping->get_channel_id()));
                     ping->set_sensor_configuration(sensor_configuration);
 
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(

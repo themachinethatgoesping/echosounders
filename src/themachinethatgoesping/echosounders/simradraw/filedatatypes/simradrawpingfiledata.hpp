@@ -57,6 +57,7 @@ class SimradRawPingFileData
     datagrams::RAW3
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
     boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
+    boost::flyweight<datagrams::xml_datagrams::XML_Environment>       _ping_environment;
 
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
@@ -77,9 +78,19 @@ class SimradRawPingFileData
         _ping_parameter = parameter;
     }
 
+    void set_environment(const datagrams::xml_datagrams::XML_Environment& environment)
+    {
+        _ping_environment = environment;
+    }
+
     const datagrams::xml_datagrams::XML_Parameter_Channel& get_parameter() const
     {
         return _ping_parameter.get();
+    }
+
+    const datagrams::xml_datagrams::XML_Environment& get_environment() const
+    {
+        return _ping_environment.get();
     }
 
     const datagrams::RAW3 get_ping_data() const { return _ping_data; }

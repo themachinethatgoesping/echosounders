@@ -1,4 +1,4 @@
-//sourcehash: 7dde395af0575b6781770fe49ddae375b28e0f3326838bd5c8cf09f5ea6dd193
+//sourcehash: c5ae25aef618436fb3d78b63dfb6cdb584790609bd82ef30cf5c947bfa1e678f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,6 +59,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sample_interval = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_transmit_sector_numbers = R"doc()doc";
 

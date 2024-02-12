@@ -350,7 +350,7 @@ struct XML_Parameter_Channel
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
 inline size_t hash_value(const XML_Parameter_Channel& data)
 {
     return data.binary_hash();

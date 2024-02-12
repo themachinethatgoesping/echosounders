@@ -1,4 +1,4 @@
-//sourcehash: 3c5c1c1bcacfdcb35df6fe111efe606667380dae43826cbb947eb020d1215794
+//sourcehash: 1c515721ca2dc1e986bbb3aa94344bc0912bbd31d977738df92ee6316ccc6d5d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,6 +44,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_class_name = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_environment = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_file_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_file_paths = R"doc()doc";
@@ -66,6 +68,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 R"doc(< when implementing EK60, this must become a variant type (RAW3 or
 RAW0))doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_environment = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_parameter = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_printer = R"doc()doc";
@@ -73,6 +77,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_read_sample_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_release = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_environment = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_parameter = R"doc()doc";
 

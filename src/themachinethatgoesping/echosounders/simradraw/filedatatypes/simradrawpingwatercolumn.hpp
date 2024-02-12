@@ -121,10 +121,10 @@ class SimradRawPingWatercolumn
     // }
     const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers() { return { 0 }; }
 
-    // float get_sound_speed_at_transducer() override
-    // {
-    //     return _file_data->get_wcinfos().get_sound_speed_at_transducer();
-    // }
+    float get_sound_speed_at_transducer() override
+    {
+        return _file_data->get_environment().SoundSpeed;
+    }
 
     float get_sample_interval() override { return _file_data->get_parameter().SampleInterval; }
 

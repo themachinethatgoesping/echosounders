@@ -1,4 +1,4 @@
-//sourcehash: 62aada899e76b0791cf5604fce52c835f020c58bbff4557c8f62599a94784fb5
+//sourcehash: 9b41c3d5731ed4620b5c4a9e0ad6b9330002cf27da91a8176f6f521cef94558f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -93,6 +93,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Environment_unknown_attributes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Environment_unknown_children = R"doc()doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

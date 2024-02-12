@@ -270,6 +270,8 @@ class SimradRawFileHandler
                         _configuration_interface->add_datagram_info(datagram_info);
                         break;
                     case 3: //"Environment"
+                        // for now, look for a more general solution in the future
+                        _ping_interface->add_datagram_info(datagram_info);
                         _environment_interface->add_datagram_info(datagram_info);
                         break;
                     case 4: //"InitialParameter"
