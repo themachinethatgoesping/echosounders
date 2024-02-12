@@ -167,10 +167,8 @@ class SimradRawPingWatercolumn
     }
 
     // NOT yet implementer
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
-    {
-        return get_amplitudes(bs);
-    }
+    // xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    // {
     //     // get and convert amplitudes to dB
     //     xt::xtensor<float, 2> av         = get_amplitudes(bs) * 0.5f;
     //     auto                  tvg_offset = get_tvg_offset();
