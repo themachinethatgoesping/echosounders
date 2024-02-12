@@ -69,22 +69,13 @@ class SimradRawPingWatercolumn
     virtual ~SimradRawPingWatercolumn() = default;
 
     // --- sector infos ---
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
-    {
-        return { 0 };
-    }
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override { return { 0 }; }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
-    {
-        return { { 0 } };
-    }
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override { return { { 0 } }; }
 
     // ----- I_PingCommon interface -----
 
-    uint16_t get_number_of_beams() override
-    {
-        return 1;
-    }
+    uint16_t get_number_of_beams() override { return 1; }
 
     // ----- getter/setters -----
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
@@ -166,7 +157,11 @@ class SimradRawPingWatercolumn
         return amplitudes;
     }
 
-    // NOT yet implementer
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    {
+        return get_amplitudes(bs);
+    }
+
     // xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
     // {
     //     // get and convert amplitudes to dB
