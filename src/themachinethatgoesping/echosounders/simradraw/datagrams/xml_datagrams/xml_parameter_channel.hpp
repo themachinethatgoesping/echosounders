@@ -50,7 +50,7 @@ struct XML_Parameter_Channel
     double      BandWidth       = NAN; ///< TODO: when is this one used
     double      Frequency       = NAN; ///< used for cv ( PulseForm == 0)
     double      PulseDuration   = NAN; ///< used for cv ( PulseForm == 0)
-    double      PulseLength     = NAN; ///< used used for chirp pulse (PulseForm > 0)
+    double      PulseLength     = NAN; ///< used for chirp pulse (PulseForm > 0)
     double      SampleInterval  = NAN;
     double      TransducerDepth = NAN; ///< when is this one used? only old format?
     double      TransmitPower   = NAN;
@@ -67,7 +67,8 @@ struct XML_Parameter_Channel
     XML_Parameter_Channel(const pugi::xml_node& node) { initialize(node); }
     ~XML_Parameter_Channel() = default;
 
-    algorithms::signalprocessing::datastructures::TxSignalParameters get_tx_signal_parameters()
+    themachinethatgoesping::algorithms::signalprocessing::datastructures::TxSignalParameters
+    get_tx_signal_parameters() const
     {
         using algorithms::signalprocessing::datastructures::CWSignalParameters;
         using algorithms::signalprocessing::datastructures::FMSignalParameters;
@@ -358,8 +359,8 @@ struct XML_Parameter_Channel
 
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        auto   cache = this->to_binary();
-        size_t hash  = xxh::xxhash3<64>(cache);
+        auto        cache = this->to_binary();
+        size_t hash = xxh::xxhash3<64>(cache);
 
         if (!hash_cache.contains(hash))
             hash_cache[hash] = std::move(cache);
@@ -379,12 +380,12 @@ struct XML_Parameter_Channel
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC:
-// __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
 inline size_t hash_value(const XML_Parameter_Channel& data)
 {
     return data.binary_hash();
 }
+
 }
 }
 }
