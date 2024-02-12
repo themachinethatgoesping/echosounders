@@ -242,7 +242,7 @@ struct XML_Parameter_Channel
     {
         using tools::helper::approx;
         return ChannelID == other.ChannelID && ChannelMode == other.ChannelMode &&
-               approx(PulseForm, other.PulseForm) && approx(FrequencyStart, other.FrequencyStart) &&
+               PulseForm == other.PulseForm && approx(FrequencyStart, other.FrequencyStart) &&
                approx(FrequencyEnd, other.FrequencyEnd) && approx(BandWidth, other.BandWidth) &&
                approx(Frequency, other.Frequency) && approx(PulseDuration, other.PulseDuration) &&
                approx(PulseLength, other.PulseLength) &&
@@ -359,8 +359,8 @@ struct XML_Parameter_Channel
 
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        auto        cache = this->to_binary();
-        size_t hash = xxh::xxhash3<64>(cache);
+        auto   cache = this->to_binary();
+        size_t hash  = xxh::xxhash3<64>(cache);
 
         if (!hash_cache.contains(hash))
             hash_cache[hash] = std::move(cache);
@@ -380,7 +380,8 @@ struct XML_Parameter_Channel
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
+
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
 inline size_t hash_value(const XML_Parameter_Channel& data)
 {
     return data.binary_hash();

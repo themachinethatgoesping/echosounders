@@ -100,11 +100,11 @@ class SimradRawPingWatercolumn
     {
         this->beam_selection_must_be_one(__func__, selection);
 
-        return { _file_data->get_ping_data().get_count() };
+        return { uint16_t(_file_data->get_ping_data().get_count()) };
     }
     xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
     {
-        return { _file_data->get_ping_data().get_offset() };
+        return { uint16_t(_file_data->get_ping_data().get_offset()) };
     }
     // const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
     // {
