@@ -65,7 +65,7 @@ class I_InputFileHandler
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
 
-    std::unordered_map<std::string, std::string> _cached_paths_per_file_path;
+    std::unordered_map<std::string, std::string> _file_cache_paths;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -77,7 +77,7 @@ class I_InputFileHandler
     I_InputFileHandler() = default;
 
     I_InputFileHandler(const std::unordered_map<std::string, std::string>& file_cache_paths)
-        : _cached_paths_per_file_path(file_cache_paths)
+        : _file_cache_paths(file_cache_paths)
     {
     }
 
@@ -87,7 +87,7 @@ class I_InputFileHandler
                            std::unordered_map<std::string, std::string>(),
                        bool init          = true,
                        bool show_progress = true)
-        : _cached_paths_per_file_path(file_cache_paths)
+        : _file_cache_paths(file_cache_paths)
     {
         append_file(file_path, show_progress);
         if (init)
@@ -97,7 +97,7 @@ class I_InputFileHandler
                        const std::unordered_map<std::string, std::string>& file_cache_paths,
                        bool                                                init,
                        tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _cached_paths_per_file_path(file_cache_paths)
+        : _file_cache_paths(file_cache_paths)
     {
         append_file(file_path, progress_bar);
         if (init)
@@ -109,7 +109,7 @@ class I_InputFileHandler
                            std::unordered_map<std::string, std::string>(),
                        bool init          = true,
                        bool show_progress = true)
-        : _cached_paths_per_file_path(file_cache_paths)
+        : _file_cache_paths(file_cache_paths)
     {
         append_files(file_paths, show_progress);
         if (init)
@@ -120,7 +120,7 @@ class I_InputFileHandler
                        const std::unordered_map<std::string, std::string>& file_cache_paths,
                        bool                                                init,
                        tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _cached_paths_per_file_path(file_cache_paths)
+        : _file_cache_paths(file_cache_paths)
     {
         append_files(file_paths, progress_bar);
         if (init)
@@ -208,10 +208,10 @@ class I_InputFileHandler
         auto file_nr = _input_file_manager->get_file_paths()->size() - 1;
 
         // check if file exists in index
-        auto it = _cached_paths_per_file_path.find(file_path);
+        auto it = _file_cache_paths.find(file_path);
 
         // if cache file path is not found, scan file without caching
-        if (it == _cached_paths_per_file_path.end())
+        if (it == _file_cache_paths.end())
         {
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
@@ -311,7 +311,7 @@ class I_InputFileHandler
         file_cache.update_file(cache_file_path);
     }
 
-    const auto& get_cached_paths_per_file_path() const { return _cached_paths_per_file_path; }
+    const auto& get_file_cache_paths() const { return _file_cache_paths; }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>

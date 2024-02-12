@@ -107,7 +107,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
 
     using I_FileDataInterface<t_PingDataInterfacePerFile>::init_from_file;
     void init_from_file(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                force,
         tools::progressbars::I_ProgressBar&                 progress_bar,
         bool                                                external_progress_tick = false) final
@@ -123,7 +123,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         if (!this->navigation_data_interface().is_initialized())
         {
             this->navigation_data_interface().init_from_file(
-                cached_paths_per_file_path, false, progress_bar);
+                file_cache_paths, false, progress_bar);
         }
 
         bool existing_progressbar = true;
@@ -137,13 +137,13 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
         }
 
         std::string cache_file_path = tools::helper::get_from_map_with_default(
-            cached_paths_per_file_path,
+            file_cache_paths,
             primary_interfaces_per_file.front()->get_file_path(),
             std::string(""));
 
         primary_interfaces_per_file.front()->init_from_file(cache_file_path, force);
         _ping_container =
-            primary_interfaces_per_file.front()->read_pings(cached_paths_per_file_path);
+            primary_interfaces_per_file.front()->read_pings(file_cache_paths);
 
         for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
         {
@@ -153,13 +153,13 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             {
 
                 cache_file_path = tools::helper::get_from_map_with_default(
-                    cached_paths_per_file_path,
+                    file_cache_paths,
                     primary_interfaces_per_file[i]->get_file_path(),
                     std::string(""));
 
                 primary_interfaces_per_file[i]->init_from_file("", force);
                 _ping_container.add_pings(primary_interfaces_per_file[i]
-                                              ->read_pings(cached_paths_per_file_path)
+                                              ->read_pings(file_cache_paths)
                                               .get_pings());
             }
             catch (std::exception& e)

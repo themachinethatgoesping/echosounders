@@ -171,16 +171,16 @@ class I_FileDataInterface
     }
 
     void init_from_file(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                force         = false,
         bool                                                show_progress = true)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_from_file(cached_paths_per_file_path, force, progress_bar.get());
+        this->init_from_file(file_cache_paths, force, progress_bar.get());
     }
 
     virtual void init_from_file(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                force,
         tools::progressbars::I_ProgressBar&                 progress_bar,
         bool                                                external_progress_tick = false)
@@ -206,10 +206,10 @@ class I_FileDataInterface
                 fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
 
             std::string cache_file_path = "";
-            if (cached_paths_per_file_path.find(inter->get_file_path()) !=
-                cached_paths_per_file_path.end())
+            if (file_cache_paths.find(inter->get_file_path()) !=
+                file_cache_paths.end())
             {
-                cache_file_path = cached_paths_per_file_path.at(inter->get_file_path());
+                cache_file_path = file_cache_paths.at(inter->get_file_path());
             }
             inter->init_from_file(cache_file_path, force);
 

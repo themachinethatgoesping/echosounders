@@ -62,7 +62,7 @@ class KongsbergAllPingDataInterfacePerFile
     ~KongsbergAllPingDataInterfacePerFile() = default;
 
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path =
+        const std::unordered_map<std::string, std::string>& file_cache_paths =
             std::unordered_map<std::string, std::string>()) override
     {
         using t_pingcontainer = filedatacontainers::KongsbergAllPingContainer<t_ifstream>;
@@ -74,11 +74,11 @@ class KongsbergAllPingDataInterfacePerFile
 
         // -- create package cache_structures --
         file_cache_path_per_file_nr[this->get_file_nr()] =
-            KongsbergPingCacheHandler(cached_paths_per_file_path, *this);
+            KongsbergPingCacheHandler(file_cache_paths, *this);
 
         if (this->has_linked_file())
             file_cache_path_per_file_nr[this->get_linked_file_nr()] =
-                KongsbergPingCacheHandler(cached_paths_per_file_path, *(this->get_linked_file()));
+                KongsbergPingCacheHandler(file_cache_paths, *(this->get_linked_file()));
 
         // initialize class structure
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
@@ -267,12 +267,12 @@ class KongsbergAllPingDataInterfacePerFile
 
         template<typename t_FileDataInterface>
         KongsbergPingCacheHandler(
-            const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+            const std::unordered_map<std::string, std::string>& file_cache_paths,
             const t_FileDataInterface&                          PingDataInterface)
         {
             const auto cache_file_it =
-                cached_paths_per_file_path.find(PingDataInterface.get_file_path());
-            if (cache_file_it == cached_paths_per_file_path.end())
+                file_cache_paths.find(PingDataInterface.get_file_path());
+            if (cache_file_it == file_cache_paths.end())
                 // leave _file_cache uninitialized
                 return;
 

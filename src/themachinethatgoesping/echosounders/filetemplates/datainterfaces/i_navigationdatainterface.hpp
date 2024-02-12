@@ -91,7 +91,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(
-        const std::unordered_map<std::string, std::string>& cached_paths_per_file_path,
+        const std::unordered_map<std::string, std::string>& file_cache_paths,
         bool                                                force,
         tools::progressbars::I_ProgressBar&                 progress_bar,
         bool                                                external_progress_tick = false) final
@@ -100,7 +100,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         if (!this->_configuration_data_interface.lock()->is_initialized())
         {
             this->_configuration_data_interface.lock()->init_from_file(
-                cached_paths_per_file_path, false, progress_bar);
+                file_cache_paths, false, progress_bar);
         }
 
         auto primary_interfaces_per_file = this->per_primary_file();
@@ -157,12 +157,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 {
                     _navigation_interpolators[sensor_configuration] =
                         read_navigation_from_file_or_cache(*primary_interfaces_per_file[i],
-                                                           cached_paths_per_file_path);
+                                                           file_cache_paths);
                 }
                 else
                 {
                     it->second.merge(read_navigation_from_file_or_cache(
-                        *primary_interfaces_per_file[i], cached_paths_per_file_path));
+                        *primary_interfaces_per_file[i], file_cache_paths));
                 }
             }
             catch (std::exception& e)

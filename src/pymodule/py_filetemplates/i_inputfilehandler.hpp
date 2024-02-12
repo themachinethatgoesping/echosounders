@@ -114,13 +114,13 @@ void add_open_file_interface(T_PyClass& cls)
     //             py::call_guard<py::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
     //             append_file), py::arg("file_path"), py::arg("progress_bar"));
-    cls.def("get_cached_paths_per_file_path",
-            &T_BaseClass::get_cached_paths_per_file_path,
+    cls.def("get_file_cache_paths",
+            &T_BaseClass::get_file_cache_paths,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 I_InputFileHandler,
-                get_cached_paths_per_file_path));
+                get_file_cache_paths));
 
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)
