@@ -51,10 +51,9 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                                                                         SimradRawPingFileData))
 
                    // --- file_data data access ---
-                   // .def_readonly("ping_data",
-                   //               &t_SimradRawPingFileData::_ping_data,
-                   //               DOc_simradrawpingfiledata(ping_data),
-                   //               py::return_value_policy::reference_internal)
+                   .def("get_ping_data",
+                        &t_SimradRawPingFileData::get_ping_data,
+                        DOc_simradrawpingfiledata(get_ping_data))
                    .def("get_parameter",
                         &t_SimradRawPingFileData::get_parameter,
                         DOc_simradrawpingfiledata(get_parameter))
@@ -62,9 +61,10 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                         &t_SimradRawPingFileData::get_environment,
                         DOc_simradrawpingfiledata(get_environment))
 
-               // .def("get_sample_data",
-               //      &t_SimradRawPingFileData::get_sample_data,
-               //      DOc_simradrawpingfiledata(get_sample_data))
+                   .def("read_sample_data",
+                        &t_SimradRawPingFileData::read_sample_data,
+                        DOc_simradrawpingfiledata(read_sample_data),
+                        py::arg("dB") = true)
 
                // .def("has_angle", &t_SimradRawPingFileData::has_angle,
                // DOc_simradrawpingfiledata(has_angle)) .def("has_power",
