@@ -159,7 +159,50 @@ class SimradRawPingWatercolumn
 
     xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
     {
-        return get_amplitudes(bs);
+        xt::xtensor<float, 2> av = get_amplitudes(bs);
+
+        // get information
+        float sound_velocity = get_sound_speed_at_transducer();
+
+        // compute range factor (per sample)
+        float tmp   = 0 - 20.f; // 0 is the already applied TVG factor
+        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
+
+        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
+        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor * tmp_2)));
+
+        // compute pulse factor (for one beam)
+        auto signal_parameters = get_tx_signal_parameters()[0];
+
+        float pulse_factor = tools::helper::visit_variant(
+            signal_parameters,
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
+                return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+            },
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
+                // TODO: correct computation for FM?
+                return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+            },
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::GenericSignalParameters&
+                    param) {
+                // TODO: throw warning?
+                return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+            });
+
+        // if there is an offset apply it to pulse factor
+        // pulse_factor_per_sector += tvg_offset;
+
+        // apply factors
+        // range factor
+        av -= xt::view(range_factor, xt::newaxis(), xt::all());
+
+        // pulse factor
+        av -= pulse_factor;
+
+        return av;
     }
 
     // xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override

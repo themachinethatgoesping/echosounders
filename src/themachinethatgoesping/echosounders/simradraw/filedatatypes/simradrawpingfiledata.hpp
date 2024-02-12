@@ -97,17 +97,17 @@ class SimradRawPingFileData
 
     // ----- load skipped data -----
     // TODO: add function to only read samples within a specific range
-    xt::xtensor<float, 1> read_sample_data(bool dB = false) const
+    xt::xtensor<float, 1> read_sample_data(bool dB = false)
     {
-        if (this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::RAW3).empty())
+        if (this->_datagram_infos_by_type.at(t_SimradRawDatagramIdentifier::RAW3).empty())
             throw std::runtime_error("No RAW3 datagram in ping!");
 
         // this assumes that there is exactly one RAW3 datagram saved for this ping
-        const auto& datagram_infos =
-            this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::RAW3).at(0);
+        const auto& datagram_info =
+            this->_datagram_infos_by_type.at(t_SimradRawDatagramIdentifier::RAW3).at(0);
 
-        auto sample_data = _ping_data.read_skipped_sample_data(datagram_infos->get_stream(),
-                                                               datagram_infos->get_file_pos());
+        auto sample_data = _ping_data.read_skipped_sample_data(datagram_info->get_stream(),
+                                                               datagram_info->get_file_pos());
 
         return tools::helper::visit_variant(sample_data,
                                             [dB](auto& data) { return data.get_power(dB); });
