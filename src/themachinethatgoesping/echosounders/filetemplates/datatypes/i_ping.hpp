@@ -50,17 +50,10 @@ class I_Ping : virtual public I_PingCommon
     std::string class_name() const override { return "I_Ping"; }
 
   protected:
-    std::string _channel_id;    ///< channel id of the transducer
-    double      _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
+    boost::flyweights::flyweight<std::string> _channel_id; ///< channel id of the transducer
+    double _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
     navigation::datastructures::SensordataLatLon                  _sensor_data_latlon;
-
-    navigation::datastructures::GeolocationLatLon
-        _geolocation; ///< Geolocation of the transducer. A
-                      /// Geolocation object holds lat,lon and attitude of
-                      /// the transducer. If not set manually, this variable is set by calling
-                      /// file.I_navigation.get_geolocation(ping.get_channel_id(),
-                      /// ping.get_timestamp()).
 
   public:
     using t_base = I_PingCommon;
@@ -79,7 +72,6 @@ class I_Ping : virtual public I_PingCommon
         : I_PingCommon(other)
         , _channel_id(other._channel_id)
         , _timestamp(other._timestamp)
-        , _geolocation(other._geolocation)
     {
         register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
@@ -87,7 +79,7 @@ class I_Ping : virtual public I_PingCommon
 
     //------ interface / accessors -----
     double             get_timestamp() const { return _timestamp; }
-    const std::string& get_channel_id() const { return _channel_id; }
+    const std::string& get_channel_id() const { return _channel_id.get(); }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
 
     void set_timestamp(double timestamp) { _timestamp = timestamp; }
@@ -123,13 +115,6 @@ class I_Ping : virtual public I_PingCommon
         _sensor_data_latlon = sensor_data;
     }
 
-    // /**
-    //  * @brief Set the geolocation of the transducer.
-    //  */
-    // void set_geolocation(navigation::datastructures::GeolocationLatLon geolocation)
-    // {
-    //     _geolocation = std::move(geolocation);
-    // }
 
     void load(bool force = false) override
     {
@@ -211,7 +196,7 @@ class I_Ping : virtual public I_PingCommon
         std::string time_str =
             tools::timeconv::unixtime_to_datestring(this->_timestamp, 2, "%d/%m/%Y %H:%M:%S");
 
-        printer.register_string("Channel id", this->_channel_id);
+        printer.register_string("Channel id", this->get_channel_id());
         printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
 
         // print features
@@ -224,11 +209,11 @@ class I_Ping : virtual public I_PingCommon
         printer.register_section("Geolocation");
         printer.append(get_geolocation("Transducer").__printer__(float_precision));
 
-        //printer.register_section("Sensor data");
-        //printer.append(_sensor_data_latlon.__printer__(float_precision));
+        // printer.register_section("Sensor data");
+        // printer.append(_sensor_data_latlon.__printer__(float_precision));
 
-        //printer.register_section("Sensor configuration");
-        //printer.append(get_sensor_configuration().__printer__(float_precision));
+        // printer.register_section("Sensor configuration");
+        // printer.append(get_sensor_configuration().__printer__(float_precision));
 
         return printer;
     }

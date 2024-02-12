@@ -67,6 +67,7 @@ class I_PingCommon
     virtual std::string class_name() const { return "I_PingCommon"; }
 
     // map of features (names) and respective has_feature functions
+    // TODO: this does probably consume quite a lot of memory .. 
     std::unordered_map<std::string, std::function<bool()>> _features;
     std::unordered_map<std::string, std::function<bool()>> _main_features;
 
