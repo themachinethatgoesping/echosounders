@@ -99,6 +99,9 @@ class SimradRawPingFileData
     // TODO: add function to only read samples within a specific range
     xt::xtensor<float, 1> read_sample_data(bool dB = false) const
     {
+        if (this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::RAW3).empty())
+            throw std::runtime_error("No RAW3 datagram in ping!");
+
         // this assumes that there is exactly one RAW3 datagram saved for this ping
         const auto& datagram_infos =
             this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::RAW3).at(0);
