@@ -1,4 +1,4 @@
-//sourcehash: c5ae25aef618436fb3d78b63dfb6cdb584790609bd82ef30cf5c947bfa1e678f
+//sourcehash: a3658aa8819b70f4863cd53dd5d14d7ea82de2cfecd38324d4ff72f8a672d430
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,40 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_SimradRawPingWatercolumn = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_class_name = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_amplitudes = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_beam_alongtrack_angles = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_beam_crosstrack_angles = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_number_of_beams = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sample_interval = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_transmit_sector_numbers = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_amplitudes = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_bottom_range_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

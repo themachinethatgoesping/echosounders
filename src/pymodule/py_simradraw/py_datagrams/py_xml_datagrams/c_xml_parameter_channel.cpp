@@ -25,7 +25,7 @@ using datagrams::xml_datagrams::XML_Parameter_Channel;
 #define DOC_XML_Parameter_Channel(ARG)                                                             \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        simradraw,                                                                                    \
+        simradraw,                                                                                 \
         datagrams,                                                                                 \
         xml_datagrams,                                                                             \
         XML_Parameter_Channel,                                                                     \
@@ -88,6 +88,9 @@ void init_c_xml_parameter_channel(pybind11::module& m)
                        DOC_XML_Parameter_Channel(unknown_attributes))
 
         // ----- methods -----
+        .def("get_tx_signal_parameters",
+             &XML_Parameter_Channel::get_tx_signal_parameters,
+             DOC_XML_Parameter_Channel(get_tx_signal_parameters))
         .def("parsed_completely",
              &XML_Parameter_Channel::parsed_completely,
              DOC_XML_Parameter_Channel(parsed_completely))

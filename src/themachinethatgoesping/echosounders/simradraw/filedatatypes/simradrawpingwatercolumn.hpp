@@ -123,7 +123,7 @@ class SimradRawPingWatercolumn
 
     float get_sound_speed_at_transducer() override
     {
-        return _file_data->get_environment().SoundSpeed;
+        return _file_data->get_parameter().SoundVelocity;
     }
 
     float get_sample_interval() override { return _file_data->get_parameter().SampleInterval; }
@@ -167,8 +167,10 @@ class SimradRawPingWatercolumn
     }
 
     // NOT yet implementer
-    // xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
-    // {
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    {
+        return get_amplitudes(bs);
+    }
     //     // get and convert amplitudes to dB
     //     xt::xtensor<float, 2> av         = get_amplitudes(bs) * 0.5f;
     //     auto                  tvg_offset = get_tvg_offset();

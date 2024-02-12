@@ -1,4 +1,4 @@
-//sourcehash: 132c0023d21eff1323679594597317d2e6f7a8fcaae928139b82b04c3aa27919
+//sourcehash: da9b29aa81aeb31fbee1cac25641e1edda0d8e147fb95036a2efd3f54c729d79
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -53,6 +53,14 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_get_tx_signal_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_has_tx_sector_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_printer = R"doc()doc";
 

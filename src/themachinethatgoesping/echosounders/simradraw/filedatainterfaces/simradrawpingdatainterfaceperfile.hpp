@@ -46,11 +46,11 @@ class SimradRawPingDataInterfacePerFile
         SimradRawEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::SimradRawPingContainer<t_ifstream>>;
 
-    std::map<std::string, datagrams::xml_datagrams::XML_Parameter_Channel>
+    std::map<std::string, boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel>>
         _channel_parameter_buffer;
 
-    bool                                      _environment_buffer_initialized = false;
-    datagrams::xml_datagrams::XML_Environment _environment_buffer;
+    bool _environment_buffer_initialized = false;
+    boost::flyweight<datagrams::xml_datagrams::XML_Environment> _environment_buffer;
 
   public:
     SimradRawPingDataInterfacePerFile()

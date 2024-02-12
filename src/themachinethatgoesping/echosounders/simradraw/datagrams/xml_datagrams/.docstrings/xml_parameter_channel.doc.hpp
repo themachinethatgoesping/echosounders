@@ -1,4 +1,4 @@
-//sourcehash: 7a583711c054eefc78a86624f64e5e5d9923fb86a3a558fc186d8e2c8b9462a7
+//sourcehash: f5b07f5903ae645d85dfb271ccaf375752ee830b57eb4dba234f6dc2c70c8064
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,83 +32,39 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-#if defined(__GNUG__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
 
 
-static const char *__doc_std_hash = R"doc()doc";
-
-static const char *__doc_std_hash_operator_call = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel = R"doc(XML base datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_BandWidth = R"doc(< TODO: when is this one used)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_ChannelID = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_ChannelMode = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_Frequency = R"doc(< used for cv ( PulseForm == 0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_FrequencyEnd = R"doc(< used used for chirp pulse (PulseForm > 0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_FrequencyStart = R"doc(< used used for chirp pulse (PulseForm > 0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_PingId = R"doc(< this is used in the InitialParameter datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_PulseDuration = R"doc(< used used for chirp pulse (PulseForm > 0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_PulseForm = R"doc(< 0 means cw, ?1 means chirp?)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_PulseLength = R"doc(< used for cv ( PulseForm == 0))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_SampleInterval = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_Slope = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_SoundVelocity = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_TransducerDepth = R"doc(< when is this one used? only old format?)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_TransmitPower = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_XML_Parameter_Channel = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_XML_Parameter_Channel_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_initialize = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_initialize_channel_structure = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_operator_lt = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_operator_ne = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_parsed_completely = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_to_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_attributes = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_unknown_children = R"doc()doc";
 
 
-#if defined(__GNUG__)
-#pragma GCC diagnostic pop
-#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

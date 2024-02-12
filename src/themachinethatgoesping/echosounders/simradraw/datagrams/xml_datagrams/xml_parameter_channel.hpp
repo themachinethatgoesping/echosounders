@@ -21,6 +21,7 @@
 #include <xxhash.hpp>
 
 // themachinethatgoesping import
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
@@ -43,13 +44,13 @@ struct XML_Parameter_Channel
 {
     std::string ChannelID;
     int64_t     ChannelMode     = -1;
-    double      PulseForm       = NAN; ///< 0 means cw, ?1 means chirp?
+    int64_t     PulseForm       = 0;   ///< 0 means cw, ?1 means chirp?
     double      FrequencyStart  = NAN; ///< used used for chirp pulse (PulseForm > 0)
     double      FrequencyEnd    = NAN; ///< used used for chirp pulse (PulseForm > 0)
     double      BandWidth       = NAN; ///< TODO: when is this one used
     double      Frequency       = NAN; ///< used for cv ( PulseForm == 0)
-    double      PulseDuration   = NAN; ///< used used for chirp pulse (PulseForm > 0)
-    double      PulseLength     = NAN; ///< used for cv ( PulseForm == 0)
+    double      PulseDuration   = NAN; ///< used for cv ( PulseForm == 0)
+    double      PulseLength     = NAN; ///< used used for chirp pulse (PulseForm > 0)
     double      SampleInterval  = NAN;
     double      TransducerDepth = NAN; ///< when is this one used? only old format?
     double      TransmitPower   = NAN;
@@ -65,6 +66,34 @@ struct XML_Parameter_Channel
     XML_Parameter_Channel() = default;
     XML_Parameter_Channel(const pugi::xml_node& node) { initialize(node); }
     ~XML_Parameter_Channel() = default;
+
+    algorithms::signalprocessing::datastructures::TxSignalParameters get_tx_signal_parameters()
+    {
+        using algorithms::signalprocessing::datastructures::CWSignalParameters;
+        using algorithms::signalprocessing::datastructures::FMSignalParameters;
+
+        switch (PulseForm)
+        {
+            case 0: // CW
+                return CWSignalParameters(Frequency,
+                                          BandWidth // this is NAN for CW ...
+                                          ,
+                                          (std::isnan(PulseDuration)) ? PulseLength
+                                                                      : PulseDuration);
+
+            case 1: // FM?
+                // FM is not yet properly supported
+                // we should also save frequency start and frequency end
+                return FMSignalParameters(Frequency,
+                                          BandWidth,
+                                          (std::isnan(PulseLength)) ? PulseDuration : PulseLength,
+                                          FrequencyEnd > FrequencyStart);
+            default:
+                // this should not happen since the get_tx_signal_type should return a valid
+                // type
+                throw std::runtime_error("Unknown transmit signal type");
+        }
+    }
 
     void initialize_channel_structure(const pugi::xml_node& node)
     {
@@ -83,7 +112,7 @@ struct XML_Parameter_Channel
             }
             if (name == "PulseForm")
             {
-                PulseForm = tools::helper::string_to_floattype<double>(attr.value());
+                PulseForm = std::stoi(attr.value());
                 continue;
             }
             if (name == "FrequencyStart")
@@ -329,8 +358,8 @@ struct XML_Parameter_Channel
 
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        auto        cache = this->to_binary();
-        size_t hash = xxh::xxhash3<64>(cache);
+        auto   cache = this->to_binary();
+        size_t hash  = xxh::xxhash3<64>(cache);
 
         if (!hash_cache.contains(hash))
             hash_cache[hash] = std::move(cache);
@@ -350,12 +379,12 @@ struct XML_Parameter_Channel
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
+// IGNORE_DOC:
+// __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
 inline size_t hash_value(const XML_Parameter_Channel& data)
 {
     return data.binary_hash();
 }
-
 }
 }
 }

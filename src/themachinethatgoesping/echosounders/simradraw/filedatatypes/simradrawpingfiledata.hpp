@@ -73,12 +73,12 @@ class SimradRawPingFileData
 
     ~SimradRawPingFileData() = default;
 
-    void set_parameter(const datagrams::xml_datagrams::XML_Parameter_Channel& parameter)
+    void set_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
         _ping_parameter = parameter;
     }
 
-    void set_environment(const datagrams::xml_datagrams::XML_Environment& environment)
+    void set_environment(boost::flyweight<datagrams::xml_datagrams::XML_Environment> environment)
     {
         _ping_environment = environment;
     }
