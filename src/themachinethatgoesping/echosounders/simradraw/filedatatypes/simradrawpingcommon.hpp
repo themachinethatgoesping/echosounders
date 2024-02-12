@@ -69,7 +69,7 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
     bool has_tx_signal_parameters() const override { return true; }
     bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
 
-    const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters() override
     {
         return { file_data().get_parameter().get_tx_signal_parameters() };

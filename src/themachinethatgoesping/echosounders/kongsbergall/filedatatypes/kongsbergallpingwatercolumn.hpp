@@ -300,7 +300,7 @@ class KongsbergAllPingWatercolumn
         // compute pulse factor (per beam)
         xt::xtensor<float, 1> pulse_factor =
             xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
-        auto        signal_parameters       = get_tx_signal_parameters();
+        const auto& signal_parameters       = file_data().get_sysinfos().get_tx_signal_parameters();
         const auto& beam_numbers            = bs.get_beam_numbers();
         auto        sector_numbers_per_beam = get_tx_sector_per_beam();
 

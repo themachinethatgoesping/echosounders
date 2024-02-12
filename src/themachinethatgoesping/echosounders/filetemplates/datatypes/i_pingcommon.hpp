@@ -67,7 +67,7 @@ class I_PingCommon
     virtual std::string class_name() const { return "I_PingCommon"; }
 
     // map of features (names) and respective has_feature functions
-    // TODO: this does probably consume quite a lot of memory .. 
+    // TODO: this does probably consume quite a lot of memory ..
     std::unordered_map<std::string, std::function<bool()>> _features;
     std::unordered_map<std::string, std::function<bool()>> _main_features;
 
@@ -100,8 +100,8 @@ class I_PingCommon
     // do not copy features, they must be reregistered if the object is copied
     // otherwise the functions will point to the old object
     I_PingCommon([[maybe_unused]] const I_PingCommon& other)
-        //: _features(other._features)
-        //, _main_features(other._main_features)
+    //: _features(other._features)
+    //, _main_features(other._main_features)
     {
         register_feature("tx_signal_parameters",
                          std::bind(&I_PingCommon::has_tx_signal_parameters, this),
@@ -118,7 +118,7 @@ class I_PingCommon
      *
      * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
      */
-    virtual const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+    virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters()
     {
         throw not_implemented(__func__, this->class_name());
