@@ -32,6 +32,7 @@ TEST_CASE("ExtraDetections should support common functions", TESTTAG)
     dat.set_ping_counter(202);
     dat.set_system_serial_number(203);
     dat.set_depth_of_reference_point(204);
+    dat.set_water_column_sample_rate(20);
     dat.set_heading(205);
 
     detection_classes.set_start_depth(101);
