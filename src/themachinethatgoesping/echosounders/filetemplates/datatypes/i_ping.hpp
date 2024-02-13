@@ -72,6 +72,8 @@ class I_Ping : virtual public I_PingCommon
         : I_PingCommon(other)
         , _channel_id(other._channel_id)
         , _timestamp(other._timestamp)
+        , _sensor_configuration(other._sensor_configuration)
+        , _sensor_data_latlon(other._sensor_data_latlon)
     {
         register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
@@ -114,7 +116,6 @@ class I_Ping : virtual public I_PingCommon
     {
         _sensor_data_latlon = sensor_data;
     }
-
 
     void load(bool force = false) override
     {

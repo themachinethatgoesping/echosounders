@@ -14,7 +14,7 @@ def print_cache_file_statistics(
 
     Buffers = defaultdict(int)
 
-    for fcp in tqdm(file_cache_paths.values()):
+    for fcp in tqdm(file_cache_paths.values(), delay=1):
         if not os.path.exists(fcp):
             continue
         
@@ -37,3 +37,16 @@ def print_cache_file_statistics(
     for k,v in Buffers.items():
         if k.startswith('-'):
             print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers["- Source files -"],2)} %" )
+
+def remove_name_from_cache(
+    file_cache_paths: List[str],
+    name: str) -> None:
+
+    for fcp in tqdm(file_cache_paths.values(), delay=1):
+        if not os.path.exists(fcp):
+            continue
+            
+        # load the cache file
+        cache = filetemplates.FileCache.from_file(fcp)
+        cache.remove_from_cache(name)
+        cache.update_file(fcp)

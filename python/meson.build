@@ -6,9 +6,9 @@
 sources = [
   'themachinethatgoesping/echosounders/__init__.py',
   'themachinethatgoesping/echosounders/index_functions/__init__.py',
+  'themachinethatgoesping/echosounders/index_functions/filecache_functions.py',
   'themachinethatgoesping/echosounders/index_functions/find_files.py',
   'themachinethatgoesping/echosounders/index_functions/get_cache_file_paths.py',
-  'themachinethatgoesping/echosounders/index_functions/investigate_cache_files.py',
 ]
 
 init_configuration = configuration_data({
