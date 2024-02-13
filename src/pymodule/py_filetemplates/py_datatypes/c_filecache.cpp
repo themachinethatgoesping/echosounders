@@ -50,6 +50,14 @@ void init_c_filecache(pybind11::module& m)
                  DOC_FileCache(update_file),
                  py::arg("cache_path"),
                  py::arg("emulate_only") = false)
+            .def_static(
+                "from_file", &FileCache::from_file, DOC_FileCache(from_file), py::arg("cache_path"))
+
+            // modify cache
+            .def("remove_from_cache",
+                 &FileCache::remove_from_cache,
+                 DOC_FileCache(remove_from_cache),
+                 py::arg("name"))
 
             // get cache names
             .def("get_cache_names", &FileCache::get_cache_names, DOC_FileCache(get_cache_names))

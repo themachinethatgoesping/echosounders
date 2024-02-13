@@ -6,6 +6,8 @@ from pathlib import Path
 import pickle
 from collections import defaultdict
 from typing import List, Dict, Union
+from tqdm.auto import tqdm
+from themachinethatgoesping.echosounders import filetemplates      # This is the filereader module for .all/.wcd files
 
 def print_cache_file_statistics(
     file_cache_paths: List[str]) :
@@ -16,10 +18,8 @@ def print_cache_file_statistics(
         if not os.path.exists(fcp):
             continue
         
-        with open(fcp,'rb') as ifi:
-            file_contents = ifi.read()
-
-        cache = filetemplates.FileCache.from_binary(file_contents)
+        # load the cache file
+        cache = filetemplates.FileCache.from_file(fcp)
         
         for k,p1,p2 in cache.get_cache_buffer_header():
             Buffers[k] += p2-p1

@@ -208,16 +208,26 @@ class FileCache
     template<typename t_Cache>
     void add_to_cache(const std::string& name, t_Cache& cache)
     {
+        // remove old cache if exists and all lower priority caches
+        remove_from_cache(name);
+
+        _cache_buffer_header.push_back(std::make_tuple(name, 0, 0));
+        _cache_buffer[name] = cache.to_binary();
+    }
+
+    void remove_from_cache(const std::string& name)
+    {
         // if name exists in header get the position
         // clear all entries after that position
         std::vector<std::string> valid_keys;
         for (size_t i = 0; i < _cache_buffer_header.size(); ++i)
         {
-            valid_keys.push_back(std::get<0>(_cache_buffer_header[i]));
             if (std::get<0>(_cache_buffer_header[i]) == name)
             {
                 _cache_buffer_header.resize(i);
+                break;
             }
+            valid_keys.push_back(std::get<0>(_cache_buffer_header[i]));
         }
 
         // clear entries in _cache_buffer after that are not in valid_keys
@@ -232,9 +242,6 @@ class FileCache
                 ++it;
             }
         }
-
-        _cache_buffer_header.push_back(std::make_tuple(name, 0, 0));
-        _cache_buffer[name] = cache.to_binary();
     }
 
     bool has_cache(const std::string& name) const
@@ -335,6 +342,18 @@ class FileCache
         cache.read_header_content_from_stream(is);
         cache.read_cache_buffer_from_stream(is);
         return cache;
+    }
+
+    static FileCache from_file(const std::string& cache_path)
+    {
+        if (!std::filesystem::exists(cache_path))
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[FileCache]: File does not exist: {}", cache_path));
+        }
+
+        std::ifstream is(cache_path, std::ios::binary);
+        return from_stream(is);
     }
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const

@@ -132,7 +132,7 @@ class SimradRawNavigationDataInterfacePerFile
         navi.set_data_heading(mru0_times, headings);
         navi.set_data_heave(mru0_times, heaves);
         navi.set_data_position(gps_times, lats, lons);
-        navi.set_data_depth(gps_times, depths);
+        //navi.set_data_depth(gps_times, depths);
 
         return navi;
     }
