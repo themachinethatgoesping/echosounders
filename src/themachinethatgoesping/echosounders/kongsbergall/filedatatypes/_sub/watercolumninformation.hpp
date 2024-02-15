@@ -201,6 +201,8 @@ class WaterColumnInformation
         _wci_infos = _WCIInfos(water_column_datagram);
     }
 
+    bool operator==(const WaterColumnInformation& other) const = default;
+
     template<typename t_ifstream>
     auto read_beam_samples(uint16_t                          bn,
                            const pingtools::ReadSampleRange& rsr,
