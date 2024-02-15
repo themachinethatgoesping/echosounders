@@ -341,7 +341,6 @@ if build_machine.system() != 'linux'
   echosounders_lib = static_library(libname,sources,
                         dependencies : [
                           boost_dep, 
-                          omp_dep,
                           pugixml_dep,
                           tools_dep,
                           navigation_dep,
@@ -358,7 +357,6 @@ else
   echosounders_lib = library(libname,sources,
                         dependencies : [
                           boost_dep, 
-                          omp_dep,
                           pugixml_dep,
                           tools_dep,
                           navigation_dep,
@@ -378,7 +376,6 @@ endif
 echosounders_dep = declare_dependency(
   dependencies : [
     boost_dep,
-    omp_dep,
     pugixml_dep,
     tools_dep,
     navigation_dep,
