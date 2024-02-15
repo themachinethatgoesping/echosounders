@@ -47,7 +47,7 @@ TEST_CASE("RAW3 should be convertible to PackageCache", TESTTAG)
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    cache_structures::PackageCache<RAW3> package_cache(0, 0, dat);
+    cache_structures::PackageCache<RAW3> package_cache(0, 0, std::make_unique<RAW3>(dat));
 
     // test basic access
     REQUIRE(dat == package_cache.get());

@@ -36,7 +36,8 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(
+        0, 0, std::make_unique<XML_Parameter_Channel>(channel));
 
     // test filepackagecache
     auto channel2      = channel;
@@ -47,10 +48,10 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     cache_structures::FilePackageCache<XML_Parameter_Channel> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
-    package_cache_buffer.add_package(12, 3, channel2);
-    package_cache_buffer.add_package(22, 3, channel);
-    package_cache_buffer.add_package(24, 3, channel2);
-    package_cache_buffer.add_package(24, 3, channel3, 1);
+    package_cache_buffer.add_package(12, 3, std::make_unique<XML_Parameter_Channel>(channel2));
+    package_cache_buffer.add_package(22, 3, std::make_unique<XML_Parameter_Channel>(channel));
+    package_cache_buffer.add_package(24, 3, std::make_unique<XML_Parameter_Channel>(channel2));
+    package_cache_buffer.add_package(24, 3, std::make_unique<XML_Parameter_Channel>(channel3), 1);
 
     REQUIRE(package_cache_buffer.has_package(0));
     REQUIRE(!package_cache_buffer.has_package(1));
@@ -90,7 +91,7 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
         REQUIRE(package_cache_buffer.get_subpackage_count(24) == 2);
         REQUIRE(package_cache_buffer.get_subpackage_count(12) == 1);
 
-        auto packages_0  = package_cache_buffer.get_packages(0, 0);
+        auto packages_0 = package_cache_buffer.get_packages(0, 0);
         REQUIRE_THROWS(package_cache_buffer.get_packages(0, 3));
         auto packages_12 = package_cache_buffer.get_packages(12, 3);
         auto packages_24 = package_cache_buffer.get_packages(24, 3);
@@ -123,7 +124,8 @@ TEST_CASE("XML_Parameter_Channel should be convertible to PackageCache", TESTTAG
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(0, 0, channel);
+    cache_structures::PackageCache<XML_Parameter_Channel> package_cache(
+        0, 0, std::make_unique<XML_Parameter_Channel>(channel));
 
     // test basic access
     REQUIRE(channel == package_cache.get());

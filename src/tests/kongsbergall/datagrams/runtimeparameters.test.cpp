@@ -83,7 +83,7 @@ TEST_CASE("RuntimeParameters should be convertible to PackageCache", TESTTAG)
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<RuntimeParameters> package_cache(0, 0, dat);
+    PackageCache<RuntimeParameters> package_cache(0, 0, std::make_unique<RuntimeParameters>(dat));
 
     // test basic access
     REQUIRE(dat == package_cache.get());

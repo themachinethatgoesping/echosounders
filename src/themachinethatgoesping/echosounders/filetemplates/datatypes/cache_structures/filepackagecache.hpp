@@ -63,13 +63,13 @@ class FilePackageCache
         return _package_buffer;
     }
 
-    template<typename t_CachedPackage>
-    void add_package(size_t                 file_pos,
-                     double                 timestamp,
-                     const t_CachedPackage& package,
-                     unsigned int           sub_package_nr = 0)
+    void add_package(size_t                           file_pos,
+                     double                           timestamp,
+                     std::unique_ptr<t_CachingResult> package,
+                     unsigned int                     sub_package_nr = 0)
     {
-        add_package(PackageCache<t_CachingResult>(file_pos, timestamp, package, sub_package_nr));
+        add_package(
+            PackageCache<t_CachingResult>(file_pos, timestamp, std::move(package), sub_package_nr));
     }
 
     void add_package(const PackageCache<t_CachingResult>& package)

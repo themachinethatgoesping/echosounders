@@ -50,46 +50,48 @@ class PackageCache
     double              _timestamp;
     unsigned int        _sub_package_nr;
 
-    t_CachingResult _caching_result;
+    std::unique_ptr<t_CachingResult> _caching_result;
 
   public:
     PackageCache() = default;
-    template<typename t_CachedPackage>
-    PackageCache(size_t                 file_pos,
-                 double                 timestamp,
-                 const t_CachedPackage& package,
-                 unsigned int           sub_package_nr = 0)
+    PackageCache(size_t                           file_pos,
+                 double                           timestamp,
+                 std::unique_ptr<t_CachingResult> package,
+                 unsigned int                     sub_package_nr = 0)
         : _file_pos(file_pos)
         , _timestamp(timestamp)
         , _sub_package_nr(sub_package_nr)
-        , _caching_result(package)
+        , _caching_result(std::move(package))
     {
     }
-    // template<typename t_CachedPackage>
-    // PackageCache(size_t                 file_pos,
-    //              double                 timestamp,
-    //              const t_CachedPackage& package,
-    //              unsigned int           sub_package_nr = 0)
-    //     : _file_pos(file_pos)
-    //     , _timestamp(timestamp)
-    //     , _sub_package_nr(sub_package_nr)
-    //     , _caching_result(package)
-    // {
-    // }
+
+    PackageCache(const PackageCache& other)
+        : _file_pos(other._file_pos)
+        , _timestamp(other._timestamp)
+        , _sub_package_nr(other._sub_package_nr)
+        , _caching_result(std::make_unique<t_CachingResult>(*other._caching_result))
+    {
+    }
+
+    bool operator==(const PackageCache& other) const
+    {
+        return _file_pos == other._file_pos && _timestamp == other._timestamp &&
+               _sub_package_nr == other._sub_package_nr &&
+               *_caching_result == *other._caching_result;
+    }
+
     virtual ~PackageCache() = default;
 
     size_t       get_file_pos() const { return _file_pos; }
     double       get_timestamp() const { return _timestamp; }
     unsigned int get_sub_package_nr() const { return _sub_package_nr; }
 
-    bool operator==(const PackageCache& other) const = default;
-
     void to_stream(std::ostream& stream, std::unordered_map<size_t, std::string>& hash_cache) const
     {
         constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
 
         stream.write(reinterpret_cast<const char*>(&_file_pos), size);
-        _caching_result.to_stream(stream, hash_cache);
+        _caching_result->to_stream(stream, hash_cache);
     }
     static auto from_stream(std::istream&                                  stream,
                             const std::unordered_map<size_t, std::string>& hash_cache)
@@ -97,7 +99,8 @@ class PackageCache
         constexpr size_t size = sizeof(_file_pos) + sizeof(_timestamp) + sizeof(_sub_package_nr);
         PackageCache     package;
         stream.read(reinterpret_cast<char*>(&package._file_pos), size);
-        package._caching_result = package._caching_result.from_stream(stream, hash_cache);
+        package._caching_result =
+            std::make_unique<t_CachingResult>(t_CachingResult::from_stream(stream, hash_cache));
 
         return package;
     }
@@ -118,9 +121,16 @@ class PackageCache
         return from_stream(buffer_stream, hash_cache);
     };
 
-    const auto& get() const { return _caching_result; }
-};
+    const auto& get() const
+    {
+        if (!_caching_result)
+        {
+            throw std::runtime_error("PackageCache: no caching result available");
+        }
 
+        return *_caching_result;
+    }
+};
 
 } // namespace cache_structures
 } // namespace datatypes

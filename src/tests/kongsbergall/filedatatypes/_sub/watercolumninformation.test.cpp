@@ -11,6 +11,7 @@
 
 #include "../themachinethatgoesping/echosounders/kongsbergall/datagrams/watercolumndatagram.hpp"
 #include "../themachinethatgoesping/echosounders/kongsbergall/filedatatypes/_sub/watercolumninformation.hpp"
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecache.hpp>
 
 // using namespace testing;
 using namespace std;
@@ -105,7 +106,7 @@ TEST_CASE("WaterColumnInformation should be initialized correctly from WaterColu
     CHECK(tr[0].get_center_frequency() == 191);
 
     // test inequality
-    //REQUIRE(WCI != WaterColumnInformation());
+    // REQUIRE(WCI != WaterColumnInformation());
 
     // test copy
     REQUIRE(WCI == WaterColumnInformation(WCI));
@@ -115,5 +116,36 @@ TEST_CASE("WaterColumnInformation should be initialized correctly from WaterColu
     std::stringstream                       buffer;
 
     WCI.to_stream(buffer, hash_cache);
-    //REQUIRE(WCI == WaterColumnInformation(WCI.from_stream(buffer, hash_cache)));
+    // REQUIRE(WCI == WaterColumnInformation(WCI.from_stream(buffer, hash_cache)));
+}
+
+TEST_CASE("WaterColumnInformation should be convertible to PackageCache", TESTTAG)
+{
+    using themachinethatgoesping::echosounders::filetemplates::datatypes::cache_structures::
+        PackageCache;
+
+    // initialize class structure
+    auto                   wcd = make_wcd();
+    WaterColumnInformation dat(wcd);
+
+    std::unordered_map<size_t, std::string> hash_cache;
+
+    PackageCache<WaterColumnInformation> package_cache(
+        0, 0, std::make_unique<WaterColumnInformation>(dat));
+
+    PackageCache<WaterColumnInformation> package_cache2(
+        0, 0, std::make_unique<WaterColumnInformation>(wcd));
+
+    // test basic access
+    REQUIRE(dat == package_cache.get());
+    REQUIRE(package_cache.get() == package_cache2.get());
+
+    // test to/from binary
+    SECTION("PackageCache: to/from binary")
+    {
+        REQUIRE(package_cache ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
+        REQUIRE(dat ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
+    }
 }

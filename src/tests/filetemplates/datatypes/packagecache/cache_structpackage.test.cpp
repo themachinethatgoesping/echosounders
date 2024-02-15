@@ -114,7 +114,7 @@ TEST_CASE("StructPackage should be convertible to PackageCache", TESTTAG)
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<t_StructPackage> package_cache(0, 0, dat);
+    PackageCache<t_StructPackage> package_cache(0, 0, std::make_unique<t_StructPackage>(dat));
 
     // test basic access
     REQUIRE(dat == package_cache.get());
@@ -163,15 +163,15 @@ TEST_CASE("StructPackage should be usable with FilePackageCache", TESTTAG)
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<t_StructPackage> package_cache(0, 0, dat);
+    PackageCache<t_StructPackage> package_cache(0, 0, std::make_unique<t_StructPackage>(dat));
 
     FilePackageCache<t_StructPackage> package_cache_buffer;
 
     package_cache_buffer.add_package(package_cache);
-    package_cache_buffer.add_package(12, 3, dat2);
-    package_cache_buffer.add_package(22, 3, dat);
-    package_cache_buffer.add_package(24, 3, dat2);
-    package_cache_buffer.add_package(24, 3, dat3, 1);
+    package_cache_buffer.add_package(12, 3, std::make_unique<t_StructPackage>(dat2));
+    package_cache_buffer.add_package(22, 3, std::make_unique<t_StructPackage>(dat));
+    package_cache_buffer.add_package(24, 3, std::make_unique<t_StructPackage>(dat2));
+    package_cache_buffer.add_package(24, 3, std::make_unique<t_StructPackage>(dat3), 1);
 
     REQUIRE(package_cache_buffer.has_package(0));
     REQUIRE(!package_cache_buffer.has_package(1));
