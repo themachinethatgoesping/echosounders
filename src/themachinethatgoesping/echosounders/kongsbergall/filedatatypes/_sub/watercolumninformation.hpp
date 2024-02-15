@@ -119,6 +119,8 @@ class _WCIInfos
                     _transmit_sectors.data(),
                     _transmit_sectors.size() *
                         sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+
+        return buffer;
     }
 };
 

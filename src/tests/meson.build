@@ -35,6 +35,7 @@ sources = [
   'kongsbergall/datagrams/xyzdatagram.test.cpp',
   'kongsbergall/filedatatypes/_sub/_sysinfos.test.cpp',
   'kongsbergall/filedatatypes/_sub/_wciinfos.test.cpp',
+  'kongsbergall/filedatatypes/_sub/watercolumninformation.test.cpp',
   'simradraw/datagrams/FIL1.test.cpp',
   'simradraw/datagrams/MRU0.test.cpp',
   'simradraw/datagrams/NME0.test.cpp',
