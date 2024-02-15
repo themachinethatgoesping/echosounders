@@ -33,10 +33,11 @@ namespace _sub {
 
 struct _WCIInfos
 {
-    float   sound_speed_at_transducer = 0.0f;
-    uint8_t tvg_function_applied      = 0;
-    int8_t  tvg_offset_in_db          = 0;
-    float   sampling_interval         = 0.0f;
+    float   sound_speed_at_transducer  = 0.0f;
+    uint8_t tvg_function_applied       = 0;
+    int8_t  tvg_offset_in_db           = 0;
+    float   sampling_interval          = 0.0f;
+    uint8_t number_of_transmit_sectors = 0;
     std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> transmit_sectors;
 
     _WCIInfos() = default;
@@ -48,10 +49,46 @@ struct _WCIInfos
         tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
         sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
 
-        transmit_sectors = water_column_datagram.get_transmit_sectors();
+        transmit_sectors           = water_column_datagram.get_transmit_sectors();
+        number_of_transmit_sectors = transmit_sectors.size();
     }
 
     bool operator==(_WCIInfos const& other) const = default;
+
+    // ----- functions used for PackageCache -----
+    static _WCIInfos from_binary(const std::string& buffer)
+    {
+        static const size_t size_bytes = 2 * sizeof(float) + 2 * sizeof(uint8_t) + sizeof(int8_t);
+
+        _WCIInfos dat;
+
+        std::memcpy(&dat.sound_speed_at_transducer, buffer.data(), size_bytes);
+        dat.transmit_sectors.resize(dat.number_of_transmit_sectors);
+
+        std::memcpy(dat.transmit_sectors.data(),
+                    buffer.data() + size_bytes,
+                    dat.number_of_transmit_sectors *
+                        sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+
+        return dat;
+    }
+
+    std::string to_binary() const
+    {
+        static const size_t size_bytes = 2 * sizeof(float) + 2 * sizeof(uint8_t) + sizeof(int8_t);
+
+        std::string buffer;
+
+        buffer.resize(size_bytes +
+                      transmit_sectors.size() *
+                          sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+
+        std::memcpy(buffer.data(), &sound_speed_at_transducer, size_bytes);
+        std::memcpy(buffer.data() + size_bytes,
+                    transmit_sectors.data(),
+                    transmit_sectors.size() *
+                        sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+    }
 };
 
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
@@ -61,13 +98,12 @@ inline std::size_t hash_value(const _WCIInfos& data)
     boost::iostreams::stream<XXHashSink> stream(hash);
 
     stream.write(reinterpret_cast<const char*>(&data.sound_speed_at_transducer),
-                 sizeof(float) + sizeof(uint8_t) + sizeof(int8_t) + sizeof(float));
+                 sizeof(float) + sizeof(uint8_t) + sizeof(uint8_t) + sizeof(int8_t) +
+                     sizeof(float));
 
-    for (const auto& ts : data.transmit_sectors)
-    {
-        stream.write(reinterpret_cast<const char*>(&ts), sizeof(ts));
-    }
-
+    stream.write(reinterpret_cast<const char*>(data.transmit_sectors.data()),
+                 data.transmit_sectors.size() *
+                     sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
     stream.flush();
     return hash.digest();
 }
@@ -92,6 +128,8 @@ class WaterColumnInformation
     boost::flyweights::flyweight<_WCIInfos> _wci_infos;
     // datagrams::WatercolumnDatagram
     //     _water_column_datagram; // note, this will be saved without beams()
+
+    WaterColumnInformation() = default; // for to/from stream
 
   public:
     WaterColumnInformation(const datagrams::WatercolumnDatagram& water_column_datagram)
@@ -178,6 +216,163 @@ class WaterColumnInformation
         return _wci_infos.get().transmit_sectors;
     }
     float get_sample_interval() const { return _wci_infos.get().sampling_interval; }
+
+    // ----- functions used for PackageCache -----
+    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
+    {
+        std::string         buffer;
+        std::vector<size_t> hashes, sizes;
+        hashes.reserve(5); // all except _detected_range_in_samples and _sample_positions
+        sizes.reserve(6);  // all except _wci_infos
+
+        // _beam_crosstrack_angles
+        hashes.push_back(xxh::xxhash3<64>(_beam_crosstrack_angles.get().data(),
+                                          _beam_crosstrack_angles.get().size() * sizeof(float)));
+        sizes.push_back(_beam_crosstrack_angles.get().size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            auto& buffer = hash_cache[hashes.back()];
+            buffer.resize(_beam_crosstrack_angles.get().size() * sizeof(float));
+
+            std::memcpy(buffer.data(),
+                        _beam_crosstrack_angles.get().data(),
+                        _beam_crosstrack_angles.get().size() * sizeof(float));
+        }
+
+        // _start_range_sample_numbers
+        hashes.push_back(
+            xxh::xxhash3<64>(_start_range_sample_numbers.get().data(),
+                             _start_range_sample_numbers.get().size() * sizeof(uint16_t)));
+        sizes.push_back(_start_range_sample_numbers.get().size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            auto& buffer = hash_cache[hashes.back()];
+            buffer.resize(_start_range_sample_numbers.get().size() * sizeof(uint16_t));
+
+            std::memcpy(hash_cache[hashes.back()].data(),
+                        _start_range_sample_numbers.get().data(),
+                        _start_range_sample_numbers.get().size() * sizeof(uint16_t));
+        }
+
+        // _number_of_samples_per_beam
+        hashes.push_back(
+            xxh::xxhash3<64>(_number_of_samples_per_beam.get().data(),
+                             _number_of_samples_per_beam.get().size() * sizeof(uint16_t)));
+        sizes.push_back(_number_of_samples_per_beam.get().size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            auto& buffer = hash_cache[hashes.back()];
+            buffer.resize(_number_of_samples_per_beam.get().size() * sizeof(uint16_t));
+
+            std::memcpy(hash_cache[hashes.back()].data(),
+                        _number_of_samples_per_beam.get().data(),
+                        _number_of_samples_per_beam.get().size() * sizeof(uint16_t));
+        }
+
+        // _detected_range_in_samples (write directly to stream, safe size here)
+        sizes.push_back(_detected_range_in_samples.size());
+
+        // _number_of_samples_per_beam
+        hashes.push_back(xxh::xxhash3<64>(_transmit_sector_numbers.get().data(),
+                                          _transmit_sector_numbers.get().size() * sizeof(uint8_t)));
+        sizes.push_back(_transmit_sector_numbers.get().size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            auto& buffer = hash_cache[hashes.back()];
+            buffer.resize(_transmit_sector_numbers.get().size() * sizeof(uint8_t));
+
+            std::memcpy(hash_cache[hashes.back()].data(),
+                        _transmit_sector_numbers.get().data(),
+                        _transmit_sector_numbers.get().size() * sizeof(uint8_t));
+        }
+
+        // _sample_positions (write directly to stream, safe size in 'hashes' array)
+        sizes.push_back(_sample_positions.size());
+
+        // _wci_infos
+        hashes.push_back(hash_value(_wci_infos.get()));
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            hash_cache[hashes.back()] = _wci_infos.get().to_binary();
+        }
+
+        // write hashes to stream
+        os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
+
+        // write detected_range_in_samples to stream
+        os.write(reinterpret_cast<const char*>(_detected_range_in_samples.data()),
+                 _detected_range_in_samples.size() * sizeof(uint16_t));
+
+        // write sample_positions to stream
+        os.write(reinterpret_cast<const char*>(_sample_positions.data()),
+                 _sample_positions.size() * sizeof(size_t));
+    }
+
+    static WaterColumnInformation from_stream(
+        std::istream&                                  is,
+        const std::unordered_map<size_t, std::string>& hash_cache)
+    {
+        // create WaterColumnInformation
+        WaterColumnInformation dat;
+
+        std::vector<size_t> hashes(
+            5);                       // all except _detected_range_in_samples and _sample_positions
+        std::vector<size_t> sizes(6); // all except _wci_infos
+
+        // read hashes and sizes from stream
+        is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
+        is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
+
+        // resize arrays
+        auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ sizes[0] });
+        auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
+        auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
+        dat._detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
+        auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
+        dat._sample_positions           = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
+
+        // read detected_range_in_samples from stream
+        is.read(reinterpret_cast<char*>(dat._detected_range_in_samples.data()),
+                dat._detected_range_in_samples.size() * sizeof(uint16_t));
+
+        // read sample_positions from stream
+        is.read(reinterpret_cast<char*>(dat._sample_positions.data()),
+                dat._sample_positions.size() * sizeof(size_t));
+
+        // read _beam_crosstrack_angles from hash_cache
+        std::memcpy(beam_crosstrack_angles.data(),
+                    hash_cache.at(hashes[0]).data(),
+                    beam_crosstrack_angles.size() * sizeof(float));
+        dat._beam_crosstrack_angles = std::move(beam_crosstrack_angles);
+
+        // read _start_range_sample_numbers from hash_cache
+        std::memcpy(start_range_sample_numbers.data(),
+                    hash_cache.at(hashes[1]).data(),
+                    start_range_sample_numbers.size() * sizeof(uint16_t));
+        dat._start_range_sample_numbers = std::move(start_range_sample_numbers);
+
+        // read _number_of_samples_per_beam from hash_cache
+        std::memcpy(number_of_samples_per_beam.data(),
+                    hash_cache.at(hashes[2]).data(),
+                    number_of_samples_per_beam.size() * sizeof(uint16_t));
+        dat._number_of_samples_per_beam = std::move(number_of_samples_per_beam);
+
+        // read _transmit_sector_numbers from hash_cache
+        std::memcpy(transmit_sector_numbers.data(),
+                    hash_cache.at(hashes[3]).data(),
+                    transmit_sector_numbers.size() * sizeof(uint8_t));
+        dat._transmit_sector_numbers = std::move(transmit_sector_numbers);
+
+        // read _wci_infos from hash_cache
+        dat._wci_infos = _WCIInfos::from_binary(hash_cache.at(hashes[4]));
+
+        return dat;
+    }
 };
 
 } // namespace _sub

@@ -1,4 +1,4 @@
-//sourcehash: 0453bf518b985dacd7924fec7f2df3bde16e3a705efcc7e637187734e18c257e
+//sourcehash: da83bccab89db479291fc32c81b6da6f91a5e987f55f9cf68c09b0fc1a704d3c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,11 +44,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_WCIInfos_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_from_binary = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_number_of_transmit_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sampling_interval = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sound_speed_at_transducer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_to_binary = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_transmit_sectors = R"doc()doc";
 
@@ -66,7 +72,11 @@ API or pybind11 interface.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_beam_crosstrack_angles = R"doc()doc";
 
@@ -93,6 +103,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_read_beam_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_sample_positions = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_wci_infos = R"doc()doc";
 
