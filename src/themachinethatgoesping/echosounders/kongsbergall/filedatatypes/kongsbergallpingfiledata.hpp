@@ -58,8 +58,8 @@ class KongsbergAllPingFileData
     boost::flyweight<datagrams::RuntimeParameters> _runtime_parameters;
 
   private:
-    std::shared_ptr<_sub::WaterColumnInformation> _watercolumninformation;
-    std::shared_ptr<_sub::SystemInformation>      _systeminformation;
+    std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
+    std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
     void load_wci(bool force = false)
@@ -68,7 +68,7 @@ class KongsbergAllPingFileData
             return;
 
         _watercolumninformation =
-            std::make_shared<_sub::WaterColumnInformation>(read_merged_watercolumndatagram(true));
+            std::make_unique<_sub::WaterColumnInformation>(read_merged_watercolumndatagram(true));
     }
     void load_sys(bool force = false)
     {
@@ -77,12 +77,12 @@ class KongsbergAllPingFileData
 
         if (has_datagram_type<datagrams::RawRangeAndAngle>())
         {
-            _systeminformation = std::make_shared<_sub::SystemInformation>(
+            _systeminformation = std::make_unique<_sub::SystemInformation>(
                 read_first_datagram<datagrams::RawRangeAndAngle>());
         }
         else
         {
-            _systeminformation = std::make_shared<_sub::SystemInformation>(get_wcinfos());
+            _systeminformation = std::make_unique<_sub::SystemInformation>(get_wcinfos());
         }
     }
     void release_wci() { _watercolumninformation.reset(); }
@@ -165,6 +165,21 @@ class KongsbergAllPingFileData
     }
 
     ~KongsbergAllPingFileData() = default;
+
+    KongsbergAllPingFileData(const KongsbergAllPingFileData& other)
+        : t_base1(other)
+        , t_base2(other)
+    {
+        _runtime_parameters = other._runtime_parameters;
+        _watercolumninformation =
+            other._watercolumninformation
+                ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
+                : nullptr;
+        _systeminformation =
+            other._systeminformation
+                ? std::make_unique<_sub::SystemInformation>(*other._systeminformation)
+                : nullptr;
+    }
 
     /**
      * @brief Return the filestream associated with the first datagram of the specified type
@@ -269,8 +284,8 @@ class KongsbergAllPingFileData
     void must_have_datagrams(std::string_view method_name) const
     {
         if (this->_datagram_infos_all.empty())
-            throw std::runtime_error(fmt::format(
-                "{}: No datagram in ping!", __func__, method_name));
+            throw std::runtime_error(
+                fmt::format("{}: No datagram in ping!", __func__, method_name));
     }
 
   public:
