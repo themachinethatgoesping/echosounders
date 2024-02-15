@@ -103,4 +103,17 @@ TEST_CASE("WaterColumnInformation should be initialized correctly from WaterColu
     CHECK(tr.size() == 1);
     CHECK(tr[0].get_tilt_angle() == 101);
     CHECK(tr[0].get_center_frequency() == 191);
+
+    // test inequality
+    //REQUIRE(WCI != WaterColumnInformation());
+
+    // test copy
+    REQUIRE(WCI == WaterColumnInformation(WCI));
+
+    // test stream (with hash cache)
+    std::unordered_map<size_t, std::string> hash_cache;
+    std::stringstream                       buffer;
+
+    WCI.to_stream(buffer, hash_cache);
+    //REQUIRE(WCI == WaterColumnInformation(WCI.from_stream(buffer, hash_cache)));
 }
