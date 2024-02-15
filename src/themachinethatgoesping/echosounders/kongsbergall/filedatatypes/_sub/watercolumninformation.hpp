@@ -31,29 +31,60 @@ namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
 
-struct _WCIInfos
+class _WCIInfos
 {
-    float   sound_speed_at_transducer  = 0.0f;
-    uint8_t tvg_function_applied       = 0;
-    int8_t  tvg_offset_in_db           = 0;
-    float   sampling_interval          = 0.0f;
-    uint8_t number_of_transmit_sectors = 0;
-    std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> transmit_sectors;
+    float   _sound_speed_at_transducer  = 0.0f;
+    uint8_t _tvg_function_applied       = 0;
+    int8_t  _tvg_offset_in_db           = 0;
+    float   _sampling_interval          = 0.0f;
+    uint8_t _number_of_transmit_sectors = 0;
+    std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> _transmit_sectors;
 
+  public:
     _WCIInfos() = default;
 
     _WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram)
     {
-        sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
-        tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
-        tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
-        sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
+        _sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
+        _tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
+        _tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
+        _sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
 
-        transmit_sectors           = water_column_datagram.get_transmit_sectors();
-        number_of_transmit_sectors = transmit_sectors.size();
+        _transmit_sectors           = water_column_datagram.get_transmit_sectors();
+        _number_of_transmit_sectors = _transmit_sectors.size();
     }
 
     bool operator==(_WCIInfos const& other) const = default;
+
+    // getters and setters
+    float   get_sound_speed_at_transducer() const { return _sound_speed_at_transducer; }
+    uint8_t get_tvg_function_applied() const { return _tvg_function_applied; }
+    int8_t  get_tvg_offset_in_db() const { return _tvg_offset_in_db; }
+    float   get_sampling_interval() const { return _sampling_interval; }
+    uint8_t get_number_of_transmit_sectors() const { return _transmit_sectors.size(); }
+    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
+    get_transmit_sectors() const
+    {
+        return _transmit_sectors;
+    }
+
+    void set_sound_speed_at_transducer(float sound_speed_at_transducer)
+    {
+        _sound_speed_at_transducer = sound_speed_at_transducer;
+    }
+    void set_tvg_function_applied(uint8_t tvg_function_applied)
+    {
+        _tvg_function_applied = tvg_function_applied;
+    }
+    void set_tvg_offset_in_db(int8_t tvg_offset_in_db) { _tvg_offset_in_db = tvg_offset_in_db; }
+    void set_sampling_interval(float sampling_interval) { _sampling_interval = sampling_interval; }
+    void set_transmit_sectors(
+        const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
+            transmit_sectors)
+    {
+        _transmit_sectors           = transmit_sectors;
+        _number_of_transmit_sectors = transmit_sectors.size();
+    }
 
     // ----- functions used for PackageCache -----
     static _WCIInfos from_binary(const std::string& buffer)
@@ -62,12 +93,12 @@ struct _WCIInfos
 
         _WCIInfos dat;
 
-        std::memcpy(&dat.sound_speed_at_transducer, buffer.data(), size_bytes);
-        dat.transmit_sectors.resize(dat.number_of_transmit_sectors);
+        std::memcpy(&dat._sound_speed_at_transducer, buffer.data(), size_bytes);
+        dat._transmit_sectors.resize(dat._number_of_transmit_sectors);
 
-        std::memcpy(dat.transmit_sectors.data(),
+        std::memcpy(dat._transmit_sectors.data(),
                     buffer.data() + size_bytes,
-                    dat.number_of_transmit_sectors *
+                    dat._number_of_transmit_sectors *
                         sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
 
         return dat;
@@ -80,13 +111,13 @@ struct _WCIInfos
         std::string buffer;
 
         buffer.resize(size_bytes +
-                      transmit_sectors.size() *
+                      _transmit_sectors.size() *
                           sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
 
-        std::memcpy(buffer.data(), &sound_speed_at_transducer, size_bytes);
+        std::memcpy(buffer.data(), &_sound_speed_at_transducer, size_bytes);
         std::memcpy(buffer.data() + size_bytes,
-                    transmit_sectors.data(),
-                    transmit_sectors.size() *
+                    _transmit_sectors.data(),
+                    _transmit_sectors.size() *
                         sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
     }
 };
@@ -97,12 +128,12 @@ inline std::size_t hash_value(const _WCIInfos& data)
     xxh::hash3_state_t<64>               hash;
     boost::iostreams::stream<XXHashSink> stream(hash);
 
-    stream.write(reinterpret_cast<const char*>(&data.sound_speed_at_transducer),
+    stream.write(reinterpret_cast<const char*>(&data),
                  sizeof(float) + sizeof(uint8_t) + sizeof(uint8_t) + sizeof(int8_t) +
                      sizeof(float));
 
-    stream.write(reinterpret_cast<const char*>(data.transmit_sectors.data()),
-                 data.transmit_sectors.size() *
+    stream.write(reinterpret_cast<const char*>(data.get_transmit_sectors().data()),
+                 data.get_transmit_sectors().size() *
                      sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
     stream.flush();
     return hash.digest();
@@ -206,16 +237,16 @@ class WaterColumnInformation
 
     float get_sound_speed_at_transducer() const
     {
-        return _wci_infos.get().sound_speed_at_transducer;
+        return _wci_infos.get().get_sound_speed_at_transducer();
     }
-    uint8_t get_tvg_factor_applied() const { return _wci_infos.get().tvg_function_applied; }
-    int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().tvg_offset_in_db; }
+    uint8_t get_tvg_factor_applied() const { return _wci_infos.get().get_tvg_function_applied(); }
+    int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().get_tvg_offset_in_db(); }
     const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
     get_transmit_sectors() const
     {
-        return _wci_infos.get().transmit_sectors;
+        return _wci_infos.get().get_transmit_sectors();
     }
-    float get_sample_interval() const { return _wci_infos.get().sampling_interval; }
+    float get_sample_interval() const { return _wci_infos.get().get_sampling_interval(); }
 
     // ----- functions used for PackageCache -----
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
