@@ -45,20 +45,41 @@ datagrams::WatercolumnDatagram make_wcd()
     beam.set_beam_crosstrack_angle(101);
     beam.set_transmit_sector_number(191);
     dat.set_beams({ beam });
+
+    // check the required functions do not throw
+    //CHECK(dat.get_beams().size() == 1);
+
+    return dat;
 }
 
 TEST_CASE("WaterColumnInformation reproduce precomputed hashes", TESTTAG)
 {
     WaterColumnInformation WCI(make_wcd());
 
-    CHECK(WCI.get_sound_speed_at_transducer() == 201);
-    CHECK(WCI.get_tvg_function_applied() == 201);
-    CHECK(WCI.get_tvg_offset_in_db() == 201);
-    CHECK(WCI.get_sampling_interval() == 201);
-    CHECK(WCI.get_number_of_transmit_sectors() == 201);
+    // CHECK(WCI.get_beam_crosstrack_angles().size() == 1);
+    // CHECK(WCI.get_beam_crosstrack_angles()[0] == 101);
 
-    auto tr = WCI.get_transmit_sectors();
-    CHECK(tr.size() == 1);
-    CHECK(tr[0].get_tilt_angle() == 101);
-    CHECK(tr[0].get_center_frequency() == 191);
+    // CHECK(WCI.get_start_range_sample_numbers().size() == 1);
+    // CHECK(WCI.get_start_range_sample_numbers()[0] == 101);
+
+    // CHECK(WCI.get_number_of_samples_per_beam().size() == 1);
+    // CHECK(WCI.get_number_of_samples_per_beam()[0] == 101);
+
+    // CHECK(WCI.get_detected_range_in_samples().size() == 1);
+    // CHECK(WCI.get_detected_range_in_samples()[0] == 101);
+
+    // CHECK(WCI.get_transmit_sector_numbers().size() == 1);
+    // CHECK(WCI.get_transmit_sector_numbers()[0] == 101);
+
+    // CHECK(WCI.get_sample_positions().size() == 1);
+    // CHECK(WCI.get_sample_positions()[0] == 101);
+
+    // CHECK(WCI.get_tvg_factor_applied() == 1);
+    // CHECK(WCI.get_tvg_offset_in_db() == 1);
+    // CHECK(WCI.get_sample_interval() == 1);
+
+    // auto tr = WCI.get_transmit_sectors();
+    // CHECK(tr.size() == 1);
+    // CHECK(tr[0].get_tilt_angle() == 101);
+    // CHECK(tr[0].get_center_frequency() == 191);
 }

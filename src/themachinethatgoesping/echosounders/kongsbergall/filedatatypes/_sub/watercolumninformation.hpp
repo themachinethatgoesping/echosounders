@@ -34,9 +34,9 @@ namespace _sub {
 class _WCIInfos
 {
     float   _sound_speed_at_transducer  = 0.0f;
+    float   _sampling_interval          = 0.0f;
     uint8_t _tvg_function_applied       = 0;
     int8_t  _tvg_offset_in_db           = 0;
-    float   _sampling_interval          = 0.0f;
     uint8_t _number_of_transmit_sectors = 0;
     std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> _transmit_sectors;
 
@@ -114,7 +114,7 @@ class _WCIInfos
                       _transmit_sectors.size() *
                           sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
 
-        std::memcpy(buffer.data(), &_sound_speed_at_transducer, size_bytes);
+        std::memcpy(buffer.data(), this, size_bytes);
         std::memcpy(buffer.data() + size_bytes,
                     _transmit_sectors.data(),
                     _transmit_sectors.size() *
