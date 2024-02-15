@@ -32,11 +32,11 @@ def print_cache_file_statistics(
 
     for k,v in Buffers.items():
         if not k.startswith('-'):
-            print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers["- Source files -"],2)} %" )
+            print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers['- Source files -'],2)} %" )
             
     for k,v in Buffers.items():
         if k.startswith('-'):
-            print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers["- Source files -"],2)} %" )
+            print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers['- Source files -'],2)} %" )
 
 def remove_name_from_cache(
     file_cache_paths: List[str],
