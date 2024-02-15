@@ -338,6 +338,7 @@ class WaterColumnInformation
 
         // write hashes to stream
         os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
+        os.write(reinterpret_cast<const char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
         // write detected_range_in_samples to stream
         os.write(reinterpret_cast<const char*>(_detected_range_in_samples.data()),
