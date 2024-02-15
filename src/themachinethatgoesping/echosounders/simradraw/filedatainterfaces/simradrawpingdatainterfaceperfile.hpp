@@ -128,7 +128,7 @@ class SimradRawPingDataInterfacePerFile
                                 datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp());
                             for (const auto& channel : channels)
                             {
-                                _channel_parameter_buffer[channel.ChannelID] = channel;
+                                _channel_parameter_buffer[channel->ChannelID] = *channel;
                             }
                             break;
                         }
@@ -204,13 +204,15 @@ class SimradRawPingDataInterfacePerFile
                     break;
                 }
                 case t_SimradRawDatagramIdentifier::RAW3: {
+
                     // load from cache if available
                     datagrams::RAW3 raw3;
+
                     if (!cache_file_path.empty() &&
                         package_buffer_raw3.has_package(datagram_ptr->get_file_pos()))
                     {
-                        raw3 = package_buffer_raw3.get_package(datagram_ptr->get_file_pos(),
-                                                               datagram_ptr->get_timestamp());
+                        raw3 = *package_buffer_raw3.get_package(datagram_ptr->get_file_pos(),
+                                                                datagram_ptr->get_timestamp());
                     }
                     else
                     {
@@ -224,7 +226,8 @@ class SimradRawPingDataInterfacePerFile
                         }
                     }
 
-                    if (!cache_file_path.empty())
+                    if (!cache_file_path.empty() &&
+                        !package_buffer_raw3.has_package(datagram_ptr->get_file_pos()))
                     {
                         cache_updated = true;
                         package_buffer_raw3.add_package(datagram_ptr->get_file_pos(),

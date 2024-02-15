@@ -130,6 +130,11 @@ class PackageCache
 
         return *_caching_result;
     }
+
+    std::unique_ptr<t_CachingResult> get_and_release()
+    {
+        return std::move(_caching_result);
+    }
 };
 
 } // namespace cache_structures

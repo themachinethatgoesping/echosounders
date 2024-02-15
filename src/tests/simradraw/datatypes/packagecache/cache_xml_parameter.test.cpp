@@ -61,16 +61,16 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
     SECTION("FilePackageCache: test basic access")
     {
         INFO(channel.info_string());
-        INFO(package_cache_buffer.get_package(0, 0).info_string());
+        INFO(package_cache_buffer.get_package(0, 0)->info_string());
         INFO("--- channel 2 ---");
         INFO(channel2.info_string());
-        INFO(package_cache_buffer.get_package(12, 3).info_string());
-        REQUIRE(channel == package_cache_buffer.get_package(0, 0));
-        REQUIRE(channel2 == package_cache_buffer.get_package(12, 3));
-        REQUIRE_THROWS(package_cache_buffer.get_package(1, 3));
+        INFO(package_cache_buffer.get_package(12, 3)->info_string());
+        REQUIRE(channel == *package_cache_buffer.get_package(0, 0));
+        REQUIRE(channel2 == *package_cache_buffer.get_package(12, 3));
+        REQUIRE_THROWS(*package_cache_buffer.get_package(1, 3));
 
-        REQUIRE(channel3 == package_cache_buffer.get_package(24, 3, 1));
-        REQUIRE(channel2 == package_cache_buffer.get_package(24, 3, 0));
+        REQUIRE(channel3 == *package_cache_buffer.get_package(24, 3, 1));
+        REQUIRE(channel2 == *package_cache_buffer.get_package(24, 3, 0));
 
         REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
         REQUIRE(package_cache_buffer.get_hash_cache().size() == 3);
@@ -101,10 +101,10 @@ TEST_CASE("XML_Parameter_Channel should be usable with FilePackageCache", TESTTA
         REQUIRE(packages_12.size() == 1);
         REQUIRE(packages_24.size() == 2);
 
-        REQUIRE(packages_0[0] == channel);
-        REQUIRE(packages_12[0] == channel2);
-        REQUIRE(packages_24[0] == channel2);
-        REQUIRE(packages_24[1] == channel3);
+        REQUIRE(*packages_0[0] == channel);
+        REQUIRE(*packages_12[0] == channel2);
+        REQUIRE(*packages_24[0] == channel2);
+        REQUIRE(*packages_24[1] == channel3);
     }
 }
 

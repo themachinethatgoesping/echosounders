@@ -299,8 +299,8 @@ class KongsbergAllPingDataInterfacePerFile
                     ->template read_datagram_from_file<datagrams::RuntimeParameters>();
 
             if (_buffer_runtimeparameters.has_package(datagram_ptr->get_file_pos()))
-                return _buffer_runtimeparameters.get_package(datagram_ptr->get_file_pos(),
-                                                             datagram_ptr->get_timestamp());
+                return *_buffer_runtimeparameters.get_package(datagram_ptr->get_file_pos(),
+                                                              datagram_ptr->get_timestamp());
 
             _update_cache = true;
             auto rp =

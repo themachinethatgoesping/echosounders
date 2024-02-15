@@ -11,6 +11,7 @@
 /* std includes */
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <set>
 #include <unordered_map>
 #include <vector>
@@ -139,14 +140,15 @@ class FilePackageCache
         return package_it->second.size();
     }
 
-    t_CachingResult get_package(size_t       file_pos,
-                                double       timestamp,
-                                unsigned int sub_package_nr = 0) const
+    std::unique_ptr<t_CachingResult> get_package(size_t       file_pos,
+                                                 double       timestamp,
+                                                 unsigned int sub_package_nr = 0) const
     {
-        return get_from_cache(file_pos, timestamp, sub_package_nr).get();
+        return get_from_cache(file_pos, timestamp, sub_package_nr).get_and_release();
     }
 
-    std::vector<t_CachingResult> get_packages(size_t file_pos, double timestamp) const
+    std::vector<std::unique_ptr<t_CachingResult>> get_packages(size_t file_pos,
+                                                               double timestamp) const
     {
         const auto package_it = _package_buffer.find(file_pos);
 
@@ -154,10 +156,10 @@ class FilePackageCache
             throw std::runtime_error(
                 fmt::format("{}: package {} not found in cache", class_name(), file_pos));
 
-        std::vector<t_CachingResult> packages;
-        auto                         subpackage_count = package_it->second.size();
+        std::vector<std::unique_ptr<t_CachingResult>> packages;
+        auto                                          subpackage_count = package_it->second.size();
         for (unsigned int i = 0; i < subpackage_count; ++i)
-            packages.push_back(get_from_cache(file_pos, timestamp, i).get());
+            packages.push_back(get_from_cache(file_pos, timestamp, i).get_and_release());
 
         return packages;
     }

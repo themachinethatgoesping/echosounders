@@ -185,12 +185,12 @@ TEST_CASE("StructPackage should be usable with FilePackageCache", TESTTAG)
         // INFO("--- dat 2 ---");
         // INFO(dat2.info_string());
         // INFO(package_cache_buffer.get_package(12, 3).info_string());
-        REQUIRE(dat == package_cache_buffer.get_package(0, 0));
-        REQUIRE(dat2 == package_cache_buffer.get_package(12, 3));
-        REQUIRE_THROWS(package_cache_buffer.get_package(1, 3));
+        REQUIRE(dat == *package_cache_buffer.get_package(0, 0));
+        REQUIRE(dat2 == *package_cache_buffer.get_package(12, 3));
+        REQUIRE_THROWS(*package_cache_buffer.get_package(1, 3));
 
-        REQUIRE(dat3 == package_cache_buffer.get_package(24, 3, 1));
-        REQUIRE(dat2 == package_cache_buffer.get_package(24, 3, 0));
+        REQUIRE(dat3 == *package_cache_buffer.get_package(24, 3, 1));
+        REQUIRE(dat2 == *package_cache_buffer.get_package(24, 3, 0));
 
         REQUIRE(package_cache_buffer.get_package_buffer().size() == 4);
         REQUIRE(package_cache_buffer.get_hash_cache().size() == 3);
@@ -221,9 +221,9 @@ TEST_CASE("StructPackage should be usable with FilePackageCache", TESTTAG)
         REQUIRE(packages_12.size() == 1);
         REQUIRE(packages_24.size() == 2);
 
-        REQUIRE(packages_0[0] == dat);
-        REQUIRE(packages_12[0] == dat2);
-        REQUIRE(packages_24[0] == dat2);
-        REQUIRE(packages_24[1] == dat3);
+        REQUIRE(*packages_0[0] == dat);
+        REQUIRE(*packages_12[0] == dat2);
+        REQUIRE(*packages_24[0] == dat2);
+        REQUIRE(*packages_24[1] == dat3);
     }
 }
