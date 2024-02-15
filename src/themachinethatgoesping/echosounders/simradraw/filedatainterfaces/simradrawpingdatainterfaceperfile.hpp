@@ -146,9 +146,9 @@ class SimradRawPingDataInterfacePerFile
 
                     if (xml_type == "Parameter")
                     {
-                        auto channels =
-                            std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode())
-                                .Channels;
+                        auto param =
+                            std::get<datagrams::xml_datagrams::XML_Parameter>(xml.decode());
+                        const auto& channels = param.Channels;
 
                         for (unsigned int i = 0; i < channels.size(); i++)
                         {
@@ -157,19 +157,23 @@ class SimradRawPingDataInterfacePerFile
                             if (!cache_file_path.empty())
                             {
                                 cache_updated = true;
-                                package_buffer_xml.add_package(datagram_ptr->get_file_pos(),
-                                                               datagram_ptr->get_timestamp(),
-                                                               channels[i],
-                                                               i);
+                                package_buffer_xml.add_package(
+                                    datagram_ptr->get_file_pos(),
+                                    datagram_ptr->get_timestamp(),
+                                    std::make_unique<
+                                        datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                        channels[i]),
+                                    i);
                             }
                         }
                         break;
                     }
                     else if (xml_type == "InitialParameter")
                     {
-                        auto channels =
-                            std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode())
-                                .Channels;
+                        auto param =
+                            std::get<datagrams::xml_datagrams::XML_InitialParameter>(xml.decode());
+                        const auto& channels = param.Channels;
+
                         for (unsigned int i = 0; i < channels.size(); i++)
                         {
                             _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
@@ -177,10 +181,13 @@ class SimradRawPingDataInterfacePerFile
                             if (!cache_file_path.empty())
                             {
                                 cache_updated = true;
-                                package_buffer_xml.add_package(datagram_ptr->get_file_pos(),
-                                                               datagram_ptr->get_timestamp(),
-                                                               channels[i],
-                                                               i);
+                                package_buffer_xml.add_package(
+                                    datagram_ptr->get_file_pos(),
+                                    datagram_ptr->get_timestamp(),
+                                    std::make_unique<
+                                        datagrams::xml_datagrams::XML_Parameter_Channel>(
+                                        channels[i]),
+                                    i);
                             }
                         }
                         break;
@@ -220,8 +227,9 @@ class SimradRawPingDataInterfacePerFile
                     if (!cache_file_path.empty())
                     {
                         cache_updated = true;
-                        package_buffer_raw3.add_package(
-                            datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp(), raw3);
+                        package_buffer_raw3.add_package(datagram_ptr->get_file_pos(),
+                                                        datagram_ptr->get_timestamp(),
+                                                        std::make_unique<datagrams::RAW3>(raw3));
                     }
 
                     // create ping from raw3 datagram

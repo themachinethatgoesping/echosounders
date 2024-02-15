@@ -270,8 +270,7 @@ class KongsbergAllPingDataInterfacePerFile
             const std::unordered_map<std::string, std::string>& file_cache_paths,
             const t_FileDataInterface&                          PingDataInterface)
         {
-            const auto cache_file_it =
-                file_cache_paths.find(PingDataInterface.get_file_path());
+            const auto cache_file_it = file_cache_paths.find(PingDataInterface.get_file_path());
             if (cache_file_it == file_cache_paths.end())
                 // leave _file_cache uninitialized
                 return;
@@ -308,7 +307,9 @@ class KongsbergAllPingDataInterfacePerFile
                 datagram_ptr->template read_datagram_from_file<datagrams::RuntimeParameters>();
 
             _buffer_runtimeparameters.add_package(
-                datagram_ptr->get_file_pos(), datagram_ptr->get_timestamp(), rp);
+                datagram_ptr->get_file_pos(),
+                datagram_ptr->get_timestamp(),
+                std::make_unique<datagrams::RuntimeParameters>(rp));
 
             return rp;
         }

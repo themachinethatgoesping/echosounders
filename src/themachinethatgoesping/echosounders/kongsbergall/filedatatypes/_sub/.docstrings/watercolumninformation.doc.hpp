@@ -1,4 +1,4 @@
-//sourcehash: da83bccab89db479291fc32c81b6da6f91a5e987f55f9cf68c09b0fc1a704d3c
+//sourcehash: 115f0d4ad2d706c7b83dd5904b9fb3477d652981a497c7a2938b1b29303a953e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,11 +46,33 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_from_binary = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_number_of_transmit_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_sampling_interval = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_sound_speed_at_transducer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_transmit_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_tvg_function_applied = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_tvg_offset_in_db = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_number_of_transmit_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sampling_interval = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_sampling_interval = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_sound_speed_at_transducer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_transmit_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_tvg_function_applied = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_tvg_offset_in_db = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sound_speed_at_transducer = R"doc()doc";
 
@@ -99,6 +121,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_tvg_factor_applied = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_get_tvg_offset_in_db = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_read_beam_samples = R"doc()doc";
 
