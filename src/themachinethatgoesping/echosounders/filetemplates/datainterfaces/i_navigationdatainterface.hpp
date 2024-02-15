@@ -82,13 +82,6 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     void deinitialize() override { _is_initialized_navigation_interpolators = false; }
     bool is_initialized() const override { return _is_initialized_navigation_interpolators; }
 
-    std::unordered_map<std::string, navigation::NavigationInterpolatorLatLon> get_navigation_cache(
-        bool show_progress = true)
-    {
-        tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        return this->get_navigation_cache(progress_bar.get());
-    }
-
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
     void init_from_file(
         const std::unordered_map<std::string, std::string>& file_cache_paths,
