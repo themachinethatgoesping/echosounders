@@ -16,7 +16,7 @@ using namespace std;
 using themachinethatgoesping::echosounders::kongsbergall::filedatatypes::_sub::_WCIInfos;
 #define TESTTAG "[kongsbergall]"
 
-TEST_CASE("_WCIInfos reproduce precomputed hashes", TESTTAG)
+TEST_CASE("_WCIInfos should reproduce precomputed hashes", TESTTAG)
 {
     _WCIInfos wcii;
 
