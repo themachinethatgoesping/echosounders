@@ -62,6 +62,15 @@ class KongsbergAllPingFileData
     std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
+    void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
+    {
+        _watercolumninformation = std::move(wci);
+    }
+    void set_systeminformation(std::unique_ptr<_sub::SystemInformation> syi)
+    {
+        _systeminformation = std::move(syi);
+    }
+
     void load_wci(bool force = false)
     {
         if (wci_loaded() && !force)
