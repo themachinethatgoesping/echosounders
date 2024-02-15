@@ -131,15 +131,22 @@ class KongsbergAllPingFileData
         return false;
     }
 
-    datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
+    auto& get_datagram_infos(t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
-        auto& datagram_infos =
-            this->_datagram_infos_by_type.at(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+        auto& datagram_infos = this->_datagram_infos_by_type.at(datagram_identifier);
 
         if (datagram_infos.empty())
             throw std::runtime_error(fmt::format(
-                "Error[KongsbergAllPingFileData::read_merged_watercolumndatagram]: No water "
-                "column datagram in ping!"));
+                "Error[KongsbergAllPingFileData::get_first_datagram_info]: No {} datagram in ping!",
+                datagram_type_to_string(datagram_identifier)));
+
+        return datagram_infos;
+    }
+
+    datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
+    {
+        auto& datagram_infos =
+            get_datagram_infos(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
 
         auto datagram =
             datagram_infos.at(0)->template read_datagram_from_file<datagrams::WatercolumnDatagram>(

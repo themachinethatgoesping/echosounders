@@ -253,6 +253,9 @@ class KongsbergAllPingDataInterfacePerFile
         using t_cache_RuntimeParameters =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 datagrams::RuntimeParameters>;
+        using t_cache_WaterColumnInformation =
+            filetemplates::datatypes::cache_structures::FilePackageCache<
+                filedatatypes::_sub::WaterColumnInformation>;
 
         bool                         _update_cache = false;
         std::string                  _cache_file_path;
@@ -260,7 +263,8 @@ class KongsbergAllPingDataInterfacePerFile
 
       public:
         // cache_structures
-        t_cache_RuntimeParameters _buffer_runtimeparameters;
+        t_cache_RuntimeParameters      _buffer_runtimeparameters;
+        t_cache_WaterColumnInformation _buffer_watercolumninformation;
 
       public:
         KongsbergPingCacheHandler() = default;
@@ -286,6 +290,11 @@ class KongsbergAllPingDataInterfacePerFile
             if (_file_cache->has_cache("FilePackageCache<RuntimeParameters>"))
                 _buffer_runtimeparameters = _file_cache->get_from_cache<t_cache_RuntimeParameters>(
                     "FilePackageCache<RuntimeParameters>");
+
+            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
+                _buffer_watercolumninformation =
+                    _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
+                        "FilePackageCache<WaterColumnInformation>");
         }
 
         operator bool() const { return bool(_file_cache); }
@@ -312,6 +321,31 @@ class KongsbergAllPingDataInterfacePerFile
                 std::make_unique<datagrams::RuntimeParameters>(rp));
 
             return rp;
+        }
+
+        template<typename t_ping>
+        std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
+        read_or_get_watercoumninformation(const t_ping& ping)
+        {
+            if (!_file_cache)
+                return std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
+                    ping.read_merged_watercolumndatagram());
+
+            auto& datagram_infos = ping.file_data().get_datagram_infos(
+                t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+
+            if (_buffer_watercolumninformation.has_package(datagram_infos.ad(0)->get_file_pos()))
+                return _buffer_watercolumninformation.get_package(
+                    datagram_infos.ad(0)->get_file_pos(), datagram_infos.ad(0)->get_timestamp());
+
+            _update_cache = true;
+            auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
+                ping.read_merged_watercolumndatagram());
+
+            _buffer_runtimeparameters.add_package(
+                datagram_infos.ad(0)->get_file_pos(), datagram_infos.ad(0)->get_timestamp(), dat);
+
+            return dat;
         }
 
         void update_cache_file()
