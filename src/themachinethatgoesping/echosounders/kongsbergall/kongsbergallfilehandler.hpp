@@ -270,16 +270,14 @@ class KongsbergAllFileHandler
     {
         auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
-            0., number_of_primary_files * 2 + 5, fmt::format("Initializing file interfaces"));
+            0., number_of_primary_files * 1 + 5, fmt::format("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing datagramdata interface");
-        _datagramdata_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+        _datagramdata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing configuration");
-        _configuration_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+        _configuration_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
@@ -287,21 +285,18 @@ class KongsbergAllFileHandler
             this->get_file_cache_paths(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
-        _environment_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+        _environment_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing annotation");
-        _annotation_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+        _annotation_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing other");
-        _otherfiledata_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+        _otherfiledata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
 
-        progress_bar.set_prefix("Initializing ping interface");
-        _ping_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar, true);
+        std::cout << std::endl; //TODO: remove this workaround
+        progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
+        _ping_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar, true);
 
         progress_bar.close(std::string("Done"));
     }
