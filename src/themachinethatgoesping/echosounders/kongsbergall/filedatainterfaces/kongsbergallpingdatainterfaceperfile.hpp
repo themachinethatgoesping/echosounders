@@ -269,6 +269,9 @@ class KongsbergAllPingDataInterfacePerFile
         using t_cache_RuntimeParameters =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 datagrams::RuntimeParameters>;
+        using t_cache_SystemInformation =
+            filetemplates::datatypes::cache_structures::FilePackageCache<
+                filedatatypes::_sub::SystemInformation>;
         using t_cache_WaterColumnInformation =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::WaterColumnInformation>;
@@ -280,6 +283,7 @@ class KongsbergAllPingDataInterfacePerFile
       public:
         // cache_structures
         t_cache_RuntimeParameters      _buffer_runtimeparameters;
+        t_cache_SystemInformation      _buffer_systeminformation;
         t_cache_WaterColumnInformation _buffer_watercolumninformation;
 
       public:
@@ -312,6 +316,10 @@ class KongsbergAllPingDataInterfacePerFile
                 _buffer_watercolumninformation =
                     _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
                         "FilePackageCache<WaterColumnInformation>");
+
+            if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
+                _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
+                    "FilePackageCache<SystemInformation>");
         }
 
         operator bool() const { return bool(_file_cache); }
@@ -377,6 +385,8 @@ class KongsbergAllPingDataInterfacePerFile
                 _file_cache->add_to_cache("FilePackageCache<RuntimeParameters>",
                                           _buffer_runtimeparameters);
                 _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
+                                          _buffer_watercolumninformation);
+                _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
                                           _buffer_watercolumninformation);
                 _file_cache->update_file(_cache_file_path);
             }
