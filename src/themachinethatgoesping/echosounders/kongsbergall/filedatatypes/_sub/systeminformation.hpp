@@ -52,6 +52,8 @@ class SystemInformation
 
     // boost::flyweights::flyweight<_SYSInfos> _sys_infos; // not used at the moment
 
+    SystemInformation() = default;
+
   public:
     SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
     {
@@ -127,7 +129,68 @@ class SystemInformation
         return _tx_signal_parameters;
     }
 
-    
+    // ----- functions used for PackageCache -----
+    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
+    {
+        std::string         buffer;
+        std::vector<size_t> hashes, sizes;
+        hashes.reserve(1);
+        sizes.reserve(1);
+
+        // _beam_crosstrack_angles
+        static const size_t size_binary =
+            sizeof(algorithms::signalprocessing::datastructures::TxSignalParameters);
+
+        hashes.push_back(xxh::xxhash3<64>(_tx_signal_parameters.get().data(),
+                                          _tx_signal_parameters.get().size() * size_binary));
+        sizes.push_back(_tx_signal_parameters.get().size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            auto& buffer = hash_cache[hashes.back()];
+            buffer.resize(_tx_signal_parameters.get().size() * size_binary);
+
+            std::memcpy(buffer.data(),
+                        _tx_signal_parameters.get().data(),
+                        _tx_signal_parameters.get().size() * size_binary);
+        }
+
+        // write hashes to stream
+        os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
+        os.write(reinterpret_cast<const char*>(sizes.data()), sizes.size() * sizeof(size_t));
+
+        // write _tx_signal_parameters to stream
+        os.write(reinterpret_cast<const char*>(_tx_signal_parameters.get().data()),
+                 _tx_signal_parameters.get().size() * size_binary);
+    }
+
+    static SystemInformation from_stream(std::istream&                                  is,
+                                         const std::unordered_map<size_t, std::string>& hash_cache)
+    {
+        // create SystemInformation
+        SystemInformation dat;
+
+        std::vector<size_t> hashes(1);
+        std::vector<size_t> sizes(1);
+
+        // read hashes and sizes from stream
+        is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
+        is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
+
+        // resize arrays
+        auto tx_signal_parameters =
+            std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>(sizes[0]);
+        static const size_t size_binary =
+            sizeof(algorithms::signalprocessing::datastructures::TxSignalParameters);
+
+        // read tx_signal_parameters from stream
+        is.read(reinterpret_cast<char*>(tx_signal_parameters.data()),
+                tx_signal_parameters.size() * size_binary);
+
+        dat._tx_signal_parameters = tx_signal_parameters;
+
+        return dat;
+    }
 };
 
 } // namespace substructures
