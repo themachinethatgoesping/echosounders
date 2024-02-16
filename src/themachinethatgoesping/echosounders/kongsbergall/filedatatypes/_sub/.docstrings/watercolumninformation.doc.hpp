@@ -1,4 +1,4 @@
-//sourcehash: 115f0d4ad2d706c7b83dd5904b9fb3477d652981a497c7a2938b1b29303a953e
+//sourcehash: a85221f4a44e2e1b56c88201c756a932d331b877bf83df086353e429cd27f95e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,52 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_WCIInfos = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_WCIInfos_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_from_binary = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_number_of_transmit_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_sampling_interval = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_sound_speed_at_transducer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_transmit_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_tvg_function_applied = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_get_tvg_offset_in_db = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_number_of_transmit_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sampling_interval = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_sampling_interval = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_sound_speed_at_transducer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_transmit_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_tvg_function_applied = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_set_tvg_offset_in_db = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_sound_speed_at_transducer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_to_binary = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_transmit_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_tvg_function_applied = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WCIInfos_tvg_offset_in_db = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation =
 R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
@@ -131,7 +85,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_WaterColumnInformation_wci_infos = R"doc()doc";
-
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

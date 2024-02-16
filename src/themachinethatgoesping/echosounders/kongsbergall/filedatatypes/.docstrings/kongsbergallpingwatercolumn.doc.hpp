@@ -1,4 +1,4 @@
-//sourcehash: 6953e12b146e7051d1ef67e7227b41f9e9c3327c731bc558f7cc5bab1588e483
+//sourcehash: 61dc7ed21ddd6bc1d043a443720a9d85322809ec4ff6dd159fa2d3cd8e207e77
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -81,6 +81,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_amplitudes = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_av = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_bottom_range_samples = R"doc()doc";
 

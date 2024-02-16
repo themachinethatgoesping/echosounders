@@ -26,6 +26,7 @@
 
 #include "../../datagrams.hpp"
 #include "../../types.hpp"
+#include "_sysinfos.hpp"
 #include "watercolumninformation.hpp"
 
 namespace themachinethatgoesping {
@@ -33,27 +34,6 @@ namespace echosounders {
 namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
-
-struct _SYSInfos
-{
-    // float sampling_frequency_in_hz = 0.0f;
-
-    _SYSInfos() = default;
-
-    bool operator==(_SYSInfos const& other) const = default;
-};
-
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
-inline std::size_t hash_value([[maybe_unused]] const _SYSInfos& data)
-{
-    xxh::hash3_state_t<64>               hash;
-    boost::iostreams::stream<XXHashSink> stream(hash);
-
-    // stream.write(reinterpret_cast<const char*>(&data.sampling_frequency_in_hz), sizeof(float));
-
-    stream.flush();
-    return hash.digest();
-}
 
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
@@ -146,6 +126,8 @@ class SystemInformation
     {
         return _tx_signal_parameters;
     }
+
+    
 };
 
 } // namespace substructures

@@ -224,6 +224,8 @@ class KongsbergAllPingWatercolumn
                    .size() > 0;
     }
 
+    bool has_av() const override { return has_amplitudes(); }
+
     bool has_bottom_range_samples() const override
     {
         // TODO: this is not true for datagrams in SonarMode!
