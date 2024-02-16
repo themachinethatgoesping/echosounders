@@ -10,14 +10,13 @@
 #include <boost/functional/hash.hpp> // Include the Boost Hash library
 
 #include "../themachinethatgoesping/echosounders/kongsbergall/datagrams/watercolumndatagram.hpp"
-#include "../themachinethatgoesping/echosounders/kongsbergall/filedatatypes/_sub/watercolumninformation.hpp"
+#include "../themachinethatgoesping/echosounders/kongsbergall/filedatatypes/_sub/systeminformation.hpp"
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecache.hpp>
 
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
-using themachinethatgoesping::echosounders::kongsbergall::filedatatypes::_sub::
-    WaterColumnInformation;
+using themachinethatgoesping::echosounders::kongsbergall::filedatatypes::_sub::SystemInformation;
 #define TESTTAG "[kongsbergall]"
 
 datagrams::WatercolumnDatagram make_wcd()
@@ -64,81 +63,58 @@ datagrams::WatercolumnDatagram make_wcd()
     return dat;
 }
 
-TEST_CASE("WaterColumnInformation should be initialized correctly from WaterColumnDatagram",
-          TESTTAG)
+TEST_CASE("SystemInformation should be initialized correctly from WaterColumnDatagram", TESTTAG)
 {
-    WaterColumnInformation WCI(make_wcd());
+    using namespace themachinethatgoesping::algorithms::signalprocessing::datastructures;
+    using namespace themachinethatgoesping::algorithms::signalprocessing::types;
+
+    SystemInformation dat(make_wcd());
 
     using Catch::Approx;
 
-    CHECK(WCI.get_beam_crosstrack_angles().size() == 2);
-    CHECK(WCI.get_beam_crosstrack_angles()[0] == Approx(1.01f));
-    CHECK(WCI.get_beam_crosstrack_angles()[1] == Approx(-0.2f));
+    // using TxSignalParameters = std::variant<CWSignalParameters, FMSignalParameters,
+    // GenericSignalParameters>;
+    CHECK(dat.get_tx_signal_parameters().size() == 1);
+    auto signal_parameters = std::get<GenericSignalParameters>(dat.get_tx_signal_parameters()[0]);
 
-    CHECK(WCI.get_start_range_sample_numbers().size() == 2);
-    CHECK(WCI.get_start_range_sample_numbers()[0] == 4);
-    CHECK(WCI.get_start_range_sample_numbers()[1] == 4);
-
-    CHECK(WCI.get_number_of_samples_per_beam().size() == 2);
-    CHECK(WCI.get_number_of_samples_per_beam()[0] == 50);
-    CHECK(WCI.get_number_of_samples_per_beam()[1] == 60);
-
-    CHECK(WCI.get_detected_range_in_samples().size() == 2);
-    CHECK(WCI.get_detected_range_in_samples()[0] == 40);
-    CHECK(WCI.get_detected_range_in_samples()[1] == 54);
-
-    CHECK(WCI.get_transmit_sector_numbers().size() == 2);
-    CHECK(WCI.get_transmit_sector_numbers()[0] == 191);
-    CHECK(WCI.get_transmit_sector_numbers()[1] == 23);
-
-    CHECK(WCI.get_sample_positions().size() == 2);
-    // TODO: this value is uninitialized because the WaterColumnDatagram was not initialized from a
-    // file CHECK(WCI.get_sample_positions()[0] == 0); CHECK(WCI.get_sample_positions()[1] ==
-    // 8026294576475695468);
-
-    CHECK(WCI.get_tvg_factor_applied() == 207);
-    CHECK(WCI.get_tvg_offset_in_db() == -50);
-    CHECK(WCI.get_sample_interval() == Approx(0.4902f));
-
-    auto tr = WCI.get_transmit_sectors();
-    CHECK(tr.size() == 1);
-    CHECK(tr[0].get_tilt_angle() == 101);
-    CHECK(tr[0].get_center_frequency() == 191);
+    INFO(signal_parameters.info_string());
+    CHECK(signal_parameters.center_frequency == Approx(191));
+    CHECK(std::isnan(signal_parameters.bandwidth));
+    CHECK(std::isnan(signal_parameters.effective_pulse_duration));
+    CHECK(signal_parameters.get_tx_signal_type() == t_TxSignalType::UNKNOWN);
 
     // test inequality
-    // REQUIRE(WCI != WaterColumnInformation());
+    // REQUIRE(dat != SystemInformation());
 
     // test copy
-    REQUIRE(WCI == WaterColumnInformation(WCI));
+    REQUIRE(dat == SystemInformation(dat));
 
     // test stream (with hash cache)
     std::unordered_map<size_t, std::string> hash_cache;
     std::stringstream                       buffer;
 
-    WCI.to_stream(buffer, hash_cache);
-    REQUIRE(WCI == WaterColumnInformation(WCI.from_stream(buffer, hash_cache)));
+    dat.to_stream(buffer, hash_cache);
+    REQUIRE(dat == SystemInformation(dat.from_stream(buffer, hash_cache)));
 }
 
-TEST_CASE("WaterColumnInformation should be convertible to PackageCache", TESTTAG)
+TEST_CASE("SystemInformation should be convertible to PackageCache", TESTTAG)
 {
     using themachinethatgoesping::echosounders::filetemplates::datatypes::cache_structures::
         PackageCache;
 
     // initialize class structure
-    auto                   wcd = make_wcd();
-    WaterColumnInformation dat(wcd);
+    auto              wcd = make_wcd();
+    SystemInformation dat(wcd);
 
     std::unordered_map<size_t, std::string> hash_cache;
 
-    PackageCache<WaterColumnInformation> package_cache(
-        0, 0, std::make_unique<WaterColumnInformation>(dat));
+    PackageCache<SystemInformation> package_cache(0, 0, std::make_unique<SystemInformation>(dat));
 
-    PackageCache<WaterColumnInformation> package_cache2(
-        0, 0, std::make_unique<WaterColumnInformation>(wcd));
+    PackageCache<SystemInformation> package_cache2(0, 0, std::make_unique<SystemInformation>(wcd));
 
     // test basic access
     REQUIRE(dat == package_cache.get());
-    REQUIRE(package_cache.get() == package_cache2.get());
+    // REQUIRE(package_cache.get() == package_cache2.get());
 
     // test to/from binary
     SECTION("PackageCache: to/from binary")

@@ -122,6 +122,8 @@ class SystemInformation
         //_sys_infos = _SYSInfos(wci_infos);
     }
 
+    bool operator==([[maybe_unused]] const SystemInformation& other) const = default;
+
     // ----- getters -----
     const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
     get_tx_signal_parameters() const
@@ -158,10 +160,6 @@ class SystemInformation
         // write hashes to stream
         os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
         os.write(reinterpret_cast<const char*>(sizes.data()), sizes.size() * sizeof(size_t));
-
-        // write _tx_signal_parameters to stream
-        os.write(reinterpret_cast<const char*>(_tx_signal_parameters.get().data()),
-                 _tx_signal_parameters.get().size() * size_binary);
     }
 
     static SystemInformation from_stream(std::istream&                                  is,
@@ -184,8 +182,9 @@ class SystemInformation
             sizeof(algorithms::signalprocessing::datastructures::TxSignalParameters);
 
         // read tx_signal_parameters from stream
-        is.read(reinterpret_cast<char*>(tx_signal_parameters.data()),
-                tx_signal_parameters.size() * size_binary);
+        std::memcpy(tx_signal_parameters.data(),
+                    hash_cache.at(hashes[0]).data(),
+                    tx_signal_parameters.size() * size_binary);
 
         dat._tx_signal_parameters = tx_signal_parameters;
 

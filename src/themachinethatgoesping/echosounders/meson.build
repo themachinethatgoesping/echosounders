@@ -135,6 +135,7 @@ headers = [
   'kongsbergall/filedatatypes/_sub/_wciinfos.hpp',
   'kongsbergall/filedatatypes/_sub/systeminformation.hpp',
   'kongsbergall/filedatatypes/_sub/watercolumninformation.hpp',
+  'kongsbergall/filedatatypes/_sub/.docstrings/_sysinfos.doc.hpp',
   'kongsbergall/filedatatypes/_sub/.docstrings/_wciinfos.doc.hpp',
   'kongsbergall/filedatatypes/_sub/.docstrings/systeminformation.doc.hpp',
   'kongsbergall/filedatatypes/_sub/.docstrings/watercolumninformation.doc.hpp',
