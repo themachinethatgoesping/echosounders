@@ -1,4 +1,4 @@
-//sourcehash: 89a6a6ca0366d82a45745c787a3ffaecbe27d4826adcf28385063237e32601fd
+//sourcehash: 218a5b37233b03cb28f8a9589d30b3d307c1450413ff859c5db63b5d87594120
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,21 +38,12 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
-R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
-used to store information necessary to efficiently read water column
-data from the file. It does not hold the actual water column samples
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos = R"doc()doc";
 
-Note this is a private substructure and is thus not part of the public
-API or pybind11 interface.)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_SYSInfos = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SYSInfos_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

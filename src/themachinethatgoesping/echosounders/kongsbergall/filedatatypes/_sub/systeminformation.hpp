@@ -50,7 +50,7 @@ class SystemInformation
         std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>>
         _tx_signal_parameters;
 
-    boost::flyweights::flyweight<_SYSInfos> _sys_infos;
+    // boost::flyweights::flyweight<_SYSInfos> _sys_infos; // not used at the moment
 
   public:
     SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
