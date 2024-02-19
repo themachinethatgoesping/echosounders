@@ -12,6 +12,7 @@
 
 /* boost includes */
 #include <boost/flyweight.hpp>
+#include <boost/flyweight/key_value.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -35,6 +36,175 @@ namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
 
+struct HashCacheKey
+{
+    std::string_view buffer;
+    size_t           size;
+    size_t           hash;
+
+  public:
+    // HashCacheKey()
+    //     : buffer(std::string_view())
+    //     , size(0)
+    //     , hash(0)
+    // {
+    // }
+
+    HashCacheKey(std::string_view buffer, size_t size, size_t hash)
+        : buffer(buffer)
+        , size(size)
+        , hash(hash)
+    {
+    }
+
+    HashCacheKey(size_t hash)
+        : buffer("")
+        , size(0)
+        , hash(hash)
+    {
+    }
+
+    bool operator==(const HashCacheKey& other) const { return (hash == other.hash); }
+};
+
+// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
+/**
+ * @brief Boost hash function
+ *
+ * @param object object to hash
+ * @return std::size_t
+ */
+inline size_t hash_value(const HashCacheKey& object)
+{
+    return object.hash;
+}
+
+class TxSignalParameterVector
+    : public std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+{
+  public:
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::vector;
+
+    TxSignalParameterVector(const HashCacheKey& hash_cache_key)
+    {
+        using namespace algorithms::signalprocessing::datastructures;
+
+        // resize arrays
+        this->reserve(hash_cache_key.size);
+
+        std::string_view types  = hash_cache_key.buffer.substr(0, hash_cache_key.size);
+        size_t           offset = types.size();
+
+        for (const auto type : types)
+        {
+            switch (type)
+            {
+                case 'c': {
+                    this->push_back(CWSignalParameters::from_binary(
+                        hash_cache_key.buffer.substr(offset, sizeof(CWSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                case 'f': {
+                    this->push_back(FMSignalParameters::from_binary(
+                        hash_cache_key.buffer.substr(offset, sizeof(FMSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                case 'g': {
+                    this->push_back(GenericSignalParameters::from_binary(
+                        hash_cache_key.buffer.substr(offset, sizeof(GenericSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                default:
+                    throw std::runtime_error("Unknown transmit signal type");
+            }
+        }
+    }
+
+    void to_cache(std::unordered_map<size_t, std::string>& hash_cache,
+                  std::vector<size_t>&                     hashes,
+                  std::vector<size_t>&                     sizes) const
+    {
+        using namespace algorithms::signalprocessing::datastructures;
+
+        hashes.push_back(this->binary_hash());
+        sizes.push_back(this->size());
+
+        if (!hash_cache.contains(hashes.back()))
+        {
+            std::string       types;
+            std::stringstream ss;
+
+            for (const auto& signal_parameters : *this)
+            {
+                tools::helper::visit_variant_no_return(
+                    signal_parameters,
+                    [&types, &ss](const CWSignalParameters& param) mutable {
+                        types.push_back('c');
+                        param.to_stream(ss);
+                    },
+                    [&types, &ss](const FMSignalParameters& param) mutable {
+                        types.push_back('f');
+                        param.to_stream(ss);
+                    },
+                    [&types, &ss](const GenericSignalParameters& param) mutable {
+                        types.push_back('g');
+                        param.to_stream(ss);
+                    });
+            }
+
+            auto& buffer = hash_cache[hashes.back()];
+            buffer       = types;
+            buffer += ss.str();
+        }
+    }
+
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::operator=;
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::operator[];
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::size;
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::begin;
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::end;
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::cbegin;
+    using std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>::cend;
+
+    size_t binary_hash() const
+    {
+        // using algorithms::signalprocessing::datastructures::TxSignalParameters;
+
+        // static const size_t size_binary = sizeof(TxSignalParameters);
+
+        // return xxh::xxhash3<64>(this->data(), this->size() * size_binary);
+
+        return boost::hash_range(this->begin(), this->end());
+    }
+
+    // convert to std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+    // operator std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>()
+    // const
+    // {
+    //     return *this;
+    // }
+};
+
+// // IGNORE_DOC:
+// __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value inline size_t
+// hash_value(const TxSignalParameterVector& object)
+// {
+//     return object.binary_hash();
+// }
+
+// IGNORE_DOC:
+// __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_extractor
+struct hash_extractor
+{
+    const HashCacheKey operator()(const TxSignalParameterVector& object) const
+    {
+        return HashCacheKey(object.binary_hash());
+    }
+};
+
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
  * information necessary to efficiently read water column data from the file. It does not hold the
@@ -46,9 +216,10 @@ namespace _sub {
 class SystemInformation
 {
     // transmit signal parameters per sector
-    boost::flyweights::flyweight<
-        std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>>
-        _tx_signal_parameters;
+    boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
+    // boost::flyweights::flyweight<
+    //     boost::flyweights::key_value<HashCacheKey, TxSignalParameterVector, hash_extractor>>
+    //     _tx_signal_parameters;
 
     // boost::flyweights::flyweight<_SYSInfos> _sys_infos; // not used at the moment
 
@@ -60,8 +231,7 @@ class SystemInformation
         using algorithms::signalprocessing::types::t_TxSignalType;
         using namespace algorithms::signalprocessing::datastructures;
 
-        std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-            tx_signal_parameters;
+        TxSignalParameterVector tx_signal_parameters;
 
         const auto& transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
 
@@ -103,8 +273,7 @@ class SystemInformation
         using algorithms::signalprocessing::types::t_TxSignalType;
         using namespace algorithms::signalprocessing::datastructures;
 
-        std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-            tx_signal_parameters;
+        TxSignalParameterVector tx_signal_parameters;
 
         const auto& transmit_sectors = wci_infos.get_transmit_sectors();
 
@@ -136,45 +305,12 @@ class SystemInformation
     {
         using namespace algorithms::signalprocessing::datastructures;
 
-        std::string         buffer;
         std::vector<size_t> hashes, sizes;
         hashes.reserve(1);
         sizes.reserve(1);
 
-        // _beam_crosstrack_angles
-        static const size_t size_binary = sizeof(TxSignalParameters);
-
-        hashes.push_back(xxh::xxhash3<64>(_tx_signal_parameters.get().data(),
-                                          _tx_signal_parameters.get().size() * size_binary));
-        sizes.push_back(_tx_signal_parameters.get().size());
-
-        if (!hash_cache.contains(hashes.back()))
-        {
-            std::string       types;
-            std::stringstream ss;
-
-            for (const auto& signal_parameters : _tx_signal_parameters.get())
-            {
-                tools::helper::visit_variant_no_return(
-                    signal_parameters,
-                    [&types, &ss](const CWSignalParameters& param) mutable {
-                        types.push_back('c');
-                        param.to_stream(ss);
-                    },
-                    [&types, &ss](const FMSignalParameters& param) mutable {
-                        types.push_back('f');
-                        param.to_stream(ss);
-                    },
-                    [&types, &ss](const GenericSignalParameters& param) mutable {
-                        types.push_back('g');
-                        param.to_stream(ss);
-                    });
-            }
-
-            auto& buffer = hash_cache[hashes.back()];
-            buffer       = types;
-            buffer += ss.str();
-        }
+        // write to cache
+        _tx_signal_parameters.get().to_cache(hash_cache, hashes, sizes);
 
         // write hashes to stream
         os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
@@ -197,43 +333,8 @@ class SystemInformation
         is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
         // resize arrays
-        std::vector<TxSignalParameters> tx_signal_parameters;
-        tx_signal_parameters.reserve(sizes[0]);
-
-        // read tx_signal_parameters from stream
-        const auto& buffer = hash_cache.at(hashes[0]);
-
-        std::string_view types  = std::string_view(buffer).substr(0, sizes[0]);
-        size_t           offset = types.size();
-
-        for (const auto type : types)
-        {
-            switch (type)
-            {
-                case 'c': {
-                    tx_signal_parameters.push_back(CWSignalParameters::from_binary(
-                        buffer.substr(offset, sizeof(CWSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
-                }
-                case 'f': {
-                    tx_signal_parameters.push_back(FMSignalParameters::from_binary(
-                        buffer.substr(offset, sizeof(FMSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
-                }
-                case 'g': {
-                    tx_signal_parameters.push_back(GenericSignalParameters::from_binary(
-                        buffer.substr(offset, sizeof(GenericSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
-                }
-                default:
-                    throw std::runtime_error("Unknown transmit signal type");
-            }
-        }
-
-        dat._tx_signal_parameters = tx_signal_parameters;
+        dat._tx_signal_parameters =
+            TxSignalParameterVector(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]));
 
         return dat;
     }

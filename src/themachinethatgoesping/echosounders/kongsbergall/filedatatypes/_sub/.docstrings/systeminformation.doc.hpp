@@ -1,4 +1,4 @@
-//sourcehash: 12f422850ad9b8e16de908749ea6086dbbbd555f12ae4982503667a20a612272
+//sourcehash: 39de248262d57a24cb4444f2329696509cf82470cb3400b5a39fe107124ae656
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,38 +32,26 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-#if defined(__GNUG__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
-R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
-used to store information necessary to efficiently read water column
-data from the file. It does not hold the actual water column samples
 
-Note this is a private substructure and is thus not part of the public
-API or pybind11 interface.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
 
-#if defined(__GNUG__)
-#pragma GCC diagnostic pop
-#endif
+
+
+
+
+
+
+
+
+
 
 
