@@ -203,9 +203,9 @@ class I_Ping : virtual public I_PingCommon
         // print features
         printer.append(t_base::__printer__(float_precision));
         if (has_bottom())
-            bottom().print_features(printer);
+            bottom().print_features(printer, "bottom");
         if (has_watercolumn())
-            watercolumn().print_features(printer);
+            watercolumn().print_features(printer, "watercolumn");
 
         printer.register_section("Geolocation");
         printer.append(get_geolocation("Transducer").__printer__(float_precision));
