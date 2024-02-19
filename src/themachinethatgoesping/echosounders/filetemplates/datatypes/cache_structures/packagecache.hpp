@@ -34,6 +34,7 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/isviewstream.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -116,7 +117,7 @@ class PackageCache
     static auto from_binary(std::string_view                               buffer,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        std::stringstream buffer_stream{ std::string(buffer) };
+        tools::helper::isviewstream buffer_stream{ buffer };
 
         return from_stream(buffer_stream, hash_cache);
     };

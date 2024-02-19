@@ -24,6 +24,7 @@
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/helper/isviewstream.hpp>
 
 #include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
@@ -365,17 +366,18 @@ class InstallationParameters : public KongsbergAllDatagram
      */
     void reparse_installation_parameters()
     {
-        std::string        fields;
-        std::istringstream iss(_installation_parameters);
+        ///TODO: there is still unecessary copying of strings (fields, key, value)
+        std::string                 fields;
+        tools::helper::isviewstream iss{ std::string_view(_installation_parameters) };
 
         _parsed_installation_parameters.clear();
 
         // fields are comma separated, key value pairs are separated by '='
         while (std::getline(iss, fields, ','))
         {
-            std::istringstream iss2(fields);
-            std::string        key;
-            std::string        value;
+            tools::helper::isviewstream iss2{ { fields } };
+            std::string                 key;
+            std::string                 value;
             std::getline(iss2, key, '=');
             std::getline(iss2, value, '=');
 
@@ -891,7 +893,8 @@ class InstallationParameters : public KongsbergAllDatagram
 
         if (datagram._datagram_identifier !=
                 t_KongsbergAllDatagramIdentifier::InstallationParametersStart &&
-            datagram._datagram_identifier != t_KongsbergAllDatagramIdentifier::InstallationParametersStop)
+            datagram._datagram_identifier !=
+                t_KongsbergAllDatagramIdentifier::InstallationParametersStop)
             throw std::runtime_error(
                 fmt::format("InstallationParameters: datagram identifier is neither 0x{:02x} nor "
                             "0x{:02x}, but 0x{:02x}",
@@ -931,7 +934,7 @@ class InstallationParameters : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is));
     }
 
-    static InstallationParameters from_stream(std::istream&              is,
+    static InstallationParameters from_stream(std::istream&                    is,
                                               t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));

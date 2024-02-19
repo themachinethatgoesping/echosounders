@@ -53,7 +53,7 @@ sources = [
   'simradraw/datagrams/xml_datagrams/xml_parameter3.test.cpp',
   'simradraw/datagrams/xml_datagrams/xml_pingsequence.test.cpp',
   'simradraw/datagrams/xml_datagrams/xml_sensor.test.cpp',
-  'simradraw/datatypes/packagecache/cache_raw3.cpp',
+  'simradraw/datatypes/packagecache/cache_raw3.test.cpp',
   'simradraw/datatypes/packagecache/cache_xml_parameter.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
