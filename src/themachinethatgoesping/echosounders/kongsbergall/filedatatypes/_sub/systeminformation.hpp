@@ -43,12 +43,7 @@ struct HashCacheKey
     size_t           hash;
 
   public:
-    // HashCacheKey()
-    //     : buffer(std::string_view())
-    //     , size(0)
-    //     , hash(0)
-    // {
-    // }
+    HashCacheKey() = default;
 
     HashCacheKey(std::string_view buffer, size_t size, size_t hash)
         : buffer(buffer)
@@ -176,6 +171,7 @@ class TxSignalParameterVector
         // static const size_t size_binary = sizeof(TxSignalParameters);
 
         // return xxh::xxhash3<64>(this->data(), this->size() * size_binary);
+    // REQUIRE(false);
 
         return boost::hash_range(this->begin(), this->end());
     }
@@ -199,9 +195,12 @@ class TxSignalParameterVector
 // __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_extractor
 struct hash_extractor
 {
-    const HashCacheKey operator()(const TxSignalParameterVector& object) const
+    HashCacheKey _hash_cache_key;
+
+    const HashCacheKey& operator()(const TxSignalParameterVector& object)
     {
-        return HashCacheKey(object.binary_hash());
+        _hash_cache_key = HashCacheKey(object.binary_hash());
+        return _hash_cache_key;
     }
 };
 
@@ -216,10 +215,11 @@ struct hash_extractor
 class SystemInformation
 {
     // transmit signal parameters per sector
-    boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
-    // boost::flyweights::flyweight<
-    //     boost::flyweights::key_value<HashCacheKey, TxSignalParameterVector, hash_extractor>>
-    //     _tx_signal_parameters;
+    // boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
+
+    boost::flyweights::flyweight<
+        boost::flyweights::key_value<HashCacheKey, TxSignalParameterVector, hash_extractor>>
+        _tx_signal_parameters;
 
     // boost::flyweights::flyweight<_SYSInfos> _sys_infos; // not used at the moment
 
@@ -291,13 +291,16 @@ class SystemInformation
         //_sys_infos = _SYSInfos(wci_infos);
     }
 
-    bool operator==([[maybe_unused]] const SystemInformation& other) const = default;
+    bool operator==([[maybe_unused]] const SystemInformation& other) const
+    {
+        return _tx_signal_parameters.get() == other._tx_signal_parameters.get();
+    }
 
     // ----- getters -----
     const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
     get_tx_signal_parameters() const
     {
-        return _tx_signal_parameters;
+        return _tx_signal_parameters.get();
     }
 
     // ----- functions used for PackageCache -----

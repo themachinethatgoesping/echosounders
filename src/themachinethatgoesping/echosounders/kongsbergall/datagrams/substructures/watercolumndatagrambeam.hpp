@@ -56,8 +56,21 @@ class WatercolumnDatagramBeam
                         ///< is used to load skipped sample data.
 
   public:
-    WatercolumnDatagramBeam()  = default;
+    WatercolumnDatagramBeam()          = default;
     virtual ~WatercolumnDatagramBeam() = default;
+
+    static WatercolumnDatagramBeam default_initialized()
+        : _beam_crosstrack_angle(0)
+        , _start_range_sample_number(0)
+        , _number_of_samples(0)
+        , _detected_range_in_samples(0)
+        , _transmit_sector_number(0)
+        , _beam_number(0)
+        , _samples(xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ 0 })))
+        , _samples_are_skipped(false)
+        , _sample_pos(0)
+    {
+    }
 
     // ----- convenient member access -----
     // getters
@@ -99,7 +112,8 @@ class WatercolumnDatagramBeam
      * @brief Read and return the sample data. This is useful if the sample data was originally
      * skipped
      *
-     * @param ifs InputFileHandler stream. Must be the same file the original structure was read from
+     * @param ifs InputFileHandler stream. Must be the same file the original structure was read
+     * from
      * @return xt::xtensor<int8_t, 1>
      */
     xt::xtensor<int8_t, 1> read_samples(std::istream& ifs) const
@@ -119,7 +133,8 @@ class WatercolumnDatagramBeam
      * @brief Read and return the sample data. This function allows for only reading a selected
      * number of samples
      *
-     * @param ifs InputFileHandler stream. Must be the same file the original structure was read from
+     * @param ifs InputFileHandler stream. Must be the same file the original structure was read
+     * from
      * @param pos_first_samples The position of the first sample in the structure
      * @param first_sample The first sample to read
      * @param number_of_samples The number of samples to read
@@ -285,7 +300,8 @@ class WatercolumnDatagramBeam
 
         // processed values
         printer.register_section("processed");
-        printer.register_value("beam_crosstrack_angle", get_beam_crosstrack_angle_in_degrees(), "°");
+        printer.register_value(
+            "beam_crosstrack_angle", get_beam_crosstrack_angle_in_degrees(), "°");
 
         return printer;
     }

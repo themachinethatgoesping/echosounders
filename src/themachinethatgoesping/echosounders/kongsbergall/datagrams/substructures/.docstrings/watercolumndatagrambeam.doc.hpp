@@ -1,4 +1,4 @@
-//sourcehash: cc78b4afecf638b1a6fb3015f85e95938699b23c8dfcf26a8b12a567fc851827
+//sourcehash: 7503f9fe4660761e668752e88ff3c7bcce2cc9b4037a5bc0a9347cb3695d9ee3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_beam_crosstrack_angle = R"doc(< re vertical in 0.01 steps°)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_beam_number = R"doc(< redundant info, max 255 even if more beams exist)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_default_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_detected_range_in_samples = R"doc()doc";
 
