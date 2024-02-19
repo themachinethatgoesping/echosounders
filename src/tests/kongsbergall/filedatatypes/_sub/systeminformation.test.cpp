@@ -24,8 +24,7 @@ datagrams::WatercolumnDatagram make_wcd()
     // initialize class structure
     auto dat             = datagrams::WatercolumnDatagram();
     auto transmit_sector = datagrams::substructures::WatercolumnDatagramTransmitSector();
-    auto beam1 = datagrams::substructures::WatercolumnDatagramBeam::zero_initialized();
-    auto beam2 = datagrams::substructures::WatercolumnDatagramBeam::zero_initialized();
+    datagrams::substructures::WatercolumnDatagramBeam beam1, beam2;
 
     // set some variables
     dat.set_bytes(100);
@@ -50,6 +49,7 @@ datagrams::WatercolumnDatagram make_wcd()
     beam1.set_start_range_sample_number(4);
     beam1.set_number_of_samples(50);
     beam1.set_beam_number(1);
+    beam1._set_sample_are_skipped(123);
     beam1.set_detected_range_in_samples(40);
 
     beam2.set_beam_crosstrack_angle(-20);
@@ -58,6 +58,7 @@ datagrams::WatercolumnDatagram make_wcd()
     beam2.set_number_of_samples(60);
     beam2.set_beam_number(2);
     beam2.set_detected_range_in_samples(54);
+    beam2._set_sample_are_skipped(1234);
     dat.set_beams({ beam1, beam2 });
 
     // check the required functions do not throw
@@ -109,29 +110,29 @@ TEST_CASE("SystemInformation should be initialized correctly from RawRangeAndAng
 
     using Catch::Approx;
 
-    // using TxSignalParameters = std::variant<CWSignalParameters, FMSignalParameters,
-    // GenericSignalParameters>;
-    // CHECK(dat.get_tx_signal_parameters().size() == 1);
-    // auto signal_parameters = std::get<FMSignalParameters>(dat.get_tx_signal_parameters()[0]);
+    // using TxSignalParameters =
+    //     std::variant<CWSignalParameters, FMSignalParameters, GenericSignalParameters>;
+    CHECK(dat.get_tx_signal_parameters().size() == 1);
+    auto signal_parameters = std::get<FMSignalParameters>(dat.get_tx_signal_parameters()[0]);
 
-    // INFO(signal_parameters.info_string());
-    // CHECK(signal_parameters.center_frequency == Approx(191));
-    // CHECK(signal_parameters.bandwidth == Approx(101));
-    // CHECK(signal_parameters.effective_pulse_duration == Approx(121));
-    // CHECK(signal_parameters.get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
+    INFO(signal_parameters.info_string());
+    CHECK(signal_parameters.center_frequency == Approx(191));
+    CHECK(signal_parameters.bandwidth == Approx(101));
+    CHECK(signal_parameters.effective_pulse_duration == Approx(121));
+    CHECK(signal_parameters.get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
 
-    // // test inequality
-    // // REQUIRE(dat != SystemInformation());
+    // test inequality
+    // REQUIRE(dat != SystemInformation());
 
-    // // test copy
-    // REQUIRE(dat == SystemInformation(dat));
+    // test copy
+    REQUIRE(dat == SystemInformation(dat));
 
-    // // test stream (with hash cache)
-    // std::unordered_map<size_t, std::string> hash_cache;
-    // std::stringstream                       buffer;
+    // test stream (with hash cache)
+    std::unordered_map<size_t, std::string> hash_cache;
+    std::stringstream                       buffer;
 
-    // dat.to_stream(buffer, hash_cache);
-    // REQUIRE(dat == SystemInformation(dat.from_stream(buffer, hash_cache)));
+    dat.to_stream(buffer, hash_cache);
+    REQUIRE(dat == SystemInformation(dat.from_stream(buffer, hash_cache)));
 }
 
 TEST_CASE("SystemInformation should be initialized correctly from WaterColumnDatagram", TESTTAG)

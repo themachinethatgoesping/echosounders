@@ -377,20 +377,22 @@ class KongsbergAllPingDataInterfacePerFile
                 return std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
                     ping.file_data().read_merged_watercolumndatagram());
 
-            auto& datagram_infos = ping.file_data().get_datagram_infos(
-                t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+            const auto& datagram_info =
+                ping.file_data()
+                    .get_datagram_infos(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram)
+                    .at(0);
 
-            if (_buffer_watercolumninformation.has_package(datagram_infos.at(0)->get_file_pos()))
-                return _buffer_watercolumninformation.get_package(
-                    datagram_infos.at(0)->get_file_pos(), datagram_infos.at(0)->get_timestamp());
+            if (_buffer_watercolumninformation.has_package(datagram_info->get_file_pos()))
+                return _buffer_watercolumninformation.get_package(datagram_info->get_file_pos(),
+                                                                  datagram_info->get_timestamp());
 
             _update_cache = true;
             auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
                 ping.file_data().read_merged_watercolumndatagram());
 
             _buffer_watercolumninformation.add_package(
-                datagram_infos.at(0)->get_file_pos(),
-                datagram_infos.at(0)->get_timestamp(),
+                datagram_info->get_file_pos(),
+                datagram_info->get_timestamp(),
                 std::make_unique<filedatatypes::_sub::WaterColumnInformation>(*dat));
 
             return dat;
@@ -402,22 +404,24 @@ class KongsbergAllPingDataInterfacePerFile
         {
             if (!_file_cache)
                 return std::make_unique<filedatatypes::_sub::SystemInformation>(
-                    ping.file_data().read_merged_watercolumndatagram());
+                    ping.file_data().template read_first_datagram<datagrams::RawRangeAndAngle>());
 
-            auto& datagram_infos = ping.file_data().get_datagram_infos(
-                t_KongsbergAllDatagramIdentifier::RawRangeAndAngle);
+            const auto& datagram_info =
+                ping.file_data()
+                    .get_datagram_infos(t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
+                    .at(0);
 
-            if (_buffer_systeminformation.has_package(datagram_infos.at(0)->get_file_pos()))
-                return _buffer_systeminformation.get_package(datagram_infos.at(0)->get_file_pos(),
-                                                             datagram_infos.at(0)->get_timestamp());
+            if (_buffer_systeminformation.has_package(datagram_info->get_file_pos()))
+                return _buffer_systeminformation.get_package(datagram_info->get_file_pos(),
+                                                             datagram_info->get_timestamp());
 
             _update_cache = true;
             auto dat      = std::make_unique<filedatatypes::_sub::SystemInformation>(
                 ping.file_data().template read_first_datagram<datagrams::RawRangeAndAngle>());
 
             _buffer_systeminformation.add_package(
-                datagram_infos.at(0)->get_file_pos(),
-                datagram_infos.at(0)->get_timestamp(),
+                datagram_info->get_file_pos(),
+                datagram_info->get_timestamp(),
                 std::make_unique<filedatatypes::_sub::SystemInformation>(*dat));
 
             return dat;
@@ -435,7 +439,7 @@ class KongsbergAllPingDataInterfacePerFile
                 _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
-                                          _buffer_watercolumninformation);
+                                          _buffer_systeminformation);
                 _file_cache->update_file(_cache_file_path);
             }
         }

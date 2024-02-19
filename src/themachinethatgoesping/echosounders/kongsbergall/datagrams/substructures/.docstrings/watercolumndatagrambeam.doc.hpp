@@ -1,4 +1,4 @@
-//sourcehash: 7503f9fe4660761e668752e88ff3c7bcce2cc9b4037a5bc0a9347cb3695d9ee3
+//sourcehash: 48373026739cdedeb33bd9ee8e41dc46c4a33b47d355d28c9009f0b70c1b8ed7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,8 +47,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_beam_crosstrack_angle = R"doc(< re vertical in 0.01 steps°)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_beam_number = R"doc(< redundant info, max 255 even if more beams exist)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_default_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_detected_range_in_samples = R"doc()doc";
 
@@ -143,6 +141,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_set_detected_range_in_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_set_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_set_sample_are_skipped = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_WatercolumnDatagramBeam_set_samples = R"doc()doc";
 

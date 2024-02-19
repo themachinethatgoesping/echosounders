@@ -59,19 +59,6 @@ class WatercolumnDatagramBeam
     WatercolumnDatagramBeam()          = default;
     virtual ~WatercolumnDatagramBeam() = default;
 
-    static WatercolumnDatagramBeam default_initialized()
-        : _beam_crosstrack_angle(0)
-        , _start_range_sample_number(0)
-        , _number_of_samples(0)
-        , _detected_range_in_samples(0)
-        , _transmit_sector_number(0)
-        , _beam_number(0)
-        , _samples(xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ 0 })))
-        , _samples_are_skipped(false)
-        , _sample_pos(0)
-    {
-    }
-
     // ----- convenient member access -----
     // getters
     int16_t  get_beam_crosstrack_angle() const { return _beam_crosstrack_angle; }
@@ -80,7 +67,23 @@ class WatercolumnDatagramBeam
     uint16_t get_detected_range_in_samples() const { return _detected_range_in_samples; }
     uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
     uint8_t  get_beam_number() const { return _beam_number; }
-    size_t   get_sample_position() const { return _sample_pos; }
+    size_t   get_sample_position() const
+    {
+        if (!_samples_are_skipped)
+            throw(std::runtime_error(
+                fmt::format("ERROR[WatercolumnDatagramBeam::get_sample_position]: "
+                            "The sample position is only available if the data "
+                            "was skipped!")));
+        return _sample_pos;
+    }
+
+    // this function is only used for testing
+    void _set_sample_are_skipped(size_t sample_pos)
+    {
+        _sample_pos          = sample_pos;
+        _samples_are_skipped = true;
+        _samples = xt::xtensor<int8_t, 1>();
+    }
 
     // setters
     void set_beam_crosstrack_angle(int16_t beam_crosstrack_angle)
@@ -121,7 +124,7 @@ class WatercolumnDatagramBeam
         xt::xtensor<int8_t, 1> samples =
             xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ _number_of_samples }));
 
-        ifs.seekg(_sample_pos);
+        ifs.seekg(get_sample_position());
 
         ifs.read(reinterpret_cast<char*>(samples.data()), _number_of_samples * sizeof(int8_t));
 

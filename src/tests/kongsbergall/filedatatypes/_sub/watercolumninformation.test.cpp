@@ -50,12 +50,14 @@ datagrams::WatercolumnDatagram make_wcd()
     beam1.set_start_range_sample_number(4);
     beam1.set_number_of_samples(50);
     beam1.set_detected_range_in_samples(40);
+    beam1._set_sample_are_skipped(123);
 
     beam2.set_beam_crosstrack_angle(-20);
     beam2.set_transmit_sector_number(23);
     beam2.set_start_range_sample_number(4);
     beam2.set_number_of_samples(60);
     beam2.set_detected_range_in_samples(54);
+    beam2._set_sample_are_skipped(1234);
     dat.set_beams({ beam1, beam2 });
 
     // check the required functions do not throw
@@ -92,9 +94,8 @@ TEST_CASE("WaterColumnInformation should be initialized correctly from WaterColu
     CHECK(WCI.get_transmit_sector_numbers()[1] == 23);
 
     CHECK(WCI.get_sample_positions().size() == 2);
-    // TODO: this value is uninitialized because the WaterColumnDatagram was not initialized from a
-    // file CHECK(WCI.get_sample_positions()[0] == 0); CHECK(WCI.get_sample_positions()[1] ==
-    // 8026294576475695468);
+    CHECK(WCI.get_sample_positions()[0] == 123);
+    CHECK(WCI.get_sample_positions()[1] == 1234);
 
     CHECK(WCI.get_tvg_factor_applied() == 207);
     CHECK(WCI.get_tvg_offset_in_db() == -50);

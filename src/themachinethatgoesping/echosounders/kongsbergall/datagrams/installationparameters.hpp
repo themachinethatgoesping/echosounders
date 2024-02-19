@@ -366,9 +366,9 @@ class InstallationParameters : public KongsbergAllDatagram
      */
     void reparse_installation_parameters()
     {
-        ///TODO: there is still unecessary copying of strings (fields, key, value)
+        /// TODO: there is still unecessary copying of strings (fields, key, value)
         std::string                 fields;
-        tools::helper::isviewstream iss{ std::string_view(_installation_parameters) };
+        tools::helper::isviewstream iss{ std::string_view(_installation_parameters) }; //TODO: why does this work but iss(std::string_view(_installation_parameters) ) not?
 
         _parsed_installation_parameters.clear();
 

@@ -171,38 +171,24 @@ class TxSignalParameterVector
         // static const size_t size_binary = sizeof(TxSignalParameters);
 
         // return xxh::xxhash3<64>(this->data(), this->size() * size_binary);
-    // REQUIRE(false);
+        // REQUIRE(false);
 
         return boost::hash_range(this->begin(), this->end());
     }
-
-    // convert to std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    // operator std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>()
-    // const
-    // {
-    //     return *this;
-    // }
 };
 
-// // IGNORE_DOC:
-// __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value inline size_t
-// hash_value(const TxSignalParameterVector& object)
+// static std::unordered_map<size_t, HashCacheKey> __hash_key_cache;
+// // // IGNORE_DOC:
+// // // __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_extractor
+// struct hash_extractor
 // {
-//     return object.binary_hash();
-// }
-
-// IGNORE_DOC:
-// __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_extractor
-struct hash_extractor
-{
-    HashCacheKey _hash_cache_key;
-
-    const HashCacheKey& operator()(const TxSignalParameterVector& object)
-    {
-        _hash_cache_key = HashCacheKey(object.binary_hash());
-        return _hash_cache_key;
-    }
-};
+//     const HashCacheKey& operator()(const TxSignalParameterVector& object) const
+//     {
+//         size_t hash            = object.binary_hash();
+//         __hash_key_cache[hash] = HashCacheKey(hash);
+//         return __hash_key_cache[hash];
+//     }
+// };
 
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
@@ -215,15 +201,20 @@ struct hash_extractor
 class SystemInformation
 {
     // transmit signal parameters per sector
-    // boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
+    // TODO, this should be slower, but it is faster than the other one
+    boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
 
-    boost::flyweights::flyweight<
-        boost::flyweights::key_value<HashCacheKey, TxSignalParameterVector, hash_extractor>>
-        _tx_signal_parameters;
+    // boost::flyweights::flyweight<
+    //     boost::flyweights::key_value<HashCacheKey, TxSignalParameterVector, hash_extractor>>
+    //     _tx_signal_parameters;
 
     // boost::flyweights::flyweight<_SYSInfos> _sys_infos; // not used at the moment
 
     SystemInformation() = default;
+    SystemInformation(const HashCacheKey& hash_cache_key)
+        : _tx_signal_parameters(hash_cache_key)
+    {
+    }
 
   public:
     SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
@@ -325,9 +316,6 @@ class SystemInformation
     {
         using namespace algorithms::signalprocessing::datastructures;
 
-        // create SystemInformation
-        SystemInformation dat;
-
         std::vector<size_t> hashes(1);
         std::vector<size_t> sizes(1);
 
@@ -335,11 +323,8 @@ class SystemInformation
         is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
         is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
-        // resize arrays
-        dat._tx_signal_parameters =
-            TxSignalParameterVector(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]));
-
-        return dat;
+        // create SystemInformation
+        return SystemInformation(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]));
     }
 };
 

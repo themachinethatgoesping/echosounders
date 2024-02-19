@@ -117,7 +117,7 @@ class PackageCache
     static auto from_binary(std::string_view                               buffer,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        tools::helper::isviewstream buffer_stream{ buffer };
+        tools::helper::isviewstream buffer_stream(buffer);
 
         return from_stream(buffer_stream, hash_cache);
     };
