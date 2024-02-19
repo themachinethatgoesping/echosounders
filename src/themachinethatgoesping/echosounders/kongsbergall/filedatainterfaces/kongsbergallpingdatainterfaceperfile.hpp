@@ -235,6 +235,26 @@ class KongsbergAllPingDataInterfacePerFile
                             *ping_ptr));
                 }
 
+                // load system information (if RawRangeAndAngle is available)
+                if (ping_ptr->has_bottom())
+                    if (ping_ptr->bottom().has_two_way_travel_times())
+                    {
+                        // this assumes that there is one RawRangeAndAngle datagram per ping
+                        auto file_nr = ping_ptr->file_data()
+                                           .get_datagram_infos(
+                                               t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
+                                           .at(0)
+                                           ->get_file_nr();
+
+                        // add runtime parameters (will be deduplicated as boost flyweight)
+                        ping_ptr->file_data().set_systeminformation(
+                            file_cache_path_per_file_nr[file_nr].read_or_get_systeminformation(
+                                *ping_ptr));
+                    }
+
+                // load information that has not been cached
+                ping_ptr->load();
+
                 pings.add_ping(std::move(ping_ptr));
             }
         }
@@ -306,7 +326,8 @@ class KongsbergAllPingDataInterfacePerFile
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<RuntimeParameters>",
-                              "FilePackageCache<WaterColumnInformation>" }));
+                              "FilePackageCache<WaterColumnInformation>",
+                              "FilePackageCache<SystemInformation>" }));
 
             if (_file_cache->has_cache("FilePackageCache<RuntimeParameters>"))
                 _buffer_runtimeparameters = _file_cache->get_from_cache<t_cache_RuntimeParameters>(
@@ -371,6 +392,33 @@ class KongsbergAllPingDataInterfacePerFile
                 datagram_infos.at(0)->get_file_pos(),
                 datagram_infos.at(0)->get_timestamp(),
                 std::make_unique<filedatatypes::_sub::WaterColumnInformation>(*dat));
+
+            return dat;
+        }
+
+        template<typename t_ping>
+        std::unique_ptr<filedatatypes::_sub::SystemInformation> read_or_get_systeminformation(
+            t_ping& ping)
+        {
+            if (!_file_cache)
+                return std::make_unique<filedatatypes::_sub::SystemInformation>(
+                    ping.file_data().read_merged_watercolumndatagram());
+
+            auto& datagram_infos = ping.file_data().get_datagram_infos(
+                t_KongsbergAllDatagramIdentifier::RawRangeAndAngle);
+
+            if (_buffer_systeminformation.has_package(datagram_infos.at(0)->get_file_pos()))
+                return _buffer_systeminformation.get_package(datagram_infos.at(0)->get_file_pos(),
+                                                             datagram_infos.at(0)->get_timestamp());
+
+            _update_cache = true;
+            auto dat      = std::make_unique<filedatatypes::_sub::SystemInformation>(
+                ping.file_data().template read_first_datagram<datagrams::RawRangeAndAngle>());
+
+            _buffer_systeminformation.add_package(
+                datagram_infos.at(0)->get_file_pos(),
+                datagram_infos.at(0)->get_timestamp(),
+                std::make_unique<filedatatypes::_sub::SystemInformation>(*dat));
 
             return dat;
         }
