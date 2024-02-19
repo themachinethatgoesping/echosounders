@@ -113,10 +113,10 @@ class PackageCache
         return buffer_stream.str();
     };
 
-    static auto from_binary(const std::string&                             buffer,
+    static auto from_binary(std::string_view                               buffer,
                             const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        std::stringstream buffer_stream{ buffer };
+        std::stringstream buffer_stream{ std::string(buffer) };
 
         return from_stream(buffer_stream, hash_cache);
     };
@@ -131,10 +131,7 @@ class PackageCache
         return *_caching_result;
     }
 
-    std::unique_ptr<t_CachingResult> get_and_release()
-    {
-        return std::move(_caching_result);
-    }
+    std::unique_ptr<t_CachingResult> get_and_release() { return std::move(_caching_result); }
 };
 
 } // namespace cache_structures

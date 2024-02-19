@@ -90,7 +90,7 @@ class _WCIInfos
     }
 
     // ----- functions used for PackageCache -----
-    static _WCIInfos from_binary(const std::string& buffer)
+    static _WCIInfos from_binary( std::string_view buffer)
     {
         static const size_t size_bytes = 2 * sizeof(float) + 2 * sizeof(uint8_t) + sizeof(int8_t);
 

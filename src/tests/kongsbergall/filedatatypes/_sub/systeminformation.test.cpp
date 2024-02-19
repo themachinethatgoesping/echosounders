@@ -48,12 +48,14 @@ datagrams::WatercolumnDatagram make_wcd()
     beam1.set_transmit_sector_number(191);
     beam1.set_start_range_sample_number(4);
     beam1.set_number_of_samples(50);
+    beam1.set_beam_number(1);
     beam1.set_detected_range_in_samples(40);
 
     beam2.set_beam_crosstrack_angle(-20);
     beam2.set_transmit_sector_number(23);
     beam2.set_start_range_sample_number(4);
     beam2.set_number_of_samples(60);
+    beam1.set_beam_number(2);
     beam2.set_detected_range_in_samples(54);
     dat.set_beams({ beam1, beam2 });
 

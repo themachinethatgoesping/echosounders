@@ -134,14 +134,15 @@ class SystemInformation
     // ----- functions used for PackageCache -----
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
+        using namespace algorithms::signalprocessing::datastructures;
+
         std::string         buffer;
         std::vector<size_t> hashes, sizes;
         hashes.reserve(1);
         sizes.reserve(1);
 
         // _beam_crosstrack_angles
-        static const size_t size_binary =
-            sizeof(algorithms::signalprocessing::datastructures::TxSignalParameters);
+        static const size_t size_binary = sizeof(TxSignalParameters);
 
         hashes.push_back(xxh::xxhash3<64>(_tx_signal_parameters.get().data(),
                                           _tx_signal_parameters.get().size() * size_binary));
@@ -149,12 +150,30 @@ class SystemInformation
 
         if (!hash_cache.contains(hashes.back()))
         {
-            auto& buffer = hash_cache[hashes.back()];
-            buffer.resize(_tx_signal_parameters.get().size() * size_binary);
+            std::string       types;
+            std::stringstream ss;
 
-            std::memcpy(buffer.data(),
-                        _tx_signal_parameters.get().data(),
-                        _tx_signal_parameters.get().size() * size_binary);
+            for (const auto& signal_parameters : _tx_signal_parameters.get())
+            {
+                tools::helper::visit_variant_no_return(
+                    signal_parameters,
+                    [&types, &ss](const CWSignalParameters& param) mutable {
+                        types.push_back('c');
+                        param.to_stream(ss);
+                    },
+                    [&types, &ss](const FMSignalParameters& param) mutable {
+                        types.push_back('f');
+                        param.to_stream(ss);
+                    },
+                    [&types, &ss](const GenericSignalParameters& param) mutable {
+                        types.push_back('g');
+                        param.to_stream(ss);
+                    });
+            }
+
+            auto& buffer = hash_cache[hashes.back()];
+            buffer       = types;
+            buffer += ss.str();
         }
 
         // write hashes to stream
@@ -165,6 +184,8 @@ class SystemInformation
     static SystemInformation from_stream(std::istream&                                  is,
                                          const std::unordered_map<size_t, std::string>& hash_cache)
     {
+        using namespace algorithms::signalprocessing::datastructures;
+
         // create SystemInformation
         SystemInformation dat;
 
@@ -176,15 +197,41 @@ class SystemInformation
         is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
         // resize arrays
-        auto tx_signal_parameters =
-            std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>(sizes[0]);
-        static const size_t size_binary =
-            sizeof(algorithms::signalprocessing::datastructures::TxSignalParameters);
+        std::vector<TxSignalParameters> tx_signal_parameters;
+        tx_signal_parameters.reserve(sizes[0]);
 
         // read tx_signal_parameters from stream
-        std::memcpy(tx_signal_parameters.data(),
-                    hash_cache.at(hashes[0]).data(),
-                    tx_signal_parameters.size() * size_binary);
+        const auto& buffer = hash_cache.at(hashes[0]);
+
+        std::string_view types  = std::string_view(buffer).substr(0, sizes[0]);
+        size_t           offset = types.size();
+
+        for (const auto type : types)
+        {
+            switch (type)
+            {
+                case 'c': {
+                    tx_signal_parameters.push_back(CWSignalParameters::from_binary(
+                        buffer.substr(offset, sizeof(CWSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                case 'f': {
+                    tx_signal_parameters.push_back(FMSignalParameters::from_binary(
+                        buffer.substr(offset, sizeof(FMSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                case 'g': {
+                    tx_signal_parameters.push_back(GenericSignalParameters::from_binary(
+                        buffer.substr(offset, sizeof(GenericSignalParameters))));
+                    offset += sizeof(CWSignalParameters);
+                    break;
+                }
+                default:
+                    throw std::runtime_error("Unknown transmit signal type");
+            }
+        }
 
         dat._tx_signal_parameters = tx_signal_parameters;
 
