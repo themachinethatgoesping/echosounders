@@ -375,7 +375,7 @@ class KongsbergAllPingDataInterfacePerFile
         {
             if (!_file_cache)
                 return std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
-                    ping.file_data().read_merged_watercolumndatagram());
+                    ping.file_data().read_merged_watercolumndatagram(true));
 
             const auto& datagram_info =
                 ping.file_data()
@@ -388,7 +388,7 @@ class KongsbergAllPingDataInterfacePerFile
 
             _update_cache = true;
             auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
-                ping.file_data().read_merged_watercolumndatagram());
+                ping.file_data().read_merged_watercolumndatagram(true));
 
             _buffer_watercolumninformation.add_package(
                 datagram_info->get_file_pos(),
