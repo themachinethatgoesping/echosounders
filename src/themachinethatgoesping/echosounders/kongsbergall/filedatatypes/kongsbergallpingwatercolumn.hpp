@@ -315,18 +315,22 @@ class KongsbergAllPingWatercolumn
                 sigparam,
                 [sound_velocity](
                     const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5f);
                 },
-                [sound_velocity](
-                    const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
+                [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
+                                     datastructures::FMSignalParameters& param) {
                     // TODO: correct computation for FM?
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    return 0.f;
                 },
-                [sound_velocity](
-                    const algorithms::signalprocessing::datastructures::GenericSignalParameters&
-                        param) {
+                [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
+                                     datastructures::GenericSignalParameters& param) {
                     // TODO: throw warning?
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    // We cannot really compute this because we do not know if this is a CW or FM
+                    // signal Furthermore, this usually happens if no rawrangeandanlges datagram is
+                    // present in this case also the effective_pulse_duration is not known for each
+                    // sector Here we thus do not correct for pulse length at all, but the user
+                    // should be aware of this (TODO: warning?)
+                    return 0.f;
                 });
         }
 
