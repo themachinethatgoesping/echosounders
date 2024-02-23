@@ -46,6 +46,9 @@ namespace datatypes {
 
 class I_Ping : virtual public I_PingCommon
 {
+    bool _sensor_configuration_set = false;
+    bool _sensor_data_latlon_set   = false;
+
   protected:
     std::string class_name() const override { return "I_Ping"; }
 
@@ -62,6 +65,18 @@ class I_Ping : virtual public I_PingCommon
     I_Ping()
         : I_PingCommon()
     {
+        register_feature("timestamp", std::bind(&I_Ping::has_timestamp, this), true);
+        register_feature("datetime",
+                         std::bind(&I_Ping::has_timestamp, this),
+                         true); // this feature only exists for python since it is implemented as a
+                                // lambda function in the c_I_Ping class definition
+        register_feature("channel_id", std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(
+            "sensor_configuration", std::bind(&I_Ping::has_sensor_configuration, this), true);
+        register_feature(
+            "sensor_data_latlon", std::bind(&I_Ping::has_sensor_data_latlon, this), true);
+        register_feature("geolocation", std::bind(&I_Ping::has_geolocation, this), true);
+
         register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
     }
@@ -75,26 +90,37 @@ class I_Ping : virtual public I_PingCommon
         , _sensor_configuration(other._sensor_configuration)
         , _sensor_data_latlon(other._sensor_data_latlon)
     {
+        register_feature("timestamp", std::bind(&I_Ping::has_timestamp, this), true);
+        register_feature("datetime",
+                         std::bind(&I_Ping::has_timestamp, this),
+                         true); // this feature only exists for python since it is implemented as a
+                                // lambda function in the c_I_Ping class definition
+        register_feature("channel_id", std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(
+            "sensor_configuration", std::bind(&I_Ping::has_sensor_configuration, this), true);
+        register_feature(
+            "sensor_data_latlon", std::bind(&I_Ping::has_sensor_data_latlon, this), true);
+        register_feature("geolocation", std::bind(&I_Ping::has_geolocation, this), true);
+
         register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
         register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
     }
 
-    //------ interface / accessors -----
-    double             get_timestamp() const { return _timestamp; }
+    //------ features -----
+    bool   has_timestamp() const { return _timestamp > 0; }
+    void   set_timestamp(double timestamp) { _timestamp = timestamp; }
+    double get_timestamp() const { return _timestamp; }
+
+    bool               has_channel_id() const { return !_channel_id.get().empty(); }
     const std::string& get_channel_id() const { return _channel_id.get(); }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
 
-    void set_timestamp(double timestamp) { _timestamp = timestamp; }
-
-    /**
-     * @brief Get the geolocation of the transducer.
-     *
-     * @return const navigation::datastructures::GeolocationLatLon&
-     */
+    bool has_geolocation() const { return has_sensor_configuration() && has_sensor_data_latlon(); }
     navigation::datastructures::GeolocationLatLon get_geolocation(
         const std::string& target_id = "Transducer") const
     {
-        return get_sensor_configuration().compute_target_position(target_id, _sensor_data_latlon);
+        return get_sensor_configuration().compute_target_position(target_id,
+                                                                  get_sensor_data_latlon());
     }
 
     const navigation::SensorConfiguration& get_sensor_configuration() const
@@ -102,11 +128,14 @@ class I_Ping : virtual public I_PingCommon
         return _sensor_configuration.get();
     }
 
+    bool has_sensor_configuration() const { return _sensor_configuration_set; }
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
     {
-        _sensor_configuration = sensor_configuration;
+        _sensor_configuration     = sensor_configuration;
+        _sensor_configuration_set = true;
     }
 
+    bool has_sensor_data_latlon() const { return _sensor_data_latlon_set; }
     const navigation::datastructures::SensordataLatLon& get_sensor_data_latlon() const
     {
         return _sensor_data_latlon;
@@ -114,7 +143,8 @@ class I_Ping : virtual public I_PingCommon
 
     void set_sensor_data_latlon(const navigation::datastructures::SensordataLatLon& sensor_data)
     {
-        _sensor_data_latlon = sensor_data;
+        _sensor_data_latlon_set = true;
+        _sensor_data_latlon     = sensor_data;
     }
 
     void load(bool force = false) override
