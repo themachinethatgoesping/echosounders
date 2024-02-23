@@ -65,17 +65,6 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
     }
     virtual ~SimradRawPingCommon() = default;
 
-    // ----- i_pingcommon interface -----
-    bool has_tx_signal_parameters() const override { return true; }
-    bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
-
-    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() override
-    {
-        return { file_data().get_parameter().get_tx_signal_parameters() };
-    }
-
-    size_t get_number_of_tx_sectors() override { return 1; }
 
     void beam_selection_must_be_one(std::string_view                      method_name,
                                     const pingtools::BeamSampleSelection& selection) const

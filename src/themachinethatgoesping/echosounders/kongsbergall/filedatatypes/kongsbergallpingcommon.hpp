@@ -64,25 +64,6 @@ class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCo
     virtual ~KongsbergAllPingCommon() = default;
 
     // ----- i_pingcommon interface -----
-    bool has_tx_signal_parameters() const override
-    {
-        return _file_data->has_any_of_datagram_types(
-            { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
-              t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
-    }
-    bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
-
-    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() override
-    {
-        return file_data().get_sysinfos().get_tx_signal_parameters();
-    }
-
-    size_t get_number_of_tx_sectors() override
-    {
-        return file_data().get_sysinfos().get_tx_signal_parameters().size();
-    }
-
     // // explicit copy constructor and assignment operators
     // KongsbergAllPingCommon(const KongsbergAllPingCommon& other)
     //     : t_base(other)

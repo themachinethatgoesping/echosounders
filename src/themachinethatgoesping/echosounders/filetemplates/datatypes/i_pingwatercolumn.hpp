@@ -80,6 +80,13 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn()
         : I_PingCommon()
     {
+        register_feature("tx_signal_parameters",
+                         std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
+                         false);
+        register_feature("number_of_tx_sectors",
+                         std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
+                         false);
+
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
         register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
         register_feature("bottom_range_sample",
@@ -92,12 +99,47 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn(const I_PingWatercolumn& other)
         : I_PingCommon(other)
     {
+        register_feature("tx_signal_parameters",
+                         std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
+                         false);
+        register_feature("number_of_tx_sectors",
+                         std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
+                         false);
+
         register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
         register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
         register_feature("bottom_range_sample",
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
                          false);
     }
+
+    // --- transmit sector infos ---
+
+    /**
+     * @brief Get the transmission signal parameters per sector.
+     *
+     * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
+     */
+    virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+    get_tx_signal_parameters()
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get the number of transmission sectors.
+     *
+     * This function returns the number of transmission sectors for the echosounder.
+     *
+     * @return The number of transmission sectors.
+     */
+    virtual size_t get_number_of_tx_sectors()
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    virtual bool has_tx_signal_parameters() const { return false; }
+    virtual bool has_tx_sector_information() const { return false; }
 
     // --- water column sampling infos ---
 

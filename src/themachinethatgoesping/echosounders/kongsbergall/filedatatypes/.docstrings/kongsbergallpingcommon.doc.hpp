@@ -1,4 +1,4 @@
-//sourcehash: 56b642dc67292ecf98767546b2f10d5f8d5c7dd23d334a611094ce13f2dbd1da
+//sourcehash: e5b572792a1480ad579ec36172872bf5a3319d6e29c3eb9841d57824b51c2769
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,14 +51,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_file_data_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_file_data_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_get_number_of_tx_sectors = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_get_tx_signal_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_has_tx_sector_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingCommon_printer = R"doc()doc";
 

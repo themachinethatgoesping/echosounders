@@ -1,4 +1,4 @@
-//sourcehash: 4c1334bc61c1a7742ec853cf6b8310e55b948d3a38c68305927457ccf988b02d
+//sourcehash: 211e16f25a11e5e5bd4a8c408dd0d4fdfef3c8e63b064e56850ce5f137066d5b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_number_of_tx_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sample_interval = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
@@ -68,9 +70,15 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_tx_signal_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_amplitudes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_bottom_range_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_tx_sector_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_printer = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: dfda60e5c3e280c519c6e6c21382a9bfe81bda86b299c1c3cb8de6ef79f7d58b
+//sourcehash: 221efd91eb6a57c6148b300968ca841f7fb1138c72e5b8e0935cbf3df1a48350
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -154,6 +154,15 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_tx_sectors =
+R"doc(Get the number of transmission sectors.
+
+This function returns the number of transmission sectors for the
+echosounder.
+
+Returns:
+    The number of transmission sectors.)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sample_interval =
 R"doc(Get the sample interval in seconds
 
@@ -163,6 +172,13 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_signal_parameters =
+R"doc(Get the transmission signal parameters per sector.
+
+Returns:
+    const std::vector<algorithms::signalprocessing::datastructures::Tx
+    SignalParameters>&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data
@@ -190,6 +206,10 @@ Returns:
 
 Returns:
     false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_printer = R"doc()doc";
 

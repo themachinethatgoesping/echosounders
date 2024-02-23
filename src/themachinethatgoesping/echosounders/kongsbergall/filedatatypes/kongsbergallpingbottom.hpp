@@ -68,6 +68,25 @@ class KongsbergAllPingBottom
 
 
     // --- sector infos ---
+    bool has_tx_signal_parameters() const override
+    {
+        return _file_data->has_any_of_datagram_types(
+            { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
+              t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
+    }
+    bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
+
+    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+    get_tx_signal_parameters() override
+    {
+        return file_data().get_sysinfos().get_tx_signal_parameters();
+    }
+
+    size_t get_number_of_tx_sectors() override
+    {
+        return file_data().get_sysinfos().get_tx_signal_parameters().size();
+    }
+    
     xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
     {
         throw not_implemented(__func__, class_name());

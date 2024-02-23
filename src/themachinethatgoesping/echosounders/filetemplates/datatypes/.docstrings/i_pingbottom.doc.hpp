@@ -1,4 +1,4 @@
-//sourcehash: badde59eee2c316c80fd6c36b818a714b24871b76458b0434342611fbe8422f8
+//sourcehash: 93819dab08d4b1051dec95cbcea0d9a61324815a6527508137146deab083a480
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,6 +72,15 @@ R"doc(Get the number of beams for this ping
 Returns:
     uint16_t)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors =
+R"doc(Get the number of transmission sectors.
+
+This function returns the number of transmission sectors for the
+echosounder.
+
+Returns:
+    The number of transmission sectors.)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
 R"doc(Get the two way travel times of the bottom detection samples
 
@@ -85,6 +94,13 @@ Returns:
     xt::xtensor<float, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters =
+R"doc(Get the transmission signal parameters per sector.
+
+Returns:
+    const std::vector<algorithms::signalprocessing::datastructures::Tx
+    SignalParameters>&)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
 R"doc(Get an XYZ object containing the XYZ position of the bottom detection
@@ -129,6 +145,10 @@ Returns:
 
 Returns:
     false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_sector_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
 R"doc(Check this pings supports XYZ data
