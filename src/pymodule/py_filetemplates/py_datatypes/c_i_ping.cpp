@@ -94,6 +94,10 @@ void init_c_i_ping(pybind11::module& m)
                  py::overload_cast<const std::string&>(&I_Ping::get_geolocation, py::const_),
                  DOC_I_Ping(get_geolocation),
                  py::arg("target_id") = "Transducer")
+            .def("set_geolocation",
+                 &I_Ping::set_geolocation,
+                 DOC_I_Ping(set_geolocation),
+                 py::arg("geolocation"))
 
             // .def("set_geolocation",
             //      py::overload_cast<navigation::datastructures::GeolocationLatLon>(

@@ -122,6 +122,23 @@ class I_Ping : virtual public I_PingCommon
         return get_sensor_configuration().compute_target_position(target_id,
                                                                   get_sensor_data_latlon());
     }
+    void set_geolocation(const navigation::datastructures::GeolocationLatLon& location)
+    {
+        // create a new sensor configuration assuming no offsets between sensor data and transducer
+        navigation::SensorConfiguration config;
+        config.add_target("Transducer", 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+        this->set_sensor_configuration(config);
+
+        // set sensor data
+        this->set_sensor_data_latlon(
+            navigation::datastructures::SensordataLatLon(location.latitude,
+                                                         location.longitude,
+                                                         location.z,
+                                                         0.f,
+                                                         location.yaw,
+                                                         location.pitch,
+                                                         location.roll));
+    }
 
     const navigation::SensorConfiguration& get_sensor_configuration() const
     {
