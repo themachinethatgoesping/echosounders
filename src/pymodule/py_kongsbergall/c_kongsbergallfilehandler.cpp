@@ -93,9 +93,9 @@ void py_create_class_kongsbergallfilehandler(py::module& m, const std::string& C
             py::overload_cast<bool>(&KongsbergAllFileHandler<T_FileStream>::get_pings, py::const_),
             py::arg("sorted_by_time") = true,
             DOC_KongsbergAllFileHandler(get_pings));
-    cls.def("channel_ids",
-            &KongsbergAllFileHandler<T_FileStream>::channel_ids,
-            DOC_KongsbergAllFileHandler(channel_ids));
+    cls.def("get_channel_ids",
+            &KongsbergAllFileHandler<T_FileStream>::get_channel_ids,
+            DOC_KongsbergAllFileHandler(get_channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */

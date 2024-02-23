@@ -1,4 +1,4 @@
-//sourcehash: 9d76b2b494b657c80b364539893071f51efe396e3c66d54bb8351fb6d139d665
+//sourcehash: a09d454b4842d12fb85510ff671c4051347c7f3420c07fc4664118a221ec0c0d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,8 +58,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRaw
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_callback_scan_packet = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_channel_ids = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_configuration_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_configuration_interface_2 = R"doc()doc";
@@ -71,6 +69,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRaw
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_environment_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_environment_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_get_channel_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_get_pings = R"doc()doc";
 

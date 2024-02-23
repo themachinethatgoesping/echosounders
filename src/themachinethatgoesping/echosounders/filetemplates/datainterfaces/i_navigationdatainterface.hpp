@@ -83,11 +83,10 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     bool is_initialized() const override { return _is_initialized_navigation_interpolators; }
 
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
-    void init_from_file(
-        const std::unordered_map<std::string, std::string>& file_cache_paths,
-        bool                                                force,
-        tools::progressbars::I_ProgressBar&                 progress_bar,
-        bool                                                external_progress_tick = false) final
+    void init_from_file(const std::unordered_map<std::string, std::string>& file_cache_paths,
+                        bool                                                force,
+                        tools::progressbars::I_ProgressBar&                 progress_bar,
+                        bool external_progress_tick = false) final
     {
         // navigation data interface needs configuraiton data interface to be initialized
         if (!this->_configuration_data_interface.lock()->is_initialized())
@@ -201,7 +200,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.at(sensor_configuration).get_sensor_data(timestamp);
     }
 
-    std::vector<std::string> channel_ids() const
+    std::vector<std::string> get_channel_ids() const
     {
         std::vector<std::string> channel_ids;
 
@@ -218,7 +217,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return channel_ids;
     }
 
-    std::vector<std::string> channel_ids(
+    std::vector<std::string> get_channel_ids(
         const navigation::SensorConfiguration& sensor_configuration) const
     {
         return _navigation_interpolators.at(sensor_configuration)

@@ -1,4 +1,4 @@
-//sourcehash: 6048e6c5993e5983fd1ff0fd6dcc3a6eff2c11ef6a6015a1044a1e8afda442c5
+//sourcehash: e929fde98a5f38437b298910adc5b2d5fee3d90c6523f480272ba491d300ec8e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,8 +58,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_Kongsb
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_callback_scan_packet = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_channel_ids = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_configuration_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_configuration_interface_2 = R"doc()doc";
@@ -71,6 +69,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_Kongsb
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_environment_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_environment_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_get_channel_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_get_pings = R"doc()doc";
 

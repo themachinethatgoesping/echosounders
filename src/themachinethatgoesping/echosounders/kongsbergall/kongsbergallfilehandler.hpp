@@ -319,7 +319,7 @@ class KongsbergAllFileHandler
         return _ping_interface->get_pings();
     }
 
-    std::vector<std::string> channel_ids() const { return _ping_interface->channel_ids(); }
+    std::vector<std::string> get_channel_ids()const { return _ping_interface->get_channel_ids(); }
 
   protected:
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,

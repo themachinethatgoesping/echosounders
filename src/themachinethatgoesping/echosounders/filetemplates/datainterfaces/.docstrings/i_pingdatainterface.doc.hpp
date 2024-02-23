@@ -1,4 +1,4 @@
-//sourcehash: 505650dd2b5c475507c1657fab940e11f6906070686a25a01185ba9ee74c8ec4
+//sourcehash: 0ab58233d39515c036c8e07e74bafe692a8144e433ad516f57a72bb29673329f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,8 +44,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_add_file_interface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_channel_ids = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_configuration_data_interface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_configuration_data_interface_const = R"doc()doc";
@@ -55,6 +53,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_environment_data_interface_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_environment_data_interface_const = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_get_channel_ids = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterface_get_pings = R"doc()doc";
 

@@ -97,9 +97,9 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
             py::arg("sorted_by_time") = true,
             DOC_SimradRawFileHandler(get_pings));
 
-    cls.def("channel_ids",
-            &SimradRawFileHandler<T_FileStream>::channel_ids,
-            DOC_SimradRawFileHandler(channel_ids));
+    cls.def("get_channel_ids",
+            &SimradRawFileHandler<T_FileStream>::get_channel_ids,
+            DOC_SimradRawFileHandler(get_channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */
