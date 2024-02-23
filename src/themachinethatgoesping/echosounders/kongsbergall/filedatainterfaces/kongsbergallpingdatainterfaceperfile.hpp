@@ -210,10 +210,16 @@ class KongsbergAllPingDataInterfacePerFile
                 }
                 catch (std::exception& e)
                 {
+                    std::string linked_file_path = "None";
+                    if (this->has_linked_file())
+                        linked_file_path = this->get_linked_file_path();
                     // throw more precise error
                     throw std::runtime_error(fmt::format(
-                        "ERROR[KongsbergAllPingDataInterfacePerFile::read_pings]: could not "
+                        "ERROR[KongsbergAllPingDataInterfacePerFile::read_pings]: For "
+                        "files\n-Primary:'{}'\n-Secondary'{}'\n could not "
                         "set geolocation ping transducer id {} at time {}\n ERROR was: {}",
+                        this->get_file_path(),
+                        linked_file_path,
                         id,
                         ping_ptr->get_timestamp(),
                         e.what()));

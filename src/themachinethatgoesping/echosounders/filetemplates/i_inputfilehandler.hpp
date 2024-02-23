@@ -153,6 +153,9 @@ class I_InputFileHandler
     void append_files(const std::vector<std::string>&     file_paths,
                       tools::progressbars::I_ProgressBar& progress_bar)
     {
+        if (file_paths.empty())
+            throw std::invalid_argument(fmt::format("InputFilehandler: Empty list of file paths"));
+
         // get total file size of all files
         size_t total_file_size = 0;
         size_t datagrams_old   = _datagram_interface.size();
