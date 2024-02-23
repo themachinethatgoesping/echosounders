@@ -194,7 +194,7 @@ class SimradRawFileHandler
     auto& annotation_interface() { return *_annotation_interface; }
     auto& otherfiledata_interface() { return *_otherfiledata_interface; }
 
-    filedatacontainers::SimradRawPingContainer<t_ifstream> pings(bool sorted_by_time) const
+    filedatacontainers::SimradRawPingContainer<t_ifstream> get_pings(bool sorted_by_time) const
     {
         if (sorted_by_time)
         {

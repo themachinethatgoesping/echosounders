@@ -19,8 +19,8 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
-#include "../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 #include "../../themachinethatgoesping/echosounders/kongsbergall/kongsbergallfilehandler.hpp"
+#include "../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 
 #include "module.hpp"
 
@@ -37,7 +37,8 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define DOC_KongsbergAllFileHandler(ARG) DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllFileHandler, ARG)
+#define DOC_KongsbergAllFileHandler(ARG)                                                           \
+    DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllFileHandler, ARG)
 
 // #define CLASS_KongsbergAllFileHandler(KongsbergAllFileHandler<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
@@ -47,7 +48,9 @@ void py_create_class_kongsbergallfilehandler(py::module& m, const std::string& C
 
     // initialize class
     auto cls = py::class_<KongsbergAllFileHandler<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllFileHandler));
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, kongsbergall, KongsbergAllFileHandler));
 
     //----- inherit functions from I_InputFileHandler -----
     py_i_inputfilehandler::add_default_constructors<KongsbergAllFileHandler<T_FileStream>>(cls);
@@ -65,28 +68,34 @@ void py_create_class_kongsbergallfilehandler(py::module& m, const std::string& C
         "configuration_interface",
         py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::configuration_interface),
         DOC_KongsbergAllFileHandler(configuration_interface));
-    cls.def_property_readonly("navigation_interface",
-                              py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::navigation_interface),
-                              DOC_KongsbergAllFileHandler(navigation_interface));
-    cls.def_property_readonly("environment_interface",
-                              py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::environment_interface),
-                              DOC_KongsbergAllFileHandler(environment_interface));
-    cls.def_property_readonly("annotation_interface",
-                              py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::annotation_interface),
-                              DOC_KongsbergAllFileHandler(annotation_interface));
+    cls.def_property_readonly(
+        "navigation_interface",
+        py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::navigation_interface),
+        DOC_KongsbergAllFileHandler(navigation_interface));
+    cls.def_property_readonly(
+        "environment_interface",
+        py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::environment_interface),
+        DOC_KongsbergAllFileHandler(environment_interface));
+    cls.def_property_readonly(
+        "annotation_interface",
+        py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::annotation_interface),
+        DOC_KongsbergAllFileHandler(annotation_interface));
     cls.def_property_readonly(
         "otherfiledata_interface",
         py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::otherfiledata_interface),
         DOC_KongsbergAllFileHandler(otherfiledata_interface));
-    cls.def_property_readonly("ping_interface",
-                              py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::ping_interface),
-                              DOC_KongsbergAllFileHandler(ping_interface));
+    cls.def_property_readonly(
+        "ping_interface",
+        py::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::ping_interface),
+        DOC_KongsbergAllFileHandler(ping_interface));
 
-    cls.def("pings",
-            py::overload_cast<bool>(&KongsbergAllFileHandler<T_FileStream>::pings, py::const_),
+    cls.def("get_pings",
+            py::overload_cast<bool>(&KongsbergAllFileHandler<T_FileStream>::get_pings, py::const_),
             py::arg("sorted_by_time") = true,
-            DOC_KongsbergAllFileHandler(pings));
-    cls.def("channel_ids", &KongsbergAllFileHandler<T_FileStream>::channel_ids, DOC_KongsbergAllFileHandler(channel_ids));
+            DOC_KongsbergAllFileHandler(get_pings));
+    cls.def("channel_ids",
+            &KongsbergAllFileHandler<T_FileStream>::channel_ids,
+            DOC_KongsbergAllFileHandler(channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -100,7 +109,8 @@ void py_create_class_kongsbergallfilehandler(py::module& m, const std::string& C
 void init_c_kongsbergallfilehandler(pybind11::module& m)
 {
     py_create_class_kongsbergallfilehandler<std::ifstream>(m, "KongsbergAllFileHandler");
-    py_create_class_kongsbergallfilehandler<datastreams::MappedFileStream>(m, "KongsbergAllFileHandler_mapped");
+    py_create_class_kongsbergallfilehandler<datastreams::MappedFileStream>(
+        m, "KongsbergAllFileHandler_mapped");
 }
 
 }

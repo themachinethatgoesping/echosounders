@@ -18,8 +18,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/simradraw/simradrawfilehandler.hpp"
 #include "../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../themachinethatgoesping/echosounders/simradraw/simradrawfilehandler.hpp"
 #include "../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 #include "module.hpp"
@@ -37,6 +37,9 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
+#define DOC_SimradRawFileHandler(ARG)                                                              \
+    DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, ARG)
+
 // #define CLASS_SIMRADRAWFILEHANDLER(SimradRawFileHandler<T_FileStream>, CLASS_NAME)
 template<typename T_FileStream>
 void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLASS_NAME)
@@ -45,7 +48,9 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
 
     // initialize class
     auto cls = py::class_<SimradRawFileHandler<T_FileStream>>(
-        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler));
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler));
 
     //----- inherit functions from I_InputFileHandler -----
     py_i_inputfilehandler::add_default_constructors<SimradRawFileHandler<T_FileStream>>(cls);
@@ -61,40 +66,40 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
     cls.def_property_readonly(
         "datagramdata_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::datagramdata_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, datagramdata_interface));
+        DOC_SimradRawFileHandler(datagramdata_interface));
     cls.def_property_readonly(
         "configuration_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::configuration_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, configuration_interface));
+        DOC_SimradRawFileHandler(configuration_interface));
     cls.def_property_readonly(
         "navigation_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::navigation_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, navigation_interface));
+        DOC_SimradRawFileHandler(navigation_interface));
     cls.def_property_readonly(
         "environment_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::environment_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, environment_interface));
+        DOC_SimradRawFileHandler(environment_interface));
     cls.def_property_readonly(
         "ping_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::ping_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, ping_interface));
+        DOC_SimradRawFileHandler(ping_interface));
     cls.def_property_readonly(
         "annotation_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::annotation_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, annotation_interface));
+        DOC_SimradRawFileHandler(annotation_interface));
     cls.def_property_readonly(
         "otherfiledata_interface",
         py::overload_cast<>(&SimradRawFileHandler<T_FileStream>::otherfiledata_interface),
-        DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, otherfiledata_interface));
+        DOC_SimradRawFileHandler(otherfiledata_interface));
 
-    cls.def("pings",
-            py::overload_cast<bool>(&SimradRawFileHandler<T_FileStream>::pings, py::const_),
+    cls.def("get_pings",
+            py::overload_cast<bool>(&SimradRawFileHandler<T_FileStream>::get_pings, py::const_),
             py::arg("sorted_by_time") = true,
-            DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, pings));
-            
+            DOC_SimradRawFileHandler(get_pings));
+
     cls.def("channel_ids",
             &SimradRawFileHandler<T_FileStream>::channel_ids,
-            DOC(themachinethatgoesping, echosounders, simradraw, SimradRawFileHandler, channel_ids));
+            DOC_SimradRawFileHandler(channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */
@@ -108,10 +113,12 @@ void py_create_class_SimradRawFileHandler(py::module& m, const std::string& CLAS
 void init_c_simradrawfilehandler(pybind11::module& m)
 {
     // add index class
-    //py_i_inputfilehandler::add_file_index_types<simradraw::t_SimradRawDatagramIdentifier>(m, "FilePackageIndex_raw");
+    // py_i_inputfilehandler::add_file_index_types<simradraw::t_SimradRawDatagramIdentifier>(m,
+    // "FilePackageIndex_raw");
 
     py_create_class_SimradRawFileHandler<std::ifstream>(m, "SimradRawFileHandler");
-    py_create_class_SimradRawFileHandler<datastreams::MappedFileStream>(m, "SimradRawFileHandler_mapped");
+    py_create_class_SimradRawFileHandler<datastreams::MappedFileStream>(
+        m, "SimradRawFileHandler_mapped");
 }
 
 }
