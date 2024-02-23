@@ -54,6 +54,10 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
             py::arg("sensor_configuration"),
             py::arg("channel_id"),
             py::arg("timestamp"));
+    cls.def("has_sensor_data",
+            &T_BaseClass::has_sensor_data,
+            DOC_I_NavigationDataInterface(has_sensor_data),
+            py::arg("sensor_configuration"));
     cls.def("get_sensor_data",
             &T_BaseClass::get_sensor_data,
             DOC_I_NavigationDataInterface(get_sensor_data),

@@ -200,10 +200,14 @@ class KongsbergAllPingDataInterfacePerFile
                 try
                 {
                     auto sensor_configuration = base_sensor_configuration;
-                    sensor_configuration.add_target("Transducer",
-                                                    sensor_configuration.get_target(channel_id));
-                    ping_ptr->set_sensor_configuration(sensor_configuration);
+                    if (sensor_configuration.has_target(channel_id))
+                    {
+                        sensor_configuration.add_target(
+                            "Transducer", sensor_configuration.get_target(channel_id));
+                        ping_ptr->set_sensor_configuration(sensor_configuration);
+                    }
 
+                    
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(
                             base_sensor_configuration, ping_ptr->get_timestamp()));

@@ -193,6 +193,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.at(sensor_configuration)(target_id, timestamp);
     }
 
+    bool has_sensor_data(const navigation::SensorConfiguration& sensor_configuration) const
+    {
+        return _navigation_interpolators.contains(sensor_configuration);
+    }
+
     navigation::datastructures::SensordataLatLon get_sensor_data(
         const navigation::SensorConfiguration& sensor_configuration,
         double                                 timestamp)
