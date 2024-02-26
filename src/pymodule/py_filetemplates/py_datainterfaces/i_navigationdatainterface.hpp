@@ -44,6 +44,10 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
     cls.def("get_navigation_interpolators",
             &T_BaseClass::get_navigation_interpolators,
             DOC_I_NavigationDataInterface(get_navigation_interpolators));
+    cls.def("has_navigation_interpolator",
+            &T_BaseClass::has_navigation_interpolator,
+            DOC_I_NavigationDataInterface(has_navigation_interpolator),
+            py::arg("sensor_configuration_hash"));
     cls.def("get_navigation_interpolator",
             &T_BaseClass::get_navigation_interpolator,
             DOC_I_NavigationDataInterface(get_navigation_interpolator),
@@ -62,19 +66,6 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
             &T_BaseClass::get_sensor_data,
             DOC_I_NavigationDataInterface(get_sensor_data),
             py::arg("sensor_configuration_hash"),
-            py::arg("timestamp"));
-    cls.def("has_navigation_interpolator",
-            &T_BaseClass::has_navigation_interpolator,
-            DOC_I_NavigationDataInterface(has_navigation_interpolator),
-            py::arg("sensor_configuration_hash"));
-    cls.def("get_navigation_interpolator",
-            &T_BaseClass::get_navigation_interpolator,
-            DOC_I_NavigationDataInterface(get_navigation_interpolator),
-            py::arg("sensor_configuration_hash"));
-    cls.def("get_sensor_data",
-            &T_BaseClass::get_sensor_data,
-            DOC_I_NavigationDataInterface(get_sensor_data),
-            py::arg("sensor_configuration"),
             py::arg("timestamp"));
     cls.def("get_channel_ids",
             py::overload_cast<>(&T_BaseClass::get_channel_ids, py::const_),

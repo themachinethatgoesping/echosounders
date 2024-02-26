@@ -180,6 +180,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
     auto& get_navigation_interpolators() { return _navigation_interpolators; }
 
+    bool has_navigation_interpolator(uint64_t sensor_configuration_hash) const
+    {
+        return _navigation_interpolators.contains(sensor_configuration_hash);
+    }
+
     auto& get_navigation_interpolator(const navigation::SensorConfiguration& sensor_configuration)
     {
         return _navigation_interpolators.at(sensor_configuration.binary_hash());
@@ -194,26 +199,16 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                                                                                 timestamp);
     }
 
-    bool has_sensor_data(uint64_t sensor_configuration_hash) const
+    [[deprecated]] bool has_sensor_data(uint64_t sensor_configuration_hash) const
     {
         return _navigation_interpolators.contains(sensor_configuration_hash);
     }
 
-    navigation::datastructures::SensordataLatLon get_sensor_data(uint64_t sensor_configuration_hash,
-                                                                 double   timestamp)
+    [[deprecated]] navigation::datastructures::SensordataLatLon get_sensor_data(
+        uint64_t sensor_configuration_hash,
+        double   timestamp)
     {
         return _navigation_interpolators.at(sensor_configuration_hash).get_sensor_data(timestamp);
-    }
-
-    bool has_navigation_interpolator(uint64_t sensor_configuration_hash) const
-    {
-        return _navigation_interpolators.contains(sensor_configuration_hash);
-    }
-
-    navigation::NavigationInterpolatorLatLon& get_navigation_interpolator(
-        uint64_t sensor_configuration_hash)
-    {
-        return _navigation_interpolators.at(sensor_configuration_hash);
     }
 
     std::vector<std::string> get_channel_ids() const

@@ -1,4 +1,4 @@
-//sourcehash: 283f4bb4da65abeec31ccb7c819e828f922d52ef9cb1cc353753525759dc31d9
+//sourcehash: 3959184cb683f573ec2e2d52b3304e15d1fe6f6a345cb20e75a27b5d3b7d4715
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,8 +59,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_geolocation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolators = R"doc()doc";
 
