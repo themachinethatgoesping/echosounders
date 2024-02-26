@@ -155,7 +155,7 @@ class I_Ping : virtual public I_PingCommon
     void set_sensor_configuration_flyweight(
         boost::flyweight<navigation::SensorConfiguration> sensor_configuration)
     {
-        _sensor_configuration     = sensor_configuration;
+        _sensor_configuration     = std::move(sensor_configuration); //avoid reference counting
         _sensor_configuration_set = true;
     }
 
