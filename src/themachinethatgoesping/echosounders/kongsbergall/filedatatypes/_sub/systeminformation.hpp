@@ -92,28 +92,59 @@ class TxSignalParameterVector
 
         for (const auto type : types)
         {
-            switch (type)
+            try
             {
-                case 'c': {
-                    this->push_back(CWSignalParameters::from_binary(
-                        hash_cache_key.buffer.substr(offset, sizeof(CWSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
+                switch (type)
+                {
+                    case 'c': {
+                        this->push_back(
+                            CWSignalParameters::from_binary(hash_cache_key.buffer.substr(
+                                offset, CWSignalParameters::binary_size())));
+                        offset += CWSignalParameters::binary_size();
+                        break;
+                    }
+                    case 'f': {
+                        this->push_back(
+                            FMSignalParameters::from_binary(hash_cache_key.buffer.substr(
+                                offset, FMSignalParameters::binary_size())));
+                        offset += FMSignalParameters::binary_size();
+                        break;
+                    }
+                    case 'g': {
+                        this->push_back(
+                            GenericSignalParameters::from_binary(hash_cache_key.buffer.substr(
+                                offset, GenericSignalParameters::binary_size())));
+                        offset += GenericSignalParameters::binary_size();
+                        break;
+                    }
+                    default:
+                        throw std::runtime_error("Unknown transmit signal type");
                 }
-                case 'f': {
-                    this->push_back(FMSignalParameters::from_binary(
-                        hash_cache_key.buffer.substr(offset, sizeof(FMSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
-                }
-                case 'g': {
-                    this->push_back(GenericSignalParameters::from_binary(
-                        hash_cache_key.buffer.substr(offset, sizeof(GenericSignalParameters))));
-                    offset += sizeof(CWSignalParameters);
-                    break;
-                }
-                default:
-                    throw std::runtime_error("Unknown transmit signal type");
+            }
+            catch (std::exception& e)
+            {
+                throw std::runtime_error(fmt::format(
+                    "Error while parsing transmit signal parameters: {}\n\n--- Some error"
+                    "infos---\n- type: {}\n- types: {}\n- offset: {}\n- this.size: {}\n- "
+                    "hash.size: {}\n- hash.buffer.size(): {}"
+                    "\n- sizeof(CWSignalParameters): {}/{}\n- "
+                    "sizeof(FMSignalParameters): {}/{}\n- sizeof(GenericSignalParameters): "
+                    "{}/{}\n- "
+                    "hash.buffer: -{}-",
+                    e.what(),
+                    type,
+                    types,
+                    offset,
+                    this->size(),
+                    hash_cache_key.size,
+                    hash_cache_key.buffer.size(),
+                    sizeof(CWSignalParameters),
+                    CWSignalParameters::binary_size(),
+                    sizeof(FMSignalParameters),
+                    FMSignalParameters::binary_size(),
+                    sizeof(GenericSignalParameters),
+                    GenericSignalParameters::binary_size(),
+                    hash_cache_key.buffer));
             }
         }
     }
