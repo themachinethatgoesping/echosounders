@@ -191,6 +191,11 @@ class KongsbergAllPingDataInterfacePerFile
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
         auto base_sensor_configuration_binary_hash = base_sensor_configuration.binary_hash();
 
+        auto& navigation_data_interpolator =
+            this->navigation_data_interface().get_navigation_interpolator(
+                base_sensor_configuration_binary_hash);
+        bool navigation_is_valid = navigation_data_interpolator.valid();
+
         // loop through map and copy pings to vector
         t_pingcontainer pings;
         for (auto [ping_counter, pings_by_id] : pings_by_counter_by_id)
@@ -208,9 +213,10 @@ class KongsbergAllPingDataInterfacePerFile
                         ping_ptr->set_sensor_configuration_flyweight(
                             sensor_configurations_per_trx_channel.at(channel_id));
 
-                    ping_ptr->set_sensor_data_latlon(
-                        this->navigation_data_interface().get_sensor_data(
-                            base_sensor_configuration_binary_hash, ping_ptr->get_timestamp()));
+                    if (navigation_is_valid)
+                        ping_ptr->set_sensor_data_latlon(
+                            navigation_data_interpolator.get_sensor_data(
+                                ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {
