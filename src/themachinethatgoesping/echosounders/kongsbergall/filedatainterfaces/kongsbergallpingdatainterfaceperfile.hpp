@@ -84,6 +84,12 @@ class KongsbergAllPingDataInterfacePerFile
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
             pings_by_counter_by_id;
 
+        // get sensor configurations for all channels
+        std::unordered_map<std::string, navigation::SensorConfiguration>
+            sensor_configurations_per_trx_channel =
+                this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
+                    this->get_file_nr());
+
         // read the file installation parameters and build a base ping
         auto param =
             this->configuration_data_interface_for_file_const().get_installation_parameters();
@@ -210,7 +216,7 @@ class KongsbergAllPingDataInterfacePerFile
 
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(
-                            sensor_configuration.binary_hash(), ping_ptr->get_timestamp()));
+                            base_sensor_configuration.binary_hash(), ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {
@@ -218,15 +224,19 @@ class KongsbergAllPingDataInterfacePerFile
                     if (this->has_linked_file())
                         linked_file_path = this->get_linked_file_path();
                     // throw more precise error
-                    throw std::runtime_error(fmt::format(
-                        "ERROR[KongsbergAllPingDataInterfacePerFile::read_pings]: For "
-                        "files\n-Primary:'{}'\n-Secondary'{}'\n could not "
-                        "set geolocation ping transducer id {} at time {}\n ERROR was: {}",
-                        this->get_file_path(),
-                        linked_file_path,
-                        id,
-                        ping_ptr->get_timestamp(),
-                        e.what()));
+                    throw std::runtime_error(
+                        fmt::format("ERROR[KongsbergAllPingDataInterfacePerFile::read_pings]: For "
+                                    "files\n-Primary:'{}'\n-Secondary'{}'\n could not "
+                                    "set geolocation for ping nr {} transducer id {} at time {}\n "
+                                    "ERROR was: {} \n --- sensor configuration {} ---\n{}",
+                                    this->get_file_path(),
+                                    linked_file_path,
+                                    ping_counter,
+                                    id,
+                                    ping_ptr->get_timestamp(),
+                                    e.what(),
+                                    base_sensor_configuration.binary_hash(),
+                                    base_sensor_configuration.info_string()));
                 }
 
                 // load water column data

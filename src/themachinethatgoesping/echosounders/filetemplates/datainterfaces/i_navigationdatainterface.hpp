@@ -185,12 +185,21 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.contains(sensor_configuration_hash);
     }
 
-    auto& get_navigation_interpolator(const navigation::SensorConfiguration& sensor_configuration)
+    auto& get_navigation_interpolator(uint64_t sensor_configuration_hash)
     {
-        return _navigation_interpolators.at(sensor_configuration.binary_hash());
+        auto it = _navigation_interpolators.find(sensor_configuration_hash);
+
+        if (it == _navigation_interpolators.end())
+        {
+            throw std::runtime_error(
+                fmt::format("NavigationInterpolator for sensor configuration {} not found",
+                            sensor_configuration_hash));
+        }
+
+        return it->second;
     }
 
-    navigation::datastructures::GeolocationLatLon get_geolocation(
+    [[deprecated]] navigation::datastructures::GeolocationLatLon get_geolocation(
         const navigation::SensorConfiguration& sensor_configuration,
         const std::string&                     target_id,
         double                                 timestamp)
@@ -208,7 +217,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         uint64_t sensor_configuration_hash,
         double   timestamp)
     {
-        return _navigation_interpolators.at(sensor_configuration_hash).get_sensor_data(timestamp);
+        return get_navigation_interpolator(sensor_configuration_hash).get_sensor_data(timestamp);
     }
 
     std::vector<std::string> get_channel_ids() const
