@@ -260,7 +260,7 @@ class SimradRawPingDataInterfacePerFile
                     ping->set_sensor_configuration(sensor_configuration);
 
                     ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
-                        base_sensor_configuration, ping->get_timestamp()));
+                        sensor_configuration.binary_hash(), ping->get_timestamp()));
 
                     pings.add_ping(ping);
                     break;

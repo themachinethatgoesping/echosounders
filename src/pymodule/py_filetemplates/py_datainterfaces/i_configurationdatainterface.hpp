@@ -38,6 +38,16 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
                 I_ConfigurationDataInterface,
                 get_sensor_configuration),
             py::arg("index"));
+    cls.def("get_trx_sensor_configuration_per_channel_id",
+            &T_BaseClass::get_trx_sensor_configuration_per_channel_id,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_ConfigurationDataInterface,
+                get_trx_sensor_configuration_per_channel_id),
+            py::arg("index"),
+            py::arg("target_prefix") = std::string_view("TRX"));
 }
 
 }

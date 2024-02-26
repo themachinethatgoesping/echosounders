@@ -67,10 +67,9 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
             py::overload_cast<>(&T_BaseClass::get_channel_ids, py::const_),
             DOC_I_NavigationDataInterface(get_channel_ids));
     cls.def("get_channel_ids",
-            py::overload_cast<const navigation::SensorConfiguration&>(&T_BaseClass::get_channel_ids,
-                                                                      py::const_),
+            py::overload_cast<uint64_t>(&T_BaseClass::get_channel_ids, py::const_),
             DOC_I_NavigationDataInterface(get_channel_ids_2),
-            py::arg("sensor_configuration"));
+            py::arg("sensor_configuration_hash"));
 }
 
 }

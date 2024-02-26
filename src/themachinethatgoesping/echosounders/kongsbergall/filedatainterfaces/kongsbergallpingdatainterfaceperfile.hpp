@@ -88,6 +88,7 @@ class KongsbergAllPingDataInterfacePerFile
         auto param =
             this->configuration_data_interface_for_file_const().get_installation_parameters();
 
+        // get sensor configurations for all channels
         const auto& base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
@@ -207,10 +208,9 @@ class KongsbergAllPingDataInterfacePerFile
                         ping_ptr->set_sensor_configuration(sensor_configuration);
                     }
 
-                    
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(
-                            base_sensor_configuration, ping_ptr->get_timestamp()));
+                            sensor_configuration.binary_hash(), ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {

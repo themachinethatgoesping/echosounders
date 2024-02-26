@@ -1,4 +1,4 @@
-//sourcehash: b7afcf7d034eed6285dfd012088eba367cb7016e4abc8084763ad8d525f5e6c3
+//sourcehash: 05297f07bf55903274cdaa25bbf3406d3a3c1a7a49f8347258dbb5ad38b1247d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_I_ConfigurationDataInterface = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_get_trx_sensor_configuration_per_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_printer = R"doc()doc";
 

@@ -58,6 +58,29 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
         return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
+    std::unordered_map<std::string, navigation::SensorConfiguration>
+    get_trx_sensor_configuration_per_channel_id(long             pyindex,
+                                                std::string_view target_prefix = "TRX-") const
+    {
+        std::unordered_map<std::string, navigation::SensorConfiguration> result;
+        const auto& base_sensor_configuration = get_sensor_configuration(pyindex);
+
+        // create a sensor configuration for each target that starts with "TRX-"
+        for (const auto& target_id : base_sensor_configuration.get_target_ids())
+        {
+            // if target id starts with target_prefix ("TRX-", this target is a transducer channel)
+            if (target_id.starts_with(target_prefix))
+            {
+                auto trx_sensor_configuration = base_sensor_configuration;
+                trx_sensor_configuration.add_target("Transducer",
+                                                    trx_sensor_configuration.get_target(target_id));
+                result[target_id] = trx_sensor_configuration;
+            }
+        }
+
+        return result;
+    }
+
     /**
      * @brief Throw if the sensor configuration of the linked files is not consistent.
      *
