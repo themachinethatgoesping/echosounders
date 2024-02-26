@@ -184,10 +184,9 @@ class KongsbergAllPingDataInterfacePerFile
         }
 
         // get sensor configurations for all channels
-        std::unordered_map<std::string, navigation::SensorConfiguration>
-            sensor_configurations_per_trx_channel =
-                this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
-                    this->get_file_nr());
+        auto sensor_configurations_per_trx_channel =
+            this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
+                this->get_file_nr());
         auto base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
         auto base_sensor_configuration_binary_hash = base_sensor_configuration.binary_hash();
@@ -205,8 +204,9 @@ class KongsbergAllPingDataInterfacePerFile
                 // load transducer locations from navigation
                 try
                 {
-                    ping_ptr->set_sensor_configuration(
-                        sensor_configurations_per_trx_channel.at(channel_id));
+                    if (base_sensor_configuration.has_target(channel_id))
+                        ping_ptr->set_sensor_configuration_flyweight(
+                            sensor_configurations_per_trx_channel.at(channel_id));
 
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(

@@ -16,6 +16,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
+#include <boost/unordered_map.hpp>
 #include <fmt/core.h>
 
 // xtensor includes
@@ -58,11 +60,12 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
         return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
-    std::unordered_map<std::string, navigation::SensorConfiguration>
+    boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>>
     get_trx_sensor_configuration_per_channel_id(long             pyindex,
                                                 std::string_view target_prefix = "TRX-") const
     {
-        std::unordered_map<std::string, navigation::SensorConfiguration> result;
+        boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>> result;
+
         const auto& base_sensor_configuration = get_sensor_configuration(pyindex);
 
         // create a sensor configuration for each target that starts with "TRX-"

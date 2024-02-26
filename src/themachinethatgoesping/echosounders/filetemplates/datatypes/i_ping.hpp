@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
 #include <fmt/core.h>
 
 // xtensor includes
@@ -147,6 +148,12 @@ class I_Ping : virtual public I_PingCommon
 
     bool has_sensor_configuration() const { return _sensor_configuration_set; }
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
+    {
+        _sensor_configuration     = sensor_configuration;
+        _sensor_configuration_set = true;
+    }
+    void set_sensor_configuration_flyweight(
+        boost::flyweight<navigation::SensorConfiguration> sensor_configuration)
     {
         _sensor_configuration     = sensor_configuration;
         _sensor_configuration_set = true;
