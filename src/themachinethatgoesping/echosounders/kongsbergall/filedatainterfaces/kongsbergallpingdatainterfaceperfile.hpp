@@ -357,7 +357,8 @@ class KongsbergAllPingDataInterfacePerFile
                         "FilePackageCache<WaterColumnInformation>");
 
             if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
-                _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
+                _buffer_systeminformation =
+                _file_cache->get_from_cache<t_cache_SystemInformation>(
                     "FilePackageCache<SystemInformation>");
         }
 

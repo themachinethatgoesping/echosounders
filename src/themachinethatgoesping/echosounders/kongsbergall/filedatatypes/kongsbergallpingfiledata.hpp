@@ -89,7 +89,7 @@ class KongsbergAllPingFileData
             _systeminformation = std::make_unique<_sub::SystemInformation>(
                 read_first_datagram<datagrams::RawRangeAndAngle>());
         }
-        else
+        else if (has_datagram_type<datagrams::WatercolumnDatagram>())
         {
             _systeminformation = std::make_unique<_sub::SystemInformation>(get_wcinfos());
         }
