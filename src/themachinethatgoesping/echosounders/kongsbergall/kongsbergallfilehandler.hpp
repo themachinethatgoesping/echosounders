@@ -294,8 +294,8 @@ class KongsbergAllFileHandler
         _otherfiledata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
 
-        std::cout << std::endl; // TODO: remove this workaround
-        progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
+        //std::cout << std::endl; // TODO: remove this workaround
+        progress_bar.init(0., number_of_primary_files, fmt::format("\nInitializing ping interface"));
         _ping_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar, true);
 
         progress_bar.close(std::string("Done"));
