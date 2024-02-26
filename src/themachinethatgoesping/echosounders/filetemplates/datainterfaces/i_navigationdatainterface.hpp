@@ -205,6 +205,17 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.at(sensor_configuration_hash).get_sensor_data(timestamp);
     }
 
+    bool has_navigation_interpolator(uint64_t sensor_configuration_hash) const
+    {
+        return _navigation_interpolators.contains(sensor_configuration_hash);
+    }
+
+    navigation::NavigationInterpolatorLatLon& get_navigation_interpolator(
+        uint64_t sensor_configuration_hash)
+    {
+        return _navigation_interpolators.at(sensor_configuration_hash);
+    }
+
     std::vector<std::string> get_channel_ids() const
     {
         std::vector<std::string> channel_ids;
