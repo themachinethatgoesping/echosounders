@@ -84,19 +84,9 @@ class KongsbergAllPingDataInterfacePerFile
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
             pings_by_counter_by_id;
 
-        // get sensor configurations for all channels
-        std::unordered_map<std::string, navigation::SensorConfiguration>
-            sensor_configurations_per_trx_channel =
-                this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
-                    this->get_file_nr());
-
         // read the file installation parameters and build a base ping
         auto param =
             this->configuration_data_interface_for_file_const().get_installation_parameters();
-
-        // get sensor configurations for all channels
-        const auto& base_sensor_configuration =
-            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
         t_ping base_ping(param);
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
@@ -193,6 +183,15 @@ class KongsbergAllPingDataInterfacePerFile
             }
         }
 
+        // get sensor configurations for all channels
+        std::unordered_map<std::string, navigation::SensorConfiguration>
+            sensor_configurations_per_trx_channel =
+                this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
+                    this->get_file_nr());
+        auto base_sensor_configuration =
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+        auto base_sensor_configuration_binary_hash = base_sensor_configuration.binary_hash();
+
         // loop through map and copy pings to vector
         t_pingcontainer pings;
         for (auto [ping_counter, pings_by_id] : pings_by_counter_by_id)
@@ -206,17 +205,12 @@ class KongsbergAllPingDataInterfacePerFile
                 // load transducer locations from navigation
                 try
                 {
-                    auto sensor_configuration = base_sensor_configuration;
-                    if (sensor_configuration.has_target(channel_id))
-                    {
-                        sensor_configuration.add_target(
-                            "Transducer", sensor_configuration.get_target(channel_id));
-                        ping_ptr->set_sensor_configuration(sensor_configuration);
-                    }
+                    ping_ptr->set_sensor_configuration(
+                        sensor_configurations_per_trx_channel.at(channel_id));
 
                     ping_ptr->set_sensor_data_latlon(
                         this->navigation_data_interface().get_sensor_data(
-                            base_sensor_configuration.binary_hash(), ping_ptr->get_timestamp()));
+                            base_sensor_configuration_binary_hash, ping_ptr->get_timestamp()));
                 }
                 catch (std::exception& e)
                 {
@@ -227,16 +221,14 @@ class KongsbergAllPingDataInterfacePerFile
                     throw std::runtime_error(
                         fmt::format("ERROR[KongsbergAllPingDataInterfacePerFile::read_pings]: For "
                                     "files\n-Primary:'{}'\n-Secondary'{}'\n could not "
-                                    "set geolocation for ping nr {} transducer id {} at time {}\n "
-                                    "ERROR was: {} \n --- sensor configuration {} ---\n{}",
+                                    "set geolocation for ping nr {} transducer id {} at time {}\n"
+                                    "--- ERROR was ---\n{}",
                                     this->get_file_path(),
                                     linked_file_path,
                                     ping_counter,
                                     id,
                                     ping_ptr->get_timestamp(),
-                                    e.what(),
-                                    base_sensor_configuration.binary_hash(),
-                                    base_sensor_configuration.info_string()));
+                                    e.what()));
                 }
 
                 // load water column data
