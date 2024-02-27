@@ -185,15 +185,15 @@ class KongsbergAllPingDataInterfacePerFile
 
         // get sensor configurations for all channels
         auto sensor_configurations_per_trx_channel =
-            this->configuration_data_interface().get_trx_sensor_configuration_per_channel_id(
+            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
                 this->get_file_nr());
         auto base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
-        auto base_sensor_configuration_binary_hash = base_sensor_configuration.binary_hash();
 
+        // get navigation data for this file
         auto& navigation_data_interpolator =
             this->navigation_data_interface().get_navigation_interpolator(
-                base_sensor_configuration_binary_hash);
+                base_sensor_configuration.binary_hash());
         bool navigation_is_valid = navigation_data_interpolator.valid();
 
         // loop through map and copy pings to vector
@@ -357,8 +357,7 @@ class KongsbergAllPingDataInterfacePerFile
                         "FilePackageCache<WaterColumnInformation>");
 
             if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
-                _buffer_systeminformation =
-                _file_cache->get_from_cache<t_cache_SystemInformation>(
+                _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
                     "FilePackageCache<SystemInformation>");
         }
 

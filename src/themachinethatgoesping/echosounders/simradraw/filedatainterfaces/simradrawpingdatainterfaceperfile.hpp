@@ -106,8 +106,18 @@ class SimradRawPingDataInterfacePerFile
                     file_cache.get_from_cache<t_cache_RAW3>("FilePackageCache<RAW3>");
         }
 
-        const auto& base_sensor_configuration =
+        // get sensor configurations for all channels
+        auto sensor_configurations_per_trx_channel =
+            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
+                this->get_file_nr());
+        auto base_sensor_configuration =
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+
+        // get navigation data for this file
+        auto& navigation_data_interpolator =
+            this->navigation_data_interface().get_navigation_interpolator(
+                base_sensor_configuration.binary_hash());
+        bool navigation_is_valid = navigation_data_interpolator.valid();
 
         for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
@@ -236,33 +246,35 @@ class SimradRawPingDataInterfacePerFile
                     }
 
                     // create ping from raw3 datagram
-                    auto ping = std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>(raw3);
-                    ping->add_datagram_info(datagram_ptr);
+                    auto ping_ptr =
+                        std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>(raw3);
+                    ping_ptr->add_datagram_info(datagram_ptr);
 
                     // set channel_id
                     // substring of channel_id until the first \x00 character
 
                     // add parameters
-                    ping->file_data().set_file_ping_counter(pings.size());
-                    ping->file_data().set_primary_file_nr(this->get_file_nr());
-                    ping->file_data().set_parameter(
-                        _channel_parameter_buffer.at(ping->get_channel_id()));
+                    ping_ptr->file_data().set_file_ping_counter(pings.size());
+                    ping_ptr->file_data().set_primary_file_nr(this->get_file_nr());
+                    ping_ptr->file_data().set_parameter(
+                        _channel_parameter_buffer.at(ping_ptr->get_channel_id()));
 
                     if (!_environment_buffer_initialized)
                         throw std::runtime_error(
                             fmt::format("Error no XML environment datagram found prior to ping!"));
-                    ping->file_data().set_environment(_environment_buffer);
+                    ping_ptr->file_data().set_environment(_environment_buffer);
 
                     // set sensor configuration
-                    auto sensor_configuration = base_sensor_configuration;
-                    sensor_configuration.add_target(
-                        "Transducer", sensor_configuration.get_target(ping->get_channel_id()));
-                    ping->set_sensor_configuration(sensor_configuration);
+                    if (base_sensor_configuration.has_target(ping_ptr->get_channel_id()))
+                        ping_ptr->set_sensor_configuration_flyweight(
+                            sensor_configurations_per_trx_channel.at(ping_ptr->get_channel_id()));
 
-                    ping->set_sensor_data_latlon(this->navigation_data_interface().get_sensor_data(
-                        sensor_configuration.binary_hash(), ping->get_timestamp()));
+                    if (navigation_is_valid)
+                        ping_ptr->set_sensor_data_latlon(
+                            navigation_data_interpolator.get_sensor_data(
+                                ping_ptr->get_timestamp()));
 
-                    pings.add_ping(ping);
+                    pings.add_ping(std::move(ping_ptr));
                     break;
                 }
                 case t_SimradRawDatagramIdentifier::FIL1:

@@ -38,16 +38,24 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
                 I_ConfigurationDataInterface,
                 get_sensor_configuration),
             py::arg("index"));
-    cls.def("get_trx_sensor_configuration_per_channel_id",
-            &T_BaseClass::get_trx_sensor_configuration_per_channel_id,
-            DOC(themachinethatgoesping,
-                echosounders,
-                filetemplates,
-                datainterfaces,
-                I_ConfigurationDataInterface,
-                get_trx_sensor_configuration_per_channel_id),
-            py::arg("index"),
-            py::arg("target_prefix") = std::string_view("TRX"));
+    cls.def(
+        "get_trx_sensor_configuration_per_target_id",
+        [](const T_BaseClass& self, long index) {
+            // convert boost unordered flyweight map to py::map
+            py::dict result;
+            for (const auto& [key, value] : self.get_trx_sensor_configuration_per_target_id(index))
+            {
+                result[py::str(key)] = value;
+            }
+            return result;
+        },
+        DOC(themachinethatgoesping,
+            echosounders,
+            filetemplates,
+            datainterfaces,
+            I_ConfigurationDataInterface,
+            get_trx_sensor_configuration_per_target_id),
+        py::arg("index"));
 }
 
 }
