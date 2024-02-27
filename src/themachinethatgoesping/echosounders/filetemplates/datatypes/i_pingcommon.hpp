@@ -31,6 +31,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/container/flat_map.hpp>
 #include <boost/flyweight.hpp>
 #include <fmt/core.h>
 #include <magic_enum.hpp>
@@ -94,8 +95,8 @@ class I_PingCommon
 
     // map of features (names) and respective has_feature functions
     // TODO: this does probably consume quite a lot of memory ..
-    std::unordered_map<t_pingfeature, std::function<bool()>> _primary_features;
-    std::unordered_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
+    boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
 
     /**
      * @brief Register a feature
