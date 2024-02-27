@@ -213,7 +213,7 @@ class I_Ping : virtual public I_PingCommon
     {
         try
         {
-            return bottom().has_main_features();
+            return bottom().has_primary_features();
         }
         catch (const not_implemented& e)
         {
@@ -224,7 +224,7 @@ class I_Ping : virtual public I_PingCommon
     {
         try
         {
-            return watercolumn().has_main_features();
+            return watercolumn().has_primary_features();
         }
         catch (const not_implemented& e)
         {

@@ -1,4 +1,4 @@
-//sourcehash: fcbfa7128d17ee727850079fb3aac9904e422d27068232ee1e9d391075da7beb
+//sourcehash: ca9838e6ec69ef533e6b9cf079e7e5b393c0ab785c2bd513a3b8c59b73806bdf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,8 +44,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_I_PingCommon_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_check_feature = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_class_name = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_feature_string =
@@ -58,8 +56,6 @@ Parameter ``available``:
 
 Returns:
     std::string)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_features = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_all_of_features =
 R"doc(Check if all of the specified features are available
@@ -97,7 +93,7 @@ Returns:
 Returns:
     false)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_main_features =
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_primary_features =
 R"doc(Check if any of the registered main features is available
 
 Returns:
@@ -110,17 +106,17 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_loaded = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_main_features = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_main_features_2 =
-R"doc(Get a string of all registered main features for this ping class
-
-Returns:
-    std::string)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_not_implemented_not_implemented = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_primary_features = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_primary_features_2 =
+R"doc(Get a string of all registered primary features for this ping class
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_print_features = R"doc()doc";
 
@@ -139,6 +135,14 @@ Returns:
     std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_release = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_secondary_features = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_secondary_features_2 =
+R"doc(Get a string of all registered secondary features for this ping class
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature = R"doc()doc";
 

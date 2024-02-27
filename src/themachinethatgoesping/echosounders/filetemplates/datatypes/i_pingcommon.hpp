@@ -94,8 +94,8 @@ class I_PingCommon
 
     // map of features (names) and respective has_feature functions
     // TODO: this does probably consume quite a lot of memory ..
-    std::unordered_map<t_pingfeature, std::function<bool()>> _features;
-    std::unordered_map<t_pingfeature, std::function<bool()>> _main_features;
+    std::unordered_map<t_pingfeature, std::function<bool()>> _primary_features;
+    std::unordered_map<t_pingfeature, std::function<bool()>> _secondary_features;
 
     /**
      * @brief Register a feature
@@ -105,10 +105,10 @@ class I_PingCommon
      */
     void register_feature(t_pingfeature feature_name, std::function<bool()> has_feature, bool main)
     {
-        _features[feature_name] = has_feature;
-
         if (main)
-            _main_features[feature_name] = has_feature;
+            _primary_features[feature_name] = has_feature;
+        else
+            _secondary_features[feature_name] = has_feature;
     }
 
   public:
@@ -119,7 +119,7 @@ class I_PingCommon
     // otherwise the functions will point to the old object
     I_PingCommon([[maybe_unused]] const I_PingCommon& other)
     //: _features(other._features)
-    //, _main_features(other._main_features)
+    //, _primary_features(other._primary_features)
     {
     }
     virtual ~I_PingCommon() = default;
@@ -136,7 +136,11 @@ class I_PingCommon
      */
     bool has_features() const
     {
-        for (const auto& [feature_name, has_feature] : _features)
+        for (const auto& [feature_name, has_feature] : _primary_features)
+            if (has_feature())
+                return true;
+
+        for (const auto& [feature_name, has_feature] : _secondary_features)
             if (has_feature())
                 return true;
 
@@ -153,20 +157,8 @@ class I_PingCommon
     {
         for (const auto& feature : features)
         {
-            auto it = _features.find(feature);
-            if (it != _features.end())
-            {
-                if (it->second())
-                    return true;
-            }
-            else
-            {
-                throw std::runtime_error(fmt::format(
-                    "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
-                    class_name(),
-                    __func__,
-                    magic_enum::enum_name(feature)));
-            }
+            if (has_feature(feature))
+                return true;
         }
 
         return false;
@@ -182,20 +174,8 @@ class I_PingCommon
     {
         for (const auto& feature : features)
         {
-            auto it = _features.find(feature);
-            if (it != _features.end())
-            {
-                if (!it->second())
-                    return false;
-            }
-            else
-            {
-                throw std::runtime_error(fmt::format(
-                    "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
-                    class_name(),
-                    __func__,
-                    magic_enum::enum_name(feature)));
-            }
+            if (!has_feature(feature))
+                return false;
         }
 
         return true;
@@ -207,9 +187,9 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_main_features() const
+    bool has_primary_features() const
     {
-        for (const auto& [feature_name, has_feature] : _main_features)
+        for (const auto& [feature_name, has_feature] : _primary_features)
             if (has_feature())
                 return true;
 
@@ -222,7 +202,22 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_feature(t_pingfeature feature) const { return _features.at(feature)(); }
+    bool has_feature(t_pingfeature feature) const
+    {
+        auto it_primary = _primary_features.find(feature);
+        if (it_primary != _primary_features.end())
+            return it_primary->second();
+
+        auto it_secondary = _secondary_features.find(feature);
+        if (it_secondary != _secondary_features.end())
+            return it_secondary->second();
+
+        throw std::runtime_error(fmt::format("Error[{}::{}]! The following feature is "
+                                             "not registered: {}\n Please report!",
+                                             class_name(),
+                                             __func__,
+                                             magic_enum::enum_name(feature)));
+    }
 
     /**
      * @brief Get a string of all registered features that are available or not available
@@ -235,15 +230,16 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _features)
-        {
-            if (has_feature() == available)
+        for (const auto& features_map : { _primary_features, _secondary_features })
+            for (const auto& [feature, has_feature] : features_map)
             {
-                if (!features.empty())
-                    features += ", ";
-                features += magic_enum::enum_name(feature);
+                if (has_feature() == available)
+                {
+                    if (!features.empty())
+                        features += ", ";
+                    features += magic_enum::enum_name(feature);
+                }
             }
-        }
 
         return features;
     }
@@ -255,9 +251,28 @@ class I_PingCommon
      */
     std::string registered_features() const
     {
+        std::string features = primary_features();
+
+        if (!_secondary_features.empty())
+        {
+            if (!features.empty())
+                features += ", ";
+            features += secondary_features();
+        }
+
+        return features;
+    }
+
+    /**
+     * @brief Get a string of all registered primary features for this ping class
+     *
+     * @return std::string
+     */
+    std::string primary_features() const
+    {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _features)
+        for (const auto& [feature, has_feature] : _primary_features)
         {
             if (!features.empty())
                 features += ", ";
@@ -268,15 +283,15 @@ class I_PingCommon
     }
 
     /**
-     * @brief Get a string of all registered main features for this ping class
+     * @brief Get a string of all registered secondary features for this ping class
      *
      * @return std::string
      */
-    std::string main_features() const
+    std::string secondary_features() const
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _main_features)
+        for (const auto& [feature, has_feature] : _secondary_features)
         {
             if (!features.empty())
                 features += ", ";
@@ -295,29 +310,6 @@ class I_PingCommon
     virtual bool loaded() { throw not_implemented("load", this->class_name()); }
 
   protected:
-    // a function that calls a specified function (templated) that returns a boolean
-    // if this boolean is false, throw an exception
-    void check_feature(t_pingfeature feature, std::string_view function_name) const
-    {
-        auto it = _features.find(feature);
-        if (it == _features.end())
-        {
-            throw std::runtime_error(fmt::format(
-                "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
-                class_name(),
-                function_name,
-                magic_enum::enum_name(feature)));
-        }
-
-        if (!((it->second)()))
-        {
-            throw std::runtime_error(
-                fmt::format("Error[{}::{}]! The following feature is not available: {}",
-                            class_name(),
-                            function_name,
-                            magic_enum::enum_name(feature)));
-        }
-    }
     struct not_implemented : public std::runtime_error
     {
         not_implemented(std::string_view method_name, std::string_view name)
