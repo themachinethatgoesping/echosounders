@@ -80,16 +80,16 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn()
         : I_PingCommon()
     {
-        register_feature("tx_signal_parameters",
+        register_feature(t_pingfeature::tx_signal_parameters,
                          std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
                          false);
-        register_feature("number_of_tx_sectors",
+        register_feature(t_pingfeature::number_of_tx_sectors,
                          std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
                          false);
 
-        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
-        register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
-        register_feature("bottom_range_sample",
+        register_feature(t_pingfeature::amplitudes, std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
+        register_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this), false);
+        register_feature(t_pingfeature::bottom_range_sample,
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
                          false);
     }
@@ -99,16 +99,16 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn(const I_PingWatercolumn& other)
         : I_PingCommon(other)
     {
-        register_feature("tx_signal_parameters",
+        register_feature(t_pingfeature::tx_signal_parameters,
                          std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
                          false);
-        register_feature("number_of_tx_sectors",
+        register_feature(t_pingfeature::number_of_tx_sectors,
                          std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
                          false);
 
-        register_feature("amplitudes", std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
-        register_feature("av", std::bind(&I_PingWatercolumn::has_av, this), false);
-        register_feature("bottom_range_sample",
+        register_feature(t_pingfeature::amplitudes, std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
+        register_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this), false);
+        register_feature(t_pingfeature::bottom_range_sample,
                          std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
                          false);
     }

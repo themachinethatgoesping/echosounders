@@ -31,7 +31,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
 #include <fmt/core.h>
+#include <magic_enum.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -61,6 +63,30 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
+enum class t_pingfeature : uint8_t
+{
+    timestamp,
+    datetime,
+    channel_id,
+    sensor_configuration,
+    sensor_data_latlon,
+    geolocation,
+
+    bottom,
+    watercolumn,
+
+    tx_signal_parameters,
+    number_of_tx_sectors,
+
+    beam_crosstrack_angles,
+    two_way_travel_times,
+    xyz,
+
+    amplitudes,
+    av,
+    bottom_range_sample
+};
+
 class I_PingCommon
 {
   protected:
@@ -68,8 +94,8 @@ class I_PingCommon
 
     // map of features (names) and respective has_feature functions
     // TODO: this does probably consume quite a lot of memory ..
-    std::unordered_map<std::string, std::function<bool()>> _features;
-    std::unordered_map<std::string, std::function<bool()>> _main_features;
+    std::unordered_map<t_pingfeature, std::function<bool()>> _features;
+    std::unordered_map<t_pingfeature, std::function<bool()>> _main_features;
 
     /**
      * @brief Register a feature
@@ -77,7 +103,7 @@ class I_PingCommon
      * @param feature_name
      * @param has_feature
      */
-    void register_feature(std::string feature_name, std::function<bool()> has_feature, bool main)
+    void register_feature(t_pingfeature feature_name, std::function<bool()> has_feature, bool main)
     {
         _features[feature_name] = has_feature;
 
@@ -86,9 +112,7 @@ class I_PingCommon
     }
 
   public:
-    I_PingCommon()
-    {
-    }
+    I_PingCommon() {}
 
     // copy constructor
     // do not copy features, they must be reregistered if the object is copied
@@ -125,11 +149,11 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_any_of_features(const std::vector<std::string>& features) const
+    bool has_any_of_features(const std::vector<t_pingfeature>& features) const
     {
-        for (const auto& feature_name : features)
+        for (const auto& feature : features)
         {
-            auto it = _features.find(feature_name);
+            auto it = _features.find(feature);
             if (it != _features.end())
             {
                 if (it->second())
@@ -141,7 +165,7 @@ class I_PingCommon
                     "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
                     class_name(),
                     __func__,
-                    feature_name));
+                    magic_enum::enum_name(feature)));
             }
         }
 
@@ -154,11 +178,11 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_all_of_features(const std::vector<std::string>& features) const
+    bool has_all_of_features(const std::vector<t_pingfeature>& features) const
     {
-        for (const auto& feature_name : features)
+        for (const auto& feature : features)
         {
-            auto it = _features.find(feature_name);
+            auto it = _features.find(feature);
             if (it != _features.end())
             {
                 if (!it->second())
@@ -170,7 +194,7 @@ class I_PingCommon
                     "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
                     class_name(),
                     __func__,
-                    feature_name));
+                    magic_enum::enum_name(feature)));
             }
         }
 
@@ -198,7 +222,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_feature(const std::string& feature_name) const { return _features.at(feature_name)(); }
+    bool has_feature(t_pingfeature feature) const { return _features.at(feature)(); }
 
     /**
      * @brief Get a string of all registered features that are available or not available
@@ -211,13 +235,13 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature_name, has_feature] : _features)
+        for (const auto& [feature, has_feature] : _features)
         {
             if (has_feature() == available)
             {
                 if (!features.empty())
                     features += ", ";
-                features += feature_name;
+                features += magic_enum::enum_name(feature);
             }
         }
 
@@ -233,11 +257,11 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature_name, has_feature] : _features)
+        for (const auto& [feature, has_feature] : _features)
         {
             if (!features.empty())
                 features += ", ";
-            features += feature_name;
+            features += magic_enum::enum_name(feature);
         }
 
         return features;
@@ -252,11 +276,11 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature_name, has_feature] : _main_features)
+        for (const auto& [feature, has_feature] : _main_features)
         {
             if (!features.empty())
                 features += ", ";
-            features += feature_name;
+            features += magic_enum::enum_name(feature);
         }
 
         return features;
@@ -273,16 +297,16 @@ class I_PingCommon
   protected:
     // a function that calls a specified function (templated) that returns a boolean
     // if this boolean is false, throw an exception
-    void check_feature(std::string_view feature_name, std::string_view function_name) const
+    void check_feature(t_pingfeature feature, std::string_view function_name) const
     {
-        auto it = _features.find(feature_name.data());
+        auto it = _features.find(feature);
         if (it == _features.end())
         {
             throw std::runtime_error(fmt::format(
                 "Error[{}::{}]! The following feature is not registered: {}\n Please report!",
                 class_name(),
                 function_name,
-                feature_name));
+                magic_enum::enum_name(feature)));
         }
 
         if (!((it->second)()))
@@ -291,7 +315,7 @@ class I_PingCommon
                 fmt::format("Error[{}::{}]! The following feature is not available: {}",
                             class_name(),
                             function_name,
-                            feature_name));
+                            magic_enum::enum_name(feature)));
         }
     }
     struct not_implemented : public std::runtime_error

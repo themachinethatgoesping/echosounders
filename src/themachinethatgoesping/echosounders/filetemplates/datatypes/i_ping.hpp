@@ -66,20 +66,21 @@ class I_Ping : virtual public I_PingCommon
     I_Ping()
         : I_PingCommon()
     {
-        register_feature("timestamp", std::bind(&I_Ping::has_timestamp, this), true);
-        register_feature("datetime",
+        register_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this), true);
+        register_feature(t_pingfeature::datetime,
                          std::bind(&I_Ping::has_timestamp, this),
                          true); // this feature only exists for python since it is implemented as a
                                 // lambda function in the c_I_Ping class definition
-        register_feature("channel_id", std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(t_pingfeature::channel_id, std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(t_pingfeature::sensor_configuration,
+                         std::bind(&I_Ping::has_sensor_configuration, this),
+                         true);
         register_feature(
-            "sensor_configuration", std::bind(&I_Ping::has_sensor_configuration, this), true);
-        register_feature(
-            "sensor_data_latlon", std::bind(&I_Ping::has_sensor_data_latlon, this), true);
-        register_feature("geolocation", std::bind(&I_Ping::has_geolocation, this), true);
+            t_pingfeature::sensor_data_latlon, std::bind(&I_Ping::has_sensor_data_latlon, this), true);
+        register_feature(t_pingfeature::geolocation, std::bind(&I_Ping::has_geolocation, this), true);
 
-        register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
-        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
+        register_feature(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this), true);
+        register_feature(t_pingfeature::watercolumn, std::bind(&I_Ping::has_watercolumn, this), true);
     }
     virtual ~I_Ping() = default;
 
@@ -91,20 +92,21 @@ class I_Ping : virtual public I_PingCommon
         , _sensor_configuration(other._sensor_configuration)
         , _sensor_data_latlon(other._sensor_data_latlon)
     {
-        register_feature("timestamp", std::bind(&I_Ping::has_timestamp, this), true);
-        register_feature("datetime",
+        register_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this), true);
+        register_feature(t_pingfeature::datetime,
                          std::bind(&I_Ping::has_timestamp, this),
                          true); // this feature only exists for python since it is implemented as a
                                 // lambda function in the c_I_Ping class definition
-        register_feature("channel_id", std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(t_pingfeature::channel_id, std::bind(&I_Ping::has_channel_id, this), true);
+        register_feature(t_pingfeature::sensor_configuration,
+                         std::bind(&I_Ping::has_sensor_configuration, this),
+                         true);
         register_feature(
-            "sensor_configuration", std::bind(&I_Ping::has_sensor_configuration, this), true);
-        register_feature(
-            "sensor_data_latlon", std::bind(&I_Ping::has_sensor_data_latlon, this), true);
-        register_feature("geolocation", std::bind(&I_Ping::has_geolocation, this), true);
+            t_pingfeature::sensor_data_latlon, std::bind(&I_Ping::has_sensor_data_latlon, this), true);
+        register_feature(t_pingfeature::geolocation, std::bind(&I_Ping::has_geolocation, this), true);
 
-        register_feature("bottom", std::bind(&I_Ping::has_bottom, this), true);
-        register_feature("watercolumn", std::bind(&I_Ping::has_watercolumn, this), true);
+        register_feature(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this), true);
+        register_feature(t_pingfeature::watercolumn, std::bind(&I_Ping::has_watercolumn, this), true);
     }
 
     //------ features -----
@@ -155,7 +157,7 @@ class I_Ping : virtual public I_PingCommon
     void set_sensor_configuration_flyweight(
         boost::flyweight<navigation::SensorConfiguration> sensor_configuration)
     {
-        _sensor_configuration     = std::move(sensor_configuration); //avoid reference counting
+        _sensor_configuration     = std::move(sensor_configuration); // avoid reference counting
         _sensor_configuration_set = true;
     }
 

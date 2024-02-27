@@ -9,6 +9,7 @@
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
+#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_pingcommon.hpp"
 //
@@ -26,6 +27,31 @@ void init_c_i_pingcommon(pybind11::module& m)
 {
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
+
+    auto pyenum_pingfeature =
+        py::enum_<t_pingfeature>(
+            m,
+            "t_pingfeature",
+            DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, t_pingfeature))
+            .value("timestamp", t_pingfeature::timestamp)
+            .value("datetime", t_pingfeature::datetime)
+            .value("channel_id", t_pingfeature::channel_id)
+            .value("sensor_configuration", t_pingfeature::sensor_configuration)
+            .value("sensor_data_latlon", t_pingfeature::sensor_data_latlon)
+            .value("geolocation", t_pingfeature::geolocation)
+            .value("bottom", t_pingfeature::bottom)
+            .value("watercolumn", t_pingfeature::watercolumn)
+            .value("tx_signal_parameters", t_pingfeature::tx_signal_parameters)
+            .value("number_of_tx_sectors", t_pingfeature::number_of_tx_sectors)
+            .value("beam_crosstrack_angles", t_pingfeature::beam_crosstrack_angles)
+            .value("two_way_travel_times", t_pingfeature::two_way_travel_times)
+            .value("xyz", t_pingfeature::xyz)
+            .value("amplitudes", t_pingfeature::amplitudes)
+            .value("av", t_pingfeature::av)
+            .value("bottom_range_sample", t_pingfeature::bottom_range_sample)
+            .export_values();
+
+ tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
 
     auto cls =
         py::class_<I_PingCommon, std::shared_ptr<I_PingCommon>>(

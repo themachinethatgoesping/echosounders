@@ -236,52 +236,6 @@ class PingContainer
         return containers;
     }
 
-    /**
-     * @brief  Split the data in containers that have all requested features and containers that
-     * miss any of them
-     *
-     * @param and_features: ping will be sorted into first container if all features are present
-     * @param or_features: ping will be sorted into second container if any of the features is
-     * @return std::array<PingContainer<type_Ping>, 2>
-     */
-    std::array<PingContainer<type_Ping>, 2> split_by_features(
-        const std::vector<std::string>& and_features = {},
-        const std::vector<std::string>& or_features  = {}) const
-    {
-        std::array<PingContainer<type_Ping>, 2> containers;
-
-        for (const auto& ping : _pings)
-        {
-            for (const auto& feature : and_features)
-            {
-                if (!ping->has_feature(feature))
-                {
-                    containers[1].add_ping(ping);
-                    goto next_ping;
-                }
-            }
-
-            if (!or_features.empty())
-            {
-                for (const auto& feature : or_features)
-                {
-                    if (ping->has_feature(feature))
-                    {
-                        containers[0].add_ping(ping);
-                        goto next_ping;
-                    }
-                }
-                containers[1].add_ping(ping);
-                goto next_ping;
-            }
-            containers[0].add_ping(ping);
-
-        next_ping:;
-        }
-
-        return containers;
-    }
-
     // sort _datagram_infos_all by timestamp in _datagram_timestamps
     PingContainer<type_Ping> get_sorted_by_time() const
     {

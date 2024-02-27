@@ -1,4 +1,4 @@
-//sourcehash: bf4a380336348cf93425edc93165b135f866a09eb8ff127dfe093202d75dde4c
+//sourcehash: fdb941874b3f2c4ebfd73f3ac95569ca29b8c539a79cf01b160839e8a1de4061
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -93,21 +93,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datac
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_set_pings = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_size = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_features =
-R"doc(Split the data in containers that have all requested features and
-containers that miss any of them
-
-Parameter ``and_features:``:
-    ping will be sorted into first container if all features are
-    present
-
-Parameter ``or_features:``:
-    ping will be sorted into second container if any of the features
-    is
-
-Returns:
-    std::array<PingContainer<type_Ping>, 2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_time_diff =
 R"doc(Split the data if the time difference between two subsequent datagrams
