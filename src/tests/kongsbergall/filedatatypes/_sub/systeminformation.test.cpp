@@ -116,9 +116,9 @@ TEST_CASE("SystemInformation should be initialized correctly from RawRangeAndAng
     auto signal_parameters = std::get<FMSignalParameters>(dat.get_tx_signal_parameters()[0]);
 
     INFO(signal_parameters.info_string());
-    CHECK(signal_parameters.center_frequency == Approx(191));
-    CHECK(signal_parameters.bandwidth == Approx(101));
-    CHECK(signal_parameters.effective_pulse_duration == Approx(121));
+    CHECK(signal_parameters.get_center_frequency() == Approx(191));
+    CHECK(signal_parameters.get_bandwidth() == Approx(101));
+    CHECK(signal_parameters.get_effective_pulse_duration() == Approx(121));
     CHECK(signal_parameters.get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
 
     // test inequality
@@ -151,9 +151,9 @@ TEST_CASE("SystemInformation should be initialized correctly from WaterColumnDat
 
     {
         INFO(signal_parameters.info_string());
-        CHECK(signal_parameters.center_frequency == Approx(191));
-        CHECK(std::isnan(signal_parameters.bandwidth));
-        CHECK(std::isnan(signal_parameters.effective_pulse_duration));
+        CHECK(signal_parameters.get_center_frequency() == Approx(191));
+        CHECK(std::isnan(signal_parameters.get_bandwidth()));
+        CHECK(std::isnan(signal_parameters.get_effective_pulse_duration()));
         CHECK(signal_parameters.get_tx_signal_type() == t_TxSignalType::UNKNOWN);
     }
     // test inequality

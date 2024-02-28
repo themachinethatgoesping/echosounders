@@ -313,18 +313,18 @@ class KongsbergAllPingWatercolumn
                 sigparam,
                 [sound_velocity](
                     const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
                 },
                 [sound_velocity](
                     const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
                     // TODO: correct computation for FM?
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
                 },
                 [sound_velocity](
                     const algorithms::signalprocessing::datastructures::GenericSignalParameters&
                         param) {
                     // TODO: throw warning?
-                    return std::log10(sound_velocity * param.effective_pulse_duration * 0.5);
+                    return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
                 });
         }
 
