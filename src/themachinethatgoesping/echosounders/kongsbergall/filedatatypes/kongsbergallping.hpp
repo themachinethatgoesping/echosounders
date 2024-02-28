@@ -65,7 +65,6 @@ class KongsbergAllPing
 
   protected:
     std::string class_name() const override { return "KongsbergAllPing"; }
-    using t_base0::register_feature;
     using t_base2::_file_data;
     using typename t_base2::t_rawdata;
 

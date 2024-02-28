@@ -1,4 +1,4 @@
-//sourcehash: 34a5788c58fa78b75dd23012e95fd82296e0cfdd6859c4ce4311aeea0ec0ef29
+//sourcehash: b801ec59071bd18f5e8daadbeb2710e4d2f20025e4323a3d67afc972dc7c0c19
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,6 +46,25 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_class_name = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_feature_groups = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_feature_groups_2 =
+R"doc(Get a string of all registered feature groups for this ping class
+
+Returns:
+    std::string)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_feature_groups_string =
+R"doc(Get a string of all registered feature groups that are available or
+not available
+
+Parameter ``available``:
+    if True (default) return available features, else return not
+    available features
+
+Returns:
+    std::string)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_feature_string =
 R"doc(Get a string of all registered features that are available or not
 available
@@ -84,6 +103,8 @@ Returns:
 Returns:
     false)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_feature_groups = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_features =
 R"doc(Check if any of the registered features is available
 
@@ -102,6 +123,8 @@ Returns:
 Returns:
     false)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_has_secondary_features = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_load = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_loaded = R"doc()doc";
@@ -118,15 +141,17 @@ R"doc(Get a string of all registered primary features for this ping class
 Returns:
     std::string)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_print_feature_groups = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_print_features = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_register_feature =
-R"doc(Register a feature
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_register_feature_group = R"doc()doc";
 
-Parameter ``feature_name``:
-    $Parameter ``has_feature``:)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_register_primary_feature = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_register_secondary_feature = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon_registered_features =
 R"doc(Get a string of all registered features for this ping class
@@ -159,6 +184,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_channel_id = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_datetime = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_file_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_geolocation = R"doc()doc";
 

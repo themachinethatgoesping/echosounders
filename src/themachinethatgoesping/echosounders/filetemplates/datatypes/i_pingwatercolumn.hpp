@@ -67,7 +67,7 @@ namespace datatypes {
  */
 class I_PingWatercolumn : virtual public I_PingCommon
 {
-    bool                                             _beam_sample_selection_all_is_initialized = false;
+    bool _beam_sample_selection_all_is_initialized = false;
     boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;
 
   protected:
@@ -75,23 +75,23 @@ class I_PingWatercolumn : virtual public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
-    using t_base::register_feature;
+    using t_base::register_primary_feature;
+    using t_base::register_secondary_feature;
 
     I_PingWatercolumn()
         : I_PingCommon()
     {
-        register_feature(t_pingfeature::tx_signal_parameters,
-                         std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
-                         false);
-        register_feature(t_pingfeature::number_of_tx_sectors,
-                         std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
-                         false);
+        register_primary_feature(t_pingfeature::amplitudes,
+                                 std::bind(&I_PingWatercolumn::has_amplitudes, this));
 
-        register_feature(t_pingfeature::amplitudes, std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
-        register_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this), false);
-        register_feature(t_pingfeature::bottom_range_sample,
-                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
-                         false);
+        register_secondary_feature(t_pingfeature::tx_signal_parameters,
+                                   std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this));
+        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
+                                   std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
+
+        register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
+        register_secondary_feature(t_pingfeature::bottom_range_sample,
+                                   std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
     virtual ~I_PingWatercolumn() = default;
 
@@ -99,18 +99,17 @@ class I_PingWatercolumn : virtual public I_PingCommon
     I_PingWatercolumn(const I_PingWatercolumn& other)
         : I_PingCommon(other)
     {
-        register_feature(t_pingfeature::tx_signal_parameters,
-                         std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this),
-                         false);
-        register_feature(t_pingfeature::number_of_tx_sectors,
-                         std::bind(&I_PingWatercolumn::has_tx_sector_information, this),
-                         false);
+        register_primary_feature(t_pingfeature::amplitudes,
+                                 std::bind(&I_PingWatercolumn::has_amplitudes, this));
 
-        register_feature(t_pingfeature::amplitudes, std::bind(&I_PingWatercolumn::has_amplitudes, this), true);
-        register_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this), false);
-        register_feature(t_pingfeature::bottom_range_sample,
-                         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this),
-                         false);
+        register_secondary_feature(t_pingfeature::tx_signal_parameters,
+                                   std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this));
+        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
+                                   std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
+
+        register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
+        register_secondary_feature(t_pingfeature::bottom_range_sample,
+                                   std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 
     // --- transmit sector infos ---
@@ -149,7 +148,6 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return float
      */
     virtual float get_sample_interval() { throw not_implemented(__func__, class_name()); }
-
 
     // --- sector infos ---
     virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
@@ -239,10 +237,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
         throw not_implemented(__func__, class_name());
     }
 
-    virtual float get_sound_speed_at_transducer()
-    {
-        throw not_implemented(__func__, class_name());
-    }
+    virtual float get_sound_speed_at_transducer() { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Get beam sample selection that selects all beams and samples
@@ -288,10 +283,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_av()
-    {
-        return get_av(get_beam_sample_selection_all());
-    }
+    xt::xtensor<float, 2> get_av() { return get_av(get_beam_sample_selection_all()); }
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)

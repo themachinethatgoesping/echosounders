@@ -53,25 +53,23 @@ class I_PingBottom : virtual public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
-    using t_base::register_feature;
+    using t_base::register_primary_feature;
+    using t_base::register_secondary_feature;
 
     I_PingBottom()
         : I_PingCommon()
     {
-        register_feature(t_pingfeature::tx_signal_parameters,
-                         std::bind(&I_PingBottom::has_tx_signal_parameters, this),
-                         false);
-        register_feature(t_pingfeature::number_of_tx_sectors,
-                         std::bind(&I_PingBottom::has_tx_sector_information, this),
-                         false);
+        register_primary_feature(t_pingfeature::two_way_travel_times,
+                                 std::bind(&I_PingBottom::has_two_way_travel_times, this));
+        register_primary_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this));
 
-        register_feature(t_pingfeature::beam_crosstrack_angles,
-                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this),
-                         false);
-        register_feature(t_pingfeature::two_way_travel_times,
-                         std::bind(&I_PingBottom::has_two_way_travel_times, this),
-                         true);
-        register_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this), true);
+        register_secondary_feature(t_pingfeature::tx_signal_parameters,
+                                   std::bind(&I_PingBottom::has_tx_signal_parameters, this));
+        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
+                                   std::bind(&I_PingBottom::has_tx_sector_information, this));
+
+        register_secondary_feature(t_pingfeature::beam_crosstrack_angles,
+                                   std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
     }
     virtual ~I_PingBottom() = default;
 
@@ -79,20 +77,17 @@ class I_PingBottom : virtual public I_PingCommon
     I_PingBottom(const I_PingBottom& other)
         : I_PingCommon(other)
     {
-        register_feature(t_pingfeature::tx_signal_parameters,
-                         std::bind(&I_PingBottom::has_tx_signal_parameters, this),
-                         false);
-        register_feature(t_pingfeature::number_of_tx_sectors,
-                         std::bind(&I_PingBottom::has_tx_sector_information, this),
-                         false);
+        register_primary_feature(t_pingfeature::two_way_travel_times,
+                                 std::bind(&I_PingBottom::has_two_way_travel_times, this));
+        register_primary_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this));
 
-        register_feature(t_pingfeature::beam_crosstrack_angles,
-                         std::bind(&I_PingBottom::has_beam_crosstrack_angles, this),
-                         false);
-        register_feature(t_pingfeature::two_way_travel_times,
-                         std::bind(&I_PingBottom::has_two_way_travel_times, this),
-                         true);
-        register_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this), true);
+        register_secondary_feature(t_pingfeature::tx_signal_parameters,
+                                   std::bind(&I_PingBottom::has_tx_signal_parameters, this));
+        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
+                                   std::bind(&I_PingBottom::has_tx_sector_information, this));
+
+        register_secondary_feature(t_pingfeature::beam_crosstrack_angles,
+                                   std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
     }
 
     // --- transmit sector infos ---

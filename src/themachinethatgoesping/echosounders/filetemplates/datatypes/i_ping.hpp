@@ -61,26 +61,31 @@ class I_Ping : virtual public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
-    using t_base::register_feature;
+    using t_base::register_feature_group;
+    using t_base::register_primary_feature;
+    using t_base::register_secondary_feature;
 
     I_Ping()
         : I_PingCommon()
     {
-        register_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this), true);
-        register_feature(t_pingfeature::datetime,
-                         std::bind(&I_Ping::has_timestamp, this),
-                         true); // this feature only exists for python since it is implemented as a
-                                // lambda function in the c_I_Ping class definition
-        register_feature(t_pingfeature::channel_id, std::bind(&I_Ping::has_channel_id, this), true);
-        register_feature(t_pingfeature::sensor_configuration,
-                         std::bind(&I_Ping::has_sensor_configuration, this),
-                         true);
-        register_feature(
-            t_pingfeature::sensor_data_latlon, std::bind(&I_Ping::has_sensor_data_latlon, this), true);
-        register_feature(t_pingfeature::geolocation, std::bind(&I_Ping::has_geolocation, this), true);
+        register_primary_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this));
+        register_primary_feature(
+            t_pingfeature::datetime,
+            std::bind(&I_Ping::has_timestamp,
+                      this)); // this feature only exists for python since it is implemented as a
+                              // lambda function in the c_I_Ping class definition
+        register_primary_feature(t_pingfeature::channel_id,
+                                 std::bind(&I_Ping::has_channel_id, this));
+        register_primary_feature(t_pingfeature::sensor_configuration,
+                                 std::bind(&I_Ping::has_sensor_configuration, this));
+        register_primary_feature(t_pingfeature::sensor_data_latlon,
+                                 std::bind(&I_Ping::has_sensor_data_latlon, this));
+        register_primary_feature(t_pingfeature::geolocation,
+                                 std::bind(&I_Ping::has_geolocation, this));
 
-        register_feature(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this), true);
-        register_feature(t_pingfeature::watercolumn, std::bind(&I_Ping::has_watercolumn, this), true);
+        register_feature_group(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this));
+        register_feature_group(t_pingfeature::watercolumn,
+                               std::bind(&I_Ping::has_watercolumn, this));
     }
     virtual ~I_Ping() = default;
 
@@ -92,21 +97,24 @@ class I_Ping : virtual public I_PingCommon
         , _sensor_configuration(other._sensor_configuration)
         , _sensor_data_latlon(other._sensor_data_latlon)
     {
-        register_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this), true);
-        register_feature(t_pingfeature::datetime,
-                         std::bind(&I_Ping::has_timestamp, this),
-                         true); // this feature only exists for python since it is implemented as a
-                                // lambda function in the c_I_Ping class definition
-        register_feature(t_pingfeature::channel_id, std::bind(&I_Ping::has_channel_id, this), true);
-        register_feature(t_pingfeature::sensor_configuration,
-                         std::bind(&I_Ping::has_sensor_configuration, this),
-                         true);
-        register_feature(
-            t_pingfeature::sensor_data_latlon, std::bind(&I_Ping::has_sensor_data_latlon, this), true);
-        register_feature(t_pingfeature::geolocation, std::bind(&I_Ping::has_geolocation, this), true);
+        register_primary_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this));
+        register_primary_feature(
+            t_pingfeature::datetime,
+            std::bind(&I_Ping::has_timestamp,
+                      this)); // this feature only exists for python since it is implemented as a
+                              // lambda function in the c_I_Ping class definition
+        register_primary_feature(t_pingfeature::channel_id,
+                                 std::bind(&I_Ping::has_channel_id, this));
+        register_primary_feature(t_pingfeature::sensor_configuration,
+                                 std::bind(&I_Ping::has_sensor_configuration, this));
+        register_primary_feature(t_pingfeature::sensor_data_latlon,
+                                 std::bind(&I_Ping::has_sensor_data_latlon, this));
+        register_primary_feature(t_pingfeature::geolocation,
+                                 std::bind(&I_Ping::has_geolocation, this));
 
-        register_feature(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this), true);
-        register_feature(t_pingfeature::watercolumn, std::bind(&I_Ping::has_watercolumn, this), true);
+        register_feature_group(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this));
+        register_feature_group(t_pingfeature::watercolumn,
+                               std::bind(&I_Ping::has_watercolumn, this));
     }
 
     //------ features -----

@@ -51,7 +51,7 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("bottom_range_sample", t_pingfeature::bottom_range_sample)
             .export_values();
 
- tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
+    tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
 
     auto cls =
         py::class_<I_PingCommon, std::shared_ptr<I_PingCommon>>(
@@ -62,7 +62,8 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),
-                 py::arg("available") = true)
+                 py::arg("available") = true,
+                 py::arg("prefix")    = std::string(""))
             .def("has_any_of_features",
                  &I_PingCommon::has_any_of_features,
                  DOC_I_PingCommon(has_any_of_features),
@@ -78,7 +79,9 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("registered_features",
                  &I_PingCommon::registered_features,
                  DOC_I_PingCommon(registered_features))
-            .def("primary_features", &I_PingCommon::primary_features, DOC_I_PingCommon(primary_features))
+            .def("primary_features",
+                 &I_PingCommon::primary_features,
+                 DOC_I_PingCommon(primary_features))
             .def("has_feature",
                  &I_PingCommon::has_feature,
                  DOC_I_PingCommon(has_feature),

@@ -66,6 +66,7 @@ namespace datatypes {
 
 enum class t_pingfeature : uint8_t
 {
+    /* I_Ping features */
     timestamp,
     datetime,
     channel_id,
@@ -73,16 +74,21 @@ enum class t_pingfeature : uint8_t
     sensor_data_latlon,
     geolocation,
 
+    /* I_Ping feature groups */
+    file_data,
     bottom,
     watercolumn,
 
+    /* I_PingBottom and I_PingWatercolumn */
     tx_signal_parameters,
     number_of_tx_sectors,
 
+    /* I_PingBottom */
     beam_crosstrack_angles,
     two_way_travel_times,
     xyz,
 
+    /* I_PingWatercolumn */
     amplitudes,
     av,
     bottom_range_sample
@@ -97,19 +103,21 @@ class I_PingCommon
     // TODO: this does probably consume quite a lot of memory ..
     boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
     boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    boost::container::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
 
-    /**
-     * @brief Register a feature
-     *
-     * @param feature_name
-     * @param has_feature
-     */
-    void register_feature(t_pingfeature feature_name, std::function<bool()> has_feature, bool main)
+    void register_primary_feature(t_pingfeature feature_name, std::function<bool()> has_feature)
     {
-        if (main)
-            _primary_features[feature_name] = has_feature;
-        else
-            _secondary_features[feature_name] = has_feature;
+        _primary_features[feature_name] = has_feature;
+    }
+
+    void register_secondary_feature(t_pingfeature feature_name, std::function<bool()> has_feature)
+    {
+        _secondary_features[feature_name] = has_feature;
+    }
+
+    void register_feature_group(t_pingfeature feature_name, std::function<bool()> has_feature)
+    {
+        _feature_groups[feature_name] = has_feature;
     }
 
   public:
@@ -142,6 +150,10 @@ class I_PingCommon
                 return true;
 
         for (const auto& [feature_name, has_feature] : _secondary_features)
+            if (has_feature())
+                return true;
+
+        for (const auto& [feature_name, has_feature] : _feature_groups)
             if (has_feature())
                 return true;
 
@@ -197,6 +209,24 @@ class I_PingCommon
         return false;
     }
 
+    bool has_secondary_features() const
+    {
+        for (const auto& [feature_name, has_feature] : _secondary_features)
+            if (has_feature())
+                return true;
+
+        return false;
+    }
+
+    bool has_feature_groups() const
+    {
+        for (const auto& [feature_name, has_feature] : _feature_groups)
+            if (has_feature())
+                return true;
+
+        return false;
+    }
+
     /**
      * @brief Check if any of the registered features is available
      *
@@ -213,6 +243,10 @@ class I_PingCommon
         if (it_secondary != _secondary_features.end())
             return it_secondary->second();
 
+        auto it_group = _feature_groups.find(feature);
+        if (it_group != _feature_groups.end())
+            return it_group->second();
+
         throw std::runtime_error(fmt::format("Error[{}::{}]! The following feature is "
                                              "not registered: {}\n Please report!",
                                              class_name(),
@@ -227,7 +261,7 @@ class I_PingCommon
      * features
      * @return std::string
      */
-    std::string feature_string(bool available = true) const
+    std::string feature_string(bool available = true, const std::string& prefix = "") const
     {
         std::string features = "";
 
@@ -238,9 +272,35 @@ class I_PingCommon
                 {
                     if (!features.empty())
                         features += ", ";
+                    features += prefix;
                     features += magic_enum::enum_name(feature);
                 }
             }
+
+        return features;
+    }
+
+    /**
+     * @brief Get a string of all registered feature groups that are available or not available
+     *
+     * @param available if True (default) return available features, else return not available
+     * features
+     * @return std::string
+     */
+    std::string feature_groups_string(bool available = true, const std::string& prefix = "") const
+    {
+        std::string features = "";
+
+        for (const auto& [feature, has_feature] : _feature_groups)
+        {
+            if (has_feature() == available)
+            {
+                if (!features.empty())
+                    features += ", ";
+                features += prefix;
+                features += magic_enum::enum_name(feature);
+            }
+        }
 
         return features;
     }
@@ -302,6 +362,24 @@ class I_PingCommon
         return features;
     }
 
+    /**
+     * @brief Get a string of all registered feature groups for this ping class
+     *
+     * @return std::string
+     */
+    std::string feature_groups() const
+    {
+        std::string features = "";
+
+        for (const auto& [feature, has_feature] : _feature_groups)
+        {
+            if (!features.empty())
+                features += ", ";
+            features += magic_enum::enum_name(feature);
+        }
+
+        return features;
+    }
     //------ interface ------//
     virtual void load([[maybe_unused]] bool force = false)
     {
@@ -324,13 +402,41 @@ class I_PingCommon
     void print_features(tools::classhelper::ObjectPrinter& printer,
                         const std::string&                 prefix = "") const
     {
-        auto features     = feature_string();
-        auto not_features = feature_string(false);
+        // std::string prefix_with_points = prefix.empty() ? ".get_" + prefix : ".get_" + prefix +
+        // ".";
+        std::string prefix_with_points = ".get_";
+        std::string feature_header =
+            prefix.empty() ? "Features" : fmt::format("Features({})", prefix);
+
+        auto features     = feature_string(true, prefix_with_points);
+        auto not_features = feature_string(false, prefix_with_points);
+
+        if (!prefix.empty())
+            features = "[." + prefix + ".]: " + features;
+
         if (!not_features.empty())
-            printer.register_string(
-                prefix + "-Features", features, std::string("Not:") + not_features);
+        {
+            printer.register_string(feature_header, features, std::string("Not:") + not_features);
+        }
         else
-            printer.register_string(prefix + "-Features", features);
+        {
+            printer.register_string(feature_header, features);
+        }
+    }
+
+    void print_feature_groups(tools::classhelper::ObjectPrinter& printer,
+                              const std::string&                 prefix = "") const
+    {
+        std::string prefix_with_points = prefix.empty() ? "." + prefix : "." + prefix + ".";
+        std::string feature_header =
+            prefix.empty() ? "Feature groups" : fmt::format("Feature groups({})", prefix);
+
+        auto features     = feature_groups_string(true, prefix_with_points);
+        auto not_features = feature_groups_string(false, prefix_with_points);
+        if (!not_features.empty())
+            printer.register_string(feature_header, features, std::string("Not:") + not_features);
+        else
+            printer.register_string(feature_header, features);
     }
 
     // ----- objectprinter -----
@@ -339,6 +445,8 @@ class I_PingCommon
         tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         print_features(printer);
+        if (!_feature_groups.empty())
+            print_feature_groups(printer);
 
         return printer;
     }

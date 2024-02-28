@@ -54,7 +54,6 @@ class SimradRawPing
 
     using type_DatagramInfo_ptr = typename SimradRawPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 
-    using t_base0::register_feature;
     using t_base2::_file_data;
     std::string class_name() const override { return "SimradRawPing"; }
 
