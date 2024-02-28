@@ -429,7 +429,7 @@ class I_PingCommon
     {
         std::string prefix_with_points = prefix.empty() ? "." + prefix : "." + prefix + ".";
         std::string feature_header =
-            prefix.empty() ? "Feature groups" : fmt::format("Feature groups({})", prefix);
+            prefix.empty() ? "Feature groups" : fmt::format("Feature groups(.{})", prefix);
 
         auto features     = feature_groups_string(true, prefix_with_points);
         auto not_features = feature_groups_string(false, prefix_with_points);
