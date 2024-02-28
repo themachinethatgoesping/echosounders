@@ -406,13 +406,13 @@ class I_PingCommon
         // ".";
         std::string prefix_with_points = ".get_";
         std::string feature_header =
-            prefix.empty() ? "Features" : fmt::format("Features({})", prefix);
+            prefix.empty() ? "Features" : fmt::format("Features(.{})", prefix);
 
         auto features     = feature_string(true, prefix_with_points);
         auto not_features = feature_string(false, prefix_with_points);
 
         if (!prefix.empty())
-            features = "[." + prefix + ".]: " + features;
+            features = "." + prefix + " : " + features;
 
         if (!not_features.empty())
         {
