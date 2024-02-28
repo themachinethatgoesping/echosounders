@@ -72,11 +72,13 @@ void py_create_class_kongsbergallpingdatainterfacePerFile(py::module&        m,
 
 void init_c_kongsbergallpingdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllPingDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_kongsbergallpingdatainterfacePerFile<std::ifstream>(
-        m, "KongsbergAllPingDataInterfacePerFile");
+    py_create_class_kongsbergallpingdatainterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_kongsbergallpingdatainterfacePerFile<datastreams::MappedFileStream>(
-        m, "KongsbergAllPingDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

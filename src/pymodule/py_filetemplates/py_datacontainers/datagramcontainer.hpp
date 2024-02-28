@@ -147,30 +147,33 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string& CONTA
     using filetemplates::datastreams::MappedFileStream;
     namespace py = pybind11;
 
-    using T_CONTAINER =
+    using T_CONTAINER_STREAM =
         DatagramContainer<T_DatagramType, T_DatagramIdentifier, std::ifstream, T_DatagramFactory>;
+
     using T_CONTAINER_MAPPED = DatagramContainer<T_DatagramType,
                                                  T_DatagramIdentifier,
                                                  MappedFileStream,
                                                  T_DatagramFactory>;
 
-    auto cls_stream = py::class_<T_CONTAINER>(
+    auto container_name_stream = CONTAINER_NAME + "_stream";
+    auto cls_stream            = py::class_<T_CONTAINER_STREAM>(
         m,
-        CONTAINER_NAME.c_str(),
+        container_name_stream.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
+        __PYCLASS_DEFAULT_COPY__(T_CONTAINER_STREAM)
         // default binary functions
-        // __PYCLASS_DEFAULT_BINARY__(T_CONTAINER)
+        // __PYCLASS_DEFAULT_BINARY__(T_CONTAINER_STREAM)
         // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER)
+        __PYCLASS_DEFAULT_PRINTING__(T_CONTAINER_STREAM)
         // end LinearInterpolator
         ;
 
-    auto cls_mapped = py::class_<T_CONTAINER_MAPPED>(
+    auto container_name_mapped = CONTAINER_NAME;
+    auto cls_mapped            = py::class_<T_CONTAINER_MAPPED>(
         m,
-        (CONTAINER_NAME + "_mapped").c_str(),
+        container_name_mapped.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
         // ----- pybind macros -----
         // default copy functions
@@ -182,7 +185,7 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string& CONTA
         // end LinearInterpolator
         ;
 
-    _add_DatagramReading<T_CONTAINER, T_DatagramIdentifier>(cls_stream);
+    _add_DatagramReading<T_CONTAINER_STREAM, T_DatagramIdentifier>(cls_stream);
     _add_DatagramReading<T_CONTAINER_MAPPED, T_DatagramIdentifier>(cls_mapped);
 }
 

@@ -68,9 +68,12 @@ void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& 
 
 void init_c_simradrawpingwatercolumn(pybind11::module& m)
 {
-    py_create_class_simradrawpingwatercolumn<std::ifstream>(m, "SimradRawPingWatercolumn");
-    py_create_class_simradrawpingwatercolumn<datastreams::MappedFileStream>(
-        m, "SimradRawPingWatercolumn_mapped");
+    static const std::string name        = "SimradRawPingWatercolumn";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_simradrawpingwatercolumn<std::ifstream>(m, name_stream);
+    py_create_class_simradrawpingwatercolumn<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

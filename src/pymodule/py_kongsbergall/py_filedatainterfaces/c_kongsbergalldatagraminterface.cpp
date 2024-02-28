@@ -19,8 +19,8 @@
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatainterfaces/kongsbergalldatagraminterface.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 #include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"
@@ -59,9 +59,12 @@ void py_create_class_KongsbergAllDatagramInterface(py::module& m, const std::str
 
 void init_c_KongsbergAllDatagramInterface(pybind11::module& m)
 {
-    py_create_class_KongsbergAllDatagramInterface<std::ifstream>(m, "KongsbergAllDatagramInterface");
-    py_create_class_KongsbergAllDatagramInterface<datastreams::MappedFileStream>(
-        m, "KongsbergAllDatagramInterface_mapped");
+    static const std::string name        = "KongsbergAllDatagramInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_KongsbergAllDatagramInterface<std::ifstream>(m, name_stream);
+    py_create_class_KongsbergAllDatagramInterface<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

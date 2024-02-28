@@ -63,9 +63,12 @@ void py_create_class_simradrawpingdatainterface(py::module& m, const std::string
 
 void init_c_simradrawpingdatainterface(pybind11::module& m)
 {
-    py_create_class_simradrawpingdatainterface<std::ifstream>(m, "SimradRawPingDataInterface");
-    py_create_class_simradrawpingdatainterface<datastreams::MappedFileStream>(
-        m, "SimradRawPingDataInterface_mapped");
+    static const std::string name        = "SimradRawPingDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_simradrawpingdatainterface<std::ifstream>(m, name_stream);
+    py_create_class_simradrawpingdatainterface<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

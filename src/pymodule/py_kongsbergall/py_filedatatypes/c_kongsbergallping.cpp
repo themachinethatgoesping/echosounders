@@ -70,8 +70,12 @@ void py_create_class_kongsbergallping(py::module& m, const std::string& CLASS_NA
 
 void init_c_kongsbergallping(pybind11::module& m)
 {
-    py_create_class_kongsbergallping<std::ifstream>(m, "KongsbergAllPing");
-    py_create_class_kongsbergallping<datastreams::MappedFileStream>(m, "KongsbergAllPing_mapped");
+    static const std::string name        = "KongsbergAllPing";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_kongsbergallping<std::ifstream>(m, name_stream);
+    py_create_class_kongsbergallping<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

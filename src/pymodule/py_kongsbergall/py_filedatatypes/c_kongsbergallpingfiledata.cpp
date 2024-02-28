@@ -97,10 +97,12 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
 
 void init_c_kongsbergallPingFileData(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllPingFileData";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_kongsbergallPingFileData<std::ifstream>(m, "KongsbergAllPingFileData");
-    py_create_class_kongsbergallPingFileData<datastreams::MappedFileStream>(
-        m, "KongsbergAllPingFileData_mapped");
+    py_create_class_kongsbergallPingFileData<std::ifstream>(m, name_stream);
+    py_create_class_kongsbergallPingFileData<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

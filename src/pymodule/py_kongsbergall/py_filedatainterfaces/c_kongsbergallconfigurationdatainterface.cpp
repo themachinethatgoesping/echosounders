@@ -63,11 +63,14 @@ void py_create_class_KongsbergAllConfigurationDataInterface(py::module& m, const
 
 void init_c_kongsbergallconfigurationdatainterface(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllConfigurationDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
     py_create_class_KongsbergAllConfigurationDataInterface<std::ifstream>(
-        m, "KongsbergAllConfigurationDataInterface");
+        m, name_stream);
     py_create_class_KongsbergAllConfigurationDataInterface<datastreams::MappedFileStream>(
-        m, "KongsbergAllConfigurationDataInterface_mapped");
+        m, name_mapped);
 }
 
 }

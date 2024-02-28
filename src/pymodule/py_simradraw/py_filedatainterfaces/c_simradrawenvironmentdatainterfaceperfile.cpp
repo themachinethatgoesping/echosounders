@@ -35,11 +35,12 @@ using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simradraw, filedatainterfaces, SimradRawEnvironmentDataInterface
+    themachinethatgoesping, echosounders, simradraw, filedatainterfaces,                           \
+        SimradRawEnvironmentDataInterface
 
 template<typename T_FileStream>
 void py_create_class_SimradRawEnvironmentDataInterfacePerFile(py::module&        m,
-                                                           const std::string& CLASS_NAME)
+                                                              const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
@@ -75,11 +76,13 @@ void py_create_class_SimradRawEnvironmentDataInterfacePerFile(py::module&       
 
 void init_c_simradrawenvironmentdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawEnvironmentDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_SimradRawEnvironmentDataInterfacePerFile<std::ifstream>(
-        m, "SimradRawEnvironmentDataInterfacePerFile");
+    py_create_class_SimradRawEnvironmentDataInterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_SimradRawEnvironmentDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "SimradRawEnvironmentDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

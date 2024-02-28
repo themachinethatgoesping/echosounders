@@ -34,22 +34,23 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define DOC_KongsbergAllConfigurationDataInterfacePerFile(ARG)                                           \
+#define DOC_KongsbergAllConfigurationDataInterfacePerFile(ARG)                                     \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kongsbergall,                                                                                    \
+        kongsbergall,                                                                              \
         filedatainterfaces,                                                                        \
-        KongsbergAllConfigurationDataInterfacePerFile,                                                   \
+        KongsbergAllConfigurationDataInterfacePerFile,                                             \
         ARG)
 
 template<typename T_FileStream>
 void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&        m,
-                                                             const std::string& CLASS_NAME)
+                                                                   const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::KongsbergAllConfigurationDataInterfacePerFile<T_FileStream>;
+    using T_BaseClass =
+        filedatainterfaces::KongsbergAllConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
     auto cls =
@@ -69,7 +70,8 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
             // ----- getters -----
             .def("get_active_position_system_number",
                  &T_BaseClass::get_active_position_system_number,
-                 DOC_KongsbergAllConfigurationDataInterfacePerFile(get_active_position_system_number))
+                 DOC_KongsbergAllConfigurationDataInterfacePerFile(
+                     get_active_position_system_number))
             .def("get_active_pitch_roll_sensor",
                  &T_BaseClass::get_active_pitch_roll_sensor,
                  DOC_KongsbergAllConfigurationDataInterfacePerFile(get_active_pitch_roll_sensor))
@@ -83,7 +85,8 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
             // ----- setters -----
             .def("set_active_position_system_number",
                  &T_BaseClass::set_active_position_system_number,
-                 DOC_KongsbergAllConfigurationDataInterfacePerFile(set_active_position_system_number),
+                 DOC_KongsbergAllConfigurationDataInterfacePerFile(
+                     set_active_position_system_number),
                  py::arg("number"))
             .def("set_active_pitch_roll_sensor",
                  &T_BaseClass::set_active_pitch_roll_sensor,
@@ -108,11 +111,13 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
 
 void init_c_kongsbergallconfigurationdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllConfigurationDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_KongsbergAllConfigurationDataInterfacePerFile<std::ifstream>(
-        m, "KongsbergAllConfigurationDataInterfacePerFile");
+    py_create_class_KongsbergAllConfigurationDataInterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_KongsbergAllConfigurationDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "KongsbergAllConfigurationDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

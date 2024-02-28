@@ -35,16 +35,18 @@ using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces, KongsbergAllNavigationDataInterface
+    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces,                        \
+        KongsbergAllNavigationDataInterface
 
 template<typename T_FileStream>
 void py_create_class_KongsbergAllNavigationDataInterfacePerFile(py::module&        m,
-                                                          const std::string& CLASS_NAME)
+                                                                const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::KongsbergAllNavigationDataInterfacePerFile<T_FileStream>;
+    using T_BaseClass =
+        filedatainterfaces::KongsbergAllNavigationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
@@ -102,11 +104,13 @@ void py_create_class_KongsbergAllNavigationDataInterfacePerFile(py::module&     
 
 void init_c_kongsbergallnavigationdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllNavigationDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_KongsbergAllNavigationDataInterfacePerFile<std::ifstream>(
-        m, "KongsbergAllNavigationDataInterfacePerFile");
+    py_create_class_KongsbergAllNavigationDataInterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_KongsbergAllNavigationDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "KongsbergAllNavigationDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

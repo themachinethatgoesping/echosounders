@@ -75,11 +75,14 @@ void py_create_class_KongsbergAllAnnotationDataInterfacePerFile(py::module&     
 
 void init_c_kongsbergallannotationdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllAnnotationDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
     py_create_class_KongsbergAllAnnotationDataInterfacePerFile<std::ifstream>(
-        m, "KongsbergAllAnnotationDataInterfacePerFile");
+        m, name_stream);
     py_create_class_KongsbergAllAnnotationDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "KongsbergAllAnnotationDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

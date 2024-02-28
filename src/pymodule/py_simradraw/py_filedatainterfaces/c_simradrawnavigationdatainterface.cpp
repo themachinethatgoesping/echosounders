@@ -35,7 +35,8 @@ using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simradraw, filedatainterfaces, SimradRawNavigationDataInterface
+    themachinethatgoesping, echosounders, simradraw, filedatainterfaces,                           \
+        SimradRawNavigationDataInterface
 
 template<typename T_FileStream>
 void py_create_class_SimradRawNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
@@ -73,11 +74,12 @@ void py_create_class_SimradRawNavigationDataInterface(py::module& m, const std::
 
 void init_c_simradrawnavigationdatainterface(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawNavigationDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_SimradRawNavigationDataInterface<std::ifstream>(m,
-                                                                 "SimradRawNavigationDataInterface");
-    py_create_class_SimradRawNavigationDataInterface<datastreams::MappedFileStream>(
-        m, "SimradRawNavigationDataInterface_mapped");
+    py_create_class_SimradRawNavigationDataInterface<std::ifstream>(m, name_stream);
+    py_create_class_SimradRawNavigationDataInterface<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

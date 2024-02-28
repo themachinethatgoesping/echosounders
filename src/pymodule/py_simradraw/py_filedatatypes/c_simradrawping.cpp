@@ -38,22 +38,21 @@ void py_create_class_simradrawping(py::module& m, const std::string& CLASS_NAME)
 {
     using t_SimradRawPing = filedatatypes::SimradRawPing<T_FileStream>;
 
-    auto cls =
-        py::class_<t_SimradRawPing,
-                   datatypes::I_Ping,
-                   filedatatypes::SimradRawPingCommon<T_FileStream>,
-                   std::shared_ptr<t_SimradRawPing>>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))
+    auto cls = py::class_<t_SimradRawPing,
+                          datatypes::I_Ping,
+                          filedatatypes::SimradRawPingCommon<T_FileStream>,
+                          std::shared_ptr<t_SimradRawPing>>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))
 
-            // --- ping interface extension ---
+        // --- ping interface extension ---
 
-            // --- file_data data access ---
-            // .def("file_data",
-            //      &t_SimradRawPing::file_data,
-            //      DOC_SimradRawPing(file_data),
-            //      py::return_value_policy::reference_internal)
+        // --- file_data data access ---
+        // .def("file_data",
+        //      &t_SimradRawPing::file_data,
+        //      DOC_SimradRawPing(file_data),
+        //      py::return_value_policy::reference_internal)
 
         // --- variable access ---
 
@@ -75,9 +74,12 @@ void py_create_class_simradrawping(py::module& m, const std::string& CLASS_NAME)
 
 void init_c_simradrawping(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawPing";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_simradrawping<std::ifstream>(m, "SimradRawPing");
-    py_create_class_simradrawping<datastreams::MappedFileStream>(m, "SimradRawPing_mapped");
+    py_create_class_simradrawping<std::ifstream>(m, name_stream);
+    py_create_class_simradrawping<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

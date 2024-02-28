@@ -18,8 +18,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simradraw/filedatainterfaces/simradrawdatagraminterface.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/filedatainterfaces/simradrawdatagraminterface.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
@@ -59,9 +59,12 @@ void py_create_class_SimradRawDatagramInterface(py::module& m, const std::string
 
 void init_c_SimradRawDatagramInterface(pybind11::module& m)
 {
-    py_create_class_SimradRawDatagramInterface<std::ifstream>(m, "SimradRawDatagramInterface");
-    py_create_class_SimradRawDatagramInterface<datastreams::MappedFileStream>(
-        m, "SimradRawDatagramInterface_mapped");
+    static const std::string name        = "SimradRawDatagramInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_SimradRawDatagramInterface<std::ifstream>(m, name_stream);
+    py_create_class_SimradRawDatagramInterface<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

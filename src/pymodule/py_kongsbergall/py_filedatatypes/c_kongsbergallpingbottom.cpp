@@ -69,8 +69,12 @@ void py_create_class_kongsbergallpingbottom(py::module& m, const std::string& CL
 
 void init_c_kongsbergallpingbottom(pybind11::module& m)
 {
-    py_create_class_kongsbergallpingbottom<std::ifstream>(m, "KongsbergAllPingBottom");
-    py_create_class_kongsbergallpingbottom<datastreams::MappedFileStream>(m, "KongsbergAllPingBottom_mapped");
+    static const std::string name        = "KongsbergAllPingBottom";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_kongsbergallpingbottom<std::ifstream>(m, name_stream);
+    py_create_class_kongsbergallpingbottom<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

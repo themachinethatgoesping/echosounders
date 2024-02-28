@@ -34,12 +34,16 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 
 void init_c_simradrawpingcontainer(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawPingContainer";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
     using themachinethatgoesping::echosounders::simradraw::filedatatypes::SimradRawPing;
 
     py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
-        SimradRawPing<std::ifstream>>(m, "SimradRawPingContainer");
+        SimradRawPing<std::ifstream>>(m, name_stream);
     py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
-        SimradRawPing<datastreams::MappedFileStream>>(m, "SimradRawPingContainer_mapped");
+        SimradRawPing<datastreams::MappedFileStream>>(m, name_mapped);
 }
 
 }

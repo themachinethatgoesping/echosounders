@@ -61,9 +61,12 @@ void py_create_class_simradrawpingcommon(py::module& m, const std::string& CLASS
 
 void init_c_simradrawpingcommon(pybind11::module& m)
 {
-    py_create_class_simradrawpingcommon<std::ifstream>(m, "SimradRawPingCommon");
-    py_create_class_simradrawpingcommon<datastreams::MappedFileStream>(
-        m, "SimradRawPingCommon_mapped");
+    static const std::string name        = "SimradRawPingCommon";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_simradrawpingcommon<std::ifstream>(m, name_stream);
+    py_create_class_simradrawpingcommon<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

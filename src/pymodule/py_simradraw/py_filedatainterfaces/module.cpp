@@ -38,7 +38,7 @@ void init_c_simradrawannotationdatainterface(
     pybind11::module& m); // c_simradrawannotationdatainterface.cpp
 void init_c_simradrawannotationdatainterfaceperfile(pybind11::module& m);
 void init_c_simradrawotherfiledatainterface(pybind11::module& m); // c_simradrawotherfiledatainterface.cpp
-void init_c_init_c_simradrawotherfiledatainterfaceperfile(
+void init_c_simradrawotherfiledatainterfaceperfile(
     pybind11::module& m); // c_init_c_simradrawotherfiledatainterfaceperfile.cpp
 
 // -- create submodule --
@@ -61,7 +61,7 @@ void init_m_simradrawfiledatainterfaces(pybind11::module& m)
     init_c_simradrawannotationdatainterface(subm);
     init_c_simradrawannotationdatainterfaceperfile(subm);
     init_c_simradrawotherfiledatainterface(subm);
-    init_c_init_c_simradrawotherfiledatainterfaceperfile(subm);
+    init_c_simradrawotherfiledatainterfaceperfile(subm);
 }
 
 }

@@ -35,11 +35,12 @@ using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simradraw, filedatainterfaces, SimradRawDatagramDataInterface
+    themachinethatgoesping, echosounders, simradraw, filedatainterfaces,                           \
+        SimradRawDatagramDataInterface
 
 template<typename T_FileStream>
 void py_create_class_SimradRawDatagramDataInterfacePerFile(py::module&        m,
-                                                         const std::string& CLASS_NAME)
+                                                           const std::string& CLASS_NAME)
 {
 
     using T_BaseClass = filedatainterfaces::SimradRawDatagramDataInterfacePerFile<T_FileStream>;
@@ -75,11 +76,13 @@ void py_create_class_SimradRawDatagramDataInterfacePerFile(py::module&        m,
 
 void init_c_simradrawdatagramdatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawDatagramDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_SimradRawDatagramDataInterfacePerFile<std::ifstream>(
-        m, "SimradRawDatagramDataInterfacePerFile");
+    py_create_class_SimradRawDatagramDataInterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_SimradRawDatagramDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "SimradRawDatagramDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }

@@ -69,8 +69,12 @@ void py_create_class_simradrawpingbottom(py::module& m, const std::string& CLASS
 
 void init_c_simradrawpingbottom(pybind11::module& m)
 {
-    py_create_class_simradrawpingbottom<std::ifstream>(m, "SimradRawPingBottom");
-    py_create_class_simradrawpingbottom<datastreams::MappedFileStream>(m, "SimradRawPingBottom_mapped");
+    static const std::string name        = "SimradRawPingBottom";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_simradrawpingbottom<std::ifstream>(m, name_stream);
+    py_create_class_simradrawpingbottom<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

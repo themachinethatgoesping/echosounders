@@ -35,10 +35,12 @@ using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces, KongsbergAllNavigationDataInterface
+    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces,                        \
+        KongsbergAllNavigationDataInterface
 
 template<typename T_FileStream>
-void py_create_class_KongsbergAllNavigationDataInterface(py::module& m, const std::string& CLASS_NAME)
+void py_create_class_KongsbergAllNavigationDataInterface(py::module&        m,
+                                                         const std::string& CLASS_NAME)
 {
     using py_filetemplates::py_datainterfaces::py_i_navigationdatainterface::
         NavigationDataInterface_add_interface;
@@ -73,11 +75,13 @@ void py_create_class_KongsbergAllNavigationDataInterface(py::module& m, const st
 
 void init_c_kongsbergallnavigationdatainterface(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllNavigationDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_KongsbergAllNavigationDataInterface<std::ifstream>(m,
-                                                                 "KongsbergAllNavigationDataInterface");
-    py_create_class_KongsbergAllNavigationDataInterface<datastreams::MappedFileStream>(
-        m, "KongsbergAllNavigationDataInterface_mapped");
+    py_create_class_KongsbergAllNavigationDataInterface<std::ifstream>(m, name_stream);
+    py_create_class_KongsbergAllNavigationDataInterface<datastreams::MappedFileStream>(m,
+                                                                                       name_mapped);
 }
 
 }

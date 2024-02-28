@@ -63,11 +63,14 @@ void py_create_class_SimradRawConfigurationDataInterface(py::module& m, const st
 
 void init_c_simradrawconfigurationdatainterface(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawConfigurationDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
     py_create_class_SimradRawConfigurationDataInterface<std::ifstream>(
-        m, "SimradRawConfigurationDataInterface");
+        m, name_stream);
     py_create_class_SimradRawConfigurationDataInterface<datastreams::MappedFileStream>(
-        m, "SimradRawConfigurationDataInterface_mapped");
+        m, name_mapped);
 }
 
 }

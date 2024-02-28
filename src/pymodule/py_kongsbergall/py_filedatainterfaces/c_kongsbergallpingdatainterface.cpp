@@ -35,7 +35,8 @@ using namespace themachinethatgoesping::echosounders::kongsbergall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces, KongsbergAllPingDataInterface
+    themachinethatgoesping, echosounders, kongsbergall, filedatainterfaces,                        \
+        KongsbergAllPingDataInterface
 
 template<typename T_FileStream>
 void py_create_class_kongsbergallpingdatainterface(py::module& m, const std::string& CLASS_NAME)
@@ -63,9 +64,12 @@ void py_create_class_kongsbergallpingdatainterface(py::module& m, const std::str
 
 void init_c_kongsbergallpingdatainterface(pybind11::module& m)
 {
-    py_create_class_kongsbergallpingdatainterface<std::ifstream>(m, "KongsbergAllPingDataInterface");
-    py_create_class_kongsbergallpingdatainterface<datastreams::MappedFileStream>(
-        m, "KongsbergAllPingDataInterface_mapped");
+    static const std::string name        = "KongsbergAllPingDataInterface";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_kongsbergallpingdatainterface<std::ifstream>(m, name_stream);
+    py_create_class_kongsbergallpingdatainterface<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

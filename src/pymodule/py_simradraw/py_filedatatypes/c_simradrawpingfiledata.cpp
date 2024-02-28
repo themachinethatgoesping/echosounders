@@ -93,10 +93,12 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
 
 void init_c_simradrawpingfiledata(pybind11::module& m)
 {
+    static const std::string name        = "SimradRawPingFileData";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
-    py_create_class_simradrawPingFileData<std::ifstream>(m, "SimradRawPingFileData");
-    py_create_class_simradrawPingFileData<datastreams::MappedFileStream>(
-        m, "SimradRawPingFileData_mapped");
+    py_create_class_simradrawPingFileData<std::ifstream>(m, name_stream);
+    py_create_class_simradrawPingFileData<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

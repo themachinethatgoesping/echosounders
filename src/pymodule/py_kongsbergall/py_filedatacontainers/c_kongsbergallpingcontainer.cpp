@@ -15,10 +15,10 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatacontainers/kongsbergallpingcontainer.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatacontainers/kongsbergallpingcontainer.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 
 #include "../../py_filetemplates/py_datacontainers/pingcontainer.hpp"
 
@@ -34,12 +34,16 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 
 void init_c_kongsbergallpingcontainer(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllPingContainer";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
     using themachinethatgoesping::echosounders::kongsbergall::filedatatypes::KongsbergAllPing;
 
     py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
-        KongsbergAllPing<std::ifstream>>(m, "KongsbergAllPingContainer");
+        KongsbergAllPing<std::ifstream>>(m, name_stream);
     py_filetemplates::py_datacontainers::py_pingcontainer::create_PingContainerType<
-        KongsbergAllPing<datastreams::MappedFileStream>>(m, "KongsbergAllPingContainer_mapped");
+        KongsbergAllPing<datastreams::MappedFileStream>>(m, name_mapped);
 }
 
 }

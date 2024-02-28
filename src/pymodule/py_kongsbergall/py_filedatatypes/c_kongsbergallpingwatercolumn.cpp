@@ -70,9 +70,12 @@ void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::strin
 
 void init_c_kongsbergallpingwatercolumn(pybind11::module& m)
 {
-    py_create_class_kongsbergallpingwatercolumn<std::ifstream>(m, "KongsbergAllPingWatercolumn");
-    py_create_class_kongsbergallpingwatercolumn<datastreams::MappedFileStream>(
-        m, "KongsbergAllPingWatercolumn_mapped");
+    static const std::string name        = "KongsbergAllPingWatercolumn";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_kongsbergallpingwatercolumn<std::ifstream>(m, name_stream);
+    py_create_class_kongsbergallpingwatercolumn<datastreams::MappedFileStream>(m, name_mapped);
 }
 
 }

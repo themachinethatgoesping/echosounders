@@ -75,11 +75,14 @@ void py_create_class_KongsbergAllOtherFileDataInterfacePerFile(py::module&      
 
 void init_c_kongsbergallotherfiledatainterfaceperfile(pybind11::module& m)
 {
+    static const std::string name        = "KongsbergAllOtherFileDataInterfacePerFile";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
 
     py_create_class_KongsbergAllOtherFileDataInterfacePerFile<std::ifstream>(
-        m, "KongsbergAllOtherFileDataInterfacePerFile");
+        m, name_stream);
     py_create_class_KongsbergAllOtherFileDataInterfacePerFile<datastreams::MappedFileStream>(
-        m, "KongsbergAllOtherFileDataInterfacePerFile_mapped");
+        m, name_mapped);
 }
 
 }
