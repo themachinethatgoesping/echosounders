@@ -271,8 +271,20 @@ class I_Ping : virtual public I_PingCommon
         if (has_watercolumn())
             watercolumn().print_features(printer, "watercolumn");
 
-        printer.register_section("Geolocation");
-        printer.append(get_geolocation("Transducer").__printer__(float_precision));
+        if (has_geolocation())
+        {
+            printer.register_section("Geolocation");
+            printer.append(get_geolocation("Transducer").__printer__(float_precision));
+        }
+        else
+        {
+            printer.register_string(
+                "Geolocation",
+                "not available",
+                fmt::format("Sensor configuration: {}, Sensor data: {}",
+                            has_sensor_configuration() ? "available" : "not available",
+                            has_sensor_data_latlon() ? "available" : "not available"));
+        }
 
         // printer.register_section("Sensor data");
         // printer.append(_sensor_data_latlon.__printer__(float_precision));

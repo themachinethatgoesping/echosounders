@@ -90,7 +90,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
                                    std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
 
         register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
-        register_secondary_feature(t_pingfeature::bottom_range_sample,
+        register_secondary_feature(t_pingfeature::bottom_range_samples,
                                    std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
     virtual ~I_PingWatercolumn() = default;
@@ -108,7 +108,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
                                    std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
 
         register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
-        register_secondary_feature(t_pingfeature::bottom_range_sample,
+        register_secondary_feature(t_pingfeature::bottom_range_samples,
                                    std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
     }
 

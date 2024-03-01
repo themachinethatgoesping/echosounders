@@ -101,22 +101,23 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
         }
         catch (std::exception& e)
         {
-            throw std::runtime_error(
-                fmt::format("ERROR[init_from_file]: Could not read sensor configuration from file "
-                            "{}: {}. Error was: {}",
-                            this->get_file_nr(),
-                            this->get_file_path(),
-                            e.what()));
+            // throw std::runtime_error(
+            //     fmt::format("ERROR[init_from_file]: Could not read sensor configuration from file
+            //     "
+            //                 "{}: {}. Error was: {}",
+            //                 this->get_file_nr(),
+            //                 this->get_file_path(),
+            //                 e.what()));
             // TODO: use logging
-            // std::cerr
-            //     << fmt::format(
-            //            "Warning[init_from_file]: Could not read sensor configuration from file "
-            //            "{}: {}. Using empty fallback configuration. Error was: {}",
-            //            this->get_file_nr(),
-            //            this->get_file_path(),
-            //            e.what())
-            //     << std::endl;
-            //_sensor_configuration = navigation::SensorConfiguration();
+            std::cerr << fmt::format("Warning[init_from_file]: Could not read sensor configuration "
+                                     "from file: \n -{}: {}. \n -Using empty sensor configuration "
+                                     "as fallback. \n-Error was: {}",
+                                     this->get_file_nr(),
+                                     this->get_file_path(),
+                                     e.what())
+                      << std::endl;
+            _sensor_configuration                = navigation::SensorConfiguration();
+            _is_initialized_sensor_configuration = true;
         }
     }
 

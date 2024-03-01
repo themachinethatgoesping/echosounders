@@ -48,7 +48,7 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("xyz", t_pingfeature::xyz)
             .value("amplitudes", t_pingfeature::amplitudes)
             .value("av", t_pingfeature::av)
-            .value("bottom_range_sample", t_pingfeature::bottom_range_sample)
+            .value("bottom_range_samples", t_pingfeature::bottom_range_samples)
             .export_values();
 
     tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);

@@ -1,4 +1,4 @@
-//sourcehash: 7cdeccfdafa3ee6119b45181e91beffb34135bdddfdf5612f5c8cd9fafddcc9e
+//sourcehash: f971cbbd508cb0a62a1bcf1bf7763c24c16c8899872ad0b37485957e4e8c1a2a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -179,7 +179,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_bottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_bottom_range_sample = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_bottom_range_samples = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_channel_id = R"doc()doc";
 

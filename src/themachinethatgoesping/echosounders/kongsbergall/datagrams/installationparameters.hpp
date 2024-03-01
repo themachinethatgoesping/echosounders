@@ -368,7 +368,9 @@ class InstallationParameters : public KongsbergAllDatagram
     {
         /// TODO: there is still unecessary copying of strings (fields, key, value)
         std::string                 fields;
-        tools::helper::isviewstream iss{ std::string_view(_installation_parameters) }; //TODO: why does this work but iss(std::string_view(_installation_parameters) ) not?
+        tools::helper::isviewstream iss{
+            std::string_view(_installation_parameters)
+        }; // TODO: why does this work but iss(std::string_view(_installation_parameters) ) not?
 
         _parsed_installation_parameters.clear();
 
@@ -569,7 +571,8 @@ class InstallationParameters : public KongsbergAllDatagram
         }
 
         std::string time_delay_key = sensor_prefix + std::string("D");
-        unsupported_option_float(time_delay_key, 0.0f, "get_attitude_sensor_offsets");
+        //unsupported_option_float(time_delay_key, 0.0f, "get_attitude_sensor_offsets");
+        //TODO: warn that time_delay is ignored for now
 
         try
         {
@@ -1015,9 +1018,8 @@ class InstallationParameters : public KongsbergAllDatagram
                                                  "{} is supported yet, but {} is {}",
                                                  function_name,
                                                  option_key,
-                                                 __parameter_explained__.at(option_key),
                                                  supported_value,
-                                                 option_key,
+                                                 __parameter_explained__.at(option_key),
                                                  value));
         }
     }
