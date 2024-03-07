@@ -142,6 +142,14 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             {
                 auto navigation_interpolator = read_navigation_from_file_or_cache(
                     *primary_interfaces_per_file[i], file_cache_paths);
+
+                // Update sensor configuration with configuration data interface
+                // this is necessary since the configuration data interface might have been updated
+                // since the navigation data was cached
+                navigation_interpolator.set_sensor_configuration(
+                    this->_configuration_data_interface.lock()->get_sensor_configuration(
+                        primary_interfaces_per_file[i]->get_file_nr()));
+
                 auto sensor_configuration_hash =
                     navigation_interpolator.get_sensor_configuration().binary_hash();
 
