@@ -47,6 +47,9 @@ void init_c_watercolumncalibration(pybind11::module& m)
                                            calibration,
                                            WaterColumnCalibration))
         .def(py::init<>(), DOC_WaterColumnCalibration(WaterColumnCalibration))
+        .def(py::init<float>(),
+             DOC_WaterColumnCalibration(WaterColumnCalibration),
+             py::arg("system_offset"))
         .def(py::init<const WaterColumnCalibration&>(),
              DOC_WaterColumnCalibration(WaterColumnCalibration))
 

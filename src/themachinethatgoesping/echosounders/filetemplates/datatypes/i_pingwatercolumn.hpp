@@ -49,6 +49,8 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
+#include "calibration/watercolumncalibration.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -73,6 +75,8 @@ class I_PingWatercolumn : virtual public I_PingCommon
   protected:
     std::string class_name() const override { return "I_PingWatercolumn"; }
 
+    boost::flyweight<calibration::WaterColumnCalibration> _calibration;
+
   public:
     using t_base = I_PingCommon;
     using t_base::register_primary_feature;
@@ -92,6 +96,10 @@ class I_PingWatercolumn : virtual public I_PingCommon
         register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
         register_secondary_feature(t_pingfeature::bottom_range_samples,
                                    std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
+
+        register_secondary_feature(t_pingfeature::sv, std::bind(&I_PingWatercolumn::has_sv, this));
+        register_secondary_feature(t_pingfeature::calibration,
+                                   std::bind(&I_PingWatercolumn::has_calibration, this));
     }
     virtual ~I_PingWatercolumn() = default;
 
@@ -110,6 +118,10 @@ class I_PingWatercolumn : virtual public I_PingCommon
         register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
         register_secondary_feature(t_pingfeature::bottom_range_samples,
                                    std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
+
+        register_secondary_feature(t_pingfeature::sv, std::bind(&I_PingWatercolumn::has_sv, this));
+        register_secondary_feature(t_pingfeature::calibration,
+                                   std::bind(&I_PingWatercolumn::has_calibration, this));
     }
 
     // --- transmit sector infos ---
@@ -139,6 +151,12 @@ class I_PingWatercolumn : virtual public I_PingCommon
 
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_tx_sector_information() const { return false; }
+
+    const auto& get_calibration() const { return _calibration.get(); }
+    void        set_calibration(const calibration::WaterColumnCalibration& calibration)
+    {
+        _calibration = calibration;
+    }
 
     // --- water column sampling infos ---
 
@@ -346,6 +364,22 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return false
      */
     virtual bool has_av() const { return false; }
+
+    /**
+     * @brief Check this pings supports calibrated SV data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_sv() const { return has_av() && has_calibration(); }
+
+    /**
+     * @brief Check this pings has valid calibration data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_calibration() const { return bool(_calibration.get()); }
 
     /**
      * @brief Check this pings supports bottom range samples

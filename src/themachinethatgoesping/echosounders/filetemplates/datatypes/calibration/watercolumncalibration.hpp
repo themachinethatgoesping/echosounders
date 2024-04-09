@@ -29,13 +29,19 @@ class WaterColumnCalibration
     // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle; implement in the future
     tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
 
-    size_t _hash = 0;
+    int64_t _hash = 0;
 
   public:
     WaterColumnCalibration() = default;
+    WaterColumnCalibration(float system_offset)
+        : _system_offset(system_offset)
+    {
+        compute_hash();
+    }
 
     // operator overloads
-    WaterColumnCalibration& operator==(const WaterColumnCalibration&) = default;
+    bool operator==(const WaterColumnCalibration&) const = default;
+    operator bool() const { return _hash != 0; }
 
     // getters / setters
     float get_system_offset() const { return _system_offset; }
@@ -119,7 +125,7 @@ class WaterColumnCalibration
     void compute_hash() { _hash = this->binary_hash(); }
 };
 
-std::size_t hash_value(const WaterColumnCalibration& arg)
+inline std::size_t hash_value(const WaterColumnCalibration& arg)
 {
     return arg.hash();
 }

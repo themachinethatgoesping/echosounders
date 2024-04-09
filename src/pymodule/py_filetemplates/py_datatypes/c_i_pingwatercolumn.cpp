@@ -54,6 +54,14 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
                  DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
 
+            .def("get_calibration",
+                 &I_PingWatercolumn::get_calibration,
+                 DOC_I_PingWatercolumn(get_calibration))
+            .def("set_calibration",
+                 &I_PingWatercolumn::set_calibration,
+                 DOC_I_PingWatercolumn(set_calibration),
+                 py::arg("calibration"))
+
             // ---- pingwatercolumn interface ----
             .def("get_beam_selection_all",
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_selection_all),
@@ -110,6 +118,12 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("has_av",
                  py::overload_cast<>(&I_PingWatercolumn::has_av, py::const_),
                  DOC_I_PingWatercolumn(has_av))
+            .def("has_sv",
+                 py::overload_cast<>(&I_PingWatercolumn::has_sv, py::const_),
+                 DOC_I_PingWatercolumn(has_sv))
+            .def("has_calibration",
+                 py::overload_cast<>(&I_PingWatercolumn::has_calibration, py::const_),
+                 DOC_I_PingWatercolumn(has_calibration))
             .def("get_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::get_amplitudes),
                  DOC_I_PingWatercolumn(get_amplitudes))

@@ -91,7 +91,11 @@ enum class t_pingfeature : uint8_t
     /* I_PingWatercolumn */
     amplitudes,
     av,
-    bottom_range_samples
+    bottom_range_samples,
+    sv,
+
+    /* I_PingWaterColumn and I_PingBottom */
+    calibration
 };
 
 class I_PingCommon

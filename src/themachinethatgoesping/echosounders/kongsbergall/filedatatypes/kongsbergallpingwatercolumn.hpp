@@ -317,7 +317,8 @@ class KongsbergAllPingWatercolumn
         float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
 
         xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor * tmp_2)));
+        range_factor  *= tmp_2; // here range factor ~ range
+        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor)));
 
         // compute pulse factor (per beam)
         xt::xtensor<float, 1> pulse_factor =
