@@ -19,10 +19,14 @@ void init_c_i_pingfiledata(pybind11::module& m);    // py_datatypes/i_pingfileda
 void init_c_i_ping(pybind11::module& m);            // py_datatypes/i_ping.cpp
 void init_c_i_pingbottom(pybind11::module& m);      // py_datatypes/i_pingbottom.cpp
 void init_c_i_pingwatercolumn(pybind11::module& m); // py_datatypes/i_pingwatercolumn.cpp
-void init_c_filecache(pybind11::module& m);    // py_datatypes/c_filecache.cpp
+void init_c_filecache(pybind11::module& m);         // py_datatypes/c_filecache.cpp
 namespace py_cache_structures {
 void init_c_filepackagecache(
-    pybind11::module& m); // py_datatypes/cache_structures/init_c_filepackagecache.cpp
+    pybind11::module& m); // py_datatypes/py_cache_structures/init_c_filepackagecache.cpp
+}
+namespace py_calibration {
+void init_c_watercolumncalibration(
+    pybind11::module& m); // py_datatypes/py_calibration/init_c_watercolumncalibration.cpp
 }
 }
 
@@ -34,6 +38,7 @@ void init_m_filetemplates(py::module& m)
         m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
 
     // pingtool classes classes
+    py_datatypes::py_calibration::init_c_watercolumncalibration(subm);
     py_datatypes::init_c_i_pingcommon(subm);
     py_datatypes::init_c_i_pingfiledata(subm);
     py_datatypes::init_c_i_pingbottom(subm);

@@ -1,4 +1,4 @@
-//sourcehash: a14029ca5c5d0e01e255796eaff0629defd1e52abbcf0400f5a49e48095cf088
+//sourcehash: 854d2d50f507aece30b391bce592b202ace0bc67d259c229fe4888335fffbaff
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,15 +40,11 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_WaterColumnCalibration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_WaterColumnCalibration_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_absorption_per_depth = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_absorption_per_depth = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_interpolator_absorption_per_depth = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_interpolator_offset_per_beamangle = R"doc()doc";
 
@@ -60,13 +56,17 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_system_offset = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_hash_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_offset_per_beamangle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_offset_per_range = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_operator_assign = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_set_absorption_per_depth = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_set_offset_per_beamangle = R"doc()doc";
 
@@ -75,6 +75,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_set_system_offset = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_system_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
