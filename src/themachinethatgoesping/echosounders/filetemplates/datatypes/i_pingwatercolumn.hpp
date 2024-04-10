@@ -304,6 +304,13 @@ class I_PingWatercolumn : virtual public I_PingCommon
     xt::xtensor<float, 2> get_av() { return get_av(get_beam_sample_selection_all()); }
 
     /**
+     * @brief Get the amplitude data converted to SV (calibrated volume scattering)
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_sv() { return get_sv(get_beam_sample_selection_all()); }
+
+    /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
      *
      * @param selection Selection of Beams and Samples to extract
@@ -322,6 +329,18 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_av(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get tha amplitude data converted to SV (calibrated volume scattering)
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_sv(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
         throw not_implemented(__func__, this->class_name());
@@ -379,7 +398,7 @@ class I_PingWatercolumn : virtual public I_PingCommon
      * @return true
      * @return false
      */
-    bool has_calibration() const { return bool(_calibration.get()); }
+    bool has_calibration() const { return get_calibration().initialized(); }
 
     /**
      * @brief Check this pings supports bottom range samples

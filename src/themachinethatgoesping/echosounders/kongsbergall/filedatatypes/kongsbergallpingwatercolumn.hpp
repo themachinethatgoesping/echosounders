@@ -303,36 +303,49 @@ class KongsbergAllPingWatercolumn
 
         return amplitudes;
     }
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
-    {
-        // get and convert amplitudes to dB
-        xt::xtensor<float, 2> av         = get_amplitudes(bs) * 0.5f;
-        auto                  tvg_offset = get_tvg_offset();
 
+    xt::xtensor<float, 1> get_sample_correction(const pingtools::BeamSampleSelection& bs,
+                                                bool apply_calibration)
+    {
         // get information
         float sound_velocity = get_sound_speed_at_transducer();
 
         // compute range factor (per sample)
-        float tmp   = get_tvg_factor_applied() - 20.f;
+        float tmp   = 20.f - get_tvg_factor_applied();
         float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
 
-        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-        range_factor  *= tmp_2; // here range factor ~ range
-        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor)));
+        xt::xtensor<float, 1> ranges = bs.get_sample_numbers_ensemble_1d() + 0.5f;
+        ranges *= tmp_2; // here range factor ~ range
 
-        // compute pulse factor (per beam)
-        xt::xtensor<float, 1> pulse_factor =
-            xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
-        const auto& signal_parameters       = file_data().get_sysinfos().get_tx_signal_parameters();
-        const auto& beam_numbers            = bs.get_beam_numbers();
-        auto        sector_numbers_per_beam = get_tx_sector_per_beam();
+        xt::xtensor<float, 1> range_correction = xt::log10(ranges);
+        range_correction *= tmp;
 
-        xt::xtensor<float, 1> pulse_factor_per_sector =
-            xt::empty<float>({ signal_parameters.size() });
+        if (apply_calibration)
+            if (get_calibration().has_offset_per_range())
+            {
+                // TODO: this copies the interpolator, maybe we can speed this up
+                auto interpolator = get_calibration().get_interpolator_offset_per_range();
+                for (unsigned int r = 0; r += 1; r < range_correction.size())
+                    range_correction[r] += interpolator(ranges[r]);
+            }
+
+        return range_correction;
+    }
+
+    xt::xtensor<float, 1> get_sector_correction(const pingtools::BeamSampleSelection& bs)
+    {
+        // compute pulse factor (per sector)
+
+        // get information
+        auto        tvg_offset        = get_tvg_offset();
+        float       sound_velocity    = get_sound_speed_at_transducer();
+        const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
+
+        xt::xtensor<float, 1> sector_correction = xt::empty<float>({ signal_parameters.size() });
         for (unsigned int si = 0; si < signal_parameters.size(); ++si)
         {
-            const auto& sigparam        = signal_parameters[si];
-            pulse_factor_per_sector[si] = tools::helper::visit_variant(
+            const auto& sigparam  = signal_parameters[si];
+            sector_correction[si] = tools::helper::visit_variant(
                 sigparam,
                 [sound_velocity](
                     const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
@@ -355,13 +368,58 @@ class KongsbergAllPingWatercolumn
                 });
         }
 
-        // this is the same as substracting tvg_offset from av later but faster
-        pulse_factor_per_sector += tvg_offset;
+        // adding tvg offset to the sector correction
+        return sector_correction;
+    }
+
+    float get_system_correction() const { return -get_tvg_offset(); }
+
+    xt::xtensor<float, 2> get_corrected_amp(const pingtools::BeamSampleSelection& bs,
+                                            bool                                  apply_calibration)
+    {
+        if (apply_calibration)
+            if (!has_calibration())
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]: No calibration available.", __func__));
+
+        // get and convert amplitudes to dB
+        xt::xtensor<float, 2> av = get_amplitudes(bs) * 0.5f;
+
+        auto                  system_correction = get_system_correction();
+        xt::xtensor<float, 1> sector_correction = get_sector_correction(bs);
+        xt::xtensor<float, 1> sample_correction = get_sample_correction(
+            bs, apply_calibration); // apply inside the function because range is needed
+
+        if (apply_calibration)
+            if (get_calibration().has_system_offset())
+                system_correction += get_calibration().get_system_offset();
+
+        // this is the same as adding system_correction to av later but faster
+        sector_correction += system_correction;
+
+        // compute beam correction (sector correction per beam)
+        xt::xtensor<float, 1> beam_correction =
+            xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
+        const auto& beam_numbers            = bs.get_beam_numbers();
+        auto        sector_numbers_per_beam = get_tx_sector_per_beam();
 
         for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
         {
-            pulse_factor[bi] = pulse_factor_per_sector[sector_numbers_per_beam[beam_numbers[bi]]];
+            beam_correction[bi] =
+                sector_correction.at(sector_numbers_per_beam.at(beam_numbers[bi]));
         }
+
+        if (apply_calibration)
+            if (get_calibration().has_offset_per_beamangle())
+            {
+                // TODO: this copies the interpolator, maybe we can speed this up
+                auto interpolator = get_calibration().get_interpolator_offset_per_beamangle();
+                auto beam_angles  = get_beam_crosstrack_angles(bs);
+                for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+                {
+                    beam_correction[bi] += interpolator(beam_angles[bi]);
+                }
+            }
 
         // TODO: speed up using graphics card?
         // // apply factors
@@ -369,16 +427,23 @@ class KongsbergAllPingWatercolumn
         // for (unsigned int si = 0; si < range_factor.size(); ++si)
         //      xt::col(av, si) -= range_factor[si];
 
-        av -= xt::view(range_factor, xt::newaxis(), xt::all());
+        av += xt::view(sample_correction, xt::newaxis(), xt::all());
 
         // pulse factor (here the loop is faster than broadcasting)
         for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-            xt::row(av, bi) -= pulse_factor.unchecked(bi);
+            xt::row(av, bi) += beam_correction.unchecked(bi);
 
-        // av -= xt::view(pulse_factor, xt::all(), xt::newaxis());
-
-        // return av - tvg_offset; // this is done earlier for speed
         return av;
+    }
+
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    {
+        return get_corrected_amp(bs, false);
+    }
+
+    xt::xtensor<float, 2> get_sv(const pingtools::BeamSampleSelection& bs) override
+    {
+        return get_corrected_amp(bs, true);
     }
 
     xt::xtensor<uint16_t, 1> get_bottom_range_samples(

@@ -58,6 +58,7 @@ sources = [
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
   'filetemplates/datatypes/packagecache/cache_structpackage.test.cpp',
+  'filetemplates/datatypes/calibration/watercolumncalibration.test.cpp',
   'pingtools/beamsampleselection.test.cpp',
   'pingtools/beamselection.test.cpp',
   'pingtools/pingsampleselector.test.cpp',

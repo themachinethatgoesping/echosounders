@@ -29,10 +29,10 @@ class WaterColumnCalibration
     // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle; implement in the future
     tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
 
-    int64_t _hash = 0;
+    uint64_t _hash;
 
   public:
-    WaterColumnCalibration() = default;
+    WaterColumnCalibration() { compute_hash(); }
     WaterColumnCalibration(float system_offset)
         : _system_offset(system_offset)
     {
@@ -40,8 +40,23 @@ class WaterColumnCalibration
     }
 
     // operator overloads
-    bool operator==(const WaterColumnCalibration&) const = default;
-    operator bool() const { return _hash != 0; }
+    bool operator==(const WaterColumnCalibration& other) const
+    {
+        if (_offset_per_beamangle != other._offset_per_beamangle)
+            return false;
+
+        if (_offset_per_range != other._offset_per_range)
+            return false;
+
+        if (std::isnan(_system_offset) && std::isnan(other._system_offset))
+            return true;
+
+        if (_system_offset == other._system_offset)
+            return true;
+
+        return false;
+    }
+    bool initialized() const { return _hash != 3244421341483603138; } // hash of default constructor
 
     // getters / setters
     float get_system_offset() const { return _system_offset; }
@@ -65,6 +80,10 @@ class WaterColumnCalibration
     }
 
     // interpolator access
+    bool has_offset_per_beamangle() const { return !_offset_per_beamangle.empty(); }
+    bool has_offset_per_range() const { return !_offset_per_range.empty(); }
+    bool has_system_offset() const { return !std::isnan(_system_offset); }
+
     const auto& get_interpolator_offset_per_beamangle() const { return _offset_per_beamangle; }
     const auto& get_interpolator_offset_per_range() const { return _offset_per_range; }
 
@@ -73,10 +92,14 @@ class WaterColumnCalibration
         return _offset_per_beamangle(beamangles);
     }
 
+    auto get_offset_per_beamangle(float beamangle) { return _offset_per_beamangle(beamangle); }
+
     auto get_offset_per_range(const std::vector<float>& ranges)
     {
         return _offset_per_range(ranges);
     }
+
+    auto get_offset_per_range(float range) { return _offset_per_range(range); }
 
     static WaterColumnCalibration from_stream(std::istream& is)
     {
@@ -115,19 +138,35 @@ class WaterColumnCalibration
         return printer;
     }
 
-    int64_t hash() const { return _hash; }
+    uint64_t cached_hash() const { return _hash; }
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(WaterColumnCalibration)
 
   private:
-    void compute_hash() { _hash = this->binary_hash(); }
+    void compute_hash()
+    {
+        xxh::hash3_state_t<64>               hash;
+        boost::iostreams::stream<XXHashSink> stream(hash);
+
+        if (has_system_offset())
+            stream.write(reinterpret_cast<const char*>(&_system_offset), sizeof(float));
+
+        if (has_offset_per_beamangle())
+            _offset_per_beamangle.to_stream(stream);
+
+        if (has_offset_per_range())
+            _offset_per_range.to_stream(stream);
+
+        stream.flush();
+        _hash =  hash.digest();
+    }
 };
 
 inline std::size_t hash_value(const WaterColumnCalibration& arg)
 {
-    return arg.hash();
+    return arg.cached_hash();
 }
 
 }

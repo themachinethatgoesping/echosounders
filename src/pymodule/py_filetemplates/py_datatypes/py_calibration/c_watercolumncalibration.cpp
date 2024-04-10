@@ -38,70 +38,99 @@ void init_c_watercolumncalibration(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    py::class_<WaterColumnCalibration>(m,
-                                       "WaterColumnCalibration",
-                                       DOC(themachinethatgoesping,
-                                           echosounders,
-                                           filetemplates,
-                                           datatypes,
-                                           calibration,
-                                           WaterColumnCalibration))
-        .def(py::init<>(), DOC_WaterColumnCalibration(WaterColumnCalibration))
-        .def(py::init<float>(),
-             DOC_WaterColumnCalibration(WaterColumnCalibration),
-             py::arg("system_offset"))
-        .def(py::init<const WaterColumnCalibration&>(),
-             DOC_WaterColumnCalibration(WaterColumnCalibration))
+    auto c = py::class_<WaterColumnCalibration>(m,
+                                                "WaterColumnCalibration",
+                                                DOC(themachinethatgoesping,
+                                                    echosounders,
+                                                    filetemplates,
+                                                    datatypes,
+                                                    calibration,
+                                                    WaterColumnCalibration))
+                 .def(py::init<>(), DOC_WaterColumnCalibration(WaterColumnCalibration))
+                 .def(py::init<float>(),
+                      DOC_WaterColumnCalibration(WaterColumnCalibration),
+                      py::arg("system_offset"))
+                 .def(py::init<const WaterColumnCalibration&>(),
+                      DOC_WaterColumnCalibration(WaterColumnCalibration))
 
-        // --- convenient data access ---
-        .def("get_system_offset",
-             &WaterColumnCalibration::get_system_offset,
-             DOC_WaterColumnCalibration(get_system_offset))
-        .def("set_system_offset",
-             &WaterColumnCalibration::set_system_offset,
-             DOC_WaterColumnCalibration(set_system_offset),
-             py::arg("value"))
-        .def("set_offset_per_beamangle",
-             &WaterColumnCalibration::set_offset_per_beamangle,
-             DOC_WaterColumnCalibration(set_offset_per_beamangle),
-             py::arg("beamangle"),
-             py::arg("offset"))
-        .def("set_offset_per_range",
-             &WaterColumnCalibration::set_offset_per_range,
-             DOC_WaterColumnCalibration(set_offset_per_range),
-             py::arg("range"),
-             py::arg("offset"))
+                 // --- convenient data access ---
+                 .def("get_system_offset",
+                      &WaterColumnCalibration::get_system_offset,
+                      DOC_WaterColumnCalibration(get_system_offset))
+                 .def("has_system_offset",
+                      &WaterColumnCalibration::has_system_offset,
+                      DOC_WaterColumnCalibration(has_system_offset))
+                 .def("set_system_offset",
+                      &WaterColumnCalibration::set_system_offset,
+                      DOC_WaterColumnCalibration(set_system_offset),
+                      py::arg("value"))
+                 .def("set_offset_per_beamangle",
+                      &WaterColumnCalibration::set_offset_per_beamangle,
+                      DOC_WaterColumnCalibration(set_offset_per_beamangle),
+                      py::arg("beamangle"),
+                      py::arg("offset"))
+                 .def("has_offset_per_beamangle",
+                      &WaterColumnCalibration::has_offset_per_beamangle,
+                      DOC_WaterColumnCalibration(has_offset_per_beamangle))
+                 .def("set_offset_per_range",
+                      &WaterColumnCalibration::set_offset_per_range,
+                      DOC_WaterColumnCalibration(set_offset_per_range),
+                      py::arg("range"),
+                      py::arg("offset"))
+                 .def("has_offset_per_range",
+                      &WaterColumnCalibration::has_offset_per_range,
+                      DOC_WaterColumnCalibration(has_offset_per_range))
 
-        .def("get_interpolator_offset_per_beamangle",
-             &WaterColumnCalibration::get_interpolator_offset_per_beamangle,
-             DOC_WaterColumnCalibration(get_interpolator_offset_per_beamangle))
-        .def("get_interpolator_offset_per_range",
-             &WaterColumnCalibration::get_interpolator_offset_per_range,
-             DOC_WaterColumnCalibration(get_interpolator_offset_per_range))
+                 .def("get_interpolator_offset_per_beamangle",
+                      &WaterColumnCalibration::get_interpolator_offset_per_beamangle,
+                      DOC_WaterColumnCalibration(get_interpolator_offset_per_beamangle))
+                 .def("get_interpolator_offset_per_range",
+                      &WaterColumnCalibration::get_interpolator_offset_per_range,
+                      DOC_WaterColumnCalibration(get_interpolator_offset_per_range))
 
-        .def("get_offset_per_beamangle",
-             &WaterColumnCalibration::get_offset_per_beamangle,
-             DOC_WaterColumnCalibration(get_offset_per_beamangle),
-             py::arg("beamangle"))
-        .def("get_offset_per_range",
-             &WaterColumnCalibration::get_offset_per_range,
-             DOC_WaterColumnCalibration(get_offset_per_range),
-             py::arg("range"))
+                 .def("get_offset_per_beamangle",
+                      py::overload_cast<const std::vector<float>&>(
+                          &WaterColumnCalibration::get_offset_per_beamangle),
+                      DOC_WaterColumnCalibration(get_offset_per_beamangle),
+                      py::arg("beamangle"))
+                 .def("get_offset_per_beamangle",
+                      py::overload_cast<float>(&WaterColumnCalibration::get_offset_per_beamangle),
+                      DOC_WaterColumnCalibration(get_offset_per_beamangle),
+                      py::arg("beamangle"))
+                 .def("get_offset_per_range",
+                      py::overload_cast<const std::vector<float>&>(
+                          &WaterColumnCalibration::get_offset_per_range),
+                      DOC_WaterColumnCalibration(get_offset_per_range),
+                      py::arg("range"))
+                 .def("get_offset_per_range",
+                      py::overload_cast<float>(&WaterColumnCalibration::get_offset_per_range),
+                      DOC_WaterColumnCalibration(get_offset_per_range),
+                      py::arg("range"))
+                 .def("initialized",
+                      &WaterColumnCalibration::initialized,
+                      DOC_WaterColumnCalibration(initialized))
 
-        // ----- operators -----
-        .def("__eq__",
-             &WaterColumnCalibration::operator==,
-             DOC_WaterColumnCalibration(operator_eq),
-             py::arg("other"))
-        // ----- pybind macros -----
-        // default copy functions
-        __PYCLASS_DEFAULT_COPY__(WaterColumnCalibration)
-        // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(WaterColumnCalibration)
-        // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(WaterColumnCalibration)
+                 // ----- operators -----
+                 .def("__eq__",
+                      &WaterColumnCalibration::operator==,
+                      DOC_WaterColumnCalibration(operator_eq),
+                      py::arg("other"))
+             // ----- pybind macros -----
+             // default copy functions
+             __PYCLASS_DEFAULT_COPY__(WaterColumnCalibration)
+             // default binary functions
+             __PYCLASS_DEFAULT_BINARY__(WaterColumnCalibration)
+             // default printing functions
+             __PYCLASS_DEFAULT_PRINTING__(WaterColumnCalibration)
         // end WaterColumnCalibration
         ;
+
+    c.def("cached_hash",
+          &WaterColumnCalibration::cached_hash,
+          DOC_WaterColumnCalibration(cached_hash));
+    c.def("hash", &WaterColumnCalibration::cached_hash, DOC_WaterColumnCalibration(cached_hash));
+    c.def(
+        "__hash__", &WaterColumnCalibration::cached_hash, DOC_WaterColumnCalibration(cached_hash));
 }
 }
 }

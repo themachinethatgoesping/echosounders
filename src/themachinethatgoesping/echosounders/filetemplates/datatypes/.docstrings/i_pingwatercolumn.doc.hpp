@@ -1,4 +1,4 @@
-//sourcehash: 8e8b535bae69b312e0fdee78a812965b05afbf61e9c224f598048eb2286ee2a2
+//sourcehash: 79de7e036875af37ee797009b871662b6a8bc5b54d54617d34f7fb2547b35b10
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -174,6 +174,21 @@ Returns:
     float)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sv =
+R"doc(Get the amplitude data converted to SV (calibrated volume scattering)
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sv_2 =
+R"doc(Get tha amplitude data converted to SV (calibrated volume scattering)
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 
