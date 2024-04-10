@@ -325,7 +325,7 @@ class KongsbergAllPingWatercolumn
             {
                 // TODO: this copies the interpolator, maybe we can speed this up
                 auto interpolator = get_calibration().get_interpolator_offset_per_range();
-                for (unsigned int r = 0; r += 1; r < range_correction.size())
+                for (unsigned int r = 0; r < range_correction.size(); ++r)
                     range_correction[r] += interpolator(ranges[r]);
             }
 
