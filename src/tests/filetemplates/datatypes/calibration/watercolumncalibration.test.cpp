@@ -28,8 +28,8 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     // test hash
     CHECK(obj.cached_hash() == 3244421341483603138ULL);
     CHECK(obj2.cached_hash() == 17904910546364380078ULL);
-    CHECK(obj.binary_hash() == 16474250909772851802ULL);
-    CHECK(obj2.binary_hash() == 18208033911445466356ULL);
+    CHECK(obj.binary_hash() == 16300911230395210044ULL);
+    CHECK(obj2.binary_hash() == 3572712543777644670ULL);
 
     // test equality
     // test inequality
