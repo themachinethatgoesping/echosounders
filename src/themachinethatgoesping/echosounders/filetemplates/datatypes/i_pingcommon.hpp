@@ -284,6 +284,50 @@ class I_PingCommon
         return features;
     }
 
+    std::vector<t_pingfeature> possible_features()
+    {
+        std::vector<t_pingfeature> features;
+
+        for (const auto& features_map : { _primary_features, _secondary_features })
+            for (const auto& [feature, has_feature] : features_map)
+                features.push_back(feature);
+
+        return features;
+    }
+
+    std::vector<t_pingfeature> possible_feature_groups()
+    {
+        std::vector<t_pingfeature> features;
+
+        for (const auto& [feature, has_feature] : _feature_groups)
+            features.push_back(feature);
+
+        return features;
+    }
+
+    std::vector<t_pingfeature> available_features(bool available = true)
+    {
+        std::vector<t_pingfeature> features;
+
+        for (const auto& features_map : { _primary_features, _secondary_features })
+            for (const auto& [feature, has_feature] : features_map)
+                if (has_feature() == available)
+                    features.push_back(feature);
+
+        return features;
+    }
+
+    std::vector<t_pingfeature> available_feature_groups(bool available = true)
+    {
+        std::vector<t_pingfeature> features;
+
+        for (const auto& [feature, has_feature] : _feature_groups)
+            if (has_feature() == available)
+                features.push_back(feature);
+
+        return features;
+    }
+
     /**
      * @brief Get a string of all registered feature groups that are available or not available
      *

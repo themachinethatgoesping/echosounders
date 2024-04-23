@@ -49,6 +49,8 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("amplitudes", t_pingfeature::amplitudes)
             .value("av", t_pingfeature::av)
             .value("bottom_range_samples", t_pingfeature::bottom_range_samples)
+            .value("sv", t_pingfeature::sv)
+            .value("calibration", t_pingfeature::calibration)
             .export_values();
 
     tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
@@ -86,6 +88,20 @@ void init_c_i_pingcommon(pybind11::module& m)
                  &I_PingCommon::has_feature,
                  DOC_I_PingCommon(has_feature),
                  py::arg("feature_name"))
+            .def("available_features",
+                 &I_PingCommon::available_features,
+                 py::arg("available_available") = true,
+                 DOC_I_PingCommon(available_features))
+            .def("possible_features",
+                 &I_PingCommon::possible_features,
+                 DOC_I_PingCommon(possible_features))
+            .def("available_feature_groups",
+                 &I_PingCommon::available_feature_groups,
+                 py::arg("available") = true,
+                 DOC_I_PingCommon(available_feature_groups))
+            .def("possible_feature_groups",
+                 &I_PingCommon::possible_feature_groups,
+                 DOC_I_PingCommon(possible_feature_groups))
             .def("load", &I_PingCommon::load, DOC_I_PingCommon(load), py::arg("force") = false)
             .def("release", &I_PingCommon::release, DOC_I_PingCommon(release))
             .def("loaded", &I_PingCommon::loaded, DOC_I_PingCommon(loaded))
