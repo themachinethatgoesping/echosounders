@@ -101,7 +101,7 @@ class SimradRawConfigurationDataInterfacePerFile
     {
         auto configuration_datagram = this->get_configuration_datagram();
         // get sensor configuration
-        return configuration_datagram.get_sensors_sorted_by_priority({ "Latitude", "Longitude" });
+        return configuration_datagram.get_sensors_sorted_by_priority({ "Heave" });
     }
 
     /**

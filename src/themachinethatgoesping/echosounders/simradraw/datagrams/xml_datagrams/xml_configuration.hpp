@@ -126,7 +126,7 @@ struct XML_Configuration
         sensor_configuration.set_position_source(
             get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
         sensor_configuration.set_depth_source(
-            get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
+            get_prioritized_sensor({ "Heave" }).get_sensor_offsets()); //TODO: depth isnt really supported yet, there is too much hassle with what rtk depth actually does
         sensor_configuration.set_attitude_source(
             get_prioritized_sensor({ "Roll", "Pitch", "Heave" }).get_sensor_offsets());
         sensor_configuration.set_heading_source(
