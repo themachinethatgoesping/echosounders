@@ -215,7 +215,31 @@ class ExtraDetections : public KongsbergAllDatagram
     double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
 
     // ----- operators -----
-    bool operator==(const ExtraDetections& other) const = default;
+    bool operator==(const ExtraDetections& other) const
+    {
+        return KongsbergAllDatagram::operator==(other) && _ping_counter == other._ping_counter &&
+               _system_serial_number == other._system_serial_number &&
+               _datagram_counter == other._datagram_counter &&
+               _datagram_version_id == other._datagram_version_id &&
+               _swath_counter == other._swath_counter && _swath_index == other._swath_index &&
+               _heading == other._heading && _sound_speed == other._sound_speed &&
+               tools::helper::float_equals(_depth_of_reference_point,
+                                           other._depth_of_reference_point) &&
+               tools::helper::float_equals(_water_column_sample_rate,
+                                           other._water_column_sample_rate) &&
+               tools::helper::float_equals(_raw_amplitude_sample_rate,
+                                           other._raw_amplitude_sample_rate) &&
+               _rx_transducer_index == other._rx_transducer_index &&
+               _number_of_extra_detections == other._number_of_extra_detections &&
+               _number_of_detection_classes == other._number_of_detection_classes &&
+               _number_of_bytes_per_class == other._number_of_bytes_per_class &&
+               _number_of_alarm_flags == other._number_of_alarm_flags &&
+               _number_of_bytes_per_detection == other._number_of_bytes_per_detection &&
+               _detection_classes == other._detection_classes &&
+               _extra_detections == other._extra_detections &&
+               _raw_amplitude_samples == other._raw_amplitude_samples && _spare == other._spare &&
+               _etx == other._etx && _checksum == other._checksum;
+    }
 
     //----- to/from stream functions -----
     static ExtraDetections from_stream(std::istream& is, KongsbergAllDatagram header)
@@ -284,7 +308,7 @@ class ExtraDetections : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is));
     }
 
-    static ExtraDetections from_stream(std::istream&              is,
+    static ExtraDetections from_stream(std::istream&                    is,
                                        t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));

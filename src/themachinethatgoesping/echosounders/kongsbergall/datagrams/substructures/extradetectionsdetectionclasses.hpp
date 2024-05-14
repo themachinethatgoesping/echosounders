@@ -45,6 +45,7 @@ class ExtraDetectionsDetectionClasses
     ExtraDetectionsDetectionClasses()  = default;
     ~ExtraDetectionsDetectionClasses() = default;
 
+
     // convenient member access
     uint16_t get_start_depth() const { return _start_depth; }
     uint16_t get_stop_depth() const { return _stop_depth; }

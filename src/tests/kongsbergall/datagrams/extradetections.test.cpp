@@ -34,6 +34,7 @@ TEST_CASE("ExtraDetections should support common functions", TESTTAG)
     dat.set_depth_of_reference_point(204);
     dat.set_water_column_sample_rate(20);
     dat.set_heading(205);
+    dat.set_raw_amplitude_sample_rate(16);
 
     detection_classes.set_start_depth(101);
     detection_classes.set_qf_threshold_100(191);

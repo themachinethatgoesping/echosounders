@@ -36,7 +36,7 @@ class ExtraDetectionsExtraDetections
     float    _along;                                   ///< x in m
     float    _delta_latitude;                          ///< °
     float    _delta_longitude;                         ///< °
-    float    _beam_crosstrack_angle;                     ///< deg. re array
+    float    _beam_crosstrack_angle;                   ///< deg. re array
     float    _applied_pointing_angle_correction;       ///<
     float    _two_way_travel_time;                     ///< s
     float    _applied_two_way_travel_time_corrections; ///< seconds, f.ex. Doppler correction
@@ -208,7 +208,34 @@ class ExtraDetectionsExtraDetections
     }
 
     // ----- operators -----
-    bool operator==(const ExtraDetectionsExtraDetections& other) const = default;
+    bool operator==(const ExtraDetectionsExtraDetections& other) const
+    {
+        return tools::helper::float_equals(_depth, other._depth) &&
+               tools::helper::float_equals(_across, other._across) &&
+               tools::helper::float_equals(_along, other._along) &&
+               tools::helper::float_equals(_delta_latitude, other._delta_latitude) &&
+               tools::helper::float_equals(_delta_longitude, other._delta_longitude) &&
+               tools::helper::float_equals(_beam_crosstrack_angle, other._beam_crosstrack_angle) &&
+               tools::helper::float_equals(_applied_pointing_angle_correction,
+                                           other._applied_pointing_angle_correction) &&
+               tools::helper::float_equals(_two_way_travel_time, other._two_way_travel_time) &&
+               tools::helper::float_equals(_applied_two_way_travel_time_corrections,
+                                           other._applied_two_way_travel_time_corrections) &&
+               _backscatter == other._backscatter &&
+               _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
+               _detection_info == other._detection_info && _spare == other._spare &&
+               _tx_sector_number == other._tx_sector_number &&
+               _detection_window_length == other._detection_window_length &&
+               _quality_factor_old == other._quality_factor_old &&
+               _real_time_cleaning_info == other._real_time_cleaning_info &&
+               _range_factor == other._range_factor &&
+               _detection_class_number == other._detection_class_number &&
+               _confidence_level == other._confidence_level && _qf_10 == other._qf_10 &&
+               _water_column_beam_number == other._water_column_beam_number &&
+               tools::helper::float_equals(_beam_angle_across, other._beam_angle_across) &&
+               _detected_range == other._detected_range &&
+               _number_of_raw_amplitude_samples == other._number_of_raw_amplitude_samples;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
