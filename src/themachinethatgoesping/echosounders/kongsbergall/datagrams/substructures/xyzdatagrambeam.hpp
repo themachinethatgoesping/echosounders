@@ -144,8 +144,18 @@ class XYZDatagramBeam
     }
 
     // ----- operators -----
-    bool operator==(const XYZDatagramBeam& other) const = default;
-
+    bool operator==(const XYZDatagramBeam& other) const
+    {
+        return tools::helper::float_equals(_depth, other._depth) &&
+               tools::helper::float_equals(_acrosstrack_distance, other._acrosstrack_distance) &&
+               tools::helper::float_equals(_alongtrack_distance, other._alongtrack_distance) &&
+               _detection_window_length == other._detection_window_length &&
+               _quality_factor == other._quality_factor &&
+               _beam_incidence_angle_adjustment == other._beam_incidence_angle_adjustment &&
+               _detection_info == other._detection_info &&
+               _realtime_cleaning_information == other._realtime_cleaning_information &&
+               _reflectivity == other._reflectivity;
+    }
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
