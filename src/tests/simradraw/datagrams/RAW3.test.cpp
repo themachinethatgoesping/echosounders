@@ -47,8 +47,8 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         switch (type)
         {
             case t_RAW3DataType::ComplexFloat32:
-                dat.set_sample_data(RAW3DataComplexFloat32(xt::xtensor<simradraw_float, 3>::from_shape(
-                    { unsigned(dat.get_count()), dat.get_number_of_complex_samples(), 2 })));
+                dat.set_sample_data(RAW3DataComplexFloat32(xt::zeros<float>(
+                    { size_t(dat.get_count()), size_t(dat.get_number_of_complex_samples()), size_t(2) })));
                 break;
             case t_RAW3DataType::PowerAndAngle:
                 dat.set_sample_data(RAW3DataPowerAndAngle(
@@ -141,7 +141,7 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         REQUIRE(dat.get_datagram_identifier() == t_SimradRawDatagramIdentifier::RAW3);
         REQUIRE(dat.get_length() ==
                 simradraw_long(12 + 140 +
-                            dat.get_count() * get_raw3datatype_size(dat.get_data_type()) *
-                                dat.get_number_of_complex_samples()));
+                               dat.get_count() * get_raw3datatype_size(dat.get_data_type()) *
+                                   dat.get_number_of_complex_samples()));
     }
 }
