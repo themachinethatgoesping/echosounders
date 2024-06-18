@@ -36,6 +36,7 @@
 #include <boost/flyweight.hpp>
 #include <fmt/core.h>
 #include <magic_enum.hpp>
+#include <flat_map/flat_map.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -109,9 +110,12 @@ class I_PingCommon
     // boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
     // boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
     // boost::container::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
-    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _primary_features;
-    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
-    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
+    flat_map::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
+    flat_map::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    flat_map::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
+    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _primary_features;
+    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
     // std::map<t_pingfeature, std::function<bool()>> _primary_features;
     // std::map<t_pingfeature, std::function<bool()>> _secondary_features;
     // std::map<t_pingfeature, std::function<bool()>> _feature_groups;
