@@ -32,6 +32,7 @@
 #include <vector>
 
 #include <boost/container/flat_map.hpp>
+#include <boost/unordered/unordered_flat_map.hpp>
 #include <boost/flyweight.hpp>
 #include <fmt/core.h>
 #include <magic_enum.hpp>
@@ -105,9 +106,15 @@ class I_PingCommon
 
     // map of features (names) and respective has_feature functions
     // TODO: this does probably consume quite a lot of memory ..
-    boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
-    boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
-    boost::container::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
+    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
+    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
+    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _primary_features;
+    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
+    boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
+    // std::map<t_pingfeature, std::function<bool()>> _primary_features;
+    // std::map<t_pingfeature, std::function<bool()>> _secondary_features;
+    // std::map<t_pingfeature, std::function<bool()>> _feature_groups;
 
     void register_primary_feature(t_pingfeature feature_name, std::function<bool()> has_feature)
     {
