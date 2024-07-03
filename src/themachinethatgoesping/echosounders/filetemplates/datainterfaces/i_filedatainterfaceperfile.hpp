@@ -26,6 +26,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/helper/enum.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
@@ -168,10 +169,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return size_t
      */
-    size_t get_linked_file_nr() const
-    {
-        return get_linked_file()->get_file_nr();
-    }
+    size_t get_linked_file_nr() const { return get_linked_file()->get_file_nr(); }
 
     /**
      * @brief Get the file name
@@ -265,8 +263,24 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
             if (this->is_primary_file())
             {
                 printer.register_section("Extension file infos");
-                printer.register_container("Used", _used_extension_datagram_identifiers);
-                printer.register_container("Ignored", _ignored_extension_datagram_identifiers);
+
+                // workaround for simard datagram identifiers which are not compatible with
+                // magic_enum
+                if constexpr (!tools::helper::is_magic_enum_compatible_v<
+                                  typename t_base::type_DatagramIdentifier>)
+                {
+                    printer.register_container(
+                        "Used",
+                        datagram_identifiers_to_string(_used_extension_datagram_identifiers));
+                    printer.register_container(
+                        "Ignored",
+                        datagram_identifiers_to_string(_ignored_extension_datagram_identifiers));
+                }
+                else
+                {
+                    printer.register_container("Used", _used_extension_datagram_identifiers);
+                    printer.register_container("Ignored", _ignored_extension_datagram_identifiers);
+                }
             }
         }
         else

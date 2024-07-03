@@ -26,10 +26,11 @@
 #include "simradrawconfigurationdatainterface.hpp"
 
 #include "../datagrams.hpp"
-#include "../filedatacontainers/simradrawfiledatacontainers.hpp"
 #include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterface.hpp"
+
+#include "../filedatacontainers/simradrawfiledatacontainers.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

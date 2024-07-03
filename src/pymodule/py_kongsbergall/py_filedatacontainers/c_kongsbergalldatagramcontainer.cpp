@@ -18,8 +18,8 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
 
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 #include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"

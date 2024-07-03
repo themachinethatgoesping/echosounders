@@ -19,8 +19,8 @@
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 #include "kongsbergallenvironmentdatainterface.hpp"
 #include "kongsbergallpingdatainterfaceperfile.hpp"

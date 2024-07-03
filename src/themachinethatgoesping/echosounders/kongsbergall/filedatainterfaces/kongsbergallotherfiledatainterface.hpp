@@ -22,8 +22,8 @@
 
 #include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 #include "kongsbergallotherfiledatainterfaceperfile.hpp"
 

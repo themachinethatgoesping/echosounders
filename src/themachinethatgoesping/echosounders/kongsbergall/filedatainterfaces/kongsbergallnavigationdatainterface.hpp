@@ -20,8 +20,8 @@
 #include "../../filetemplates/datainterfaces/i_navigationdatainterface.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 #include "kongsbergallnavigationdatainterfaceperfile.hpp"
 

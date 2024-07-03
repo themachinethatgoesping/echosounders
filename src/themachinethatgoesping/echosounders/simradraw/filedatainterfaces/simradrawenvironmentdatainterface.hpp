@@ -16,14 +16,15 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 #include "simradrawconfigurationdatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterfaceperfile.hpp"
 #include "simradrawnavigationdatainterface.hpp"
+
+#include "../../filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

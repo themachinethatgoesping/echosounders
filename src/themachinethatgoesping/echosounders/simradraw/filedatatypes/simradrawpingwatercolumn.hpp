@@ -33,8 +33,8 @@
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 
 #include "simradrawpingcommon.hpp"
 

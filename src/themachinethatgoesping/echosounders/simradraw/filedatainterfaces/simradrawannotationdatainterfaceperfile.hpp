@@ -9,20 +9,16 @@
 /* generated doc strings */
 #include ".docstrings/simradrawannotationdatainterfaceperfile.doc.hpp"
 
-/* library includes */
-#include <magic_enum.hpp>
-
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datainterfaces/i_annotationdatainterface.hpp"
-
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "simradrawdatagraminterface.hpp"
 
+#include "../../filetemplates/datainterfaces/i_annotationdatainterface.hpp"
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {

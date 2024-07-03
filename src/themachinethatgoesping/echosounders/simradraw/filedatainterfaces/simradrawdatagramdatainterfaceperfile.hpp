@@ -9,19 +9,17 @@
 /* generated doc strings */
 #include ".docstrings/simradrawdatagramdatainterfaceperfile.doc.hpp"
 
-/* library includes */
-#include <magic_enum.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
-
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "simradrawdatagraminterface.hpp"
+
+#include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {

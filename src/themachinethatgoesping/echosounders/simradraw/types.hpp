@@ -14,6 +14,7 @@
 #include <magic_enum.hpp>
 
 #include <themachinethatgoesping/tools/helper.hpp>
+#include <themachinethatgoesping/tools/helper/enum.hpp>
 
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
@@ -71,9 +72,20 @@ inline simradraw_long SimradRawDatagram_type_from_string(std::string_view value)
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 inline std::string datagram_identifier_to_string(simradraw::t_SimradRawDatagramIdentifier value)
 {
-    return tools::helper::int_as_string<simradraw::simradraw_long>(simradraw::simradraw_long(value));
+    return tools::helper::int_as_string<simradraw::simradraw_long>(
+        simradraw::simradraw_long(value));
 }
 
+inline std::vector<std::string> datagram_identifiers_to_string(
+    const std::vector<simradraw::t_SimradRawDatagramIdentifier>& values)
+{
+    std::vector<std::string> result;
+    for (auto value : values)
+    {
+        result.push_back(datagram_identifier_to_string(value));
+    }
+    return result;
+}
 
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(simradraw::t_SimradRawDatagramIdentifier datagram_type)
@@ -102,4 +114,31 @@ inline std::string datagram_identifier_info(simradraw::t_SimradRawDatagramIdenti
 }
 
 } // namespace echosounders
+
+//t_SimradRawDatagramIdentifier is not compatible with magic enum because the enum value range is much to large
+namespace tools {
+namespace helper {
+// IGNORE_DOC: __doc_themachinethatgoesping_tools_helper_is_magic_enum_compatible
+template<>
+struct is_magic_enum_compatible<echosounders::simradraw::t_SimradRawDatagramIdentifier>
+{
+    using type = echosounders::simradraw::t_SimradRawDatagramIdentifier; // type is output type
+    static constexpr int value = false; // not compatible with magic enum because the enum value range is much to large
+
+    //static constexpr bool operator()() { return value; } TODO: add this in c++23
+};
+}
+}
+
 } // namespace themachinethatgoesping
+
+// ----- magic_enum customizations -----
+// otherwise min/max range is -128 - 127
+// template <>
+// struct
+// magic_enum::customize::enum_range<themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier>
+// {
+//   static constexpr int min = 809848142;
+//   static constexpr int max = 861356370;
+//   // (max - min) must be less than UINT16_MAX.
+// };

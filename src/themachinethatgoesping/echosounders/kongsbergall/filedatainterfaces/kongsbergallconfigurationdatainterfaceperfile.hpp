@@ -19,8 +19,8 @@
 
 #include "../../filetemplates/datainterfaces/i_configurationdatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 
 namespace themachinethatgoesping {

@@ -1,4 +1,4 @@
-//sourcehash: 2ad02f8f59b1d441e144b482d6618452645211c2acb2136329eddaa4bbc7de61
+//sourcehash: 2c97cd785a1733875b010321df8aaa8b09068c481ae2df47967c0a986faa327a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,8 @@
 
 
 
+static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string = R"doc()doc";
@@ -59,6 +61,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradR
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< ???)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

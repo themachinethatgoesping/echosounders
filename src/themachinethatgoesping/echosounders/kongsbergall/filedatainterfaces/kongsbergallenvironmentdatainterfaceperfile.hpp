@@ -19,8 +19,8 @@
 #include "../../filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
-#include "../datagrams.hpp"
 #include "../types.hpp"
+#include "../datagrams.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 #include "kongsbergallnavigationdatainterface.hpp"
 

@@ -3,8 +3,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include <magic_enum.hpp>
-
 #include <pybind11/iostream.h>
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
