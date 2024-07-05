@@ -25,13 +25,6 @@
 
 #include <fmt/core.h>
 
-// xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xmath.hpp>
-#include <xtensor/xview.hpp>
-
 // boost includes
 #include <boost/sort/sort.hpp> // for sort
 

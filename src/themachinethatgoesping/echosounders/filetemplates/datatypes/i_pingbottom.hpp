@@ -19,12 +19,6 @@
 
 #include <fmt/core.h>
 
-// xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
-
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>

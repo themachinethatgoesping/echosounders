@@ -14,10 +14,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-// xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

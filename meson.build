@@ -10,7 +10,7 @@ project(
   license: 'MPL-2.0',
 
   version: '0.39.1',
-  default_options: ['warning_level=1', 'buildtype=release', 'cpp_std=c++20'],
+  default_options: ['warning_level=2', 'buildtype=release', 'cpp_std=c++20'],
   meson_version: '>=1.3.2' #first version with  clang-cl openmp support
 )
 
@@ -22,7 +22,7 @@ projectnamespace = 'themachinethatgoesping'
 boost_dep = dependency('boost', modules: 'iostreams', static: get_option('dynamic_boost').disabled())
 
 # pugixml
-pugixml_dep = subproject('pugixml', default_options: 'default_library=static').get_variable('pugixml_dep')
+pugixml_dep = subproject('pugixml', default_options: 'default_library=static').get_variable('pugixml_dep').as_system('system')
 
 # themachinethatgoesping
 # tools
