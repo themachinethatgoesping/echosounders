@@ -79,50 +79,38 @@ class I_PingWatercolumn : public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
-    using t_base::register_primary_feature;
-    using t_base::register_secondary_feature;
 
-    I_PingWatercolumn()
-        : I_PingCommon()
+    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
     {
-        register_primary_feature(t_pingfeature::amplitudes,
-                                 std::bind(&I_PingWatercolumn::has_amplitudes, this));
+        auto features                       = t_base ::primary_feature_functions();
+        features[t_pingfeature::amplitudes] = std::bind(&I_PingWatercolumn::has_amplitudes, this);
 
-        register_secondary_feature(t_pingfeature::tx_signal_parameters,
-                                   std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this));
-        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
-                                   std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
-
-        register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
-        register_secondary_feature(t_pingfeature::bottom_range_samples,
-                                   std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
-
-        register_secondary_feature(t_pingfeature::sv, std::bind(&I_PingWatercolumn::has_sv, this));
-        register_secondary_feature(t_pingfeature::calibration,
-                                   std::bind(&I_PingWatercolumn::has_calibration, this));
+        return features;
     }
+    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override
+    {
+        auto features = t_base ::secondary_feature_functions();
+        features[t_pingfeature::tx_signal_parameters] =
+            std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this);
+        features[t_pingfeature::number_of_tx_sectors] =
+            std::bind(&I_PingWatercolumn::has_tx_sector_information, this);
+        features[t_pingfeature::beam_crosstrack_angles] =
+            std::bind(&I_PingWatercolumn::has_beam_crosstrack_angles, this);
+        features[t_pingfeature::av] = std::bind(&I_PingWatercolumn::has_av, this);
+        features[t_pingfeature::bottom_range_samples] =
+            std::bind(&I_PingWatercolumn::has_bottom_range_samples, this);
+        features[t_pingfeature::sv]          = std::bind(&I_PingWatercolumn::has_sv, this);
+        features[t_pingfeature::calibration] = std::bind(&I_PingWatercolumn::has_calibration, this);
+
+        return features;
+    }
+    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const override
+    {
+        return t_base ::feature_group_functions();
+    }
+
+    I_PingWatercolumn()          = default;
     virtual ~I_PingWatercolumn() = default;
-
-    // copy constructor
-    I_PingWatercolumn(const I_PingWatercolumn& other)
-        : I_PingCommon(other)
-    {
-        register_primary_feature(t_pingfeature::amplitudes,
-                                 std::bind(&I_PingWatercolumn::has_amplitudes, this));
-
-        register_secondary_feature(t_pingfeature::tx_signal_parameters,
-                                   std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this));
-        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
-                                   std::bind(&I_PingWatercolumn::has_tx_sector_information, this));
-
-        register_secondary_feature(t_pingfeature::av, std::bind(&I_PingWatercolumn::has_av, this));
-        register_secondary_feature(t_pingfeature::bottom_range_samples,
-                                   std::bind(&I_PingWatercolumn::has_bottom_range_samples, this));
-
-        register_secondary_feature(t_pingfeature::sv, std::bind(&I_PingWatercolumn::has_sv, this));
-        register_secondary_feature(t_pingfeature::calibration,
-                                   std::bind(&I_PingWatercolumn::has_calibration, this));
-    }
 
     // --- transmit sector infos ---
 
@@ -197,6 +185,14 @@ class I_PingWatercolumn : public I_PingCommon
      * @return uint16_t
      */
     virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
+
+    /**
+     * @brief Check this pings supports the extraction of beam_crosstrack_angles
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_beam_crosstrack_angles() const { return false; }
 
     /**
      * @brief Get the beam crosstrack angles for this ping in °
@@ -432,10 +428,6 @@ class I_PingWatercolumn : public I_PingCommon
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
-  private:
-    // make move constructor private (otherwise this has to be implemented similar to the copy
-    // constructor)
-    I_PingWatercolumn(I_PingWatercolumn&&) = default;
 };
 
 }

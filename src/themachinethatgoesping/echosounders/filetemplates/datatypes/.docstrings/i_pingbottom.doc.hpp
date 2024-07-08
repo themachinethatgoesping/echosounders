@@ -1,4 +1,4 @@
-//sourcehash: 0c7a772a316882335238c87c533ff43e29cec7fd3bdf2750629ac04576f238b4
+//sourcehash: fda92661f6c435f5b0d5fe91525da6bff01f8abd4e63d15742a2bd879ff8f069
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,9 +42,9 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_I_PingBottom_2 = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_class_name = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_group_functions = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles =
 R"doc(Get the beam crosstrack angles for this ping in °
@@ -159,7 +159,11 @@ Returns:
 Returns:
     false)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_primary_feature_functions = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_secondary_feature_functions = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

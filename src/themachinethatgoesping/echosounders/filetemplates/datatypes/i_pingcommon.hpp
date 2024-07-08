@@ -31,12 +31,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include <boost/container/flat_map.hpp>
-//#include <boost/unordered/unordered_flat_map.hpp>
 #include <boost/flyweight.hpp>
 #include <fmt/core.h>
 #include <magic_enum.hpp>
-#include <flat_map/flat_map.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -100,52 +97,30 @@ enum class t_pingfeature : uint8_t
     calibration
 };
 
+static const std::vector<t_pingfeature> __empty_features__ = {};
+
 class I_PingCommon
 {
   protected:
     virtual std::string class_name() const { return "I_PingCommon"; }
 
-    // map of features (names) and respective has_feature functions
-    // TODO: this does probably consume quite a lot of memory ..
-    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
-    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
-    // boost::container::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
-    flat_map::flat_map<t_pingfeature, std::function<bool()>> _primary_features;
-    flat_map::flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
-    flat_map::flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
-    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _primary_features;
-    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _secondary_features;
-    // boost::unordered::unordered_flat_map<t_pingfeature, std::function<bool()>> _feature_groups;
-    // std::map<t_pingfeature, std::function<bool()>> _primary_features;
-    // std::map<t_pingfeature, std::function<bool()>> _secondary_features;
-    // std::map<t_pingfeature, std::function<bool()>> _feature_groups;
-
-    void register_primary_feature(t_pingfeature feature_name, std::function<bool()> has_feature)
+    virtual std::map<t_pingfeature, std::function<bool()>> primary_feature_functions()
+        const
     {
-        _primary_features[feature_name] = has_feature;
+        return std::map<t_pingfeature, std::function<bool()>>();
     }
-
-    void register_secondary_feature(t_pingfeature feature_name, std::function<bool()> has_feature)
+    virtual std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions()
+        const
     {
-        _secondary_features[feature_name] = has_feature;
+        return std::map<t_pingfeature, std::function<bool()>>();
     }
-
-    void register_feature_group(t_pingfeature feature_name, std::function<bool()> has_feature)
+    virtual std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const
     {
-        _feature_groups[feature_name] = has_feature;
+        return std::map<t_pingfeature, std::function<bool()>>();
     }
 
   public:
     I_PingCommon() {}
-
-    // copy constructor
-    // do not copy features, they must be reregistered if the object is copied
-    // otherwise the functions will point to the old object
-    I_PingCommon([[maybe_unused]] const I_PingCommon& other)
-    //: _features(other._features)
-    //, _primary_features(other._primary_features)
-    {
-    }
     virtual ~I_PingCommon() = default;
 
     // ----- interface functions -----
@@ -160,15 +135,15 @@ class I_PingCommon
      */
     bool has_features() const
     {
-        for (const auto& [feature_name, has_feature] : _primary_features)
+        for (const auto& [feature_name, has_feature] : this->primary_feature_functions())
             if (has_feature())
                 return true;
 
-        for (const auto& [feature_name, has_feature] : _secondary_features)
+        for (const auto& [feature_name, has_feature] : this->secondary_feature_functions())
             if (has_feature())
                 return true;
 
-        for (const auto& [feature_name, has_feature] : _feature_groups)
+        for (const auto& [feature_name, has_feature] : this->feature_group_functions())
             if (has_feature())
                 return true;
 
@@ -217,7 +192,7 @@ class I_PingCommon
      */
     bool has_primary_features() const
     {
-        for (const auto& [feature_name, has_feature] : _primary_features)
+        for (const auto& [feature_name, has_feature] : this->primary_feature_functions())
             if (has_feature())
                 return true;
 
@@ -226,7 +201,7 @@ class I_PingCommon
 
     bool has_secondary_features() const
     {
-        for (const auto& [feature_name, has_feature] : _secondary_features)
+        for (const auto& [feature_name, has_feature] : this->secondary_feature_functions())
             if (has_feature())
                 return true;
 
@@ -235,7 +210,7 @@ class I_PingCommon
 
     bool has_feature_groups() const
     {
-        for (const auto& [feature_name, has_feature] : _feature_groups)
+        for (const auto& [feature_name, has_feature] : this->feature_group_functions())
             if (has_feature())
                 return true;
 
@@ -250,16 +225,19 @@ class I_PingCommon
      */
     bool has_feature(t_pingfeature feature) const
     {
-        auto it_primary = _primary_features.find(feature);
-        if (it_primary != _primary_features.end())
+        auto features   = this->primary_feature_functions();
+        auto it_primary = features.find(feature);
+        if (it_primary != features.end())
             return it_primary->second();
 
-        auto it_secondary = _secondary_features.find(feature);
-        if (it_secondary != _secondary_features.end())
+        features          = this->secondary_feature_functions();
+        auto it_secondary = features.find(feature);
+        if (it_secondary != features.end())
             return it_secondary->second();
 
-        auto it_group = _feature_groups.find(feature);
-        if (it_group != _feature_groups.end())
+        features      = this->feature_group_functions();
+        auto it_group = features.find(feature);
+        if (it_group != features.end())
             return it_group->second();
 
         throw std::runtime_error(fmt::format("Error[{}::{}]! The following feature is "
@@ -280,7 +258,8 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& features_map : { _primary_features, _secondary_features })
+        for (const auto& features_map :
+             { this->primary_feature_functions(), this->secondary_feature_functions() })
             for (const auto& [feature, has_feature] : features_map)
             {
                 if (has_feature() == available)
@@ -299,7 +278,8 @@ class I_PingCommon
     {
         std::vector<t_pingfeature> features;
 
-        for (const auto& features_map : { _primary_features, _secondary_features })
+        for (const auto& features_map :
+             { this->primary_feature_functions(), this->secondary_feature_functions() })
             for (const auto& [feature, has_feature] : features_map)
                 features.push_back(feature);
 
@@ -310,7 +290,7 @@ class I_PingCommon
     {
         std::vector<t_pingfeature> features;
 
-        for (const auto& [feature, has_feature] : _feature_groups)
+        for (const auto& [feature, has_feature] : this->feature_group_functions())
             features.push_back(feature);
 
         return features;
@@ -320,7 +300,8 @@ class I_PingCommon
     {
         std::vector<t_pingfeature> features;
 
-        for (const auto& features_map : { _primary_features, _secondary_features })
+        for (const auto& features_map :
+             { this->primary_feature_functions(), this->secondary_feature_functions() })
             for (const auto& [feature, has_feature] : features_map)
                 if (has_feature() == available)
                     features.push_back(feature);
@@ -332,7 +313,7 @@ class I_PingCommon
     {
         std::vector<t_pingfeature> features;
 
-        for (const auto& [feature, has_feature] : _feature_groups)
+        for (const auto& [feature, has_feature] : this->feature_group_functions())
             if (has_feature() == available)
                 features.push_back(feature);
 
@@ -350,7 +331,7 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _feature_groups)
+        for (const auto& [feature, has_feature] : this->feature_group_functions())
         {
             if (has_feature() == available)
             {
@@ -373,11 +354,12 @@ class I_PingCommon
     {
         std::string features = primary_features();
 
-        if (!_secondary_features.empty())
+        auto secondary_features = this->secondary_feature_functions();
+        if (!secondary_features.empty())
         {
             if (!features.empty())
                 features += ", ";
-            features += secondary_features();
+            features += this->secondary_features();
         }
 
         return features;
@@ -392,7 +374,7 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _primary_features)
+        for (const auto& [feature, has_feature] : this->primary_feature_functions())
         {
             if (!features.empty())
                 features += ", ";
@@ -411,7 +393,7 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _secondary_features)
+        for (const auto& [feature, has_feature] : this->secondary_feature_functions())
         {
             if (!features.empty())
                 features += ", ";
@@ -430,7 +412,7 @@ class I_PingCommon
     {
         std::string features = "";
 
-        for (const auto& [feature, has_feature] : _feature_groups)
+        for (const auto& [feature, has_feature] : this->feature_group_functions())
         {
             if (!features.empty())
                 features += ", ";
@@ -504,7 +486,7 @@ class I_PingCommon
         tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
         print_features(printer);
-        if (!_feature_groups.empty())
+        if (!this->feature_group_functions().empty())
             print_feature_groups(printer);
 
         return printer;

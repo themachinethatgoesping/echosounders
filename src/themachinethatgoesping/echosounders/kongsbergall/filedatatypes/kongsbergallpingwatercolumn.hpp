@@ -76,6 +76,9 @@ class KongsbergAllPingWatercolumn
     }
     bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
 
+
+    bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
+
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters() override
     {

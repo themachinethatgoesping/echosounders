@@ -44,72 +44,47 @@ class I_Ping : public I_PingCommon
     bool _sensor_configuration_set = false;
     bool _sensor_data_latlon_set   = false;
 
+  public:
+    using t_base = I_PingCommon;
+
   protected:
     std::string class_name() const override { return "I_Ping"; }
 
-  protected:
+  public:
     boost::flyweights::flyweight<std::string> _channel_id; ///< channel id of the transducer
     double _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
     navigation::datastructures::SensordataLatLon                  _sensor_data_latlon;
 
+    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
+    {
+        auto features = t_base ::primary_feature_functions();
+
+        features[t_pingfeature::timestamp]  = std::bind(&I_Ping::has_timestamp, this);
+        features[t_pingfeature::channel_id] = std::bind(&I_Ping::has_channel_id, this);
+        features[t_pingfeature::sensor_configuration] =
+            std::bind(&I_Ping::has_sensor_configuration, this);
+        features[t_pingfeature::sensor_data_latlon] =
+            std::bind(&I_Ping::has_sensor_data_latlon, this);
+        features[t_pingfeature::geolocation] = std::bind(&I_Ping::has_geolocation, this);
+
+        return features;
+    }
+    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const
+    {
+        return t_base ::secondary_feature_functions();
+    }
+    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const
+    {
+        auto features                        = t_base ::feature_group_functions();
+        features[t_pingfeature::bottom]      = std::bind(&I_Ping::has_bottom, this);
+        features[t_pingfeature::watercolumn] = std::bind(&I_Ping::has_watercolumn, this);
+        return features;
+    }
+
   public:
-    using t_base = I_PingCommon;
-    using t_base::register_feature_group;
-    using t_base::register_primary_feature;
-    using t_base::register_secondary_feature;
-
-    I_Ping()
-        : I_PingCommon()
-    {
-        register_primary_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this));
-        register_primary_feature(
-            t_pingfeature::datetime,
-            std::bind(&I_Ping::has_timestamp,
-                      this)); // this feature only exists for python since it is implemented as a
-                              // lambda function in the c_I_Ping class definition
-        register_primary_feature(t_pingfeature::channel_id,
-                                 std::bind(&I_Ping::has_channel_id, this));
-        register_primary_feature(t_pingfeature::sensor_configuration,
-                                 std::bind(&I_Ping::has_sensor_configuration, this));
-        register_primary_feature(t_pingfeature::sensor_data_latlon,
-                                 std::bind(&I_Ping::has_sensor_data_latlon, this));
-        register_primary_feature(t_pingfeature::geolocation,
-                                 std::bind(&I_Ping::has_geolocation, this));
-
-        register_feature_group(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this));
-        register_feature_group(t_pingfeature::watercolumn,
-                               std::bind(&I_Ping::has_watercolumn, this));
-    }
+    I_Ping()          = default;
     virtual ~I_Ping() = default;
-
-    // copy constructor
-    I_Ping(const I_Ping& other)
-        : I_PingCommon(other)
-        , _channel_id(other._channel_id)
-        , _timestamp(other._timestamp)
-        , _sensor_configuration(other._sensor_configuration)
-        , _sensor_data_latlon(other._sensor_data_latlon)
-    {
-        register_primary_feature(t_pingfeature::timestamp, std::bind(&I_Ping::has_timestamp, this));
-        register_primary_feature(
-            t_pingfeature::datetime,
-            std::bind(&I_Ping::has_timestamp,
-                      this)); // this feature only exists for python since it is implemented as a
-                              // lambda function in the c_I_Ping class definition
-        register_primary_feature(t_pingfeature::channel_id,
-                                 std::bind(&I_Ping::has_channel_id, this));
-        register_primary_feature(t_pingfeature::sensor_configuration,
-                                 std::bind(&I_Ping::has_sensor_configuration, this));
-        register_primary_feature(t_pingfeature::sensor_data_latlon,
-                                 std::bind(&I_Ping::has_sensor_data_latlon, this));
-        register_primary_feature(t_pingfeature::geolocation,
-                                 std::bind(&I_Ping::has_geolocation, this));
-
-        register_feature_group(t_pingfeature::bottom, std::bind(&I_Ping::has_bottom, this));
-        register_feature_group(t_pingfeature::watercolumn,
-                               std::bind(&I_Ping::has_watercolumn, this));
-    }
 
     //------ features -----
     bool   has_timestamp() const { return _timestamp > 0; }
@@ -293,10 +268,6 @@ class I_Ping : public I_PingCommon
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
-  private:
-    // make move constructor private (otherwise this has to be implemented similar to the copy
-    // constructor)
-    I_Ping(I_Ping&&) = default;
 };
 }
 } // namespace filetemplates

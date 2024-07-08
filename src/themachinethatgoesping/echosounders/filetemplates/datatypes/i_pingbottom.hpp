@@ -47,42 +47,35 @@ class I_PingBottom : public I_PingCommon
 
   public:
     using t_base = I_PingCommon;
-    using t_base::register_primary_feature;
-    using t_base::register_secondary_feature;
 
-    I_PingBottom()
-        : I_PingCommon()
+    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
     {
-        register_primary_feature(t_pingfeature::two_way_travel_times,
-                                 std::bind(&I_PingBottom::has_two_way_travel_times, this));
-        register_primary_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this));
+        auto features = t_base ::primary_feature_functions();
+        features[t_pingfeature::two_way_travel_times] =
+            std::bind(&I_PingBottom::has_two_way_travel_times, this);
+        features[t_pingfeature::xyz] = std::bind(&I_PingBottom::has_xyz, this);
 
-        register_secondary_feature(t_pingfeature::tx_signal_parameters,
-                                   std::bind(&I_PingBottom::has_tx_signal_parameters, this));
-        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
-                                   std::bind(&I_PingBottom::has_tx_sector_information, this));
-
-        register_secondary_feature(t_pingfeature::beam_crosstrack_angles,
-                                   std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
+        return features;
     }
+    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override
+
+    {
+        auto features = t_base ::secondary_feature_functions();
+        features[t_pingfeature::tx_signal_parameters] =
+            std::bind(&I_PingBottom::has_tx_signal_parameters, this);
+        features[t_pingfeature::number_of_tx_sectors] =
+            std::bind(&I_PingBottom::has_tx_sector_information, this);
+        features[t_pingfeature::beam_crosstrack_angles] =
+            std::bind(&I_PingBottom::has_beam_crosstrack_angles, this);
+        return features;
+    }
+    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const override
+    {
+        return t_base ::feature_group_functions();
+    }
+
+    I_PingBottom()          = default;
     virtual ~I_PingBottom() = default;
-
-    // copy constructor
-    I_PingBottom(const I_PingBottom& other)
-        : I_PingCommon(other)
-    {
-        register_primary_feature(t_pingfeature::two_way_travel_times,
-                                 std::bind(&I_PingBottom::has_two_way_travel_times, this));
-        register_primary_feature(t_pingfeature::xyz, std::bind(&I_PingBottom::has_xyz, this));
-
-        register_secondary_feature(t_pingfeature::tx_signal_parameters,
-                                   std::bind(&I_PingBottom::has_tx_signal_parameters, this));
-        register_secondary_feature(t_pingfeature::number_of_tx_sectors,
-                                   std::bind(&I_PingBottom::has_tx_sector_information, this));
-
-        register_secondary_feature(t_pingfeature::beam_crosstrack_angles,
-                                   std::bind(&I_PingBottom::has_beam_crosstrack_angles, this));
-    }
 
     // --- transmit sector infos ---
 
@@ -265,10 +258,6 @@ class I_PingBottom : public I_PingCommon
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
-  private:
-    // make move constructor private (otherwise this has to be implemented similar to the copy
-    // constructor)
-    I_PingBottom(I_PingBottom&&) = default;
 };
 
 }
