@@ -42,25 +42,21 @@ namespace simradraw {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommon
+class SimradRawPingCommon
 {
   protected:
-    std::string class_name() const override { return "SimradRawPingCommon"; }
+    std::string class_name() const { return "SimradRawPingCommon"; }
     // raw data
     using t_rawdata = SimradRawPingFileData<t_ifstream>;
     std::shared_ptr<t_rawdata> _file_data;
 
   public:
-    using t_base = filetemplates::datatypes::I_PingCommon;
-
     SimradRawPingCommon(const datagrams::RAW3& raw3_datagram)
-        : t_base()
-        , _file_data(std::make_shared<t_rawdata>(raw3_datagram))
+        : _file_data(std::make_shared<t_rawdata>(raw3_datagram))
     {
     }
     SimradRawPingCommon(std::shared_ptr<t_rawdata> file_data)
-        : t_base()
-        , _file_data(std::move(file_data))
+        : _file_data(std::move(file_data))
     {
     }
     virtual ~SimradRawPingCommon() = default;
@@ -82,14 +78,12 @@ class SimradRawPingCommon : virtual public filetemplates::datatypes::I_PingCommo
     void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
-    {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    // {
+    //     tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
-        printer.append(t_base::__printer__(float_precision));
-
-        return printer;
-    }
+    //     return printer;
+    // }
 };
 
 }

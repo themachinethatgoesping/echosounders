@@ -52,16 +52,10 @@ class KongsbergAllPing
     KongsbergAllPingWatercolumn<t_ifstream> _watercolumn;
 
   public:
-    using t_base0 =
-        filetemplates::datatypes::I_PingCommon; // this is the common ancestor which is virtually
-                                                // inherited by base1 and base2
     using t_base1 = filetemplates::datatypes::I_Ping;
     using t_base2 = KongsbergAllPingCommon<t_ifstream>;
     using type_DatagramInfo_ptr =
         typename KongsbergAllPingFileData<t_ifstream>::type_DatagramInfo_ptr;
-
-    // select virtual overrides
-    using t_base1::set_channel_id;
 
   protected:
     std::string class_name() const override { return "KongsbergAllPing"; }
@@ -70,8 +64,7 @@ class KongsbergAllPing
 
   public:
     KongsbergAllPing(const datagrams::InstallationParameters& param)
-        : t_base0()
-        , t_base1()
+        : t_base1()
         , t_base2()
         , _bottom(_file_data)
         , _watercolumn(_file_data)

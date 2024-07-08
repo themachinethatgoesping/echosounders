@@ -67,7 +67,7 @@ namespace datatypes {
  * This class represents an interface for accessing watercolumn ping data. It inherits from the
  * I_PingCommon class and provides additional functions and variables specific to watercolumn pings.
  */
-class I_PingWatercolumn : virtual public I_PingCommon
+class I_PingWatercolumn : public I_PingCommon
 {
     bool _beam_sample_selection_all_is_initialized = false;
     boost::flyweight<pingtools::BeamSampleSelection> _beam_sample_selection_all;

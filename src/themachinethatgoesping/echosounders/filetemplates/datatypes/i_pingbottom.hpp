@@ -40,7 +40,7 @@ namespace datatypes {
  * @brief Interface for all ping bottom detection functions
  *
  */
-class I_PingBottom : virtual public I_PingCommon
+class I_PingBottom : public I_PingCommon
 {
   protected:
     std::string class_name() const override { return "I_PingBottom"; }

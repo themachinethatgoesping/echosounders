@@ -39,7 +39,7 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-class I_Ping : virtual public I_PingCommon
+class I_Ping : public I_PingCommon
 {
     bool _sensor_configuration_set = false;
     bool _sensor_data_latlon_set   = false;

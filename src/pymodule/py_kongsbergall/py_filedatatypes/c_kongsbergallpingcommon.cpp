@@ -40,7 +40,6 @@ void py_create_class_kongsbergallpingcommon(py::module& m, const std::string& CL
 
     auto cls =
         py::class_<t_KongsbergAllPingCommon,
-                   datatypes::I_PingCommon,
                    std::shared_ptr<t_KongsbergAllPingCommon>>(
             m,
             CLASS_NAME.c_str(),

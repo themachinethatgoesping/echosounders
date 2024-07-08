@@ -48,7 +48,6 @@ class SimradRawPing
     , public SimradRawPingCommon<t_ifstream>
 {
 
-    using t_base0 = filetemplates::datatypes::I_PingCommon;
     using t_base1 = filetemplates::datatypes::I_Ping;
     using t_base2 = SimradRawPingCommon<t_ifstream>;
 
@@ -61,8 +60,7 @@ class SimradRawPing
 
   public:
     SimradRawPing(const datagrams::RAW3& raw3_datagram)
-        : t_base0()
-        , t_base1()
+        : t_base1()
         , t_base2(raw3_datagram)
         , _watercolumn(_file_data)
     //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
@@ -72,9 +70,6 @@ class SimradRawPing
         this->set_channel_id(channel_id);
     }
     virtual ~SimradRawPing() = default;
-
-    // select virtual overrides
-    using t_base1::set_channel_id;
 
     // size_t      get_file_nr() const { return _file_data._datagram_info_file_data->get_file_nr();
     // } std::string get_file_path() const

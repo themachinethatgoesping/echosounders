@@ -49,7 +49,6 @@ class SimradRawPingWatercolumn
     , public SimradRawPingCommon<t_ifstream>
 {
   public:
-    using t_base0 = filetemplates::datatypes::I_PingCommon;
     using t_base1 = filetemplates::datatypes::I_PingWatercolumn;
     using t_base2 = SimradRawPingCommon<t_ifstream>;
 
@@ -61,8 +60,7 @@ class SimradRawPingWatercolumn
 
   public:
     SimradRawPingWatercolumn(std::shared_ptr<t_rawdata> file_data)
-        : t_base0() // necessary because of virtual inheritance
-        , t_base1()
+        : t_base1()
         , t_base2(std::move(file_data))
     {
     }

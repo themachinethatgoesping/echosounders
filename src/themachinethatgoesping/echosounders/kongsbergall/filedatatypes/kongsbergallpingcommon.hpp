@@ -42,54 +42,36 @@ namespace kongsbergall {
 namespace filedatatypes {
 
 template<typename t_ifstream>
-class KongsbergAllPingCommon : virtual public filetemplates::datatypes::I_PingCommon
+class KongsbergAllPingCommon
 {
   protected:
-    std::string class_name() const override { return "KongsbergAllPingCommon"; }
+    std::string class_name() const { return "KongsbergAllPingCommon"; }
     // raw data
     using t_rawdata                       = KongsbergAllPingFileData<t_ifstream>;
     std::shared_ptr<t_rawdata> _file_data = std::make_shared<t_rawdata>();
 
   public:
-    using t_base = filetemplates::datatypes::I_PingCommon;
     KongsbergAllPingCommon()
-        : t_base()
     {
     }
     KongsbergAllPingCommon(std::shared_ptr<t_rawdata> file_data)
-        : t_base()
-        , _file_data(std::move(file_data))
+        : _file_data(std::move(file_data))
     {
     }
     virtual ~KongsbergAllPingCommon() = default;
 
-    // ----- i_pingcommon interface -----
-    // // explicit copy constructor and assignment operators
-    // KongsbergAllPingCommon(const KongsbergAllPingCommon& other)
-    //     : t_base(other)
-    //     , _file_data(std::make_shared<t_rawdata>(*other._file_data))
-    // {
-    // }
-    // KongsbergAllPingCommon& operator=(const KongsbergAllPingCommon& other)
-    // {
-    //     t_base::operator=(other);
-    //     _file_data = std::make_shared<t_rawdata>(*other._file_data);
-    //     return *this;
-    // }
 
     const t_rawdata& file_data() const { return *_file_data; }
     t_rawdata&       file_data() { return *_file_data; }
     void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
-    {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    // {
+    //     tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
 
-        printer.append(t_base::__printer__(float_precision));
-
-        return printer;
-    }
+    //     return printer;
+    // }
 };
 
 }

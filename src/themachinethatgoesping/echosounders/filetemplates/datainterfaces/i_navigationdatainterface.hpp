@@ -201,27 +201,6 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return it->second;
     }
 
-    [[deprecated]] navigation::datastructures::GeolocationLatLon get_geolocation(
-        const navigation::SensorConfiguration& sensor_configuration,
-        const std::string&                     target_id,
-        double                                 timestamp)
-    {
-        return _navigation_interpolators.at(sensor_configuration.binary_hash())(target_id,
-                                                                                timestamp);
-    }
-
-    [[deprecated]] bool has_sensor_data(uint64_t sensor_configuration_hash) const
-    {
-        return _navigation_interpolators.contains(sensor_configuration_hash);
-    }
-
-    [[deprecated]] navigation::datastructures::SensordataLatLon get_sensor_data(
-        uint64_t sensor_configuration_hash,
-        double   timestamp)
-    {
-        return get_navigation_interpolator(sensor_configuration_hash).get_sensor_data(timestamp);
-    }
-
     std::vector<std::string> get_channel_ids() const
     {
         std::vector<std::string> channel_ids;
