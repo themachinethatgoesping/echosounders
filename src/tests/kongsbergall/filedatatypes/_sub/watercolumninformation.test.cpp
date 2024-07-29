@@ -50,6 +50,7 @@ datagrams::WatercolumnDatagram make_wcd()
     beam1.set_start_range_sample_number(4);
     beam1.set_number_of_samples(50);
     beam1.set_detected_range_in_samples(40);
+    beam1.set_beam_number(0);
     beam1._set_sample_are_skipped(123);
 
     beam2.set_beam_crosstrack_angle(-20);
@@ -57,6 +58,7 @@ datagrams::WatercolumnDatagram make_wcd()
     beam2.set_start_range_sample_number(4);
     beam2.set_number_of_samples(60);
     beam2.set_detected_range_in_samples(54);
+    beam2.set_beam_number(1);
     beam2._set_sample_are_skipped(1234);
     dat.set_beams({ beam1, beam2 });
 

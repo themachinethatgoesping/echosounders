@@ -65,7 +65,8 @@ class SimradRawNavigationDataInterfacePerFile
                 this->get_file_nr()));
 
         /* scan through NMEA data */
-        std::vector<double> lats, lons, gps_times, depths;
+        std::vector<float> depths;
+        std::vector<double> lats, lons, gps_times;
 
         for (auto& packet :
              this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::NME0))
@@ -101,7 +102,8 @@ class SimradRawNavigationDataInterfacePerFile
             }
         }
 
-        std::vector<double> headings, pitchs, rolls, heaves, mru0_times;
+        std::vector<float> headings, pitchs, rolls;
+        std::vector<double> heaves, mru0_times;
 
         for (auto& packet :
              this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::MRU0))

@@ -281,8 +281,21 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
         // if navigation interpolator is in cache, return it
         if (file_cache.has_cache("NavigationInterpolatorLatLon"))
-            return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
-                "NavigationInterpolatorLatLon");
+            try
+            {
+                return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
+                    "NavigationInterpolatorLatLon");
+            }
+            catch (std::exception& e)
+            {
+                fmt::print(
+                    std::cerr,
+                    "WARNING[{}::read_navigation_from_file_or_cache]: Could not read navigation "
+                    "interpolator from cache ({}) because: {}\n",
+                    this->class_name(),
+                    cache_it->second,
+                    e.what());
+            }
 
         // read navigation interpolator from file
         auto navigation_interpolator = navigation_data_interface_per_file.read_navigation_data();

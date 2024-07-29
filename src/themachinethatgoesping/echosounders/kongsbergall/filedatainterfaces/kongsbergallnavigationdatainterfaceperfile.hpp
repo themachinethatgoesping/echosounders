@@ -116,7 +116,8 @@ class KongsbergAllNavigationDataInterfacePerFile
         // }
 
         /* ----- scan through attitude datagrams ----- */
-        std::vector<double> headings_attitudes, pitchs, rolls, heaves;
+        std::vector<float> headings_attitudes, pitchs, rolls;
+        std::vector<double> heaves;
         std::vector<double> times_pitch_roll, times_heading_attitude, times_heave;
 
         for (auto& packet :
