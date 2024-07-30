@@ -65,6 +65,17 @@ struct XML_Configuration_Transceiver
     XML_Configuration_Transceiver(const pugi::xml_node& node) { initialize(node); }
     ~XML_Configuration_Transceiver() = default;
 
+    const XML_Configuration_Transceiver_Channel& get_channel(std::string_view channel_id) const
+    {
+        for (const auto& channel : Channels)
+            if (channel.ChannelID == channel_id)
+                return channel;
+
+        throw std::runtime_error(
+            "[XML_Configuration_Transceiver]: No transceiver channel found for channel " +
+            std::string(channel_id));
+    }
+
     void initialize(const pugi::xml_node& root_node)
     {
         if (strcmp(root_node.name(), "Transceiver"))

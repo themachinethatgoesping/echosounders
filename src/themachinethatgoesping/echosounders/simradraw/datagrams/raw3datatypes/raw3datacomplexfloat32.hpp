@@ -57,6 +57,8 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
 
     xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
     {
+        //static const float conv_factor = 0.125f; //(1/(2*sqrt(2)))**2 = 0.125
+
         // ToDo: can this be done faster? (it is pretty fast already, so benchmark first)
         // auto r1 = xt::eval(xt::sum(_complex_samples, 0));
         auto r1 = xt::eval(xt::sum(_complex_samples, 1));

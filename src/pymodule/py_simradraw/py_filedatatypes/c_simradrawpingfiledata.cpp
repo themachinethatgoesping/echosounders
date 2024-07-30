@@ -57,7 +57,7 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                    .def("get_parameter",
                         &t_SimradRawPingFileData::get_parameter,
                         DOc_simradrawpingfiledata(get_parameter))
-                   .def("get_environmnet",
+                   .def("get_environment",
                         &t_SimradRawPingFileData::get_environment,
                         DOc_simradrawpingfiledata(get_environment))
 
