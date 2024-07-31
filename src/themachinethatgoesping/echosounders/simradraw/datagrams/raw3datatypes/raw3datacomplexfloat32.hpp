@@ -57,7 +57,7 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<simradraw_float, 1> get_power1(bool dB = false) const
+    xt::xtensor<simradraw_float, 1> get_power_xtensor(bool dB = false) const
     {
         auto shape = _complex_samples.shape();
         auto r1    = xt::sum(xt::reshape_view(xt::eval(_complex_samples * _complex_samples),

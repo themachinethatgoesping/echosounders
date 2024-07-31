@@ -59,9 +59,9 @@ void init_c_raw3datacomplexfloat32(pybind11::module& m)
              py::arg("dB") = false)
         .def("get_angle", &RAW3DataComplexFloat32::get_angle, DOC_RAW3DataComplexFloat32(get_angle))
 
-        .def("get_power1",
-             &RAW3DataComplexFloat32::get_power1,
-             DOC_RAW3DataComplexFloat32(get_power1),
+        .def("get_power_xtensor",
+             &RAW3DataComplexFloat32::get_power_xtensor,
+             DOC_RAW3DataComplexFloat32(get_power_xtensor),
              py::arg("dB") = false)
 
         // ----- properties -----
