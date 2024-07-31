@@ -20,6 +20,7 @@
 #include <fmt/core.h>
 
 #include <boost/flyweight.hpp>
+#include <eigen3/Eigen/Core>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -33,8 +34,8 @@
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "kongsbergallpingcommon.hpp"
 
@@ -75,7 +76,6 @@ class KongsbergAllPingWatercolumn
               t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
     }
     bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
-
 
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
 
@@ -422,12 +422,19 @@ class KongsbergAllPingWatercolumn
                 }
             }
 
-        // TODO: speed up using graphics card?
-        // // apply factors
-        // range factor (here the broadcasting is faster than the loop)
-        // for (unsigned int si = 0; si < range_factor.size(); ++si)
-        //      xt::col(av, si) -= range_factor[si];
+        // // this eigen version is still slower than the xtensor version
+        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic>> eigen_av(
+        //     av.data(), av.shape()[1], av.shape()[0]);
+        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> eigen_sample_correction(
+        //     sample_correction.data(), sample_correction.size());
+        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> eigen_beam_correction(
+        //     beam_correction.data(), beam_correction.size());
 
+        // eigen_av.colwise() += eigen_sample_correction;
+        // eigen_av.rowwise() += eigen_beam_correction.transpose();
+
+        // TODO: speed up using graphics card?
+        // apply factors
         av += xt::view(sample_correction, xt::newaxis(), xt::all());
 
         // pulse factor (here the loop is faster than broadcasting)

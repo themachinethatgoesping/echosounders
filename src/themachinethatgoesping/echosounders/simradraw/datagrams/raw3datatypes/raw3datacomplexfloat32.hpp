@@ -23,6 +23,8 @@
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
+#include <eigen3/Eigen/Core>
+
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
@@ -55,27 +57,51 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
-    xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
+    xt::xtensor<simradraw_float, 1> get_power1(bool dB = false) const
     {
-        //static const float conv_factor = 0.125f; //(1/(2*sqrt(2)))**2 = 0.125
-
-        // ToDo: can this be done faster? (it is pretty fast already, so benchmark first)
-        // auto r1 = xt::eval(xt::sum(_complex_samples, 0));
-        auto r1 = xt::eval(xt::sum(_complex_samples, 1));
+        auto shape = _complex_samples.shape();
+        auto r1    = xt::sum(xt::reshape_view(xt::eval(_complex_samples * _complex_samples),
+                                              { shape[0], shape[1] * shape[2] }),
+                          1);
 
         if (!dB)
         {
-            return xt::xtensor<simradraw_float, 1>(xt::eval(xt::sum(xt::eval(r1 * r1), 1)));
+            return r1;
         }
         else
         {
-            auto r2 = xt::eval(xt::sum(xt::eval(r1 * r1), 1));
-            return xt::xtensor<simradraw_float, 1>(xt::eval(10.f * xt::log10(r2)));
+            return 10 * xt::log10(r1);
         }
     }
+
+    xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
+    {
+        auto shape = _complex_samples.shape();
+        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>> power(
+            _complex_samples.data(), shape[1] * shape[2], shape[0]);
+
+        xt::xtensor<simradraw_float, 1> result = xt::empty<simradraw_float>({ shape[0] });
+        Eigen::Map<Eigen::Array<simradraw_float, Eigen::Dynamic, 1>> result_map(result.data(),
+                                                                                shape[0]);
+
+        if (!dB)
+        {
+            result_map = (power * power).colwise().sum();
+        }
+        else
+        {
+            static const float conv = 10.0f / std::log(10.0f);
+            result_map              = conv * (power * power).colwise().sum().log();
+        }
+
+        return result;
+    }
+
+
     xt::xtensor<simradraw_float, 2> get_angle() const final
     {
-        throw std::runtime_error("get_angle() not yet implemented for " + std::string(class_name()));
+        throw std::runtime_error("get_angle() not yet implemented for " +
+                                 std::string(class_name()));
     }
 
     // ----- operator overloads -----
@@ -86,10 +112,10 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     bool operator!=(const RAW3DataComplexFloat32& other) const { return !(operator==(other)); }
 
     // ----- to/from stream -----
-    static RAW3DataComplexFloat32 from_stream(std::istream& is,
-                                              simradraw_long   input_count,
-                                              simradraw_long   output_count,
-                                              uint8_t       number_of_complex_samples)
+    static RAW3DataComplexFloat32 from_stream(std::istream&  is,
+                                              simradraw_long input_count,
+                                              simradraw_long output_count,
+                                              uint8_t        number_of_complex_samples)
     {
         using xt_shape = xt::xtensor<simradraw_float, 3>::shape_type;
         RAW3DataComplexFloat32 data(xt::empty<simradraw_float>(
@@ -137,7 +163,6 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
         return printer;
     }
 };
-
 }
 }
 }

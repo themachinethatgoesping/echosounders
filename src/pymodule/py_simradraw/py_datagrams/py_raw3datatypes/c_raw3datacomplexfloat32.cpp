@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <pybind11/eigen.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
@@ -30,7 +31,7 @@ using namespace datagrams::raw3datatypes;
 #define DOC_RAW3DataComplexFloat32(NAME)                                                           \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        simradraw,                                                                                    \
+        simradraw,                                                                                 \
         datagrams,                                                                                 \
         raw3datatypes,                                                                             \
         RAW3DataComplexFloat32,                                                                    \
@@ -57,6 +58,11 @@ void init_c_raw3datacomplexfloat32(pybind11::module& m)
              DOC_RAW3DataComplexFloat32(get_power),
              py::arg("dB") = false)
         .def("get_angle", &RAW3DataComplexFloat32::get_angle, DOC_RAW3DataComplexFloat32(get_angle))
+
+        .def("get_power1",
+             &RAW3DataComplexFloat32::get_power1,
+             DOC_RAW3DataComplexFloat32(get_power1),
+             py::arg("dB") = false)
 
         // ----- properties -----
         .def_readwrite("complex_samples",

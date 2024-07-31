@@ -15,10 +15,10 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
-#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawpingwatercolumn.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawpingwatercolumn.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -30,23 +30,41 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_SimradRawPing(ARG)                                                                        \
-    DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingWatercolumn, ARG)
+#define DOC_SimradRawPing(ARG)                                                                     \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simradraw,                                                                                 \
+        filedatatypes,                                                                             \
+        SimradRawPingWatercolumn,                                                                  \
+        ARG)
 
 template<typename T_FileStream>
 void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& CLASS_NAME)
 {
     using t_SimradRawPingWatercolumn = filedatatypes::SimradRawPingWatercolumn<T_FileStream>;
 
-    auto cls = py::class_<t_SimradRawPingWatercolumn,
-                          datatypes::I_PingWatercolumn,
-                          filedatatypes::SimradRawPingCommon<T_FileStream>,
-                          std::shared_ptr<t_SimradRawPingWatercolumn>>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingWatercolumn))
+    auto cls =
+        py::class_<t_SimradRawPingWatercolumn,
+                   datatypes::I_PingWatercolumn,
+                   filedatatypes::SimradRawPingCommon<T_FileStream>,
+                   std::shared_ptr<t_SimradRawPingWatercolumn>>(m,
+                                                                CLASS_NAME.c_str(),
+                                                                DOC(themachinethatgoesping,
+                                                                    echosounders,
+                                                                    simradraw,
+                                                                    filedatatypes,
+                                                                    SimradRawPingWatercolumn))
 
-        // --- pingwatercolumn interface extension ---
+            // --- pingwatercolumn interface extension ---
+
+            .def("get_av_eigen",
+                 py::overload_cast<>(&t_SimradRawPingWatercolumn::get_av_eigen),
+                 DOC_SimradRawPing(get_av_eigen))
+            .def("get_av_eigen",
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
+                     &t_SimradRawPingWatercolumn::get_av_eigen),
+                 DOC_SimradRawPing(get_av_eigen),
+                 py::arg("beam_selection"))
 
         // --- variable access ---
 

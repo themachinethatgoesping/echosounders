@@ -1,4 +1,4 @@
-//sourcehash: f73c613671deb4176cd1069b0138cf2873f3408e21fae08ef40ee40a31219c22
+//sourcehash: 8b468111cacaaa6c4c080a0ef10ea3634a98927a844c663c0acd0dcbf99dfa79
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_RAW3DataComplexFloat32_get_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_RAW3DataComplexFloat32_get_power = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_RAW3DataComplexFloat32_get_power1 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_raw3datatypes_RAW3DataComplexFloat32_has_angle = R"doc()doc";
 

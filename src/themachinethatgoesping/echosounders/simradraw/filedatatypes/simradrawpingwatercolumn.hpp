@@ -20,6 +20,7 @@
 #include <fmt/core.h>
 
 #include <boost/flyweight.hpp>
+#include <eigen3/Eigen/Core>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -33,8 +34,8 @@
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "simradrawpingcommon.hpp"
 
@@ -140,8 +141,6 @@ class SimradRawPingWatercolumn
     {
         this->beam_selection_must_be_one(__func__, selection);
 
-        xt::xtensor<float, 1> sample_data = _file_data->read_sample_data(true);
-
         size_t ensemble_offset = selection.get_first_sample_number_ensemble();
 
         auto amplitudes =
@@ -155,18 +154,17 @@ class SimradRawPingWatercolumn
 
         if (rsr.get_number_of_samples_to_read() > 0)
         {
-            xt::xtensor<float, 1> beam_amplitudes = _file_data->read_sample_data(true);
             xt::view(amplitudes,
                      0, // beam number
                      xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
                                rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                xt::cast<float>(beam_amplitudes);
+                xt::cast<float>(_file_data->read_sample_data(true));
         }
 
         return amplitudes;
     }
 
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    xt::xtensor<float, 2> get_av_eigen(const pingtools::BeamSampleSelection& bs)
     {
         xt::xtensor<float, 2> av = get_amplitudes(bs);
 
@@ -178,7 +176,8 @@ class SimradRawPingWatercolumn
         float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
 
         xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-        range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor * tmp_2)));
+        Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> range_factor_eigen(range_factor.data(),
+                                                                              range_factor.size());
 
         // compute pulse factor (for one beam)
         auto signal_parameters = get_tx_signal_parameters()[0];
@@ -201,6 +200,56 @@ class SimradRawPingWatercolumn
                 return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
             });
 
+        tmp /= std::log(
+            10); // eigen log10 does not use simd instructions, thus use log and divide by log(10)
+        range_factor_eigen = tmp * (range_factor_eigen * tmp_2).log() + pulse_factor;
+
+        Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic>> av_eigen(
+            av.data(), av.shape()[1], av.shape()[0]);
+
+        av_eigen.colwise() -= range_factor_eigen;
+
+        return av;
+    }
+
+    xt::xtensor<float, 2> get_av_eigen() { return get_av_eigen(this->get_beam_sample_selection_all()); }
+
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    {
+        xt::xtensor<float, 2> av = get_amplitudes(bs);
+
+        // get information
+        float sound_velocity = get_sound_speed_at_transducer();
+
+        // compute range factor (per sample)
+        float tmp   = 0 - 20.f; // 0 is the already applied TVG factor
+        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
+
+        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
+
+        // compute pulse factor (for one beam)
+        auto signal_parameters = get_tx_signal_parameters()[0];
+
+        float pulse_factor = tools::helper::visit_variant(
+            signal_parameters,
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
+                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
+            },
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
+                // TODO: correct computation for FM?
+                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
+            },
+            [sound_velocity](
+                const algorithms::signalprocessing::datastructures::GenericSignalParameters&
+                    param) {
+                // TODO: throw warning?
+                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
+            });
+
+        range_factor = tmp * xt::eval(xt::log10(range_factor * tmp_2)) + pulse_factor;
+
         // if there is an offset apply it to pulse factor
         // pulse_factor_per_sector += tvg_offset;
 
@@ -208,109 +257,11 @@ class SimradRawPingWatercolumn
         // range factor
         av -= xt::view(range_factor, xt::newaxis(), xt::all());
 
-        // pulse factor
-        av -= pulse_factor;
+        // pulse factor (is already applied to range factor)
+        // av -= pulse_factor;
 
         return av;
     }
-
-    // xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
-    // {
-    //     // get and convert amplitudes to dB
-    //     xt::xtensor<float, 2> av         = get_amplitudes(bs) * 0.5f;
-    //     auto                  tvg_offset = get_tvg_offset();
-
-    //     // get information
-    //     float sound_velocity = get_sound_speed_at_transducer();
-
-    //     // compute range factor (per sample)
-    //     float tmp   = get_tvg_factor_applied() - 20.f;
-    //     float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
-
-    //     xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-    //     range_factor = tmp * xt::eval(xt::log10(xt::eval(range_factor * tmp_2)));
-
-    //     // compute pulse factor (per beam)
-    //     xt::xtensor<float, 1> pulse_factor =
-    //         xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
-    //     auto        signal_parameters       = get_tx_signal_parameters();
-    //     const auto& beam_numbers            = bs.get_beam_numbers();
-    //     auto        sector_numbers_per_beam = get_tx_sector_per_beam();
-
-    //     xt::xtensor<float, 1> pulse_factor_per_sector =
-    //         xt::empty<float>({ signal_parameters.size() });
-    //     for (unsigned int si = 0; si < signal_parameters.size(); ++si)
-    //     {
-    //         const auto& sigparam        = signal_parameters[si];
-    //         pulse_factor_per_sector[si] = tools::helper::visit_variant(
-    //             sigparam,
-    //             [sound_velocity](
-    //                 const algorithms::signalprocessing::datastructures::CWSignalParameters&
-    //                 param) { return std::log10(sound_velocity * param.get_effective_pulse_duration() *
-    //                 0.5);
-    //             },
-    //             [sound_velocity](
-    //                 const algorithms::signalprocessing::datastructures::FMSignalParameters&
-    //                 param) {
-    //                 // TODO: correct computation for FM?
-    //                 return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-    //             },
-    //             [sound_velocity](
-    //                 const algorithms::signalprocessing::datastructures::GenericSignalParameters&
-    //                     param) {
-    //                 // TODO: throw warning?
-    //                 return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-    //             });
-    //     }
-
-    //     // this is the same as substracting tvg_offset from av later but faster
-    //     pulse_factor_per_sector += tvg_offset;
-
-    //     for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-    //     {
-    //         pulse_factor[bi] =
-    //         pulse_factor_per_sector[sector_numbers_per_beam[beam_numbers[bi]]];
-    //     }
-
-    //     // TODO: speed up using graphics card?
-    //     // // apply factors
-    //     // range factor (here the broadcasting is faster than the loop)
-    //     // for (unsigned int si = 0; si < range_factor.size(); ++si)
-    //     //      xt::col(av, si) -= range_factor[si];
-
-    //     av -= xt::view(range_factor, xt::newaxis(), xt::all());
-
-    //     // pulse factor (here the loop is faster than broadcasting)
-    //     for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-    //         xt::row(av, bi) -= pulse_factor.unchecked(bi);
-
-    //     // av -= xt::view(pulse_factor, xt::all(), xt::newaxis());
-
-    //     // return av - tvg_offset; // this is done earlier for speed
-    //     return av;
-    // }
-
-    // NOT implementer
-    // xt::xtensor<uint16_t, 1> get_bottom_range_samples(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     auto bottom_range_samples =
-    //         xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
-
-    //     auto& range_samples         = _file_data->get_wcinfos().get_detected_range_in_samples();
-    //     auto  number_of_beams       = get_number_of_beams();
-    //     auto& selected_beam_numbers = selection.get_beam_numbers();
-
-    //     for (size_t i = 0; i < selected_beam_numbers.size(); ++i)
-    //     {
-    //         if (selected_beam_numbers[i] < number_of_beams)
-    //             bottom_range_samples[i] = range_samples[selected_beam_numbers[i]];
-    //         else
-    //             bottom_range_samples[i] = 0;
-    //     }
-
-    //     return bottom_range_samples;
-    // }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
