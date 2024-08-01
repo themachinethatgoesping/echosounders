@@ -24,6 +24,7 @@
 #include <xtensor/xview.hpp>
 
 #include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Dense>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -40,6 +41,11 @@ namespace raw3datatypes {
 
 struct RAW3DataComplexFloat32 : public i_RAW3Data
 {
+    // axis[0] = first sample
+    // axis[0][0] = first sample, first channel
+    // axis[0][0][0] = first sample, first channel, real part
+    // axis[0][0][1] = first sample, first channel, imaginary part
+    // note: storage order is real/imaginary, real/imaginary, ... for each channel for each sample
     xt::xtensor<simradraw_float, 3> _complex_samples; ///< Sample data
 
     RAW3DataComplexFloat32()
@@ -60,25 +66,45 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     xt::xtensor<simradraw_float, 1> get_power_xtensor(bool dB = false) const
     {
         auto shape = _complex_samples.shape();
-        auto r1    = xt::sum(xt::reshape_view(xt::eval(_complex_samples * _complex_samples),
-                                              { shape[0], shape[1] * shape[2] }),
-                          1);
+
+        auto real_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 0), 1));
+        auto imag_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 1), 1));
 
         if (!dB)
         {
-            return r1;
+            float factor_except_impedance = 0.125f / shape[1];
+
+            return (real_sum * real_sum + imag_sum * imag_sum) * factor_except_impedance;
         }
         else
         {
-            return 10 * xt::log10(r1);
+            float factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+
+            return 10 * xt::log10((real_sum * real_sum + imag_sum * imag_sum)) +
+                   factor_except_impedance;
         }
     }
+    
 
     xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
     {
+        using Eigen::placeholders::all;
+        using Eigen::placeholders::last;
+
         auto shape = _complex_samples.shape();
-        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>> power(
-            _complex_samples.data(), shape[1] * shape[2], shape[0]);
+        // Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>> power(
+        //     _complex_samples.data(), shape[1] * shape[2], shape[0]);
+        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>,
+                   Eigen::Unaligned,
+                   Eigen::InnerStride<2>>
+            real_amp(_complex_samples.data(), shape[1], shape[0]);
+        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>,
+                   Eigen::Unaligned,
+                   Eigen::InnerStride<2>>
+            imaginary_amp(_complex_samples.data() + 1, shape[1], shape[0]);
+
+        auto real_sum = real_amp.colwise().sum();
+        auto imag_sum = imaginary_amp.colwise().sum();
 
         xt::xtensor<simradraw_float, 1> result = xt::empty<simradraw_float>({ shape[0] });
         Eigen::Map<Eigen::Array<simradraw_float, Eigen::Dynamic, 1>> result_map(result.data(),
@@ -86,17 +112,19 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
 
         if (!dB)
         {
-            result_map = (power * power).colwise().sum();
+            float factor_except_impedance = 0.125f / shape[1];
+            result_map = (real_sum * real_sum + imag_sum * imag_sum) * factor_except_impedance;
         }
         else
         {
-            static const float conv = 10.0f / std::log(10.0f);
-            result_map              = conv * (power * power).colwise().sum().log();
+            static const float conv                    = 10.0f / std::log(10);
+            float              factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+            result_map = ((real_sum * real_sum + imag_sum * imag_sum)).log() * conv +
+                         factor_except_impedance;
         }
 
         return result;
     }
-
 
     xt::xtensor<simradraw_float, 2> get_angle() const final
     {
