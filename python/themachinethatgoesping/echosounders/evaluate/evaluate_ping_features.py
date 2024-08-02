@@ -7,16 +7,16 @@ def __eval_all_features_can_be_called__(feature_group, name, verbose):
     for f in feature_group.possible_features():
         if feature_group.has_feature(f):
             get_feature = f'feature_group.get_{f.name}()'
-            if verbose: print('[success]      ', get_feature.replace('feature_group', name))
+            if verbose: print('[success]      ', get_feature.replace("feature_group", name))
             try:
                 eval(get_feature)
             except Exception as e:
                 raise RuntimeError(f'Error: {get_feature.replace("feature_group", name)} failed with error: {e}')
         else:
             get_feature = f'feature_group.get_{f.name}()'
-            if verbose: print('[not available]', get_feature.replace('feature_group', name))
+            if verbose: print('[not available]', get_feature.replace("feature_group", name))
             if not hasattr(feature_group,f'get_{f.name}'):
-                raise RuntimeError(f'Error: {get_feature.replace('feature_group', name)} function does not exist!')
+                raise RuntimeError(f'Error: {get_feature.replace("feature_group", name)} function does not exist!')
             
     for f in feature_group.possible_feature_groups():
         if feature_group.has_feature(f):
@@ -25,7 +25,7 @@ def __eval_all_features_can_be_called__(feature_group, name, verbose):
         else:
             if verbose: print()
             get_feature = f'feature_group.{f.name}'
-            if verbose: print('[not available]', get_feature.replace('feature_group', name))
+            if verbose: print('[not available]', get_feature.replace("feature_group", name))
             
             try:
                 has_attr = hasattr(feature_group,f'{f.name}')
@@ -33,7 +33,7 @@ def __eval_all_features_can_be_called__(feature_group, name, verbose):
                 has_attr = True # hasattr returns false if the attribute does not exist, but it sometimes throw san exceptions for attributes that to exist
 
             if not has_attr:
-                raise RuntimeError(f'Error: {get_feature.replace('feature_group', name)} function does not exist!')
+                raise RuntimeError(f'Error: {get_feature.replace("feature_group", name)} function does not exist!')
 
 def evaluate_ping_features_can_be_called(ping, verbose=False):
     if not isinstance(ping, Ping.echosounders.filetemplates.I_Ping):
