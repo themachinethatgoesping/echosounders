@@ -29,20 +29,20 @@ namespace pingtools {
  */
 class ReadSampleRange
 {
-    uint16_t _first_sample_to_read; ///< first sample number to read (local to beam sample offset)
-    uint16_t
+    uint32_t _first_sample_to_read; ///< first sample number to read (local to beam sample offset)
+    uint32_t
         _number_of_samples_to_read;     ///< number of samples to read (local to beam sample offset)
-    uint16_t _first_read_sample_offset; ///< offset of the first read sample (compared to global
+    uint32_t _first_read_sample_offset; ///< offset of the first read sample (compared to global
                                         ///< sample number)
-    uint16_t _last_read_sample_offset;  ///< offset of the last read sample (compared to global
+    uint32_t _last_read_sample_offset;  ///< offset of the last read sample (compared to global
 
     ReadSampleRange() {}
 
   public:
-    ReadSampleRange(uint16_t first_sample_to_read,
-                    uint16_t number_of_samples_to_read,
-                    uint16_t first_read_sample_offset,
-                    uint16_t last_read_sample_offset)
+    ReadSampleRange(uint32_t first_sample_to_read,
+                    uint32_t number_of_samples_to_read,
+                    uint32_t first_read_sample_offset,
+                    uint32_t last_read_sample_offset)
         : _first_sample_to_read(first_sample_to_read)
         , _number_of_samples_to_read(number_of_samples_to_read)
         , _first_read_sample_offset(first_read_sample_offset)
@@ -57,12 +57,12 @@ class ReadSampleRange
     /**
      * @brief Return the first sample number to read (local to beam sample offset)
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    uint16_t get_first_sample_to_read() const { return _first_sample_to_read; }
-    uint16_t get_number_of_samples_to_read() const { return _number_of_samples_to_read; }
-    uint16_t get_first_read_sample_offset() const { return _first_read_sample_offset; }
-    uint16_t get_last_read_sample_offset() const { return _last_read_sample_offset; }
+    uint32_t get_first_sample_to_read() const { return _first_sample_to_read; }
+    uint32_t get_number_of_samples_to_read() const { return _number_of_samples_to_read; }
+    uint32_t get_first_read_sample_offset() const { return _first_read_sample_offset; }
+    uint32_t get_last_read_sample_offset() const { return _last_read_sample_offset; }
 
     // ----- from/to binary -----
     /**

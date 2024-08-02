@@ -133,9 +133,9 @@ class I_PingBottom : public I_PingCommon
     /**
      * @brief Get the number of beams for this ping
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
+    virtual uint32_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Get the beam crosstrack angles for this ping in °

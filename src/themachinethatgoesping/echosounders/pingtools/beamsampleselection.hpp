@@ -37,18 +37,18 @@ namespace pingtools {
 class BeamSampleSelection : public BeamSelection
 {
     using BeamSelection::_beam_numbers;                  ///< selected beam numbers
-    std::vector<uint16_t> _first_sample_number_per_beam; ///< first sample number per beam
-    std::vector<uint16_t> _last_sample_number_per_beam;  ///< last sample number per beam
+    std::vector<uint32_t> _first_sample_number_per_beam; ///< first sample number per beam
+    std::vector<uint32_t> _last_sample_number_per_beam;  ///< last sample number per beam
 
-    uint16_t _sample_step_ensemble = 1; ///< sample step size (same for the entire ensemble)
-    uint16_t _first_sample_number_ensemble =
-        std::numeric_limits<uint16_t>::max();  ///< minimum sample number
+    uint32_t _sample_step_ensemble = 1; ///< sample step size (same for the entire ensemble)
+    uint32_t _first_sample_number_ensemble =
+        std::numeric_limits<uint32_t>::max();  ///< minimum sample number
                                                ///< (min(first_sample_number_per_beam))
-    uint16_t _last_sample_number_ensemble = 0; ///< maximum sample number
+    uint32_t _last_sample_number_ensemble = 0; ///< maximum sample number
                                                ///< (max(last_sample_number_per_beam))
 
   public:
-    BeamSampleSelection(uint16_t sample_step_ensemble = 1)
+    BeamSampleSelection(uint32_t sample_step_ensemble = 1)
         : _sample_step_ensemble(sample_step_ensemble)
     {
     }
@@ -61,12 +61,12 @@ class BeamSampleSelection : public BeamSelection
     BeamSampleSelection(BeamSelection beam_selection)
         : BeamSelection(std::move(beam_selection))
     {
-        _first_sample_number_per_beam = std::vector<uint16_t>(get_number_of_beams(), 0);
+        _first_sample_number_per_beam = std::vector<uint32_t>(get_number_of_beams(), 0);
         _last_sample_number_per_beam =
-            std::vector<uint16_t>(get_number_of_beams(), std::numeric_limits<uint16_t>::max());
+            std::vector<uint32_t>(get_number_of_beams(), std::numeric_limits<uint32_t>::max());
 
         _first_sample_number_ensemble = 0;
-        _last_sample_number_ensemble  = std::numeric_limits<uint16_t>::max();
+        _last_sample_number_ensemble  = std::numeric_limits<uint32_t>::max();
     }
 
     // --- get read sample range ---
@@ -78,9 +78,9 @@ class BeamSampleSelection : public BeamSelection
      * @param number_of_samples number of samples in the real beam structure
      * @return ReadSampleRange read sample range
      */
-    ReadSampleRange get_read_sample_range(uint16_t beam_index,
-                                          uint16_t first_sample_offset_in_beam,
-                                          uint16_t number_of_samples_in_beam) const
+    ReadSampleRange get_read_sample_range(uint32_t beam_index,
+                                          uint32_t first_sample_offset_in_beam,
+                                          uint32_t number_of_samples_in_beam) const
     {
         if (beam_index >= get_number_of_beams())
         {
@@ -117,8 +117,8 @@ class BeamSampleSelection : public BeamSelection
             number_of_samples_to_read = 0;
         }
 
-        uint16_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
-        uint16_t last_read_sample_offset =
+        uint32_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
+        uint32_t last_read_sample_offset =
             first_read_sample_offset + (number_of_samples_to_read - 1) * _sample_step_ensemble;
 
         if (last_read_sample_offset < first_read_sample_offset)
@@ -126,10 +126,10 @@ class BeamSampleSelection : public BeamSelection
             last_read_sample_offset = first_read_sample_offset;
         }
 
-        return ReadSampleRange(uint16_t(first_beam_sample_to_read),
-                               uint16_t(number_of_samples_to_read),
-                               uint16_t(first_read_sample_offset),
-                               uint16_t(last_read_sample_offset));
+        return ReadSampleRange(uint32_t(first_beam_sample_to_read),
+                               uint32_t(number_of_samples_to_read),
+                               uint32_t(first_read_sample_offset),
+                               uint32_t(last_read_sample_offset));
     }
 
     /**
@@ -139,9 +139,9 @@ class BeamSampleSelection : public BeamSelection
      * @param first_sample_number first sample number to select
      * @param last_sample_number_per_beam last sample number to select
      */
-    BeamSampleSelection(std::vector<uint16_t> first_sample_number_per_beam,
-                        std::vector<uint16_t> last_sample_number_per_beam,
-                        uint16_t              sample_step_ensemble = 1)
+    BeamSampleSelection(std::vector<uint32_t> first_sample_number_per_beam,
+                        std::vector<uint32_t> last_sample_number_per_beam,
+                        uint32_t              sample_step_ensemble = 1)
         : BeamSelection(first_sample_number_per_beam.size())
         , _first_sample_number_per_beam(std::move(first_sample_number_per_beam))
         , _last_sample_number_per_beam(std::move(last_sample_number_per_beam))
@@ -171,9 +171,9 @@ class BeamSampleSelection : public BeamSelection
      * @param first_sample_number first sample number to select
      * @param last_sample_number_per_beam last sample number to select
      */
-    void add_beam(uint16_t beam_nr,
-                  uint16_t first_sample_number = 0,
-                  uint16_t last_sample_number  = std::numeric_limits<uint16_t>::max())
+    void add_beam(uint32_t beam_nr,
+                  uint32_t first_sample_number = 0,
+                  uint32_t last_sample_number  = std::numeric_limits<uint32_t>::max())
     {
         BeamSelection::add_beam(beam_nr);
 
@@ -192,9 +192,9 @@ class BeamSampleSelection : public BeamSelection
     /**
      * @brief Return the first sample number per beam
      *
-     * @return std::vector<uint16_t>
+     * @return std::vector<uint32_t>
      */
-    const std::vector<uint16_t>& get_first_sample_number_per_beam() const
+    const std::vector<uint32_t>& get_first_sample_number_per_beam() const
     {
         return _first_sample_number_per_beam;
     }
@@ -202,25 +202,25 @@ class BeamSampleSelection : public BeamSelection
     /**
      * @brief Return the max number of samples per beam
      *
-     * @return std::vector<uint16_t>
+     * @return std::vector<uint32_t>
      */
-    const std::vector<uint16_t>& get_last_sample_number_per_beam() const
+    const std::vector<uint32_t>& get_last_sample_number_per_beam() const
     {
         return _last_sample_number_per_beam;
     }
 
     // ----- ensemble data -----
-    void set_sample_step_ensemble(uint16_t sample_step_ensemble)
+    void set_sample_step_ensemble(uint32_t sample_step_ensemble)
     {
         _sample_step_ensemble = sample_step_ensemble;
     }
 
-    void set_first_sample_number_ensemble(uint16_t first_sample_number_ensemble)
+    void set_first_sample_number_ensemble(uint32_t first_sample_number_ensemble)
     {
         _first_sample_number_ensemble = first_sample_number_ensemble;
     }
 
-    void set_last_sample_number_ensemble(uint16_t last_sample_number_ensemble)
+    void set_last_sample_number_ensemble(uint32_t last_sample_number_ensemble)
     {
         _last_sample_number_ensemble = last_sample_number_ensemble;
     }
@@ -228,55 +228,55 @@ class BeamSampleSelection : public BeamSelection
     /**
      * @brief Return the sample step size
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    uint16_t get_sample_step_ensemble() const { return _sample_step_ensemble; }
+    uint32_t get_sample_step_ensemble() const { return _sample_step_ensemble; }
 
     /**
      * @brief Return the first sample number of the ensemble
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    uint16_t get_first_sample_number_ensemble() const { return _first_sample_number_ensemble; }
+    uint32_t get_first_sample_number_ensemble() const { return _first_sample_number_ensemble; }
 
     /**
      * @brief Return the last sample number of the ensemble
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    uint16_t get_last_sample_number_ensemble() const { return _last_sample_number_ensemble; }
+    uint32_t get_last_sample_number_ensemble() const { return _last_sample_number_ensemble; }
 
     /**
      * @brief return the number of samples within the ensemble
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    uint16_t get_number_of_samples_ensemble() const
+    uint32_t get_number_of_samples_ensemble() const
     {
         return (_last_sample_number_ensemble - _first_sample_number_ensemble) /
                    _sample_step_ensemble +
                1;
     }
 
-    xt::xtensor<uint16_t, 1> get_sample_numbers_ensemble_1d() const
+    xt::xtensor<uint32_t, 1> get_sample_numbers_ensemble_1d() const
     {
-        xt::xtensor<uint16_t, 1> sample_numbers_ensemble =
-            xt::arange<uint16_t>(_first_sample_number_ensemble,
+        xt::xtensor<uint32_t, 1> sample_numbers_ensemble =
+            xt::arange<uint32_t>(_first_sample_number_ensemble,
                                  _last_sample_number_ensemble + _sample_step_ensemble,
                                  _sample_step_ensemble);
 
         return sample_numbers_ensemble;
     }
 
-    xt::xtensor<uint16_t, 2> get_sample_numbers_ensemble_2d() const
+    xt::xtensor<uint32_t, 2> get_sample_numbers_ensemble_2d() const
     {
-        xt::xtensor<uint16_t, 1> sample_numbers_ensemble = get_sample_numbers_ensemble_1d();
+        xt::xtensor<uint32_t, 1> sample_numbers_ensemble = get_sample_numbers_ensemble_1d();
 
         // return copy of sample_numbers_ensemble for each beam as 2d array
-        xt::xtensor<uint16_t, 2> sample_numbers_ensemble_2d = xt::xtensor<uint16_t, 2>::from_shape(
+        xt::xtensor<uint32_t, 2> sample_numbers_ensemble_2d = xt::xtensor<uint32_t, 2>::from_shape(
             { get_number_of_beams(), get_number_of_samples_ensemble() });
 
-        for (uint16_t bn = 0 ; bn <  get_number_of_beams(); ++bn)
+        for (uint32_t bn = 0 ; bn <  get_number_of_beams(); ++bn)
         {
             xt::view(sample_numbers_ensemble_2d, bn) = sample_numbers_ensemble;
         }
@@ -298,11 +298,11 @@ class BeamSampleSelection : public BeamSelection
         using themachinethatgoesping::tools::classhelper::stream::container_from_stream;
 
         BeamSampleSelection object(BeamSelection::from_stream(is));
-        object._first_sample_number_per_beam = container_from_stream<std::vector<uint16_t>>(is);
-        object._last_sample_number_per_beam  = container_from_stream<std::vector<uint16_t>>(is);
+        object._first_sample_number_per_beam = container_from_stream<std::vector<uint32_t>>(is);
+        object._last_sample_number_per_beam  = container_from_stream<std::vector<uint32_t>>(is);
 
         // read other variables
-        is.read(reinterpret_cast<char*>(&object._sample_step_ensemble), sizeof(uint16_t) * 3);
+        is.read(reinterpret_cast<char*>(&object._sample_step_ensemble), sizeof(uint32_t) * 3);
 
         return object;
     }
@@ -321,7 +321,7 @@ class BeamSampleSelection : public BeamSelection
         container_to_stream(os, _last_sample_number_per_beam);
 
         // write other variables
-        os.write(reinterpret_cast<const char*>(&_sample_step_ensemble), sizeof(uint16_t) * 3);
+        os.write(reinterpret_cast<const char*>(&_sample_step_ensemble), sizeof(uint32_t) * 3);
     }
 
     // ----- printing -----

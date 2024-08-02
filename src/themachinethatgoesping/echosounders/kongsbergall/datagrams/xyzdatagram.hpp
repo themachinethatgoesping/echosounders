@@ -97,7 +97,7 @@ class XYZDatagram : public KongsbergAllDatagram
      *
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    t_XYZ get_xyz(const std::vector<uint16_t>& beam_numbers) const
+    t_XYZ get_xyz(const std::vector<uint32_t>& beam_numbers) const
     {
         t_XYZ xyz({ beam_numbers.size() });
 

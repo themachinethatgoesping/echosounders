@@ -182,9 +182,9 @@ class I_PingWatercolumn : public I_PingCommon
     /**
      * @brief Get the number of beams for this ping
      *
-     * @return uint16_t
+     * @return uint32_t
      */
-    virtual uint16_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
+    virtual uint32_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Check this pings supports the extraction of beam_crosstrack_angles
@@ -236,16 +236,16 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, class_name());
     }
 
-    virtual xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam()
+    virtual xt::xtensor<uint32_t, 1> get_first_sample_offset_per_beam()
     {
         throw not_implemented(__func__, class_name());
     }
 
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam()
+    xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam()
     {
         return get_number_of_samples_per_beam(get_beam_selection_all());
     }
-    virtual xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+    virtual xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
         [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, class_name());
@@ -268,9 +268,9 @@ class I_PingWatercolumn : public I_PingCommon
             // build BeamSampleSelection
             auto last_sample_number_per_beam = first_sample_offsets + number_of_samples - 1;
 
-            std::vector<uint16_t> first_snpb(first_sample_offsets.begin(),
+            std::vector<uint32_t> first_snpb(first_sample_offsets.begin(),
                                              first_sample_offsets.end());
-            std::vector<uint16_t> last_snpb(last_sample_number_per_beam.begin(),
+            std::vector<uint32_t> last_snpb(last_sample_number_per_beam.begin(),
                                             last_sample_number_per_beam.end());
 
             _beam_sample_selection_all =
@@ -345,9 +345,9 @@ class I_PingWatercolumn : public I_PingCommon
     /**
      * @brief Get the sample number of the bottom detection for each beam
      *
-     * @return xt::xtensor<uint16_t, 1>
+     * @return xt::xtensor<uint32_t, 1>
      */
-    virtual xt::xtensor<uint16_t, 1> get_bottom_range_samples()
+    virtual xt::xtensor<uint32_t, 1> get_bottom_range_samples()
     {
         return get_bottom_range_samples(get_beam_selection_all());
     }
@@ -356,9 +356,9 @@ class I_PingWatercolumn : public I_PingCommon
      * @brief Get the sample number of the bottom detection for each selected beam
      *
      * @param selection Selection of Beams to extract
-     * @return xt::xtensor<uint16_t, 1>
+     * @return xt::xtensor<uint32_t, 1>
      */
-    virtual xt::xtensor<uint16_t, 1> get_bottom_range_samples(
+    virtual xt::xtensor<uint32_t, 1> get_bottom_range_samples(
         [[maybe_unused]] const pingtools::BeamSelection& selection)
     {
         throw not_implemented(__func__, this->class_name());

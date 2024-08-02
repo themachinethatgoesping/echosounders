@@ -97,7 +97,7 @@ class RawRangeAndAngle : public KongsbergAllDatagram
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_two_way_travel_times(const std::vector<uint16_t>& beam_numbers) const
+    xt::xtensor<float, 1> get_two_way_travel_times(const std::vector<uint32_t>& beam_numbers) const
     {
         auto twtt = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
 
@@ -136,7 +136,7 @@ class RawRangeAndAngle : public KongsbergAllDatagram
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(const std::vector<uint16_t>& beam_numbers) const
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(const std::vector<uint32_t>& beam_numbers) const
     {
         auto bpa = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
 

@@ -77,7 +77,7 @@ class SimradRawPingBottom
 
     // ----- I_PingCommon interface -----
 
-    uint16_t get_number_of_beams() override
+    uint32_t get_number_of_beams() override
     {
         if (has_xyz())
             return 1;

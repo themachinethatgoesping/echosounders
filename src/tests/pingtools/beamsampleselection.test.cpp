@@ -32,17 +32,17 @@ TEST_CASE("BeamSampleSelection should support common functions", TESTTAG)
     CHECK(obj.get_number_of_beams() == 4);
     CHECK(obj.get_number_of_samples_ensemble() == 6);
 
-    CHECK(obj.get_beam_numbers() == std::vector<uint16_t>{ 0, 1, 2, 4 });
-    CHECK(obj.get_first_sample_number_per_beam() == std::vector<uint16_t>{ 1, 3, 2, 1 });
-    CHECK(obj.get_last_sample_number_per_beam() == std::vector<uint16_t>{ 10, 11, 10, 9 });
+    CHECK(obj.get_beam_numbers() == std::vector<uint32_t>{ 0, 1, 2, 4 });
+    CHECK(obj.get_first_sample_number_per_beam() == std::vector<uint32_t>{ 1, 3, 2, 1 });
+    CHECK(obj.get_last_sample_number_per_beam() == std::vector<uint32_t>{ 10, 11, 10, 9 });
 
     // test alternative intialization
-    xt::xtensor<uint16_t, 1> start_range_sample_numbers{ 1, 3, 2 };
-    xt::xtensor<uint16_t, 1> number_of_samples_per_beam{ 10, 9, 9 };
+    xt::xtensor<uint32_t, 1> start_range_sample_numbers{ 1, 3, 2 };
+    xt::xtensor<uint32_t, 1> number_of_samples_per_beam{ 10, 9, 9 };
     auto last_sample_numbers = start_range_sample_numbers + number_of_samples_per_beam - 1;
     auto obj2                = BeamSampleSelection(
-        std::vector<uint16_t>(start_range_sample_numbers.begin(), start_range_sample_numbers.end()),
-        std::vector<uint16_t>(last_sample_numbers.begin(), last_sample_numbers.end()),
+        std::vector<uint32_t>(start_range_sample_numbers.begin(), start_range_sample_numbers.end()),
+        std::vector<uint32_t>(last_sample_numbers.begin(), last_sample_numbers.end()),
         3);
 
     // test variables alternative
@@ -52,9 +52,9 @@ TEST_CASE("BeamSampleSelection should support common functions", TESTTAG)
     CHECK(obj2.get_number_of_beams() == 3);
     CHECK(obj2.get_number_of_samples_ensemble() == 4);
 
-    CHECK(obj2.get_beam_numbers() == std::vector<uint16_t>{ 0, 1, 2 });
-    CHECK(obj2.get_first_sample_number_per_beam() == std::vector<uint16_t>{ 1, 3, 2 });
-    CHECK(obj2.get_last_sample_number_per_beam() == std::vector<uint16_t>{ 10, 11, 10 });
+    CHECK(obj2.get_beam_numbers() == std::vector<uint32_t>{ 0, 1, 2 });
+    CHECK(obj2.get_first_sample_number_per_beam() == std::vector<uint32_t>{ 1, 3, 2 });
+    CHECK(obj2.get_last_sample_number_per_beam() == std::vector<uint32_t>{ 10, 11, 10 });
 
     CHECK(obj != obj2);
     obj2.add_beam(4, 1, 9);

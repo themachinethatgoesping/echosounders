@@ -1,4 +1,4 @@
-//sourcehash: 8c51830a3a2097e779a5a7b968d115c1d75f01f9fa334bf5971f848cae7654b8
+//sourcehash: b61c61c1eb78bc065f283f9bafed1b0ab0fa2634af0c62005f9f5e25f520a65c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -133,7 +133,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 R"doc(Get the sample number of the bottom detection for each beam
 
 Returns:
-    xt::xtensor<uint16_t, 1>)doc";
+    xt::xtensor<uint32_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_bottom_range_samples_2 =
 R"doc(Get the sample number of the bottom detection for each selected beam
@@ -142,7 +142,7 @@ Parameter ``selection``:
     Selection of Beams to extract
 
 Returns:
-    xt::xtensor<uint16_t, 1>)doc";
+    xt::xtensor<uint32_t, 1>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_calibration = R"doc()doc";
 
@@ -152,7 +152,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 R"doc(Get the number of beams for this ping
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 

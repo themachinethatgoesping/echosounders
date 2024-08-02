@@ -28,14 +28,14 @@ TEST_CASE("BeamSelection should support common functions", TESTTAG)
     // test variables
     CHECK(obj.get_number_of_beams() == 4);
 
-    CHECK(obj.get_beam_numbers() == std::vector<uint16_t>{ 0, 1, 2, 4 });
+    CHECK(obj.get_beam_numbers() == std::vector<uint32_t>{ 0, 1, 2, 4 });
 
     // test alternative intialization
     auto obj2 = BeamSelection(3);
 
     // test variables alternative
     CHECK(obj2.get_number_of_beams() == 3);
-    CHECK(obj2.get_beam_numbers() == std::vector<uint16_t>{ 0, 1, 2 });
+    CHECK(obj2.get_beam_numbers() == std::vector<uint32_t>{ 0, 1, 2 });
 
     CHECK(obj != obj2);
     obj2.add_beam(4);

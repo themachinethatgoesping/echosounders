@@ -85,7 +85,7 @@ class SimradRawPingWatercolumn
 
     size_t get_number_of_tx_sectors() override { return 1; }
 
-    uint16_t get_number_of_beams() override { return 1; }
+    uint32_t get_number_of_beams() override { return 1; }
 
     // ----- getter/setters -----
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
@@ -105,18 +105,18 @@ class SimradRawPingWatercolumn
     }
 
     using t_base1::get_number_of_samples_per_beam;
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+    xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
         const pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
 
-        return { uint16_t(_file_data->get_ping_data().get_count()) };
+        return { uint32_t(_file_data->get_ping_data().get_count()) };
     }
-    xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
+    xt::xtensor<uint32_t, 1> get_first_sample_offset_per_beam() override
     {
-        return { uint16_t(_file_data->get_ping_data().get_offset()) };
+        return { uint32_t(_file_data->get_ping_data().get_offset()) };
     }
-    // const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
+    // const xt::xtensor<uint32_t, 1>& get_detected_range_in_samples()
     // {
     //     return _file_data->get_wcinfos().get_detected_range_in_samples();
     // }

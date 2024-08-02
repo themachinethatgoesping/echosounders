@@ -1,4 +1,4 @@
-//sourcehash: 372dfbf5773072937a75f29b4d0965e8cd0031303e4e45533eaa01e1bed9230e
+//sourcehash: 42da895bdccde1bdf3be80509ce4de16a324ae0a9bf5cf587b5706c75a419c40
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -83,7 +83,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelec
 R"doc(Return the beam numbers
 
 Returns:
-    std::vector<uint16_t>)doc";
+    std::vector<uint32_t>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_get_number_of_beams =
 R"doc(Return the number of beams

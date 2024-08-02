@@ -39,7 +39,7 @@ void init_c_rawrangeandangle(pybind11::module& m)
              py::overload_cast<>(&RawRangeAndAngle::get_two_way_travel_times, py::const_),
              DOC_RawRangeAndAngle(get_two_way_travel_times))
         .def("get_two_way_travel_times",
-             py::overload_cast<const std::vector<uint16_t>&>(
+             py::overload_cast<const std::vector<uint32_t>&>(
                  &RawRangeAndAngle::get_two_way_travel_times, py::const_),
              DOC_RawRangeAndAngle(get_two_way_travel_times_2),
              py::arg("beam_numbers"))
@@ -47,7 +47,7 @@ void init_c_rawrangeandangle(pybind11::module& m)
              py::overload_cast<>(&RawRangeAndAngle::get_beam_crosstrack_angles, py::const_),
              DOC_RawRangeAndAngle(get_beam_crosstrack_angles))
         .def("get_beam_crosstrack_angles",
-             py::overload_cast<const std::vector<uint16_t>&>(
+             py::overload_cast<const std::vector<uint32_t>&>(
                  &RawRangeAndAngle::get_beam_crosstrack_angles, py::const_),
              DOC_RawRangeAndAngle(get_beam_crosstrack_angles_2),
              py::arg("beam_numbers"))

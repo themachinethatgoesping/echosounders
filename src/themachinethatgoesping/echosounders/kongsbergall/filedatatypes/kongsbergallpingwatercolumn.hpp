@@ -125,7 +125,7 @@ class KongsbergAllPingWatercolumn
     }
     bool loaded() override { return _file_data->wci_loaded() && _file_data->sys_loaded(); }
 
-    uint16_t get_number_of_beams() override
+    uint32_t get_number_of_beams() override
     {
         if (!has_amplitudes())
             return 0;
@@ -179,15 +179,15 @@ class KongsbergAllPingWatercolumn
         return beam_alongtrack_angles;
     }
 
-    const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers()
+    const xt::xtensor<uint32_t, 1>& get_start_range_sample_numbers()
     {
         return _file_data->get_wcinfos().get_start_range_sample_numbers();
     }
     using t_base1::get_number_of_samples_per_beam;
-    xt::xtensor<uint16_t, 1> get_number_of_samples_per_beam(
+    xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
         const pingtools::BeamSelection& bs) override
     {
-        xt::xtensor<uint16_t, 1> samples = xt::empty<uint16_t>({ bs.get_number_of_beams() });
+        xt::xtensor<uint32_t, 1> samples = xt::empty<uint32_t>({ bs.get_number_of_beams() });
         const auto&              number_of_samples_per_beam =
             _file_data->get_wcinfos().get_number_of_samples_per_beam();
         const auto& beam_numbers = bs.get_beam_numbers();
@@ -203,11 +203,11 @@ class KongsbergAllPingWatercolumn
         }
         return samples;
     }
-    xt::xtensor<uint16_t, 1> get_first_sample_offset_per_beam() override
+    xt::xtensor<uint32_t, 1> get_first_sample_offset_per_beam() override
     {
         return _file_data->get_wcinfos().get_start_range_sample_numbers();
     }
-    const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples()
+    const xt::xtensor<uint32_t, 1>& get_detected_range_in_samples()
     {
         return _file_data->get_wcinfos().get_detected_range_in_samples();
     }
@@ -454,11 +454,11 @@ class KongsbergAllPingWatercolumn
         return get_corrected_amp(bs, true);
     }
 
-    xt::xtensor<uint16_t, 1> get_bottom_range_samples(
+    xt::xtensor<uint32_t, 1> get_bottom_range_samples(
         const pingtools::BeamSelection& selection) override
     {
         auto bottom_range_samples =
-            xt::xtensor<uint16_t, 1>::from_shape({ selection.get_number_of_beams() });
+            xt::xtensor<uint32_t, 1>::from_shape({ selection.get_number_of_beams() });
 
         auto& range_samples         = _file_data->get_wcinfos().get_detected_range_in_samples();
         auto  number_of_beams       = get_number_of_beams();

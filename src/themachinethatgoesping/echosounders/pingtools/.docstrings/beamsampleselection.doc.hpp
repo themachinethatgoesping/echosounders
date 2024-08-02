@@ -1,4 +1,4 @@
-//sourcehash: 30dc08cb52c09fa15ff4c79ff1bd5d9a9f3c19cbf21b936964c1258f671830ca
+//sourcehash: 56b7dfc9b94d293b269c91527f522d58923f56c420248918451e9c68400bb5df
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -90,31 +90,31 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 R"doc(Return the first sample number of the ensemble
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_first_sample_number_per_beam =
 R"doc(Return the first sample number per beam
 
 Returns:
-    std::vector<uint16_t>)doc";
+    std::vector<uint32_t>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_last_sample_number_ensemble =
 R"doc(Return the last sample number of the ensemble
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_last_sample_number_per_beam =
 R"doc(Return the max number of samples per beam
 
 Returns:
-    std::vector<uint16_t>)doc";
+    std::vector<uint32_t>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_number_of_samples_ensemble =
 R"doc(return the number of samples within the ensemble
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_get_read_sample_range =
 R"doc(Return the read sample range for a given beam
@@ -139,7 +139,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampl
 R"doc(Return the sample step size
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_last_sample_number_ensemble = R"doc(< maximum sample number < (max(last_sample_number_per_beam)))doc";
 

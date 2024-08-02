@@ -37,7 +37,7 @@ void init_c_xyzdatagram(pybind11::module& m)
              py::overload_cast<>(&XYZDatagram::get_xyz, py::const_),
              DOC_XYZDatagram(get_xyz))
         .def("get_xyz",
-             py::overload_cast<const std::vector<uint16_t>&>(&XYZDatagram::get_xyz, py::const_),
+             py::overload_cast<const std::vector<uint32_t>&>(&XYZDatagram::get_xyz, py::const_),
              DOC_XYZDatagram(get_xyz_2),
              py::arg("beam_numbers"))
 

@@ -100,7 +100,7 @@ class KongsbergAllPingBottom
     void release() override { _file_data->release_sys(); }
     bool loaded() override { return _file_data->sys_loaded(); }
 
-    uint16_t get_number_of_beams() override
+    uint32_t get_number_of_beams() override
     {
         if (has_xyz())
             return file_data()

@@ -1,4 +1,4 @@
-//sourcehash: fda92661f6c435f5b0d5fe91525da6bff01f8abd4e63d15742a2bd879ff8f069
+//sourcehash: c103163ebace72a1d2ce0eda3b45a6a09c5b811e68b7e27265fef7a0cc6f9bc6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,7 +70,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 R"doc(Get the number of beams for this ping
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors =
 R"doc(Get the number of transmission sectors.

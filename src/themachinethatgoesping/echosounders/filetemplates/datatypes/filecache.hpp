@@ -75,8 +75,8 @@ class FileCache
             {
                 read_header_content_from_stream(is);
 
-                if (std::filesystem::canonical(_file_name) !=
-                        std::filesystem::canonical(file_name) ||
+                if (std::filesystem::weakly_canonical(_file_name) !=
+                        std::filesystem::weakly_canonical(file_name) ||
                     _file_size != file_size)
                 {
                     throw std::runtime_error(fmt::format(

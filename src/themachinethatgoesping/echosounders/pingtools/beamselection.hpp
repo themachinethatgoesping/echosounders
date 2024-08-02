@@ -34,7 +34,7 @@ namespace pingtools {
 class BeamSelection
 {
   protected:
-    std::vector<uint16_t> _beam_numbers; ///< selected beam numbers
+    std::vector<uint32_t> _beam_numbers; ///< selected beam numbers
 
   public:
     BeamSelection() {}
@@ -45,7 +45,7 @@ class BeamSelection
      * @param number_of_beams number of beams in the swath
      */
     BeamSelection(size_t number_of_beams)
-        : _beam_numbers(std::vector<uint16_t>(number_of_beams))
+        : _beam_numbers(std::vector<uint32_t>(number_of_beams))
     {
         std::iota(std::begin(_beam_numbers),
                   std::end(_beam_numbers),
@@ -57,7 +57,7 @@ class BeamSelection
      *
      * @param number_of_beams number of beams in the swath
      */
-    BeamSelection(std::vector<uint16_t> beam_numbers)
+    BeamSelection(std::vector<uint32_t> beam_numbers)
         : _beam_numbers(std::move(beam_numbers))
     {
     }
@@ -73,7 +73,7 @@ class BeamSelection
      * @param first_sample_number first sample number to select
      * @param last_sample_number_per_beam last sample number to select
      */
-    void add_beam(uint16_t beam_nr) { _beam_numbers.push_back(beam_nr); }
+    void add_beam(uint32_t beam_nr) { _beam_numbers.push_back(beam_nr); }
 
     // ----- convenient data access -----
     /**
@@ -86,9 +86,9 @@ class BeamSelection
     /**
      * @brief Return the beam numbers
      *
-     * @return std::vector<uint16_t>
+     * @return std::vector<uint32_t>
      */
-    const std::vector<uint16_t>& get_beam_numbers() const { return _beam_numbers; }
+    const std::vector<uint32_t>& get_beam_numbers() const { return _beam_numbers; }
 
     // ----- from/to binary -----
     /**
@@ -102,7 +102,7 @@ class BeamSelection
         using themachinethatgoesping::tools::classhelper::stream::container_from_stream;
 
         BeamSelection object;
-        object._beam_numbers = container_from_stream<std::vector<uint16_t>>(is);
+        object._beam_numbers = container_from_stream<std::vector<uint32_t>>(is);
 
         return object;
     }

@@ -1,4 +1,4 @@
-//sourcehash: b27fd4f279341b6f007fbfb8cb9a44e1ed9813fd33d176d08282fa76bee112fc
+//sourcehash: cbb9c1908421a2477c5dc36c0ca4592e43301d91761bdd48379df09340a7f43b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,7 +63,7 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampl
 R"doc(Return the first sample number to read (local to beam sample offset)
 
 Returns:
-    uint16_t)doc";
+    uint32_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_ReadSampleRange_get_last_read_sample_offset = R"doc()doc";
 
