@@ -75,7 +75,9 @@ class FileCache
             {
                 read_header_content_from_stream(is);
 
-                if (_file_name != file_name || _file_size != file_size)
+                if (std::filesystem::canonical(_file_name) !=
+                        std::filesystem::canonical(file_name) ||
+                    _file_size != file_size)
                 {
                     throw std::runtime_error(fmt::format(
                         "ERROR[FileCache]: File name or size mismatch. Expected: {} {} got {} {}",
