@@ -10,5 +10,6 @@ from themachinethatgoesping.echosounders_cppy import *  # flake8: noqa
 
 # python only modules
 from . import index_functions# flake8: noqa
+from .evaluate.evaluate_ping_features import evaluate_ping_features_can_be_called# flake8: noqa
 
 __version__ = "@PROJECT_VERSION@"
