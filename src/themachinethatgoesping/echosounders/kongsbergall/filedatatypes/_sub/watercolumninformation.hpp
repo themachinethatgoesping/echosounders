@@ -148,7 +148,6 @@ class WaterColumnInformation
     // ----- functions used for PackageCache -----
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        tools::classhelper::write_version(os, "KMWCInfo_V1");
         std::string         buffer;
         std::vector<size_t> hashes, sizes;
         hashes.reserve(5); // all except _detected_range_in_samples and _sample_positions
@@ -247,7 +246,6 @@ class WaterColumnInformation
         std::istream&                                  is,
         const std::unordered_map<size_t, std::string>& hash_cache)
     {
-        tools::classhelper::read_version(is, "KMWCInfo_V1", "WaterColumnInformation");
         // create WaterColumnInformation
         WaterColumnInformation dat;
 

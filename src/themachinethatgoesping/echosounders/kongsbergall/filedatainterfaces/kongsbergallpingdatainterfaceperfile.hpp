@@ -344,17 +344,17 @@ class KongsbergAllPingDataInterfacePerFile
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<RuntimeParameters>",
-                              "FilePackageCache<WaterColumnInformation>",
+                              "FilePackageCache<WaterColumnInformation>_v1",
                               "FilePackageCache<SystemInformation>" }));
 
             if (_file_cache->has_cache("FilePackageCache<RuntimeParameters>"))
                 _buffer_runtimeparameters = _file_cache->get_from_cache<t_cache_RuntimeParameters>(
                     "FilePackageCache<RuntimeParameters>");
 
-            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
+            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>_v1"))
                 _buffer_watercolumninformation =
                     _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
-                        "FilePackageCache<WaterColumnInformation>");
+                        "FilePackageCache<WaterColumnInformation>_v1");
 
             if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
                 _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
@@ -454,7 +454,7 @@ class KongsbergAllPingDataInterfacePerFile
             {
                 _file_cache->add_to_cache("FilePackageCache<RuntimeParameters>",
                                           _buffer_runtimeparameters);
-                _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
+                _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>_v1",
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
                                           _buffer_systeminformation);
