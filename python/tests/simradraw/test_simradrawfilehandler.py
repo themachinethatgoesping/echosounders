@@ -47,8 +47,14 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
         for d in fm.datagram_interface.datagrams():
             d.get_timestamp()
 
-        for ping in fm.get_pings():
-            ping.get_timestamp()
+        for pnr,ping in enumerate(fm.get_pings()):
+            try:
+                Ping.echosounders.evaluate_ping_features_can_be_called(ping)
+            except Exception as e:
+                LOGGER.error(f"Error for file: {file}")
+                LOGGER.error(f"Error for ping number : {pnr}")
+                LOGGER.error(f"Error: {e}")
+                raise e
 
         return fm.get_pings()
 
