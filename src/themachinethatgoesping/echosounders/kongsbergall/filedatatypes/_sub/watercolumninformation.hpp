@@ -45,9 +45,9 @@ namespace _sub {
 class WaterColumnInformation
 {
     boost::flyweights::flyweight<xt::xtensor<float, 1>>    _beam_crosstrack_angles;
-    boost::flyweights::flyweight<xt::xtensor<uint32_t, 1>> _start_range_sample_numbers;
-    boost::flyweights::flyweight<xt::xtensor<uint32_t, 1>> _number_of_samples_per_beam;
-    xt::xtensor<uint32_t, 1>                               _detected_range_in_samples;
+    boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _start_range_sample_numbers;
+    boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
+    xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
     boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
     xt::xtensor<size_t, 1>                                 _sample_positions;
 
@@ -64,9 +64,9 @@ class WaterColumnInformation
 
         // initialize arrays using from shape function
         auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ nbeams });
-        auto start_range_sample_numbers = xt::xtensor<uint32_t, 1>::from_shape({ nbeams });
-        auto number_of_samples_per_beam = xt::xtensor<uint32_t, 1>::from_shape({ nbeams });
-        auto detected_range_in_samples  = xt::xtensor<uint32_t, 1>::from_shape({ nbeams });
+        auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
+        auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
+        auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
         auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
         auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
 
@@ -97,7 +97,7 @@ class WaterColumnInformation
     bool operator==(const WaterColumnInformation& other) const = default;
 
     template<typename t_ifstream>
-    auto read_beam_samples(uint32_t                          bn,
+    auto read_beam_samples(uint16_t                          bn,
                            const pingtools::ReadSampleRange& rsr,
                            t_ifstream&                       ifs) const
     {
@@ -114,15 +114,15 @@ class WaterColumnInformation
     {
         return _beam_crosstrack_angles.get();
     }
-    const xt::xtensor<uint32_t, 1>& get_start_range_sample_numbers() const
+    const xt::xtensor<uint16_t, 1>& get_start_range_sample_numbers() const
     {
         return _start_range_sample_numbers.get();
     }
-    const xt::xtensor<uint32_t, 1>& get_number_of_samples_per_beam() const
+    const xt::xtensor<uint16_t, 1>& get_number_of_samples_per_beam() const
     {
         return _number_of_samples_per_beam.get();
     }
-    const xt::xtensor<uint32_t, 1>& get_detected_range_in_samples() const
+    const xt::xtensor<uint16_t, 1>& get_detected_range_in_samples() const
     {
         return _detected_range_in_samples;
     }
@@ -171,33 +171,33 @@ class WaterColumnInformation
         // _start_range_sample_numbers
         hashes.push_back(
             xxh::xxhash3<64>(_start_range_sample_numbers.get().data(),
-                             _start_range_sample_numbers.get().size() * sizeof(uint32_t)));
+                             _start_range_sample_numbers.get().size() * sizeof(uint16_t)));
         sizes.push_back(_start_range_sample_numbers.get().size());
 
         if (!hash_cache.contains(hashes.back()))
         {
             auto& buffer = hash_cache[hashes.back()];
-            buffer.resize(_start_range_sample_numbers.get().size() * sizeof(uint32_t));
+            buffer.resize(_start_range_sample_numbers.get().size() * sizeof(uint16_t));
 
             std::memcpy(hash_cache[hashes.back()].data(),
                         _start_range_sample_numbers.get().data(),
-                        _start_range_sample_numbers.get().size() * sizeof(uint32_t));
+                        _start_range_sample_numbers.get().size() * sizeof(uint16_t));
         }
 
         // _number_of_samples_per_beam
         hashes.push_back(
             xxh::xxhash3<64>(_number_of_samples_per_beam.get().data(),
-                             _number_of_samples_per_beam.get().size() * sizeof(uint32_t)));
+                             _number_of_samples_per_beam.get().size() * sizeof(uint16_t)));
         sizes.push_back(_number_of_samples_per_beam.get().size());
 
         if (!hash_cache.contains(hashes.back()))
         {
             auto& buffer = hash_cache[hashes.back()];
-            buffer.resize(_number_of_samples_per_beam.get().size() * sizeof(uint32_t));
+            buffer.resize(_number_of_samples_per_beam.get().size() * sizeof(uint16_t));
 
             std::memcpy(hash_cache[hashes.back()].data(),
                         _number_of_samples_per_beam.get().data(),
-                        _number_of_samples_per_beam.get().size() * sizeof(uint32_t));
+                        _number_of_samples_per_beam.get().size() * sizeof(uint16_t));
         }
 
         // _detected_range_in_samples (write directly to stream, safe size here)
@@ -235,7 +235,7 @@ class WaterColumnInformation
 
         // write detected_range_in_samples to stream
         os.write(reinterpret_cast<const char*>(_detected_range_in_samples.data()),
-                 _detected_range_in_samples.size() * sizeof(uint32_t));
+                 _detected_range_in_samples.size() * sizeof(uint16_t));
 
         // write sample_positions to stream
         os.write(reinterpret_cast<const char*>(_sample_positions.data()),
@@ -259,15 +259,15 @@ class WaterColumnInformation
 
         // resize arrays
         auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ sizes[0] });
-        auto start_range_sample_numbers = xt::xtensor<uint32_t, 1>::from_shape({ sizes[1] });
-        auto number_of_samples_per_beam = xt::xtensor<uint32_t, 1>::from_shape({ sizes[2] });
-        dat._detected_range_in_samples  = xt::xtensor<uint32_t, 1>::from_shape({ sizes[3] });
+        auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
+        auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
+        dat._detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
         auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
         dat._sample_positions           = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
 
         // read detected_range_in_samples from stream
         is.read(reinterpret_cast<char*>(dat._detected_range_in_samples.data()),
-                dat._detected_range_in_samples.size() * sizeof(uint32_t));
+                dat._detected_range_in_samples.size() * sizeof(uint16_t));
 
         // read sample_positions from stream
         is.read(reinterpret_cast<char*>(dat._sample_positions.data()),
@@ -282,13 +282,13 @@ class WaterColumnInformation
         // read _start_range_sample_numbers from hash_cache
         std::memcpy(start_range_sample_numbers.data(),
                     hash_cache.at(hashes[1]).data(),
-                    start_range_sample_numbers.size() * sizeof(uint32_t));
+                    start_range_sample_numbers.size() * sizeof(uint16_t));
         dat._start_range_sample_numbers = std::move(start_range_sample_numbers);
 
         // read _number_of_samples_per_beam from hash_cache
         std::memcpy(number_of_samples_per_beam.data(),
                     hash_cache.at(hashes[2]).data(),
-                    number_of_samples_per_beam.size() * sizeof(uint32_t));
+                    number_of_samples_per_beam.size() * sizeof(uint16_t));
         dat._number_of_samples_per_beam = std::move(number_of_samples_per_beam);
 
         // read _transmit_sector_numbers from hash_cache
