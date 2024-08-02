@@ -20,7 +20,7 @@
 #include <fmt/core.h>
 
 #include <boost/flyweight.hpp>
-#include <eigen3/Eigen/Core>
+#include <Eigen/Core>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
