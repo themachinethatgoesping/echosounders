@@ -124,7 +124,13 @@ class SimradRawPingWatercolumn
 
     float get_sound_speed_at_transducer() override
     {
-        return _file_data->get_parameter().SoundVelocity;
+        //TODO: check if sound speed is available in the file
+        // if not, use the environment sound speed
+        // is environment sound speed always available? Is it a good replacement? Or better search for Soundvelocity profile?
+        auto sound_speed = _file_data->get_parameter().SoundVelocity;
+        if (sound_speed > 0)
+            return sound_speed;
+        return _file_data->get_environment().SoundSpeed;
     }
 
     float get_sample_interval() override { return _file_data->get_parameter().SampleInterval; }
