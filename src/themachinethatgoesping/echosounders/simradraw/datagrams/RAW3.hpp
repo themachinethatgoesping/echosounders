@@ -175,7 +175,7 @@ class RAW3 : public SimradRawDatagram
     raw3datatypes::RAW3DataVariant read_skipped_sample_data(std::istream& is,
                                                             size_t        header_pos) const
     {
-        is.seekg(header_pos + size_t(152));
+        is.seekg(header_pos + size_t(156)); // size of the header(4xint32_t) + 140 bytes channel_id
         return read_sample_data(is);
     }
 

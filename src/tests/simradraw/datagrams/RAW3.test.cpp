@@ -120,7 +120,15 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         dat.to_stream(buffer2);
         auto dat3 = RAW3::from_stream(buffer2, true);
         if (!std::holds_alternative<RAW3DataSkipped>(dat.get_sample_data()))
+        {
             REQUIRE(dat3 != dat);
+
+            // reading the skipped data should give the same result
+            auto sample_data = dat3.read_skipped_sample_data(buffer2, 0);
+            dat3.set_sample_data(sample_data);
+            REQUIRE(dat3 == dat);
+        }
+
 
         dat3.set_sample_data(dat.get_sample_data());
         REQUIRE(dat3 == dat);
