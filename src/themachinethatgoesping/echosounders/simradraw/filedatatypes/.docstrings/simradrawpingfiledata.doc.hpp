@@ -1,4 +1,4 @@
-//sourcehash: 051f37d55846b7551c0dc6d6a697faa3aa4322c9be37733ff2bfe4383c921141
+//sourcehash: 9a67f3e29563286bce55cd0d5d4aa769e970e731b40bf8b22b75293f0b2368d2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,6 +56,23 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_channel = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_impedance_factor =
+R"doc(Get the transceiver impedance factor used for computing power from
+complex 32 bit samples see ek80 interface specification v23.06 p214
+impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² *
+1/ tdi * 1/(2*sqrt(2))² Note: 1. Transceive impedance can be found in
+the transceiver configuration in the configuration datagram 2.
+Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
+
+Returns:
+    float)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transducer = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_power = R"doc()doc";
@@ -81,6 +98,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_environment = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_parameter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_transceiver_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_transceiver_information = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_transceiver_information_initialized = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

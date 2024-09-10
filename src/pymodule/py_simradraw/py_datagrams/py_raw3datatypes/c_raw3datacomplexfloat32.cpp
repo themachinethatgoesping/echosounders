@@ -53,6 +53,10 @@ void init_c_raw3datacomplexfloat32(pybind11::module& m)
              py::arg("complex_samples"))
         .def("__eq__", &RAW3DataComplexFloat32::operator==, py::arg("other"))
 
+        .def("get_complex_samples_bfloat16",
+             &RAW3DataComplexFloat32::get_complex_samples_bfloat16,
+             DOC_RAW3DataComplexFloat32(get_complex_samples_bfloat16),
+             py::arg("max_samples"))
         .def("get_power",
              &RAW3DataComplexFloat32::get_power,
              DOC_RAW3DataComplexFloat32(get_power),

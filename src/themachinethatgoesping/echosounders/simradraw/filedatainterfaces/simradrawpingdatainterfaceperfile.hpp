@@ -26,6 +26,7 @@
 #include "simradrawconfigurationdatainterface.hpp"
 
 #include "../datagrams.hpp"
+#include "../filedatatypes/sub/transceiverinformation.hpp"
 #include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 #include "simradrawenvironmentdatainterface.hpp"
@@ -119,6 +120,25 @@ class SimradRawPingDataInterfacePerFile
             this->navigation_data_interface().get_navigation_interpolator(
                 base_sensor_configuration.binary_hash());
         bool navigation_is_valid = navigation_data_interpolator.valid();
+
+        // transceiver information
+        // get configuration datagram
+        auto configuration_datagram = this->configuration_data_interface()
+                                          .per_file()
+                                          .at(this->get_file_nr())
+                                          ->get_configuration_datagram();
+        auto transceivers         = configuration_datagram.get_transceivers();
+        auto transceiver_channels = configuration_datagram.get_transceiver_channels();
+
+        // cache for tranceiver information
+        std::map<std::string, boost::flyweight<filedatatypes::_sub::TransceiverInformation>>
+            transceiver_information_buffer;
+        for (const auto& [channel_id, transceiver] : transceivers)
+        {
+            transceiver_information_buffer[channel_id] =
+                filedatatypes::_sub::TransceiverInformation(transceiver,
+                                                            transceiver_channels.at(channel_id));
+        }
 
         for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
@@ -250,6 +270,13 @@ class SimradRawPingDataInterfacePerFile
                     auto ping_ptr =
                         std::make_shared<filedatatypes::SimradRawPing<t_ifstream>>(raw3);
                     ping_ptr->add_datagram_info(datagram_ptr);
+
+                    // set transceiver information
+                    auto it = transceiver_information_buffer.find(ping_ptr->get_channel_id());
+                    if (it != transceiver_information_buffer.end())
+                    {
+                        ping_ptr->file_data().set_transceiver_information(it->second);
+                    }
 
                     // set channel_id
                     // substring of channel_id until the first \x00 character

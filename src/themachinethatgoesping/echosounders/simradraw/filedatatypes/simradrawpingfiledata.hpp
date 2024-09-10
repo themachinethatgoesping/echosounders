@@ -10,9 +10,6 @@
 /* generated doc strings */
 #include ".docstrings/simradrawpingfiledata.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/simradrawping.doc.hpp"
-
 /* std includes */
 #include <filesystem>
 #include <fstream>
@@ -38,6 +35,7 @@
 #include "../../filetemplates/datatypes/i_pingfiledata.hpp"
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/simradrawdatagraminterface.hpp"
+#include "sub/transceiverinformation.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -58,6 +56,7 @@ class SimradRawPingFileData
         _ping_data; ///< when implementing EK60, this must become a variant type (RAW3 or RAW0)
     boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     boost::flyweight<datagrams::xml_datagrams::XML_Environment>       _ping_environment;
+    boost::flyweight<_sub::TransceiverInformation>                    _transceiver_information;
 
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
@@ -72,6 +71,41 @@ class SimradRawPingFileData
     }
 
     ~SimradRawPingFileData() = default;
+
+    void set_transceiver_information(
+        boost::flyweight<_sub::TransceiverInformation> transceiver_information)
+    {
+        _transceiver_information = transceiver_information;
+    }
+
+    auto get_transceiver() const { return _transceiver_information.get().get_transceiver(); }
+    auto get_transceiver_channel() const
+    {
+        return _transceiver_information.get().get_transceiver_channel();
+    }
+    auto get_transducer() const { return _transceiver_information.get().get_transducer(); }
+
+    bool transceiver_information_initialized() const
+    {
+        return _transceiver_information.get().is_initialized();
+    }
+
+    /**
+     * @brief Get the transceiver impedance factor
+     *  used for computing power from complex 32 bit samples
+     *   see ek80 interface specification v23.06 p214
+     *   impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
+     1/(2*sqrt(2))²
+     * Note: 1. Transceive impedance can be found in the transceiver configuration in the
+     configuration datagram
+     *       2. Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
+     *
+     * @return float
+     */
+    float get_transceiver_impedance_factor() const
+    {
+        return _transceiver_information.get().get_impedance_factor();
+    }
 
     void set_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
@@ -109,9 +143,33 @@ class SimradRawPingFileData
         auto sample_data = _ping_data.read_skipped_sample_data(datagram_info->get_stream(),
                                                                datagram_info->get_file_pos());
 
-        return tools::helper::visit_variant(sample_data,
-                                            [dB](auto& data) { return data.get_power(dB); });
+        return tools::helper::visit_variant(
+            sample_data,
+            [dB, this](datagrams::raw3datatypes::RAW3DataComplexFloat32& data) {
+                float conv_factor =
+                    this->get_transceiver_impedance_factor() / data._complex_samples.shape()[1];
+                if (dB)
+                {
+                    conv_factor = 10 * std::log10(conv_factor);
+                    return xt::xtensor<float, 1>(data.get_power(dB) + conv_factor);
+                }
+                return xt::xtensor<float, 1>(data.get_power(dB) * conv_factor);
+            },
+            [dB](auto& data) { return data.get_power(dB); });
     }
+
+    // float get_impedance_factor() const
+    // {
+    //     def compute_impedance_factor(ping, tdi)
+    //         : tci = fh.configuration_interface.per_file()[ping.file_data.get_primary_file_nr()]
+    //                     .get_configuration_datagram()
+    //                     .get_transceiver(ping.get_channel_id())
+    //                     .Impedance return 10 *
+    //                 np.log10(((tci + tdi) / tci) * *2 / tdi)
+    //     , ((tci + tdi) / tci) * *2 / tdi
+
+    //     // return _ping_data.get_parameter().get_impedance_factor();
+    // }
 
     void load()
     { //_ping_data.sample_data() = read_sample_data();
@@ -132,12 +190,12 @@ class SimradRawPingFileData
                 return false;
             case t_RAW3DataType::Power:
                 [[fallthrough]];
-            case t_RAW3DataType::ComplexFloat32:
-                [[fallthrough]];
             case t_RAW3DataType::PowerAndAngle:
                 [[fallthrough]];
             case t_RAW3DataType::ComplexFloat16:
                 return true;
+            case t_RAW3DataType::ComplexFloat32:
+                return transceiver_information_initialized();
             default:
                 throw std::runtime_error("Unknown data type");
         }

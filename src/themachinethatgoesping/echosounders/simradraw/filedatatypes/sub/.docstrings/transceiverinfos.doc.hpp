@@ -1,4 +1,4 @@
-//sourcehash: d9f18732f71240402a815e0b5404a810f2c5509e5de2f82b618373ad6af97e0d
+//sourcehash: fbb84acc6b6f9ef473fd0fe417681c09636e26c54e2638e983931c19585defd9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,23 +38,32 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation =
+R"doc(This is a substructure of the simradrawPingWaterColumn class. It is
+used to store information necessary to efficiently read water column
+data from the file. It does not hold the actual water column samples
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon = R"doc()doc";
+Note this is a private substructure and is thus not part of the public
+API or pybind11 interface.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_SimradRawPingCommon_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_TransceiverInformation = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_beam_selection_must_be_one = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_TransceiverInformation_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_class_name = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_binary_hash = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_transceiver = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_transceiver_channel = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_file_data_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_transducer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingCommon_set_file_data = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_ping_transceiver = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_ping_transceiver_channel = R"doc()doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

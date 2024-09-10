@@ -10,6 +10,7 @@
 #include ".docstrings/raw3datacomplexfloat32.doc.hpp"
 
 // std includes
+#include <bit>
 #include <bitset>
 #include <string>
 #include <unordered_map>
@@ -63,6 +64,33 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     bool has_power() const final { return true; }
     bool has_angle() const final { return true; }
 
+    xt::xtensor<simradraw_float, 4> get_complex_samples_bfloat16(size_t max_samples)
+    {
+        max_samples = std::min(max_samples, _complex_samples.shape()[0]);
+
+        auto result = xt::xtensor<simradraw_float, 4>::from_shape(
+            { max_samples, _complex_samples.shape()[1], _complex_samples.shape()[2], 2 });
+
+        for (size_t i = 0; i < max_samples; ++i)
+        {
+            for (size_t j = 0; j < _complex_samples.shape()[1]; ++j)
+            {
+                for (size_t k = 0; k < _complex_samples.shape()[2]; ++k)
+                {
+                    // split value in two bfloat16 values (converted to float32)
+                    // first value: set last 16 bits to 0
+                    result.unchecked(i, j, k, 0) = std::bit_cast<float>(
+                        std::bit_cast<uint32_t>(_complex_samples.unchecked(i, j, k)) & 0xFFFF0000);
+                    // second value: shift 16 bits to the left (last 16 bits are 0)
+                    result.unchecked(i, j, k, 1) = std::bit_cast<float>(
+                        std::bit_cast<uint32_t>(_complex_samples.unchecked(i, j, k)) << 16);
+                }
+            }
+        }
+
+        return result;
+    }
+
     xt::xtensor<simradraw_float, 1> get_power_xtensor(bool dB = false) const
     {
         auto shape = _complex_samples.shape();
@@ -84,7 +112,6 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
                    factor_except_impedance;
         }
     }
-    
 
     xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
     {
@@ -112,15 +139,15 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
 
         if (!dB)
         {
-            float factor_except_impedance = 0.125f / shape[1];
-            result_map = (real_sum * real_sum + imag_sum * imag_sum) * factor_except_impedance;
+            // float factor_except_impedance = 0.125f / shape[1];
+            result_map = (real_sum * real_sum + imag_sum * imag_sum); //* factor_except_impedance;
         }
         else
         {
-            static const float conv                    = 10.0f / std::log(10);
-            float              factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
-            result_map = ((real_sum * real_sum + imag_sum * imag_sum)).log() * conv +
-                         factor_except_impedance;
+            static const float conv = 10.0f / std::log(10);
+            // float              factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+            result_map = ((real_sum * real_sum + imag_sum * imag_sum)).log() *
+                         conv; // factor_except_impedance;
         }
 
         return result;

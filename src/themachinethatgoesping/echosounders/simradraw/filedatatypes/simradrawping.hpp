@@ -79,8 +79,6 @@ class SimradRawPing
 
     // ----- I_Ping interface -----
 
-
-
     // ----- I_Ping interface -----
     using t_base2::file_data;
 

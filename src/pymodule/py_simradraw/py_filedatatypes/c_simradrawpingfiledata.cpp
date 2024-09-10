@@ -66,6 +66,23 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                         DOc_simradrawpingfiledata(read_sample_data),
                         py::arg("dB") = true)
 
+                   // --- transceiver information ---
+                   .def("get_transceiver",
+                        &t_SimradRawPingFileData::get_transceiver,
+                        DOc_simradrawpingfiledata(get_transceiver))
+                   .def("get_transceiver_channel",
+                        &t_SimradRawPingFileData::get_transceiver_channel,
+                        DOc_simradrawpingfiledata(get_transceiver_channel))
+                   .def("get_transducer",
+                        &t_SimradRawPingFileData::get_transducer,
+                        DOc_simradrawpingfiledata(get_transducer))
+                   .def("transceiver_information_initialized",
+                        &t_SimradRawPingFileData::transceiver_information_initialized,
+                        DOc_simradrawpingfiledata(transceiver_information_initialized))
+                   .def("get_transceiver_impedance_factor",
+                        &t_SimradRawPingFileData::get_transceiver_impedance_factor,
+                        DOc_simradrawpingfiledata(get_transceiver_impedance_factor))
+
                // .def("has_angle", &t_SimradRawPingFileData::has_angle,
                // DOc_simradrawpingfiledata(has_angle)) .def("has_power",
                // &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
