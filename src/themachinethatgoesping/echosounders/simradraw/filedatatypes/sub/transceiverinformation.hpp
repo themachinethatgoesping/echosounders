@@ -69,6 +69,24 @@ class TransceiverInformation
 
     bool operator==(const TransceiverInformation& other) const = default;
 
+    size_t get_pulse_duration_index(float pulse_duration, bool fm) const
+    {
+        check_initialized();
+
+        auto pulse_durations = _ping_transceiver_channel.get_pulse_durations(fm);
+
+        for (size_t index = 0; index < pulse_durations.size(); ++index)
+        {
+            if (std::abs(pulse_durations[index] - pulse_duration) < 1e-6)
+                return index;
+        }
+
+        throw std::runtime_error(
+            fmt::format("ERROR[{}]: Pulse duration {} not found in transceiver information",
+                        __func__,
+                        pulse_duration));
+    }
+
     // ----- interface -----
     bool is_initialized() const { return _initialized; }
 

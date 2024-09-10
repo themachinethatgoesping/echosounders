@@ -70,6 +70,11 @@ class SimradRawPingFileData
     {
     }
 
+    const _sub::TransceiverInformation& get_transceiver_information() const
+    {
+        return _transceiver_information.get();
+    }
+
     ~SimradRawPingFileData() = default;
 
     void set_transceiver_information(

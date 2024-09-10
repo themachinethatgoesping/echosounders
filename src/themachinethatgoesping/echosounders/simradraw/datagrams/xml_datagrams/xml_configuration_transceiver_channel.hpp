@@ -51,7 +51,7 @@ struct XML_Configuration_Transceiver_Channel
     int                 HWChannelConfiguration = -1;
     int                 ChannelNumber          = -1;
 
-XMLConfigurationTransceiverChannelTransducer Transducer;
+    XMLConfigurationTransceiverChannelTransducer Transducer;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -233,6 +233,22 @@ XMLConfigurationTransceiverChannelTransducer Transducer;
     bool operator!=(const XML_Configuration_Transceiver_Channel& other) const
     {
         return !operator==(other);
+    }
+
+    std::vector<double> get_pulse_durations(bool fm) const
+    {
+        if (fm)
+            if (PulseDurationFM.size() > 0)
+                return PulseDurationFM;
+
+        if (PulseDuration.size() > 0)
+            return PulseDuration;
+
+        if (PulseLength.size() > 0)
+            return PulseLength;
+
+        throw std::runtime_error(
+            "No pulse duration found in XML_Configuration_Transceiver_Channel");
     }
 
     // ----- objectprinter -----

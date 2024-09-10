@@ -23,7 +23,7 @@ using namespace themachinethatgoesping::echosounders::simradraw;
 using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel;
 
 #define LOCAL_CLASS_DOC_PREFIX                                                                     \
-    themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams,                        \
+    themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams,                     \
         XML_Configuration_Transceiver_Channel
 
 void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
@@ -31,6 +31,12 @@ void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
     py::class_<XML_Configuration_Transceiver_Channel>(
         m, "XML_Configuration_Transceiver_Channel", DOC(LOCAL_CLASS_DOC_PREFIX))
         .def(py::init<>(), DOC(LOCAL_CLASS_DOC_PREFIX, XML_Configuration_Transceiver_Channel))
+
+        // ----- functions -----
+        .def("get_pulse_durations",
+             &XML_Configuration_Transceiver_Channel::get_pulse_durations,
+             py::arg("fm"),
+             DOC(LOCAL_CLASS_DOC_PREFIX, get_pulse_durations))
 
         // ----- children -----
         .def_readwrite("Transducer",

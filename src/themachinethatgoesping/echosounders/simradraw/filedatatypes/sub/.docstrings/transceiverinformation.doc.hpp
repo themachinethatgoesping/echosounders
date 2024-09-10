@@ -1,4 +1,4 @@
-//sourcehash: 36d611681593357ab3247c91608d7747e5261f04740451cc948a281762dd1627
+//sourcehash: c818d9cda3d54a4603b957152ac2fc15ddc2af3a2395ab7c111e6d816af6cce9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,6 +55,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_check_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_impedance_factor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_pulse_duration_index = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_transceiver = R"doc()doc";
 

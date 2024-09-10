@@ -1,4 +1,4 @@
-//sourcehash: d97b9487764d511ab0cc850a05dc5372ae706ad46f1ecec1d288a3d5cfabc81a
+//sourcehash: 87b378e83719ceffe82cd5b68cce8294a8260e970b098fd1917c00a997f6ea61
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,6 +69,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_XML_Configuration_Transceiver_Channel_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_get_pulse_durations = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transceiver_Channel_initialize = R"doc()doc";
 

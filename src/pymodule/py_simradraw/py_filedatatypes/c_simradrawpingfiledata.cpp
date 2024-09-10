@@ -32,7 +32,7 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOc_simradrawpingfiledata(ARG)                                                             \
+#define DOC_simradrawpingfiledata(ARG)                                                             \
     DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingFileData, ARG)
 
 template<typename T_FileStream>
@@ -53,42 +53,31 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                    // --- file_data data access ---
                    .def("get_ping_data",
                         &t_SimradRawPingFileData::get_ping_data,
-                        DOc_simradrawpingfiledata(get_ping_data))
+                        DOC_simradrawpingfiledata(get_ping_data))
                    .def("get_parameter",
                         &t_SimradRawPingFileData::get_parameter,
-                        DOc_simradrawpingfiledata(get_parameter))
+                        DOC_simradrawpingfiledata(get_parameter))
                    .def("get_environment",
                         &t_SimradRawPingFileData::get_environment,
-                        DOc_simradrawpingfiledata(get_environment))
+                        DOC_simradrawpingfiledata(get_environment))
 
                    .def("read_sample_data",
                         &t_SimradRawPingFileData::read_sample_data,
-                        DOc_simradrawpingfiledata(read_sample_data),
+                        DOC_simradrawpingfiledata(read_sample_data),
                         py::arg("dB") = true)
 
                    // --- transceiver information ---
-                   .def("get_transceiver",
-                        &t_SimradRawPingFileData::get_transceiver,
-                        DOc_simradrawpingfiledata(get_transceiver))
-                   .def("get_transceiver_channel",
-                        &t_SimradRawPingFileData::get_transceiver_channel,
-                        DOc_simradrawpingfiledata(get_transceiver_channel))
-                   .def("get_transducer",
-                        &t_SimradRawPingFileData::get_transducer,
-                        DOc_simradrawpingfiledata(get_transducer))
-                   .def("transceiver_information_initialized",
-                        &t_SimradRawPingFileData::transceiver_information_initialized,
-                        DOc_simradrawpingfiledata(transceiver_information_initialized))
-                   .def("get_transceiver_impedance_factor",
-                        &t_SimradRawPingFileData::get_transceiver_impedance_factor,
-                        DOc_simradrawpingfiledata(get_transceiver_impedance_factor))
+                   .def_property_readonly("transceiver_information",
+                                          &t_SimradRawPingFileData::get_transceiver_information,
+                                          DOC_simradrawpingfiledata(get_transceiver_information),
+                                          py::return_value_policy::reference_internal)
 
                // .def("has_angle", &t_SimradRawPingFileData::has_angle,
-               // DOc_simradrawpingfiledata(has_angle)) .def("has_power",
-               // &t_SimradRawPingFileData::has_power, DOc_simradrawpingfiledata(has_power))
+               // DOC_simradrawpingfiledata(has_angle)) .def("has_power",
+               // &t_SimradRawPingFileData::has_power, DOC_simradrawpingfiledata(has_power))
 
-               // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
-               // .def("load", &t_SimradRawPingFileData::load, DOc_simradrawpingfiledata(load))
+               // .def("load", &t_SimradRawPingFileData::load, DOC_simradrawpingfiledata(load))
+               // .def("load", &t_SimradRawPingFileData::load, DOC_simradrawpingfiledata(load))
 
                // ----- operators -----
                // .def("__eq__",

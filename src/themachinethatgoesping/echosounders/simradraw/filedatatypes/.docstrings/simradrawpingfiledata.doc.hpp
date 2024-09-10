@@ -1,4 +1,4 @@
-//sourcehash: 9a67f3e29563286bce55cd0d5d4aa769e970e731b40bf8b22b75293f0b2368d2
+//sourcehash: 8fa9d424454a3fca7c9ea8a7299bbe833aeb779d5f8744b8cb847e6de520983d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
 
 Returns:
     float)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_information = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transducer = R"doc()doc";
 
