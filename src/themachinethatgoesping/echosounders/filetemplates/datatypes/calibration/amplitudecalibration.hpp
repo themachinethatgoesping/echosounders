@@ -56,7 +56,10 @@ class AmplitudeCalibration
 
         return false;
     }
-    bool initialized() const { return _hash != 3244421341483603138ULL; } // hash of default constructor
+    bool initialized() const
+    {
+        return _hash != 3244421341483603138ULL;
+    } // hash of default constructor
 
     // getters / setters
     float get_system_offset() const { return _system_offset; }
@@ -138,7 +141,7 @@ class AmplitudeCalibration
         return printer;
     }
 
-    uint64_t cached_hash() const { return _hash; }
+    uint64_t        cached_hash() const { return _hash; }
     xxh::hash_t<64> binary_hash() const
     {
         xxh::hash3_state_t<64>               hash;
@@ -171,8 +174,7 @@ class AmplitudeCalibration
 };
 
 // boost hash
-// IGNORE_DOC:
-// __doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
 inline std::size_t hash_value(const AmplitudeCalibration& arg)
 {
     return arg.cached_hash();

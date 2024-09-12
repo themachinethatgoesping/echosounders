@@ -88,13 +88,18 @@ enum class t_pingfeature : uint8_t
     xyz,
 
     /* I_PingWatercolumn */
-    amplitudes,
-    av,
     bottom_range_samples,
+    amplitudes,
+    ap,
+    av,
+    power,
+    sp,
     sv,
 
     /* I_PingWaterColumn and I_PingBottom */
-    calibration
+    power_calibration,
+    sp_calibration,
+    sv_calibration
 };
 
 static const std::vector<t_pingfeature> __empty_features__ = {};
@@ -104,13 +109,11 @@ class I_PingCommon
   protected:
     virtual std::string class_name() const { return "I_PingCommon"; }
 
-    virtual std::map<t_pingfeature, std::function<bool()>> primary_feature_functions()
-        const
+    virtual std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const
     {
         return std::map<t_pingfeature, std::function<bool()>>();
     }
-    virtual std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions()
-        const
+    virtual std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const
     {
         return std::map<t_pingfeature, std::function<bool()>>();
     }

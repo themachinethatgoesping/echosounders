@@ -1,4 +1,4 @@
-//sourcehash: fee3654a561850ce323dc4d37670d322452db5ffc764dca4baf8a624ab314f8c
+//sourcehash: 5d6b297bb2c2e5713de09d68d7f8c2149e6bdd35f824a7157f85500f133087fe
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -173,6 +173,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_amplitudes = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_ap = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_av = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_beam_crosstrack_angles = R"doc()doc";
@@ -180,8 +182,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_bottom = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_bottom_range_samples = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_channel_id = R"doc()doc";
 
@@ -193,11 +193,21 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_number_of_tx_sectors = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_power = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_power_calibration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sensor_configuration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sensor_data_latlon = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sp_calibration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sv = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sv_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_timestamp = R"doc()doc";
 

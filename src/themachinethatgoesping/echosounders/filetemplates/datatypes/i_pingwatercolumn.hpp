@@ -75,7 +75,7 @@ class I_PingWatercolumn : public I_PingCommon
   protected:
     std::string class_name() const override { return "I_PingWatercolumn"; }
 
-    boost::flyweight<calibration::AmplitudeCalibration> _calibration;
+    // boost::flyweight<calibration::AmplitudeCalibration> _calibration;
 
   public:
     using t_base = I_PingCommon;
@@ -96,11 +96,20 @@ class I_PingWatercolumn : public I_PingCommon
             std::bind(&I_PingWatercolumn::has_tx_sector_information, this);
         features[t_pingfeature::beam_crosstrack_angles] =
             std::bind(&I_PingWatercolumn::has_beam_crosstrack_angles, this);
-        features[t_pingfeature::av] = std::bind(&I_PingWatercolumn::has_av, this);
         features[t_pingfeature::bottom_range_samples] =
             std::bind(&I_PingWatercolumn::has_bottom_range_samples, this);
-        features[t_pingfeature::sv]          = std::bind(&I_PingWatercolumn::has_sv, this);
-        features[t_pingfeature::calibration] = std::bind(&I_PingWatercolumn::has_calibration, this);
+        features[t_pingfeature::amplitudes] = std::bind(&I_PingWatercolumn::has_amplitudes, this);
+        features[t_pingfeature::ap]         = std::bind(&I_PingWatercolumn::has_ap, this);
+        features[t_pingfeature::av]         = std::bind(&I_PingWatercolumn::has_av, this);
+        features[t_pingfeature::power]      = std::bind(&I_PingWatercolumn::has_power, this);
+        features[t_pingfeature::sp]         = std::bind(&I_PingWatercolumn::has_sp, this);
+        features[t_pingfeature::sv]         = std::bind(&I_PingWatercolumn::has_sv, this);
+        features[t_pingfeature::power_calibration] =
+            std::bind(&I_PingWatercolumn::has_power_calibration, this);
+        features[t_pingfeature::sp_calibration] =
+            std::bind(&I_PingWatercolumn::has_sp_calibration, this);
+        features[t_pingfeature::sv_calibration] =
+            std::bind(&I_PingWatercolumn::has_sv_calibration, this);
 
         return features;
     }
@@ -140,10 +149,32 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_tx_sector_information() const { return false; }
 
-    const auto& get_calibration() const { return _calibration.get(); }
-    void        set_calibration(const calibration::AmplitudeCalibration& calibration)
+    virtual const calibration::AmplitudeCalibration& get_power_calibration() const
     {
-        _calibration = calibration;
+        throw not_implemented(__func__, this->class_name());
+    }
+    virtual const calibration::AmplitudeCalibration& get_sp_calibration() const
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+    virtual const calibration::AmplitudeCalibration& get_sv_calibration() const
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+    virtual void set_power_calibration(
+        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+    virtual void set_sp_calibration(
+        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+    virtual void set_sv_calibration(
+        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
+    {
+        throw not_implemented(__func__, this->class_name());
     }
 
     // --- water column sampling infos ---
@@ -293,11 +324,31 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     /**
-     * @brief Get tha amplitude data converted to AV (uncalibrated volume scattering)
+     * @brief Get the amplitude data converted to AP (uncalibrated point scattering)
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_ap() { return get_ap(get_beam_sample_selection_all()); }
+
+    /**
+     * @brief Get the amplitude data converted to AV (uncalibrated volume scattering)
      *
      * @return xt::xtensor<float,2>
      */
     xt::xtensor<float, 2> get_av() { return get_av(get_beam_sample_selection_all()); }
+
+    /**
+     * @brief Get the amplitude data converted to power
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_power() { return get_power(get_beam_sample_selection_all()); }
+
+    /**
+     * @brief Get the amplitude data converted to SP (calibrated point scattering)
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_sp() { return get_sp(get_beam_sample_selection_all()); }
 
     /**
      * @brief Get the amplitude data converted to SV (calibrated volume scattering)
@@ -319,7 +370,19 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     /**
-     * @brief Get tha amplitude data converted to AV (uncalibrated volume scattering)
+     * @brief Get the amplitude data converted to AP (uncalibrated point scattering)
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_ap(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get the amplitude data converted to AV (uncalibrated volume scattering)
      *
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
@@ -331,7 +394,31 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     /**
-     * @brief Get tha amplitude data converted to SV (calibrated volume scattering)
+     * @brief Get the amplitude data converted to power
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_power(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get the amplitude data converted to SP (calibrated point scattering)
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_sp(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    {
+        throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get the amplitude data converted to SV (calibrated volume scattering)
      *
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
@@ -373,7 +460,15 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_amplitudes() const { return false; }
 
     /**
-     * @brief Check this pings supports AV data
+     * @brief Check this pings supports AP data (uncalibrated point scattering)
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_ap() const { return false; }
+
+    /**
+     * @brief Check this pings supports AV data (uncalibrated volume scattering)
      *
      * @return true
      * @return false
@@ -381,20 +476,80 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_av() const { return false; }
 
     /**
+     * @brief Check this pings supports calibrated power data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_power() const { return has_amplitudes() && has_power_calibration(); }
+    /**
      * @brief Check this pings supports calibrated SV data
      *
      * @return true
      * @return false
      */
-    bool has_sv() const { return has_av() && has_calibration(); }
-
+    bool has_sp() const { return has_ap() && has_sp_calibration(); }
     /**
-     * @brief Check this pings has valid calibration data
+     * @brief Check this pings supports calibrated SV data
      *
      * @return true
      * @return false
      */
-    bool has_calibration() const { return get_calibration().initialized(); }
+    bool has_sv() const { return has_av() && has_sv_calibration(); }
+
+    /**
+     * @brief Check this pings has valid power calibration data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_power_calibration() const
+    {
+        try
+        {
+            return get_power_calibration().initialized();
+        }
+        catch (...)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * @brief Check this pings has valid sv calibration data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_sp_calibration() const
+    {
+        try
+        {
+            return get_sp_calibration().initialized();
+        }
+        catch (...)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * @brief Check this pings has valid sv calibration data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_sv_calibration() const
+    {
+        try
+        {
+            return get_sv_calibration().initialized();
+        }
+        catch (...)
+        {
+            return false;
+        }
+    }
 
     /**
      * @brief Check this pings supports bottom range samples
@@ -427,7 +582,6 @@ class I_PingWatercolumn : public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-
 };
 
 }

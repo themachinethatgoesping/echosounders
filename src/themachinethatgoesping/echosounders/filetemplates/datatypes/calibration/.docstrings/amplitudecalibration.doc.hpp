@@ -1,4 +1,4 @@
-//sourcehash: a0c6fa00bdad4b7feb068c463af112033274b19932001b54cacebb7ac3326865
+//sourcehash: 2a85279bdc1a2c5d8917f93140115ff811178d7c3144c880756eabf595173727
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,32 +32,71 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
 
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_AmplitudeCalibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_AmplitudeCalibration_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_binary_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_cached_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_interpolator_offset_per_beamangle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_interpolator_offset_per_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_beamangle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_beamangle_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_range_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_system_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_offset_per_beamangle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_offset_per_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_system_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_initialized = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_offset_per_beamangle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_offset_per_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_beamangle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_system_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_system_offset = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_to_stream = R"doc()doc";
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
 

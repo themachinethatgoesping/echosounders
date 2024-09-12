@@ -19,8 +19,8 @@
 
 #include <fmt/core.h>
 
-#include <boost/flyweight.hpp>
 #include <Eigen/Core>
+#include <boost/flyweight.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -322,10 +322,10 @@ class KongsbergAllPingWatercolumn
         range_correction *= tmp;
 
         if (apply_calibration)
-            if (get_calibration().has_offset_per_range())
+            if (get_sv_calibration().has_offset_per_range())
             {
                 // TODO: this copies the interpolator, maybe we can speed this up
-                auto interpolator = get_calibration().get_interpolator_offset_per_range();
+                auto interpolator = get_sv_calibration().get_interpolator_offset_per_range();
                 for (unsigned int r = 0; r < range_correction.size(); ++r)
                     range_correction[r] += interpolator(ranges[r]);
             }
@@ -333,12 +333,12 @@ class KongsbergAllPingWatercolumn
         return range_correction;
     }
 
-    xt::xtensor<float, 1> get_sector_correction(const pingtools::BeamSampleSelection& bs)
+    xt::xtensor<float, 1> get_sector_correction([[maybe_unused]] const pingtools::BeamSampleSelection& bs)
     {
         // compute pulse factor (per sector)
 
         // get information
-        auto        tvg_offset        = get_tvg_offset();
+        //auto        tvg_offset        = get_tvg_offset();
         float       sound_velocity    = get_sound_speed_at_transducer();
         const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
 
@@ -379,7 +379,7 @@ class KongsbergAllPingWatercolumn
                                             bool                                  apply_calibration)
     {
         if (apply_calibration)
-            if (!has_calibration())
+            if (!has_sv_calibration())
                 throw std::runtime_error(
                     fmt::format("ERROR[{}]: No calibration available.", __func__));
 
@@ -392,8 +392,8 @@ class KongsbergAllPingWatercolumn
             bs, apply_calibration); // apply inside the function because range is needed
 
         if (apply_calibration)
-            if (get_calibration().has_system_offset())
-                system_correction += get_calibration().get_system_offset();
+            if (get_sv_calibration().has_system_offset())
+                system_correction += get_sv_calibration().get_system_offset();
 
         // this is the same as adding system_correction to av later but faster
         sector_correction += system_correction;
@@ -411,10 +411,10 @@ class KongsbergAllPingWatercolumn
         }
 
         if (apply_calibration)
-            if (get_calibration().has_offset_per_beamangle())
+            if (get_sv_calibration().has_offset_per_beamangle())
             {
                 // TODO: this copies the interpolator, maybe we can speed this up
-                auto interpolator = get_calibration().get_interpolator_offset_per_beamangle();
+                auto interpolator = get_sv_calibration().get_interpolator_offset_per_beamangle();
                 auto beam_angles  = get_beam_crosstrack_angles(bs);
                 for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
                 {

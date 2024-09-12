@@ -31,6 +31,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
+#include "../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../../filetemplates/datatypes/i_pingfiledata.hpp"
@@ -56,6 +57,8 @@ class KongsbergAllPingFileData
 
     // parameters (read when adding datagram infos)
     boost::flyweight<datagrams::RuntimeParameters> _runtime_parameters;
+
+    boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration> _calibration;
 
   private:
     std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
