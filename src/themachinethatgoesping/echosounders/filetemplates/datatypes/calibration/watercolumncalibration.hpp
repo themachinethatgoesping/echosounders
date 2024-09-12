@@ -1,6 +1,4 @@
-// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
-// SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
-// SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2023 Peter Urban, Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
 //
@@ -15,6 +13,8 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/vectorinterpolators.hpp>
 
+#include "amplitudecalibration.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -23,103 +23,98 @@ namespace calibration {
 
 class WaterColumnCalibration
 {
-    // system offsets
-    float _system_offset = std::numeric_limits<float>::quiet_NaN();
-    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_beamangle;
-    // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle; implement in the future
-    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
+    // different types of offsets
+    AmplitudeCalibration _power_calibration;
+    AmplitudeCalibration _sp_calibration;
+    AmplitudeCalibration _sv_calibration;
 
     uint64_t _hash;
 
   public:
     WaterColumnCalibration() { compute_hash(); }
-    WaterColumnCalibration(float system_offset)
-        : _system_offset(system_offset)
+    WaterColumnCalibration(AmplitudeCalibration power_calibration,
+                           AmplitudeCalibration sp_calibration,
+                           AmplitudeCalibration sv_calibration)
+        : _power_calibration(power_calibration)
+        , _sp_calibration(sp_calibration)
+        , _sv_calibration(sv_calibration)
     {
+        compute_hash();
+    }
+
+    // has calibration
+    bool has_power_calibration() const { return _power_calibration.initialized(); }
+    bool has_sp_calibration() const { return _sp_calibration.initialized(); }
+    bool has_sv_calibration() const { return _sv_calibration.initialized(); }
+
+    // getters / setters
+    const AmplitudeCalibration& get_power_calibration() const
+    {
+        if (!has_power_calibration())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[{}]:Power calibration not initialized", __func__));
+        }
+        return _power_calibration;
+    }
+    const AmplitudeCalibration& get_sp_calibration() const
+    {
+        if (!has_sp_calibration())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[{}]:Sp calibration not initialized", __func__));
+        }
+        return _sp_calibration;
+    }
+    const AmplitudeCalibration& get_sv_calibration() const
+    {
+        if (!has_sv_calibration())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[{}]:Sv calibration not initialized", __func__));
+        }
+        return _sv_calibration;
+    }
+    void set_power_calibration(const AmplitudeCalibration& calibration)
+    {
+        _power_calibration = calibration;
+        compute_hash();
+    }
+
+    void set_sp_calibration(const AmplitudeCalibration& calibration)
+    {
+        _sp_calibration = calibration;
+        compute_hash();
+    }
+
+    void set_sv_calibration(const AmplitudeCalibration& calibration)
+    {
+        _sv_calibration = calibration;
         compute_hash();
     }
 
     // operator overloads
-    bool operator==(const WaterColumnCalibration& other) const
-    {
-        if (_offset_per_beamangle != other._offset_per_beamangle)
-            return false;
+    bool operator==(const WaterColumnCalibration& other) const = default;
 
-        if (_offset_per_range != other._offset_per_range)
-            return false;
+    bool initialized() const { return _hash != 3244421341483603138ULL; } // hash of default constructor
 
-        if (std::isnan(_system_offset) && std::isnan(other._system_offset))
-            return true;
-
-        if (_system_offset == other._system_offset)
-            return true;
-
-        return false;
-    }
-    bool initialized() const { return _hash != 3244421341483603138; } // hash of default constructor
-
-    // getters / setters
-    float get_system_offset() const { return _system_offset; }
-    void  set_system_offset(float value)
-    {
-        _system_offset = value;
-        compute_hash();
-    }
-
-    void set_offset_per_beamangle(const std::vector<float>& beamangle,
-                                  const std::vector<float>& offset)
-    {
-        _offset_per_beamangle.set_data_XY(beamangle, offset);
-        compute_hash();
-    }
-
-    void set_offset_per_range(const std::vector<float>& range, const std::vector<float>& offset)
-    {
-        _offset_per_range.set_data_XY(range, offset);
-        compute_hash();
-    }
-
-    // interpolator access
-    bool has_offset_per_beamangle() const { return !_offset_per_beamangle.empty(); }
-    bool has_offset_per_range() const { return !_offset_per_range.empty(); }
-    bool has_system_offset() const { return !std::isnan(_system_offset); }
-
-    const auto& get_interpolator_offset_per_beamangle() const { return _offset_per_beamangle; }
-    const auto& get_interpolator_offset_per_range() const { return _offset_per_range; }
-
-    auto get_offset_per_beamangle(const std::vector<float>& beamangles)
-    {
-        return _offset_per_beamangle(beamangles);
-    }
-
-    auto get_offset_per_beamangle(float beamangle) { return _offset_per_beamangle(beamangle); }
-
-    auto get_offset_per_range(const std::vector<float>& ranges)
-    {
-        return _offset_per_range(ranges);
-    }
-
-    auto get_offset_per_range(float range) { return _offset_per_range(range); }
-
+    // stream i/o
     static WaterColumnCalibration from_stream(std::istream& is)
     {
         WaterColumnCalibration calibration;
 
-        is.read(reinterpret_cast<char*>(&calibration._system_offset), sizeof(float));
+        calibration._power_calibration = AmplitudeCalibration::from_stream(is);
+        calibration._sp_calibration    = AmplitudeCalibration::from_stream(is);
+        calibration._sv_calibration    = AmplitudeCalibration::from_stream(is);
 
-        calibration._offset_per_beamangle = calibration._offset_per_beamangle.from_stream(is);
-        calibration._offset_per_range     = calibration._offset_per_range.from_stream(is);
-
-        calibration.compute_hash();
         return calibration;
     }
 
     void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(&_system_offset), sizeof(float));
-
-        _offset_per_beamangle.to_stream(os);
-        _offset_per_range.to_stream(os);
+        _power_calibration.to_stream(os);
+        _sp_calibration.to_stream(os);
+        _sv_calibration.to_stream(os);
     }
 
     // ----- objectprinter -----
@@ -127,43 +122,41 @@ class WaterColumnCalibration
     {
         tools::classhelper::ObjectPrinter printer("WaterColumnCalibration", float_precision);
 
-        printer.register_section("System offsets");
-        if (!std::isnan(_system_offset))
-            printer.register_value("system_offset", _system_offset);
-        if (!_offset_per_beamangle.empty())
-            printer.append(_offset_per_beamangle.__printer__(float_precision));
-        if (!_offset_per_range.empty())
-            printer.append(_offset_per_range.__printer__(float_precision));
+        printer.register_section("Power Calibration");
+        printer.append(_power_calibration.__printer__(float_precision));
+        printer.register_section("Sp Calibration (uncompensated TS)");
+        printer.append(_sp_calibration.__printer__(float_precision));
+        printer.register_section("Sv Calibration (Volume scattering)");
+        printer.append(_sv_calibration.__printer__(float_precision));
 
         return printer;
     }
 
-    uint64_t cached_hash() const { return _hash; }
-
-    // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(WaterColumnCalibration)
-
-  private:
-    void compute_hash()
+    uint64_t        cached_hash() const { return _hash; }
+    xxh::hash_t<64> binary_hash() const
     {
+
         xxh::hash3_state_t<64>               hash;
         boost::iostreams::stream<XXHashSink> stream(hash);
 
-        if (has_system_offset())
-            stream.write(reinterpret_cast<const char*>(&_system_offset), sizeof(float));
-
-        if (has_offset_per_beamangle())
-            _offset_per_beamangle.to_stream(stream);
-
-        if (has_offset_per_range())
-            _offset_per_range.to_stream(stream);
+        _power_calibration.add_hash(stream);
+        _sp_calibration.add_hash(stream);
+        _sv_calibration.add_hash(stream);
 
         stream.flush();
-        _hash =  hash.digest();
+        return hash.digest();
     }
+
+    // ----- class helper macros -----
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(WaterColumnCalibration)
+
+  private:
+    void compute_hash() { _hash = binary_hash(); }
 };
 
+// boost hash
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
 inline std::size_t hash_value(const WaterColumnCalibration& arg)
 {
     return arg.cached_hash();
@@ -174,5 +167,3 @@ inline std::size_t hash_value(const WaterColumnCalibration& arg)
 }
 }
 }
-
-;

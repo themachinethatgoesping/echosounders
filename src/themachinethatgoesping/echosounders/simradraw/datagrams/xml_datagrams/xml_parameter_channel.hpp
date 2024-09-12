@@ -67,6 +67,16 @@ struct XML_Parameter_Channel
     XML_Parameter_Channel(const pugi::xml_node& node) { initialize(node); }
     ~XML_Parameter_Channel() = default;
 
+
+    // ----- getters -----
+    double get_pulse_duration() const
+    {
+        return (std::isnan(PulseDuration)) ? PulseLength : PulseDuration;
+    }
+
+    bool get_pulse_form_is_cw() const { return PulseForm == 0; }
+    bool get_pulse_form_is_fm() const { return PulseForm != 1; }
+
     themachinethatgoesping::algorithms::signalprocessing::datastructures::TxSignalParameters
     get_tx_signal_parameters() const
     {

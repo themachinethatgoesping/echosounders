@@ -22,6 +22,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/helper.hpp>
 
 #include "beamselection.hpp"
 #include "readsamplerange.hpp"
@@ -82,6 +83,8 @@ class BeamSampleSelection : public BeamSelection
                                           uint32_t first_sample_offset_in_beam,
                                           uint32_t number_of_samples_in_beam) const
     {
+        using tools::helper::substract_set_zero_if_negative;
+
         if (beam_index >= get_number_of_beams())
         {
             throw std::runtime_error(fmt::format(
@@ -90,22 +93,15 @@ class BeamSampleSelection : public BeamSelection
                 get_number_of_beams() - 1));
         }
 
-        int first_beam_sample_to_read =
-            std::max(_first_sample_number_per_beam[beam_index], _first_sample_number_ensemble) -
-            first_sample_offset_in_beam;
-        if (first_beam_sample_to_read < 0)
-        {
-            first_beam_sample_to_read = 0;
-        }
+        auto first_beam_sample_to_read = substract_set_zero_if_negative<uint32_t>(
+            std::max(_first_sample_number_per_beam[beam_index], _first_sample_number_ensemble),
+            first_sample_offset_in_beam);
 
-        int last_beam_sample_to_read =
-            std::min(_last_sample_number_per_beam[beam_index], _last_sample_number_ensemble) -
-            first_sample_offset_in_beam;
-        if (last_beam_sample_to_read < 0)
-        {
-            last_beam_sample_to_read = 0;
-        }
-        else if (last_beam_sample_to_read >= number_of_samples_in_beam)
+        auto last_beam_sample_to_read = substract_set_zero_if_negative<uint32_t>(
+            std::min(_last_sample_number_per_beam[beam_index], _last_sample_number_ensemble),
+            first_sample_offset_in_beam);
+
+        if (last_beam_sample_to_read >= number_of_samples_in_beam)
         {
             last_beam_sample_to_read = number_of_samples_in_beam - 1;
         }
@@ -117,8 +113,8 @@ class BeamSampleSelection : public BeamSelection
             number_of_samples_to_read = 0;
         }
 
-        uint32_t first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
-        uint32_t last_read_sample_offset =
+        int first_read_sample_offset = first_beam_sample_to_read + first_sample_offset_in_beam;
+        int last_read_sample_offset =
             first_read_sample_offset + (number_of_samples_to_read - 1) * _sample_step_ensemble;
 
         if (last_read_sample_offset < first_read_sample_offset)
@@ -276,14 +272,13 @@ class BeamSampleSelection : public BeamSelection
         xt::xtensor<uint32_t, 2> sample_numbers_ensemble_2d = xt::xtensor<uint32_t, 2>::from_shape(
             { get_number_of_beams(), get_number_of_samples_ensemble() });
 
-        for (uint32_t bn = 0 ; bn <  get_number_of_beams(); ++bn)
+        for (uint32_t bn = 0; bn < get_number_of_beams(); ++bn)
         {
             xt::view(sample_numbers_ensemble_2d, bn) = sample_numbers_ensemble;
         }
 
         return sample_numbers_ensemble_2d;
     }
-
 
     // ----- from/to binary -----
   public:

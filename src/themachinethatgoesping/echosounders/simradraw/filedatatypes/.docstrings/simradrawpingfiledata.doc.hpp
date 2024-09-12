@@ -1,4 +1,4 @@
-//sourcehash: 8fa9d424454a3fca7c9ea8a7299bbe833aeb779d5f8744b8cb847e6de520983d
+//sourcehash: 2b057257a9c58bdef7c0a13804f7c0efde5be5fde485dcdda5457e98b1ceb919
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,28 +52,23 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_parameter = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_pd_index =
+R"doc(Get the pulse duration index This index is used to look up the correct
+sa correction / gain value in the transceiver Is determined by the
+index of the used pulse duration in the transceiver configuration
+
+Returns:
+    size_t)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_ping_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_channel = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_impedance_factor =
-R"doc(Get the transceiver impedance factor used for computing power from
-complex 32 bit samples see ek80 interface specification v23.06 p214
-impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² *
-1/ tdi * 1/(2*sqrt(2))² Note: 1. Transceive impedance can be found in
-the transceiver configuration in the configuration datagram 2.
-Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
-
-Returns:
-    float)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_sa_correction = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_information = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transducer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transmitted_power = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_angle = R"doc()doc";
 
@@ -104,8 +99,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_set_transceiver_information = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_transceiver_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_transceiver_information_initialized = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

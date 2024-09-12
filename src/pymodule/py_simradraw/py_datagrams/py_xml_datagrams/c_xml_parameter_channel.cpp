@@ -88,6 +88,15 @@ void init_c_xml_parameter_channel(pybind11::module& m)
                        DOC_XML_Parameter_Channel(unknown_attributes))
 
         // ----- methods -----
+        .def("get_pulse_duration",
+             &XML_Parameter_Channel::get_pulse_duration,
+             DOC_XML_Parameter_Channel(get_pulse_duration))
+        .def("get_pulse_form_is_cw",
+             &XML_Parameter_Channel::get_pulse_form_is_cw,
+             DOC_XML_Parameter_Channel(get_pulse_form_is_cw))
+        .def("get_pulse_form_is_fm",
+             &XML_Parameter_Channel::get_pulse_form_is_fm,
+             DOC_XML_Parameter_Channel(get_pulse_form_is_fm))
         .def("get_tx_signal_parameters",
              &XML_Parameter_Channel::get_tx_signal_parameters,
              DOC_XML_Parameter_Channel(get_tx_signal_parameters))

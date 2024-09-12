@@ -25,6 +25,8 @@ void init_c_filepackagecache(
     pybind11::module& m); // py_datatypes/py_cache_structures/init_c_filepackagecache.cpp
 }
 namespace py_calibration {
+void init_c_amplitudecalibration(
+    pybind11::module& m); // py_datatypes/py_calibration/init_c_amplitudecalibration.cpp
 void init_c_watercolumncalibration(
     pybind11::module& m); // py_datatypes/py_calibration/init_c_watercolumncalibration.cpp
 }
@@ -38,6 +40,7 @@ void init_m_filetemplates(py::module& m)
         m.def_submodule("filetemplates", "Trampoline classes for abstract file template classes");
 
     // pingtool classes classes
+    py_datatypes::py_calibration::init_c_amplitudecalibration(subm);
     py_datatypes::py_calibration::init_c_watercolumncalibration(subm);
     py_datatypes::init_c_i_pingcommon(subm);
     py_datatypes::init_c_i_pingfiledata(subm);

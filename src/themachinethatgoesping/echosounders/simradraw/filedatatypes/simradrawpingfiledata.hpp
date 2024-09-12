@@ -83,34 +83,65 @@ class SimradRawPingFileData
         _transceiver_information = transceiver_information;
     }
 
-    auto get_transceiver() const { return _transceiver_information.get().get_transceiver(); }
-    auto get_transceiver_channel() const
-    {
-        return _transceiver_information.get().get_transceiver_channel();
-    }
-    auto get_transducer() const { return _transceiver_information.get().get_transducer(); }
-
-    bool transceiver_information_initialized() const
-    {
-        return _transceiver_information.get().is_initialized();
-    }
-
     /**
-     * @brief Get the transceiver impedance factor
-     *  used for computing power from complex 32 bit samples
-     *   see ek80 interface specification v23.06 p214
-     *   impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
-     1/(2*sqrt(2))²
-     * Note: 1. Transceive impedance can be found in the transceiver configuration in the
-     configuration datagram
-     *       2. Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
+     * @brief Get the pulse duration index
+     * This index is used to look up the correct sa correction / gain value in the transceiver
+     * Is determined by the index of the used pulse duration in the transceiver configuration
      *
-     * @return float
+     * @return size_t
      */
-    float get_transceiver_impedance_factor() const
+    size_t get_pd_index() const
     {
-        return _transceiver_information.get().get_impedance_factor();
+        const auto& param = get_parameter();
+        return _transceiver_information.get().get_pulse_duration_index(
+            param.get_pulse_duration(), param.get_pulse_form_is_fm());
     }
+
+    // EK80 calibration information
+    float get_sa_correction() const
+    {
+        auto pd_index = get_pd_index();
+
+        return get_parameter().get_sa_correction().at(pd_index);
+    }
+
+    // EK80 calibration information
+    float get_transmitted_power() const
+    {
+        auto pd_index = get_pd_index();
+
+        return get_parameter().get_sa_correction().at(pd_index);
+    }
+
+    // --- transceiver information ---
+    // auto get_transceiver() const { return _transceiver_information.get().get_transceiver(); }
+    // auto get_transceiver_channel() const
+    // {
+    //     return _transceiver_information.get().get_transceiver_channel();
+    // }
+    // auto get_transducer() const { return _transceiver_information.get().get_transducer(); }
+
+    // bool transceiver_information_initialized() const
+    // {
+    //     return _transceiver_information.get().is_initialized();
+    // }
+
+    // /**
+    //  * @brief Get the transceiver impedance factor
+    //  *  used for computing power from complex 32 bit samples
+    //  *   see ek80 interface specification v23.06 p214
+    //  *   impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
+    //  1/(2*sqrt(2))²
+    //  * Note: 1. Transceive impedance can be found in the transceiver configuration in the
+    //  configuration datagram
+    //  *       2. Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
+    //  *
+    //  * @return float
+    //  */
+    // float get_transceiver_impedance_factor() const
+    // {
+    //     return _transceiver_information.get().get_impedance_factor();
+    // }
 
     void set_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)
     {
@@ -151,8 +182,8 @@ class SimradRawPingFileData
         return tools::helper::visit_variant(
             sample_data,
             [dB, this](datagrams::raw3datatypes::RAW3DataComplexFloat32& data) {
-                float conv_factor =
-                    this->get_transceiver_impedance_factor() / data._complex_samples.shape()[1];
+                float conv_factor = this->get_transceiver_information().get_impedance_factor() /
+                                    data._complex_samples.shape()[1];
                 if (dB)
                 {
                     conv_factor = 10 * std::log10(conv_factor);
@@ -173,7 +204,7 @@ class SimradRawPingFileData
     //                 np.log10(((tci + tdi) / tci) * *2 / tdi)
     //     , ((tci + tdi) / tci) * *2 / tdi
 
-    //     // return _ping_data.get_parameter().get_impedance_factor();
+    //     // return get_parameter().get_impedance_factor();
     // }
 
     void load()
@@ -200,7 +231,7 @@ class SimradRawPingFileData
             case t_RAW3DataType::ComplexFloat16:
                 return true;
             case t_RAW3DataType::ComplexFloat32:
-                return transceiver_information_initialized();
+                return get_transceiver_information().is_initialized();
             default:
                 throw std::runtime_error("Unknown data type");
         }

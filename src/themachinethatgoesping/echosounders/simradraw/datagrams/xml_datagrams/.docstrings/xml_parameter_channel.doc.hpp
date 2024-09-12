@@ -1,4 +1,4 @@
-//sourcehash: 99cb2e255d449e1f06f6c534b12ae64d26f0192fd04452d2c94ad8e6db296665
+//sourcehash: c1e897ea39ec83c6f4211540daac9e29c823a0b5d327b9e085a642bb77656a99
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -83,6 +83,12 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_get_pulse_duration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_get_pulse_form_is_cw = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_get_pulse_form_is_fm = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Parameter_Channel_get_tx_signal_parameters = R"doc()doc";
 

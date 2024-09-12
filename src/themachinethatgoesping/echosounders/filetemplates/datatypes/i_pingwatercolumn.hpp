@@ -49,7 +49,7 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
-#include "calibration/watercolumncalibration.hpp"
+#include "calibration/amplitudecalibration.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -75,7 +75,7 @@ class I_PingWatercolumn : public I_PingCommon
   protected:
     std::string class_name() const override { return "I_PingWatercolumn"; }
 
-    boost::flyweight<calibration::WaterColumnCalibration> _calibration;
+    boost::flyweight<calibration::AmplitudeCalibration> _calibration;
 
   public:
     using t_base = I_PingCommon;
@@ -141,7 +141,7 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_tx_sector_information() const { return false; }
 
     const auto& get_calibration() const { return _calibration.get(); }
-    void        set_calibration(const calibration::WaterColumnCalibration& calibration)
+    void        set_calibration(const calibration::AmplitudeCalibration& calibration)
     {
         _calibration = calibration;
     }
