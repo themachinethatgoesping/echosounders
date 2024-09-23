@@ -1,4 +1,4 @@
-//sourcehash: b0863f2d29fb9933d7910fd26487ce357bdb464c3e5acd691092a1a47c576c2a
+//sourcehash: 98d3fd2f7490cadfefc41a8ab80154bec160ea8e1e198e4061134326177eb6bd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,17 +46,25 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_WaterColumnCalibration_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_absorption_db_m = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_binary_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_cached_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_from_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_absorption_db_m = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_power_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_sp_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_sv_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_tvg_absorption_db_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_tvg_factor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_has_power_calibration = R"doc()doc";
 
@@ -85,6 +93,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_sv_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_tvg_absorption_db_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_tvg_factor = R"doc()doc";
 
 
 #if defined(__GNUG__)

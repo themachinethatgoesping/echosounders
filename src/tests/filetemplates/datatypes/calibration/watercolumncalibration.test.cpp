@@ -26,10 +26,10 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     auto obj2 = WaterColumnCalibration(obj0, AmplitudeCalibration(), AmplitudeCalibration());
 
     // test hash
-    CHECK(obj.cached_hash() == 3244421341483603138ULL);
-    CHECK(obj2.cached_hash() == 17904910546364380078ULL);
-    CHECK(obj.binary_hash() == 3244421341483603138ULL);
-    CHECK(obj2.binary_hash() == 17904910546364380078ULL);
+    CHECK(obj.cached_hash() == 14166511957577999600ULL);
+    CHECK(obj2.cached_hash() == 4714633842598101940ULL);
+    CHECK(obj.binary_hash() == 14166511957577999600ULL);
+    CHECK(obj2.binary_hash() == 4714633842598101940ULL);
 
     // test equality
     // test inequality

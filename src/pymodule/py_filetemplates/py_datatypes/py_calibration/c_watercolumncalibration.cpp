@@ -57,6 +57,17 @@ void init_c_watercolumncalibration(pybind11::module& m)
                  .def(py::init<const WaterColumnCalibration&>(),
                       DOC_WaterColumnCalibration(WaterColumnCalibration))
 
+                 // --- getters / setters ---
+                 .def("get_absorption_db_m",
+                      &WaterColumnCalibration::get_absorption_db_m,
+                      DOC_WaterColumnCalibration(get_absorption_db_m))
+                 .def("get_tvg_absorption_db_m",
+                      &WaterColumnCalibration::get_tvg_absorption_db_m,
+                      DOC_WaterColumnCalibration(get_tvg_absorption_db_m))
+                 .def("get_tvg_factor",
+                      &WaterColumnCalibration::get_tvg_factor,
+                      DOC_WaterColumnCalibration(get_tvg_factor))
+
                  // --- convenient data access ---
                  .def("has_power_calibration",
                       &WaterColumnCalibration::has_power_calibration,

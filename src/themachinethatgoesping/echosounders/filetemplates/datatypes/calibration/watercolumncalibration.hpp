@@ -28,19 +28,47 @@ class WaterColumnCalibration
     AmplitudeCalibration _sp_calibration;
     AmplitudeCalibration _sv_calibration;
 
+    // water column corrections to be applied
+    float _absorption_db_m =
+        std::numeric_limits<float>::quiet_NaN(); // new absorption that should be
+                                                 // applied to the data in dB/m
+
+    // factors that have been applied to the raw data by a TVG function
+    float _tvg_absorption_db_m = 0.0f; // the absorption applied to the data in dB/m
+    float _tvg_factor = 0.0f; // the TVG factor applied to the data (typically 0, 20 or 40 (log(r)))
+
     uint64_t _hash;
 
   public:
-    WaterColumnCalibration() { compute_hash(); }
+    WaterColumnCalibration(float tvg_absorption_db_m = 0.0f, float tvg_factor = 0.0f)
+        : _absorption_db_m(tvg_absorption_db_m)
+        , _tvg_absorption_db_m(tvg_absorption_db_m)
+        , _tvg_factor(tvg_factor)
+    {
+        compute_hash();
+    }
     WaterColumnCalibration(AmplitudeCalibration power_calibration,
                            AmplitudeCalibration sp_calibration,
-                           AmplitudeCalibration sv_calibration)
+                           AmplitudeCalibration sv_calibration,
+                           float                tvg_absorption_db_m = 0.0f,
+                           float                tvg_factor          = 0.0f)
         : _power_calibration(power_calibration)
         , _sp_calibration(sp_calibration)
         , _sv_calibration(sv_calibration)
     {
         compute_hash();
     }
+
+    // getters / setters
+    float get_absorption_db_m() const
+    {
+        if (std::isfinite(_absorption_db_m))
+            return _absorption_db_m;
+        return _tvg_absorption_db_m;
+    }
+
+    float get_tvg_absorption_db_m() const { return _tvg_absorption_db_m; }
+    float get_tvg_factor() const { return _tvg_factor; }
 
     // has calibration
     bool has_power_calibration() const { return _power_calibration.initialized(); }
@@ -94,9 +122,33 @@ class WaterColumnCalibration
     }
 
     // operator overloads
-    bool operator==(const WaterColumnCalibration& other) const = default;
+    bool operator==(const WaterColumnCalibration& other) const
+    {
+        if (_power_calibration != other._power_calibration)
+            return false;
 
-    bool initialized() const { return _hash != 3244421341483603138ULL; } // hash of default constructor
+        if (_sp_calibration != other._sp_calibration)
+            return false;
+
+        if (_sv_calibration != other._sv_calibration)
+            return false;
+
+        if (!tools::helper::float_equals(_absorption_db_m, other._absorption_db_m))
+            return false;
+
+        if (!tools::helper::float_equals(_tvg_absorption_db_m, other._tvg_absorption_db_m))
+            return false;
+
+        if (!tools::helper::float_equals(_tvg_factor, other._tvg_factor))
+            return false;
+
+        return true;
+    }
+
+    bool initialized() const
+    {
+        return _hash != 14166511957577999600ULL;
+    } // hash of default constructor
 
     // stream i/o
     static WaterColumnCalibration from_stream(std::istream& is)
@@ -107,6 +159,10 @@ class WaterColumnCalibration
         calibration._sp_calibration    = AmplitudeCalibration::from_stream(is);
         calibration._sv_calibration    = AmplitudeCalibration::from_stream(is);
 
+        is.read(reinterpret_cast<char*>(&calibration._absorption_db_m), sizeof(float) * 3);
+
+        calibration.compute_hash();
+
         return calibration;
     }
 
@@ -115,12 +171,20 @@ class WaterColumnCalibration
         _power_calibration.to_stream(os);
         _sp_calibration.to_stream(os);
         _sv_calibration.to_stream(os);
+
+        os.write(reinterpret_cast<const char*>(&_absorption_db_m), sizeof(float) * 3);
     }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
     {
         tools::classhelper::ObjectPrinter printer("WaterColumnCalibration", float_precision);
+
+        printer.register_section("Absorption");
+        printer.register_value("Absorption", _absorption_db_m, "dB/m");
+        printer.register_section("TVG applied to raw data");
+        printer.register_value("TVG Absorption", _tvg_absorption_db_m, "dB/m");
+        printer.register_value("TVG Factor", _tvg_factor, "log(r)");
 
         printer.register_section("Power Calibration");
         printer.append(_power_calibration.__printer__(float_precision));
@@ -142,6 +206,8 @@ class WaterColumnCalibration
         _power_calibration.add_hash(stream);
         _sp_calibration.add_hash(stream);
         _sv_calibration.add_hash(stream);
+
+        stream.write(reinterpret_cast<const char*>(&_absorption_db_m), sizeof(float) * 3);
 
         stream.flush();
         return hash.digest();
