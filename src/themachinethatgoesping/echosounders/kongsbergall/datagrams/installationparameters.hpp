@@ -411,6 +411,8 @@ class InstallationParameters : public KongsbergAllDatagram
         {
             case t_KongsbergAllSystemTransducerConfiguration::SingleHead:
                 [[fallthrough]];
+            case t_KongsbergAllSystemTransducerConfiguration::PortableSingleHead:
+                [[fallthrough]];
             case t_KongsbergAllSystemTransducerConfiguration::SingleTXSingleRX:
                 return false;
             case t_KongsbergAllSystemTransducerConfiguration::SingleTXDualRX:
@@ -506,7 +508,15 @@ class InstallationParameters : public KongsbergAllDatagram
      */
     navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const
     {
-        unsupported_option_string("DSH", "NI", "get_depth_sensor_offsets");
+        // TODO: this option should be supported
+        try
+        {
+            unsupported_option_string("DSH", "NI", "get_depth_sensor_offsets");
+        }
+        catch (std::exception& e)
+        {
+            std::cerr << "WARNING: " << e.what() << std::endl;
+        }
         unsupported_option_float("DSO", 0.0f, "get_depth_sensor_offsets");
         unsupported_option_float("DSD", 0.0f, "get_depth_sensor_offsets");
         unsupported_option_float("DSF", 1.0f, "get_depth_sensor_offsets");
@@ -571,8 +581,8 @@ class InstallationParameters : public KongsbergAllDatagram
         }
 
         std::string time_delay_key = sensor_prefix + std::string("D");
-        //unsupported_option_float(time_delay_key, 0.0f, "get_attitude_sensor_offsets");
-        //TODO: warn that time_delay is ignored for now
+        // unsupported_option_float(time_delay_key, 0.0f, "get_attitude_sensor_offsets");
+        // TODO: warn that time_delay is ignored for now
 
         try
         {
