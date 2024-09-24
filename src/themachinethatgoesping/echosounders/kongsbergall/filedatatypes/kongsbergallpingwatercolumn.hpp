@@ -29,6 +29,7 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
@@ -333,12 +334,13 @@ class KongsbergAllPingWatercolumn
         return range_correction;
     }
 
-    xt::xtensor<float, 1> get_sector_correction([[maybe_unused]] const pingtools::BeamSampleSelection& bs)
+    xt::xtensor<float, 1> get_sector_correction(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& bs)
     {
         // compute pulse factor (per sector)
 
         // get information
-        //auto        tvg_offset        = get_tvg_offset();
+        // auto        tvg_offset        = get_tvg_offset();
         float       sound_velocity    = get_sound_speed_at_transducer();
         const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
 
@@ -383,9 +385,6 @@ class KongsbergAllPingWatercolumn
                 throw std::runtime_error(
                     fmt::format("ERROR[{}]: No calibration available.", __func__));
 
-        // get and convert amplitudes to dB
-        xt::xtensor<float, 2> av = get_amplitudes(bs) * 0.5f;
-
         auto                  system_correction = get_system_correction();
         xt::xtensor<float, 1> sector_correction = get_sector_correction(bs);
         xt::xtensor<float, 1> sample_correction = get_sample_correction(
@@ -422,26 +421,8 @@ class KongsbergAllPingWatercolumn
                 }
             }
 
-        // // this eigen version is still slower than the xtensor version
-        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic>> eigen_av(
-        //     av.data(), av.shape()[1], av.shape()[0]);
-        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> eigen_sample_correction(
-        //     sample_correction.data(), sample_correction.size());
-        // Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> eigen_beam_correction(
-        //     beam_correction.data(), beam_correction.size());
-
-        // eigen_av.colwise() += eigen_sample_correction;
-        // eigen_av.rowwise() += eigen_beam_correction.transpose();
-
-        // TODO: speed up using graphics card?
-        // apply factors
-        av += xt::view(sample_correction, xt::newaxis(), xt::all());
-
-        // pulse factor (here the loop is faster than broadcasting)
-        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-            xt::row(av, bi) += beam_correction.unchecked(bi);
-
-        return av;
+        return algorithms::amplitudecorrection::functions::apply_wci_correction<xt::xtensor<float,2>,xt::xtensor<float,1>>(
+            get_amplitudes(bs) * 0.5f, beam_correction, sample_correction);
     }
 
     xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
