@@ -7,7 +7,7 @@
 #include <pybind11/stl.h>
 
 // xtensor python includes
-#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // implicit conversion xtensor <-> numpy
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>

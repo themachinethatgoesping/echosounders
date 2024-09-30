@@ -126,6 +126,8 @@ headers = [
   'kongsbergall/filedatatypes/kongsbergallpingcommon.hpp',
   'kongsbergall/filedatatypes/kongsbergallpingfiledata.hpp',
   'kongsbergall/filedatatypes/kongsbergallpingwatercolumn.hpp',
+  'kongsbergall/filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp',
+  'kongsbergall/filedatatypes/calibration/.docstrings/kongsbergallwatercolumncalibration.doc.hpp',
   'kongsbergall/filedatatypes/.docstrings/kongsbergallping.doc.hpp',
   'kongsbergall/filedatatypes/.docstrings/kongsbergallpingbottom.doc.hpp',
   'kongsbergall/filedatatypes/.docstrings/kongsbergallpingcommon.doc.hpp',

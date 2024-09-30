@@ -38,6 +38,7 @@
 #include <xtensor/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -49,7 +50,7 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
-#include "calibration/amplitudecalibration.hpp"
+#include "calibration/watercolumncalibration.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -75,7 +76,6 @@ class I_PingWatercolumn : public I_PingCommon
   protected:
     std::string class_name() const override { return "I_PingWatercolumn"; }
 
-    // boost::flyweight<calibration::AmplitudeCalibration> _calibration;
 
   public:
     using t_base = I_PingCommon;
@@ -104,12 +104,8 @@ class I_PingWatercolumn : public I_PingCommon
         features[t_pingfeature::power]      = std::bind(&I_PingWatercolumn::has_power, this);
         features[t_pingfeature::sp]         = std::bind(&I_PingWatercolumn::has_sp, this);
         features[t_pingfeature::sv]         = std::bind(&I_PingWatercolumn::has_sv, this);
-        features[t_pingfeature::power_calibration] =
-            std::bind(&I_PingWatercolumn::has_power_calibration, this);
-        features[t_pingfeature::sp_calibration] =
-            std::bind(&I_PingWatercolumn::has_sp_calibration, this);
-        features[t_pingfeature::sv_calibration] =
-            std::bind(&I_PingWatercolumn::has_sv_calibration, this);
+        features[t_pingfeature::watercolumn_calibration] =
+            std::bind(&I_PingWatercolumn::has_watercolumn_calibration, this);
 
         return features;
     }
@@ -149,32 +145,20 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_tx_sector_information() const { return false; }
 
-    virtual const calibration::AmplitudeCalibration& get_power_calibration() const
+    virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
     {
         throw not_implemented(__func__, this->class_name());
     }
-    virtual const calibration::AmplitudeCalibration& get_sp_calibration() const
+    virtual void set_watercolumn_calibration(
+        boost::flyweight<calibration::WaterColumnCalibration> calibration)
     {
         throw not_implemented(__func__, this->class_name());
     }
-    virtual const calibration::AmplitudeCalibration& get_sv_calibration() const
+
+    void set_watercolumn_calibration(const calibration::WaterColumnCalibration& calibration)
     {
-        throw not_implemented(__func__, this->class_name());
-    }
-    virtual void set_power_calibration(
-        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
-    virtual void set_sp_calibration(
-        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
-    virtual void set_sv_calibration(
-        [[maybe_unused]] const calibration::AmplitudeCalibration& calibration)
-    {
-        throw not_implemented(__func__, this->class_name());
+        set_watercolumn_calibration(
+            boost::flyweight<calibration::WaterColumnCalibration>(calibration));
     }
 
     // --- water column sampling infos ---
@@ -284,6 +268,19 @@ class I_PingWatercolumn : public I_PingCommon
 
     virtual float get_sound_speed_at_transducer() { throw not_implemented(__func__, class_name()); }
 
+    xt::xtensor<float, 1> get_approximate_ranges(const pingtools::BeamSampleSelection& selection)
+    {
+        return algorithms::amplitudecorrection::functions::approximate_ranges<
+            xt::xtensor<float, 1>>(get_sample_interval(),
+                                   get_sound_speed_at_transducer(),
+                                   selection.get_sample_numbers_ensemble_1d());
+    }
+
+    xt::xtensor<float, 1> get_approximate_ranges()
+    {
+        return get_approximate_ranges(get_beam_sample_selection_all());
+    }
+
     /**
      * @brief Get beam sample selection that selects all beams and samples
      *
@@ -375,10 +372,12 @@ class I_PingWatercolumn : public I_PingCommon
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */
-    virtual xt::xtensor<float, 2> get_ap(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->class_name());
+        get_watercolumn_calibration().apply_beam_sample_correction_ap(
+            get_amplitudes(selection),
+            get_beam_crosstrack_angles(selection),
+            get_approximate_ranges(selection));
     }
 
     /**
@@ -465,7 +464,10 @@ class I_PingWatercolumn : public I_PingCommon
      * @return true
      * @return false
      */
-    virtual bool has_ap() const { return false; }
+    bool has_ap() const
+    {
+        return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
+    }
 
     /**
      * @brief Check this pings supports AV data (uncalibrated volume scattering)
@@ -473,7 +475,10 @@ class I_PingWatercolumn : public I_PingCommon
      * @return true
      * @return false
      */
-    virtual bool has_av() const { return false; }
+    bool has_av() const
+    {
+        return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
+    }
 
     /**
      * @brief Check this pings supports calibrated power data
@@ -481,21 +486,30 @@ class I_PingWatercolumn : public I_PingCommon
      * @return true
      * @return false
      */
-    bool has_power() const { return has_amplitudes() && has_power_calibration(); }
+    bool has_power() const
+    {
+        return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
+    }
     /**
      * @brief Check this pings supports calibrated SV data
      *
      * @return true
      * @return false
      */
-    bool has_sp() const { return has_ap() && has_sp_calibration(); }
+    bool has_sp() const
+    {
+        return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
+    }
     /**
      * @brief Check this pings supports calibrated SV data
      *
      * @return true
      * @return false
      */
-    bool has_sv() const { return has_av() && has_sv_calibration(); }
+    bool has_sv() const
+    {
+        return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
+    }
 
     /**
      * @brief Check this pings has valid power calibration data
@@ -503,47 +517,11 @@ class I_PingWatercolumn : public I_PingCommon
      * @return true
      * @return false
      */
-    bool has_power_calibration() const
+    bool has_watercolumn_calibration() const
     {
         try
         {
-            return get_power_calibration().initialized();
-        }
-        catch (...)
-        {
-            return false;
-        }
-    }
-
-    /**
-     * @brief Check this pings has valid sv calibration data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_sp_calibration() const
-    {
-        try
-        {
-            return get_sp_calibration().initialized();
-        }
-        catch (...)
-        {
-            return false;
-        }
-    }
-
-    /**
-     * @brief Check this pings has valid sv calibration data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_sv_calibration() const
-    {
-        try
-        {
-            return get_sv_calibration().initialized();
+            return get_watercolumn_calibration().initialized();
         }
         catch (...)
         {

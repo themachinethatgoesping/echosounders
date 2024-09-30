@@ -1,4 +1,4 @@
-//sourcehash: 5d6b297bb2c2e5713de09d68d7f8c2149e6bdd35f824a7157f85500f133087fe
+//sourcehash: 70ef64f8270cf888e0da15de3b8df64432ee97007a0e6768b13bbd9db80238e0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -216,6 +216,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_tx_signal_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_watercolumn = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_watercolumn_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_xyz = R"doc()doc";
 

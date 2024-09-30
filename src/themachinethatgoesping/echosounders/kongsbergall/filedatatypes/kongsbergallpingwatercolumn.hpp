@@ -246,14 +246,177 @@ class KongsbergAllPingWatercolumn
                    .size() > 0;
     }
 
-    bool has_av() const override { return has_amplitudes(); }
-
     bool has_bottom_range_samples() const override
     {
         // TODO: this is not true for datagrams in SonarMode!
         return has_amplitudes();
     }
 
+    template<typename t_value>
+    xt::xtensor<t_value, 2> get_raw_amplitudes()
+    {
+        return get_raw_amplitudes<t_value>(get_beam_sample_selection_all());
+    }
+
+    template<typename t_value>
+    xt::xtensor<t_value, 2> get_raw_amplitudes(const pingtools::BeamSampleSelection& selection)
+    {
+        auto& wcinfos = _file_data->get_wcinfos();
+
+        auto amplitudes = xt::xtensor<t_value, 2>::from_shape(
+            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
+
+        // samples.fill(std::numeric_limits<float>::quiet_NaN());
+        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
+
+        size_t output_bn = 0;
+
+        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+
+        size_t local_output_bn = 0;
+        for (const auto& bn : selection.get_beam_numbers())
+        {
+            // read amplitudes
+            auto rsr = selection.get_read_sample_range(
+                local_output_bn,
+                wcinfos.get_start_range_sample_numbers().unchecked(bn),
+                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
+
+            if (rsr.get_number_of_samples_to_read() > 0)
+            {
+                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
+                xt::view(amplitudes,
+                         output_bn,
+                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
+                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
+                    xt::cast<t_value>(beam_amplitudes);
+            }
+
+            // assign nan to amplitudes that were not read
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            using namespace xt::placeholders;
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            ++local_output_bn;
+            ++output_bn;
+        }
+
+        return amplitudes;
+    }
+
+    xt::xtensor<float, 2> get_amplitudes2() { return get_raw_amplitudes<float>() * 0.5f; }
+    xt::xtensor<float, 2> get_amplitudes3() { return get_raw_amplitudes<int8_t>() * 0.5f; }
+    xt::xtensor<float, 2> get_amplitudes4()
+    {
+        auto  selection = get_beam_sample_selection_all();
+        auto& wcinfos   = _file_data->get_wcinfos();
+
+        auto amplitudes = xt::xtensor<float, 2>::from_shape(
+            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
+
+        // samples.fill(std::numeric_limits<float>::quiet_NaN());
+        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
+
+        size_t output_bn = 0;
+
+        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+
+        size_t local_output_bn = 0;
+        for (const auto& bn : selection.get_beam_numbers())
+        {
+            // read amplitudes
+            auto rsr = selection.get_read_sample_range(
+                local_output_bn,
+                wcinfos.get_start_range_sample_numbers().unchecked(bn),
+                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
+
+            if (rsr.get_number_of_samples_to_read() > 0)
+            {
+                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
+                xt::view(amplitudes,
+                         output_bn,
+                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
+                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
+                    xt::cast<float>(beam_amplitudes) * 0.5f;
+            }
+
+            // assign nan to amplitudes that were not read
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            using namespace xt::placeholders;
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            ++local_output_bn;
+            ++output_bn;
+        }
+
+        return amplitudes;
+    }
+    xt::xtensor<float, 2> get_amplitudes5()
+    {
+        auto  selection = get_beam_sample_selection_all();
+        auto& wcinfos   = _file_data->get_wcinfos();
+
+        auto amplitudes = xt::xtensor<float, 2>::from_shape(
+            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
+
+        // samples.fill(std::numeric_limits<float>::quiet_NaN());
+        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
+
+        size_t output_bn = 0;
+
+        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
+
+        size_t local_output_bn = 0;
+        for (const auto& bn : selection.get_beam_numbers())
+        {
+            // read amplitudes
+            auto rsr = selection.get_read_sample_range(
+                local_output_bn,
+                wcinfos.get_start_range_sample_numbers().unchecked(bn),
+                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
+
+            if (rsr.get_number_of_samples_to_read() > 0)
+            {
+                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
+                xt::view(amplitudes,
+                         output_bn,
+                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
+                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
+                    beam_amplitudes * 0.5f;
+            }
+
+            // assign nan to amplitudes that were not read
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            using namespace xt::placeholders;
+            xt::view(amplitudes,
+                     output_bn,
+                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
+                .fill(std::numeric_limits<float>::quiet_NaN());
+
+            ++local_output_bn;
+            ++output_bn;
+        }
+
+        return amplitudes;
+    }
     xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
     {
         auto& wcinfos = _file_data->get_wcinfos();
@@ -306,134 +469,128 @@ class KongsbergAllPingWatercolumn
         return amplitudes;
     }
 
-    xt::xtensor<float, 1> get_sample_correction(const pingtools::BeamSampleSelection& bs,
-                                                bool apply_calibration)
-    {
-        // get information
-        float sound_velocity = get_sound_speed_at_transducer();
+    // xt::xtensor<float, 1> get_sample_correction(const pingtools::BeamSampleSelection& bs,
+    //                                             bool apply_calibration)
+    // {
+    //     // get information
+    //     float sound_velocity = get_sound_speed_at_transducer();
 
-        // compute range factor (per sample)
-        float tmp   = 20.f - get_tvg_factor_applied();
-        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
+    //     // compute range factor (per sample)
+    //     float tmp   = 20.f - get_tvg_factor_applied();
+    //     float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
 
-        xt::xtensor<float, 1> ranges = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-        ranges *= tmp_2; // here range factor ~ range
+    //     xt::xtensor<float, 1> ranges = bs.get_sample_numbers_ensemble_1d() + 0.5f;
+    //     ranges *= tmp_2; // here range factor ~ range
 
-        xt::xtensor<float, 1> range_correction = xt::log10(ranges);
-        range_correction *= tmp;
+    //     xt::xtensor<float, 1> range_correction = xt::log10(ranges);
+    //     range_correction *= tmp;
 
-        if (apply_calibration)
-            if (get_sv_calibration().has_offset_per_range())
-            {
-                // TODO: this copies the interpolator, maybe we can speed this up
-                auto interpolator = get_sv_calibration().get_interpolator_offset_per_range();
-                for (unsigned int r = 0; r < range_correction.size(); ++r)
-                    range_correction[r] += interpolator(ranges[r]);
-            }
+    //     if (apply_calibration)
+    //         if (get_sv_calibration().has_offset_per_range())
+    //         {
+    //             // TODO: this copies the interpolator, maybe we can speed this up
+    //             auto interpolator = get_sv_calibration().get_interpolator_offset_per_range();
+    //             for (unsigned int r = 0; r < range_correction.size(); ++r)
+    //                 range_correction[r] += interpolator(ranges[r]);
+    //         }
 
-        return range_correction;
-    }
+    //     return range_correction;
+    // }
 
-    xt::xtensor<float, 1> get_sector_correction(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& bs)
-    {
-        // compute pulse factor (per sector)
+    // xt::xtensor<float, 1> get_sector_correction(
+    //     [[maybe_unused]] const pingtools::BeamSampleSelection& bs)
+    // {
+    //     // compute pulse factor (per sector)
 
-        // get information
-        // auto        tvg_offset        = get_tvg_offset();
-        float       sound_velocity    = get_sound_speed_at_transducer();
-        const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
+    //     // get information
+    //     // auto        tvg_offset        = get_tvg_offset();
+    //     float       sound_velocity    = get_sound_speed_at_transducer();
+    //     const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
 
-        xt::xtensor<float, 1> sector_correction = xt::empty<float>({ signal_parameters.size() });
-        for (unsigned int si = 0; si < signal_parameters.size(); ++si)
-        {
-            const auto& sigparam  = signal_parameters[si];
-            sector_correction[si] = tools::helper::visit_variant(
-                sigparam,
-                [sound_velocity](
-                    const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
-                    return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5f);
-                },
-                [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
-                                     datastructures::FMSignalParameters& param) {
-                    // TODO: correct computation for FM?
-                    return 0.f;
-                },
-                [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
-                                     datastructures::GenericSignalParameters& param) {
-                    // TODO: throw warning?
-                    // We cannot really compute this because we do not know if this is a CW or FM
-                    // signal Furthermore, this usually happens if no rawrangeandanlges datagram is
-                    // present in this case also the effective_pulse_duration is not known for each
-                    // sector Here we thus do not correct for pulse length at all, but the user
-                    // should be aware of this (TODO: warning?)
-                    return 0.f;
-                });
-        }
+    //     xt::xtensor<float, 1> sector_correction = xt::empty<float>({ signal_parameters.size() });
+    //     for (unsigned int si = 0; si < signal_parameters.size(); ++si)
+    //     {
+    //         const auto& sigparam  = signal_parameters[si];
+    //         sector_correction[si] = tools::helper::visit_variant(
+    //             sigparam,
+    //             [sound_velocity](
+    //                 const algorithms::signalprocessing::datastructures::CWSignalParameters&
+    //                 param) { return std::log10(sound_velocity *
+    //                 param.get_effective_pulse_duration() * 0.5f);
+    //             },
+    //             [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
+    //                                  datastructures::FMSignalParameters& param) {
+    //                 // TODO: correct computation for FM?
+    //                 return 0.f;
+    //             },
+    //             [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
+    //                                  datastructures::GenericSignalParameters& param) {
+    //                 // TODO: throw warning?
+    //                 // We cannot really compute this because we do not know if this is a CW or FM
+    //                 // signal Furthermore, this usually happens if no rawrangeandanlges datagram
+    //                 is
+    //                 // present in this case also the effective_pulse_duration is not known for
+    //                 each
+    //                 // sector Here we thus do not correct for pulse length at all, but the user
+    //                 // should be aware of this (TODO: warning?)
+    //                 return 0.f;
+    //             });
+    //     }
 
-        // adding tvg offset to the sector correction
-        return sector_correction;
-    }
+    //     // adding tvg offset to the sector correction
+    //     return sector_correction;
+    // }
 
-    float get_system_correction() const { return -get_tvg_offset(); }
+    // float get_system_correction() const { return -get_tvg_offset(); }
 
-    xt::xtensor<float, 2> get_corrected_amp(const pingtools::BeamSampleSelection& bs,
-                                            bool                                  apply_calibration)
-    {
-        if (apply_calibration)
-            if (!has_sv_calibration())
-                throw std::runtime_error(
-                    fmt::format("ERROR[{}]: No calibration available.", __func__));
+    // xt::xtensor<float, 2> get_corrected_amp(const pingtools::BeamSampleSelection& bs,
+    //                                         bool apply_calibration)
+    // {
+    //     if (apply_calibration)
+    //         if (!has_sv_calibration())
+    //             throw std::runtime_error(
+    //                 fmt::format("ERROR[{}]: No calibration available.", __func__));
 
-        auto                  system_correction = get_system_correction();
-        xt::xtensor<float, 1> sector_correction = get_sector_correction(bs);
-        xt::xtensor<float, 1> sample_correction = get_sample_correction(
-            bs, apply_calibration); // apply inside the function because range is needed
+    //     auto                  system_correction = get_system_correction();
+    //     xt::xtensor<float, 1> sector_correction = get_sector_correction(bs);
+    //     xt::xtensor<float, 1> sample_correction = get_sample_correction(
+    //         bs, apply_calibration); // apply inside the function because range is needed
 
-        if (apply_calibration)
-            if (get_sv_calibration().has_system_offset())
-                system_correction += get_sv_calibration().get_system_offset();
+    //     if (apply_calibration)
+    //         if (get_sv_calibration().has_system_offset())
+    //             system_correction += get_sv_calibration().get_system_offset();
 
-        // this is the same as adding system_correction to av later but faster
-        sector_correction += system_correction;
+    //     // this is the same as adding system_correction to av later but faster
+    //     sector_correction += system_correction;
 
-        // compute beam correction (sector correction per beam)
-        xt::xtensor<float, 1> beam_correction =
-            xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
-        const auto& beam_numbers            = bs.get_beam_numbers();
-        auto        sector_numbers_per_beam = get_tx_sector_per_beam();
+    //     // compute beam correction (sector correction per beam)
+    //     xt::xtensor<float, 1> beam_correction =
+    //         xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
+    //     const auto& beam_numbers            = bs.get_beam_numbers();
+    //     auto        sector_numbers_per_beam = get_tx_sector_per_beam();
 
-        for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-        {
-            beam_correction[bi] =
-                sector_correction.at(sector_numbers_per_beam.at(beam_numbers[bi]));
-        }
+    //     for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+    //     {
+    //         beam_correction[bi] =
+    //             sector_correction.at(sector_numbers_per_beam.at(beam_numbers[bi]));
+    //     }
 
-        if (apply_calibration)
-            if (get_sv_calibration().has_offset_per_beamangle())
-            {
-                // TODO: this copies the interpolator, maybe we can speed this up
-                auto interpolator = get_sv_calibration().get_interpolator_offset_per_beamangle();
-                auto beam_angles  = get_beam_crosstrack_angles(bs);
-                for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-                {
-                    beam_correction[bi] += interpolator(beam_angles[bi]);
-                }
-            }
+    //     if (apply_calibration)
+    //         if (get_sv_calibration().has_offset_per_beamangle())
+    //         {
+    //             // TODO: this copies the interpolator, maybe we can speed this up
+    //             auto interpolator = get_sv_calibration().get_interpolator_offset_per_beamangle();
+    //             auto beam_angles  = get_beam_crosstrack_angles(bs);
+    //             for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
+    //             {
+    //                 beam_correction[bi] += interpolator(beam_angles[bi]);
+    //             }
+    //         }
 
-        return algorithms::amplitudecorrection::functions::apply_wci_correction<xt::xtensor<float,2>,xt::xtensor<float,1>>(
-            get_amplitudes(bs) * 0.5f, beam_correction, sample_correction);
-    }
-
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
-    {
-        return get_corrected_amp(bs, false);
-    }
-
-    xt::xtensor<float, 2> get_sv(const pingtools::BeamSampleSelection& bs) override
-    {
-        return get_corrected_amp(bs, true);
-    }
+    //     return
+    //     algorithms::amplitudecorrection::functions::apply_beam_sample_correction<xt::xtensor<float,2>,xt::xtensor<float,1>>(
+    //         get_amplitudes(bs) * 0.5f, beam_correction, sample_correction);
+    // }
 
     xt::xtensor<uint32_t, 1> get_bottom_range_samples(
         const pingtools::BeamSelection& selection) override

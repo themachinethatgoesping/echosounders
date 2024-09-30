@@ -73,6 +73,7 @@ sources = [
   'py_kongsbergall/py_filedatatypes/c_kongsbergallpingfiledata.cpp',
   'py_kongsbergall/py_filedatatypes/c_kongsbergallpingwatercolumn.cpp',
   'py_kongsbergall/py_filedatatypes/module.cpp',
+  'py_kongsbergall/py_filedatatypes/calibration/c_kongsbergallwatercolumncalibration.cpp',
   'py_filetemplates/module.cpp',
   'py_filetemplates/py_datatypes/c_filecache.cpp',
   'py_filetemplates/py_datatypes/c_i_ping.cpp',

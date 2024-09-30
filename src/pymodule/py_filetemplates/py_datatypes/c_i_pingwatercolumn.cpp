@@ -5,7 +5,7 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -54,26 +54,13 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
                  DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
 
-            .def("get_power_calibration",
-                 &I_PingWatercolumn::get_power_calibration,
-                 DOC_I_PingWatercolumn(get_power_calibration))
-            .def("get_sp_calibration",
-                 &I_PingWatercolumn::get_sp_calibration,
-                 DOC_I_PingWatercolumn(get_sp_calibration))
-            .def("get_sv_calibration",
-                 &I_PingWatercolumn::get_sv_calibration,
-                 DOC_I_PingWatercolumn(get_sv_calibration))
-            .def("set_power_calibration",
-                 &I_PingWatercolumn::set_power_calibration,
-                 DOC_I_PingWatercolumn(set_power_calibration),
-                 py::arg("calibration"))
-            .def("set_sp_calibration",
-                 &I_PingWatercolumn::set_sp_calibration,
-                 DOC_I_PingWatercolumn(set_sp_calibration),
-                 py::arg("calibration"))
-            .def("set_sv_calibration",
-                 &I_PingWatercolumn::set_sv_calibration,
-                 DOC_I_PingWatercolumn(set_sv_calibration),
+            .def("get_watercolumn_calibration",
+                 &I_PingWatercolumn::get_watercolumn_calibration,
+                 DOC_I_PingWatercolumn(get_watercolumn_calibration))
+            .def("set_watercolumn_calibration",
+                 py::overload_cast<const calibration::WaterColumnCalibration&>(
+                     &I_PingWatercolumn::set_watercolumn_calibration),
+                 DOC_I_PingWatercolumn(set_watercolumn_calibration),
                  py::arg("calibration"))
 
             // ---- pingwatercolumn interface ----
@@ -144,15 +131,9 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("has_sv",
                  py::overload_cast<>(&I_PingWatercolumn::has_sv, py::const_),
                  DOC_I_PingWatercolumn(has_sv))
-            .def("has_power_calibration",
-                 py::overload_cast<>(&I_PingWatercolumn::has_power_calibration, py::const_),
-                 DOC_I_PingWatercolumn(has_power_calibration))
-            .def("has_sp_calibration",
-                 py::overload_cast<>(&I_PingWatercolumn::has_sp_calibration, py::const_),
-                 DOC_I_PingWatercolumn(has_sp_calibration))
-            .def("has_sv_calibration",
-                 py::overload_cast<>(&I_PingWatercolumn::has_sv_calibration, py::const_),
-                 DOC_I_PingWatercolumn(has_sv_calibration))
+            .def("has_watercolumn_calibration",
+                 py::overload_cast<>(&I_PingWatercolumn::has_watercolumn_calibration, py::const_),
+                 DOC_I_PingWatercolumn(has_watercolumn_calibration))
             .def("get_amplitudes",
                  py::overload_cast<>(&I_PingWatercolumn::get_amplitudes),
                  DOC_I_PingWatercolumn(get_amplitudes))

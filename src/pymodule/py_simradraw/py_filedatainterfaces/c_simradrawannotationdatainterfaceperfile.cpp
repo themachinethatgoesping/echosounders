@@ -7,7 +7,7 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
-#include <xtensor-python/pyarray.hpp> // Numpy bindings
+#include <xtensor-python/pytensor.hpp> // Numpy bindings
 #include <xtensor/xmath.hpp>          // xtensor import for the C++ universal functions
 
 #include <chrono>

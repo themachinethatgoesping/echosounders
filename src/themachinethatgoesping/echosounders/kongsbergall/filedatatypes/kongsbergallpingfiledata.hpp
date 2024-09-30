@@ -65,6 +65,23 @@ class KongsbergAllPingFileData
     std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
+    void set_watercolumn_calibration(
+        boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration> calibration)
+    {
+        _calibration = calibration;
+    }
+    void set_watercolumn_calibration(
+        const filetemplates::datatypes::calibration::WaterColumnCalibration& calibration)
+    {
+        _calibration = calibration;
+    }
+
+    const filetemplates::datatypes::calibration::WaterColumnCalibration&
+    get_watercolumn_calibration()
+    {
+        return _calibration.get();
+    }
+
     void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
     {
         _watercolumninformation = std::move(wci);

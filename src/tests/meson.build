@@ -33,6 +33,7 @@ sources = [
   'kongsbergall/datagrams/surfacesoundspeeddatagram.test.cpp',
   'kongsbergall/datagrams/watercolumndatagram.test.cpp',
   'kongsbergall/datagrams/xyzdatagram.test.cpp',
+  'kongsbergall/filedatatypes/calibration/kongsbergallwatercolumncalibration.test.cpp',
   'kongsbergall/filedatatypes/_sub/_sysinfos.test.cpp',
   'kongsbergall/filedatatypes/_sub/_wciinfos.test.cpp',
   'kongsbergall/filedatatypes/_sub/systeminformation.test.cpp',

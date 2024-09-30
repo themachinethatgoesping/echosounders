@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -15,10 +15,10 @@
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatatypes/kongsbergallpingwatercolumn.hpp"
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatatypes/kongsbergallpingwatercolumn.hpp"
+#include "../../../themachinethatgoesping/echosounders/kongsbergall/types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -30,28 +30,61 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_KongsbergAllPing(ARG)                                                                        \
-    DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingWatercolumn, ARG)
+#define DOC_KongsbergAllPing(ARG)                                                                  \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        kongsbergall,                                                                              \
+        filedatatypes,                                                                             \
+        KongsbergAllPingWatercolumn,                                                               \
+        ARG)
 
 template<typename T_FileStream>
 void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::string& CLASS_NAME)
 {
     using t_KongsbergAllPingWatercolumn = filedatatypes::KongsbergAllPingWatercolumn<T_FileStream>;
 
-    auto cls = py::class_<t_KongsbergAllPingWatercolumn,
-                          datatypes::I_PingWatercolumn,
-                          filedatatypes::KongsbergAllPingCommon<T_FileStream>,
-                          std::shared_ptr<t_KongsbergAllPingWatercolumn>>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingWatercolumn))
+    auto cls =
+        py::class_<t_KongsbergAllPingWatercolumn,
+                   datatypes::I_PingWatercolumn,
+                   filedatatypes::KongsbergAllPingCommon<T_FileStream>,
+                   std::shared_ptr<t_KongsbergAllPingWatercolumn>>(m,
+                                                                   CLASS_NAME.c_str(),
+                                                                   DOC(themachinethatgoesping,
+                                                                       echosounders,
+                                                                       kongsbergall,
+                                                                       filedatatypes,
+                                                                       KongsbergAllPingWatercolumn))
 
-        // --- pingwatercolumn interface extension ---
+            // --- pingwatercolumn interface extension ---
 
-        // --- variable access ---
-        .def("get_tvg_factor_applied", &t_KongsbergAllPingWatercolumn::get_tvg_factor_applied, DOC_KongsbergAllPing(get_tvg_factor_applied))
-        .def("get_tvg_offset", &t_KongsbergAllPingWatercolumn::get_tvg_offset, DOC_KongsbergAllPing(get_tvg_offset))
+            // --- variable access ---
+            .def("get_tvg_factor_applied",
+                 &t_KongsbergAllPingWatercolumn::get_tvg_factor_applied,
+                 DOC_KongsbergAllPing(get_tvg_factor_applied))
+            .def("get_tvg_offset",
+                 &t_KongsbergAllPingWatercolumn::get_tvg_offset,
+                 DOC_KongsbergAllPing(get_tvg_offset))
 
+            .def("get_raw_amplitudes",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<int8_t>),
+                 DOC_KongsbergAllPing(get_raw_amplitudes))
+            .def("get_raw_amplitudes",
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
+                     &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<int8_t>),
+                 DOC_KongsbergAllPing(get_raw_amplitudes),
+                 py::arg("beam_selection"))
+            .def("get_amplitudes2",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_amplitudes2),
+                 DOC_KongsbergAllPing(get_amplitudes2))
+            .def("get_amplitudes3",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_amplitudes2),
+                 DOC_KongsbergAllPing(get_amplitudes2))
+            .def("get_amplitudes4",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_amplitudes2),
+                 DOC_KongsbergAllPing(get_amplitudes2))
+            .def("get_amplitudes5",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_amplitudes2),
+                 DOC_KongsbergAllPing(get_amplitudes2))
         // ----- operators -----
         // .def("__eq__",
         //      &KongsbergAllPingWatercolumn::operator==,

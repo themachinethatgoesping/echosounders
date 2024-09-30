@@ -7,7 +7,7 @@
 #include <pybind11/stl.h>
 
 // xtensor python includes
-#include <xtensor-python/pyarray.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // implicit conversion xtensor <-> numpy
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -38,22 +38,23 @@ void init_c_watercolumncalibration(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    auto c = py::class_<WaterColumnCalibration>(m,
-                                                "WaterColumnCalibration",
-                                                DOC(themachinethatgoesping,
-                                                    echosounders,
-                                                    filetemplates,
-                                                    datatypes,
-                                                    calibration,
-                                                    WaterColumnCalibration))
+    auto c = py::class_<WaterColumnCalibration, std::shared_ptr<WaterColumnCalibration>>(
+                 m,
+                 "WaterColumnCalibration",
+                 DOC(themachinethatgoesping,
+                     echosounders,
+                     filetemplates,
+                     datatypes,
+                     calibration,
+                     WaterColumnCalibration))
                  .def(py::init<>(), DOC_WaterColumnCalibration(WaterColumnCalibration))
                  .def(py::init<const AmplitudeCalibration&,
                                const AmplitudeCalibration&,
                                const AmplitudeCalibration&>(),
                       DOC_WaterColumnCalibration(WaterColumnCalibration),
                       py::arg("power_calibration") = AmplitudeCalibration(),
-                      py::arg("sp_calibration")    = AmplitudeCalibration(),
-                      py::arg("sv_calibration")    = AmplitudeCalibration())
+                      py::arg("ap_calibration")    = AmplitudeCalibration(),
+                      py::arg("av_calibration")    = AmplitudeCalibration())
                  .def(py::init<const WaterColumnCalibration&>(),
                       DOC_WaterColumnCalibration(WaterColumnCalibration))
 
@@ -72,6 +73,12 @@ void init_c_watercolumncalibration(pybind11::module& m)
                  .def("has_power_calibration",
                       &WaterColumnCalibration::has_power_calibration,
                       DOC_WaterColumnCalibration(has_power_calibration))
+                 .def("has_ap_calibration",
+                      &WaterColumnCalibration::has_ap_calibration,
+                      DOC_WaterColumnCalibration(has_ap_calibration))
+                 .def("has_av_calibration",
+                      &WaterColumnCalibration::has_av_calibration,
+                      DOC_WaterColumnCalibration(has_av_calibration))
                  .def("has_sp_calibration",
                       &WaterColumnCalibration::has_sp_calibration,
                       DOC_WaterColumnCalibration(has_sp_calibration))
@@ -84,6 +91,14 @@ void init_c_watercolumncalibration(pybind11::module& m)
                  .def("set_power_calibration",
                       &WaterColumnCalibration::set_power_calibration,
                       DOC_WaterColumnCalibration(set_power_calibration),
+                      py::arg("calibration"))
+                 .def("set_ap_calibration",
+                      &WaterColumnCalibration::set_ap_calibration,
+                      DOC_WaterColumnCalibration(set_ap_calibration),
+                      py::arg("calibration"))
+                 .def("set_av_calibration",
+                      &WaterColumnCalibration::set_av_calibration,
+                      DOC_WaterColumnCalibration(set_av_calibration),
                       py::arg("calibration"))
                  .def("set_sp_calibration",
                       &WaterColumnCalibration::set_sp_calibration,
