@@ -248,7 +248,7 @@ class SoundSpeedProfileDatagram : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         using tools::timeconv::unixtime_to_datestring;
 
@@ -259,9 +259,9 @@ class SoundSpeedProfileDatagram : public KongsbergAllDatagram
         auto date = unixtime_to_datestring(timestamp, 0, format_date);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
-        tools::classhelper::ObjectPrinter printer("SoundSpeedProfileDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("SoundSpeedProfileDatagram", float_precision, superscript_exponents);
 
-        printer.append(KongsbergAllDatagram::__printer__(float_precision));
+        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");
         printer.register_value("profile_counter", _profile_counter);
         printer.register_value("system_serial_number", _system_serial_number);

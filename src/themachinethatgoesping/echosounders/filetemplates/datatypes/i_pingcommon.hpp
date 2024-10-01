@@ -485,9 +485,9 @@ class I_PingCommon
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         print_features(printer);
         if (!this->feature_group_functions().empty())

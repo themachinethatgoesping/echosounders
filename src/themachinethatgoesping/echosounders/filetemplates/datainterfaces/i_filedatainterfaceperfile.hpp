@@ -232,12 +232,12 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::string get_linked_file_path() const { return get_linked_file()->get_file_path(); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
-        printer.append(t_base::__printer__(float_precision));
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("File infos");
         // if _linked_file is set

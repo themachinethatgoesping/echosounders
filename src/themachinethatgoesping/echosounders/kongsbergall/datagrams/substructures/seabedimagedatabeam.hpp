@@ -107,9 +107,9 @@ class SeabedImageDataBeam
     bool operator==(const SeabedImageDataBeam& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("SeabedImageDataBeam", float_precision);
+        tools::classhelper::ObjectPrinter printer("SeabedImageDataBeam", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("sorting_direction", _sorting_direction);

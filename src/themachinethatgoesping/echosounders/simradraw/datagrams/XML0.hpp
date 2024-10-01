@@ -294,10 +294,10 @@ class XML0 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 datagram", float_precision);
-        printer.append(SimradRawDatagram::__printer__(float_precision));
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 datagram", float_precision, superscript_exponents);
+        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_value("Type", get_xml_datagram_type());
 
         pugi::xml_document doc;

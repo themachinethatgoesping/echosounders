@@ -157,9 +157,9 @@ class XYZDatagramBeam
                _reflectivity == other._reflectivity;
     }
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("XYZDatagramBeam", float_precision);
+        tools::classhelper::ObjectPrinter printer("XYZDatagramBeam", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("depth", _depth, "-z in m");

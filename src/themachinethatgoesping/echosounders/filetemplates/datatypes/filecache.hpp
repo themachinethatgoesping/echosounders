@@ -358,9 +358,9 @@ class FileCache
         return from_stream(is);
     }
 
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
+        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision, superscript_exponents);
 
         // version
         printer.register_string("type_id", std::string(_type_id_1));

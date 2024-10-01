@@ -127,11 +127,11 @@ class BeamSelection
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision) const
+    auto __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
-        ObjectPrinter printer("BeamSelection", float_precision);
+        ObjectPrinter printer("BeamSelection", float_precision, superscript_exponents);
 
         printer.register_container("_beam_numbers", _beam_numbers);
 

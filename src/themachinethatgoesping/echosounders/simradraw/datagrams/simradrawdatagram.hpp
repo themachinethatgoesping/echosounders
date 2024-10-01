@@ -176,7 +176,7 @@ class SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         using tools::timeconv::unixtime_to_datestring;
 
@@ -187,7 +187,7 @@ class SimradRawDatagram
         auto date = unixtime_to_datestring(timestamp, 0, format_data);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
-        tools::classhelper::ObjectPrinter printer("SimradRawDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("SimradRawDatagram", float_precision, superscript_exponents);
 
         printer.register_value("length", _length, "bytes");
         printer.register_string(

@@ -110,9 +110,9 @@ struct RAW3DataPower : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (Power)", float_precision);
+        tools::classhelper::ObjectPrinter printer("Sample binary data (Power)", float_precision, superscript_exponents);
 
         std::stringstream ss;
         ss << _power;

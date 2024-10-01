@@ -236,12 +236,12 @@ class I_PingBottom : public I_PingCommon
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         // Transducers
-        printer.append(I_PingCommon::__printer__(float_precision));
+        printer.append(I_PingCommon::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Bottom detection infos");
         auto features     = this->feature_string();

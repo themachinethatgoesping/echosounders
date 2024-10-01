@@ -221,9 +221,9 @@ class I_Ping : public I_PingCommon
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         printer.register_section("Ping infos");
 
@@ -234,7 +234,7 @@ class I_Ping : public I_PingCommon
         printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
 
         // print features
-        printer.append(t_base::__printer__(float_precision));
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
         if (has_bottom())
             bottom().print_features(printer, "bottom");
         if (has_watercolumn())
@@ -243,7 +243,7 @@ class I_Ping : public I_PingCommon
         if (has_geolocation())
         {
             printer.register_section("Geolocation");
-            printer.append(get_geolocation("Transducer").__printer__(float_precision));
+            printer.append(get_geolocation("Transducer").__printer__(float_precision, superscript_exponents));
         }
         else
         {
@@ -256,10 +256,10 @@ class I_Ping : public I_PingCommon
         }
 
         // printer.register_section("Sensor data");
-        // printer.append(_sensor_data_latlon.__printer__(float_precision));
+        // printer.append(_sensor_data_latlon.__printer__(float_precision, superscript_exponents));
 
         // printer.register_section("Sensor configuration");
-        // printer.append(get_sensor_configuration().__printer__(float_precision));
+        // printer.append(get_sensor_configuration().__printer__(float_precision, superscript_exponents));
 
         return printer;
     }

@@ -98,11 +98,11 @@ class ReadSampleRange
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision) const
+    auto __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
-        ObjectPrinter printer("ReadSampleRange", float_precision);
+        ObjectPrinter printer("ReadSampleRange", float_precision, superscript_exponents);
 
         printer.register_value("first_sample_to_read", _first_sample_to_read, "beamlocal");
         printer.register_value(

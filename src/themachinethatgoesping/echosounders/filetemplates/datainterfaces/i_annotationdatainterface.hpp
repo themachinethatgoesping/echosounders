@@ -45,12 +45,12 @@ class I_AnnotationDataInterface : public I_FileDataInterface<t_annotationdataint
     virtual ~I_AnnotationDataInterface() = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         printer.register_section("FileData");
-        printer.append(t_base::__printer__(float_precision));
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("AnnotationDataInterface");
 

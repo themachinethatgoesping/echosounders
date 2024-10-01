@@ -160,11 +160,11 @@ class DepthOrHeightDatagram : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("DepthOrHeightDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("DepthOrHeightDatagram", float_precision, superscript_exponents);
 
-        printer.append(KongsbergAllDatagram::__printer__(float_precision));
+        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");
         printer.register_value("height_counter", _height_counter);
         printer.register_value("system_serial_number", _system_serial_number);

@@ -182,10 +182,10 @@ struct XML_Configuration_Sensor_Telegram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Sensor_Telegram",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         if (!Values.empty())
         {

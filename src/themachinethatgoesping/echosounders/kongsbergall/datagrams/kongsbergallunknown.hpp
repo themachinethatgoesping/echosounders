@@ -122,11 +122,11 @@ class KongsbergAllUnknown : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("KongsbergAllUnknown", float_precision);
+        tools::classhelper::ObjectPrinter printer("KongsbergAllUnknown", float_precision, superscript_exponents);
 
-        printer.append(KongsbergAllDatagram::__printer__(float_precision));
+        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");
         printer.register_value("raw data", _raw_content.size(), "bytes");
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));

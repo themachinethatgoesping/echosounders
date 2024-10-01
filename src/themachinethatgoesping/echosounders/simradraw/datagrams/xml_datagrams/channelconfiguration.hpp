@@ -105,11 +105,11 @@ class ChannelConfiguration
     bool operator==(const ChannelConfiguration& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(
             "EK80 Channel Configuration (derived from XML Configuration Datagram)",
-            float_precision);
+            float_precision, superscript_exponents);
         printer.register_string("Channel ID", _channel_id);
 
         printer.register_section("children");
@@ -118,7 +118,7 @@ class ChannelConfiguration
         printer.register_string("Transducer", _transducer_offsets.TransducerName);
 
         printer.register_section("sensor offsets");
-        printer.append(_sensor_offsets.__printer__(float_precision));
+        printer.append(_sensor_offsets.__printer__(float_precision, superscript_exponents));
 
         return printer;
     }

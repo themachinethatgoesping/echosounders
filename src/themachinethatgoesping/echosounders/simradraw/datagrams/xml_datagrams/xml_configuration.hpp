@@ -451,10 +451,10 @@ struct XML_Configuration
     bool operator!=(const XML_Configuration& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
         printer.register_section("children");
         printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
         printer.register_value("Transducers", Transducers.size());

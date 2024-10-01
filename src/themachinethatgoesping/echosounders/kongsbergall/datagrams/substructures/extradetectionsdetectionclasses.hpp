@@ -85,10 +85,10 @@ class ExtraDetectionsDetectionClasses
     bool operator==(const ExtraDetectionsDetectionClasses& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("ExtraDetectionsDetectionClasses",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         printer.register_value("start_depth", _start_depth, "%");
         printer.register_value("stopt_depth", _stop_depth, "%");

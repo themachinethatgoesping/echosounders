@@ -178,11 +178,11 @@ class FIL1 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision);
+        tools::classhelper::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision, superscript_exponents);
 
-        printer.append(SimradRawDatagram::__printer__(float_precision));
+        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 
         std::string channel_id = _channel_id;
         // remove all non ascii characters

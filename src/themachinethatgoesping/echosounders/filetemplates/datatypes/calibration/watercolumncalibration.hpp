@@ -275,9 +275,9 @@ class WaterColumnCalibration
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("WaterColumnCalibration", float_precision);
+        tools::classhelper::ObjectPrinter printer("WaterColumnCalibration", float_precision, superscript_exponents);
 
         printer.register_section("Absorption");
         printer.register_value("Absorption", _absorption_db_m, "dB/m");
@@ -286,15 +286,15 @@ class WaterColumnCalibration
         printer.register_value("TVG Factor", _tvg_factor, "log(r)");
 
         printer.register_section("Power Calibration");
-        printer.append(_power_calibration.__printer__(float_precision));
+        printer.append(_power_calibration.__printer__(float_precision, superscript_exponents));
         printer.register_section("Ap Calibration (Uncompensated uncalibrated TS)");
-        printer.append(_ap_calibration.__printer__(float_precision));
+        printer.append(_ap_calibration.__printer__(float_precision, superscript_exponents));
         printer.register_section("Av Calibration (Uncalibrated volume scattering)");
-        printer.append(_av_calibration.__printer__(float_precision));
+        printer.append(_av_calibration.__printer__(float_precision, superscript_exponents));
         printer.register_section("Ap Calibration (Uncalibrated TS)");
-        printer.append(_sp_calibration.__printer__(float_precision));
+        printer.append(_sp_calibration.__printer__(float_precision, superscript_exponents));
         printer.register_section("Sv Calibration (Volume scattering)");
-        printer.append(_sv_calibration.__printer__(float_precision));
+        printer.append(_sv_calibration.__printer__(float_precision, superscript_exponents));
 
         return printer;
     }
@@ -310,8 +310,8 @@ class WaterColumnCalibration
         hash_stream.write(reinterpret_cast<const char*>(&_absorption_db_m), sizeof(float) * 3);
     }
 
-    uint64_t        cached_hash() const { return _hash; }
-    xxh::hash_t<64> binary_hash() const
+    uint64_t                cached_hash() const { return _hash; }
+    virtual xxh::hash_t<64> binary_hash() const
     {
 
         xxh::hash3_state_t<64>               hash;

@@ -259,10 +259,10 @@ struct XML_Configuration_Transceiver
     bool operator!=(const XML_Configuration_Transceiver& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         if (!Channels.empty())
         {

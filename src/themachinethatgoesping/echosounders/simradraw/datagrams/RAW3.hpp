@@ -294,11 +294,13 @@ class RAW3 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary datagram", float_precision);
+        tools::classhelper::ObjectPrinter printer(
+            "Sample binary datagram", float_precision, superscript_exponents);
 
-        printer.append(SimradRawDatagram::__printer__(float_precision));
+        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 
         std::string channel_id = std::string(get_channel_id());
         // remove all non ascii characters
@@ -331,9 +333,10 @@ class RAW3 : public SimradRawDatagram
 
         printer.register_section(
             fmt::format("sample data ({})", magic_enum::enum_name(_data_type)));
-        printer.append(tools::helper::visit_variant(_sample_data, [float_precision](auto& data) {
-            return data.__printer__(float_precision);
-        }));
+        printer.append(tools::helper::visit_variant(
+            _sample_data, [float_precision, superscript_exponents](auto& data) {
+                return data.__printer__(float_precision, superscript_exponents);
+            }));
 
         return printer;
     }

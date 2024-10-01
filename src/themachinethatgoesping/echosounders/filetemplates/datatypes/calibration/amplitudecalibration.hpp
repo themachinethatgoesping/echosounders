@@ -251,17 +251,17 @@ class AmplitudeCalibration
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("AmplitudeCalibration", float_precision);
+        tools::classhelper::ObjectPrinter printer("AmplitudeCalibration", float_precision, superscript_exponents);
 
         printer.register_section("System offsets");
         if (!std::isnan(_system_offset))
-            printer.register_value("system_offset", _system_offset);
+            printer.register_value("system_offset", _system_offset, "dB");
         if (!_offset_per_beamangle.empty())
-            printer.append(_offset_per_beamangle.__printer__(float_precision));
+            printer.append(_offset_per_beamangle.__printer__(float_precision, superscript_exponents));
         if (!_offset_per_range.empty())
-            printer.append(_offset_per_range.__printer__(float_precision));
+            printer.append(_offset_per_range.__printer__(float_precision, superscript_exponents));
 
         return printer;
     }

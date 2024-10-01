@@ -332,9 +332,9 @@ struct XML_Parameter_Channel
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision, superscript_exponents);
         printer.register_string("ChannelID", ChannelID);
         printer.register_value("ChannelMode", ChannelMode);
         printer.register_value("PulseForm", PulseForm);

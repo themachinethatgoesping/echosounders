@@ -54,9 +54,9 @@ class StructPackage : public t_struct
     bool operator==(const StructPackage& other) const = default;
 
     // ----- objectprinter -----
-    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     // {
-    //     tools::classhelper::ObjectPrinter printer("StructPackage", float_precision);
+    //     tools::classhelper::ObjectPrinter printer("StructPackage", float_precision, superscript_exponents);
 
     //     size_t i = 0;
     //     std::apply(

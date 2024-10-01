@@ -238,13 +238,15 @@ class KongsbergAllPingWatercolumn
     // using t_base1::has_amplitudes;
     using t_base2::file_data;
 
-    bool has_amplitudes() const override
+    bool has_raw_amplitudes() const
     {
         return file_data()
                    .get_datagram_infos_by_type(
                        t_KongsbergAllDatagramIdentifier::WatercolumnDatagram)
                    .size() > 0;
     }
+
+    bool has_amplitudes() const override { return has_raw_amplitudes(); }
 
     bool has_bottom_range_samples() const override
     {
@@ -266,7 +268,11 @@ class KongsbergAllPingWatercolumn
         auto amplitudes = xt::xtensor<t_value, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
 
-        // samples.fill(std::numeric_limits<float>::quiet_NaN());
+        if constexpr (std::is_floating_point_v<t_value>)
+            amplitudes.fill(std::numeric_limits<t_value>::quiet_NaN());
+        else
+            amplitudes.fill(std::numeric_limits<t_value>::min());
+
         size_t ensemble_offset = selection.get_first_sample_number_ensemble();
 
         size_t output_bn = 0;
@@ -284,25 +290,12 @@ class KongsbergAllPingWatercolumn
 
             if (rsr.get_number_of_samples_to_read() > 0)
             {
-                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
                 xt::view(amplitudes,
                          output_bn,
                          xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
                                    rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                    xt::cast<t_value>(beam_amplitudes);
+                    wcinfos.read_beam_samples(bn, rsr, ifs);
             }
-
-            // assign nan to amplitudes that were not read
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
 
             ++local_output_bn;
             ++output_bn;
@@ -311,162 +304,10 @@ class KongsbergAllPingWatercolumn
         return amplitudes;
     }
 
-    xt::xtensor<float, 2> get_amplitudes2() { return get_raw_amplitudes<float>() * 0.5f; }
-    xt::xtensor<float, 2> get_amplitudes3() { return get_raw_amplitudes<int8_t>() * 0.5f; }
-    xt::xtensor<float, 2> get_amplitudes4()
+    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& bs) override
     {
-        auto  selection = get_beam_sample_selection_all();
-        auto& wcinfos   = _file_data->get_wcinfos();
-
-        auto amplitudes = xt::xtensor<float, 2>::from_shape(
-            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
-
-        // samples.fill(std::numeric_limits<float>::quiet_NaN());
-        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
-
-        size_t output_bn = 0;
-
-        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
-
-        size_t local_output_bn = 0;
-        for (const auto& bn : selection.get_beam_numbers())
-        {
-            // read amplitudes
-            auto rsr = selection.get_read_sample_range(
-                local_output_bn,
-                wcinfos.get_start_range_sample_numbers().unchecked(bn),
-                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
-
-            if (rsr.get_number_of_samples_to_read() > 0)
-            {
-                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
-                xt::view(amplitudes,
-                         output_bn,
-                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
-                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                    xt::cast<float>(beam_amplitudes) * 0.5f;
-            }
-
-            // assign nan to amplitudes that were not read
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            ++local_output_bn;
-            ++output_bn;
-        }
-
-        return amplitudes;
-    }
-    xt::xtensor<float, 2> get_amplitudes5()
-    {
-        auto  selection = get_beam_sample_selection_all();
-        auto& wcinfos   = _file_data->get_wcinfos();
-
-        auto amplitudes = xt::xtensor<float, 2>::from_shape(
-            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
-
-        // samples.fill(std::numeric_limits<float>::quiet_NaN());
-        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
-
-        size_t output_bn = 0;
-
-        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
-
-        size_t local_output_bn = 0;
-        for (const auto& bn : selection.get_beam_numbers())
-        {
-            // read amplitudes
-            auto rsr = selection.get_read_sample_range(
-                local_output_bn,
-                wcinfos.get_start_range_sample_numbers().unchecked(bn),
-                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
-
-            if (rsr.get_number_of_samples_to_read() > 0)
-            {
-                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
-                xt::view(amplitudes,
-                         output_bn,
-                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
-                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                    beam_amplitudes * 0.5f;
-            }
-
-            // assign nan to amplitudes that were not read
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            ++local_output_bn;
-            ++output_bn;
-        }
-
-        return amplitudes;
-    }
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
-    {
-        auto& wcinfos = _file_data->get_wcinfos();
-
-        auto amplitudes = xt::xtensor<float, 2>::from_shape(
-            { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
-
-        // samples.fill(std::numeric_limits<float>::quiet_NaN());
-        size_t ensemble_offset = selection.get_first_sample_number_ensemble();
-
-        size_t output_bn = 0;
-
-        auto& ifs = _file_data->get_ifs(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram);
-
-        size_t local_output_bn = 0;
-        for (const auto& bn : selection.get_beam_numbers())
-        {
-            // read amplitudes
-            auto rsr = selection.get_read_sample_range(
-                local_output_bn,
-                wcinfos.get_start_range_sample_numbers().unchecked(bn),
-                wcinfos.get_number_of_samples_per_beam().unchecked(bn));
-
-            if (rsr.get_number_of_samples_to_read() > 0)
-            {
-                xt::xtensor<int8_t, 1> beam_amplitudes = wcinfos.read_beam_samples(bn, rsr, ifs);
-                xt::view(amplitudes,
-                         output_bn,
-                         xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
-                                   rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                    xt::cast<float>(beam_amplitudes);
-            }
-
-            // assign nan to amplitudes that were not read
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(0, rsr.get_first_read_sample_offset() - ensemble_offset))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            using namespace xt::placeholders;
-            xt::view(amplitudes,
-                     output_bn,
-                     xt::range(rsr.get_last_read_sample_offset() + 1 - ensemble_offset, _))
-                .fill(std::numeric_limits<float>::quiet_NaN());
-
-            ++local_output_bn;
-            ++output_bn;
-        }
-
-        return amplitudes;
+        // note: use float because we want to return NaN for missing data
+        return get_raw_amplitudes<float>(bs) * 0.5f;
     }
 
     // xt::xtensor<float, 1> get_sample_correction(const pingtools::BeamSampleSelection& bs,
@@ -614,11 +455,11 @@ class KongsbergAllPingWatercolumn
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
-        printer.append(t_base1::__printer__(float_precision));
+        printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 
         auto& wcinfos = _file_data->get_wcinfos();
 

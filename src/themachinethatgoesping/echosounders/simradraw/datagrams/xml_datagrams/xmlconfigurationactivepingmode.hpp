@@ -122,10 +122,10 @@ struct XMLConfigurationActivePingMode
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_ActivePingMode",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
         printer.register_string("Mode", Mode);
 
         return printer;

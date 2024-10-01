@@ -114,11 +114,11 @@ class MRU0 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Motion binary datagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("Motion binary datagram", float_precision, superscript_exponents);
 
-        printer.append(SimradRawDatagram::__printer__(float_precision));
+        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Motion data");
         printer.register_value("heave", _heave, "m");

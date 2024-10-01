@@ -97,9 +97,9 @@ struct RAW3DataAngle : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (angle)", float_precision);
+        tools::classhelper::ObjectPrinter printer("Sample binary data (angle)", float_precision, superscript_exponents);
 
         std::stringstream ss1, ss2;
         ss1 << xt::col(_angle, 0);

@@ -127,9 +127,9 @@ class DatagramInfoData
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision);
+        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("file_pos", size_t(_file_pos));

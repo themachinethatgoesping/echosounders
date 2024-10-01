@@ -238,10 +238,10 @@ class ExtraDetectionsExtraDetections
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("ExtraDetectionsExtraDetections",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
         //
         printer.register_section("Content");
         printer.register_value("depth", _depth, "z in m");

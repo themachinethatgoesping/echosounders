@@ -77,9 +77,9 @@ class SimradRawPingCommon
     void set_file_data(std::shared_ptr<t_rawdata> file_data) { _file_data = std::move(file_data); }
 
     // ----- objectprinter -----
-    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    // tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     // {
-    //     tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+    //     tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
     //     return printer;
     // }

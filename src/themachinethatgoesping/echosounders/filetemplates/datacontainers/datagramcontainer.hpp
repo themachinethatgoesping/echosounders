@@ -316,9 +316,9 @@ class DatagramContainer
     }
 
     // ----- printing interface -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(_name, float_precision);
+        tools::classhelper::ObjectPrinter printer(_name, float_precision, superscript_exponents);
 
         printer.register_section("Time info (Datagrams)");
         double min_time, max_time;

@@ -145,8 +145,8 @@ public:
      * @param float_precision The float precision for printing.
      * @return tools::classhelper::ObjectPrinter The ObjectPrinter instance.
      */
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const {
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         printer.register_string("Primary source file", this->get_primary_file_path(),
                                                         std::to_string(this->get_primary_file_nr()));

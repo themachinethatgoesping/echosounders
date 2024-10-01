@@ -445,15 +445,15 @@ class I_InputFileHandler
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("I_InputFileHandler", float_precision);
+        tools::classhelper::ObjectPrinter printer("I_InputFileHandler", float_precision, superscript_exponents);
 
         printer.register_section("File infos");
-        printer.append(_input_file_manager->__printer__(float_precision));
+        printer.append(_input_file_manager->__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Detected datagrams", '^');
-        printer.append(_datagram_interface.__printer__(float_precision), true);
+        printer.append(_datagram_interface.__printer__(float_precision, superscript_exponents), true);
         return printer;
     }
 

@@ -248,9 +248,9 @@ class FilePackageCache
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("FilePackageCache", float_precision);
+        tools::classhelper::ObjectPrinter printer("FilePackageCache", float_precision, superscript_exponents);
 
         size_t bytes_hash = 0;
         for (const auto& [key, buffer] : _hash_cache)

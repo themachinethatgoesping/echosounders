@@ -294,11 +294,11 @@ class PingSampleSelector
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision) const
+    auto __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
-        ObjectPrinter printer("PingSampleSelector", float_precision);
+        ObjectPrinter printer("PingSampleSelector", float_precision, superscript_exponents);
 
         std::string inactive_filters;
 

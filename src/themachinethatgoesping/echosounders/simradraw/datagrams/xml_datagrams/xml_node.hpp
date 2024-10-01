@@ -147,10 +147,10 @@ class XML_Node
     // bool operator!=(const XML_Node& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("EK80 XML0 node '" + _name + "'",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         if (!_children.empty())
         {

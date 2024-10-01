@@ -120,9 +120,9 @@ struct RAW3DataSkipped : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (Skipped)", float_precision);
+        tools::classhelper::ObjectPrinter printer("Sample binary data (Skipped)", float_precision, superscript_exponents);
 
         printer.register_string("Data", "Skipped");
 

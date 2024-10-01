@@ -127,10 +127,10 @@ class RawRangeAndAngleTransmitSector
     bool operator==(const RawRangeAndAngleTransmitSector& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("RawRangeAndAngleTransmitSector",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("tilt_angle", _tilt_angle, "0.01°");

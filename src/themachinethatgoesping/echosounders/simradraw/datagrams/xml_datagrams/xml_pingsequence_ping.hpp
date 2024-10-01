@@ -114,9 +114,9 @@ struct XML_PingSequence_Ping
     bool operator!=(const XML_PingSequence_Ping& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 PingSequence_Ping", float_precision);
+        tools::classhelper::ObjectPrinter printer("EK80 XML0 PingSequence_Ping", float_precision, superscript_exponents);
         printer.register_string("ChannelID", ChannelID);
         printer.register_value("unknown_children", unknown_children);
         printer.register_value("unknown_attributes", unknown_attributes);

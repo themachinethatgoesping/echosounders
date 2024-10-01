@@ -76,7 +76,6 @@ class I_PingWatercolumn : public I_PingCommon
   protected:
     std::string class_name() const override { return "I_PingWatercolumn"; }
 
-
   public:
     using t_base = I_PingCommon;
 
@@ -374,7 +373,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection)
     {
-        get_watercolumn_calibration().apply_beam_sample_correction_ap(
+        return get_watercolumn_calibration().apply_beam_sample_correction_ap(
             get_amplitudes(selection),
             get_beam_crosstrack_angles(selection),
             get_approximate_ranges(selection));
@@ -389,7 +388,10 @@ class I_PingWatercolumn : public I_PingCommon
     virtual xt::xtensor<float, 2> get_av(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->class_name());
+        return get_watercolumn_calibration().apply_beam_sample_correction_av(
+            get_amplitudes(selection),
+            get_beam_crosstrack_angles(selection),
+            get_approximate_ranges(selection));
     }
 
     /**
@@ -401,7 +403,10 @@ class I_PingWatercolumn : public I_PingCommon
     virtual xt::xtensor<float, 2> get_power(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->class_name());
+        return get_watercolumn_calibration().apply_beam_sample_correction_power(
+            get_amplitudes(selection),
+            get_beam_crosstrack_angles(selection),
+            get_approximate_ranges(selection));
     }
 
     /**
@@ -413,7 +418,10 @@ class I_PingWatercolumn : public I_PingCommon
     virtual xt::xtensor<float, 2> get_sp(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->class_name());
+        return get_watercolumn_calibration().apply_beam_sample_correction_sp(
+            get_amplitudes(selection),
+            get_beam_crosstrack_angles(selection),
+            get_approximate_ranges(selection));
     }
 
     /**
@@ -425,7 +433,10 @@ class I_PingWatercolumn : public I_PingCommon
     virtual xt::xtensor<float, 2> get_sv(
         [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
     {
-        throw not_implemented(__func__, this->class_name());
+        return get_watercolumn_calibration().apply_beam_sample_correction_sv(
+            get_amplitudes(selection),
+            get_beam_crosstrack_angles(selection),
+            get_approximate_ranges(selection));
     }
 
     /**
@@ -539,12 +550,12 @@ class I_PingWatercolumn : public I_PingCommon
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision);
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
         // Transducers
-        printer.append(I_PingCommon::__printer__(float_precision));
+        printer.append(I_PingCommon::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Watercolumn detection infos");
         auto features     = this->feature_string();

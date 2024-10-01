@@ -304,10 +304,10 @@ struct XMLConfigurationTransceiverChannelTransducer
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(
-            "EK80 XML0 Configuration_Transceiver_Channel_Transducer", float_precision);
+            "EK80 XML0 Configuration_Transceiver_Channel_Transducer", float_precision, superscript_exponents);
 
         if (!FrequencyPars.empty())
         {

@@ -206,10 +206,10 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer("Sample binary data (ComplexFloat32)",
-                                                  float_precision);
+                                                  float_precision, superscript_exponents);
 
         std::stringstream ss;
         ss << _complex_samples;

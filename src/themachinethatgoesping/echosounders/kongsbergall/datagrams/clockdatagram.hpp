@@ -158,9 +158,9 @@ class ClockDatagram : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("ClockDatagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("ClockDatagram", float_precision, superscript_exponents);
 
         static const std::string format_date("%d/%m/%Y");
         static const std::string format_time("%H:%M:%S");
@@ -170,7 +170,7 @@ class ClockDatagram : public KongsbergAllDatagram
         auto date = unixtime_to_datestring(timestamp_external, 0, format_date);
         auto time = unixtime_to_datestring(timestamp_external, 3, format_time);
 
-        printer.append(KongsbergAllDatagram::__printer__(float_precision));
+        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");
         printer.register_value("clock_counter", _clock_counter);
         printer.register_value("system_serial_number", _system_serial_number);

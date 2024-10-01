@@ -281,9 +281,9 @@ class WatercolumnDatagramBeam
     bool operator!=(const WatercolumnDatagramBeam& other) const { return !(*this == other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("WatercolumnDatagramBeam", float_precision);
+        tools::classhelper::ObjectPrinter printer("WatercolumnDatagramBeam", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("beam_crosstrack_angle", _beam_crosstrack_angle, "0.01°");

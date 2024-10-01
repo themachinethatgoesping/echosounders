@@ -103,11 +103,11 @@ class TAG0 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Annotation datagram", float_precision);
+        tools::classhelper::ObjectPrinter printer("Annotation datagram", float_precision, superscript_exponents);
 
-        printer.append(SimradRawDatagram::__printer__(float_precision));
+        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Annotation data");
         printer.register_string("Text", _text);
