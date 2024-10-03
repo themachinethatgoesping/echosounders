@@ -10,7 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <xtensor-python/pytensor.hpp> // Numpy bindings
-#include <xtensor/xmath.hpp>          // xtensor import for the C++ universal functions
+#include <xtensor/xmath.hpp>           // xtensor import for the C++ universal functions
 
 #include <chrono>
 
@@ -66,6 +66,30 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
             .def("get_installation_parameters",
                  &T_BaseClass::get_installation_parameters,
                  DOC_KongsbergAllConfigurationDataInterfacePerFile(get_installation_parameters))
+
+            // ----- runtime parameters -----
+            .def("read_runtime_parameters",
+                 &T_BaseClass::read_runtime_parameters,
+                 DOC_KongsbergAllConfigurationDataInterfacePerFile(read_runtime_parameters))
+            .def(
+                "get_runtime_parameter",
+                [](T_BaseClass& self,
+                   uint16_t     system_serial_number,
+                   size_t       ping_counter,
+                   double       ping_time,
+                   size_t       last_index) {
+                    return self
+                        .get_runtime_parameter(system_serial_number,
+                                               ping_counter,
+                                               ping_time,
+                                               std::make_shared<size_t>(last_index))
+                        .get();
+                },
+                DOC_KongsbergAllConfigurationDataInterfacePerFile(get_runtime_parameter),
+                py::arg("system_serial_number"),
+                py::arg("ping_counter"),
+                py::arg("ping_time"),
+                py::arg("last_index") = 0)
 
             // ----- getters -----
             .def("get_active_position_system_number",

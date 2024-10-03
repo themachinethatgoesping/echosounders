@@ -50,12 +50,10 @@ void init_c_kongsbergallwatercolumncalibration(pybind11::module& m)
                      filedatatypes,
                      calibration,
                      KongsbergAllWaterColumnCalibration))
-                 .def(py::init<float, float, float, float, float, float, float>(),
+                 .def(py::init<float, float, float, float, float>(),
                       DOC_KongsbergAllWaterColumnCalibration(KongsbergAllWaterColumnCalibration),
                       py::arg("sound_velocity"),
                       py::arg("effective_pulse_duration"),
-                      py::arg("beam_width_transmit"),
-                      py::arg("beam_width_receive"),
                       py::arg("system_gain_offset"),
                       py::arg("tvg_absorption_db_m"),
                       py::arg("tvg_factor"))

@@ -260,8 +260,16 @@ class KongsbergAllFileHandler
 
     void setup_interfaces()
     {
+        auto t_start = std::chrono::high_resolution_clock::now();
         // link wcd/all files
         link_all_and_wcd_files();
+        auto t_end = std::chrono::high_resolution_clock::now();
+
+        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+        std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) << std::endl;
+        std::cerr << fmt::format("Linking wcd/all files took: {}µs", elapsed_time_ms / 1000)
+                  << std::endl;
     }
 
     using t_base::init_interfaces;
@@ -294,7 +302,7 @@ class KongsbergAllFileHandler
         _otherfiledata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
         progress_bar.tick();
 
-        std::cout << std::endl; // TODO: remove this workaround
+        // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
         _ping_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar, true);
 
@@ -319,7 +327,7 @@ class KongsbergAllFileHandler
         return _ping_interface->get_pings();
     }
 
-    std::vector<std::string> get_channel_ids()const { return _ping_interface->get_channel_ids(); }
+    std::vector<std::string> get_channel_ids() const { return _ping_interface->get_channel_ids(); }
 
   protected:
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
@@ -365,10 +373,6 @@ class KongsbergAllFileHandler
                 break;
             }
             // multibeam data datagrams
-            case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
-                // also add RuntimeParameters to configuration data interface
-                //_configuration_interface->add_datagram_info(datagram_info);
-                [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::XYZDatagram:
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::ExtraDetections:
@@ -408,7 +412,28 @@ class KongsbergAllFileHandler
                 _environment_interface->add_datagram_info(datagram_info);
                 break;
             }
-                // Configuration datagrams
+            // Configuration datagrams
+            case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
+                // this datagram also has ping counter and system serial number
+                if (datagram_info->get_extra_infos().size() != 4)
+                {
+                    // read the ping counter
+                    auto& ifs =
+                        datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
+
+                    struct
+                    {
+                        uint16_t ping_counter;
+                        uint16_t serial_number;
+                    } counter_snumber;
+
+                    // ifs.seekg(16, std::ios::cur); // skip header
+                    ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
+
+                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
+                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
+                }
+                [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::InstallationParametersStart:
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::InstallationParametersStop:
@@ -426,16 +451,21 @@ class KongsbergAllFileHandler
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("KongsbergAllFileHandler", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "KongsbergAllFileHandler", float_precision, superscript_exponents);
 
         auto interface_printer = t_base::__printer__(float_precision, superscript_exponents);
 
         printer.append(interface_printer);
 
         printer.register_section("Detected Pings");
-        printer.append(_ping_interface->get_pings().__printer__(float_precision, superscript_exponents), false, '^');
+        printer.append(
+            _ping_interface->get_pings().__printer__(float_precision, superscript_exponents),
+            false,
+            '^');
 
         return printer;
     }

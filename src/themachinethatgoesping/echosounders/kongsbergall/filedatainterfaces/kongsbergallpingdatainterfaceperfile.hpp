@@ -85,55 +85,20 @@ class KongsbergAllPingDataInterfacePerFile
             pings_by_counter_by_id;
 
         // read the file installation parameters and build a base ping
-        auto param =
-            this->configuration_data_interface_for_file_const().get_installation_parameters();
+        auto& configuration_data_interface_for_file = this->configuration_data_interface_for_file();
+        auto  param = configuration_data_interface_for_file.get_installation_parameters();
+
+        std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 
         t_ping base_ping(param);
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
 
-        for (const auto& [type, datagram_infos] : this->_datagram_infos_by_type)
+        for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
+            auto type = datagram_ptr->get_datagram_identifier();
+
             switch (type)
             {
-                case t_KongsbergAllDatagramIdentifier::RuntimeParameters: {
-
-                    for (const auto& datagram_ptr : datagram_infos)
-                    {
-                        // read ping counter from not deduplicated datagram
-                        if (datagram_ptr->get_extra_infos().size() != 4)
-                            throw std::runtime_error(fmt::format(
-                                "KongsbergAllPingDataInterfacePerFile::read_pings: "
-                                "DatagramInfoData: extra info for datagram {} at pos "
-                                "{} is not available",
-                                datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
-                                datagram_ptr->get_file_pos()));
-
-                        uint16_t ping_counter = datagram_ptr->template get_extra_info<uint16_t>(0);
-                        uint16_t system_serial_number =
-                            datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
-
-                        // create a new ping if it does not exist
-                        auto ping_it =
-                            pings_by_counter_by_id[ping_counter].find(system_serial_number);
-                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
-                        {
-                            pings_by_counter_by_id[ping_counter][system_serial_number] =
-                                std::make_shared<t_ping>(base_ping.deep_copy());
-
-                            ping_it =
-                                pings_by_counter_by_id[ping_counter].find(system_serial_number);
-                        }
-
-                        // add runtime parameters (will be deduplicated as boost flyweight)
-                        ping_it->second->set_runtime_parameters(
-                            file_cache_path_per_file_nr[datagram_ptr->get_file_nr()]
-                                .read_or_get_runtimeparameters(datagram_ptr));
-
-                        // add runtime parameters datagram
-                        ping_it->second->add_datagram_info(datagram_ptr);
-                    }
-                    break;
-                }
                 case t_KongsbergAllDatagramIdentifier::XYZDatagram:
                     [[fallthrough]];
                 case t_KongsbergAllDatagramIdentifier::ExtraDetections:
@@ -145,20 +110,9 @@ class KongsbergAllPingDataInterfacePerFile
                 case t_KongsbergAllDatagramIdentifier::QualityFactorDatagram:
                     [[fallthrough]];
                 case t_KongsbergAllDatagramIdentifier::WatercolumnDatagram: {
-
-                    for (const auto& datagram_ptr : datagram_infos)
                     {
-                        if (datagram_ptr->get_extra_infos().size() != 4)
-                            throw std::runtime_error(fmt::format(
-                                "KongsbergAllPingDataInterfacePerFile::read_pings: "
-                                "DatagramInfoData: extra info for datagram {} at pos "
-                                "{} is not available",
-                                datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
-                                datagram_ptr->get_file_pos()));
-
-                        uint16_t ping_counter = datagram_ptr->template get_extra_info<uint16_t>(0);
-                        uint16_t serial_number =
-                            datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
+                        uint16_t ping_counter, serial_number;
+                        this->read_extra_infos(datagram_ptr, ping_counter, serial_number);
 
                         // create a new ping if it does not exist
                         auto ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
@@ -170,6 +124,13 @@ class KongsbergAllPingDataInterfacePerFile
                             ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
 
                             ping_it->second->file_data().set_file_ping_counter(ping_counter);
+
+                            ping_it->second->file_data().set_runtime_parameters(
+                                configuration_data_interface_for_file.get_runtime_parameter(
+                                    serial_number,
+                                    ping_counter,
+                                    ping_it->second->get_timestamp(),
+                                    last_runtime_parameter_index_per_serial_number[serial_number]));
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);
@@ -205,6 +166,14 @@ class KongsbergAllPingDataInterfacePerFile
                 std::string channel_id = fmt::format("TRX-{}", id);
 
                 ping_ptr->set_channel_id(channel_id);
+
+                // check if runtime parameters are available
+                if (!ping_ptr->file_data().has_runtime_parameters())
+                    throw std::runtime_error(
+                        fmt::format("KongsbergAllPingDataInterfacePerFile::read_pings: "
+                                    "RuntimeParameters: No runtime parameters found "
+                                    "for ping '{}'",
+                                    ping_counter));
 
                 // load transducer locations from navigation
                 try
@@ -288,9 +257,11 @@ class KongsbergAllPingDataInterfacePerFile
     /* get infos */
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
@@ -301,12 +272,25 @@ class KongsbergAllPingDataInterfacePerFile
     }
 
   private:
+    void read_extra_infos(const typename t_base::type_DatagramInfo_ptr& datagram_ptr,
+                          uint16_t&                                     ping_counter,
+                          uint16_t&                                     serial_number)
+    {
+        if (datagram_ptr->get_extra_infos().size() != 4)
+            throw std::runtime_error(
+                fmt::format("KongsbergAllPingDataInterfacePerFile::read_pings: "
+                            "DatagramInfoData: extra info for datagram {} at pos "
+                            "{} is not available",
+                            datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
+                            datagram_ptr->get_file_pos()));
+
+        ping_counter  = datagram_ptr->template get_extra_info<uint16_t>(0);
+        serial_number = datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
+    }
+
     class KongsbergPingCacheHandler
     {
         using t_FileCache = filetemplates::datatypes::FileCache;
-        using t_cache_RuntimeParameters =
-            filetemplates::datatypes::cache_structures::FilePackageCache<
-                datagrams::RuntimeParameters>;
         using t_cache_SystemInformation =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::SystemInformation>;
@@ -320,7 +304,6 @@ class KongsbergAllPingDataInterfacePerFile
 
       public:
         // cache_structures
-        t_cache_RuntimeParameters      _buffer_runtimeparameters;
         t_cache_SystemInformation      _buffer_systeminformation;
         t_cache_WaterColumnInformation _buffer_watercolumninformation;
 
@@ -343,13 +326,8 @@ class KongsbergAllPingDataInterfacePerFile
                 t_FileCache(_cache_file_path,
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
-                            { "FilePackageCache<RuntimeParameters>",
-                              "FilePackageCache<WaterColumnInformation>",
+                            { "FilePackageCache<WaterColumnInformation>",
                               "FilePackageCache<SystemInformation>" }));
-
-            if (_file_cache->has_cache("FilePackageCache<RuntimeParameters>"))
-                _buffer_runtimeparameters = _file_cache->get_from_cache<t_cache_RuntimeParameters>(
-                    "FilePackageCache<RuntimeParameters>");
 
             if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
                 _buffer_watercolumninformation =
@@ -362,30 +340,6 @@ class KongsbergAllPingDataInterfacePerFile
         }
 
         operator bool() const { return bool(_file_cache); }
-
-        template<typename t_datagram_ptr>
-        datagrams::RuntimeParameters read_or_get_runtimeparameters(
-            const t_datagram_ptr& datagram_ptr)
-        {
-            if (!_file_cache)
-                return datagram_ptr
-                    ->template read_datagram_from_file<datagrams::RuntimeParameters>();
-
-            if (_buffer_runtimeparameters.has_package(datagram_ptr->get_file_pos()))
-                return *_buffer_runtimeparameters.get_package(datagram_ptr->get_file_pos(),
-                                                              datagram_ptr->get_timestamp());
-
-            _update_cache = true;
-            auto rp =
-                datagram_ptr->template read_datagram_from_file<datagrams::RuntimeParameters>();
-
-            _buffer_runtimeparameters.add_package(
-                datagram_ptr->get_file_pos(),
-                datagram_ptr->get_timestamp(),
-                std::make_unique<datagrams::RuntimeParameters>(rp));
-
-            return rp;
-        }
 
         template<typename t_ping>
         std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
@@ -452,8 +406,6 @@ class KongsbergAllPingDataInterfacePerFile
 
             if (_update_cache)
             {
-                _file_cache->add_to_cache("FilePackageCache<RuntimeParameters>",
-                                          _buffer_runtimeparameters);
                 _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation>",

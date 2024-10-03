@@ -256,7 +256,6 @@ headers = [
   'simradraw/datagrams/raw3datatypes/.docstrings/t_raw3datatype.doc.hpp',
   'simradraw/filedatacontainers/simradrawfiledatacontainers.hpp',
   'simradraw/filedatacontainers/.docstrings/simradrawfiledatacontainers.doc.hpp',
-  'simradraw/filedatatypes/simradrawcalibration.hpp',
   'simradraw/filedatatypes/simradrawping.hpp',
   'simradraw/filedatatypes/simradrawpingbottom.hpp',
   'simradraw/filedatatypes/simradrawpingcommon.hpp',

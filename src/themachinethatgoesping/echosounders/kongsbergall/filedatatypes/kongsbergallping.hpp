@@ -102,11 +102,6 @@ class KongsbergAllPing
         _file_data->add_datagram_info(datagram_info);
     }
 
-    void set_runtime_parameters(const datagrams::RuntimeParameters& runtime_parameters)
-    {
-        _file_data->set_runtime_parameters(runtime_parameters);
-    }
-
     // ----- I_Ping interface -----
     using t_base2::file_data;
 

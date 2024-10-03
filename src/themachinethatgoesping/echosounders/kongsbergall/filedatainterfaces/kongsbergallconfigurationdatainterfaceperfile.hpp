@@ -19,8 +19,8 @@
 
 #include "../../filetemplates/datainterfaces/i_configurationdatainterface.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -36,10 +36,14 @@ class KongsbergAllConfigurationDataInterfacePerFile
     using t_base = filetemplates::datainterfaces::I_ConfigurationDataInterfacePerFile<
         KongsbergAllDatagramInterface<t_ifstream>>;
 
-    uint8_t              _active_position_system_number = 0;
+    uint8_t                    _active_position_system_number = 0;
     t_KongsbergAllActiveSensor _active_pitch_roll_sensor      = t_KongsbergAllActiveSensor::NotSet;
     t_KongsbergAllActiveSensor _active_heave_sensor           = t_KongsbergAllActiveSensor::NotSet;
     t_KongsbergAllActiveSensor _active_heading_sensor         = t_KongsbergAllActiveSensor::NotSet;
+
+    bool _runtime_parameters_initialized = false;
+    std::map<uint16_t, std::vector<boost::flyweight<datagrams::RuntimeParameters>>>
+        _runtime_parameters_by_system_serial_number;
 
   public:
     KongsbergAllConfigurationDataInterfacePerFile()
@@ -86,7 +90,10 @@ class KongsbergAllConfigurationDataInterfacePerFile
      *
      * @param sensor
      */
-    void set_active_heave_sensor(t_KongsbergAllActiveSensor sensor) { _active_heave_sensor = sensor; }
+    void set_active_heave_sensor(t_KongsbergAllActiveSensor sensor)
+    {
+        _active_heave_sensor = sensor;
+    }
 
     /**
      * @brief Set the active heading sensor
@@ -95,11 +102,102 @@ class KongsbergAllConfigurationDataInterfacePerFile
      *
      * @param sensor
      */
-    void set_active_heading_sensor(t_KongsbergAllActiveSensor sensor) { _active_heading_sensor = sensor; }
+    void set_active_heading_sensor(t_KongsbergAllActiveSensor sensor)
+    {
+        _active_heading_sensor = sensor;
+    }
 
     // ----- interface methods -----
+    void read_runtime_parameters()
+    {
+        for (const auto& datagram_ptr :
+             this->_datagram_infos_by_type[t_KongsbergAllDatagramIdentifier::RuntimeParameters])
+        {
+            // read ping counter from not deduplicated datagram
+            uint16_t system_serial_number = this->read_extra_info_serial_number(datagram_ptr);
+
+            _runtime_parameters_by_system_serial_number[system_serial_number].emplace_back(
+                datagram_ptr->template read_datagram_from_file<datagrams::RuntimeParameters>());
+        }
+        _runtime_parameters_initialized = true;
+    }
+
+    // TODO: this needs some carefull testing ..
+    boost::flyweight<datagrams::RuntimeParameters> get_runtime_parameter(
+        uint16_t                system_serial_number,
+        size_t                  ping_counter,
+        double                  ping_time,
+        std::shared_ptr<size_t> last_index = std::make_shared<size_t>(0))
+    {
+        if (!_runtime_parameters_initialized)
+            this->read_runtime_parameters();
+
+        // catch uninitialized last_index pointer
+        if (!last_index)
+            last_index = std::make_shared<size_t>(0);
+
+        auto& runtime_parameter_vector =
+            _runtime_parameters_by_system_serial_number[system_serial_number];
+
+        if (runtime_parameter_vector.empty())
+            throw std::runtime_error(
+                fmt::format("get_runtime_parameter: No runtime parameters found for system "
+                            "serial number '{}' in ping '{}'",
+                            system_serial_number,
+                            ping_counter));
+
+        if (*last_index >= runtime_parameter_vector.size())
+            throw std::runtime_error(
+                fmt::format("get_runtime_parameter: last_index '{}' is out of bounds for system "
+                            "serial number '{}' in ping '{}'",
+                            *last_index,
+                            system_serial_number,
+                            ping_counter));
+
+        size_t i = *last_index;
+        // search for time first
+        for (; i < runtime_parameter_vector.size() - 1; ++i)
+        {
+            // double rt_time      = runtime_parameter_vector[i].get().get_timestamp();
+            double rt_next_time = runtime_parameter_vector[i + 1].get().get_timestamp();
+
+            if (rt_next_time > ping_time)
+                break;
+        }
+
+        // find the runtime parameter with the closest ping counter
+        // Note: the counter is overflowing at 65535
+        for (; i < runtime_parameter_vector.size() - 1; ++i)
+        {
+            size_t rt_ping_counter      = runtime_parameter_vector[i].get().get_ping_counter();
+            size_t rt_next_ping_counter = runtime_parameter_vector[i + 1].get().get_ping_counter();
+            // search for time first
+
+            // the rt_counter is overflown:
+            if (rt_next_ping_counter < rt_ping_counter)
+                rt_next_ping_counter += 65536;
+
+            // ping counter is overflown:
+            if (ping_counter < rt_ping_counter)
+                ping_counter += 65536;
+
+            // if ping_counter is smaller than the current counter, it is probably overflown
+            if (rt_ping_counter == ping_counter)
+                break;
+
+            if (rt_next_ping_counter > ping_counter)
+                break;
+        }
+
+        *last_index = i;
+
+        // if the last runtime parameter is the closest
+        return runtime_parameter_vector[i];
+    }
+
     navigation::SensorConfiguration read_sensor_configuration() final
     {
+
         navigation::SensorConfiguration config;
         using navigation::datastructures::PositionalOffsets;
 
@@ -371,9 +469,11 @@ class KongsbergAllConfigurationDataInterfacePerFile
     // }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
@@ -413,6 +513,22 @@ class KongsbergAllConfigurationDataInterfacePerFile
         //                             : fmt::format("Alternatives: {}", depth_sources.size() - 1));
 
         return printer;
+    }
+
+  private:
+    uint16_t read_extra_info_serial_number(
+        const typename t_base::type_DatagramInfo_ptr& datagram_ptr)
+    {
+        if (datagram_ptr->get_extra_infos().size() != 4)
+            throw std::runtime_error(fmt::format(
+                "KongsbergAllPingConfigurationDataInterfacePerFile::read_extra_info_serial_number: "
+                "DatagramInfoData: extra info for datagram {} at pos "
+                "{} is not available",
+                datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
+                datagram_ptr->get_file_pos()));
+
+        // ping_counter  = datagram_ptr->template get_extra_info<uint16_t>(0);
+        return datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
     }
 };
 

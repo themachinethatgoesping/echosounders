@@ -59,6 +59,8 @@ class WaterColumnCalibration
         : _power_calibration(power_calibration)
         , _ap_calibration(ap_calibration)
         , _av_calibration(av_calibration)
+        , _tvg_absorption_db_m(tvg_absorption_db_m)
+        , _tvg_factor(tvg_factor)
     {
         compute_hash();
     }
@@ -275,9 +277,11 @@ class WaterColumnCalibration
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("WaterColumnCalibration", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "WaterColumnCalibration", float_precision, superscript_exponents);
 
         printer.register_section("Absorption");
         printer.register_value("Absorption", _absorption_db_m, "dB/m");

@@ -390,28 +390,6 @@ class RuntimeParameters : public KongsbergAllDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RuntimeParameters)
-
-    // ----- functions used for PackageCache -----
-    static RuntimeParameters from_stream(std::istream&                                  is,
-                                         const std::unordered_map<size_t, std::string>& hash_cache)
-    {
-        size_t hash;
-        is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
-
-        return from_binary(hash_cache.at(hash));
-    }
-
-    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
-    {
-        size_t hash = this->hash_content_only();
-
-        if (!hash_cache.contains(hash))
-        {
-            hash_cache[hash] = this->to_binary();
-        }
-
-        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
-    }
 };
 
 /**
@@ -426,7 +404,8 @@ class RuntimeParameters : public KongsbergAllDatagram
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const RuntimeParameters& data)
 {
-    return data.hash_content_only();
+    //return data.hash_content_only();
+    return data.binary_hash();
 }
 
 } // namespace datagrams

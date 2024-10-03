@@ -1,4 +1,4 @@
-//sourcehash: e88107c7cf9237fe259df2078636e578713edabe9a54be8cb3bf23e180242ab0
+//sourcehash: 4f62d502a24adf431c93a71909d3c180e864848a1b68c5291be12c7654f0a41b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,8 +50,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_KongsbergPingCacheHandler_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_runtimeparameters = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_systeminformation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_watercolumninformation = R"doc()doc";
@@ -62,8 +60,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_operator_bool = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_read_or_get_runtimeparameters = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_read_or_get_systeminformation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_read_or_get_watercoumninformation = R"doc()doc";
@@ -73,6 +69,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_update_cache_file = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_read_extra_infos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_read_pings = R"doc()doc";
 

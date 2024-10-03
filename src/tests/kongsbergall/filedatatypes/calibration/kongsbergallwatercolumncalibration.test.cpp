@@ -23,14 +23,14 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
 {
     auto obj0 = AmplitudeCalibration(1.0f);
 
-    auto obj  = KongsbergAllWaterColumnCalibration(1, 2, 3, 4, 5, 6, 7);
+    auto obj  = KongsbergAllWaterColumnCalibration(1, 2, 3, 4, 5);
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
     // test hash
-    CHECK(obj.cached_hash() == 3582558590708815072ULL);
-    CHECK(obj2.cached_hash() == 12517391027632454758ULL);
-    CHECK(obj.binary_hash() == 3582558590708815072ULL);
-    CHECK(obj2.binary_hash() == 12517391027632454758ULL);
+    CHECK(obj.cached_hash() == 4706969008052593086ULL);
+    CHECK(obj2.cached_hash() == 9419732169616963099ULL);
+    CHECK(obj.binary_hash() == 4706969008052593086ULL);
+    CHECK(obj2.binary_hash() == 9419732169616963099ULL);
 
     // test equality
     // test inequality
@@ -85,7 +85,7 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj.info_string().size() != 0);
 
     // test data access
-    CHECK(obj.get_power_calibration().get_system_offset() == -5.0f);
+    CHECK(obj.get_power_calibration().get_system_offset() == -3.0f);
     CHECK(obj.get_sv_calibration().get_system_offset() == 1.0f);
 
     CHECK(obj.cached_hash() == obj.binary_hash());

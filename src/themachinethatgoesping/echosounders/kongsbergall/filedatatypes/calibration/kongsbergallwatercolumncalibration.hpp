@@ -31,8 +31,6 @@ class KongsbergAllWaterColumnCalibration
   protected:
     float _sound_velocity           = std::numeric_limits<float>::quiet_NaN();
     float _effective_pulse_duration = std::numeric_limits<float>::quiet_NaN();
-    float _beam_width_transmit      = std::numeric_limits<float>::quiet_NaN();
-    float _beam_width_receive       = std::numeric_limits<float>::quiet_NaN();
     float _system_gain_offset       = std::numeric_limits<float>::quiet_NaN();
     // // different types of offsets
     // AmplitudeCalibration _power_calibration;
@@ -68,16 +66,12 @@ class KongsbergAllWaterColumnCalibration
 
     KongsbergAllWaterColumnCalibration(float sound_velocity,
                                        float effective_pulse_duration,
-                                       float beam_width_transmit,
-                                       float beam_width_receive,
                                        float system_gain_offset,
                                        float tvg_absorption_db_m,
                                        float tvg_factor)
         : t_base(tvg_absorption_db_m, tvg_factor)
         , _sound_velocity(sound_velocity)
         , _effective_pulse_duration(effective_pulse_duration)
-        , _beam_width_transmit(beam_width_transmit)
-        , _beam_width_receive(beam_width_receive)
         , _system_gain_offset(system_gain_offset)
     {
         setup_kongsberg_em_calibrations();
@@ -93,12 +87,7 @@ class KongsbergAllWaterColumnCalibration
         // ap calibration is the same as power, however absorption and tvg 40 will be applied
         _ap_calibration = AmplitudeCalibration(-_system_gain_offset);
 
-        // the beam apeture seems to be substracted for Kongsberg water column data already
-        //static const float to_rad   = M_PI / 180.f;    // convert angle to rad
-        //static const float to_rad_2 = to_rad * to_rad; // convert two multiplied angles to rad
-
         float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
-        //av_factor *= _beam_width_transmit * _beam_width_receive * to_rad_2;
         _av_calibration = AmplitudeCalibration(-10 * std::log10(av_factor) - _system_gain_offset);
     }
 
@@ -111,15 +100,12 @@ class KongsbergAllWaterColumnCalibration
         return tools::helper::float_equals(_sound_velocity, other._sound_velocity) &&
                tools::helper::float_equals(_effective_pulse_duration,
                                            other._effective_pulse_duration) &&
-               tools::helper::float_equals(_beam_width_transmit, other._beam_width_transmit) &&
-               tools::helper::float_equals(_beam_width_receive, other._beam_width_receive) &&
                tools::helper::float_equals(_system_gain_offset, other._system_gain_offset);
     }
 
     bool initialized() const
     {
         return std::isfinite(_sound_velocity) && std::isfinite(_effective_pulse_duration) &&
-               std::isfinite(_beam_width_transmit) && std::isfinite(_beam_width_receive) &&
                std::isfinite(_system_gain_offset);
     } // hash of default constructor
 
@@ -128,7 +114,7 @@ class KongsbergAllWaterColumnCalibration
     {
         KongsbergAllWaterColumnCalibration calibration(t_base::from_stream(is));
 
-        is.read(reinterpret_cast<char*>(&calibration._sound_velocity), sizeof(float) * 5);
+        is.read(reinterpret_cast<char*>(&calibration._sound_velocity), sizeof(float) * 3);
 
         calibration.compute_hash();
 
@@ -139,7 +125,7 @@ class KongsbergAllWaterColumnCalibration
     {
         WaterColumnCalibration::to_stream(os);
 
-        os.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 5);
+        os.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 3);
     }
 
     // ----- objectprinter -----
@@ -151,8 +137,6 @@ class KongsbergAllWaterColumnCalibration
         printer.register_section("Kongsberg EM calibration");
         printer.register_value("Sound velocity", _sound_velocity, "m/s");
         printer.register_value("Effective pulse duration", _effective_pulse_duration, "s");
-        printer.register_value("Beam width transmit", _beam_width_transmit, "deg");
-        printer.register_value("Beam width receive", _beam_width_receive, "deg");
         printer.register_value("System gain offset", _system_gain_offset, "dB");
 
         printer.register_section("Generic calibration");
@@ -170,7 +154,7 @@ class KongsbergAllWaterColumnCalibration
 
         WaterColumnCalibration::add_hash(stream);
 
-        stream.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 5);
+        stream.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 3);
 
         stream.flush();
         return hash.digest();

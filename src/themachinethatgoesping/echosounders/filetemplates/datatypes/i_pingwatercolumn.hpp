@@ -149,7 +149,7 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
     virtual void set_watercolumn_calibration(
-        boost::flyweight<calibration::WaterColumnCalibration> calibration)
+        [[maybe_unused]] boost::flyweight<calibration::WaterColumnCalibration> calibration)
     {
         throw not_implemented(__func__, this->class_name());
     }

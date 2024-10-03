@@ -102,7 +102,6 @@ void init_c_filepackagecache(pybind11::module& m)
 {
     init_filepackagecache<simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>(
         m, "XML_Parameter_Channel");
-    init_filepackagecache<kongsbergall::datagrams::RuntimeParameters>(m, "RuntimeParameters");
 }
 
 }

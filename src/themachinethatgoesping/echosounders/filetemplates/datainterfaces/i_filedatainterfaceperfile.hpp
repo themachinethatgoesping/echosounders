@@ -43,8 +43,8 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::weak_ptr<I_FileDataInterfacePerFile> _linked_secondary_file;
     std::weak_ptr<I_FileDataInterfacePerFile> _linked_primary_file;
 
-    std::vector<typename t_base::type_DatagramIdentifier> _used_extension_datagram_identifiers;
-    std::vector<typename t_base::type_DatagramIdentifier> _ignored_extension_datagram_identifiers;
+    std::set<typename t_base::type_DatagramIdentifier> _used_extension_datagram_identifiers;
+    std::set<typename t_base::type_DatagramIdentifier> _ignored_extension_datagram_identifiers;
 
   public:
     using type_DatagramInterface = t_datagraminterface;
@@ -89,6 +89,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         file_interface_main->_linked_secondary_file    = file_interface_extension;
         file_interface_extension->_linked_primary_file = file_interface_main;
 
+        size_t number_of_extra_datagrams = 0;
         // check which datagram_identifiers in the extension file do not exist in the main file
         for (const auto& [key, datagrams] : file_interface_extension->_datagram_infos_by_type)
         {
@@ -101,15 +102,82 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
             {
                 if (!kv_main->second.empty())
                 {
-                    file_interface_main->_ignored_extension_datagram_identifiers.push_back(key);
+                    file_interface_main->_ignored_extension_datagram_identifiers.insert(key);
                     continue;
                 }
             }
 
             // key does not exist in main file -> add to extension datagram identifiers
-            file_interface_main->_used_extension_datagram_identifiers.push_back(key);
+            file_interface_main->_used_extension_datagram_identifiers.insert(key);
             file_interface_main->_datagram_infos_by_type[key] = datagrams;
+            number_of_extra_datagrams += datagrams.size();
         }
+
+        // add datagrams to datagram_infos_all, sort by timestamp
+        std::vector<typename t_base::type_DatagramInfo_ptr> datagram_infos_combined;
+        datagram_infos_combined.resize(file_interface_main->_datagram_infos_all.size() +
+                                       number_of_extra_datagrams);
+
+        for (size_t i = 0, i_main = 0, i_ext = 0; i < datagram_infos_combined.size(); ++i)
+        {
+            // skip datagram types that are in the main file
+            while (i_ext < file_interface_extension->_datagram_infos_all.size())
+            {
+                if (file_interface_main->_used_extension_datagram_identifiers.contains(
+                        file_interface_extension->_datagram_infos_all[i_ext]
+                            ->get_datagram_identifier()))
+                    break;
+
+                ++i_ext;
+            }
+
+            if (i_main < file_interface_main->_datagram_infos_all.size())
+            {
+                double t_main = file_interface_main->_datagram_infos_all[i_main]->get_timestamp();
+                if (i_ext < file_interface_extension->_datagram_infos_all.size())
+                {
+                    double t_ext =
+                        file_interface_extension->_datagram_infos_all[i_ext]->get_timestamp();
+                    if (t_main > t_ext)
+                    {
+                        datagram_infos_combined[i] =
+                            file_interface_extension->_datagram_infos_all[i_ext];
+                        ++i_ext;
+                        continue;
+                    }
+                    else
+                    {
+                        datagram_infos_combined[i] =
+                            file_interface_main->_datagram_infos_all[i_main];
+                        ++i_main;
+                        continue;
+                    }
+                }
+                else
+                {
+                    datagram_infos_combined[i] = file_interface_main->_datagram_infos_all[i_main];
+                    ++i_main;
+                    continue;
+                }
+            }
+            if (i_ext < file_interface_extension->_datagram_infos_all.size())
+            {
+                datagram_infos_combined[i] = file_interface_extension->_datagram_infos_all[i_ext];
+                ++i_ext;
+                continue;
+            }
+            throw std::runtime_error(
+                fmt::format("link_file_interfaces should never reach this point. Please report!\n- "
+                            "i_main={}/{}, i_ext={}/{}, i={}/{}",
+                            i_main,
+                            file_interface_main->_datagram_infos_all.size(),
+                            i_ext,
+                            file_interface_extension->_datagram_infos_all.size(),
+                            i,
+                            datagram_infos_combined.size()));
+        }
+
+        file_interface_main->_datagram_infos_all = std::move(datagram_infos_combined);
     }
 
     virtual void init_from_file([[maybe_unused]] const std::string& file_cache_path,
@@ -145,16 +213,6 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      */
     size_t get_file_nr() const
     {
-        if (this->_datagram_infos_all.empty())
-            return _file_nr;
-        // throw std::runtime_error("get_file_nr: no datagrams in file");
-
-        if (this->_datagram_infos_all[0]->get_file_nr() != _file_nr)
-            throw std::runtime_error(fmt::format(
-                "get_file_nr: file nr mismatch: file nr of first package is {} but should be {}",
-                this->_datagram_infos_all[0]->get_file_nr(),
-                _file_nr));
-
         return _file_nr;
     }
 
@@ -174,15 +232,6 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      */
     std::string get_file_path() const
     {
-        if (this->_datagram_infos_all.empty())
-            return _file_path;
-
-        if (this->_datagram_infos_all[0]->get_file_path() != _file_path)
-            throw std::runtime_error(fmt::format("get_file_path: file path mismatch: file path of "
-                                                 "first package is {} but should be {}",
-                                                 this->_datagram_infos_all[0]->get_file_path(),
-                                                 _file_path));
-
         return _file_path;
     }
 
@@ -232,9 +281,11 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
     std::string get_linked_file_path() const { return get_linked_file()->get_file_path(); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));

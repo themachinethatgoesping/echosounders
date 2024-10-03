@@ -1,4 +1,4 @@
-//sourcehash: 8fd65966858a7a39d6ac04c38c76da2ad1974ce73b6c82247911121cea43d1d6
+//sourcehash: c525f94b70f6ebd9e31c7037183c39e46a93b64a7d4b863cbbb6d2aab1c7c680
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,9 +60,19 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_installation_parameters = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_runtime_parameter = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_extra_info_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_runtime_parameters = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_parameters_by_system_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_heading_sensor =
 R"doc(Set the active heading sensor "NotSet": this will be overwritten by

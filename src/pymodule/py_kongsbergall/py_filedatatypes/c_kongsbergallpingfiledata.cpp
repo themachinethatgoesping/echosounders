@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -32,12 +32,12 @@ namespace py = pybind11;
 using namespace themachinethatgoesping::echosounders::kongsbergall;
 using namespace themachinethatgoesping::echosounders::filetemplates;
 
-#define DOC_KongsbergAllPingFileData(ARG)                                                           \
+#define DOC_KongsbergAllPingFileData(ARG)                                                          \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         kongsbergall,                                                                              \
         filedatatypes,                                                                             \
-        KongsbergAllPingFileData,                                                                   \
+        KongsbergAllPingFileData,                                                                  \
         ARG)
 
 template<typename T_FileStream>
@@ -48,14 +48,18 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
     auto cls = py::class_<t_KongsbergAllPingFileData,
                           std::shared_ptr<t_KongsbergAllPingFileData>,
                           datatypes::I_PingFileData>(m,
-                                                    (CLASS_NAME).c_str(),
-                                                    DOC(themachinethatgoesping,
-                                                        echosounders,
-                                                        kongsbergall,
-                                                        filedatatypes,
-                                                        KongsbergAllPingFileData))
+                                                     (CLASS_NAME).c_str(),
+                                                     DOC(themachinethatgoesping,
+                                                         echosounders,
+                                                         kongsbergall,
+                                                         filedatatypes,
+                                                         KongsbergAllPingFileData))
 
                    // --- substructure access ---
+                   .def("set_runtime_parameters",
+                        &t_KongsbergAllPingFileData::set_runtime_parameters,
+                        DOC_KongsbergAllPingFileData(set_runtime_parameters),
+                        py::arg("runtime_parameters"))
                    .def("get_runtime_parameters",
                         &t_KongsbergAllPingFileData::get_runtime_parameters,
                         DOC_KongsbergAllPingFileData(get_runtime_parameters))

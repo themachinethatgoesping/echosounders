@@ -56,30 +56,40 @@ class KongsbergAllPingFileData
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
     // parameters (read when adding datagram infos)
-    boost::flyweight<datagrams::RuntimeParameters> _runtime_parameters;
-
-    boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration> _calibration;
+    std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
+    std::unique_ptr<boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>
+        _calibration;
 
   private:
     std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
     std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
+    bool has_watercolumn_calibration() const { return bool(_calibration); }
     void set_watercolumn_calibration(
         boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration> calibration)
     {
-        _calibration = calibration;
+        _calibration = std::make_unique<
+            boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>(
+            calibration);
     }
     void set_watercolumn_calibration(
         const filetemplates::datatypes::calibration::WaterColumnCalibration& calibration)
     {
-        _calibration = calibration;
+        _calibration = std::make_unique<
+            boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>(
+            calibration);
     }
 
     const filetemplates::datatypes::calibration::WaterColumnCalibration&
     get_watercolumn_calibration()
     {
-        return _calibration.get();
+        if (!_calibration)
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: No calibration "
+                "available!");
+
+        return _calibration->get();
     }
 
     void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
@@ -134,13 +144,20 @@ class KongsbergAllPingFileData
     }
 
   public:
-    void set_runtime_parameters(const datagrams::RuntimeParameters& arg)
+    bool has_runtime_parameters() const { return bool(_runtime_parameters); }
+
+    void set_runtime_parameters(boost::flyweight<datagrams::RuntimeParameters> arg)
     {
-        _runtime_parameters = arg;
+        _runtime_parameters = std::make_unique<boost::flyweight<datagrams::RuntimeParameters>>(arg);
     }
     const datagrams::RuntimeParameters& get_runtime_parameters() const
     {
-        return _runtime_parameters.get();
+        if (!_runtime_parameters)
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_runtime_parameters]: No runtime parameters "
+                "available!");
+
+        return _runtime_parameters->get();
     }
 
     bool has_datagram_type(t_KongsbergAllDatagramIdentifier datagram_identifier) const
@@ -207,7 +224,16 @@ class KongsbergAllPingFileData
         : t_base1(other)
         , t_base2(other)
     {
-        _runtime_parameters = other._runtime_parameters;
+        _runtime_parameters =
+            other._runtime_parameters
+                ? std::make_unique<boost::flyweight<datagrams::RuntimeParameters>>(
+                      *other._runtime_parameters)
+                : nullptr;
+        _calibration = other._calibration
+                           ? std::make_unique<boost::flyweight<
+                                 filetemplates::datatypes::calibration::WaterColumnCalibration>>(
+                                 *other._calibration)
+                           : nullptr;
         _watercolumninformation =
             other._watercolumninformation
                 ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
@@ -327,9 +353,11 @@ class KongsbergAllPingFileData
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
         printer.append(t_base2::__printer__(float_precision, superscript_exponents));
