@@ -45,52 +45,104 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
 {
     using t_KongsbergAllPingFileData = filedatatypes::KongsbergAllPingFileData<T_FileStream>;
 
-    auto cls = py::class_<t_KongsbergAllPingFileData,
-                          std::shared_ptr<t_KongsbergAllPingFileData>,
-                          datatypes::I_PingFileData>(m,
-                                                     (CLASS_NAME).c_str(),
-                                                     DOC(themachinethatgoesping,
-                                                         echosounders,
-                                                         kongsbergall,
-                                                         filedatatypes,
-                                                         KongsbergAllPingFileData))
+    auto cls =
+        py::class_<t_KongsbergAllPingFileData,
+                   std::shared_ptr<t_KongsbergAllPingFileData>,
+                   datatypes::I_PingFileData>(m,
+                                              (CLASS_NAME).c_str(),
+                                              DOC(themachinethatgoesping,
+                                                  echosounders,
+                                                  kongsbergall,
+                                                  filedatatypes,
+                                                  KongsbergAllPingFileData))
 
-                   // --- substructure access ---
-                   .def("set_runtime_parameters",
-                        &t_KongsbergAllPingFileData::set_runtime_parameters,
-                        DOC_KongsbergAllPingFileData(set_runtime_parameters),
-                        py::arg("runtime_parameters"))
-                   .def("get_runtime_parameters",
-                        &t_KongsbergAllPingFileData::get_runtime_parameters,
-                        DOC_KongsbergAllPingFileData(get_runtime_parameters))
+            // --- substructure access ---
+            .def("set_runtime_parameters",
+                 &t_KongsbergAllPingFileData::set_runtime_parameters,
+                 DOC_KongsbergAllPingFileData(set_runtime_parameters),
+                 py::arg("runtime_parameters"))
+            .def("get_runtime_parameters",
+                 &t_KongsbergAllPingFileData::get_runtime_parameters,
+                 DOC_KongsbergAllPingFileData(get_runtime_parameters))
 
-                   // --- file_data data access ---
-                   .def("read_merged_watercolumndatagram",
-                        &t_KongsbergAllPingFileData::read_merged_watercolumndatagram,
-                        DOC_KongsbergAllPingFileData(read_merged_watercolumndatagram),
-                        py::arg("skip_data") = false)
+            // --- file_data data access ---
+            .def("read_merged_watercolumndatagram",
+                 &t_KongsbergAllPingFileData::read_merged_watercolumndatagram,
+                 DOC_KongsbergAllPingFileData(read_merged_watercolumndatagram),
+                 py::arg("skip_data") = false)
 
-                   // --- bottom detection ---
-                   .def("read_xyz",
-                        py::overload_cast<>(&t_KongsbergAllPingFileData::read_xyz),
-                        DOC_KongsbergAllPingFileData(read_xyz))
-                   .def("read_xyz",
-                        py::overload_cast<const pingtools::BeamSelection&>(
-                            &t_KongsbergAllPingFileData::read_xyz),
-                        DOC_KongsbergAllPingFileData(read_xyz_2),
-                        py::arg("selection"))
+            // --- watercolumncalibration access ---
+            .def("init_watercolumn_calibration",
+                 &t_KongsbergAllPingFileData::init_watercolumn_calibration,
+                 DOC_KongsbergAllPingFileData(init_watercolumn_calibration))
+            .def("has_watercolumn_calibration",
+                 &t_KongsbergAllPingFileData::has_watercolumn_calibration,
+                 DOC_KongsbergAllPingFileData(has_watercolumn_calibration))
+            .def("set_watercolumn_calibration",
+                 py::overload_cast<
+                     const filedatatypes::calibration::KongsbergAllWaterColumnCalibration&>(
+                     &t_KongsbergAllPingFileData::set_watercolumn_calibration),
+                 DOC_KongsbergAllPingFileData(set_watercolumn_calibration),
+                 py::arg("calibration"))
+            .def("set_watercolumn_calibration",
+                 py::overload_cast<const std::vector<
+                     filedatatypes::calibration::KongsbergAllWaterColumnCalibration>&>(
+                     &t_KongsbergAllPingFileData::set_watercolumn_calibration),
+                 DOC_KongsbergAllPingFileData(set_watercolumn_calibration_2),
+                 py::arg("calibrations"))
+            .def("get_watercolumn_calibrations",
+                 &t_KongsbergAllPingFileData::get_watercolumn_calibrations,
+                 DOC_KongsbergAllPingFileData(get_watercolumn_calibrations))
+            .def(
+                "get_watercolumn_calibration",
+                py::overload_cast<size_t>(&t_KongsbergAllPingFileData::get_watercolumn_calibration),
+                DOC_KongsbergAllPingFileData(get_watercolumn_calibration),
+                py::arg("tx_sector"))
+            .def("get_watercolumn_calibration",
+                 py::overload_cast<>(&t_KongsbergAllPingFileData::get_watercolumn_calibration),
+                 DOC_KongsbergAllPingFileData(get_watercolumn_calibration_2))
 
-               // ----- this is also commented out in simradraw equivalent-----
-               // ----- operators -----
-               // .def("__eq__",
-               //      &KongsbergAllPing::operator==,
-               //      DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes,
-               //      KongsbergAllPing, operator_eq), py::arg("other"))
-               // ----- pybind macros -----
-               // default copy functions
-               __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingFileData)
-               // default binary functions
-               __PYCLASS_DEFAULT_PRINTING__(t_KongsbergAllPingFileData)
+            // --- bottom detection ---
+            .def("read_xyz",
+                 py::overload_cast<>(&t_KongsbergAllPingFileData::read_xyz),
+                 DOC_KongsbergAllPingFileData(read_xyz))
+            .def("read_xyz",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &t_KongsbergAllPingFileData::read_xyz),
+                 DOC_KongsbergAllPingFileData(read_xyz_2),
+                 py::arg("selection"))
+
+            // load/release
+            .def("release_wci",
+                 &t_KongsbergAllPingFileData::release_wci,
+                 DOC_KongsbergAllPingFileData(release_wci))
+            .def("release_sys",
+                 &t_KongsbergAllPingFileData::release_sys,
+                 DOC_KongsbergAllPingFileData(release_sys))
+            .def("release_multisector_calibration",
+                 &t_KongsbergAllPingFileData::release_multisector_calibration,
+                 DOC_KongsbergAllPingFileData(release_multisector_calibration))
+
+            .def("wci_loaded",
+                 &t_KongsbergAllPingFileData::wci_loaded,
+                 DOC_KongsbergAllPingFileData(wci_loaded))
+            .def("sys_loaded",
+                 &t_KongsbergAllPingFileData::sys_loaded,
+                 DOC_KongsbergAllPingFileData(sys_loaded))
+            .def("multisector_calibration_loaded",
+                 &t_KongsbergAllPingFileData::multisector_calibration_loaded,
+                 DOC_KongsbergAllPingFileData(multisector_calibration_loaded))
+        // ----- this is also commented out in simradraw equivalent-----
+        // ----- operators -----
+        // .def("__eq__",
+        //      &KongsbergAllPing::operator==,
+        //      DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes,
+        //      KongsbergAllPing, operator_eq), py::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingFileData)
+        // default binary functions
+        __PYCLASS_DEFAULT_PRINTING__(t_KongsbergAllPingFileData)
         // end KongsbergAllPing
         ;
 

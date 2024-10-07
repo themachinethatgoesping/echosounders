@@ -1,4 +1,4 @@
-//sourcehash: 49afa17a50a0169cba49c6e67a3b692f531bde04aea28eec49ed3afe63baf4ce
+//sourcehash: 1d2707c2413fbf5bc6502759472938d7c000d740723124764ac4da6d19573c20
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -134,6 +134,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_sample_selection_all =
 R"doc(Get beam sample selection that selects all beams and samples
 
@@ -236,6 +238,8 @@ Returns:
     xt::xtensor<float,2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_signal_parameters =
 R"doc(Get the transmission signal parameters per sector.

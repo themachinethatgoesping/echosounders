@@ -5,6 +5,9 @@
 
 #pragma once
 
+/* generated doc strings */
+#include ".docstrings/multisectorwatercolumncalibration.doc.hpp"
+
 #include <fmt/core.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -37,6 +40,8 @@ class MultiSectorWaterColumnCalibration
     }
 
     size_t get_number_of_sectors() const { return _calibration_per_sector.size(); }
+    auto size() const { return _calibration_per_sector.size(); }
+    auto empty() const { return _calibration_per_sector.empty(); }
 
     const std::vector<t_calibration>& get_calibrations() const { return _calibration_per_sector; }
 

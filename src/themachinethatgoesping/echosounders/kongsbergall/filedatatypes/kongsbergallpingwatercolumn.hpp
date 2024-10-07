@@ -25,6 +25,7 @@
 // xtensor includes
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
+#include <xtensor/xindex_view.hpp>
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
 
@@ -91,21 +92,26 @@ class KongsbergAllPingWatercolumn
         return file_data().get_sysinfos().get_tx_signal_parameters().size();
     }
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
     {
-        return file_data().get_wcinfos().get_transmit_sector_numbers();
+        return xt::index_view(file_data().get_wcinfos().get_transmit_sector_numbers(),
+                              selection.get_beam_numbers());
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
     {
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
+        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
 
-        auto sector_per_beam = get_tx_sector_per_beam();
+        auto sector_per_beam = get_tx_sector_per_beam(selection);
 
         for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
         {
             if (sector_per_beam[i] >= beam_numbers_per_tx_sector.size())
-                beam_numbers_per_tx_sector.resize(sector_per_beam[i] + 1);
+                throw std::runtime_error(
+                    fmt::format("Invalid transmit sector number: {}", sector_per_beam[i]));
 
             beam_numbers_per_tx_sector[sector_per_beam[i]].push_back(i);
         }
@@ -310,129 +316,6 @@ class KongsbergAllPingWatercolumn
         return get_raw_amplitudes<float>(bs) * 0.5f;
     }
 
-    // xt::xtensor<float, 1> get_sample_correction(const pingtools::BeamSampleSelection& bs,
-    //                                             bool apply_calibration)
-    // {
-    //     // get information
-    //     float sound_velocity = get_sound_speed_at_transducer();
-
-    //     // compute range factor (per sample)
-    //     float tmp   = 20.f - get_tvg_factor_applied();
-    //     float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
-
-    //     xt::xtensor<float, 1> ranges = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-    //     ranges *= tmp_2; // here range factor ~ range
-
-    //     xt::xtensor<float, 1> range_correction = xt::log10(ranges);
-    //     range_correction *= tmp;
-
-    //     if (apply_calibration)
-    //         if (get_sv_calibration().has_offset_per_range())
-    //         {
-    //             // TODO: this copies the interpolator, maybe we can speed this up
-    //             auto interpolator = get_sv_calibration().get_interpolator_offset_per_range();
-    //             for (unsigned int r = 0; r < range_correction.size(); ++r)
-    //                 range_correction[r] += interpolator(ranges[r]);
-    //         }
-
-    //     return range_correction;
-    // }
-
-    // xt::xtensor<float, 1> get_sector_correction(
-    //     [[maybe_unused]] const pingtools::BeamSampleSelection& bs)
-    // {
-    //     // compute pulse factor (per sector)
-
-    //     // get information
-    //     // auto        tvg_offset        = get_tvg_offset();
-    //     float       sound_velocity    = get_sound_speed_at_transducer();
-    //     const auto& signal_parameters = file_data().get_sysinfos().get_tx_signal_parameters();
-
-    //     xt::xtensor<float, 1> sector_correction = xt::empty<float>({ signal_parameters.size() });
-    //     for (unsigned int si = 0; si < signal_parameters.size(); ++si)
-    //     {
-    //         const auto& sigparam  = signal_parameters[si];
-    //         sector_correction[si] = tools::helper::visit_variant(
-    //             sigparam,
-    //             [sound_velocity](
-    //                 const algorithms::signalprocessing::datastructures::CWSignalParameters&
-    //                 param) { return std::log10(sound_velocity *
-    //                 param.get_effective_pulse_duration() * 0.5f);
-    //             },
-    //             [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
-    //                                  datastructures::FMSignalParameters& param) {
-    //                 // TODO: correct computation for FM?
-    //                 return 0.f;
-    //             },
-    //             [sound_velocity]([[maybe_unused]] const algorithms::signalprocessing::
-    //                                  datastructures::GenericSignalParameters& param) {
-    //                 // TODO: throw warning?
-    //                 // We cannot really compute this because we do not know if this is a CW or FM
-    //                 // signal Furthermore, this usually happens if no rawrangeandanlges datagram
-    //                 is
-    //                 // present in this case also the effective_pulse_duration is not known for
-    //                 each
-    //                 // sector Here we thus do not correct for pulse length at all, but the user
-    //                 // should be aware of this (TODO: warning?)
-    //                 return 0.f;
-    //             });
-    //     }
-
-    //     // adding tvg offset to the sector correction
-    //     return sector_correction;
-    // }
-
-    // float get_system_correction() const { return -get_tvg_offset(); }
-
-    // xt::xtensor<float, 2> get_corrected_amp(const pingtools::BeamSampleSelection& bs,
-    //                                         bool apply_calibration)
-    // {
-    //     if (apply_calibration)
-    //         if (!has_sv_calibration())
-    //             throw std::runtime_error(
-    //                 fmt::format("ERROR[{}]: No calibration available.", __func__));
-
-    //     auto                  system_correction = get_system_correction();
-    //     xt::xtensor<float, 1> sector_correction = get_sector_correction(bs);
-    //     xt::xtensor<float, 1> sample_correction = get_sample_correction(
-    //         bs, apply_calibration); // apply inside the function because range is needed
-
-    //     if (apply_calibration)
-    //         if (get_sv_calibration().has_system_offset())
-    //             system_correction += get_sv_calibration().get_system_offset();
-
-    //     // this is the same as adding system_correction to av later but faster
-    //     sector_correction += system_correction;
-
-    //     // compute beam correction (sector correction per beam)
-    //     xt::xtensor<float, 1> beam_correction =
-    //         xt::xtensor<float, 1>::from_shape({ bs.get_number_of_beams() });
-    //     const auto& beam_numbers            = bs.get_beam_numbers();
-    //     auto        sector_numbers_per_beam = get_tx_sector_per_beam();
-
-    //     for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-    //     {
-    //         beam_correction[bi] =
-    //             sector_correction.at(sector_numbers_per_beam.at(beam_numbers[bi]));
-    //     }
-
-    //     if (apply_calibration)
-    //         if (get_sv_calibration().has_offset_per_beamangle())
-    //         {
-    //             // TODO: this copies the interpolator, maybe we can speed this up
-    //             auto interpolator = get_sv_calibration().get_interpolator_offset_per_beamangle();
-    //             auto beam_angles  = get_beam_crosstrack_angles(bs);
-    //             for (unsigned int bi = 0; bi < bs.get_number_of_beams(); ++bi)
-    //             {
-    //                 beam_correction[bi] += interpolator(beam_angles[bi]);
-    //             }
-    //         }
-
-    //     return
-    //     algorithms::amplitudecorrection::functions::apply_beam_sample_correction<xt::xtensor<float,2>,xt::xtensor<float,1>>(
-    //         get_amplitudes(bs) * 0.5f, beam_correction, sample_correction);
-    // }
-
     xt::xtensor<uint32_t, 1> get_bottom_range_samples(
         const pingtools::BeamSelection& selection) override
     {
@@ -455,9 +338,11 @@ class KongsbergAllPingWatercolumn
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 

@@ -41,6 +41,7 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
 
     // test getters/setters
     CHECK(obj2.get_number_of_sectors() == 2);
+    CHECK(obj2.get_number_of_sectors() == obj2.size());
     CHECK(obj.get_number_of_sectors() == 0);
 
     // test copy

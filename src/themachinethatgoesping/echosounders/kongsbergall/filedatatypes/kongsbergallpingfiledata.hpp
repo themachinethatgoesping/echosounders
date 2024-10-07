@@ -31,13 +31,14 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
-#include "../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
+#include "../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../../filetemplates/datatypes/i_pingfiledata.hpp"
 #include "../../pingtools/beamsampleselection.hpp"
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/kongsbergalldatagraminterface.hpp"
+#include "../filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp"
 
 #include "_sub/systeminformation.hpp"
 #include "_sub/watercolumninformation.hpp"
@@ -55,10 +56,12 @@ class KongsbergAllPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
+    using t_calibration = filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
+        calibration::KongsbergAllWaterColumnCalibration>;
+
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
-    std::vector<boost::flyweight<filedatatypes::calibration::KongsbergAllWaterColumnCalibration>>
-        _calibration;
+    std::unique_ptr<boost::flyweight<t_calibration>>                _multisector_calibration;
 
   private:
     std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
@@ -70,15 +73,40 @@ class KongsbergAllPingFileData
         const auto& runtime_parameters = get_runtime_parameters();
 
         // TODO: use sound velocity profile
-        auto        sound_velocity = _file_data->get_wcinfos().get_sound_speed_at_transducer();
+        auto        sound_velocity = this->get_wcinfos().get_sound_speed_at_transducer();
         const auto& signal_parameters =
-            _file_data->get_sysinfos()
-                .get_tx_signal_parameters(); // this is a vector that represents the number of
-                                             // sectors
-        auto tvg_offset = _file_data->get_wcinfos().get_tvg_offset_in_db();
-        auto tvg_factor = _file_data->get_wcinfos().get_tvg_factor_applied();
+            this->get_sysinfos().get_tx_signal_parameters(); // this is a vector that represents the
+                                                             // number of sectors
+        auto tvg_offset = this->get_wcinfos().get_tvg_offset_in_db();
+        auto tvg_factor = this->get_wcinfos().get_tvg_factor_applied();
+
+        std::vector<calibration::KongsbergAllWaterColumnCalibration> calibrations;
+        for (size_t sector_nr = 0; sector_nr < signal_parameters.size(); ++sector_nr)
+        {
+            const auto& signal_param = signal_parameters[sector_nr];
+
+            calibrations.push_back(calibration::KongsbergAllWaterColumnCalibration(
+                sound_velocity,
+                std::visit([](const auto& param) { return param.get_effective_pulse_duration(); },
+                           signal_param),
+                tvg_offset,
+                runtime_parameters.get_absorption_coefficient_in_db_per_meter(),
+                tvg_factor));
+        }
+
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<t_calibration>>(std::move(calibrations));
     }
-    bool has_watercolumn_calibration() const { return !_calibration.empty(); }
+    bool has_watercolumn_calibration() const { return bool(_multisector_calibration); }
+    const t_calibration& get_multisector_calibration() const
+    {
+        if (!_multisector_calibration)
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_multisector_calibration]: No calibration "
+                "available!");
+
+        return _multisector_calibration->get();
+    }
 
     /**
      * @brief Set the watercolumn calibration. This must be a list of length equal to the number of
@@ -87,27 +115,75 @@ class KongsbergAllPingFileData
      * @param calibration
      */
     template<typename t_calibration>
-    void set_watercolumn_calibration(const std::vector<t_calibration>& calibration)
+    void set_multisector_calibration(const t_calibration& multisector_calibration)
     {
-        if (calibration.size() != get_sysinfos().get_tx_signal_parameters().size())
+        if (multisector_calibration.size() != get_sysinfos().get_tx_signal_parameters().size())
             throw std::runtime_error(
                 "Error[KongsbergAllPingFileData::set_watercolumn_calibration]: Calibration size "
                 "does not match number of transmit sectors!");
 
-        _calibration.clear();
-        _calibration.reserve(calibration.size());
-        std::copy(calibration.begin(), calibration.end(), std::back_inserter(_calibration)); 
+        _multisector_calibration = multisector_calibration;
     }
 
-    const std::vector<filetemplates::datatypes::calibration::KongsbergAllWaterColumnCalibration>&
-    get_watercolumn_calibration()
+    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration(
+        size_t tx_sector)
     {
-        if (_calibration.empty())
-            throw std::runtime_error(
-                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: No calibration "
-                "available!");
+        if (!_multisector_calibration)
+            init_watercolumn_calibration();
 
-        return _calibration->get();
+        if (get_multisector_calibration().size() <= tx_sector)
+            throw std::runtime_error(fmt::format(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: Sector {} out of "
+                "range",
+                tx_sector));
+
+        return get_multisector_calibration().at(tx_sector);
+    }
+
+    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration()
+    {
+        if (!_multisector_calibration)
+            init_watercolumn_calibration();
+
+        if (get_sysinfos().get_tx_signal_parameters().size() != 1)
+            throw std::runtime_error("Error[KongsbergAllPingFileData::get_watercolumn_"
+                                     "calibration]: Multiple transmit "
+                                     "sectors available, but no sector specified!");
+
+        return get_watercolumn_calibration(0);
+    }
+
+    const std::vector<calibration::KongsbergAllWaterColumnCalibration>&
+    get_watercolumn_calibrations()
+    {
+        if (!_multisector_calibration)
+            init_watercolumn_calibration();
+
+        return get_multisector_calibration().get_calibrations();
+    }
+
+    void set_watercolumn_calibration(
+        const calibration::KongsbergAllWaterColumnCalibration& calibration)
+    {
+        if (get_sysinfos().get_tx_signal_parameters().size() != 1)
+            throw std::runtime_error("Error[KongsbergAllPingFileData::get_watercolumn_"
+                                     "calibration]: Multiple transmit "
+                                     "sectors available, but only one supplied!");
+
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<t_calibration>>(t_calibration({ calibration }));
+    }
+    void set_watercolumn_calibration(
+        const std::vector<calibration::KongsbergAllWaterColumnCalibration>& calibrations)
+    {
+        if (get_sysinfos().get_tx_signal_parameters().size() != calibrations.size())
+            throw std::runtime_error(fmt::format(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: Calibration size "
+                "does not match number of transmit sectors! ({} != {})",
+                calibrations.size(),
+                get_sysinfos().get_tx_signal_parameters().size()));
+
+        _multisector_calibration = std::make_unique<boost::flyweight<t_calibration>>(calibrations);
     }
 
     void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
@@ -144,8 +220,11 @@ class KongsbergAllPingFileData
     }
     void release_wci() { _watercolumninformation.reset(); }
     void release_sys() { _systeminformation.reset(); }
+    void release_multisector_calibration() { _multisector_calibration.reset(); }
     bool wci_loaded() { return _watercolumninformation != nullptr; }
     bool sys_loaded() { return _systeminformation != nullptr; }
+    bool multisector_calibration_loaded() { return _multisector_calibration != nullptr; }
+
 
     const _sub::WaterColumnInformation& get_wcinfos()
     {
@@ -247,7 +326,10 @@ class KongsbergAllPingFileData
                 ? std::make_unique<boost::flyweight<datagrams::RuntimeParameters>>(
                       *other._runtime_parameters)
                 : nullptr;
-        _calibration = other._calibration;
+        _multisector_calibration =
+            other._multisector_calibration
+                ? std::make_unique<boost::flyweight<t_calibration>>(*other._multisector_calibration)
+                : nullptr;
         _watercolumninformation =
             other._watercolumninformation
                 ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)

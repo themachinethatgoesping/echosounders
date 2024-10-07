@@ -170,12 +170,24 @@ class I_PingWatercolumn : public I_PingCommon
     virtual float get_sample_interval() { throw not_implemented(__func__, class_name()); }
 
     // --- sector infos ---
-    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    {
+        return get_tx_sector_per_beam(get_beam_selection_all());
+    }
+
+    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, class_name());
     }
 
-    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    {
+        return get_beam_numbers_per_tx_sector(get_beam_selection_all());
+    }
+
+    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, class_name());
     }
@@ -550,9 +562,11 @@ class I_PingWatercolumn : public I_PingCommon
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // Transducers
         printer.append(I_PingCommon::__printer__(float_precision, superscript_exponents));

@@ -19,8 +19,8 @@
 
 #include <fmt/core.h>
 
-#include <boost/flyweight.hpp>
 #include <Eigen/Core>
+#include <boost/flyweight.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>
@@ -68,9 +68,19 @@ class SimradRawPingWatercolumn
     virtual ~SimradRawPingWatercolumn() = default;
 
     // --- sector infos ---
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override { return { 0 }; }
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
+    {
+        this->beam_selection_must_be_one(__func__, selection);
+        return { 0 };
+    }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override { return { { 0 } }; }
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
+    {
+        this->beam_selection_must_be_one(__func__, selection);
+        return { { 0 } };
+    }
 
     // ----- I_PingWaterColumn interface -----
     bool has_tx_signal_parameters() const override { return true; }
@@ -124,9 +134,10 @@ class SimradRawPingWatercolumn
 
     float get_sound_speed_at_transducer() override
     {
-        //TODO: check if sound speed is available in the file
-        // if not, use the environment sound speed
-        // is environment sound speed always available? Is it a good replacement? Or better search for Soundvelocity profile?
+        // TODO: check if sound speed is available in the file
+        //  if not, use the environment sound speed
+        //  is environment sound speed always available? Is it a good replacement? Or better search
+        //  for Soundvelocity profile?
         auto sound_speed = _file_data->get_parameter().SoundVelocity;
         if (sound_speed > 0)
             return sound_speed;
@@ -218,7 +229,10 @@ class SimradRawPingWatercolumn
         return av;
     }
 
-    xt::xtensor<float, 2> get_av_eigen() { return get_av_eigen(this->get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_av_eigen()
+    {
+        return get_av_eigen(this->get_beam_sample_selection_all());
+    }
 
     xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
     {
@@ -270,9 +284,11 @@ class SimradRawPingWatercolumn
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 

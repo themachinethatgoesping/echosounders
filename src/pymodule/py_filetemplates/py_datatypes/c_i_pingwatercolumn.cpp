@@ -47,13 +47,6 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  &I_PingWatercolumn::get_number_of_tx_sectors,
                  DOC_I_PingWatercolumn(get_number_of_tx_sectors))
 
-            .def("get_tx_sector_per_beam",
-                 py::overload_cast<>(&I_PingWatercolumn::get_tx_sector_per_beam),
-                 DOC_I_PingWatercolumn(get_tx_sector_per_beam))
-            .def("get_beam_numbers_per_tx_sector",
-                 py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
-                 DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
-
             .def("get_watercolumn_calibration",
                  &I_PingWatercolumn::get_watercolumn_calibration,
                  DOC_I_PingWatercolumn(get_watercolumn_calibration))
@@ -104,6 +97,23 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  DOC_I_PingWatercolumn(get_number_of_samples_per_beam_2))
 
             // ----- common parameters -----
+            .def("get_tx_sector_per_beam",
+                 py::overload_cast<>(&I_PingWatercolumn::get_tx_sector_per_beam),
+                 DOC_I_PingWatercolumn(get_tx_sector_per_beam))
+            .def("get_tx_sector_per_beam",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_tx_sector_per_beam),
+                 DOC_I_PingWatercolumn(get_tx_sector_per_beam_2),
+                 py::arg("beam_selection"))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<>(&I_PingWatercolumn::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector),
+                 py::arg("beam_selection"))
+
             .def("get_sound_speed_at_transducer",
                  &I_PingWatercolumn::get_sound_speed_at_transducer,
                  DOC_I_PingWatercolumn(get_sound_speed_at_transducer))
