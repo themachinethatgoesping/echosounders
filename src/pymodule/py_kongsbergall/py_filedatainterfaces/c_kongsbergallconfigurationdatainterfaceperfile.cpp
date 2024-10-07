@@ -63,29 +63,29 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
                 filedatainterfaces,
                 KongsbergAllConfigurationDataInterfacePerFile))
 
-            .def("get_installation_parameters",
-                 &T_BaseClass::get_installation_parameters,
-                 DOC_KongsbergAllConfigurationDataInterfacePerFile(get_installation_parameters))
+            .def("read_installation_parameters",
+                 &T_BaseClass::read_installation_parameters,
+                 DOC_KongsbergAllConfigurationDataInterfacePerFile(read_installation_parameters))
 
             // ----- runtime parameters -----
-            .def("read_runtime_parameters",
-                 &T_BaseClass::read_runtime_parameters,
-                 DOC_KongsbergAllConfigurationDataInterfacePerFile(read_runtime_parameters))
+            .def("init_runtime_parameters",
+                 &T_BaseClass::init_runtime_parameters,
+                 DOC_KongsbergAllConfigurationDataInterfacePerFile(init_runtime_parameters))
             .def(
-                "get_runtime_parameter",
+                "get_runtime_parameters",
                 [](T_BaseClass& self,
                    uint16_t     system_serial_number,
                    size_t       ping_counter,
                    double       ping_time,
                    size_t       last_index) {
                     return self
-                        .get_runtime_parameter(system_serial_number,
+                        .get_runtime_parameters(system_serial_number,
                                                ping_counter,
                                                ping_time,
                                                std::make_shared<size_t>(last_index))
                         .get();
                 },
-                DOC_KongsbergAllConfigurationDataInterfacePerFile(get_runtime_parameter),
+                DOC_KongsbergAllConfigurationDataInterfacePerFile(get_runtime_parameters),
                 py::arg("system_serial_number"),
                 py::arg("ping_counter"),
                 py::arg("ping_time"),

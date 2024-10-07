@@ -1,4 +1,4 @@
-//sourcehash: 4261c4253c4895c5d5783028ce0dd712b335cb0e11c61eb78029f5e9dd5527b7
+//sourcehash: 432dca1df881732ec5a74dd9d2ea763491f4ce5044246862a4d2d40e036c6293
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -140,12 +140,6 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_etx = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_installation_parameters = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_installation_parameters_counter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_installation_parameters_parsed = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_position_system_offsets =
 R"doc(Get the position system offsets of system 1, 2 or 3
 
@@ -242,6 +236,12 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_parsed_installation_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_read_installation_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_read_installation_parameters_counter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_read_installation_parameters_parsed = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_reparse_installation_parameters =
 R"doc(parse the installation parameters string into a map This happens when

@@ -315,7 +315,7 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_installation_parameters_counter() const
+    uint16_t read_installation_parameters_counter() const
     {
         return _installation_parameters_counter;
     }
@@ -342,7 +342,7 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // substructures
     // std::string&       installation_parameters() { return _installation_parameters; }
-    const std::string& get_installation_parameters() const { return _installation_parameters; }
+    const std::string& read_installation_parameters() const { return _installation_parameters; }
     void               set_installation_parameters(std::string installation_parameters)
     {
         _installation_parameters = std::move(installation_parameters);
@@ -352,7 +352,7 @@ class InstallationParameters : public KongsbergAllDatagram
     }
 
     // ----- processed data access -----
-    const std::map<std::string, std::string>& get_installation_parameters_parsed()
+    const std::map<std::string, std::string>& read_installation_parameters_parsed()
     {
         return _parsed_installation_parameters;
     }

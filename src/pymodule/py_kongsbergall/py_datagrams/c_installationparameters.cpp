@@ -41,8 +41,8 @@ void init_c_installationparameters(pybind11::module& m)
         .def("set_installation_parameters_counter",
              &InstallationParameters::set_installation_parameters_counter,
              DOC_InstallationParameters(installation_parameters_counter))
-        .def("get_installation_parameters_counter",
-             &InstallationParameters::get_installation_parameters_counter,
+        .def("read_installation_parameters_counter",
+             &InstallationParameters::read_installation_parameters_counter,
              DOC_InstallationParameters(installation_parameters_counter))
         .def("set_system_serial_number",
              &InstallationParameters::set_system_serial_number,
@@ -58,8 +58,8 @@ void init_c_installationparameters(pybind11::module& m)
              DOC_InstallationParameters(secondary_system_serial_number))
 
         // --- data structure access ---
-        .def("get_installation_parameters",
-             &InstallationParameters::get_installation_parameters,
+        .def("read_installation_parameters",
+             &InstallationParameters::read_installation_parameters,
              DOC_InstallationParameters(installation_parameters),
              py::return_value_policy::reference_internal)
         .def("set_installation_parameters",
@@ -71,9 +71,9 @@ void init_c_installationparameters(pybind11::module& m)
         //         py::return_value_policy::reference_internal)
 
         // --- processed member access ---
-        .def("get_installation_parameters_parsed",
-             &InstallationParameters::get_installation_parameters_parsed,
-             DOC_InstallationParameters(get_installation_parameters_parsed),
+        .def("read_installation_parameters_parsed",
+             &InstallationParameters::read_installation_parameters_parsed,
+             DOC_InstallationParameters(read_installation_parameters_parsed),
              py::return_value_policy::reference_internal)
 
         // --- public data members ---

@@ -86,7 +86,7 @@ class KongsbergAllPingDataInterfacePerFile
 
         // read the file installation parameters and build a base ping
         auto& configuration_data_interface_for_file = this->configuration_data_interface_for_file();
-        auto  param = configuration_data_interface_for_file.get_installation_parameters();
+        auto  param = configuration_data_interface_for_file.read_installation_parameters();
 
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 
@@ -126,7 +126,7 @@ class KongsbergAllPingDataInterfacePerFile
                             ping_it->second->file_data().set_file_ping_counter(ping_counter);
 
                             ping_it->second->file_data().set_runtime_parameters(
-                                configuration_data_interface_for_file.get_runtime_parameter(
+                                configuration_data_interface_for_file.get_runtime_parameters(
                                     serial_number,
                                     ping_counter,
                                     ping_it->second->get_timestamp(),

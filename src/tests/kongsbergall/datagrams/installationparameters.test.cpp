@@ -52,9 +52,9 @@ TEST_CASE("InstallationParameters should support common functions", TESTTAG)
 
     //--- datagram concept ---
     CHECK(dat.get_bytes() == installation_parameters.size() + 21);
-    CHECK(dat.get_installation_parameters_counter() == 123);
+    CHECK(dat.read_installation_parameters_counter() == 123);
     CHECK(dat.get_system_serial_number() == 100);
-    CHECK(dat.get_installation_parameters() == installation_parameters);
+    CHECK(dat.read_installation_parameters() == installation_parameters);
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() ==

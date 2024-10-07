@@ -267,9 +267,10 @@ class KongsbergAllFileHandler
 
         double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
-        std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) << std::endl;
-        std::cerr << fmt::format("Linking wcd/all files took: {}µs", elapsed_time_ms / 1000)
-                  << std::endl;
+        // TODO: such messages should be logged, could also be part of the object printer
+        // std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) << std::endl;
+        // std::cerr << fmt::format("Linking wcd/all files took: {}µs", elapsed_time_ms / 1000)
+        //           << std::endl;
     }
 
     using t_base::init_interfaces;

@@ -108,8 +108,16 @@ class KongsbergAllConfigurationDataInterfacePerFile
     }
 
     // ----- interface methods -----
-    void read_runtime_parameters()
+    /**
+     * @brief read the runtime parameters from the file and save them in the internal map
+     * This function is automatically called by get_runtime_parameters
+     *
+     */
+    void init_runtime_parameters()
     {
+        // read installation parameters to get the system configuration system serial number(s)
+        auto installation_parameters = this->read_installation_parameters();
+
         for (const auto& datagram_ptr :
              this->_datagram_infos_by_type[t_KongsbergAllDatagramIdentifier::RuntimeParameters])
         {
@@ -119,18 +127,68 @@ class KongsbergAllConfigurationDataInterfacePerFile
             _runtime_parameters_by_system_serial_number[system_serial_number].emplace_back(
                 datagram_ptr->template read_datagram_from_file<datagrams::RuntimeParameters>());
         }
+
+        // Throw an error if no runtime parameters were found for the existing system serial numbers
+        // primary system
+        if (!_runtime_parameters_by_system_serial_number.contains(
+                installation_parameters.get_system_serial_number()))
+            throw std::runtime_error(fmt::format(
+                "init_runtime_parameters: No runtime parameters found for primary system serial "
+                "number '{}' in file nr {} [{}]!",
+                installation_parameters.get_system_serial_number(),
+                this->get_file_nr(),
+                this->get_file_path()));
+
+        switch (installation_parameters.get_system_transducer_configuration())
+        {
+            case t_KongsbergAllSystemTransducerConfiguration::SingleTXDualRX:
+                // singleTxDualRx seems to create only one runtime parameter for both systems
+                // (probably because there is only one TX unit). We thus add copy the runtime
+                // parameters of the primary system for the secondary system
+                if (installation_parameters.get_system_transducer_configuration() ==
+                    t_KongsbergAllSystemTransducerConfiguration::SingleTXDualRX)
+                    if (!_runtime_parameters_by_system_serial_number.contains(
+                            installation_parameters.get_secondary_system_serial_number()))
+                        _runtime_parameters_by_system_serial_number
+                            [installation_parameters.get_secondary_system_serial_number()] =
+                                _runtime_parameters_by_system_serial_number
+                                    [installation_parameters.get_system_serial_number()];
+                break;
+
+                // dual head should have runtime parameters for both systems
+            case t_KongsbergAllSystemTransducerConfiguration::DualHead:
+                [[fallthrough]];
+            case t_KongsbergAllSystemTransducerConfiguration::DualTXDualRX:
+                if (!_runtime_parameters_by_system_serial_number.contains(
+                        installation_parameters.get_secondary_system_serial_number()))
+                    throw std::runtime_error(
+                        fmt::format("init_runtime_parameters: No runtime parameters found for "
+                                    "secondary system serial "
+                                    "number '{}' in file nr {} [{}]!",
+                                    installation_parameters.get_secondary_system_serial_number(),
+                                    this->get_file_nr(),
+                                    this->get_file_path()));
+            default:
+
+                // case t_KongsbergAllSystemTransducerConfiguration::SingleTXSingleRX:
+                // case t_KongsbergAllSystemTransducerConfiguration::SingleHead:
+                // case t_KongsbergAllSystemTransducerConfiguration::PortableSingleHead:
+                // case t_KongsbergAllSystemTransducerConfiguration::Modular:
+                break;
+        }
+
         _runtime_parameters_initialized = true;
     }
 
     // TODO: this needs some carefull testing ..
-    boost::flyweight<datagrams::RuntimeParameters> get_runtime_parameter(
+    boost::flyweight<datagrams::RuntimeParameters> get_runtime_parameters(
         uint16_t                system_serial_number,
         size_t                  ping_counter,
         double                  ping_time,
         std::shared_ptr<size_t> last_index = std::make_shared<size_t>(0))
     {
         if (!_runtime_parameters_initialized)
-            this->read_runtime_parameters();
+            this->init_runtime_parameters();
 
         // catch uninitialized last_index pointer
         if (!last_index)
@@ -141,14 +199,14 @@ class KongsbergAllConfigurationDataInterfacePerFile
 
         if (runtime_parameter_vector.empty())
             throw std::runtime_error(
-                fmt::format("get_runtime_parameter: No runtime parameters found for system "
+                fmt::format("get_runtime_parameters: No runtime parameters found for system "
                             "serial number '{}' in ping '{}'",
                             system_serial_number,
                             ping_counter));
 
         if (*last_index >= runtime_parameter_vector.size())
             throw std::runtime_error(
-                fmt::format("get_runtime_parameter: last_index '{}' is out of bounds for system "
+                fmt::format("get_runtime_parameters: last_index '{}' is out of bounds for system "
                             "serial number '{}' in ping '{}'",
                             *last_index,
                             system_serial_number,
@@ -202,7 +260,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
         using navigation::datastructures::PositionalOffsets;
 
         /* get the installation parameters datagram */
-        auto param = this->get_installation_parameters();
+        auto param = this->read_installation_parameters();
 
         // set the active systems (if they weren't previously set)
         if (_active_position_system_number == 0)
@@ -332,14 +390,19 @@ class KongsbergAllConfigurationDataInterfacePerFile
     }
 
     // ----- kongsbergall specific functions -----
-    /* get infos */
-    datagrams::InstallationParameters get_installation_parameters() const
+    /**
+     * @brief Read the installation parameters from the file, this function also checks if the start
+     * and end parameters are the same
+     *
+     * @return datagrams::InstallationParameters
+     */
+    datagrams::InstallationParameters read_installation_parameters() const
     {
         // check that there is only one installation parameters datagram
         if (this->_datagram_infos_by_type
                 .at_const(t_KongsbergAllDatagramIdentifier::InstallationParametersStart)
                 .empty())
-            throw std::runtime_error(fmt::format("get_installation_parameters: There is no "
+            throw std::runtime_error(fmt::format("read_installation_parameters: There is no "
                                                  "installation parameters start"
                                                  "datagram in file nr {} [{}]!",
                                                  this->get_file_nr(),
@@ -370,7 +433,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
             catch (std::exception& e)
             {
                 throw std::runtime_error(
-                    fmt::format("get_installation_parameters: Installation "
+                    fmt::format("read_installation_parameters: Installation "
                                 "parameters start change within file nr {} [{}]"
                                 "are not the same! Error: {}",
                                 this->get_file_nr(),
@@ -399,7 +462,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
             catch (std::exception& e)
             {
                 throw std::runtime_error(
-                    fmt::format("get_installation_parameters: Installation "
+                    fmt::format("read_installation_parameters: Installation "
                                 "parameters start change within file nr {} [{}]"
                                 "are not the same! Error: {}",
                                 this->get_file_nr(),

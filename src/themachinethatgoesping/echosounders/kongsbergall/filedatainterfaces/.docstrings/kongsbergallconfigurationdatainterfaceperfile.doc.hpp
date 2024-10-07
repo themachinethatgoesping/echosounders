@@ -1,4 +1,4 @@
-//sourcehash: c525f94b70f6ebd9e31c7037183c39e46a93b64a7d4b863cbbb6d2aab1c7c680
+//sourcehash: 45e06340b4fdfd7dd20a2e08c37df2be8c88e82453d3265c756c6f5bc6818cd6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,15 +58,23 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_active_position_system_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_installation_parameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_runtime_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_runtime_parameter = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_init_runtime_parameters =
+R"doc(read the runtime parameters from the file and save them in the
+internal map This function is automatically called by
+get_runtime_parameters)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_extra_info_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_runtime_parameters = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_installation_parameters =
+R"doc(Read the installation parameters from the file, this function also
+checks if the start and end parameters are the same
+
+Returns:
+    datagrams::InstallationParameters)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
