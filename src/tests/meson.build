@@ -60,6 +60,7 @@ sources = [
   'filetemplates/datatypes/filecache.test.cpp',
   'filetemplates/datatypes/packagecache/cache_structpackage.test.cpp',
   'filetemplates/datatypes/calibration/amplitudecalibration.test.cpp',
+  'filetemplates/datatypes/calibration/multisectorwatercolumncalibration.test.cpp',
   'filetemplates/datatypes/calibration/watercolumncalibration.test.cpp',
   'pingtools/beamsampleselection.test.cpp',
   'pingtools/beamselection.test.cpp',

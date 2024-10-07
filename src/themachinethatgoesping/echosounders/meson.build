@@ -325,6 +325,7 @@ headers = [
   'filetemplates/datatypes/cache_structures/.docstrings/structpackage.doc.hpp',
   'filetemplates/datatypes/cache_structures/.docstrings/tuplepackage.doc.hpp',
   'filetemplates/datatypes/calibration/amplitudecalibration.hpp',
+  'filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp',
   'filetemplates/datatypes/calibration/watercolumncalibration.hpp',
   'filetemplates/datatypes/calibration/.docstrings/amplitudecalibration.doc.hpp',
   'filetemplates/datatypes/calibration/.docstrings/sbesamplitudecalibration.doc.hpp',

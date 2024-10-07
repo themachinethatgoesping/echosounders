@@ -57,7 +57,7 @@ class KongsbergAllPingFileData
 
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
-    std::unique_ptr<boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>
+    std::vector<boost::flyweight<filedatatypes::calibration::KongsbergAllWaterColumnCalibration>>
         _calibration;
 
   private:
@@ -65,26 +65,44 @@ class KongsbergAllPingFileData
     std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
-    bool has_watercolumn_calibration() const { return bool(_calibration); }
-    void set_watercolumn_calibration(
-        boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration> calibration)
+    void init_watercolumn_calibration()
     {
-        _calibration = std::make_unique<
-            boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>(
-            calibration);
+        const auto& runtime_parameters = get_runtime_parameters();
+
+        // TODO: use sound velocity profile
+        auto        sound_velocity = _file_data->get_wcinfos().get_sound_speed_at_transducer();
+        const auto& signal_parameters =
+            _file_data->get_sysinfos()
+                .get_tx_signal_parameters(); // this is a vector that represents the number of
+                                             // sectors
+        auto tvg_offset = _file_data->get_wcinfos().get_tvg_offset_in_db();
+        auto tvg_factor = _file_data->get_wcinfos().get_tvg_factor_applied();
     }
-    void set_watercolumn_calibration(
-        const filetemplates::datatypes::calibration::WaterColumnCalibration& calibration)
+    bool has_watercolumn_calibration() const { return !_calibration.empty(); }
+
+    /**
+     * @brief Set the watercolumn calibration. This must be a list of length equal to the number of
+     * transmit sectors.
+     * @tparam t_calibration can be either KongsbergAllWaterColumnCalibration or BoostFlyweight<
+     * @param calibration
+     */
+    template<typename t_calibration>
+    void set_watercolumn_calibration(const std::vector<t_calibration>& calibration)
     {
-        _calibration = std::make_unique<
-            boost::flyweight<filetemplates::datatypes::calibration::WaterColumnCalibration>>(
-            calibration);
+        if (calibration.size() != get_sysinfos().get_tx_signal_parameters().size())
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::set_watercolumn_calibration]: Calibration size "
+                "does not match number of transmit sectors!");
+
+        _calibration.clear();
+        _calibration.reserve(calibration.size());
+        std::copy(calibration.begin(), calibration.end(), std::back_inserter(_calibration)); 
     }
 
-    const filetemplates::datatypes::calibration::WaterColumnCalibration&
+    const std::vector<filetemplates::datatypes::calibration::KongsbergAllWaterColumnCalibration>&
     get_watercolumn_calibration()
     {
-        if (!_calibration)
+        if (_calibration.empty())
             throw std::runtime_error(
                 "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: No calibration "
                 "available!");
@@ -229,11 +247,7 @@ class KongsbergAllPingFileData
                 ? std::make_unique<boost::flyweight<datagrams::RuntimeParameters>>(
                       *other._runtime_parameters)
                 : nullptr;
-        _calibration = other._calibration
-                           ? std::make_unique<boost::flyweight<
-                                 filetemplates::datatypes::calibration::WaterColumnCalibration>>(
-                                 *other._calibration)
-                           : nullptr;
+        _calibration = other._calibration;
         _watercolumninformation =
             other._watercolumninformation
                 ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
