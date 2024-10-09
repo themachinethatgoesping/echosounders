@@ -328,6 +328,7 @@ headers = [
   'filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp',
   'filetemplates/datatypes/calibration/watercolumncalibration.hpp',
   'filetemplates/datatypes/calibration/.docstrings/amplitudecalibration.doc.hpp',
+  'filetemplates/datatypes/calibration/.docstrings/multisectorwatercolumncalibration.doc.hpp',
   'filetemplates/datatypes/calibration/.docstrings/sbesamplitudecalibration.doc.hpp',
   'filetemplates/datatypes/calibration/.docstrings/watercolumncalibration-old.doc.hpp',
   'filetemplates/datatypes/calibration/.docstrings/watercolumncalibration.doc.hpp',

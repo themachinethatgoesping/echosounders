@@ -260,12 +260,12 @@ class KongsbergAllFileHandler
 
     void setup_interfaces()
     {
-        auto t_start = std::chrono::high_resolution_clock::now();
+        //auto t_start = std::chrono::high_resolution_clock::now();
         // link wcd/all files
         link_all_and_wcd_files();
-        auto t_end = std::chrono::high_resolution_clock::now();
+        //auto t_end = std::chrono::high_resolution_clock::now();
 
-        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+        //double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
         // TODO: such messages should be logged, could also be part of the object printer
         // std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) << std::endl;

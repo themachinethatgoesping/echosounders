@@ -113,6 +113,14 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                      &I_PingWatercolumn::get_beam_numbers_per_tx_sector),
                  DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector),
                  py::arg("beam_selection"))
+            .def("get_approximate_ranges",
+                 py::overload_cast<>(&I_PingWatercolumn::get_approximate_ranges),
+                 DOC_I_PingWatercolumn(get_approximate_ranges))
+            .def("get_approximate_ranges",
+                 py::overload_cast<const pingtools::BeamSampleSelection&>(
+                     &I_PingWatercolumn::get_approximate_ranges),
+                 DOC_I_PingWatercolumn(get_approximate_ranges),
+                 py::arg("beam_sample_selection"))
 
             .def("get_sound_speed_at_transducer",
                  &I_PingWatercolumn::get_sound_speed_at_transducer,

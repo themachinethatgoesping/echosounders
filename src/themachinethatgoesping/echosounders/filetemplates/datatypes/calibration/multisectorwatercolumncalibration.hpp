@@ -9,6 +9,8 @@
 #include ".docstrings/multisectorwatercolumncalibration.doc.hpp"
 
 #include <fmt/core.h>
+#include <xtensor/xadapt.hpp>
+
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
@@ -39,13 +41,114 @@ class MultiSectorWaterColumnCalibration
         compute_hash();
     }
 
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    t_xtensor_2d apply_beam_sample_correction_av(
+        const t_xtensor_2d&                     wci,
+        const t_xtensor_1d&                     beam_angles,
+        const t_xtensor_1d&                     ranges,
+        const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector) const
+    {
+        auto result = xt::empty_like(wci);
+
+        for (size_t tx_sector = 0; tx_sector < beam_numbers_per_tx_sector.size(); ++tx_sector)
+        {
+            const auto& beam_numbers = beam_numbers_per_tx_sector[tx_sector];
+
+            if (beam_numbers.empty())
+                continue;
+
+            if (tx_sector >= _calibration_per_sector.size())
+            {
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]:Sector {} out of range", __func__, tx_sector));
+            }
+
+            auto beam_range = xt::range(beam_numbers.front(), beam_numbers.back() + 1);
+
+            const auto& calibration = _calibration_per_sector[tx_sector];
+
+            t_xtensor_1d sector_beam_angles = xt::view(beam_angles, beam_range);
+            t_xtensor_2d sector_wci         = xt::view(wci, beam_range, xt::all());
+            auto         sector_result      = xt::view(result, beam_range, xt::all());
+            sector_result =
+                calibration.apply_beam_sample_correction_av(sector_wci, sector_beam_angles, ranges);
+        }
+
+        return result;
+    }
+
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    t_xtensor_2d apply_beam_sample_correction_av3(
+        const t_xtensor_2d&                     wci,
+        const t_xtensor_1d&                     beam_angles,
+        const t_xtensor_1d&                     ranges,
+        const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector) const
+    {
+        auto result = wci;
+        for (size_t tx_sector = 0; tx_sector < beam_numbers_per_tx_sector.size(); ++tx_sector)
+        {
+            const auto& beam_numbers = beam_numbers_per_tx_sector[tx_sector];
+
+            if (beam_numbers.empty())
+                continue;
+
+            if (tx_sector >= _calibration_per_sector.size())
+            {
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]:Sector {} out of range", __func__, tx_sector));
+            }
+
+            auto beam_range = xt::range(beam_numbers.front(), beam_numbers.back() + 1);
+
+            const auto& calibration = _calibration_per_sector[tx_sector];
+
+            t_xtensor_1d sector_beam_angles = xt::view(beam_angles, beam_range);
+            auto         sector_wci         = xt::view(result, beam_range, xt::all());
+            calibration.inplace_beam_sample_correction_av(sector_wci, sector_beam_angles, ranges);
+        }
+
+        return result;
+    }
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    void apply_beam_sample_correction_av2(
+        t_xtensor_2d                            wci,
+        const t_xtensor_1d&                     beam_angles,
+        const t_xtensor_1d&                     ranges,
+        const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector) const
+    {
+        for (size_t tx_sector = 0; tx_sector < beam_numbers_per_tx_sector.size(); ++tx_sector)
+        {
+            const auto& beam_numbers = beam_numbers_per_tx_sector[tx_sector];
+
+            if (beam_numbers.empty())
+                continue;
+
+            if (tx_sector >= _calibration_per_sector.size())
+            {
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]:Sector {} out of range", __func__, tx_sector));
+            }
+
+            auto beam_range = xt::range(beam_numbers.front(), beam_numbers.back() + 1);
+
+            const auto& calibration = _calibration_per_sector[tx_sector];
+
+            t_xtensor_1d sector_beam_angles = xt::view(beam_angles, beam_range);
+            auto         sector_wci         = xt::view(wci, beam_range, xt::all());
+            calibration.inplace_beam_sample_correction_av(sector_wci, sector_beam_angles, ranges);
+        }
+
+        xt::eval(wci);
+        // return wci;
+    }
+
     size_t get_number_of_sectors() const { return _calibration_per_sector.size(); }
-    auto size() const { return _calibration_per_sector.size(); }
-    auto empty() const { return _calibration_per_sector.empty(); }
+    auto   size() const { return _calibration_per_sector.size(); }
+    auto   empty() const { return _calibration_per_sector.empty(); }
 
     const std::vector<t_calibration>& get_calibrations() const { return _calibration_per_sector; }
 
-    const t_calibration& at(size_t sector) const
+    const auto& at(size_t sector) const
     {
         if (sector >= _calibration_per_sector.size())
         {
@@ -55,7 +158,7 @@ class MultiSectorWaterColumnCalibration
         return _calibration_per_sector[sector];
     }
 
-    t_calibration& at(size_t sector)
+    auto& at(size_t sector)
     {
         if (sector >= _calibration_per_sector.size())
         {

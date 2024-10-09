@@ -33,6 +33,53 @@ namespace py = pybind11;
         WaterColumnCalibration,                                                                    \
         ARG)
 
+template<typename t_float, typename t_pyclass>
+void add_apply_calibration_functions(t_pyclass& c)
+{
+    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+
+    c.def("apply_beam_sample_correction_power",
+          &WaterColumnCalibration::template apply_beam_sample_correction_power<
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction_power),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"));
+    c.def(
+        "apply_beam_sample_correction_ap",
+        &WaterColumnCalibration::template apply_beam_sample_correction_ap<xt::pytensor<t_float, 2>,
+                                                                          xt::pytensor<t_float, 1>>,
+        DOC_WaterColumnCalibration(apply_beam_sample_correction_ap),
+        py::arg("wci"),
+        py::arg("beam_angles"),
+        py::arg("ranges"));
+    c.def(
+        "apply_beam_sample_correction_av",
+        &WaterColumnCalibration::template apply_beam_sample_correction_av<xt::pytensor<t_float, 2>,
+                                                                          xt::pytensor<t_float, 1>>,
+        DOC_WaterColumnCalibration(apply_beam_sample_correction_av),
+        py::arg("wci"),
+        py::arg("beam_angles"),
+        py::arg("ranges"));
+    c.def(
+        "apply_beam_sample_correction_sv",
+        &WaterColumnCalibration::template apply_beam_sample_correction_sv<xt::pytensor<t_float, 2>,
+                                                                          xt::pytensor<t_float, 1>>,
+        DOC_WaterColumnCalibration(apply_beam_sample_correction_sv),
+        py::arg("wci"),
+        py::arg("beam_angles"),
+        py::arg("ranges"));
+    c.def(
+        "apply_beam_sample_correction_sp",
+        &WaterColumnCalibration::template apply_beam_sample_correction_sp<xt::pytensor<t_float, 2>,
+                                                                          xt::pytensor<t_float, 1>>,
+        DOC_WaterColumnCalibration(apply_beam_sample_correction_sp),
+        py::arg("wci"),
+        py::arg("beam_angles"),
+        py::arg("ranges"));
+}
+
 void init_c_watercolumncalibration(pybind11::module& m)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
@@ -88,6 +135,18 @@ void init_c_watercolumncalibration(pybind11::module& m)
                  .def("get_power_calibration",
                       &WaterColumnCalibration::get_power_calibration,
                       DOC_WaterColumnCalibration(get_power_calibration))
+                 .def("get_ap_calibration",
+                      &WaterColumnCalibration::get_ap_calibration,
+                      DOC_WaterColumnCalibration(get_ap_calibration))
+                 .def("get_av_calibration",
+                      &WaterColumnCalibration::get_av_calibration,
+                      DOC_WaterColumnCalibration(get_av_calibration))
+                 .def("get_sp_calibration",
+                      &WaterColumnCalibration::get_sp_calibration,
+                      DOC_WaterColumnCalibration(get_sp_calibration))
+                 .def("get_sv_calibration",
+                      &WaterColumnCalibration::get_sv_calibration,
+                      DOC_WaterColumnCalibration(get_sv_calibration))
                  .def("set_power_calibration",
                       &WaterColumnCalibration::set_power_calibration,
                       DOC_WaterColumnCalibration(set_power_calibration),
@@ -127,6 +186,9 @@ void init_c_watercolumncalibration(pybind11::module& m)
              __PYCLASS_DEFAULT_PRINTING__(WaterColumnCalibration)
         // end WaterColumnCalibration
         ;
+
+    add_apply_calibration_functions<float>(c);
+    add_apply_calibration_functions<double>(c);
 
     c.def("cached_hash",
           &WaterColumnCalibration::cached_hash,

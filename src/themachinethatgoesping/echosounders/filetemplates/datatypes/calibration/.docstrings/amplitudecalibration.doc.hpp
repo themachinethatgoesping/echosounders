@@ -1,4 +1,4 @@
-//sourcehash: c405bff44cbc2da50722ba9bc2fe4b0f8f5a59a565942857c401a359996cb890
+//sourcehash: 0d082370b6397bc83778aa43cf63dae44864b7f7b7828579dddb0c3145913450
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -83,6 +83,10 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_initialized = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_inplace_beam_sample_correction = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_inplace_beam_sample_correction_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_offset_per_beamangle = R"doc()doc";
 

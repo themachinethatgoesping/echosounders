@@ -29,6 +29,9 @@ void init_c_amplitudecalibration(
     pybind11::module& m); // py_datatypes/py_calibration/init_c_amplitudecalibration.cpp
 void init_c_watercolumncalibration(
     pybind11::module& m); // py_datatypes/py_calibration/init_c_watercolumncalibration.cpp
+void init_c_multisectorwatercolumncalibration(
+    pybind11::module&
+        m); // py_datatypes/py_calibration/init_c_multisectorwatercolumncalibration.cpp
 }
 }
 
@@ -42,6 +45,7 @@ void init_m_filetemplates(py::module& m)
     // pingtool classes classes
     py_datatypes::py_calibration::init_c_amplitudecalibration(subm);
     py_datatypes::py_calibration::init_c_watercolumncalibration(subm);
+    py_datatypes::py_calibration::init_c_multisectorwatercolumncalibration(subm);
     py_datatypes::init_c_i_pingcommon(subm);
     py_datatypes::init_c_i_pingfiledata(subm);
     py_datatypes::init_c_i_pingbottom(subm);

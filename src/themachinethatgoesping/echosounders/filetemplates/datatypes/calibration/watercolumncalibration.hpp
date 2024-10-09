@@ -111,6 +111,15 @@ class WaterColumnCalibration
     }
 
     template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    void inplace_beam_sample_correction_av(t_xtensor_2d&       wci,
+                                           const t_xtensor_1d& beam_angles,
+                                           const t_xtensor_1d& ranges) const
+    {
+        _av_calibration.inplace_beam_sample_correction(
+            wci, beam_angles, ranges, get_absorption_to_apply(), get_tvg_factor_to_apply(20));
+    }
+
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
     t_xtensor_2d apply_beam_sample_correction_sv(const t_xtensor_2d& wci,
                                                  const t_xtensor_1d& beam_angles,
                                                  const t_xtensor_1d& ranges) const

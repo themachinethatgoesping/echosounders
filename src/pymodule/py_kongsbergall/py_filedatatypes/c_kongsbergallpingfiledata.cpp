@@ -44,6 +44,8 @@ template<typename T_FileStream>
 void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& CLASS_NAME)
 {
     using t_KongsbergAllPingFileData = filedatatypes::KongsbergAllPingFileData<T_FileStream>;
+    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 
     auto cls =
         py::class_<t_KongsbergAllPingFileData,
@@ -101,6 +103,14 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
             .def("get_watercolumn_calibration",
                  py::overload_cast<>(&t_KongsbergAllPingFileData::get_watercolumn_calibration),
                  DOC_KongsbergAllPingFileData(get_watercolumn_calibration_2))
+            .def("get_multisector_calibration",
+                 &t_KongsbergAllPingFileData::get_multisector_calibration,
+                 DOC_KongsbergAllPingFileData(get_multisector_calibration))
+            .def("set_multisector_calibration",
+                 &t_KongsbergAllPingFileData::template set_multisector_calibration<
+                     MultiSectorWaterColumnCalibration<KongsbergAllWaterColumnCalibration>>,
+                 DOC_KongsbergAllPingFileData(set_multisector_calibration),
+                 py::arg("calibration"))
 
             // --- bottom detection ---
             .def("read_xyz",

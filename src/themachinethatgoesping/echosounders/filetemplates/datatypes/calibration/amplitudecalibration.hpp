@@ -183,6 +183,100 @@ class AmplitudeCalibration
         return apply_sample_correction(wci, range_varying_offset, mp_cores);
     }
 
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    t_xtensor_2d inplace_beam_sample_correction([[maybe_unused]] t_xtensor_2d& wci,
+                                                const t_xtensor_1d&            beam_angles,
+                                                const t_xtensor_1d&            ranges,
+                                                int                            mp_cores = 1) const
+    {
+        using algorithms::amplitudecorrection::functions::inplace_beam_correction;
+        using algorithms::amplitudecorrection::functions::inplace_beam_sample_correction;
+        using algorithms::amplitudecorrection::functions::inplace_sample_correction;
+
+        if (has_offset_per_beamangle())
+        {
+            t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
+
+            if (has_system_offset())
+                beam_correction += get_system_offset();
+
+            if (has_offset_per_range())
+            {
+                t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
+
+                inplace_beam_sample_correction(wci, beam_correction, sample_correction, mp_cores);
+                return;
+            }
+            inplace_beam_correction(wci, beam_correction, mp_cores);
+            return;
+        }
+
+        if (has_offset_per_range())
+        {
+            t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
+            if (has_system_offset())
+                sample_correction += get_system_offset();
+
+            inplace_sample_correction(wci, sample_correction, mp_cores);
+            return;
+        }
+
+        if (has_system_offset())
+        {
+            if (mp_cores == 1)
+            {
+                wci = xt::eval(wci + get_system_offset());
+                return;
+            }
+
+            else
+            {
+#pragma omp parallel for num_threads(mp_cores)
+                for (unsigned int bi = 0; bi < wci.shape(0); ++bi)
+                    xt::row(wci, bi) = xt::eval(xt::row(wci, bi) + get_system_offset());
+                return;
+            }
+        }
+        return;
+    }
+
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    void inplace_beam_sample_correction(
+        [[maybe_unused]] t_xtensor_2d&                               wci,
+        const t_xtensor_1d&                                          beam_angles,
+        const t_xtensor_1d&                                          ranges,
+        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type absorption_db_m,
+        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type tvg_factor,
+        int                                                          mp_cores = 1) const
+    {
+        using algorithms::amplitudecorrection::functions::compute_cw_range_correction;
+        using algorithms::amplitudecorrection::functions::inplace_beam_correction;
+        using algorithms::amplitudecorrection::functions::inplace_beam_sample_correction;
+        using algorithms::amplitudecorrection::functions::inplace_sample_correction;
+
+        t_xtensor_1d range_varying_offset =
+            compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
+
+        if (has_offset_per_range())
+            range_varying_offset += get_per_sample_offsets(ranges);
+
+        if (has_offset_per_beamangle())
+        {
+            t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
+
+            if (has_system_offset())
+                beam_correction += get_system_offset();
+
+            inplace_beam_sample_correction(wci, beam_correction, range_varying_offset, mp_cores);
+            return;
+        }
+
+        if (has_system_offset())
+            range_varying_offset += get_system_offset();
+
+        inplace_sample_correction(wci, range_varying_offset, mp_cores);
+    }
+
     // getters / setters
     float get_system_offset() const { return _system_offset; }
     void  set_system_offset(float value)
@@ -251,15 +345,18 @@ class AmplitudeCalibration
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("AmplitudeCalibration", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "AmplitudeCalibration", float_precision, superscript_exponents);
 
         printer.register_section("System offsets");
         if (!std::isnan(_system_offset))
             printer.register_value("system_offset", _system_offset, "dB");
         if (!_offset_per_beamangle.empty())
-            printer.append(_offset_per_beamangle.__printer__(float_precision, superscript_exponents));
+            printer.append(
+                _offset_per_beamangle.__printer__(float_precision, superscript_exponents));
         if (!_offset_per_range.empty())
             printer.append(_offset_per_range.__printer__(float_precision, superscript_exponents));
 
@@ -304,7 +401,6 @@ inline std::size_t hash_value(const AmplitudeCalibration& arg)
 {
     return arg.cached_hash();
 }
-
 }
 }
 }

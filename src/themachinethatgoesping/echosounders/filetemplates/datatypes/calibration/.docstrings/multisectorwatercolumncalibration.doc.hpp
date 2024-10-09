@@ -1,4 +1,4 @@
-//sourcehash: 1412b91a3fdcc262cea78ac0aafc12d3453d245f40a320d3b1b58f69f2a19612
+//sourcehash: eb52ec63734d434ca2b25b8a9c6a2229235e8b5e4003b16a217f01595e5fab54
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_add_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_at = R"doc()doc";
 
