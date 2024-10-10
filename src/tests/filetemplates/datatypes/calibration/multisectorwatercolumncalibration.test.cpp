@@ -18,10 +18,11 @@ using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[MultiSectorWaterColumnCalibration]"
 
-TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
+TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
 {
-    auto obj  = MultiSectorWaterColumnCalibration();
-    auto obj2 = MultiSectorWaterColumnCalibration({WaterColumnCalibration(), WaterColumnCalibration()});
+    auto obj = MultiSectorWaterColumnCalibration();
+    auto obj2 =
+        MultiSectorWaterColumnCalibration({ WaterColumnCalibration(), WaterColumnCalibration() });
 
     // test hash
     CHECK(obj.cached_hash() == 3244421341483603138ULL);
@@ -62,7 +63,34 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
 
-
     CHECK(obj2.cached_hash() == obj2.binary_hash());
     CHECK(obj.cached_hash() == obj.binary_hash());
+}
+
+TEST_CASE("MultisectorWatercolumCalibration should be convertible to PackageCache", TESTTAG)
+{
+    using themachinethatgoesping::echosounders::filetemplates::datatypes::cache_structures::
+        PackageCache;
+
+    // initialize class structur
+    auto dat =
+        MultiSectorWaterColumnCalibration({ WaterColumnCalibration(), WaterColumnCalibration() });
+    ;
+
+    std::unordered_map<size_t, std::string> hash_cache;
+
+    PackageCache<MultiSectorWaterColumnCalibration<WaterColumnCalibration>> package_cache(
+        0, 0, std::make_unique<MultiSectorWaterColumnCalibration<WaterColumnCalibration>>(dat));
+
+    // test basic access
+    REQUIRE(dat == package_cache.get());
+
+    // test to/from binary
+    SECTION("PackageCache: to/from binary")
+    {
+        REQUIRE(package_cache ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
+        REQUIRE(dat ==
+                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
+    }
 }

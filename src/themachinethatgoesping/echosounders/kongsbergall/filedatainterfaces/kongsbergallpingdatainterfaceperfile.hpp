@@ -220,6 +220,11 @@ class KongsbergAllPingDataInterfacePerFile
                     ping_ptr->file_data().set_watercolumninformation(
                         file_cache_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
                             *ping_ptr));
+
+                    // initialize watercolumn calibration from the watercolumninformation
+                    // ping_ptr->file_data().init_watercolumn_calibration();
+                    file_cache_path_per_file_nr[file_nr]
+                        .add_watercoumncalibration_from_ping_or_cache(*ping_ptr);
                 }
 
                 // load system information (if RawRangeAndAngle is available)
@@ -297,6 +302,9 @@ class KongsbergAllPingDataInterfacePerFile
         using t_cache_WaterColumnInformation =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::WaterColumnInformation>;
+        using t_cache_WaterColumnCalibration =
+            filetemplates::datatypes::cache_structures::FilePackageCache<
+                filedatatypes::calibration::KongsbergAllMultiSectorWaterColumnCalibration>;
 
         bool                         _update_cache = false;
         std::string                  _cache_file_path;
@@ -306,6 +314,7 @@ class KongsbergAllPingDataInterfacePerFile
         // cache_structures
         t_cache_SystemInformation      _buffer_systeminformation;
         t_cache_WaterColumnInformation _buffer_watercolumninformation;
+        t_cache_WaterColumnCalibration _buffer_watercolumncalibration;
 
       public:
         KongsbergPingCacheHandler() = default;
@@ -327,7 +336,8 @@ class KongsbergAllPingDataInterfacePerFile
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<WaterColumnInformation>",
-                              "FilePackageCache<SystemInformation>" }));
+                              "FilePackageCache<SystemInformation>",
+                              "FilePackageCache<WaterColumnCalibration>" }));
 
             if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
                 _buffer_watercolumninformation =
@@ -337,9 +347,48 @@ class KongsbergAllPingDataInterfacePerFile
             if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
                 _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
                     "FilePackageCache<SystemInformation>");
+
+            if (_file_cache->has_cache("FilePackageCache<WaterColumnCalibration>"))
+                _buffer_watercolumncalibration =
+                    _file_cache->get_from_cache<t_cache_WaterColumnCalibration>(
+                        "FilePackageCache<WaterColumnCalibration>");
         }
 
         operator bool() const { return bool(_file_cache); }
+        template<typename t_ping>
+        void add_watercoumncalibration_from_ping_or_cache(t_ping& ping)
+        {
+            ping.file_data().init_watercolumn_calibration();
+            return;
+            if (!_file_cache)
+            {
+                ping.file_data().init_watercolumn_calibration();
+                return;
+            }
+
+            const auto& datagram_info =
+                ping.file_data()
+                    .get_datagram_infos(t_KongsbergAllDatagramIdentifier::WatercolumnDatagram)
+                    .at(0);
+
+            if (_buffer_watercolumncalibration.has_package(datagram_info->get_file_pos()))
+            {
+                ping.file_data().set_multisector_calibration(
+                    *_buffer_watercolumncalibration.get_package(datagram_info->get_file_pos(),
+                                                                datagram_info->get_timestamp()));
+                return;
+            }
+
+            _update_cache = true;
+            ping.file_data().init_watercolumn_calibration();
+
+            _buffer_watercolumncalibration.add_package(
+                datagram_info->get_file_pos(),
+                datagram_info->get_timestamp(),
+                std::make_unique<
+                    filedatatypes::calibration::KongsbergAllMultiSectorWaterColumnCalibration>(
+                    ping.file_data().get_multisector_calibration()));
+        }
 
         template<typename t_ping>
         std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
@@ -410,6 +459,8 @@ class KongsbergAllPingDataInterfacePerFile
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
                                           _buffer_systeminformation);
+                _file_cache->add_to_cache("FilePackageCache<WaterColumnCalibration>",
+                                          _buffer_watercolumncalibration);
                 _file_cache->update_file(_cache_file_path);
             }
         }

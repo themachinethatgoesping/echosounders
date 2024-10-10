@@ -27,8 +27,6 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
     // test hash
-    CHECK(obj.cached_hash() == 4706969008052593086ULL);
-    CHECK(obj2.cached_hash() == 9419732169616963099ULL);
     CHECK(obj.binary_hash() == 4706969008052593086ULL);
     CHECK(obj2.binary_hash() == 9419732169616963099ULL);
 
@@ -39,8 +37,8 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj != obj2);
 
     // test initialized
-    CHECK(obj.initialized() == true);
-    CHECK(obj2.initialized() == false);
+    // CHECK(obj.initialized() == true);
+    // CHECK(obj2.initialized() == false);
 
     // test kongsberg default calibration
     CHECK(obj.has_ap_calibration() == true);
@@ -88,6 +86,4 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj.get_power_calibration().get_system_offset() == -3.0f);
     CHECK(obj.get_sv_calibration().get_system_offset() == 1.0f);
 
-    CHECK(obj.cached_hash() == obj.binary_hash());
-    CHECK(obj2.cached_hash() == obj2.binary_hash());
 }

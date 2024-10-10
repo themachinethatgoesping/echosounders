@@ -310,7 +310,8 @@ class KongsbergAllPingWatercolumn
         return amplitudes;
     }
 
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& bs) override
+    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& bs,
+                                         [[maybe_unused]] int mp_cores = 1) override
     {
         // note: use float because we want to return NaN for missing data
         return get_raw_amplitudes<float>(bs) * 0.5f;
@@ -335,6 +336,36 @@ class KongsbergAllPingWatercolumn
         }
 
         return bottom_range_samples;
+    }
+
+    const filetemplates::datatypes::calibration::WaterColumnCalibration&
+    get_generic_watercolumn_calibration() const override
+    {
+        return _file_data->get_watercolumn_calibration();
+    }
+
+    // const filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
+    //     filetemplates::datatypes::calibration::WaterColumnCalibration::WaterColumnCalibration>&
+    // get_generic_multisectorwatercolumn_calibration() const override
+    // {
+    //     return _file_data->get_wcinfos().get_multisectorwatercolumn_calibration();
+    // }
+
+    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration() const
+    {
+        return _file_data->get_watercolumn_calibration();
+    }
+    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration(
+        size_t sector_nr) const
+    {
+        return _file_data->get_watercolumn_calibration(sector_nr);
+    }
+
+    const filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
+        calibration::KongsbergAllWaterColumnCalibration>&
+    get_multisectorwatercolumn_calibration() const
+    {
+        return _file_data->get_multisector_calibration();
     }
 
     // ----- objectprinter -----

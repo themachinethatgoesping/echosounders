@@ -39,34 +39,74 @@ void add_apply_calibration_functions(t_pyclass& c)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
+    c.def("apply_beam_sample_correction_power",
+          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::power,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_ap",
+          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::ap,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_av",
-          &MultiSectorWaterColumnCalibration<
-              t_calibration>::template apply_beam_sample_correction_av<xt::pytensor<t_float, 2>,
-                                                                       xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction_av),
+          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::av,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
-          py::arg("beam_numbers_per_tx_sector"));
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_sp",
+          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::sp,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_sv",
+          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::sv,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
 
-    c.def("apply_beam_sample_correction_av2",
-          &MultiSectorWaterColumnCalibration<
-              t_calibration>::template apply_beam_sample_correction_av2<xt::pytensor<t_float, 2>,
-                                                                        xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction_av2),
-          py::arg("wci"),
-          py::arg("beam_angles"),
-          py::arg("ranges"),
-          py::arg("beam_numbers_per_tx_sector"));
-    c.def("apply_beam_sample_correction_av3",
-          &MultiSectorWaterColumnCalibration<
-              t_calibration>::template apply_beam_sample_correction_av3<xt::pytensor<t_float, 2>,
-                                                                        xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction_av3),
-          py::arg("wci"),
-          py::arg("beam_angles"),
-          py::arg("ranges"),
-          py::arg("beam_numbers_per_tx_sector"));
+    c.def(
+        "inplace_beam_sample_correction_av",
+        &MultiSectorWaterColumnCalibration<t_calibration>::template inplace_beam_sample_correction<
+            t_calibration::t_calibration_type::av,
+            xt::pytensor<t_float, 2>,
+            xt::pytensor<t_float, 1>>,
+        DOC_MultiSectorWaterColumnCalibration(inplace_beam_sample_correction),
+        py::arg("wci"),
+        py::arg("beam_angles"),
+        py::arg("ranges"),
+        py::arg("beam_numbers_per_tx_sector"),
+        py::arg("mp_cores") = 1);
 }
 
 template<typename t_calibration>

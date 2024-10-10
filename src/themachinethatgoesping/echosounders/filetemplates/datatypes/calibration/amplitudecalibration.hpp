@@ -30,14 +30,11 @@ class AmplitudeCalibration
     // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle; implement in the future
     tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
 
-    uint64_t _hash;
-
   public:
-    AmplitudeCalibration() { compute_hash(); }
+    AmplitudeCalibration() { }
     AmplitudeCalibration(float system_offset)
         : _system_offset(system_offset)
     {
-        compute_hash();
     }
 
     // operator overloads
@@ -57,10 +54,6 @@ class AmplitudeCalibration
 
         return false;
     }
-    bool initialized() const
-    {
-        return _hash != 3244421341483603138ULL;
-    } // hash of default constructor
 
     template<tools::helper::c_xtensor_1d t_xtensor_1d>
     t_xtensor_1d get_per_beam_offsets(const t_xtensor_1d& beam_angles) const
@@ -184,14 +177,17 @@ class AmplitudeCalibration
     }
 
     template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
-    t_xtensor_2d inplace_beam_sample_correction([[maybe_unused]] t_xtensor_2d& wci,
-                                                const t_xtensor_1d&            beam_angles,
-                                                const t_xtensor_1d&            ranges,
-                                                int                            mp_cores = 1) const
+    void inplace_beam_sample_correction([[maybe_unused]] t_xtensor_2d& wci,
+                                        const t_xtensor_1d&            beam_angles,
+                                        const t_xtensor_1d&            ranges,
+                                        std::optional<size_t> min_beam_index = std::nullopt,
+                                        std::optional<size_t> max_beam_index = std::nullopt,
+                                        int                   mp_cores       = 1) const
     {
         using algorithms::amplitudecorrection::functions::inplace_beam_correction;
         using algorithms::amplitudecorrection::functions::inplace_beam_sample_correction;
         using algorithms::amplitudecorrection::functions::inplace_sample_correction;
+        using algorithms::amplitudecorrection::functions::inplace_system_offset;
 
         if (has_offset_per_beamangle())
         {
@@ -204,10 +200,15 @@ class AmplitudeCalibration
             {
                 t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
 
-                inplace_beam_sample_correction(wci, beam_correction, sample_correction, mp_cores);
+                inplace_beam_sample_correction(wci,
+                                               beam_correction,
+                                               sample_correction,
+                                               min_beam_index,
+                                               max_beam_index,
+                                               mp_cores);
                 return;
             }
-            inplace_beam_correction(wci, beam_correction, mp_cores);
+            inplace_beam_correction(wci, beam_correction, min_beam_index, max_beam_index, mp_cores);
             return;
         }
 
@@ -217,25 +218,16 @@ class AmplitudeCalibration
             if (has_system_offset())
                 sample_correction += get_system_offset();
 
-            inplace_sample_correction(wci, sample_correction, mp_cores);
+            inplace_sample_correction(
+                wci, sample_correction, min_beam_index, max_beam_index, mp_cores);
             return;
         }
 
         if (has_system_offset())
         {
-            if (mp_cores == 1)
-            {
-                wci = xt::eval(wci + get_system_offset());
-                return;
-            }
-
-            else
-            {
-#pragma omp parallel for num_threads(mp_cores)
-                for (unsigned int bi = 0; bi < wci.shape(0); ++bi)
-                    xt::row(wci, bi) = xt::eval(xt::row(wci, bi) + get_system_offset());
-                return;
-            }
+            inplace_system_offset(
+                wci, get_system_offset(), min_beam_index, max_beam_index, mp_cores);
+            return;
         }
         return;
     }
@@ -247,11 +239,11 @@ class AmplitudeCalibration
         const t_xtensor_1d&                                          ranges,
         typename tools::helper::xtensor_datatype<t_xtensor_1d>::type absorption_db_m,
         typename tools::helper::xtensor_datatype<t_xtensor_1d>::type tvg_factor,
-        int                                                          mp_cores = 1) const
+        std::optional<size_t>                                        min_beam_index = std::nullopt,
+        std::optional<size_t>                                        max_beam_index = std::nullopt,
+        int                                                          mp_cores       = 1) const
     {
         using algorithms::amplitudecorrection::functions::compute_cw_range_correction;
-        using algorithms::amplitudecorrection::functions::inplace_beam_correction;
-        using algorithms::amplitudecorrection::functions::inplace_beam_sample_correction;
         using algorithms::amplitudecorrection::functions::inplace_sample_correction;
 
         t_xtensor_1d range_varying_offset =
@@ -267,14 +259,20 @@ class AmplitudeCalibration
             if (has_system_offset())
                 beam_correction += get_system_offset();
 
-            inplace_beam_sample_correction(wci, beam_correction, range_varying_offset, mp_cores);
+            inplace_beam_sample_correction(wci,
+                                           beam_correction,
+                                           range_varying_offset,
+                                           min_beam_index,
+                                           max_beam_index,
+                                           mp_cores);
             return;
         }
 
         if (has_system_offset())
             range_varying_offset += get_system_offset();
 
-        inplace_sample_correction(wci, range_varying_offset, mp_cores);
+        inplace_sample_correction(
+            wci, range_varying_offset, min_beam_index, max_beam_index, mp_cores);
     }
 
     // getters / setters
@@ -282,20 +280,17 @@ class AmplitudeCalibration
     void  set_system_offset(float value)
     {
         _system_offset = value;
-        compute_hash();
     }
 
     void set_offset_per_beamangle(const std::vector<float>& beamangle,
                                   const std::vector<float>& offset)
     {
         _offset_per_beamangle.set_data_XY(beamangle, offset);
-        compute_hash();
     }
 
     void set_offset_per_range(const std::vector<float>& range, const std::vector<float>& offset)
     {
         _offset_per_range.set_data_XY(range, offset);
-        compute_hash();
     }
 
     // interpolator access
@@ -332,7 +327,6 @@ class AmplitudeCalibration
         calibration._offset_per_beamangle = calibration._offset_per_beamangle.from_stream(is);
         calibration._offset_per_range     = calibration._offset_per_range.from_stream(is);
 
-        calibration.compute_hash();
         return calibration;
     }
 
@@ -363,7 +357,6 @@ class AmplitudeCalibration
         return printer;
     }
 
-    uint64_t        cached_hash() const { return _hash; }
     xxh::hash_t<64> binary_hash() const
     {
         xxh::hash3_state_t<64>               hash;
@@ -390,16 +383,13 @@ class AmplitudeCalibration
         if (has_offset_per_range())
             _offset_per_range.to_stream(hash_stream);
     }
-
-  private:
-    void compute_hash() { _hash = binary_hash(); }
 };
 
 // boost hash
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
 inline std::size_t hash_value(const AmplitudeCalibration& arg)
 {
-    return arg.cached_hash();
+    return arg.binary_hash();
 }
 }
 }

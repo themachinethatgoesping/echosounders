@@ -26,8 +26,6 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     auto obj2 = WaterColumnCalibration(obj0, AmplitudeCalibration(), AmplitudeCalibration());
 
     // test hash
-    CHECK(obj.cached_hash() == 14166511957577999600ULL);
-    CHECK(obj2.cached_hash() == 4714633842598101940ULL);
     CHECK(obj.binary_hash() == 14166511957577999600ULL);
     CHECK(obj2.binary_hash() == 4714633842598101940ULL);
 
@@ -38,8 +36,8 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj != obj2);
 
     // test initialized
-    CHECK(obj.initialized() == false);
-    CHECK(obj2.initialized() == true);
+    // CHECK(obj.initialized() == false);
+    // CHECK(obj2.initialized() == true);
 
     // test getters/setters
     CHECK(obj2.has_power_calibration() == true);
@@ -78,7 +76,4 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj2.get_power_calibration().get_system_offset() == 1.0f);
     CHECK(obj2.get_sp_calibration().get_system_offset() == 1.0f);
     CHECK(obj2.get_sv_calibration().get_system_offset() == 1.0f);
-
-    CHECK(obj2.cached_hash() == obj2.binary_hash());
-    CHECK(obj.cached_hash() == obj.binary_hash());
 }

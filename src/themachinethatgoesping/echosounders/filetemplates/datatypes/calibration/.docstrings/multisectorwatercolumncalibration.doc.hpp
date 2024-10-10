@@ -1,4 +1,4 @@
-//sourcehash: eb52ec63734d434ca2b25b8a9c6a2229235e8b5e4003b16a217f01595e5fab54
+//sourcehash: 029e988bb2a93b2dcab7916108eda69fd4e370d3a8bc48217ee8e2abf43ae390
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,11 +48,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_add_hash = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction_av3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_apply_beam_sample_correction = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_at = R"doc()doc";
 
@@ -75,6 +71,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_initialized = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_inplace_beam_sample_correction = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_MultiSectorWaterColumnCalibration_operator_eq = R"doc()doc";
 

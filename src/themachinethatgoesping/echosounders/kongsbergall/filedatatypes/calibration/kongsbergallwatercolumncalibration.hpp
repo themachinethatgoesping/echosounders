@@ -14,6 +14,7 @@
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/vectorinterpolators.hpp>
 
+#include "../../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
 #include "../../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
 
 namespace themachinethatgoesping {
@@ -55,13 +56,11 @@ class KongsbergAllWaterColumnCalibration
     KongsbergAllWaterColumnCalibration()
         : t_base()
     {
-        compute_hash();
     }
 
     KongsbergAllWaterColumnCalibration(const t_base& other)
         : t_base(other)
     {
-        compute_hash();
     }
 
     KongsbergAllWaterColumnCalibration(float sound_velocity,
@@ -75,20 +74,20 @@ class KongsbergAllWaterColumnCalibration
         , _system_gain_offset(system_gain_offset)
     {
         setup_kongsberg_em_calibrations();
-        compute_hash();
     }
 
     // ----- setup calibration for kongsberg em systems ----
     void setup_kongsberg_em_calibrations()
     {
         // power is the raw amplitude data substracted by the system gain offset
-        _power_calibration = AmplitudeCalibration(-_system_gain_offset);
+        _power_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
 
         // ap calibration is the same as power, however absorption and tvg 40 will be applied
-        _ap_calibration = AmplitudeCalibration(-_system_gain_offset);
+        _ap_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
 
         float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
-        _av_calibration = AmplitudeCalibration(-10 * std::log10(av_factor) - _system_gain_offset);
+        _av_calibration = std::make_unique<AmplitudeCalibration>(-10 * std::log10(av_factor) -
+                                                                 _system_gain_offset);
     }
 
     // operator overloads
@@ -116,8 +115,6 @@ class KongsbergAllWaterColumnCalibration
 
         is.read(reinterpret_cast<char*>(&calibration._sound_velocity), sizeof(float) * 3);
 
-        calibration.compute_hash();
-
         return calibration;
     }
 
@@ -129,10 +126,11 @@ class KongsbergAllWaterColumnCalibration
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("KongsbergAllWaterColumnCalibration",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "KongsbergAllWaterColumnCalibration", float_precision, superscript_exponents);
 
         printer.register_section("Kongsberg EM calibration");
         printer.register_value("Sound velocity", _sound_velocity, "m/s");
@@ -145,7 +143,6 @@ class KongsbergAllWaterColumnCalibration
         return printer;
     }
 
-    uint64_t        cached_hash() const { return _hash; }
     xxh::hash_t<64> binary_hash() const override
     {
 
@@ -163,17 +160,19 @@ class KongsbergAllWaterColumnCalibration
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(KongsbergAllWaterColumnCalibration)
-
-  private:
-    void compute_hash() { _hash = binary_hash(); }
 };
 
 // boost hash
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
 inline std::size_t hash_value(const KongsbergAllWaterColumnCalibration& arg)
 {
-    return arg.cached_hash();
+    return arg.binary_hash();
 }
+
+using KongsbergAllMultiSectorWaterColumnCalibration =
+    filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
+        KongsbergAllWaterColumnCalibration>;
+
 }
 }
 }

@@ -85,6 +85,19 @@ void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::strin
                      &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<float>),
                  DOC_KongsbergAllPing(get_raw_amplitudes),
                  py::arg("beam_selection"))
+
+            .def("get_watercolumn_calibration",
+                 py::overload_cast<size_t>(
+                     &t_KongsbergAllPingWatercolumn::get_watercolumn_calibration, py::const_),
+                 DOC_KongsbergAllPing(get_watercolumn_calibration),
+                 py::arg("tx_sector"))
+            .def("get_watercolumn_calibration",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_watercolumn_calibration,
+                                     py::const_),
+                 DOC_KongsbergAllPing(get_watercolumn_calibration_2))
+            .def("get_multisectorwatercolumn_calibration",
+                 &t_KongsbergAllPingWatercolumn::get_multisectorwatercolumn_calibration,
+                 DOC_KongsbergAllPing(get_multisectorwatercolumn_calibration))
         // ----- operators -----
         // .def("__eq__",
         //      &KongsbergAllPingWatercolumn::operator==,

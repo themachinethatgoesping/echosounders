@@ -98,10 +98,12 @@ class KongsbergAllPingFileData
             std::make_unique<boost::flyweight<t_calibration>>(std::move(calibrations));
     }
     bool has_watercolumn_calibration() const { return bool(_multisector_calibration); }
-    const t_calibration& get_multisector_calibration()
+    const t_calibration& get_multisector_calibration() const
     {
         if (!_multisector_calibration)
-            init_watercolumn_calibration();
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: "
+                "Calibration not initialized!");
 
         return _multisector_calibration->get();
     }
@@ -125,10 +127,12 @@ class KongsbergAllPingFileData
     }
 
     const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration(
-        size_t tx_sector)
+        size_t tx_sector) const
     {
         if (!_multisector_calibration)
-            init_watercolumn_calibration();
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: "
+                "Calibration not initialized!");
 
         if (get_multisector_calibration().size() <= tx_sector)
             throw std::runtime_error(fmt::format(
@@ -139,26 +143,19 @@ class KongsbergAllPingFileData
         return get_multisector_calibration().at(tx_sector);
     }
 
-    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration()
+    const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration() const
     {
         if (!_multisector_calibration)
-            init_watercolumn_calibration();
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: "
+                "Calibration not initialized!");
 
-        if (get_sysinfos().get_tx_signal_parameters().size() != 1)
+        if (get_multisector_calibration().size() != 1)
             throw std::runtime_error("Error[KongsbergAllPingFileData::get_watercolumn_"
                                      "calibration]: Multiple transmit "
                                      "sectors available, but no sector specified!");
 
         return get_watercolumn_calibration(0);
-    }
-
-    const std::vector<calibration::KongsbergAllWaterColumnCalibration>&
-    get_watercolumn_calibrations()
-    {
-        if (!_multisector_calibration)
-            init_watercolumn_calibration();
-
-        return get_multisector_calibration().get_calibrations();
     }
 
     void set_watercolumn_calibration(

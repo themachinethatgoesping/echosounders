@@ -1,4 +1,4 @@
-//sourcehash: 68442b55aa0043c0ffbfc8596afe2daa03d22a877889e89a7f25d7d5d23acf21
+//sourcehash: a346c0eac002caf15fdbe47a35933264a3f6dd769098620c3e1846997b96e939
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,8 +72,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_watercolumn_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_watercolumn_calibration_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_watercolumn_calibrations = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_wcinfos = R"doc()doc";
 

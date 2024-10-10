@@ -50,6 +50,7 @@
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
+#include "calibration/multisectorwatercolumncalibration.hpp"
 #include "calibration/watercolumncalibration.hpp"
 
 namespace themachinethatgoesping {
@@ -144,20 +145,28 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_tx_sector_information() const { return false; }
 
-    virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
-    virtual void set_watercolumn_calibration(
-        [[maybe_unused]] boost::flyweight<calibration::WaterColumnCalibration> calibration)
+    virtual const calibration::WaterColumnCalibration& get_generic_watercolumn_calibration() const
     {
         throw not_implemented(__func__, this->class_name());
     }
 
-    void set_watercolumn_calibration(const calibration::WaterColumnCalibration& calibration)
+    const calibration::WaterColumnCalibration& get_generic_watercolumn_calibration(
+        size_t sector_nr) const
     {
-        set_watercolumn_calibration(
-            boost::flyweight<calibration::WaterColumnCalibration>(calibration));
+        if (get_generic_multisectorwatercolumn_calibration().size() <= sector_nr)
+            throw std::runtime_error(fmt::format("Error[{}]: Sector {} out of "
+                                                 "range",
+                                                 __func__,
+                                                 sector_nr));
+
+        return get_generic_multisectorwatercolumn_calibration().at(sector_nr);
+    }
+
+    virtual const calibration::MultiSectorWaterColumnCalibration<
+        calibration::WaterColumnCalibration>&
+    get_generic_multisectorwatercolumn_calibration() const
+    {
+        throw not_implemented(__func__, this->class_name());
     }
 
     // --- water column sampling infos ---
@@ -326,9 +335,9 @@ class I_PingWatercolumn : public I_PingCommon
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_amplitudes()
+    xt::xtensor<float, 2> get_amplitudes(int mp_cores = 1)
     {
-        return get_amplitudes(get_beam_sample_selection_all());
+        return get_amplitudes(get_beam_sample_selection_all(), mp_cores);
     }
 
     /**
@@ -336,34 +345,49 @@ class I_PingWatercolumn : public I_PingCommon
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_ap() { return get_ap(get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_ap(int mp_cores = 1)
+    {
+        return get_ap(get_beam_sample_selection_all(), mp_cores);
+    }
 
     /**
      * @brief Get the amplitude data converted to AV (uncalibrated volume scattering)
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_av() { return get_av(get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_av(int mp_cores = 1)
+    {
+        return get_av(get_beam_sample_selection_all(), mp_cores);
+    }
 
     /**
      * @brief Get the amplitude data converted to power
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_power() { return get_power(get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_power(int mp_cores = 1)
+    {
+        return get_power(get_beam_sample_selection_all(), mp_cores);
+    }
 
     /**
      * @brief Get the amplitude data converted to SP (calibrated point scattering)
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_sp() { return get_sp(get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_sp(int mp_cores = 1)
+    {
+        return get_sp(get_beam_sample_selection_all(), mp_cores);
+    }
 
     /**
      * @brief Get the amplitude data converted to SV (calibrated volume scattering)
      *
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_sv() { return get_sv(get_beam_sample_selection_all()); }
+    xt::xtensor<float, 2> get_sv(int mp_cores = 1)
+    {
+        return get_sv(get_beam_sample_selection_all(), mp_cores);
+    }
 
     /**
      * @brief Get tha raw water amplitude data converted to float(32bit)
@@ -372,7 +396,8 @@ class I_PingWatercolumn : public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_amplitudes(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        [[maybe_unused]] int                                   mp_cores = 1)
     {
         throw not_implemented(__func__, this->class_name());
     }
@@ -383,12 +408,10 @@ class I_PingWatercolumn : public I_PingCommon
      * @param selection Selection of Beams and Samples to extract
      * @return xt::xtensor<float,2>
      */
-    xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection, int mp_cores = 1)
     {
-        return get_watercolumn_calibration().apply_beam_sample_correction_ap(
-            get_amplitudes(selection),
-            get_beam_crosstrack_angles(selection),
-            get_approximate_ranges(selection));
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::ap>(selection, mp_cores);
     }
 
     /**
@@ -398,12 +421,11 @@ class I_PingWatercolumn : public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_av(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
     {
-        return get_watercolumn_calibration().apply_beam_sample_correction_av(
-            get_amplitudes(selection),
-            get_beam_crosstrack_angles(selection),
-            get_approximate_ranges(selection));
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::av>(selection, mp_cores);
     }
 
     /**
@@ -413,12 +435,11 @@ class I_PingWatercolumn : public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_power(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
     {
-        return get_watercolumn_calibration().apply_beam_sample_correction_power(
-            get_amplitudes(selection),
-            get_beam_crosstrack_angles(selection),
-            get_approximate_ranges(selection));
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::power>(selection, mp_cores);
     }
 
     /**
@@ -428,12 +449,11 @@ class I_PingWatercolumn : public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_sp(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
     {
-        return get_watercolumn_calibration().apply_beam_sample_correction_sp(
-            get_amplitudes(selection),
-            get_beam_crosstrack_angles(selection),
-            get_approximate_ranges(selection));
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::sp>(selection, mp_cores);
     }
 
     /**
@@ -443,12 +463,76 @@ class I_PingWatercolumn : public I_PingCommon
      * @return xt::xtensor<float,2>
      */
     virtual xt::xtensor<float, 2> get_sv(
-        [[maybe_unused]] const pingtools::BeamSampleSelection& selection)
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
     {
-        return get_watercolumn_calibration().apply_beam_sample_correction_sv(
-            get_amplitudes(selection),
-            get_beam_crosstrack_angles(selection),
-            get_approximate_ranges(selection));
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::sv>(selection, mp_cores);
+    }
+
+    int  _test_mode = 0;
+    void set_test_mode(int test_test_mode) { this->_test_mode = test_test_mode; }
+    int  get_test_mode() { return this->_test_mode; }
+
+    /**
+     * @brief Get the amplitude data converted to AP (uncalibrated point scattering)
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    template<calibration::WaterColumnCalibration::t_calibration_type calibration_type>
+    xt::xtensor<float, 2> get_calibrated_wci(const pingtools::BeamSampleSelection& selection,
+                                             int                                   mp_cores = 1)
+    {
+        if (this->get_number_of_tx_sectors() == 1)
+            return get_generic_watercolumn_calibration()
+                .template apply_beam_sample_correction<calibration_type>(
+                    get_amplitudes(selection),
+                    get_beam_crosstrack_angles(selection),
+                    get_approximate_ranges(selection));
+
+        switch (_test_mode)
+        {
+            case 0:
+                return get_generic_multisectorwatercolumn_calibration()
+                    .template apply_beam_sample_correction<calibration_type>(
+                        get_amplitudes(selection),
+                        get_beam_crosstrack_angles(selection),
+                        get_approximate_ranges(selection),
+                        get_beam_numbers_per_tx_sector(selection),
+                        mp_cores);
+            case 1: {
+                auto amp = get_amplitudes(selection);
+                get_generic_multisectorwatercolumn_calibration()
+                    .template inplace_beam_sample_correction<calibration_type>(
+                        amp,
+                        get_beam_crosstrack_angles(selection),
+                        get_approximate_ranges(selection),
+                        get_beam_numbers_per_tx_sector(selection),
+                        mp_cores);
+                return amp;
+            }
+            case 2:
+                return get_generic_watercolumn_calibration(0)
+                    .template apply_beam_sample_correction<calibration_type>(
+                        get_amplitudes(selection),
+                        get_beam_crosstrack_angles(selection),
+                        get_approximate_ranges(selection),
+                        mp_cores);
+            case 3: {
+                auto amp = get_amplitudes(selection);
+                get_generic_watercolumn_calibration(0)
+                    .template inplace_beam_sample_correction<calibration_type>(
+                        amp,
+                        get_beam_crosstrack_angles(selection),
+                        get_approximate_ranges(selection),
+                        mp_cores);
+                return amp;
+            }
+            default:
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]: Invalid _test_mode: {}", __func__, _test_mode));
+        }
     }
 
     /**
@@ -489,7 +573,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_ap() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
+        return has_amplitudes() && get_generic_watercolumn_calibration().has_ap_calibration();
     }
 
     /**
@@ -500,7 +584,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_av() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
+        return has_amplitudes() && get_generic_watercolumn_calibration().has_av_calibration();
     }
 
     /**
@@ -511,7 +595,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_power() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
+        return has_amplitudes() && get_generic_watercolumn_calibration().has_power_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -521,7 +605,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sp() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
+        return has_amplitudes() && get_generic_watercolumn_calibration().has_sp_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -531,7 +615,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sv() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
+        return has_amplitudes() && get_generic_watercolumn_calibration().has_sv_calibration();
     }
 
     /**
@@ -540,17 +624,15 @@ class I_PingWatercolumn : public I_PingCommon
      * @return true
      * @return false
      */
-    bool has_watercolumn_calibration() const
-    {
-        try
-        {
-            return get_watercolumn_calibration().initialized();
-        }
-        catch (...)
-        {
-            return false;
-        }
-    }
+    virtual bool has_watercolumn_calibration() const { return false; }
+
+    /**
+     * @brief Check this pings has valid power calibration data
+     *
+     * @return true
+     * @return false
+     */
+    virtual bool has_multisectorwatercolumn_calibration() const { return false; }
 
     /**
      * @brief Check this pings supports bottom range samples
@@ -586,7 +668,6 @@ class I_PingWatercolumn : public I_PingCommon
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
-
 }
 } // namespace filetemplates
 } // namespace echosounders

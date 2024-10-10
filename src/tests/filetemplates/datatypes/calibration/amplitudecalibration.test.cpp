@@ -24,8 +24,6 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     auto obj2 = AmplitudeCalibration(1.0f);
 
     // test hash
-    CHECK(obj.cached_hash() == 3244421341483603138ULL);
-    CHECK(obj2.cached_hash() == 17904910546364380078ULL);
     CHECK(obj.binary_hash() == 3244421341483603138ULL);
     CHECK(obj2.binary_hash() == 17904910546364380078ULL);
 
@@ -36,8 +34,8 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     CHECK(obj != obj2);
 
     // test initialized
-    CHECK(obj.initialized() == false);
-    CHECK(obj2.initialized() == true);
+    // CHECK(obj.initialized() == false);
+    // CHECK(obj2.initialized() == true);
 
     // test copy
     {

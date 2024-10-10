@@ -79,7 +79,10 @@ class SimradRawPingWatercolumn
         const pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
-        return { { 0 } };
+        std::vector<std::vector<size_t>> beam_numbers_per_tx_sector(1);
+        // beam_numbers_per_tx_sector[0].resize(1);
+        // beam_numbers_per_tx_sector[0][0] = 0;
+        return beam_numbers_per_tx_sector;
     }
 
     // ----- I_PingWaterColumn interface -----
@@ -154,7 +157,8 @@ class SimradRawPingWatercolumn
 
     bool has_bottom_range_samples() const override { return false; }
 
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection) override
+    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection,
+                                         [[maybe_unused]] int mp_cores = 1) override
     {
         this->beam_selection_must_be_one(__func__, selection);
 
@@ -234,9 +238,10 @@ class SimradRawPingWatercolumn
         return get_av_eigen(this->get_beam_sample_selection_all());
     }
 
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs) override
+    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs,
+                                 int                                   mp_cores = 1) override
     {
-        xt::xtensor<float, 2> av = get_amplitudes(bs);
+        xt::xtensor<float, 2> av = get_amplitudes(bs, mp_cores);
 
         // get information
         float sound_velocity = get_sound_speed_at_transducer();

@@ -39,45 +39,55 @@ void add_apply_calibration_functions(t_pyclass& c)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     c.def("apply_beam_sample_correction_power",
-          &WaterColumnCalibration::template apply_beam_sample_correction_power<
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::power,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction_power),
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
-          py::arg("ranges"));
-    c.def(
-        "apply_beam_sample_correction_ap",
-        &WaterColumnCalibration::template apply_beam_sample_correction_ap<xt::pytensor<t_float, 2>,
-                                                                          xt::pytensor<t_float, 1>>,
-        DOC_WaterColumnCalibration(apply_beam_sample_correction_ap),
-        py::arg("wci"),
-        py::arg("beam_angles"),
-        py::arg("ranges"));
-    c.def(
-        "apply_beam_sample_correction_av",
-        &WaterColumnCalibration::template apply_beam_sample_correction_av<xt::pytensor<t_float, 2>,
-                                                                          xt::pytensor<t_float, 1>>,
-        DOC_WaterColumnCalibration(apply_beam_sample_correction_av),
-        py::arg("wci"),
-        py::arg("beam_angles"),
-        py::arg("ranges"));
-    c.def(
-        "apply_beam_sample_correction_sv",
-        &WaterColumnCalibration::template apply_beam_sample_correction_sv<xt::pytensor<t_float, 2>,
-                                                                          xt::pytensor<t_float, 1>>,
-        DOC_WaterColumnCalibration(apply_beam_sample_correction_sv),
-        py::arg("wci"),
-        py::arg("beam_angles"),
-        py::arg("ranges"));
-    c.def(
-        "apply_beam_sample_correction_sp",
-        &WaterColumnCalibration::template apply_beam_sample_correction_sp<xt::pytensor<t_float, 2>,
-                                                                          xt::pytensor<t_float, 1>>,
-        DOC_WaterColumnCalibration(apply_beam_sample_correction_sp),
-        py::arg("wci"),
-        py::arg("beam_angles"),
-        py::arg("ranges"));
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_ap",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::ap,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_av",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::av,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_sv",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::sv,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_sp",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::sp,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
 }
 
 void init_c_watercolumncalibration(pybind11::module& m)
@@ -168,10 +178,6 @@ void init_c_watercolumncalibration(pybind11::module& m)
                       DOC_WaterColumnCalibration(set_sv_calibration),
                       py::arg("calibration"))
 
-                 .def("initialized",
-                      &WaterColumnCalibration::initialized,
-                      DOC_WaterColumnCalibration(initialized))
-
                  // ----- operators -----
                  .def("__eq__",
                       &WaterColumnCalibration::operator==,
@@ -190,12 +196,9 @@ void init_c_watercolumncalibration(pybind11::module& m)
     add_apply_calibration_functions<float>(c);
     add_apply_calibration_functions<double>(c);
 
-    c.def("cached_hash",
-          &WaterColumnCalibration::cached_hash,
-          DOC_WaterColumnCalibration(cached_hash));
-    c.def("hash", &WaterColumnCalibration::cached_hash, DOC_WaterColumnCalibration(cached_hash));
+    c.def("hash", &WaterColumnCalibration::binary_hash, DOC_WaterColumnCalibration(binary_hash));
     c.def(
-        "__hash__", &WaterColumnCalibration::cached_hash, DOC_WaterColumnCalibration(cached_hash));
+        "__hash__", &WaterColumnCalibration::binary_hash, DOC_WaterColumnCalibration(binary_hash));
 }
 }
 }

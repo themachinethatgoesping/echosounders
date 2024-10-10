@@ -1,4 +1,4 @@
-//sourcehash: 1d2707c2413fbf5bc6502759472938d7c000d740723124764ac4da6d19573c20
+//sourcehash: 022b5fe33ea2ebb972c3a3b40ef65969544d4fa1c4e6992aef180da4533f541a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -163,7 +163,22 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<uint32_t, 1>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_calibrated_wci =
+R"doc(Get the amplitude data converted to AP (uncalibrated point scattering)
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_generic_multisectorwatercolumn_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_generic_watercolumn_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_generic_watercolumn_calibration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_beams =
 R"doc(Get the number of beams for this ping
@@ -237,6 +252,8 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<float,2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_test_mode = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam_2 = R"doc()doc";
@@ -247,8 +264,6 @@ R"doc(Get the transmission signal parameters per sector.
 Returns:
     const std::vector<algorithms::signalprocessing::datastructures::Tx
     SignalParameters>&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
 R"doc(Check this pings supports AMPLITUDES data
@@ -288,6 +303,15 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_bottom_range_samples =
 R"doc(Check this pings supports bottom range samples
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_multisectorwatercolumn_calibration =
+R"doc(Check this pings has valid power calibration data
 
 Returns:
     true
@@ -341,9 +365,9 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_secondary_feature_functions = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_set_watercolumn_calibration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_set_test_mode = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_set_watercolumn_calibration_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_test_mode = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

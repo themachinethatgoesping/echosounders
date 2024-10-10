@@ -1,4 +1,4 @@
-//sourcehash: 0d082370b6397bc83778aa43cf63dae44864b7f7b7828579dddb0c3145913450
+//sourcehash: 3f373ab8b72473fba7c3f8a0e7c1b015615a49dda8f069beb3f8df0fabbfeef4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,8 +52,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_binary_hash = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_cached_hash = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_interpolator_offset_per_beamangle = R"doc()doc";
@@ -79,10 +77,6 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_offset_per_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_system_offset = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_hash = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_inplace_beam_sample_correction = R"doc()doc";
 
