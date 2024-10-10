@@ -31,7 +31,7 @@ class AmplitudeCalibration
     tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
 
   public:
-    AmplitudeCalibration() { }
+    AmplitudeCalibration() {}
     AmplitudeCalibration(float system_offset)
         : _system_offset(system_offset)
     {
@@ -277,10 +277,7 @@ class AmplitudeCalibration
 
     // getters / setters
     float get_system_offset() const { return _system_offset; }
-    void  set_system_offset(float value)
-    {
-        _system_offset = value;
-    }
+    void  set_system_offset(float value) { _system_offset = value; }
 
     void set_offset_per_beamangle(const std::vector<float>& beamangle,
                                   const std::vector<float>& offset)

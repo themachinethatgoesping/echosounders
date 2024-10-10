@@ -31,15 +31,12 @@ class MultiSectorWaterColumnCalibration
   protected:
     std::vector<t_calibration> _calibration_per_sector;
 
-    uint64_t _hash;
-
   public:
-    MultiSectorWaterColumnCalibration() { compute_hash(); }
+    MultiSectorWaterColumnCalibration() {}
 
     MultiSectorWaterColumnCalibration(std::vector<t_calibration> calibration_per_sector)
         : _calibration_per_sector(std::move(calibration_per_sector))
     {
-        compute_hash();
     }
 
     template<t_calibration::t_calibration_type calibration_type,
@@ -181,8 +178,6 @@ class MultiSectorWaterColumnCalibration
             calibration._calibration_per_sector[i] = t_calibration::from_stream(is);
         }
 
-        is.read(reinterpret_cast<char*>(&calibration._hash), sizeof(calibration._hash));
-
         return calibration;
     }
 
@@ -194,8 +189,6 @@ class MultiSectorWaterColumnCalibration
         {
             calibration.to_stream(os);
         }
-
-        os.write(reinterpret_cast<const char*>(&_hash), sizeof(_hash));
     }
 
     // ----- objectprinter -----
@@ -218,7 +211,6 @@ class MultiSectorWaterColumnCalibration
         }
     }
 
-    uint64_t                cached_hash() const { return _hash; }
     virtual xxh::hash_t<64> binary_hash() const
     {
 
@@ -235,9 +227,6 @@ class MultiSectorWaterColumnCalibration
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(MultiSectorWaterColumnCalibration)
 
-  private:
-    void compute_hash() { _hash = binary_hash(); }
-
   public:
     // ----- functions used for PackageCache -----
     static auto from_stream(std::istream&                                  is,
@@ -252,11 +241,12 @@ class MultiSectorWaterColumnCalibration
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
     {
         auto cache = this->to_binary();
+        auto hash  = binary_hash();
 
-        if (!hash_cache.contains(_hash))
-            hash_cache[_hash] = std::move(cache);
+        if (!hash_cache.contains(hash))
+            hash_cache[hash] = std::move(cache);
 
-        os.write(reinterpret_cast<const char*>(&_hash), sizeof(_hash));
+        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
     }
 };
 
@@ -265,7 +255,7 @@ class MultiSectorWaterColumnCalibration
 template<typename t_calibration = WaterColumnCalibration>
 inline std::size_t hash_value(const MultiSectorWaterColumnCalibration<t_calibration>& arg)
 {
-    return arg.cached_hash();
+    return arg.binary_hash();
 }
 }
 }

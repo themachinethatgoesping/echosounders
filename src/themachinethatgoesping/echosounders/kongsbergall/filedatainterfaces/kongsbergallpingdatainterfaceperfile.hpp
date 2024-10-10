@@ -220,6 +220,9 @@ class KongsbergAllPingDataInterfacePerFile
                     ping_ptr->file_data().set_watercolumninformation(
                         file_cache_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
                             *ping_ptr));
+
+                    // load water column calibration
+                    ping_ptr->file_data().init_watercolumn_calibration();
                 }
 
                 // load system information (if RawRangeAndAngle is available)

@@ -1,4 +1,4 @@
-//sourcehash: 12a1686df57c83ae9c76ff98af48b56e41f47f26a71c0052948c79e29e728482
+//sourcehash: 9ae702e814ab8cebfdbc9d29f175a8fd9bcbbe9b859120497fa80978b932d8da
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,11 +50,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_KongsbergPingCacheHandler_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_add_watercoumncalibration_from_ping_or_cache = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_systeminformation = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_watercolumncalibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_buffer_watercolumninformation = R"doc()doc";
 

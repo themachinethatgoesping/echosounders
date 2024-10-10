@@ -25,8 +25,6 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
         MultiSectorWaterColumnCalibration({ WaterColumnCalibration(), WaterColumnCalibration() });
 
     // test hash
-    CHECK(obj.cached_hash() == 3244421341483603138ULL);
-    CHECK(obj2.cached_hash() == 8376124999220038186ULL);
     CHECK(obj.binary_hash() == 3244421341483603138ULL);
     CHECK(obj2.binary_hash() == 8376124999220038186ULL);
 
@@ -63,8 +61,6 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
 
-    CHECK(obj2.cached_hash() == obj2.binary_hash());
-    CHECK(obj.cached_hash() == obj.binary_hash());
 }
 
 TEST_CASE("MultisectorWatercolumCalibration should be convertible to PackageCache", TESTTAG)

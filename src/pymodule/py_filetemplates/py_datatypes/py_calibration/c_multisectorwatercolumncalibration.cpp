@@ -169,15 +169,12 @@ void init_multisectorwatercolumncalibration(pybind11::module& m, const std::stri
     add_apply_calibration_functions<t_calibration, float>(c);
     add_apply_calibration_functions<t_calibration, double>(c);
 
-    c.def("cached_hash",
-          &MultiSectorWaterColumnCalibration<t_calibration>::cached_hash,
-          DOC_MultiSectorWaterColumnCalibration(cached_hash));
     c.def("hash",
-          &MultiSectorWaterColumnCalibration<t_calibration>::cached_hash,
-          DOC_MultiSectorWaterColumnCalibration(cached_hash));
+          &MultiSectorWaterColumnCalibration<t_calibration>::binary_hash,
+          DOC_MultiSectorWaterColumnCalibration(binary_hash));
     c.def("__hash__",
-          &MultiSectorWaterColumnCalibration<t_calibration>::cached_hash,
-          DOC_MultiSectorWaterColumnCalibration(cached_hash));
+          &MultiSectorWaterColumnCalibration<t_calibration>::binary_hash,
+          DOC_MultiSectorWaterColumnCalibration(binary_hash));
 }
 
 void init_c_multisectorwatercolumncalibration(pybind11::module& m)

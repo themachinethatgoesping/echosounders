@@ -87,6 +87,8 @@ class WaterColumnCalibration
             _sv_calibration = std::make_unique<AmplitudeCalibration>(*other._sv_calibration);
     }
 
+    
+
     // operator overloads
 
     float get_absorption_to_apply() const
