@@ -56,12 +56,10 @@ class KongsbergAllPingFileData
     using t_base1 = filetemplates::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>;
 
-    using t_calibration = filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
-        calibration::KongsbergAllWaterColumnCalibration>;
-
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
-    std::unique_ptr<boost::flyweight<t_calibration>>                _multisector_calibration;
+    std::unique_ptr<boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>
+        _multisector_calibration;
 
   private:
     std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
@@ -94,11 +92,13 @@ class KongsbergAllPingFileData
                 tvg_factor));
         }
 
-        _multisector_calibration =
-            std::make_unique<boost::flyweight<t_calibration>>(std::move(calibrations));
+        _multisector_calibration = std::make_unique<
+            boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+            std::move(calibrations));
     }
     bool has_watercolumn_calibration() const { return bool(_multisector_calibration); }
-    const t_calibration& get_multisector_calibration() const
+    const calibration::KongsbergAllMultiSectorWaterColumnCalibration& get_multisector_calibration()
+        const
     {
         if (!_multisector_calibration)
             throw std::runtime_error(
@@ -111,19 +111,21 @@ class KongsbergAllPingFileData
     /**
      * @brief Set the watercolumn calibration. This must be a list of length equal to the number of
      * transmit sectors.
-     * @tparam t_calibration can be either KongsbergAllWaterColumnCalibration or BoostFlyweight<
+     * @tparam calibration::KongsbergAllMultiSectorWaterColumnCalibration can be either
+     * KongsbergAllWaterColumnCalibration or BoostFlyweight<
      * @param calibration
      */
     template<typename t_calibration_>
     void set_multisector_calibration(const t_calibration_& multisector_calibration)
     {
-        if (multisector_calibration.size() != get_sysinfos().get_tx_signal_parameters().size())
+        if (multisector_calibration.get_number_of_sectors() != get_sysinfos().get_tx_signal_parameters().size())
             throw std::runtime_error(
                 "Error[KongsbergAllPingFileData::set_watercolumn_calibration]: Calibration size "
                 "does not match number of transmit sectors!");
 
-        _multisector_calibration =
-            std::make_unique<boost::flyweight<t_calibration>>(multisector_calibration);
+        _multisector_calibration = std::make_unique<
+            boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+            multisector_calibration);
     }
 
     const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration(
@@ -134,13 +136,13 @@ class KongsbergAllPingFileData
                 "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: "
                 "Calibration not initialized!");
 
-        if (get_multisector_calibration().size() <= tx_sector)
+        if (get_multisector_calibration().get_number_of_sectors() <= tx_sector)
             throw std::runtime_error(fmt::format(
                 "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: Sector {} out of "
                 "range",
                 tx_sector));
 
-        return get_multisector_calibration().at(tx_sector);
+        return get_multisector_calibration().calibration_for_sector(tx_sector);
     }
 
     const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration() const
@@ -150,7 +152,7 @@ class KongsbergAllPingFileData
                 "Error[KongsbergAllPingFileData::get_watercolumn_calibration]: "
                 "Calibration not initialized!");
 
-        if (get_multisector_calibration().size() != 1)
+        if (get_multisector_calibration().get_number_of_sectors() != 1)
             throw std::runtime_error("Error[KongsbergAllPingFileData::get_watercolumn_"
                                      "calibration]: Multiple transmit "
                                      "sectors available, but no sector specified!");
@@ -166,8 +168,9 @@ class KongsbergAllPingFileData
                                      "calibration]: Multiple transmit "
                                      "sectors available, but only one supplied!");
 
-        _multisector_calibration =
-            std::make_unique<boost::flyweight<t_calibration>>(t_calibration({ calibration }));
+        _multisector_calibration = std::make_unique<
+            boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+            calibration::KongsbergAllMultiSectorWaterColumnCalibration({ calibration }));
     }
     void set_watercolumn_calibration(
         const std::vector<calibration::KongsbergAllWaterColumnCalibration>& calibrations)
@@ -179,7 +182,9 @@ class KongsbergAllPingFileData
                 calibrations.size(),
                 get_sysinfos().get_tx_signal_parameters().size()));
 
-        _multisector_calibration = std::make_unique<boost::flyweight<t_calibration>>(calibrations);
+        _multisector_calibration = std::make_unique<
+            boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+            calibrations);
     }
 
     void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
@@ -323,7 +328,9 @@ class KongsbergAllPingFileData
                 : nullptr;
         _multisector_calibration =
             other._multisector_calibration
-                ? std::make_unique<boost::flyweight<t_calibration>>(*other._multisector_calibration)
+                ? std::make_unique<
+                      boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+                      *other._multisector_calibration)
                 : nullptr;
         _watercolumninformation =
             other._watercolumninformation

@@ -25,13 +25,22 @@ namespace py_calibration {
 
 namespace py = pybind11;
 
-#define DOC_MultiSectorWaterColumnCalibration(ARG)                                                 \
+#define DOC_I_MultiSectorCalibration(ARG)                                                          \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         filetemplates,                                                                             \
         datatypes,                                                                                 \
         calibration,                                                                               \
-        MultiSectorWaterColumnCalibration,                                                         \
+        I_MultiSectorCalibration,                                                                  \
+        ARG)
+
+#define DOC_T_MultiSectorCalibration(ARG)                                                          \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datatypes,                                                                                 \
+        calibration,                                                                               \
+        T_MultiSectorCalibration,                                                                  \
         ARG)
 
 template<typename t_calibration, typename t_float, typename t_pyclass>
@@ -40,83 +49,82 @@ void add_apply_calibration_functions(t_pyclass& c)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     c.def("apply_beam_sample_correction_power",
-          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::power,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_ap",
-          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::ap,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_av",
-          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::av,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_sp",
-          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::sp,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_sv",
-          &MultiSectorWaterColumnCalibration<t_calibration>::template apply_beam_sample_correction<
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::sv,
               xt::pytensor<t_float, 2>,
               xt::pytensor<t_float, 1>>,
-          DOC_MultiSectorWaterColumnCalibration(apply_beam_sample_correction),
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
           py::arg("wci"),
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
 
-    c.def(
-        "inplace_beam_sample_correction_av",
-        &MultiSectorWaterColumnCalibration<t_calibration>::template inplace_beam_sample_correction<
-            t_calibration::t_calibration_type::av,
-            xt::pytensor<t_float, 2>,
-            xt::pytensor<t_float, 1>>,
-        DOC_MultiSectorWaterColumnCalibration(inplace_beam_sample_correction),
-        py::arg("wci"),
-        py::arg("beam_angles"),
-        py::arg("ranges"),
-        py::arg("beam_numbers_per_tx_sector"),
-        py::arg("mp_cores") = 1);
+    c.def("inplace_beam_sample_correction_av",
+          &T_MultiSectorCalibration<t_calibration>::template inplace_beam_sample_correction<
+              t_calibration::t_calibration_type::av,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_I_MultiSectorCalibration(inplace_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
 }
 
 template<typename t_calibration>
-void init_multisectorwatercolumncalibration(pybind11::module& m, const std::string& name)
+void init_multisectorcalibration(pybind11::module& m, const std::string& name)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    auto c = py::class_<MultiSectorWaterColumnCalibration<t_calibration>,
-                        std::shared_ptr<MultiSectorWaterColumnCalibration<t_calibration>>>(
+    auto c = py::class_<T_MultiSectorCalibration<t_calibration>,
+                        std::shared_ptr<T_MultiSectorCalibration<t_calibration>>>(
                  m,
                  name.c_str(),
                  DOC(themachinethatgoesping,
@@ -124,45 +132,39 @@ void init_multisectorwatercolumncalibration(pybind11::module& m, const std::stri
                      filetemplates,
                      datatypes,
                      calibration,
-                     MultiSectorWaterColumnCalibration))
-                 .def(py::init<>(),
-                      DOC_MultiSectorWaterColumnCalibration(MultiSectorWaterColumnCalibration))
+                     T_MultiSectorCalibration))
+                 .def(py::init<>(), DOC_T_MultiSectorCalibration(T_MultiSectorCalibration))
                  .def(py::init<std::vector<t_calibration>>(),
-                      DOC_MultiSectorWaterColumnCalibration(MultiSectorWaterColumnCalibration),
+                      DOC_T_MultiSectorCalibration(T_MultiSectorCalibration),
                       py::arg("calibration_per_sector"))
+                      
 
                  // --- getters / setters ---
 
                  .def("get_number_of_sectors",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::get_number_of_sectors,
-                      DOC_MultiSectorWaterColumnCalibration(get_number_of_sectors))
-                 .def("size",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::size,
-                      DOC_MultiSectorWaterColumnCalibration(size))
-                 .def("empty",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::empty,
-                      DOC_MultiSectorWaterColumnCalibration(empty))
+                      &T_MultiSectorCalibration<t_calibration>::get_number_of_sectors,
+                      DOC_I_MultiSectorCalibration(get_number_of_sectors))
                  .def("__len__",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::size,
-                      DOC_MultiSectorWaterColumnCalibration(size))
+                      &T_MultiSectorCalibration<t_calibration>::get_number_of_sectors,
+                      DOC_I_MultiSectorCalibration(get_number_of_sectors))
 
                  .def("get_calibrations",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::get_calibrations,
-                      DOC_MultiSectorWaterColumnCalibration(get_calibrations))
+                      &T_MultiSectorCalibration<t_calibration>::get_calibrations,
+                      DOC_T_MultiSectorCalibration(get_calibrations))
 
                  // ----- operators -----
                  .def("__eq__",
-                      &MultiSectorWaterColumnCalibration<t_calibration>::operator==,
-                      DOC_MultiSectorWaterColumnCalibration(operator_eq),
+                      &T_MultiSectorCalibration<t_calibration>::operator==,
+                      DOC_I_MultiSectorCalibration(operator_eq),
                       py::arg("other"))
              // ----- pybind macros -----
              // default copy functions
-             __PYCLASS_DEFAULT_COPY__(MultiSectorWaterColumnCalibration<t_calibration>)
+             __PYCLASS_DEFAULT_COPY__(T_MultiSectorCalibration<t_calibration>)
              // default binary functions
-             __PYCLASS_DEFAULT_BINARY__(MultiSectorWaterColumnCalibration<t_calibration>)
+             __PYCLASS_DEFAULT_BINARY__(T_MultiSectorCalibration<t_calibration>)
              // default printing functions
-             __PYCLASS_DEFAULT_PRINTING__(MultiSectorWaterColumnCalibration<t_calibration>)
-        // end MultiSectorWaterColumnCalibration
+             __PYCLASS_DEFAULT_PRINTING__(T_MultiSectorCalibration<t_calibration>)
+        // end T_MultiSectorCalibration
         ;
 
     // add apply calibration functions
@@ -170,11 +172,11 @@ void init_multisectorwatercolumncalibration(pybind11::module& m, const std::stri
     add_apply_calibration_functions<t_calibration, double>(c);
 
     c.def("hash",
-          &MultiSectorWaterColumnCalibration<t_calibration>::binary_hash,
-          DOC_MultiSectorWaterColumnCalibration(binary_hash));
+          &T_MultiSectorCalibration<t_calibration>::binary_hash,
+          DOC_T_MultiSectorCalibration(binary_hash));
     c.def("__hash__",
-          &MultiSectorWaterColumnCalibration<t_calibration>::binary_hash,
-          DOC_MultiSectorWaterColumnCalibration(binary_hash));
+          &T_MultiSectorCalibration<t_calibration>::binary_hash,
+          DOC_T_MultiSectorCalibration(binary_hash));
 }
 
 void init_c_multisectorwatercolumncalibration(pybind11::module& m)
@@ -182,9 +184,8 @@ void init_c_multisectorwatercolumncalibration(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
     using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 
-    init_multisectorwatercolumncalibration<WaterColumnCalibration>(
-        m, "MultiSectorWaterColumnCalibration");
-    init_multisectorwatercolumncalibration<KongsbergAllWaterColumnCalibration>(
+    init_multisectorcalibration<WaterColumnCalibration>(m, "MultiSectorWaterColumnCalibration");
+    init_multisectorcalibration<KongsbergAllWaterColumnCalibration>(
         m, "KongsbergAllMultiSectorWaterColumnCalibration");
 }
 

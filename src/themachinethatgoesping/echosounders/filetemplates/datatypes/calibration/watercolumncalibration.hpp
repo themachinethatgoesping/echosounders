@@ -112,7 +112,7 @@ class WaterColumnCalibration
             check_initialized(__func__, "Power calibration", _power_calibration);
 
             return _power_calibration->apply_beam_sample_correction(
-                wci, beam_angles, ranges, mp_cores);
+                wci, beam_angles, ranges, -_absorption_db_m, get_tvg_factor_to_apply(0), mp_cores);
         }
         else if constexpr (calibration_type == t_calibration_type::ap)
         {

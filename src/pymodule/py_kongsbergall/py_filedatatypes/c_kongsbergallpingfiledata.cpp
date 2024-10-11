@@ -105,7 +105,7 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
                         DOC_KongsbergAllPingFileData(get_multisector_calibration))
                    .def("set_multisector_calibration",
                         &t_KongsbergAllPingFileData::template set_multisector_calibration<
-                            MultiSectorWaterColumnCalibration<KongsbergAllWaterColumnCalibration>>,
+                            KongsbergAllMultiSectorWaterColumnCalibration>,
                         DOC_KongsbergAllPingFileData(set_multisector_calibration),
                         py::arg("calibration"))
 

@@ -40,7 +40,6 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
 
     // test getters/setters
     CHECK(obj2.get_number_of_sectors() == 2);
-    CHECK(obj2.get_number_of_sectors() == obj2.size());
     CHECK(obj.get_number_of_sectors() == 0);
 
     // test copy
@@ -61,32 +60,4 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
 
-}
-
-TEST_CASE("MultisectorWatercolumCalibration should be convertible to PackageCache", TESTTAG)
-{
-    using themachinethatgoesping::echosounders::filetemplates::datatypes::cache_structures::
-        PackageCache;
-
-    // initialize class structur
-    auto dat =
-        MultiSectorWaterColumnCalibration({ WaterColumnCalibration(), WaterColumnCalibration() });
-    ;
-
-    std::unordered_map<size_t, std::string> hash_cache;
-
-    PackageCache<MultiSectorWaterColumnCalibration<WaterColumnCalibration>> package_cache(
-        0, 0, std::make_unique<MultiSectorWaterColumnCalibration<WaterColumnCalibration>>(dat));
-
-    // test basic access
-    REQUIRE(dat == package_cache.get());
-
-    // test to/from binary
-    SECTION("PackageCache: to/from binary")
-    {
-        REQUIRE(package_cache ==
-                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache));
-        REQUIRE(dat ==
-                package_cache.from_binary(package_cache.to_binary(hash_cache), hash_cache).get());
-    }
 }

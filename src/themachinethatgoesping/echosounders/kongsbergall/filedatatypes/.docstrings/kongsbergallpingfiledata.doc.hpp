@@ -1,4 +1,4 @@
-//sourcehash: a346c0eac002caf15fdbe47a35933264a3f6dd769098620c3e1846997b96e939
+//sourcehash: d9d8e88da67d84ad08ad62e7e6d5c1c01f162bf95867a060b54262fbce4cea31
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -132,7 +132,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 R"doc(Set the watercolumn calibration. This must be a list of length equal
 to the number of transmit sectors.
 
-Template parameter ``t_calibration``:
+Template parameter
+``calibration::KongsbergAllMultiSectorWaterColumnCalibration``:
     can be either KongsbergAllWaterColumnCalibration or
     BoostFlyweight<
 

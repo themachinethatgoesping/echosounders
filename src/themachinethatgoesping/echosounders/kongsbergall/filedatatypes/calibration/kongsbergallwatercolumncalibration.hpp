@@ -175,7 +175,7 @@ inline std::size_t hash_value(const KongsbergAllWaterColumnCalibration& arg)
 }
 
 using KongsbergAllMultiSectorWaterColumnCalibration =
-    filetemplates::datatypes::calibration::MultiSectorWaterColumnCalibration<
+    filetemplates::datatypes::calibration::T_MultiSectorCalibration<
         KongsbergAllWaterColumnCalibration>;
 
 }

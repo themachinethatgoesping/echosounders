@@ -145,26 +145,24 @@ class I_PingWatercolumn : public I_PingCommon
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_tx_sector_information() const { return false; }
 
-    virtual const calibration::WaterColumnCalibration& get_generic_watercolumn_calibration() const
+    virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
     {
         throw not_implemented(__func__, this->class_name());
     }
 
-    const calibration::WaterColumnCalibration& get_generic_watercolumn_calibration(
-        size_t sector_nr) const
+    const calibration::WaterColumnCalibration& get_watercolumn_calibration(size_t sector_nr) const
     {
-        if (get_generic_multisectorwatercolumn_calibration().size() <= sector_nr)
+        if (get_multisectorwatercolumn_calibration().get_number_of_sectors() <= sector_nr)
             throw std::runtime_error(fmt::format("Error[{}]: Sector {} out of "
                                                  "range",
                                                  __func__,
                                                  sector_nr));
 
-        return get_generic_multisectorwatercolumn_calibration().at(sector_nr);
+        return get_multisectorwatercolumn_calibration().calibration_for_sector(sector_nr);
     }
 
-    virtual const calibration::MultiSectorWaterColumnCalibration<
-        calibration::WaterColumnCalibration>&
-    get_generic_multisectorwatercolumn_calibration() const
+    virtual const calibration::I_MultiSectorCalibration& get_multisectorwatercolumn_calibration()
+        const
     {
         throw not_implemented(__func__, this->class_name());
     }
@@ -489,7 +487,7 @@ class I_PingWatercolumn : public I_PingCommon
             {
                 case 1: {
                     auto amp = get_amplitudes(selection);
-                    get_generic_watercolumn_calibration()
+                    get_watercolumn_calibration()
                         .template inplace_beam_sample_correction<calibration_type>(
                             amp,
                             get_beam_crosstrack_angles(selection),
@@ -498,7 +496,7 @@ class I_PingWatercolumn : public I_PingCommon
                     return amp;
                 }
                 default:
-                    return get_generic_watercolumn_calibration()
+                    return get_watercolumn_calibration()
                         .template apply_beam_sample_correction<calibration_type>(
                             get_amplitudes(selection),
                             get_beam_crosstrack_angles(selection),
@@ -510,7 +508,7 @@ class I_PingWatercolumn : public I_PingCommon
         {
             case 1: {
                 auto amp = get_amplitudes(selection);
-                get_generic_multisectorwatercolumn_calibration()
+                get_multisectorwatercolumn_calibration()
                     .template inplace_beam_sample_correction<calibration_type>(
                         amp,
                         get_beam_crosstrack_angles(selection),
@@ -520,7 +518,7 @@ class I_PingWatercolumn : public I_PingCommon
                 return amp;
             }
             case 2:
-                return get_generic_watercolumn_calibration(0)
+                return get_watercolumn_calibration(0)
                     .template apply_beam_sample_correction<calibration_type>(
                         get_amplitudes(selection),
                         get_beam_crosstrack_angles(selection),
@@ -528,7 +526,7 @@ class I_PingWatercolumn : public I_PingCommon
                         mp_cores);
             case 3: {
                 auto amp = get_amplitudes(selection);
-                get_generic_watercolumn_calibration(0)
+                get_watercolumn_calibration(0)
                     .template inplace_beam_sample_correction<calibration_type>(
                         amp,
                         get_beam_crosstrack_angles(selection),
@@ -537,7 +535,7 @@ class I_PingWatercolumn : public I_PingCommon
                 return amp;
             }
             default:
-                return get_generic_multisectorwatercolumn_calibration()
+                return get_multisectorwatercolumn_calibration()
                     .template apply_beam_sample_correction<calibration_type>(
                         get_amplitudes(selection),
                         get_beam_crosstrack_angles(selection),
@@ -585,7 +583,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_ap() const
     {
-        return has_amplitudes() && get_generic_watercolumn_calibration().has_ap_calibration();
+        return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
     }
 
     /**
@@ -596,7 +594,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_av() const
     {
-        return has_amplitudes() && get_generic_watercolumn_calibration().has_av_calibration();
+        return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
     }
 
     /**
@@ -607,7 +605,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_power() const
     {
-        return has_amplitudes() && get_generic_watercolumn_calibration().has_power_calibration();
+        return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -617,7 +615,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sp() const
     {
-        return has_amplitudes() && get_generic_watercolumn_calibration().has_sp_calibration();
+        return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -627,7 +625,7 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sv() const
     {
-        return has_amplitudes() && get_generic_watercolumn_calibration().has_sv_calibration();
+        return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
     }
 
     /**

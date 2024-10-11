@@ -24,24 +24,25 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 namespace calibration {
-
-template<typename t_calibration = WaterColumnCalibration>
-class MultiSectorWaterColumnCalibration
+class I_MultiSectorCalibration
 {
   protected:
-    std::vector<t_calibration> _calibration_per_sector;
+    I_MultiSectorCalibration() = default;
 
   public:
-    MultiSectorWaterColumnCalibration() {}
+    virtual size_t get_number_of_sectors() const = 0;
+    virtual bool   initialized() const { return get_number_of_sectors() > 0; }
+    virtual const WaterColumnCalibration& calibration_for_sector(size_t sector) const = 0;
+    virtual WaterColumnCalibration&       calibration_for_sector(size_t sector)       = 0;
 
-    MultiSectorWaterColumnCalibration(std::vector<t_calibration> calibration_per_sector)
-        : _calibration_per_sector(std::move(calibration_per_sector))
-    {
-    }
+    virtual ~I_MultiSectorCalibration() = default;
 
-    template<t_calibration::t_calibration_type calibration_type,
-             tools::helper::c_xtensor          t_xtensor_2d,
-             tools::helper::c_xtensor          t_xtensor_1d>
+    bool operator==(const I_MultiSectorCalibration& other) const = default;
+
+  public:
+    template<WaterColumnCalibration::t_calibration_type calibration_type,
+             tools::helper::c_xtensor                   t_xtensor_2d,
+             tools::helper::c_xtensor                   t_xtensor_1d>
     void inplace_beam_sample_correction(
         [[maybe_unused]] t_xtensor_2d&          wci,
         const t_xtensor_1d&                     beam_angles,
@@ -49,9 +50,9 @@ class MultiSectorWaterColumnCalibration
         const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector,
         int                                     mp_cores = 1) const
     {
-        if (_calibration_per_sector.size() == 1)
+        if (get_number_of_sectors() == 1)
         {
-            _calibration_per_sector.at(0).template inplace_beam_sample_correction<calibration_type>(
+            calibration_for_sector(0).template inplace_beam_sample_correction<calibration_type>(
                 wci, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
             return;
         }
@@ -63,15 +64,15 @@ class MultiSectorWaterColumnCalibration
             if (beam_numbers.empty())
                 continue;
 
-            if (tx_sector >= _calibration_per_sector.size())
+            if (tx_sector >= get_number_of_sectors())
             {
                 throw std::runtime_error(fmt::format("ERROR[{}]:Sector nr {} out of range {}",
                                                      __func__,
                                                      tx_sector,
-                                                     _calibration_per_sector.size()));
+                                                     get_number_of_sectors()));
             }
 
-            const auto& calibration = _calibration_per_sector.at(tx_sector);
+            const auto& calibration = calibration_for_sector(tx_sector);
 
             t_xtensor_1d sector_beam_angles =
                 xt::view(beam_angles, xt::range(beam_numbers.front(), beam_numbers.back() + 1));
@@ -86,9 +87,9 @@ class MultiSectorWaterColumnCalibration
         }
     }
 
-    template<t_calibration::t_calibration_type calibration_type,
-             tools::helper::c_xtensor          t_xtensor_2d,
-             tools::helper::c_xtensor          t_xtensor_1d>
+    template<WaterColumnCalibration::t_calibration_type calibration_type,
+             tools::helper::c_xtensor                   t_xtensor_2d,
+             tools::helper::c_xtensor                   t_xtensor_1d>
     t_xtensor_2d apply_beam_sample_correction(
         const t_xtensor_2d&                     wci,
         const t_xtensor_1d&                     beam_angles,
@@ -96,9 +97,9 @@ class MultiSectorWaterColumnCalibration
         const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector,
         int                                     mp_cores = 1) const
     {
-        if (_calibration_per_sector.size() == 1)
+        if (get_number_of_sectors() == 1)
         {
-            return _calibration_per_sector.at(0)
+            return calibration_for_sector(0)
                 .template apply_beam_sample_correction<calibration_type>(
                     wci, beam_angles, ranges, mp_cores);
         }
@@ -111,13 +112,13 @@ class MultiSectorWaterColumnCalibration
             if (beam_numbers.empty())
                 continue;
 
-            if (tx_sector >= _calibration_per_sector.size())
+            if (tx_sector >= get_number_of_sectors())
             {
                 throw std::runtime_error(
                     fmt::format("ERROR[{}]:Sector {} out of range", __func__, tx_sector));
             }
 
-            const auto& calibration = _calibration_per_sector.at(tx_sector);
+            const auto& calibration = calibration_for_sector(tx_sector);
 
             t_xtensor_1d sector_beam_angles =
                 xt::view(beam_angles, xt::range(beam_numbers.front(), beam_numbers.back() + 1));
@@ -133,42 +134,74 @@ class MultiSectorWaterColumnCalibration
 
         return result;
     }
+};
 
-    size_t get_number_of_sectors() const { return _calibration_per_sector.size(); }
-    auto   size() const { return _calibration_per_sector.size(); }
-    auto   empty() const { return _calibration_per_sector.empty(); }
+template<typename t_calibration>
+concept t_WaterColumnCalibration = std::is_base_of_v<WaterColumnCalibration, t_calibration>;
+
+template<t_WaterColumnCalibration t_calibration>
+class T_MultiSectorCalibration : public I_MultiSectorCalibration
+{
+  protected:
+    std::vector<t_calibration> _calibration_per_sector;
+
+  public:
+    T_MultiSectorCalibration() = default;
+
+    T_MultiSectorCalibration(std::vector<t_calibration> calibration_per_sector)
+        : I_MultiSectorCalibration()
+        , _calibration_per_sector(std::move(calibration_per_sector))
+    {
+    }
+
+    T_MultiSectorCalibration(const T_MultiSectorCalibration& other)
+        : I_MultiSectorCalibration()
+        , _calibration_per_sector(other._calibration_per_sector)
+    {
+    }
+
+    T_MultiSectorCalibration& operator=(const T_MultiSectorCalibration& other)
+    {
+        if (this != &other)
+        {
+            _calibration_per_sector = other._calibration_per_sector;
+        }
+        return *this;
+    }
+
+    virtual ~T_MultiSectorCalibration() = default;
+
+  public:
+    size_t get_number_of_sectors() const override { return _calibration_per_sector.size(); }
+    bool   initialized() const override { return !_calibration_per_sector.empty(); }
+    const t_calibration& calibration_for_sector(size_t sector) const
+    {
+        if (sector >= get_number_of_sectors())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[{}]:Sector {} out of range", __func__, sector));
+        }
+        return _calibration_per_sector[sector];
+    }
+    t_calibration& calibration_for_sector(size_t sector)
+    {
+        if (sector >= get_number_of_sectors())
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[{}]:Sector {} out of range", __func__, sector));
+        }
+        return _calibration_per_sector[sector];
+    }
 
     const std::vector<t_calibration>& get_calibrations() const { return _calibration_per_sector; }
 
-    const auto& at(size_t sector) const
-    {
-        if (sector >= _calibration_per_sector.size())
-        {
-            throw std::runtime_error(
-                fmt::format("ERROR[{}]:Sector {} out of range", __func__, sector));
-        }
-        return _calibration_per_sector[sector];
-    }
-
-    auto& at(size_t sector)
-    {
-        if (sector >= _calibration_per_sector.size())
-        {
-            throw std::runtime_error(
-                fmt::format("ERROR[{}]:Sector {} out of range", __func__, sector));
-        }
-        return _calibration_per_sector[sector];
-    }
-
     // operator overloads
-    bool operator==(const MultiSectorWaterColumnCalibration& other) const = default;
-
-    bool initialized() const { return !_calibration_per_sector.empty(); }
+    bool operator==(const T_MultiSectorCalibration& other) const = default;
 
     // stream i/o
-    static MultiSectorWaterColumnCalibration from_stream(std::istream& is)
+    static T_MultiSectorCalibration from_stream(std::istream& is)
     {
-        MultiSectorWaterColumnCalibration calibration;
+        T_MultiSectorCalibration calibration;
 
         size_t number_of_sectors;
         is.read(reinterpret_cast<char*>(&number_of_sectors), sizeof(size_t));
@@ -183,7 +216,7 @@ class MultiSectorWaterColumnCalibration
 
     void to_stream(std::ostream& os) const
     {
-        size_t number_of_sectors = _calibration_per_sector.size();
+        size_t number_of_sectors = get_number_of_sectors();
         os.write(reinterpret_cast<const char*>(&number_of_sectors), sizeof(size_t));
         for (const auto& calibration : _calibration_per_sector)
         {
@@ -196,9 +229,9 @@ class MultiSectorWaterColumnCalibration
                                                   bool         superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(
-            "MultiSectorWaterColumnCalibration", float_precision, superscript_exponents);
+            "T_MultiSectorCalibration", float_precision, superscript_exponents);
 
-        printer.register_value("Number of sectors:", _calibration_per_sector.size());
+        printer.register_value("Number of sectors:", get_number_of_sectors());
 
         return printer;
     }
@@ -225,38 +258,20 @@ class MultiSectorWaterColumnCalibration
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(MultiSectorWaterColumnCalibration)
-
-  public:
-    // ----- functions used for PackageCache -----
-    static auto from_stream(std::istream&                                  is,
-                            const std::unordered_map<size_t, std::string>& hash_cache)
-    {
-        size_t hash;
-        is.read(reinterpret_cast<char*>(&hash), sizeof(hash));
-
-        return from_binary(hash_cache.at(hash));
-    }
-
-    void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const
-    {
-        auto cache = this->to_binary();
-        auto hash  = binary_hash();
-
-        if (!hash_cache.contains(hash))
-            hash_cache[hash] = std::move(cache);
-
-        os.write(reinterpret_cast<const char*>(&hash), sizeof(hash));
-    }
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(T_MultiSectorCalibration)
 };
 
 // boost hash
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
-template<typename t_calibration = WaterColumnCalibration>
-inline std::size_t hash_value(const MultiSectorWaterColumnCalibration<t_calibration>& arg)
+template<typename t_calibration>
+inline std::size_t hash_value(const T_MultiSectorCalibration<t_calibration>& arg)
 {
     return arg.binary_hash();
 }
+
+// typedefs
+using MultiSectorWaterColumnCalibration = T_MultiSectorCalibration<WaterColumnCalibration>;
+
 }
 }
 }
