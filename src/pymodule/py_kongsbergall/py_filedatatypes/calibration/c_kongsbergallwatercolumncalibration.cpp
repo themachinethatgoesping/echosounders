@@ -58,10 +58,16 @@ void init_c_kongsbergallwatercolumncalibration(pybind11::module& m)
                       py::arg("tvg_absorption_db_m"),
                       py::arg("tvg_factor"))
 
-                 // --- getters / setters ---
-                 //    .def("get_absorption_db_m",
-                 //         &KongsbergAllWaterColumnCalibration::get_absorption_db_m,
-                 //         DOC_KongsbergAllWaterColumnCalibration(get_absorption_db_m))
+                 //--- getters ---
+                 .def("get_sound_velocity",
+                      &KongsbergAllWaterColumnCalibration::get_sound_velocity,
+                      DOC_KongsbergAllWaterColumnCalibration(get_sound_velocity))
+                 .def("get_effective_pulse_duration",
+                      &KongsbergAllWaterColumnCalibration::get_effective_pulse_duration,
+                      DOC_KongsbergAllWaterColumnCalibration(get_effective_pulse_duration))
+                 .def("get_system_gain_offset",
+                      &KongsbergAllWaterColumnCalibration::get_system_gain_offset,
+                      DOC_KongsbergAllWaterColumnCalibration(get_system_gain_offset))
 
                  // ----- operators -----
                  .def("__eq__",

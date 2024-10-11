@@ -87,8 +87,6 @@ class WaterColumnCalibration
             _sv_calibration = std::make_unique<AmplitudeCalibration>(*other._sv_calibration);
     }
 
-    
-
     // operator overloads
 
     float get_absorption_to_apply() const
@@ -120,29 +118,45 @@ class WaterColumnCalibration
         {
             check_initialized(__func__, "Ap calibration", _ap_calibration);
 
-            return _ap_calibration->apply_beam_sample_correction(
-                wci, beam_angles, ranges, mp_cores);
+            return _ap_calibration->apply_beam_sample_correction(wci,
+                                                                 beam_angles,
+                                                                 ranges,
+                                                                 get_absorption_to_apply(),
+                                                                 get_tvg_factor_to_apply(40),
+                                                                 mp_cores);
         }
         else if constexpr (calibration_type == t_calibration_type::av)
         {
             check_initialized(__func__, "Av calibration", _av_calibration);
 
-            return _av_calibration->apply_beam_sample_correction(
-                wci, beam_angles, ranges, mp_cores);
+            return _av_calibration->apply_beam_sample_correction(wci,
+                                                                 beam_angles,
+                                                                 ranges,
+                                                                 get_absorption_to_apply(),
+                                                                 get_tvg_factor_to_apply(20),
+                                                                 mp_cores);
         }
         else if constexpr (calibration_type == t_calibration_type::sp)
         {
             check_initialized(__func__, "Sp calibration", _sp_calibration);
 
-            return _sp_calibration->apply_beam_sample_correction(
-                wci, beam_angles, ranges, mp_cores);
+            return _sp_calibration->apply_beam_sample_correction(wci,
+                                                                 beam_angles,
+                                                                 ranges,
+                                                                 get_absorption_to_apply(),
+                                                                 get_tvg_factor_to_apply(40),
+                                                                 mp_cores);
         }
         else if constexpr (calibration_type == t_calibration_type::sv)
         {
             check_initialized(__func__, "Sv calibration", _sv_calibration);
 
-            return _sv_calibration->apply_beam_sample_correction(
-                wci, beam_angles, ranges, mp_cores);
+            return _sv_calibration->apply_beam_sample_correction(wci,
+                                                                 beam_angles,
+                                                                 ranges,
+                                                                 get_absorption_to_apply(),
+                                                                 get_tvg_factor_to_apply(20),
+                                                                 mp_cores);
         }
         throw std::runtime_error(
             fmt::format("ERROR[{}]:Unhandled calibration type {}. Please report.",
@@ -164,14 +178,8 @@ class WaterColumnCalibration
         {
             check_initialized(__func__, "Power calibration", _power_calibration);
 
-            _power_calibration->inplace_beam_sample_correction(wci,
-                                                               beam_angles,
-                                                               ranges,
-                                                               get_absorption_to_apply(),
-                                                               get_tvg_factor_to_apply(20),
-                                                               min_beam_index,
-                                                               max_beam_index,
-                                                               mp_cores);
+            _power_calibration->inplace_beam_sample_correction(
+                wci, beam_angles, ranges, min_beam_index, max_beam_index, mp_cores);
             return;
         }
         else if constexpr (calibration_type == t_calibration_type::ap)
@@ -182,7 +190,7 @@ class WaterColumnCalibration
                                                             beam_angles,
                                                             ranges,
                                                             get_absorption_to_apply(),
-                                                            get_tvg_factor_to_apply(20),
+                                                            get_tvg_factor_to_apply(40),
                                                             min_beam_index,
                                                             max_beam_index,
                                                             mp_cores);
@@ -210,7 +218,7 @@ class WaterColumnCalibration
                                                             beam_angles,
                                                             ranges,
                                                             get_absorption_to_apply(),
-                                                            get_tvg_factor_to_apply(20),
+                                                            get_tvg_factor_to_apply(40),
                                                             min_beam_index,
                                                             max_beam_index,
                                                             mp_cores);

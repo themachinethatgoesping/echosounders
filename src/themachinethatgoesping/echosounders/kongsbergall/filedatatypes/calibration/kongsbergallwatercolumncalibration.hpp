@@ -76,6 +76,11 @@ class KongsbergAllWaterColumnCalibration
         setup_kongsberg_em_calibrations();
     }
 
+    // ------ getters ------
+    float get_sound_velocity() const { return _sound_velocity; }
+    float get_effective_pulse_duration() const { return _effective_pulse_duration; }
+    float get_system_gain_offset() const { return _system_gain_offset; }
+
     // ----- setup calibration for kongsberg em systems ----
     void setup_kongsberg_em_calibrations()
     {
@@ -86,8 +91,8 @@ class KongsbergAllWaterColumnCalibration
         _ap_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
 
         float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
-        _av_calibration = std::make_unique<AmplitudeCalibration>(-10 * std::log10(av_factor) -
-                                                                 _system_gain_offset);
+        _av_calibration =
+            std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) - _system_gain_offset);
     }
 
     // operator overloads
