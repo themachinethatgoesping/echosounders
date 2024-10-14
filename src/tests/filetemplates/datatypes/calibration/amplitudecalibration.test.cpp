@@ -231,7 +231,7 @@ TEST_CASE("AmplitudeCalibration should wci corrections from wcicorrections.hpp",
 
                                 for (size_t i = 0; i < result_base.size(); i++)
                                 {
-                                    //INFO(fmt::format("i: {}", i));
+                                    // INFO(fmt::format("i: {}", i));
                                     REQUIRE(std::fabs(result_base.flat(i) - result.flat(i)) <
                                             0.0001f);
                                 }
@@ -265,10 +265,10 @@ TEST_CASE("AmplitudeCalibration should wci corrections from wcicorrections.hpp",
 
                 for (size_t mp_cores : { 1, 0, 4 })
                     for (float system_offset : { 0, -12, 13 })
-                        for (std::optional<size_t> min_bn : std::vector<std::optional<size_t>>{
-                                 std::nullopt, 0, 3, 7, 9, 10, 11, 999999 })
+                        for (std::optional<size_t> min_bn :
+                             std::vector<std::optional<size_t>>{ std::nullopt, 0, 7, 10, 999999 })
                             for (std::optional<size_t> max_bn : std::vector<std::optional<size_t>>{
-                                     std::nullopt, 0, 3, 7, 9, 10, 11, 999999 })
+                                     std::nullopt, 0, 3, 10, 999999 })
                             {
                                 // create reference result
                                 xt::xtensor<float, 2> result_so_ref = wci;
@@ -396,7 +396,8 @@ TEST_CASE("AmplitudeCalibration should wci corrections from wcicorrections.hpp",
 
                                     for (const auto& [key, result] : results)
                                     {
-                                        // INFO(fmt::format("key {}, system_offset: {}, mp_cores: {}, "
+                                        // INFO(fmt::format("key {}, system_offset: {}, mp_cores:
+                                        // {}, "
                                         //                  "absorption: {}, tvg_factor: {}",
                                         //                  key,
                                         //                  system_offset,

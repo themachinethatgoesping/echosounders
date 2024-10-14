@@ -203,8 +203,8 @@ class WaterColumnCalibration
             _power_calibration->inplace_beam_sample_correction(wci,
                                                                beam_angles,
                                                                ranges,
-                                                               std::nullopt,
-                                                               std::nullopt,
+                                                               get_absorption_to_apply(0),
+                                                               get_tvg_factor_to_apply(0),
                                                                min_beam_index,
                                                                max_beam_index,
                                                                mp_cores);
