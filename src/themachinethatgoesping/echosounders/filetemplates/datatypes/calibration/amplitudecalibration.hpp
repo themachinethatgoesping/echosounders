@@ -88,73 +88,18 @@ class AmplitudeCalibration
     }
 
     template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
-    t_xtensor_2d apply_beam_sample_correction(const t_xtensor_2d& wci,
-                                              const t_xtensor_1d& beam_angles,
-                                              const t_xtensor_1d& ranges,
-                                              int                 mp_cores = 1) const
-    {
-        using algorithms::amplitudecorrection::functions::apply_beam_correction;
-        using algorithms::amplitudecorrection::functions::apply_beam_sample_correction;
-        using algorithms::amplitudecorrection::functions::apply_sample_correction;
-
-        if (has_offset_per_beamangle())
-        {
-            t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
-
-            if (has_system_offset())
-                beam_correction += get_system_offset();
-
-            if (has_offset_per_range())
-            {
-                t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
-
-                return apply_beam_sample_correction(
-                    wci, beam_correction, sample_correction, mp_cores);
-            }
-            return apply_beam_correction(wci, beam_correction, mp_cores);
-        }
-
-        if (has_offset_per_range())
-        {
-            t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
-            if (has_system_offset())
-                sample_correction += get_system_offset();
-
-            return apply_sample_correction(wci, sample_correction, mp_cores);
-        }
-
-        if (has_system_offset())
-        {
-            if (mp_cores == 1)
-                return wci + get_system_offset();
-            else
-            {
-                t_xtensor_2d result = wci;
-#pragma omp parallel for num_threads(mp_cores)
-                for (unsigned int bi = 0; bi < result.shape(0); ++bi)
-                    xt::row(result, bi) += get_system_offset();
-                return result;
-            }
-        }
-        return wci;
-    }
-
-    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
     t_xtensor_2d apply_beam_sample_correction(
-        const t_xtensor_2d&                                          wci,
-        const t_xtensor_1d&                                          beam_angles,
-        const t_xtensor_1d&                                          ranges,
-        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type absorption_db_m,
-        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type tvg_factor,
-        int                                                          mp_cores = 1) const
+        const t_xtensor_2d&                                                         wci,
+        const t_xtensor_1d&                                                         beam_angles,
+        const t_xtensor_1d&                                                         ranges,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> absorption_db_m,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> tvg_factor,
+        int mp_cores = 1) const
     {
-        using algorithms::amplitudecorrection::functions::apply_beam_correction;
-        using algorithms::amplitudecorrection::functions::apply_beam_sample_correction;
-        using algorithms::amplitudecorrection::functions::apply_sample_correction;
-        using algorithms::amplitudecorrection::functions::compute_cw_range_correction;
+        namespace ampcorr = algorithms::amplitudecorrection::functions;
 
         t_xtensor_1d range_varying_offset =
-            compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
+            ampcorr::compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
 
         if (has_offset_per_range())
             range_varying_offset += get_per_sample_offsets(ranges);
@@ -166,88 +111,31 @@ class AmplitudeCalibration
             if (has_system_offset())
                 beam_correction += get_system_offset();
 
-            return apply_beam_sample_correction(
+            return ampcorr::apply_beam_sample_correction(
                 wci, beam_correction, range_varying_offset, mp_cores);
         }
 
         if (has_system_offset())
             range_varying_offset += get_system_offset();
 
-        return apply_sample_correction(wci, range_varying_offset, mp_cores);
-    }
-
-    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
-    void inplace_beam_sample_correction([[maybe_unused]] t_xtensor_2d& wci,
-                                        const t_xtensor_1d&            beam_angles,
-                                        const t_xtensor_1d&            ranges,
-                                        std::optional<size_t> min_beam_index = std::nullopt,
-                                        std::optional<size_t> max_beam_index = std::nullopt,
-                                        int                   mp_cores       = 1) const
-    {
-        using algorithms::amplitudecorrection::functions::inplace_beam_correction;
-        using algorithms::amplitudecorrection::functions::inplace_beam_sample_correction;
-        using algorithms::amplitudecorrection::functions::inplace_sample_correction;
-        using algorithms::amplitudecorrection::functions::inplace_system_offset;
-
-        if (has_offset_per_beamangle())
-        {
-            t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
-
-            if (has_system_offset())
-                beam_correction += get_system_offset();
-
-            if (has_offset_per_range())
-            {
-                t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
-
-                inplace_beam_sample_correction(wci,
-                                               beam_correction,
-                                               sample_correction,
-                                               min_beam_index,
-                                               max_beam_index,
-                                               mp_cores);
-                return;
-            }
-            inplace_beam_correction(wci, beam_correction, min_beam_index, max_beam_index, mp_cores);
-            return;
-        }
-
-        if (has_offset_per_range())
-        {
-            t_xtensor_1d sample_correction = get_per_sample_offsets(ranges);
-            if (has_system_offset())
-                sample_correction += get_system_offset();
-
-            inplace_sample_correction(
-                wci, sample_correction, min_beam_index, max_beam_index, mp_cores);
-            return;
-        }
-
-        if (has_system_offset())
-        {
-            inplace_system_offset(
-                wci, get_system_offset(), min_beam_index, max_beam_index, mp_cores);
-            return;
-        }
-        return;
+        return ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores);
     }
 
     template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
     void inplace_beam_sample_correction(
-        [[maybe_unused]] t_xtensor_2d&                               wci,
-        const t_xtensor_1d&                                          beam_angles,
-        const t_xtensor_1d&                                          ranges,
-        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type absorption_db_m,
-        typename tools::helper::xtensor_datatype<t_xtensor_1d>::type tvg_factor,
-        std::optional<size_t>                                        min_beam_index = std::nullopt,
-        std::optional<size_t>                                        max_beam_index = std::nullopt,
-        int                                                          mp_cores       = 1) const
+        [[maybe_unused]] t_xtensor_2d&                                              wci,
+        const t_xtensor_1d&                                                         beam_angles,
+        const t_xtensor_1d&                                                         ranges,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> absorption_db_m,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> tvg_factor,
+        std::optional<size_t> min_beam_index = std::nullopt,
+        std::optional<size_t> max_beam_index = std::nullopt,
+        int                   mp_cores       = 1) const
     {
-        using algorithms::amplitudecorrection::functions::compute_cw_range_correction;
-        using algorithms::amplitudecorrection::functions::inplace_sample_correction;
+        namespace ampcorr = algorithms::amplitudecorrection::functions;
 
         t_xtensor_1d range_varying_offset =
-            compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
+            ampcorr::compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
 
         if (has_offset_per_range())
             range_varying_offset += get_per_sample_offsets(ranges);
@@ -259,19 +147,19 @@ class AmplitudeCalibration
             if (has_system_offset())
                 beam_correction += get_system_offset();
 
-            inplace_beam_sample_correction(wci,
-                                           beam_correction,
-                                           range_varying_offset,
-                                           min_beam_index,
-                                           max_beam_index,
-                                           mp_cores);
+            ampcorr::inplace_beam_sample_correction(wci,
+                                                    beam_correction,
+                                                    range_varying_offset,
+                                                    min_beam_index,
+                                                    max_beam_index,
+                                                    mp_cores);
             return;
         }
 
         if (has_system_offset())
             range_varying_offset += get_system_offset();
 
-        inplace_sample_correction(
+        ampcorr::inplace_sample_correction(
             wci, range_varying_offset, min_beam_index, max_beam_index, mp_cores);
     }
 
@@ -285,9 +173,23 @@ class AmplitudeCalibration
         _offset_per_beamangle.set_data_XY(beamangle, offset);
     }
 
+    template<tools::helper::c_xtensor_1d t_xtensor_1d>
+    void set_offset_per_beamangle(const t_xtensor_1d& beamangle, const t_xtensor_1d& offset)
+    {
+        _offset_per_beamangle.set_data_XY(std::vector<float>(beamangle.begin(), beamangle.end()),
+                                          std::vector<float>(offset.begin(), offset.end()));
+    }
+
     void set_offset_per_range(const std::vector<float>& range, const std::vector<float>& offset)
     {
         _offset_per_range.set_data_XY(range, offset);
+    }
+
+    template<tools::helper::c_xtensor t_xtensor_1d>
+    void set_offset_per_range(const t_xtensor_1d& range, const t_xtensor_1d& offset)
+    {
+        _offset_per_range.set_data_XY(std::vector<float>(range.begin(), range.end()),
+                                      std::vector<float>(offset.begin(), offset.end()));
     }
 
     // interpolator access

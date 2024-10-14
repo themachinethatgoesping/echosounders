@@ -34,6 +34,12 @@ class I_MultiSectorCalibration
     virtual bool   initialized() const { return get_number_of_sectors() > 0; }
     virtual const WaterColumnCalibration& calibration_for_sector(size_t sector) const = 0;
     virtual WaterColumnCalibration&       calibration_for_sector(size_t sector)       = 0;
+    // has calibration
+    virtual bool has_power_calibration() const = 0;
+    virtual bool has_ap_calibration() const    = 0;
+    virtual bool has_av_calibration() const    = 0;
+    virtual bool has_sp_calibration() const    = 0;
+    virtual bool has_sv_calibration() const    = 0;
 
     virtual ~I_MultiSectorCalibration() = default;
 
@@ -146,7 +152,10 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
     std::vector<t_calibration> _calibration_per_sector;
 
   public:
-    T_MultiSectorCalibration() = default;
+    T_MultiSectorCalibration()
+        : I_MultiSectorCalibration()
+    {
+    }
 
     T_MultiSectorCalibration(std::vector<t_calibration> calibration_per_sector)
         : I_MultiSectorCalibration()
@@ -160,6 +169,8 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
     {
     }
 
+    virtual ~T_MultiSectorCalibration() = default;
+
     T_MultiSectorCalibration& operator=(const T_MultiSectorCalibration& other)
     {
         if (this != &other)
@@ -168,8 +179,6 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
         }
         return *this;
     }
-
-    virtual ~T_MultiSectorCalibration() = default;
 
   public:
     size_t get_number_of_sectors() const override { return _calibration_per_sector.size(); }
@@ -197,6 +206,43 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
 
     // operator overloads
     bool operator==(const T_MultiSectorCalibration& other) const = default;
+
+    // has calibration
+    bool has_power_calibration() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_power_calibration())
+                return true;
+        return false;
+    }
+    bool has_ap_calibration() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_ap_calibration())
+                return true;
+        return false;
+    }
+    bool has_av_calibration() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_av_calibration())
+                return true;
+        return false;
+    }
+    bool has_sp_calibration() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_sp_calibration())
+                return true;
+        return false;
+    }
+    bool has_sv_calibration() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_sv_calibration())
+                return true;
+        return false;
+    }
 
     // stream i/o
     static T_MultiSectorCalibration from_stream(std::istream& is)

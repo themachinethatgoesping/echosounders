@@ -137,9 +137,26 @@ void init_multisectorcalibration(pybind11::module& m, const std::string& name)
                  .def(py::init<std::vector<t_calibration>>(),
                       DOC_T_MultiSectorCalibration(T_MultiSectorCalibration),
                       py::arg("calibration_per_sector"))
-                      
+                 .def(py::init<const T_MultiSectorCalibration<t_calibration>&>(),
+                      DOC_T_MultiSectorCalibration(T_MultiSectorCalibration),
+                      py::arg("other"))
 
                  // --- getters / setters ---
+                 .def("has_power_calibration",
+                      &T_MultiSectorCalibration<t_calibration>::has_power_calibration,
+                      DOC_I_MultiSectorCalibration(has_power_calibration))
+                 .def("has_ap_calibration",
+                      &T_MultiSectorCalibration<t_calibration>::has_ap_calibration,
+                      DOC_I_MultiSectorCalibration(has_ap_calibration))
+                 .def("has_av_calibration",
+                      &T_MultiSectorCalibration<t_calibration>::has_av_calibration,
+                      DOC_I_MultiSectorCalibration(has_av_calibration))
+                 .def("has_sp_calibration",
+                      &T_MultiSectorCalibration<t_calibration>::has_sp_calibration,
+                      DOC_I_MultiSectorCalibration(has_sp_calibration))
+                 .def("has_sv_calibration",
+                      &T_MultiSectorCalibration<t_calibration>::has_sv_calibration,
+                      DOC_I_MultiSectorCalibration(has_sv_calibration))
 
                  .def("get_number_of_sectors",
                       &T_MultiSectorCalibration<t_calibration>::get_number_of_sectors,

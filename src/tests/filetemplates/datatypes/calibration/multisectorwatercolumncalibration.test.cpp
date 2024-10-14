@@ -26,7 +26,7 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
 
     // test hash
     CHECK(obj.binary_hash() == 3244421341483603138ULL);
-    CHECK(obj2.binary_hash() == 8376124999220038186ULL);
+    CHECK(obj2.binary_hash() == 5348759796346773057ULL);
 
     // test equality
     // test inequality
@@ -59,5 +59,4 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
 
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
-
 }

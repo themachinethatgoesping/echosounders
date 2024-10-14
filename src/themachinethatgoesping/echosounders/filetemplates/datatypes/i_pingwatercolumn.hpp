@@ -125,7 +125,7 @@ class I_PingWatercolumn : public I_PingCommon
      * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
      */
     virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters()
+    get_tx_signal_parameters() const
     {
         throw not_implemented(__func__, this->class_name());
     }
@@ -137,7 +137,7 @@ class I_PingWatercolumn : public I_PingCommon
      *
      * @return The number of transmission sectors.
      */
-    virtual size_t get_number_of_tx_sectors()
+    virtual size_t get_number_of_tx_sectors() const
     {
         throw not_implemented(__func__, this->class_name());
     }
@@ -152,6 +152,10 @@ class I_PingWatercolumn : public I_PingCommon
 
     const calibration::WaterColumnCalibration& get_watercolumn_calibration(size_t sector_nr) const
     {
+        if (get_number_of_tx_sectors() == 1)
+            if (sector_nr == 0)
+                return get_watercolumn_calibration();
+
         if (get_multisectorwatercolumn_calibration().get_number_of_sectors() <= sector_nr)
             throw std::runtime_error(fmt::format("Error[{}]: Sector {} out of "
                                                  "range",
@@ -217,7 +221,7 @@ class I_PingWatercolumn : public I_PingCommon
      *
      * @return uint32_t
      */
-    virtual uint32_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
+    virtual uint32_t get_number_of_beams() const { throw not_implemented(__func__, class_name()); }
 
     /**
      * @brief Check this pings supports the extraction of beam_crosstrack_angles
@@ -583,7 +587,10 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_ap() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_ap_calibration();
     }
 
     /**
@@ -594,7 +601,10 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_av() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_av_calibration();
     }
 
     /**
@@ -605,7 +615,10 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_power() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -615,7 +628,10 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sp() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sp_calibration();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -625,7 +641,10 @@ class I_PingWatercolumn : public I_PingCommon
      */
     bool has_sv() const
     {
-        return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sv_calibration();
     }
 
     /**

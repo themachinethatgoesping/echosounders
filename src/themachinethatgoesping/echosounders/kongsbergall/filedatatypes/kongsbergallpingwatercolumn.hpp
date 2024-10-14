@@ -82,14 +82,14 @@ class KongsbergAllPingWatercolumn
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() override
+    get_tx_signal_parameters() const override
     {
-        return file_data().get_sysinfos().get_tx_signal_parameters();
+        return file_data().get_sysinfos_const().get_tx_signal_parameters();
     }
 
-    size_t get_number_of_tx_sectors() override
+    size_t get_number_of_tx_sectors() const override
     {
-        return file_data().get_sysinfos().get_tx_signal_parameters().size();
+        return file_data().get_sysinfos_const().get_tx_signal_parameters().size();
     }
 
     xt::xtensor<size_t, 1> get_tx_sector_per_beam(
@@ -124,20 +124,25 @@ class KongsbergAllPingWatercolumn
     {
         _file_data->load_wci(force);
         _file_data->load_sys(force);
+        _file_data->init_watercolumn_calibration(force);
     }
     void release() override
     {
         _file_data->release_wci();
         _file_data->release_sys();
     }
-    bool loaded() override { return _file_data->wci_loaded() && _file_data->sys_loaded(); }
+    bool loaded() override
+    {
+        return _file_data->wci_loaded() && _file_data->sys_loaded() &&
+               _file_data->has_watercolumn_calibration();
+    }
 
-    uint32_t get_number_of_beams() override
+    uint32_t get_number_of_beams() const override
     {
         if (!has_amplitudes())
             return 0;
 
-        return _file_data->get_wcinfos().get_beam_crosstrack_angles().size();
+        return _file_data->get_wcinfos_const().get_beam_crosstrack_angles().size();
     }
 
     // ----- getter/setters -----

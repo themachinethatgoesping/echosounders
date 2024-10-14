@@ -27,8 +27,8 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
     // test hash
-    CHECK(obj.binary_hash() == 4706969008052593086ULL);
-    CHECK(obj2.binary_hash() == 9419732169616963099ULL);
+    CHECK(obj.binary_hash() == 9102201851689441553ULL);
+    CHECK(obj2.binary_hash() == 8290812122276833505ULL);
 
     // test equality
     // test inequality
@@ -85,5 +85,4 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
     // test data access
     CHECK(obj.get_power_calibration().get_system_offset() == -3.0f);
     CHECK(obj.get_sv_calibration().get_system_offset() == 1.0f);
-
 }

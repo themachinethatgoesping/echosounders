@@ -91,14 +91,14 @@ class SimradRawPingWatercolumn
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() override
+    get_tx_signal_parameters() const override
     {
         return { file_data().get_parameter().get_tx_signal_parameters() };
     }
 
-    size_t get_number_of_tx_sectors() override { return 1; }
+    size_t get_number_of_tx_sectors() const override { return 1; }
 
-    uint32_t get_number_of_beams() override { return 1; }
+    uint32_t get_number_of_beams() const override { return 1; }
 
     // ----- getter/setters -----
     xt::xtensor<float, 1> get_beam_crosstrack_angles(

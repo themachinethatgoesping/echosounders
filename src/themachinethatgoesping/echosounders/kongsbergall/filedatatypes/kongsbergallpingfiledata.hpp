@@ -66,8 +66,11 @@ class KongsbergAllPingFileData
     std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
-    void init_watercolumn_calibration()
+    void init_watercolumn_calibration(bool force = false)
     {
+        if (_multisector_calibration && !force)
+            return;
+
         const auto& runtime_parameters = get_runtime_parameters();
 
         // TODO: use sound velocity profile
@@ -118,7 +121,8 @@ class KongsbergAllPingFileData
     template<typename t_calibration_>
     void set_multisector_calibration(const t_calibration_& multisector_calibration)
     {
-        if (multisector_calibration.get_number_of_sectors() != get_sysinfos().get_tx_signal_parameters().size())
+        if (multisector_calibration.get_number_of_sectors() !=
+            get_sysinfos().get_tx_signal_parameters().size())
             throw std::runtime_error(
                 "Error[KongsbergAllPingFileData::set_watercolumn_calibration]: Calibration size "
                 "does not match number of transmit sectors!");
@@ -222,9 +226,9 @@ class KongsbergAllPingFileData
     void release_wci() { _watercolumninformation.reset(); }
     void release_sys() { _systeminformation.reset(); }
     void release_multisector_calibration() { _multisector_calibration.reset(); }
-    bool wci_loaded() { return _watercolumninformation != nullptr; }
-    bool sys_loaded() { return _systeminformation != nullptr; }
-    bool multisector_calibration_loaded() { return _multisector_calibration != nullptr; }
+    bool wci_loaded() const { return _watercolumninformation != nullptr; }
+    bool sys_loaded() const { return _systeminformation != nullptr; }
+    bool multisector_calibration_loaded() const { return _multisector_calibration != nullptr; }
 
     const _sub::WaterColumnInformation& get_wcinfos()
     {
@@ -236,6 +240,24 @@ class KongsbergAllPingFileData
     const _sub::SystemInformation& get_sysinfos()
     {
         load_sys();
+
+        return *_systeminformation;
+    }
+
+    const _sub::WaterColumnInformation& get_wcinfos_const() const
+    {
+        if (!wci_loaded())
+            throw std::runtime_error("Error[KongsbergAllPingFileData::get_wcinfos_const]: "
+                                     "Watercolumn information not loaded!");
+
+        return *_watercolumninformation;
+    }
+
+    const _sub::SystemInformation& get_sysinfos_const() const
+    {
+        if (!sys_loaded())
+            throw std::runtime_error("Error[KongsbergAllPingFileData::get_sysinfos_const]: System "
+                                     "information not loaded!");
 
         return *_systeminformation;
     }

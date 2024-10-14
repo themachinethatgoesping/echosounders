@@ -1,4 +1,4 @@
-//sourcehash: 66e65c7adcb15b7d6b5758a5374ebcf87a61a5a7844a9ca22e44523c6bb80a6b
+//sourcehash: c95dc041e0025bbcbe34e26b9a076ea728240342fb38c01f8429a4082c7ae280
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,16 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_get_number_of_sectors = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_ap_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_av_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_power_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_sp_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_sv_calibration = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_inplace_beam_sample_correction = R"doc()doc";
@@ -81,6 +91,16 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_get_calibrations = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_get_number_of_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_ap_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_av_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_power_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_sp_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_sv_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_initialized = R"doc()doc";
 
