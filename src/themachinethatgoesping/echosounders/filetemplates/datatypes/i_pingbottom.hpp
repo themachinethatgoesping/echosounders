@@ -55,6 +55,18 @@ class I_PingBottom : public I_PingCommon
             std::bind(&I_PingBottom::has_two_way_travel_times, this);
         features[t_pingfeature::xyz] = std::bind(&I_PingBottom::has_xyz, this);
 
+        // to be implemented
+        // features[t_pingfeature::beam_numbers_per_tx_sector] =
+        //     std::bind(&I_PingWatercolumn::has_beam_numbers_per_tx_sector, this);
+        // features[t_pingfeature::beam_selection_all] =
+        //     std::bind(&I_PingWatercolumn::has_beam_selection_all, this);
+        // features[t_pingfeature::number_of_beams] =
+        //     std::bind(&I_PingWatercolumn::has_number_of_beams, this);
+        // features[t_pingfeature::tx_sector_per_beam] =
+        //     std::bind(&I_PingWatercolumn::has_tx_sector_per_beam, this);
+        // features[t_pingfeature::tx_sector_information] =
+        //     std::bind(&I_PingWatercolumn::has_tx_sector_information, this);
+
         return features;
     }
     std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override

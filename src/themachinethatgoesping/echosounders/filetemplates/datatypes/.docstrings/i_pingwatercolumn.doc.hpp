@@ -1,4 +1,4 @@
-//sourcehash: a3db1d9482685d9453280227c74f905fd5eb4c42f9a06911f6734904e7bc71e3
+//sourcehash: 1fa7563ef63a6e06c2562f8343f9d189a0c5c101d95494ffe84e60480d2b0599
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -301,6 +301,10 @@ Returns:
 Returns:
     false)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_selection_all = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_bottom_range_samples =
 R"doc(Check this pings supports bottom range samples
 
@@ -318,6 +322,10 @@ Returns:
 
 Returns:
     false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_beams = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_power =
 R"doc(Check this pings supports calibrated power data
@@ -346,7 +354,7 @@ Returns:
 Returns:
     false)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_information = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_signal_parameters = R"doc()doc";
 

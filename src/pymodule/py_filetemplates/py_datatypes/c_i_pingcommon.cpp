@@ -5,7 +5,7 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -42,6 +42,10 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("bottom", t_pingfeature::bottom)
             .value("watercolumn", t_pingfeature::watercolumn)
             .value("tx_signal_parameters", t_pingfeature::tx_signal_parameters)
+            .value("beam_numbers_per_tx_sector", t_pingfeature::beam_numbers_per_tx_sector)
+            .value("beam_selection_all", t_pingfeature::beam_selection_all)
+            .value("number_of_beams", t_pingfeature::number_of_beams)
+            .value("tx_sector_per_beam", t_pingfeature::tx_sector_per_beam)
             .value("number_of_tx_sectors", t_pingfeature::number_of_tx_sectors)
             .value("beam_crosstrack_angles", t_pingfeature::beam_crosstrack_angles)
             .value("two_way_travel_times", t_pingfeature::two_way_travel_times)
@@ -53,9 +57,9 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("power", t_pingfeature::power)
             .value("sp", t_pingfeature::sp)
             .value("sv", t_pingfeature::sv)
-            .value("power_calibration", t_pingfeature::power_calibration)
-            .value("sp_calibration", t_pingfeature::sp_calibration)
-            .value("sv_calibration", t_pingfeature::sv_calibration)
+            .value("watercolumn_calibration", t_pingfeature::watercolumn_calibration)
+            .value("multisectorwatercolumn_calibration",
+                   t_pingfeature::multisectorwatercolumn_calibration)
             .export_values();
 
     tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
@@ -69,6 +73,11 @@ void init_c_i_pingcommon(pybind11::module& m)
             .def("feature_string",
                  &I_PingCommon::feature_string,
                  DOC_I_PingCommon(feature_string),
+                 py::arg("available") = true,
+                 py::arg("prefix")    = std::string(""))
+            .def("feature_groups_string",
+                 &I_PingCommon::feature_groups_string,
+                 DOC_I_PingCommon(feature_groups_string),
                  py::arg("available") = true,
                  py::arg("prefix")    = std::string(""))
             .def("has_any_of_features",

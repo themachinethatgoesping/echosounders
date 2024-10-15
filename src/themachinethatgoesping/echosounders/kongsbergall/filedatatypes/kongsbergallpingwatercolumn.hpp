@@ -77,7 +77,10 @@ class KongsbergAllPingWatercolumn
             { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
               t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
     }
-    bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
+    bool has_number_of_tx_sectors() const { return has_tx_signal_parameters(); }
+    bool has_beam_numbers_per_tx_sector() const { return has_tx_signal_parameters(); }
+    bool has_tx_sector_per_beam() const { return has_tx_signal_parameters(); }
+    bool has_number_of_beams() const { return has_tx_signal_parameters(); }
 
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
 
@@ -263,6 +266,17 @@ class KongsbergAllPingWatercolumn
     {
         // TODO: this is not true for datagrams in SonarMode!
         return has_amplitudes();
+    }
+
+    bool has_watercolumn_calibration() const override
+    {
+        return _file_data->has_watercolumn_calibration() && get_number_of_tx_sectors() == 1;
+    }
+
+    bool has_multisectorwatercolumn_calibration() const override
+    {
+        // Kongsbergall has water column calibraiton
+        return _file_data->has_watercolumn_calibration();
     }
 
     template<typename t_value>

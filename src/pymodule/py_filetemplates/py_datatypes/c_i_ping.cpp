@@ -5,7 +5,7 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -44,6 +44,9 @@ void init_c_i_ping(pybind11::module& m)
                  &I_Ping::set_timestamp,
                  DOC_I_Ping(timestamp),
                  py::arg("timestamp"))
+            .def("has_datetime",
+                 &I_Ping::has_timestamp,
+                 "Return true if the timestamp is available that can be converted to a datetime")
             .def(
                 "get_datetime",
                 [](const I_Ping& self, double timezone_offset_hours) {

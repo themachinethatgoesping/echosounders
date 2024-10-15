@@ -81,6 +81,11 @@ enum class t_pingfeature : uint8_t
     /* I_PingBottom and I_PingWatercolumn */
     tx_signal_parameters,
     number_of_tx_sectors,
+    
+    beam_numbers_per_tx_sector,
+    beam_selection_all,
+    number_of_beams,
+    tx_sector_per_beam,
 
     /* I_PingBottom */
     beam_crosstrack_angles,
@@ -88,7 +93,6 @@ enum class t_pingfeature : uint8_t
     xyz,
 
     /* I_PingWatercolumn */
-    watercolumn_calibration,
     bottom_range_samples,
     amplitudes,
     ap,
@@ -97,10 +101,9 @@ enum class t_pingfeature : uint8_t
     sp,
     sv,
 
-    /* I_PingWaterColumn and I_PingBottom */
-    power_calibration,
-    sp_calibration,
-    sv_calibration
+    /* Calobration */
+    watercolumn_calibration,
+    multisectorwatercolumn_calibration
 };
 
 static const std::vector<t_pingfeature> __empty_features__ = {};

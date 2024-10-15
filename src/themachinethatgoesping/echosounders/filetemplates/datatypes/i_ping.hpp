@@ -60,7 +60,10 @@ class I_Ping : public I_PingCommon
     {
         auto features = t_base ::primary_feature_functions();
 
-        features[t_pingfeature::timestamp]  = std::bind(&I_Ping::has_timestamp, this);
+        features[t_pingfeature::timestamp] = std::bind(&I_Ping::has_timestamp, this);
+        // datetime is a timestamp alias that only exists in the python module (implemented as
+        // lamda)
+        features[t_pingfeature::datetime]   = std::bind(&I_Ping::has_timestamp, this);
         features[t_pingfeature::channel_id] = std::bind(&I_Ping::has_channel_id, this);
         features[t_pingfeature::sensor_configuration] =
             std::bind(&I_Ping::has_sensor_configuration, this);
@@ -221,9 +224,11 @@ class I_Ping : public I_PingCommon
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.register_section("Ping infos");
 
@@ -243,7 +248,8 @@ class I_Ping : public I_PingCommon
         if (has_geolocation())
         {
             printer.register_section("Geolocation");
-            printer.append(get_geolocation("Transducer").__printer__(float_precision, superscript_exponents));
+            printer.append(
+                get_geolocation("Transducer").__printer__(float_precision, superscript_exponents));
         }
         else
         {
@@ -259,7 +265,8 @@ class I_Ping : public I_PingCommon
         // printer.append(_sensor_data_latlon.__printer__(float_precision, superscript_exponents));
 
         // printer.register_section("Sensor configuration");
-        // printer.append(get_sensor_configuration().__printer__(float_precision, superscript_exponents));
+        // printer.append(get_sensor_configuration().__printer__(float_precision,
+        // superscript_exponents));
 
         return printer;
     }
@@ -267,7 +274,6 @@ class I_Ping : public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-
 };
 }
 } // namespace filetemplates

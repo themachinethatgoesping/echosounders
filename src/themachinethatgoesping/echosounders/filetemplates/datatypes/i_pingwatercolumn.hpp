@@ -93,7 +93,16 @@ class I_PingWatercolumn : public I_PingCommon
         features[t_pingfeature::tx_signal_parameters] =
             std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this);
         features[t_pingfeature::number_of_tx_sectors] =
-            std::bind(&I_PingWatercolumn::has_tx_sector_information, this);
+            std::bind(&I_PingWatercolumn::has_number_of_tx_sectors, this);
+        features[t_pingfeature::beam_numbers_per_tx_sector] =
+            std::bind(&I_PingWatercolumn::has_beam_numbers_per_tx_sector, this);
+        features[t_pingfeature::beam_selection_all] =
+            std::bind(&I_PingWatercolumn::has_beam_selection_all, this);
+        features[t_pingfeature::number_of_beams] =
+            std::bind(&I_PingWatercolumn::has_number_of_beams, this);
+        features[t_pingfeature::tx_sector_per_beam] =
+            std::bind(&I_PingWatercolumn::has_tx_sector_per_beam, this);
+
         features[t_pingfeature::beam_crosstrack_angles] =
             std::bind(&I_PingWatercolumn::has_beam_crosstrack_angles, this);
         features[t_pingfeature::bottom_range_samples] =
@@ -106,6 +115,8 @@ class I_PingWatercolumn : public I_PingCommon
         features[t_pingfeature::sv]         = std::bind(&I_PingWatercolumn::has_sv, this);
         features[t_pingfeature::watercolumn_calibration] =
             std::bind(&I_PingWatercolumn::has_watercolumn_calibration, this);
+        features[t_pingfeature::multisectorwatercolumn_calibration] =
+            std::bind(&I_PingWatercolumn::has_multisectorwatercolumn_calibration, this);
 
         return features;
     }
@@ -143,7 +154,11 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     virtual bool has_tx_signal_parameters() const { return false; }
-    virtual bool has_tx_sector_information() const { return false; }
+    virtual bool has_number_of_tx_sectors() const { return false; }
+    virtual bool has_beam_numbers_per_tx_sector() const { return false; }
+    virtual bool has_tx_sector_per_beam() const { return false; }
+    bool         has_beam_selection_all() const { return has_number_of_beams(); }
+    virtual bool has_number_of_beams() const { return false; }
 
     virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
     {

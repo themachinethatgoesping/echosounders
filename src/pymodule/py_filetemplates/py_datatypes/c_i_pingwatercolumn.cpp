@@ -37,9 +37,22 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("has_tx_signal_parameters",
                  &I_PingWatercolumn::has_tx_signal_parameters,
                  DOC_I_PingWatercolumn(has_tx_signal_parameters))
-            .def("has_tx_sector_information",
-                 &I_PingWatercolumn::has_tx_sector_information,
-                 DOC_I_PingWatercolumn(has_tx_sector_information))
+            .def("has_number_of_tx_sectors",
+                 &I_PingWatercolumn::has_number_of_tx_sectors,
+                 DOC_I_PingWatercolumn(has_number_of_tx_sectors))
+            .def("has_beam_numbers_per_tx_sector",
+                 &I_PingWatercolumn::has_beam_numbers_per_tx_sector,
+                 DOC_I_PingWatercolumn(has_beam_numbers_per_tx_sector))
+            .def("has_beam_selection_all",
+                 &I_PingWatercolumn::has_beam_selection_all,
+                 DOC_I_PingWatercolumn(has_beam_selection_all))
+            .def("has_number_of_beams",
+                 &I_PingWatercolumn::has_number_of_beams,
+                 DOC_I_PingWatercolumn(has_number_of_beams))
+            .def("has_tx_sector_per_beam",
+                 &I_PingWatercolumn::has_tx_sector_per_beam,
+                 DOC_I_PingWatercolumn(has_tx_sector_per_beam))
+
             .def("get_tx_signal_parameters",
                  &I_PingWatercolumn::get_tx_signal_parameters,
                  DOC_I_PingWatercolumn(get_tx_signal_parameters))
