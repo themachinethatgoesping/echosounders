@@ -510,17 +510,14 @@ class I_PingWatercolumn : public I_PingCommon
 
         switch (_test_mode)
         {
-            case 1: {
-                auto amp = get_amplitudes(selection);
-                get_multisectorwatercolumn_calibration()
-                    .template inplace_beam_sample_correction<calibration_type>(
-                        amp,
+            case 1:
+                return get_multisectorwatercolumn_calibration()
+                    .template apply_beam_sample_correction<calibration_type>(
+                        get_amplitudes(selection),
                         get_beam_crosstrack_angles(selection),
                         get_approximate_ranges(selection),
                         get_beam_numbers_per_tx_sector(selection),
                         mp_cores);
-                return amp;
-            }
             case 2:
                 return get_watercolumn_calibration(0)
                     .template apply_beam_sample_correction<calibration_type>(
@@ -538,14 +535,17 @@ class I_PingWatercolumn : public I_PingCommon
                         mp_cores);
                 return amp;
             }
-            default:
-                return get_multisectorwatercolumn_calibration()
-                    .template apply_beam_sample_correction<calibration_type>(
-                        get_amplitudes(selection),
+            default: {
+                auto amp = get_amplitudes(selection);
+                get_multisectorwatercolumn_calibration()
+                    .template inplace_beam_sample_correction<calibration_type>(
+                        amp,
                         get_beam_crosstrack_angles(selection),
                         get_approximate_ranges(selection),
                         get_beam_numbers_per_tx_sector(selection),
                         mp_cores);
+                return amp;
+            }
         }
     }
 

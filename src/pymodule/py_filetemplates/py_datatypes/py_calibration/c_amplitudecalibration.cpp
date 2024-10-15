@@ -64,9 +64,9 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  DOC_AmplitudeCalibration(get_per_sample_offsets),
                  py::arg("ranges"))
             .def("apply_beam_sample_correction",
-                 &AmplitudeCalibration::apply_beam_sample_correction < xt::pytensor<float, 2>,
-                 xt::pytensor<float, 1>,
-                 DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
+                 &AmplitudeCalibration::apply_beam_sample_correction<xt::pytensor<float, 2>,
+                                                                     xt::pytensor<float, 1>>,
+                 DOC_AmplitudeCalibration(apply_beam_sample_correction),
                  py::arg("wci"),
                  py::arg("beam_angles"),
                  py::arg("ranges"),
@@ -75,8 +75,9 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  py::arg("mp_cores") = 1)
 
             .def("inplace_beam_sample_correction",
-                 &AmplitudeCalibration::inplace_beam_sample_correction,
-                 DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
+                 &AmplitudeCalibration::inplace_beam_sample_correction<xt::pytensor<float, 2>,
+                                                                       xt::pytensor<float, 1>>,
+                 DOC_AmplitudeCalibration(inplace_beam_sample_correction),
                  py::arg("wci"),
                  py::arg("beam_angles"),
                  py::arg("ranges"),
@@ -98,7 +99,8 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  DOC_AmplitudeCalibration(set_system_offset),
                  py::arg("value"))
             .def("set_offset_per_beamangle",
-                 &AmplitudeCalibration::set_offset_per_beamangle,
+                 py::overload_cast<const xt::pytensor<float, 1>&, const xt::pytensor<float, 1>&>(
+                     &AmplitudeCalibration::set_offset_per_beamangle<const xt::pytensor<float, 1>>),
                  DOC_AmplitudeCalibration(set_offset_per_beamangle),
                  py::arg("beamangle"),
                  py::arg("offset"))
@@ -106,7 +108,8 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  &AmplitudeCalibration::has_offset_per_beamangle,
                  DOC_AmplitudeCalibration(has_offset_per_beamangle))
             .def("set_offset_per_range",
-                 &AmplitudeCalibration::set_offset_per_range,
+                 py::overload_cast<const xt::pytensor<float, 1>&, const xt::pytensor<float, 1>&>(
+                     &AmplitudeCalibration::set_offset_per_range<const xt::pytensor<float, 1>>),
                  DOC_AmplitudeCalibration(set_offset_per_range),
                  py::arg("range"),
                  py::arg("offset"))
