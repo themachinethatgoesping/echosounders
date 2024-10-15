@@ -156,6 +156,7 @@ sources = [
   'py_simradraw/py_filedatatypes/c_simradrawpingwatercolumn.cpp',
   'py_simradraw/py_filedatatypes/module.cpp',
   'py_simradraw/py_filedatatypes/py_cache_structures/c_simradrawfileinfodata.cpp',
+  'py_simradraw/py_filedatatypes/calibration/c_simradrawwatercolumncalibration.cpp',
   'py_simradraw/py_filedatatypes/sub/c_transceiverinformation.cpp',
 ]
 

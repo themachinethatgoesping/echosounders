@@ -20,6 +20,9 @@ void init_c_simradrawfilepackageindex(pybind11::module& m); // c_simradrawfilepa
 namespace py_sub {
 void init_c_transceiverinformation(pybind11::module& m); // sub/c_transceiverinformation.cpp
 }
+namespace py_calibration {
+void init_c_simradrawwatercolumncalibration(pybind11::module& m); // sub/c_simradrawwatercolumncalibration.cpp
+}
 
 void init_c_simradrawpingcommon(pybind11::module& m);      // c_simradrawpingcommon.cpp
 void init_c_simradrawping(pybind11::module& m);            // c_simradrawping.cpp
@@ -33,6 +36,7 @@ void init_m_simradrawfiledatatypes(pybind11::module& m)
     auto subm = m.def_submodule("filetypes", "SimradRaw EK60 and EK80 file data types");
     py_cache_structures::init_c_simradrawfilepackageindex(subm);
     py_sub::init_c_transceiverinformation(subm);
+    py_calibration::init_c_simradrawwatercolumncalibration(subm);
     init_c_simradrawpingfiledata(subm);
     init_c_simradrawpingcommon(subm);
     init_c_simradrawpingbottom(subm);
