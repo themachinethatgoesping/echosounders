@@ -87,7 +87,7 @@ TEST_CASE("AmplitudeCalibration should wci corrections from wcicorrections.hpp",
                 xt::xtensor<float, 1> range_varying_offset =
                     compute_cw_range_correction(ranges, absorption, tvg_factor);
 
-                for (size_t mp_cores : { 1, 0, 4 })
+                for (size_t mp_cores : { 1, 2 })
                 {
                     for (float system_offset : { 0, -12, 13 })
                     {
@@ -263,7 +263,7 @@ TEST_CASE("AmplitudeCalibration should wci corrections from wcicorrections.hpp",
                 xt::xtensor<float, 1> range_varying_offset =
                     compute_cw_range_correction(ranges, absorption, tvg_factor);
 
-                for (size_t mp_cores : { 1, 0, 4 })
+                for (size_t mp_cores : { 1, 2 })
                     for (float system_offset : { 0, -12, 13 })
                         for (std::optional<size_t> min_bn :
                              std::vector<std::optional<size_t>>{ std::nullopt, 0, 7, 10, 999999 })

@@ -64,28 +64,8 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  DOC_AmplitudeCalibration(get_per_sample_offsets),
                  py::arg("ranges"))
             .def("apply_beam_sample_correction",
-                 py::overload_cast<const xt::pytensor<float, 2>&,
-                                   const xt::pytensor<float, 1>&,
-                                   const xt::pytensor<float, 1>&,
-                                   int>(
-                     &AmplitudeCalibration::apply_beam_sample_correction<xt::pytensor<float, 2>,
-                                                                         xt::pytensor<float, 1>>,
-                     py::const_),
-                 DOC_AmplitudeCalibration(apply_beam_sample_correction),
-                 py::arg("wci"),
-                 py::arg("beam_angles"),
-                 py::arg("ranges"),
-                 py::arg("mp_cores") = 1)
-            .def("apply_beam_sample_correction",
-                 py::overload_cast<const xt::pytensor<float, 2>&,
-                                   const xt::pytensor<float, 1>&,
-                                   const xt::pytensor<float, 1>&,
-                                   float,
-                                   float,
-                                   int>(
-                     &AmplitudeCalibration::apply_beam_sample_correction<xt::pytensor<float, 2>,
-                                                                         xt::pytensor<float, 1>>,
-                     py::const_),
+                 &AmplitudeCalibration::apply_beam_sample_correction < xt::pytensor<float, 2>,
+                 xt::pytensor<float, 1>,
                  DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
                  py::arg("wci"),
                  py::arg("beam_angles"),
@@ -94,54 +74,17 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  py::arg("tvg_factor"),
                  py::arg("mp_cores") = 1)
 
-            .def(
-                "inplace_beam_sample_correction",
-                [](const AmplitudeCalibration&   self,
-                   xt::pytensor<float, 2>        wci,
-                   const xt::pytensor<float, 1>& beam_angles,
-                   const xt::pytensor<float, 1>& ranges,
-                   std::optional<size_t>         min_beam_index,
-                   std::optional<size_t>         max_beam_index,
-                   int                           mp_cores) {
-                    self.inplace_beam_sample_correction(
-                        wci, beam_angles, ranges, min_beam_index, max_beam_index, mp_cores);
-                },
-                DOC_AmplitudeCalibration(inplace_beam_sample_correction),
-                py::arg("wci"),
-                py::arg("beam_angles"),
-                py::arg("ranges"),
-                py::arg("min_beam_index") = std::nullopt,
-                py::arg("max_beam_index") = std::nullopt,
-                py::arg("mp_cores")       = 1)
-            .def(
-                "inplace_beam_sample_correction",
-                [](const AmplitudeCalibration&   self,
-                   xt::pytensor<float, 2>        wci,
-                   const xt::pytensor<float, 1>& beam_angles,
-                   const xt::pytensor<float, 1>& ranges,
-                   float                         absorption_db_m,
-                   float                         tvg_factor,
-                   std::optional<size_t>         min_beam_index,
-                   std::optional<size_t>         max_beam_index,
-                   int                           mp_cores) {
-                    self.inplace_beam_sample_correction(wci,
-                                                        beam_angles,
-                                                        ranges,
-                                                        absorption_db_m,
-                                                        tvg_factor,
-                                                        min_beam_index,
-                                                        max_beam_index,
-                                                        mp_cores);
-                },
-                DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
-                py::arg("wci"),
-                py::arg("beam_angles"),
-                py::arg("ranges"),
-                py::arg("absorption_db_m"),
-                py::arg("tvg_factor"),
-                py::arg("min_beam_index") = std::nullopt,
-                py::arg("max_beam_index") = std::nullopt,
-                py::arg("mp_cores")       = 1)
+            .def("inplace_beam_sample_correction",
+                 &AmplitudeCalibration::inplace_beam_sample_correction,
+                 DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
+                 py::arg("wci"),
+                 py::arg("beam_angles"),
+                 py::arg("ranges"),
+                 py::arg("absorption_db_m"),
+                 py::arg("tvg_factor"),
+                 py::arg("min_beam_index") = std::nullopt,
+                 py::arg("max_beam_index") = std::nullopt,
+                 py::arg("mp_cores")       = 1)
 
             // --- convenient data access ---
             .def("get_system_offset",

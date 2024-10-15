@@ -80,16 +80,8 @@ class I_MultiSectorCalibration
 
             const auto& calibration = calibration_for_sector(tx_sector);
 
-            t_xtensor_1d sector_beam_angles =
-                xt::view(beam_angles, xt::range(beam_numbers.front(), beam_numbers.back() + 1));
-
             calibration.template inplace_beam_sample_correction<calibration_type>(
-                wci,
-                sector_beam_angles,
-                ranges,
-                beam_numbers.front(),
-                beam_numbers.back(),
-                mp_cores);
+                wci, beam_angles, ranges, beam_numbers.front(), beam_numbers.back(), mp_cores);
         }
     }
 
@@ -126,12 +118,9 @@ class I_MultiSectorCalibration
 
             const auto& calibration = calibration_for_sector(tx_sector);
 
-            t_xtensor_1d sector_beam_angles =
-                xt::view(beam_angles, xt::range(beam_numbers.front(), beam_numbers.back() + 1));
-
             calibration.template inplace_beam_sample_correction<calibration_type>(
                 result,
-                sector_beam_angles,
+                beam_angles,
                 ranges,
                 beam_numbers.front(),
                 beam_numbers.back(),

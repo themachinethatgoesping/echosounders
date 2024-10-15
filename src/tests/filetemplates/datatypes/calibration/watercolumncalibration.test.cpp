@@ -95,7 +95,7 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
         xt::xtensor<float, 1> beam_angles = xt::eval(xt::linspace<float>(-30, 30, 10));
         xt::xtensor<float, 1> ranges      = xt::eval(xt::linspace<float>(0.5, 30, 20));
 
-        for (size_t mp_cores : { 1, 0, 4 })
+        for (size_t mp_cores : { 1, 2 })
         {
             for (float system_offset : { 0, -12, 13 })
                 for (std::optional<float> absorption :
@@ -212,65 +212,65 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                             results_power["FULL-apply_power_calibration"] =
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::power>(
-                                    wci, beam_angles, ranges);
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             xt::xtensor<float, 2> result = wci;
                             wcc.template inplace_beam_sample_correction<
                                 WaterColumnCalibration::t_calibration_type::power>(
-                                result, beam_angles, ranges);
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_power["FULL-inplace_power_calibration"] = result;
 
                             // --- apply ap correction ---
                             results_ap["FULL-apply_ap_calibration"] =
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::ap>(
-                                    wci, beam_angles, ranges);
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             result = wci;
                             wcc.template inplace_beam_sample_correction<
                                 WaterColumnCalibration::t_calibration_type::ap>(
-                                result, beam_angles, ranges);
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_ap["FULL-inplace_ap_calibration"] = result;
 
                             // --- apply ap correction ---
                             results_av["FULL-apply_av_calibration"] =
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::av>(
-                                    wci, beam_angles, ranges);
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             result = wci;
                             wcc.template inplace_beam_sample_correction<
                                 WaterColumnCalibration::t_calibration_type::av>(
-                                result, beam_angles, ranges);
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_av["FULL-inplace_av_calibration"] = result;
 
                             // --- apply ap correction ---
                             results_sp["FULL-apply_sp_calibration"] =
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::sp>(
-                                    wci, beam_angles, ranges);
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             result = wci;
                             wcc.template inplace_beam_sample_correction<
                                 WaterColumnCalibration::t_calibration_type::sp>(
-                                result, beam_angles, ranges);
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_sp["FULL-inplace_sp_calibration"] = result;
 
                             // --- apply sv correction ---
                             results_sv["FULL-apply_sp_calibration"] =
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::sv>(
-                                    wci, beam_angles, ranges);
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             result = wci;
                             wcc.template inplace_beam_sample_correction<
                                 WaterColumnCalibration::t_calibration_type::sv>(
-                                result, beam_angles, ranges);
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_sv["FULL-inplace_sv_calibration"] = result;
 
                             for (const auto& results :
@@ -320,7 +320,7 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
         xt::xtensor<float, 1> beam_angles = xt::eval(xt::linspace<float>(-30, 30, 10));
         xt::xtensor<float, 1> ranges      = xt::eval(xt::linspace<float>(0.5, 30, 20));
 
-        for (size_t mp_cores : { 1, 0, 4 })
+        for (size_t mp_cores : { 1,2})
         {
             for (float system_offset : { 0, -12, 13 })
                 for (std::optional<float> absorption :
@@ -458,35 +458,35 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                     xt::xtensor<float, 2> result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::power>(
-                                        result, beam_angles, ranges, min_bn, max_bn);
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
                                     results_power["FULL-inplace_power_calibration"] = result;
 
                                     // --- apply ap correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::ap>(
-                                        result, beam_angles, ranges, min_bn, max_bn);
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
                                     results_ap["FULL-inplace_ap_calibration"] = result;
 
                                     // --- apply ap correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::av>(
-                                        result, beam_angles, ranges, min_bn, max_bn);
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
                                     results_av["FULL-inplace_av_calibration"] = result;
 
-                                    // --- apply ap correction ---
+                                    // --- apply av correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::sp>(
-                                        result, beam_angles, ranges, min_bn, max_bn);
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
                                     results_sp["FULL-inplace_sp_calibration"] = result;
 
                                     // --- apply sv correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::sv>(
-                                        result, beam_angles, ranges, min_bn, max_bn);
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
                                     results_sv["FULL-inplace_sv_calibration"] = result;
 
                                     for (const auto& results : { results_power,
@@ -517,7 +517,8 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                             for (size_t i = 0; i < result_base.size(); i++)
                                             {
                                                 // INFO(
-                                                //     fmt::format("i: {} result_base: {}, result: {}",
+                                                //     fmt::format("i: {} result_base: {}, result:
+                                                //     {}",
                                                 //                 i,
                                                 //                 result_base.flat(i),
                                                 //                 result.flat(i)));
