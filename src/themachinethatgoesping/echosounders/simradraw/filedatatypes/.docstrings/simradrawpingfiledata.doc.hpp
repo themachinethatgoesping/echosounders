@@ -1,4 +1,4 @@
-//sourcehash: 9f7c9964e6bd8f93ce6456d3951ab4fb0f24afc80f63510b200c5fcc5e00c2a6
+//sourcehash: 77c6c723f2c13db19b8ff99b6c9670b46e58a23b24377ab8cea13182da725ad5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,7 +52,11 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_parameter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_pd_index =
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_ping_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_pulse_duration_index =
 R"doc(Get the pulse duration index This index is used to look up the correct
 sa correction / gain value in the transceiver Is determined by the
 index of the used pulse duration in the transceiver configuration
@@ -60,15 +64,7 @@ index of the used pulse duration in the transceiver configuration
 Returns:
     size_t)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_ping_data = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_primary_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_sa_correction = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_information = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transmitted_power = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_angle = R"doc()doc";
 

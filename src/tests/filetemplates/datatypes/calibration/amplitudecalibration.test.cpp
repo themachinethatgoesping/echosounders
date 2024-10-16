@@ -26,7 +26,7 @@ TEST_CASE("AmplitudeCalibration support common functions", TESTTAG)
     auto obj  = AmplitudeCalibration();
     auto obj2 = AmplitudeCalibration(1.0f);
 
-    // test hash
+    // test hash (should be stable if class is not changed)
     CHECK(obj.binary_hash() == 3244421341483603138ULL);
     CHECK(obj2.binary_hash() == 17904910546364380078ULL);
 

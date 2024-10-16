@@ -48,7 +48,7 @@ void test(t_DatagramInfoData& obj)
     CHECK(obj2.get_extra_infos() == "test");
 }
 
-TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
+TEST_CASE("DatagramInfoData should support common functions", TESTTAG)
 {
     SECTION("KongsbergAll")
     {

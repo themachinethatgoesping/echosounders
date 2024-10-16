@@ -14,9 +14,12 @@
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>
 
-// xtensor includes
+// themachinethatgoesping includes
 #include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
+
+// local includes
+#include "../../datagrams.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -53,21 +56,39 @@ class TransceiverInformation
         : _ping_transceiver(ping_transceiver)
         , _ping_transceiver_channel(ping_transceiver_channel)
     {
-
-        float transducer_impedance  = 75; // ohm TODO: is this always 75 ohm?
-        float transceiver_impedance = _ping_transceiver.Impedance;
-
-        //_impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
-        // 1/(2*sqrt(2))²
-        _impedance_factor = (transceiver_impedance + transducer_impedance) / transceiver_impedance;
-        _impedance_factor *= _impedance_factor;
-        _impedance_factor /= transducer_impedance;
-        _impedance_factor /= 8;
+        _impedance_factor = compute_impedance_factor(_ping_transceiver.Impedance, 75);
 
         _initialized = true;
     }
 
-    bool operator==(const TransceiverInformation& other) const = default;
+    static float compute_impedance_factor(float transceiver_impedance,
+                                          float transducer_impedance = 75)
+    {
+        //_impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
+        // 1/(2*sqrt(2))²
+        float impedance_factor =
+            (transceiver_impedance + transducer_impedance) / transceiver_impedance;
+        impedance_factor *= impedance_factor;
+        impedance_factor /= transducer_impedance;
+        impedance_factor /= 8;
+
+        return impedance_factor;
+    }
+
+    bool operator==(const TransceiverInformation& other) const
+    {
+        return _ping_transceiver == other._ping_transceiver &&
+               _ping_transceiver_channel == other._ping_transceiver_channel &&
+               _initialized == other._initialized &&
+               tools::helper::float_equals(_impedance_factor, other._impedance_factor);
+    }
+
+    size_t get_pulse_duration_index(
+        const datagrams::xml_datagrams::XML_Parameter_Channel& parameters) const
+    {
+        return get_pulse_duration_index(parameters.get_pulse_duration(),
+                                        parameters.get_pulse_form_is_fm());
+    }
 
     size_t get_pulse_duration_index(float pulse_duration, bool fm) const
     {
@@ -81,10 +102,19 @@ class TransceiverInformation
                 return index;
         }
 
-        throw std::runtime_error(
-            fmt::format("ERROR[{}]: Pulse duration {} not found in transceiver information",
-                        __func__,
-                        pulse_duration));
+        std::string possible_durations = "";
+        for (const auto& duration : pulse_durations)
+            possible_durations += fmt::format("{}, ", duration);
+
+        std::string mode = fm ? "FM" : "CW";
+
+        throw std::runtime_error(fmt::format("ERROR[{}]: Pulse duration {} not found in "
+                                             "transceiver information for {} mode. Possible "
+                                             "durations: {}",
+                                             __func__,
+                                             pulse_duration,
+                                             mode,
+                                             possible_durations));
     }
 
     // ----- interface -----
@@ -121,15 +151,52 @@ class TransceiverInformation
         return _ping_transceiver_channel.Transducer;
     }
 
-    xxh::hash_t<64> binary_hash() const
+    // stream i/o
+    static TransceiverInformation from_stream(std::istream& is)
     {
-        xxh::hash3_state_t<64>               hash;
-        boost::iostreams::stream<XXHashSink> stream(hash);
-        _ping_transceiver.to_stream(stream);
-        _ping_transceiver_channel.to_stream(stream);
-        stream.flush();
-        return hash.digest();
+        TransceiverInformation tr_infos;
+
+        tr_infos._ping_transceiver =
+            datagrams::xml_datagrams::XML_Configuration_Transceiver::from_stream(is);
+        tr_infos._ping_transceiver_channel =
+            datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel::from_stream(is);
+        is.read(reinterpret_cast<char*>(&tr_infos._initialized), sizeof(tr_infos._initialized));
+        is.read(reinterpret_cast<char*>(&tr_infos._impedance_factor),
+                sizeof(tr_infos._impedance_factor));
+
+        return tr_infos;
     }
+
+    void to_stream(std::ostream& os) const
+    {
+        _ping_transceiver.to_stream(os);
+        _ping_transceiver_channel.to_stream(os);
+        os.write(reinterpret_cast<const char*>(&_initialized), sizeof(_initialized));
+        os.write(reinterpret_cast<const char*>(&_impedance_factor), sizeof(_impedance_factor));
+    }
+
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
+    {
+        tools::classhelper::ObjectPrinter printer(
+            "TransceiverInformation", float_precision, superscript_exponents);
+
+        printer.register_section("Transceiver datagrams");
+        printer.register_value("Transceiver", _ping_transceiver.TransceiverName);
+        printer.register_value("Transceiver Channel", _ping_transceiver_channel.ChannelID);
+
+        printer.register_section("Impedance factor (for complex32 power conversion)");
+        printer.register_value("transceiver_impedance", _ping_transceiver.Impedance, "Ohm");
+        printer.register_value("transducer_impedance", 75, "Ohm [fixed]");
+        printer.register_value("impedance_factor", _impedance_factor);
+
+        return printer;
+    }
+
+    // ----- class helper macros -----
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(TransceiverInformation)
 };
 
 /**

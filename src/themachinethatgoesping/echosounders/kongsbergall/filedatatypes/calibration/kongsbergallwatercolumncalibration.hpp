@@ -148,23 +148,10 @@ class KongsbergAllWaterColumnCalibration
         return printer;
     }
 
-    xxh::hash_t<64> binary_hash() const override
-    {
-
-        xxh::hash3_state_t<64>               hash;
-        boost::iostreams::stream<XXHashSink> stream(hash);
-
-        WaterColumnCalibration::add_hash(stream);
-
-        stream.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 3);
-
-        stream.flush();
-        return hash.digest();
-    }
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(KongsbergAllWaterColumnCalibration)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(KongsbergAllWaterColumnCalibration)
 };
 
 // boost hash

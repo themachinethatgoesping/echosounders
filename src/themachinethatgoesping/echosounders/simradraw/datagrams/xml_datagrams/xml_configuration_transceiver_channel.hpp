@@ -223,7 +223,7 @@ struct XML_Configuration_Transceiver_Channel
                approx_container(PulseDuration, other.PulseDuration) &&
                approx_container(PulseDurationFM, other.PulseDurationFM) &&
                approx_container(SampleInterval, other.SampleInterval) &&
-               approx(MaxTxPowerTransceiver, other.MaxTxPowerTransceiver) &&
+               tools::helper::float_equals(MaxTxPowerTransceiver, other.MaxTxPowerTransceiver) &&
                HWChannelConfiguration == other.HWChannelConfiguration &&
                ChannelNumber == other.ChannelNumber && Transducer == other.Transducer;
 

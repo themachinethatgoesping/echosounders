@@ -61,8 +61,8 @@ struct XMLConfigurationTransceiverChannelTransducer
     std::string         ArticleNumber;
     std::vector<double> Gain;
     std::vector<double> SaCorrection;
-    int32_t             SerialNumber = -1;
-    t_BeamType          BeamType;
+    int32_t             SerialNumber                 = -1;
+    t_BeamType          BeamType                     = t_BeamType::BeamTypeSingle;
     double              Frequency                    = NAN;
     double              FrequencyMinimum             = NAN;
     double              FrequencyMaximum             = NAN;
@@ -281,18 +281,18 @@ struct XMLConfigurationTransceiverChannelTransducer
                approx_container(Gain, other.Gain) &&
                approx_container(SaCorrection, other.SaCorrection) &&
                SerialNumber == other.SerialNumber && BeamType == other.BeamType &&
-               approx(Frequency, other.Frequency) &&
-               approx(FrequencyMinimum, other.FrequencyMinimum) &&
-               approx(FrequencyMaximum, other.FrequencyMaximum) &&
-               approx(EquivalentBeamAngle, other.EquivalentBeamAngle) &&
-               approx(MaxTxPowerTransducer, other.MaxTxPowerTransducer) &&
-               approx(BeamWidthAlongship, other.BeamWidthAlongship) &&
-               approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
-               approx(AngleSensitivityAlongship, other.AngleSensitivityAlongship) &&
-               approx(AngleSensitivityAthwartship, other.AngleSensitivityAthwartship) &&
-               approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
-               approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship) &&
-               approx(DirectivityDropAt2XBeamWidth, other.DirectivityDropAt2XBeamWidth) &&
+               tools::helper::float_equals(Frequency, other.Frequency) &&
+               tools::helper::float_equals(FrequencyMinimum, other.FrequencyMinimum) &&
+               tools::helper::float_equals(FrequencyMaximum, other.FrequencyMaximum) &&
+               tools::helper::float_equals(EquivalentBeamAngle, other.EquivalentBeamAngle) &&
+               tools::helper::float_equals(MaxTxPowerTransducer, other.MaxTxPowerTransducer) &&
+               tools::helper::float_equals(BeamWidthAlongship, other.BeamWidthAlongship) &&
+               tools::helper::float_equals(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
+               tools::helper::float_equals(AngleSensitivityAlongship, other.AngleSensitivityAlongship) &&
+               tools::helper::float_equals(AngleSensitivityAthwartship, other.AngleSensitivityAthwartship) &&
+               tools::helper::float_equals(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
+               tools::helper::float_equals(AngleOffsetAthwartship, other.AngleOffsetAthwartship) &&
+               tools::helper::float_equals(DirectivityDropAt2XBeamWidth, other.DirectivityDropAt2XBeamWidth) &&
                FrequencyPars == other.FrequencyPars;
 
         // && unknown_children == other.unknown_children &&
@@ -304,10 +304,13 @@ struct XMLConfigurationTransceiverChannelTransducer
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(
-            "EK80 XML0 Configuration_Transceiver_Channel_Transducer", float_precision, superscript_exponents);
+            "EK80 XML0 Configuration_Transceiver_Channel_Transducer",
+            float_precision,
+            superscript_exponents);
 
         if (!FrequencyPars.empty())
         {

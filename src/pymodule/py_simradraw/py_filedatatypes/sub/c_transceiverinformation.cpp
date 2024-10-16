@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -71,23 +71,37 @@ void init_c_transceiverinformation(pybind11::module& m)
                    .def("get_impedance_factor",
                         &t_TransceiverInformation::get_impedance_factor,
                         DOC_transceiverinformation(get_impedance_factor))
+                   .def_static("compute_impedance_factor",
+                               &t_TransceiverInformation::compute_impedance_factor,
+                               DOC_transceiverinformation(compute_impedance_factor),
+                               py::arg("transceiver_impedance"),
+                               py::arg("transducer_impedance") = 75)
                    .def("get_pulse_duration_index",
-                        &t_TransceiverInformation::get_pulse_duration_index,
+                        py::overload_cast<const datagrams::xml_datagrams::XML_Parameter_Channel &
+                                          parameters>(
+                            &t_TransceiverInformation::get_pulse_duration_index, py::const_),
+                        DOC_transceiverinformation(get_pulse_duration_index),
+                        py::arg("xml_parameter_datagram"))
+                   .def("get_pulse_duration_index",
+                        py::overload_cast<float, bool>(
+                            &t_TransceiverInformation::get_pulse_duration_index, py::const_),
                         DOC_transceiverinformation(get_pulse_duration_index),
                         py::arg("pulse_duration"),
                         py::arg("fm"))
 
-        // ----- operators -----
-        // .def("__eq__",
-        //      &SimradRawPing::operator==,
-        //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,
-        //      SimradRawPing, operator_eq), py::arg("other"))
-        // ----- pybind macros -----
-        // default copy functions
-        //__PYCLASS_DEFAULT_COPY__(t_TransceiverInformation)
-        // default binary functions
-        //__PYCLASS_DEFAULT_PRINTING__(t_TransceiverInformation)
-        // end SimradRawPing
+                   // ----- operators -----
+                   .def("__eq__",
+                        &t_TransceiverInformation::operator==,
+                        DOC_transceiverinformation(operator_eq),
+                        py::arg("other"))
+               // ----- pybind macros -----
+               // default copy functions
+               __PYCLASS_DEFAULT_COPY__(t_TransceiverInformation)
+               // default binary functions
+               __PYCLASS_DEFAULT_BINARY__(t_TransceiverInformation)
+               // default printing functions
+               __PYCLASS_DEFAULT_PRINTING__(t_TransceiverInformation)
+        // end t_TransceiverInformation
         ;
 }
 

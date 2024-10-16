@@ -18,16 +18,16 @@ using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[WaterColumnCalibration]"
 
-TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
+TEST_CASE("WaterColumnCalibration should support common functions", TESTTAG)
 {
     auto obj0 = AmplitudeCalibration(1.0f);
 
     auto obj  = WaterColumnCalibration();
     auto obj2 = WaterColumnCalibration(obj0, AmplitudeCalibration(), AmplitudeCalibration());
 
-    // test hash
-    CHECK(obj.binary_hash() == 3020528168303537014ULL);
-    CHECK(obj2.binary_hash() == 4714633842598101940ULL);
+    // test hash (should be stable if class is not changed)
+    CHECK(obj.binary_hash() == 14297201401130263458ULL);
+    CHECK(obj2.binary_hash() == 976104721445154333ULL);
 
     // test equality
     // test inequality

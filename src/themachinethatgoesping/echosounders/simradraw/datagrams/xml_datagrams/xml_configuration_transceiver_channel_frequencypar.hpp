@@ -40,14 +40,14 @@ namespace xml_datagrams {
 struct XML_Configuration_Transceiver_Channel_FrequencyPar
 {
 
-    double Frequency;
-    double Gain;
-    double Impedance;
-    double Phase;
-    double BeamWidthAlongship;
-    double BeamWidthAthwartship;
-    double AngleOffsetAlongship;
-    double AngleOffsetAthwartship;
+    double Frequency              = NAN;
+    double Gain                   = NAN;
+    double Impedance              = NAN;
+    double Phase                  = NAN;
+    double BeamWidthAlongship     = NAN;
+    double BeamWidthAthwartship   = NAN;
+    double AngleOffsetAlongship   = NAN;
+    double AngleOffsetAthwartship = NAN;
 
     int32_t unknown_children   = 0;
     int32_t unknown_attributes = 0;
@@ -159,13 +159,14 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
     // ----- operators -----
     bool operator==(const XML_Configuration_Transceiver_Channel_FrequencyPar& other) const
     {
-        using tools::helper::approx;
-        return approx(Frequency, other.Frequency) && approx(Gain, other.Gain) &&
-               approx(Impedance, other.Impedance) && approx(Phase, other.Phase) &&
-               approx(BeamWidthAlongship, other.BeamWidthAlongship) &&
-               approx(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
-               approx(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
-               approx(AngleOffsetAthwartship, other.AngleOffsetAthwartship);
+        return tools::helper::float_equals(Frequency, other.Frequency) &&
+               tools::helper::float_equals(Gain, other.Gain) &&
+               tools::helper::float_equals(Impedance, other.Impedance) &&
+               tools::helper::float_equals(Phase, other.Phase) &&
+               tools::helper::float_equals(BeamWidthAlongship, other.BeamWidthAlongship) &&
+               tools::helper::float_equals(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
+               tools::helper::float_equals(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
+               tools::helper::float_equals(AngleOffsetAthwartship, other.AngleOffsetAthwartship);
 
         // && unknown_children == other.unknown_children &&
         // unknown_attributes == other.unknown_attributes;
@@ -176,10 +177,13 @@ struct XML_Configuration_Transceiver_Channel_FrequencyPar
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(
-            "EK80 XML0 Configuration_Transceiver_Channel_FrequencyPar", float_precision, superscript_exponents);
+            "EK80 XML0 Configuration_Transceiver_Channel_FrequencyPar",
+            float_precision,
+            superscript_exponents);
 
         printer.register_section("attributes");
         printer.register_value("Frequency", Frequency);

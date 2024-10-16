@@ -130,7 +130,7 @@ class SimradRawPingDataInterfacePerFile
         auto transceivers         = configuration_datagram.get_transceivers();
         auto transceiver_channels = configuration_datagram.get_transceiver_channels();
 
-        // cache for tranceiver information
+        // cache for transceiver information
         std::map<std::string, boost::flyweight<filedatatypes::_sub::TransceiverInformation>>
             transceiver_information_buffer;
         for (const auto& [channel_id, transceiver] : transceivers)

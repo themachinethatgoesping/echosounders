@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -61,11 +61,14 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                         &t_SimradRawPingFileData::get_environment,
                         DOC_simradrawpingfiledata(get_environment))
 
-                   .def("read_sample_data",
-                        &t_SimradRawPingFileData::read_sample_data,
-                        DOC_simradrawpingfiledata(read_sample_data),
-                        py::arg("dB") = true)
+                   .def("get_environment",
+                        &t_SimradRawPingFileData::get_environment,
+                        DOC_simradrawpingfiledata(get_environment))
 
+                   .def("get_pulse_duration_index",
+                        &t_SimradRawPingFileData::get_pulse_duration_index,
+                        DOC_simradrawpingfiledata(get_pulse_duration_index))
+                  
                    // --- transceiver information ---
                    .def_property_readonly("transceiver_information",
                                           &t_SimradRawPingFileData::get_transceiver_information,

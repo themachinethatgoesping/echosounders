@@ -57,6 +57,7 @@ sources = [
   'simradraw/datatypes/packagecache/cache_raw3.test.cpp',
   'simradraw/datatypes/packagecache/cache_xml_parameter.test.cpp',
   'simradraw/datatypes/calibration/simradrawwatercolumncalibration.test.cpp',
+  'simradraw/datatypes/sub/transceiverinformation.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
   'filetemplates/datatypes/packagecache/cache_structpackage.test.cpp',

@@ -275,7 +275,7 @@ class KongsbergAllPingWatercolumn
 
     bool has_multisectorwatercolumn_calibration() const override
     {
-        // Kongsbergall has water column calibraiton
+        // Kongsbergall has water column calibration
         return _file_data->has_watercolumn_calibration();
     }
 

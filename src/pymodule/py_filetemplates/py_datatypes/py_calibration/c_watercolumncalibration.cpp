@@ -104,18 +104,27 @@ void init_c_watercolumncalibration(pybind11::module& m)
                      datatypes,
                      calibration,
                      WaterColumnCalibration))
-                 .def(py::init<>(), DOC_WaterColumnCalibration(WaterColumnCalibration))
+                 .def(py::init<float, float>(),
+                      DOC_WaterColumnCalibration(WaterColumnCalibration),
+                      py::arg("tvg_absorption_db_m") = 0.0f,
+                      py::arg("tvg_factor")          = 0.0f)
                  .def(py::init<const AmplitudeCalibration&,
                                const AmplitudeCalibration&,
-                               const AmplitudeCalibration&>(),
+                               const AmplitudeCalibration&,
+                               float,
+                               float>(),
                       DOC_WaterColumnCalibration(WaterColumnCalibration),
-                      py::arg("power_calibration") = AmplitudeCalibration(),
-                      py::arg("ap_calibration")    = AmplitudeCalibration(),
-                      py::arg("av_calibration")    = AmplitudeCalibration())
-                 .def(py::init<const WaterColumnCalibration&>(),
-                      DOC_WaterColumnCalibration(WaterColumnCalibration))
+                      py::arg("power_calibration")   = AmplitudeCalibration(),
+                      py::arg("ap_calibration")      = AmplitudeCalibration(),
+                      py::arg("av_calibration")      = AmplitudeCalibration(),
+                      py::arg("tvg_absorption_db_m") = 0.0f,
+                      py::arg("tvg_factor")          = 0.0f)
 
                  // --- getters / setters ---
+                 .def("set_absorption_db_m",
+                      &WaterColumnCalibration::set_absorption_db_m,
+                      DOC_WaterColumnCalibration(set_absorption_db_m),
+                      py::arg("absorption_db_m"))
                  .def("get_absorption_db_m",
                       &WaterColumnCalibration::get_absorption_db_m,
                       DOC_WaterColumnCalibration(get_absorption_db_m))

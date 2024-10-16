@@ -90,57 +90,27 @@ class SimradRawPingFileData
      *
      * @return size_t
      */
-    size_t get_pd_index() const
+    size_t get_pulse_duration_index() const
     {
         const auto& param = get_parameter();
         return _transceiver_information.get().get_pulse_duration_index(
             param.get_pulse_duration(), param.get_pulse_form_is_fm());
     }
 
-    // EK80 calibration information
-    float get_sa_correction() const
-    {
-        auto pd_index = get_pd_index();
-
-        return get_parameter().get_sa_correction().at(pd_index);
-    }
-
-    // EK80 calibration information
-    float get_transmitted_power() const
-    {
-        auto pd_index = get_pd_index();
-
-        return get_parameter().get_sa_correction().at(pd_index);
-    }
-
-    // --- transceiver information ---
-    // auto get_transceiver() const { return _transceiver_information.get().get_transceiver(); }
-    // auto get_transceiver_channel() const
+    // // EK80 calibration information
+    // float get_sa_correction() const
     // {
-    //     return _transceiver_information.get().get_transceiver_channel();
-    // }
-    // auto get_transducer() const { return _transceiver_information.get().get_transducer(); }
+    //     auto pd_index = get_pulse_duration_index();
 
-    // bool transceiver_information_initialized() const
-    // {
-    //     return _transceiver_information.get().is_initialized();
+    //     return get_parameter().get_sa_correction().at(pd_index);
     // }
 
-    // /**
-    //  * @brief Get the transceiver impedance factor
-    //  *  used for computing power from complex 32 bit samples
-    //  *   see ek80 interface specification v23.06 p214
-    //  *   impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
-    //  1/(2*sqrt(2))²
-    //  * Note: 1. Transceive impedance can be found in the transceiver configuration in the
-    //  configuration datagram
-    //  *       2. Transducer impedance is always 75 ohm. TODO: is this always 75 ohm?
-    //  *
-    //  * @return float
-    //  */
-    // float get_transceiver_impedance_factor() const
+    // // EK80 calibration information
+    // float get_transmitted_power() const
     // {
-    //     return _transceiver_information.get().get_impedance_factor();
+    //     auto pd_index = get_pulse_duration_index();
+
+    //     return get_parameter().get_transmitted_power().at(pd_index);
     // }
 
     void set_parameter(boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> parameter)

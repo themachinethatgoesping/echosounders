@@ -119,12 +119,7 @@ class I_MultiSectorCalibration
             const auto& calibration = calibration_for_sector(tx_sector);
 
             calibration.template inplace_beam_sample_correction<calibration_type>(
-                result,
-                beam_angles,
-                ranges,
-                beam_numbers.front(),
-                beam_numbers.back(),
-                mp_cores);
+                result, beam_angles, ranges, beam_numbers.front(), beam_numbers.back(), mp_cores);
         }
 
         return result;
@@ -271,29 +266,9 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
         return printer;
     }
 
-    void add_hash(boost::iostreams::stream<XXHashSink>& hash_stream) const
-    {
-        for (const auto& calibration : _calibration_per_sector)
-        {
-            calibration.add_hash(hash_stream);
-        }
-    }
-
-    virtual xxh::hash_t<64> binary_hash() const
-    {
-
-        xxh::hash3_state_t<64>               hash;
-        boost::iostreams::stream<XXHashSink> stream(hash);
-
-        add_hash(stream);
-
-        stream.flush();
-        return hash.digest();
-    }
-
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(T_MultiSectorCalibration)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(T_MultiSectorCalibration)
 };
 
 // boost hash

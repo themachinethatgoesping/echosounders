@@ -75,7 +75,7 @@ struct XML_Parameter_Channel
     }
 
     bool get_pulse_form_is_cw() const { return PulseForm == 0; }
-    bool get_pulse_form_is_fm() const { return PulseForm != 1; }
+    bool get_pulse_form_is_fm() const { return PulseForm == 1; }
 
     themachinethatgoesping::algorithms::signalprocessing::datastructures::TxSignalParameters
     get_tx_signal_parameters() const

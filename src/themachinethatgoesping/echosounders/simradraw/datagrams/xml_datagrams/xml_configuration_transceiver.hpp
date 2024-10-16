@@ -51,8 +51,8 @@ struct XML_Configuration_Transceiver
     double Impedance         = NAN;
     double RxSampleFrequency = NAN;
     int    SerialNumber      = -1;
-    int    TransceiverNumber;
-    int    Multiplexing;
+    int    TransceiverNumber = 0;
+    int    Multiplexing      = 0;
 
     std::vector<XML_Configuration_Transceiver_Channel> Channels;
 
@@ -248,8 +248,8 @@ struct XML_Configuration_Transceiver
                TransceiverType == other.TransceiverType && MarketSegment == other.MarketSegment &&
                EthernetAddress == other.EthernetAddress && IPAddress == other.IPAddress &&
                TransceiverSoftwareVersion == other.TransceiverSoftwareVersion &&
-               Version == other.Version && approx(Impedance, other.Impedance) &&
-               approx(RxSampleFrequency, other.RxSampleFrequency) &&
+               Version == other.Version && tools::helper::float_equals(Impedance, other.Impedance) &&
+               tools::helper::float_equals(RxSampleFrequency, other.RxSampleFrequency) &&
                SerialNumber == other.SerialNumber && TransceiverNumber == other.TransceiverNumber &&
                Multiplexing == other.Multiplexing && Channels == other.Channels;
 
@@ -259,10 +259,11 @@ struct XML_Configuration_Transceiver
     bool operator!=(const XML_Configuration_Transceiver& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Configuration_Transceiver", float_precision, superscript_exponents);
 
         if (!Channels.empty())
         {

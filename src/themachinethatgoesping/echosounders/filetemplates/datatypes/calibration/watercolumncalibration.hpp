@@ -495,7 +495,7 @@ class WaterColumnCalibration
         }
         if (_sp_calibration)
         {
-            printer.register_section("Ap Calibration (Uncalibrated TS)");
+            printer.register_section("Sp Calibration (Uncompensated TS)");
             printer.append(_sp_calibration->__printer__(float_precision, superscript_exponents));
         }
         if (_sv_calibration)
@@ -507,39 +507,9 @@ class WaterColumnCalibration
         return printer;
     }
 
-    void add_hash(boost::iostreams::stream<XXHashSink>& hash_stream) const
-    {
-        if (_power_calibration)
-            _power_calibration->add_hash(hash_stream);
-        if (_ap_calibration)
-            _ap_calibration->add_hash(hash_stream);
-        if (_av_calibration)
-            _av_calibration->add_hash(hash_stream);
-        if (_sp_calibration)
-            _sp_calibration->add_hash(hash_stream);
-        if (_sv_calibration)
-            _sv_calibration->add_hash(hash_stream);
-
-        float absorption_db_m = _absorption_db_m.value_or(std::numeric_limits<float>::quiet_NaN());
-        hash_stream.write(reinterpret_cast<const char*>(&absorption_db_m), sizeof(float));
-        hash_stream.write(reinterpret_cast<const char*>(&_tvg_absorption_db_m), sizeof(float) * 2);
-    }
-
-    virtual xxh::hash_t<64> binary_hash() const
-    {
-
-        xxh::hash3_state_t<64>               hash;
-        boost::iostreams::stream<XXHashSink> stream(hash);
-
-        add_hash(stream);
-
-        stream.flush();
-        return hash.digest();
-    }
-
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(WaterColumnCalibration)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(WaterColumnCalibration)
 
   private:
     void check_initialized(std::string_view                             function_name,

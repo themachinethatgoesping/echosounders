@@ -19,7 +19,7 @@ using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatype
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[KongsbergAllWaterColumnCalibration]"
 
-TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
+TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", TESTTAG)
 {
     using Catch::Approx;
 
@@ -39,9 +39,9 @@ TEST_CASE("DatagramInfoDatashould support common functions", TESTTAG)
                                                   tvg_factor);
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
-    // test hash
-    CHECK(obj.binary_hash() == 6312482898452311095ULL);
-    CHECK(obj2.binary_hash() == 8290812122276833505ULL);
+    // test hash (should be stable if class is not changed)
+    CHECK(obj.binary_hash() == 4129550967388344509ULL);
+    CHECK(obj2.binary_hash() == 770061992534893794ULL);
 
     // test equality
     // test inequality

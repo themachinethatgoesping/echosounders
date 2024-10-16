@@ -24,9 +24,9 @@ TEST_CASE("MultiSectorWaterColumnCalibration support common functions", TESTTAG)
     auto obj2 =
         MultiSectorWaterColumnCalibration({ WaterColumnCalibration(), WaterColumnCalibration() });
 
-    // test hash
-    CHECK(obj.binary_hash() == 3244421341483603138ULL);
-    CHECK(obj2.binary_hash() == 5348759796346773057ULL);
+    // test hash (should be stable if class is not changed)
+    CHECK(obj.binary_hash() == 14374147212387527897ULL);
+    CHECK(obj2.binary_hash() == 9020898908978856005ULL);
 
     // test equality
     // test inequality
