@@ -100,7 +100,7 @@ class KongsbergAllWaterColumnCalibration
             _av_calibration = std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) -
                                                                      _system_gain_offset);
         else
-            _av_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
+            _av_calibration.reset();
 
         _initialized = true;
         check_initialization();
@@ -146,8 +146,8 @@ class KongsbergAllWaterColumnCalibration
         // Effective pulse duration is NAN if no raw_range_and_angle datagram is available, but not
         // in the watercolumn datagram. This problem is caught in the
         // setup_kongsberg_em_calibrations function by setting the av_calibration factor to 1
-        // TODO: this should issue a warning in the log as 
-        //get_av is different if .wcd is read without .all
+        // TODO: this should issue a warning in the log as
+        // get_av is different if .wcd is read without .all
         // if (!std::isfinite(_effective_pulse_duration))
         //     throw_because_value_is_note_finite("effective_pulse_duration",
         //                                        _effective_pulse_duration);

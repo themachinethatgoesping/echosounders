@@ -49,11 +49,48 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     CHECK(obj2 == obj2);
     CHECK(obj != obj2);
 
+    SECTION("test incomplete setup behavior")
+    {
+
+        auto obj_no_epd = KongsbergAllWaterColumnCalibration(
+            sound_velocity, NAN, system_gain_offset, tvg_absorption_db_m, tvg_factor);
+
+        auto obj_no_absorption = KongsbergAllWaterColumnCalibration(sound_velocity,
+                                                                    effective_pulse_duration,
+                                                                    system_gain_offset,
+                                                                    0.f,
+                                                                    tvg_factor);
+        // if the effective pulse duration is not supplied, the AV calibration will not be set
+        CHECK(obj_no_epd.has_valid_absorption_db_m() == true);
+        CHECK(obj_no_epd.has_ap_calibration() == true);
+        CHECK(obj_no_epd.has_av_calibration() == false);
+        CHECK(obj_no_epd.has_power_calibration() == true);
+        CHECK(obj_no_epd.has_sp_calibration() == false);
+        CHECK(obj_no_epd.has_sv_calibration() == false);
+
+        // of tvg_absorption is 0, and no additional absorption is supplied, the absorption is set
+        // invalid
+        CHECK(obj_no_absorption.has_valid_absorption_db_m() == false);
+        CHECK(obj_no_absorption.has_ap_calibration() == true);
+        CHECK(obj_no_absorption.has_av_calibration() == true);
+        CHECK(obj_no_absorption.has_power_calibration() == true);
+        CHECK(obj_no_absorption.has_sp_calibration() == false);
+        CHECK(obj_no_absorption.has_sv_calibration() == false);
+
+        // even 0 absorption is valid, if it was explicitly set
+        obj_no_absorption.set_absorption_db_m(0);
+        CHECK(obj_no_absorption.has_valid_absorption_db_m() == true);
+        obj_no_absorption.set_absorption_db_m(NAN);
+        CHECK(obj_no_absorption.has_valid_absorption_db_m() == false);
+    }
+
     // test initialized
     // CHECK(obj.initialized() == true);
     // CHECK(obj2.initialized() == false);
 
     // test kongsberg default calibration
+    CHECK(obj2.has_valid_absorption_db_m() == false);
+    CHECK(obj.has_valid_absorption_db_m() == true);
     CHECK(obj.has_ap_calibration() == true);
     CHECK(obj.has_av_calibration() == true);
     CHECK(obj.has_power_calibration() == true);
@@ -95,7 +132,7 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
 
-    // test modifying calibrations 
+    // test modifying calibrations
     REQUIRE_THROWS_AS(obj.set_power_calibration(obj0), std::runtime_error);
     REQUIRE_THROWS_AS(obj.set_ap_calibration(obj0), std::runtime_error);
     REQUIRE_THROWS_AS(obj.set_av_calibration(obj0), std::runtime_error);
