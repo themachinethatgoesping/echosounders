@@ -33,6 +33,8 @@ class KongsbergAllWaterColumnCalibration
     float _sound_velocity           = std::numeric_limits<float>::quiet_NaN();
     float _effective_pulse_duration = std::numeric_limits<float>::quiet_NaN();
     float _system_gain_offset       = std::numeric_limits<float>::quiet_NaN();
+
+    bool _initialized = false;
     // // different types of offsets
     // AmplitudeCalibration _power_calibration;
     // AmplitudeCalibration _ap_calibration;
@@ -93,6 +95,9 @@ class KongsbergAllWaterColumnCalibration
         float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
         _av_calibration =
             std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) - _system_gain_offset);
+
+        _initialized = true;
+        check_initialization();
     }
 
     // operator overloads
@@ -107,11 +112,40 @@ class KongsbergAllWaterColumnCalibration
                tools::helper::float_equals(_system_gain_offset, other._system_gain_offset);
     }
 
-    bool initialized() const
+    bool initialized() const { return _initialized; } // hash of default constructor
+
+    void check_initialized() const override
     {
-        return std::isfinite(_sound_velocity) && std::isfinite(_effective_pulse_duration) &&
-               std::isfinite(_system_gain_offset);
-    } // hash of default constructor
+        if (!initialized())
+            throw std::runtime_error(fmt::format("ERROR[{}]:Calibration not initialized, call "
+                                                 "setup_kongsberg_em_calibrations() first!",
+                                                 __func__));
+    }
+    void check_modifying_base_calibration_allowed() const override
+    {
+        throw std::runtime_error(fmt::format(
+            "ERROR[{}]:Modifying base calibrations (power, ap, av) is not allowed for "
+            "KongsbergAllWaterColumnCalibration. You may modify the parameters used for "
+            "the calibration, and call setup_simrad_calibration() to recompute the "
+            "calibration. You may also modify the used sp and sv calibrations. Alternatively you "
+            "can explicitly convert the calibration to a generic calibration. using "
+            "WaterColumnCalibration(calibration)",
+            __func__));
+    }
+
+    void check_initialization() const
+    {
+        check_initialized();
+
+        // additionally test for computed parameters
+        if (!std::isfinite(_sound_velocity))
+            throw_because_value_is_note_finite("sound_velocity", _sound_velocity);
+        if (!std::isfinite(_effective_pulse_duration))
+            throw_because_value_is_note_finite("effective_pulse_duration",
+                                               _effective_pulse_duration);
+        if (!std::isfinite(_system_gain_offset))
+            throw_because_value_is_note_finite("system_gain_offset", _system_gain_offset);
+    }
 
     // stream i/o
     static KongsbergAllWaterColumnCalibration from_stream(std::istream& is)
@@ -148,10 +182,18 @@ class KongsbergAllWaterColumnCalibration
         return printer;
     }
 
-
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(KongsbergAllWaterColumnCalibration)
+
+  private:
+    static void throw_because_value_is_note_finite(std::string_view value_name, float value)
+    {
+        throw std::runtime_error(fmt::format("ERROR[KongsbergAllWaterColumnCalibraiton]:"
+                                             "Calibration not initialized because {} is {}!",
+                                             value_name,
+                                             value));
+    }
 };
 
 // boost hash
@@ -164,7 +206,6 @@ inline std::size_t hash_value(const KongsbergAllWaterColumnCalibration& arg)
 using KongsbergAllMultiSectorWaterColumnCalibration =
     filetemplates::datatypes::calibration::T_MultiSectorCalibration<
         KongsbergAllWaterColumnCalibration>;
-
 }
 }
 }

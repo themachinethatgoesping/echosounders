@@ -85,6 +85,10 @@ class WaterColumnCalibration
             _sv_calibration = std::make_unique<AmplitudeCalibration>(*other._sv_calibration);
     }
 
+    // this is used to check if parent classes are initialized
+    virtual void check_initialized() const {}
+    virtual void check_modifying_base_calibration_allowed() const {}
+
     // operator overloads
 
     void set_absorption_db_m(std::optional<float> value) { _absorption_db_m = value; }
@@ -110,6 +114,8 @@ class WaterColumnCalibration
 
     std::optional<float> get_tvg_factor_to_apply(float tvg_factor) const
     {
+        this->check_initialized();
+
         float diff = tvg_factor - _tvg_factor;
         if (std::fabs(diff) > 0.0000001f)
             return diff;
@@ -125,9 +131,11 @@ class WaterColumnCalibration
                                               const t_xtensor_1d& ranges,
                                               int                 mp_cores = 1) const
     {
+        this->check_initialized();
+
         if constexpr (calibration_type == t_calibration_type::power)
         {
-            check_initialized(__func__, "Power calibration", _power_calibration);
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
 
             return _power_calibration->apply_beam_sample_correction(wci,
                                                                     beam_angles,
@@ -138,7 +146,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::ap)
         {
-            check_initialized(__func__, "Ap calibration", _ap_calibration);
+            check_calibration_initialized(__func__, "Ap calibration", _ap_calibration);
 
             return _ap_calibration->apply_beam_sample_correction(wci,
                                                                  beam_angles,
@@ -149,7 +157,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::av)
         {
-            check_initialized(__func__, "Av calibration", _av_calibration);
+            check_calibration_initialized(__func__, "Av calibration", _av_calibration);
 
             return _av_calibration->apply_beam_sample_correction(wci,
                                                                  beam_angles,
@@ -160,7 +168,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::sp)
         {
-            check_initialized(__func__, "Sp calibration", _sp_calibration);
+            check_calibration_initialized(__func__, "Sp calibration", _sp_calibration);
 
             return _sp_calibration->apply_beam_sample_correction(wci,
                                                                  beam_angles,
@@ -171,7 +179,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::sv)
         {
-            check_initialized(__func__, "Sv calibration", _sv_calibration);
+            check_calibration_initialized(__func__, "Sv calibration", _sv_calibration);
 
             return _sv_calibration->apply_beam_sample_correction(wci,
                                                                  beam_angles,
@@ -196,9 +204,11 @@ class WaterColumnCalibration
                                         std::optional<size_t> max_beam_index = std::nullopt,
                                         int                   mp_cores       = 1) const
     {
+        this->check_initialized();
+
         if constexpr (calibration_type == t_calibration_type::power)
         {
-            check_initialized(__func__, "Power calibration", _power_calibration);
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
 
             _power_calibration->inplace_beam_sample_correction(wci,
                                                                beam_angles,
@@ -212,7 +222,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::ap)
         {
-            check_initialized(__func__, "Ap calibration", _ap_calibration);
+            check_calibration_initialized(__func__, "Ap calibration", _ap_calibration);
 
             _ap_calibration->inplace_beam_sample_correction(wci,
                                                             beam_angles,
@@ -226,7 +236,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::av)
         {
-            check_initialized(__func__, "Av calibration", _av_calibration);
+            check_calibration_initialized(__func__, "Av calibration", _av_calibration);
 
             _av_calibration->inplace_beam_sample_correction(wci,
                                                             beam_angles,
@@ -240,7 +250,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::sp)
         {
-            check_initialized(__func__, "Sp calibration", _sp_calibration);
+            check_calibration_initialized(__func__, "Sp calibration", _sp_calibration);
 
             _sp_calibration->inplace_beam_sample_correction(wci,
                                                             beam_angles,
@@ -254,7 +264,7 @@ class WaterColumnCalibration
         }
         else if constexpr (calibration_type == t_calibration_type::sv)
         {
-            check_initialized(__func__, "Sv calibration", _sv_calibration);
+            check_calibration_initialized(__func__, "Sv calibration", _sv_calibration);
 
             _sv_calibration->inplace_beam_sample_correction(wci,
                                                             beam_angles,
@@ -281,8 +291,16 @@ class WaterColumnCalibration
         return _tvg_absorption_db_m;
     }
 
-    float get_tvg_absorption_db_m() const { return _tvg_absorption_db_m; }
-    float get_tvg_factor() const { return _tvg_factor; }
+    float get_tvg_absorption_db_m() const
+    {
+        this->check_initialized();
+        return _tvg_absorption_db_m;
+    }
+    float get_tvg_factor() const
+    {
+        this->check_initialized();
+        return _tvg_factor;
+    }
 
     // has calibration
     bool has_power_calibration() const { return bool(_power_calibration); }
@@ -294,41 +312,49 @@ class WaterColumnCalibration
     // getters / setters
     const AmplitudeCalibration& get_power_calibration() const
     {
-        check_initialized(__func__, "Power calibration", _power_calibration);
+        this->check_initialized();
+        check_calibration_initialized(__func__, "Power calibration", _power_calibration);
         return *_power_calibration;
     }
     const AmplitudeCalibration& get_ap_calibration() const
     {
-        check_initialized(__func__, "Ap calibration", _ap_calibration);
+        this->check_initialized();
+        check_calibration_initialized(__func__, "Ap calibration", _ap_calibration);
         return *_ap_calibration;
     }
     const AmplitudeCalibration& get_av_calibration() const
     {
-        check_initialized(__func__, "Av calibration", _av_calibration);
+        this->check_initialized();
+        check_calibration_initialized(__func__, "Av calibration", _av_calibration);
         return *_av_calibration;
     }
     const AmplitudeCalibration& get_sp_calibration() const
     {
-        check_initialized(__func__, "Sp calibration", _sp_calibration);
+        this->check_initialized();
+        check_calibration_initialized(__func__, "Sp calibration", _sp_calibration);
         return *_sp_calibration;
     }
     const AmplitudeCalibration& get_sv_calibration() const
     {
-        check_initialized(__func__, "Sv calibration", _sv_calibration);
+        this->check_initialized();
+        check_calibration_initialized(__func__, "Sv calibration", _sv_calibration);
         return *_sv_calibration;
     }
     void set_power_calibration(const AmplitudeCalibration& calibration)
     {
+        check_modifying_base_calibration_allowed();
         _power_calibration = std::make_unique<AmplitudeCalibration>(calibration);
     }
 
     void set_ap_calibration(const AmplitudeCalibration& calibration)
     {
+        check_modifying_base_calibration_allowed();
         _ap_calibration = std::make_unique<AmplitudeCalibration>(calibration);
     }
 
     void set_av_calibration(const AmplitudeCalibration& calibration)
     {
+        check_modifying_base_calibration_allowed();
         _av_calibration = std::make_unique<AmplitudeCalibration>(calibration);
     }
     void set_sp_calibration(const AmplitudeCalibration& calibration)
@@ -512,9 +538,9 @@ class WaterColumnCalibration
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(WaterColumnCalibration)
 
   private:
-    void check_initialized(std::string_view                             function_name,
-                           std::string_view                             calibration_name,
-                           const std::unique_ptr<AmplitudeCalibration>& ptr) const
+    void check_calibration_initialized(std::string_view function_name,
+                                       std::string_view calibration_name,
+                                       const std::unique_ptr<AmplitudeCalibration>& ptr) const
     {
         if (!ptr)
             throw std::runtime_error(

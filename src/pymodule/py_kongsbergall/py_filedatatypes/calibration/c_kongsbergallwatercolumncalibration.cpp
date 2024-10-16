@@ -69,6 +69,16 @@ void init_c_kongsbergallwatercolumncalibration(pybind11::module& m)
                       &KongsbergAllWaterColumnCalibration::get_system_gain_offset,
                       DOC_KongsbergAllWaterColumnCalibration(get_system_gain_offset))
 
+                 .def("initialized",
+                      &KongsbergAllWaterColumnCalibration::initialized,
+                      DOC_KongsbergAllWaterColumnCalibration(initialized))
+                 .def("check_initialized",
+                      &KongsbergAllWaterColumnCalibration::check_initialized,
+                      DOC_KongsbergAllWaterColumnCalibration(check_initialized))
+                 .def("check_initialization",
+                      &KongsbergAllWaterColumnCalibration::check_initialization,
+                      DOC_KongsbergAllWaterColumnCalibration(check_initialization))
+
                  // ----- operators -----
                  .def("__eq__",
                       &KongsbergAllWaterColumnCalibration::operator==,

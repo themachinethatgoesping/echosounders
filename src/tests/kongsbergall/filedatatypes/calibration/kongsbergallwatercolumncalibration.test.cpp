@@ -95,6 +95,13 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     // test print does not crash
     CHECK(obj.info_string().size() != 0);
 
+    // test modifying calibrations 
+    REQUIRE_THROWS_AS(obj.set_power_calibration(obj0), std::runtime_error);
+    REQUIRE_THROWS_AS(obj.set_ap_calibration(obj0), std::runtime_error);
+    REQUIRE_THROWS_AS(obj.set_av_calibration(obj0), std::runtime_error);
+    REQUIRE_NOTHROW(obj.set_sp_calibration(obj0));
+    REQUIRE_NOTHROW(obj.set_sv_calibration(obj0));
+
     // test data access
 
     CHECK(obj.get_sound_velocity() == Approx(sound_velocity));

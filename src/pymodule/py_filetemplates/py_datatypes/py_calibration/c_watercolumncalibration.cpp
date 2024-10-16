@@ -195,6 +195,13 @@ void init_c_watercolumncalibration(pybind11::module& m)
                       DOC_WaterColumnCalibration(set_sv_calibration),
                       py::arg("calibration"))
 
+                 .def("check_initialized",
+                      &WaterColumnCalibration::check_initialized,
+                      DOC_WaterColumnCalibration(check_initialized))
+                 .def("check_modifying_base_calibration_allowed",
+                      &WaterColumnCalibration::check_modifying_base_calibration_allowed,
+                      DOC_WaterColumnCalibration(check_modifying_base_calibration_allowed))
+
                  // ----- operators -----
                  .def("__eq__",
                       &WaterColumnCalibration::operator==,

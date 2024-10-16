@@ -32,8 +32,8 @@ class SimradRawWaterColumnCalibration
     using t_base               = filetemplates::datatypes::calibration::WaterColumnCalibration;
 
   protected:
-    // This function is procted because it may interfere with the _absorption_db_m parameter from
-    // the SimradRawWaterColumnCalibration
+    // This function is procted because it may interfere with the _computed_absorption_db_m
+    // parameter from the SimradRawWaterColumnCalibration
     using WaterColumnCalibration::set_absorption_db_m;
 
   protected:
@@ -54,8 +54,8 @@ class SimradRawWaterColumnCalibration
     float _effective_pulse_duration_s = std::numeric_limits<float>::quiet_NaN();
 
     // computed
-    float _sound_velocity_m_s            = std::numeric_limits<float>::quiet_NaN();
-    float _absorption_db_m               = std::numeric_limits<float>::quiet_NaN();
+    float _computed_sound_velocity_m_s   = std::numeric_limits<float>::quiet_NaN();
+    float _computed_absorption_db_m      = std::numeric_limits<float>::quiet_NaN();
     float _wavelength_m                  = std::numeric_limits<float>::quiet_NaN();
     float _corr_transducer_gain_db       = std::numeric_limits<float>::quiet_NaN();
     float _corr_equivalent_beam_angle_db = std::numeric_limits<float>::quiet_NaN();
@@ -76,6 +76,9 @@ class SimradRawWaterColumnCalibration
         std::nullopt; // derived from position, used for computing sound velocity
     std::optional<float> _rounded_longitude_deg =
         std::nullopt; // derived from position, used for computing sound velocity
+
+    std::optional<float> _forced_sound_velocity_m_s = std::nullopt;
+    std::optional<float> _forced_absorption_db_m    = std::nullopt;
 
     bool _initialized = false;
 
@@ -98,27 +101,27 @@ class SimradRawWaterColumnCalibration
         : t_base()
     {
         // get environment parameters
-        set_environment_parameters(environment, false);
+        set_environment_parameters(environment);
 
         // get parameter parameters
-        set_runtime_parameters(parameters, false);
+        set_runtime_parameters(parameters);
 
         // set transducer parameters
         const auto& transducer           = transceiver_information.get_transducer();
         size_t      pulse_duration_index = transceiver_information.get_pulse_duration_index(
             parameters.get_pulse_duration(), parameters.get_pulse_form_is_fm());
 
-        set_transducer_parameters(transducer, pulse_duration_index, false);
+        set_transducer_parameters(transducer, pulse_duration_index);
 
         // set power calibration parameters
         if (n_complex_samples == 0)
-            set_power_calibration_parameters(n_complex_samples, std::nullopt, false);
+            set_power_calibration_parameters(n_complex_samples, std::nullopt);
         else
-            set_power_calibration_parameters(
-                n_complex_samples, transceiver_information.get_impedance_factor(), false);
+            set_power_calibration_parameters(n_complex_samples,
+                                             transceiver_information.get_impedance_factor());
 
         // derived from position
-        set_optional_parameters(environment.Latitude, std::nullopt, false);
+        set_optional_parameters(environment.Latitude, std::nullopt);
 
         setup_simrad_calibration();
     }
@@ -126,21 +129,18 @@ class SimradRawWaterColumnCalibration
     // ----- setters -----
     void set_transducer_parameters(
         const datagrams::xml_datagrams::XMLConfigurationTransceiverChannelTransducer& transducer,
-        size_t pulse_duration_index,
-        bool   init_calibration = true)
+        size_t pulse_duration_index)
     {
         set_transducer_parameters(transducer.Gain.at(pulse_duration_index),
                                   transducer.SaCorrection.at(pulse_duration_index),
                                   transducer.EquivalentBeamAngle,
-                                  transducer.Frequency,
-                                  init_calibration);
+                                  transducer.Frequency);
     }
 
     void set_transducer_parameters(float transducer_gain_db,
                                    float sa_correction_db,
                                    float equivalent_beam_angle_db,
-                                   float frequency_nominal_hz,
-                                   bool  init_calibration = true)
+                                   float frequency_nominal_hz)
     {
         _transducer_gain_db       = transducer_gain_db;
         _sa_correction_db         = sa_correction_db;
@@ -148,57 +148,53 @@ class SimradRawWaterColumnCalibration
         _frequency_nominal_hz     = frequency_nominal_hz;
 
         _initialized = false;
-        if (init_calibration)
-            setup_simrad_calibration();
     }
 
-    void set_environment_parameters(const datagrams::xml_datagrams::XML_Environment& environment,
-                                    bool init_calibration = true)
+    void set_environment_parameters(const datagrams::xml_datagrams::XML_Environment& environment)
     {
         set_environment_parameters(
-            environment.Depth, environment.Temperature, environment.Salinity, init_calibration);
+            environment.Depth, environment.Temperature, environment.Salinity);
     }
 
     void set_environment_parameters(float reference_depth_m,
                                     float temperature_c,
-                                    float salinity_psu,
-                                    bool  init_calibration = true)
+                                    float salinity_psu)
     {
         _reference_depth_m = reference_depth_m;
         _temperature_c     = temperature_c;
         _salinity_psu      = salinity_psu;
 
         _initialized = false;
-        if (init_calibration)
-            setup_simrad_calibration();
     }
 
-    void set_runtime_parameters(const datagrams::xml_datagrams::XML_Parameter_Channel& parameters,
-                                bool init_calibration = true)
+    void set_environment_parameters(float forced_sound_velocity_m_s, float forced_absorption_db_m)
+    {
+        _forced_sound_velocity_m_s = forced_sound_velocity_m_s;
+        _forced_absorption_db_m    = forced_absorption_db_m;
+
+        _initialized = false;
+    }
+
+    void set_runtime_parameters(const datagrams::xml_datagrams::XML_Parameter_Channel& parameters)
     {
         set_runtime_parameters(parameters.Frequency,
                                parameters.TransmitPower,
-                               parameters.get_pulse_duration() * parameters.Slope,
-                               init_calibration);
+                               parameters.get_pulse_duration() * parameters.Slope);
     }
 
     void set_runtime_parameters(float frequency_hz,
                                 float transmit_power_w,
-                                float effective_pulse_duration_s,
-                                bool  init_calibration = true)
+                                float effective_pulse_duration_s)
     {
         _frequency_hz               = frequency_hz;
         _transmit_power_w           = transmit_power_w;
         _effective_pulse_duration_s = effective_pulse_duration_s;
 
         _initialized = false;
-        if (init_calibration)
-            setup_simrad_calibration();
     }
 
     void set_power_calibration_parameters(size_t               n_complex_samples,
-                                          std::optional<float> impedance_factor = std::nullopt,
-                                          bool                 init_calibration = true)
+                                          std::optional<float> impedance_factor = std::nullopt)
     {
         if (n_complex_samples == 0) // power/angle mode (not complex)
         {
@@ -225,13 +221,10 @@ class SimradRawWaterColumnCalibration
         }
 
         _initialized = false;
-        if (init_calibration)
-            setup_simrad_calibration();
     }
 
     void set_optional_parameters(std::optional<float> rounded_latitude_deg  = std::nullopt,
-                                 std::optional<float> rounded_longitude_deg = std::nullopt,
-                                 bool                 init_calibration      = true)
+                                 std::optional<float> rounded_longitude_deg = std::nullopt)
     {
         if (rounded_latitude_deg.has_value())
         {
@@ -245,8 +238,17 @@ class SimradRawWaterColumnCalibration
         }
 
         _initialized = false;
-        if (init_calibration)
-            setup_simrad_calibration();
+    }
+
+    void force_sound_velocity_m_s(std::optional<float> forced_sound_velocity_m_s)
+    {
+        _forced_sound_velocity_m_s = forced_sound_velocity_m_s;
+        _initialized               = false;
+    }
+    void force_absorption_db_m(std::optional<float> forced_absorption_db_m)
+    {
+        _forced_absorption_db_m = forced_absorption_db_m;
+        _initialized            = false;
     }
 
     // ------ getters ------
@@ -263,8 +265,20 @@ class SimradRawWaterColumnCalibration
     float get_transmit_power_w() const { return _transmit_power_w; }
     float get_effective_pulse_duration_s() const { return _effective_pulse_duration_s; }
 
-    float get_sound_velocity_m_s() const { return _sound_velocity_m_s; }
-    float get_absorption_db_m() const { return _absorption_db_m; }
+    float get_computed_sound_velocity_m_s() const { return _computed_sound_velocity_m_s; }
+    auto  get_forced_sound_velocity_m_s() const { return _forced_sound_velocity_m_s; }
+    float get_sound_velocity_m_s() const
+    {
+        return _forced_sound_velocity_m_s.value_or(_computed_sound_velocity_m_s);
+    }
+
+    float get_computed_absorption_db_m() const { return _computed_absorption_db_m; }
+    auto  get_forced_absorption_db_m() const { return _forced_absorption_db_m; }
+    float get_absorption_db_m() const
+    {
+        return _forced_absorption_db_m.value_or(_computed_absorption_db_m);
+    }
+
     float get_wavelength_m() const { return _wavelength_m; }
     float get_corr_transducer_gain_db() const { return _corr_transducer_gain_db; }
     float get_corr_equivalent_beam_angle_db() const { return _corr_equivalent_beam_angle_db; }
@@ -284,26 +298,31 @@ class SimradRawWaterColumnCalibration
         check_can_be_initialized();
 
         // computed parameters
-        _sound_velocity_m_s = algorithms::amplitudecorrection::functions::calc_sound_velocity(
-            _reference_depth_m,
-            _temperature_c,
-            _salinity_psu,
-            _rounded_latitude_deg.value_or(0.f),
-            _rounded_longitude_deg.value_or(0.f));
+        _computed_sound_velocity_m_s =
+            algorithms::amplitudecorrection::functions::calc_sound_velocity(
+                _reference_depth_m,
+                _temperature_c,
+                _salinity_psu,
+                _rounded_latitude_deg.value_or(0.f),
+                _rounded_longitude_deg.value_or(0.f));
 
         // absorption
-        _absorption_db_m =
+        _computed_absorption_db_m =
             algorithms::amplitudecorrection::functions::calc_absorption_coefficient_db_m(
                 _frequency_hz,
                 _reference_depth_m,
-                _sound_velocity_m_s,
+                _computed_sound_velocity_m_s,
                 _temperature_c,
                 _salinity_psu);
 
-        // TODO: test if this parameter shadowing causes problems:
-        WaterColumnCalibration::set_absorption_db_m(_absorption_db_m);
+        // selects between forced and computed values
+        float sound_velocity_m_s = get_sound_velocity_m_s();
+        float absorption_db_m    = get_absorption_db_m();
 
-        _wavelength_m                  = _sound_velocity_m_s / _frequency_hz;
+        // TODO: test if this parameter shadowing causes problems:
+        WaterColumnCalibration::set_absorption_db_m(absorption_db_m);
+
+        _wavelength_m                  = sound_velocity_m_s / _frequency_hz;
         float freq_corr                = 20 * std::log10(_frequency_hz / _frequency_nominal_hz);
         _corr_transducer_gain_db       = _transducer_gain_db + freq_corr;
         _corr_equivalent_beam_angle_db = _equivalent_beam_angle_db + freq_corr;
@@ -314,7 +333,7 @@ class SimradRawWaterColumnCalibration
                           10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
 
         float sv_offset = -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
-                          10 * std::log10(_sound_velocity_m_s * _effective_pulse_duration_s * 0.5f);
+                          10 * std::log10(sound_velocity_m_s * _effective_pulse_duration_s * 0.5f);
 
         // power is the raw amplitude data substracted by the system gain offset
         _power_calibration =
@@ -330,7 +349,7 @@ class SimradRawWaterColumnCalibration
             _power_conversion_factor_db.value_or(0.f) + sp_offset + sv_offset);
 
         _initialized = true;
-        check_initialized();
+        check_initialization();
     }
 
     // operator overloads
@@ -351,8 +370,10 @@ class SimradRawWaterColumnCalibration
                tools::helper::float_equals(_transmit_power_w, other._transmit_power_w) &&
                tools::helper::float_equals(_effective_pulse_duration_s,
                                            other._effective_pulse_duration_s) &&
-               tools::helper::float_equals(_sound_velocity_m_s, other._sound_velocity_m_s) &&
-               tools::helper::float_equals(_absorption_db_m, other._absorption_db_m) &&
+               tools::helper::float_equals(_computed_sound_velocity_m_s,
+                                           other._computed_sound_velocity_m_s) &&
+               tools::helper::float_equals(_computed_absorption_db_m,
+                                           other._computed_absorption_db_m) &&
                tools::helper::float_equals(_wavelength_m, other._wavelength_m) &&
                tools::helper::float_equals(_corr_transducer_gain_db,
                                            other._corr_transducer_gain_db) &&
@@ -364,25 +385,45 @@ class SimradRawWaterColumnCalibration
                tools::helper::optional_float_equals(_rounded_latitude_deg,
                                                     other._rounded_latitude_deg) &&
                tools::helper::optional_float_equals(_rounded_longitude_deg,
-                                                    other._rounded_longitude_deg);
+                                                    other._rounded_longitude_deg) &&
+               tools::helper::optional_float_equals(_forced_sound_velocity_m_s,
+                                                    other._forced_sound_velocity_m_s) &&
+               tools::helper::optional_float_equals(_forced_absorption_db_m,
+                                                    other._forced_absorption_db_m);
     }
 
     bool initialized() const { return _initialized; }
 
-    void check_initialized() const
+    void check_initialized() const override
     {
-        if (!_initialized)
+        if (!initialized())
             throw std::runtime_error(fmt::format(
                 "ERROR[{}]:Calibration not initialized, call setup_simrad_calibration() first!",
                 __func__));
+    }
 
+    void check_modifying_base_calibration_allowed() const override
+    {
+        throw std::runtime_error(fmt::format(
+            "ERROR[{}]:Modifying base calibrations (power, ap, av) is not allowed for "
+            "SimradRawWaterColumnCalibration. You may modify the parameters used for "
+            "the calibration, and call setup_simrad_calibration() to recompute the "
+            "calibration. You may also modify the used sp and sv calibrations. Alternatively you "
+            "can explicitly convert the calibration to a generic calibration. using "
+            "WaterColumnCalibration(calibration)",
+            __func__));
+    }
+
+    void check_initialization() const
+    {
+        check_initialized();
         check_can_be_initialized();
 
         // additionally test for computed parameters
-        if (!std::isfinite(_sound_velocity_m_s))
-            throw_because_value_is_note_finite("sound_velocity_m_s", _sound_velocity_m_s);
-        if (!std::isfinite(_absorption_db_m))
-            throw_because_value_is_note_finite("absorption_db_m", _absorption_db_m);
+        if (!std::isfinite(get_sound_velocity_m_s()))
+            throw_because_value_is_note_finite("sound_velocity_m_s", get_sound_velocity_m_s());
+        if (!std::isfinite(get_computed_absorption_db_m()))
+            throw_because_value_is_note_finite("absorption_db_m", get_computed_absorption_db_m());
         if (!std::isfinite(_wavelength_m))
             throw_because_value_is_note_finite("wavelength_m", _wavelength_m);
         if (!std::isfinite(_corr_transducer_gain_db))
@@ -403,12 +444,7 @@ class SimradRawWaterColumnCalibration
                                                _equivalent_beam_angle_db);
         if (!std::isfinite(_frequency_nominal_hz))
             throw_because_value_is_note_finite("frequency_nominal_hz", _frequency_nominal_hz);
-        if (!std::isfinite(_reference_depth_m))
-            throw_because_value_is_note_finite("reference_depth_m", _reference_depth_m);
-        if (!std::isfinite(_temperature_c))
-            throw_because_value_is_note_finite("temperature_c", _temperature_c);
-        if (!std::isfinite(_salinity_psu))
-            throw_because_value_is_note_finite("salinity_psu", _salinity_psu);
+
         if (!std::isfinite(_frequency_hz))
             throw_because_value_is_note_finite("frequency_hz", _frequency_hz);
         if (!std::isfinite(_transmit_power_w))
@@ -416,6 +452,19 @@ class SimradRawWaterColumnCalibration
         if (!std::isfinite(_effective_pulse_duration_s))
             throw_because_value_is_note_finite("effective_pulse_duration_s",
                                                _effective_pulse_duration_s);
+
+        // environment parameters are only strictly necessary if the sound_velocity_m_s and
+        // absorption are not forced
+        if (!(_forced_sound_velocity_m_s.has_value() && _forced_absorption_db_m.has_value()))
+        {
+            if (!std::isfinite(_reference_depth_m))
+                throw_because_value_is_note_finite("reference_depth_m", _reference_depth_m);
+            if (!std::isfinite(_temperature_c))
+                throw_because_value_is_note_finite("temperature_c", _temperature_c);
+            if (!std::isfinite(_salinity_psu))
+                throw_because_value_is_note_finite("salinity_psu", _salinity_psu);
+        }
+
         if (!_n_complex_samples.has_value())
             throw std::runtime_error(
                 fmt::format("ERROR[SimradRawWaterColumnCalibration]:Calibration not initialized "
@@ -436,14 +485,18 @@ class SimradRawWaterColumnCalibration
         if (n_complex_samples != std::numeric_limits<size_t>::max())
             calibration._n_complex_samples = n_complex_samples;
 
-        std::array<float, 3> optional_values;
-        is.read(reinterpret_cast<char*>(optional_values.data()), sizeof(float) * 3);
+        std::array<float, 5> optional_values;
+        is.read(reinterpret_cast<char*>(optional_values.data()), sizeof(float) * 5);
         if (std::isfinite(optional_values[0]))
             calibration._power_conversion_factor_db = optional_values[0];
         if (std::isfinite(optional_values[1]))
             calibration._rounded_latitude_deg = optional_values[1];
         if (std::isfinite(optional_values[2]))
             calibration._rounded_longitude_deg = optional_values[2];
+        if (std::isfinite(optional_values[3]))
+            calibration._forced_sound_velocity_m_s = optional_values[3];
+        if (std::isfinite(optional_values[4]))
+            calibration._forced_absorption_db_m = optional_values[4];
 
         is.read(reinterpret_cast<char*>(&calibration._initialized),
                 sizeof(calibration._initialized));
@@ -461,12 +514,14 @@ class SimradRawWaterColumnCalibration
         size_t n_complex_samples = _n_complex_samples.value_or(std::numeric_limits<size_t>::max());
         os.write(reinterpret_cast<const char*>(&n_complex_samples), sizeof(n_complex_samples));
 
-        std::array<float, 3> optional_values = {
+        std::array<float, 5> optional_values = {
             _power_conversion_factor_db.value_or(std::numeric_limits<float>::quiet_NaN()),
             _rounded_latitude_deg.value_or(std::numeric_limits<float>::quiet_NaN()),
-            _rounded_longitude_deg.value_or(std::numeric_limits<float>::quiet_NaN())
+            _rounded_longitude_deg.value_or(std::numeric_limits<float>::quiet_NaN()),
+            _forced_sound_velocity_m_s.value_or(std::numeric_limits<float>::quiet_NaN()),
+            _forced_absorption_db_m.value_or(std::numeric_limits<float>::quiet_NaN())
         };
-        os.write(reinterpret_cast<const char*>(optional_values.data()), sizeof(float) * 3);
+        os.write(reinterpret_cast<const char*>(optional_values.data()), sizeof(float) * 5);
         os.write(reinterpret_cast<const char*>(&_initialized), sizeof(_initialized));
     }
 
@@ -494,8 +549,13 @@ class SimradRawWaterColumnCalibration
         printer.register_value("effective_pulse_duration_s", _effective_pulse_duration_s, "s");
 
         printer.register_section("Computed parameters");
-        printer.register_value("sound_velocity_m_s", _sound_velocity_m_s, "m/s");
-        printer.register_value("absorption_db_m", _absorption_db_m, "dB/m");
+        printer.register_value("computed_sound_velocity_m_s", _computed_sound_velocity_m_s, "m/s");
+        printer.register_optional_value(
+            "forced_sound_velocity_m_s", _forced_sound_velocity_m_s, "m/s");
+        printer.register_value("sound_velocity_m_s", get_sound_velocity_m_s(), "m/s [used value]");
+        printer.register_value("computed_absorption_db_m", _computed_absorption_db_m, "dB/m");
+        printer.register_optional_value("forced_absorption_db_m", _forced_absorption_db_m, "dB/m");
+        printer.register_value("absorption_db_m", get_absorption_db_m(), "dB/m [used value]");
         printer.register_value("wavelength_m", _wavelength_m, "m");
         printer.register_value("corr_transducer_gain_db", _corr_transducer_gain_db, "dB");
         printer.register_value(

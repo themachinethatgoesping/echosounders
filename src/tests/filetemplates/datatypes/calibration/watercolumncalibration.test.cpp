@@ -76,6 +76,13 @@ TEST_CASE("WaterColumnCalibration should support common functions", TESTTAG)
     CHECK(obj2.get_power_calibration().get_system_offset() == 1.0f);
     CHECK(obj2.get_sp_calibration().get_system_offset() == 1.0f);
     CHECK(obj2.get_sv_calibration().get_system_offset() == 1.0f);
+
+    // test modifying calibrations 
+    REQUIRE_NOTHROW(obj.set_power_calibration(obj0));
+    REQUIRE_NOTHROW(obj.set_ap_calibration(obj0));
+    REQUIRE_NOTHROW(obj.set_av_calibration(obj0));
+    REQUIRE_NOTHROW(obj.set_sp_calibration(obj0));
+    REQUIRE_NOTHROW(obj.set_sv_calibration(obj0));
 }
 
 TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp", TESTTAG)

@@ -1046,12 +1046,13 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     auto cal_cmplx =
         SimradRawWaterColumnCalibration(environment, parameters, tr_infos, n_complex_samples);
 
+
     SECTION("SimradRawWaterColumnCalibration should support common functions")
     {
         // test hash (should be stable if class is not changed)
-        CHECK(cal0.binary_hash() == 18195875943434653442ULL);
-        CHECK(cal_power.binary_hash() == 16598773257346738920ULL);
-        CHECK(cal_cmplx.binary_hash() == 7487456784068775051ULL);
+        CHECK(cal0.binary_hash() == 6735158076204169780ULL);
+        CHECK(cal_power.binary_hash() == 17587143218220728370ULL);
+        CHECK(cal_cmplx.binary_hash() == 7015281122971640753ULL);
 
         // test equality
         CHECK(cal0 == cal0);
@@ -1150,7 +1151,7 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         CHECK(cal_cmplx.get_rounded_longitude_deg() == std::nullopt);
     }
 
-    SECTION("SimradRawWaterColumnCalibration should setup callibration correctly")
+    SECTION("SimradRawWaterColumnCalibration should setup calibration correctly")
     {
         // water column calibration
         CHECK(cal_power.get_tvg_absorption_db_m() == 0.0f);
@@ -1192,27 +1193,81 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
               Approx(power_offset + sp_factor + sv_factor));
     }
 
+    SECTION(
+        "SimradRawWaterColumnCalibration should use  prefer forced sound_velocity and absorption")
+    {
+        float forced_sound_velocity = 1500.0f;
+        float forced_absorption     = 0.1f;
+
+        auto cal_power2 = cal_power;
+        auto cal_cmplx2 = cal_cmplx;
+        cal_power2.force_absorption_db_m(forced_absorption);
+        cal_power2.get_absorption_db_m() == Approx(forced_absorption);
+        cal_power2.force_sound_velocity_m_s(forced_sound_velocity);
+        cal_power2.get_sound_velocity_m_s() == Approx(forced_sound_velocity);
+        cal_power2.setup_simrad_calibration();
+        cal_power2.get_absorption_to_apply() == Approx(forced_absorption);
+
+        cal_cmplx2.set_environment_parameters(forced_sound_velocity, forced_absorption);
+        cal_cmplx2.setup_simrad_calibration();
+        cal_cmplx2.get_absorption_to_apply() == Approx(forced_absorption);
+
+        // compute expected calibration offsets
+        float sound_velocity                  = forced_sound_velocity;
+        float wavelength                      = cal_power2.get_wavelength_m();
+        float corrected_transducer_gain       = cal_power2.get_corr_transducer_gain_db();
+        float corrected_equivalent_beam_angle = cal_power2.get_corr_equivalent_beam_angle_db();
+        float sp_factor =
+            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PIf * M_PIf)) -
+            2 * corrected_transducer_gain;
+        float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
+                          corrected_equivalent_beam_angle - 2 * sa_correction_db;
+
+        CHECK(cal_power2.get_power_calibration().get_system_offset() == 0.f);
+        CHECK(cal_power2.get_ap_calibration().get_system_offset() == Approx(0.f + sp_factor));
+        CHECK(cal_power2.get_av_calibration().get_system_offset() ==
+              Approx(0.f + sp_factor + sv_factor));
+
+        float power_offset = cal_cmplx2.get_power_conversion_factor_db().value();
+        CHECK(cal_cmplx2.get_power_calibration().get_system_offset() == Approx(power_offset));
+        CHECK(cal_cmplx2.get_ap_calibration().get_system_offset() ==
+              Approx(power_offset + sp_factor));
+        CHECK(cal_cmplx2.get_av_calibration().get_system_offset() ==
+              Approx(power_offset + sp_factor + sv_factor));
+    }
+
     SECTION("SimradRawWaterColumnCalibration should support initialization from individual values")
     {
         // --- test creation using individual parameters ---
         auto cal_power2 = cal0;
-        cal_power2.set_power_calibration_parameters(0, std::nullopt, false);
-        cal_power2.set_transducer_parameters(transducer_gain_db,
-                                             sa_correction_db,
-                                             equivalent_beam_angle_db,
-                                             frequency_nominal_hz,
-                                             false);
-        cal_power2.set_environment_parameters(
-            reference_depth_m, temperature_c, salinity_psu, false);
+        cal_power2.set_power_calibration_parameters(0, std::nullopt);
+        cal_power2.set_transducer_parameters(
+            transducer_gain_db, sa_correction_db, equivalent_beam_angle_db, frequency_nominal_hz);
+        cal_power2.set_environment_parameters(reference_depth_m, temperature_c, salinity_psu);
         cal_power2.set_runtime_parameters(
-            frequency_hz, transmit_power_w, effective_pulse_duration_s, false);
-        cal_power2.set_optional_parameters(latitude, std::nullopt, false);
+            frequency_hz, transmit_power_w, effective_pulse_duration_s);
+        cal_power2.set_optional_parameters(latitude, std::nullopt);
         cal_power2.setup_simrad_calibration();
         CHECK(cal_power == cal_power2);
 
         auto cal_cmplx2 = cal_power2;
-        cal_cmplx2.set_power_calibration_parameters(n_complex_samples, impedance_factor, false);
+        cal_cmplx2.set_power_calibration_parameters(n_complex_samples, impedance_factor);
         cal_cmplx2.setup_simrad_calibration();
         CHECK(cal_cmplx == cal_cmplx2);
+    }
+
+    // test modifying calibrations
+    SECTION("SimradRawWaterColumnCalibration should support setting sp and sv but not power, ap "
+            "and av calibrations")
+    {
+        auto cal = cal_power;
+        REQUIRE_THROWS_AS(cal.set_power_calibration(AmplitudeCalibration(12)),
+                          std::runtime_error);
+        REQUIRE_THROWS_AS(cal.set_ap_calibration(AmplitudeCalibration(12)),
+                          std::runtime_error);
+        REQUIRE_THROWS_AS(cal.set_av_calibration(AmplitudeCalibration(12)),
+                          std::runtime_error);
+        REQUIRE_NOTHROW(cal.set_sp_calibration(AmplitudeCalibration(12)));
+        REQUIRE_NOTHROW(cal.set_sv_calibration(AmplitudeCalibration(12)));
     }
 }
