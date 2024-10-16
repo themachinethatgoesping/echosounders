@@ -44,10 +44,14 @@ class WaterColumnCalibration
     enum class t_calibration_type
     {
         power,
-        ap,
-        av,
-        sp,
-        sv
+        rp, /// power derived point scattering (uncalibrated TS without parameter and absorption compensation)
+        rv, /// power derived volume scattering (uncalibrated SV without parameter and absorption compensation)
+        pp, /// power derived point scattering (uncalibrated TS without parameter compensation)
+        pv, /// power derived volume scattering (uncalibrated SV without parameter compensation)
+        ap, /// amplitude derived point scattering (uncalibrated TS)
+        av, /// amplitude derived volume scattering (uncalibrated SV)
+        sp, /// point scattering (uncompensated TS)
+        sv  /// volume scattering SV
     };
 
   public:
@@ -111,6 +115,13 @@ class WaterColumnCalibration
 
         return std::nullopt;
     }
+    bool has_valid_absorption_db_m() const
+    {
+        if (_absorption_db_m.has_value())
+            return std::isfinite(_absorption_db_m.value());
+
+        return _tvg_absorption_db_m != 0.0f;
+    }
 
     std::optional<float> get_tvg_factor_to_apply(float tvg_factor) const
     {
@@ -142,6 +153,50 @@ class WaterColumnCalibration
                                                                     ranges,
                                                                     get_absorption_to_apply(0),
                                                                     get_tvg_factor_to_apply(0),
+                                                                    mp_cores);
+        }
+        else if constexpr (calibration_type == t_calibration_type::rp)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            return _power_calibration->apply_beam_sample_correction(wci,
+                                                                    beam_angles,
+                                                                    ranges,
+                                                                    get_absorption_to_apply(0),
+                                                                    get_tvg_factor_to_apply(40),
+                                                                    mp_cores);
+        }
+        else if constexpr (calibration_type == t_calibration_type::rv)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            return _power_calibration->apply_beam_sample_correction(wci,
+                                                                    beam_angles,
+                                                                    ranges,
+                                                                    get_absorption_to_apply(0),
+                                                                    get_tvg_factor_to_apply(20),
+                                                                    mp_cores);
+        }
+        else if constexpr (calibration_type == t_calibration_type::pp)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            return _power_calibration->apply_beam_sample_correction(wci,
+                                                                    beam_angles,
+                                                                    ranges,
+                                                                    get_absorption_to_apply(),
+                                                                    get_tvg_factor_to_apply(40),
+                                                                    mp_cores);
+        }
+        else if constexpr (calibration_type == t_calibration_type::pv)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            return _power_calibration->apply_beam_sample_correction(wci,
+                                                                    beam_angles,
+                                                                    ranges,
+                                                                    get_absorption_to_apply(),
+                                                                    get_tvg_factor_to_apply(20),
                                                                     mp_cores);
         }
         else if constexpr (calibration_type == t_calibration_type::ap)
@@ -215,6 +270,62 @@ class WaterColumnCalibration
                                                                ranges,
                                                                get_absorption_to_apply(0),
                                                                get_tvg_factor_to_apply(0),
+                                                               min_beam_index,
+                                                               max_beam_index,
+                                                               mp_cores);
+            return;
+        }
+        else if constexpr (calibration_type == t_calibration_type::rp)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            _power_calibration->inplace_beam_sample_correction(wci,
+                                                               beam_angles,
+                                                               ranges,
+                                                               get_absorption_to_apply(0),
+                                                               get_tvg_factor_to_apply(40),
+                                                               min_beam_index,
+                                                               max_beam_index,
+                                                               mp_cores);
+            return;
+        }
+        else if constexpr (calibration_type == t_calibration_type::rv)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            _power_calibration->inplace_beam_sample_correction(wci,
+                                                               beam_angles,
+                                                               ranges,
+                                                               get_absorption_to_apply(0),
+                                                               get_tvg_factor_to_apply(20),
+                                                               min_beam_index,
+                                                               max_beam_index,
+                                                               mp_cores);
+            return;
+        }
+        else if constexpr (calibration_type == t_calibration_type::pp)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            _power_calibration->inplace_beam_sample_correction(wci,
+                                                               beam_angles,
+                                                               ranges,
+                                                               get_absorption_to_apply(),
+                                                               get_tvg_factor_to_apply(40),
+                                                               min_beam_index,
+                                                               max_beam_index,
+                                                               mp_cores);
+            return;
+        }
+        else if constexpr (calibration_type == t_calibration_type::pv)
+        {
+            check_calibration_initialized(__func__, "Power calibration", _power_calibration);
+
+            _power_calibration->inplace_beam_sample_correction(wci,
+                                                               beam_angles,
+                                                               ranges,
+                                                               get_absorption_to_apply(),
+                                                               get_tvg_factor_to_apply(20),
                                                                min_beam_index,
                                                                max_beam_index,
                                                                mp_cores);

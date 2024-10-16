@@ -92,9 +92,15 @@ class KongsbergAllWaterColumnCalibration
         // ap calibration is the same as power, however absorption and tvg 40 will be applied
         _ap_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
 
+        // This catches the problem that the pulse duration is only saved in the
+        // raw_range_and_angle datagram, but not in the watercolumn datagram
+        // TODO: this should issue a warning in the log
         float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
-        _av_calibration =
-            std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) - _system_gain_offset);
+        if (std::isfinite(av_factor))
+            _av_calibration = std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) -
+                                                                     _system_gain_offset);
+        else
+            _av_calibration = std::make_unique<AmplitudeCalibration>(-_system_gain_offset);
 
         _initialized = true;
         check_initialization();
@@ -137,12 +143,16 @@ class KongsbergAllWaterColumnCalibration
     {
         check_initialized();
 
-        // additionally test for computed parameters
-        if (!std::isfinite(_sound_velocity))
-            throw_because_value_is_note_finite("sound_velocity", _sound_velocity);
-        if (!std::isfinite(_effective_pulse_duration))
-            throw_because_value_is_note_finite("effective_pulse_duration",
-                                               _effective_pulse_duration);
+        // Effective pulse duration is NAN if no raw_range_and_angle datagram is available, but not
+        // in the watercolumn datagram. This problem is caught in the
+        // setup_kongsberg_em_calibrations function by setting the av_calibration factor to 1
+        // TODO: this should issue a warning in the log as 
+        //get_av is different if .wcd is read without .all
+        // if (!std::isfinite(_effective_pulse_duration))
+        //     throw_because_value_is_note_finite("effective_pulse_duration",
+        //                                        _effective_pulse_duration);
+        // if (!std::isfinite(_sound_velocity))
+        //     throw_because_value_is_note_finite("sound_velocity", _sound_velocity);
         if (!std::isfinite(_system_gain_offset))
             throw_because_value_is_note_finite("system_gain_offset", _system_gain_offset);
     }

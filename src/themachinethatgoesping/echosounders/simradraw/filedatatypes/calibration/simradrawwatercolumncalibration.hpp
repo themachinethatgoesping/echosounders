@@ -47,6 +47,7 @@ class SimradRawWaterColumnCalibration
     float _reference_depth_m = std::numeric_limits<float>::quiet_NaN();
     float _temperature_c     = std::numeric_limits<float>::quiet_NaN();
     float _salinity_psu      = std::numeric_limits<float>::quiet_NaN();
+    float _acidity_ph        = std::numeric_limits<float>::quiet_NaN();
 
     // derived from parameters
     float _frequency_hz               = std::numeric_limits<float>::quiet_NaN();
@@ -153,16 +154,18 @@ class SimradRawWaterColumnCalibration
     void set_environment_parameters(const datagrams::xml_datagrams::XML_Environment& environment)
     {
         set_environment_parameters(
-            environment.Depth, environment.Temperature, environment.Salinity);
+            environment.Depth, environment.Temperature, environment.Salinity, environment.Acidity);
     }
 
     void set_environment_parameters(float reference_depth_m,
                                     float temperature_c,
-                                    float salinity_psu)
+                                    float salinity_psu,
+                                    float acidity_ph = 8.06f)
     {
         _reference_depth_m = reference_depth_m;
         _temperature_c     = temperature_c;
         _salinity_psu      = salinity_psu;
+        _acidity_ph        = acidity_ph;
 
         _initialized = false;
     }
@@ -260,6 +263,7 @@ class SimradRawWaterColumnCalibration
     float get_reference_depth_m() const { return _reference_depth_m; }
     float get_temperature_c() const { return _temperature_c; }
     float get_salinity_psu() const { return _salinity_psu; }
+    float get_acidity_ph() const { return _acidity_ph; }
 
     float get_frequency_hz() const { return _frequency_hz; }
     float get_transmit_power_w() const { return _transmit_power_w; }
@@ -313,7 +317,8 @@ class SimradRawWaterColumnCalibration
                 _reference_depth_m,
                 _computed_sound_velocity_m_s,
                 _temperature_c,
-                _salinity_psu);
+                _salinity_psu,
+                _acidity_ph);
 
         // selects between forced and computed values
         float sound_velocity_m_s = get_sound_velocity_m_s();
@@ -366,6 +371,7 @@ class SimradRawWaterColumnCalibration
                tools::helper::float_equals(_reference_depth_m, other._reference_depth_m) &&
                tools::helper::float_equals(_temperature_c, other._temperature_c) &&
                tools::helper::float_equals(_salinity_psu, other._salinity_psu) &&
+                tools::helper::float_equals(_acidity_ph, other._acidity_ph) &&
                tools::helper::float_equals(_frequency_hz, other._frequency_hz) &&
                tools::helper::float_equals(_transmit_power_w, other._transmit_power_w) &&
                tools::helper::float_equals(_effective_pulse_duration_s,
@@ -463,6 +469,8 @@ class SimradRawWaterColumnCalibration
                 throw_because_value_is_note_finite("temperature_c", _temperature_c);
             if (!std::isfinite(_salinity_psu))
                 throw_because_value_is_note_finite("salinity_psu", _salinity_psu);
+            if (!std::isfinite(_acidity_ph))
+                throw_because_value_is_note_finite("acidity_ph", _acidity_ph);
         }
 
         if (!_n_complex_samples.has_value())
@@ -477,7 +485,7 @@ class SimradRawWaterColumnCalibration
     {
         SimradRawWaterColumnCalibration calibration(t_base::from_stream(is));
 
-        is.read(reinterpret_cast<char*>(&calibration._transducer_gain_db), sizeof(float) * 15);
+        is.read(reinterpret_cast<char*>(&calibration._transducer_gain_db), sizeof(float) * 16);
 
         // write optional values
         size_t n_complex_samples;
@@ -508,7 +516,7 @@ class SimradRawWaterColumnCalibration
     {
         WaterColumnCalibration::to_stream(os);
 
-        os.write(reinterpret_cast<const char*>(&_transducer_gain_db), sizeof(float) * 15);
+        os.write(reinterpret_cast<const char*>(&_transducer_gain_db), sizeof(float) * 16);
 
         // read optional values
         size_t n_complex_samples = _n_complex_samples.value_or(std::numeric_limits<size_t>::max());
@@ -542,6 +550,7 @@ class SimradRawWaterColumnCalibration
         printer.register_value("reference_depth_m", _reference_depth_m, "m");
         printer.register_value("temperature_c", _temperature_c, "°C");
         printer.register_value("salinity_psu", _salinity_psu, "PSU");
+        printer.register_value("acidity_ph", _acidity_ph, "pH");
 
         printer.register_section("Runtime parameters");
         printer.register_value("frequency_hz", _frequency_hz, "Hz");

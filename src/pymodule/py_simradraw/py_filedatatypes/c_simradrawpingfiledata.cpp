@@ -68,7 +68,28 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                    .def("get_pulse_duration_index",
                         &t_SimradRawPingFileData::get_pulse_duration_index,
                         DOC_simradrawpingfiledata(get_pulse_duration_index))
-                  
+
+                   // --- watercolumncalibration access ---
+                   .def("init_watercolumn_calibration",
+                        &t_SimradRawPingFileData::init_watercolumn_calibration,
+                        DOC_simradrawpingfiledata(init_watercolumn_calibration))
+                   .def("release_watercolumn_calibration",
+                        &t_SimradRawPingFileData::release_watercolumn_calibration,
+                        DOC_simradrawpingfiledata(release_watercolumn_calibration))
+                   .def("has_watercolumn_calibration",
+                        &t_SimradRawPingFileData::has_watercolumn_calibration,
+                        DOC_simradrawpingfiledata(has_watercolumn_calibration))
+                   .def("set_watercolumn_calibration",
+                        &t_SimradRawPingFileData::set_watercolumn_calibration,
+                        DOC_simradrawpingfiledata(set_watercolumn_calibration),
+                        py::arg("calibration"))
+                   .def("get_watercolumn_calibration",
+                        &t_SimradRawPingFileData::get_watercolumn_calibration,
+                        DOC_simradrawpingfiledata(get_watercolumn_calibration))
+                   .def("watercolumn_calibration_loaded",
+                        &t_SimradRawPingFileData::watercolumn_calibration_loaded,
+                        DOC_simradrawpingfiledata(watercolumn_calibration_loaded))
+
                    // --- transceiver information ---
                    .def_property_readonly("transceiver_information",
                                           &t_SimradRawPingFileData::get_transceiver_information,

@@ -48,6 +48,46 @@ void add_apply_calibration_functions(t_pyclass& c)
           py::arg("beam_angles"),
           py::arg("ranges"),
           py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_rp",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::rp,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_rv",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::rv,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_pp",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::pp,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_pv",
+          &WaterColumnCalibration::template apply_beam_sample_correction<
+              WaterColumnCalibration::t_calibration_type::pv,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_WaterColumnCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_ap",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::ap,
@@ -128,6 +168,9 @@ void init_c_watercolumncalibration(pybind11::module& m)
                  .def("get_absorption_db_m",
                       &WaterColumnCalibration::get_absorption_db_m,
                       DOC_WaterColumnCalibration(get_absorption_db_m))
+                 .def("has_valid_absorption_db_m",
+                      &WaterColumnCalibration::has_valid_absorption_db_m,
+                      DOC_WaterColumnCalibration(has_valid_absorption_db_m))
                  .def("get_tvg_absorption_db_m",
                       &WaterColumnCalibration::get_tvg_absorption_db_m,
                       DOC_WaterColumnCalibration(get_tvg_absorption_db_m))

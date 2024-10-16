@@ -35,6 +35,7 @@
 #include "../../filetemplates/datatypes/i_pingfiledata.hpp"
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/simradrawdatagraminterface.hpp"
+#include "calibration/simradrawwatercolumncalibration.hpp"
 #include "sub/transceiverinformation.hpp"
 
 namespace themachinethatgoesping {
@@ -58,6 +59,9 @@ class SimradRawPingFileData
     boost::flyweight<datagrams::xml_datagrams::XML_Environment>       _ping_environment;
     boost::flyweight<_sub::TransceiverInformation>                    _transceiver_information;
 
+    std::unique_ptr<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>
+        _watercolumn_calibration;
+
   public:
     // filetemplates::datatypes::DatagramInfo_ptr<t_SimradRawDatagramIdentifier, t_ifstream>
     //     _datagram_info_file_data; ///< this can be RAW3 (EK80) or RAW0 (EK60)
@@ -68,6 +72,74 @@ class SimradRawPingFileData
         , t_base2()
         , _ping_data(raw3_datagram)
     {
+    }
+
+    SimradRawPingFileData(const SimradRawPingFileData& other)
+        : t_base1(other)
+        , t_base2(other)
+        , _ping_data(other._ping_data)
+        , _ping_parameter(other._ping_parameter)
+        , _ping_environment(other._ping_environment)
+        , _transceiver_information(other._transceiver_information)
+    {
+        _watercolumn_calibration = other._watercolumn_calibration
+                                       ? std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
+                                             *other._watercolumn_calibration)
+                                       : nullptr;
+    }
+
+    void init_watercolumn_calibration(bool force = false)
+    {
+        using datagrams::raw3datatypes::t_RAW3DataType;
+
+        if (_watercolumn_calibration && !force)
+            return;
+
+        size_t n_complex_samples = 0;
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::ComplexFloat32:
+                n_complex_samples = _ping_data.get_number_of_complex_samples();
+                break;
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::Power:
+                [[fallthrough]];
+            case t_RAW3DataType::Angle:
+                n_complex_samples = 0;
+                break;
+            default:
+                throw std::runtime_error(
+                    "Error[SimradRawPingFileData::init_watercolumn_calibration]: "
+                    "Unsupported data type!");
+        }
+
+        _watercolumn_calibration =
+            std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
+                _ping_environment.get(),
+                _ping_parameter.get(),
+                _transceiver_information.get(),
+                n_complex_samples);
+    }
+    void release_watercolumn_calibration() { _watercolumn_calibration.reset(); }
+
+    bool has_watercolumn_calibration() const { return bool(_watercolumn_calibration); }
+
+    const auto& get_watercolumn_calibration() const
+    {
+        if (!watercolumn_calibration_loaded())
+            throw std::runtime_error("Error[SimradRawPingFileData::get_watercolumn_calibration]: "
+                                     "Calibration not initialized!");
+
+        return _watercolumn_calibration->get();
+    }
+
+    void set_watercolumn_calibration(
+        const calibration::SimradRawWaterColumnCalibration& calibration)
+    {
+        _watercolumn_calibration =
+            std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
+                calibration);
     }
 
     const _sub::TransceiverInformation& get_transceiver_information() const
@@ -177,12 +249,9 @@ class SimradRawPingFileData
     //     // return get_parameter().get_impedance_factor();
     // }
 
-    void load()
-    { //_ping_data.sample_data() = read_sample_data();
-    }
-
-    void release()
-    { //_ping_data.sample_data() = datagrams::raw3datatypes::RAW3DataSkipped();
+    bool watercolumn_calibration_loaded() const
+    {
+        return _watercolumn_calibration && _watercolumn_calibration->get().initialized();
     }
 
     // ----- i_RAW3Data interface -----
@@ -277,9 +346,11 @@ class SimradRawPingFileData
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
         printer.append(t_base2::__printer__(float_precision, superscript_exponents));

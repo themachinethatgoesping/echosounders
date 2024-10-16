@@ -1,4 +1,4 @@
-//sourcehash: 1a476072d5977309bbec784a2b61d6732c809359c356f0dc47862a23f70920bd
+//sourcehash: 0a3cbf99b2a2eb1e0c9d832a8d67d6b59583b3e636d9fc8f1325751a74691482
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -202,6 +202,14 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_number_of_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_power = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_pp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_pv = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_rp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_rv = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_t_pingfeature_sensor_configuration = R"doc()doc";
 

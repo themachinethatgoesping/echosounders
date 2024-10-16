@@ -1017,6 +1017,7 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     float reference_depth_m = 20.0f;
     float temperature_c     = 10.0f;
     float salinity_psu      = 30.0f;
+    float acidity_ph        = 8.0f;
     float latitude          = 42.f;
 
     float frequency_hz               = 350000.0f;
@@ -1032,6 +1033,7 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     environment.Depth       = reference_depth_m;
     environment.Temperature = temperature_c;
     environment.Salinity    = salinity_psu;
+    environment.Acidity     = acidity_ph;
     environment.Latitude    = latitude;
 
     datagrams::xml_datagrams::XML_Parameter_Channel parameters;
@@ -1046,13 +1048,12 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     auto cal_cmplx =
         SimradRawWaterColumnCalibration(environment, parameters, tr_infos, n_complex_samples);
 
-
     SECTION("SimradRawWaterColumnCalibration should support common functions")
     {
         // test hash (should be stable if class is not changed)
-        CHECK(cal0.binary_hash() == 6735158076204169780ULL);
-        CHECK(cal_power.binary_hash() == 17587143218220728370ULL);
-        CHECK(cal_cmplx.binary_hash() == 7015281122971640753ULL);
+        CHECK(cal0.binary_hash() == 17881936019455399031ULL);
+        CHECK(cal_power.binary_hash() == 17028420629437399240ULL);
+        CHECK(cal_cmplx.binary_hash() == 11449725189696852697ULL);
 
         // test equality
         CHECK(cal0 == cal0);
@@ -1114,6 +1115,8 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         CHECK(cal_cmplx.get_temperature_c() == Approx(temperature_c));
         CHECK(cal_power.get_salinity_psu() == Approx(salinity_psu));
         CHECK(cal_cmplx.get_salinity_psu() == Approx(salinity_psu));
+        CHECK(cal_power.get_acidity_ph() == Approx(acidity_ph));
+        CHECK(cal_cmplx.get_acidity_ph() == Approx(acidity_ph));
 
         CHECK(cal_power.get_frequency_hz() == Approx(frequency_hz));
         CHECK(cal_cmplx.get_frequency_hz() == Approx(frequency_hz));
@@ -1243,7 +1246,8 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         cal_power2.set_power_calibration_parameters(0, std::nullopt);
         cal_power2.set_transducer_parameters(
             transducer_gain_db, sa_correction_db, equivalent_beam_angle_db, frequency_nominal_hz);
-        cal_power2.set_environment_parameters(reference_depth_m, temperature_c, salinity_psu);
+        cal_power2.set_environment_parameters(
+            reference_depth_m, temperature_c, salinity_psu, acidity_ph);
         cal_power2.set_runtime_parameters(
             frequency_hz, transmit_power_w, effective_pulse_duration_s);
         cal_power2.set_optional_parameters(latitude, std::nullopt);
@@ -1261,12 +1265,9 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
             "and av calibrations")
     {
         auto cal = cal_power;
-        REQUIRE_THROWS_AS(cal.set_power_calibration(AmplitudeCalibration(12)),
-                          std::runtime_error);
-        REQUIRE_THROWS_AS(cal.set_ap_calibration(AmplitudeCalibration(12)),
-                          std::runtime_error);
-        REQUIRE_THROWS_AS(cal.set_av_calibration(AmplitudeCalibration(12)),
-                          std::runtime_error);
+        REQUIRE_THROWS_AS(cal.set_power_calibration(AmplitudeCalibration(12)), std::runtime_error);
+        REQUIRE_THROWS_AS(cal.set_ap_calibration(AmplitudeCalibration(12)), std::runtime_error);
+        REQUIRE_THROWS_AS(cal.set_av_calibration(AmplitudeCalibration(12)), std::runtime_error);
         REQUIRE_NOTHROW(cal.set_sp_calibration(AmplitudeCalibration(12)));
         REQUIRE_NOTHROW(cal.set_sv_calibration(AmplitudeCalibration(12)));
     }

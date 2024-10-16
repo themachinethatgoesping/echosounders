@@ -1,4 +1,4 @@
-//sourcehash: 1fa7563ef63a6e06c2562f8343f9d189a0c5c101d95494ffe84e60480d2b0599
+//sourcehash: 17304b6fd8c4131e28414dce72ce9454be780432cc70ed92b2a1cbd3362e14bf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -210,6 +210,66 @@ Parameter ``selection``:
 Returns:
     xt::xtensor<float,2>)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_pp =
+R"doc(Get the power data converted to PP (power +2 alpha R + 40log(R))
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_pp_2 =
+R"doc(Get the power data converted to PP (power +2 alpha R + 40log(R))
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_pv =
+R"doc(Get the power data converted to PV (power +2 alpha R + 20log(R))
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_pv_2 =
+R"doc(Get the power data converted to PV (power +2 alpha R + 20log(R))
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_rp =
+R"doc(Get the power data converted to RP (power 40log(R))
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_rp_2 =
+R"doc(Get the power data converted to RP (power + 40log(R))
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_rv =
+R"doc(Get the power data converted to RV (power 20log(R))
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_rv_2 =
+R"doc(Get the power data converted to RV (power + 20log(R))
+
+Parameter ``selection``:
+    Selection of Beams and Samples to extract
+
+Returns:
+    xt::xtensor<float,2>)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sample_interval =
 R"doc(Get the sample interval in seconds
 
@@ -329,6 +389,42 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_power =
 R"doc(Check this pings supports calibrated power data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pp =
+R"doc(Check this pings supports PP data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pv =
+R"doc(Check this pings supports PV data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rp =
+R"doc(Check this pings supports RP data
+
+Returns:
+    true
+
+Returns:
+    false)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rv =
+R"doc(Check this pings supports RV data
 
 Returns:
     true

@@ -59,6 +59,28 @@ void add_apply_calibration_functions(t_pyclass& c)
           py::arg("ranges"),
           py::arg("beam_numbers_per_tx_sector"),
           py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_pp",
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::pp,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
+    c.def("apply_beam_sample_correction_pv",
+          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
+              t_calibration::t_calibration_type::pv,
+              xt::pytensor<t_float, 2>,
+              xt::pytensor<t_float, 1>>,
+          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+          py::arg("wci"),
+          py::arg("beam_angles"),
+          py::arg("ranges"),
+          py::arg("beam_numbers_per_tx_sector"),
+          py::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_ap",
           &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
               t_calibration::t_calibration_type::ap,
@@ -157,6 +179,9 @@ void init_multisectorcalibration(pybind11::module& m, const std::string& name)
                  .def("has_sv_calibration",
                       &T_MultiSectorCalibration<t_calibration>::has_sv_calibration,
                       DOC_I_MultiSectorCalibration(has_sv_calibration))
+                 .def("has_valid_absorption_db_m",
+                      &T_MultiSectorCalibration<t_calibration>::has_valid_absorption_db_m,
+                      DOC_I_MultiSectorCalibration(has_valid_absorption_db_m))
 
                  .def("get_number_of_sectors",
                       &T_MultiSectorCalibration<t_calibration>::get_number_of_sectors,

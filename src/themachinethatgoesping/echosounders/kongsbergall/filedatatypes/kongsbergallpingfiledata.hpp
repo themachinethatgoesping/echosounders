@@ -111,15 +111,8 @@ class KongsbergAllPingFileData
         return _multisector_calibration->get();
     }
 
-    /**
-     * @brief Set the watercolumn calibration. This must be a list of length equal to the number of
-     * transmit sectors.
-     * @tparam calibration::KongsbergAllMultiSectorWaterColumnCalibration can be either
-     * KongsbergAllWaterColumnCalibration or BoostFlyweight<
-     * @param calibration
-     */
-    template<typename t_calibration_>
-    void set_multisector_calibration(const t_calibration_& multisector_calibration)
+    void set_multisector_calibration(
+        const calibration::KongsbergAllMultiSectorWaterColumnCalibration& multisector_calibration)
     {
         if (multisector_calibration.get_number_of_sectors() !=
             get_sysinfos().get_tx_signal_parameters().size())

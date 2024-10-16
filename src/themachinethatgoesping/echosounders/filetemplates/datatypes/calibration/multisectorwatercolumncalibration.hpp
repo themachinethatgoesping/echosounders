@@ -35,6 +35,7 @@ class I_MultiSectorCalibration
     virtual const WaterColumnCalibration& calibration_for_sector(size_t sector) const = 0;
     virtual WaterColumnCalibration&       calibration_for_sector(size_t sector)       = 0;
     // has calibration
+    virtual bool has_valid_absorption_db_m() const = 0;
     virtual bool has_power_calibration() const = 0;
     virtual bool has_ap_calibration() const    = 0;
     virtual bool has_av_calibration() const    = 0;
@@ -192,6 +193,14 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
     bool operator==(const T_MultiSectorCalibration& other) const = default;
 
     // has calibration
+    bool has_valid_absorption_db_m() const override
+    {
+        for (size_t i = 0; i < get_number_of_sectors(); ++i)
+            if (calibration_for_sector(i).has_valid_absorption_db_m())
+                return true;
+        return false;
+    }
+
     bool has_power_calibration() const override
     {
         for (size_t i = 0; i < get_number_of_sectors(); ++i)

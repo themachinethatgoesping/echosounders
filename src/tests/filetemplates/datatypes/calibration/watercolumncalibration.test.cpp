@@ -25,9 +25,17 @@ TEST_CASE("WaterColumnCalibration should support common functions", TESTTAG)
     auto obj  = WaterColumnCalibration();
     auto obj2 = WaterColumnCalibration(obj0, AmplitudeCalibration(), AmplitudeCalibration());
 
+    // test check for valid absorption coefficient
+    CHECK(obj.has_valid_absorption_db_m() == false);
+    CHECK(obj2.has_valid_absorption_db_m() == false);
+    obj2.set_absorption_db_m(NAN);
+    CHECK(obj2.has_valid_absorption_db_m() == false);
+    obj2.set_absorption_db_m(0.0f);
+    CHECK(obj2.has_valid_absorption_db_m() == true);
+
     // test hash (should be stable if class is not changed)
     CHECK(obj.binary_hash() == 14297201401130263458ULL);
-    CHECK(obj2.binary_hash() == 976104721445154333ULL);
+    CHECK(obj2.binary_hash() == 13359915444826610029ULL);
 
     // test equality
     // test inequality
@@ -77,7 +85,7 @@ TEST_CASE("WaterColumnCalibration should support common functions", TESTTAG)
     CHECK(obj2.get_sp_calibration().get_system_offset() == 1.0f);
     CHECK(obj2.get_sv_calibration().get_system_offset() == 1.0f);
 
-    // test modifying calibrations 
+    // test modifying calibrations
     REQUIRE_NOTHROW(obj.set_power_calibration(obj0));
     REQUIRE_NOTHROW(obj.set_ap_calibration(obj0));
     REQUIRE_NOTHROW(obj.set_av_calibration(obj0));
@@ -115,6 +123,42 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                 compute_cw_range_correction(
                                     ranges, -tvg_absorption, -tvg_factor_applied);
                             xt::xtensor<float, 2> result_power_ref =
+                                xt::eval(apply_beam_sample_correction(
+                                    xt::eval(wci + system_offset),
+                                    per_beam_offset,
+                                    xt::eval(per_sample_offset + range_varying_offset)));
+
+                            range_varying_offset = compute_cw_range_correction(
+                                ranges, -tvg_absorption, 40 - tvg_factor_applied);
+                            xt::xtensor<float, 2> result_rp_ref =
+                                xt::eval(apply_beam_sample_correction(
+                                    xt::eval(wci + system_offset),
+                                    per_beam_offset,
+                                    xt::eval(per_sample_offset + range_varying_offset)));
+
+                            range_varying_offset = compute_cw_range_correction(
+                                ranges, -tvg_absorption, 20 - tvg_factor_applied);
+                            xt::xtensor<float, 2> result_rv_ref =
+                                xt::eval(apply_beam_sample_correction(
+                                    xt::eval(wci + system_offset),
+                                    per_beam_offset,
+                                    xt::eval(per_sample_offset + range_varying_offset)));
+
+                            range_varying_offset = compute_cw_range_correction(
+                                ranges,
+                                absorption.value_or(tvg_absorption) - tvg_absorption,
+                                40 - tvg_factor_applied);
+                            xt::xtensor<float, 2> result_pp_ref =
+                                xt::eval(apply_beam_sample_correction(
+                                    xt::eval(wci + system_offset),
+                                    per_beam_offset,
+                                    xt::eval(per_sample_offset + range_varying_offset)));
+
+                            range_varying_offset = compute_cw_range_correction(
+                                ranges,
+                                absorption.value_or(tvg_absorption) - tvg_absorption,
+                                20 - tvg_factor_applied);
+                            xt::xtensor<float, 2> result_pv_ref =
                                 xt::eval(apply_beam_sample_correction(
                                     xt::eval(wci + system_offset),
                                     per_beam_offset,
@@ -162,6 +206,10 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
 
                             REQUIRE(result_power_ref.size() ==
                                     result_power_ref.shape(0) * result_power_ref.shape(1));
+                            REQUIRE(result_pp_ref.size() ==
+                                    result_pp_ref.shape(0) * result_pp_ref.shape(1));
+                            REQUIRE(result_pv_ref.size() ==
+                                    result_pv_ref.shape(0) * result_pv_ref.shape(1));
                             REQUIRE(result_ap_ref.size() ==
                                     result_ap_ref.shape(0) * result_ap_ref.shape(1));
                             REQUIRE(result_av_ref.size() ==
@@ -173,6 +221,18 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
 
                             std::map<std::string, xt::xtensor<float, 2>> results_power = {
                                 { "reference", result_power_ref }
+                            };
+                            std::map<std::string, xt::xtensor<float, 2>> results_rp = {
+                                { "reference", result_rp_ref }
+                            };
+                            std::map<std::string, xt::xtensor<float, 2>> results_rv = {
+                                { "reference", result_rv_ref }
+                            };
+                            std::map<std::string, xt::xtensor<float, 2>> results_pp = {
+                                { "reference", result_pp_ref }
+                            };
+                            std::map<std::string, xt::xtensor<float, 2>> results_pv = {
+                                { "reference", result_pv_ref }
                             };
                             std::map<std::string, xt::xtensor<float, 2>> results_ap = {
                                 { "reference", result_ap_ref }
@@ -220,6 +280,22 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                 wcc.template apply_beam_sample_correction<
                                     WaterColumnCalibration::t_calibration_type::power>(
                                     wci, beam_angles, ranges, mp_cores);
+                            results_rp["FULL-apply_rp_calibration"] =
+                                wcc.template apply_beam_sample_correction<
+                                    WaterColumnCalibration::t_calibration_type::rp>(
+                                    wci, beam_angles, ranges, mp_cores);
+                            results_rv["FULL-apply_rv_calibration"] =
+                                wcc.template apply_beam_sample_correction<
+                                    WaterColumnCalibration::t_calibration_type::rv>(
+                                    wci, beam_angles, ranges, mp_cores);
+                            results_pp["FULL-apply_pp_calibration"] =
+                                wcc.template apply_beam_sample_correction<
+                                    WaterColumnCalibration::t_calibration_type::pp>(
+                                    wci, beam_angles, ranges, mp_cores);
+                            results_pv["FULL-apply_pv_calibration"] =
+                                wcc.template apply_beam_sample_correction<
+                                    WaterColumnCalibration::t_calibration_type::pv>(
+                                    wci, beam_angles, ranges, mp_cores);
 
                             // inplace
                             xt::xtensor<float, 2> result = wci;
@@ -227,6 +303,30 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                 WaterColumnCalibration::t_calibration_type::power>(
                                 result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_power["FULL-inplace_power_calibration"] = result;
+
+                            result = wci;
+                            wcc.template inplace_beam_sample_correction<
+                                WaterColumnCalibration::t_calibration_type::rp>(
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
+                            results_rp["FULL-inplace_rp_calibration"] = result;
+
+                            result = wci;
+                            wcc.template inplace_beam_sample_correction<
+                                WaterColumnCalibration::t_calibration_type::rv>(
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
+                            results_rv["FULL-inplace_rv_calibration"] = result;
+
+                            result = wci;
+                            wcc.template inplace_beam_sample_correction<
+                                WaterColumnCalibration::t_calibration_type::pp>(
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
+                            results_pp["FULL-inplace_pp_calibration"] = result;
+
+                            result = wci;
+                            wcc.template inplace_beam_sample_correction<
+                                WaterColumnCalibration::t_calibration_type::pv>(
+                                result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
+                            results_pv["FULL-inplace_pv_calibration"] = result;
 
                             // --- apply ap correction ---
                             results_ap["FULL-apply_ap_calibration"] =
@@ -280,8 +380,15 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                 result, beam_angles, ranges, std::nullopt, std::nullopt, mp_cores);
                             results_sv["FULL-inplace_sv_calibration"] = result;
 
-                            for (const auto& results :
-                                 { results_power, results_ap, results_av, results_sp, results_sv })
+                            for (const auto& results : { results_power,
+                                                         results_rp,
+                                                         results_rv,
+                                                         results_pp,
+                                                         results_pv,
+                                                         results_ap,
+                                                         results_av,
+                                                         results_sp,
+                                                         results_sv })
                             {
                                 const auto& result_base = results.at("reference");
 
@@ -327,7 +434,7 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
         xt::xtensor<float, 1> beam_angles = xt::eval(xt::linspace<float>(-30, 30, 10));
         xt::xtensor<float, 1> ranges      = xt::eval(xt::linspace<float>(0.5, 30, 20));
 
-        for (size_t mp_cores : { 1,2})
+        for (size_t mp_cores : { 1, 2 })
         {
             for (float system_offset : { 0, -12, 13 })
                 for (std::optional<float> absorption :
@@ -347,6 +454,50 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                     xt::xtensor<float, 2> result_power_ref = wci;
                                     inplace_beam_sample_correction(
                                         result_power_ref,
+                                        xt::eval(per_beam_offset + system_offset),
+                                        xt::eval(per_sample_offset + range_varying_offset),
+                                        min_bn,
+                                        max_bn);
+
+                                    range_varying_offset = compute_cw_range_correction(
+                                        ranges, -tvg_absorption, 40 - tvg_factor_applied);
+                                    xt::xtensor<float, 2> result_rp_ref = wci;
+                                    inplace_beam_sample_correction(
+                                        result_rp_ref,
+                                        xt::eval(per_beam_offset + system_offset),
+                                        xt::eval(per_sample_offset + range_varying_offset),
+                                        min_bn,
+                                        max_bn);
+
+                                    range_varying_offset = compute_cw_range_correction(
+                                        ranges, -tvg_absorption, 20 - tvg_factor_applied);
+                                    xt::xtensor<float, 2> result_rv_ref = wci;
+                                    inplace_beam_sample_correction(
+                                        result_rv_ref,
+                                        xt::eval(per_beam_offset + system_offset),
+                                        xt::eval(per_sample_offset + range_varying_offset),
+                                        min_bn,
+                                        max_bn);
+
+                                    range_varying_offset = compute_cw_range_correction(
+                                        ranges,
+                                        absorption.value_or(tvg_absorption) - tvg_absorption,
+                                        40 - tvg_factor_applied);
+                                    xt::xtensor<float, 2> result_pp_ref = wci;
+                                    inplace_beam_sample_correction(
+                                        result_pp_ref,
+                                        xt::eval(per_beam_offset + system_offset),
+                                        xt::eval(per_sample_offset + range_varying_offset),
+                                        min_bn,
+                                        max_bn);
+
+                                    range_varying_offset = compute_cw_range_correction(
+                                        ranges,
+                                        absorption.value_or(tvg_absorption) - tvg_absorption,
+                                        20 - tvg_factor_applied);
+                                    xt::xtensor<float, 2> result_pv_ref = wci;
+                                    inplace_beam_sample_correction(
+                                        result_pv_ref,
                                         xt::eval(per_beam_offset + system_offset),
                                         xt::eval(per_sample_offset + range_varying_offset),
                                         min_bn,
@@ -414,6 +565,18 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                     std::map<std::string, xt::xtensor<float, 2>> results_power = {
                                         { "reference", result_power_ref }
                                     };
+                                    std::map<std::string, xt::xtensor<float, 2>> results_rp = {
+                                        { "reference", result_rp_ref }
+                                    };
+                                    std::map<std::string, xt::xtensor<float, 2>> results_rv = {
+                                        { "reference", result_rv_ref }
+                                    };
+                                    std::map<std::string, xt::xtensor<float, 2>> results_pp = {
+                                        { "reference", result_pp_ref }
+                                    };
+                                    std::map<std::string, xt::xtensor<float, 2>> results_pv = {
+                                        { "reference", result_pv_ref }
+                                    };
                                     std::map<std::string, xt::xtensor<float, 2>> results_ap = {
                                         { "reference", result_ap_ref }
                                     };
@@ -466,37 +629,65 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::power>(
                                         result, beam_angles, ranges, min_bn, max_bn, mp_cores);
-                                    results_power["FULL-inplace_power_calibration"] = result;
+                                    results_power["PARTIAL-inplace_power_calibration"] = result;
+
+                                    result = wci;
+                                    wcc.template inplace_beam_sample_correction<
+                                        WaterColumnCalibration::t_calibration_type::rp>(
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
+                                    results_rp["PARTIAL-inplace_rp_calibration"] = result;
+
+                                    result = wci;
+                                    wcc.template inplace_beam_sample_correction<
+                                        WaterColumnCalibration::t_calibration_type::rv>(
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
+                                    results_rv["PARTIAL-inplace_rv_calibration"] = result;
+
+                                    result = wci;
+                                    wcc.template inplace_beam_sample_correction<
+                                        WaterColumnCalibration::t_calibration_type::pp>(
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
+                                    results_pp["PARTIAL-inplace_pp_calibration"] = result;
+
+                                    result = wci;
+                                    wcc.template inplace_beam_sample_correction<
+                                        WaterColumnCalibration::t_calibration_type::pv>(
+                                        result, beam_angles, ranges, min_bn, max_bn, mp_cores);
+                                    results_pv["PARTIAL-inplace_pv_calibration"] = result;
 
                                     // --- apply ap correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::ap>(
                                         result, beam_angles, ranges, min_bn, max_bn, mp_cores);
-                                    results_ap["FULL-inplace_ap_calibration"] = result;
+                                    results_ap["PARTIAL-inplace_ap_calibration"] = result;
 
                                     // --- apply ap correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::av>(
                                         result, beam_angles, ranges, min_bn, max_bn, mp_cores);
-                                    results_av["FULL-inplace_av_calibration"] = result;
+                                    results_av["PARTIAL-inplace_av_calibration"] = result;
 
                                     // --- apply av correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::sp>(
                                         result, beam_angles, ranges, min_bn, max_bn, mp_cores);
-                                    results_sp["FULL-inplace_sp_calibration"] = result;
+                                    results_sp["PARTIAL-inplace_sp_calibration"] = result;
 
                                     // --- apply sv correction ---
                                     result = wci;
                                     wcc.template inplace_beam_sample_correction<
                                         WaterColumnCalibration::t_calibration_type::sv>(
                                         result, beam_angles, ranges, min_bn, max_bn, mp_cores);
-                                    results_sv["FULL-inplace_sv_calibration"] = result;
+                                    results_sv["PARTIAL-inplace_sv_calibration"] = result;
 
                                     for (const auto& results : { results_power,
+                                                                 results_rp,
+                                                                 results_rv,
+                                                                 results_pp,
+                                                                 results_pv,
                                                                  results_ap,
                                                                  results_av,
                                                                  results_sp,
@@ -523,12 +714,11 @@ TEST_CASE("WaterColumnCalibration should wci corrections from wcicorrections.hpp
 
                                             for (size_t i = 0; i < result_base.size(); i++)
                                             {
-                                                // INFO(
-                                                //     fmt::format("i: {} result_base: {}, result:
-                                                //     {}",
-                                                //                 i,
-                                                //                 result_base.flat(i),
-                                                //                 result.flat(i)));
+                                                // INFO(fmt::format(
+                                                //     "i: {} result_base: {}, result: {} ",
+                                                //     i,
+                                                //     result_base.flat(i),
+                                                //     result.flat(i)));
                                                 REQUIRE(std::fabs(result_base.flat(i) -
                                                                   result.flat(i)) < 0.0001f);
                                             }

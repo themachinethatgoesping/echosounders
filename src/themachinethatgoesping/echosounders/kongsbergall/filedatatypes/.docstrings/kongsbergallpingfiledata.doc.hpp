@@ -1,4 +1,4 @@
-//sourcehash: fa4f5bfcf6dc30bdc3e791ba29d80808638882e82b93cea3a9f6e3443396a49c
+//sourcehash: f0de65c1761da47e6afa29a0dd56aff3266637bafd5ee6cd1589117776073b58
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -132,16 +132,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_runtime_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_multisector_calibration =
-R"doc(Set the watercolumn calibration. This must be a list of length equal
-to the number of transmit sectors.
-
-Template parameter
-``calibration::KongsbergAllMultiSectorWaterColumnCalibration``:
-    can be either KongsbergAllWaterColumnCalibration or
-    BoostFlyweight<
-
-Parameter ``calibration``:)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_multisector_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_runtime_parameters = R"doc()doc";
 

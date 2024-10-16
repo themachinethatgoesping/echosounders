@@ -94,12 +94,13 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
                  DOC_SimradRawWaterColumnCalibration(set_environment_parameters),
                  py::arg("environment"))
             .def("set_environment_parameters",
-                 py::overload_cast<float, float, float>(
+                 py::overload_cast<float, float, float, float>(
                      &SimradRawWaterColumnCalibration::set_environment_parameters),
                  DOC_SimradRawWaterColumnCalibration(set_environment_parameters_2),
                  py::arg("reference_depth_m"),
                  py::arg("temperature_c"),
-                 py::arg("salinity_psu"))
+                 py::arg("salinity_psu"),
+                 py::arg("acidity_ph") = 8.06f)
             .def("set_environment_parameters",
                  py::overload_cast<float, float>(
                      &SimradRawWaterColumnCalibration::set_environment_parameters),
@@ -161,6 +162,9 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
             .def("get_salinity_psu",
                  &SimradRawWaterColumnCalibration::get_salinity_psu,
                  DOC_SimradRawWaterColumnCalibration(get_salinity_psu))
+            .def("get_acidity_ph",
+                 &SimradRawWaterColumnCalibration::get_acidity_ph,
+                 DOC_SimradRawWaterColumnCalibration(get_acidity_ph))
 
             .def("get_frequency_hz",
                  &SimradRawWaterColumnCalibration::get_frequency_hz,

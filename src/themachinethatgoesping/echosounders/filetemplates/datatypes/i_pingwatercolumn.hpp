@@ -111,6 +111,10 @@ class I_PingWatercolumn : public I_PingCommon
         features[t_pingfeature::ap]         = std::bind(&I_PingWatercolumn::has_ap, this);
         features[t_pingfeature::av]         = std::bind(&I_PingWatercolumn::has_av, this);
         features[t_pingfeature::power]      = std::bind(&I_PingWatercolumn::has_power, this);
+        features[t_pingfeature::rp]         = std::bind(&I_PingWatercolumn::has_rp, this);
+        features[t_pingfeature::rv]         = std::bind(&I_PingWatercolumn::has_rv, this);
+        features[t_pingfeature::pp]         = std::bind(&I_PingWatercolumn::has_pp, this);
+        features[t_pingfeature::pv]         = std::bind(&I_PingWatercolumn::has_pv, this);
         features[t_pingfeature::sp]         = std::bind(&I_PingWatercolumn::has_sp, this);
         features[t_pingfeature::sv]         = std::bind(&I_PingWatercolumn::has_sv, this);
         features[t_pingfeature::watercolumn_calibration] =
@@ -378,6 +382,46 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     /**
+     * @brief Get the power data converted to RP (power 40log(R))
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_rp(int mp_cores = 1)
+    {
+        return get_rp(get_beam_sample_selection_all(), mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to RV (power 20log(R))
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_rv(int mp_cores = 1)
+    {
+        return get_rv(get_beam_sample_selection_all(), mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to PP (power +2 alpha R + 40log(R))
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_pp(int mp_cores = 1)
+    {
+        return get_pp(get_beam_sample_selection_all(), mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to PV (power +2 alpha R + 20log(R))
+     *
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_pv(int mp_cores = 1)
+    {
+        return get_pv(get_beam_sample_selection_all(), mp_cores);
+    }
+
+    /**
      * @brief Get the amplitude data converted to power
      * @return xt::xtensor<float,2>
      */
@@ -417,6 +461,58 @@ class I_PingWatercolumn : public I_PingCommon
         [[maybe_unused]] int                                   mp_cores = 1)
     {
         throw not_implemented(__func__, this->class_name());
+    }
+
+    /**
+     * @brief Get the power data converted to RP (power + 40log(R))
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_rp(const pingtools::BeamSampleSelection& selection, int mp_cores = 1)
+    {
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::rp>(selection, mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to RV (power + 20log(R))
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_rv(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
+    {
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::rv>(selection, mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to PP (power +2 alpha R + 40log(R))
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    xt::xtensor<float, 2> get_pp(const pingtools::BeamSampleSelection& selection, int mp_cores = 1)
+    {
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::pp>(selection, mp_cores);
+    }
+
+    /**
+     * @brief Get the power data converted to PV (power +2 alpha R + 20log(R))
+     *
+     * @param selection Selection of Beams and Samples to extract
+     * @return xt::xtensor<float,2>
+     */
+    virtual xt::xtensor<float, 2> get_pv(
+        [[maybe_unused]] const pingtools::BeamSampleSelection& selection,
+        int                                                    mp_cores = 1)
+    {
+        using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
+        return this->template get_calibrated_wci<t_calibration_type::pv>(selection, mp_cores);
     }
 
     /**
@@ -603,9 +699,11 @@ class I_PingWatercolumn : public I_PingCommon
     bool has_ap() const
     {
         if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration();
+            return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
 
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_ap_calibration();
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_ap_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
     }
 
     /**
@@ -617,9 +715,11 @@ class I_PingWatercolumn : public I_PingCommon
     bool has_av() const
     {
         if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_av_calibration();
+            return has_amplitudes() && get_watercolumn_calibration().has_av_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
 
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_av_calibration();
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_av_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
     }
 
     /**
@@ -636,6 +736,46 @@ class I_PingWatercolumn : public I_PingCommon
         return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
     }
     /**
+     * @brief Check this pings supports RP data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_rp() const { return has_power(); }
+    /**
+     * @brief Check this pings supports RV data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_rv() const { return has_power(); }
+
+    /**
+     * @brief Check this pings supports PP data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_pp() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+    /**
+     * @brief Check this pings supports PV data
+     *
+     * @return true
+     * @return false
+     */
+    bool has_pv() const
+    {
+        return has_pp();
+    }
+    /**
      * @brief Check this pings supports calibrated SV data
      *
      * @return true
@@ -644,9 +784,11 @@ class I_PingWatercolumn : public I_PingCommon
     bool has_sp() const
     {
         if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration();
+            return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
 
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sp_calibration();
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sp_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
     }
     /**
      * @brief Check this pings supports calibrated SV data
@@ -657,9 +799,11 @@ class I_PingWatercolumn : public I_PingCommon
     bool has_sv() const
     {
         if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration();
+            return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
 
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sv_calibration();
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sv_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
     }
 
     /**

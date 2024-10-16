@@ -1,4 +1,4 @@
-//sourcehash: 4469534888bff060f61794422a84ce890a533340e27b482b5832e8b0591f291d
+//sourcehash: af7bd36622823e309954e85ff67a9e61e671823007181571c522316297629fe8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_sv_calibration = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_has_valid_absorption_db_m = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_inplace_beam_sample_correction = R"doc()doc";
@@ -97,6 +99,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_sp_calibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_sv_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_has_valid_absorption_db_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_initialized = R"doc()doc";
 

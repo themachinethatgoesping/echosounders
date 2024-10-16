@@ -162,6 +162,18 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("has_power",
                  py::overload_cast<>(&I_PingWatercolumn::has_power, py::const_),
                  DOC_I_PingWatercolumn(has_power))
+            .def("has_rp",
+                 py::overload_cast<>(&I_PingWatercolumn::has_rp, py::const_),
+                 DOC_I_PingWatercolumn(has_rp))
+            .def("has_rv",
+                 py::overload_cast<>(&I_PingWatercolumn::has_rv, py::const_),
+                 DOC_I_PingWatercolumn(has_rv))
+            .def("has_pp",
+                 py::overload_cast<>(&I_PingWatercolumn::has_pp, py::const_),
+                 DOC_I_PingWatercolumn(has_pp))
+            .def("has_pv",
+                 py::overload_cast<>(&I_PingWatercolumn::has_pv, py::const_),
+                 DOC_I_PingWatercolumn(has_pv))
             .def("has_sp",
                  py::overload_cast<>(&I_PingWatercolumn::has_sp, py::const_),
                  DOC_I_PingWatercolumn(has_sp))
@@ -182,6 +194,46 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                  py::overload_cast<const pingtools::BeamSampleSelection&, int>(
                      &I_PingWatercolumn::get_amplitudes),
                  DOC_I_PingWatercolumn(get_amplitudes),
+                 py::arg("beam_selection"),
+                 py::arg("mp_cores") = 1)
+            .def("get_rp",
+                 py::overload_cast<int>(&I_PingWatercolumn::get_rp),
+                 DOC_I_PingWatercolumn(get_rp),
+                 py::arg("mp_cores") = 1)
+            .def("get_rp",
+                 py::overload_cast<const pingtools::BeamSampleSelection&, int>(
+                     &I_PingWatercolumn::get_rp),
+                 DOC_I_PingWatercolumn(get_rp),
+                 py::arg("beam_selection"),
+                 py::arg("mp_cores") = 1)
+            .def("get_rv",
+                 py::overload_cast<int>(&I_PingWatercolumn::get_rv),
+                 DOC_I_PingWatercolumn(get_rv),
+                 py::arg("mp_cores") = 1)
+            .def("get_rv",
+                 py::overload_cast<const pingtools::BeamSampleSelection&, int>(
+                     &I_PingWatercolumn::get_rv),
+                 DOC_I_PingWatercolumn(get_rv),
+                 py::arg("beam_selection"),
+                 py::arg("mp_cores") = 1)
+            .def("get_pp",
+                 py::overload_cast<int>(&I_PingWatercolumn::get_pp),
+                 DOC_I_PingWatercolumn(get_pp),
+                 py::arg("mp_cores") = 1)
+            .def("get_pp",
+                 py::overload_cast<const pingtools::BeamSampleSelection&, int>(
+                     &I_PingWatercolumn::get_pp),
+                 DOC_I_PingWatercolumn(get_pp),
+                 py::arg("beam_selection"),
+                 py::arg("mp_cores") = 1)
+            .def("get_pv",
+                 py::overload_cast<int>(&I_PingWatercolumn::get_pv),
+                 DOC_I_PingWatercolumn(get_pv),
+                 py::arg("mp_cores") = 1)
+            .def("get_pv",
+                 py::overload_cast<const pingtools::BeamSampleSelection&, int>(
+                     &I_PingWatercolumn::get_pv),
+                 DOC_I_PingWatercolumn(get_pv),
                  py::arg("beam_selection"),
                  py::arg("mp_cores") = 1)
             .def("get_ap",

@@ -302,6 +302,8 @@ class SimradRawPingDataInterfacePerFile
                             navigation_data_interpolator.get_sensor_data(
                                 ping_ptr->get_timestamp()));
 
+                    // load remaining data structures
+                    ping_ptr->load();
                     pings.add_ping(std::move(ping_ptr));
                     break;
                 }
@@ -337,6 +339,7 @@ class SimradRawPingDataInterfacePerFile
 
         // package_buffer_xml.print(std::cerr);
         // package_buffer_raw3.print(std::cerr);
+        
 
         return pings;
     }

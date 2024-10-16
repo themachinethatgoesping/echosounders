@@ -287,6 +287,20 @@ class SimradRawPingWatercolumn
         return av;
     }
 
+    void load(bool force = false) override
+    {
+        // load watercolumn calibration
+        _file_data->init_watercolumn_calibration(force);
+    }
+    void release() override { _file_data->release_watercolumn_calibration(); }
+    bool loaded() override
+    {
+        if (!_file_data->watercolumn_calibration_loaded())
+            return false;
+            
+        return true;
+    }
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const

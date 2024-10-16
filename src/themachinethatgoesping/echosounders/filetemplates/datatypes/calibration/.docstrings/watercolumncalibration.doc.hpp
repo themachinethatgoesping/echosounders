@@ -1,4 +1,4 @@
-//sourcehash: b61155e219fa8e970e939a599f3216032e4b54f79003f9747e54a72814267711
+//sourcehash: deb280a05572abf0ed78dfc865272e18e1d57c1dcb44643c0d5006c2802c67ba
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -92,6 +92,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_has_sv_calibration = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_has_valid_absorption_db_m = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_inplace_beam_sample_correction = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_operator_assign = R"doc()doc";
@@ -120,15 +122,31 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_ap = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_ap =
+R"doc(power derived volume scattering (uncalibrated SV without parameter
+compensation))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_av = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_av = R"doc(amplitude derived point scattering (uncalibrated TS))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_power = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sp = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_pp =
+R"doc(power derived volume scattering (uncalibrated SV without parameter and
+absorption compensation))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sv = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_pv =
+R"doc(power derived point scattering (uncalibrated TS without parameter
+compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_rp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_rv =
+R"doc(power derived point scattering (uncalibrated TS without parameter and
+absorption compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sp = R"doc(amplitude derived volume scattering (uncalibrated SV))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sv = R"doc(point scattering (uncompensated TS))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_to_stream = R"doc()doc";
 

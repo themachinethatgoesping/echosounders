@@ -81,7 +81,7 @@ enum class t_pingfeature : uint8_t
     /* I_PingBottom and I_PingWatercolumn */
     tx_signal_parameters,
     number_of_tx_sectors,
-    
+
     beam_numbers_per_tx_sector,
     beam_selection_all,
     number_of_beams,
@@ -95,6 +95,10 @@ enum class t_pingfeature : uint8_t
     /* I_PingWatercolumn */
     bottom_range_samples,
     amplitudes,
+    rp,
+    rv,
+    pp,
+    pv,
     ap,
     av,
     power,
@@ -488,9 +492,11 @@ class I_PingCommon
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         print_features(printer);
         if (!this->feature_group_functions().empty())
