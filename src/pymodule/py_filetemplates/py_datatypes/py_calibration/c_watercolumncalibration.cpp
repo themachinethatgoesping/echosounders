@@ -212,10 +212,6 @@ void init_c_watercolumncalibration(pybind11::module& m)
 
     add_apply_calibration_functions<float>(c);
     add_apply_calibration_functions<double>(c);
-
-    c.def("hash", &WaterColumnCalibration::binary_hash, DOC_WaterColumnCalibration(binary_hash));
-    c.def(
-        "__hash__", &WaterColumnCalibration::binary_hash, DOC_WaterColumnCalibration(binary_hash));
 }
 }
 }

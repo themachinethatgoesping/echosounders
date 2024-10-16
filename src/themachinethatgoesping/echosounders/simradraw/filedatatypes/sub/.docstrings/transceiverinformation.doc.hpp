@@ -1,4 +1,4 @@
-//sourcehash: c818d9cda3d54a4603b957152ac2fc15ddc2af3a2395ab7c111e6d816af6cce9
+//sourcehash: 7046e6f5590e7d8c10791cfa0f13d338575968613edf9e2299495e5b2be2afa3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,17 +46,23 @@ data from the file. It does not hold the actual water column samples
 Note this is a private substructure and is thus not part of the public
 API or pybind11 interface.)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_TransceiverInformation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_TransceiverInformation_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_binary_hash = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_check_initialized = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_compute_impedance_factor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_impedance_factor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_pulse_duration_index = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_pulse_duration_index_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_get_transceiver = R"doc()doc";
 
@@ -75,6 +81,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_ping_transceiver = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_ping_transceiver_channel = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_TransceiverInformation_to_stream = R"doc()doc";
 
 
 #if defined(__GNUG__)

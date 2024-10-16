@@ -1,4 +1,4 @@
-//sourcehash: 164b538fb607e9fb79b08cca938a0129b1f7cb7db5e3dea2aa57fa4892353257
+//sourcehash: 7560ce8703f6bd5ea2e9b8d9f85cf3cb3925e6059436ba1ac1696c75d020b81a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,9 +46,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_calibration_KongsbergAllWaterColumnCalibration_KongsbergAllWaterColumnCalibration_3 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_calibration_KongsbergAllWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_calibration_KongsbergAllWaterColumnCalibration_binary_hash = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_calibration_KongsbergAllWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_calibration_KongsbergAllWaterColumnCalibration_effective_pulse_duration = R"doc()doc";
 

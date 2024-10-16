@@ -1,4 +1,4 @@
-//sourcehash: e8f202c72f4662b1b9051fc5b4f1b2fe35c2c2e5777937edeb9189d9d9d0ae90
+//sourcehash: 4469534888bff060f61794422a84ce890a533340e27b482b5832e8b0591f291d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,17 +68,13 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_T_MultiSectorCalibration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_T_MultiSectorCalibration_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_T_MultiSectorCalibration_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_add_hash = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_binary_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_T_MultiSectorCalibration_calibration_for_sector = R"doc()doc";
 

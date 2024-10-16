@@ -158,9 +158,6 @@ void init_c_amplitudecalibration(pybind11::module& m)
         __PYCLASS_DEFAULT_PRINTING__(AmplitudeCalibration)
         // end AmplitudeCalibration
         ;
-
-    c.def("hash", &AmplitudeCalibration::binary_hash, DOC_AmplitudeCalibration(binary_hash));
-    c.def("__hash__", &AmplitudeCalibration::binary_hash, DOC_AmplitudeCalibration(binary_hash));
 }
 }
 }

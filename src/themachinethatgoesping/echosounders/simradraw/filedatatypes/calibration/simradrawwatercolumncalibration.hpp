@@ -32,7 +32,8 @@ class SimradRawWaterColumnCalibration
     using t_base               = filetemplates::datatypes::calibration::WaterColumnCalibration;
 
   protected:
-    // This function is procted because it may interfere with the _absorption_db_m parameter from the SimradRawWaterColumnCalibration
+    // This function is procted because it may interfere with the _absorption_db_m parameter from
+    // the SimradRawWaterColumnCalibration
     using WaterColumnCalibration::set_absorption_db_m;
 
   protected:
@@ -196,7 +197,7 @@ class SimradRawWaterColumnCalibration
     }
 
     void set_power_calibration_parameters(size_t               n_complex_samples,
-                                          std::optional<float> impedance_factor,
+                                          std::optional<float> impedance_factor = std::nullopt,
                                           bool                 init_calibration = true)
     {
         if (n_complex_samples == 0) // power/angle mode (not complex)
@@ -228,9 +229,9 @@ class SimradRawWaterColumnCalibration
             setup_simrad_calibration();
     }
 
-    void set_optional_parameters(std::optional<float> rounded_latitude_deg,
-                                 std::optional<float> rounded_longitude_deg,
-                                 bool                 init_calibration = true)
+    void set_optional_parameters(std::optional<float> rounded_latitude_deg  = std::nullopt,
+                                 std::optional<float> rounded_longitude_deg = std::nullopt,
+                                 bool                 init_calibration      = true)
     {
         if (rounded_latitude_deg.has_value())
         {
@@ -277,7 +278,7 @@ class SimradRawWaterColumnCalibration
     std::optional<float> get_rounded_latitude_deg() const { return _rounded_latitude_deg; }
     std::optional<float> get_rounded_longitude_deg() const { return _rounded_longitude_deg; }
 
-    // ----- setup calibration for kongsberg em systems ----
+    // ----- setup calibration for simradraw systems ----
     void setup_simrad_calibration()
     {
         check_can_be_initialized();

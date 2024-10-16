@@ -9,7 +9,7 @@
 
 // note: this must be defined below the simradraw/simradraw includes otherwise
 // datagram_identifier_to_string is unknown
-#include <themachinethatgoesping/echosounders/simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.hpp>
+#include <themachinethatgoesping/echosounders/simradraw/filedatatypes/sub/transceiverinformation.hpp>
 
 std::string xml_string =
     "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<Configuration>\n    <Header "
@@ -988,231 +988,87 @@ std::string xml_string =
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
-using namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::calibration;
+using namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::_sub;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders;
-#define TESTTAG "[SimradRawWaterColumnCalibration]"
+#define TESTTAG "[TransceiverInformation]"
 
-TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TESTTAG)
+TEST_CASE("TransceiverInformation should support common functions", TESTTAG)
 {
     using Catch::Approx;
 
-    // read transceiver information
+    // initialize class structure
     datagrams::XML0 dat;
     dat.set_xml_content(xml_string);
+
     auto xml_configuration = std::get<datagrams::xml_datagrams::XML_Configuration>(dat.decode());
+
     // read transceiver and transceiver channel
     auto transceiver = xml_configuration.get_transceiver("WBT 400058-15 ES333-7C_ES");
     auto transceiver_channel =
         xml_configuration.get_transceiver_channel("WBT 400058-15 ES333-7C_ES");
-    // setup fake packages
-    filedatatypes::_sub::TransceiverInformation tr_infos(transceiver, transceiver_channel);
 
-    float transducer_gain_db       = 25.0f;          // take from xml datagram at pulse index 1
-    float sa_correction_db         = 0.0f;           // take from xml datagram
-    float equivalent_beam_angle_db = -20.700000763f; // take from xml datagram
-    float frequency_nominal_hz     = 333000.0f;      // take from xml datagram
+    // init transceiver information
+    TransceiverInformation obj0;
+    TransceiverInformation obj(transceiver, transceiver_channel);
 
-    float reference_depth_m = 20.0f;
-    float temperature_c     = 10.0f;
-    float salinity_psu      = 30.0f;
-    float latitude          = 42.f;
+    // test hash (should be stable if class is not changed)
+    CHECK(obj0.binary_hash() == 16496869519602856472ULL);
+    CHECK(obj.binary_hash() == 10931014465412693764ULL);
 
-    float frequency_hz               = 350000.0f;
-    float transmit_power_w           = 5000.0f;
-    float pulse_duration_s           = 0.000128f; // should be pulse index 1 for ES333 transducer
-    float slope                      = 0.5f;
-    float effective_pulse_duration_s = pulse_duration_s * slope;
+    // test equality
+    // test inequality
+    CHECK(obj == obj);
+    CHECK(obj0 == obj0);
+    CHECK(obj != obj0);
 
-    size_t n_complex_samples = 4;
-    float  impedance_factor  = tr_infos.get_impedance_factor();
+    // test initialized
+    CHECK(obj.is_initialized() == true);
+    CHECK(obj0.is_initialized() == false);
 
-    datagrams::xml_datagrams::XML_Environment environment;
-    environment.Depth       = reference_depth_m;
-    environment.Temperature = temperature_c;
-    environment.Salinity    = salinity_psu;
-    environment.Latitude    = latitude;
-
-    datagrams::xml_datagrams::XML_Parameter_Channel parameters;
-    parameters.Frequency     = frequency_hz;
-    parameters.TransmitPower = transmit_power_w;
-    parameters.Slope         = slope;
-    parameters.PulseDuration = pulse_duration_s;
-    parameters.PulseForm     = 0; // CW
-
-    auto cal0      = SimradRawWaterColumnCalibration();
-    auto cal_power = SimradRawWaterColumnCalibration(environment, parameters, tr_infos, 0);
-    auto cal_cmplx =
-        SimradRawWaterColumnCalibration(environment, parameters, tr_infos, n_complex_samples);
-
-    SECTION("SimradRawWaterColumnCalibration should support common functions")
+    // test copy
     {
-        // test hash (should be stable if class is not changed)
-        CHECK(cal0.binary_hash() == 18195875943434653442ULL);
-        CHECK(cal_power.binary_hash() == 16598773257346738920ULL);
-        CHECK(cal_cmplx.binary_hash() == 7487456784068775051ULL);
-
-        // test equality
-        CHECK(cal0 == cal0);
-        CHECK(cal_power == cal_power);
-        CHECK(cal_cmplx == cal_cmplx);
-        CHECK(cal0 != cal_power);
-        CHECK(cal0 != cal_cmplx);
-        CHECK(cal_power != cal_cmplx);
-
-        //    test initialized
-        CHECK(cal0.initialized() == false);
-        CHECK(cal_power.initialized() == true);
-        CHECK(cal_cmplx.initialized() == true);
-
-        // test copy
-        {
-            CHECK(cal0 == SimradRawWaterColumnCalibration(cal0));
-            CHECK(cal_power == SimradRawWaterColumnCalibration(cal_power));
-            CHECK(cal_cmplx == SimradRawWaterColumnCalibration(cal_cmplx));
-        }
-
-        // test binary
-        CHECK(cal0 == SimradRawWaterColumnCalibration(cal0.from_binary(cal0.to_binary())));
-        CHECK(cal_power ==
-              SimradRawWaterColumnCalibration(cal_power.from_binary(cal_power.to_binary())));
-        CHECK(cal_cmplx ==
-              SimradRawWaterColumnCalibration(cal_cmplx.from_binary(cal_cmplx.to_binary())));
-
-        // test stream
-        std::stringstream buffer;
-        cal0.to_stream(buffer);
-        cal_power.to_stream(buffer);
-        cal_cmplx.to_stream(buffer);
-        CHECK(cal0 == SimradRawWaterColumnCalibration(cal0.from_stream(buffer)));
-        CHECK(cal_power == SimradRawWaterColumnCalibration(cal_power.from_stream(buffer)));
-        CHECK(cal_cmplx == SimradRawWaterColumnCalibration(cal_cmplx.from_stream(buffer)));
-
-        // test print does not crash
-        CHECK(cal0.info_string().size() != 0);
-        CHECK(cal_power.info_string().size() != 0);
-        CHECK(cal_cmplx.info_string().size() != 0);
+        INFO(obj.info_string());
+        INFO(TransceiverInformation(obj).info_string());
+        CHECK(obj == TransceiverInformation(obj));
+        CHECK(obj0 == TransceiverInformation(obj0));
     }
 
-    SECTION("SimradRawWaterColumnCalibration should support data access")
+    // test binary
+    CHECK(obj == TransceiverInformation(obj.from_binary(obj.to_binary())));
+    CHECK(obj0 == TransceiverInformation(obj0.from_binary(obj0.to_binary())));
+
+    // test stream
+    std::stringstream buffer;
+    obj.to_stream(buffer);
+    obj0.to_stream(buffer);
+    CHECK(obj == TransceiverInformation(obj.from_stream(buffer)));
+    CHECK(obj0 == TransceiverInformation(obj0.from_stream(buffer)));
+
+    // test print does not crash
+    CHECK(obj.info_string().size() != 0);
+    CHECK(obj0.info_string().size() != 0);
+
+    // test impedance factor
+    REQUIRE_THROWS_AS(obj0.get_impedance_factor(), std::runtime_error);
+    CHECK(obj.compute_impedance_factor(transceiver.Impedance) == obj.get_impedance_factor());
+    CHECK(obj.compute_impedance_factor(transceiver.Impedance) == Approx(0.001713284f));
+    CHECK(obj.compute_impedance_factor(transceiver.Impedance, 73) == Approx(0.001758938f));
+    CHECK(obj.compute_impedance_factor(transceiver.Impedance, 76) == Approx(0.001691359f));
+    CHECK(obj0.compute_impedance_factor(transceiver.Impedance, 76) == Approx(0.001691359f));
+
+    // test get pulse duration index
+    REQUIRE_THROWS_AS(obj0.get_pulse_duration_index(0.000128, false), std::runtime_error);
+    REQUIRE_THROWS_AS(obj0.get_pulse_duration_index(0.000512, true), std::runtime_error);
+    
+    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(0.002048, false), std::runtime_error); // this duration only exists in FM
+    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(6.4e-05, true), std::runtime_error); // this duraiton only exists in non-FM
+
+    std::vector<float> PulseDurations = {6.4e-05, 0.000128, 0.000256, 0.000512, 0.001024};
+    std::vector<float> PulseDurationsFM = {0.000512, 0.001024, 0.002048, 0.004096, 0.008192};
+    for (size_t i = 0; i < PulseDurations.size(); i++)
     {
-        // test data access
-        CHECK(cal_power.get_transducer_gain_db() == Approx(transducer_gain_db));
-        CHECK(cal_cmplx.get_transducer_gain_db() == Approx(transducer_gain_db));
-        CHECK(cal_power.get_sa_correction_db() == Approx(sa_correction_db));
-        CHECK(cal_cmplx.get_sa_correction_db() == Approx(sa_correction_db));
-        CHECK(cal_power.get_equivalent_beam_angle_db() == Approx(equivalent_beam_angle_db));
-        CHECK(cal_cmplx.get_equivalent_beam_angle_db() == Approx(equivalent_beam_angle_db));
-        CHECK(cal_power.get_frequency_nominal_hz() == Approx(frequency_nominal_hz));
-        CHECK(cal_cmplx.get_frequency_nominal_hz() == Approx(frequency_nominal_hz));
-
-        CHECK(cal_power.get_reference_depth_m() == Approx(reference_depth_m));
-        CHECK(cal_cmplx.get_reference_depth_m() == Approx(reference_depth_m));
-        CHECK(cal_power.get_temperature_c() == Approx(temperature_c));
-        CHECK(cal_cmplx.get_temperature_c() == Approx(temperature_c));
-        CHECK(cal_power.get_salinity_psu() == Approx(salinity_psu));
-        CHECK(cal_cmplx.get_salinity_psu() == Approx(salinity_psu));
-
-        CHECK(cal_power.get_frequency_hz() == Approx(frequency_hz));
-        CHECK(cal_cmplx.get_frequency_hz() == Approx(frequency_hz));
-        CHECK(cal_power.get_transmit_power_w() == Approx(transmit_power_w));
-        CHECK(cal_cmplx.get_transmit_power_w() == Approx(transmit_power_w));
-        CHECK(cal_power.get_effective_pulse_duration_s() == Approx(effective_pulse_duration_s));
-        CHECK(cal_cmplx.get_effective_pulse_duration_s() == Approx(effective_pulse_duration_s));
-
-        // computed values
-        CHECK(cal_power.get_sound_velocity_m_s() == Approx(1484.040527344f));
-        CHECK(cal_cmplx.get_sound_velocity_m_s() == Approx(1484.040527344f));
-        CHECK(cal_power.get_absorption_db_m() == Approx(0.077657893f));
-        CHECK(cal_cmplx.get_absorption_db_m() == Approx(0.077657893f));
-        CHECK(cal_power.get_wavelength_m() ==
-              Approx(cal_power.get_sound_velocity_m_s() / frequency_hz));
-        CHECK(cal_cmplx.get_wavelength_m() ==
-              Approx(cal_power.get_sound_velocity_m_s() / frequency_hz));
-        CHECK(cal_power.get_corr_transducer_gain_db() ==
-              Approx(transducer_gain_db + 20 * log10(frequency_hz / frequency_nominal_hz)));
-        CHECK(cal_cmplx.get_corr_transducer_gain_db() ==
-              Approx(transducer_gain_db + 20 * log10(frequency_hz / frequency_nominal_hz)));
-        CHECK(cal_power.get_corr_equivalent_beam_angle_db() ==
-              Approx(equivalent_beam_angle_db + 20 * log10(frequency_hz / frequency_nominal_hz)));
-        CHECK(cal_cmplx.get_corr_equivalent_beam_angle_db() ==
-              Approx(equivalent_beam_angle_db + 20 * log10(frequency_hz / frequency_nominal_hz)));
-
-        CHECK(cal_power.get_n_complex_samples() == 0);
-        CHECK(cal_cmplx.get_n_complex_samples() == n_complex_samples);
-        CHECK(cal_power.get_power_conversion_factor_db() == std::nullopt);
-        CHECK(cal_cmplx.get_power_conversion_factor_db().value() == Approx(-33.682f));
-
-        CHECK(cal_power.get_rounded_latitude_deg() == latitude);
-        CHECK(cal_cmplx.get_rounded_latitude_deg() == latitude);
-        CHECK(cal_power.get_rounded_longitude_deg() == std::nullopt);
-        CHECK(cal_cmplx.get_rounded_longitude_deg() == std::nullopt);
-    }
-
-    SECTION("SimradRawWaterColumnCalibration should setup callibration correctly")
-    {
-        // water column calibration
-        CHECK(cal_power.get_tvg_absorption_db_m() == 0.0f);
-        CHECK(cal_cmplx.get_tvg_absorption_db_m() == 0.0f);
-        CHECK(cal_power.get_tvg_factor() == 0.0f);
-        CHECK(cal_cmplx.get_tvg_factor() == 0.0f);
-        CHECK(cal_power.get_absorption_to_apply().value_or(0.f) ==
-              Approx(cal_power.get_absorption_db_m()));
-        CHECK(cal_cmplx.get_absorption_to_apply().value_or(0.f) ==
-              Approx(cal_cmplx.get_absorption_db_m()));
-        CHECK(cal_power.get_tvg_factor_to_apply(0) == std::nullopt);
-        CHECK(cal_power.get_tvg_factor_to_apply(20) == Approx(20.f));
-        CHECK(cal_cmplx.get_tvg_factor_to_apply(40) == Approx(40.f));
-
-        CHECK(cal_cmplx.get_power_calibration().get_system_offset() ==
-              Approx(cal_cmplx.get_power_conversion_factor_db().value()));
-
-        // compute expected calibration offsets
-        float sound_velocity                  = cal_power.get_sound_velocity_m_s();
-        float wavelength                      = cal_power.get_wavelength_m();
-        float corrected_transducer_gain       = cal_power.get_corr_transducer_gain_db();
-        float corrected_equivalent_beam_angle = cal_power.get_corr_equivalent_beam_angle_db();
-        float sp_factor =
-            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PIf * M_PIf)) -
-            2 * corrected_transducer_gain;
-        float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
-                          corrected_equivalent_beam_angle - 2 * sa_correction_db;
-
-        CHECK(cal_power.get_power_calibration().get_system_offset() == 0.f);
-        CHECK(cal_power.get_ap_calibration().get_system_offset() == Approx(0.f + sp_factor));
-        CHECK(cal_power.get_av_calibration().get_system_offset() ==
-              Approx(0.f + sp_factor + sv_factor));
-
-        float power_offset = cal_cmplx.get_power_conversion_factor_db().value();
-        CHECK(cal_cmplx.get_power_calibration().get_system_offset() == Approx(power_offset));
-        CHECK(cal_cmplx.get_ap_calibration().get_system_offset() ==
-              Approx(power_offset + sp_factor));
-        CHECK(cal_cmplx.get_av_calibration().get_system_offset() ==
-              Approx(power_offset + sp_factor + sv_factor));
-    }
-
-    SECTION("SimradRawWaterColumnCalibration should support initialization from individual values")
-    {
-        // --- test creation using individual parameters ---
-        auto cal_power2 = cal0;
-        cal_power2.set_power_calibration_parameters(0, std::nullopt, false);
-        cal_power2.set_transducer_parameters(transducer_gain_db,
-                                             sa_correction_db,
-                                             equivalent_beam_angle_db,
-                                             frequency_nominal_hz,
-                                             false);
-        cal_power2.set_environment_parameters(
-            reference_depth_m, temperature_c, salinity_psu, false);
-        cal_power2.set_runtime_parameters(
-            frequency_hz, transmit_power_w, effective_pulse_duration_s, false);
-        cal_power2.set_optional_parameters(latitude, std::nullopt, false);
-        cal_power2.setup_simrad_calibration();
-        CHECK(cal_power == cal_power2);
-
-        auto cal_cmplx2 = cal_power2;
-        cal_cmplx2.set_power_calibration_parameters(n_complex_samples, impedance_factor, false);
-        cal_cmplx2.setup_simrad_calibration();
-        CHECK(cal_cmplx == cal_cmplx2);
-    }
+        CHECK(obj.get_pulse_duration_index(PulseDurations.at(i), false) == i);
+        CHECK(obj.get_pulse_duration_index(PulseDurationsFM.at(i), true) == i);
+    }   
 }

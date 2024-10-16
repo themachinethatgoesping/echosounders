@@ -187,13 +187,6 @@ void init_multisectorcalibration(pybind11::module& m, const std::string& name)
     // add apply calibration functions
     add_apply_calibration_functions<t_calibration, float>(c);
     add_apply_calibration_functions<t_calibration, double>(c);
-
-    c.def("hash",
-          &T_MultiSectorCalibration<t_calibration>::binary_hash,
-          DOC_T_MultiSectorCalibration(binary_hash));
-    c.def("__hash__",
-          &T_MultiSectorCalibration<t_calibration>::binary_hash,
-          DOC_T_MultiSectorCalibration(binary_hash));
 }
 
 void init_c_multisectorwatercolumncalibration(pybind11::module& m)

@@ -77,8 +77,7 @@ void init_c_transceiverinformation(pybind11::module& m)
                                py::arg("transceiver_impedance"),
                                py::arg("transducer_impedance") = 75)
                    .def("get_pulse_duration_index",
-                        py::overload_cast<const datagrams::xml_datagrams::XML_Parameter_Channel &
-                                          parameters>(
+                        py::overload_cast<const datagrams::xml_datagrams::XML_Parameter_Channel&>(
                             &t_TransceiverInformation::get_pulse_duration_index, py::const_),
                         DOC_transceiverinformation(get_pulse_duration_index),
                         py::arg("xml_parameter_datagram"))
