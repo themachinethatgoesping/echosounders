@@ -201,10 +201,8 @@ class SimradRawWaterColumnCalibration
         _initialized = false;
     }
 
-    void set_runtime_parameters(const datagrams::
-        set_runtime_parameters(parameters.Frequency,xml_datagrams::XML_Parameter_Channel& parameters)
+    void set_runtime_parameters(const datagrams::xml_datagrams::XML_Parameter_Channel& parameters)
     {
-        set_runtime_parameters(parameters.Frequency,
         set_runtime_parameters(parameters.Frequency,
                                parameters.TransmitPower,
                                parameters.get_pulse_duration() * (1 - parameters.Slope));
