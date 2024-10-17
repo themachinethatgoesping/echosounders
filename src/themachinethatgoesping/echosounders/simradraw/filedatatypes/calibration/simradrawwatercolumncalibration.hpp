@@ -340,18 +340,33 @@ class SimradRawWaterColumnCalibration
         float sv_offset = -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
                           10 * std::log10(sound_velocity_m_s * _effective_pulse_duration_s * 0.5f);
 
-        // power is the raw amplitude data substracted by the system gain offset
-        _power_calibration =
-            std::make_unique<AmplitudeCalibration>(_power_conversion_factor_db.value_or(0.f));
+        // reset calibrations
+        _power_calibration.reset();
+        _ap_calibration.reset();
+        _av_calibration.reset();
 
-        // TODO: ap and av should be as close to sp and sv as possible, however, they should also be
-        // available if aproriate calibration data is unavailable ap calibration is the same as
-        // power, however absorption and tvg 40 will be applied
-        _ap_calibration = std::make_unique<AmplitudeCalibration>(
-            _power_conversion_factor_db.value_or(0.f) + sp_offset);
+        // check if power calibration is valid
+        if (_n_complex_samples == 0 || std::isfinite(_power_conversion_factor_db.value_or(
+                                           std::numeric_limits<float>::quiet_NaN())))
+        {
+            // power is the raw amplitude data substracted by the system gain offset
+            _power_calibration =
+                std::make_unique<AmplitudeCalibration>(_power_conversion_factor_db.value_or(0.f));
 
-        _av_calibration = std::make_unique<AmplitudeCalibration>(
-            _power_conversion_factor_db.value_or(0.f) + sp_offset + sv_offset);
+            // check if ap calibration is valid
+            if (std::isfinite(sp_offset))
+            {
+                _ap_calibration = std::make_unique<AmplitudeCalibration>(
+                    _power_conversion_factor_db.value_or(0.f) + sp_offset);
+
+                // check if av calibration is valid
+                if (std::isfinite(sv_offset))
+                {
+                    _av_calibration = std::make_unique<AmplitudeCalibration>(
+                        _power_conversion_factor_db.value_or(0.f) + sp_offset + sv_offset);
+                }
+            }
+        }
 
         _initialized = true;
         check_initialization();
@@ -371,7 +386,7 @@ class SimradRawWaterColumnCalibration
                tools::helper::float_equals(_reference_depth_m, other._reference_depth_m) &&
                tools::helper::float_equals(_temperature_c, other._temperature_c) &&
                tools::helper::float_equals(_salinity_psu, other._salinity_psu) &&
-                tools::helper::float_equals(_acidity_ph, other._acidity_ph) &&
+               tools::helper::float_equals(_acidity_ph, other._acidity_ph) &&
                tools::helper::float_equals(_frequency_hz, other._frequency_hz) &&
                tools::helper::float_equals(_transmit_power_w, other._transmit_power_w) &&
                tools::helper::float_equals(_effective_pulse_duration_s,
@@ -424,55 +439,10 @@ class SimradRawWaterColumnCalibration
     {
         check_initialized();
         check_can_be_initialized();
-
-        // additionally test for computed parameters
-        if (!std::isfinite(get_sound_velocity_m_s()))
-            throw_because_value_is_note_finite("sound_velocity_m_s", get_sound_velocity_m_s());
-        if (!std::isfinite(get_computed_absorption_db_m()))
-            throw_because_value_is_note_finite("absorption_db_m", get_computed_absorption_db_m());
-        if (!std::isfinite(_wavelength_m))
-            throw_because_value_is_note_finite("wavelength_m", _wavelength_m);
-        if (!std::isfinite(_corr_transducer_gain_db))
-            throw_because_value_is_note_finite("corr_transducer_gain_db", _corr_transducer_gain_db);
-        if (!std::isfinite(_corr_equivalent_beam_angle_db))
-            throw_because_value_is_note_finite("corr_equivalent_beam_angle_db",
-                                               _corr_equivalent_beam_angle_db);
     }
 
     void check_can_be_initialized() const
     {
-        if (!std::isfinite(_transducer_gain_db))
-            throw_because_value_is_note_finite("transducer_gain_db", _transducer_gain_db);
-        if (!std::isfinite(_sa_correction_db))
-            throw_because_value_is_note_finite("sa_correction_db", _sa_correction_db);
-        if (!std::isfinite(_equivalent_beam_angle_db))
-            throw_because_value_is_note_finite("equivalent_beam_angle_db",
-                                               _equivalent_beam_angle_db);
-        if (!std::isfinite(_frequency_nominal_hz))
-            throw_because_value_is_note_finite("frequency_nominal_hz", _frequency_nominal_hz);
-
-        if (!std::isfinite(_frequency_hz))
-            throw_because_value_is_note_finite("frequency_hz", _frequency_hz);
-        if (!std::isfinite(_transmit_power_w))
-            throw_because_value_is_note_finite("transmit_power_w", _transmit_power_w);
-        if (!std::isfinite(_effective_pulse_duration_s))
-            throw_because_value_is_note_finite("effective_pulse_duration_s",
-                                               _effective_pulse_duration_s);
-
-        // environment parameters are only strictly necessary if the sound_velocity_m_s and
-        // absorption are not forced
-        if (!(_forced_sound_velocity_m_s.has_value() && _forced_absorption_db_m.has_value()))
-        {
-            if (!std::isfinite(_reference_depth_m))
-                throw_because_value_is_note_finite("reference_depth_m", _reference_depth_m);
-            if (!std::isfinite(_temperature_c))
-                throw_because_value_is_note_finite("temperature_c", _temperature_c);
-            if (!std::isfinite(_salinity_psu))
-                throw_because_value_is_note_finite("salinity_psu", _salinity_psu);
-            if (!std::isfinite(_acidity_ph))
-                throw_because_value_is_note_finite("acidity_ph", _acidity_ph);
-        }
-
         if (!_n_complex_samples.has_value())
             throw std::runtime_error(
                 fmt::format("ERROR[SimradRawWaterColumnCalibration]:Calibration not initialized "
