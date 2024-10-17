@@ -19,6 +19,9 @@
 #include "../../datagrams.hpp"
 #include "../sub/transceiverinformation.hpp"
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {

@@ -180,7 +180,8 @@ void init_c_watercolumncalibration(pybind11::module& m)
 
                  .def("get_absorption_to_apply",
                       &WaterColumnCalibration::get_absorption_to_apply,
-                      DOC_WaterColumnCalibration(get_absorption_to_apply))
+                      DOC_WaterColumnCalibration(get_absorption_to_apply),
+                      py::arg("absorption_db_m") = std::nullopt)
                  .def("get_tvg_factor_to_apply",
                       &WaterColumnCalibration::get_tvg_factor_to_apply,
                       DOC_WaterColumnCalibration(get_tvg_factor_to_apply),
