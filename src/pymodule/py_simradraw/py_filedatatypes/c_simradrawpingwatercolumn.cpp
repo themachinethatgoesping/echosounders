@@ -56,16 +56,6 @@ void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& 
                                                                     SimradRawPingWatercolumn))
 
             // --- pingwatercolumn interface extension ---
-
-            .def("get_av_eigen",
-                 py::overload_cast<>(&t_SimradRawPingWatercolumn::get_av_eigen),
-                 DOC_SimradRawPing(get_av_eigen))
-            .def("get_av_eigen",
-                 py::overload_cast<const pingtools::BeamSampleSelection&>(
-                     &t_SimradRawPingWatercolumn::get_av_eigen),
-                 DOC_SimradRawPing(get_av_eigen),
-                 py::arg("beam_selection"))
-
         // --- variable access ---
 
         // ----- operators -----

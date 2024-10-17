@@ -85,6 +85,17 @@ class SimradRawPingWatercolumn
         return beam_numbers_per_tx_sector;
     }
 
+    // ----- calibration -----
+    bool has_watercolumn_calibration() const override
+    {
+        return _file_data->has_watercolumn_calibration();
+    }
+
+    const calibration::SimradRawWaterColumnCalibration& get_watercolumn_calibration() const
+    {
+        return _file_data->get_watercolumn_calibration();
+    }
+
     // ----- I_PingWaterColumn interface -----
     bool has_tx_signal_parameters() const override { return true; }
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
@@ -184,109 +195,6 @@ class SimradRawPingWatercolumn
         return amplitudes;
     }
 
-    xt::xtensor<float, 2> get_av_eigen(const pingtools::BeamSampleSelection& bs)
-    {
-        xt::xtensor<float, 2> av = get_amplitudes(bs);
-
-        // get information
-        float sound_velocity = get_sound_speed_at_transducer();
-
-        // compute range factor (per sample)
-        float tmp   = 0 - 20.f; // 0 is the already applied TVG factor
-        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
-
-        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-        Eigen::Map<Eigen::Array<float, Eigen::Dynamic, 1>> range_factor_eigen(range_factor.data(),
-                                                                              range_factor.size());
-
-        // compute pulse factor (for one beam)
-        auto signal_parameters = get_tx_signal_parameters()[0];
-
-        float pulse_factor = tools::helper::visit_variant(
-            signal_parameters,
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            },
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
-                // TODO: correct computation for FM?
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            },
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::GenericSignalParameters&
-                    param) {
-                // TODO: throw warning?
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            });
-
-        tmp /= std::log(
-            10); // eigen log10 does not use simd instructions, thus use log and divide by log(10)
-        range_factor_eigen = tmp * (range_factor_eigen * tmp_2).log() + pulse_factor;
-
-        Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic>> av_eigen(
-            av.data(), av.shape()[1], av.shape()[0]);
-
-        av_eigen.colwise() -= range_factor_eigen;
-
-        return av;
-    }
-
-    xt::xtensor<float, 2> get_av_eigen()
-    {
-        return get_av_eigen(this->get_beam_sample_selection_all());
-    }
-
-    xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& bs,
-                                 int                                   mp_cores = 1) override
-    {
-        xt::xtensor<float, 2> av = get_amplitudes(bs, mp_cores);
-
-        // get information
-        float sound_velocity = get_sound_speed_at_transducer();
-
-        // compute range factor (per sample)
-        float tmp   = 0 - 20.f; // 0 is the already applied TVG factor
-        float tmp_2 = sound_velocity * get_sample_interval() * 0.5f;
-
-        xt::xtensor<float, 1> range_factor = bs.get_sample_numbers_ensemble_1d() + 0.5f;
-
-        // compute pulse factor (for one beam)
-        auto signal_parameters = get_tx_signal_parameters()[0];
-
-        float pulse_factor = tools::helper::visit_variant(
-            signal_parameters,
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::CWSignalParameters& param) {
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            },
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::FMSignalParameters& param) {
-                // TODO: correct computation for FM?
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            },
-            [sound_velocity](
-                const algorithms::signalprocessing::datastructures::GenericSignalParameters&
-                    param) {
-                // TODO: throw warning?
-                return std::log10(sound_velocity * param.get_effective_pulse_duration() * 0.5);
-            });
-
-        range_factor = tmp * xt::eval(xt::log10(range_factor * tmp_2)) + pulse_factor;
-
-        // if there is an offset apply it to pulse factor
-        // pulse_factor_per_sector += tvg_offset;
-
-        // apply factors
-        // range factor
-        av -= xt::view(range_factor, xt::newaxis(), xt::all());
-
-        // pulse factor (is already applied to range factor)
-        // av -= pulse_factor;
-
-        return av;
-    }
-
     void load(bool force = false) override
     {
         // load watercolumn calibration
@@ -297,7 +205,7 @@ class SimradRawPingWatercolumn
     {
         if (!_file_data->watercolumn_calibration_loaded())
             return false;
-            
+
         return true;
     }
 

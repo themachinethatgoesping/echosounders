@@ -82,10 +82,11 @@ class SimradRawPingFileData
         , _ping_environment(other._ping_environment)
         , _transceiver_information(other._transceiver_information)
     {
-        _watercolumn_calibration = other._watercolumn_calibration
-                                       ? std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
-                                             *other._watercolumn_calibration)
-                                       : nullptr;
+        _watercolumn_calibration =
+            other._watercolumn_calibration
+                ? std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
+                      *other._watercolumn_calibration)
+                : nullptr;
     }
 
     void init_watercolumn_calibration(bool force = false)
@@ -127,7 +128,7 @@ class SimradRawPingFileData
 
     const auto& get_watercolumn_calibration() const
     {
-        if (!watercolumn_calibration_loaded())
+        if (!has_watercolumn_calibration())
             throw std::runtime_error("Error[SimradRawPingFileData::get_watercolumn_calibration]: "
                                      "Calibration not initialized!");
 
@@ -221,19 +222,8 @@ class SimradRawPingFileData
         auto sample_data = _ping_data.read_skipped_sample_data(datagram_info->get_stream(),
                                                                datagram_info->get_file_pos());
 
-        return tools::helper::visit_variant(
-            sample_data,
-            [dB, this](datagrams::raw3datatypes::RAW3DataComplexFloat32& data) {
-                float conv_factor = this->get_transceiver_information().get_impedance_factor() /
-                                    data._complex_samples.shape()[1];
-                if (dB)
-                {
-                    conv_factor = 10 * std::log10(conv_factor);
-                    return xt::xtensor<float, 1>(data.get_power(dB) + conv_factor);
-                }
-                return xt::xtensor<float, 1>(data.get_power(dB) * conv_factor);
-            },
-            [dB](auto& data) { return data.get_power(dB); });
+        return tools::helper::visit_variant(sample_data,
+                                            [dB](auto& data) { return data.get_power(dB); });
     }
 
     // float get_impedance_factor() const

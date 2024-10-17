@@ -72,7 +72,8 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
                    // --- watercolumncalibration access ---
                    .def("init_watercolumn_calibration",
                         &t_SimradRawPingFileData::init_watercolumn_calibration,
-                        DOC_simradrawpingfiledata(init_watercolumn_calibration))
+                        DOC_simradrawpingfiledata(init_watercolumn_calibration),
+                        py::arg("force") = false)
                    .def("release_watercolumn_calibration",
                         &t_SimradRawPingFileData::release_watercolumn_calibration,
                         DOC_simradrawpingfiledata(release_watercolumn_calibration))

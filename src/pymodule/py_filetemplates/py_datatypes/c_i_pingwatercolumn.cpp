@@ -63,17 +63,17 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
             .def("get_watercolumn_calibration",
                  py::overload_cast<>(&I_PingWatercolumn::get_watercolumn_calibration, py::const_),
                  DOC_I_PingWatercolumn(get_watercolumn_calibration),
-                 py::return_value_policy::reference_internal)
+                 py::return_value_policy::copy)
             .def("get_watercolumn_calibration",
                  py::overload_cast<size_t>(&I_PingWatercolumn::get_watercolumn_calibration,
                                            py::const_),
                  DOC_I_PingWatercolumn(get_watercolumn_calibration_2),
-                 py::return_value_policy::reference_internal,
+                 py::return_value_policy::copy,
                  py::arg("sector_nr"))
             .def("get_multisectorwatercolumn_calibration",
                  &I_PingWatercolumn::get_multisectorwatercolumn_calibration,
                  DOC_I_PingWatercolumn(get_multisectorwatercolumn_calibration),
-                 py::return_value_policy::reference_internal)
+                 py::return_value_policy::copy)
 
             // ---- pingwatercolumn interface ----
             .def("get_beam_selection_all",
