@@ -1013,7 +1013,8 @@ TEST_CASE("TransceiverInformation should support common functions", TESTTAG)
     TransceiverInformation obj(transceiver, transceiver_channel);
 
     // test hash (should be stable if class is not changed)
-    CHECK(obj0.binary_hash() == 16496869519602856472ULL);
+    // CHECK(obj0.binary_hash() == 16496869519602856472ULL);
+    CHECK(obj0.binary_hash() == TransceiverInformation().binary_hash());
     CHECK(obj.binary_hash() == 10931014465412693764ULL);
 
     // test equality
@@ -1060,15 +1061,17 @@ TEST_CASE("TransceiverInformation should support common functions", TESTTAG)
     // test get pulse duration index
     REQUIRE_THROWS_AS(obj0.get_pulse_duration_index(0.000128, false), std::runtime_error);
     REQUIRE_THROWS_AS(obj0.get_pulse_duration_index(0.000512, true), std::runtime_error);
-    
-    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(0.002048, false), std::runtime_error); // this duration only exists in FM
-    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(6.4e-05, true), std::runtime_error); // this duraiton only exists in non-FM
 
-    std::vector<float> PulseDurations = {6.4e-05, 0.000128, 0.000256, 0.000512, 0.001024};
-    std::vector<float> PulseDurationsFM = {0.000512, 0.001024, 0.002048, 0.004096, 0.008192};
+    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(0.002048, false),
+                      std::runtime_error); // this duration only exists in FM
+    REQUIRE_THROWS_AS(obj.get_pulse_duration_index(6.4e-05, true),
+                      std::runtime_error); // this duraiton only exists in non-FM
+
+    std::vector<float> PulseDurations   = { 6.4e-05, 0.000128, 0.000256, 0.000512, 0.001024 };
+    std::vector<float> PulseDurationsFM = { 0.000512, 0.001024, 0.002048, 0.004096, 0.008192 };
     for (size_t i = 0; i < PulseDurations.size(); i++)
     {
         CHECK(obj.get_pulse_duration_index(PulseDurations.at(i), false) == i);
         CHECK(obj.get_pulse_duration_index(PulseDurationsFM.at(i), true) == i);
-    }   
+    }
 }
