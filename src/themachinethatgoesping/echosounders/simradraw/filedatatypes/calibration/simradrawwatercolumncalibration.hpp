@@ -201,11 +201,13 @@ class SimradRawWaterColumnCalibration
         _initialized = false;
     }
 
-    void set_runtime_parameters(const datagrams::xml_datagrams::XML_Parameter_Channel& parameters)
+    void set_runtime_parameters(const datagrams::
+        set_runtime_parameters(parameters.Frequency,xml_datagrams::XML_Parameter_Channel& parameters)
     {
         set_runtime_parameters(parameters.Frequency,
+        set_runtime_parameters(parameters.Frequency,
                                parameters.TransmitPower,
-                               parameters.get_pulse_duration() * parameters.Slope);
+                               parameters.get_pulse_duration() * (1 - parameters.Slope));
     }
 
     void set_runtime_parameters(float frequency_hz,
@@ -356,7 +358,7 @@ class SimradRawWaterColumnCalibration
         _corr_equivalent_beam_angle_db = _equivalent_beam_angle_db + freq_corr;
 
         // compute gain offsets
-        static const float pi_factor = -10 * std::log10(16 * M_PIf * M_PIf);
+        static const float pi_factor = -10 * std::log10(16 * M_PI * M_PI);
         float              sp_offset = -2 * _corr_transducer_gain_db - pi_factor -
                           10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
 

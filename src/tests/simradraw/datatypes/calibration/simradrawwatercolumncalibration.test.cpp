@@ -1178,7 +1178,7 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         float corrected_transducer_gain       = cal_power.get_corr_transducer_gain_db();
         float corrected_equivalent_beam_angle = cal_power.get_corr_equivalent_beam_angle_db();
         float sp_factor =
-            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PIf * M_PIf)) -
+            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PI * M_PI)) -
             2 * corrected_transducer_gain;
         float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
                           corrected_equivalent_beam_angle - 2 * sa_correction_db;
@@ -1221,7 +1221,7 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         float corrected_transducer_gain       = cal_power2.get_corr_transducer_gain_db();
         float corrected_equivalent_beam_angle = cal_power2.get_corr_equivalent_beam_angle_db();
         float sp_factor =
-            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PIf * M_PIf)) -
+            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * M_PI * M_PI)) -
             2 * corrected_transducer_gain;
         float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
                           corrected_equivalent_beam_angle - 2 * sa_correction_db;
