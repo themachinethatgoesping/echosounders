@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -38,6 +38,9 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
         SimradRawPingWatercolumn,                                                                  \
         ARG)
 
+#define DOC_I_PingWatercolumn(ARG)                                                                 \
+    DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
+
 template<typename T_FileStream>
 void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& CLASS_NAME)
 {
@@ -55,7 +58,13 @@ void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& 
                                                                     filedatatypes,
                                                                     SimradRawPingWatercolumn))
 
-            // --- pingwatercolumn interface extension ---
+            // --- interface overwrites (necessary when type is changes) ---
+            .def("get_watercolumn_calibration",
+                 py::overload_cast<>(&t_SimradRawPingWatercolumn::get_watercolumn_calibration,
+                                     py::const_),
+                 DOC_I_PingWatercolumn(get_watercolumn_calibration))
+
+        // --- pingwatercolumn interface extension ---
         // --- variable access ---
 
         // ----- operators -----

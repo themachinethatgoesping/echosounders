@@ -91,6 +91,7 @@ class SimradRawPingWatercolumn
         return _file_data->has_watercolumn_calibration();
     }
 
+
     const calibration::SimradRawWaterColumnCalibration& get_watercolumn_calibration() const
     {
         return _file_data->get_watercolumn_calibration();

@@ -38,6 +38,9 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
         KongsbergAllPingWatercolumn,                                                               \
         ARG)
 
+#define DOC_I_PingWatercolumn(ARG)                                                                 \
+    DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
+
 template<typename T_FileStream>
 void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::string& CLASS_NAME)
 {
@@ -54,6 +57,15 @@ void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::strin
                                                                        kongsbergall,
                                                                        filedatatypes,
                                                                        KongsbergAllPingWatercolumn))
+
+            // --- interface overwrites (necessary when type is changes) ---
+            .def("get_watercolumn_calibration",
+                 py::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_watercolumn_calibration,
+                                     py::const_),
+                 DOC_I_PingWatercolumn(get_watercolumn_calibration))
+            .def("get_multisectorwatercolumn_calibration",
+                 &t_KongsbergAllPingWatercolumn::get_multisectorwatercolumn_calibration,
+                 DOC_I_PingWatercolumn(get_multisectorwatercolumn_calibration))
 
             // --- pingwatercolumn interface extension ---
             // --- variable access ---

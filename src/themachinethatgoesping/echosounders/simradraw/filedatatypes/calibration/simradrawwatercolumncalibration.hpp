@@ -108,11 +108,31 @@ class SimradRawWaterColumnCalibration
         set_runtime_parameters(parameters);
 
         // set transducer parameters
-        const auto& transducer           = transceiver_information.get_transducer();
-        size_t      pulse_duration_index = transceiver_information.get_pulse_duration_index(
-            parameters.get_pulse_duration(), parameters.get_pulse_form_is_fm());
+        const auto&           transducer = transceiver_information.get_transducer();
+        std::optional<size_t> pulse_duration_index =
+            transceiver_information.get_pulse_duration_index_optional(
+                parameters.get_pulse_duration(), parameters.get_pulse_form_is_fm());
 
-        set_transducer_parameters(transducer, pulse_duration_index);
+        if (pulse_duration_index.has_value())
+        {
+            set_transducer_parameters(transducer, pulse_duration_index.value());
+        }
+        else if (parameters.get_pulse_form_is_fm())
+        {
+            // incomplete calibration for FM pulse form for now
+            // TODO: this should issue a warning
+            // TODO: fm should use FrequencyPar anyways
+            set_transducer_parameters(
+                NAN, NAN, transducer.EquivalentBeamAngle, transducer.Frequency);
+        }
+        else
+        {
+            // call the function in throw mode to print exception
+            size_t pdi = transceiver_information.get_pulse_duration_index(
+                parameters.get_pulse_duration(), parameters.get_pulse_form_is_fm());
+
+            set_transducer_parameters(transducer, pdi); // this should never be reached ...
+        }
 
         // set power calibration parameters
         if (n_complex_samples == 0)
@@ -429,7 +449,8 @@ class SimradRawWaterColumnCalibration
             "ERROR[{}]:Modifying base calibrations (power, ap, av) is not allowed for "
             "SimradRawWaterColumnCalibration. You may modify the parameters used for "
             "the calibration, and call setup_simrad_calibration() to recompute the "
-            "calibration. You may also modify the used sp and sv calibrations. Alternatively you "
+            "calibration. You may also modify the used sp and sv calibrations. Alternatively "
+            "you "
             "can explicitly convert the calibration to a generic calibration. using "
             "WaterColumnCalibration(calibration)",
             __func__));
@@ -575,10 +596,10 @@ class SimradRawWaterColumnCalibration
   private:
     static void throw_because_value_is_note_finite(std::string_view value_name, float value)
     {
-        throw std::runtime_error(fmt::format(
-            "ERROR[SimradRawWaterColumnCalibraiton]:Calibration not initialized because {} is {}!",
-            value_name,
-            value));
+        throw std::runtime_error(fmt::format("ERROR[SimradRawWaterColumnCalibraiton]:"
+                                             "Calibration not initialized because {} is {}!",
+                                             value_name,
+                                             value));
     }
 };
 
@@ -588,7 +609,6 @@ inline std::size_t hash_value(const SimradRawWaterColumnCalibration& arg)
 {
     return arg.binary_hash();
 }
-
 }
 }
 }

@@ -83,6 +83,28 @@ class TransceiverInformation
                tools::helper::float_equals(_impedance_factor, other._impedance_factor);
     }
 
+    std::optional<size_t> get_pulse_duration_index_optional(
+        const datagrams::xml_datagrams::XML_Parameter_Channel& parameters) const
+    {
+        return get_pulse_duration_index_optional(parameters.get_pulse_duration(),
+                                                 parameters.get_pulse_form_is_fm());
+    }
+
+    std::optional<size_t> get_pulse_duration_index_optional(float pulse_duration, bool fm) const
+    {
+        check_initialized();
+
+        auto pulse_durations = _ping_transceiver_channel.get_pulse_durations(fm);
+
+        for (size_t index = 0; index < pulse_durations.size(); ++index)
+        {
+            if (std::abs(pulse_durations[index] - pulse_duration) < 1e-6)
+                return index;
+        }
+
+        return std::nullopt;
+    }
+
     size_t get_pulse_duration_index(
         const datagrams::xml_datagrams::XML_Parameter_Channel& parameters) const
     {
@@ -94,13 +116,12 @@ class TransceiverInformation
     {
         check_initialized();
 
-        auto pulse_durations = _ping_transceiver_channel.get_pulse_durations(fm);
+        auto pulse_duration_index = get_pulse_duration_index_optional(pulse_duration, fm);
 
-        for (size_t index = 0; index < pulse_durations.size(); ++index)
-        {
-            if (std::abs(pulse_durations[index] - pulse_duration) < 1e-6)
-                return index;
-        }
+        if (pulse_duration_index.has_value())
+            return pulse_duration_index.value();
+
+        auto pulse_durations = _ping_transceiver_channel.get_pulse_durations(fm);
 
         std::string possible_durations = "";
         for (const auto& duration : pulse_durations)
