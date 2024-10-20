@@ -199,7 +199,7 @@ class KongsbergAllWaterColumnCalibration
   private:
     static void throw_because_value_is_note_finite(std::string_view value_name, float value)
     {
-        throw std::runtime_error(fmt::format("ERROR[KongsbergAllWaterColumnCalibraiton]:"
+        throw std::runtime_error(fmt::format("ERROR[KongsbergAllWaterColumnCalibration]:"
                                              "Calibration not initialized because {} is {}!",
                                              value_name,
                                              value));

@@ -24,11 +24,17 @@ namespace calibration {
 
 class AmplitudeCalibration
 {
+
     // system offsets
     float _system_offset = std::numeric_limits<float>::quiet_NaN();
-    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_beamangle;
-    // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle; implement in the future
-    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range;
+    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_beamangle =
+        tools::vectorinterpolators::AkimaInterpolator<float>(
+            tools::vectorinterpolators::t_extr_mode::nearest);
+    // tools::vectorinterpolators::AkimaInterpolator _offset_per_swathangle;
+    // implement in the future
+    tools::vectorinterpolators::AkimaInterpolator<float> _offset_per_range =
+        tools::vectorinterpolators::AkimaInterpolator<float>(
+            tools::vectorinterpolators::t_extr_mode::nearest);
 
   public:
     AmplitudeCalibration() {}
