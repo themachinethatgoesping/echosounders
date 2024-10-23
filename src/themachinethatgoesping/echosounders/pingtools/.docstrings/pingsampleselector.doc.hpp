@@ -1,4 +1,4 @@
-//sourcehash: 4951ef14139d3a86a9820d23d4058f579dd5b1a51a17c400154496eb15f3214b
+//sourcehash: 762f19736a2115c1023633e93f6cc81621d8cf6fdeb49b703343e684bc983dae
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -62,6 +62,10 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_sample_step = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_transmit_sector_beam_angle_range = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_transmit_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_from_stream =
 R"doc(Return a PingSampleSelector read from a binary stream
 
@@ -90,6 +94,12 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_sample_step = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_transmit_sector_max_beam_angle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_transmit_sector_min_beam_angle = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_transmit_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_angle = R"doc(< max beam angle to select (°))doc";
 
@@ -129,6 +139,10 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_sample_range_by_ranges = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_transmit_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_transmit_sectors_by_beam_angles = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_beam_step = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_sample_step = R"doc()doc";
@@ -138,6 +152,16 @@ R"doc(Write a PingSampleSelector to a binary stream
 
 Parameter ``os``:
     output stream)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_transmit_sector_max_beam_angle =
+R"doc(< select transmit sectors with angles < <=
+_transmit_sector_max_beam_angle)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_transmit_sector_min_beam_angle =
+R"doc(< select transmit sectors with angles < >=
+_transmit_sector_min_beam_angle)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_transmit_sectors = R"doc(< transmit_sectors to select)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

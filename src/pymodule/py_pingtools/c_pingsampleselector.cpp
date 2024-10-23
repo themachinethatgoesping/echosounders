@@ -30,11 +30,13 @@ void init_c_pingsampleselector(pybind11::module& m)
 
         // --- main interface ---
         .def("apply_selection",
-             py::overload_cast<filetemplates::datatypes::I_PingWatercolumn&>(&PingSampleSelector::apply_selection),
+             py::overload_cast<filetemplates::datatypes::I_PingWatercolumn&>(
+                 &PingSampleSelector::apply_selection),
              DOC_PingSampleSelector(apply_selection),
              py::arg("ping_watercolumn"))
         .def("apply_selection",
-             py::overload_cast<filetemplates::datatypes::I_PingBottom&>(&PingSampleSelector::apply_selection),
+             py::overload_cast<filetemplates::datatypes::I_PingBottom&>(
+                 &PingSampleSelector::apply_selection),
              DOC_PingSampleSelector(apply_selection),
              py::arg("ping_bottom"))
 
@@ -63,6 +65,15 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("get_max_sample_range",
              &PingSampleSelector::get_max_sample_range,
              DOC_PingSampleSelector(max_sample_range))
+        .def("get_transmit_sectors",
+             &PingSampleSelector::get_transmit_sectors,
+             DOC_PingSampleSelector(transmit_sectors))
+        .def("get_transmit_sector_min_beam_angle",
+             &PingSampleSelector::get_transmit_sector_min_beam_angle,
+             DOC_PingSampleSelector(transmit_sector_min_beam_angle))
+        .def("get_transmit_sector_max_beam_angle",
+             &PingSampleSelector::get_transmit_sector_max_beam_angle,
+             DOC_PingSampleSelector(transmit_sector_max_beam_angle))
         .def("get_beam_step", &PingSampleSelector::get_beam_step, DOC_PingSampleSelector(beam_step))
         .def("get_sample_step",
              &PingSampleSelector::get_sample_step,
@@ -81,6 +92,12 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("clear_sample_range_range",
              &PingSampleSelector::clear_sample_range_range,
              DOC_PingSampleSelector(clear_sample_range_range))
+        .def("clear_transmit_sectors",
+             &PingSampleSelector::clear_transmit_sectors,
+             DOC_PingSampleSelector(clear_transmit_sectors))
+        .def("clear_transmit_sector_beam_angle_range",
+             &PingSampleSelector::clear_transmit_sector_beam_angle_range,
+             DOC_PingSampleSelector(clear_transmit_sector_beam_angle_range))
         .def("clear_beam_step",
              &PingSampleSelector::clear_beam_step,
              DOC_PingSampleSelector(clear_beam_step))
@@ -114,6 +131,16 @@ void init_c_pingsampleselector(pybind11::module& m)
              py::arg("min_sample_range"),
              py::arg("max_sample_range"),
              py::arg("sample_step") = std::nullopt)
+        .def("select_transmit_sectors",
+             &PingSampleSelector::select_transmit_sectors,
+             DOC_PingSampleSelector(select_transmit_sectors),
+             py::arg("transmit_sectors"))
+        .def("select_transmit_sectors_by_beam_angles",
+             &PingSampleSelector::select_transmit_sectors_by_beam_angles,
+             DOC_PingSampleSelector(select_transmit_sectors_by_beam_angles),
+             py::arg("transmit_sector_min_beam_angle") = std::nullopt,
+             py::arg("transmit_sector_max_beam_angle") = std::nullopt)
+
         .def("set_sample_step",
              &PingSampleSelector::set_sample_step,
              DOC_PingSampleSelector(set_sample_step),

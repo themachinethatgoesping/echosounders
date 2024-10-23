@@ -37,6 +37,13 @@ class PingSampleSelector
     std::optional<float> _min_sample_range; ///< min sample range to select (m)
     std::optional<float> _max_sample_range; ///< max sample range to select (m)
 
+    // transmit sectors
+    std::optional<std::vector<size_t>> _transmit_sectors; ///< transmit_sectors to select
+    std::optional<float> _transmit_sector_min_beam_angle; ///< select transmit sectors with angles
+                                                          ///< >= _transmit_sector_min_beam_angle
+    std::optional<float> _transmit_sector_max_beam_angle; ///< select transmit sectors with angles
+                                                          ///< <= _transmit_sector_max_beam_angle
+
     size_t _beam_step   = 1; ///< step size for beam numbers
     size_t _sample_step = 1; ///< step size for sample numbers
 
@@ -47,7 +54,8 @@ class PingSampleSelector
     bool operator==(const PingSampleSelector& other) const = default;
 
     // get selection
-    BeamSampleSelection apply_selection(filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
+    BeamSampleSelection apply_selection(
+        filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
     {
         BeamSampleSelection selection;
 
@@ -67,12 +75,22 @@ class PingSampleSelector
         size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
         size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
 
+        // initialize transmit sector selection
+        auto beam_numbers_selected_by_transmit_sector =
+            get_beam_numbers_selected_by_transmit_sector(ping_watercolumn, beam_crosstrack_angles);
+
+        // create beam indexer
         tools::pyhelper::PyIndexer beam_indexer(
             number_of_beams, min_beam_number, max_beam_number + 1, _beam_step);
 
         for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
         {
             auto bn = beam_indexer(counter);
+
+            // check transmit sector selection
+            if (beam_numbers_selected_by_transmit_sector.has_value())
+                if (!beam_numbers_selected_by_transmit_sector.value()[bn])
+                    continue;
 
             if (_min_beam_angle && beam_crosstrack_angles.unchecked(bn) < *_min_beam_angle)
                 continue;
@@ -109,7 +127,7 @@ class PingSampleSelector
         BeamSelection selection;
 
         // select beams according to the options
-        const auto number_of_beams            = ping_bottom.get_number_of_beams();
+        const auto number_of_beams = ping_bottom.get_number_of_beams();
 
         const auto beam_crosstrack_angles = ping_bottom.get_beam_crosstrack_angles();
         if (beam_crosstrack_angles.size() < number_of_beams)
@@ -118,10 +136,21 @@ class PingSampleSelector
                 beam_crosstrack_angles.size(),
                 number_of_beams));
 
+        const auto tx_sector_per_beam = ping_bottom.get_tx_sector_per_beam();
+        if (tx_sector_per_beam.size() != number_of_beams)
+            throw std::runtime_error(fmt::format("Number of transmit sectors per beam ({}) is "
+                                                 "different from the number of beams ({})",
+                                                 tx_sector_per_beam.size(),
+                                                 number_of_beams));
+
         // convert min/max beam numbers to indices (if set, and according to python negative
         // indexing)
         size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
         size_t max_beam_number = _max_beam_number ? *_max_beam_number : number_of_beams - 1;
+
+        // initialize transmit sector selection
+        auto beam_numbers_selected_by_transmit_sector =
+            get_beam_numbers_selected_by_transmit_sector(ping_bottom, beam_crosstrack_angles);
 
         tools::pyhelper::PyIndexer beam_indexer(
             number_of_beams, min_beam_number, max_beam_number + 1, _beam_step);
@@ -129,6 +158,11 @@ class PingSampleSelector
         for (unsigned int counter = 0; counter < beam_indexer.size(); ++counter)
         {
             auto bn = beam_indexer(counter);
+
+            // check transmit sector selection
+            if (beam_numbers_selected_by_transmit_sector.has_value())
+                if (!beam_numbers_selected_by_transmit_sector.value()[bn])
+                    continue;
 
             if (_min_beam_angle && beam_crosstrack_angles.unchecked(bn) < *_min_beam_angle)
                 continue;
@@ -153,6 +187,9 @@ class PingSampleSelector
     auto get_max_sample_range() const { return _max_sample_range; }
     auto get_beam_step() const { return _beam_step; }
     auto get_sample_step() const { return _sample_step; }
+    auto get_transmit_sectors() const { return _transmit_sectors; }
+    auto get_transmit_sector_min_beam_angle() const { return _transmit_sector_min_beam_angle; }
+    auto get_transmit_sector_max_beam_angle() const { return _transmit_sector_max_beam_angle; }
 
     // resetters
     void clear_beam_number_range()
@@ -179,6 +216,14 @@ class PingSampleSelector
         _max_sample_range.reset();
     }
 
+    void clear_transmit_sectors() { _transmit_sectors.reset(); }
+
+    void clear_transmit_sector_beam_angle_range()
+    {
+        _transmit_sector_min_beam_angle.reset();
+        _transmit_sector_max_beam_angle.reset();
+    }
+
     void clear_beam_step() { _beam_step = 1; }
     void clear_sample_step() { _sample_step = 1; }
 
@@ -190,10 +235,11 @@ class PingSampleSelector
         clear_sample_range_range();
         clear_beam_step();
         clear_sample_step();
+        clear_transmit_sectors();
+        clear_transmit_sector_beam_angle_range();
     }
 
     // selectors
-
     void select_beam_range_by_numbers(size_t                min_beam_number,
                                       size_t                max_beam_number,
                                       std::optional<size_t> beam_step = std::nullopt)
@@ -234,6 +280,18 @@ class PingSampleSelector
             _sample_step = *sample_step;
     }
 
+    void select_transmit_sectors(std::vector<size_t> transmit_sectors)
+    {
+        _transmit_sectors = transmit_sectors;
+    }
+
+    void select_transmit_sectors_by_beam_angles(std::optional<float> transmit_sector_min_beam_angle,
+                                                std::optional<float> transmit_sector_max_beam_angle)
+    {
+        _transmit_sector_min_beam_angle = transmit_sector_min_beam_angle;
+        _transmit_sector_max_beam_angle = transmit_sector_max_beam_angle;
+    }
+
     void set_sample_step(size_t sample_step) { _sample_step = sample_step; }
     void set_beam_step(size_t beam_step) { _beam_step = beam_step; }
 
@@ -246,6 +304,7 @@ class PingSampleSelector
      */
     static PingSampleSelector from_stream(std::istream& is)
     {
+        using themachinethatgoesping::tools::classhelper::stream::optional_container_from_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_from_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_set_from_stream;
 
@@ -258,6 +317,10 @@ class PingSampleSelector
         object._max_beam_angle    = optional_from_stream<float>(is);
         object._min_sample_range  = optional_from_stream<float>(is);
         object._max_sample_range  = optional_from_stream<float>(is);
+        object._transmit_sectors  = optional_container_from_stream<std::vector<size_t>>(is);
+        object._transmit_sector_min_beam_angle = optional_from_stream<float>(is);
+        object._transmit_sector_max_beam_angle = optional_from_stream<float>(is);
+
         is.read(reinterpret_cast<char*>(&object._beam_step), sizeof(object._beam_step));
         is.read(reinterpret_cast<char*>(&object._sample_step), sizeof(object._sample_step));
 
@@ -271,6 +334,7 @@ class PingSampleSelector
      */
     void to_stream(std::ostream& os) const
     {
+        using themachinethatgoesping::tools::classhelper::stream::optional_container_to_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_set_to_stream;
         using themachinethatgoesping::tools::classhelper::stream::optional_to_stream;
 
@@ -282,6 +346,9 @@ class PingSampleSelector
         optional_to_stream(os, _max_beam_angle);
         optional_to_stream(os, _min_sample_range);
         optional_to_stream(os, _max_sample_range);
+        optional_container_to_stream(os, _transmit_sectors);
+        optional_to_stream(os, _transmit_sector_min_beam_angle);
+        optional_to_stream(os, _transmit_sector_max_beam_angle);
         os.write(reinterpret_cast<const char*>(&_beam_step), sizeof(_beam_step));
         os.write(reinterpret_cast<const char*>(&_sample_step), sizeof(_sample_step));
     }
@@ -343,6 +410,23 @@ class PingSampleSelector
         else
             inactive_filters += "max_sample_range, ";
 
+        if (_transmit_sectors)
+            printer.register_container("transmit_sectors", *_transmit_sectors);
+        else
+            inactive_filters += "transmit_sectors, ";
+
+        if (_transmit_sector_min_beam_angle)
+            printer.register_value(
+                "transmit_sector_min_beam_angle", *_transmit_sector_min_beam_angle, "°");
+        else
+            inactive_filters += "transmit_sector_min_beam_angle, ";
+
+        if (_transmit_sector_max_beam_angle)
+            printer.register_value(
+                "transmit_sector_max_beam_angle", *_transmit_sector_max_beam_angle, "°");
+        else
+            inactive_filters += "transmit_sector_max_beam_angle, ";
+
         printer.register_value("beam_step", _beam_step);
         printer.register_value("sample_step", _sample_step);
 
@@ -362,6 +446,72 @@ class PingSampleSelector
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(PingSampleSelector)
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  private:
+    template<typename ping_watercolumn_or_bottom, typename t_angles>
+    std::optional<std::vector<uint_fast8_t>> get_beam_numbers_selected_by_transmit_sector(
+        ping_watercolumn_or_bottom& ping_w,
+        const t_angles&             beam_crosstrack_angles)
+    {
+
+        if (!_transmit_sector_min_beam_angle.has_value() &&
+            !_transmit_sector_max_beam_angle.has_value() && !_transmit_sectors.has_value())
+            return std::nullopt;
+
+        // init transmit_sector_selection
+        const auto                 tx_sector_per_beam = ping_w.get_tx_sector_per_beam();
+        std::vector<uint_fast16_t> transmit_sector_selection;
+
+        if (tx_sector_per_beam.size() != beam_crosstrack_angles.size())
+            throw std::runtime_error(
+                fmt::format("Number of transmit sectors per beam ({}) is "
+                            "different from the number of beam crosstrack angles ({})",
+                            tx_sector_per_beam.size(),
+                            beam_crosstrack_angles.size()));
+
+        if (_transmit_sector_min_beam_angle.has_value() or
+            _transmit_sector_max_beam_angle.has_value())
+        {
+            float min_ba =
+                _transmit_sector_min_beam_angle.value_or(std::numeric_limits<float>::lowest());
+            float max_ba =
+                _transmit_sector_max_beam_angle.value_or(std::numeric_limits<float>::max());
+
+            for (unsigned int bn = 0; bn < tx_sector_per_beam.size(); ++bn)
+            {
+                if (!transmit_sector_selection.empty())
+                    if (tx_sector_per_beam[bn] == transmit_sector_selection.back())
+                        continue;
+
+                if (beam_crosstrack_angles.unchecked(bn) >= min_ba &&
+                    beam_crosstrack_angles.unchecked(bn) <= max_ba)
+                {
+                    if (_transmit_sectors.has_value())
+                        if (std::find(_transmit_sectors->begin(),
+                                      _transmit_sectors->end(),
+                                      tx_sector_per_beam[bn]) == _transmit_sectors->end())
+                            continue;
+
+                    transmit_sector_selection.push_back(tx_sector_per_beam[bn]);
+                }
+            }
+        }
+        else
+        {
+            transmit_sector_selection = *_transmit_sectors;
+        }
+
+        std::vector<uint_fast8_t> beam_number_is_selected;
+        beam_number_is_selected.resize(tx_sector_per_beam.size());
+
+        for (unsigned int bn = 0; bn < tx_sector_per_beam.size(); ++bn)
+            if (std::find(transmit_sector_selection.begin(),
+                          transmit_sector_selection.end(),
+                          tx_sector_per_beam[bn]) != transmit_sector_selection.end())
+                beam_number_is_selected[bn] = 1;
+
+        return beam_number_is_selected;
+    }
 };
 
 } // namespace pingtools
