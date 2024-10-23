@@ -136,13 +136,6 @@ class PingSampleSelector
                 beam_crosstrack_angles.size(),
                 number_of_beams));
 
-        const auto tx_sector_per_beam = ping_bottom.get_tx_sector_per_beam();
-        if (tx_sector_per_beam.size() != number_of_beams)
-            throw std::runtime_error(fmt::format("Number of transmit sectors per beam ({}) is "
-                                                 "different from the number of beams ({})",
-                                                 tx_sector_per_beam.size(),
-                                                 number_of_beams));
-
         // convert min/max beam numbers to indices (if set, and according to python negative
         // indexing)
         size_t min_beam_number = _min_beam_number ? *_min_beam_number : 0;
