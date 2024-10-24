@@ -1,4 +1,4 @@
-//sourcehash: c1f89c9b9f6d2a9f5ecb3157e17296752569ed43e4e12ef7d96eb9de060c12d1
+//sourcehash: 41c88b1b752a01f16353a7367a7d1a4f53e24db3bf956ca2f406af119844fa5f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,6 +57,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration_base_hash = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_data_latlon = R"doc()doc";
 

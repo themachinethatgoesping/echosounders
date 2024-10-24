@@ -128,6 +128,21 @@ class I_Ping : public I_PingCommon
         return _sensor_configuration.get();
     }
 
+    /**
+     * @brief Returns the hash of the base sensor configuraiton. 
+     * This is the sensor configuration with the "Transducer" target removed.
+     * This hash can be used to get the correct navigation interpolator from the navigation_data_interface
+     * Note: This function is for testing and finding errors. It is rather slow.
+     * 
+     * @return uint64_t 
+     */
+    uint64_t get_sensor_configuration_base_hash() const
+    {
+        auto sc = get_sensor_configuration();
+        sc.remove_target("Transducer");
+        return sc.binary_hash();
+    } 
+
     bool has_sensor_configuration() const { return _sensor_configuration_set; }
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
     {
