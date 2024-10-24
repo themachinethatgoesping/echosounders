@@ -1,4 +1,4 @@
-//sourcehash: baf499edda550aa65024c70a149036d0a397f9865caacbfac84f4c4432b1bf05
+//sourcehash: dfc03a1b3286b032a71ad5e3aca19c2ed6db564746cc2d1ae5719bc7d2408ee4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
 R"doc(Get a beam selection object that selects all beams
 
@@ -95,6 +97,8 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters =
 R"doc(Get the transmission signal parameters per sector.
 
@@ -128,36 +132,23 @@ Parameter ``selection``:
 Returns:
     algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles =
-R"doc(Check this pings supports the extraction of beam_crosstrack_angles
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles = R"doc()doc";
 
-Returns:
-    true
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_numbers_per_tx_sector = R"doc()doc";
 
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_selection_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times =
-R"doc(Check this pings supports the extraction of two_way_travel_times
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_beams = R"doc()doc";
 
-Returns:
-    true
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_tx_sectors = R"doc()doc";
 
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_sector_information = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_signal_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz =
-R"doc(Check this pings supports XYZ data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_primary_feature_functions = R"doc()doc";
 

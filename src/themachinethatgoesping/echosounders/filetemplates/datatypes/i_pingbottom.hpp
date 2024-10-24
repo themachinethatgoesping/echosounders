@@ -76,7 +76,7 @@ class I_PingBottom : public I_PingCommon
         features[t_pingfeature::tx_signal_parameters] =
             std::bind(&I_PingBottom::has_tx_signal_parameters, this);
         features[t_pingfeature::number_of_tx_sectors] =
-            std::bind(&I_PingBottom::has_tx_sector_information, this);
+            std::bind(&I_PingBottom::has_number_of_tx_sectors, this);
         features[t_pingfeature::beam_crosstrack_angles] =
             std::bind(&I_PingBottom::has_beam_crosstrack_angles, this);
         return features;
@@ -88,6 +88,22 @@ class I_PingBottom : public I_PingCommon
 
     I_PingBottom()          = default;
     virtual ~I_PingBottom() = default;
+
+    // ----- has feature functions -----
+    // sectors and beams features
+    virtual bool has_tx_signal_parameters() const { return false; }
+    virtual bool has_number_of_tx_sectors() const { return false; }
+    virtual bool has_beam_numbers_per_tx_sector() const { return false; }    
+    virtual bool has_tx_sector_per_beam() const { return false; }
+
+    // per beam information
+    bool         has_beam_selection_all() const { return has_number_of_beams(); }
+    virtual bool has_number_of_beams() const { return false; }
+    virtual bool has_beam_crosstrack_angles() const { return false; }
+
+    // bottom detection features
+    virtual bool has_two_way_travel_times() const { return false; }
+    virtual bool has_xyz() const { return false; }
 
     // --- transmit sector infos ---
 
@@ -114,16 +130,25 @@ class I_PingBottom : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-    virtual bool has_tx_signal_parameters() const { return false; }
-    virtual bool has_tx_sector_information() const { return false; }
-
     // --- sector infos ---
-    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam()
+    {
+        return get_tx_sector_per_beam(get_beam_selection_all());
+    }
+
+    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, class_name());
     }
 
-    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
+    {
+        return get_beam_numbers_per_tx_sector(get_beam_selection_all());
+    }
+
+    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        [[maybe_unused]] const pingtools::BeamSelection& bs)
     {
         throw not_implemented(__func__, class_name());
     }
@@ -222,29 +247,6 @@ class I_PingBottom : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-    /**
-     * @brief Check this pings supports the extraction of beam_crosstrack_angles
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_beam_crosstrack_angles() const { return false; }
-
-    /**
-     * @brief Check this pings supports the extraction of two_way_travel_times
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_two_way_travel_times() const { return false; }
-
-    /**
-     * @brief Check this pings supports XYZ data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_xyz() const { return false; }
 
   public:
     // ----- objectprinter -----

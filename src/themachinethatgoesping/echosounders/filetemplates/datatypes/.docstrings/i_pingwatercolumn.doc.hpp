@@ -1,4 +1,4 @@
-//sourcehash: 17304b6fd8c4131e28414dce72ce9454be780432cc70ed92b2a1cbd3362e14bf
+//sourcehash: c3d7196f711ee509629558b31a486de29a5033543555c19ac35af40bcb30f2ab
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -325,143 +325,45 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_watercolumn_calibration_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes =
-R"doc(Check this pings supports AMPLITUDES data
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_amplitudes = R"doc()doc";
 
-Returns:
-    true
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_ap = R"doc(Check this pings supports AP data (uncalibrated point scattering))doc";
 
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_av = R"doc(Check this pings supports AV data (uncalibrated volume scattering))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_ap =
-R"doc(Check this pings supports AP data (uncalibrated point scattering)
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_av =
-R"doc(Check this pings supports AV data (uncalibrated volume scattering)
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles =
-R"doc(Check this pings supports the extraction of beam_crosstrack_angles
-
-Returns:
-    true
-
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_selection_all = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_bottom_range_samples =
-R"doc(Check this pings supports bottom range samples
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_bottom_range_samples = R"doc(Check this pings supports bottom range samples)doc";
 
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_multisectorwatercolumn_calibration =
-R"doc(Check this pings has valid power calibration data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_multisectorwatercolumn_calibration = R"doc(Check this pings has valid power calibration data)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_beams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_power =
-R"doc(Check this pings supports calibrated power data
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_power = R"doc(Check this pings supports calibrated power data)doc";
 
-Returns:
-    true
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pp = R"doc(Check this pings supports PP data)doc";
 
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pv = R"doc(Check this pings supports PV data)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pp =
-R"doc(Check this pings supports PP data
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rp = R"doc(Check this pings supports RP data)doc";
 
-Returns:
-    true
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rv = R"doc(Check this pings supports RV data)doc";
 
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_sp = R"doc(Check this pings supports calibrated SV data)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_pv =
-R"doc(Check this pings supports PV data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rp =
-R"doc(Check this pings supports RP data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_rv =
-R"doc(Check this pings supports RV data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_sp =
-R"doc(Check this pings supports calibrated SV data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_sv =
-R"doc(Check this pings supports calibrated SV data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_sv = R"doc(Check this pings supports calibrated SV data)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_signal_parameters = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_watercolumn_calibration =
-R"doc(Check this pings has valid power calibration data
-
-Returns:
-    true
-
-Returns:
-    false)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_watercolumn_calibration = R"doc(Check this pings has valid power calibration data)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_primary_feature_functions = R"doc()doc";
 

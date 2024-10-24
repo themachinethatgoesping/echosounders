@@ -37,9 +37,22 @@ void init_c_i_pingbottom(pybind11::module& m)
             .def("has_tx_signal_parameters",
                  &I_PingBottom::has_tx_signal_parameters,
                  DOC_I_PingBottom(has_tx_signal_parameters))
-            .def("has_tx_sector_information",
-                 &I_PingBottom::has_tx_sector_information,
-                 DOC_I_PingBottom(has_tx_sector_information))
+            .def("has_number_of_tx_sectors",
+                 &I_PingBottom::has_number_of_tx_sectors,
+                 DOC_I_PingBottom(has_number_of_tx_sectors))
+            .def("has_beam_numbers_per_tx_sector",
+                 &I_PingBottom::has_beam_numbers_per_tx_sector,
+                 DOC_I_PingBottom(has_beam_numbers_per_tx_sector))
+            .def("has_beam_selection_all",
+                 &I_PingBottom::has_beam_selection_all,
+                 DOC_I_PingBottom(has_beam_selection_all))
+            .def("has_number_of_beams",
+                 &I_PingBottom::has_number_of_beams,
+                 DOC_I_PingBottom(has_number_of_beams))
+            .def("has_tx_sector_per_beam",
+                 &I_PingBottom::has_tx_sector_per_beam,
+                 DOC_I_PingBottom(has_tx_sector_per_beam))
+
             .def("get_tx_signal_parameters",
                  &I_PingBottom::get_tx_signal_parameters,
                  DOC_I_PingBottom(get_tx_signal_parameters))
@@ -69,6 +82,14 @@ void init_c_i_pingbottom(pybind11::module& m)
                  py::overload_cast<const pingtools::BeamSelection&>(
                      &I_PingBottom::get_beam_crosstrack_angles),
                  DOC_I_PingBottom(get_beam_crosstrack_angles),
+                 py::arg("beam_selection"))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<>(&I_PingBottom::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingBottom(get_beam_numbers_per_tx_sector))
+            .def("get_beam_numbers_per_tx_sector",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingBottom::get_beam_numbers_per_tx_sector),
+                 DOC_I_PingBottom(get_beam_numbers_per_tx_sector),
                  py::arg("beam_selection"))
 
             // ----- features -----

@@ -31,8 +31,8 @@
 
 #include "../../filetemplates/datatypes/i_pingbottom.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "simradrawpingcommon.hpp"
 
@@ -65,14 +65,16 @@ class SimradRawPingBottom
     virtual ~SimradRawPingBottom() = default;
 
     // --- sector infos ---
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
     {
-        throw not_implemented(__func__, class_name());
+        return { 0 };
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
     {
-        throw not_implemented(__func__, class_name());
+        return { { 0 } };
     }
 
     // ----- I_PingCommon interface -----
@@ -121,9 +123,11 @@ class SimradRawPingBottom
     // }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 

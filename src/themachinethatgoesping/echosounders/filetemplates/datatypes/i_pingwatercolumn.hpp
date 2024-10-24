@@ -132,6 +132,104 @@ class I_PingWatercolumn : public I_PingCommon
     I_PingWatercolumn()          = default;
     virtual ~I_PingWatercolumn() = default;
 
+    // --- has functions ---
+    // sectors and beams features
+    virtual bool has_tx_signal_parameters() const { return false; }
+    virtual bool has_number_of_tx_sectors() const { return false; }
+    virtual bool has_beam_numbers_per_tx_sector() const { return false; }    
+    virtual bool has_tx_sector_per_beam() const { return false; }
+    
+    // per beam information
+    bool         has_beam_selection_all() const { return has_number_of_beams(); }
+    virtual bool has_number_of_beams() const { return false; }
+    virtual bool has_beam_crosstrack_angles() const { return false; }
+
+    // water column calibration features
+    ///@brief Check this pings has valid power calibration data
+    virtual bool has_watercolumn_calibration() const { return false; }
+
+    ///@brief Check this pings has valid power calibration data
+    virtual bool has_multisectorwatercolumn_calibration() const { return false; }
+
+    ///@brief Check this pings supports bottom range samples
+    virtual bool has_bottom_range_samples() const { return false; }
+
+    // water column amplitude features
+    virtual bool has_amplitudes() const { return false; }
+
+    ///@brief Check this pings supports AP data (uncalibrated point scattering)
+    bool has_ap() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_ap_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+
+    ///@brief Check this pings supports AV data (uncalibrated volume scattering)
+    bool has_av() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_av_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_av_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+
+    ///@brief Check this pings supports calibrated power data
+    bool has_power() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
+    }
+    
+    ///@brief Check this pings supports RP data
+    bool has_rp() const { return has_power(); }
+
+    ///@brief Check this pings supports RV data
+    bool has_rv() const { return has_power(); }
+
+    ///@brief Check this pings supports PP data
+    bool has_pp() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+    ///@brief Check this pings supports PV data
+    bool has_pv() const
+    {
+        return has_pp();
+    }
+    ///@brief Check this pings supports calibrated SV data
+    bool has_sp() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sp_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+    ///@brief Check this pings supports calibrated SV data
+    bool has_sv() const
+    {
+        if (get_number_of_tx_sectors() == 1)
+            return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration() &&
+                   get_watercolumn_calibration().has_valid_absorption_db_m();
+
+        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sv_calibration() &&
+               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
+    }
+
     // --- transmit sector infos ---
 
     /**
@@ -157,12 +255,6 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-    virtual bool has_tx_signal_parameters() const { return false; }
-    virtual bool has_number_of_tx_sectors() const { return false; }
-    virtual bool has_beam_numbers_per_tx_sector() const { return false; }
-    virtual bool has_tx_sector_per_beam() const { return false; }
-    bool         has_beam_selection_all() const { return has_number_of_beams(); }
-    virtual bool has_number_of_beams() const { return false; }
 
     virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
     {
@@ -241,14 +333,6 @@ class I_PingWatercolumn : public I_PingCommon
      * @return uint32_t
      */
     virtual uint32_t get_number_of_beams() const { throw not_implemented(__func__, class_name()); }
-
-    /**
-     * @brief Check this pings supports the extraction of beam_crosstrack_angles
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_beam_crosstrack_angles() const { return false; }
 
     /**
      * @brief Get the beam crosstrack angles for this ping in °
@@ -682,153 +766,7 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-    /**
-     * @brief Check this pings supports AMPLITUDES data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_amplitudes() const { return false; }
-
-    /**
-     * @brief Check this pings supports AP data (uncalibrated point scattering)
-     *
-     * @return true
-     * @return false
-     */
-    bool has_ap() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration() &&
-                   get_watercolumn_calibration().has_valid_absorption_db_m();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_ap_calibration() &&
-               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
-    }
-
-    /**
-     * @brief Check this pings supports AV data (uncalibrated volume scattering)
-     *
-     * @return true
-     * @return false
-     */
-    bool has_av() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_av_calibration() &&
-                   get_watercolumn_calibration().has_valid_absorption_db_m();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_av_calibration() &&
-               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
-    }
-
-    /**
-     * @brief Check this pings supports calibrated power data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_power() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
-    }
-    /**
-     * @brief Check this pings supports RP data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_rp() const { return has_power(); }
-    /**
-     * @brief Check this pings supports RV data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_rv() const { return has_power(); }
-
-    /**
-     * @brief Check this pings supports PP data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_pp() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_power_calibration() &&
-                   get_watercolumn_calibration().has_valid_absorption_db_m();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration() &&
-               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
-    }
-    /**
-     * @brief Check this pings supports PV data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_pv() const
-    {
-        return has_pp();
-    }
-    /**
-     * @brief Check this pings supports calibrated SV data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_sp() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration() &&
-                   get_watercolumn_calibration().has_valid_absorption_db_m();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sp_calibration() &&
-               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
-    }
-    /**
-     * @brief Check this pings supports calibrated SV data
-     *
-     * @return true
-     * @return false
-     */
-    bool has_sv() const
-    {
-        if (get_number_of_tx_sectors() == 1)
-            return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration() &&
-                   get_watercolumn_calibration().has_valid_absorption_db_m();
-
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_sv_calibration() &&
-               get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
-    }
-
-    /**
-     * @brief Check this pings has valid power calibration data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_watercolumn_calibration() const { return false; }
-
-    /**
-     * @brief Check this pings has valid power calibration data
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_multisectorwatercolumn_calibration() const { return false; }
-
-    /**
-     * @brief Check this pings supports bottom range samples
-     *
-     * @return true
-     * @return false
-     */
-    virtual bool has_bottom_range_samples() const { return false; }
+    
 
   public:
     // ----- objectprinter -----

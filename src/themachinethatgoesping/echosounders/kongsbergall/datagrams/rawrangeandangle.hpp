@@ -68,7 +68,10 @@ class RawRangeAndAngle : public KongsbergAllDatagram
 
   public:
     // ----- public constructors -----
-    RawRangeAndAngle() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::RawRangeAndAngle; }
+    RawRangeAndAngle()
+    {
+        _datagram_identifier = t_KongsbergAllDatagramIdentifier::RawRangeAndAngle;
+    }
     ~RawRangeAndAngle() = default;
 
     // ----- convenience functions -----
@@ -136,19 +139,20 @@ class RawRangeAndAngle : public KongsbergAllDatagram
      *
      * @return xt::xtensor<float, 1>
      */
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(const std::vector<uint32_t>& beam_numbers) const
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(
+        const std::vector<uint32_t>& beam_numbers) const
     {
-        auto bpa = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+        auto angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
 
-        for (const auto bn : beam_numbers)
+        for (unsigned int i = 0; i < beam_numbers.size(); ++i)
         {
-            if (bn >= _beams.size())
-                bpa.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+            if (beam_numbers[i] >= _beams.size())
+                angles.unchecked(i) = std::numeric_limits<float>::quiet_NaN();
             else
-                bpa.unchecked(bn) = _beams[bn].get_beam_crosstrack_angle_in_degrees();
+                angles.unchecked(i) = _beams[beam_numbers[i]].get_beam_crosstrack_angle_in_degrees();
         }
 
-        return bpa;
+        return angles;
     }
 
     // ----- convenient data access -----
@@ -274,7 +278,7 @@ class RawRangeAndAngle : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is));
     }
 
-    static RawRangeAndAngle from_stream(std::istream&              is,
+    static RawRangeAndAngle from_stream(std::istream&                    is,
                                         t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
@@ -303,9 +307,11 @@ class RawRangeAndAngle : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("RawRangeAndAngle", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "RawRangeAndAngle", float_precision, superscript_exponents);
 
         printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");

@@ -24,6 +24,7 @@
 #include <xtensor/xarray.hpp>
 #include <xtensor/xio.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xindex_view.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -31,8 +32,8 @@
 
 #include "../../filetemplates/datatypes/i_pingbottom.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 
 #include "kongsbergallpingcommon.hpp"
 
@@ -64,7 +65,6 @@ class KongsbergAllPingBottom
     }
     virtual ~KongsbergAllPingBottom() = default;
 
-
     // --- sector infos ---
     bool has_tx_signal_parameters() const override
     {
@@ -72,7 +72,7 @@ class KongsbergAllPingBottom
             { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
               t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
     }
-    bool has_tx_sector_information() const override { return has_tx_signal_parameters(); }
+    bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters() override
@@ -84,15 +84,32 @@ class KongsbergAllPingBottom
     {
         return file_data().get_sysinfos().get_tx_signal_parameters().size();
     }
-    
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam() override
+
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
     {
-        throw not_implemented(__func__, class_name());
+        return xt::index_view(file_data().get_wcinfos().get_transmit_sector_numbers(),
+                              selection.get_beam_numbers());
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector() override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
     {
-        throw not_implemented(__func__, class_name());
+        std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
+        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
+
+        auto sector_per_beam = get_tx_sector_per_beam(selection);
+
+        for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
+        {
+            if (sector_per_beam[i] >= beam_numbers_per_tx_sector.size())
+                throw std::runtime_error(
+                    fmt::format("Invalid transmit sector number: {}", sector_per_beam[i]));
+
+            beam_numbers_per_tx_sector[sector_per_beam[i]].push_back(i);
+        }
+
+        return beam_numbers_per_tx_sector;
     }
 
     // ----- I_PingCommon interface -----
@@ -158,9 +175,11 @@ class KongsbergAllPingBottom
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 
