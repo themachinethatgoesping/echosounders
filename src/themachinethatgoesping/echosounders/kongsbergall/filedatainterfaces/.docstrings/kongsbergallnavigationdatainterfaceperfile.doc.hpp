@@ -1,4 +1,4 @@
-//sourcehash: fd77cda3a4a1a7e06f131af27b2bcee5c25126f013175119723dfd2c236f9b5b
+//sourcehash: e5832d0cfd01cf6bc8536d0216f74964faebabde2c55ce696ef7ee3cc11772cb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,6 +43,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_KongsbergAllNavigationDataInterfacePerFile = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_KongsbergAllNavigationDataInterfacePerFile_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_add_attitudes = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_packet_timestamp_in_range =
 R"doc(Internat function to check if a attitude timestamp is within the

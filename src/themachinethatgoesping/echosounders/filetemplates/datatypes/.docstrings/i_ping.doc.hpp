@@ -1,4 +1,4 @@
-//sourcehash: c1f89c9b9f6d2a9f5ecb3157e17296752569ed43e4e12ef7d96eb9de060c12d1
+//sourcehash: 8838a4b989c79ae875621b1915833a8954bfe5f0609c53533d63ae2489d8a6b7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,6 +57,16 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_geolocation = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration_base_hash =
+R"doc(Returns the hash of the base sensor configuraiton. This is the sensor
+configuration with the "Transducer" target removed. This hash can be
+used to get the correct navigation interpolator from the
+navigation_data_interface Note: This function is for testing and
+finding errors. It is rather slow.
+
+Returns:
+    uint64_t)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_data_latlon = R"doc()doc";
 

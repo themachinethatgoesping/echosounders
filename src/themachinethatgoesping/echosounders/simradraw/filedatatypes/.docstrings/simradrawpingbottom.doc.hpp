@@ -1,4 +1,4 @@
-//sourcehash: 4ec87c7a3291d65668d3dbae5b5d6d71955335a44e8dba0e9e6e70d4d252750e
+//sourcehash: 90c8227d0a3ea16ab8451f6201cdb6c60590b04c3edf4fac97c1231883482ea0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,7 +48,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_number_of_beams = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_tx_sector_per_beam = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_tx_sector_per_beam = R"doc(TODO: these functions should react on the BeamSelection ..)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_beam_crosstrack_angles = R"doc()doc";
 

@@ -77,6 +77,9 @@ void init_c_i_ping(pybind11::module& m)
                  &I_Ping::get_sensor_configuration,
                  DOC_I_Ping(sensor_configuration),
                  py::return_value_policy::reference_internal)
+            .def("get_sensor_configuration_base_hash",
+                 &I_Ping::get_sensor_configuration_base_hash,
+                 DOC_I_Ping(get_sensor_configuration_base_hash))
             .def("set_sensor_configuration",
                  &I_Ping::set_sensor_configuration,
                  DOC_I_Ping(sensor_configuration),

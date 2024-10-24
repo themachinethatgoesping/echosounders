@@ -65,14 +65,15 @@ class SimradRawPingBottom
     virtual ~SimradRawPingBottom() = default;
 
     // --- sector infos ---
+    /// TODO: these functions should react on the BeamSelection ..
     xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+        [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
         return { 0 };
     }
 
     std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+       [[maybe_unused]] const pingtools::BeamSelection& selection) override
     {
         return { { 0 } };
     }

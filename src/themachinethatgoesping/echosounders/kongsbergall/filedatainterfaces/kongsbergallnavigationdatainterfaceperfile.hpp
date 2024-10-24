@@ -20,8 +20,8 @@
 #include "../../filetemplates/datainterfaces/i_navigationdatainterface.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"
 
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 #include "kongsbergalldatagraminterface.hpp"
 
 namespace themachinethatgoesping {
@@ -43,8 +43,10 @@ class KongsbergAllNavigationDataInterfacePerFile
     {
     }
     KongsbergAllNavigationDataInterfacePerFile(
-        std::shared_ptr<KongsbergAllConfigurationDataInterface<t_ifstream>> configuration_data_interface)
-        : t_base(std::move(configuration_data_interface), "KongsbergAllNavigationDataInterfacePerFile")
+        std::shared_ptr<KongsbergAllConfigurationDataInterface<t_ifstream>>
+            configuration_data_interface)
+        : t_base(std::move(configuration_data_interface),
+                 "KongsbergAllNavigationDataInterfacePerFile")
     {
     }
     ~KongsbergAllNavigationDataInterfacePerFile() = default;
@@ -61,8 +63,8 @@ class KongsbergAllNavigationDataInterfacePerFile
         /* ----- scan through position datagrams ----- */
         std::vector<double> headings_pos, latitudes, longitudes, qualities;
         std::vector<double> times_pos;
-        for (auto& packet :
-             this->_datagram_infos_by_type.at_const(t_KongsbergAllDatagramIdentifier::PositionDatagram))
+        for (auto& packet : this->_datagram_infos_by_type.at_const(
+                 t_KongsbergAllDatagramIdentifier::PositionDatagram))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::PositionDatagram>();
 
@@ -116,82 +118,47 @@ class KongsbergAllNavigationDataInterfacePerFile
         // }
 
         /* ----- scan through attitude datagrams ----- */
-        std::vector<float> headings_attitudes, pitchs, rolls;
+        std::vector<float>  headings_attitudes, pitchs, rolls;
         std::vector<double> heaves;
         std::vector<double> times_pitch_roll, times_heading_attitude, times_heave;
 
-        for (auto& packet :
-             this->_datagram_infos_by_type.at_const(t_KongsbergAllDatagramIdentifier::AttitudeDatagram))
-        {
-            auto datagram = packet->template read_datagram_from_file<datagrams::AttitudeDatagram>();
+        this->add_attitudes<datagrams::AttitudeDatagram>(
+            t_KongsbergAllDatagramIdentifier::AttitudeDatagram,
+            headings_attitudes,
+            pitchs,
+            rolls,
+            heaves,
+            times_heading_attitude,
+            times_pitch_roll,
+            times_heave);
 
-            double base_time          = datagram.get_timestamp();
-            bool   use_heave_sensor   = datagram.get_heave_sensor_is_active();
-            bool   use_heading_sensor = datagram.get_heading_sensor_is_active();
-            bool   use_roll_sensor    = datagram.get_roll_sensor_is_active();
-            bool   use_pitch_sensor   = datagram.get_pitch_sensor_is_active();
-            // const auto sensor_number      = datagram.get_attitude_sensor_number();
+        this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
+            t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram,
+            headings_attitudes,
+            pitchs,
+            rolls,
+            heaves,
+            times_heading_attitude,
+            times_pitch_roll,
+            times_heave,
+            times_heading_attitude.empty(),
+            times_pitch_roll.empty(),
+            times_heave.empty());
 
-            if (use_roll_sensor != use_pitch_sensor)
-                throw std::runtime_error(fmt::format(
-                    "ERROR in file [{}]: {} "
-                    "\nKongsbergAllNavigationDataInterfacePerFile::read_navigation_data: roll and "
-                    "pitch sensor are not active at the same time. This is not supported yet.",
-                    this->get_file_nr(),
-                    this->get_file_path()));
-
-            // only use the sensor data if the correct sensor is active
-            // apparently the sensor number is not the same as the attitude sensor number
-            // if (sensor_number !=
-            //     t_KongsbergAllActiveSensor_to_attitude_sensor_number(config.get_active_heave_sensor()))
-            //     use_heave_sensor = false;
-
-            // if (sensor_number !=
-            //     t_KongsbergAllActiveSensor_to_attitude_sensor_number(config.get_active_heading_sensor()))
-            //     use_heading_sensor = false;
-
-            // if (sensor_number != t_KongsbergAllActiveSensor_to_attitude_sensor_number(
-            //                          config.get_active_pitch_roll_sensor()))
-            // {
-            //     use_roll_sensor  = false;
-            //     use_pitch_sensor = false;
-            // }
-
-            for (const auto& attitude : datagram.get_attitudes())
-            {
-                double packet_timestamp = base_time + attitude.get_time_in_seconds();
-
-                if (use_pitch_sensor)
-                {
-                    if (packet_timestamp_in_range(times_pitch_roll, packet_timestamp, "pitch"))
-                    {
-                        times_pitch_roll.push_back(packet_timestamp);
-                        pitchs.push_back(attitude.get_pitch_in_degrees());
-                        rolls.push_back(attitude.get_roll_in_degrees());
-                    }
-                }
-
-                if (use_heading_sensor)
-                {
-                    if (packet_timestamp_in_range(
-                            times_heading_attitude, packet_timestamp, "heading"))
-                    {
-                        times_heading_attitude.push_back(packet_timestamp);
-                        headings_attitudes.push_back(attitude.get_heading_in_degrees());
-                    }
-                }
-
-                if (use_heave_sensor)
-                {
-                    if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
-                    {
-                        times_heave.push_back(packet_timestamp);
-                        //TODO heave: heave should be positive upwards, but it seems it is positive downwards for the belgica data
-                        heaves.push_back(-attitude.get_heave_in_meters());
-                    }
-                }
-            }
-        }
+        // if heading, pitchs or heaves not found, check if they are available in the
+        // networkattitudevelocitydatagrams
+        this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
+            t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram,
+            headings_attitudes,
+            pitchs,
+            rolls,
+            heaves,
+            times_pitch_roll,
+            times_heading_attitude,
+            times_heave,
+            headings_attitudes.empty(),
+            pitchs.empty(),
+            heaves.empty());
 
         navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
         navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
@@ -202,11 +169,12 @@ class KongsbergAllNavigationDataInterfacePerFile
         return navi;
     }
 
-
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
@@ -250,6 +218,80 @@ class KongsbergAllNavigationDataInterfacePerFile
                             attitude_name));
 
         return true;
+    }
+
+    template<typename t_attitude_datagram>
+    void add_attitudes(t_KongsbergAllDatagramIdentifier datagram_identifier,
+                       std::vector<float>&              headings_attitudes,
+                       std::vector<float>&              pitchs,
+                       std::vector<float>&              rolls,
+                       std::vector<double>&             heaves,
+                       std::vector<double>&             times_heading_attitude,
+                       std::vector<double>&             times_pitch_roll,
+                       std::vector<double>&             times_heave,
+                       bool                             look_for_heading_sensor    = true,
+                       bool                             look_for_roll_pitch_sensor = true,
+                       bool                             look_for_heave_sensor      = true) const
+    {
+        for (auto& packet : this->_datagram_infos_by_type.at_const(datagram_identifier))
+        {
+            auto datagram = packet->template read_datagram_from_file<t_attitude_datagram>();
+
+            bool use_heave_sensor = datagram.get_heave_sensor_is_active() && look_for_heave_sensor;
+            bool use_heading_sensor =
+                datagram.get_heading_sensor_is_active() && look_for_heading_sensor;
+            bool use_roll_sensor =
+                datagram.get_roll_sensor_is_active() && look_for_roll_pitch_sensor;
+            bool use_pitch_sensor =
+                datagram.get_pitch_sensor_is_active() && look_for_roll_pitch_sensor;
+            // const auto sensor_number      = datagram.get_attitude_sensor_number();
+
+            if (use_roll_sensor != use_pitch_sensor)
+                throw std::runtime_error(fmt::format(
+                    "ERROR in file [{}]: {} "
+                    "\nKongsbergAllNavigationDataInterfacePerFile::read_navigation_data: roll and "
+                    "pitch sensor are not active at the same time. This is not supported yet.",
+                    this->get_file_nr(),
+                    this->get_file_path()));
+
+            double base_time = datagram.get_timestamp();
+
+            for (const auto& attitude : datagram.get_attitudes())
+            {
+                double packet_timestamp = base_time + attitude.get_time_in_seconds();
+
+                if (use_pitch_sensor)
+                {
+                    if (packet_timestamp_in_range(times_pitch_roll, packet_timestamp, "pitch"))
+                    {
+                        times_pitch_roll.push_back(packet_timestamp);
+                        pitchs.push_back(attitude.get_pitch_in_degrees());
+                        rolls.push_back(attitude.get_roll_in_degrees());
+                    }
+                }
+
+                if (use_heading_sensor)
+                {
+                    if (packet_timestamp_in_range(
+                            times_heading_attitude, packet_timestamp, "heading"))
+                    {
+                        times_heading_attitude.push_back(packet_timestamp);
+                        headings_attitudes.push_back(attitude.get_heading_in_degrees());
+                    }
+                }
+
+                if (use_heave_sensor)
+                {
+                    if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
+                    {
+                        times_heave.push_back(packet_timestamp);
+                        // TODO heave: heave should be positive upwards, but it seems it is positive
+                        // downwards for the belgica data
+                        heaves.push_back(-attitude.get_heave_in_meters());
+                    }
+                }
+            }
+        }
     }
 };
 
