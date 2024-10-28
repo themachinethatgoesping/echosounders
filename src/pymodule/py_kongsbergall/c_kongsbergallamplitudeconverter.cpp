@@ -118,19 +118,14 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
              &t_class::compute_total_compensation_factor,
              DOC_KongsbergAllAmpltitudeConverter(compute_total_compensation_factor))
 
-        // ----- operators -----
-        .def("__eq__",
-             &t_class::operator==,
-             DOC_KongsbergAllAmpltitudeConverter(operator_eq),
-             py::arg("other"))
         // ----- pybind macros -----
         // default copy functions
-        //    __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
-        //    // default binary functions
-        //    __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
-        //    // default printing functions
-        //    __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
-        //    // end LinearInterpolator
+        __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
+        // default binary functions
+        __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
+        // end LinearInterpolator
         ;
 }
 

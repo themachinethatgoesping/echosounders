@@ -180,7 +180,7 @@ class PingSampleSelector
     auto get_max_sample_range() const { return _max_sample_range; }
     auto get_beam_step() const { return _beam_step; }
     auto get_sample_step() const { return _sample_step; }
-    auto get_transmit_sectors() const { return _transmit_sectors; }
+    const auto& get_transmit_sectors() const { return _transmit_sectors; }
     auto get_transmit_sector_min_beam_angle() const { return _transmit_sector_min_beam_angle; }
     auto get_transmit_sector_max_beam_angle() const { return _transmit_sector_max_beam_angle; }
 
@@ -491,7 +491,7 @@ class PingSampleSelector
         }
         else
         {
-            transmit_sector_selection = *_transmit_sectors;
+            transmit_sector_selection = _transmit_sectors.value();
         }
 
         std::vector<uint_fast8_t> beam_number_is_selected;
