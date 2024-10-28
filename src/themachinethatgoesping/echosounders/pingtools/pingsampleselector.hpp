@@ -170,16 +170,16 @@ class PingSampleSelector
     }
 
     // getters
-    auto get_min_beam_number() const { return _min_beam_number; }
-    auto get_max_beam_number() const { return _max_beam_number; }
-    auto get_min_sample_number() const { return _min_sample_number; }
-    auto get_max_sample_number() const { return _max_sample_number; }
-    auto get_min_beam_angle() const { return _min_beam_angle; }
-    auto get_max_beam_angle() const { return _max_beam_angle; }
-    auto get_min_sample_range() const { return _min_sample_range; }
-    auto get_max_sample_range() const { return _max_sample_range; }
-    auto get_beam_step() const { return _beam_step; }
-    auto get_sample_step() const { return _sample_step; }
+    auto        get_min_beam_number() const { return _min_beam_number; }
+    auto        get_max_beam_number() const { return _max_beam_number; }
+    auto        get_min_sample_number() const { return _min_sample_number; }
+    auto        get_max_sample_number() const { return _max_sample_number; }
+    auto        get_min_beam_angle() const { return _min_beam_angle; }
+    auto        get_max_beam_angle() const { return _max_beam_angle; }
+    auto        get_min_sample_range() const { return _min_sample_range; }
+    auto        get_max_sample_range() const { return _max_sample_range; }
+    auto        get_beam_step() const { return _beam_step; }
+    auto        get_sample_step() const { return _sample_step; }
     const auto& get_transmit_sectors() const { return _transmit_sectors; }
     auto get_transmit_sector_min_beam_angle() const { return _transmit_sector_min_beam_angle; }
     auto get_transmit_sector_max_beam_angle() const { return _transmit_sector_max_beam_angle; }
@@ -442,7 +442,7 @@ class PingSampleSelector
 
   private:
     template<typename ping_watercolumn_or_bottom, typename t_angles>
-    std::optional<std::vector<uint_fast8_t>> get_beam_numbers_selected_by_transmit_sector(
+    std::optional<std::vector<uint_fast16_t>> get_beam_numbers_selected_by_transmit_sector(
         ping_watercolumn_or_bottom& ping_w,
         const t_angles&             beam_crosstrack_angles)
     {
@@ -491,10 +491,12 @@ class PingSampleSelector
         }
         else
         {
-            transmit_sector_selection = _transmit_sectors.value();
+            std::copy(tx_sector_per_beam.begin(),
+                      tx_sector_per_beam.end(),
+                      std::back_inserter(transmit_sector_selection));
         }
 
-        std::vector<uint_fast8_t> beam_number_is_selected;
+        std::vector<uint_fast16_t> beam_number_is_selected;
         beam_number_is_selected.resize(tx_sector_per_beam.size());
 
         for (unsigned int bn = 0; bn < tx_sector_per_beam.size(); ++bn)
@@ -505,7 +507,6 @@ class PingSampleSelector
 
         return beam_number_is_selected;
     }
-    
 };
 
 } // namespace pingtools
