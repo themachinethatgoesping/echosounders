@@ -145,17 +145,40 @@ class KongsbergAllNavigationDataInterfacePerFile
             times_pitch_roll.empty(),
             times_heave.empty());
 
-        // if heading, pitchs or heaves not found, check if they are available in the
-        // networkattitudevelocitydatagrams
+        // if heading, pitchs or heaves are still not found, fall back to inactive sensors from
+        // existing datagrams
+        // TODO: this should generate a warning within a log file
+        this->add_attitudes<datagrams::AttitudeDatagram>(
+            t_KongsbergAllDatagramIdentifier::AttitudeDatagram,
+            headings_attitudes,
+            pitchs,
+            rolls,
+            heaves,
+            times_heading_attitude,
+            times_pitch_roll,
+            times_heave,
+            headings_attitudes.empty(),
+            pitchs.empty(),
+            heaves.empty(),
+            headings_attitudes.empty(),
+            pitchs.empty(),
+            heaves.empty());
+
+        // if heading, pitchs or heaves are still not found, fall back to inactive sensors from
+        // existing datagrams
+        // TODO: this should generate a warning within a log file
         this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
             t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram,
             headings_attitudes,
             pitchs,
             rolls,
             heaves,
-            times_pitch_roll,
             times_heading_attitude,
+            times_pitch_roll,
             times_heave,
+            headings_attitudes.empty(),
+            pitchs.empty(),
+            heaves.empty(),
             headings_attitudes.empty(),
             pitchs.empty(),
             heaves.empty());
@@ -229,21 +252,30 @@ class KongsbergAllNavigationDataInterfacePerFile
                        std::vector<double>&             times_heading_attitude,
                        std::vector<double>&             times_pitch_roll,
                        std::vector<double>&             times_heave,
-                       bool                             look_for_heading_sensor    = true,
-                       bool                             look_for_roll_pitch_sensor = true,
-                       bool                             look_for_heave_sensor      = true) const
+                       bool                             look_for_heading_sensor        = true,
+                       bool                             look_for_roll_pitch_sensor     = true,
+                       bool                             look_for_heave_sensor          = true,
+                       bool                             use_inactive_heading_sensor    = false,
+                       bool                             use_inactive_roll_pitch_sensor = false,
+                       bool                             use_inactive_heave_sensor = false) const
     {
         for (auto& packet : this->_datagram_infos_by_type.at_const(datagram_identifier))
         {
             auto datagram = packet->template read_datagram_from_file<t_attitude_datagram>();
 
-            bool use_heave_sensor = datagram.get_heave_sensor_is_active() && look_for_heave_sensor;
             bool use_heading_sensor =
-                datagram.get_heading_sensor_is_active() && look_for_heading_sensor;
+                (datagram.get_heading_sensor_is_active() || use_inactive_heading_sensor) &&
+                look_for_heading_sensor;
             bool use_roll_sensor =
-                datagram.get_roll_sensor_is_active() && look_for_roll_pitch_sensor;
+                (datagram.get_roll_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
+                look_for_roll_pitch_sensor;
             bool use_pitch_sensor =
-                datagram.get_pitch_sensor_is_active() && look_for_roll_pitch_sensor;
+                (datagram.get_pitch_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
+                look_for_roll_pitch_sensor;
+            bool use_heave_sensor =
+                (datagram.get_heave_sensor_is_active() || use_inactive_heave_sensor) &&
+                look_for_heave_sensor;
+
             // const auto sensor_number      = datagram.get_attitude_sensor_number();
 
             if (use_roll_sensor != use_pitch_sensor)
