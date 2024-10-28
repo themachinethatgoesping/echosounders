@@ -505,6 +505,7 @@ class PingSampleSelector
 
         return beam_number_is_selected;
     }
+    
 };
 
 } // namespace pingtools

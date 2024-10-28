@@ -120,12 +120,12 @@ void create_c_kongsbergallamplitudeconverter(pybind11::module& m)
 
         // ----- pybind macros -----
         // default copy functions
-        __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
-        // default binary functions
-        __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
-        // default printing functions
-        __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
-        // end LinearInterpolator
+     //    __PYCLASS_DEFAULT_COPY__(KongsbergAllAmpltitudeConverter)
+     //    // default binary functions
+     //    __PYCLASS_DEFAULT_BINARY__(KongsbergAllAmpltitudeConverter)
+     //    // default printing functions
+     //    __PYCLASS_DEFAULT_PRINTING__(KongsbergAllAmpltitudeConverter)
+     //    // end LinearInterpolator
         ;
 }
 
