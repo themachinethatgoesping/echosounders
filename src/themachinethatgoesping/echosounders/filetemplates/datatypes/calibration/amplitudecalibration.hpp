@@ -213,7 +213,7 @@ class AmplitudeCalibration
 
     auto get_offset_per_beamangle(float beamangle) const
     {
-        return _offset_per_beamangle.get_y_const(beamangle);
+        return _offset_per_beamangle.get_y(beamangle);
     }
 
     auto get_offset_per_range(const std::vector<float>& ranges)
@@ -221,7 +221,7 @@ class AmplitudeCalibration
         return _offset_per_range(ranges);
     }
 
-    auto get_offset_per_range(float range) const { return _offset_per_range.get_y_const(range); }
+    auto get_offset_per_range(float range) const { return _offset_per_range.get_y(range); }
 
     static AmplitudeCalibration from_stream(std::istream& is)
     {
