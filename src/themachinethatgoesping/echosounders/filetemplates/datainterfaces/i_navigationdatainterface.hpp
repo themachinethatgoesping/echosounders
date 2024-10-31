@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/flyweight.hpp>
 #include <fmt/core.h>
 
 /* themachinethatgoesping includes */
@@ -44,7 +45,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         typename t_NavigationDataInterfacePerFile::type_ConfigurationDataInterface;
 
   protected:
-    std::unordered_map<uint64_t, navigation::NavigationInterpolatorLatLon>
+    std::unordered_map<uint64_t,
+                       boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>>
          _navigation_interpolators; // per sensor configuration hash
     bool _is_initialized_navigation_interpolators = false;
 
@@ -103,7 +105,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             return;
         }
 
-        _navigation_interpolators.clear();
+        std::unordered_map<uint64_t, navigation::NavigationInterpolatorLatLon>
+            navigation_interpolators; // per sensor configuration hash
 
         // sort primary interfaces by first time stamp (to speed up merging)
         std::sort(primary_interfaces_per_file.begin(),
@@ -147,11 +150,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 auto sensor_configuration_hash =
                     navigation_interpolator.get_sensor_configuration().binary_hash();
 
-                auto it = _navigation_interpolators.find(sensor_configuration_hash);
-                if (it == _navigation_interpolators.end())
+                auto it = navigation_interpolators.find(sensor_configuration_hash);
+                if (it == navigation_interpolators.end())
                 {
                     /// TODO: move to avoid copy?
-                    _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
+                    navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
                 }
                 else
                 {
@@ -175,6 +178,14 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 progress_bar.tick();
         }
 
+        progress_bar.set_postfix(fmt::format("Copying files to navigation interpolators"));
+        _navigation_interpolators.clear();
+        for (const auto& [sensor_configuration_hash, navigation_interpolator] :
+             navigation_interpolators)
+        {
+            _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
+        }
+
         _is_initialized_navigation_interpolators = true;
         if (!existing_progressbar)
             progress_bar.close(std::string("Done"));
@@ -187,7 +198,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         return _navigation_interpolators.contains(sensor_configuration_hash);
     }
 
-    auto& get_navigation_interpolator(uint64_t sensor_configuration_hash)
+    const auto& get_navigation_interpolator(uint64_t sensor_configuration_hash) const
+    {
+        return get_navigation_interpolator_flyweight(sensor_configuration_hash).get();
+    }
+
+    auto get_navigation_interpolator_flyweight(uint64_t sensor_configuration_hash) const
     {
         auto it = _navigation_interpolators.find(sensor_configuration_hash);
 
@@ -209,7 +225,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
              _navigation_interpolators)
         {
             for (const auto& target_id :
-                 navigation_interpolator.get_sensor_configuration().get_target_ids())
+                 navigation_interpolator.get().get_sensor_configuration().get_target_ids())
             {
                 channel_ids.push_back(target_id);
             }
@@ -221,6 +237,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     std::vector<std::string> get_channel_ids(uint64_t sensor_configuration_hash) const
     {
         return _navigation_interpolators.at(sensor_configuration_hash)
+            .get()
             .get_sensor_configuration()
             .get_target_ids();
     }
@@ -246,9 +263,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.register_section("FileData");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));

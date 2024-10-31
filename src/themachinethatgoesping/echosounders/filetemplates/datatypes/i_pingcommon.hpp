@@ -70,6 +70,7 @@ enum class t_pingfeature : uint8_t
     datetime,
     channel_id,
     sensor_configuration,
+    navigation_interpolator_latlon,
     sensor_data_latlon,
     geolocation,
 

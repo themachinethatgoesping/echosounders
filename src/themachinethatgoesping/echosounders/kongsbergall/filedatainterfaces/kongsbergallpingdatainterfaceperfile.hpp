@@ -14,6 +14,7 @@
 #include <memory>
 
 /* library includes */
+#include <boost/flyweight.hpp>
 #include <magic_enum.hpp>
 
 /* themachinethatgoesping includes */
@@ -152,10 +153,11 @@ class KongsbergAllPingDataInterfacePerFile
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
         // get navigation data for this file
-        auto& navigation_data_interpolator =
-            this->navigation_data_interface().get_navigation_interpolator(
-                base_sensor_configuration.binary_hash());
-        bool navigation_is_valid = navigation_data_interpolator.valid();
+        boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
+            navigation_data_interpolator =
+                this->navigation_data_interface().get_navigation_interpolator_flyweight(
+                    base_sensor_configuration.binary_hash());
+        bool navigation_is_valid = navigation_data_interpolator.get().valid();
 
         // loop through map and copy pings to vector
         t_pingcontainer pings;
@@ -183,9 +185,7 @@ class KongsbergAllPingDataInterfacePerFile
                             sensor_configurations_per_trx_channel.at(channel_id));
 
                     if (navigation_is_valid)
-                        ping_ptr->set_sensor_data_latlon(
-                            navigation_data_interpolator.get_sensor_data(
-                                ping_ptr->get_timestamp()));
+                        ping_ptr->set_navigation_interpolator_latlon(navigation_data_interpolator);
                 }
                 catch (std::exception& e)
                 {

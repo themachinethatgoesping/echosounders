@@ -73,6 +73,12 @@ void init_c_i_ping(pybind11::module& m)
             .def("has_sensor_configuration",
                  &I_Ping::has_sensor_configuration,
                  DOC_I_Ping(has_sensor_configuration))
+            .def("has_navigation_interpolator_latlon",
+                 &I_Ping::has_navigation_interpolator_latlon,
+                 DOC_I_Ping(has_navigation_interpolator_latlon))
+            .def("has_sensor_data_latlon",
+                 &I_Ping::has_sensor_data_latlon,
+                 DOC_I_Ping(has_sensor_data_latlon))
             .def("get_sensor_configuration",
                  &I_Ping::get_sensor_configuration,
                  DOC_I_Ping(sensor_configuration),
@@ -84,26 +90,21 @@ void init_c_i_ping(pybind11::module& m)
                  &I_Ping::set_sensor_configuration,
                  DOC_I_Ping(sensor_configuration),
                  py::arg("sensor_configuration"))
-            .def("has_sensor_data_latlon",
-                 &I_Ping::has_sensor_data_latlon,
-                 DOC_I_Ping(has_sensor_data_latlon))
+            .def("has_navigation_interpolator_latlon",
+                 &I_Ping::has_navigation_interpolator_latlon,
+                 DOC_I_Ping(has_navigation_interpolator_latlon))
+            .def("get_navigation_interpolator_latlon",
+                 &I_Ping::get_navigation_interpolator_latlon,
+                 DOC_I_Ping(navigation_interpolator_latlon),
+                 py::return_value_policy::reference_internal)
             .def("get_sensor_data_latlon",
                  &I_Ping::get_sensor_data_latlon,
-                 DOC_I_Ping(sensor_data_latlon),
-                 py::return_value_policy::reference_internal)
-            .def("set_sensor_data_latlon",
-                 &I_Ping::set_sensor_data_latlon,
-                 DOC_I_Ping(sensor_data_latlon),
-                 py::arg("sensor_data_latlon"))
+                 DOC_I_Ping(get_sensor_data_latlon))
             .def("has_geolocation", &I_Ping::has_geolocation, DOC_I_Ping(has_geolocation))
             .def("get_geolocation",
                  py::overload_cast<const std::string&>(&I_Ping::get_geolocation, py::const_),
                  DOC_I_Ping(get_geolocation),
                  py::arg("target_id") = "Transducer")
-            .def("set_geolocation",
-                 &I_Ping::set_geolocation,
-                 DOC_I_Ping(set_geolocation),
-                 py::arg("geolocation"))
 
             // .def("set_geolocation",
             //      py::overload_cast<navigation::datastructures::GeolocationLatLon>(

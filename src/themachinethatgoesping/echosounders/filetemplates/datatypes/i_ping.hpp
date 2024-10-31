@@ -41,8 +41,8 @@ namespace datatypes {
 
 class I_Ping : public I_PingCommon
 {
-    bool _sensor_configuration_set = false;
-    bool _sensor_data_latlon_set   = false;
+    bool _sensor_configuration_set    = false;
+    bool _navigation_interpolator_set = false;
 
   public:
     using t_base = I_PingCommon;
@@ -54,7 +54,8 @@ class I_Ping : public I_PingCommon
     boost::flyweights::flyweight<std::string> _channel_id; ///< channel id of the transducer
     double _timestamp = 0; ///< Unix timestamp in seconds (saved in UTC0)
     boost::flyweights::flyweight<navigation::SensorConfiguration> _sensor_configuration;
-    navigation::datastructures::SensordataLatLon                  _sensor_data_latlon;
+    boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
+        _navigation_interpolator_latlon;
 
     std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
     {
@@ -69,6 +70,8 @@ class I_Ping : public I_PingCommon
             std::bind(&I_Ping::has_sensor_configuration, this);
         features[t_pingfeature::sensor_data_latlon] =
             std::bind(&I_Ping::has_sensor_data_latlon, this);
+        features[t_pingfeature::navigation_interpolator_latlon] =
+            std::bind(&I_Ping::has_navigation_interpolator_latlon, this);
         features[t_pingfeature::geolocation] = std::bind(&I_Ping::has_geolocation, this);
 
         return features;
@@ -98,29 +101,15 @@ class I_Ping : public I_PingCommon
     const std::string& get_channel_id() const { return _channel_id.get(); }
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
 
-    bool has_geolocation() const { return has_sensor_configuration() && has_sensor_data_latlon(); }
+    bool has_geolocation() const
+    {
+        return has_sensor_configuration() && has_navigation_interpolator_latlon();
+    }
     navigation::datastructures::GeolocationLatLon get_geolocation(
         const std::string& target_id = "Transducer") const
     {
         return get_sensor_configuration().compute_target_position(target_id,
                                                                   get_sensor_data_latlon());
-    }
-    void set_geolocation(const navigation::datastructures::GeolocationLatLon& location)
-    {
-        // create a new sensor configuration assuming no offsets between sensor data and transducer
-        navigation::SensorConfiguration config;
-        config.add_target("Transducer", 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
-        this->set_sensor_configuration(config);
-
-        // set sensor data
-        this->set_sensor_data_latlon(
-            navigation::datastructures::SensordataLatLon(location.latitude,
-                                                         location.longitude,
-                                                         location.z,
-                                                         0.f,
-                                                         location.yaw,
-                                                         location.pitch,
-                                                         location.roll));
     }
 
     const navigation::SensorConfiguration& get_sensor_configuration() const
@@ -129,19 +118,20 @@ class I_Ping : public I_PingCommon
     }
 
     /**
-     * @brief Returns the hash of the base sensor configuraiton. 
+     * @brief Returns the hash of the base sensor configuraiton.
      * This is the sensor configuration with the "Transducer" target removed.
-     * This hash can be used to get the correct navigation interpolator from the navigation_data_interface
-     * Note: This function is for testing and finding errors. It is rather slow.
-     * 
-     * @return uint64_t 
+     * This hash can be used to get the correct navigation interpolator from the
+     * navigation_data_interface Note: This function is for testing and finding errors. It is rather
+     * slow.
+     *
+     * @return uint64_t
      */
     uint64_t get_sensor_configuration_base_hash() const
     {
         auto sc = get_sensor_configuration();
         sc.remove_target("Transducer");
         return sc.binary_hash();
-    } 
+    }
 
     bool has_sensor_configuration() const { return _sensor_configuration_set; }
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
@@ -156,16 +146,29 @@ class I_Ping : public I_PingCommon
         _sensor_configuration_set = true;
     }
 
-    bool has_sensor_data_latlon() const { return _sensor_data_latlon_set; }
-    const navigation::datastructures::SensordataLatLon& get_sensor_data_latlon() const
+    bool has_navigation_interpolator_latlon() const { return _navigation_interpolator_set; }
+    bool has_sensor_data_latlon() const { return has_navigation_interpolator_latlon(); }
+    navigation::datastructures::SensordataLatLon get_sensor_data_latlon() const
     {
-        return _sensor_data_latlon;
+        return get_navigation_interpolator_latlon().get_sensor_data(get_timestamp());
+    }
+    const navigation::NavigationInterpolatorLatLon& get_navigation_interpolator_latlon() const
+    {
+        return _navigation_interpolator_latlon.get();
     }
 
-    void set_sensor_data_latlon(const navigation::datastructures::SensordataLatLon& sensor_data)
+    void set_navigation_interpolator_latlon(
+        const navigation::NavigationInterpolatorLatLon& nav_interpolator)
     {
-        _sensor_data_latlon_set = true;
-        _sensor_data_latlon     = sensor_data;
+        _navigation_interpolator_latlon = nav_interpolator;
+        _navigation_interpolator_set    = true;
+    }
+
+    void set_navigation_interpolator_latlon(
+        boost::flyweight<navigation::NavigationInterpolatorLatLon> nav_interpolator)
+    {
+        _navigation_interpolator_latlon = std::move(nav_interpolator); // avoid reference counting
+        _navigation_interpolator_set    = true;
     }
 
     void load(bool force = false) override
@@ -273,7 +276,7 @@ class I_Ping : public I_PingCommon
                 "not available",
                 fmt::format("Sensor configuration: {}, Sensor data: {}",
                             has_sensor_configuration() ? "available" : "not available",
-                            has_sensor_data_latlon() ? "available" : "not available"));
+                            has_navigation_interpolator_latlon() ? "available" : "not available"));
         }
 
         // printer.register_section("Sensor data");

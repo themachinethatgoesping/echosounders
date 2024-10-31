@@ -1,4 +1,4 @@
-//sourcehash: 900725cbfc44fcc12e34ad8779fd47c7459de3a189d95156c85fca0c56645cb6
+//sourcehash: f5b4e190fa9260810e0661ca13e4babd17369b86147552b3399209ad8a8b50c9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,6 +57,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_channel_ids_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator_flyweight = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolators = R"doc()doc";
 
