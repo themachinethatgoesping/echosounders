@@ -97,6 +97,11 @@ void init_c_i_ping(pybind11::module& m)
                  &I_Ping::get_navigation_interpolator_latlon,
                  DOC_I_Ping(navigation_interpolator_latlon),
                  py::return_value_policy::reference_internal)
+            .def("set_navigation_interpolator_latlon",
+                 py::overload_cast<const navigation::NavigationInterpolatorLatLon&>(
+                     &I_Ping::set_navigation_interpolator_latlon),
+                 DOC_I_Ping(set_navigation_interpolator_latlon),
+                 py::arg("nav_interpolator"))
             .def("get_sensor_data_latlon",
                  &I_Ping::get_sensor_data_latlon,
                  DOC_I_Ping(get_sensor_data_latlon))

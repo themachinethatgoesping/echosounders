@@ -193,14 +193,40 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
     auto& get_navigation_interpolators() { return _navigation_interpolators; }
 
+    void set_navigation_interpolators(
+        const std::unordered_map<
+            uint64_t,
+            boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>>&
+            navigation_interpolators)
+    {
+        _navigation_interpolators = navigation_interpolators;
+    }
+
     bool has_navigation_interpolator(uint64_t sensor_configuration_hash) const
     {
         return _navigation_interpolators.contains(sensor_configuration_hash);
     }
 
+    auto get_navigation_interpolator_keys()
+    {
+        std::vector<uint64_t> keys;
+        for (const auto& [key, value] : _navigation_interpolators)
+        {
+            keys.push_back(key);
+        }
+        return keys;
+    }
+
     const auto& get_navigation_interpolator(uint64_t sensor_configuration_hash) const
     {
         return get_navigation_interpolator_flyweight(sensor_configuration_hash).get();
+    }
+
+    void set_navigation_interpolator(
+        uint64_t                                 sensor_configuration_hash,
+        navigation::NavigationInterpolatorLatLon navigation_interpolator)
+    {
+        _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
     }
 
     auto get_navigation_interpolator_flyweight(uint64_t sensor_configuration_hash) const
@@ -215,6 +241,14 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         }
 
         return it->second;
+    }
+
+    void set_navigation_interpolator_flyweight(
+        uint64_t sensor_configuration_hash,
+        boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
+            navigation_interpolator)
+    {
+        _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
     }
 
     std::vector<std::string> get_channel_ids() const

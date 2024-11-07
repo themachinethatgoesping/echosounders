@@ -1,4 +1,4 @@
-//sourcehash: f5b4e190fa9260810e0661ca13e4babd17369b86147552b3399209ad8a8b50c9
+//sourcehash: 4cf1e32c03a80cfb4db1d85676f3814b026c5a064456712ea38f0a9d4342314f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator_flyweight = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator_keys = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_has_navigation_interpolator = R"doc()doc";
@@ -75,6 +77,12 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datai
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_navigation_interpolators = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_set_navigation_interpolator = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_set_navigation_interpolator_flyweight = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_set_navigation_interpolators = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
