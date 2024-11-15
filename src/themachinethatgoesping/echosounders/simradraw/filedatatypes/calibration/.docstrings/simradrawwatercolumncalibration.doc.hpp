@@ -1,4 +1,4 @@
-//sourcehash: 2d4971b64e95d0f3efe2f86cb02acbedfb356fd2dce227a19fe19e9f1b926b0e
+//sourcehash: 38e6946ff0a2f7c77534a218a4fa6d509dadbd14808bcde0a81d3aed2e3ab030
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -144,7 +144,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 R"doc(This parameter is NOT optional, if no value is set, the calibration is
 not yet valid. Set to 0 when working working with power/angle data. If
 >0, this calibration includes a correction for the impedance factor to
-translate the complex amplituded to power applying this calibration to
+translate the complex amplitudes to power applying this calibration to
 data which does not match n_complex_samples will result in incorrect
 power values)doc";
 

@@ -8,7 +8,7 @@
 #include <pybind11/stl.h>
 
 // xtensor python includes
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // implicit conversion xtensor <-> numpy
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -61,11 +61,24 @@ void init_c_raw3datacomplexfloat32(pybind11::module& m)
              &RAW3DataComplexFloat32::get_power,
              DOC_RAW3DataComplexFloat32(get_power),
              py::arg("dB") = false)
+        .def("get_coherent_sum",
+             &RAW3DataComplexFloat32::get_coherent_sum,
+             DOC_RAW3DataComplexFloat32(get_coherent_sum),
+             py::arg("dB") = false)
+        .def("get_incoherent_sum",
+             &RAW3DataComplexFloat32::get_incoherent_sum,
+             DOC_RAW3DataComplexFloat32(get_incoherent_sum),
+             py::arg("dB") = false)
+             
         .def("get_angle", &RAW3DataComplexFloat32::get_angle, DOC_RAW3DataComplexFloat32(get_angle))
 
         .def("get_power_xtensor",
              &RAW3DataComplexFloat32::get_power_xtensor,
              DOC_RAW3DataComplexFloat32(get_power_xtensor),
+             py::arg("dB") = false)
+        .def("get_incoherent_sum_xtensor",
+             &RAW3DataComplexFloat32::get_incoherent_sum_xtensor,
+             DOC_RAW3DataComplexFloat32(get_incoherent_sum_xtensor),
              py::arg("dB") = false)
 
         // ----- properties -----

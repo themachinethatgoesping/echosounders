@@ -15,7 +15,7 @@
 #include <complex>
 
 #include <fmt/core.h>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <xtensor/xtensor.hpp>
 
 #include <themachinethatgoesping/tools/helper.hpp>

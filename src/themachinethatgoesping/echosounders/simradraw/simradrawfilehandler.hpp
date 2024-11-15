@@ -13,7 +13,7 @@
 #include <frozen/map.h>
 #include <frozen/string.h>
 #include <frozen/unordered_map.h>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 /* simradraw types */
 #include "datagrams.hpp"

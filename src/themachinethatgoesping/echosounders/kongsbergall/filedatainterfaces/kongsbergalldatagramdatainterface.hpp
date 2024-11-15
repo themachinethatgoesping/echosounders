@@ -13,7 +13,7 @@
 #include ".docstrings/kongsbergalldatagramdatainterface.doc.hpp"
 
 /* library includes */
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>

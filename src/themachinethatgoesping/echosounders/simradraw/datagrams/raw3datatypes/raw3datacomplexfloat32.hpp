@@ -93,26 +93,108 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
 
     xt::xtensor<simradraw_float, 1> get_power_xtensor(bool dB = false) const
     {
-        auto shape = _complex_samples.shape();
+        //auto shape = _complex_samples.shape();
 
         auto real_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 0), 1));
         auto imag_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 1), 1));
 
         if (!dB)
         {
-            float factor_except_impedance = 0.125f / shape[1];
+            // float factor_except_impedance = 0.125f / shape[1];
 
-            return (real_sum * real_sum + imag_sum * imag_sum) * factor_except_impedance;
+            return (real_sum * real_sum + imag_sum * imag_sum); //* factor_except_impedance;
         }
         else
         {
-            float factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+            // float factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
 
-            return 10 * xt::log10((real_sum * real_sum + imag_sum * imag_sum)) +
-                   factor_except_impedance;
+            return 10 * xt::log10((real_sum * real_sum +
+                                   imag_sum * imag_sum)); // + factor_except_impedance;
         }
     }
 
+    xt::xtensor<simradraw_float, 1> get_coherent_sum(bool dB = false) const
+    {
+        //auto shape = _complex_samples.shape();
+
+        auto real_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 0), 1));
+        auto imag_sum = xt::eval(xt::sum(xt::view(_complex_samples, xt::all(), xt::all(), 1), 1));
+
+        if (!dB)
+        {
+            // float factor_except_impedance = 0.125f / shape[1];
+
+            return (real_sum * real_sum + imag_sum * imag_sum); //* factor_except_impedance;
+        }
+        else
+        {
+            // float factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+
+            return 10 * xt::log10((real_sum * real_sum +
+                                   imag_sum * imag_sum)); // + factor_except_impedance;
+        }
+    }
+
+    xt::xtensor<simradraw_float, 1> get_incoherent_sum_xtensor(bool dB = false) const
+    {
+        //auto shape = _complex_samples.shape();
+
+        auto real = xt::view(_complex_samples, xt::all(), xt::all(), 0);
+        auto imag = xt::view(_complex_samples, xt::all(), xt::all(), 1);
+
+        if (!dB)
+        {
+            // float factor_except_impedance = 0.125f / shape[1];
+
+            return xt::sum(xt::eval(real * real + imag * imag), 1); //* factor_except_impedance;
+        }
+        else
+        {
+            // float factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+
+            return 10 * xt::log10(xt::sum(xt::eval(real * real + imag * imag),
+                                          1)); // + factor_except_impedance;
+        }
+    }
+    xt::xtensor<simradraw_float, 1> get_incoherent_sum(bool dB = false) const
+    {
+        using Eigen::placeholders::all;
+        using Eigen::placeholders::last;
+
+        auto shape = _complex_samples.shape();
+        // Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>> power(
+        //     _complex_samples.data(), shape[1] * shape[2], shape[0]);
+        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>,
+                   Eigen::Unaligned,
+                   Eigen::InnerStride<2>>
+            real_amp(_complex_samples.data(), shape[1], shape[0]);
+        Eigen::Map<const Eigen::Array<simradraw_float, Eigen::Dynamic, Eigen::Dynamic>,
+                   Eigen::Unaligned,
+                   Eigen::InnerStride<2>>
+            imaginary_amp(_complex_samples.data() + 1, shape[1], shape[0]);
+
+        xt::xtensor<simradraw_float, 1> result = xt::empty<simradraw_float>({ shape[0] });
+        Eigen::Map<Eigen::Array<simradraw_float, Eigen::Dynamic, 1>> result_map(result.data(),
+                                                                                shape[0]);
+
+        if (!dB)
+        {
+            // float factor_except_impedance = 0.125f / shape[1];
+            result_map = (real_amp * real_amp + imaginary_amp * imaginary_amp).colwise().sum(); //* factor_except_impedance;
+        }
+        else
+        {
+            static const float conv = 10.0f / std::log(10);
+            // float              factor_except_impedance = 10.0f * std::log10(0.125f / shape[1]);
+            result_map = ((real_amp * real_amp + imaginary_amp * imaginary_amp)).colwise().sum().log() *
+                         conv; // factor_except_impedance;
+        }
+
+        return result;
+    }
+
+    // strictly speaking: this is not the power, but the sum of the squares of the real and
+    // imaginary To get the power, the impedance factor has to be applied
     xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
     {
         using Eigen::placeholders::all;
@@ -206,10 +288,11 @@ struct RAW3DataComplexFloat32 : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (ComplexFloat32)",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "Sample binary data (ComplexFloat32)", float_precision, superscript_exponents);
 
         std::stringstream ss;
         ss << _complex_samples;

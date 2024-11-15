@@ -11,7 +11,7 @@
 
 #include <set>
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/helper/enum.hpp>

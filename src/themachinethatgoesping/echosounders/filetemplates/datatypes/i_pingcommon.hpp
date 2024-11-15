@@ -33,7 +33,7 @@
 
 #include <boost/flyweight.hpp>
 #include <fmt/core.h>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 // xtensor includes
 #include <xtensor/xadapt.hpp>

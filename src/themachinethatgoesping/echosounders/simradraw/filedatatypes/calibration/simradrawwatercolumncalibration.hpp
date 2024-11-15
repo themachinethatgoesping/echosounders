@@ -69,7 +69,7 @@ class SimradRawWaterColumnCalibration
         _n_complex_samples; /// This parameter is NOT optional, if no value is set, the calibration
                             /// is not yet valid. Set to 0 when working working with power/angle
                             /// data. If >0, this calibration includes a correction for the
-                            /// impedance factor to translate the complex amplituded to power
+                            /// impedance factor to translate the complex amplitudes to power
                             /// applying this calibration to data which does not match
                             /// n_complex_samples will result in incorrect power values
     std::optional<float> _power_conversion_factor_db =
