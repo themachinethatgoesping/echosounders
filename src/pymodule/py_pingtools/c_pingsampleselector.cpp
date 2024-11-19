@@ -78,6 +78,12 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("get_sample_step",
              &PingSampleSelector::get_sample_step,
              DOC_PingSampleSelector(sample_step))
+        .def("get_minslant_distance_percent",
+             &PingSampleSelector::get_minslant_distance_percent,
+             DOC_PingSampleSelector(minslant_distance_percent))
+        .def("get_bottom_distance_percent",
+             &PingSampleSelector::get_bottom_distance_percent,
+             DOC_PingSampleSelector(bottom_distance_percent))
 
         // ----- clear range filters -----
         .def("clear_beam_number_range",
@@ -104,6 +110,12 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("clear_sample_step",
              &PingSampleSelector::clear_sample_step,
              DOC_PingSampleSelector(clear_sample_step))
+        .def("clear_minslant_distance",
+             &PingSampleSelector::clear_minslant_distance,
+             DOC_PingSampleSelector(clear_minslant_distance))
+        .def("clear_bottom_distance",
+             &PingSampleSelector::clear_bottom_distance,
+             DOC_PingSampleSelector(clear_bottom_distance))
         .def("clear", &PingSampleSelector::clear, DOC_PingSampleSelector(clear))
 
         // ----- selectors -----
@@ -140,6 +152,14 @@ void init_c_pingsampleselector(pybind11::module& m)
              DOC_PingSampleSelector(select_transmit_sectors_by_beam_angles),
              py::arg("transmit_sector_min_beam_angle") = std::nullopt,
              py::arg("transmit_sector_max_beam_angle") = std::nullopt)
+        .def("select_minslant_distance_percent",
+             &PingSampleSelector::select_minslant_distance_percent,
+             DOC_PingSampleSelector(select_minslant_distance_percent),
+             py::arg("minslant_distance_percent"))
+        .def("select_bottom_distance_percent",
+             &PingSampleSelector::select_bottom_distance_percent,
+             DOC_PingSampleSelector(select_bottom_distance_percent),
+             py::arg("bottom_distance_percent"))
 
         .def("set_sample_step",
              &PingSampleSelector::set_sample_step,

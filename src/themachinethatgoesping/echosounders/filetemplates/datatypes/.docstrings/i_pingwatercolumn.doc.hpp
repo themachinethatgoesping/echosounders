@@ -1,4 +1,4 @@
-//sourcehash: c3d7196f711ee509629558b31a486de29a5033543555c19ac35af40bcb30f2ab
+//sourcehash: 903d95ec481a2d6024ef652259623b7c4b819e2c890651c353b5b0af0d0d6c4a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -173,6 +173,10 @@ Returns:
     xt::xtensor<float,2>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
 

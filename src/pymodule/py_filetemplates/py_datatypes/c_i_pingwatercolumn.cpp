@@ -296,6 +296,14 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
                      &I_PingWatercolumn::get_bottom_range_samples),
                  DOC_I_PingWatercolumn(get_bottom_range_samples),
                  py::arg("beam_selection"))
+            .def("get_minslant_sample_nr",
+                 py::overload_cast<>(&I_PingWatercolumn::get_minslant_sample_nr),
+                 DOC_I_PingWatercolumn(get_minslant_sample_nr))
+            .def("get_minslant_sample_nr",
+                 py::overload_cast<const pingtools::BeamSelection&>(
+                     &I_PingWatercolumn::get_minslant_sample_nr),
+                 DOC_I_PingWatercolumn(get_minslant_sample_nr),
+                 py::arg("beam_selection"))
 
             // internal
             .def_property("_test_mode",

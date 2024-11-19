@@ -136,9 +136,9 @@ class I_PingWatercolumn : public I_PingCommon
     // sectors and beams features
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_number_of_tx_sectors() const { return false; }
-    virtual bool has_beam_numbers_per_tx_sector() const { return false; }    
+    virtual bool has_beam_numbers_per_tx_sector() const { return false; }
     virtual bool has_tx_sector_per_beam() const { return false; }
-    
+
     // per beam information
     bool         has_beam_selection_all() const { return has_number_of_beams(); }
     virtual bool has_number_of_beams() const { return false; }
@@ -187,7 +187,7 @@ class I_PingWatercolumn : public I_PingCommon
 
         return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
     }
-    
+
     ///@brief Check this pings supports RP data
     bool has_rp() const { return has_power(); }
 
@@ -201,14 +201,12 @@ class I_PingWatercolumn : public I_PingCommon
             return has_amplitudes() && get_watercolumn_calibration().has_power_calibration() &&
                    get_watercolumn_calibration().has_valid_absorption_db_m();
 
-        return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration() &&
+        return has_amplitudes() &&
+               get_multisectorwatercolumn_calibration().has_power_calibration() &&
                get_multisectorwatercolumn_calibration().has_valid_absorption_db_m();
     }
     ///@brief Check this pings supports PV data
-    bool has_pv() const
-    {
-        return has_pp();
-    }
+    bool has_pv() const { return has_pp(); }
     ///@brief Check this pings supports calibrated SV data
     bool has_sp() const
     {
@@ -254,7 +252,6 @@ class I_PingWatercolumn : public I_PingCommon
     {
         throw not_implemented(__func__, this->class_name());
     }
-
 
     virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const
     {
@@ -766,7 +763,54 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-    
+    uint32_t get_minslant_sample_nr() { return get_minslant_sample_nr(get_beam_selection_all()); }
+
+    uint32_t get_minslant_sample_nr(const pingtools::BeamSelection& selection)
+    {
+        auto bottom_range_samples = get_bottom_range_samples(selection);
+
+        if (bottom_range_samples.size() == 0)
+            throw std::runtime_error(
+                fmt::format("Error[{}]: No valid bottom range sample found", __func__));
+
+        if (bottom_range_samples.size() == 1)
+            return bottom_range_samples[0];
+
+        // convert to std::vector
+        std::vector<uint32_t> bottom_range_samples_vec(bottom_range_samples.begin(),
+                                                       bottom_range_samples.end());
+
+        // outlier filtering
+        // compute IQR median using nth_element
+        auto median_it = bottom_range_samples_vec.begin() + bottom_range_samples_vec.size() / 2;
+        std::nth_element(
+            bottom_range_samples_vec.begin(), median_it, bottom_range_samples_vec.end());
+        auto median = *median_it;
+
+        // compute IQR
+        auto q3_it = bottom_range_samples_vec.begin() + 3 * bottom_range_samples_vec.size() / 4;
+        std::nth_element(median_it, q3_it, bottom_range_samples_vec.end());
+        auto q3 = *q3_it;
+
+        auto q1_it = bottom_range_samples_vec.begin() + bottom_range_samples_vec.size() / 4;
+        std::nth_element(bottom_range_samples_vec.begin(), q1_it, median_it);
+        auto q1      = *q1_it;
+        auto min_iqr = median - (q3 - q1) * 1.5;
+
+        // sort the elements till q1 (because the minval should be )
+        std::sort(bottom_range_samples_vec.begin(), q1_it);
+        uint32_t minslant_sample_nr = std::numeric_limits<uint32_t>::max();
+        // find the first element that is not an outlier
+        for (auto it = bottom_range_samples_vec.begin(); it != bottom_range_samples_vec.end(); ++it)
+            if (*it > min_iqr && *it < minslant_sample_nr)
+                minslant_sample_nr = *it;
+
+        if (minslant_sample_nr == std::numeric_limits<uint32_t>::max())
+            throw std::runtime_error(
+                fmt::format("Error[{}]: No valid bottom range sample found", __func__));
+
+        return minslant_sample_nr;
+    }
 
   public:
     // ----- objectprinter -----
