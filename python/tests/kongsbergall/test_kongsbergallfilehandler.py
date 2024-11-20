@@ -8,7 +8,7 @@
 
 import os
 import logging
-import themachinethatgoesping as Ping
+import themachinethatgoesping as theping
 from themachinethatgoesping.echosounders import kongsbergall
 
 
@@ -26,11 +26,11 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
         self.test_folders = os.path.join(dirname, "../../../unittest_data/")
 
         LOGGER.info(f"findings test files in {self.test_folders}")
-        self.files_all = Ping.echosounders.index_functions.find_files(self.test_folders, ".all")
-        self.files_wcd = Ping.echosounders.index_functions.find_files(self.test_folders, ".wcd")
+        self.files_all = theping.echosounders.index_functions.find_files(self.test_folders, ".all")
+        self.files_wcd = theping.echosounders.index_functions.find_files(self.test_folders, ".wcd")
         self.files = self.files_all + self.files_wcd
         self.files.sort()
-        self.cache_files = Ping.echosounders.index_functions.get_cache_file_paths(self.files)
+        self.cache_files = theping.echosounders.index_functions.get_cache_file_paths(self.files)
 
         assert len(self.files) > 0
         assert len(self.files_all) > 0
@@ -53,7 +53,7 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
 
         for pnr,ping in enumerate(fm.get_pings()):
             try:
-                Ping.echosounders.evaluate_ping_features_can_be_called(ping)
+                theping.echosounders.evaluate_ping_features_can_be_called(ping)
             except Exception as e:
                 LOGGER.error(f"Error for file: {file}")
                 LOGGER.error(f"Error for ping number : {pnr}")

@@ -8,7 +8,7 @@
 
 import os
 import logging
-import themachinethatgoesping as Ping
+import themachinethatgoesping as theping
 from themachinethatgoesping.echosounders import simradraw
 
 
@@ -26,9 +26,9 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
         self.test_folders = os.path.join(dirname, "../../../unittest_data/")
 
         LOGGER.info(f"findings test files in {self.test_folders}")
-        self.files = Ping.echosounders.index_functions.find_files(self.test_folders, ".raw")
+        self.files = theping.echosounders.index_functions.find_files(self.test_folders, ".raw")
         self.files.sort()
-        self.cache_files = Ping.echosounders.index_functions.get_cache_file_paths(self.files)
+        self.cache_files = theping.echosounders.index_functions.get_cache_file_paths(self.files)
 
         assert len(self.files) > 0
         assert len(self.cache_files) > 0
@@ -49,7 +49,7 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
 
         for pnr,ping in enumerate(fm.get_pings()):
             try:
-                Ping.echosounders.evaluate_ping_features_can_be_called(ping)
+                theping.echosounders.evaluate_ping_features_can_be_called(ping)
             except Exception as e:
                 LOGGER.error(f"Error for file: {file}")
                 LOGGER.error(f"Error for ping number : {pnr}")
