@@ -78,12 +78,18 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("get_sample_step",
              &PingSampleSelector::get_sample_step,
              DOC_PingSampleSelector(sample_step))
-        .def("get_minslant_distance_percent",
-             &PingSampleSelector::get_minslant_distance_percent,
-             DOC_PingSampleSelector(minslant_distance_percent))
-        .def("get_bottom_distance_percent",
-             &PingSampleSelector::get_bottom_distance_percent,
-             DOC_PingSampleSelector(bottom_distance_percent))
+        .def("get_min_minslant_distance_percent",
+             &PingSampleSelector::get_min_minslant_distance_percent,
+             DOC_PingSampleSelector(get_min_minslant_distance_percent))
+        .def("get_max_minslant_distance_percent",
+             &PingSampleSelector::get_max_minslant_distance_percent,
+             DOC_PingSampleSelector(get_max_minslant_distance_percent))
+        .def("get_min_bottom_distance_percent",
+             &PingSampleSelector::get_min_bottom_distance_percent,
+             DOC_PingSampleSelector(get_min_bottom_distance_percent))
+        .def("get_max_bottom_distance_percent",
+             &PingSampleSelector::get_max_bottom_distance_percent,
+             DOC_PingSampleSelector(get_max_bottom_distance_percent))
 
         // ----- clear range filters -----
         .def("clear_beam_number_range",
@@ -152,14 +158,32 @@ void init_c_pingsampleselector(pybind11::module& m)
              DOC_PingSampleSelector(select_transmit_sectors_by_beam_angles),
              py::arg("transmit_sector_min_beam_angle") = std::nullopt,
              py::arg("transmit_sector_max_beam_angle") = std::nullopt)
+        .def("select_min_minslant_distance_percent",
+             &PingSampleSelector::select_min_minslant_distance_percent,
+             DOC_PingSampleSelector(select_min_minslant_distance_percent),
+             py::arg("min_minslant_distance_percent"))
+        .def("select_max_minslant_distance_percent",
+             &PingSampleSelector::select_max_minslant_distance_percent,
+             DOC_PingSampleSelector(select_max_minslant_distance_percent),
+             py::arg("max_minslant_distance_percent"))
         .def("select_minslant_distance_percent",
              &PingSampleSelector::select_minslant_distance_percent,
              DOC_PingSampleSelector(select_minslant_distance_percent),
-             py::arg("minslant_distance_percent"))
+             py::arg("min_minslant_distance_percent") = std::nullopt,
+             py::arg("max_minslant_distance_percent") = std::nullopt)
+        .def("select_min_bottom_distance_percent",
+             &PingSampleSelector::select_min_bottom_distance_percent,
+             DOC_PingSampleSelector(select_min_bottom_distance_percent),
+             py::arg("min_bottom_distance_percent"))
+        .def("select_max_bottom_distance_percent",
+             &PingSampleSelector::select_max_bottom_distance_percent,
+             DOC_PingSampleSelector(select_max_bottom_distance_percent),
+             py::arg("max_bottom_distance_percent"))
         .def("select_bottom_distance_percent",
              &PingSampleSelector::select_bottom_distance_percent,
              DOC_PingSampleSelector(select_bottom_distance_percent),
-             py::arg("bottom_distance_percent"))
+             py::arg("min_bottom_distance_percent") = std::nullopt,
+             py::arg("max_bottom_distance_percent") = std::nullopt)
 
         .def("set_sample_step",
              &PingSampleSelector::set_sample_step,

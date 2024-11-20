@@ -19,7 +19,7 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
 
     // make sure binary_hash is stable for empty object
     // the hash tests need to be updated in case the object structure changes
-    CHECK(obj.binary_hash() == 544229146263391774ULL);
+    CHECK(obj.binary_hash() == 11393313688947811519ULL);
 
     // set some variables
     obj.select_beam_range_by_numbers(1, -1, 1);
@@ -62,20 +62,24 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
 
     // test binary (inbetween)
     REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
-    obj.select_minslant_distance_percent(0.95);
-    REQUIRE(obj.get_minslant_distance_percent() == Catch::Approx(0.95));
+    obj.select_min_minslant_distance_percent(0.95);
+    REQUIRE(obj.get_min_minslant_distance_percent() == Catch::Approx(0.95));
+    obj.select_max_minslant_distance_percent(0.30);
+    REQUIRE(obj.get_max_minslant_distance_percent() == Catch::Approx(0.30));
     
     // test binary (inbetween)
     REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
-    obj.select_bottom_distance_percent(0.96);
-    REQUIRE(obj.get_bottom_distance_percent() == Catch::Approx(0.96));
+    obj.select_min_bottom_distance_percent(0.96);
+    REQUIRE(obj.get_min_bottom_distance_percent() == Catch::Approx(0.96));
+    obj.select_max_bottom_distance_percent(0.31);
+    REQUIRE(obj.get_max_bottom_distance_percent() == Catch::Approx(0.31));
 
     obj.set_sample_step(12);
     REQUIRE(obj.get_sample_step() == 12);
     obj.set_beam_step(13);
     REQUIRE(obj.get_beam_step() == 13);
 
-    CHECK(obj.binary_hash() == 11945766551365930732ULL);
+    CHECK(obj.binary_hash() == 15382176863757348378ULL);
 
     // test inequality
     REQUIRE(obj != PingSampleSelector());

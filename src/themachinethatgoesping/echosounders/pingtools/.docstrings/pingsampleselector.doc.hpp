@@ -1,4 +1,4 @@
-//sourcehash: f4265cfd3cf278b94f1c5047397a7a906077f3b8467983b94665d69b02777419
+//sourcehash: 71de812d2845e505a5671d9324e66cb8f8ec05a360062e4a788b00ba9db170be
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,8 +48,6 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(< step size for beam numbers)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_bottom_distance_percent = R"doc(< samples before bottom detection to consider (%))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_angle_range = R"doc()doc";
@@ -83,11 +81,13 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_beam_step = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_bottom_distance_percent = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_beam_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_beam_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_bottom_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_minslant_distance_percent = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_max_sample_number = R"doc()doc";
 
@@ -97,11 +97,13 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_beam_number = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_bottom_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_minslant_distance_percent = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_min_sample_range = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_minslant_distance_percent = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_sample_step = R"doc()doc";
 
@@ -115,6 +117,10 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_number = R"doc(< max beam number to select)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_bottom_distance_percent = R"doc(< max samples before bottom detection to consider (%))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_minslant_distance_percent = R"doc(< max samples before minslant to consider (%))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_number = R"doc(< max sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_sample_range = R"doc(< max sample range to select (m))doc";
@@ -123,11 +129,13 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_beam_number = R"doc(< min beam number to select)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_bottom_distance_percent = R"doc(< max samples before bottom detection to consider (%))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_minslant_distance_percent = R"doc(< min samples after minslant to consider (%))doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_number = R"doc(< min sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_min_sample_range = R"doc(< min sample range to select (m))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_minslant_distance_percent = R"doc(< samples before minslant to consider (%))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_operator_eq = R"doc()doc";
 
@@ -141,6 +149,8 @@ Parameter ``float_precision``:
 Returns:
     classhelper::ObjectPrinter)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_register_filter = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_angles = R"doc()doc";
@@ -148,6 +158,14 @@ static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampl
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_beam_range_by_numbers = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_bottom_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_max_bottom_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_max_minslant_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_min_bottom_distance_percent = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_min_minslant_distance_percent = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_select_minslant_distance_percent = R"doc()doc";
 
