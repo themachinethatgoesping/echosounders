@@ -42,6 +42,9 @@ void init_c_beamselection(pybind11::module& m)
         .def("get_number_of_beams",
              &BeamSelection::get_number_of_beams,
              DOC_BeamSelection(get_number_of_beams))
+        .def("empty",
+             &BeamSelection::empty,
+             DOC_BeamSelection(empty))
         .def("get_beam_numbers",
              &BeamSelection::get_beam_numbers,
              py::return_value_policy::reference_internal,

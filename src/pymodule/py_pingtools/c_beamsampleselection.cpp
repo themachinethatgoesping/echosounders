@@ -57,6 +57,9 @@ void init_c_beamsampleselection(pybind11::module& m)
         .def("get_sample_numbers_ensemble_2d",
              &BeamSampleSelection::get_sample_numbers_ensemble_2d,
              DOC_BeamSampleSelection(get_sample_numbers_ensemble_2d))
+        .def("empty",
+             &BeamSampleSelection::empty,
+             DOC_BeamSampleSelection(empty))
 
 
         // --- add beam/samples ---

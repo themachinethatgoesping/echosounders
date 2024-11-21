@@ -1,4 +1,4 @@
-//sourcehash: b5eaa3f777c772018adb88d1bbf2cb6bd48a8a283df952225b1e0743338a66c7
+//sourcehash: 94e702d5959ca1852b2814a45b4145d96cea2afa8947c80cd1914a6eafe0b645
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,6 +72,15 @@ Parameter ``first_sample_number``:
 
 Parameter ``last_sample_number_per_beam``:
     last sample number to select)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_empty =
+R"doc(return if the selection contains beams and samples
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_first_sample_number_ensemble = R"doc()doc";
 

@@ -84,6 +84,14 @@ class BeamSelection
     size_t get_number_of_beams() const { return _beam_numbers.size(); }
 
     /**
+     * @brief return if the selection contains beams
+     *
+     * @return true
+     * @return false
+     */
+    bool empty() const { return _beam_numbers.empty(); }
+
+    /**
      * @brief Return the beam numbers
      *
      * @return std::vector<uint32_t>

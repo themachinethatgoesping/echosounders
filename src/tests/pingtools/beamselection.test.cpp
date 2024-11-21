@@ -18,12 +18,15 @@ TEST_CASE("BeamSelection should support common functions", TESTTAG)
 {
     // initialize class structure
     auto obj = BeamSelection();
+    CHECK(obj.empty());
 
     // add some beams
     obj.add_beam(0);
     obj.add_beam(1);
     obj.add_beam(2);
     obj.add_beam(4);
+
+    CHECK(obj.empty() == false);
 
     // test variables
     CHECK(obj.get_number_of_beams() == 4);

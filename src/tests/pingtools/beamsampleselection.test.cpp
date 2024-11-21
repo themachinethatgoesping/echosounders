@@ -18,12 +18,14 @@ TEST_CASE("BeamSampleSelection should support common functions", TESTTAG)
 {
     // initialize class structure
     auto obj = BeamSampleSelection(2);
+    CHECK(obj.empty());
 
     // add some beams
     obj.add_beam(0, 1, 10);
     obj.add_beam(1, 3, 11);
     obj.add_beam(2, 2, 10);
     obj.add_beam(4, 1, 9);
+    CHECK(obj.empty() == false);
 
     // test variables
     CHECK(obj.get_sample_step_ensemble() == 2);

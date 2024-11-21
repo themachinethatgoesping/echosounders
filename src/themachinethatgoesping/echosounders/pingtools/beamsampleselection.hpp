@@ -21,8 +21,8 @@
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/helper.hpp>
+#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "beamselection.hpp"
 #include "readsamplerange.hpp"
@@ -249,9 +249,26 @@ class BeamSampleSelection : public BeamSelection
      */
     uint32_t get_number_of_samples_ensemble() const
     {
+        // this check is necessary because of potential buffer overflows
+        if (_last_sample_number_ensemble < _first_sample_number_ensemble)
+            return 0;
+
         return (_last_sample_number_ensemble - _first_sample_number_ensemble) /
                    _sample_step_ensemble +
                1;
+    }
+
+    /**
+     * @brief return if the selection contains beams and samples
+     *
+     * @return true
+     * @return false
+     */
+    bool empty() const
+    {
+        if (BeamSelection::empty())
+            return true;
+        return get_number_of_samples_ensemble() == 0;
     }
 
     xt::xtensor<uint32_t, 1> get_sample_numbers_ensemble_1d() const

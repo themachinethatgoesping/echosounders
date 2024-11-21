@@ -1,4 +1,4 @@
-//sourcehash: eb03e547d6acfc1352ae17e99f9f8cbb5e5736531f3925066ddabea7d23ff647
+//sourcehash: 3e0ffb9652e37ca1243b286df8d3b53d95ebb5822ee328365e23f21a338563b6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,6 +69,15 @@ Parameter ``last_sample_number_per_beam``:
     last sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_beam_numbers = R"doc(< selected beam numbers)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_empty =
+R"doc(return if the selection contains beams
+
+Returns:
+    true
+
+Returns:
+    false)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSelection_from_stream =
 R"doc(Return a BeamSelection read from a binary stream
