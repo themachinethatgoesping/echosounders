@@ -84,6 +84,27 @@ class KongsbergAllWaterColumnCalibration
     float get_system_gain_offset() const { return _system_gain_offset; }
 
     // ----- setup calibration for kongsberg em systems ----
+    void modify_kongsberg_em_calibrations(
+        std::optional<float> sound_velocity           = std::nullopt,
+        std::optional<float> effective_pulse_duration = std::nullopt,
+        std::optional<float> system_gain_offset       = std::nullopt,
+        std::optional<float> tvg_absorption_db_m      = std::nullopt,
+        std::optional<float> tvg_factor               = std::nullopt)
+    {
+        if (sound_velocity)
+            _sound_velocity = *sound_velocity;
+        if (effective_pulse_duration)
+            _effective_pulse_duration = *effective_pulse_duration;
+        if (system_gain_offset)
+            _system_gain_offset = *system_gain_offset;
+        if (tvg_absorption_db_m)
+            _tvg_absorption_db_m = *tvg_absorption_db_m;
+        if (tvg_factor)
+            _tvg_factor = *tvg_factor;
+
+        setup_kongsberg_em_calibrations();
+    }
+
     void setup_kongsberg_em_calibrations()
     {
         // power is the raw amplitude data substracted by the system gain offset
