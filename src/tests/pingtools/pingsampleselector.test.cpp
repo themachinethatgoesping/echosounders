@@ -62,17 +62,17 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
 
     // test binary (inbetween)
     REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
-    obj.select_min_minslant_distance_percent(0.95);
-    REQUIRE(obj.get_min_minslant_distance_percent() == Catch::Approx(0.95));
-    obj.select_max_minslant_distance_percent(0.30);
-    REQUIRE(obj.get_max_minslant_distance_percent() == Catch::Approx(0.30));
+    obj.select_min_minslant_range_percent(0.95);
+    REQUIRE(obj.get_min_minslant_range_percent() == Catch::Approx(0.95));
+    obj.select_max_minslant_range_percent(0.30);
+    REQUIRE(obj.get_max_minslant_range_percent() == Catch::Approx(0.30));
     
     // test binary (inbetween)
     REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
-    obj.select_min_bottom_distance_percent(0.96);
-    REQUIRE(obj.get_min_bottom_distance_percent() == Catch::Approx(0.96));
-    obj.select_max_bottom_distance_percent(0.31);
-    REQUIRE(obj.get_max_bottom_distance_percent() == Catch::Approx(0.31));
+    obj.select_min_bottom_range_percent(0.96);
+    REQUIRE(obj.get_min_bottom_range_percent() == Catch::Approx(0.96));
+    obj.select_max_bottom_range_percent(0.31);
+    REQUIRE(obj.get_max_bottom_range_percent() == Catch::Approx(0.31));
 
     obj.set_sample_step(12);
     REQUIRE(obj.get_sample_step() == 12);

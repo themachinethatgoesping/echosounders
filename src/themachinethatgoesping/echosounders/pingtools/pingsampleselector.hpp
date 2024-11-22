@@ -38,13 +38,13 @@ class PingSampleSelector
     std::optional<float> _max_sample_range; ///< max sample range to select (m)
 
     std::optional<float>
-        _min_minslant_distance_percent; ///< min samples after minslant to consider (%)
+        _min_minslant_range_percent; ///< min samples after minslant to consider (%)
     std::optional<float>
-        _max_minslant_distance_percent; ///< max samples before minslant to consider (%)
+        _max_minslant_range_percent; ///< max samples before minslant to consider (%)
     std::optional<float>
-        _max_bottom_distance_percent; ///< max samples before bottom detection to consider (%)
+        _max_bottom_range_percent; ///< max samples before bottom detection to consider (%)
     std::optional<float>
-        _min_bottom_distance_percent; ///< max samples before bottom detection to consider (%)
+        _min_bottom_range_percent; ///< max samples before bottom detection to consider (%)
 
     // transmit sectors
     std::optional<std::vector<size_t>> _transmit_sectors; ///< transmit_sectors to select
@@ -80,21 +80,21 @@ class PingSampleSelector
                 beam_crosstrack_angles.size(),
                 number_of_beams));
 
-        if (_max_bottom_distance_percent)
+        if (_max_bottom_range_percent)
         {
             const xt::xtensor<uint32_t, 1> bottom_range_samples =
                 ping_watercolumn.get_bottom_range_samples() *
-                (_max_bottom_distance_percent.value() * 0.01f);
+                (_max_bottom_range_percent.value() * 0.01f);
 
             number_of_samples_per_beam =
                 xt::minimum(number_of_samples_per_beam, bottom_range_samples);
         }
 
-        if (_min_bottom_distance_percent)
+        if (_min_bottom_range_percent)
         {
             const xt::xtensor<uint32_t, 1> bottom_range_samples =
                 ping_watercolumn.get_bottom_range_samples() *
-                (_min_bottom_distance_percent.value() * 0.01f);
+                (_min_bottom_range_percent.value() * 0.01f);
 
             min_sample_nr_per_beam = xt::maximum(min_sample_nr_per_beam, bottom_range_samples);
         }
@@ -113,9 +113,9 @@ class PingSampleSelector
             number_of_beams, min_beam_number, max_beam_number + 1, _beam_step);
 
         std::optional<size_t> max_sample_nr_ping, min_sample_nr_ping;
-        if (_max_minslant_distance_percent)
+        if (_max_minslant_range_percent)
         {
-            size_t sn = (*_max_minslant_distance_percent * 0.01f) *
+            size_t sn = (*_max_minslant_range_percent * 0.01f) *
                         ping_watercolumn.get_minslant_sample_nr();
             if (_max_sample_number)
                 max_sample_nr_ping = std::min(sn, *_max_sample_number);
@@ -125,9 +125,9 @@ class PingSampleSelector
         else
             max_sample_nr_ping = _max_sample_number;
 
-        if (_min_minslant_distance_percent)
+        if (_min_minslant_range_percent)
         {
-            size_t sn = (*_min_minslant_distance_percent * 0.01f) *
+            size_t sn = (*_min_minslant_range_percent * 0.01f) *
                         ping_watercolumn.get_minslant_sample_nr();
             if (_min_sample_number)
                 min_sample_nr_ping = std::max(sn, *_min_sample_number);
@@ -234,10 +234,10 @@ class PingSampleSelector
     auto        get_max_beam_angle() const { return _max_beam_angle; }
     auto        get_min_sample_range() const { return _min_sample_range; }
     auto        get_max_sample_range() const { return _max_sample_range; }
-    auto        get_min_minslant_distance_percent() const { return _min_minslant_distance_percent; }
-    auto        get_max_minslant_distance_percent() const { return _max_minslant_distance_percent; }
-    auto        get_min_bottom_distance_percent() const { return _min_bottom_distance_percent; }
-    auto        get_max_bottom_distance_percent() const { return _max_bottom_distance_percent; }
+    auto        get_min_minslant_range_percent() const { return _min_minslant_range_percent; }
+    auto        get_max_minslant_range_percent() const { return _max_minslant_range_percent; }
+    auto        get_min_bottom_range_percent() const { return _min_bottom_range_percent; }
+    auto        get_max_bottom_range_percent() const { return _max_bottom_range_percent; }
     auto        get_beam_step() const { return _beam_step; }
     auto        get_sample_step() const { return _sample_step; }
     const auto& get_transmit_sectors() const { return _transmit_sectors; }
@@ -269,16 +269,16 @@ class PingSampleSelector
         _max_sample_range.reset();
     }
 
-    void clear_minslant_distance()
+    void clear_minslant_range()
     {
-        _min_minslant_distance_percent.reset();
-        _max_minslant_distance_percent.reset();
+        _min_minslant_range_percent.reset();
+        _max_minslant_range_percent.reset();
     }
 
-    void clear_bottom_distance()
+    void clear_bottom_range()
     {
-        _min_bottom_distance_percent.reset();
-        _max_bottom_distance_percent.reset();
+        _min_bottom_range_percent.reset();
+        _max_bottom_range_percent.reset();
     }
 
     void clear_transmit_sectors() { _transmit_sectors.reset(); }
@@ -302,8 +302,8 @@ class PingSampleSelector
         clear_sample_step();
         clear_transmit_sectors();
         clear_transmit_sector_beam_angle_range();
-        clear_minslant_distance();
-        clear_bottom_distance();
+        clear_minslant_range();
+        clear_bottom_range();
     }
 
     // selectors
@@ -346,36 +346,36 @@ class PingSampleSelector
         if (sample_step)
             _sample_step = *sample_step;
     }
-    void select_max_minslant_distance_percent(float max_minslant_distance_percent)
+    void select_max_minslant_range_percent(float max_minslant_range_percent)
     {
-        _max_minslant_distance_percent = max_minslant_distance_percent;
+        _max_minslant_range_percent = max_minslant_range_percent;
     }
-    void select_min_minslant_distance_percent(float min_minslant_distance_percent)
+    void select_min_minslant_range_percent(float min_minslant_range_percent)
     {
-        _min_minslant_distance_percent = min_minslant_distance_percent;
+        _min_minslant_range_percent = min_minslant_range_percent;
     }
-    void select_minslant_distance_percent(std::optional<float> min_minslant_distance_percent,
-                                          std::optional<float> max_minslant_distance_percent)
+    void select_minslant_range_percent(std::optional<float> min_minslant_range_percent,
+                                          std::optional<float> max_minslant_range_percent)
     {
-        _min_minslant_distance_percent = min_minslant_distance_percent;
-        _max_minslant_distance_percent = max_minslant_distance_percent;
-    }
-
-    void select_min_bottom_distance_percent(float min_bottom_distance_percent)
-    {
-        _min_bottom_distance_percent = min_bottom_distance_percent;
+        _min_minslant_range_percent = min_minslant_range_percent;
+        _max_minslant_range_percent = max_minslant_range_percent;
     }
 
-    void select_max_bottom_distance_percent(float max_bottom_distance_percent)
+    void select_min_bottom_range_percent(float min_bottom_range_percent)
     {
-        _max_bottom_distance_percent = max_bottom_distance_percent;
+        _min_bottom_range_percent = min_bottom_range_percent;
     }
 
-    void select_bottom_distance_percent(std::optional<float> min_bottom_distance_percent,
-                                        std::optional<float> max_bottom_distance_percent)
+    void select_max_bottom_range_percent(float max_bottom_range_percent)
     {
-        _min_bottom_distance_percent = min_bottom_distance_percent;
-        _max_bottom_distance_percent = max_bottom_distance_percent;
+        _max_bottom_range_percent = max_bottom_range_percent;
+    }
+
+    void select_bottom_range_percent(std::optional<float> min_bottom_range_percent,
+                                        std::optional<float> max_bottom_range_percent)
+    {
+        _min_bottom_range_percent = min_bottom_range_percent;
+        _max_bottom_range_percent = max_bottom_range_percent;
     }
 
     void select_transmit_sectors(std::vector<size_t> transmit_sectors)
@@ -415,10 +415,10 @@ class PingSampleSelector
         object._max_beam_angle                = optional_from_stream<float>(is);
         object._min_sample_range              = optional_from_stream<float>(is);
         object._max_sample_range              = optional_from_stream<float>(is);
-        object._min_minslant_distance_percent = optional_from_stream<float>(is);
-        object._max_minslant_distance_percent = optional_from_stream<float>(is);
-        object._min_bottom_distance_percent   = optional_from_stream<float>(is);
-        object._max_bottom_distance_percent   = optional_from_stream<float>(is);
+        object._min_minslant_range_percent = optional_from_stream<float>(is);
+        object._max_minslant_range_percent = optional_from_stream<float>(is);
+        object._min_bottom_range_percent   = optional_from_stream<float>(is);
+        object._max_bottom_range_percent   = optional_from_stream<float>(is);
         object._transmit_sectors = optional_container_from_stream<std::vector<size_t>>(is);
         object._transmit_sector_min_beam_angle = optional_from_stream<float>(is);
         object._transmit_sector_max_beam_angle = optional_from_stream<float>(is);
@@ -448,10 +448,10 @@ class PingSampleSelector
         optional_to_stream(os, _max_beam_angle);
         optional_to_stream(os, _min_sample_range);
         optional_to_stream(os, _max_sample_range);
-        optional_to_stream(os, _min_minslant_distance_percent);
-        optional_to_stream(os, _max_minslant_distance_percent);
-        optional_to_stream(os, _min_bottom_distance_percent);
-        optional_to_stream(os, _max_bottom_distance_percent);
+        optional_to_stream(os, _min_minslant_range_percent);
+        optional_to_stream(os, _max_minslant_range_percent);
+        optional_to_stream(os, _min_bottom_range_percent);
+        optional_to_stream(os, _max_bottom_range_percent);
         optional_container_to_stream(os, _transmit_sectors);
         optional_to_stream(os, _transmit_sector_min_beam_angle);
         optional_to_stream(os, _transmit_sector_max_beam_angle);
@@ -486,26 +486,26 @@ class PingSampleSelector
         register_filter(printer, "max_sample_range", _max_sample_range, "m", inactive_filters);
 
         register_filter(printer,
-                        "min_minslant_distance_percent",
-                        _min_minslant_distance_percent,
+                        "min_minslant_range_percent",
+                        _min_minslant_range_percent,
                         "%",
                         inactive_filters);
 
         register_filter(printer,
-                        "max_minslant_distance_percent",
-                        _max_minslant_distance_percent,
+                        "max_minslant_range_percent",
+                        _max_minslant_range_percent,
                         "%",
                         inactive_filters);
 
         register_filter(printer,
-                        "min_bottom_distance_percent",
-                        _min_bottom_distance_percent,
+                        "min_bottom_range_percent",
+                        _min_bottom_range_percent,
                         "%",
                         inactive_filters);
 
         register_filter(printer,
-                        "max_bottom_distance_percent",
-                        _max_bottom_distance_percent,
+                        "max_bottom_range_percent",
+                        _max_bottom_range_percent,
                         "%",
                         inactive_filters);
 
