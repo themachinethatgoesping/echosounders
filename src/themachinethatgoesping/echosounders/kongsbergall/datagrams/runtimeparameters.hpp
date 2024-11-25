@@ -335,8 +335,9 @@ class RuntimeParameters : public KongsbergAllDatagram
         printer.register_value("bsp_status", _bsp_status);
         printer.register_value("sonar_head_or_transceiver_status",
                                _sonar_head_or_transceiver_status);
-        printer.register_value("mode", _mode, "encoded");
-        printer.register_value("filter_identifier", _filter_identifier, "encoded");
+        printer.register_string("mode", fmt::format("0b{:08b}", _mode), "encoded");
+        printer.register_string(
+            "filter_identifier", fmt::format("0b{:08b}", _filter_identifier), "encoded");
         printer.register_value("minimum_depth", _minimum_depth, "m");
         printer.register_value("maximum_depth", _maximum_depth, "m");
         printer.register_value("absorption_coefficient", _absorption_coefficient, "0.01 db/km");
@@ -346,9 +347,9 @@ class RuntimeParameters : public KongsbergAllDatagram
             "transmit_power_relative_maximum", _transmit_power_relative_maximum, "dB");
         printer.register_value("receive_bandwidth_degree", _receive_beamwidth_degree, "0.1°");
         printer.register_value("receive_bandwidth_50hz", _receive_bandwidth_50hz, "50Hz");
-        printer.register_value("mode2_or_receiver_fixed_gain_setting",
-                               _mode2_or_receiver_fixed_gain_setting,
-                               "encoded");
+        printer.register_string("mode2_or_receiver_fixed_gain_setting",
+                                fmt::format("0b{:08b}", _mode2_or_receiver_fixed_gain_setting),
+                                "encoded");
         printer.register_value("tvg_law_crossover_angle", _tvg_law_crossover_angle, "°");
         printer.register_value("source_of_sound_speed_at_transducer",
                                _source_of_sound_speed_at_transducer);
@@ -361,7 +362,8 @@ class RuntimeParameters : public KongsbergAllDatagram
         printer.register_value(
             "maximum_starboard_swath_width", _maximum_starboard_swath_width, "m");
         printer.register_value("transmit_along_tilt", _transmit_along_tilt, "0.1°");
-        printer.register_value("filter_identifier2", _filter_identifier2, "encoded");
+        printer.register_string(
+            "filter_identifier2", fmt::format("0b{:08b}", _filter_identifier2), "encoded");
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
 
