@@ -87,7 +87,7 @@ class RuntimeParameters : public KongsbergAllDatagram
     {
         _datagram_identifier = t_KongsbergAllDatagramIdentifier::RuntimeParameters;
     }
-    ~RuntimeParameters()                              = default;
+    ~RuntimeParameters() = default;
 
     // ----- convenient data access -----
     // getters
@@ -320,9 +320,11 @@ class RuntimeParameters : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("RuntimeParameters", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "RuntimeParameters", float_precision, superscript_exponents);
 
         printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");
@@ -333,8 +335,8 @@ class RuntimeParameters : public KongsbergAllDatagram
         printer.register_value("bsp_status", _bsp_status);
         printer.register_value("sonar_head_or_transceiver_status",
                                _sonar_head_or_transceiver_status);
-        printer.register_value("mode", _mode);
-        printer.register_value("filter_identifier", _filter_identifier);
+        printer.register_value("mode", _mode, "encoded");
+        printer.register_value("filter_identifier", _filter_identifier, "encoded");
         printer.register_value("minimum_depth", _minimum_depth, "m");
         printer.register_value("maximum_depth", _maximum_depth, "m");
         printer.register_value("absorption_coefficient", _absorption_coefficient, "0.01 db/km");
@@ -344,8 +346,9 @@ class RuntimeParameters : public KongsbergAllDatagram
             "transmit_power_relative_maximum", _transmit_power_relative_maximum, "dB");
         printer.register_value("receive_bandwidth_degree", _receive_beamwidth_degree, "0.1°");
         printer.register_value("receive_bandwidth_50hz", _receive_bandwidth_50hz, "50Hz");
-        printer.register_value(
-            "mode2_or_receiver_fixed_gain_setting", _mode2_or_receiver_fixed_gain_setting, "dB");
+        printer.register_value("mode2_or_receiver_fixed_gain_setting",
+                               _mode2_or_receiver_fixed_gain_setting,
+                               "encoded");
         printer.register_value("tvg_law_crossover_angle", _tvg_law_crossover_angle, "°");
         printer.register_value("source_of_sound_speed_at_transducer",
                                _source_of_sound_speed_at_transducer);
@@ -358,19 +361,24 @@ class RuntimeParameters : public KongsbergAllDatagram
         printer.register_value(
             "maximum_starboard_swath_width", _maximum_starboard_swath_width, "m");
         printer.register_value("transmit_along_tilt", _transmit_along_tilt, "0.1°");
-        printer.register_value("filter_identifier2", _filter_identifier2);
+        printer.register_value("filter_identifier2", _filter_identifier2, "encoded");
         printer.register_string("etx", fmt::format("0x{:02x}", _etx));
         printer.register_value("checksum", _checksum);
 
         printer.register_section("processed");
+        printer.register_value("absorption_coefficient_in_db_per_meter",
+                               get_absorption_coefficient_in_db_per_meter(),
+                               "db/m");
         printer.register_value(
-            "absorption_coefficient", get_absorption_coefficient_in_db_per_meter(), "db/m");
+            "transmit_pulse_length_in_seconds", get_transmit_pulse_length_in_seconds(), "s");
         printer.register_value(
-            "transmit_pulse_length", get_transmit_pulse_length_in_seconds(), "s");
-        printer.register_value("transmit_beamwidth", get_transmit_beamwidth_in_degrees(), "°");
-        printer.register_value("receive_bandwidth", get_receive_beamwidth_in_degrees(), "°");
-        printer.register_value("receive_bandwidth", get_receive_bandwidth_in_hertz(), "Hz");
-        printer.register_value("transmit_along_tilt", get_transmit_along_tilt_in_degrees(), "°");
+            "transmit_beamwidth_in_degrees", get_transmit_beamwidth_in_degrees(), "°");
+        printer.register_value(
+            "receive_bandwidth_in_degrees", get_receive_beamwidth_in_degrees(), "°");
+        printer.register_value(
+            "receive_bandwidth_in_hertz", get_receive_bandwidth_in_hertz(), "Hz");
+        printer.register_value(
+            "transmit_along_tilt_in_degrees", get_transmit_along_tilt_in_degrees(), "°");
 
         return printer;
     }
@@ -404,7 +412,7 @@ class RuntimeParameters : public KongsbergAllDatagram
 // IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const RuntimeParameters& data)
 {
-    //return data.hash_content_only();
+    // return data.hash_content_only();
     return data.binary_hash();
 }
 
