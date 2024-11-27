@@ -228,6 +228,79 @@ class RuntimeParameters : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
+    std::string get_mode_as_ping_mode() const
+    {
+        switch (this->get_model_number())
+        {
+            case 3000:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Nearfield (4°)";
+                    case 0b00000001:
+                        return "Normal (1.5°)";
+                    case 0b00000010:
+                        return "Target detect";
+                    default:
+                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
+                }
+            case 3002:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Wide Tx beamwidth (4°)";
+                    case 0b00000001:
+                        return "Normal Tx beamwidth (1.5°)";
+                    default:
+                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
+                }
+            case 2000:
+                [[fallthrough]];
+            case 710:
+                [[fallthrough]];
+            case 1002:
+                [[fallthrough]];
+            case 300:
+                [[fallthrough]];
+            case 302:
+                [[fallthrough]];
+            case 120:
+                [[fallthrough]];
+            case 122:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Very Shallow";
+                    case 0b00000001:
+                        return "Shallow";
+                    case 0b00000010:
+                        return "Medium";
+                    case 0b00000011:
+                        return "Deep";
+                    case 0b00000100:
+                        return "Very deep";
+                    case 0b00000101:
+                        return "Extra deep";
+                    default:
+                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
+                }
+            case 2040:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "200 kHz";
+                    case 0b00000001:
+                        return "300 kHz";
+                    case 0b00000010:
+                        return "400 kHz";
+                    default:
+                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
+                }
+            default:
+                return fmt::format("No ping mode for EM{{}} [{:08b}]", _model_number, _mode);
+        }
+    }
+
     /**
      * @brief Get the absorption coefficient in db per meter
      *
@@ -405,8 +478,8 @@ class RuntimeParameters : public KongsbergAllDatagram
 /**
  * @brief Provide a boost hash function for RuntimeParameters
  * - Note: this is needed to use RuntimeParameters as boost::flyweight
- * - IMPORTANT: this hash function only uses the content of the RuntimeParameters for hashing (not
- * information from header e.g. timestamp, ping counter etc.)
+ * - IMPORTANT: this hash function only uses the content of the RuntimeParameters for hashing
+ * (not information from header e.g. timestamp, ping counter etc.)
  *
  * @param data
  * @return std::size_t

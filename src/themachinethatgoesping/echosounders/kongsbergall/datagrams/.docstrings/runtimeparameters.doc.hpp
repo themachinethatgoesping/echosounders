@@ -1,4 +1,4 @@
-//sourcehash: d8ef4d0fdb009dbd507422f26aa60ebb00211f6d1701a39c1e3814362c03ae55
+//sourcehash: 789ba67f2d5655d0a234fc67360d60e7376aa876a85d096e3a389792eec3c860
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -101,6 +101,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_or_receiver_fixed_gain_setting = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_ping_mode = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_operator_station_status = R"doc()doc";
 

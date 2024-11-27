@@ -163,6 +163,15 @@ void init_c_kongsbergalldatagram(pybind11::module& m)
              py::arg("fractional_seconds_digits") = 2,
              py::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
 
+        .def("get_model_number_as_string",
+             &KongsbergAllDatagram::get_model_number_as_string,
+             DOC(themachinethatgoesping,
+                 echosounders,
+                 kongsbergall,
+                 datagrams,
+                 KongsbergAllDatagram,
+                 get_model_number_as_string))
+
         // ----- operators -----
         .def("__eq__",
              &KongsbergAllDatagram::operator==,

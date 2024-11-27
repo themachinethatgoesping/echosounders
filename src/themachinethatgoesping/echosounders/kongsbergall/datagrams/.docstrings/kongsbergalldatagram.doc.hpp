@@ -1,4 +1,4 @@
-//sourcehash: f5f7fcaaca3d07bf2cdd91f9f08fcf4be5e0917c789d9095d241add78f56bfbe
+//sourcehash: 50e139cbd5b96d4c751c488182a4f512fc26044226c75e9dd6856d1e9a77b13b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,6 +74,13 @@ Returns:
     std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagram_get_model_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagram_get_model_number_as_string =
+R"doc(Get the model number as string EM+model_number, except 2045 which is
+EM2040C
+
+Returns:
+    std::string)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_KongsbergAllDatagram_get_stx = R"doc()doc";
 

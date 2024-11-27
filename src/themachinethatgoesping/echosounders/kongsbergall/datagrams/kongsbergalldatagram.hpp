@@ -38,7 +38,7 @@ class KongsbergAllDatagram
     uint32_t _bytes; ///< number of bytes in the datagram (not including the _bytes field itself)
     uint8_t  _stx = 0x02;                      ///< (start identifier)
     t_DatagramIdentifier _datagram_identifier; ///< KongsbergAll datagram identifier
-    uint16_t             _model_number;        ///< KongsbergAll model number (example: EM 3002 = 3002)
+    uint16_t             _model_number; ///< KongsbergAll model number (example: EM 3002 = 3002)
     uint32_t             _date; ///< year*1000 + month*100 + day(Example:Jun 27, 2020 = 20200627)
     uint32_t             _time_since_midnight; // in milliseconds
 
@@ -63,16 +63,17 @@ class KongsbergAllDatagram
         is.read(reinterpret_cast<char*>(&etx.etx), 3 * sizeof(uint8_t));
 
         if (etx.etx != 0x03)
-            throw std::runtime_error(
-                fmt::format("KongsbergAllDatagram: end identifier is not 0x03, but 0x{:x}", etx.etx));
+            throw std::runtime_error(fmt::format(
+                "KongsbergAllDatagram: end identifier is not 0x03, but 0x{:x}", etx.etx));
     }
 
   public:
-    KongsbergAllDatagram(uint32_t             bytes,
-                   t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::unspecified,
-                   uint16_t             model_number        = 0,
-                   uint16_t             date                = 0,
-                   uint16_t             time_since_midnight = 0)
+    KongsbergAllDatagram(
+        uint32_t             bytes,
+        t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::unspecified,
+        uint16_t             model_number        = 0,
+        uint16_t             date                = 0,
+        uint16_t             time_since_midnight = 0)
         : _bytes(bytes)
         , _datagram_identifier(datagram_identifier)
         , _model_number(model_number)
@@ -107,20 +108,22 @@ class KongsbergAllDatagram
      *
      * @return size_t position of the datagram without header
      */
-    static size_t skip_and_verify_header(std::istream&              is,
-                                         size_t                     stream_pos,
+    static size_t skip_and_verify_header(std::istream&                    is,
+                                         size_t                           stream_pos,
                                          t_KongsbergAllDatagramIdentifier identifier)
     {
         is.seekg(stream_pos + 5, std::ios::beg);
 
         // read the datagram identifier
         t_KongsbergAllDatagramIdentifier datagram_identifier;
-        is.read(reinterpret_cast<char*>(&datagram_identifier), sizeof(t_KongsbergAllDatagramIdentifier));
+        is.read(reinterpret_cast<char*>(&datagram_identifier),
+                sizeof(t_KongsbergAllDatagramIdentifier));
         if (datagram_identifier != identifier)
-            throw std::runtime_error(fmt::format("KongsbergAllDatagram::skip_and_verify_header: datagram "
-                                                 "identifier is not {}, but {}",
-                                                 datagram_type_to_string(identifier),
-                                                 datagram_type_to_string(datagram_identifier)));
+            throw std::runtime_error(
+                fmt::format("KongsbergAllDatagram::skip_and_verify_header: datagram "
+                            "identifier is not {}, but {}",
+                            datagram_type_to_string(identifier),
+                            datagram_type_to_string(datagram_identifier)));
 
         is.seekg(10, std::ios::cur);
 
@@ -178,6 +181,21 @@ class KongsbergAllDatagram
             get_timestamp(), fractionalSecondsDigits, format);
     }
 
+    /**
+     * @brief Get the model number as string
+     * EM+model_number, except 2045 which is EM2040C
+     *
+     * @return std::string
+     */
+    std::string get_model_number_as_string() const
+    {
+
+        if (_model_number == 2045)
+            return "EM2040C";
+
+        return "EM" + std::to_string(_model_number);
+    }
+
     // ----- operators -----
     bool operator==(const KongsbergAllDatagram& other) const = default;
 
@@ -187,14 +205,14 @@ class KongsbergAllDatagram
         is.read(reinterpret_cast<char*>(&d._bytes), 16 * sizeof(uint8_t));
 
         if (d._stx != 0x02)
-            throw std::runtime_error(
-                fmt::format("KongsbergAllDatagram: start identifier is not 0x02, but 0x{:x}", d._stx));
+            throw std::runtime_error(fmt::format(
+                "KongsbergAllDatagram: start identifier is not 0x02, but 0x{:x}", d._stx));
 
         return d;
     }
 
-    static KongsbergAllDatagram from_stream(std::istream&              is,
-                                      t_KongsbergAllDatagramIdentifier datagram_identifier)
+    static KongsbergAllDatagram from_stream(std::istream&                    is,
+                                            t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         KongsbergAllDatagram d = from_stream(is);
 
@@ -214,7 +232,8 @@ class KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
         using tools::timeconv::unixtime_to_datestring;
 
@@ -225,7 +244,8 @@ class KongsbergAllDatagram
         auto date = unixtime_to_datestring(timestamp, 0, format_date);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
-        tools::classhelper::ObjectPrinter printer("KongsbergAllDatagram", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "KongsbergAllDatagram", float_precision, superscript_exponents);
 
         printer.register_value("bytes", _bytes);
         printer.register_string("stx", fmt::format("0x{:02x}", _stx));
@@ -233,7 +253,8 @@ class KongsbergAllDatagram
             "datagram_identifier",
             fmt::format("0x{:02x}", uint8_t(_datagram_identifier)),
             datagram_identifier_to_string(t_KongsbergAllDatagramIdentifier(_datagram_identifier)));
-        printer.register_string("model_number", "EM" + std::to_string(_model_number));
+        printer.register_string(
+            "model_number", get_model_number_as_string(), std::to_string(_model_number));
         printer.register_value("date", _date, "YYYYMMDD");
         printer.register_value("time_since_midnight", _time_since_midnight, "ms");
 
@@ -241,6 +262,7 @@ class KongsbergAllDatagram
         printer.register_value("timestamp", timestamp, "s");
         printer.register_string("date", date, "MM/DD/YYYY");
         printer.register_string("time", time, "HH:MM:SS");
+        ;
 
         return printer;
     }

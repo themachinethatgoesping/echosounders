@@ -213,6 +213,11 @@ void init_c_runtimeparameters(pybind11::module& m)
              &RuntimeParameters::get_transmit_along_tilt_in_degrees,
              DOC_RuntimeParameters(get_transmit_along_tilt_in_degrees))
 
+        // mode
+        .def("get_mode_as_ping_mode",
+             &RuntimeParameters::get_mode_as_ping_mode,
+             DOC_RuntimeParameters(get_mode_as_ping_mode))
+
         // --- checksum access ---
         .def("get_etx", &RuntimeParameters::get_etx, DOC_RuntimeParameters(etx))
         .def("set_etx", &RuntimeParameters::set_etx, DOC_RuntimeParameters(etx))
