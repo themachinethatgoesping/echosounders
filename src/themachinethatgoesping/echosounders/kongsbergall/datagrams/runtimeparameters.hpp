@@ -228,83 +228,6 @@ class RuntimeParameters : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum) { _checksum = checksum; }
 
     // ----- processed data access -----
-    std::string get_mode_as_ping_mode() const
-    {
-        switch (this->get_model_number())
-        {
-            case 3000:
-                switch (_mode & 0b00001111)
-                {
-                    case 0b00000000:
-                        return "Nearfield (4°)";
-                    case 0b00000001:
-                        return "Normal (1.5°)";
-                    case 0b00000010:
-                        return "Target detect";
-                    default:
-                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
-                }
-            case 3002:
-                switch (_mode & 0b00001111)
-                {
-                    case 0b00000000:
-                        return "Wide Tx beamwidth (4°)";
-                    case 0b00000001:
-                        return "Normal Tx beamwidth (1.5°)";
-                    default:
-                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
-                }
-            case 2000:
-                [[fallthrough]];
-            case 710:
-                [[fallthrough]];
-            case 1002:
-                [[fallthrough]];
-            case 300:
-                [[fallthrough]];
-            case 302:
-                [[fallthrough]];
-            case 120:
-                [[fallthrough]];
-            case 122:
-                switch (_mode & 0b00001111)
-                {
-                    case 0b00000000:
-                        return "Very Shallow";
-                    case 0b00000001:
-                        return "Shallow";
-                    case 0b00000010:
-                        return "Medium";
-                    case 0b00000011:
-                        return "Deep";
-                    case 0b00000100:
-                        return "Very deep";
-                    case 0b00000101:
-                        return "Extra deep";
-                    default:
-                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
-                }
-            case 2040:
-                switch (_mode & 0b00001111)
-                {
-                    case 0b00000000:
-                        return "200 kHz";
-                    case 0b00000001:
-                        return "300 kHz";
-                    case 0b00000010:
-                        return "400 kHz";
-                    default:
-                        return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
-                }
-                case 2045: // EM2040C, we decode the 'Frequency' as PingMode here, since this was also the choice for the EM2040
-                 {
-                    uint_fast16_t frequency = (_mode & 0b00011111) + 180;
-                    return fmt::format("{} kHz", frequency);
-                 }
-            default:
-                return fmt::format("Ping mode unhandled for EM{{}} [{:08b}]", _model_number, _mode);
-        }
-    }
 
     /**
      * @brief Get the absorption coefficient in db per meter
@@ -353,6 +276,443 @@ class RuntimeParameters : public KongsbergAllDatagram
      * @return _transmit_along_tilt * 0.1f (float)
      */
     float get_transmit_along_tilt_in_degrees() const { return _transmit_along_tilt * 0.1f; }
+
+    // ----- mode/flags decoding -----
+
+    /**
+     * @brief Retrieves Ping mode decoded in the 'mode' variable.
+     *
+     * The decoding is EM model specific. See datagram format specification for details.
+     *
+     * @param unhandled_message If provided, this message is used as the return value if the mode
+     *                          is not handled for the specific system. Otherwise: 'Ping mode
+     * unhandled' or 'Ping mode not implemented' is returned
+     * @return A string representing Ping mode as encoded by 'mode'
+     */
+    std::string get_mode_as_ping_mode(std::optional<std::string_view> unhandled_message) const
+    {
+        switch (this->get_model_number())
+        {
+            case 3000:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Nearfield (4°)";
+                    case 0b00000001:
+                        return "Normal (1.5°)";
+                    case 0b00000010:
+                        return "Target detect";
+                    default:
+                        break;
+                }
+                break;
+            case 3002:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Wide Tx beamwidth (4°)";
+                    case 0b00000001:
+                        return "Normal Tx beamwidth (1.5°)";
+                    default:
+                        break;
+                }
+                break;
+            case 2000:
+                [[fallthrough]];
+            case 710:
+                [[fallthrough]];
+            case 1002:
+                [[fallthrough]];
+            case 300:
+                [[fallthrough]];
+            case 302:
+                [[fallthrough]];
+            case 120:
+                [[fallthrough]];
+            case 122:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "Very shallow";
+                    case 0b00000001:
+                        return "Shallow";
+                    case 0b00000010:
+                        return "Medium";
+                    case 0b00000011:
+                        return "Deep";
+                    case 0b00000100:
+                        return "Very deep";
+                    case 0b00000101:
+                        return "Extra deep";
+                    default:
+                        break;
+                }
+                break;
+            case 2040:
+                switch (_mode & 0b00001111)
+                {
+                    case 0b00000000:
+                        return "200 kHz";
+                    case 0b00000001:
+                        return "300 kHz";
+                    case 0b00000010:
+                        return "400 kHz";
+                    default:
+                        break;
+                }
+                break;
+            case 2045: // EM2040C, we decode the 'Frequency' as PingMode here, since this was also
+                       // the choice for the EM2040
+            {
+                uint_fast16_t frequency = (_mode & 0b00011111) + 180;
+                return fmt::format("{} kHz", frequency);
+            }
+            default:
+                // this is returned if the model number is not handled
+                return std::string(unhandled_message.value_or(
+                    fmt::format("Ping mode unhandled for EM{{}} [{:08b}]", _model_number, _mode)));
+        }
+
+        // this is returned if a known model number does not handle a mode value
+        return std::string(unhandled_message.value_or(fmt::format(
+            "Ping mode not implemented for [{}/{:08b}]", get_model_number_as_string(), _mode)));
+    }
+
+    /**
+     * @brief Retrieves Tx pulse form encoded in the mode variable
+     *
+     * The decoding is EM model specific. See datagram format specification for details.
+     *
+     * @param unhandled_message If provided, this message is used as the return value if the mode
+     *                          is not handled for the specific system. Otherwise: 'Ping mode
+     * unhandled' or 'Ping mode not implemented' is returned
+     * @return A string representing Tx pulse form as encoded by 'mode'
+     */
+    std::string get_mode_as_tx_pulse_form(std::optional<std::string_view> unhandled_message) const
+    {
+        // handled by file: 2040,710, 302, 122, 2040C
+        // Asume CW for [1002, 2000, 3000, 3002, 300, 120]
+        switch (this->get_model_number())
+        {
+            case 2040:
+                [[fallthrough]];
+            case 710:
+                [[fallthrough]];
+            case 302:
+                [[fallthrough]];
+            case 122:
+                switch (_mode & 00110000)
+                {
+                    case 0b00000000:
+                        return "CW";
+                    case 0b00010000:
+                        return "Mixed";
+                    case 0b00100000:
+                        return "FM";
+                    default:
+                        break;
+                }
+                break;
+            case 2045: // EM2040C
+            {
+                switch (_mode & 0b00100000)
+                {
+                    case 0b00000000:
+                        return "CW";
+                    case 0b00100000:
+                        return "FM";
+                    default:
+                        break;
+                }
+                break;
+            }
+            // we assume CW for all older unhandled models
+            case 1002:
+                [[fallthrough]];
+            case 2000:
+                [[fallthrough]];
+            case 3000:
+                [[fallthrough]];
+            case 3002:
+                [[fallthrough]];
+            case 300:
+                [[fallthrough]];
+            case 120:
+                return "CW";
+            default:
+                // this is returned if the model number is not handled
+                return std::string(unhandled_message.value_or(fmt::format(
+                    "TX pulse form not implemented for EM{{}} [{:08b}]", _model_number, _mode)));
+        }
+
+        // this is returned if a known model number does not handle a mode value
+        return std::string(unhandled_message.value_or(
+            fmt::format("Unknown tx pulse form [{}/{:08b}]", get_model_number_as_string(), _mode)));
+    }
+
+    /**
+     * @brief Retrieves Dual swath mode encoded in the mode variable
+     *
+     * The decoding is EM model specific. See datagram format specification for details.
+     *
+     * @param unhandled_message If provided, this message is used as the return value if the mode
+     *                          is not handled for the specific system. Otherwise: 'Ping mode
+     * unhandled' or 'Ping mode not implemented' is returned
+     * @return A string representing Tx pulse form as encoded by 'mode'
+     */
+    std::string get_mode_as_dual_swath_mode(std::optional<std::string_view> unhandled_message) const
+    {
+        // handled by file: 2040,710, 302, 122,
+        // Asume 'Off' for [2040C, 1002, 2000, 3000, 3002, 300, 120]
+        switch (this->get_model_number())
+        {
+            case 2040:
+                [[fallthrough]];
+            case 710:
+                [[fallthrough]];
+            case 302:
+                [[fallthrough]];
+            case 122:
+                switch (_mode & 11000000)
+                {
+                    case 0b00000000:
+                        return "Off";
+                    case 0b01000000:
+                        return "Fixed";
+                    case 0b10000000:
+                        return "Dynamic";
+                    default:
+                        break;
+                }
+                break;
+            // we assume 'Off' for all older (and EM2040C) unhandled models
+            case 2045:
+                [[fallthrough]];
+            case 1002:
+                [[fallthrough]];
+            case 2000:
+                [[fallthrough]];
+            case 3000:
+                [[fallthrough]];
+            case 3002:
+                [[fallthrough]];
+            case 300:
+                [[fallthrough]];
+            case 120:
+                return "Off";
+            default:
+                // this is returned if the model number is not handled
+                return std::string(unhandled_message.value_or(fmt::format(
+                    "Dual swath mode not implemented for EM{{}} [{:08b}]", _model_number, _mode)));
+        }
+
+        // this is returned if a known model number does not handle a mode value
+        return std::string(unhandled_message.value_or(fmt::format(
+            "Unknown dual swath mode [{}/{:08b}]", get_model_number_as_string(), _mode)));
+    }
+
+    // mode 2
+
+    // /**
+    //  * @brief Retrieves Rx array/ sonar head encoded in the mode2 variable
+    //  *
+    //  * The decoding is EM model specific. Currentylu only outputs sensefull values for EM2040 and
+    //  * EM2040C. See datagram format specification for details.
+    //  *
+    //  * @param unhandled_message If provided, this message is used as the return value if the mode
+    //  *                          is not handled for the specific system. Otherwise: 'Sonar head
+    //  * use unhandled' is returned
+    //  * @return A string representing Rx array / Sonar head use as encoded by 'mode2'
+    //  */
+    // std::string get_mode2_as_rx_or_sonar_head_use(std::optional<std::string_view> unhandled_message) const
+    // {
+    //     switch(get_model_number())
+    //     {
+    //         case 2040:
+    //             [[fallthrough]];
+    //         case 2045:
+    //             switch (_mode2_or_receiver_fixed_gain_setting & 0b00000011)
+    //             {
+    //                 case 0b00000000:
+    //                     return "Rx";
+    //                 case 0b00000001:
+    //                     return "Sonar head use";
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+
+    //     return std::string(unhandled_message.value_or(fmt::format(
+    //         "Mode 2 not implemented for [{:08b}]", _mode2_or_receiver_fixed_gain_setting)));
+    // }
+
+    /**
+     * @brief Retrieves spike filter setup encoded in the filter_identifier variable
+     *
+     * @return A string representing the spike filter setup as encoded by 'filter_identifier'
+     */
+    std::string get_filter_identifier_as_spike_filter() const
+    {
+        switch (_filter_identifier & 0b00000011)
+        {
+            case 0b00000000:
+                return "Off";
+            case 0b00000001:
+                return "Weak";
+            case 0b00000010:
+                return "Medium";
+            case 0b00000011:
+                return "Strong";
+            default:
+                throw std::runtime_error(
+                    fmt::format("{} reached unreachable state. Please report", __func__));
+        }
+    }
+
+    /**
+     * @brief Retrieves slope filter status encoded in the filter_identifier variable
+     *
+     * @return A string representing the slope filter status (On or Off) as encoded by
+     * 'filter_identifier'
+     */
+    std::string get_filter_identifier_as_slope_filter() const
+    {
+        if (_filter_identifier & 0b00000100)
+            return "On";
+
+        return "Off";
+    }
+
+    /**
+     * @brief Retrieves Range gates size encoded in the mode variable
+     *
+     * @param unhandled_message If provided, this message is used as the return value if the range
+     *                          gates size is not handled for the specific system. Otherwise: Range
+     *                          gates size not implemented' is returned
+     * @return A string representing Range gates size as encoded by 'mode'
+     */
+    std::string get_filter_identifier_as_range_gates_size(
+        std::optional<std::string_view> unhandled_message) const
+    {
+        switch (_filter_identifier & 0b10010000)
+        {
+            case 0b00000000:
+                return "Normal";
+            case 0b00010000:
+                return "Large";
+            case 0b10000000:
+                return "Small";
+            default:
+                return std::string(unhandled_message.value_or(fmt::format(
+                    "Range gates size not implemented for [{:08b}]", _filter_identifier)));
+        }
+    }
+
+    // source of sound speed at transducer
+
+    /**
+     * @brief Retrieves the source of sound speed at transducer encoded in the
+     * 'source of sound speed at transducer' variable
+     *
+     * @param unhandled_message If provided, this message is used as the return value if the source
+     *                          of sound speed at transducer mode specified is not handled.
+     * @return A string representing the source of sound speed at transducer as encoded by the
+     * 'source of sound speed at transducer' variable
+     */
+    std::string get_source_of_sound_speed_at_transducer_as_string(
+        std::optional<std::string_view> unhandled_message) const
+    {
+        switch (_source_of_sound_speed_at_transducer & 0b00001111)
+        {
+            case 0b00000000:
+                return "From real time sensor";
+            case 0b00000001:
+                return "Manually entered by operator";
+            case 0b00000010:
+                return "Interpolated from currently used sound speed profile";
+            case 0b00000011:
+                return "Calculated by ME70BO TRU";
+            default:
+                return std::string(unhandled_message.value_or(
+                    fmt::format("Source of sound speed at transducer mode not implemented [{:08b}]",
+                                _source_of_sound_speed_at_transducer)));
+        }
+    }
+
+    /**
+     * @brief Retrieves the Extra detections option (On/Off) encoded in the
+     * 'source of sound speed at transducer' variable
+     *
+     * @return True if the Extra detections option is enabled, false otherwise
+     */
+    bool get_extra_detections_enabled() const
+    {
+        return _source_of_sound_speed_at_transducer & 0b00010000;
+    }
+
+    /**
+     * @brief Retrieves the Sonar mode option (On/Off) encoded in the
+     * 'source of sound speed at transducer' variable
+     *
+     * @return True if the Sonar mode option is enabled, false otherwise
+     */
+    bool get_sonar_mode_enabled() const
+    {
+        return _source_of_sound_speed_at_transducer & 0b00100000;
+    }
+
+    /**
+     * @brief Retrieves the Passive mode option (On/Off) encoded in the
+     * 'source of sound speed at transducer' variable
+     *
+     * @return True if the Passive mode option is enabled, false otherwise
+     */
+    bool get_passive_mode_enabled() const
+    {
+        return _source_of_sound_speed_at_transducer & 0b01000000;
+    }
+
+    /**
+     * @brief Retrieves the 3D scanning option (On/Off) encoded in the
+     * 'source of sound speed at transducer' variable
+     *
+     * @return True if the 3D scanning option is enabled, false otherwise
+     */
+    bool get_3d_scanning_enabled() const
+    {
+        return _source_of_sound_speed_at_transducer & 0b10000000;
+    }
+
+    /**
+     * @brief Retrieves the Aearation filter status encoded in the filter_identifier variable
+     *
+     * @return A string representing the Aeration filter status (On or Off) as encoded by
+     * 'filter_identifier'
+     */
+    std::string get_filter_identifier_as_aeration_filter()
+    {
+        if (_filter_identifier & 0b00100000)
+            return "On";
+
+        return "Off";
+    }
+
+    /**
+     * @brief Retrieves the Interference filter status encoded in the filter_identifier variable
+     *
+     * @return A string representing the Interference filter status (On or Off) as encoded by
+     * 'filter_identifier'
+     */
+    std::string get_filter_identifier_as_interference_filter()
+    {
+        if (_filter_identifier & 0b01000000)
+            return "On";
+
+        return "Off";
+    }
 
     // ----- operators -----
     bool operator==(const RuntimeParameters& other) const = default;

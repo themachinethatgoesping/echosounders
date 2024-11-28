@@ -1,4 +1,4 @@
-//sourcehash: 815f9570f879f5ecec012b89f0ef2e7281cf145269d946607ecd35d80c62d4e1
+//sourcehash: e5766a1cd578adcc3416d3c9e1ac1eba3c83d0e534625235753ce32c96fd89e9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -66,6 +66,13 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_3d_scanning_enabled =
+R"doc(Retrieves the 3D scanning option (On/Off) encoded in the 'source of
+sound speed at transducer' variable
+
+Returns:
+    True if the 3D scanning option is enabled, false otherwise)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_absorption_coefficient = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_absorption_coefficient_in_db_per_meter =
@@ -82,9 +89,58 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_etx = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_extra_detections_enabled =
+R"doc(Retrieves the Extra detections option (On/Off) encoded in the 'source
+of sound speed at transducer' variable
+
+Returns:
+    True if the Extra detections option is enabled, false otherwise)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_aeration_filter =
+R"doc(Retrieves the Aearation filter status encoded in the filter_identifier
+variable
+
+Returns:
+    A string representing the Aeration filter status (On or Off) as
+    encoded by 'filter_identifier')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_interference_filter =
+R"doc(Retrieves the Interference filter status encoded in the
+filter_identifier variable
+
+Returns:
+    A string representing the Interference filter status (On or Off)
+    as encoded by 'filter_identifier')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_range_gates_size =
+R"doc(Retrieves Range gates size encoded in the mode variable
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the range
+    gates size is not handled for the specific system. Otherwise:
+    Range gates size not implemented' is returned
+
+Returns:
+    A string representing Range gates size as encoded by 'mode')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_slope_filter =
+R"doc(Retrieves slope filter status encoded in the filter_identifier
+variable
+
+Returns:
+    A string representing the slope filter status (On or Off) as
+    encoded by 'filter_identifier')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_spike_filter =
+R"doc(Retrieves spike filter setup encoded in the filter_identifier variable
+
+Returns:
+    A string representing the spike filter setup as encoded by
+    'filter_identifier')doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_maximum_depth = R"doc()doc";
 
@@ -102,9 +158,56 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_or_receiver_fixed_gain_setting = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_ping_mode = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_dual_swath_mode =
+R"doc(Retrieves Dual swath mode encoded in the mode variable
+
+The decoding is EM model specific. See datagram format specification
+for details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'Ping mode
+    unhandled' or 'Ping mode not implemented' is returned
+
+Returns:
+    A string representing Tx pulse form as encoded by 'mode')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_ping_mode =
+R"doc(Retrieves Ping mode decoded in the 'mode' variable.
+
+The decoding is EM model specific. See datagram format specification
+for details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'Ping mode
+    unhandled' or 'Ping mode not implemented' is returned
+
+Returns:
+    A string representing Ping mode as encoded by 'mode')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_tx_pulse_form =
+R"doc(Retrieves Tx pulse form encoded in the mode variable
+
+The decoding is EM model specific. See datagram format specification
+for details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'Ping mode
+    unhandled' or 'Ping mode not implemented' is returned
+
+Returns:
+    A string representing Tx pulse form as encoded by 'mode')doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_operator_station_status = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_passive_mode_enabled =
+R"doc(Retrieves the Passive mode option (On/Off) encoded in the 'source of
+sound speed at transducer' variable
+
+Returns:
+    True if the Passive mode option is enabled, false otherwise)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_ping_counter = R"doc()doc";
 
@@ -128,7 +231,26 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_sonar_head_or_transceiver_status = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_sonar_mode_enabled =
+R"doc(Retrieves the Sonar mode option (On/Off) encoded in the 'source of
+sound speed at transducer' variable
+
+Returns:
+    True if the Sonar mode option is enabled, false otherwise)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_source_of_sound_speed_at_transducer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_source_of_sound_speed_at_transducer_as_string =
+R"doc(Retrieves the source of sound speed at transducer encoded in the
+'source of sound speed at transducer' variable
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the
+    source of sound speed at transducer mode specified is not handled.
+
+Returns:
+    A string representing the source of sound speed at transducer as
+    encoded by the 'source of sound speed at transducer' variable)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_system_serial_number = R"doc()doc";
 

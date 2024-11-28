@@ -216,7 +216,54 @@ void init_c_runtimeparameters(pybind11::module& m)
         // mode
         .def("get_mode_as_ping_mode",
              &RuntimeParameters::get_mode_as_ping_mode,
-             DOC_RuntimeParameters(get_mode_as_ping_mode))
+             DOC_RuntimeParameters(get_mode_as_ping_mode),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_mode_as_tx_pulse_form",
+             &RuntimeParameters::get_mode_as_tx_pulse_form,
+             DOC_RuntimeParameters(get_mode_as_tx_pulse_form),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_mode_as_dual_swath_mode",
+             &RuntimeParameters::get_mode_as_dual_swath_mode,
+             DOC_RuntimeParameters(get_mode_as_dual_swath_mode),
+             py::arg("unhandled_message") = std::nullopt)
+
+        // filter_identifier
+        .def("get_filter_identifier_as_spike_filter",
+             &RuntimeParameters::get_filter_identifier_as_spike_filter,
+             DOC_RuntimeParameters(get_filter_identifier_as_spike_filter))
+        .def("get_filter_identifier_as_slope_filter",
+             &RuntimeParameters::get_filter_identifier_as_slope_filter,
+             DOC_RuntimeParameters(get_filter_identifier_as_slope_filter))
+        .def("get_filter_identifier_as_range_gates_size",
+             &RuntimeParameters::get_filter_identifier_as_range_gates_size,
+             DOC_RuntimeParameters(get_filter_identifier_as_range_gates_size),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_filter_identifier_as_aeration_filter",
+             &RuntimeParameters::get_filter_identifier_as_aeration_filter,
+             DOC_RuntimeParameters(get_filter_identifier_as_aeration_filter))
+        .def("get_filter_identifier_as_interference_filter",
+             &RuntimeParameters::get_filter_identifier_as_interference_filter,
+             DOC_RuntimeParameters(get_filter_identifier_as_interference_filter))
+
+        // _source_of_sound_speed_at_transducer
+        .def("get_source_of_sound_speed_at_transducer_as_string",
+             &RuntimeParameters::get_source_of_sound_speed_at_transducer_as_string,
+             DOC_RuntimeParameters(get_source_of_sound_speed_at_transducer_as_string),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_sonar_mode_enabled",
+             &RuntimeParameters::get_sonar_mode_enabled,
+             DOC_RuntimeParameters(get_sonar_mode_enabled))
+        .def("get_sonar_mode_enabled",
+             &RuntimeParameters::get_sonar_mode_enabled,
+             DOC_RuntimeParameters(get_sonar_mode_enabled))
+        .def("get_passive_mode_enabled",
+             &RuntimeParameters::get_passive_mode_enabled,
+             DOC_RuntimeParameters(get_passive_mode_enabled))
+        .def("get_3d_scanning_enabled",
+             &RuntimeParameters::get_3d_scanning_enabled,
+             DOC_RuntimeParameters(get_3d_scanning_enable))
+
+        // --- mode2 ---
 
         // --- checksum access ---
         .def("get_etx", &RuntimeParameters::get_etx, DOC_RuntimeParameters(etx))
