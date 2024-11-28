@@ -227,6 +227,20 @@ void init_c_runtimeparameters(pybind11::module& m)
              DOC_RuntimeParameters(get_mode_as_dual_swath_mode),
              py::arg("unhandled_message") = std::nullopt)
 
+        // mode2
+        .def("get_mode2_as_rx_or_sonar_head_use",
+             &RuntimeParameters::get_mode2_as_rx_or_sonar_head_use,
+             DOC_RuntimeParameters(get_mode2_as_rx_or_sonar_head_use),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_mode2_as_pulselength",
+             &RuntimeParameters::get_mode2_as_pulselength,
+             DOC_RuntimeParameters(get_mode2_as_pulselength),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_mode2_as_receive_fixed_gain_setting_dB",
+             &RuntimeParameters::get_mode2_as_receive_fixed_gain_setting_dB,
+             DOC_RuntimeParameters(get_mode2_as_receive_fixed_gain_setting_dB),
+             py::arg("unhandled_value") = std::nullopt)
+
         // filter_identifier
         .def("get_filter_identifier_as_spike_filter",
              &RuntimeParameters::get_filter_identifier_as_spike_filter,
@@ -261,7 +275,7 @@ void init_c_runtimeparameters(pybind11::module& m)
              DOC_RuntimeParameters(get_passive_mode_enabled))
         .def("get_3d_scanning_enabled",
              &RuntimeParameters::get_3d_scanning_enabled,
-             DOC_RuntimeParameters(get_3d_scanning_enable))
+             DOC_RuntimeParameters(get_3d_scanning_enabled))
 
         // --- mode2 ---
 

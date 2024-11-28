@@ -1,4 +1,4 @@
-//sourcehash: e5766a1cd578adcc3416d3c9e1ac1eba3c83d0e534625235753ce32c96fd89e9
+//sourcehash: 0aaecbe141a93b6eb0ad10ad932f90e1a68553ce94995a78a883702a57f017ec
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -156,6 +156,52 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_as_pulselength =
+R"doc(Retrieves Pulselength encoded in the mode2 variable
+
+The decoding is EM model specific. Currently only outputs sensefull
+values for EM2040 and EM2040C. See datagram format specification for
+details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'Sonar head use
+    unhandled' is returned
+
+Returns:
+    A string representing Pulselength as encoded by 'mode2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_as_receive_fixed_gain_setting_dB =
+R"doc(Retrieves receiver fixed gain setting encoded in the mode2 variable
+
+The decoding is EM model specific. This only outputs sensefull values
+for EM2000, EM1002, EM3000, EM3002, EM300, EM120. See datagram format
+specification for details.
+
+Parameter ``unhandled_value``:
+    If provided, this value is used as the return value if the mode is
+    not handled for the specific system. Otherwise: 'None' is returned
+
+Returns:
+    A uint8_t representing receiver fixed gain setting use as encoded
+    by 'mode2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_as_rx_or_sonar_head_use =
+R"doc(Retrieves Rx array/ sonar head encoded in the mode2 variable
+
+The decoding is EM model specific. Currently only outputs sensefull
+values for EM2040 and EM2040C. See datagram format specification for
+details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'None' is
+    returned
+
+Returns:
+    A string representing Rx array / Sonar head use as encoded by
+    'mode2')doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode2_or_receiver_fixed_gain_setting = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_mode_as_dual_swath_mode =
@@ -166,8 +212,8 @@ for details.
 
 Parameter ``unhandled_message``:
     If provided, this message is used as the return value if the mode
-    is not handled for the specific system. Otherwise: 'Ping mode
-    unhandled' or 'Ping mode not implemented' is returned
+    is not handled for the specific system. Otherwise: None is
+    returned
 
 Returns:
     A string representing Tx pulse form as encoded by 'mode')doc";
@@ -180,8 +226,8 @@ for details.
 
 Parameter ``unhandled_message``:
     If provided, this message is used as the return value if the mode
-    is not handled for the specific system. Otherwise: 'Ping mode
-    unhandled' or 'Ping mode not implemented' is returned
+    is not handled for the specific system. Otherwise: None is
+    returned
 
 Returns:
     A string representing Ping mode as encoded by 'mode')doc";
@@ -194,8 +240,8 @@ for details.
 
 Parameter ``unhandled_message``:
     If provided, this message is used as the return value if the mode
-    is not handled for the specific system. Otherwise: 'Ping mode
-    unhandled' or 'Ping mode not implemented' is returned
+    is not handled for the specific system. Otherwise: None is
+    returned.
 
 Returns:
     A string representing Tx pulse form as encoded by 'mode')doc";

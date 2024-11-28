@@ -253,7 +253,8 @@ class KongsbergAllDatagram
             "datagram_identifier",
             fmt::format("0x{:02x}", uint8_t(_datagram_identifier)),
             datagram_identifier_to_string(t_KongsbergAllDatagramIdentifier(_datagram_identifier)));
-        printer.register_value("model_number", get_model_number(), get_model_number_as_string());
+        printer.register_string(
+            "model_number", get_model_number_as_string(), std::to_string(get_model_number()));
         printer.register_value("date", _date, "YYYYMMDD");
         printer.register_value("time_since_midnight", _time_since_midnight, "ms");
 
