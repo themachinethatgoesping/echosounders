@@ -259,6 +259,24 @@ void init_c_runtimeparameters(pybind11::module& m)
              &RuntimeParameters::get_filter_identifier_as_interference_filter,
              DOC_RuntimeParameters(get_filter_identifier_as_interference_filter))
 
+        // filter_identifier2
+        .def("get_filter_identifier2_as_penetration_filter",
+             &RuntimeParameters::get_filter_identifier2_as_penetration_filter,
+             DOC_RuntimeParameters(get_filter_identifier2_as_penetration_filter))
+        .def("get_filter_identifier2_as_detect_mode",
+             &RuntimeParameters::get_filter_identifier2_as_detect_mode,
+             DOC_RuntimeParameters(get_filter_identifier2_as_detect_mode))
+        .def("get_filter_identifier2_as_phase_ramp",
+             &RuntimeParameters::get_filter_identifier2_as_phase_ramp,
+             DOC_RuntimeParameters(get_filter_identifier2_as_phase_ramp),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_filter_identifier2_as_special_tvg",
+             &RuntimeParameters::get_filter_identifier2_as_special_tvg,
+             DOC_RuntimeParameters(get_filter_identifier2_as_special_tvg))
+        .def("get_filter_identifier2_as_special_amp_detect",
+             &RuntimeParameters::get_filter_identifier2_as_special_amp_detect,
+             DOC_RuntimeParameters(get_filter_identifier2_as_special_amp_detect))
+
         // _source_of_sound_speed_at_transducer
         .def("get_source_of_sound_speed_at_transducer_as_string",
              &RuntimeParameters::get_source_of_sound_speed_at_transducer_as_string,
@@ -276,6 +294,24 @@ void init_c_runtimeparameters(pybind11::module& m)
         .def("get_3d_scanning_enabled",
              &RuntimeParameters::get_3d_scanning_enabled,
              DOC_RuntimeParameters(get_3d_scanning_enabled))
+
+        // beam_spacing
+        .def("get_beam_spacing_as_string",
+             &RuntimeParameters::get_beam_spacing_as_string,
+             DOC_RuntimeParameters(get_beam_spacing_as_string),
+             py::arg("unhandled_message") = std::nullopt)
+
+        // yaw and pitch stabilization
+        .def("get_yaw_and_pitch_stabilization_mode_as_yaw_stabilization",
+             &RuntimeParameters::get_yaw_and_pitch_stabilization_mode_as_yaw_stabilization,
+             DOC_RuntimeParameters(get_yaw_and_pitch_stabilization_mode_as_yaw_stabilization))
+        .def("get_yaw_and_pitch_stabilization_mode_as_heading_filter",
+             &RuntimeParameters::get_yaw_and_pitch_stabilization_mode_as_heading_filter,
+             DOC_RuntimeParameters(get_yaw_and_pitch_stabilization_mode_as_heading_filter),
+             py::arg("unhandled_message") = std::nullopt)
+        .def("get_yaw_and_pitch_stabilization_mode_as_pitch_stibilization",
+             &RuntimeParameters::get_yaw_and_pitch_stabilization_mode_as_pitch_stibilization,
+             DOC_RuntimeParameters(get_yaw_and_pitch_stabilization_mode_as_pitch_stibilization))
 
         // --- mode2 ---
 

@@ -1,4 +1,4 @@
-//sourcehash: 0aaecbe141a93b6eb0ad10ad932f90e1a68553ce94995a78a883702a57f017ec
+//sourcehash: e4faf4141e475d257cf254c796e92f885bd61000b9c7af44f9e77f65665a9569
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -83,6 +83,21 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_beam_spacing = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_beam_spacing_as_string =
+R"doc(Retrieves beamspacing mode encoded in the beamspacing variable
+
+The decoding is EM model specific. Currently only outputs sensefull
+values for EM2040 and EM2040C. See datagram format specification for
+details.
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled for the specific system. Otherwise: 'None' is
+    returned
+
+Returns:
+    A string representing beamspacing as encoded by 'beamspacing')doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_bsp_status = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_checksum = R"doc()doc";
@@ -99,6 +114,50 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2_as_detect_mode =
+R"doc(Retrieves detect mode encoded in the filter_identifier2 variable
+
+Returns:
+    A string representing the detect mode as encoded by
+    'filter_identifier2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2_as_penetration_filter =
+R"doc(Retrieves penetration filter setup encoded in the filter_identifier2
+variable
+
+Returns:
+    A string representing the penetration filter setup as encoded by
+    'filter_identifier2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2_as_phase_ramp =
+R"doc(Retrieves phase ramp encoded in the filter_identifier2 variable
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the value
+    is not handled by the function. Otherwise: 'None' is returned
+
+Returns:
+    A string representing the phase ramp encoded by
+    'filter_identifier2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2_as_special_amp_detect =
+R"doc(Retrieves the Special amp detect mode encoded in the
+filter_identifier2 variable
+
+EM3002 soft sediment detection = special amp detect
+
+Returns:
+    A string representing the Special amp detect mode (Normal/Special)
+    as encoded by 'filter_identifier2')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier2_as_special_tvg =
+R"doc(Retrieves the Special TVG mode encoded in the filter_identifier2
+variable
+
+Returns:
+    A string representing the Special TVG mode (Normal/Special) as
+    encoded by 'filter_identifier2')doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_filter_identifier_as_aeration_filter =
 R"doc(Retrieves the Aearation filter status encoded in the filter_identifier
@@ -121,8 +180,8 @@ R"doc(Retrieves Range gates size encoded in the mode variable
 
 Parameter ``unhandled_message``:
     If provided, this message is used as the return value if the range
-    gates size is not handled for the specific system. Otherwise:
-    Range gates size not implemented' is returned
+    gates size is not handled by the function. Otherwise: 'None' is
+    returned
 
 Returns:
     A string representing Range gates size as encoded by 'mode')doc";
@@ -329,6 +388,34 @@ Returns:
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_tvg_law_crossover_angle = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_yaw_and_pitch_stabilization_mode = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_yaw_and_pitch_stabilization_mode_as_heading_filter =
+R"doc(Retrieves heading filter mode encoded in the
+yaw_and_pitch_stabilization_mode variable
+
+Parameter ``unhandled_message``:
+    If provided, this message is used as the return value if the mode
+    is not handled by the function. Otherwise: 'None' is returned
+
+Returns:
+    A string representing heading filter mode as encoded by
+    'yaw_and_pitch_stabilization_mode')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_yaw_and_pitch_stabilization_mode_as_pitch_stibilization =
+R"doc(Retrieves pitch stabilization mode (on/off) encoded in the
+yaw_and_pitch_stabilization_mode variable
+
+Returns:
+    A string representing pitch stabilization mode as encoded by
+    'yaw_and_pitch_stabilization_mode')doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_yaw_and_pitch_stabilization_mode_as_yaw_stabilization =
+R"doc(Retrieves yaw and pitch stabilization mode encoded in the
+yaw_and_pitch_stabilization_mode variable
+
+Returns:
+    A string representing yaw_and_pitch_stabilization_mode as encoded
+    by 'yaw_and_pitch_stabilization_mode')doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_hash_content_only = R"doc()doc";
 
