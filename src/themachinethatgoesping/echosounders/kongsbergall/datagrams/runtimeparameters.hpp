@@ -296,8 +296,13 @@ class RuntimeParameters : public KongsbergAllDatagram
                     default:
                         return fmt::format("Unknown ping mode [EM{}/{:08b}]", _model_number, _mode);
                 }
+                case 2045: // EM2040C, we decode the 'Frequency' as PingMode here, since this was also the choice for the EM2040
+                 {
+                    uint_fast16_t frequency = (_mode & 0b00011111) + 180;
+                    return fmt::format("{} kHz", frequency);
+                 }
             default:
-                return fmt::format("No ping mode for EM{{}} [{:08b}]", _model_number, _mode);
+                return fmt::format("Ping mode unhandled for EM{{}} [{:08b}]", _model_number, _mode);
         }
     }
 
