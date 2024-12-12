@@ -115,8 +115,8 @@ class PingSampleSelector
         std::optional<size_t> max_sample_nr_ping, min_sample_nr_ping;
         if (_max_minslant_range_percent)
         {
-            size_t sn = (*_max_minslant_range_percent * 0.01f) *
-                        ping_watercolumn.get_minslant_sample_nr();
+            size_t sn =
+                (*_max_minslant_range_percent * 0.01f) * ping_watercolumn.get_minslant_sample_nr();
             if (_max_sample_number)
                 max_sample_nr_ping = std::min(sn, *_max_sample_number);
             else
@@ -127,8 +127,8 @@ class PingSampleSelector
 
         if (_min_minslant_range_percent)
         {
-            size_t sn = (*_min_minslant_range_percent * 0.01f) *
-                        ping_watercolumn.get_minslant_sample_nr();
+            size_t sn =
+                (*_min_minslant_range_percent * 0.01f) * ping_watercolumn.get_minslant_sample_nr();
             if (_min_sample_number)
                 min_sample_nr_ping = std::max(sn, *_min_sample_number);
             else
@@ -307,8 +307,8 @@ class PingSampleSelector
     }
 
     // selectors
-    void select_beam_range_by_numbers(size_t                min_beam_number,
-                                      size_t                max_beam_number,
+    void select_beam_range_by_numbers(std::optional<size_t> min_beam_number,
+                                      std::optional<size_t> max_beam_number,
                                       std::optional<size_t> beam_step = std::nullopt)
     {
         _min_beam_number = min_beam_number;
@@ -317,8 +317,8 @@ class PingSampleSelector
             _beam_step = *beam_step;
     }
 
-    void select_sample_range_by_numbers(size_t                min_sample_number,
-                                        size_t                max_sample_number,
+    void select_sample_range_by_numbers(std::optional<size_t> min_sample_number,
+                                        std::optional<size_t> max_sample_number,
                                         std::optional<size_t> sample_step = std::nullopt)
     {
         _min_sample_number = min_sample_number;
@@ -327,8 +327,8 @@ class PingSampleSelector
             _sample_step = *sample_step;
     }
 
-    void select_beam_range_by_angles(float                 min_beam_angle,
-                                     float                 max_beam_angle,
+    void select_beam_range_by_angles(std::optional<float>  min_beam_angle,
+                                     std::optional<float>  max_beam_angle,
                                      std::optional<size_t> beam_step = std::nullopt)
     {
         _min_beam_angle = min_beam_angle;
@@ -337,8 +337,8 @@ class PingSampleSelector
             _beam_step = *beam_step;
     }
 
-    void select_sample_range_by_ranges(float                 min_sample_range,
-                                       float                 max_sample_range,
+    void select_sample_range_by_ranges(std::optional<float>  min_sample_range,
+                                       std::optional<float>  max_sample_range,
                                        std::optional<size_t> sample_step = std::nullopt)
     {
         _min_sample_range = min_sample_range;
@@ -346,39 +346,39 @@ class PingSampleSelector
         if (sample_step)
             _sample_step = *sample_step;
     }
-    void select_max_minslant_range_percent(float max_minslant_range_percent)
+    void select_max_minslant_range_percent(std::optional<float> max_minslant_range_percent)
     {
         _max_minslant_range_percent = max_minslant_range_percent;
     }
-    void select_min_minslant_range_percent(float min_minslant_range_percent)
+    void select_min_minslant_range_percent(std::optional<float> min_minslant_range_percent)
     {
         _min_minslant_range_percent = min_minslant_range_percent;
     }
     void select_minslant_range_percent(std::optional<float> min_minslant_range_percent,
-                                          std::optional<float> max_minslant_range_percent)
+                                       std::optional<float> max_minslant_range_percent)
     {
         _min_minslant_range_percent = min_minslant_range_percent;
         _max_minslant_range_percent = max_minslant_range_percent;
     }
 
-    void select_min_bottom_range_percent(float min_bottom_range_percent)
+    void select_min_bottom_range_percent(std::optional<float> min_bottom_range_percent)
     {
         _min_bottom_range_percent = min_bottom_range_percent;
     }
 
-    void select_max_bottom_range_percent(float max_bottom_range_percent)
+    void select_max_bottom_range_percent(std::optional<float> max_bottom_range_percent)
     {
         _max_bottom_range_percent = max_bottom_range_percent;
     }
 
     void select_bottom_range_percent(std::optional<float> min_bottom_range_percent,
-                                        std::optional<float> max_bottom_range_percent)
+                                     std::optional<float> max_bottom_range_percent)
     {
         _min_bottom_range_percent = min_bottom_range_percent;
         _max_bottom_range_percent = max_bottom_range_percent;
     }
 
-    void select_transmit_sectors(std::vector<size_t> transmit_sectors)
+    void select_transmit_sectors(std::optional<std::vector<size_t>> transmit_sectors)
     {
         _transmit_sectors = transmit_sectors;
     }
@@ -407,14 +407,14 @@ class PingSampleSelector
         using themachinethatgoesping::tools::classhelper::stream::optional_set_from_stream;
 
         PingSampleSelector object;
-        object._min_beam_number               = optional_from_stream<size_t>(is);
-        object._max_beam_number               = optional_from_stream<size_t>(is);
-        object._min_sample_number             = optional_from_stream<size_t>(is);
-        object._max_sample_number             = optional_from_stream<size_t>(is);
-        object._min_beam_angle                = optional_from_stream<float>(is);
-        object._max_beam_angle                = optional_from_stream<float>(is);
-        object._min_sample_range              = optional_from_stream<float>(is);
-        object._max_sample_range              = optional_from_stream<float>(is);
+        object._min_beam_number            = optional_from_stream<size_t>(is);
+        object._max_beam_number            = optional_from_stream<size_t>(is);
+        object._min_sample_number          = optional_from_stream<size_t>(is);
+        object._max_sample_number          = optional_from_stream<size_t>(is);
+        object._min_beam_angle             = optional_from_stream<float>(is);
+        object._max_beam_angle             = optional_from_stream<float>(is);
+        object._min_sample_range           = optional_from_stream<float>(is);
+        object._max_sample_range           = optional_from_stream<float>(is);
         object._min_minslant_range_percent = optional_from_stream<float>(is);
         object._max_minslant_range_percent = optional_from_stream<float>(is);
         object._min_bottom_range_percent   = optional_from_stream<float>(is);
@@ -497,17 +497,11 @@ class PingSampleSelector
                         "%",
                         inactive_filters);
 
-        register_filter(printer,
-                        "min_bottom_range_percent",
-                        _min_bottom_range_percent,
-                        "%",
-                        inactive_filters);
+        register_filter(
+            printer, "min_bottom_range_percent", _min_bottom_range_percent, "%", inactive_filters);
 
-        register_filter(printer,
-                        "max_bottom_range_percent",
-                        _max_bottom_range_percent,
-                        "%",
-                        inactive_filters);
+        register_filter(
+            printer, "max_bottom_range_percent", _max_bottom_range_percent, "%", inactive_filters);
 
         if (_transmit_sectors)
             printer.register_container("transmit_sectors", *_transmit_sectors);

@@ -128,31 +128,31 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("select_beam_range_by_numbers",
              &PingSampleSelector::select_beam_range_by_numbers,
              DOC_PingSampleSelector(select_beam_range_by_numbers),
-             py::arg("min_beam_number"),
-             py::arg("max_beam_number"),
-             py::arg("beam_step") = std::nullopt)
+             py::arg("min_beam_number") = std::nullopt,
+             py::arg("max_beam_number") = std::nullopt,
+             py::arg("beam_step")       = std::nullopt)
         .def("select_sample_range_by_numbers",
              &PingSampleSelector::select_sample_range_by_numbers,
              DOC_PingSampleSelector(select_sample_range_by_numbers),
-             py::arg("min_sample_number"),
-             py::arg("max_sample_number"),
-             py::arg("sample_step") = std::nullopt)
+             py::arg("min_sample_number") = std::nullopt,
+             py::arg("max_sample_number") = std::nullopt,
+             py::arg("sample_step")       = std::nullopt)
         .def("select_beam_range_by_angles",
              &PingSampleSelector::select_beam_range_by_angles,
              DOC_PingSampleSelector(select_beam_range_by_angles),
-             py::arg("min_beam_angle"),
-             py::arg("max_beam_angle"),
-             py::arg("beam_step") = std::nullopt)
+             py::arg("min_beam_angle") = std::nullopt,
+             py::arg("max_beam_angle") = std::nullopt,
+             py::arg("beam_step")      = std::nullopt)
         .def("select_sample_range_by_ranges",
              &PingSampleSelector::select_sample_range_by_ranges,
              DOC_PingSampleSelector(select_sample_range_by_ranges),
-             py::arg("min_sample_range"),
-             py::arg("max_sample_range"),
-             py::arg("sample_step") = std::nullopt)
+             py::arg("min_sample_range") = std::nullopt,
+             py::arg("max_sample_range") = std::nullopt,
+             py::arg("sample_step")      = std::nullopt)
         .def("select_transmit_sectors",
              &PingSampleSelector::select_transmit_sectors,
              DOC_PingSampleSelector(select_transmit_sectors),
-             py::arg("transmit_sectors"))
+             py::arg("transmit_sectors") = std::nullopt)
         .def("select_transmit_sectors_by_beam_angles",
              &PingSampleSelector::select_transmit_sectors_by_beam_angles,
              DOC_PingSampleSelector(select_transmit_sectors_by_beam_angles),
@@ -161,11 +161,11 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("select_min_minslant_range_percent",
              &PingSampleSelector::select_min_minslant_range_percent,
              DOC_PingSampleSelector(select_min_minslant_range_percent),
-             py::arg("min_minslant_range_percent"))
+             py::arg("min_minslant_range_percent") = std::nullopt)
         .def("select_max_minslant_range_percent",
              &PingSampleSelector::select_max_minslant_range_percent,
              DOC_PingSampleSelector(select_max_minslant_range_percent),
-             py::arg("max_minslant_range_percent"))
+             py::arg("max_minslant_range_percent") = std::nullopt)
         .def("select_minslant_range_percent",
              &PingSampleSelector::select_minslant_range_percent,
              DOC_PingSampleSelector(select_minslant_range_percent),
@@ -174,11 +174,11 @@ void init_c_pingsampleselector(pybind11::module& m)
         .def("select_min_bottom_range_percent",
              &PingSampleSelector::select_min_bottom_range_percent,
              DOC_PingSampleSelector(select_min_bottom_range_percent),
-             py::arg("min_bottom_range_percent"))
+             py::arg("min_bottom_range_percent") = std::nullopt)
         .def("select_max_bottom_range_percent",
              &PingSampleSelector::select_max_bottom_range_percent,
              DOC_PingSampleSelector(select_max_bottom_range_percent),
-             py::arg("max_bottom_range_percent"))
+             py::arg("max_bottom_range_percent") = std::nullopt)
         .def("select_bottom_range_percent",
              &PingSampleSelector::select_bottom_range_percent,
              DOC_PingSampleSelector(select_bottom_range_percent),

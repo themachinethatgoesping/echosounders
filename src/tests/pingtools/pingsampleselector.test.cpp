@@ -50,7 +50,7 @@ TEST_CASE("PingSampleselector should support common functions", TESTTAG)
 
     // test binary (inbetween)
     REQUIRE(obj == PingSampleSelector(obj.from_binary(obj.to_binary())));
-    obj.select_transmit_sectors({ 3, 1 });
+    obj.select_transmit_sectors(std::vector<size_t>{ 3, 1 });
     REQUIRE(obj.get_transmit_sectors().value().at(0) == 3);
     REQUIRE(obj.get_transmit_sectors().value().at(1) == 1);
 
