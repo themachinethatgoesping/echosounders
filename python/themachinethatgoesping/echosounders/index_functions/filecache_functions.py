@@ -9,7 +9,7 @@ from typing import List, Dict, Union
 from tqdm.auto import tqdm
 from themachinethatgoesping.echosounders import filetemplates      # This is the filereader module for .all/.wcd files
 
-def print_cache_file_statistics(
+def print_index_file_statistics(
     index_paths: List[str]) :
 
     Buffers = defaultdict(int)

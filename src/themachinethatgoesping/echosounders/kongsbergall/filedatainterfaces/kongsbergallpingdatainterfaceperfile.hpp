@@ -248,7 +248,7 @@ class KongsbergAllPingDataInterfacePerFile
 
         // update cache
         for (auto& [file_nr, cache_handler] : index_path_per_file_nr)
-            cache_handler.update_cache_file();
+            cache_handler.update_index_file();
 
         return pings;
     }
@@ -298,7 +298,7 @@ class KongsbergAllPingDataInterfacePerFile
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::WaterColumnInformation>;
 
-        bool                         _update_cache = false;
+        bool                         _update_index = false;
         std::string                  _index_path;
         std::unique_ptr<t_FileCache> _file_cache;
 
@@ -315,12 +315,12 @@ class KongsbergAllPingDataInterfacePerFile
             const std::unordered_map<std::string, std::string>& index_paths,
             const t_FileDataInterface&                          PingDataInterface)
         {
-            const auto cache_file_it = index_paths.find(PingDataInterface.get_file_path());
-            if (cache_file_it == index_paths.end())
+            const auto index_file_it = index_paths.find(PingDataInterface.get_file_path());
+            if (index_file_it == index_paths.end())
                 // leave _file_cache uninitialized
                 return;
 
-            _index_path = cache_file_it->second;
+            _index_path = index_file_it->second;
 
             _file_cache = std::make_unique<t_FileCache>(
                 t_FileCache(_index_path,
@@ -358,7 +358,7 @@ class KongsbergAllPingDataInterfacePerFile
                 return _buffer_watercolumninformation.get_package(datagram_info->get_file_pos(),
                                                                   datagram_info->get_timestamp());
 
-            _update_cache = true;
+            _update_index = true;
             auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
                 ping.file_data().read_merged_watercolumndatagram(true));
 
@@ -387,7 +387,7 @@ class KongsbergAllPingDataInterfacePerFile
                 return _buffer_systeminformation.get_package(datagram_info->get_file_pos(),
                                                              datagram_info->get_timestamp());
 
-            _update_cache = true;
+            _update_index = true;
             auto dat      = std::make_unique<filedatatypes::_sub::SystemInformation>(
                 ping.file_data().template read_first_datagram<datagrams::RawRangeAndAngle>());
 
@@ -399,12 +399,12 @@ class KongsbergAllPingDataInterfacePerFile
             return dat;
         }
 
-        void update_cache_file()
+        void update_index_file()
         {
             if (!_file_cache)
                 return;
 
-            if (_update_cache)
+            if (_update_index)
             {
                 _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
                                           _buffer_watercolumninformation);

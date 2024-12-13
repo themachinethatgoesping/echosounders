@@ -14,13 +14,13 @@ import tempfile
 
 
 class Test_echosounders_index_functions:
-    def test_get_cache_file_name_no_root(self):
+    def test_get_index_file_name_no_root(self):
         # Test the get_index_path() function with no index root
         # and a folder path and index name specified.
         index_file1 = index_functions.get_index_path(
             file_path="folder_path/file.txt",
-            cache_root=None,
-            cache_file_ending=".cache",
+            index_root=None,
+            index_file_ending=".index",
             create_dir=False
         )
         
@@ -28,8 +28,8 @@ class Test_echosounders_index_functions:
         # and a folder path and index name specified.
         index_file2 = index_functions.get_index_path(
             file_path="folder_path/file.txt",
-            cache_root='cache_root',
-            cache_file_ending=".cache",
+            index_root='index_root',
+            index_file_ending=".index",
             create_dir=False
         )
         
@@ -37,18 +37,18 @@ class Test_echosounders_index_functions:
         base_path = Path.cwd()       
 
         # Create a Path object for the index path.
-        index_path = Path(base_path) / Path("cache_root")
+        index_path = Path(base_path) / Path("index_root")
 
             
-        index_file = Path(os.path.abspath('cache_root'))
+        index_file = Path(os.path.abspath('index_root'))
         file_path = Path(os.path.abspath('folder_path/file.txt'))
         root_path = 'root_' + file_path.parts[0]
         root_path = root_path.replace(':', '')
 
-        expected_result = index_file.joinpath(root_path, *(Path(str(file_path) + ".cache")).parts[1:])
+        expected_result = index_file.joinpath(root_path, *(Path(str(file_path) + ".index")).parts[1:])
 
         
         # Check that the function returns the expected results.
-        assert Path(index_file1) == Path("folder_path/file.txt.cache")
+        assert Path(index_file1) == Path("folder_path/file.txt.index")
         assert index_file2 == str(expected_result)
         

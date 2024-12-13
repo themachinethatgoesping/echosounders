@@ -50,7 +50,7 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCache_class_name = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCache_file_pos = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageIndex_file_pos = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_cache_structures_PackageCache_from_binary = R"doc()doc";
 

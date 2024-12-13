@@ -28,19 +28,19 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
         LOGGER.info(f"findings test files in {self.test_folders}")
         self.files = theping.echosounders.index_functions.find_files(self.test_folders, ".raw")
         self.files.sort()
-        self.cache_files = theping.echosounders.index_functions.get_index_paths(self.files)
+        self.index_files = theping.echosounders.index_functions.get_index_paths(self.files)
 
         assert len(self.files) > 0
-        assert len(self.cache_files) > 0
+        assert len(self.index_files) > 0
 
-    def clean_cache(self):
+    def clean_index(self):
         LOGGER.info(f"Cleaning up cache files")
-        for file in self.cache_files:
+        for file in self.index_files:
             os.remove(file)
 
     def open_files_and_loop_through_pings(self, file, cache=False):
         if cache:
-            fm = simradraw.SimradRawFileHandler(file, index_paths=self.cache_files, show_progress=False)
+            fm = simradraw.SimradRawFileHandler(file, index_paths=self.index_files, show_progress=False)
         else:
             fm = simradraw.SimradRawFileHandler(file, show_progress=False)
 
