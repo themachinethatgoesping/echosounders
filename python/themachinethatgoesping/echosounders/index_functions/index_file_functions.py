@@ -18,17 +18,17 @@ def print_index_file_statistics(
         if not os.path.exists(fcp):
             continue
         
-        # load the cache file
-        cache = filetemplates.FileCache.from_file(fcp)
+        # load the index file
+        index = filetemplates.Fileindex.from_file(fcp)
         
-        for k,p1,p2 in cache.get_cache_buffer_header():
+        for k,p1,p2 in index.get_index_buffer_header():
             Buffers[k] += p2-p1
             
-        for k,p1,p2 in cache.get_cache_buffer_header():
+        for k,p1,p2 in index.get_index_buffer_header():
             Buffers["- Combined -"] += p2-p1
 
-        Buffers["- Source files -"] += cache.get_file_size()
-        #cache.print()
+        Buffers["- Source files -"] += index.get_file_size()
+        #index.print()
 
     for k,v in Buffers.items():
         if not k.startswith('-'):
@@ -38,7 +38,7 @@ def print_index_file_statistics(
         if k.startswith('-'):
             print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers['- Source files -'],2)} %" )
 
-def remove_name_from_cache(
+def remove_name_from_index(
     index_paths: List[str],
     name: str) -> None:
 
@@ -46,7 +46,7 @@ def remove_name_from_cache(
         if not os.path.exists(fcp):
             continue
             
-        # load the cache file
-        cache = filetemplates.FileCache.from_file(fcp)
-        cache.remove_from_cache(name)
-        cache.update_file(fcp)
+        # load the index file
+        index = filetemplates.Fileindex.from_file(fcp)
+        index.remove_from_index(name)
+        index.update_file(fcp)
