@@ -35,7 +35,7 @@ void FileDataInterfacePerFile_add_interface(T_PyClass& cls)
     cls.def("init_from_file",
             &T_BaseClass::init_from_file,
             DOC_FileDataInterfacePerFile(init_from_file),
-            py::arg("cache_file_path") = "",
+            py::arg("index_path") = "",
             py::arg("force")           = false);
     cls.def("get_file_nr", &T_BaseClass::get_file_nr, DOC_FileDataInterfacePerFile(get_file_nr));
     cls.def("get_linked_file_nr",

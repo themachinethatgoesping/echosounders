@@ -226,10 +226,10 @@ class I_InputFileHandler
         }
 
         // -- cache is found / initialize file cache --
-        const auto& cache_file_path = it->second;
+        const auto& index_path = it->second;
 
         // load FilePackageIndex from cache
-        datatypes::FileCache file_cache(cache_file_path,
+        datatypes::FileCache file_cache(index_path,
                                         file_path,
                                         std::filesystem::file_size(file_path),
                                         { "FilePackageIndex" });
@@ -311,7 +311,7 @@ class I_InputFileHandler
         _datagram_interface.add_datagram_infos(file_info.datagram_infos);
 
         // update cache file
-        file_cache.update_file(cache_file_path);
+        file_cache.update_file(index_path);
     }
 
     const auto& get_index_paths() const { return _index_paths; }

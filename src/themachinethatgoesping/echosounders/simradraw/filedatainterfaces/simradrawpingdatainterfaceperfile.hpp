@@ -82,7 +82,7 @@ class SimradRawPingDataInterfacePerFile
         filedatacontainers::SimradRawPingContainer<t_ifstream> pings;
 
         // -- get cache file path (assumes there is only one file) --
-        std::string cache_file_path = tools::helper::get_from_map_with_default(
+        std::string index_path = tools::helper::get_from_map_with_default(
             index_paths, this->get_file_path(), std::string(""));
 
         // -- create package cache_structures --
@@ -91,10 +91,10 @@ class SimradRawPingDataInterfacePerFile
         t_cache_XML_Parameter_Channel package_buffer_xml;
         t_cache_RAW3                  package_buffer_raw3;
 
-        if (!cache_file_path.empty())
+        if (!index_path.empty())
         {
             file_cache = t_FileCache(
-                cache_file_path,
+                index_path,
                 this->get_file_path(),
                 this->get_file_size(),
                 { "FilePackageCache<XML_Parameter_Channel>", "FilePackageCache<RAW3>" });
@@ -153,7 +153,7 @@ class SimradRawPingDataInterfacePerFile
                     // Note: Environment is also possible, but is not cached
 
                     // load from cache if available
-                    if (!cache_file_path.empty())
+                    if (!index_path.empty())
                         if (package_buffer_xml.has_package(datagram_ptr->get_file_pos()))
                         {
                             auto channels = package_buffer_xml.get_packages(
@@ -186,7 +186,7 @@ class SimradRawPingDataInterfacePerFile
                         {
                             _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
 
-                            if (!cache_file_path.empty())
+                            if (!index_path.empty())
                             {
                                 cache_updated = true;
                                 package_buffer_xml.add_package(
@@ -210,7 +210,7 @@ class SimradRawPingDataInterfacePerFile
                         {
                             _channel_parameter_buffer[channels[i].ChannelID] = channels[i];
 
-                            if (!cache_file_path.empty())
+                            if (!index_path.empty())
                             {
                                 cache_updated = true;
                                 package_buffer_xml.add_package(
@@ -240,7 +240,7 @@ class SimradRawPingDataInterfacePerFile
                     // load from cache if available
                     datagrams::RAW3 raw3;
 
-                    if (!cache_file_path.empty() &&
+                    if (!index_path.empty() &&
                         package_buffer_raw3.has_package(datagram_ptr->get_file_pos()))
                     {
                         raw3 = *package_buffer_raw3.get_package(datagram_ptr->get_file_pos(),
@@ -258,7 +258,7 @@ class SimradRawPingDataInterfacePerFile
                         }
                     }
 
-                    if (!cache_file_path.empty() &&
+                    if (!index_path.empty() &&
                         !package_buffer_raw3.has_package(datagram_ptr->get_file_pos()))
                     {
                         cache_updated = true;
@@ -323,7 +323,7 @@ class SimradRawPingDataInterfacePerFile
         }
 
         // update cache
-        if (!cache_file_path.empty())
+        if (!index_path.empty())
         {
             if (cache_updated)
             {
@@ -332,7 +332,7 @@ class SimradRawPingDataInterfacePerFile
 
                 file_cache.add_to_cache("FilePackageCache<RAW3>", package_buffer_raw3);
 
-                file_cache.update_file(cache_file_path);
+                file_cache.update_file(index_path);
             }
         }
 

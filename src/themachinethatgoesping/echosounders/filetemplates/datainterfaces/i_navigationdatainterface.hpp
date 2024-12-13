@@ -318,12 +318,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
   private:
     navigation::NavigationInterpolatorLatLon read_navigation_from_file_or_cache(
         t_NavigationDataInterfacePerFile&                   navigation_data_interface_per_file,
-        const std::unordered_map<std::string, std::string>& cache_file_paths)
+        const std::unordered_map<std::string, std::string>& index_paths)
     {
-        auto cache_it = cache_file_paths.find(navigation_data_interface_per_file.get_file_path());
+        auto cache_it = index_paths.find(navigation_data_interface_per_file.get_file_path());
 
         // if file is not in cache, read navigation data from file and return
-        if (cache_it == cache_file_paths.end())
+        if (cache_it == index_paths.end())
             return navigation_data_interface_per_file.read_navigation_data();
 
         // open file_cache

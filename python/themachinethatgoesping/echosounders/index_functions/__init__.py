@@ -2,6 +2,6 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-from .get_cache_file_paths import *
+from .get_index_paths import *
 from .filecache_functions import *
 from .find_files import *

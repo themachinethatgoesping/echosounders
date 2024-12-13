@@ -199,13 +199,13 @@ class I_FileDataInterface
             progress_bar.set_postfix(
                 fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
 
-            std::string cache_file_path = "";
+            std::string index_path = "";
             if (index_paths.find(inter->get_file_path()) !=
                 index_paths.end())
             {
-                cache_file_path = index_paths.at(inter->get_file_path());
+                index_path = index_paths.at(inter->get_file_path());
             }
-            inter->init_from_file(cache_file_path, force);
+            inter->init_from_file(index_path, force);
 
             if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();

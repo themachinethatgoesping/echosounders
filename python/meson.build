@@ -8,7 +8,7 @@ sources = [
   'themachinethatgoesping/echosounders/index_functions/__init__.py',
   'themachinethatgoesping/echosounders/index_functions/filecache_functions.py',
   'themachinethatgoesping/echosounders/index_functions/find_files.py',
-  'themachinethatgoesping/echosounders/index_functions/get_cache_file_paths.py',
+  'themachinethatgoesping/echosounders/index_functions/get_index_paths.py',
   'themachinethatgoesping/echosounders/evaluate/evaluate_ping_features.py',
 ]
 

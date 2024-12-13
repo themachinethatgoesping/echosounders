@@ -15,18 +15,18 @@ import tempfile
 
 class Test_echosounders_index_functions:
     def test_get_cache_file_name_no_root(self):
-        # Test the get_cache_file_path() function with no index root
+        # Test the get_index_path() function with no index root
         # and a folder path and index name specified.
-        index_file1 = index_functions.get_cache_file_path(
+        index_file1 = index_functions.get_index_path(
             file_path="folder_path/file.txt",
             cache_root=None,
             cache_file_ending=".cache",
             create_dir=False
         )
         
-        # Test the get_cache_file_path() function with an index root
+        # Test the get_index_path() function with an index root
         # and a folder path and index name specified.
-        index_file2 = index_functions.get_cache_file_path(
+        index_file2 = index_functions.get_index_path(
             file_path="folder_path/file.txt",
             cache_root='cache_root',
             cache_file_ending=".cache",

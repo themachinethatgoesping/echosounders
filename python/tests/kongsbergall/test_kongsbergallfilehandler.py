@@ -30,7 +30,7 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
         self.files_wcd = theping.echosounders.index_functions.find_files(self.test_folders, ".wcd")
         self.files = self.files_all + self.files_wcd
         self.files.sort()
-        self.cache_files = theping.echosounders.index_functions.get_cache_file_paths(self.files)
+        self.cache_files = theping.echosounders.index_functions.get_index_paths(self.files)
 
         assert len(self.files) > 0
         assert len(self.files_all) > 0

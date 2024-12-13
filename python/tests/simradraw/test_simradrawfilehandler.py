@@ -28,7 +28,7 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
         LOGGER.info(f"findings test files in {self.test_folders}")
         self.files = theping.echosounders.index_functions.find_files(self.test_folders, ".raw")
         self.files.sort()
-        self.cache_files = theping.echosounders.index_functions.get_cache_file_paths(self.files)
+        self.cache_files = theping.echosounders.index_functions.get_index_paths(self.files)
 
         assert len(self.files) > 0
         assert len(self.cache_files) > 0

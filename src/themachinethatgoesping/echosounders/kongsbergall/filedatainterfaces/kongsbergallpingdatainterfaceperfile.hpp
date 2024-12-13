@@ -299,7 +299,7 @@ class KongsbergAllPingDataInterfacePerFile
                 filedatatypes::_sub::WaterColumnInformation>;
 
         bool                         _update_cache = false;
-        std::string                  _cache_file_path;
+        std::string                  _index_path;
         std::unique_ptr<t_FileCache> _file_cache;
 
       public:
@@ -320,10 +320,10 @@ class KongsbergAllPingDataInterfacePerFile
                 // leave _file_cache uninitialized
                 return;
 
-            _cache_file_path = cache_file_it->second;
+            _index_path = cache_file_it->second;
 
             _file_cache = std::make_unique<t_FileCache>(
-                t_FileCache(_cache_file_path,
+                t_FileCache(_index_path,
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<WaterColumnInformation>",
@@ -410,7 +410,7 @@ class KongsbergAllPingDataInterfacePerFile
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
                                           _buffer_systeminformation);
-                _file_cache->update_file(_cache_file_path);
+                _file_cache->update_file(_index_path);
             }
         }
     };
