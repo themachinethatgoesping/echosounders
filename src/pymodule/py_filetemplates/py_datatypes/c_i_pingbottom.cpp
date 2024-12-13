@@ -108,6 +108,11 @@ void init_c_i_pingbottom(pybind11::module& m)
                  py::overload_cast<const pingtools::BeamSelection&>(&I_PingBottom::get_xyz),
                  DOC_I_PingBottom(get_xyz_2),
                  py::arg("beam_selection"))
+            .def("get_bottom_z", py::overload_cast<>(&I_PingBottom::get_bottom_z), DOC_I_PingBottom(get_bottom_z))
+            .def("get_bottom_z",
+                 py::overload_cast<const pingtools::BeamSelection&>(&I_PingBottom::get_bottom_z),
+                 DOC_I_PingBottom(get_bottom_z_2),
+                 py::arg("beam_selection"))
 
             .def("get_two_way_travel_times",
                  py::overload_cast<>(&I_PingBottom::get_two_way_travel_times),

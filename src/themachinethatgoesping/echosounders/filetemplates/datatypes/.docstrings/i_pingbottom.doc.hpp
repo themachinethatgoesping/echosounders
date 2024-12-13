@@ -1,4 +1,4 @@
-//sourcehash: dfc03a1b3286b032a71ad5e3aca19c2ed6db564746cc2d1ae5719bc7d2408ee4
+//sourcehash: dcc8c8a485446a31d6e01131f012747a890a21cc44f4daee5b2ad37bf0508777
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -67,6 +67,38 @@ R"doc(Get a beam selection object that selects all beams
 
 Returns:
     pingtools::BeamSelection)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z =
+R"doc(Computes closest bottom z value from all beams.
+
+This function retrieves the z-coordinates of the selected beams and
+performs outlier filtering to determine a valid bottom z value. If no
+valid bottom z value is found, an exception is thrown.
+
+Parameter ``selection``:
+    The selection of beams from which to compute the bottom z value.
+
+Returns:
+    The computed bottom z value.
+
+Throws:
+    std::runtime_error If no valid bottom z value is found.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z_2 =
+R"doc(Computes the closest z value from a given selection of beams.
+
+This function retrieves the z-coordinates of the selected beams and
+performs outlier filtering to determine a valid bottom z value. If no
+valid bottom z value is found, an exception is thrown.
+
+Parameter ``selection``:
+    The selection of beams from which to compute the bottom z value.
+
+Returns:
+    The computed bottom z value.
+
+Throws:
+    std::runtime_error If no valid bottom z value is found.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams =
 R"doc(Get the number of beams for this ping

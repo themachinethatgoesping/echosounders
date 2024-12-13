@@ -93,7 +93,7 @@ class I_PingBottom : public I_PingCommon
     // sectors and beams features
     virtual bool has_tx_signal_parameters() const { return false; }
     virtual bool has_number_of_tx_sectors() const { return false; }
-    virtual bool has_beam_numbers_per_tx_sector() const { return false; }    
+    virtual bool has_beam_numbers_per_tx_sector() const { return false; }
     virtual bool has_tx_sector_per_beam() const { return false; }
 
     // per beam information
@@ -227,6 +227,75 @@ class I_PingBottom : public I_PingCommon
     }
 
     /**
+     * @brief Computes closest bottom z value from all beams.
+     *
+     * This function retrieves the z-coordinates of the selected beams and performs
+     * outlier filtering to determine a valid bottom z value. If no valid bottom z
+     * value is found, an exception is thrown.
+     *
+     * @param selection The selection of beams from which to compute the bottom z value.
+     * @return The computed bottom z value.
+     * @throws std::runtime_error If no valid bottom z value is found.
+     */
+    float get_bottom_z() { return get_bottom_z(get_beam_selection_all()); }
+
+    /**
+     * @brief Computes the closest z value from a given selection of beams.
+     *
+     * This function retrieves the z-coordinates of the selected beams and performs
+     * outlier filtering to determine a valid bottom z value. If no valid bottom z
+     * value is found, an exception is thrown.
+     *
+     * @param selection The selection of beams from which to compute the bottom z value.
+     * @return The computed bottom z value.
+     * @throws std::runtime_error If no valid bottom z value is found.
+     */
+    float get_bottom_z(const pingtools::BeamSelection& selection)
+    {
+        auto xyz = get_xyz(selection);
+
+        if (xyz.size() == 0)
+            throw std::runtime_error(
+                fmt::format("Error[{}]: No valid bottom z found", __func__));
+
+        if (xyz.size() == 1)
+            return xyz.z[0];
+
+        // convert to std::vector
+        std::vector<float> bottom_distances(xyz.z.begin(), xyz.z.end());
+
+        // outlier filtering
+        // compute IQR median using nth_element
+        auto median_it = bottom_distances.begin() + bottom_distances.size() / 2;
+        std::nth_element(bottom_distances.begin(), median_it, bottom_distances.end());
+        auto median = *median_it;
+
+        // compute IQR
+        auto q3_it = bottom_distances.begin() + 3 * bottom_distances.size() / 4;
+        std::nth_element(median_it, q3_it, bottom_distances.end());
+        auto q3 = *q3_it;
+
+        auto q1_it = bottom_distances.begin() + bottom_distances.size() / 4;
+        std::nth_element(bottom_distances.begin(), q1_it, median_it);
+        auto q1      = *q1_it;
+        auto min_iqr = median - (q3 - q1) * 1.5;
+
+        // sort the elements till q1 (because the minval should be )
+        std::sort(bottom_distances.begin(), q1_it);
+        float bottom_z = std::numeric_limits<float>::max();
+        // find the first element that is not an outlier
+        for (auto it = bottom_distances.begin(); it != bottom_distances.end(); ++it)
+            if (*it > min_iqr && *it < bottom_z)
+                bottom_z = *it;
+
+        if (bottom_z == std::numeric_limits<float>::max())
+            throw std::runtime_error(
+                fmt::format("Error[{}]: No valid bottom z found", __func__));
+
+        return bottom_z;
+    }
+
+    /**
      * @brief Get the two way travel times of the bottom detection samples
      *
      * @return xt::xtensor<float, 1>
@@ -247,12 +316,13 @@ class I_PingBottom : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
-
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // Transducers
         printer.append(I_PingCommon::__printer__(float_precision, superscript_exponents));
@@ -271,7 +341,6 @@ class I_PingBottom : public I_PingCommon
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-
 };
 
 }

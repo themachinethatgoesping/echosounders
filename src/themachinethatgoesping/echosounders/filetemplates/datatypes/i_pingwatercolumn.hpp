@@ -763,8 +763,29 @@ class I_PingWatercolumn : public I_PingCommon
         throw not_implemented(__func__, this->class_name());
     }
 
+    /**
+     * @brief Computes the minimum slant sample number from all beams.
+     *
+     * This function calculates the minimum slant sample number by first obtaining the bottom range samples
+     * from the provided beam selection. It then filters out outliers using the Interquartile Range (IQR) method
+     * and returns the smallest valid sample number.
+     *
+     * @return The minimum slant sample number.
+     * @throws std::runtime_error If no valid bottom range sample is found.
+     */
     uint32_t get_minslant_sample_nr() { return get_minslant_sample_nr(get_beam_selection_all()); }
 
+    /**
+     * @brief Computes the minimum slant sample number from the given beam selection.
+     *
+     * This function calculates the minimum slant sample number by first obtaining the bottom range samples
+     * from the provided beam selection. It then filters out outliers using the Interquartile Range (IQR) method
+     * and returns the smallest valid sample number.
+     *
+     * @param selection The beam selection from which to obtain the bottom range samples.
+     * @return The minimum slant sample number.
+     * @throws std::runtime_error If no valid bottom range sample is found.
+     */
     uint32_t get_minslant_sample_nr(const pingtools::BeamSelection& selection)
     {
         auto bottom_range_samples = get_bottom_range_samples(selection);

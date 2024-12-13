@@ -1,4 +1,4 @@
-//sourcehash: 903d95ec481a2d6024ef652259623b7c4b819e2c890651c353b5b0af0d0d6c4a
+//sourcehash: 30f25bb8d4dc95c73f995954499e0d103686efca69bd6a3b64e93f29c2b32a47
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -174,9 +174,37 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr =
+R"doc(Computes the minimum slant sample number from all beams.
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr_2 = R"doc()doc";
+This function calculates the minimum slant sample number by first
+obtaining the bottom range samples from the provided beam selection.
+It then filters out outliers using the Interquartile Range (IQR)
+method and returns the smallest valid sample number.
+
+Returns:
+    The minimum slant sample number.
+
+Throws:
+    std::runtime_error If no valid bottom range sample is found.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_minslant_sample_nr_2 =
+R"doc(Computes the minimum slant sample number from the given beam
+selection.
+
+This function calculates the minimum slant sample number by first
+obtaining the bottom range samples from the provided beam selection.
+It then filters out outliers using the Interquartile Range (IQR)
+method and returns the smallest valid sample number.
+
+Parameter ``selection``:
+    The beam selection from which to obtain the bottom range samples.
+
+Returns:
+    The minimum slant sample number.
+
+Throws:
+    std::runtime_error If no valid bottom range sample is found.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
 
