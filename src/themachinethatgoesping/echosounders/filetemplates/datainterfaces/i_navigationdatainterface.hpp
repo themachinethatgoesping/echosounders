@@ -79,7 +79,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     bool is_initialized() const override { return _is_initialized_navigation_interpolators; }
 
     using I_FileDataInterface<t_NavigationDataInterfacePerFile>::init_from_file;
-    void init_from_file(const std::unordered_map<std::string, std::string>& file_cache_paths,
+    void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
                         bool                                                force,
                         tools::progressbars::I_ProgressBar&                 progress_bar,
                         bool external_progress_tick = false) final
@@ -88,7 +88,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         if (!this->_configuration_data_interface.lock()->is_initialized())
         {
             this->_configuration_data_interface.lock()->init_from_file(
-                file_cache_paths, false, progress_bar);
+                index_paths, false, progress_bar);
         }
 
         auto primary_interfaces_per_file = this->per_primary_file();
@@ -138,7 +138,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             try
             {
                 auto navigation_interpolator = read_navigation_from_file_or_cache(
-                    *primary_interfaces_per_file[i], file_cache_paths);
+                    *primary_interfaces_per_file[i], index_paths);
 
                 // Update sensor configuration with configuration data interface
                 // this is necessary since the configuration data interface might have been updated

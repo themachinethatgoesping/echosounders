@@ -101,21 +101,21 @@ class SimradRawFileHandler
     //     I_InputFileHandler;
 
     SimradRawFileHandler(const std::string&                                  file_path,
-                         const std::unordered_map<std::string, std::string>& file_cache_paths =
+                         const std::unordered_map<std::string, std::string>& index_paths =
                              std::unordered_map<std::string, std::string>(),
                          bool init          = true,
                          bool show_progress = true)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::string&                                  file_path,
-                         const std::unordered_map<std::string, std::string>& file_cache_paths,
+                         const std::unordered_map<std::string, std::string>& index_paths,
                          bool                                                init,
                          tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
         if (init)
@@ -123,21 +123,21 @@ class SimradRawFileHandler
     }
 
     SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
-                         const std::unordered_map<std::string, std::string>& file_cache_paths =
+                         const std::unordered_map<std::string, std::string>& index_paths =
                              std::unordered_map<std::string, std::string>(),
                          bool init          = true,
                          bool show_progress = true)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
-                         const std::unordered_map<std::string, std::string>& file_cache_paths,
+                         const std::unordered_map<std::string, std::string>& index_paths,
                          bool                                                init,
                          tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
         if (init)
@@ -154,34 +154,34 @@ class SimradRawFileHandler
 
         progress_bar.set_prefix("Initializing datagramdata interface");
         _datagramdata_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+            this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing configuration");
         _configuration_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+            this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
         _navigation_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar, true);
+            this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
         _environment_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+            this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing annotation");
         _annotation_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+            this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing other");
         _otherfiledata_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar);
+            this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing ping interface");
         _ping_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar, true);
+            this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.close(std::string("Done"));
     }

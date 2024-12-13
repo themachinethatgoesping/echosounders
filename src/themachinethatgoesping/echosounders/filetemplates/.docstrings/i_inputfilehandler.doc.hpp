@@ -70,9 +70,9 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_Inp
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_datagram_interface_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_file_cache_paths = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_index_paths = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_get_file_cache_paths = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_get_index_paths = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_I_InputFileHandler_init_interfaces = R"doc()doc";
 

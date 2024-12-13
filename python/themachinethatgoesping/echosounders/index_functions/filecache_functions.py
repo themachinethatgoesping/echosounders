@@ -10,11 +10,11 @@ from tqdm.auto import tqdm
 from themachinethatgoesping.echosounders import filetemplates      # This is the filereader module for .all/.wcd files
 
 def print_cache_file_statistics(
-    file_cache_paths: List[str]) :
+    index_paths: List[str]) :
 
     Buffers = defaultdict(int)
 
-    for fcp in tqdm(file_cache_paths.values(), delay=1):
+    for fcp in tqdm(index_paths.values(), delay=1):
         if not os.path.exists(fcp):
             continue
         
@@ -39,10 +39,10 @@ def print_cache_file_statistics(
             print(f"{k}: {round(v/1024/1024,2)} 'MB' / {round(100*v/Buffers['- Source files -'],2)} %" )
 
 def remove_name_from_cache(
-    file_cache_paths: List[str],
+    index_paths: List[str],
     name: str) -> None:
 
-    for fcp in tqdm(file_cache_paths.values(), delay=1):
+    for fcp in tqdm(index_paths.values(), delay=1):
         if not os.path.exists(fcp):
             continue
             

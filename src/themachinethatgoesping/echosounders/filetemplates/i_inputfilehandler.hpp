@@ -65,7 +65,7 @@ class I_InputFileHandler
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
         std::make_shared<internal::InputFileManager<t_ifstream>>();
 
-    std::unordered_map<std::string, std::string> _file_cache_paths;
+    std::unordered_map<std::string, std::string> _index_paths;
 
     /* datagram container */
     t_DatagramInterface _datagram_interface;
@@ -76,28 +76,28 @@ class I_InputFileHandler
 
     I_InputFileHandler() = default;
 
-    I_InputFileHandler(const std::unordered_map<std::string, std::string>& file_cache_paths)
-        : _file_cache_paths(file_cache_paths)
+    I_InputFileHandler(const std::unordered_map<std::string, std::string>& index_paths)
+        : _index_paths(index_paths)
     {
     }
 
   public:
     I_InputFileHandler(const std::string&                                  file_path,
-                       const std::unordered_map<std::string, std::string>& file_cache_paths =
+                       const std::unordered_map<std::string, std::string>& index_paths =
                            std::unordered_map<std::string, std::string>(),
                        bool init          = true,
                        bool show_progress = true)
-        : _file_cache_paths(file_cache_paths)
+        : _index_paths(index_paths)
     {
         append_file(file_path, show_progress);
         if (init)
             init_interfaces(false, show_progress);
     }
     I_InputFileHandler(const std::string&                                  file_path,
-                       const std::unordered_map<std::string, std::string>& file_cache_paths,
+                       const std::unordered_map<std::string, std::string>& index_paths,
                        bool                                                init,
                        tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _file_cache_paths(file_cache_paths)
+        : _index_paths(index_paths)
     {
         append_file(file_path, progress_bar);
         if (init)
@@ -105,11 +105,11 @@ class I_InputFileHandler
     }
 
     I_InputFileHandler(const std::vector<std::string>&                     file_paths,
-                       const std::unordered_map<std::string, std::string>& file_cache_paths =
+                       const std::unordered_map<std::string, std::string>& index_paths =
                            std::unordered_map<std::string, std::string>(),
                        bool init          = true,
                        bool show_progress = true)
-        : _file_cache_paths(file_cache_paths)
+        : _index_paths(index_paths)
     {
         append_files(file_paths, show_progress);
         if (init)
@@ -117,10 +117,10 @@ class I_InputFileHandler
     }
 
     I_InputFileHandler(const std::vector<std::string>&                     file_paths,
-                       const std::unordered_map<std::string, std::string>& file_cache_paths,
+                       const std::unordered_map<std::string, std::string>& index_paths,
                        bool                                                init,
                        tools::progressbars::I_ProgressBar&                 progress_bar)
-        : _file_cache_paths(file_cache_paths)
+        : _index_paths(index_paths)
     {
         append_files(file_paths, progress_bar);
         if (init)
@@ -211,10 +211,10 @@ class I_InputFileHandler
         auto file_nr = _input_file_manager->get_file_paths()->size() - 1;
 
         // check if file exists in index
-        auto it = _file_cache_paths.find(file_path);
+        auto it = _index_paths.find(file_path);
 
         // if cache file path is not found, scan file without caching
-        if (it == _file_cache_paths.end())
+        if (it == _index_paths.end())
         {
             // scan for datagram headers
             FileInfos file_info = scan_for_datagrams(file_path, file_nr, progress_bar);
@@ -314,7 +314,7 @@ class I_InputFileHandler
         file_cache.update_file(cache_file_path);
     }
 
-    const auto& get_file_cache_paths() const { return _file_cache_paths; }
+    const auto& get_index_paths() const { return _index_paths; }
 
     // // ----- iterator interface -----
     // template<typename t_DatagramType, typename t_DatagramTypeFactory = t_DatagramType>

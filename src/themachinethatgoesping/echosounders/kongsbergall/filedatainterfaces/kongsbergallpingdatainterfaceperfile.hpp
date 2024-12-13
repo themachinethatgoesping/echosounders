@@ -63,7 +63,7 @@ class KongsbergAllPingDataInterfacePerFile
     ~KongsbergAllPingDataInterfacePerFile() = default;
 
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
-        const std::unordered_map<std::string, std::string>& file_cache_paths =
+        const std::unordered_map<std::string, std::string>& index_paths =
             std::unordered_map<std::string, std::string>()) override
     {
         using t_pingcontainer = filedatacontainers::KongsbergAllPingContainer<t_ifstream>;
@@ -71,15 +71,15 @@ class KongsbergAllPingDataInterfacePerFile
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
         // -- get cache file path for primary and secondary file --
-        std::map<size_t, KongsbergPingCacheHandler> file_cache_path_per_file_nr;
+        std::map<size_t, KongsbergPingCacheHandler> index_path_per_file_nr;
 
         // -- create package cache_structures --
-        file_cache_path_per_file_nr[this->get_file_nr()] =
-            KongsbergPingCacheHandler(file_cache_paths, *this);
+        index_path_per_file_nr[this->get_file_nr()] =
+            KongsbergPingCacheHandler(index_paths, *this);
 
         if (this->has_linked_file())
-            file_cache_path_per_file_nr[this->get_linked_file_nr()] =
-                KongsbergPingCacheHandler(file_cache_paths, *(this->get_linked_file()));
+            index_path_per_file_nr[this->get_linked_file_nr()] =
+                KongsbergPingCacheHandler(index_paths, *(this->get_linked_file()));
 
         // initialize class structure
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
@@ -218,7 +218,7 @@ class KongsbergAllPingDataInterfacePerFile
 
                     // add runtime parameters (will be deduplicated as boost flyweight)
                     ping_ptr->file_data().set_watercolumninformation(
-                        file_cache_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
+                        index_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
                             *ping_ptr));
                 }
 
@@ -235,7 +235,7 @@ class KongsbergAllPingDataInterfacePerFile
 
                         // add runtime parameters (will be deduplicated as boost flyweight)
                         ping_ptr->file_data().set_systeminformation(
-                            file_cache_path_per_file_nr[file_nr].read_or_get_systeminformation(
+                            index_path_per_file_nr[file_nr].read_or_get_systeminformation(
                                 *ping_ptr));
                     }
 
@@ -247,7 +247,7 @@ class KongsbergAllPingDataInterfacePerFile
         }
 
         // update cache
-        for (auto& [file_nr, cache_handler] : file_cache_path_per_file_nr)
+        for (auto& [file_nr, cache_handler] : index_path_per_file_nr)
             cache_handler.update_cache_file();
 
         return pings;
@@ -312,11 +312,11 @@ class KongsbergAllPingDataInterfacePerFile
 
         template<typename t_FileDataInterface>
         KongsbergPingCacheHandler(
-            const std::unordered_map<std::string, std::string>& file_cache_paths,
+            const std::unordered_map<std::string, std::string>& index_paths,
             const t_FileDataInterface&                          PingDataInterface)
         {
-            const auto cache_file_it = file_cache_paths.find(PingDataInterface.get_file_path());
-            if (cache_file_it == file_cache_paths.end())
+            const auto cache_file_it = index_paths.find(PingDataInterface.get_file_path());
+            if (cache_file_it == index_paths.end())
                 // leave _file_cache uninitialized
                 return;
 

@@ -68,7 +68,7 @@ class SimradRawPingDataInterfacePerFile
 
     filedatacontainers::SimradRawPingContainer<t_ifstream> read_pings(
 
-        const std::unordered_map<std::string, std::string>& file_cache_paths =
+        const std::unordered_map<std::string, std::string>& index_paths =
             std::unordered_map<std::string, std::string>()) override
     {
         using t_cache_XML_Parameter_Channel =
@@ -83,7 +83,7 @@ class SimradRawPingDataInterfacePerFile
 
         // -- get cache file path (assumes there is only one file) --
         std::string cache_file_path = tools::helper::get_from_map_with_default(
-            file_cache_paths, this->get_file_path(), std::string(""));
+            index_paths, this->get_file_path(), std::string(""));
 
         // -- create package cache_structures --
         bool                          cache_updated = false;

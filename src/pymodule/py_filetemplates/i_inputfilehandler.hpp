@@ -38,7 +38,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler),
             py::arg("file_path"),
-            py::arg("file_cache_paths") = std::unordered_map<std::string, std::string>(),
+            py::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             py::arg("init")                       = true,
             py::arg("show_progress")              = true);
     cls.def(py::init<const std::string&,
@@ -52,7 +52,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_2),
             py::arg("file_path"),
-            py::arg("file_cache_paths"),
+            py::arg("index_paths"),
             py::arg("init"),
             py::arg("progress_bar"));
     cls.def(py::init<const std::vector<std::string>&,
@@ -66,7 +66,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_3),
             py::arg("file_path"),
-            py::arg("file_cache_paths") = std::unordered_map<std::string, std::string>(),
+            py::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             py::arg("init")                       = true,
             py::arg("show_progress")              = true);
     cls.def(py::init<const std::vector<std::string>&,
@@ -80,7 +80,7 @@ void add_default_constructors(T_PyClass& cls)
                 I_InputFileHandler,
                 I_InputFileHandler_4),
             py::arg("file_paths"),
-            py::arg("file_cache_paths"),
+            py::arg("index_paths"),
             py::arg("init"),
             py::arg("progress_bar"));
 }
@@ -114,13 +114,13 @@ void add_open_file_interface(T_PyClass& cls)
     //             py::call_guard<py::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
     //             append_file), py::arg("file_path"), py::arg("progress_bar"));
-    cls.def("get_file_cache_paths",
-            &T_BaseClass::get_file_cache_paths,
+    cls.def("get_index_paths",
+            &T_BaseClass::get_index_paths,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 I_InputFileHandler,
-                get_file_cache_paths));
+                get_index_paths));
 
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)

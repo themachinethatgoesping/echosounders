@@ -44,7 +44,7 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
 
     def open_files_and_loop_through_pings(self, file, cache=False):
         if cache:
-            fm = kongsbergall.KongsbergAllFileHandler(file, file_cache_paths=self.cache_files, show_progress=False)
+            fm = kongsbergall.KongsbergAllFileHandler(file, index_paths=self.cache_files, show_progress=False)
         else:
             fm = kongsbergall.KongsbergAllFileHandler(file, show_progress=False)
 

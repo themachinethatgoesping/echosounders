@@ -94,11 +94,11 @@ class KongsbergAllFileHandler
     //     I_InputFileHandler;
 
     KongsbergAllFileHandler(const std::string&                                  file_path,
-                            const std::unordered_map<std::string, std::string>& file_cache_paths =
+                            const std::unordered_map<std::string, std::string>& index_paths =
                                 std::unordered_map<std::string, std::string>(),
                             bool init          = true,
                             bool show_progress = true)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_file(file_path, show_progress);
         setup_interfaces();
@@ -106,10 +106,10 @@ class KongsbergAllFileHandler
             init_interfaces(false, show_progress);
     }
     KongsbergAllFileHandler(const std::string&                                  file_path,
-                            const std::unordered_map<std::string, std::string>& file_cache_paths,
+                            const std::unordered_map<std::string, std::string>& index_paths,
                             bool                                                init,
                             tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
         setup_interfaces();
@@ -118,11 +118,11 @@ class KongsbergAllFileHandler
     }
 
     KongsbergAllFileHandler(const std::vector<std::string>&                     file_paths,
-                            const std::unordered_map<std::string, std::string>& file_cache_paths =
+                            const std::unordered_map<std::string, std::string>& index_paths =
                                 std::unordered_map<std::string, std::string>(),
                             bool init          = true,
                             bool show_progress = true)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
         setup_interfaces();
@@ -130,10 +130,10 @@ class KongsbergAllFileHandler
             init_interfaces(false, show_progress);
     }
     KongsbergAllFileHandler(const std::vector<std::string>&                     file_paths,
-                            const std::unordered_map<std::string, std::string>& file_cache_paths,
+                            const std::unordered_map<std::string, std::string>& index_paths,
                             bool                                                init,
                             tools::progressbars::I_ProgressBar&                 progress_bar)
-        : t_base(file_cache_paths)
+        : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
         setup_interfaces();
@@ -282,30 +282,30 @@ class KongsbergAllFileHandler
             0., number_of_primary_files * 1 + 5, fmt::format("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing datagramdata interface");
-        _datagramdata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
+        _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing configuration");
-        _configuration_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
+        _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
         _navigation_interface->init_from_file(
-            this->get_file_cache_paths(), force, progress_bar, true);
+            this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
-        _environment_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
+        _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing annotation");
-        _annotation_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
+        _annotation_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
         progress_bar.set_prefix("Initializing other");
-        _otherfiledata_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar);
+        _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
         // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
-        _ping_interface->init_from_file(this->get_file_cache_paths(), force, progress_bar, true);
+        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.close(std::string("Done"));
     }

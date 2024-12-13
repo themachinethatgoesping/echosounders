@@ -58,7 +58,7 @@ class FileCache
         , _file_size(file_size)
     {
     }
-    FileCache(const std::string&              cache_path,
+    FileCache(const std::string&              index_path,
               const std::string&              file_name,
               size_t                          file_size,
               const std::vector<std::string>& cache_keys = std::vector<std::string>())
@@ -66,9 +66,9 @@ class FileCache
         , _file_size(file_size)
     {
 
-        if (std::filesystem::exists(cache_path))
+        if (std::filesystem::exists(index_path))
         {
-            std::ifstream is(cache_path, std::ios::binary);
+            std::ifstream is(index_path, std::ios::binary);
 
             read_check_type_id(is);
             if (read_check_type_version(is))
@@ -130,12 +130,12 @@ class FileCache
         return keys;
     }
 
-    bool path_is_valid(const std::string& cache_path) const
+    bool path_is_valid(const std::string& index_path) const
     {
-        if (std::filesystem::exists(cache_path))
+        if (std::filesystem::exists(index_path))
         {
             // verify that the file is a valid FileCache
-            std::ifstream is(cache_path, std::ios::binary);
+            std::ifstream is(index_path, std::ios::binary);
 
             // this function will throw if it is not a valid FileCache
             read_check_type_id(is);
@@ -152,16 +152,16 @@ class FileCache
         return true;
     }
 
-    void update_file(const std::string& cache_path, bool emulate_only = false)
+    void update_file(const std::string& index_path, bool emulate_only = false)
     {
 
         // if path is valid load all keys that are not loaded but exist in the old file
         // else just create a new file existing file
-        if (path_is_valid(cache_path))
+        if (path_is_valid(index_path))
         {
             auto not_loaded_cache_names = get_not_loaded_cache_names();
             // read old cache (only keys that are also in the new cache but not loaded yet)
-            FileCache old_cache(cache_path, _file_name, _file_size, not_loaded_cache_names);
+            FileCache old_cache(index_path, _file_name, _file_size, not_loaded_cache_names);
 
             // add old cache to new cache
             for (const auto& key : not_loaded_cache_names)
@@ -175,14 +175,14 @@ class FileCache
             return;
 
         // create directories if does not exist
-        std::filesystem::create_directories(std::filesystem::path(cache_path).parent_path());
+        std::filesystem::create_directories(std::filesystem::path(index_path).parent_path());
 
-        std::ofstream os(cache_path, std::ios::binary);
+        std::ofstream os(index_path, std::ios::binary);
 
         if (!os.is_open())
         {
             throw std::runtime_error(
-                fmt::format("ERROR[FileCache]: Could not open file for writing: {}", cache_path));
+                fmt::format("ERROR[FileCache]: Could not open file for writing: {}", index_path));
         }
 
         to_stream(os);
@@ -346,15 +346,15 @@ class FileCache
         return cache;
     }
 
-    static FileCache from_file(const std::string& cache_path)
+    static FileCache from_file(const std::string& index_path)
     {
-        if (!std::filesystem::exists(cache_path))
+        if (!std::filesystem::exists(index_path))
         {
             throw std::runtime_error(
-                fmt::format("ERROR[FileCache]: File does not exist: {}", cache_path));
+                fmt::format("ERROR[FileCache]: File does not exist: {}", index_path));
         }
 
-        std::ifstream is(cache_path, std::ios::binary);
+        std::ifstream is(index_path, std::ios::binary);
         return from_stream(is);
     }
 

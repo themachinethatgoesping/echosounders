@@ -180,7 +180,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         file_interface_main->_datagram_infos_all = std::move(datagram_infos_combined);
     }
 
-    virtual void init_from_file([[maybe_unused]] const std::string& file_cache_path,
+    virtual void init_from_file([[maybe_unused]] const std::string& index_path,
                                 [[maybe_unused]] bool               force = false)
     {
         // this file does not need to be is_initialized

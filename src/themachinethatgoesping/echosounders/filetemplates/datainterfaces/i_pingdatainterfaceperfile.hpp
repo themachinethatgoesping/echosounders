@@ -112,7 +112,7 @@ class I_PingDataInterfacePerFile
     }
 
     virtual t_PingContainer read_pings(
-        [[maybe_unused]] const std::unordered_map<std::string, std::string>& file_cache_paths =
+        [[maybe_unused]] const std::unordered_map<std::string, std::string>& index_paths =
             std::unordered_map<std::string, std::string>())
     {
         throw std::runtime_error(fmt::format("I_PingDataInterfacePerFile({}): read_ping_data() not "
@@ -120,7 +120,7 @@ class I_PingDataInterfacePerFile
                                              this->class_name()));
     }
 
-    void init_from_file([[maybe_unused]] const std::string& file_cache_path,
+    void init_from_file([[maybe_unused]] const std::string& index_path,
                         [[maybe_unused]] bool               force = false) final
     {
         return;

@@ -40,7 +40,7 @@ class Test_echosounders_simradraw_SimradRawFileHandler:
 
     def open_files_and_loop_through_pings(self, file, cache=False):
         if cache:
-            fm = simradraw.SimradRawFileHandler(file, file_cache_paths=self.cache_files, show_progress=False)
+            fm = simradraw.SimradRawFileHandler(file, index_paths=self.cache_files, show_progress=False)
         else:
             fm = simradraw.SimradRawFileHandler(file, show_progress=False)
 

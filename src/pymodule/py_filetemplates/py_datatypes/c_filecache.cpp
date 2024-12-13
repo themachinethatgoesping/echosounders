@@ -39,7 +39,7 @@ void init_c_filecache(pybind11::module& m)
                           const std::string&,
                           size_t,
                           const std::vector<std::string>&>(),
-                 py::arg("cache_path"),
+                 py::arg("index_path"),
                  py::arg("file_name"),
                  py::arg("file_size"),
                  py::arg("cache_keys") = std::vector<std::string>(),
@@ -48,10 +48,10 @@ void init_c_filecache(pybind11::module& m)
             .def("update_file",
                  &FileCache::update_file,
                  DOC_FileCache(update_file),
-                 py::arg("cache_path"),
+                 py::arg("index_path"),
                  py::arg("emulate_only") = false)
             .def_static(
-                "from_file", &FileCache::from_file, DOC_FileCache(from_file), py::arg("cache_path"))
+                "from_file", &FileCache::from_file, DOC_FileCache(from_file), py::arg("index_path"))
 
             // modify cache
             .def("remove_from_cache",
