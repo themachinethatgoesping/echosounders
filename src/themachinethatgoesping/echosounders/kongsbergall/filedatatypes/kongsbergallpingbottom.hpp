@@ -155,20 +155,20 @@ class KongsbergAllPingBottom
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
         const pingtools::BeamSelection& selection) override
     {
-        auto xyz = _file_data->read_xyz(selection);
-    }
-
-    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw(
-        const pingtools::BeamSelection& selection) override
-    {
         return _file_data->read_xyz(selection);
     }
 
+    // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw(
+    //     const pingtools::BeamSelection& selection) override
+    // {
+    //     return _file_data->read_xyz(selection);
+    // }
 
-    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw()
-    {
-        return get_xyz_raw(get_beam_selection_all());
-    }
+
+    // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw()
+    // {
+    //     return get_xyz_raw(get_beam_selection_all());
+    // }
 
     xt::xtensor<float, 1> get_two_way_travel_times(
         [[maybe_unused]] const pingtools::BeamSelection& selection) override
