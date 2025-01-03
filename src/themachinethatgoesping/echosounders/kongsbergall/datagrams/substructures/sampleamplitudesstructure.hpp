@@ -91,7 +91,7 @@ class SampleAmplitudesStructure
      */
     xt::xtensor<float, 1> get_sample_amplitudes_in_db() const
     {
-        return xt::xtensor<float, 1>(xt::eval(_sample_amplitudes * _db_step_size));
+        return xt::xtensor<float, 1>(_sample_amplitudes * _db_step_size);
     }
 
     /**
@@ -111,17 +111,66 @@ class SampleAmplitudesStructure
     /**
      * @brief return a xtensor of the sample amplitudes of a single beam converted to db
      *
+     * @param mp_cores number of cores to use for parallelization (default 1)
+     * 
      * @param beam_index
      * @return xt::xtensor<float, 1>
      */
     xt::xtensor<float, 1> get_beam_in_db(size_t beam_index) const
     {
-        auto beam = xt::eval(xt::view(
+        auto beam = xt::view(
             _sample_amplitudes,
             xt::range(_start_index_per_beam.at(beam_index),
-                      _start_index_per_beam.at(beam_index) + _samples_per_beam.at(beam_index))));
+                      _start_index_per_beam.at(beam_index) + _samples_per_beam.at(beam_index)));
 
-        return xt::xtensor<float, 1>(xt::eval(beam * _db_step_size));
+        return xt::xtensor<float, 1>(beam * _db_step_size);
+    }
+
+    /**
+     * @brief get all sample amplitude values of all beams in a single xtensor
+     *
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 2> get_sample_amplitudes_per_beam(unsigned int mp_cores = 1) const
+    {
+        auto sample_amplitudes = xt::xtensor<float, 2>::from_shape(
+            { _samples_per_beam.size(),
+              *std::max_element(_samples_per_beam.begin(), _samples_per_beam.end()) });
+        sample_amplitudes.fill(std::numeric_limits<float>::quiet_NaN());
+
+#pragma omp parallel for num_threads(mp_cores)
+        for (size_t i = 0; i < _samples_per_beam.size(); ++i)
+        {
+            auto beam = get_beam(i);
+            xt::view(sample_amplitudes, i, xt::range(0, beam.size())) = beam;
+        }
+
+        return sample_amplitudes;
+    }
+
+    /**
+     * @brief get all sample amplitude valuesof all beams in a single xtensor in db
+     * Convert the sample amplitudes to db using _db_step_size.
+     *
+     * @param mp_cores number of cores to use for parallelization (default 1)
+     * 
+     * @return xt::xtensor<float, 1>
+     */
+    xt::xtensor<float, 2> get_sample_amplitudes_per_beam_in_db(unsigned int mp_cores = 1) const
+    {
+        auto sample_amplitudes = xt::xtensor<float, 2>::from_shape(
+            { _samples_per_beam.size(),
+              *std::max_element(_samples_per_beam.begin(), _samples_per_beam.end()) });
+        sample_amplitudes.fill(std::numeric_limits<float>::quiet_NaN());
+
+#pragma omp parallel for num_threads(mp_cores)
+        for (size_t i = 0; i < _samples_per_beam.size(); ++i)
+        {
+            auto beam = get_beam_in_db(i);
+            xt::view(sample_amplitudes, i, xt::range(0, beam.size())) = beam;
+        }
+
+        return sample_amplitudes;
     }
 
     // ----- container functions -----
@@ -158,9 +207,11 @@ class SampleAmplitudesStructure
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("SampleAmplitudesStructure", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "SampleAmplitudesStructure", float_precision, superscript_exponents);
 
         printer.register_value("db_step_size", _db_step_size);
         printer.register_value("number of sample_amplitudes", _sample_amplitudes.size());

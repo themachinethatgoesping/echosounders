@@ -62,7 +62,6 @@ class PingSampleSelector
     // operators
     bool operator==(const PingSampleSelector& other) const = default;
 
-    // get selection
     BeamSampleSelection apply_selection(
         filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
     {

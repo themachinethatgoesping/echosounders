@@ -7,7 +7,7 @@
 #include <pybind11/stl.h>
 
 // xtensor python includes
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // implicit conversion xtensor <-> numpy
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -28,7 +28,7 @@ using datagrams::substructures::SampleAmplitudesStructure;
 #define DOC_SampleAmplitudesStructure(ARG)                                                         \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kongsbergall,                                                                                    \
+        kongsbergall,                                                                              \
         datagrams,                                                                                 \
         substructures,                                                                             \
         SampleAmplitudesStructure,                                                                 \
@@ -79,6 +79,14 @@ void init_c_sampleamplitudesstructure_per_sample_type(std::string_view name, pyb
         .def("get_beam_in_db",
              &SampleAmplitudesStructure<t_sample>::get_beam_in_db,
              DOC_SampleAmplitudesStructure(get_beam_in_db))
+        .def("get_sample_amplitudes_per_beam",
+             &SampleAmplitudesStructure<t_sample>::get_sample_amplitudes_per_beam,
+             DOC_SampleAmplitudesStructure(get_sample_amplitudes_per_beam),
+             py::arg("mp_cores") = 1)
+        .def("get_sample_amplitudes_per_beam_in_db",
+             &SampleAmplitudesStructure<t_sample>::get_sample_amplitudes_per_beam_in_db,
+             DOC_SampleAmplitudesStructure(get_sample_amplitudes_per_beam_in_db),
+             py::arg("mp_cores") = 1)
 
         // ----- container functions -----
         .def("size",

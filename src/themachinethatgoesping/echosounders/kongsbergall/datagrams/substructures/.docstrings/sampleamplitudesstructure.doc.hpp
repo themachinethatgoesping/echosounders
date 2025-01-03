@@ -1,4 +1,4 @@
-//sourcehash: 6cdbe9cff64dfa3e0a4290f764a7b4158f691ecbf875afe8fe028dbb15349418
+//sourcehash: a14f7291be9e841f320ce866e5f164efc762dc168c27613f780b09e821a3bdc9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,6 +68,9 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 R"doc(return a xtensor of the sample amplitudes of a single beam converted
 to db
 
+Parameter ``mp_cores``:
+    number of cores to use for parallelization (default 1)
+
 Parameter ``beam_index``:
     $Returns:
 
@@ -79,6 +82,22 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_SampleAmplitudesStructure_get_sample_amplitudes_in_db =
 R"doc(Convert the sample amplitudes to db using _db_step_size.
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_SampleAmplitudesStructure_get_sample_amplitudes_per_beam =
+R"doc(get all sample amplitude values of all beams in a single xtensor
+
+Returns:
+    xt::xtensor<float, 1>)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_SampleAmplitudesStructure_get_sample_amplitudes_per_beam_in_db =
+R"doc(get all sample amplitude valuesof all beams in a single xtensor in db
+Convert the sample amplitudes to db using _db_step_size.
+
+Parameter ``mp_cores``:
+    number of cores to use for parallelization (default 1)
 
 Returns:
     xt::xtensor<float, 1>)doc";
