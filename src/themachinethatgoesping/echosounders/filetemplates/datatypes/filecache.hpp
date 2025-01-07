@@ -21,10 +21,10 @@
 #include <boost/iostreams/device/mapped_file.hpp> // for mmap
 #include <boost/iostreams/stream.hpp>             // for stream
 
-#if defined(__x86_64__) || defined(_M_X64)
-#else
-#define _MM_PERM_ENUM int
-#endif
+// #if defined(__x86_64__) || defined(_M_X64)
+// #else
+// #define _MM_PERM_ENUM int
+// #endif
 #include <xxhash.hpp>
 
 #include <fmt/core.h>
