@@ -347,39 +347,39 @@ headers = [
 
 # -- targets --
 # for now force static linking on windows
-if build_machine.system() != 'linux'
-  echosounders_lib = static_library(libname,sources,
-                        dependencies : [
-                          boost_dep, 
-                          pugixml_dep,
-                          tools_dep,
-                          navigation_dep,
-                          algorithms_dep
-                          ],
-                          # cpp_pch : 'pch/pch.hpp',
-                        override_options: [
-                          'b_lundef=false'
-                      ],
-                        install : true, 
-                        install_tag : 'library'
-                        )
-else  
-  echosounders_lib = library(libname,sources,
-                        dependencies : [
-                          boost_dep, 
-                          pugixml_dep,
-                          tools_dep,
-                          navigation_dep,
-                          algorithms_dep
-                          ],
-                          # cpp_pch : 'pch/pch.hpp',
-                        override_options: [
-                          'b_lundef=false'
-                      ],
-                        install : true, 
-                        install_tag : 'library'
-                        )
-endif
+# if build_machine.system() != 'linux'
+#   echosounders_lib = static_library(libname,sources,
+#                         dependencies : [
+#                           boost_dep, 
+#                           pugixml_dep,
+#                           tools_dep,
+#                           navigation_dep,
+#                           algorithms_dep
+#                           ],
+#                           # cpp_pch : 'pch/pch.hpp',
+#                         override_options: [
+#                           'b_lundef=false'
+#                       ],
+#                         install : true, 
+#                         install_tag : 'library'
+#                         )
+# else  
+#   echosounders_lib = library(libname,sources,
+#                         dependencies : [
+#                           boost_dep, 
+#                           pugixml_dep,
+#                           tools_dep,
+#                           navigation_dep,
+#                           algorithms_dep
+#                           ],
+#                           # cpp_pch : 'pch/pch.hpp',
+#                         override_options: [
+#                           'b_lundef=false'
+#                       ],
+#                         install : true, 
+#                         install_tag : 'library'
+#                         )
+# endif
                       
 
 # -- internal dependency --
@@ -391,7 +391,7 @@ echosounders_dep = declare_dependency(
     navigation_dep,
     algorithms_dep
   ],
-  link_with : [echosounders_lib],
+  #link_with : [echosounders_lib],
   include_directories : ['../../']
   )
 
@@ -403,8 +403,8 @@ if headers != ['']
     install_headers(headers, subdir: headerdir+'/', preserve_path: true)
 endif
 
-# create pkgconfig file
-pkg = import('pkgconfig')
-pkg.generate(echosounders_lib,
-             description : 'Library for reading, writing and processing single- and multibeam echsounder data formats.',
-             url : 'https://github.com/themachinethatgoesping/echosounders')
+# # create pkgconfig file
+# pkg = import('pkgconfig')
+# pkg.generate(echosounders_lib,
+#              description : 'Library for reading, writing and processing single- and multibeam echsounder data formats.',
+#              url : 'https://github.com/themachinethatgoesping/echosounders')
