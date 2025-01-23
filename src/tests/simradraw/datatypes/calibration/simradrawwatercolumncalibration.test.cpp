@@ -1205,15 +1205,15 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         auto cal_power2 = cal_power;
         auto cal_cmplx2 = cal_cmplx;
         cal_power2.force_absorption_db_m(forced_absorption);
-        cal_power2.get_absorption_db_m() == Approx(forced_absorption);
+        CHECK(cal_power2.get_absorption_db_m() == Approx(forced_absorption));
         cal_power2.force_sound_velocity_m_s(forced_sound_velocity);
-        cal_power2.get_sound_velocity_m_s() == Approx(forced_sound_velocity);
+        CHECK(cal_power2.get_sound_velocity_m_s() == Approx(forced_sound_velocity));
         cal_power2.setup_simrad_calibration();
-        cal_power2.get_absorption_to_apply() == Approx(forced_absorption);
+        CHECK(cal_power2.get_absorption_to_apply() == Approx(forced_absorption));
 
         cal_cmplx2.set_environment_parameters(forced_sound_velocity, forced_absorption);
         cal_cmplx2.setup_simrad_calibration();
-        cal_cmplx2.get_absorption_to_apply() == Approx(forced_absorption);
+        CHECK(cal_cmplx2.get_absorption_to_apply() == Approx(forced_absorption));
 
         // compute expected calibration offsets
         float sound_velocity                  = forced_sound_velocity;
