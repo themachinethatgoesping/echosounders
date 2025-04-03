@@ -128,7 +128,7 @@ jobs:
         #rm -rv boost*
 
     - name: install dependencies (meson & python)
-      run: pip install meson==1.7.0 meson-python pytest numpy 
+      run: pip install meson meson-python pytest numpy 
       #run: pip install meson meson-python pytest numpy ninja
 
     - name: download ninja long path
