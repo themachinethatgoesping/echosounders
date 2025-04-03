@@ -79,7 +79,7 @@ jobs:
       CC: ${{matrix.compiler}}
       CXX: ${{matrix.compiler}}
       #this is where we will download ninja later
-      NINJA: d:/ninja.exe
+      #NINJA: d:/ninja.exe
 
     #container: python:latest #pull directly from dockerhub   
     steps:
@@ -131,14 +131,14 @@ jobs:
       run: pip install meson meson-python pytest numpy 
       #run: pip install meson meson-python pytest numpy ninja
 
-    - name: download ninja long path
-      run : |
-        Invoke-WebRequest -Uri https://raw.githubusercontent.com/themachinethatgoesping/tools/main/ninja-windows/ninja.exe -OutFile d:\ninja.exe
+    # - name: download ninja long path
+    #   run : |
+    #     Invoke-WebRequest -Uri https://raw.githubusercontent.com/themachinethatgoesping/tools/main/ninja-windows/ninja.exe -OutFile d:\ninja.exe
 
-    - name: check ninja executable path
-      run: |
-        $env:NINJA
-        d:\ninja.exe --version
+    # - name: check ninja executable path
+    #   run: |
+    #     $env:NINJA
+    #     d:\ninja.exe --version
 
     - name: configure meson
       run: |
@@ -148,9 +148,9 @@ jobs:
       run: meson compile -C builddir/
 
     - name: test (cpp)
-      #run: meson test -C builddir/ --print-errorlogs 
+      run: meson test -C builddir/ --print-errorlogs 
       # meson test does not work with the custom ninja executable
-      run: ninja test -C builddir/ --verbose
+      #run: ninja test -C builddir/ --verbose
 
     - name: install project
       run: meson install -C builddir/
