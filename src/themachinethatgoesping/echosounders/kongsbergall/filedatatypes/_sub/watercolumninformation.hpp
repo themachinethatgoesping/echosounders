@@ -14,10 +14,10 @@
 #include <boost/flyweight.hpp>
 
 // xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
+#include <xtensor/containers/xadapt.hpp>
+
+
+#include <xtensor/views/xview.hpp>
 
 #include "../../datagrams.hpp"
 #include "../../types.hpp"

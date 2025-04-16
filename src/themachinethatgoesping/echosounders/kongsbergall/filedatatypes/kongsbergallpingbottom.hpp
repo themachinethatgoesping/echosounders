@@ -20,11 +20,11 @@
 #include <fmt/core.h>
 
 // xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
-#include <xtensor/xindex_view.hpp>
+#include <xtensor/containers/xadapt.hpp>
+
+
+#include <xtensor/views/xview.hpp>
+#include <xtensor/views/xindex_view.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

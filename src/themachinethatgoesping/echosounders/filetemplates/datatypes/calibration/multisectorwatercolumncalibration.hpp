@@ -9,7 +9,7 @@
 #include ".docstrings/multisectorwatercolumncalibration.doc.hpp"
 
 #include <fmt/core.h>
-#include <xtensor/xadapt.hpp>
+#include <xtensor/containers/xadapt.hpp>
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecache.hpp>

@@ -15,10 +15,10 @@
 #include <boost/flyweight/key_value.hpp>
 
 // xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
+#include <xtensor/containers/xadapt.hpp>
+
+
+#include <xtensor/views/xview.hpp>
 
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>

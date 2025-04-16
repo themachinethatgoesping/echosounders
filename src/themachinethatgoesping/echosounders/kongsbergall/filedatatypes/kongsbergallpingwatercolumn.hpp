@@ -23,11 +23,11 @@
 #include <boost/flyweight.hpp>
 
 // xtensor includes
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xindex_view.hpp>
-#include <xtensor/xio.hpp>
-#include <xtensor/xview.hpp>
+#include <xtensor/containers/xadapt.hpp>
+
+#include <xtensor/views/xindex_view.hpp>
+
+#include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>

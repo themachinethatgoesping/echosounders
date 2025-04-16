@@ -15,8 +15,8 @@
 
 /* external includes */
 #include <fmt/core.h>
-#include <xtensor/xpad.hpp>
-#include <xtensor/xtensor.hpp>
+#include <xtensor/containers/xtensor.hpp>
+#include <xtensor/views/xview.hpp>
 
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

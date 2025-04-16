@@ -6,7 +6,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-#include <xtensor/xio.hpp>
+
 
 #include "../themachinethatgoesping/echosounders/simradraw/datagrams/RAW3.hpp"
 
