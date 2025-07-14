@@ -16,6 +16,8 @@
 #include <vector>
 
 #include <boost/algorithm/string/find.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include <pugixml.hpp>
 
@@ -29,8 +31,6 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "helper.hpp"
 #include "xml_node.hpp"
@@ -71,7 +71,6 @@ struct XML_Parameter_Channel
     XML_Parameter_Channel() = default;
     XML_Parameter_Channel(const pugi::xml_node& node) { initialize(node); }
     ~XML_Parameter_Channel() = default;
-
 
     // ----- getters -----
     double get_pulse_duration() const
@@ -337,9 +336,11 @@ struct XML_Parameter_Channel
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Parameter Channel", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Parameter Channel", float_precision, superscript_exponents);
         printer.register_string("ChannelID", ChannelID);
         printer.register_value("ChannelMode", ChannelMode);
         printer.register_value("PulseForm", PulseForm);

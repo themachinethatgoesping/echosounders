@@ -1,4 +1,4 @@
-//sourcehash: d28673262721497d515090640b98b26d98e40275b7c3da327361733638c77404
+//sourcehash: 08757c8ba3aa6fe03907ce15146b9519564255226c4f7bb813e384b0272cc823
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,26 +32,3 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

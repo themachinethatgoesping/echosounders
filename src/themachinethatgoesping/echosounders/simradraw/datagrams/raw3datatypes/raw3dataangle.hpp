@@ -24,7 +24,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
+
 
 #include "i_raw3data.hpp"
 #include "t_raw3datatype.hpp"

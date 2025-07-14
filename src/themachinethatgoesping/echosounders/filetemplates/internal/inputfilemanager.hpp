@@ -16,10 +16,11 @@
 // #include "i_datagramheader.h"
 
 /* std includes */
+#include <deque>
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <vector>
-#include <deque>
 
 #include <fmt/core.h>
 
@@ -115,9 +116,11 @@ class InputFileManager
     // }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("InputFileManager", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "InputFileManager", float_precision, superscript_exponents);
 
         if (_file_paths->size() > 1)
         {

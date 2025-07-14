@@ -21,8 +21,8 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include "helper.hpp"
 #include "xml_node.hpp"
@@ -130,9 +130,11 @@ struct XML_Sensor
     bool operator!=(const XML_Sensor& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Sensor", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Sensor", float_precision, superscript_exponents);
         printer.register_value("IsManual", IsManual);
         printer.register_value("ManualValue", ManualValue);
         printer.register_string("Type", Type);

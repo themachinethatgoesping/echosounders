@@ -14,7 +14,7 @@
 #include <fmt/core.h>
 #include <magic_enum/magic_enum.hpp>
 
-#include <themachinethatgoesping/tools/helper.hpp>
+
 
 /**
  * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram

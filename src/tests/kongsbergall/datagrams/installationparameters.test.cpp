@@ -8,6 +8,7 @@
 #include <filesystem>
 
 #include "../themachinethatgoesping/echosounders/kongsbergall/datagrams/installationparameters.hpp"
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 // using namespace testing;
 using namespace std;

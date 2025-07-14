@@ -21,8 +21,8 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include "helper.hpp"
 #include "xml_node.hpp"
@@ -124,10 +124,11 @@ struct XML_Environment_Transducer
     bool operator!=(const XML_Environment_Transducer& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Transducer [Environment]",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Transducer [Environment]", float_precision, superscript_exponents);
         printer.register_value("SoundSpeed", SoundSpeed, "m/s");
         printer.register_string("TransducerName", TransducerName, "future use");
         printer.register_value("unknown_children", unknown_children);

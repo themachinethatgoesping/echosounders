@@ -21,8 +21,9 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include "helper.hpp"
 #include "xml_configuration_transceiver_channel.hpp"
@@ -248,7 +249,8 @@ struct XML_Configuration_Transceiver
                TransceiverType == other.TransceiverType && MarketSegment == other.MarketSegment &&
                EthernetAddress == other.EthernetAddress && IPAddress == other.IPAddress &&
                TransceiverSoftwareVersion == other.TransceiverSoftwareVersion &&
-               Version == other.Version && tools::helper::float_equals(Impedance, other.Impedance) &&
+               Version == other.Version &&
+               tools::helper::float_equals(Impedance, other.Impedance) &&
                tools::helper::float_equals(RxSampleFrequency, other.RxSampleFrequency) &&
                SerialNumber == other.SerialNumber && TransceiverNumber == other.TransceiverNumber &&
                Multiplexing == other.Multiplexing && Channels == other.Channels;

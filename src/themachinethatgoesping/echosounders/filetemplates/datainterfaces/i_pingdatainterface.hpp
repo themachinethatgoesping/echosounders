@@ -22,6 +22,8 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
+#include <themachinethatgoesping/tools/helper/map_tools.hpp>
 
 #include "i_datagraminterface.hpp"
 #include "i_environmentdatainterface.hpp"

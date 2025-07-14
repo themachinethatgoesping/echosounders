@@ -127,7 +127,7 @@ class _WCIInfos
     }
 };
 
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
 inline std::size_t hash_value(const _WCIInfos& data)
 {
     xxh::hash3_state_t<64>               hash;

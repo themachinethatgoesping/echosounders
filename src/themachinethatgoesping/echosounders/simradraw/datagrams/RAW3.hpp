@@ -24,8 +24,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../types.hpp"
 #include "raw3datatypes/raw3datatypes.hpp"
@@ -399,7 +398,7 @@ class RAW3 : public SimradRawDatagram
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const RAW3& data)
 {
     return data.hash_content_without_samples();

@@ -30,7 +30,6 @@
 #include <themachinethatgoesping/tools/hashhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -115,7 +114,7 @@ class StructPackage : public t_struct
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
 template<typename t_struct>
 inline size_t hash_value(const StructPackage<t_struct>& data)
 {

@@ -24,6 +24,7 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
 #include <themachinethatgoesping/tools/hashhelper.hpp>
+#include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../datagrams.hpp"
 #include "../../types.hpp"
@@ -62,7 +63,7 @@ struct HashCacheKey
     bool operator==(const HashCacheKey& other) const { return (hash == other.hash); }
 };
 
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
 /**
  * @brief Boost hash function
  *

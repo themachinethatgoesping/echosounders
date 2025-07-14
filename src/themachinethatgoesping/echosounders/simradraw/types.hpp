@@ -9,12 +9,13 @@
 /* generated doc strings */
 #include ".docstrings/types.doc.hpp"
 
+#include <complex>
 #include <set>
 
 #include <magic_enum/magic_enum.hpp>
 
-#include <themachinethatgoesping/tools/helper.hpp>
 #include <themachinethatgoesping/tools/helper/enum.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 /**
  * @brief Type definitions for Ek60 types according to Ek60 Reference manual
@@ -130,7 +131,7 @@ inline std::string datagram_identifier_info(simradraw::t_SimradRawDatagramIdenti
 // much to large
 namespace tools {
 namespace helper {
-// IGNORE_DOC: __doc_themachinethatgoesping_tools_helper_is_magic_enum_compatible
+// IGNORE_DOC:__doc_themachinethatgoesping_tools_helper_is_magic_enum_compatible
 template<>
 struct is_magic_enum_compatible<echosounders::simradraw::t_SimradRawDatagramIdentifier>
 {

@@ -21,8 +21,8 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include "helper.hpp"
 #include "xml_node.hpp"
@@ -252,10 +252,11 @@ struct XML_Configuration_Transceiver_Channel
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_Transceiver_Channel",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Configuration_Transceiver_Channel", float_precision, superscript_exponents);
 
         printer.register_section("children (Transducer)");
         printer.register_value("Transducer", Transducer.TransducerName);

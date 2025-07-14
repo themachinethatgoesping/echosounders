@@ -15,7 +15,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 #include "../../types.hpp"
 
@@ -157,9 +157,11 @@ class XYZDatagramBeam
                _reflectivity == other._reflectivity;
     }
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("XYZDatagramBeam", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "XYZDatagramBeam", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("depth", _depth, "-z in m");

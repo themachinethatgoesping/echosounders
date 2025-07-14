@@ -16,7 +16,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 #include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
@@ -176,10 +176,9 @@ class SeabedImageData : public KongsbergAllDatagram
     float get_tvg_law_crossover_angle_in_degrees() const { return _tvg_law_crossover_angle * 0.1f; }
 
     // ----- operators -----
-    bool operator==(const SeabedImageData& other) const 
+    bool operator==(const SeabedImageData& other) const
     {
-        return KongsbergAllDatagram::operator==(other) &&
-               _ping_counter == other._ping_counter &&
+        return KongsbergAllDatagram::operator==(other) && _ping_counter == other._ping_counter &&
                _system_serial_number == other._system_serial_number &&
                tools::helper::float_equals(_sampling_frequency, other._sampling_frequency) &&
                _range_to_normal_incidence == other._range_to_normal_incidence &&
@@ -187,12 +186,9 @@ class SeabedImageData : public KongsbergAllDatagram
                _oblique_backscatter == other._oblique_backscatter &&
                _tx_beamwidth_along == other._tx_beamwidth_along &&
                _tvg_law_crossover_angle == other._tvg_law_crossover_angle &&
-               _number_of_valid_beams == other._number_of_valid_beams &&
-               _beams == other._beams &&
-               _sample_amplitudes == other._sample_amplitudes &&
-               _spare_byte == other._spare_byte &&
-               _etx == other._etx &&
-               _checksum == other._checksum;
+               _number_of_valid_beams == other._number_of_valid_beams && _beams == other._beams &&
+               _sample_amplitudes == other._sample_amplitudes && _spare_byte == other._spare_byte &&
+               _etx == other._etx && _checksum == other._checksum;
     }
 
     //----- to/from stream functions -----
@@ -245,7 +241,7 @@ class SeabedImageData : public KongsbergAllDatagram
         return from_stream(is, KongsbergAllDatagram::from_stream(is));
     }
 
-    static SeabedImageData from_stream(std::istream&              is,
+    static SeabedImageData from_stream(std::istream&                    is,
                                        t_KongsbergAllDatagramIdentifier datagram_identifier)
     {
         return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
@@ -278,9 +274,11 @@ class SeabedImageData : public KongsbergAllDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("SeabedImageData", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "SeabedImageData", float_precision, superscript_exponents);
 
         printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
         printer.register_section("datagram content");

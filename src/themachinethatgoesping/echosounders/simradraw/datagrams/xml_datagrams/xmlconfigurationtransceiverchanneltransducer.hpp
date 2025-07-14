@@ -9,9 +9,6 @@
 /* generated doc strings */
 #include ".docstrings/xmlconfigurationtransceiverchanneltransducer.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/xmlconfigurationtransceiverchanneltransducer.doc.hpp"
-
 // std includes
 #include <string>
 #include <unordered_map>
@@ -24,8 +21,9 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 #include "helper.hpp"
 #include "xml_configuration_transceiver_channel_frequencypar.hpp"
@@ -275,11 +273,10 @@ struct XMLConfigurationTransceiverChannelTransducer
     // ----- operators -----
     bool operator==(const XMLConfigurationTransceiverChannelTransducer& other) const
     {
-        using namespace tools::helper;
 
         return TransducerName == other.TransducerName && ArticleNumber == other.ArticleNumber &&
-               approx_container(Gain, other.Gain) &&
-               approx_container(SaCorrection, other.SaCorrection) &&
+               tools::helper::approx_container(Gain, other.Gain) &&
+               tools::helper::approx_container(SaCorrection, other.SaCorrection) &&
                SerialNumber == other.SerialNumber && BeamType == other.BeamType &&
                tools::helper::float_equals(Frequency, other.Frequency) &&
                tools::helper::float_equals(FrequencyMinimum, other.FrequencyMinimum) &&
@@ -288,11 +285,14 @@ struct XMLConfigurationTransceiverChannelTransducer
                tools::helper::float_equals(MaxTxPowerTransducer, other.MaxTxPowerTransducer) &&
                tools::helper::float_equals(BeamWidthAlongship, other.BeamWidthAlongship) &&
                tools::helper::float_equals(BeamWidthAthwartship, other.BeamWidthAthwartship) &&
-               tools::helper::float_equals(AngleSensitivityAlongship, other.AngleSensitivityAlongship) &&
-               tools::helper::float_equals(AngleSensitivityAthwartship, other.AngleSensitivityAthwartship) &&
+               tools::helper::float_equals(AngleSensitivityAlongship,
+                                           other.AngleSensitivityAlongship) &&
+               tools::helper::float_equals(AngleSensitivityAthwartship,
+                                           other.AngleSensitivityAthwartship) &&
                tools::helper::float_equals(AngleOffsetAlongship, other.AngleOffsetAlongship) &&
                tools::helper::float_equals(AngleOffsetAthwartship, other.AngleOffsetAthwartship) &&
-               tools::helper::float_equals(DirectivityDropAt2XBeamWidth, other.DirectivityDropAt2XBeamWidth) &&
+               tools::helper::float_equals(DirectivityDropAt2XBeamWidth,
+                                           other.DirectivityDropAt2XBeamWidth) &&
                FrequencyPars == other.FrequencyPars;
 
         // && unknown_children == other.unknown_children &&

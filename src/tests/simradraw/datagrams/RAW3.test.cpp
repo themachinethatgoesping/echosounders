@@ -6,9 +6,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-
-
 #include "../themachinethatgoesping/echosounders/simradraw/datagrams/RAW3.hpp"
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 // using namespace testing;
 using namespace std;
@@ -47,8 +46,10 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
         switch (type)
         {
             case t_RAW3DataType::ComplexFloat32:
-                dat.set_sample_data(RAW3DataComplexFloat32(xt::zeros<float>(
-                    { size_t(dat.get_count()), size_t(dat.get_number_of_complex_samples()), size_t(2) })));
+                dat.set_sample_data(RAW3DataComplexFloat32(
+                    xt::zeros<float>({ size_t(dat.get_count()),
+                                       size_t(dat.get_number_of_complex_samples()),
+                                       size_t(2) })));
                 break;
             case t_RAW3DataType::PowerAndAngle:
                 dat.set_sample_data(RAW3DataPowerAndAngle(
@@ -128,7 +129,6 @@ TEST_CASE("RAW3 should support common functions", TESTTAG)
             dat3.set_sample_data(sample_data);
             REQUIRE(dat3 == dat);
         }
-
 
         dat3.set_sample_data(dat.get_sample_data());
         REQUIRE(dat3 == dat);

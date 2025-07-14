@@ -7,6 +7,7 @@
 #include <filesystem>
 
 #include "../themachinethatgoesping/echosounders/simradraw/datagrams/XML0.hpp"
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 // using namespace testing;
 using namespace std;

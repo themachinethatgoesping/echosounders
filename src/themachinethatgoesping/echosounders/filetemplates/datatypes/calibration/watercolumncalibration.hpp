@@ -11,7 +11,8 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+
 #include <themachinethatgoesping/tools/vectorinterpolators.hpp>
 
 #include "amplitudecalibration.hpp"

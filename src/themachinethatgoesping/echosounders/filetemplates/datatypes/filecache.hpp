@@ -29,7 +29,7 @@
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
+
 #include <themachinethatgoesping/tools/progressbars.hpp>
 
 #include "../internal/inputfilemanager.hpp"

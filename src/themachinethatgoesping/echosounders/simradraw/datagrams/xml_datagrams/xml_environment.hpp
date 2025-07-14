@@ -11,6 +11,7 @@
 
 // std includes
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -21,11 +22,11 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 #include "helper.hpp"
 #include "xml_environment_transducer.hpp"
+
 #include "xml_node.hpp"
 
 namespace themachinethatgoesping {
@@ -269,9 +270,11 @@ struct XML_Environment
     bool operator!=(const XML_Environment& other) const { return !operator==(other); }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Environment", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "EK80 XML0 Environment", float_precision, superscript_exponents);
 
         printer.register_section("children (Transducers / Future use)");
         printer.register_value("Transducers", Transducers.size());
@@ -312,7 +315,7 @@ struct XML_Environment
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_hash_value
 inline size_t hash_value(const XML_Environment& data)
 {
     return data.binary_hash();

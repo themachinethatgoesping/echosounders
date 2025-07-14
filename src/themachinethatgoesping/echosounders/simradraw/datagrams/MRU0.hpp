@@ -16,8 +16,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 #include "../types.hpp"
 #include "simradrawdatagram.hpp"
@@ -53,7 +52,7 @@ class MRU0 : public SimradRawDatagram
     // ----- constructors -----
     MRU0()
         : SimradRawDatagram(12 + 4 * sizeof(simradraw_float),
-                         simradraw_long(t_SimradRawDatagramIdentifier::MRU0))
+                            simradraw_long(t_SimradRawDatagramIdentifier::MRU0))
     {
     }
     ~MRU0() = default;
@@ -93,7 +92,8 @@ class MRU0 : public SimradRawDatagram
 
     static MRU0 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::MRU0));
+        return from_stream(is,
+                           SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::MRU0));
     }
 
     static MRU0 from_stream(std::istream& is, t_SimradRawDatagramIdentifier type)
@@ -101,7 +101,8 @@ class MRU0 : public SimradRawDatagram
         if (type != t_SimradRawDatagramIdentifier::MRU0)
             throw std::runtime_error("MRU0::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::MRU0));
+        return from_stream(is,
+                           SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::MRU0));
     }
 
     void to_stream(std::ostream& os)
@@ -114,9 +115,11 @@ class MRU0 : public SimradRawDatagram
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Motion binary datagram", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "Motion binary datagram", float_precision, superscript_exponents);
 
         printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 

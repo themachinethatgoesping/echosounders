@@ -6,9 +6,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 
-
-
 #include "../themachinethatgoesping/echosounders/simradraw/datagrams/FIL1.hpp"
+#include <themachinethatgoesping/tools/helper/approx.hpp>
 
 // using namespace testing;
 using namespace std;

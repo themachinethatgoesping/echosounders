@@ -21,8 +21,9 @@
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/helper/integermath.hpp>
 
 #include "beamselection.hpp"
 #include "readsamplerange.hpp"
@@ -376,7 +377,7 @@ class BeamSampleSelection : public BeamSelection
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const BeamSampleSelection& data)
 {
     return data.binary_hash();

@@ -16,7 +16,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+
 
 #include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
@@ -1214,7 +1214,7 @@ class RuntimeParameters : public KongsbergAllDatagram
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC: __doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const RuntimeParameters& data)
 {
     // return data.hash_content_only();
