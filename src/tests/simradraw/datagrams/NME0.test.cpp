@@ -90,6 +90,6 @@ TEST_CASE("NME0 should support common functions", TESTTAG)
     // datagram type
     REQUIRE(dat1.get_datagram_identifier() == t_SimradRawDatagramIdentifier::NME0);
     REQUIRE(dat2.get_datagram_identifier() == t_SimradRawDatagramIdentifier::NME0);
-    REQUIRE(dat1.get_length() == 12 + long(sentence1.size()));
-    REQUIRE(dat2.get_length() == 12 + long(sentence2.size()));
+    REQUIRE(dat1.get_length() == 12 + int64_t(sentence1.size()));
+    REQUIRE(dat2.get_length() == 12 + int64_t(sentence2.size()));
 }

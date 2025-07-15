@@ -19,7 +19,6 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include <fmt/core.h>
@@ -248,7 +247,7 @@ class PingContainer
 
     size_t size() const { return _pyindexer.size(); }
 
-    std::shared_ptr<type_Ping> at(long index) const { return _pings[_pyindexer(index)]; }
+    std::shared_ptr<type_Ping> at(int64_t index) const { return _pings[_pyindexer(index)]; }
 
     // ----- common info functions -----
 
@@ -318,7 +317,8 @@ class PingContainer
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(_name, float_precision, superscript_exponents);
 

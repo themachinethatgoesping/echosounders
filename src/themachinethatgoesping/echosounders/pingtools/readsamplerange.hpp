@@ -17,7 +17,7 @@
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
 
 namespace themachinethatgoesping {
 namespace echosounders {

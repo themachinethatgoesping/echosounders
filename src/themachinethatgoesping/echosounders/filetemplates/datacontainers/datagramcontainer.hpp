@@ -23,8 +23,6 @@
 
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../datatypes/datagraminfo.hpp"
@@ -291,7 +289,7 @@ class DatagramContainer
 
     size_t size() const { return _pyindexer.size(); }
 
-    t_DatagramType at(long index)
+    t_DatagramType at(int64_t index)
     {
         const auto& datagram_info = _datagram_infos.at(_pyindexer(index));
         try
@@ -310,13 +308,14 @@ class DatagramContainer
             msg += fmt::format("index: {}\n", index);
             msg += fmt::format("pyindex: {}\n", _pyindexer(index));
             msg += fmt::format("__datagram_infos.size(): {}\n", _datagram_infos.size());
-            msg += fmt::format("pos: {}\n", static_cast<long long>(datagram_info->get_file_pos()));
+            msg += fmt::format("pos: {}\n", static_cast<int64_t>(datagram_info->get_file_pos()));
             throw std::runtime_error(msg);
         }
     }
 
     // ----- printing interface -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
         tools::classhelper::ObjectPrinter printer(_name, float_precision, superscript_exponents);
 

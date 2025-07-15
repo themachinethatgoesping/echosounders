@@ -43,7 +43,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
     cls.def(
         "per_file", py::overload_cast<>(&T_BaseClass::per_file), DOC_FileDataInterface(per_file));
     cls.def("per_file",
-            py::overload_cast<long>(&T_BaseClass::per_file),
+            py::overload_cast<int64_t>(&T_BaseClass::per_file),
             DOC_FileDataInterface(per_file_2),
             pybind11::return_value_policy::reference_internal,
             py::arg("file_nr"));

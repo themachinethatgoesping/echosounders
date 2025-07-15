@@ -23,7 +23,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
 
 /* themachinethatgoesping navigation includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
@@ -49,13 +49,13 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
     }
     virtual ~I_ConfigurationDataInterface() = default;
 
-    const navigation::SensorConfiguration& get_sensor_configuration(long pyindex) const
+    const navigation::SensorConfiguration& get_sensor_configuration(int64_t pyindex) const
     {
         return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
     boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>>
-    get_trx_sensor_configuration_per_target_id(long pyindex) const
+    get_trx_sensor_configuration_per_target_id(int64_t pyindex) const
     {
         boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>> result;
 

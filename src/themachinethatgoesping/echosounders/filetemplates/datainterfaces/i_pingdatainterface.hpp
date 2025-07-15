@@ -23,7 +23,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
 #include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
 #include <themachinethatgoesping/tools/helper/map_tools.hpp>
 

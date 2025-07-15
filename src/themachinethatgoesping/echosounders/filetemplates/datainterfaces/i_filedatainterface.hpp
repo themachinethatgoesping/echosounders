@@ -21,7 +21,6 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/progressbars/progressbarchooser.hpp>
-
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_datagraminterface.hpp"
@@ -152,33 +151,31 @@ class I_FileDataInterface
         return secondary_files;
     }
 
-    t_filedatainterface_perfile& per_file(long pyindex)
+    t_filedatainterface_perfile& per_file(int64_t pyindex)
     {
         return *_interface_per_file[_pyindexer(pyindex)];
     }
-    const t_filedatainterface_perfile& per_file_const(long pyindex) const
+    const t_filedatainterface_perfile& per_file_const(int64_t pyindex) const
     {
         return *_interface_per_file[_pyindexer(pyindex)];
     }
-    const std::shared_ptr<t_filedatainterface_perfile>& per_file_ptr(long pyindex)
+    const std::shared_ptr<t_filedatainterface_perfile>& per_file_ptr(int64_t pyindex)
     {
         return _interface_per_file[_pyindexer(pyindex)];
     }
 
-    void init_from_file(
-        const std::unordered_map<std::string, std::string>& index_paths,
-        bool                                                force         = false,
-        bool                                                show_progress = true)
+    void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
+                        bool                                                force         = false,
+                        bool                                                show_progress = true)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
         this->init_from_file(index_paths, force, progress_bar.get());
     }
 
-    virtual void init_from_file(
-        const std::unordered_map<std::string, std::string>& index_paths,
-        bool                                                force,
-        tools::progressbars::I_ProgressBar&                 progress_bar,
-        bool                                                external_progress_tick = false)
+    virtual void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
+                                bool                                                force,
+                                tools::progressbars::I_ProgressBar&                 progress_bar,
+                                bool external_progress_tick = false)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
@@ -201,8 +198,7 @@ class I_FileDataInterface
                 fmt::format("{}/{}", inter->get_file_nr(), primary_interfaces_per_file.size()));
 
             std::string index_path = "";
-            if (index_paths.find(inter->get_file_path()) !=
-                index_paths.end())
+            if (index_paths.find(inter->get_file_path()) != index_paths.end())
             {
                 index_path = index_paths.at(inter->get_file_path());
             }
@@ -245,9 +241,11 @@ class I_FileDataInterface
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         auto primary_files   = this->per_primary_file();
         auto secondary_files = this->per_secondary_file();

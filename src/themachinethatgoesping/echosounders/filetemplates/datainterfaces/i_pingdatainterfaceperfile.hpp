@@ -21,7 +21,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
 
 #include "i_datagraminterface.hpp"
 #include "i_environmentdatainterface.hpp"

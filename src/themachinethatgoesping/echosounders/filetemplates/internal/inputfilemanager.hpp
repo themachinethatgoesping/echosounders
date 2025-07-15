@@ -48,7 +48,7 @@ class InputFileManager
     std::deque<size_t>                            _active_file_numbers;
 
     // std::unique_ptr<t_ifstream> _input_file_stream;
-    // long                        active_file_nr = -1;
+    // int64_t                        active_file_nr = -1;
 
     // datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
 
@@ -96,9 +96,9 @@ class InputFileManager
 
         return *_active_file_streams.at(file_nr);
 
-        //     if (long(file_nr) != active_file_nr)
+        //     if (int64_t(file_nr) != active_file_nr)
         //     {
-        //         active_file_nr = long(file_nr);
+        //         active_file_nr = int64_t(file_nr);
         //         _input_file_stream =
         //             std::make_unique<t_ifstream>(_file_paths->at(file_nr),
         //             std::ios_base::binary);

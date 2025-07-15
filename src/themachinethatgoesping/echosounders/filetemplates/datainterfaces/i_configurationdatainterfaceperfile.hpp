@@ -21,7 +21,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+
 
 /* themachinethatgoesping navigation includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>

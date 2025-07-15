@@ -70,6 +70,6 @@ TEST_CASE("XML0 should support common functions", TESTTAG)
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_SimradRawDatagramIdentifier::XML0);
-    REQUIRE(dat.get_length() == 12 + long(xml1.size()));
-    REQUIRE(dat2.get_length() == 12 + long(xml2.size()));
+    REQUIRE(dat.get_length() == 12 + int64_t(xml1.size()));
+    REQUIRE(dat2.get_length() == 12 + int64_t(xml2.size()));
 }

@@ -40,7 +40,7 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
             py::arg("index"));
     cls.def(
         "get_trx_sensor_configuration_per_target_id",
-        [](const T_BaseClass& self, long index) {
+        [](const T_BaseClass& self, int64_t index) {
             // convert boost unordered flyweight map to py::map
             py::dict result;
             for (const auto& [key, value] : self.get_trx_sensor_configuration_per_target_id(index))

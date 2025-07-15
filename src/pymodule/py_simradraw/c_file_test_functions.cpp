@@ -50,7 +50,7 @@ void test_speed_all(const SimradRawFileHandler<datastreams::MappedFileStream>& i
     double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(long(i));
+        auto dg = it.at(int64_t(i));
         t += dg.get_timestamp();
         prg.tick();
     }
@@ -75,7 +75,7 @@ void test_speed_content(const SimradRawFileHandler<datastreams::MappedFileStream
     // double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(long(i));
+        auto dg = it.at(int64_t(i));
         // t += dg.get_timestamp();
         prg.tick();
     }
@@ -98,7 +98,7 @@ void test_speed_decode_nmea(const SimradRawFileHandler<datastreams::MappedFileSt
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
     // double t = 0;
-    for (long i = 0; i < long(it.size()); ++i)
+    for (int64_t i = 0; i < int64_t(it.size()); ++i)
     {
         NMEA_0183_type nmea_sentence = it.at(i).decode();
 
@@ -143,7 +143,7 @@ void test_speed_decode_xml(const SimradRawFileHandler<datastreams::MappedFileStr
     using namespace themachinethatgoesping::navigation::nmea_0183;
 
     // double t = 0;
-    for (long i = 0; i < long(it.size()); ++i)
+    for (int64_t i = 0; i < int64_t(it.size()); ++i)
     {
         auto xml = it.at(i);
 
@@ -218,7 +218,7 @@ void test_speed_header(const SimradRawFileHandler<datastreams::MappedFileStream>
     prg.init(0., double(it.size()), "test reading");
 
     // double t = 0;
-    for (long i = 0; i < long(it.size()); ++i)
+    for (int64_t i = 0; i < int64_t(it.size()); ++i)
     {
         auto dg = it.at(i);
         // t += dg.get_timestamp();
