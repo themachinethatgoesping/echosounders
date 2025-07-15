@@ -23,7 +23,7 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
-#include <themachinethatgoesping/tools/hashhelper.hpp>
+
 #include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../datagrams.hpp"

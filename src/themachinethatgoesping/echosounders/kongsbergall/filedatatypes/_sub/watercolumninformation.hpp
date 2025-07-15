@@ -23,7 +23,7 @@
 #include "../../types.hpp"
 
 #include "../../../pingtools/readsamplerange.hpp"
-#include <themachinethatgoesping/tools/hashhelper.hpp>
+
 #include <themachinethatgoesping/tools/classhelper/classversion.hpp>
 #include "_wciinfos.hpp"
 

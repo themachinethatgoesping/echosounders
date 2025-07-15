@@ -26,7 +26,7 @@
 #include "../../types.hpp"
 
 #include "../../../pingtools/readsamplerange.hpp"
-#include <themachinethatgoesping/tools/hashhelper.hpp>
+
 
 namespace themachinethatgoesping {
 namespace echosounders {

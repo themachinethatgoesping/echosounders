@@ -23,7 +23,7 @@
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/hashhelper.hpp>
+
 #include <themachinethatgoesping/tools/progressbars.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
@@ -254,8 +254,7 @@ class I_PingBottom : public I_PingCommon
         auto xyz = get_xyz(selection);
 
         if (xyz.size() == 0)
-            throw std::runtime_error(
-                fmt::format("Error[{}]: No valid bottom z found", __func__));
+            throw std::runtime_error(fmt::format("Error[{}]: No valid bottom z found", __func__));
 
         if (xyz.size() == 1)
             return xyz.z[0];
@@ -288,8 +287,7 @@ class I_PingBottom : public I_PingCommon
                 bottom_z = *it;
 
         if (bottom_z == std::numeric_limits<float>::max())
-            throw std::runtime_error(
-                fmt::format("Error[{}]: No valid bottom z found", __func__));
+            throw std::runtime_error(fmt::format("Error[{}]: No valid bottom z found", __func__));
 
         return bottom_z;
     }

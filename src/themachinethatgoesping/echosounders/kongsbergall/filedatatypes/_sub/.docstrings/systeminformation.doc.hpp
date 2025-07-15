@@ -1,4 +1,4 @@
-//sourcehash: 08757c8ba3aa6fe03907ce15146b9519564255226c4f7bb813e384b0272cc823
+//sourcehash: ee4563f9a23794d8f47901d34d60c683861bad372b8ad8ec3e8b564053a860d9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,3 +32,65 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_HashCacheKey = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_HashCacheKey_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_HashCacheKey_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_buffer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_HashCacheKey_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation =
+R"doc(This is a substructure of the KongsbergAllPingWaterColumn class. It is
+used to store information necessary to efficiently read water column
+data from the file. It does not hold the actual water column samples
+
+Note this is a private substructure and is thus not part of the public
+API or pybind11 interface.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_SystemInformation_4 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_tx_signal_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_TxSignalParameterVector = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_TxSignalParameterVector_TxSignalParameterVector = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_TxSignalParameterVector_binary_hash = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_TxSignalParameterVector_to_cache = R"doc()doc";
+
+
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
+
+

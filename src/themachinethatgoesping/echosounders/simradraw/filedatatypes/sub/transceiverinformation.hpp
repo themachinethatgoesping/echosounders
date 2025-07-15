@@ -16,7 +16,7 @@
 
 // themachinethatgoesping includes
 #include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
-#include <themachinethatgoesping/tools/hashhelper.hpp>
+
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 // local includes
