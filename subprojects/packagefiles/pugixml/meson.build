@@ -32,6 +32,7 @@ pugixml_lib = library(
   gnu_symbol_visibility: 'hidden',
   soversion: host_machine.system() == 'windows' ? '' : '1',
   install: true,
+  override_options: ['unity=off'] # not compatibile with unity builds
 )
 
 export = []
