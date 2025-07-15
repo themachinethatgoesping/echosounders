@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2022 Tim Weiß, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
-// SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2022 - 2025 Peter Urban, Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
 
@@ -103,7 +103,7 @@ class RAW3 : public SimradRawDatagram
     }
     raw3datatypes::t_RAW3DataType get_data_type() const
     {
-        // set short to 0 except for the last 4 bits
+        // set int16_t to 0 except for the last 4 bits
         return _data_type;
     }
     void set_data_type(raw3datatypes::t_RAW3DataType data_type)
