@@ -17,6 +17,8 @@
 #include <vector>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
+#include <fmt/ostream.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

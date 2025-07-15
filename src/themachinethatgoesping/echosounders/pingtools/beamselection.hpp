@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <map>
 #include <ranges>
+#include <numeric>
 
 /* external includes */
 #include <fmt/core.h>

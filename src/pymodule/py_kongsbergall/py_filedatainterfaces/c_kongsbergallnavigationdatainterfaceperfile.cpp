@@ -18,7 +18,9 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/kongsbergall/filedatainterfaces/kongsbergallnavigationdatainterface.hpp"
+#include <themachinethatgoesping/echosounders/kongsbergall/types.hpp>
+
+#include <themachinethatgoesping/echosounders/kongsbergall/filedatainterfaces/kongsbergallnavigationdatainterface.hpp>
 
 #include "../../py_filetemplates/py_datainterfaces/i_navigationdatainterface.hpp"
 #include "c_kongsbergalldatagraminterface.hpp"

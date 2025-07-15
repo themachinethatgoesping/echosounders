@@ -10,16 +10,16 @@
 #include ".docstrings/types.doc.hpp"
 
 #include <complex>
+#include <set>
+#include <vector>
 
-#include <magic_enum/magic_enum.hpp>
 #include <fmt/core.h>
-
-
-
+#include <magic_enum/magic_enum.hpp>
 
 /**
- * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram formats specificaztion
- * see also https://www.kongsberg.com/contentassets/47d7f3d5d4fa4c1b980d9861d1c70c12/160692_em_datagram_formats.pdf
+ * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram
+ * formats specificaztion see also
+ * https://www.kongsberg.com/contentassets/47d7f3d5d4fa4c1b980d9861d1c70c12/160692_em_datagram_formats.pdf
  *
  */
 
@@ -147,7 +147,8 @@ inline std::string datagram_type_to_string(t_KongsbergAllDatagramIdentifier valu
     return std::string(magic_enum::enum_name(value));
 }
 
-inline t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(std::string_view value)
+inline t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(
+    std::string_view value)
 {
     // convert to datagram type using magic enum
     return magic_enum::enum_cast<t_KongsbergAllDatagramIdentifier>(value).value_or(
@@ -158,14 +159,40 @@ inline t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(st
 
 // ----- interface? -----
 
-inline std::string datagram_identifier_to_string(kongsbergall::t_KongsbergAllDatagramIdentifier value)
+inline std::string datagram_identifier_to_string(
+    kongsbergall::t_KongsbergAllDatagramIdentifier value)
 {
     return kongsbergall::datagram_type_to_string(value);
 }
 
-inline std::string datagram_identifier_info(kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type)
+inline std::string datagram_identifier_info(
+    kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type)
 {
     return fmt::format("{:x}", uint8_t(datagram_type));
+}
+
+//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+inline std::vector<std::string> datagram_identifiers_to_string(
+    const std::vector<kongsbergall::t_KongsbergAllDatagramIdentifier>& values)
+{
+    std::vector<std::string> result;
+    for (auto value : values)
+    {
+        result.push_back(datagram_identifier_to_string(value));
+    }
+    return result;
+}
+
+//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2
+inline std::vector<std::string> datagram_identifiers_to_string(
+    const std::set<kongsbergall::t_KongsbergAllDatagramIdentifier>& values)
+{
+    std::vector<std::string> result;
+    for (auto value : values)
+    {
+        result.push_back(datagram_identifier_to_string(value));
+    }
+    return result;
 }
 
 } // namespace echosounders

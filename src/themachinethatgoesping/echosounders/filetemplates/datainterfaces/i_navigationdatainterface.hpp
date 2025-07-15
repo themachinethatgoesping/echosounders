@@ -11,17 +11,24 @@
 #include ".docstrings/i_navigationdatainterface.doc.hpp"
 
 /* std includes */
-#include <filesystem>
-#include <fstream>
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
 #include <boost/flyweight.hpp>
+
+/* fmt includes */
 #include <fmt/core.h>
+#include <fmt/format.h>
+#include <fmt/ostream.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../datatypes/filecache.hpp"

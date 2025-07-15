@@ -20,7 +20,6 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper/enum.hpp>
 
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
@@ -211,10 +210,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return size_t
      */
-    size_t get_file_nr() const
-    {
-        return _file_nr;
-    }
+    size_t get_file_nr() const { return _file_nr; }
 
     /**
      * @brief Get the file nr of the linked file
@@ -230,10 +226,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return std::string
      */
-    std::string get_file_path() const
-    {
-        return _file_path;
-    }
+    std::string get_file_path() const { return _file_path; }
 
     std::string get_file_name() const
     {
@@ -309,23 +302,13 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
             {
                 printer.register_section("Extension file infos");
 
-                // workaround for simard datagram identifiers which are not compatible with
-                // magic_enum
-                if constexpr (!tools::helper::is_magic_enum_compatible_v<
-                                  typename t_base::type_DatagramIdentifier>)
-                {
-                    printer.register_container(
-                        "Used",
-                        datagram_identifiers_to_string(_used_extension_datagram_identifiers));
-                    printer.register_container(
-                        "Ignored",
-                        datagram_identifiers_to_string(_ignored_extension_datagram_identifiers));
-                }
-                else
-                {
-                    printer.register_container("Used", _used_extension_datagram_identifiers);
-                    printer.register_container("Ignored", _ignored_extension_datagram_identifiers);
-                }
+                // these are defined in 'types.hpp' for eache chosounder format
+                printer.register_container(
+                    "Used", datagram_identifiers_to_string(_used_extension_datagram_identifiers));
+                printer.register_container(
+                    "Ignored",
+                    datagram_identifiers_to_string(_ignored_extension_datagram_identifiers));
+
             }
         }
         else
