@@ -13,7 +13,7 @@
 #include <chrono>
 
 #include <themachinethatgoesping/navigation/nmea_0183.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/simradraw/filedatainterfaces/simradrawdatagramdatainterface.hpp"

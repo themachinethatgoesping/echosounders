@@ -13,8 +13,7 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-#include <themachinethatgoesping/tools/vectorinterpolators.hpp>
+#include <themachinethatgoesping/tools/vectorinterpolators/akimainterpolator.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {

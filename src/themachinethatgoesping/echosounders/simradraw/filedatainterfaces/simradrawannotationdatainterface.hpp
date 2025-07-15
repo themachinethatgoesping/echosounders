@@ -15,7 +15,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 
 #include "../datagrams.hpp"
 #include "../types.hpp"

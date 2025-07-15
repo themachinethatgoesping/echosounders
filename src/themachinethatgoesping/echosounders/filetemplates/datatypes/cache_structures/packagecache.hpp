@@ -31,7 +31,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/helper/isviewstream.hpp>
 

@@ -23,7 +23,7 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 
 #include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfilehandler.hpp"

@@ -14,7 +14,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 
 #include "../../filetemplates/datainterfaces/i_environmentdatainterface.hpp"
 #include "kongsbergallconfigurationdatainterface.hpp"

@@ -28,7 +28,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"

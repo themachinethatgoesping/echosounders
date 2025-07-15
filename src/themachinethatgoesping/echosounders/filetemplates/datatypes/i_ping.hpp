@@ -24,7 +24,7 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 

@@ -39,7 +39,6 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
     namespace py = pybind11;
     using namespace themachinethatgoesping::echosounders::filetemplates;
     using namespace themachinethatgoesping::echosounders::simradraw;
-    using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
     using namespace py_filetemplates::py_datainterfaces;
     py_i_datagraminterface::add_InterfaceFunctions<T_BaseClass>(cls);

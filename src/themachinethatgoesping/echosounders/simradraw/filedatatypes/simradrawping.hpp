@@ -27,7 +27,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"

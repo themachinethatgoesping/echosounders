@@ -24,7 +24,7 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../datatypes/datagraminfo.hpp"

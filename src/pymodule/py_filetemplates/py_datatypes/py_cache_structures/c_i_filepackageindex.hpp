@@ -3,7 +3,7 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/filepackageindex.hpp>
@@ -28,7 +28,6 @@ template<typename t_FilePackageIndex>
 void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
 {
     namespace py = pybind11;
-    using namespace themachinethatgoesping::tools::progressbars;
 
     py::class_<t_FilePackageIndex>(m,
                                    (CLASS_NAME + "_FilePackageIndex").c_str(),

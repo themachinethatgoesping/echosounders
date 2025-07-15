@@ -21,7 +21,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/enum.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "i_datagraminterface.hpp"

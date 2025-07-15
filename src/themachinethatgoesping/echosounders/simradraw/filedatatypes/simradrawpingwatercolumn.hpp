@@ -30,7 +30,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 

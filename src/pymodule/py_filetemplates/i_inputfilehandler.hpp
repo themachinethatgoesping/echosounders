@@ -8,7 +8,7 @@
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
 
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
 #include "../../themachinethatgoesping/echosounders/filetemplates/i_inputfilehandler.hpp"

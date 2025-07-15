@@ -19,7 +19,7 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/defaultmap.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include "../datacontainers/datagramcontainer.hpp"

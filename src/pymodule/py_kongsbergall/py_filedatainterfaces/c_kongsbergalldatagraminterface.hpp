@@ -7,6 +7,7 @@
 #include <pybind11/pybind11.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
+#include <themachinethatgoesping/tools/progressbars/i_progressbar.hpp>
 
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 #include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"

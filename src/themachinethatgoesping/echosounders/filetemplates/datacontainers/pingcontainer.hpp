@@ -19,7 +19,7 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/progressbars.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 #include <fmt/core.h>
