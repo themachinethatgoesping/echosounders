@@ -357,7 +357,7 @@ class SimradRawWaterColumnCalibration
         _corr_equivalent_beam_angle_db = _equivalent_beam_angle_db + freq_corr;
 
         // compute gain offsets
-        static const float pi_factor = -10 * std::log10(16 * M_PI * M_PI);
+        static const float pi_factor = -10 * std::log10(16 * std::numbers::pi * std::numbers::pi);
         float              sp_offset = -2 * _corr_transducer_gain_db - pi_factor -
                           10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
 
