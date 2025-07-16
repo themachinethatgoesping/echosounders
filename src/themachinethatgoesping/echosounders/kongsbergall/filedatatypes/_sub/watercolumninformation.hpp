@@ -16,7 +16,6 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 #include "../../datagrams.hpp"
@@ -24,15 +23,15 @@
 
 #include "../../../pingtools/readsamplerange.hpp"
 
-#include <themachinethatgoesping/tools/classhelper/classversion.hpp>
 #include "_wciinfos.hpp"
+#include <themachinethatgoesping/tools/classhelper/classversion.hpp>
+#include <themachinethatgoesping/tools/helper/xtensor_hash.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
-
 
 /**
  * @brief This is a substructure of the KongsbergAllPingWaterColumn class. It is used to store
