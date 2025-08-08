@@ -13,8 +13,6 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
-
-
 #include "../../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
 #include "../../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
 #include "../../datagrams.hpp"
@@ -28,6 +26,20 @@ namespace echosounders {
 namespace simradraw {
 namespace filedatatypes {
 namespace calibration {
+
+/** TODO: Check the range correction
+ * - implement correct sound speed / sound velocity profile
+ * - check range computation (beginning or middle of sample?)
+ * - chack TVG range correction
+ *     - Echopype implements the following (mod is substracted from the range)
+ *          - mod_ek60 = float(2 * beam["sample_interval"] * ds_Sv['sound_speed'] / 2)
+ *          - mod_ek80 = float(ds_Sv['sound_speed'] * beam["transmit_duration_nominal"] / 4)
+ *          - mod_ek80_gpt = mod_ek60 + mod_ek80
+ */
+
+ /** TODO: check effective pulse length
+  * - for power/angle data, do I only use the nominal pulse length?
+  */
 
 class SimradRawWaterColumnCalibration
     : public filetemplates::datatypes::calibration::WaterColumnCalibration

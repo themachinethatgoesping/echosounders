@@ -10,6 +10,7 @@
 #include ".docstrings/FIL1.doc.hpp"
 
 // std includes
+#include <complex>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -25,8 +26,6 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/approx.hpp>
-
-
 
 #include "../types.hpp"
 #include "simradrawdatagram.hpp"
@@ -47,11 +46,12 @@ class FIL1 : public SimradRawDatagram
     simradraw_short _stage   = '\x00';        ///< Filter stage number
     simradraw_char  _spare_1 = '\x00';        ///< For future expansions
     simradraw_char  _spare_2 = '\x00';        ///< For future expansions
-    std::string  _channel_id;              ///< Channel identification (size is always 128)
+    std::string     _channel_id;              ///< Channel identification (size is always 128)
     simradraw_short _no_of_coefficients = 0;  ///< Number of complex filter coefficients
     simradraw_short _decimation_factor  = -1; ///< Filter decimation factor
 
-    xt::xtensor<simradraw_float, 2> _coefficients; ///< Filter coefficients, ...)
+    // xt::xtensor<simradraw_float, 2> _coefficients; ///< Filter coefficients, ...)
+    xt::xtensor<std::complex<simradraw_float>, 1> _coefficients; ///< Filter coefficients, ...)
 
   private:
     // ----- public constructors -----
@@ -78,7 +78,7 @@ class FIL1 : public SimradRawDatagram
                _channel_id == other._channel_id &&
                _no_of_coefficients == other._no_of_coefficients &&
                _decimation_factor == other._decimation_factor &&
-               approx_container(xt::flatten(_coefficients), xt::flatten(other._coefficients));
+               approx_container_complex(xt::flatten(_coefficients), xt::flatten(other._coefficients));
     }
     bool operator!=(const FIL1& other) const { return !operator==(other); }
 
@@ -86,10 +86,10 @@ class FIL1 : public SimradRawDatagram
     simradraw_short get_stage() const { return _stage; }
     simradraw_char  get_spare_1() const { return _spare_1; }
     simradraw_char  get_spare_2() const { return _spare_2; }
-    std::string  get_channel_id() const { return _channel_id; }
+    std::string     get_channel_id() const { return _channel_id; }
     simradraw_short get_no_of_coefficients() const { return _no_of_coefficients; }
     simradraw_short get_decimation_factor() const { return _decimation_factor; }
-    const xt::xtensor<simradraw_float, 2>& get_coefficients() const { return _coefficients; }
+    const auto&     get_coefficients() const { return _coefficients; }
 
     void set_stage(simradraw_short stage) { _stage = stage; }
     void set_spare_1(simradraw_char spare_1) { _spare_1 = spare_1; }
@@ -103,7 +103,7 @@ class FIL1 : public SimradRawDatagram
     {
         _decimation_factor = decimation_factor;
     }
-    void set_coefficients(xt::xtensor<simradraw_float, 2> coefficients)
+    void set_coefficients(xt::xtensor<std::complex<simradraw_float>, 1> coefficients)
     {
         _coefficients = std::move(coefficients);
     }
@@ -131,12 +131,12 @@ class FIL1 : public SimradRawDatagram
                             size,
                             datagram._length));
 
-        using xt_shape = xt::xtensor<simradraw_float, 2>::shape_type;
-        datagram._coefficients =
-            xt::empty<simradraw_float>(xt_shape({ size_t(datagram._no_of_coefficients), 2 }));
+        using xt_shape         = xt::xtensor<std::complex<simradraw_float>, 1>::shape_type;
+        datagram._coefficients = xt::empty<std::complex<simradraw_float>>(
+            xt_shape({ size_t(datagram._no_of_coefficients) }));
 
         is.read(reinterpret_cast<char*>(datagram._coefficients.data()),
-                datagram._coefficients.size() * sizeof(simradraw_float));
+                datagram._coefficients.size() * sizeof(std::complex<simradraw_float>));
 
         // verify the datagram is read correctly by reading the length field at the end
         datagram._verify_datagram_end(is);
@@ -146,7 +146,8 @@ class FIL1 : public SimradRawDatagram
 
     static FIL1 from_stream(std::istream& is)
     {
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::FIL1));
+        return from_stream(is,
+                           SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::FIL1));
     }
 
     static FIL1 from_stream(std::istream& is, t_SimradRawDatagramIdentifier type)
@@ -154,14 +155,16 @@ class FIL1 : public SimradRawDatagram
         if (type != t_SimradRawDatagramIdentifier::FIL1)
             throw std::runtime_error("FIL1::from_stream: wrong datagram type");
 
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::FIL1));
+        return from_stream(is,
+                           SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::FIL1));
     }
 
     void to_stream(std::ostream& os)
     {
-        _no_of_coefficients = simradraw_short(_coefficients.size() / 2);
+        _no_of_coefficients = simradraw_short(_coefficients.size());
 
-        _length        = simradraw_long(_coefficients.size() * sizeof(simradraw_float) + 148);
+        _length =
+            simradraw_long(_coefficients.size() * sizeof(std::complex<simradraw_float>) + 148);
         _datagram_type = simradraw_long(t_SimradRawDatagramIdentifier::FIL1);
         _channel_id.resize(128, '\x00');
 
@@ -174,14 +177,16 @@ class FIL1 : public SimradRawDatagram
         os.write(reinterpret_cast<char*>(&_no_of_coefficients), sizeof(_no_of_coefficients));
         os.write(reinterpret_cast<char*>(&_decimation_factor), sizeof(_decimation_factor));
         os.write(reinterpret_cast<char*>(_coefficients.data()),
-                 _coefficients.size() * sizeof(simradraw_float));
+                 _coefficients.size() * sizeof(std::complex<simradraw_float>));
         os.write(reinterpret_cast<char*>(&_length), sizeof(_length));
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Filter binary datagram (FIL1)", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "Filter binary datagram (FIL1)", float_precision, superscript_exponents);
 
         printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 

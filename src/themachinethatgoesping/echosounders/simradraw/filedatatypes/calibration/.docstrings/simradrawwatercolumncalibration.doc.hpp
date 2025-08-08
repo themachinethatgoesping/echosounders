@@ -1,4 +1,4 @@
-//sourcehash: 9fef848e3eaee67514b7903be835abd46cf91ac7aa1a3c93aefaa6495a5c24b1
+//sourcehash: 8bed7a29e0fe649b774e386e1dfdf465f4bf36f76b75afc3bdeda96a865b6830
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,9 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration =
+R"doc(TODO: check effective pulse length - for power/angle data, do I only
+use the nominal pulse length?)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
