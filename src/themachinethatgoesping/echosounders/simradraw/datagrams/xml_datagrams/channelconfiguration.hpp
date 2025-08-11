@@ -21,7 +21,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 
 
 

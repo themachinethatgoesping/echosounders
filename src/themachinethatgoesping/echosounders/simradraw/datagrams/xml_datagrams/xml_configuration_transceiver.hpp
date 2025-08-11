@@ -20,7 +20,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 #include <themachinethatgoesping/tools/helper/approx.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 #include <themachinethatgoesping/tools/helper/stringconversion.hpp>

@@ -15,7 +15,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 
 
 #include "../../types.hpp"

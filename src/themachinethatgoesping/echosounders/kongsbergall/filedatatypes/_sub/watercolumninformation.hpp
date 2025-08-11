@@ -24,7 +24,6 @@
 #include "../../../pingtools/readsamplerange.hpp"
 
 #include "_wciinfos.hpp"
-#include <themachinethatgoesping/tools/classhelper/classversion.hpp>
 #include <themachinethatgoesping/tools/helper/xtensor_hash.hpp>
 
 namespace themachinethatgoesping {

@@ -16,7 +16,7 @@
 #include "../filetemplates/datatypes/i_ping.hpp"
 #include "beamsampleselection.hpp"
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 
 namespace themachinethatgoesping {

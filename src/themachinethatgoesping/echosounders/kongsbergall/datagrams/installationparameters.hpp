@@ -22,7 +22,7 @@
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 #include <themachinethatgoesping/tools/helper/isviewstream.hpp>
 #include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 

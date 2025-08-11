@@ -30,7 +30,7 @@
 // themachinethatgoesping import
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+
 
 #include "helper.hpp"
 #include "xml_node.hpp"
