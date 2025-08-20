@@ -1,4 +1,4 @@
-//sourcehash: 8bed7a29e0fe649b774e386e1dfdf465f4bf36f76b75afc3bdeda96a865b6830
+//sourcehash: d003d550878d01a14b7755f808a495c31bd13977f27314b5a012599cf757c5fd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -62,21 +62,33 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_absorption_db_m = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_effective_pulse_duration_s = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_internal_sampling_interval_hz = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_sound_velocity_m_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_corr_equivalent_beam_angle_db = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_corr_transducer_gain_db = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_effective_pulse_duration_s = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_equivalent_beam_angle_db = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_filter_stage_1_coefficients = R"doc(< filter coefficients of stage 1 filter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_filter_stage_1_decimation_factor = R"doc(< decimation factor of stage 1 filter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_filter_stage_2_coefficients = R"doc(< filter coefficients of stage 2 filter)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_filter_stage_2_decimation_factor = R"doc(< decimation)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_force_absorption_db_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_force_sound_velocity_m_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_forced_absorption_db_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_forced_effective_pulse_duration_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_forced_sound_velocity_m_s = R"doc()doc";
 
@@ -92,6 +104,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_absorption_db_m = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_effective_pulse_duration_s = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_internal_sampling_interval_hz = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_sound_velocity_m_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_corr_equivalent_beam_angle_db = R"doc()doc";
@@ -102,7 +118,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_equivalent_beam_angle_db = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_filter_stage_1_coefficients = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_filter_stage_1_decimation_factor = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_filter_stage_2_coefficients = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_filter_stage_2_decimation_factor = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_forced_absorption_db_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_forced_effective_pulse_duration_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_forced_sound_velocity_m_s = R"doc()doc";
 
@@ -110,7 +136,11 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_frequency_nominal_hz = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_generated_transmit_pulse = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_n_complex_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_nominal_pulse_duration_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_power_conversion_factor_db = R"doc()doc";
 
@@ -123,6 +153,10 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_sa_correction_db = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_salinity_psu = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_sample_interval_s = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_slope = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_sound_velocity_m_s = R"doc()doc";
 
@@ -139,6 +173,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_initialized_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_n_complex_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_nominal_pulse_duration_s = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_operator_eq = R"doc()doc";
 
@@ -162,11 +198,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_salinity_psu = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_sample_interval_s = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_environment_parameters = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_environment_parameters_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_environment_parameters_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_filter_parameters = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_filter_parameters_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_optional_parameters = R"doc()doc";
 
@@ -181,6 +223,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_set_transducer_parameters_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_setup_simrad_calibration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_slope_factor = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_temperature_c = R"doc()doc";
 

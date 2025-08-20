@@ -10,7 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <xtensor-python/pytensor.hpp> // Numpy bindings
-          // xtensor import for the C++ universal functions
+                                       // xtensor import for the C++ universal functions
 
 #include <chrono>
 
@@ -35,17 +35,18 @@ using namespace themachinethatgoesping::echosounders::simradraw;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
 #define LOCAL_DOC_PREFIX                                                                           \
-    themachinethatgoesping, echosounders, simradraw, filedatainterfaces,                              \
+    themachinethatgoesping, echosounders, simradraw, filedatainterfaces,                           \
         SimradRawConfigurationDataInterface
 
 template<typename T_FileStream>
 void py_create_class_SimradRawConfigurationDataInterfacePerFile(py::module&        m,
-                                                             const std::string& CLASS_NAME)
+                                                                const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
 
-    using T_BaseClass = filedatainterfaces::SimradRawConfigurationDataInterfacePerFile<T_FileStream>;
+    using T_BaseClass =
+        filedatainterfaces::SimradRawConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
     auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
@@ -65,6 +66,14 @@ void py_create_class_SimradRawConfigurationDataInterfacePerFile(py::module&     
                             filedatainterfaces,
                             SimradRawConfigurationDataInterfacePerFile,
                             get_configuration_datagram))
+                   .def("read_fil1_datagrams",
+                        &T_BaseClass::read_fil1_datagrams,
+                        DOC(themachinethatgoesping,
+                            echosounders,
+                            simradraw,
+                            filedatainterfaces,
+                            SimradRawConfigurationDataInterfacePerFile,
+                            read_fil1_datagrams))
                    .def("get_position_sources",
                         &T_BaseClass::get_position_sources,
                         DOC(themachinethatgoesping,
@@ -112,8 +121,7 @@ void init_c_simradrawconfigurationdatainterfaceperfile(pybind11::module& m)
     static const std::string name_stream = name + "_stream";
     static const std::string name_mapped = name + "";
 
-    py_create_class_SimradRawConfigurationDataInterfacePerFile<std::ifstream>(
-        m, name_stream);
+    py_create_class_SimradRawConfigurationDataInterfacePerFile<std::ifstream>(m, name_stream);
     py_create_class_SimradRawConfigurationDataInterfacePerFile<datastreams::MappedFileStream>(
         m, name_mapped);
 }

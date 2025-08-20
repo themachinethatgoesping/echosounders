@@ -23,7 +23,6 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
@@ -59,6 +58,7 @@ class SimradRawPingFileData
     boost::flyweight<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     boost::flyweight<datagrams::xml_datagrams::XML_Environment>       _ping_environment;
     boost::flyweight<_sub::TransceiverInformation>                    _transceiver_information;
+    boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>     _filter_stages;
 
     std::unique_ptr<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>
         _watercolumn_calibration;
@@ -82,6 +82,7 @@ class SimradRawPingFileData
         , _ping_parameter(other._ping_parameter)
         , _ping_environment(other._ping_environment)
         , _transceiver_information(other._transceiver_information)
+        , _filter_stages(other._filter_stages)
     {
         _watercolumn_calibration =
             other._watercolumn_calibration
@@ -121,6 +122,7 @@ class SimradRawPingFileData
                 _ping_environment.get(),
                 _ping_parameter.get(),
                 _transceiver_information.get(),
+                _filter_stages.get(),
                 n_complex_samples);
     }
     void release_watercolumn_calibration() { _watercolumn_calibration.reset(); }
@@ -205,6 +207,17 @@ class SimradRawPingFileData
     const datagrams::xml_datagrams::XML_Environment& get_environment() const
     {
         return _ping_environment.get();
+    }
+
+    void set_filter_stages(
+        boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>> filter_stages)
+    {
+        _filter_stages = filter_stages;
+    }
+
+    const std::pair<datagrams::FIL1, datagrams::FIL1>& get_filter_stages() const
+    {
+        return _filter_stages.get();
     }
 
     const datagrams::RAW3 get_ping_data() const { return _ping_data; }

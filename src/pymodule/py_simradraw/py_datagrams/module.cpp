@@ -8,7 +8,7 @@
 #include <tuple>
 #include <vector>
 
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+
 
 #include "../../../themachinethatgoesping/echosounders/simradraw/datagrams/raw3datatypes/raw3datatypes.hpp"
 

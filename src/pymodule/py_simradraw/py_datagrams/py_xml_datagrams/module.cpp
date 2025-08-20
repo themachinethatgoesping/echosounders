@@ -9,8 +9,6 @@
 #include <vector>
 
 // #include
-//<themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp"
-
 #include <themachinethatgoesping/echosounders/simradraw/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
 
@@ -67,17 +65,21 @@ void init_m_datagrams_xml(pybind11::module& m)
 #define DOC_ENUM_BEAMTYPE(ENUM_VALUE)                                                              \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        simradraw,                                                                                    \
+        simradraw,                                                                                 \
         datagrams,                                                                                 \
         xml_datagrams,                                                                             \
         t_BeamType,                                                                                \
         ENUM_VALUE)
 
     auto pyenum_BeamType =
-        pybind11::enum_<t_BeamType>(
-            subm,
-            "t_BeamType",
-            DOC(themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams, t_BeamType))
+        pybind11::enum_<t_BeamType>(subm,
+                                    "t_BeamType",
+                                    DOC(themachinethatgoesping,
+                                        echosounders,
+                                        simradraw,
+                                        datagrams,
+                                        xml_datagrams,
+                                        t_BeamType))
             .value("BeamTypeSingle", t_BeamType::BeamTypeSingle, DOC_ENUM_BEAMTYPE(BeamTypeSingle))
             .value("BeamTypeSplit", t_BeamType::BeamTypeSplit, DOC_ENUM_BEAMTYPE(BeamTypeSplit))
             .value("BeamTypeRef", t_BeamType::BeamTypeRef, DOC_ENUM_BEAMTYPE(BeamTypeRef))

@@ -19,7 +19,6 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "../../filetemplates/datatypes/cache_structures/filepackagecache.hpp"
 #include "../../filetemplates/datatypes/filecache.hpp"
@@ -130,6 +129,16 @@ class SimradRawPingDataInterfacePerFile
                                           ->get_configuration_datagram();
         auto transceivers         = configuration_datagram.get_transceivers();
         auto transceiver_channels = configuration_datagram.get_transceiver_channels();
+
+        // filter datagrams for calibration
+        std::map<std::string, boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>>
+            fil1_datagrams;
+        for (const auto& [channel_id, fil1_datagram_pair] : this->configuration_data_interface()
+                                                                .per_file()
+                                                                .at(this->get_file_nr())
+                                                                ->read_fil1_datagrams())
+            fil1_datagrams[channel_id] =
+                boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>(fil1_datagram_pair);
 
         // cache for transceiver information
         std::map<std::string, boost::flyweight<filedatatypes::_sub::TransceiverInformation>>
@@ -277,6 +286,13 @@ class SimradRawPingDataInterfacePerFile
                     if (it != transceiver_information_buffer.end())
                     {
                         ping_ptr->file_data().set_transceiver_information(it->second);
+                    }
+
+                    // set filter information
+                    auto it2 = fil1_datagrams.find(ping_ptr->get_channel_id());
+                    if (it2 != fil1_datagrams.end())
+                    {
+                        ping_ptr->file_data().set_filter_stages(it2->second);
                     }
 
                     // set channel_id

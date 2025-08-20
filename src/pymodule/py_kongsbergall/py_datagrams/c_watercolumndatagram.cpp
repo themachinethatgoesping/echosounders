@@ -8,7 +8,7 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+
 
 #include <xtensor-python/pytensor.hpp>                  // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings

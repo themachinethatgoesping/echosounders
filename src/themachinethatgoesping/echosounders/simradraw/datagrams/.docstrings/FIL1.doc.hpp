@@ -1,4 +1,4 @@
-//sourcehash: 4f57348fcd6a967a51f70e9fa49c73a11c2d8bb261f368923d77cb4b9f45c99e
+//sourcehash: eb209ae4e50ffa3d78662878a5040ec63c9fb362fa922b1dd793af620c0ca9fe
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,11 +46,11 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_FIL1_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_channel_id = R"doc(< Channel identification (size is always 128))doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_coefficients = R"doc(< Filter coefficients, ...))doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_coefficients = R"doc(< Filter coefficients)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_decimation_factor = R"doc(< Filter decimation factor)doc";
 
@@ -61,6 +61,8 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_from_stream_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_get_channel_id = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_get_channel_id_stripped = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_get_coefficients = R"doc()doc";
 
@@ -103,6 +105,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_stage = R"doc(< Filter stage number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_FIL1_to_stream = R"doc()doc";
+
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

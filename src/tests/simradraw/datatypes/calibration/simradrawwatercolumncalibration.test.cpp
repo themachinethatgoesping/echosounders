@@ -5,11 +5,8 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-#include <themachinethatgoesping/echosounders/simradraw/types.hpp>
-
-// note: this must be defined below the simradraw/simradraw includes otherwise
-// datagram_identifier_to_string is unknown
 #include <themachinethatgoesping/echosounders/simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.hpp>
+#include <themachinethatgoesping/echosounders/simradraw/types.hpp>
 
 std::string xml_string =
     "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<Configuration>\n    <Header "
@@ -598,11 +595,13 @@ std::string xml_string =
     "AngleOffsetAlongship=\"-0.12\" AngleOffsetAthwartship=\"0.05\" />\n                        "
     "<FrequencyPar Frequency=\"88603\" Gain=\"30.49\" Impedance=\"75\" Phase=\"0\" "
     "BeamWidthAlongship=\"4.86\" BeamWidthAthwartship=\"5\" AngleOffsetAlongship=\"-0.11\" "
-    "AngleOffsetAthwartship=\"0.01\" />\n                        <FrequencyPar Frequency=\"89099\" "
-    "Gain=\"30.61\" Impedance=\"75\" Phase=\"0\" BeamWidthAlongship=\"4.74\" "
-    "BeamWidthAthwartship=\"4.82\" AngleOffsetAlongship=\"-0.15\" AngleOffsetAthwartship=\"0.04\" "
-    "/>\n                        <FrequencyPar Frequency=\"89594\" Gain=\"30.68\" Impedance=\"75\" "
-    "Phase=\"0\" BeamWidthAlongship=\"4.75\" BeamWidthAthwartship=\"4.82\" "
+    "AngleOffsetAthwartship=\"0.01\" />\n                                               "
+    "<FrequencyPar Frequency=\"89099\" Gain=\"30.61\" Impedance=\"75\" "
+    "Phase=\"0\" BeamWidthAlongship=\"4.74\" BeamWidthAthwartship=\"4.82\" "
+    "AngleOffsetAlongship=\"-0.15\" "
+    "AngleOffsetAthwartship=\"0.04\" />\n                        <FrequencyPar Frequency=\"89594\" "
+    "Gain=\"30.68\" Impedance=\"75\" Phase=\"0\" BeamWidthAlongship=\"4.75\" "
+    "BeamWidthAthwartship=\"4.82\" "
     "AngleOffsetAlongship=\"-0.12\" AngleOffsetAthwartship=\"0.03\" />\n                        "
     "<FrequencyPar Frequency=\"90000\" Gain=\"30.72\" Impedance=\"75\" Phase=\"0\" "
     "BeamWidthAlongship=\"4.73\" BeamWidthAthwartship=\"4.75\" AngleOffsetAlongship=\"-0.12\" "
@@ -986,6 +985,37 @@ std::string xml_string =
     "<Value Name=\"SoundVelocityTransducer\" Priority=\"1\" />\n            </Telegram>\n        "
     "</Sensor>\n    </ConfiguredSensors>\n</Configuration>\x00\x00\x00";
 
+// make complex-user-defined literals available before using `if`
+using namespace std::complex_literals;
+
+xt::xtensor<std::complex<float>, 1> stage_1_coefficients{
+    0.00045271f + 0.00042512if,  0.00083044f + 0.00255584if,  -0.00144486f + 0.00757424if,
+    -0.01116373f + 0.01349463if, -0.03143682f + 0.01244672if, -0.05708218f - 0.00721116if,
+    -0.07133026f - 0.05182447if, -0.05251577f - 0.1116017if,  0.00997947f - 0.15861917if,
+    0.10168613f - 0.16023171if,  0.18471064f - 0.10154554if,  0.21824074f + 0.0if,
+    0.18471064f + 0.10154554if,  0.10168613f + 0.16023171if,  0.00997947f + 0.15861917if,
+    -0.05251577f + 0.1116017if,  -0.07133026f + 0.05182447if, -0.05708218f + 0.00721116if,
+    -0.03143682f - 0.01244672if, -0.01116373f - 0.01349463if, -0.00144486f - 0.00757424if,
+    0.00083044f - 0.00255584if,  0.00045271f - 0.00042512if
+};
+
+xt::xtensor<std::complex<float>, 1> stage_2_coefficients{
+    1.03399925e-05f - 1.69095700e-04if,  4.20390897e-05f + 6.72938419e-04if,
+    -3.53300624e-04f - 1.85050140e-03if, 1.32029026e-03f + 4.06435458e-03if,
+    -3.57123418e-03f - 7.58862402e-03if, 7.88452756e-03f + 1.24244979e-02if,
+    -1.50058474e-02f - 1.81385931e-02if, 2.53515840e-02f + 2.38070022e-02if,
+    -3.87208536e-02f - 2.81321295e-02if, 5.40982634e-02f + 2.97409371e-02if,
+    -6.96951672e-02f - 2.75941510e-02if, 8.32360387e-02f + 2.13714596e-02if,
+    -9.24745798e-02f - 1.16822179e-02if, 9.57557932e-02f + 1.29170796e-20if,
+    -9.24745798e-02f + 1.16822179e-02if, 8.32360387e-02f - 2.13714596e-02if,
+    -6.96951672e-02f + 2.75941510e-02if, 5.40982634e-02f - 2.97409371e-02if,
+    -3.87208536e-02f + 2.81321295e-02if, 2.53515840e-02f - 2.38070022e-02if,
+    -1.50058474e-02f + 1.81385931e-02if, 7.88452756e-03f - 1.24244979e-02if,
+    -3.57123418e-03f + 7.58862402e-03if, 1.32029026e-03f - 4.06435458e-03if,
+    -3.53300624e-04f + 1.85050140e-03if, 4.20390897e-05f - 6.72938419e-04if,
+    1.03399925e-05f + 1.69095700e-04if
+};
+
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
@@ -1024,7 +1054,11 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     float transmit_power_w           = 5000.0f;
     float pulse_duration_s           = 0.000128f; // should be pulse index 1 for ES333 transducer
     float slope                      = 0.5f;
+    float sample_interval_s          = 1.2e-05f;
     float effective_pulse_duration_s = pulse_duration_s * slope;
+
+    int16_t stage1_decimation_factor = 6;
+    int16_t stage2_decimation_factor = 1;
 
     size_t n_complex_samples = 4;
     float  impedance_factor  = tr_infos.get_impedance_factor();
@@ -1037,23 +1071,31 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     environment.Latitude    = latitude;
 
     datagrams::xml_datagrams::XML_Parameter_Channel parameters;
-    parameters.Frequency     = frequency_hz;
-    parameters.TransmitPower = transmit_power_w;
-    parameters.Slope         = slope;
-    parameters.PulseDuration = pulse_duration_s;
-    parameters.PulseForm     = 0; // CW
+    parameters.Frequency      = frequency_hz;
+    parameters.TransmitPower  = transmit_power_w;
+    parameters.Slope          = slope;
+    parameters.PulseDuration  = pulse_duration_s;
+    parameters.PulseForm      = 0; // CW
+    parameters.SampleInterval = sample_interval_s;
 
-    auto cal0      = SimradRawWaterColumnCalibration();
-    auto cal_power = SimradRawWaterColumnCalibration(environment, parameters, tr_infos, 0);
-    auto cal_cmplx =
-        SimradRawWaterColumnCalibration(environment, parameters, tr_infos, n_complex_samples);
+    datagrams::FIL1 stage1, stage2;
+    stage1.set_decimation_factor(stage1_decimation_factor);
+    stage2.set_decimation_factor(stage2_decimation_factor);
+    stage1.set_coefficients(stage_1_coefficients);
+    stage2.set_coefficients(stage_2_coefficients);
+
+    auto cal0 = SimradRawWaterColumnCalibration();
+    auto cal_power =
+        SimradRawWaterColumnCalibration(environment, parameters, tr_infos, { stage1, stage2 }, 0);
+    auto cal_cmplx = SimradRawWaterColumnCalibration(
+        environment, parameters, tr_infos, { stage1, stage2 }, n_complex_samples);
 
     SECTION("SimradRawWaterColumnCalibration should support common functions")
     {
         // test hash (should be stable if class is not changed)
-        CHECK(cal0.binary_hash() == 17881936019455399031ULL);
-        CHECK(cal_power.binary_hash() == 7583670336073361441ULL);
-        CHECK(cal_cmplx.binary_hash() == 4293420015706961800ULL);
+        CHECK(cal0.binary_hash() == 11075889885126518596ULL);
+        CHECK(cal_power.binary_hash() == 1824290843679919137ULL);
+        CHECK(cal_cmplx.binary_hash() == 14727080812045663074ULL);
 
         // test equality
         CHECK(cal0 == cal0);
@@ -1074,6 +1116,10 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
             CHECK(cal_power == SimradRawWaterColumnCalibration(cal_power));
             CHECK(cal_cmplx == SimradRawWaterColumnCalibration(cal_cmplx));
         }
+
+        INFO(cal_cmplx.info_string());
+        INFO('---');
+        INFO(cal_cmplx.from_binary(cal_cmplx.to_binary()).info_string());
 
         // test binary
         CHECK(cal0 == SimradRawWaterColumnCalibration(cal0.from_binary(cal0.to_binary())));
@@ -1122,8 +1168,22 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         CHECK(cal_cmplx.get_frequency_hz() == Approx(frequency_hz));
         CHECK(cal_power.get_transmit_power_w() == Approx(transmit_power_w));
         CHECK(cal_cmplx.get_transmit_power_w() == Approx(transmit_power_w));
-        CHECK(cal_power.get_effective_pulse_duration_s() == Approx(effective_pulse_duration_s));
-        CHECK(cal_cmplx.get_effective_pulse_duration_s() == Approx(effective_pulse_duration_s));
+        CHECK(cal_power.get_nominal_pulse_duration_s() == Approx(pulse_duration_s));
+        CHECK(cal_cmplx.get_nominal_pulse_duration_s() == Approx(pulse_duration_s));
+        CHECK(cal_power.get_slope() == Approx(slope));
+        CHECK(cal_cmplx.get_slope() == Approx(slope));
+        CHECK(cal_power.get_sample_interval_s() == Approx(sample_interval_s));
+        CHECK(cal_cmplx.get_sample_interval_s() == Approx(sample_interval_s));
+
+        CHECK(cal_power.get_filter_stage_1_decimation_factor() == stage1_decimation_factor);
+        CHECK(cal_cmplx.get_filter_stage_1_decimation_factor() == stage1_decimation_factor);
+        CHECK(cal_power.get_filter_stage_2_decimation_factor() == stage2_decimation_factor);
+        CHECK(cal_cmplx.get_filter_stage_2_decimation_factor() == stage2_decimation_factor);
+
+        CHECK(cal_power.get_filter_stage_1_coefficients() == stage_1_coefficients);
+        CHECK(cal_cmplx.get_filter_stage_1_coefficients() == stage_1_coefficients);
+        CHECK(cal_power.get_filter_stage_2_coefficients() == stage_2_coefficients);
+        CHECK(cal_cmplx.get_filter_stage_2_coefficients() == stage_2_coefficients);
 
         // computed values
         CHECK(cal_power.get_sound_velocity_m_s() == Approx(1484.040527344f));
@@ -1177,9 +1237,9 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         float wavelength                      = cal_power.get_wavelength_m();
         float corrected_transducer_gain       = cal_power.get_corr_transducer_gain_db();
         float corrected_equivalent_beam_angle = cal_power.get_corr_equivalent_beam_angle_db();
-        float sp_factor =
-            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * std::numbers::pi * std::numbers::pi)) -
-            2 * corrected_transducer_gain;
+        float sp_factor = -10 * std::log10(transmit_power_w * wavelength * wavelength /
+                                           (16 * std::numbers::pi * std::numbers::pi)) -
+                          2 * corrected_transducer_gain;
         float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
                           corrected_equivalent_beam_angle - 2 * sa_correction_db;
 
@@ -1220,9 +1280,9 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         float wavelength                      = cal_power2.get_wavelength_m();
         float corrected_transducer_gain       = cal_power2.get_corr_transducer_gain_db();
         float corrected_equivalent_beam_angle = cal_power2.get_corr_equivalent_beam_angle_db();
-        float sp_factor =
-            -10 * std::log10(transmit_power_w * wavelength * wavelength / (16 * std::numbers::pi * std::numbers::pi)) -
-            2 * corrected_transducer_gain;
+        float sp_factor = -10 * std::log10(transmit_power_w * wavelength * wavelength /
+                                           (16 * std::numbers::pi * std::numbers::pi)) -
+                          2 * corrected_transducer_gain;
         float sv_factor = -10 * std::log10(sound_velocity * effective_pulse_duration_s / 2) -
                           corrected_equivalent_beam_angle - 2 * sa_correction_db;
 
@@ -1249,7 +1309,8 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         cal_power2.set_environment_parameters(
             reference_depth_m, temperature_c, salinity_psu, acidity_ph);
         cal_power2.set_runtime_parameters(
-            frequency_hz, transmit_power_w, effective_pulse_duration_s);
+            frequency_hz, transmit_power_w, pulse_duration_s, slope, sample_interval_s);
+        cal_power2.set_filter_parameters({ stage1, stage2 });
         cal_power2.set_optional_parameters(latitude, std::nullopt);
         cal_power2.setup_simrad_calibration();
         CHECK(cal_power == cal_power2);

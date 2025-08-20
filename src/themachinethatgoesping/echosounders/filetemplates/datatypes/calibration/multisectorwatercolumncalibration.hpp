@@ -12,9 +12,9 @@
 #include <xtensor/containers/xadapt.hpp>
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/cache_structures/packagecache.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
+#include "../cache_structures/packagecache.hpp"
 
 
 #include "watercolumncalibration.hpp"

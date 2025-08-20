@@ -300,18 +300,6 @@ class RAW3 : public SimradRawDatagram
 
         printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
 
-        std::string channel_id = std::string(get_channel_id());
-        // remove all non ascii characters
-        channel_id.erase(std::remove_if(channel_id.begin(),
-                                        channel_id.end(),
-                                        [](char c) { return !std::isprint(c); }),
-                         channel_id.end());
-        // remove all white spaces
-        channel_id.erase(std::remove_if(channel_id.begin(),
-                                        channel_id.end(),
-                                        [](char c) { return std::isspace(c); }),
-                         channel_id.end());
-
         std::stringstream datatype_as_bytes;
         datatype_as_bytes << "0b" << std::bitset<8>(uint8_t(_data_type));
 
@@ -319,7 +307,7 @@ class RAW3 : public SimradRawDatagram
         csamples_as_bytes << "0b" << std::bitset<8>(_number_of_complex_samples);
 
         printer.register_section("Sample datagram header");
-        printer.register_string("channel_id", channel_id);
+        printer.register_string("channel_id", std::string(get_channel_id_stripped()));
         printer.register_string("data_type (bytes)", datatype_as_bytes.str());
         printer.register_enum("data_type", _data_type);
         printer.register_value("complex samples (bytes)", csamples_as_bytes.str());

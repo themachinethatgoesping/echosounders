@@ -24,6 +24,7 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../datatypes/datagraminfo.hpp"
 

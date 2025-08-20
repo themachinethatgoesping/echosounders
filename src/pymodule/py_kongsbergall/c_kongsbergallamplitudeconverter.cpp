@@ -8,7 +8,7 @@
 #include <xtensor-python/pytensor.hpp>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+
 
 #include "../../themachinethatgoesping/echosounders/kongsbergall/kongsbergallamplitudeconverter.hpp"
 

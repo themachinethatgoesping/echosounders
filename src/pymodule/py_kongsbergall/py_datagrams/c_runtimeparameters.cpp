@@ -8,7 +8,7 @@
 #include <pybind11/stl.h>
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+
 
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams/runtimeparameters.hpp"
 

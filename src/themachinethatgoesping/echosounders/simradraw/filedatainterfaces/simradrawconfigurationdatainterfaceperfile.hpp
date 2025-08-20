@@ -16,9 +16,8 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-#include "../types.hpp"
 #include "../datagrams.hpp"
+#include "../types.hpp"
 #include "simradrawdatagraminterface.hpp"
 
 #include "../../filetemplates/datainterfaces/i_configurationdatainterface.hpp"
@@ -78,6 +77,85 @@ class SimradRawConfigurationDataInterfacePerFile
         return std::get<datagrams::xml_datagrams::XML_Configuration>(xml0_datagram.decode());
     }
 
+    /**
+     * @brief Read the fil1 datagrams from the file and return them as a map with the channel ID as
+     * key and a pair of stage 1 and stage 2 datagrams. Function will fail if a channel id does not
+     * exactly have two stages or if it detects a duplicated channel/stage
+     *
+     * @return std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>>
+     */
+    std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> read_fil1_datagrams()
+    {
+        std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> fil1_datagrams;
+
+        // get datagram infos for FIL1 packets
+        const auto& datagram_infos =
+            this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::FIL1);
+
+        // check that there are filter datagrams
+        if (datagram_infos.empty())
+            return fil1_datagrams;
+
+        // read all filter datagrams
+        for (const auto& datagram_info : datagram_infos)
+        {
+            auto fil1_datagram = datagram_info->template read_datagram_from_file<datagrams::FIL1>();
+
+            const auto channel_id = std::string(fil1_datagram.get_channel_id_stripped());
+            const auto stage      = fil1_datagram.get_stage();
+
+            switch (stage)
+            {
+                case 1:
+                    if (!fil1_datagrams[channel_id].first.get_channel_id_stripped().empty())
+                        throw std::runtime_error(fmt::format(
+                            "read_fil1_datagrams: Duplicate stage nr {} for channel {} in {}!",
+                            stage,
+                            channel_id,
+                            this->get_file_path()));
+
+                    fil1_datagrams[channel_id].first = fil1_datagram;
+                    break;
+                case 2:
+                    if (!fil1_datagrams[channel_id].second.get_channel_id_stripped().empty())
+                        throw std::runtime_error(fmt::format(
+                            "read_fil1_datagrams: Duplicate stage nr {} for channel {} in {}!",
+                            stage,
+                            channel_id,
+                            this->get_file_path()));
+
+                    fil1_datagrams[channel_id].second = fil1_datagram;
+                    break; // ok
+                default:
+                    throw std::runtime_error(
+                        fmt::format("read_fil1_datagrams: Invalid stage nr {} for channel {} in "
+                                    "{}! (only 1 and 2 are allowed)",
+                                    stage,
+                                    channel_id,
+                                    this->get_file_path()));
+            }
+        }
+
+        // check that both stages are present for each detected channel_id
+        for (const auto& [channel_id, stages] : fil1_datagrams)
+        {
+            if (stages.first.get_channel_id_stripped().empty())
+                throw std::runtime_error(
+                    fmt::format("read_fil1_datagrams: Missing stage {} for channel {} in {}!",
+                                0,
+                                channel_id,
+                                this->get_file_path()));
+            if (stages.second.get_channel_id_stripped().empty())
+                throw std::runtime_error(
+                    fmt::format("read_fil1_datagrams: Missing stage {} for channel {} in {}!",
+                                1,
+                                channel_id,
+                                this->get_file_path()));
+        }
+
+        return fil1_datagrams;
+    }
+
     /* get other possible sensor sources */
     /**
      * @brief Return all position sources registered in the configuration datagram (sorted by
@@ -131,9 +209,11 @@ class SimradRawConfigurationDataInterfacePerFile
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents)
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));

@@ -4,6 +4,8 @@
 
 #include <pybind11/pybind11.h>
 
+#include "calibration/module.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -21,7 +23,12 @@ namespace py_sub {
 void init_c_transceiverinformation(pybind11::module& m); // sub/c_transceiverinformation.cpp
 }
 namespace py_calibration {
-void init_c_simradrawwatercolumncalibration(pybind11::module& m); // sub/c_simradrawwatercolumncalibration.cpp
+namespace py_functions {
+void init_simradrawwatercolumncalibration_functions(pybind11::module& m);
+}
+
+void init_c_simradrawwatercolumncalibration(
+    pybind11::module& m); // sub/c_simradrawwatercolumncalibration.cpp
 }
 
 void init_c_simradrawpingcommon(pybind11::module& m);      // c_simradrawpingcommon.cpp
@@ -33,10 +40,13 @@ void init_c_simradrawpingwatercolumn(pybind11::module& m); // c_simradrawpingwat
 // -- create submodule --
 void init_m_simradrawfiledatatypes(pybind11::module& m)
 {
-    auto subm = m.def_submodule("filetypes", "SimradRaw EK60 and EK80 file data types");
+    auto subm = m.def_submodule("filedatatypes", "SimradRaw EK60 and EK80 file data types");
     py_cache_structures::init_c_simradrawfilepackageindex(subm);
     py_sub::init_c_transceiverinformation(subm);
-    py_calibration::init_c_simradrawwatercolumncalibration(subm);
+
+    // -- create submodule for calibration --
+    py_calibration::init_m_simradrawfiledatatypescalibration(subm);
+
     init_c_simradrawpingfiledata(subm);
     init_c_simradrawpingcommon(subm);
     init_c_simradrawpingbottom(subm);

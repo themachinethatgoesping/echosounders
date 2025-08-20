@@ -8,8 +8,9 @@
 #include <tuple>
 #include <vector>
 
-#include <themachinethatgoesping/echosounders/simradraw/datagrams/raw3datatypes/raw3datatypes.hpp>
 #include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+
+#include <themachinethatgoesping/echosounders/simradraw/datagrams/raw3datatypes/raw3datatypes.hpp>
 
 #include "module.hpp"
 
@@ -26,7 +27,7 @@ namespace py_raw3_datatypes {
 #define DOC_T_RAW3_DATATYPE(TYPE)                                                                  \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        simradraw,                                                                                    \
+        simradraw,                                                                                 \
         datagrams,                                                                                 \
         raw3datatypes,                                                                             \
         t_RAW3DataType,                                                                            \

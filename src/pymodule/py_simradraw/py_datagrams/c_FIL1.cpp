@@ -6,7 +6,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/iostream.h>
 #include <pybind11/stl.h>
-#include <xtensor-python/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/pytensor.hpp>                 // Numpy bindings
 #include <xtensor-python/xtensor_type_caster_base.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
@@ -39,6 +39,9 @@ void init_c_FIL1(pybind11::module& m)
         .def("get_stage", &FIL1::get_stage, DOC_FIL1(stage))
         .def("set_stage", &FIL1::set_stage, DOC_FIL1(stage))
         .def("get_channel_id", &FIL1::get_channel_id, DOC_FIL1(channel_id))
+        .def("get_channel_id_stripped",
+             &FIL1::get_channel_id_stripped,
+             DOC_FIL1(get_channel_id_stripped))
         .def("set_channel_id", &FIL1::set_channel_id, DOC_FIL1(channel_id))
         .def("get_no_of_coefficients", &FIL1::get_no_of_coefficients, DOC_FIL1(no_of_coefficients))
         .def("set_no_of_coefficients", &FIL1::set_no_of_coefficients, DOC_FIL1(no_of_coefficients))

@@ -9,7 +9,7 @@
 #include <tuple>
 #include <vector>
 
-#include <themachinethatgoesping/tools_pybind/enumhelper.hpp>
+#include <fmt/format.h>
 
 #include "../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
