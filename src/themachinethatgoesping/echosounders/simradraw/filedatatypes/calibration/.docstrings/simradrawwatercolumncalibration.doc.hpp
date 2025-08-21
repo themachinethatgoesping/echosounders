@@ -1,4 +1,4 @@
-//sourcehash: d003d550878d01a14b7755f808a495c31bd13977f27314b5a012599cf757c5fd
+//sourcehash: c739cee704fa9ce19e00e3eeaa4b6e7326175d02b716b4aeb559e995f0400350
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,6 +59,75 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_check_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_check_modifying_base_calibration_allowed = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_effective_pulse_duration_s =
+R"doc(Compute the effective pulse duration by integrating the filtered
+transmit pulse.
+
+Note: This function assumes the
+_computed_internal_sampling_interval_hz to be set, e.g. during
+initialization.
+
+Parameter ``round_to_full_samples``:
+    Round energy to full samples (default true). This matches ESP3s
+    implementation.
+
+Parameter ``start_phase_degrees``:
+    Start phase of the transmit pulse in degrees (default 0). For
+    testing only, should not affect the result.
+
+Returns:
+    float)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_filtered_transmit_pulse =
+R"doc(This function computes the filtered transmit signal from the
+parameters set in this calibration. It is used to generate the
+theoretical transmit pulse that is then used to compute the effective
+pulse duration when calling compute_effective_pulse_duration_s.
+
+Note the transmit pulse is generated with the nominal pulse duration
+and slope factor as a linear cosine chirp.
+
+Note: This function assumes the
+_computed_internal_sampling_interval_hz to be set, e.g. during
+initialization.
+
+Template parameter ``t_xtensor_float``:
+    $Parameter ``start_phase_degrees``:
+
+start_phase_degrees start phase of the transmit pulse in degrees
+(default 0)
+
+Returns:
+    auto)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_internal_sampling_interval_hz =
+R"doc(Compute the interal sampling interval in Hz based on the filter stages
+(decimation factors) and the resulting final sample interval
+
+Returns:
+    float)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_raw_transmit_pulse =
+R"doc(This function computes the raw, unfiltered transmit signal from the
+parameters set in this calibration. It is used as input for the
+filter/decimation function that generate the theoretical transmit
+pulse when calling 'compute_filtered_transmit_pulse'.
+
+Note: The transmit pulse is generated with the nominal pulse duration
+and slope factor as a linear cosine chirp.
+
+Note: This function assumes the
+_computed_internal_sampling_interval_hz to be set, e.g. during
+initialization.
+
+Template parameter ``t_xtensor_float``:
+    $Parameter ``start_phase_degrees``:
+
+start phase of the transmit pulse in degrees (default 0)
+
+Returns:
+    auto)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_absorption_db_m = R"doc()doc";
 
@@ -135,8 +204,6 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatat
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_frequency_hz = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_frequency_nominal_hz = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_generated_transmit_pulse = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_n_complex_samples = R"doc()doc";
 

@@ -1,10 +1,10 @@
 #include "simradrawwatercolumncalibration.hpp"
 
+#include <array> // added
 #include <cmath>
 #include <limits>
 #include <numbers>
 #include <optional>
-#include <array>  // added
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -243,6 +243,9 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
             _salinity_psu,
             _acidity_ph);
 
+    _computed_internal_sampling_interval_hz = compute_internal_sampling_interval_hz();
+    _computed_effective_pulse_duration_s    = compute_effective_pulse_duration_s();
+
     float sound_velocity_m_s = get_sound_velocity_m_s();
     float absorption_db_m    = get_absorption_db_m();
 
@@ -262,8 +265,7 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
                       10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
 
     float sv_offset = -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
-                      10 * std::log10(sound_velocity_m_s * _nominal_pulse_duration_s *
-                                      (1 - _slope_factor) * 0.5f);
+                      10 * std::log10(sound_velocity_m_s * get_effective_pulse_duration_s() * 0.5f);
 
     _power_calibration.reset();
     _ap_calibration.reset();
@@ -550,6 +552,39 @@ void SimradRawWaterColumnCalibration::throw_because_value_is_note_finite(
                                          "Calibration not initialized because {} is {}!",
                                          value_name,
                                          value));
+}
+float SimradRawWaterColumnCalibration::compute_internal_sampling_interval_hz() const
+{
+    return (_filter_stage_1_decimation_factor * _filter_stage_2_decimation_factor) /
+           _sample_interval_s;
+}
+
+float SimradRawWaterColumnCalibration::compute_effective_pulse_duration_s(
+    bool  round_to_full_samples,
+    float start_phase_degrees) const
+{
+    // Generate raw transmit pulse
+    const auto [raw_times, raw_amplitudes] =
+        functions::generate_transmit_pulse<xt::xtensor<float, 1>>(
+            _frequency_hz,
+            _frequency_hz,
+            _nominal_pulse_duration_s,
+            _slope_factor,
+            _computed_internal_sampling_interval_hz,
+            start_phase_degrees);
+
+    // Filter and decimate to get the transmit pulse used for effective duration
+    const auto [filt_times, filt_amplitudes] =
+        functions::filter_and_decimate_pulse(raw_amplitudes,
+                                             _filter_stage_1_decimation_factor,
+                                             _filter_stage_1_coefficients,
+                                             _filter_stage_2_decimation_factor,
+                                             _filter_stage_2_coefficients,
+                                             _computed_internal_sampling_interval_hz);
+
+    // Integrate energy to compute effective pulse duration
+    return functions::compute_effective_pulse_duration_cw(
+        filt_amplitudes, _sample_interval_s, round_to_full_samples);
 }
 
 } // namespace calibration

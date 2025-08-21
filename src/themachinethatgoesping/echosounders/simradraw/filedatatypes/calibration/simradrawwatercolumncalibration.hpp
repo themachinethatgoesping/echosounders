@@ -9,6 +9,8 @@
 #include ".docstrings/simradrawwatercolumncalibration.doc.hpp"
 
 #include <fmt/core.h>
+#include <xtensor/containers/xtensor.hpp> // for xt::xtensor<float, 1>
+
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
@@ -230,10 +232,32 @@ class SimradRawWaterColumnCalibration
     std::optional<float> get_rounded_longitude_deg() const { return _rounded_longitude_deg; }
 
     // ----- effective pulse duration -----
+    /**
+     * @brief Compute the interal sampling interval in Hz based on the filter stages (decimation
+     * factors) and the resulting final sample interval
+     *
+     * @return float
+     */
+    float compute_internal_sampling_interval_hz() const;
+
+    /**
+     * @brief This function computes the raw, unfiltered transmit signal from the parameters set in
+     * this calibration. It is used as input for the filter/decimation function that generate the
+     * theoretical transmit pulse when calling 'compute_filtered_transmit_pulse'.
+     *
+     * Note: The transmit pulse is generated with the nominal pulse duration and slope factor as a
+     * linear cosine chirp.
+     *
+     * Note: This function assumes the _computed_internal_sampling_interval_hz to be set, e.g.
+     * during initialization.
+     *
+     * @tparam t_xtensor_float
+     * @param start_phase_degrees start phase of the transmit pulse in degrees (default 0)
+     * @return auto
+     */
     template<tools::helper::c_xtensor_1d t_xtensor_float>
-    auto get_generated_transmit_pulse(float start_phase_degrees = 0)
+    auto compute_raw_transmit_pulse(float start_phase_degrees = 0)
     {
-        check_initialized();
         return functions::generate_transmit_pulse<t_xtensor_float>(
             _frequency_hz,
             _frequency_hz,
@@ -242,6 +266,51 @@ class SimradRawWaterColumnCalibration
             _computed_internal_sampling_interval_hz,
             start_phase_degrees);
     }
+
+    /**
+     * @brief This function computes the filtered transmit signal from the parameters set in this
+     * calibration. It is used to generate the theoretical transmit pulse that is then used to
+     * compute the effective pulse duration when calling compute_effective_pulse_duration_s.
+     *
+     * Note the transmit pulse is generated with the nominal pulse duration and slope factor as a
+     * linear cosine chirp.
+     *
+     * Note: This function assumes the _computed_internal_sampling_interval_hz to be set, e.g.
+     * during initialization.
+     *
+     * @tparam t_xtensor_float
+     * @param start_phase_degrees start_phase_degrees start phase of the transmit pulse in degrees
+     * (default 0)
+     * @return auto
+     */
+    template<tools::helper::c_xtensor_1d t_xtensor_float>
+    auto compute_filtered_transmit_pulse(float start_phase_degrees = 0)
+    {
+        const auto [pulse_times, pulse_amplitudes] =
+            compute_raw_transmit_pulse<t_xtensor_float>(start_phase_degrees);
+
+        return functions::filter_and_decimate_pulse(pulse_amplitudes,
+                                                    _filter_stage_1_decimation_factor,
+                                                    _filter_stage_1_coefficients,
+                                                    _filter_stage_2_decimation_factor,
+                                                    _filter_stage_2_coefficients,
+                                                    _computed_internal_sampling_interval_hz);
+    }
+
+    /**
+     * @brief Compute the effective pulse duration by integrating the filtered transmit pulse.
+     *
+     * Note: This function assumes the _computed_internal_sampling_interval_hz to be set, e.g.
+     * during initialization.
+     *
+     * @param round_to_full_samples Round energy to full samples (default true).
+     *                              This matches ESP3s implementation.
+     * @param start_phase_degrees Start phase of the transmit pulse in degrees (default 0).
+     *                            For testing only, should not affect the result.
+     * @return float
+     */
+    float compute_effective_pulse_duration_s(bool  round_to_full_samples = true,
+                                             float start_phase_degrees   = 0) const;
 
     // moved impls
     void setup_simrad_calibration();

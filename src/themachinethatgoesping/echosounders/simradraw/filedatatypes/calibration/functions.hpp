@@ -197,7 +197,7 @@ inline t_xtensor_complex _convolve_full(const t_xtensor_val& x, const t_xtensor_
     if (N == 0 || M == 0)
         return t_xtensor_complex::from_shape({ 0L });
 
-    auto y = t_xtensor_complex::from_shape({ static_cast<long>(N + M - 1) });
+    auto y = t_xtensor_complex::from_shape({ N + M - 1 });
     std::fill(y.begin(), y.end(), t_complex{ 0 });
 
     for (std::size_t i = 0; i < N + M - 1; ++i)

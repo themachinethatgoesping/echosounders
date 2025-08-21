@@ -20,14 +20,24 @@ magic_enum*
 xtensor*
 xsimd*
 xtensor-python*
+xtl*
 fast_float*
 nlohman*
 indicators*
 geographiclib*
 xxhash_cpp**
+sse2neon**
+flat_map**
+gswteos-10**
+boost**
+indicators*
+frozen*
+nanobind**
+robin-map**
 
 #inherited repos
 tools-*
 meta-*
 navigation-*
+algorithms-*
 

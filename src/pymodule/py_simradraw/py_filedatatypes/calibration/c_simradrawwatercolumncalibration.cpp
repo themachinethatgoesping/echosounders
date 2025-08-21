@@ -12,9 +12,8 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-
+#include <complex> // for std::complex
 #include <themachinethatgoesping/echosounders/simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.hpp>
-#include <complex>  // for std::complex
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -132,22 +131,23 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
                      &SimradRawWaterColumnCalibration::set_filter_parameters),
                  DOC_SimradRawWaterColumnCalibration(set_filter_parameters),
                  py::arg("filter_stages"))
-            .def("set_filter_parameters",
-                 [](SimradRawWaterColumnCalibration&                           self,
-                    int16_t                                                   stage1_decim,
-                    const xt::pytensor<std::complex<float>, 1>&               stage1_coeffs,
-                    int16_t                                                   stage2_decim,
-                    const xt::pytensor<std::complex<float>, 1>&               stage2_coeffs) {
-                     // copy numpy -> xtensor
-                     xt::xtensor<std::complex<float>, 1> s1(stage1_coeffs);
-                     xt::xtensor<std::complex<float>, 1> s2(stage2_coeffs);
-                     self.set_filter_parameters(stage1_decim, s1, stage2_decim, s2);
-                 },
-                 DOC_SimradRawWaterColumnCalibration(set_filter_parameters_2),
-                 py::arg("stage1_decimation_factor"),
-                 py::arg("stage1_coefficients"),
-                 py::arg("stage2_decimation_factor"),
-                 py::arg("stage2_coefficients"))
+            .def(
+                "set_filter_parameters",
+                [](SimradRawWaterColumnCalibration&            self,
+                   int16_t                                     stage1_decim,
+                   const xt::pytensor<std::complex<float>, 1>& stage1_coeffs,
+                   int16_t                                     stage2_decim,
+                   const xt::pytensor<std::complex<float>, 1>& stage2_coeffs) {
+                    // copy numpy -> xtensor
+                    xt::xtensor<std::complex<float>, 1> s1(stage1_coeffs);
+                    xt::xtensor<std::complex<float>, 1> s2(stage2_coeffs);
+                    self.set_filter_parameters(stage1_decim, s1, stage2_decim, s2);
+                },
+                DOC_SimradRawWaterColumnCalibration(set_filter_parameters_2),
+                py::arg("stage1_decimation_factor"),
+                py::arg("stage1_coefficients"),
+                py::arg("stage2_decimation_factor"),
+                py::arg("stage2_coefficients"))
 
             .def("set_power_calibration_parameters",
                  &SimradRawWaterColumnCalibration::set_power_calibration_parameters,
@@ -260,8 +260,7 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
 
             .def("get_computed_internal_sampling_interval_hz",
                  &SimradRawWaterColumnCalibration::get_computed_internal_sampling_interval_hz,
-                 DOC_SimradRawWaterColumnCalibration(
-                     get_computed_internal_sampling_interval_hz))
+                 DOC_SimradRawWaterColumnCalibration(get_computed_internal_sampling_interval_hz))
 
             .def("get_n_complex_samples",
                  &SimradRawWaterColumnCalibration::get_n_complex_samples,
@@ -278,11 +277,24 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
                  DOC_SimradRawWaterColumnCalibration(get_rounded_longitude_deg))
 
             // ----- effective pulse duration -----
-            .def("get_generated_transmit_pulse",
-                 &SimradRawWaterColumnCalibration::get_generated_transmit_pulse<
+            .def("compute_internal_sampling_interval_hz",
+                 &SimradRawWaterColumnCalibration::compute_internal_sampling_interval_hz,
+                 DOC_SimradRawWaterColumnCalibration(compute_internal_sampling_interval_hz))
+            .def("compute_raw_transmit_pulse",
+                 &SimradRawWaterColumnCalibration::compute_raw_transmit_pulse<
                      xt::pytensor<float, 1>>,
-                 DOC_SimradRawWaterColumnCalibration(get_generated_transmit_pulse),
+                 DOC_SimradRawWaterColumnCalibration(compute_raw_transmit_pulse),
                  py::arg("start_phase_degrees") = 0.0f)
+            .def("compute_filtered_transmit_pulse",
+                 &SimradRawWaterColumnCalibration::compute_filtered_transmit_pulse<
+                     xt::pytensor<float, 1>>,
+                 DOC_SimradRawWaterColumnCalibration(compute_filtered_transmit_pulse),
+                 py::arg("start_phase_degrees") = 0.0f)
+            .def("compute_effective_pulse_duration_s",
+                 &SimradRawWaterColumnCalibration::compute_effective_pulse_duration_s,
+                 DOC_SimradRawWaterColumnCalibration(compute_effective_pulse_duration_s),
+                 py::arg("round_to_full_samples") = true,
+                 py::arg("start_phase_degrees")   = 0.0f)
 
             // ----- setup calibration for simradraw systems ----
             .def("setup_simrad_calibration",
