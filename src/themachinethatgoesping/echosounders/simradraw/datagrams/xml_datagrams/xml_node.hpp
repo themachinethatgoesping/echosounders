@@ -44,7 +44,7 @@ class XML_Node
   public:
     // ----- constructors -----
     XML_Node() = default;
-    XML_Node(const pugi::xml_node& node) { initialize(node); }
+    XML_Node(const pugi::xml_node& node);
     ~XML_Node() = default;
 
     void initialize(const pugi::xml_node& node)
@@ -65,7 +65,7 @@ class XML_Node
 
     // ----- getter/setter -----
     const std::string name() const { return _name; }
-    void              name(std::string name) { _name = std::move(name); }
+    void              name(std::string name);
 
     const std::unordered_map<std::string, std::vector<XML_Node>>& children() const
     {
@@ -75,10 +75,10 @@ class XML_Node
     {
         return _children.at(key);
     }
-    const XML_Node& first_child(const std::string& key) const { return _children.at(key).at(0); }
+    const XML_Node& first_child(const std::string& key) const;
 
     const std::unordered_map<std::string, std::string>& attributes() const { return _attributes; }
-    const std::string& attributes(const std::string& key) const { return _attributes.at(key); }
+    const std::string& attributes(const std::string& key) const;
 
     // ----- file I/O -----
     static XML_Node from_stream(std::istream& is)

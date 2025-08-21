@@ -45,31 +45,14 @@ struct RAW3DataPower : public i_RAW3Data
         : i_RAW3Data("Power")
     {
     }
-    RAW3DataPower(xt::xtensor<simradraw_short, 1> power)
-        : i_RAW3Data("Power")
-        , _power(std::move(power))
-    {
-    }
+    RAW3DataPower(xt::xtensor<simradraw_short, 1> power);
     ~RAW3DataPower() = default;
 
     // ----- i_RAW3Data interface -----
     bool has_power() const final { return true; }
     bool has_angle() const final { return false; }
 
-    xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final
-    {
-        static const float conv_factor = 10.f * std::log10(2.0f) / 256.f;
-
-        if (dB)
-        {
-            return xt::xtensor<simradraw_float, 1>(xt::eval(_power * conv_factor));
-        }
-        else
-        {
-            auto r1 = xt::eval(_power * conv_factor);
-            return xt::xtensor<simradraw_float, 1>(xt::eval(xt::pow(10.f, r1 / 10.f)));
-        }
-    }
+    xt::xtensor<simradraw_float, 1> get_power(bool dB = false) const final;
 
     // ----- operator overloads -----
     bool operator==(const RAW3DataPower& other) const { return _power == other._power; }
@@ -78,48 +61,12 @@ struct RAW3DataPower : public i_RAW3Data
     // ----- to/from stream -----
     static RAW3DataPower from_stream(std::istream& is,
                                      simradraw_long   input_count,
-                                     simradraw_long   output_count)
-    {
+                                     simradraw_long   output_count);
 
-        using xt_shape = xt::xtensor<simradraw_short, 1>::shape_type;
-        RAW3DataPower data(xt::empty<simradraw_short>(xt_shape({ unsigned(output_count) })));
-
-        // initialize data_block using from_shape
-        if (output_count < input_count)
-        {
-            is.read(reinterpret_cast<char*>(data._power.data()),
-                    output_count * sizeof(simradraw_short));
-        }
-        else
-        {
-            is.read(reinterpret_cast<char*>(data._power.data()),
-                    input_count * sizeof(simradraw_short));
-
-            // fill remaining samples with 0
-            std::fill(data._power.begin() + input_count, data._power.end(), 0);
-        }
-
-        return data;
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        os.write(reinterpret_cast<const char*>(_power.data()),
-                 _power.size() * sizeof(simradraw_short));
-        return;
-    }
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (Power)", float_precision, superscript_exponents);
-
-        std::stringstream ss;
-        ss << _power;
-        printer.register_string("Power", ss.str());
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 };
 
 }
