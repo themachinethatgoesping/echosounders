@@ -225,67 +225,83 @@ void SimradRawWaterColumnCalibration::force_absorption_db_m(
 // ----- setup calibration -----
 void SimradRawWaterColumnCalibration::setup_simrad_calibration()
 {
-    check_can_be_initialized();
-
-    _computed_sound_velocity_m_s = algorithms::amplitudecorrection::functions::calc_sound_velocity(
-        _reference_depth_m,
-        _temperature_c,
-        _salinity_psu,
-        _rounded_latitude_deg.value_or(0.f),
-        _rounded_longitude_deg.value_or(0.f));
-
-    _computed_absorption_db_m =
-        algorithms::amplitudecorrection::functions::calc_absorption_coefficient_db_m(
-            _frequency_hz,
-            _reference_depth_m,
-            _computed_sound_velocity_m_s,
-            _temperature_c,
-            _salinity_psu,
-            _acidity_ph);
-
-    _computed_internal_sampling_interval_hz = compute_internal_sampling_interval_hz();
-    _computed_effective_pulse_duration_s    = compute_effective_pulse_duration_s();
-
-    float sound_velocity_m_s = get_sound_velocity_m_s();
-    float absorption_db_m    = get_absorption_db_m();
-
-    WaterColumnCalibration::set_absorption_db_m(absorption_db_m);
-
-    _wavelength_m                  = sound_velocity_m_s / _frequency_hz;
-    float freq_corr                = 20 * std::log10(_frequency_hz / _frequency_nominal_hz);
-    _corr_transducer_gain_db       = _transducer_gain_db + freq_corr;
-    _corr_equivalent_beam_angle_db = _equivalent_beam_angle_db + freq_corr;
-
-    static const float pi_factor = -10 * std::log10(16 * std::numbers::pi * std::numbers::pi);
-    float              sp_offset = -2 * _corr_transducer_gain_db - pi_factor -
-                      10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
-
-    float sv_offset = -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
-                      10 * std::log10(sound_velocity_m_s * get_effective_pulse_duration_s() * 0.5f);
-
     _power_calibration.reset();
     _ap_calibration.reset();
     _av_calibration.reset();
 
-    if (_n_complex_samples == 0 || std::isfinite(_power_conversion_factor_db.value_or(
-                                       std::numeric_limits<float>::quiet_NaN())))
+    try
     {
-        _power_calibration =
-            std::make_unique<AmplitudeCalibration>(_power_conversion_factor_db.value_or(0.f));
+        check_can_be_initialized();
 
-        if (std::isfinite(sp_offset))
+        // ----- setup power calibration -----
+        if (_n_complex_samples == 0 || std::isfinite(_power_conversion_factor_db.value_or(
+                                           std::numeric_limits<float>::quiet_NaN())))
         {
-            _ap_calibration = std::make_unique<AmplitudeCalibration>(
-                _power_conversion_factor_db.value_or(0.f) + sp_offset);
+            _power_calibration =
+                std::make_unique<AmplitudeCalibration>(_power_conversion_factor_db.value_or(0.f));
 
-            if (std::isfinite(sv_offset))
+            // ----- setup ap calibration -----
+            _computed_sound_velocity_m_s =
+                algorithms::amplitudecorrection::functions::calc_sound_velocity(
+                    _reference_depth_m,
+                    _temperature_c,
+                    _salinity_psu,
+                    _rounded_latitude_deg.value_or(0.f),
+                    _rounded_longitude_deg.value_or(0.f));
+
+            _computed_absorption_db_m =
+                algorithms::amplitudecorrection::functions::calc_absorption_coefficient_db_m(
+                    _frequency_hz,
+                    _reference_depth_m,
+                    _computed_sound_velocity_m_s,
+                    _temperature_c,
+                    _salinity_psu,
+                    _acidity_ph);
+
+            float sound_velocity_m_s = get_sound_velocity_m_s();
+            float absorption_db_m    = get_absorption_db_m();
+
+            WaterColumnCalibration::set_absorption_db_m(absorption_db_m);
+
+            _wavelength_m                  = sound_velocity_m_s / _frequency_hz;
+            float freq_corr                = 20 * std::log10(_frequency_hz / _frequency_nominal_hz);
+            _corr_transducer_gain_db       = _transducer_gain_db + freq_corr;
+            _corr_equivalent_beam_angle_db = _equivalent_beam_angle_db + freq_corr;
+
+            static const float pi_factor =
+                -10 * std::log10(16 * std::numbers::pi * std::numbers::pi);
+            float sp_offset = -2 * _corr_transducer_gain_db - pi_factor -
+                              10 * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
+
+            if (std::isfinite(sp_offset))
             {
-                _av_calibration = std::make_unique<AmplitudeCalibration>(
-                    _power_conversion_factor_db.value_or(0.f) + sp_offset + sv_offset);
+
+                _ap_calibration = std::make_unique<AmplitudeCalibration>(
+                    _power_conversion_factor_db.value_or(0.f) + sp_offset);
+
+                // --- setup av calibration ---
+                _computed_internal_sampling_interval_hz = compute_internal_sampling_interval_hz();
+                _computed_effective_pulse_duration_s    = compute_effective_pulse_duration_s();
+
+                float sv_offset =
+                    -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
+                    10 * std::log10(sound_velocity_m_s * get_effective_pulse_duration_s() * 0.5f);
+                if (std::isfinite(sv_offset))
+                {
+                    _av_calibration = std::make_unique<AmplitudeCalibration>(
+                        _power_conversion_factor_db.value_or(0.f) + sp_offset + sv_offset);
+                }
             }
         }
     }
+    catch (std::exception& e)
+    {
+        std::cerr << fmt::format(
+            "Warning[{}]:Failed to setup SimradRawWaterColumnCalibration: {}", __func__, e.what());
+    }
 
+    // setup initialzed state as initialization has been attempted
+    // if unsucessful, power_calibraiton and/or _ap_calibration and/or _av_calibration will be empty
     _initialized = true;
     check_initialization();
 }

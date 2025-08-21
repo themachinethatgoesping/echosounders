@@ -171,6 +171,7 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> generate_transmit_pulse(
     // slope_factor describes percentage of pulse that is influenced by each half of the window
     // e.g. slope_factor = 0.5 means that the first half of the pulse will be used to ramp signal up
     // and the second half will be used to ramp signal down
+    // slope_factor = 0 means that now ramping / hann shading is applied
     // to compute the full window length we thus the pulse duration multiplied by the slope factor
     // times 2
     const int window_length =
@@ -178,7 +179,7 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> generate_transmit_pulse(
                  static_cast<int>(std::round(pulse_duration * sampling_frequency * slope_factor *
                                              t_float(2.0))));
 
-    if (window_length <= 0 || window_length > 1e6)
+    if (window_length < 0 || window_length > 1e6)
     {
         throw std::runtime_error(fmt::format(
             "ERROR[generate_transmit_pulse]: Invalid window length {} computed from pulse duration {} "
