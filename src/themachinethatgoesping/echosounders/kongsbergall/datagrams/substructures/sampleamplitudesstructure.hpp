@@ -62,13 +62,13 @@ class SampleAmplitudesStructure
     ~SampleAmplitudesStructure() = default;
 
     // ----- getters -----
-    float get_db_step_size() const;
-    const xt::xtensor<t_sample, 1>& get_sample_amplitudes() const;
-    const std::vector<uint16_t>& get_start_index_per_beam() const;
-    const std::vector<uint16_t>& get_samples_per_beam() const;
+    float                           get_db_step_size() const { return _db_step_size; }
+    const xt::xtensor<t_sample, 1>& get_sample_amplitudes() const { return _sample_amplitudes; }
+    const std::vector<uint16_t>& get_start_index_per_beam() const { return _start_index_per_beam; }
+    const std::vector<uint16_t>& get_samples_per_beam() const { return _samples_per_beam; }
 
     // ----- setters -----
-    void set_db_step_size(float db_step_size);
+    void set_db_step_size(float db_step_size) { _db_step_size = db_step_size; }
 
     void set_sample_amplitudes(const xt::xtensor<t_sample, 1>& sample_amplitudes)
     {
