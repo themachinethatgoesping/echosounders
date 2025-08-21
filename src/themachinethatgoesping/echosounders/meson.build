@@ -8,8 +8,12 @@ headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
 sources = [
+  'kongsbergall/datagrams/puidoutput.cpp',
+  'kongsbergall/datagrams/substructures/sampleamplitudesstructure.cpp',
   'kongsbergall/filedatatypes/_sub/_wciinfos.cpp',
   'simradraw/datagrams/FIL1.cpp',
+  'simradraw/datagrams/raw3datatypes/raw3datapower.cpp',
+  'simradraw/datagrams/raw3datatypes/raw3datapowerandangle.cpp',
   'simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.cpp',
 ]
 
