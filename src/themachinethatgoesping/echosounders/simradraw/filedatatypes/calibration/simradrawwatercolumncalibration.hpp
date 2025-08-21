@@ -256,7 +256,7 @@ class SimradRawWaterColumnCalibration
      * @return auto
      */
     template<tools::helper::c_xtensor_1d t_xtensor_float>
-    auto compute_raw_transmit_pulse(float start_phase_degrees = 0)
+    auto compute_raw_transmit_pulse(float start_phase_degrees = 0) const
     {
         return functions::generate_transmit_pulse<t_xtensor_float>(
             _frequency_hz,
@@ -284,7 +284,7 @@ class SimradRawWaterColumnCalibration
      * @return auto
      */
     template<tools::helper::c_xtensor_1d t_xtensor_float>
-    auto compute_filtered_transmit_pulse(float start_phase_degrees = 0)
+    auto compute_filtered_transmit_pulse(float start_phase_degrees = 0) const
     {
         const auto [pulse_times, pulse_amplitudes] =
             compute_raw_transmit_pulse<t_xtensor_float>(start_phase_degrees);

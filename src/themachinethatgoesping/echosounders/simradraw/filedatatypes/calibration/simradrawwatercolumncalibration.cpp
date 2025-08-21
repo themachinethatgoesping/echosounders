@@ -251,10 +251,6 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
 
     WaterColumnCalibration::set_absorption_db_m(absorption_db_m);
 
-    _computed_internal_sampling_interval_hz =
-        (_filter_stage_1_decimation_factor * _filter_stage_2_decimation_factor) /
-        _sample_interval_s;
-
     _wavelength_m                  = sound_velocity_m_s / _frequency_hz;
     float freq_corr                = 20 * std::log10(_frequency_hz / _frequency_nominal_hz);
     _corr_transducer_gain_db       = _transducer_gain_db + freq_corr;
@@ -563,24 +559,9 @@ float SimradRawWaterColumnCalibration::compute_effective_pulse_duration_s(
     bool  round_to_full_samples,
     float start_phase_degrees) const
 {
-    // Generate raw transmit pulse
-    const auto [raw_times, raw_amplitudes] =
-        functions::generate_transmit_pulse<xt::xtensor<float, 1>>(
-            _frequency_hz,
-            _frequency_hz,
-            _nominal_pulse_duration_s,
-            _slope_factor,
-            _computed_internal_sampling_interval_hz,
-            start_phase_degrees);
-
-    // Filter and decimate to get the transmit pulse used for effective duration
+    // Generate transmit pulse
     const auto [filt_times, filt_amplitudes] =
-        functions::filter_and_decimate_pulse(raw_amplitudes,
-                                             _filter_stage_1_decimation_factor,
-                                             _filter_stage_1_coefficients,
-                                             _filter_stage_2_decimation_factor,
-                                             _filter_stage_2_coefficients,
-                                             _computed_internal_sampling_interval_hz);
+        compute_filtered_transmit_pulse<xt::xtensor<float, 1>>(start_phase_degrees);
 
     // Integrate energy to compute effective pulse duration
     return functions::compute_effective_pulse_duration_cw(

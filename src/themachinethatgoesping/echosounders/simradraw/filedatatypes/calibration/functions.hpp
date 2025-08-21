@@ -15,6 +15,7 @@
 #include <cmath>
 #include <numbers>
 #include <utility>
+#include <fmt/core.h>
 
 #include <themachinethatgoesping/tools/helper/xtensor.hpp>
 
@@ -96,6 +97,16 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> create_linear_chirp_signal
     const int nsamples =
         std::max(1, static_cast<int>(std::floor(pulse_duration * sampling_frequency)));
 
+    if (nsamples <= 0 || nsamples > 1e6)
+    {
+        throw std::runtime_error(fmt::format(
+            "ERROR[create_linear_chirp_signal]: Invalid number of samples {} computed from pulse duration {} "
+            "* sampling frequency {}. nsamples should be in range [1, 1e6].",
+            nsamples,
+            pulse_duration,
+            sampling_frequency));
+    }
+
     // create time vector
     xt::xtensor<t_float, 1> times =
         xt::linspace<t_float>(t_float(0), t_float(nsamples - 1), nsamples) / sampling_frequency;
@@ -108,7 +119,7 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> create_linear_chirp_signal
 
     // return { std::move(times), xt::sin(start_phase + A * times + B * times * times) };
     //  matching default scipy/matlab chirp signal that uses cosine
-    return { std::move(times), xt::cos(start_phase + A * times + B * times * times) };
+    return { times, xt::cos(start_phase + A * times + B * times * times) };
 }
 
 /**
@@ -167,6 +178,17 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> generate_transmit_pulse(
                  static_cast<int>(std::round(pulse_duration * sampling_frequency * slope_factor *
                                              t_float(2.0))));
 
+    if (window_length <= 0 || window_length > 1e6)
+    {
+        throw std::runtime_error(fmt::format(
+            "ERROR[generate_transmit_pulse]: Invalid window length {} computed from pulse duration {} "
+            "* sampling frequency {} * slope factor {}. window_length should be in range [1, 1e6].",
+            window_length,
+            pulse_duration,
+            sampling_frequency,
+            slope_factor));
+    }
+
     if (window_length >= 2)
     {
         const auto w = compute_hann_window_weights<t_xtensor_val>(window_length);
@@ -191,8 +213,8 @@ inline t_xtensor_complex _convolve_full(const t_xtensor_val& x, const t_xtensor_
     // using t_float   = typename t_xtensor_val::value_type;
     using t_complex = typename t_xtensor_complex::value_type;
 
-    const std::size_t N = x.size();
-    const std::size_t M = h.size();
+    const auto N = x.size();
+    const auto M = h.size();
 
     if (N == 0 || M == 0)
         return t_xtensor_complex::from_shape({ 0L });
@@ -225,6 +247,15 @@ static inline std::pair<t_xtensor_val, t_xtensor_coeffs> filter_and_decimate_pul
     const double            sampling_frequency = 1500000.0)
 {
     using t_float = typename t_xtensor_val::value_type;
+
+    if (stage1_decimation_factor <= 0 || stage2_decimation_factor <= 0)
+    {
+        throw std::runtime_error(fmt::format(
+            "ERROR[filter_and_decimate_pulse]: Invalid decimation factors: stage1 {}, stage2 {}. "
+            "Both should be > 0.",
+            stage1_decimation_factor,
+            stage2_decimation_factor));
+    }
 
     const auto stage1_convolved = _convolve_full(pulse_amplitudes, stage1_filter_coefficients);
 
@@ -268,7 +299,7 @@ auto compute_effective_pulse_duration_cw(const t_xtensor_complex& pulse_amplitud
         return sample_interval * std::round(total_energy / peak_energy);
 
     // Convert energy ratio to time duration (no rounding / matching Echopype implementation)
-    return sample_interval * std::round(total_energy / peak_energy);
+    return sample_interval * total_energy / peak_energy;
 }
 
 template<tools::helper::c_xtensor_1d t_xtensor_complex, tools::helper::c_xtensor_1d t_xtensor_vals>
