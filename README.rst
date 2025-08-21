@@ -18,3 +18,15 @@ This repository contains libraries to read, write and process single- and multib
 - |badge-echosounders-linux| 
 - |badge-echosounders-windows| 
 - |badge-echosounders-mac|
+
+GitHub Copilot Integration
+=========================
+
+This repository is configured for seamless GitHub Copilot integration with automated testing:
+
+- **Automatic CI**: Tests run automatically on pull requests without manual approval
+- **Fast feedback**: Quick validation provides early feedback (~5-10 minutes)
+- **Comprehensive testing**: Full test suite runs on all supported platforms
+- **Required status checks**: Tests must pass before merging
+
+See ``.github/COPILOT_SETUP.md`` for configuration details.
