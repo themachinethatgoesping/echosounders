@@ -8,6 +8,7 @@ headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
 sources = [
+  'kongsbergall/filedatatypes/_sub/_wciinfos.cpp',
   'simradraw/datagrams/FIL1.cpp',
   'simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.cpp',
 ]
