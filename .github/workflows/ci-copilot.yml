@@ -1,0 +1,149 @@
+# SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: GitHub Copilot CI
+
+on:
+  pull_request:
+    branches: [ main ]
+    # Run on all pull requests, but especially important for Copilot-generated PRs
+    
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+# Make sure that multiple jobs don't run for the same action (new commits cancel old jobs when they are still running)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  # Fast feedback job for quick validation
+  quick-check:
+    name: Quick validation
+    runs-on: ubuntu-latest
+    # This runs without approval for all collaborators and org members
+    
+    steps:
+    - name: checkout main repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        lfs: false
+    
+    - name: install basic dependencies
+      run: |
+        sudo apt update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+          build-essential pkg-config libboost-all-dev libeigen3-dev \
+          python3-pip
+        
+    - name: install python dependencies
+      run: pip install meson ninja pytest numpy
+    
+    - name: configure meson (minimal)
+      run: |
+        meson setup builddir \
+          -Dbuild_tests=enabled \
+          -Dbuild_pythonmodule=disabled \
+          -Dwrap_mode=nopromote
+    
+    - name: compile project
+      run: meson compile -C builddir/
+      timeout-minutes: 15
+    
+    - name: run cpp tests
+      run: meson test -C builddir/ --print-errorlogs --timeout-multiplier=2
+      timeout-minutes: 10
+    
+    - name: install requirements (if available)
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt || echo "Some requirements failed, continuing..."
+        fi
+        
+    - name: run python tests (if available)
+      run: |
+        if [ -f pytest.ini ] || find . -name "test_*.py" -o -name "*_test.py" | grep -q .; then
+          pytest -v || echo "Python tests failed, but continuing..."
+        else
+          echo "No Python tests found, skipping..."
+        fi
+      continue-on-error: true
+      
+    - name: Upload error log on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: copilot-ci-error-log
+        path: builddir/meson-logs/meson-log.txt
+        retention-days: 7
+
+  # Comprehensive test job (similar to existing CI but streamlined)
+  comprehensive-test:
+    name: Comprehensive tests (Ubuntu)
+    runs-on: ubuntu-latest
+    # Only run this if quick-check passes
+    needs: quick-check
+    
+    steps:
+    - name: checkout main repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        lfs: false
+
+    - name: ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: copilot-ci-ubuntu
+
+    - name: install dependencies
+      run: |
+        sudo apt update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+          build-essential ccache pkg-config cmake python3-pip \
+          libboost-all-dev libcurl4-openssl-dev libeigen3-dev
+
+    - name: install python dependencies  
+      run: pip install meson ninja pytest numpy
+
+    - name: configure meson
+      run: |
+        meson setup builddir \
+          -Dunity=on \
+          -Dunity_size=9999999 \
+          -Dpython.install_env=auto \
+          -Dprefix=/usr \
+          -Dbuild_tests=enabled
+    
+    - name: compile project
+      run: meson compile -C builddir/
+      
+    - name: test (cpp)
+      run: meson test -C builddir/ --print-errorlogs
+      
+    - name: install project
+      run: sudo meson install -C builddir/
+      
+    - name: install python requirements
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        fi
+      
+    - name: test (python)
+      run: |
+        if [ -f pytest.ini ] || find . -name "test_*.py" -o -name "*_test.py" | grep -q .; then
+          pytest -v
+        else
+          echo "No Python tests found, skipping..."
+        fi
+        
+    - name: Upload error log on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: copilot-ci-comprehensive-error-log
+        path: builddir/meson-logs/meson-log.txt
+        retention-days: 7
