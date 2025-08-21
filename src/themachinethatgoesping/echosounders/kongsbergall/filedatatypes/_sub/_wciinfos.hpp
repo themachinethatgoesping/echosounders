@@ -46,16 +46,7 @@ class _WCIInfos
   public:
     _WCIInfos() = default;
 
-    _WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram)
-    {
-        _sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
-        _tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
-        _tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
-        _sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
-
-        _transmit_sectors           = water_column_datagram.get_transmit_sectors();
-        _number_of_transmit_sectors = _transmit_sectors.size();
-    }
+    _WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram);
 
     bool operator==(_WCIInfos const& other) const = default;
 
@@ -66,65 +57,20 @@ class _WCIInfos
     float   get_sampling_interval() const { return _sampling_interval; }
     uint8_t get_number_of_transmit_sectors() const { return _transmit_sectors.size(); }
     const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
-    get_transmit_sectors() const
-    {
-        return _transmit_sectors;
-    }
+    get_transmit_sectors() const;
 
-    void set_sound_speed_at_transducer(float sound_speed_at_transducer)
-    {
-        _sound_speed_at_transducer = sound_speed_at_transducer;
-    }
-    void set_tvg_function_applied(uint8_t tvg_function_applied)
-    {
-        _tvg_function_applied = tvg_function_applied;
-    }
+    void set_sound_speed_at_transducer(float sound_speed_at_transducer);
+    void set_tvg_function_applied(uint8_t tvg_function_applied);
     void set_tvg_offset_in_db(int8_t tvg_offset_in_db) { _tvg_offset_in_db = tvg_offset_in_db; }
     void set_sampling_interval(float sampling_interval) { _sampling_interval = sampling_interval; }
     void set_transmit_sectors(
         const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
-            transmit_sectors)
-    {
-        _transmit_sectors           = transmit_sectors;
-        _number_of_transmit_sectors = transmit_sectors.size();
-    }
+            transmit_sectors);
 
     // ----- functions used for PackageCache -----
-    static _WCIInfos from_binary( std::string_view buffer)
-    {
-        static const size_t size_bytes = 2 * sizeof(float) + 2 * sizeof(uint8_t) + sizeof(int8_t);
+    static _WCIInfos from_binary(std::string_view buffer);
 
-        _WCIInfos dat;
-
-        std::memcpy(&dat._sound_speed_at_transducer, buffer.data(), size_bytes);
-        dat._transmit_sectors.resize(dat._number_of_transmit_sectors);
-
-        std::memcpy(dat._transmit_sectors.data(),
-                    buffer.data() + size_bytes,
-                    dat._number_of_transmit_sectors *
-                        sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
-
-        return dat;
-    }
-
-    std::string to_binary() const
-    {
-        static const size_t size_bytes = 2 * sizeof(float) + 2 * sizeof(uint8_t) + sizeof(int8_t);
-
-        std::string buffer;
-
-        buffer.resize(size_bytes +
-                      _transmit_sectors.size() *
-                          sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
-
-        std::memcpy(buffer.data(), this, size_bytes);
-        std::memcpy(buffer.data() + size_bytes,
-                    _transmit_sectors.data(),
-                    _transmit_sectors.size() *
-                        sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
-
-        return buffer;
-    }
+    std::string to_binary() const;
 };
 
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value

@@ -97,8 +97,8 @@ class I_Ping : public I_PingCommon
     void   set_timestamp(double timestamp) { _timestamp = timestamp; }
     double get_timestamp() const { return _timestamp; }
 
-    bool               has_channel_id() const { return !_channel_id.get().empty(); }
-    const std::string& get_channel_id() const { return _channel_id.get(); }
+    bool               has_channel_id() const;
+    const std::string& get_channel_id() const;
     void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
 
     bool has_geolocation() const
@@ -133,7 +133,7 @@ class I_Ping : public I_PingCommon
         return sc.binary_hash();
     }
 
-    bool has_sensor_configuration() const { return _sensor_configuration_set; }
+    bool has_sensor_configuration() const;
     void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
     {
         _sensor_configuration     = sensor_configuration;
@@ -146,8 +146,8 @@ class I_Ping : public I_PingCommon
         _sensor_configuration_set = true;
     }
 
-    bool has_navigation_interpolator_latlon() const { return _navigation_interpolator_set; }
-    bool has_sensor_data_latlon() const { return has_navigation_interpolator_latlon(); }
+    bool has_navigation_interpolator_latlon() const;
+    bool has_sensor_data_latlon() const;
     navigation::datastructures::SensordataLatLon get_sensor_data_latlon() const
     {
         return get_navigation_interpolator_latlon().get_sensor_data(get_timestamp());
@@ -195,8 +195,8 @@ class I_Ping : public I_PingCommon
     }
 
     // ----- ping interface -----
-    virtual I_PingBottom& bottom() { throw not_implemented("bottom", this->class_name()); }
-    const I_PingBottom&   bottom() const { return const_cast<I_Ping*>(this)->bottom(); }
+    virtual I_PingBottom& bottom();
+    const I_PingBottom&   bottom() const;
 
     virtual I_PingWatercolumn& watercolumn()
     {
@@ -235,7 +235,7 @@ class I_Ping : public I_PingCommon
     {
         not_implemented(std::string_view method_name, std::string_view name)
             : std::runtime_error(
-                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
+                  fmt::format("method;
         {
         }
     };
