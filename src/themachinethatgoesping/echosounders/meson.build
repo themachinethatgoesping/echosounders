@@ -8,12 +8,25 @@ headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
 sources = [
+  'filetemplates/datacontainers/datagramcontainer.cpp',
+  'filetemplates/datacontainers/pingcontainer.cpp',
+  'filetemplates/datainterfaces/i_filedatainterface.cpp',
+  'filetemplates/datainterfaces/i_filedatainterfaceperfile.cpp',
+  'filetemplates/datainterfaces/i_pingdatainterface.cpp',
+  'filetemplates/datatypes/i_ping.cpp',
   'kongsbergall/datagrams/puidoutput.cpp',
+  'kongsbergall/datagrams/runtimeparameters.cpp',
   'kongsbergall/datagrams/substructures/sampleamplitudesstructure.cpp',
   'kongsbergall/filedatatypes/_sub/_wciinfos.cpp',
+  'kongsbergall/kongsbergallamplitudeconverter.cpp',
   'simradraw/datagrams/FIL1.cpp',
   'simradraw/datagrams/raw3datatypes/raw3datapower.cpp',
   'simradraw/datagrams/raw3datatypes/raw3datapowerandangle.cpp',
+  'simradraw/datagrams/xml_datagrams/xml_configuration.cpp',
+  'simradraw/datagrams/xml_datagrams/xml_configuration_sensor.cpp',
+  'simradraw/datagrams/xml_datagrams/xml_configuration_sensor_telegram.cpp',
+  'simradraw/datagrams/xml_datagrams/xml_node.cpp',
+  'simradraw/datagrams/xml_datagrams/xmlconfigurationtransceiverchanneltransducer.cpp',
   'simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.cpp',
 ]
 

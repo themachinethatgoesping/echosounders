@@ -54,7 +54,7 @@ struct XML_Configuration_Sensor_Telegram
   public:
     // ----- constructors -----
     XML_Configuration_Sensor_Telegram() = default;
-    XML_Configuration_Sensor_Telegram(const pugi::xml_node& node) { initialize(node); }
+    XML_Configuration_Sensor_Telegram(const pugi::xml_node& node);
     ~XML_Configuration_Sensor_Telegram() = default;
 
     void initialize(const pugi::xml_node& root_node)
@@ -120,7 +120,7 @@ struct XML_Configuration_Sensor_Telegram
         }
     }
 
-    bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
+    bool parsed_completely() const;
 
     // ----- file I/O -----
     static XML_Configuration_Sensor_Telegram from_stream(std::istream& is)
