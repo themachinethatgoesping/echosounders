@@ -1170,8 +1170,8 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
         CHECK(cal_cmplx.get_transmit_power_w() == Approx(transmit_power_w));
         CHECK(cal_power.get_nominal_pulse_duration_s() == Approx(nominal_pulse_duration_s));
         CHECK(cal_cmplx.get_nominal_pulse_duration_s() == Approx(nominal_pulse_duration_s));
-        CHECK(cal_power.get_slope() == Approx(slope));
-        CHECK(cal_cmplx.get_slope() == Approx(slope));
+        CHECK(cal_power.get_slope_factor() == Approx(slope));
+        CHECK(cal_cmplx.get_slope_factor() == Approx(slope));
         CHECK(cal_power.get_sample_interval_s() == Approx(sample_interval_s));
         CHECK(cal_cmplx.get_sample_interval_s() == Approx(sample_interval_s));
 

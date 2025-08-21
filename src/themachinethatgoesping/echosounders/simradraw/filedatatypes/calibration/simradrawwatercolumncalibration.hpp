@@ -142,7 +142,7 @@ class SimradRawWaterColumnCalibration
     void set_runtime_parameters(float frequency_hz,
                                 float transmit_power_w,
                                 float nominal_pulse_duration_s,
-                                float slope,
+                                float slope_factor,
                                 float sample_interval_s);
 
     void set_filter_parameters(const std::pair<datagrams::FIL1, datagrams::FIL1>& filter_stages);
@@ -159,6 +159,7 @@ class SimradRawWaterColumnCalibration
 
     void force_sound_velocity_m_s(std::optional<float> forced_sound_velocity_m_s);
     void force_absorption_db_m(std::optional<float> forced_absorption_db_m);
+    void force_effective_pulse_duration_s(std::optional<float> forced_effective_pulse_duration_s);
 
     // trivial getters remain inline
     float get_transducer_gain_db() const { return _transducer_gain_db; }
@@ -174,7 +175,7 @@ class SimradRawWaterColumnCalibration
     float get_frequency_hz() const { return _frequency_hz; }
     float get_transmit_power_w() const { return _transmit_power_w; }
     float get_nominal_pulse_duration_s() const { return _nominal_pulse_duration_s; }
-    float get_slope() const { return _slope_factor; }
+    float get_slope_factor() const { return _slope_factor; }
     float get_sample_interval_s() const { return _sample_interval_s; }
 
     float get_computed_sound_velocity_m_s() const { return _computed_sound_velocity_m_s; }

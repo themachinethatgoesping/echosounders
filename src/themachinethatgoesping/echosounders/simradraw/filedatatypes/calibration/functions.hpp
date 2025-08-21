@@ -13,9 +13,9 @@
 #endif
 
 #include <cmath>
+#include <fmt/core.h>
 #include <numbers>
 #include <utility>
-#include <fmt/core.h>
 
 #include <themachinethatgoesping/tools/helper/xtensor.hpp>
 
@@ -99,12 +99,13 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> create_linear_chirp_signal
 
     if (nsamples <= 0 || nsamples > 1e6)
     {
-        throw std::runtime_error(fmt::format(
-            "ERROR[create_linear_chirp_signal]: Invalid number of samples {} computed from pulse duration {} "
-            "* sampling frequency {}. nsamples should be in range [1, 1e6].",
-            nsamples,
-            pulse_duration,
-            sampling_frequency));
+        throw std::runtime_error(
+            fmt::format("ERROR[create_linear_chirp_signal]: Invalid number of samples {} computed "
+                        "from pulse duration {} "
+                        "* sampling frequency {}. nsamples should be in range [1, 1e6].",
+                        nsamples,
+                        pulse_duration,
+                        sampling_frequency));
     }
 
     // create time vector
@@ -182,7 +183,8 @@ static inline std::pair<t_xtensor_val, t_xtensor_val> generate_transmit_pulse(
     if (window_length < 0 || window_length > 1e6)
     {
         throw std::runtime_error(fmt::format(
-            "ERROR[generate_transmit_pulse]: Invalid window length {} computed from pulse duration {} "
+            "ERROR[generate_transmit_pulse]: Invalid window length {} computed from pulse duration "
+            "{} "
             "* sampling frequency {} * slope factor {}. window_length should be in range [1, 1e6].",
             window_length,
             pulse_duration,
@@ -220,7 +222,9 @@ inline t_xtensor_complex _convolve_full(const t_xtensor_val& x, const t_xtensor_
     if (N == 0 || M == 0)
         return t_xtensor_complex::from_shape({ 0L });
 
-    auto y = t_xtensor_complex::from_shape({ N + M - 1 });
+    const std::array<size_t, 1> shape = { N + M - 1 };
+
+    auto y = t_xtensor_complex::from_shape(shape);
     std::fill(y.begin(), y.end(), t_complex{ 0 });
 
     for (std::size_t i = 0; i < N + M - 1; ++i)

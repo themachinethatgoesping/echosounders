@@ -168,6 +168,10 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
                  &SimradRawWaterColumnCalibration::force_absorption_db_m,
                  DOC_SimradRawWaterColumnCalibration(force_absorption_db_m),
                  py::arg("forced_absorption_db_m"))
+            .def("force_effective_pulse_duration_s",
+                 &SimradRawWaterColumnCalibration::force_effective_pulse_duration_s,
+                 DOC_SimradRawWaterColumnCalibration(force_effective_pulse_duration_s),
+                 py::arg("forced_effective_pulse_duration_s") = std::nullopt)
 
             //--- getters ---
             .def("get_transducer_gain_db",
@@ -205,9 +209,9 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
             .def("get_nominal_pulse_duration_s",
                  &SimradRawWaterColumnCalibration::get_nominal_pulse_duration_s,
                  DOC_SimradRawWaterColumnCalibration(get_nominal_pulse_duration_s))
-            .def("get_slope",
-                 &SimradRawWaterColumnCalibration::get_slope,
-                 DOC_SimradRawWaterColumnCalibration(get_slope))
+            .def("get_slope_factor",
+                 &SimradRawWaterColumnCalibration::get_slope_factor,
+                 DOC_SimradRawWaterColumnCalibration(get_slope_factor))
             .def("get_sample_interval_s",
                  &SimradRawWaterColumnCalibration::get_sample_interval_s,
                  DOC_SimradRawWaterColumnCalibration(get_sample_interval_s))

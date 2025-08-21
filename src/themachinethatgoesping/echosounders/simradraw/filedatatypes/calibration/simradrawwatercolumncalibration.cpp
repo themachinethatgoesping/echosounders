@@ -1,5 +1,7 @@
 #include "simradrawwatercolumncalibration.hpp"
 
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+
 #include <array> // added
 #include <cmath>
 #include <limits>
@@ -128,13 +130,13 @@ void SimradRawWaterColumnCalibration::set_runtime_parameters(
 void SimradRawWaterColumnCalibration::set_runtime_parameters(float frequency_hz,
                                                              float transmit_power_w,
                                                              float nominal_pulse_duration_s,
-                                                             float slope,
+                                                             float slope_factor,
                                                              float sample_interval_s)
 {
     _frequency_hz             = frequency_hz;
     _transmit_power_w         = transmit_power_w;
     _nominal_pulse_duration_s = nominal_pulse_duration_s;
-    _slope_factor             = slope;
+    _slope_factor             = slope_factor;
     _sample_interval_s        = sample_interval_s;
     _initialized              = false;
 }
@@ -222,6 +224,13 @@ void SimradRawWaterColumnCalibration::force_absorption_db_m(
     _initialized            = false;
 }
 
+void SimradRawWaterColumnCalibration::force_effective_pulse_duration_s(
+    std::optional<float> effective_pulse_duration_s)
+{
+    _forced_effective_pulse_duration_s = effective_pulse_duration_s;
+    _initialized                       = false;
+}
+
 // ----- setup calibration -----
 void SimradRawWaterColumnCalibration::setup_simrad_calibration()
 {
@@ -280,8 +289,20 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
                     _power_conversion_factor_db.value_or(0.f) + sp_offset);
 
                 // --- setup av calibration ---
-                _computed_internal_sampling_interval_hz = compute_internal_sampling_interval_hz();
-                _computed_effective_pulse_duration_s    = compute_effective_pulse_duration_s();
+                try
+                {
+                    _computed_internal_sampling_interval_hz =
+                        compute_internal_sampling_interval_hz();
+                    _computed_effective_pulse_duration_s = compute_effective_pulse_duration_s();
+                }
+                catch (std::exception& e)
+                {
+                    // catching exceptions here allows users to set forced values
+                    std::cerr << fmt::format(
+                        "Warning[{}]:Failed to compute effective pulse duration: {}",
+                        __func__,
+                        e.what());
+                }
 
                 float sv_offset =
                     -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
@@ -567,6 +588,9 @@ void SimradRawWaterColumnCalibration::throw_because_value_is_note_finite(
 }
 float SimradRawWaterColumnCalibration::compute_internal_sampling_interval_hz() const
 {
+    if (_filter_stage_1_decimation_factor < 0 || _filter_stage_2_decimation_factor < 0)
+        return std::numeric_limits<float>::quiet_NaN();
+
     return (_filter_stage_1_decimation_factor * _filter_stage_2_decimation_factor) /
            _sample_interval_s;
 }
@@ -575,6 +599,9 @@ float SimradRawWaterColumnCalibration::compute_effective_pulse_duration_s(
     bool  round_to_full_samples,
     float start_phase_degrees) const
 {
+    if (tools::helper::float_equals(_slope_factor, 0.f))
+        return _nominal_pulse_duration_s;
+
     // Generate transmit pulse
     const auto [filt_times, filt_amplitudes] =
         compute_filtered_transmit_pulse<xt::xtensor<float, 1>>(start_phase_degrees);
