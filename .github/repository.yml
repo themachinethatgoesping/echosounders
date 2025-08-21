@@ -1,0 +1,57 @@
+# GitHub Repository Configuration
+# This file documents settings that should be configured via GitHub's web interface
+# Some settings cannot be configured via files in the repository
+
+name: echosounders
+description: Libraries to read, write and process single- and multibeam echo sounder file formats
+
+# Topics/Tags (configure via GitHub web interface)
+topics:
+  - echosounders
+  - multibeam
+  - singlebeam
+  - sonar
+  - acoustics
+  - oceanography
+  - cpp
+  - python
+  - meson
+  - scientific-computing
+
+# Branch protection rules should be configured via web interface
+# See .github/REPOSITORY_SETTINGS.md for details
+
+# Repository settings (configure via GitHub web interface)
+features:
+  # Enable these features
+  wiki: false
+  issues: true
+  projects: false
+  discussions: false
+  
+  # Auto-merge settings (CRITICAL for GitHub Agent functionality)
+  auto_merge: true  # Must be enabled via Settings → General → Pull Requests
+  
+  # Automatically delete head branches
+  delete_branch_on_merge: true
+
+# Merge options
+merge:
+  # Allow merge commits
+  allow_merge_commit: false
+  # Allow squash merging (preferred for agent PRs)  
+  allow_squash_merge: true
+  # Allow rebase merging
+  allow_rebase_merge: true
+
+# GitHub Actions permissions (configure via Settings → Actions → General)
+actions:
+  permissions: all  # Allow all actions and reusable workflows
+  
+# Security
+security:
+  # Enable private vulnerability reporting
+  private_vulnerability_reporting: true
+  
+  # Enable dependabot security updates
+  dependabot_security_updates: true

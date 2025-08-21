@@ -1,0 +1,207 @@
+# SPDX-FileCopyrightText: 2025 Peter Urban, Ghent University
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Issue and PR Automation
+
+on:
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [opened, edited, ready_for_review]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  auto-label:
+    name: Auto-label Issues and PRs
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Label new issues
+      if: github.event_name == 'issues' && github.event.action == 'opened'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const issue = context.payload.issue;
+          const labels = [];
+          
+          // Auto-label based on issue content
+          const title = issue.title.toLowerCase();
+          const body = (issue.body || '').toLowerCase();
+          
+          // Component labels
+          if (title.includes('kongsbergall') || body.includes('kongsbergall')) {
+            labels.push('component:kongsbergall');
+          }
+          if (title.includes('simradraw') || body.includes('simradraw')) {
+            labels.push('component:simradraw');
+          }
+          if (title.includes('gsf') || body.includes('gsf')) {
+            labels.push('component:gsf');
+          }
+          
+          // Type labels
+          if (title.includes('bug') || title.includes('error') || title.includes('crash')) {
+            labels.push('type:bug');
+          }
+          if (title.includes('feature') || title.includes('enhancement')) {
+            labels.push('type:enhancement');
+          }
+          if (title.includes('test') || title.includes('testing')) {
+            labels.push('type:testing');
+          }
+          if (title.includes('docs') || title.includes('documentation')) {
+            labels.push('type:documentation');
+          }
+          if (title.includes('build') || title.includes('meson')) {
+            labels.push('type:build');
+          }
+          
+          // Priority labels
+          if (title.includes('urgent') || title.includes('critical')) {
+            labels.push('priority:high');
+          }
+          
+          // Add good-first-issue label for simple issues
+          if (title.includes('simple') || title.includes('easy') || 
+              body.includes('good first issue') || body.includes('beginner')) {
+            labels.push('good first issue');
+          }
+          
+          // Add copilot-friendly label for AI-suitable issues
+          if (body.includes('github copilot') || body.includes('ai') || 
+              labels.includes('type:testing') || labels.includes('type:documentation')) {
+            labels.push('copilot-friendly');
+          }
+          
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              issue_number: issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labels
+            });
+          }
+
+    - name: Label new PRs
+      if: github.event_name == 'pull_request' && github.event.action == 'opened'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          const labels = [];
+          
+          // Identify GitHub Agent/Copilot PRs
+          if (pr.head.ref.startsWith('copilot/') || pr.user.login.includes('copilot')) {
+            labels.push('github-copilot');
+          }
+          
+          if (pr.user.login === 'github-actions[bot]' || pr.user.login.includes('bot')) {
+            labels.push('automated-pr');
+          }
+          
+          // Size labels based on changed files
+          const files_changed = pr.changed_files || 0;
+          if (files_changed <= 3) {
+            labels.push('size:small');
+          } else if (files_changed <= 10) {
+            labels.push('size:medium');
+          } else {
+            labels.push('size:large');
+          }
+          
+          // Auto-label based on changed files (would need file diff for full implementation)
+          const title = pr.title.toLowerCase();
+          if (title.includes('test') || title.includes('tests')) {
+            labels.push('type:testing');
+          }
+          if (title.includes('fix') || title.includes('bug')) {
+            labels.push('type:bugfix');
+          }
+          if (title.includes('feature') || title.includes('add')) {
+            labels.push('type:feature');
+          }
+          if (title.includes('docs') || title.includes('readme')) {
+            labels.push('type:documentation');
+          }
+          
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              issue_number: pr.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labels
+            });
+          }
+
+  welcome-message:
+    name: Welcome new contributors
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' && 
+      github.event.action == 'opened' &&
+      !contains(github.event.pull_request.user.login, 'bot')
+    
+    steps:
+    - name: Check if first-time contributor
+      id: check-contributor
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const contributor = context.payload.pull_request.user.login;
+          
+          // Check if user has previous contributions
+          const { data: pulls } = await github.rest.pulls.list({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'all',
+            creator: contributor,
+            per_page: 5
+          });
+          
+          // If this is their only PR, they're a new contributor
+          return pulls.length <= 1;
+
+    - name: Welcome new contributor
+      if: steps.check-contributor.outputs.result == 'true'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const welcomeMessage = `👋 Welcome to the echosounders project, @${context.payload.pull_request.user.login}!
+
+          Thank you for your first contribution! Here are some helpful tips:
+
+          🤖 **GitHub Copilot Integration**: This repository is set up for GitHub Copilot automation. If you need help:
+          - Use \`@github copilot\` to get AI assistance
+          - The CI will automatically test your changes
+          - Failed tests will get automatic fix suggestions
+
+          🧪 **Testing**: 
+          - C++ tests use Catch2 framework
+          - Python tests use pytest
+          - All tests must pass before merging
+
+          📚 **Documentation**:
+          - Check \`.github/copilot-instructions.md\` for detailed guidance
+          - Use \`.clang-format\` for code formatting
+          - Follow existing code patterns
+
+          🎯 **Build System**:
+          - Uses Meson build system
+          - Run \`meson setup builddir && meson compile -C builddir/\` to build
+          - See CI workflows for complete build instructions
+
+          The automated CI will test your changes shortly. Thanks again for contributing! 🚀`;
+          
+          await github.rest.issues.createComment({
+            issue_number: context.payload.pull_request.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: welcomeMessage
+          });

@@ -41,6 +41,10 @@ on:
     #  - "**.cpp"
     #  - "**.c"
     #  - "**.h"
+  # Allow this workflow to be called by other workflows (like copilot-ci)
+  workflow_call:
+    secrets:
+      inherit
 
 
 # make sure that multiple jobs don't run for the same action (new commits cancel old jobs when they are still running)

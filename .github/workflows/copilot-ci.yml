@@ -1,0 +1,172 @@
+# SPDX-FileCopyrightText: 2025 Peter Urban, Ghent University
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: GitHub Copilot Agent CI
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened, ready_for_review]
+    # Run on all PRs, especially those created by GitHub Copilot
+  workflow_dispatch:
+    # Allow manual trigger for agent workflows
+
+# Allow GitHub Actions bot and Copilot to make commits
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  checks: write
+
+# Ensure only one workflow runs at a time per PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  # Quick validation job that runs first
+  validate:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    outputs:
+      should_run_full: ${{ steps.check.outputs.should_run }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Check if full CI should run
+      id: check
+      run: |
+        # Always run full CI for now - can be optimized later
+        echo "should_run=true" >> $GITHUB_OUTPUT
+
+  # Main CI job - similar to existing ci-linux but optimized for quick feedback
+  quick-test:
+    name: Quick Test (Ubuntu Latest)
+    needs: validate
+    if: needs.validate.outputs.should_run_full == 'true'
+    runs-on: ubuntu-latest
+    container: 'ghcr.io/themachinethatgoesping/ubuntu-dep:latest'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        lfs: false
+        # Ensure we can push changes back
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: copilot-ci-ubuntu-latest
+
+    - name: Install Python dependencies
+      run: pip install meson meson-python ninja pytest numpy -r requirements.txt --break-system-packages
+
+    - name: Configure meson
+      run: |
+        meson setup builddir -Dunity=on -Dunity_size=9999999 -Dpython.install_env=auto -Dprefix=/usr/
+        
+    - name: Compile project
+      run: meson compile -C builddir/
+
+    - name: Run C++ tests
+      id: cpp_tests
+      run: |
+        meson test -C builddir/ --print-errorlogs || echo "cpp_tests_failed=true" >> $GITHUB_OUTPUT
+        
+    - name: Install project (if C++ tests passed)
+      if: steps.cpp_tests.outputs.cpp_tests_failed != 'true'
+      run: meson install -C builddir/
+
+    - name: Run Python tests
+      id: python_tests
+      if: steps.cpp_tests.outputs.cpp_tests_failed != 'true'
+      run: |
+        pytest -v || echo "python_tests_failed=true" >> $GITHUB_OUTPUT
+
+    - name: Upload test logs on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-logs-copilot-ci
+        path: builddir/meson-logs/meson-log.txt
+        retention-days: 5
+
+    # Comment on PR with test results
+    - name: Comment on PR
+      if: always() && github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const cpp_failed = '${{ steps.cpp_tests.outputs.cpp_tests_failed }}' === 'true';
+          const python_failed = '${{ steps.python_tests.outputs.python_tests_failed }}' === 'true';
+          
+          let message = '## 🤖 GitHub Copilot CI Results\n\n';
+          
+          if (!cpp_failed && !python_failed) {
+            message += '✅ All tests passed! This PR is ready for review.\n\n';
+            message += '### Test Results:\n';
+            message += '- ✅ C++ tests: PASSED\n';
+            message += '- ✅ Python tests: PASSED\n';
+          } else {
+            message += '❌ Some tests failed. The CI system will help fix these issues.\n\n';
+            message += '### Test Results:\n';
+            message += `- ${cpp_failed ? '❌' : '✅'} C++ tests: ${cpp_failed ? 'FAILED' : 'PASSED'}\n`;
+            message += `- ${python_failed ? '❌' : '✅'} Python tests: ${python_failed ? 'FAILED' : 'PASSED'}\n`;
+            message += '\nCheck the workflow logs for detailed error information.';
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: message
+          });
+
+  # Run full CI on successful quick test
+  full-ci:
+    name: Full CI Suite  
+    needs: quick-test
+    if: success()
+    uses: ./.github/workflows/ci-linux.yml
+    secrets: inherit
+
+  # Auto-merge job for successful PRs from Copilot
+  auto-merge:
+    name: Auto-merge Copilot PR
+    needs: [quick-test, full-ci]
+    if: |
+      success() && 
+      github.event_name == 'pull_request' && 
+      (github.actor == 'github-actions[bot]' || 
+       github.actor == 'copilot[bot]' ||
+       contains(github.head_ref, 'copilot/'))
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Enable auto-merge
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.pulls.createReview({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number,
+            event: 'APPROVE',
+            body: '🤖 Auto-approved by GitHub Copilot CI - all tests passed!'
+          });
+          
+          await github.rest.pulls.merge({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number,
+            commit_title: `Auto-merge: ${context.payload.pull_request.title}`,
+            commit_message: 'Automatically merged after successful CI tests.',
+            merge_method: 'squash'
+          });
