@@ -45,7 +45,9 @@ jobs:
       run: |
         meson setup builddir \
           -Dbuild_tests=enabled \
-          -Dbuild_pythonmodule=disabled
+          -Dbuild_pythonmodule=disabled \
+          -Dunity=on \
+          -Dunity_size=9999999
     
     - name: compile project
       run: meson compile -C builddir/
