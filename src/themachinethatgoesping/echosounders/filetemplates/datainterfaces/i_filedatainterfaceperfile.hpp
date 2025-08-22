@@ -217,7 +217,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return size_t
      */
-    size_t get_linked_file_nr() const;
+    size_t get_linked_file_nr() const { return get_linked_file()->get_file_nr(); }
 
     /**
      * @brief Get the file name
@@ -233,9 +233,9 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
         return std::filesystem::path(get_file_path()).filename().string();
     }
 
-    size_t get_file_size() const;
+    size_t get_file_size() const { return std::filesystem::file_size(get_file_path()); }
 
-    bool is_primary_file() const;
+    bool is_primary_file() const { return !is_secondary_file(); }
     bool is_secondary_file() const
     {
         if (_linked_primary_file.lock())
@@ -271,7 +271,7 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
      *
      * @return std::string
      */
-    std::string get_linked_file_path() const;
+    std::string get_linked_file_path() const { return get_linked_file()->get_file_path(); }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
