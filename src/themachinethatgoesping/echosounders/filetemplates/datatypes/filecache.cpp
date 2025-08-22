@@ -9,10 +9,365 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-// Implementation file for filecache.hpp
-// TODO: Move appropriate implementations from header to this file
+bool FileCache::path_is_valid(const std::string& index_path) const
+{
+    if (std::filesystem::exists(index_path))
+    {
+        // verify that the file is a valid FileCache
+        std::ifstream is(index_path, std::ios::binary);
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
+        // this function will throw if it is not a valid FileCache
+        read_check_type_id(is);
+
+        // check if the version is correct
+        if (!read_check_type_version(is))
+            return false;
+
+        FileCache cache("", 0);
+        cache.read_header_content_from_stream(is);
+        if (_file_name != cache.get_file_name() || _file_size != cache.get_file_size())
+            return false;
+    }
+    return true;
+}
+
+void FileCache::update_file(const std::string& index_path, bool emulate_only)
+{
+
+    // if path is valid load all keys that are not loaded but exist in the old file
+    // else just create a new file existing file
+    if (path_is_valid(index_path))
+    {
+        auto not_loaded_cache_names = get_not_loaded_cache_names();
+        // read old cache (only keys that are also in the new cache but not loaded yet)
+        FileCache old_cache(index_path, _file_name, _file_size, not_loaded_cache_names);
+
+        // add old cache to new cache
+        for (const auto& key : not_loaded_cache_names)
+        {
+            _cache_buffer[key] = old_cache._cache_buffer[key];
+        }
+    }
+
+    // do not write if only emulating
+    if (emulate_only)
+        return;
+
+    // create directories if does not exist
+    std::filesystem::create_directories(std::filesystem::path(index_path).parent_path());
+
+    std::ofstream os(index_path, std::ios::binary);
+
+    if (!os.is_open())
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: Could not open file for writing: {}", index_path));
+    }
+
+    to_stream(os);
+}
+
+void FileCache::remove_from_cache(const std::string& name)
+{
+    // if name exists in header get the position
+    // clear all entries after that position
+    std::vector<std::string> valid_keys;
+    for (size_t i = 0; i < _cache_buffer_header.size(); ++i)
+    {
+        if (std::get<0>(_cache_buffer_header[i]) == name)
+        {
+            _cache_buffer_header.resize(i);
+            break;
+        }
+        valid_keys.push_back(std::get<0>(_cache_buffer_header[i]));
+    }
+
+    // clear entries in _cache_buffer after that are not in valid_keys
+    for (auto it = _cache_buffer.begin(); it != _cache_buffer.end();)
+    {
+        if (std::find(valid_keys.begin(), valid_keys.end(), it->first) == valid_keys.end())
+        {
+            it = _cache_buffer.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+bool FileCache::has_cache(const std::string& name) const
+{
+    return std::find_if(_cache_buffer_header.begin(),
+                        _cache_buffer_header.end(),
+                        [&name](auto& tuple) { return std::get<0>(tuple) == name; }) !=
+           _cache_buffer_header.end();
+}
+
+void FileCache::to_stream(std::ostream& os)
+{
+    write_type_id(os);
+    write_type_version(os);
+
+    tools::classhelper::stream::container_to_stream<std::string>(os, _file_name);
+    os.write(reinterpret_cast<const char*>(&_file_size), sizeof(size_t));
+
+    // --- write cache_buffer_header (shell) ---
+    std::unordered_map<std::string, size_t>
+           cache_buffer_header_map; // links key to position in cache_buffer_header
+    size_t size = _cache_buffer_header.size();
+    os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+
+    auto cache_buffer_header_position = os.tellp(); // save position to update later
+    for (auto& [key, pos1, pos2] : _cache_buffer_header)
+    {
+        tools::classhelper::stream::container_to_stream<std::string>(os, key);
+        os.write(reinterpret_cast<const char*>(&pos1), sizeof(size_t));
+        os.write(reinterpret_cast<const char*>(&pos2), sizeof(size_t));
+    }
+
+    // --- write cache_buffer ---
+    size = _cache_buffer.size();
+    os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+    for (auto& [key, pos1, pos2] : _cache_buffer_header)
+    {
+        auto& value = _cache_buffer[key];
+
+        pos1 = os.tellp(); // update start position
+        tools::classhelper::stream::container_to_stream<std::string>(os, key);
+        tools::classhelper::stream::container_to_stream<std::string>(os, value);
+        pos2 = os.tellp(); // update end position
+    }
+    auto end_position = os.tellp();
+
+    // --- write updated cache_buffer_header ---
+    os.seekp(cache_buffer_header_position);
+    for (auto& [key, pos1, pos2] : _cache_buffer_header)
+    {
+        tools::classhelper::stream::container_to_stream<std::string>(os, key);
+        os.write(reinterpret_cast<const char*>(&pos1), sizeof(size_t));
+        os.write(reinterpret_cast<const char*>(&pos2), sizeof(size_t));
+    }
+}
+
+FileCache FileCache::from_stream(std::istream& is)
+{
+    read_check_type_id(is);
+    if (!read_check_type_version(is))
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: Invalid type version in file cache"));
+    }
+
+    FileCache cache("", 0);
+    cache.read_header_content_from_stream(is);
+    cache.read_cache_buffer_from_stream(is);
+    return cache;
+}
+
+FileCache FileCache::from_file(const std::string& index_path)
+{
+    if (!std::filesystem::exists(index_path))
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: File does not exist: {}", index_path));
+    }
+
+    std::ifstream is(index_path, std::ios::binary);
+    return from_stream(is);
+}
+
+tools::classhelper::ObjectPrinter FileCache::__printer__(unsigned int float_precision, bool superscript_exponents) const
+{
+    tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision, superscript_exponents);
+
+    // version
+    printer.register_string("type_id", std::string(_type_id_1));
+    printer.register_string("type_version", std::string(_type_version_1));
+
+    // raw values
+    printer.register_string("file_name", _file_name);
+    printer.register_value_bytes("file_size", size_t(_file_size));
+
+    // cache in file
+    printer.register_section("cache in file");
+    for (auto& [key, pos1, pos2] : _cache_buffer_header)
+    {
+        size_t buffer_size = pos2 - pos1;
+        printer.register_value_bytes(key, buffer_size);
+    }
+
+    // cache infos
+    printer.register_section("loaded cache");
+    for (auto& [key, value] : _cache_buffer)
+    {
+        size_t buffer_size = value.size();
+        printer.register_value_bytes(key, buffer_size);
+    }
+
+    return printer;
+}
+
+void FileCache::read_header_content_from_stream(std::istream& is)
+{
+    _file_name = tools::classhelper::stream::container_from_stream<std::string>(is);
+    is.read(reinterpret_cast<char*>(&_file_size), sizeof(size_t));
+
+    // --- read cache_buffer_header ---
+    size_t size = 0;
+    is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
+    _cache_buffer_header.reserve(size);
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        std::string key = tools::classhelper::stream::container_from_stream<std::string>(is);
+        size_t      pos1, pos2;
+        is.read(reinterpret_cast<char*>(&pos1), sizeof(size_t));
+        is.read(reinterpret_cast<char*>(&pos2), sizeof(size_t));
+        _cache_buffer_header.push_back(std::make_tuple(key, pos1, pos2));
+    }
+}
+
+void FileCache::read_cache_buffer_from_stream(std::istream& is)
+{
+    size_t size = 0;
+    is.read(reinterpret_cast<char*>(&size), sizeof(size_t));
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        auto& [key_, pos1, pos2] = _cache_buffer_header[i];
+
+        if (pos1 != size_t(is.tellg()))
+        {
+            throw std::runtime_error(
+                fmt::format("ERROR[FileCache]: Invalid cache position in "
+                            "file cache [begin]. Expected: {} got {} key {}",
+                            pos1,
+                            size_t(is.tellg()),
+                            key_));
+        }
+
+        std::string key    = tools::classhelper::stream::container_from_stream<std::string>(is);
+        _cache_buffer[key] = tools::classhelper::stream::container_from_stream<std::string>(is);
+
+        if (key != key_)
+        {
+            throw std::runtime_error(fmt::format(
+                "ERROR[FileCache]: Invalid cache key in file cache Expected: {} got {}",
+                key_,
+                key));
+        }
+
+        if (pos2 != size_t(is.tellg()))
+        {
+            throw std::runtime_error(fmt::format("ERROR[FileCache]: Invalid cache position in "
+                                                 "file cache [end]. Expected: {} got {} key {}",
+                                                 pos1,
+                                                 size_t(is.tellg()),
+                                                 key));
+        }
+    }
+}
+
+void FileCache::read_cache_buffer_from_stream(std::istream& is, const std::vector<std::string>& cache_keys)
+{
+    for (const auto& cache_key : cache_keys)
+    {
+        auto it =
+            std::find_if(_cache_buffer_header.begin(),
+                         _cache_buffer_header.end(),
+                         [&cache_key](auto& tuple) { return std::get<0>(tuple) == cache_key; });
+
+        if (it == _cache_buffer_header.end())
+            continue;
+
+        // read
+        auto& [key_, pos1, pos2] = *it;
+        is.seekg(pos1); // go to start position
+        std::string key    = tools::classhelper::stream::container_from_stream<std::string>(is);
+        _cache_buffer[key] = tools::classhelper::stream::container_from_stream<std::string>(is);
+
+        // verify
+        if (key != key_)
+        {
+            throw std::runtime_error(fmt::format(
+                "ERROR[FileCache]: Invalid cache key in file cache Expected: {} got {}",
+                key_,
+                key));
+        }
+
+        if (pos2 != size_t(is.tellg()))
+        {
+            throw std::runtime_error(fmt::format("ERROR[FileCache]: Invalid cache position in "
+                                                 "file cache [end]. Expected: {} got {} key {}",
+                                                 pos1,
+                                                 size_t(is.tellg()),
+                                                 key));
+        }
+    }
+}
+
+void FileCache::read_check_type_id(std::istream& is)
+{
+    static int64_t control_hash =
+        xxh::xxhash3<64>(_type_id_0.data(), _type_id_0.size() * sizeof(char));
+
+    int64_t read_hash = 0;
+    is.read(reinterpret_cast<char*>(&read_hash), sizeof(int64_t));
+
+    if (read_hash != control_hash)
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: Invalid type hash (0). Expected: {} got {}",
+                        std::to_string(control_hash),
+                        std::to_string(read_hash)));
+    }
+
+    std::string type_id_1 = tools::classhelper::stream::container_from_stream<std::string>(is);
+    if (type_id_1 != _type_id_1)
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: Invalid type id in file cache. Expected: {} got {}",
+                        std::string(_type_id_1),
+                        type_id_1));
+    }
+
+    is.read(reinterpret_cast<char*>(&read_hash), sizeof(int64_t));
+    if (read_hash != control_hash)
+    {
+        throw std::runtime_error(
+            fmt::format("ERROR[FileCache]: Invalid type hash (1). Expected: {} got {}",
+                        std::to_string(control_hash),
+                        std::to_string(read_hash)));
+    }
+}
+
+void FileCache::write_type_id(std::ostream& os) const
+{
+    int64_t hash = xxh::xxhash3<64>(_type_id_0.data(), _type_id_0.size() * sizeof(char));
+    os.write(reinterpret_cast<const char*>(&hash), sizeof(int64_t));
+    tools::classhelper::stream::container_to_stream<std::string_view>(os, _type_id_1);
+    os.write(reinterpret_cast<const char*>(&hash), sizeof(int64_t));
+}
+
+bool FileCache::read_check_type_version(std::istream& is)
+{
+    std::string type_version_1 =
+        tools::classhelper::stream::container_from_stream<std::string>(is);
+
+    if (type_version_1 != _type_version_1)
+    {
+        return false;
+    }
+    return true;
+}
+
+void FileCache::write_type_version(std::ostream& os) const
+{
+    tools::classhelper::stream::container_to_stream<std::string_view>(os, _type_version_1);
+}
+
 } // namespace datatypes
-} // namespace filetemplates
+} // namespace filetemplates  
+} // namespace echosounders
+} // namespace themachinethatgoesping
