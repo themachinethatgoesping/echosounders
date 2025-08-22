@@ -1,4 +1,4 @@
-//sourcehash: db6379f339f94dd3535f7899afc4e33a35e7ce278e02f3b2e22e9304e356be64
+//sourcehash: b204198c8336cc0539a50d162622b1bd46dac976730a2694a7f649d85bbca72b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,22 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_4 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_init_interfaces = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_setup_interfaces = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

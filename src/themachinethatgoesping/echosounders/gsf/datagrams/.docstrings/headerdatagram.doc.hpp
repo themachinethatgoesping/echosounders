@@ -1,4 +1,4 @@
-//sourcehash: 12ceeed4e156ba8b53439ec50c213e142169bf81582548035d9fdd5e005d7d85
+//sourcehash: 06f09e2c0ea6f6e6b015e6e8f08fd97de6d1f170e73a4a210763a8e91230b1e1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,86 +37,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram = R"doc(Header datagrams)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_HeaderDatagram = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_HeaderDatagram_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_checksum = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_date_external =
-R"doc(< from external header input year*1000 + month*100 + day(Example:Jun <
-27, 2020 = 20200627))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_etx = R"doc(< end identifier (always 0x03))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_from_stream_3 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_checksum = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_date_external = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_date_string_external_header = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_etx = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_header_counter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_pps_active = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_time_since_midnight_external = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_timestamp_external =
-R"doc(convert the date and time_since_midnight field to a unix timestamp
-
-Returns:
-    unixtime as double)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_get_timestamp_offset =
-R"doc(difference between timestamp and timestamp_external
-
-Returns:
-    timestamp_external - timestamp)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_header_counter = R"doc(< sequential number)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_operator_eq = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_pps_active =
-R"doc(< 0 = inactive (Shows if the system header is synchronized to an
-external < PPS signal or not))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_checksum = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_date_external = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_etx = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_header_counter = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_pps_active = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_set_time_since_midnight_external = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_system_serial_number = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_time_since_midnight_external = R"doc(< in ms from external header datagram)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_HeaderDatagram_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

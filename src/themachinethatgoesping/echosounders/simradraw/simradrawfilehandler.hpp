@@ -9,6 +9,9 @@
 /* generated doc strings */
 #include ".docstrings/simradrawfilehandler.doc.hpp"
 
+/* std includes */
+#include <stdint.h>
+
 /* library includes */
 #include <frozen/map.h>
 #include <frozen/string.h>

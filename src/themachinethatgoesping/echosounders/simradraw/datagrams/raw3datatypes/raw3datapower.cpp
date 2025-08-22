@@ -6,6 +6,7 @@
 
 #include "raw3datapower.hpp"
 
+#include <xtensor/io/xio.hpp> 
 #include <algorithm>
 #include <cmath>
 #include <sstream>

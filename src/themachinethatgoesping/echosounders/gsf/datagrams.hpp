@@ -9,10 +9,11 @@
 /* generated doc strings */
 #include ".docstrings/datagrams.doc.hpp"
 
-// #include "datagrams/attitudedatagram.hpp"
+#include "datagrams/gsfdatagram.hpp"
+#include "datagrams/gsfunknown.hpp"
 #include "types.hpp"
 
-// #include <pybind11/pybind11.h>
+#include <variant>
 
 /**
  * @brief Type definitions for EM datagram format specifications
@@ -46,7 +47,7 @@ struct GSFDatagramVariant
 
     static t_GSFDatagramVariant from_stream(std::istream&           is,
                                             t_GSFDatagramIdentifier datagram_type,
-                                            bool                    skip_data = false)
+                                            [[maybe_unused]] bool   skip_data = false)
     {
         // GSFDATAGRAMTYPEAREA
         switch (datagram_type)

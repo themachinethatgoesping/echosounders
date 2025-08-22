@@ -16,15 +16,19 @@
 #include <unordered_map>
 #include <vector>
 
+/* third party libraries */
+#include <fmt/core.h>
+#include <xtensor/containers/xtensor.hpp> 
+
+// boost includes
+#include <boost/sort/sort.hpp> // for sort
+
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <themachinethatgoesping/tools/timeconv.hpp>
 
-#include <fmt/core.h>
-
-// boost includes
-#include <boost/sort/sort.hpp> // for sort
 
 namespace themachinethatgoesping {
 namespace echosounders {

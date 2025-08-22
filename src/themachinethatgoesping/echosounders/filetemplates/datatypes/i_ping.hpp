@@ -24,8 +24,6 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../../pingtools/beamsampleselection.hpp"
@@ -146,8 +144,8 @@ class I_Ping : public I_PingCommon
         _sensor_configuration_set = true;
     }
 
-    bool has_navigation_interpolator_latlon() const;
-    bool has_sensor_data_latlon() const;
+    bool                                         has_navigation_interpolator_latlon() const;
+    bool                                         has_sensor_data_latlon() const;
     navigation::datastructures::SensordataLatLon get_sensor_data_latlon() const
     {
         return get_navigation_interpolator_latlon().get_sensor_data(get_timestamp());
@@ -235,7 +233,7 @@ class I_Ping : public I_PingCommon
     {
         not_implemented(std::string_view method_name, std::string_view name)
             : std::runtime_error(
-                  fmt::format("method;
+                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
         {
         }
     };

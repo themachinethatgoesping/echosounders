@@ -20,6 +20,7 @@
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
+#include <xtensor/io/xio.hpp>
 
 
 #include <xtensor/views/xview.hpp>

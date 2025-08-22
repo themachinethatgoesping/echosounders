@@ -11,6 +11,7 @@
 
 // std includes
 #include <bitset>
+#include <cmath> // for std::log10
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -19,13 +20,11 @@
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
-
-
 #include <xtensor/views/xview.hpp>
+#include <xtensor/io/xio.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 
 #include "i_raw3data.hpp"
 #include "t_raw3datatype.hpp"
@@ -39,7 +38,7 @@ namespace raw3datatypes {
 struct RAW3DataPowerAndAngle : public i_RAW3Data
 {
     xt::xtensor<simradraw_short, 1> _power; ///< Sample data
-    xt::xtensor<int8_t, 2>       _angle; ///< [along, athwart] 180/128 electrical degrees
+    xt::xtensor<int8_t, 2>          _angle; ///< [along, athwart] 180/128 electrical degrees
     // xt::xtensor<int8_t>    _angle_along;  ///< alongship angle
     // xt::xtensor<int8_t>    _angle_across; ///< athwartship angle
 
@@ -88,14 +87,15 @@ struct RAW3DataPowerAndAngle : public i_RAW3Data
     }
 
     // ----- to/from stream -----
-    static RAW3DataPowerAndAngle from_stream(std::istream& is,
-                                             simradraw_long   input_count,
-                                             simradraw_long   output_count)
+    static RAW3DataPowerAndAngle from_stream(std::istream&  is,
+                                             simradraw_long input_count,
+                                             simradraw_long output_count)
     {
         using power_shape = xt::xtensor<simradraw_short, 1>::shape_type;
         using angle_shape = xt::xtensor<int8_t, 2>::shape_type;
-        RAW3DataPowerAndAngle data(xt::empty<simradraw_short>(power_shape({ unsigned(output_count) })),
-                                   xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
+        RAW3DataPowerAndAngle data(
+            xt::empty<simradraw_short>(power_shape({ unsigned(output_count) })),
+            xt::empty<int8_t>(angle_shape({ unsigned(output_count), 2 })));
 
         // initialize data_block using from_shape
         if (output_count <= input_count)
@@ -132,10 +132,11 @@ struct RAW3DataPowerAndAngle : public i_RAW3Data
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("Sample binary data (Power and Angle)",
-                                                  float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "Sample binary data (Power and Angle)", float_precision, superscript_exponents);
 
         std::stringstream ss1, ss2, ss3;
         ss1 << _power * 10 * log10(2.0) / 256;
