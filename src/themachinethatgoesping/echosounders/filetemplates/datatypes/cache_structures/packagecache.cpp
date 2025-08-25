@@ -10,8 +10,23 @@ namespace filetemplates {
 namespace datatypes {
 namespace cache_structures {
 
-// Implementation file for packagecache.hpp
-// TODO: Move appropriate implementations from header to this file
+/**
+ * @file packagecache.cpp
+ * 
+ * Implementation file for packagecache.hpp
+ * 
+ * Note: The PackageCache is a template class with all implementations 
+ * defined in the header file. Template implementations cannot be moved to 
+ * source files unless explicit template instantiations are provided, which 
+ * would limit the template's flexibility.
+ * 
+ * Current implementations in header (must remain there):
+ * - PackageCache template class constructors and member functions
+ * - to_stream/from_stream methods (template-dependent)
+ * - Template-dependent binary serialization methods
+ * 
+ * This file remains empty as all implementations appropriately reside in the header.
+ */
 
 } // namespace themachinethatgoesping
 } // namespace echosounders
