@@ -10,8 +10,22 @@ namespace filetemplates {
 namespace datatypes {
 namespace cache_structures {
 
-// Implementation file for structpackage.hpp
-// TODO: Move appropriate implementations from header to this file
+/**
+ * @file structpackage.cpp
+ * 
+ * Implementation file for structpackage.hpp
+ * 
+ * Note: The StructPackage class is a template class with all implementations 
+ * defined in the header file. Template implementations cannot be moved to 
+ * source files unless explicit template instantiations are provided, which 
+ * would limit the template's flexibility.
+ * 
+ * Current implementations in header (must remain there):
+ * - StructPackage template class member functions (implicitly inline)
+ * - hash_value template function (explicitly inline)
+ * 
+ * This file remains empty as all implementations appropriately reside in the header.
+ */
 
 } // namespace themachinethatgoesping
 } // namespace echosounders
