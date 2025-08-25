@@ -9,23 +9,13 @@
 /* generated doc strings */
 #include ".docstrings/xmlconfigurationactivepingmode.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/xmlconfigurationactivepingmode.doc.hpp"
-
 // std includes
 #include <string>
-#include <unordered_map>
-#include <vector>
-
-#include <boost/algorithm/string/find.hpp>
 
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
 
 #include "helper.hpp"
 #include "xml_node.hpp"
@@ -53,83 +43,23 @@ struct XMLConfigurationActivePingMode
     XMLConfigurationActivePingMode(const pugi::xml_node& node) { initialize(node); }
     ~XMLConfigurationActivePingMode() = default;
 
-    void initialize(const pugi::xml_node& root_node)
-    {
-        if (strcmp(root_node.name(), "ActivePingMode"))
-        {
-            throw std::runtime_error(
-                std::string("XMLConfigurationActivePingMode: wrong root node type '") +
-                root_node.name() + "'");
-        }
-        unknown_attributes = 0;
-        unknown_children   = 0; // there should be no child
-
-        // there should only be one child for this node
-        for (const auto& node : root_node.children())
-        {
-            std::cerr << "WARNING: [Configuration_ActivePingMode] Unknown child: " << node.name()
-                      << std::endl;
-
-            unknown_children = 1;
-        }
-
-        for (const auto& attr : root_node.attributes())
-        {
-            std::string_view name = attr.name();
-            if (name == "Mode")
-            {
-                Mode = attr.value();
-                continue;
-            }
-            std::cerr << "WARNING: [Configuration_ActivePingMode] Unknown attribute: " << name
-                      << std::endl;
-            unknown_attributes += 1;
-        }
-    }
+    void initialize(const pugi::xml_node& root_node);
 
     bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
 
     // ----- file I/O -----
-    static XMLConfigurationActivePingMode from_stream(std::istream& is)
-    {
-        XMLConfigurationActivePingMode xml;
-        xml.Mode = tools::classhelper::stream::container_from_stream<std::string>(is);
-
-        is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
-        is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
-
-        return xml;
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        tools::classhelper::stream::container_to_stream(os, Mode);
-
-        os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
-        os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
-    }
+    static XMLConfigurationActivePingMode from_stream(std::istream& is);
+    void to_stream(std::ostream& os) const;
 
     // ----- operators -----
-    bool operator==(const XMLConfigurationActivePingMode& other) const
-    {
-        return Mode == other.Mode;
-        // && unknown_children == other.unknown_children &&
-        // unknown_attributes == other.unknown_attributes;
-    }
+    bool operator==(const XMLConfigurationActivePingMode& other) const;
     bool operator!=(const XMLConfigurationActivePingMode& other) const
     {
         return !operator==(other);
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration_ActivePingMode",
-                                                  float_precision, superscript_exponents);
-        printer.register_string("Mode", Mode);
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
