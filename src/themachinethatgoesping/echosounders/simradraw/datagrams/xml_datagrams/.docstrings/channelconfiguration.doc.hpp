@@ -1,4 +1,4 @@
-//sourcehash: 60da8360f20de064cfd7392eef23e9de7e0e9d34aa12f3c5b553c7b1a9dda85d
+//sourcehash: 8d5c191f83c625ef83427f86f5cc5dd211b9734731e59b32f5f575b0e4bd816c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration = R"doc(XML base datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_ChannelConfiguration = R"doc()doc";
 

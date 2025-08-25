@@ -120,6 +120,7 @@ sources = [
   'simradraw/datagrams/raw3datatypes/raw3dataangle.cpp',
   'simradraw/datagrams/raw3datatypes/raw3datacomplexfloat32.cpp',
   'simradraw/datagrams/raw3datatypes/raw3datapower.cpp',
+  'simradraw/datagrams/raw3datatypes/raw3datapowerandangle.cpp',
   'simradraw/datagrams/raw3datatypes/raw3dataskipped.cpp',
   'simradraw/datagrams/raw3datatypes/raw3datatypes.cpp',
   'simradraw/datagrams/raw3datatypes/t_raw3datatype.cpp',

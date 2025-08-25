@@ -11,21 +11,12 @@
 
 // std includes
 #include <string>
-#include <unordered_map>
-#include <vector>
 
-#include <boost/algorithm/string/find.hpp>
-
+// pugixml
 #include <pugixml.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
-
-#include "helper.hpp"
-#include "xml_node.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -34,8 +25,7 @@ namespace datagrams {
 namespace xml_datagrams {
 
 /**
- * @brief XML base datagram
- *
+ * @brief XML Configuration Sensor Telegram Value (single <Value> node).
  */
 struct XML_Configuration_Sensor_TelegramValue
 {
@@ -48,99 +38,39 @@ struct XML_Configuration_Sensor_TelegramValue
   public:
     // ----- constructors -----
     XML_Configuration_Sensor_TelegramValue() = default;
-    XML_Configuration_Sensor_TelegramValue(const pugi::xml_node& node) { initialize(node); }
+    explicit XML_Configuration_Sensor_TelegramValue(const pugi::xml_node& node);
     ~XML_Configuration_Sensor_TelegramValue() = default;
 
-    void initialize(const pugi::xml_node& root_node)
-    {
-        if (strcmp(root_node.name(), "Value"))
-        {
-            throw std::runtime_error(
-                std::string("XML_Configuration_Sensor_TelegramValue: wrong root node type '") +
-                root_node.name() + "'");
-        }
-        unknown_attributes = 0;
-        unknown_children   = 0; // there should be no child
+    /**
+     * @brief Initialize from a <Value> XML node.
+     * @throws std::runtime_error if root node is not <Value>.
+     */
+    void initialize(const pugi::xml_node& root_node);
 
-        // there should only be one child for this node
-        for (const auto& node : root_node.children())
-        {
-            std::cerr << "WARNING: [Value] Unknown child: " << node.name() << std::endl;
-
-            unknown_children = 1;
-        }
-
-        for (const auto& attr : root_node.attributes())
-        {
-            std::string_view name = attr.name();
-            if (name == "Priority")
-            {
-                Priority = std::stoi(attr.value()); // TODO: is this only 0/1 or also false/true?
-                continue;
-            }
-            if (name == "Name")
-            {
-                Name = attr.value();
-                continue;
-            }
-            std::cerr << "WARNING: [Value] Unknown attribute: " << name << std::endl;
-            unknown_attributes += 1;
-        }
-    }
-
-    bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
+    /**
+     * @brief Returns true if no unknown children/attributes were encountered.
+     */
+    bool parsed_completely() const;
 
     // ----- file I/O -----
-    static XML_Configuration_Sensor_TelegramValue from_stream(std::istream& is)
-    {
-        XML_Configuration_Sensor_TelegramValue xml;
-        is.read(reinterpret_cast<char*>(&xml.Priority), sizeof(xml.Priority));
-        xml.Name = tools::classhelper::stream::container_from_stream<std::string>(is);
-
-        is.read(reinterpret_cast<char*>(&xml.unknown_children), sizeof(xml.unknown_children));
-        is.read(reinterpret_cast<char*>(&xml.unknown_attributes), sizeof(xml.unknown_attributes));
-
-        return xml;
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        os.write(reinterpret_cast<const char*>(&Priority), sizeof(Priority));
-        tools::classhelper::stream::container_to_stream(os, Name);
-
-        os.write(reinterpret_cast<const char*>(&unknown_children), sizeof(unknown_children));
-        os.write(reinterpret_cast<const char*>(&unknown_attributes), sizeof(unknown_attributes));
-    }
+    static XML_Configuration_Sensor_TelegramValue from_stream(std::istream& is);
+    void                                          to_stream(std::ostream& os) const;
 
     // ----- operators -----
-    bool operator==(const XML_Configuration_Sensor_TelegramValue& other) const
-    {
-        return Priority == other.Priority && Name == other.Name;
-        // && unknown_children == other.unknown_children &&
-        // unknown_attributes == other.unknown_attributes;
-    }
-    bool operator!=(const XML_Configuration_Sensor_TelegramValue& other) const
-    {
-        return !operator==(other);
-    }
+    bool operator==(const XML_Configuration_Sensor_TelegramValue& other) const;
+    bool operator!=(const XML_Configuration_Sensor_TelegramValue& other) const;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("EK80 XML0 Value", float_precision, superscript_exponents);
-        printer.register_value("Priority", Priority);
-        printer.register_string("Name", Name);
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(
-        XML_Configuration_Sensor_TelegramValue)
+    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(XML_Configuration_Sensor_TelegramValue)
 };
 
-}
-}
-}
-}
-}
+} // namespace xml_datagrams
+} // namespace datagrams
+} // namespace simradraw
+} // namespace echosounders
+} // namespace themachinethatgoesping

@@ -1,4 +1,4 @@
-//sourcehash: 931615dda350a43a36b886be84b55133329f2efdc032ded1b28eb4ee177c0d6b
+//sourcehash: 6b4a058edc751015363a557116f158715312e75f47d676c938fd791de53ca8d6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,17 +38,21 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker =
+R"doc(Walker collecting last seen attribute name/value while traversing the
+XML tree.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker_a = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker_b = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker_for_each = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_get_walker_for_each = R"doc(Called for every node during traversal.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker =
+R"doc(Walker that registers XML hierarchy and attributes into an
+ObjectPrinter.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker_for_each = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker_for_each = R"doc(Called for every node during traversal.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker_objectprint_walker = R"doc()doc";
 
@@ -56,9 +60,9 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_objectprint_walker_root_nodes = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_print_walker = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_print_walker = R"doc(Walker printing nodes and attributes to std::cout (debug helper).)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_print_walker_for_each = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_print_walker_for_each = R"doc(Called for every node during traversal.)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

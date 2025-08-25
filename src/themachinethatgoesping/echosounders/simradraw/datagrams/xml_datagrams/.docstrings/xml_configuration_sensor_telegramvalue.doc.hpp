@@ -1,4 +1,4 @@
-//sourcehash: 94d6cc8b1f04054f61a12cd922344c6be5f6036edf18465541483d387b8713e5
+//sourcehash: c6140d995327b6b22bc99837bf061b328af36ba41b9bb8a78da7891b25b6c58e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue = R"doc(XML base datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue = R"doc(XML Configuration Sensor Telegram Value (single <Value> node).)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_Name = R"doc()doc";
 
@@ -52,13 +52,17 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_initialize = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_initialize =
+R"doc(Initialize from a <Value> XML node.
+
+Throws:
+    std::runtime_error if root node is not <Value>.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_operator_ne = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_parsed_completely = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_parsed_completely = R"doc(Returns true if no unknown children/attributes were encountered.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TelegramValue_printer = R"doc()doc";
 
