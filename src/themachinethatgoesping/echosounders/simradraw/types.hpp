@@ -97,53 +97,24 @@ inline std::string datagram_identifier_to_string(
  * @param values Vector of identifiers.
  * @return Vector of decimal string representations.
  */
-inline std::vector<std::string> datagram_identifiers_to_string(
-    const std::vector<simradraw::t_SimradRawDatagramIdentifier>& values)
-{
-    std::vector<std::string> result;
-    result.reserve(values.size());
-    for (auto v : values)
-        result.push_back(datagram_identifier_to_string(v));
-    return result;
-}
+std::vector<std::string> datagram_identifiers_to_string(
+    const std::vector<simradraw::t_SimradRawDatagramIdentifier>& values);
 
 /**
  * @brief Convert set of datagram identifiers to vector of strings.
  * @param values Set of identifiers.
  * @return Vector of decimal string representations (in set iteration order).
  */
-inline std::vector<std::string> datagram_identifiers_to_string(
-    const std::set<simradraw::t_SimradRawDatagramIdentifier>& values)
-{
-    std::vector<std::string> result;
-    result.reserve(values.size());
-    for (auto v : values)
-        result.push_back(datagram_identifier_to_string(v));
-    return result;
-}
+std::vector<std::string> datagram_identifiers_to_string(
+    const std::set<simradraw::t_SimradRawDatagramIdentifier>& values);
 
 /**
  * @brief Get descriptive information about a datagram type.
  * @param datagram_type Datagram identifier.
  * @return Human-readable description.
  */
-inline std::string datagram_identifier_info(
-    simradraw::t_SimradRawDatagramIdentifier datagram_type)
-{
-    using simradraw::t_SimradRawDatagramIdentifier;
-    switch (datagram_type)
-    {
-        case t_SimradRawDatagramIdentifier::MRU0: return "Motion binary datagram";
-        case t_SimradRawDatagramIdentifier::NME0: return "NMEA text datagram";
-        case t_SimradRawDatagramIdentifier::XML0: return "XML0 text datagram";
-        case t_SimradRawDatagramIdentifier::TAG0: return "Annotation datagram";
-        case t_SimradRawDatagramIdentifier::FIL1: return "Filter binary datagram";
-        case t_SimradRawDatagramIdentifier::RAW3: return "Sample binary datagram";
-        default:
-            return "unknown (" +
-                   std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
-    }
-}
+std::string datagram_identifier_info(
+    simradraw::t_SimradRawDatagramIdentifier datagram_type);
 
 } // namespace echosounders
 } // namespace themachinethatgoesping
