@@ -165,6 +165,7 @@ inline std::string datagram_identifier_to_string(
     return kongsbergall::datagram_type_to_string(value);
 }
 
+//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(
     kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type)
 {

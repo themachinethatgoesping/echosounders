@@ -1,4 +1,4 @@
-//sourcehash: 3325c07600d78dd5759b305017323954a318a8e592456d67149d63138da51e05
+//sourcehash: b6e944e78bd484a43bae26a92bedd4865a6b0710c2b72e0b8cbe613af7ed823e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,11 +60,39 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_filter_identifier2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream =
+R"doc(Create a RuntimeParameters object from a stream
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream_2 = R"doc()doc";
+Parameter ``is``:
+    Input stream to read from
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream_3 = R"doc()doc";
+Parameter ``header``:
+    KongsbergAllDatagram header that was already read from the stream
+
+Returns:
+    RuntimeParameters object created from stream)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream_2 =
+R"doc(Create a RuntimeParameters object from a stream
+
+Parameter ``is``:
+    Input stream to read from
+
+Returns:
+    RuntimeParameters object created from stream)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_from_stream_3 =
+R"doc(Create a RuntimeParameters object from a stream with datagram
+identifier
+
+Parameter ``is``:
+    Input stream to read from
+
+Parameter ``datagram_identifier``:
+    Expected datagram identifier
+
+Returns:
+    RuntimeParameters object created from stream)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_3d_scanning_enabled =
 R"doc(Retrieves the 3D scanning option (On/Off) encoded in the 'source of
@@ -441,7 +469,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_ping_counter = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_printer =
+R"doc(Create ObjectPrinter for this RuntimeParameters object
+
+Parameter ``float_precision``:
+    Precision for floating point values
+
+Parameter ``superscript_exponents``:
+    Whether to use superscript notation for exponents
+
+Returns:
+    ObjectPrinter configured for this RuntimeParameters)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_processing_unit_status = R"doc()doc";
 
@@ -513,7 +551,11 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_system_serial_number = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_to_stream =
+R"doc(Write the RuntimeParameters object to a stream
+
+Parameter ``os``:
+    Output stream to write to)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_transmit_along_tilt = R"doc(< in 0.1 degree)doc";
 

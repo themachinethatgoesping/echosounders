@@ -1,4 +1,4 @@
-//sourcehash: 56b4879fcc54bb27905f69c58cea5b655bbe21911dba97e811bc0f0fab245558
+//sourcehash: 0dfae4ac7aac13d5c71aaa477e50dc1823821a96348593401a2aae1bceb039eb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,6 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string = R"doc()doc";
 

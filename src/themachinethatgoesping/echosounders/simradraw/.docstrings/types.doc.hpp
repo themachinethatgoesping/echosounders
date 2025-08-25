@@ -1,4 +1,4 @@
-//sourcehash: 5c1737220e80e5c0df357dbab0b2968d0b80a6a8b694f04c9cff4e1ba76a4213
+//sourcehash: 346eaabfe38c00bb61e4364493dc8fc79c068425931f6070e67ea163225e0b65
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,62 @@
 #endif
 
 
+static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info =
+R"doc(Get descriptive information about a datagram type.
+
+Parameter ``datagram_type``:
+    Datagram identifier.
+
+Returns:
+    Human-readable description.)doc";
 
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string =
+R"doc(Convert vector of datagram identifiers to vector of strings.
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2 = R"doc()doc";
+Parameter ``values``:
+    Vector of identifiers.
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string = R"doc()doc";
+Returns:
+    Vector of decimal string representations.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2 =
+R"doc(Convert set of datagram identifiers to vector of strings.
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 = R"doc()doc";
+Parameter ``values``:
+    Set of identifiers.
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc()doc";
+Returns:
+    Vector of decimal string representations (in set iteration order).)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string =
+R"doc(Parse datagram type from string representation.
+
+Parameter ``value``:
+    String view containing decimal representation.
+
+Returns:
+    Parsed datagram type numeric value.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string =
+R"doc(Convert datagram type from simradraw_long to string representation.
+
+Parameter ``value``:
+    Datagram type as simradraw_long.
+
+Returns:
+    String representation (decimal) of the datagram type.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 =
+R"doc(Convert datagram type identifier to string representation.
+
+Parameter ``value``:
+    Datagram type identifier enum.
+
+Returns:
+    String representation (decimal) of the datagram type.)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc(Datagram identifiers used in Simrad raw (EK60/EK80) files.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_FIL1 = R"doc(< Filter datagram)doc";
 
@@ -60,7 +103,7 @@ static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradR
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_RAW3 = R"doc(< Raw sample data datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< ???)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< Annotation datagram)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
 

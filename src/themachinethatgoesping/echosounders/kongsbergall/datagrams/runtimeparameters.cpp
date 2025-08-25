@@ -203,5 +203,3 @@ tools::classhelper::ObjectPrinter RuntimeParameters::__printer__(unsigned int fl
 } // namespace kongsbergall  
 } // namespace echosounders
 } // namespace themachinethatgoesping
-} // namespace datagrams
-} // namespace kongsbergall

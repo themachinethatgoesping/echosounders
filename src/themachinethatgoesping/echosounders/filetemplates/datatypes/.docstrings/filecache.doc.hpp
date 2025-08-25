@@ -1,4 +1,4 @@
-//sourcehash: 9db36464da5b27d575d7f0d18d6dc11cd00753bea743d1bfb69f52dc57715e45
+//sourcehash: eb7af1c4ab75007de43c62935b3a4f2ff3a3a5b860e6db4b06affcc4b7d2cebd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,9 +56,23 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_file_size = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_from_file = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_from_file =
+R"doc(Create a FileCache from a file
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_from_stream = R"doc()doc";
+Parameter ``index_path``:
+    Path to the cache file to read
+
+Returns:
+    FileCache object created from the file)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_from_stream =
+R"doc(Create a FileCache from a stream
+
+Parameter ``is``:
+    Input stream to read from
+
+Returns:
+    FileCache object created from the stream)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_get_cache_buffer = R"doc()doc";
 
@@ -78,19 +92,101 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_get_not_loaded_cache_names = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_has_cache = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_has_cache =
+R"doc(Check if a cache entry with the given name exists
+
+Parameter ``name``:
+    Name of the cache entry to check
+
+Returns:
+    true if the cache entry exists)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_path_is_valid = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_path_is_valid =
+R"doc(Check if the index path contains a valid cache file
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_printer = R"doc()doc";
+Parameter ``index_path``:
+    Path to the index file to validate
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_remove_from_cache = R"doc()doc";
+Returns:
+    true if the path contains a valid cache file matching this
+    FileCache)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_to_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_printer =
+R"doc(Create ObjectPrinter for this FileCache
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_update_file = R"doc()doc";
+Parameter ``float_precision``:
+    Precision for floating point values
+
+Parameter ``superscript_exponents``:
+    Whether to use superscript for exponents
+
+Returns:
+    ObjectPrinter configured for this FileCache)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_read_cache_buffer_from_stream =
+R"doc(Read cache buffer from stream
+
+Parameter ``is``:
+    Input stream to read from)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_read_cache_buffer_from_stream_2 =
+R"doc(Read cache buffer from stream for specific cache keys
+
+Parameter ``is``:
+    Input stream to read from
+
+Parameter ``cache_keys``:
+    Vector of cache keys to load)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_read_check_type_id =
+R"doc(Read and verify type ID from stream
+
+Parameter ``is``:
+    Input stream to read from)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_read_check_type_version =
+R"doc(Read and verify type version from stream
+
+Parameter ``is``:
+    Input stream to read from
+
+Returns:
+    true if version is correct)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_remove_from_cache =
+R"doc(Remove a cache entry and all entries added after it
+
+Parameter ``name``:
+    Name of the cache entry to remove)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_to_stream =
+R"doc(Write the FileCache to a stream
+
+Parameter ``os``:
+    Output stream to write to)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_update_file =
+R"doc(Update or create the cache file at the specified path
+
+Parameter ``index_path``:
+    Path where to write the cache file
+
+Parameter ``emulate_only``:
+    If true, only simulate the update without actually writing)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_write_type_id =
+R"doc(Write type ID to stream
+
+Parameter ``os``:
+    Output stream to write to)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_FileCache_write_type_version =
+R"doc(Write type version to stream
+
+Parameter ``os``:
+    Output stream to write to)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
