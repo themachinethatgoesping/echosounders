@@ -119,7 +119,7 @@ inline size_t hash_value(const TransceiverInformation& data)
     return data.binary_hash();
 }
 
-} // namespace substructures
+} // namespace _sub
 } // namespace filedatatypes
 } // namespace simradraw
 } // namespace echosounders

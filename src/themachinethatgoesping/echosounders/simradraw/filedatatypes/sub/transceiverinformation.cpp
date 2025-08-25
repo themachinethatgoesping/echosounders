@@ -4,8 +4,12 @@
 
 #include "transceiverinformation.hpp"
 
-#include <cmath>
 #include <fmt/core.h>
+#include <cmath>
+#include <stdexcept>
+#include <limits>
+#include <string>
+#include <iomanip>
 
 namespace themachinethatgoesping {
 namespace echosounders {
