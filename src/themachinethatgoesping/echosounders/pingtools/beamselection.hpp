@@ -9,16 +9,11 @@
 #include ".docstrings/beamselection.doc.hpp"
 
 /* std includes */
-#include <algorithm>
-#include <map>
-#include <ranges>
-#include <numeric>
-
-/* external includes */
-#include <fmt/core.h>
+#include <vector>
+#include <iostream>
 
 /* ping includes */
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
 
 
@@ -45,23 +40,14 @@ class BeamSelection
      *
      * @param number_of_beams number of beams in the swath
      */
-    BeamSelection(size_t number_of_beams)
-        : _beam_numbers(std::vector<uint32_t>(number_of_beams))
-    {
-        std::iota(std::begin(_beam_numbers),
-                  std::end(_beam_numbers),
-                  0); // Fill vector with 0, 1, ..., number_of_beams-1.
-    }
+    BeamSelection(size_t number_of_beams);
 
     /**
      * @brief Initialize a beam sample selection from a whole swath
      *
      * @param number_of_beams number of beams in the swath
      */
-    BeamSelection(std::vector<uint32_t> beam_numbers)
-        : _beam_numbers(std::move(beam_numbers))
-    {
-    }
+    BeamSelection(std::vector<uint32_t> beam_numbers);
 
     // --- operators ---
     bool operator==(const BeamSelection& other) const = default;
@@ -106,27 +92,14 @@ class BeamSelection
      * @param is input stream
      * @return BeamSelection
      */
-    static BeamSelection from_stream(std::istream& is)
-    {
-        using themachinethatgoesping::tools::classhelper::stream::container_from_stream;
-
-        BeamSelection object;
-        object._beam_numbers = container_from_stream<std::vector<uint32_t>>(is);
-
-        return object;
-    }
+    static BeamSelection from_stream(std::istream& is);
 
     /**
      * @brief Write a BeamSelection to a binary stream
      *
      * @param os output stream
      */
-    void to_stream(std::ostream& os) const
-    {
-        using themachinethatgoesping::tools::classhelper::stream::container_to_stream;
-
-        container_to_stream(os, _beam_numbers);
-    }
+    void to_stream(std::ostream& os) const;
 
     // ----- printing -----
     /**
@@ -136,16 +109,7 @@ class BeamSelection
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        using themachinethatgoesping::tools::classhelper::ObjectPrinter;
-
-        ObjectPrinter printer("BeamSelection", float_precision, superscript_exponents);
-
-        printer.register_container("_beam_numbers", _beam_numbers);
-
-        return printer;
-    }
+    auto __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
   public:
     // -- class helper function macros --
