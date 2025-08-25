@@ -4,6 +4,7 @@
 
 #include "beamselection.hpp"
 #include <numeric>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
