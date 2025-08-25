@@ -9,13 +9,11 @@
 #include ".docstrings/beamselection.doc.hpp"
 
 /* std includes */
-#include <vector>
 #include <iostream>
+#include <vector>
 
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
 
 #include "readsamplerange.hpp"
 
@@ -109,7 +107,8 @@ class BeamSelection
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision, bool superscript_exponents) const;
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const;
 
   public:
     // -- class helper function macros --

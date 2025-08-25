@@ -40,7 +40,7 @@ void BeamSelection::to_stream(std::ostream& os) const
     container_to_stream(os, _beam_numbers);
 }
 
-auto BeamSelection::__printer__(unsigned int float_precision, bool superscript_exponents) const
+tools::classhelper::ObjectPrinter BeamSelection::__printer__(unsigned int float_precision, bool superscript_exponents) const
 {
     using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 

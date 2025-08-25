@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 - 2025 Peter Urban, Ghent University
-//
-// SPDX-License-Identifier: MPL-2.0
-
 #include "xml_configuration_sensor_telegramvalue.hpp"
 
 // std
@@ -9,16 +5,13 @@
 #include <iostream>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelper/stream/container.hpp>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
-
-// Implementation file for xml_configuration_sensor_telegramvalue.hpp
-// TODO: Move appropriate implementations from header to this file
 
 // ----- constructors -----
 XML_Configuration_Sensor_TelegramValue::XML_Configuration_Sensor_TelegramValue(
@@ -112,4 +105,15 @@ tools::classhelper::ObjectPrinter XML_Configuration_Sensor_TelegramValue::__prin
     unsigned int float_precision, bool superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
-        "EK80 XML0 Value", float_precision,
+        "EK80 XML0 Value", float_precision, superscript_exponents);
+    printer.register_value("Priority", Priority);
+    printer.register_string("Name", Name);
+
+    return printer;
+}
+
+} // namespace xml_datagrams
+} // namespace datagrams
+} // namespace simradraw
+} // namespace echosounders
+} // namespace themachinethatgoesping
