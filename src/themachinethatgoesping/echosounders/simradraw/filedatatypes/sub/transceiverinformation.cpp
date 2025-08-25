@@ -17,8 +17,9 @@ namespace simradraw {
 namespace filedatatypes {
 namespace _sub {
 
+// static function
 float TransceiverInformation::compute_impedance_factor(float transceiver_impedance,
-                                                      float transducer_impedance)
+                                      float transducer_impedance)
 {
     //_impedance factor is ((ztransceiver + ztransducer) / ztransceiver)² * 1/ tdi *
     // 1/(2*sqrt(2))²
@@ -106,6 +107,7 @@ float TransceiverInformation::get_impedance_factor() const
     return _impedance_factor;
 }
 
+// getters
 const datagrams::xml_datagrams::XML_Configuration_Transceiver& TransceiverInformation::get_transceiver() const
 {
     check_initialized();
@@ -126,6 +128,7 @@ const datagrams::xml_datagrams::XMLConfigurationTransceiverChannelTransducer& Tr
     return _ping_transceiver_channel.Transducer;
 }
 
+// stream i/o
 TransceiverInformation TransceiverInformation::from_stream(std::istream& is)
 {
     TransceiverInformation tr_infos;
@@ -149,8 +152,9 @@ void TransceiverInformation::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_impedance_factor), sizeof(_impedance_factor));
 }
 
+// objectprinter
 tools::classhelper::ObjectPrinter TransceiverInformation::__printer__(unsigned int float_precision,
-                                                                      bool         superscript_exponents) const
+                                              bool         superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
         "TransceiverInformation", float_precision, superscript_exponents);
