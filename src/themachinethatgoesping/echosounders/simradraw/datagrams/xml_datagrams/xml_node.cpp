@@ -40,6 +40,21 @@ const XML_Node& XML_Node::first_child(const std::string& key) const
     return _children.at(key).at(0);
 }
 
+const std::unordered_map<std::string, std::vector<XML_Node>>& XML_Node::children() const
+{
+    return _children;
+}
+
+const std::vector<XML_Node>& XML_Node::children(const std::string& key) const
+{
+    return _children.at(key);
+}
+
+const std::unordered_map<std::string, std::string>& XML_Node::attributes() const
+{
+    return _attributes;
+}
+
 const std::string& XML_Node::attributes(const std::string& key) const
 {
     return _attributes.at(key);

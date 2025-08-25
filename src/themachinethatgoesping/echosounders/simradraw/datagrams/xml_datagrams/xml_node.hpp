@@ -52,17 +52,11 @@ class XML_Node
     const std::string name() const { return _name; }
     void              name(std::string name);
 
-    const std::unordered_map<std::string, std::vector<XML_Node>>& children() const
-    {
-        return _children;
-    }
-    const std::vector<XML_Node>& children(const std::string& key) const
-    {
-        return _children.at(key);
-    }
+    const std::unordered_map<std::string, std::vector<XML_Node>>& children() const;
+    const std::vector<XML_Node>& children(const std::string& key) const;
     const XML_Node& first_child(const std::string& key) const;
 
-    const std::unordered_map<std::string, std::string>& attributes() const { return _attributes; }
+    const std::unordered_map<std::string, std::string>& attributes() const;
     const std::string& attributes(const std::string& key) const;
 
     // ----- file I/O -----
