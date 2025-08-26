@@ -79,54 +79,13 @@ class NME0 : public SimradRawDatagram
     }
 
     // ----- file I/O -----
-    static NME0 from_stream(std::istream& is, SimradRawDatagram header)
-    {
-        NME0 datagram(std::move(header));
-        datagram._nmea_base =
-            navigation::nmea_0183::NMEA_Base::from_stream(is, datagram._length - 12);
-
-        // verify the datagram is read correctly by reading the length field at the end
-        datagram._verify_datagram_end(is);
-
-        return datagram;
-    }
-
-    static NME0 from_stream(std::istream& is)
-    {
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::NME0));
-    }
-
-    static NME0 from_stream(std::istream& is, t_SimradRawDatagramIdentifier type)
-    {
-        if (type != t_SimradRawDatagramIdentifier::NME0)
-            throw std::runtime_error("NME0::from_stream: wrong datagram type");
-
-        return from_stream(is, SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::NME0));
-    }
-
-    void to_stream(std::ostream& os)
-    {
-        _length        = simradraw_long(12 + _nmea_base.size());
-        _datagram_type = simradraw_long(t_SimradRawDatagramIdentifier::NME0);
-        SimradRawDatagram::to_stream(os);
-        _nmea_base.to_stream_dont_write_size(os);
-        os.write(reinterpret_cast<const char*>(&_length), sizeof(_length));
-    }
+    static NME0 from_stream(std::istream& is, SimradRawDatagram header);
+    static NME0 from_stream(std::istream& is);
+    static NME0 from_stream(std::istream& is, t_SimradRawDatagramIdentifier type);
+    void to_stream(std::ostream& os);
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("NMEA text datagram", float_precision, superscript_exponents);
-
-        printer.append(SimradRawDatagram::__printer__(float_precision, superscript_exponents));
-
-        printer.register_section("Nmea sentence");
-        printer.register_value("Sender", get_sender_id(), "");
-        printer.register_value("Type", get_sentence_type(), "");
-        printer.register_value("Full sentence", get_sentence(), "");
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
