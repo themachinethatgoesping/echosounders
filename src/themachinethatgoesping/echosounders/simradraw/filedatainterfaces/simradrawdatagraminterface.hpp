@@ -45,51 +45,75 @@ class SimradRawDatagramInterface
 
     /* virtual function implementations */
     // void print_fileinfo(std::ostream& os) const;
-    std::string datagram_identifier_to_string(t_SimradRawDatagramIdentifier datagram_type) const final
-    {
-        return datagram_type_to_string(datagram_type);
-        // return std::string(magic_enum::enum_name(datagram_type));
-    }
+    /**
+     * @brief Convert datagram identifier to string
+     * @param datagram_type The datagram type identifier
+     * @return String representation of the datagram type
+     */
+    std::string datagram_identifier_to_string(t_SimradRawDatagramIdentifier datagram_type) const final;
 
-    std::string datagram_identifier_info(t_SimradRawDatagramIdentifier datagram_type) const final
-    {
-        // this should work, but doesn't
-        // return magic_enum::enum_contains(datagram_type);
+    /**
+     * @brief Get information about a datagram type
+     * @param datagram_type The datagram type identifier
+     * @return Description string for the datagram type
+     */
+    std::string datagram_identifier_info(t_SimradRawDatagramIdentifier datagram_type) const final;
 
-        switch (datagram_type)
-        {
-            case t_SimradRawDatagramIdentifier::MRU0:
-                return "Motion binary datagram";
-            case t_SimradRawDatagramIdentifier::NME0:
-                return "NMEA text datagram";
-            case t_SimradRawDatagramIdentifier::XML0:
-                return "XML0 text datagram";
-            case t_SimradRawDatagramIdentifier::TAG0:
-                return "Annotation datagram";
-            case t_SimradRawDatagramIdentifier::FIL1:
-                return "Filter binary datagram";
-            case t_SimradRawDatagramIdentifier::RAW3:
-                return "Sample binary datagram";
-            default:
-                return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
-        }
-    }
-
-    // filter types
-    std::vector<SimradRawDatagramInterface<t_ifstream>> per_file() const
-    {
-        std::vector<SimradRawDatagramInterface<t_ifstream>> vec;
-        for (const auto& datagram_info : this->_datagram_infos_all)
-        {
-            size_t file_nr = datagram_info->get_file_nr();
-            if (vec.size() <= file_nr)
-                vec.resize(file_nr + 1);
-
-            vec[file_nr].add_datagram_info(datagram_info);
-        }
-        return vec;
-    }
+    /**
+     * @brief Get per-file datagram interfaces
+     * @return Vector of datagram interfaces, one per file
+     */
+    std::vector<SimradRawDatagramInterface<t_ifstream>> per_file() const;
 };
+
+// ---- Template function implementations ----
+
+template<typename t_ifstream>
+std::string SimradRawDatagramInterface<t_ifstream>::datagram_identifier_to_string(t_SimradRawDatagramIdentifier datagram_type) const
+{
+    return datagram_type_to_string(datagram_type);
+    // return std::string(magic_enum::enum_name(datagram_type));
+}
+
+template<typename t_ifstream>
+std::string SimradRawDatagramInterface<t_ifstream>::datagram_identifier_info(t_SimradRawDatagramIdentifier datagram_type) const
+{
+    // this should work, but doesn't
+    // return magic_enum::enum_contains(datagram_type);
+
+    switch (datagram_type)
+    {
+        case t_SimradRawDatagramIdentifier::MRU0:
+            return "Motion binary datagram";
+        case t_SimradRawDatagramIdentifier::NME0:
+            return "NMEA text datagram";
+        case t_SimradRawDatagramIdentifier::XML0:
+            return "XML0 text datagram";
+        case t_SimradRawDatagramIdentifier::TAG0:
+            return "Annotation datagram";
+        case t_SimradRawDatagramIdentifier::FIL1:
+            return "Filter binary datagram";
+        case t_SimradRawDatagramIdentifier::RAW3:
+            return "Sample binary datagram";
+        default:
+            return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
+    }
+}
+
+template<typename t_ifstream>
+std::vector<SimradRawDatagramInterface<t_ifstream>> SimradRawDatagramInterface<t_ifstream>::per_file() const
+{
+    std::vector<SimradRawDatagramInterface<t_ifstream>> vec;
+    for (const auto& datagram_info : this->_datagram_infos_all)
+    {
+        size_t file_nr = datagram_info->get_file_nr();
+        if (vec.size() <= file_nr)
+            vec.resize(file_nr + 1);
+
+        vec[file_nr].add_datagram_info(datagram_info);
+    }
+    return vec;
+}
 
 }
 } // namespace filetemplates

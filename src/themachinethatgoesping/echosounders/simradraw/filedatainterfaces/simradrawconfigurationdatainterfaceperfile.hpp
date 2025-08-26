@@ -51,31 +51,12 @@ class SimradRawConfigurationDataInterfacePerFile
 
     // --------------------- simradraw specific functions ---------------------
     /* get infos */
-    datagrams::xml_datagrams::XML_Configuration get_configuration_datagram()
-    {
-        // get datagram infos for XML0 packets
-        const auto& datagram_infos =
-            this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::XML0);
-
-        // check that there is a configuration datagram
-        if (datagram_infos.empty())
-            throw std::runtime_error(fmt::format(
-                "read_sensor_configuration: No XML0 datagram found in {}!", this->get_file_path()));
-
-        // read first xml datagram (this should be the configuration datagram))
-        auto xml0_datagram = datagram_infos[0]->template read_datagram_from_file<datagrams::XML0>();
-
-        // check that this datagram is a configuration datagram
-        if (xml0_datagram.get_xml_datagram_type() != "Configuration")
-            throw std::runtime_error(
-                fmt::format("read_sensor_configuration: First XML0 datagram in {} is not a "
-                            "configuration datagram! ['{}' != 'Configuration']",
-                            this->get_file_path(),
-                            xml0_datagram.get_xml_datagram_type()));
-
-        // decode configuration datagram
-        return std::get<datagrams::xml_datagrams::XML_Configuration>(xml0_datagram.decode());
-    }
+    
+    /**
+     * @brief Get configuration datagram from file
+     * @return XML Configuration datagram
+     */
+    datagrams::xml_datagrams::XML_Configuration get_configuration_datagram();
 
     /**
      * @brief Read the fil1 datagrams from the file and return them as a map with the channel ID as
@@ -84,77 +65,7 @@ class SimradRawConfigurationDataInterfacePerFile
      *
      * @return std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>>
      */
-    std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> read_fil1_datagrams()
-    {
-        std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> fil1_datagrams;
-
-        // get datagram infos for FIL1 packets
-        const auto& datagram_infos =
-            this->_datagram_infos_by_type.at_const(t_SimradRawDatagramIdentifier::FIL1);
-
-        // check that there are filter datagrams
-        if (datagram_infos.empty())
-            return fil1_datagrams;
-
-        // read all filter datagrams
-        for (const auto& datagram_info : datagram_infos)
-        {
-            auto fil1_datagram = datagram_info->template read_datagram_from_file<datagrams::FIL1>();
-
-            const auto channel_id = std::string(fil1_datagram.get_channel_id_stripped());
-            const auto stage      = fil1_datagram.get_stage();
-
-            switch (stage)
-            {
-                case 1:
-                    if (!fil1_datagrams[channel_id].first.get_channel_id_stripped().empty())
-                        throw std::runtime_error(fmt::format(
-                            "read_fil1_datagrams: Duplicate stage nr {} for channel {} in {}!",
-                            stage,
-                            channel_id,
-                            this->get_file_path()));
-
-                    fil1_datagrams[channel_id].first = fil1_datagram;
-                    break;
-                case 2:
-                    if (!fil1_datagrams[channel_id].second.get_channel_id_stripped().empty())
-                        throw std::runtime_error(fmt::format(
-                            "read_fil1_datagrams: Duplicate stage nr {} for channel {} in {}!",
-                            stage,
-                            channel_id,
-                            this->get_file_path()));
-
-                    fil1_datagrams[channel_id].second = fil1_datagram;
-                    break; // ok
-                default:
-                    throw std::runtime_error(
-                        fmt::format("read_fil1_datagrams: Invalid stage nr {} for channel {} in "
-                                    "{}! (only 1 and 2 are allowed)",
-                                    stage,
-                                    channel_id,
-                                    this->get_file_path()));
-            }
-        }
-
-        // check that both stages are present for each detected channel_id
-        for (const auto& [channel_id, stages] : fil1_datagrams)
-        {
-            if (stages.first.get_channel_id_stripped().empty())
-                throw std::runtime_error(
-                    fmt::format("read_fil1_datagrams: Missing stage {} for channel {} in {}!",
-                                0,
-                                channel_id,
-                                this->get_file_path()));
-            if (stages.second.get_channel_id_stripped().empty())
-                throw std::runtime_error(
-                    fmt::format("read_fil1_datagrams: Missing stage {} for channel {} in {}!",
-                                1,
-                                channel_id,
-                                this->get_file_path()));
-        }
-
-        return fil1_datagrams;
-    }
+    std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> read_fil1_datagrams();
 
     /* get other possible sensor sources */
     /**
