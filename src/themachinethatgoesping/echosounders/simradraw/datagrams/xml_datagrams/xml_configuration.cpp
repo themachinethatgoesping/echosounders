@@ -5,9 +5,9 @@
 #include "xml_configuration.hpp"
 
 #include <algorithm>
-#include <iostream>
-#include <fmt/format.h>
 #include <boost/algorithm/string/find.hpp>
+#include <fmt/format.h>
+#include <iostream>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
@@ -17,15 +17,16 @@ namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
 
-const XML_Configuration_Transceiver& XML_Configuration::get_transceiver(std::string_view channel_id) const
+const XML_Configuration_Transceiver& XML_Configuration::get_transceiver(
+    std::string_view channel_id) const
 {
     for (const auto& transceiver : Transceivers)
         for (const auto& channel : transceiver.Channels)
             if (channel.ChannelID == channel_id)
                 return transceiver;
 
-    throw std::runtime_error(
-        "[XML_Configuration]: No transceiver found for channel " + std::string(channel_id));
+    throw std::runtime_error("[XML_Configuration]: No transceiver found for channel " +
+                             std::string(channel_id));
 }
 
 std::map<std::string, XML_Configuration_Transceiver> XML_Configuration::get_transceivers() const
@@ -51,7 +52,8 @@ const XML_Configuration_Transceiver_Channel& XML_Configuration::get_transceiver_
         std::string(channel_id));
 }
 
-std::map<std::string, XML_Configuration_Transceiver_Channel> XML_Configuration::get_transceiver_channels() const
+std::map<std::string, XML_Configuration_Transceiver_Channel>
+XML_Configuration::get_transceiver_channels() const
 {
     std::map<std::string, XML_Configuration_Transceiver_Channel> channels;
     for (const auto& transceiver : Transceivers)
@@ -68,7 +70,9 @@ navigation::SensorConfiguration XML_Configuration::get_sensor_configuration() co
     sensor_configuration.set_position_source(
         get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
     sensor_configuration.set_depth_source(
-        get_prioritized_sensor({ "Heave" }).get_sensor_offsets()); //TODO: depth isnt really supported yet, there is too much hassle with what rtk depth actually does
+        get_prioritized_sensor({ "Heave" })
+            .get_sensor_offsets()); // TODO: depth isnt really supported yet, there is too much
+                                    // hassle with what rtk depth actually does
     sensor_configuration.set_attitude_source(
         get_prioritized_sensor({ "Roll", "Pitch", "Heave" }).get_sensor_offsets());
     sensor_configuration.set_heading_source(
@@ -122,9 +126,9 @@ std::vector<XML_Configuration_Sensor> XML_Configuration::get_sensors_sorted_by_p
     // return vector of sensors sorted by priority (lowest prio values)
     std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
 
-    std::sort(sensor_priorities.begin(),
-              sensor_priorities.end(),
-              [](const auto& a, const auto& b) { return a.first > b.first; });
+    std::sort(sensor_priorities.begin(), sensor_priorities.end(), [](const auto& a, const auto& b) {
+        return a.first > b.first;
+    });
 
     for (const auto& sensor : sensor_priorities)
         sensors_sorted_by_priority.push_back(*sensor.second);
@@ -258,8 +262,8 @@ void XML_Configuration::initialize(const pugi::xml_node& root_node)
                 }
 
                 ++unknown_attributes;
-                std::cerr << "WARNING: [Configuration/Header] Unknown Attribute: "
-                          << attr.name() << std::endl;
+                std::cerr << "WARNING: [Configuration/Header] Unknown Attribute: " << attr.name()
+                          << std::endl;
             }
 
             continue;
@@ -325,19 +329,22 @@ void XML_Configuration::to_stream(std::ostream& os) const
     tools::classhelper::stream::container_to_stream(os, ApplicationName);
     tools::classhelper::stream::container_to_stream(os, Copyright);
 
-    os.write(reinterpret_cast<const char*>(&ConfiguredSensors.size()), sizeof(size_t));
+    auto size = ConfiguredSensors.size();
+    os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
     for (const auto& node : ConfiguredSensors)
     {
         node.to_stream(os);
     }
 
-    os.write(reinterpret_cast<const char*>(&Transducers.size()), sizeof(size_t));
+    size = Transducers.size();
+    os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
     for (const auto& node : Transducers)
     {
         node.to_stream(os);
     }
 
-    os.write(reinterpret_cast<const char*>(&Transceivers.size()), sizeof(size_t));
+    size = Transceivers.size();
+    os.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
     for (const auto& node : Transceivers)
     {
         node.to_stream(os);
@@ -360,10 +367,10 @@ bool XML_Configuration::operator!=(const XML_Configuration& other) const
 }
 
 tools::classhelper::ObjectPrinter XML_Configuration::__printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
+                                                                 bool superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
-                                              float_precision, superscript_exponents);
+    tools::classhelper::ObjectPrinter printer(
+        "EK80 XML0 Configuration Datagram", float_precision, superscript_exponents);
     printer.register_section("children");
     printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
     printer.register_value("Transducers", Transducers.size());
