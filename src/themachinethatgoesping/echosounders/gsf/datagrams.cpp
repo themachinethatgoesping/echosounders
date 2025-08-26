@@ -8,9 +8,25 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace gsf {
 
-// Implementation file for datagrams.hpp
-// TODO: Move appropriate implementations from header to this file
+namespace datagrams {
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
+t_GSFDatagramVariant GSFDatagramVariant::from_stream(std::istream&           is,
+                                                     t_GSFDatagramIdentifier datagram_type,
+                                                     [[maybe_unused]] bool   skip_data)
+{
+    // GSFDATAGRAMTYPEAREA
+    switch (datagram_type)
+    {
+            // case t_GSFDatagramIdentifier::XYZDatagram:
+            //     return t_GSFDatagramVariant(XYZDatagram::from_stream(is));
+
+        default:
+            return t_GSFDatagramVariant(GSFUnknown::from_stream(is, datagram_type));
+    }
+}
+
+} // namespace datagrams
+
 } // namespace gsf
+} // namespace echosounders
+} // namespace themachinethatgoesping
