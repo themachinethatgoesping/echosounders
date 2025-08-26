@@ -9,13 +9,27 @@
 #include <stdexcept>
 #include <limits>
 #include <string>
-#include <iomanip>
+
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 namespace filedatatypes {
 namespace _sub {
+
+// constructor
+TransceiverInformation::TransceiverInformation(
+    const datagrams::xml_datagrams::XML_Configuration_Transceiver& ping_transceiver,
+    const datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel&
+        ping_transceiver_channel)
+    : _ping_transceiver(ping_transceiver)
+    , _ping_transceiver_channel(ping_transceiver_channel)
+{
+    _impedance_factor = compute_impedance_factor(_ping_transceiver.Impedance, 75);
+
+    _initialized = true;
+}
 
 // static function
 float TransceiverInformation::compute_impedance_factor(float transceiver_impedance,
