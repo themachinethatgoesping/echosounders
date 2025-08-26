@@ -55,6 +55,11 @@ void XML_InitialParameter::initialize(const pugi::xml_node& root_node)
     }
 }
 
+bool XML_InitialParameter::parsed_completely() const
+{
+    return unknown_children == 0 && unknown_attributes == 0;
+}
+
 // ----- file I/O -----
 XML_InitialParameter XML_InitialParameter::from_stream(std::istream& is)
 {
@@ -98,6 +103,11 @@ bool XML_InitialParameter::operator==(const XML_InitialParameter& other) const
 
     // && unknown_children == other.unknown_children &&
     // unknown_attributes == other.unknown_attributes;
+}
+
+bool XML_InitialParameter::operator!=(const XML_InitialParameter& other) const
+{
+    return !operator==(other);
 }
 
 // ----- objectprinter -----

@@ -47,7 +47,7 @@ struct XML_InitialParameter
 
     void initialize(const pugi::xml_node& root_node);
 
-    bool parsed_completely() const { return unknown_children == 0 && unknown_attributes == 0; }
+    bool parsed_completely() const;
 
     // ----- file I/O -----
     static XML_InitialParameter from_stream(std::istream& is);
@@ -55,7 +55,7 @@ struct XML_InitialParameter
 
     // ----- operators -----
     bool operator==(const XML_InitialParameter& other) const;
-    bool operator!=(const XML_InitialParameter& other) const { return !operator==(other); }
+    bool operator!=(const XML_InitialParameter& other) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
