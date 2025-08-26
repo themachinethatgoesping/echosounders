@@ -174,3 +174,86 @@ std::string InstallationParameters::get_rx_array_size() const
             return "Unknown";
     }
 }
+
+t_KongsbergAllActiveSensor InstallationParameters::get_active_pitch_roll_sensor() const
+{
+    std::string active_sensor = get_value_string("ARO");
+
+    switch (active_sensor[0])
+    {
+        case '2':
+            return t_KongsbergAllActiveSensor::MotionSensor1;
+        case '3':
+            return t_KongsbergAllActiveSensor::MotionSensor2;
+        case '8':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor1;
+        case '9':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor2;
+        default:
+            throw std::invalid_argument(fmt::format("get_active_pitch_roll_sensor: Invalid "
+                                                    "active roll pitch sensor: {} (must be "
+                                                    "2, 3, 8 or 9)",
+                                                    active_sensor));
+    }
+}
+
+t_KongsbergAllActiveSensor InstallationParameters::get_active_heave_sensor() const
+{
+    std::string active_sensor = get_value_string("AHE");
+
+    switch (active_sensor[0])
+    {
+        case '2':
+            return t_KongsbergAllActiveSensor::MotionSensor1;
+        case '3':
+            return t_KongsbergAllActiveSensor::MotionSensor2;
+        case '8':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor1;
+        case '9':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor2;
+        default:
+            throw std::invalid_argument(fmt::format("get_active_heave_sensor: Invalid "
+                                                    "active roll pitch sensor: {} (must be "
+                                                    "2, 3, 8 or 9)",
+                                                    active_sensor));
+    }
+}
+
+t_KongsbergAllActiveSensor InstallationParameters::get_active_heading_sensor() const
+{
+    std::string active_sensor = get_value_string("AHE");
+
+    switch (active_sensor[0])
+    {
+        case '0':
+            return t_KongsbergAllActiveSensor::PositionSystem3; // COM4
+        case '1':
+            return t_KongsbergAllActiveSensor::PositionSystem1; // COM1
+        case '2':
+            return t_KongsbergAllActiveSensor::MotionSensor1; // COM2
+        case '3':
+            return t_KongsbergAllActiveSensor::MotionSensor2; // COM3
+        case '4':
+            return t_KongsbergAllActiveSensor::PositionSystem3; // UDP2
+        case '5':
+            return t_KongsbergAllActiveSensor::MultiCast1;
+        case '6':
+            return t_KongsbergAllActiveSensor::MultiCast2;
+        case '7':
+            return t_KongsbergAllActiveSensor::MultiCast3;
+        case '8':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor1;
+        case '9':
+            return t_KongsbergAllActiveSensor::AttitudeVelocitySensor2;
+        default:
+            throw std::invalid_argument(fmt::format("get_active_heading_sensor: Invalid "
+                                                    "active roll pitch sensor: {} (must be "
+                                                    "0-9)",
+                                                    active_sensor));
+    }
+}
+
+uint8_t InstallationParameters::get_active_attitude_velocity_sensor() const
+{
+    return std::stoi(get_value_string("VSN"));
+}
