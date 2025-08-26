@@ -14,15 +14,12 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/core.h>
-
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
-
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
@@ -62,15 +59,7 @@ class SimradRawPingCommon
     virtual ~SimradRawPingCommon() = default;
 
     void beam_selection_must_be_one(std::string_view                      method_name,
-                                    const pingtools::BeamSampleSelection& selection) const
-    {
-        if (selection.get_number_of_beams() == 1)
-            if (selection.get_beam_numbers()[0] == 0)
-                return;
-
-        throw std::runtime_error(fmt::format(
-            "{}: SimradRaw functions do not support beam selections yet!", __func__, method_name));
-    }
+                                    const pingtools::BeamSampleSelection& selection) const;
 
     const t_rawdata& file_data() const { return *_file_data; }
     t_rawdata&       file_data() { return *_file_data; }
