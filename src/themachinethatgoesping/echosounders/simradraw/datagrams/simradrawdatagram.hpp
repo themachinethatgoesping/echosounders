@@ -12,13 +12,9 @@
 // std includes
 #include <iostream>
 #include <string>
-#include <unordered_map>
-#include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-#include <themachinethatgoesping/tools/timeconv.hpp>
 
 
 #include "../types.hpp"
@@ -49,28 +45,7 @@ class SimradRawDatagram
      * @param is istream. Must be at the end position of the datagram. Pos will be incremented by 4
      * bytes (simradraw_long).
      */
-    void _verify_datagram_end(std::istream& is) const
-    {
-        // verify that we are at the end of the datagram by reading the enclosing length field
-        // This should be the same as _length if everything is ok
-        simradraw_long length;
-        is.read(reinterpret_cast<char*>(&length), sizeof(length));
-
-        // (the datagrams are encapsulated by length)
-        // if the lengths do not match the datagrams was not read correctly
-        if (!is || length != _length)
-        {
-            auto error = fmt::format(
-                "ERROR[SimradRawDatagram]: Datagram length check failed (read). Expected: {}, got: {}",
-                _length,
-                length);
-            [[maybe_unused]] auto error_verbose =
-                fmt::format("{}\n--- read header ---\n{}\n---", error, info_string());
-
-            throw std::runtime_error(error);
-            // std::cerr << error << std::endl;
-        }
-    }
+    void _verify_datagram_end(std::istream& is) const;
 
   public:
     SimradRawDatagram(simradraw_long length,
@@ -86,16 +61,7 @@ class SimradRawDatagram
     SimradRawDatagram()          = default;
     virtual ~SimradRawDatagram() = default;
 
-    void skip(std::istream& is) const
-    {
-        // _length is the length the datagram that is enclosed by _length
-        static constexpr simradraw_long tmp = sizeof(simradraw_long) * 3;
-
-        is.seekg(_length - tmp, std::ios::cur);
-
-        // verify the datagram is read correctly by reading the length field at the end
-        _verify_datagram_end(is);
-    }
+    void skip(std::istream& is) const;
 
     //----- convenient member access -----
     /**
@@ -131,75 +97,25 @@ class SimradRawDatagram
      * @brief unix timestamp in seconds since epoch (1970-01-01). Data is converted to/from internal
      * windows high/low timestamp representation.
      */
-    double get_timestamp() const
-    {
-        return tools::timeconv::windows_filetime_to_unixtime(_high_date_time, _low_date_time);
-    }
+    double get_timestamp() const;
 
-    void set_timestamp(double unixtime)
-    {
-        std::tie(_high_date_time, _low_date_time) =
-            tools::timeconv::unixtime_to_windows_filetime(unixtime);
-    }
+    void set_timestamp(double unixtime);
 
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
-                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
-    {
-        return tools::timeconv::unixtime_to_datestring(
-            get_timestamp(), fractionalSecondsDigits, format);
-    }
+                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const;
 
     // ----- operators -----
     bool operator==(const SimradRawDatagram& other) const = default;
 
-    static SimradRawDatagram from_stream(std::istream& is)
-    {
-        SimradRawDatagram d;
-        is.read(reinterpret_cast<char*>(&d._length), 4 * sizeof(simradraw_long));
-
-        return d;
-    }
+    static SimradRawDatagram from_stream(std::istream& is);
 
     static SimradRawDatagram from_stream(std::istream&              is,
-                                      t_SimradRawDatagramIdentifier datagram_identifier)
-    {
-        SimradRawDatagram d = from_stream(is);
+                                      t_SimradRawDatagramIdentifier datagram_identifier);
 
-        if (d.get_datagram_identifier() != datagram_identifier)
-            throw std::runtime_error(fmt::format("SimradRawDatagram: Datagram identifier mismatch!"));
-
-        return d;
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        os.write(reinterpret_cast<const char*>(&_length), 4 * sizeof(simradraw_long));
-    }
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        using tools::timeconv::unixtime_to_datestring;
-
-        static const std::string format_data("%d/%m/%Y");
-        static const std::string format_time("%H:%M:%S");
-        auto                     timestamp = get_timestamp();
-
-        auto date = unixtime_to_datestring(timestamp, 0, format_data);
-        auto time = unixtime_to_datestring(timestamp, 3, format_time);
-
-        tools::classhelper::ObjectPrinter printer("SimradRawDatagram", float_precision, superscript_exponents);
-
-        printer.register_value("length", _length, "bytes");
-        printer.register_string(
-            "datagram_identifier",
-            datagram_identifier_to_string(t_SimradRawDatagramIdentifier(_datagram_type)));
-        printer.register_value("timestamp", timestamp, "s");
-        printer.register_string("date", date, "MM/DD/YYYY");
-        printer.register_string("time", time, "HH:MM:SS");
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
