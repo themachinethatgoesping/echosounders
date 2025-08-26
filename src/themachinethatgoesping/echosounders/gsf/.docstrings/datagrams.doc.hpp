@@ -1,4 +1,4 @@
-//sourcehash: e2bd8d68241c501424b214537fd61f0986152fca967e8055fc3eb6d0ed9ab26a
+//sourcehash: 15191bd90ee34ac7168918006c57ee5bbdc14a243185ceaa2f8937ce3f53d27f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,46 +32,3 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-#if defined(__GNUG__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
-
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant_GSFDatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant_GSFDatagramVariant_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant_datagram_variant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFDatagramVariant_operator_call =
-R"doc(This is the visitor function that tries to convert the internal
-variant to the specified type.
-
-Template parameter ``t_ProgressBar``:
-    $Parameter ``progress_bar``:
-
-ProgressBar class that is derived from I_ProgressBar
-
-Returns:
-    I_ProgressBar&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFSkipDataFactory = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFSkipDataFactory_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFSkipDataFactory_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFSkipDataVariantFactory = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_datagrams_GSFSkipDataVariantFactory_from_stream = R"doc()doc";
-
-#if defined(__GNUG__)
-#pragma GCC diagnostic pop
-#endif
-
-

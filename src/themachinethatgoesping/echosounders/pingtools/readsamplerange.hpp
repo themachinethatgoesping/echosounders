@@ -17,8 +17,6 @@
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
@@ -88,7 +86,8 @@ class ReadSampleRange
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision, bool superscript_exponents) const;
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const;
 
   public:
     // -- class helper function macros --

@@ -1,4 +1,4 @@
-//sourcehash: e85caf353937cdf9ac575e8decfa2aa36e7f9aa13c3f925074369adeb2b56a3e
+//sourcehash: 539c5cd26d36482047b162f9e438d72737a46e0c848b32a7c923a0df7a665600
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -32,46 +32,3 @@
 #define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
 #endif // NEW_DOC_HEADER_HPP
-#if defined(__GNUG__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
-
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_SimradRawDatagramVariant_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_datagram_variant = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawDatagramVariant_operator_call =
-R"doc(This is the visitor function that tries to convert the internal
-variant to the specified type.
-
-Template parameter ``t_ProgressBar``:
-    $Parameter ``progress_bar``:
-
-ProgressBar class that is derived from I_ProgressBar
-
-Returns:
-    I_ProgressBar&)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataFactory_from_stream_2 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_SimradRawSkipDataVariantFactory_from_stream = R"doc()doc";
-
-#if defined(__GNUG__)
-#pragma GCC diagnostic pop
-#endif
-
-

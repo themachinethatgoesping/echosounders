@@ -10,7 +10,7 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_pingfiledata.hpp"
+#include <themachinethatgoesping/echosounders/filetemplates/datatypes/i_pingfiledata.hpp>
 //
 
 namespace themachinethatgoesping {

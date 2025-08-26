@@ -9,7 +9,6 @@ headerdir = projectnamespace + '/echosounders'
 # -- source files --
 sources = [
   'kongsbergall/datagrams.cpp',
-  'kongsbergall/kongsbergallamplitudeconverter.cpp',
   'kongsbergall/kongsbergallfilehandler.cpp',
   'kongsbergall/types.cpp',
   'kongsbergall/filedatainterfaces/kongsbergallannotationdatainterface.cpp',
@@ -182,7 +181,6 @@ sources = [
 
 headers = [
   'kongsbergall/datagrams.hpp',
-  'kongsbergall/kongsbergallamplitudeconverter.hpp',
   'kongsbergall/kongsbergallfilehandler.hpp',
   'kongsbergall/types.hpp',
   'kongsbergall/filedatainterfaces/kongsbergallannotationdatainterface.hpp',

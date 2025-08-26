@@ -8,7 +8,6 @@ module_name = 'echosounders_cppy'
 # -- sources
 sources = [
   'module.cpp',
-  'py_kongsbergall/c_kongsbergallamplitudeconverter.cpp',
   'py_kongsbergall/c_kongsbergallfilehandler.cpp',
   'py_kongsbergall/module.cpp',
   'py_kongsbergall/py_filedatainterfaces/c_kongsbergallannotationdatainterface.cpp',

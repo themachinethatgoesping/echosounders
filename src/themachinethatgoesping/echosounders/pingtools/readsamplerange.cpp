@@ -25,7 +25,7 @@ void ReadSampleRange::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(this), sizeof(ReadSampleRange));
 }
 
-auto ReadSampleRange::__printer__(unsigned int float_precision, bool superscript_exponents) const
+tools::classhelper::ObjectPrinter ReadSampleRange::__printer__(unsigned int float_precision, bool superscript_exponents) const
 {
     using themachinethatgoesping::tools::classhelper::ObjectPrinter;
 
