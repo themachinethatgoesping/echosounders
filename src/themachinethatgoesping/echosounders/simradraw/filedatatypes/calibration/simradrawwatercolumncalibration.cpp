@@ -1,9 +1,11 @@
 #include "simradrawwatercolumncalibration.hpp"
 
+#include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 #include <array> // added
 #include <cmath>
+#include <fmt/core.h>
 #include <limits>
 #include <numbers>
 #include <optional>
@@ -574,6 +576,52 @@ tools::classhelper::ObjectPrinter SimradRawWaterColumnCalibration::__printer__(
     printer.append(WaterColumnCalibration::__printer__(float_precision, superscript_exponents));
 
     return printer;
+}
+
+// ----- moved getters -----
+float SimradRawWaterColumnCalibration::get_sound_velocity_m_s() const
+{
+    return _forced_sound_velocity_m_s.value_or(_computed_sound_velocity_m_s);
+}
+
+float SimradRawWaterColumnCalibration::get_absorption_db_m() const
+{
+    return _forced_absorption_db_m.value_or(_computed_absorption_db_m);
+}
+
+int16_t SimradRawWaterColumnCalibration::get_filter_stage_1_decimation_factor() const
+{
+    return _filter_stage_1_decimation_factor;
+}
+
+int16_t SimradRawWaterColumnCalibration::get_filter_stage_2_decimation_factor() const
+{
+    return _filter_stage_2_decimation_factor;
+}
+
+float SimradRawWaterColumnCalibration::get_computed_internal_sampling_interval_hz() const
+{
+    return _computed_internal_sampling_interval_hz;
+}
+
+float SimradRawWaterColumnCalibration::get_computed_effective_pulse_duration_s() const
+{
+    return _computed_effective_pulse_duration_s;
+}
+
+std::optional<float> SimradRawWaterColumnCalibration::get_forced_effective_pulse_duration_s() const
+{
+    return _forced_effective_pulse_duration_s;
+}
+
+float SimradRawWaterColumnCalibration::get_effective_pulse_duration_s() const
+{
+    return _forced_effective_pulse_duration_s.value_or(_computed_effective_pulse_duration_s);
+}
+
+std::optional<float> SimradRawWaterColumnCalibration::get_power_conversion_factor_db() const
+{
+    return _power_conversion_factor_db;
 }
 
 // ----- private helpers -----

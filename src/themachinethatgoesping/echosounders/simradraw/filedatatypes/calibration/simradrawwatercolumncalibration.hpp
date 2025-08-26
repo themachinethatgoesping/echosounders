@@ -8,14 +8,10 @@
 /* generated doc strings */
 #include ".docstrings/simradrawwatercolumncalibration.doc.hpp"
 
-#include <fmt/core.h>
 #include <xtensor/containers/xtensor.hpp> // for xt::xtensor<float, 1>
 
-#include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
-#include "../../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
 #include "../../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
 #include "../../datagrams.hpp"
 #include "../sub/transceiverinformation.hpp"
@@ -180,54 +176,27 @@ class SimradRawWaterColumnCalibration
 
     float get_computed_sound_velocity_m_s() const { return _computed_sound_velocity_m_s; }
     auto  get_forced_sound_velocity_m_s() const { return _forced_sound_velocity_m_s; }
-    float get_sound_velocity_m_s() const
-    {
-        return _forced_sound_velocity_m_s.value_or(_computed_sound_velocity_m_s);
-    }
+    float get_sound_velocity_m_s() const;
 
     float get_computed_absorption_db_m() const { return _computed_absorption_db_m; }
     auto  get_forced_absorption_db_m() const { return _forced_absorption_db_m; }
-    float get_absorption_db_m() const
-    {
-        return _forced_absorption_db_m.value_or(_computed_absorption_db_m);
-    }
+    float get_absorption_db_m() const;
 
-    int16_t get_filter_stage_1_decimation_factor() const
-    {
-        return _filter_stage_1_decimation_factor;
-    }
-    int16_t get_filter_stage_2_decimation_factor() const
-    {
-        return _filter_stage_2_decimation_factor;
-    }
+    int16_t get_filter_stage_1_decimation_factor() const;
+    int16_t get_filter_stage_2_decimation_factor() const;
     const auto& get_filter_stage_1_coefficients() const { return _filter_stage_1_coefficients; }
     const auto& get_filter_stage_2_coefficients() const { return _filter_stage_2_coefficients; }
-    float       get_computed_internal_sampling_interval_hz() const
-    {
-        return _computed_internal_sampling_interval_hz;
-    }
-    float get_computed_effective_pulse_duration_s() const
-    {
-        return _computed_effective_pulse_duration_s;
-    }
-    auto get_forced_effective_pulse_duration_s() const
-    {
-        return _forced_effective_pulse_duration_s;
-    }
-    float get_effective_pulse_duration_s() const
-    {
-        return _forced_effective_pulse_duration_s.value_or(_computed_effective_pulse_duration_s);
-    }
+    float get_computed_internal_sampling_interval_hz() const;
+    float get_computed_effective_pulse_duration_s() const;
+    auto get_forced_effective_pulse_duration_s() const;
+    float get_effective_pulse_duration_s() const;
 
     float get_wavelength_m() const { return _wavelength_m; }
     float get_corr_transducer_gain_db() const { return _corr_transducer_gain_db; }
     float get_corr_equivalent_beam_angle_db() const { return _corr_equivalent_beam_angle_db; }
 
     std::optional<size_t> get_n_complex_samples() const { return _n_complex_samples; }
-    std::optional<float>  get_power_conversion_factor_db() const
-    {
-        return _power_conversion_factor_db;
-    }
+    std::optional<float> get_power_conversion_factor_db() const;
 
     std::optional<float> get_rounded_latitude_deg() const { return _rounded_latitude_deg; }
     std::optional<float> get_rounded_longitude_deg() const { return _rounded_longitude_deg; }
