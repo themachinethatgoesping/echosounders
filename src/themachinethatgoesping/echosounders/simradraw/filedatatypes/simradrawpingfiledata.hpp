@@ -11,17 +11,24 @@
 #include ".docstrings/simradrawpingfiledata.doc.hpp"
 
 /* std includes */
+#include <filesystem>
+#include <fstream>
 #include <memory>
-#include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include <boost/flyweight.hpp>
+#include <fmt/core.h>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
+#include <xtensor/views/xview.hpp>
+
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+
+#include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
@@ -84,7 +91,40 @@ class SimradRawPingFileData
                 : nullptr;
     }
 
-    void init_watercolumn_calibration(bool force = false);
+    void init_watercolumn_calibration(bool force = false)
+    {
+        using datagrams::raw3datatypes::t_RAW3DataType;
+
+        if (_watercolumn_calibration && !force)
+            return;
+
+        size_t n_complex_samples = 0;
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::ComplexFloat32:
+                n_complex_samples = _ping_data.get_number_of_complex_samples();
+                break;
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::Power:
+                [[fallthrough]];
+            case t_RAW3DataType::Angle:
+                n_complex_samples = 0;
+                break;
+            default:
+                throw std::runtime_error(
+                    "Error[SimradRawPingFileData::init_watercolumn_calibration]: "
+                    "Unsupported data type!");
+        }
+
+        _watercolumn_calibration =
+            std::make_unique<boost::flyweight<calibration::SimradRawWaterColumnCalibration>>(
+                _ping_environment.get(),
+                _ping_parameter.get(),
+                _transceiver_information.get(),
+                _filter_stages.get(),
+                n_complex_samples);
+    }
     void release_watercolumn_calibration() { _watercolumn_calibration.reset(); }
 
     bool has_watercolumn_calibration() const { return bool(_watercolumn_calibration); }
@@ -126,7 +166,12 @@ class SimradRawPingFileData
      *
      * @return size_t
      */
-    size_t get_pulse_duration_index() const;
+    size_t get_pulse_duration_index() const
+    {
+        const auto& param = get_parameter();
+        return _transceiver_information.get().get_pulse_duration_index(
+            param.get_pulse_duration(), param.get_pulse_form_is_fm());
+    }
 
     // // EK80 calibration information
     // float get_sa_correction() const
@@ -179,7 +224,21 @@ class SimradRawPingFileData
 
     // ----- load skipped data -----
     // TODO: add function to only read samples within a specific range
-    xt::xtensor<float, 1> read_sample_data(bool dB = false);
+    xt::xtensor<float, 1> read_sample_data(bool dB = false)
+    {
+        if (this->_datagram_infos_by_type.at(t_SimradRawDatagramIdentifier::RAW3).empty())
+            throw std::runtime_error("No RAW3 datagram in ping!");
+
+        // this assumes that there is exactly one RAW3 datagram saved for this ping
+        const auto& datagram_info =
+            this->_datagram_infos_by_type.at(t_SimradRawDatagramIdentifier::RAW3).at(0);
+
+        auto sample_data = _ping_data.read_skipped_sample_data(datagram_info->get_stream(),
+                                                               datagram_info->get_file_pos());
+
+        return tools::helper::visit_variant(sample_data,
+                                            [dB](auto& data) { return data.get_power(dB); });
+    }
 
     // float get_impedance_factor() const
     // {
@@ -200,21 +259,120 @@ class SimradRawPingFileData
     }
 
     // ----- i_RAW3Data interface -----
-    bool has_power() const;
+    bool has_power() const
+    {
+        using namespace datagrams::raw3datatypes;
 
-    bool has_angle() const;
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::Angle:
+                return false;
+            case t_RAW3DataType::Power:
+                [[fallthrough]];
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat16:
+                return true;
+            case t_RAW3DataType::ComplexFloat32:
+                return get_transceiver_information().is_initialized();
+            default:
+                throw std::runtime_error("Unknown data type");
+        }
+    }
+
+    bool has_angle() const
+    {
+        using namespace datagrams::raw3datatypes;
+
+        switch (_ping_data.get_data_type())
+        {
+            case t_RAW3DataType::Power:
+                return false;
+            case t_RAW3DataType::Angle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat32:
+                [[fallthrough]];
+            case t_RAW3DataType::PowerAndAngle:
+                [[fallthrough]];
+            case t_RAW3DataType::ComplexFloat16:
+                return true;
+            default:
+                throw std::runtime_error("Unknown data type");
+        }
+    }
 
     // ----- I_PingFileData Interface -----
-    std::vector<size_t> get_file_numbers() const final;
-    std::string get_primary_file_path() const final;
-    std::vector<std::string> get_file_paths() const final;
+    std::vector<size_t> get_file_numbers() const final
+    {
+        std::vector<size_t> fnr     = { get_primary_file_nr() };
+        std::set<size_t>    fnr_set = { get_primary_file_nr() };
 
-    void must_have_datagrams(std::string_view method_name) const;
+        for (const auto& datagram_info : this->_datagram_infos_all)
+        {
+            auto nr = datagram_info->get_file_nr();
+            if (!fnr_set.contains(nr))
+            {
+                fnr.push_back(nr);
+                fnr_set.insert(nr);
+            }
+        }
+
+        return fnr;
+    }
+    std::string get_primary_file_path() const final
+    {
+        must_have_datagrams("get_primary_file_path");
+
+        return this->_datagram_infos_all.at(0)->file_nr_to_file_path(get_primary_file_nr());
+    }
+    std::vector<std::string> get_file_paths() const final
+    {
+        must_have_datagrams("get_file_paths");
+
+        auto fnrs = get_file_numbers();
+
+        std::vector<std::string> fps;
+
+        for (const auto& fnr : fnrs)
+        {
+            fps.push_back(this->_datagram_infos_all.at(0)->file_nr_to_file_path(fnr));
+        }
+
+        return fps;
+    }
+
+    void must_have_datagrams(std::string_view method_name) const
+    {
+        if (this->_datagram_infos_all.empty())
+            throw std::runtime_error(
+                fmt::format("{}: No datagram in ping!", __func__, method_name));
+    }
 
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const;
+                                                  bool         superscript_exponents) const
+    {
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
+
+        printer.append(t_base1::__printer__(float_precision, superscript_exponents));
+        printer.append(t_base2::__printer__(float_precision, superscript_exponents));
+
+        printer.register_section("Raw data infos");
+
+        // // convert _ping_data.get_data_type() to string using magic enum
+        // printer.register_string("Raw data type",
+        //                         std::string(magic_enum::enum_name(_ping_data.get_data_type())));
+        // printer.register_value("Has power", has_power());
+        // printer.register_value("Has angle", has_angle());
+
+        // printer.register_section("Important members");
+        // printer.register_string("ping_data", "RAW3DataVariant");
+        // printer.register_string("get_parameter()", "XML_Parameter_Channel");
+
+        return printer;
+    }
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)

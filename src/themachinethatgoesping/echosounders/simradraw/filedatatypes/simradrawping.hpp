@@ -11,11 +11,24 @@
 #include ".docstrings/simradrawping.doc.hpp"
 
 /* std includes */
+#include <filesystem>
+#include <fstream>
 #include <memory>
-#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include <fmt/core.h>
+
+// xtensor includes
+#include <xtensor/containers/xadapt.hpp>
+
+
+#include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+
+#include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
@@ -70,7 +83,15 @@ class SimradRawPing
     // ----- I_Ping interface -----
     using t_base2::file_data;
 
-    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info);
+    void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
+    {
+        // update timestamp if it is much smaller or larger than the current one
+        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
+            _timestamp > datagram_info->get_timestamp())
+            _timestamp = datagram_info->get_timestamp();
+
+        file_data().add_datagram_info(datagram_info);
+    }
 
     // ----- bottom -----
     using t_base1::bottom;

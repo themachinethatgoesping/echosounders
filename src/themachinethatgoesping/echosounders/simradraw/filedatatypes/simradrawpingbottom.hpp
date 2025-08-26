@@ -11,11 +11,19 @@
 #include ".docstrings/simradrawpingbottom.doc.hpp"
 
 /* std includes */
+#include <filesystem>
+#include <fstream>
 #include <memory>
+#include <unordered_map>
 #include <vector>
+
+#include <fmt/core.h>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
+
+
+#include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -59,14 +67,29 @@ class SimradRawPingBottom
     // --- sector infos ---
     /// TODO: these functions should react on the BeamSelection ..
     xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) override;
+        [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    {
+        return { 0 };
+    }
 
     std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-       [[maybe_unused]] const pingtools::BeamSelection& selection) override;
+       [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    {
+        return { { 0 } };
+    }
 
     // ----- I_PingCommon interface -----
 
-    uint32_t get_number_of_beams() override;
+    uint32_t get_number_of_beams() override
+    {
+        if (has_xyz())
+            return 1;
+
+        if (has_two_way_travel_times())
+            return 1;
+
+        return 0;
+    }
 
     // ----- I_PingBottom interface -----
     // using t_base1::has_xyz;
@@ -102,7 +125,24 @@ class SimradRawPingBottom
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const;
+                                                  bool         superscript_exponents) const
+    {
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
+
+        printer.append(t_base1::__printer__(float_precision, superscript_exponents));
+
+        // printer.register_section("SimradRaw ping infos");
+
+        // printer.register_string(
+        //     "Sample data type",
+        //     std::string(magic_enum::enum_name(_file_data->_ping_data.get_data_type())));
+
+        // printer.register_section("Important members");
+        // printer.register_string("file_data", "SimradRawPingFileData");
+
+        return printer;
+    }
 };
 
 }
