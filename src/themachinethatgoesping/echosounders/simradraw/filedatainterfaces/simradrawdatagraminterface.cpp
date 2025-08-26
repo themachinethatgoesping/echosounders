@@ -9,10 +9,9 @@ namespace echosounders {
 namespace simradraw {
 namespace filedatainterfaces {
 
-// Implementation file for simradrawdatagraminterface.hpp
-// TODO: Move appropriate implementations from header to this file
+// Template instantiation will be handled by the linker
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
-} // namespace filedatainterfaces
+} // namespace filedatainterfaces  
 } // namespace simradraw
+} // namespace echosounders
+} // namespace themachinethatgoesping
