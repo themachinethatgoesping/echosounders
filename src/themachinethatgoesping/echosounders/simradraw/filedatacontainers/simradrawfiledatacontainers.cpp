@@ -9,10 +9,24 @@ namespace echosounders {
 namespace simradraw {
 namespace filedatacontainers {
 
-// Implementation file for simradrawfiledatacontainers.hpp
-// TODO: Move appropriate implementations from header to this file
+/**
+ * @file simradrawfiledatacontainers.cpp
+ * 
+ * Implementation file for simradrawfiledatacontainers.hpp
+ * 
+ * Note: This file contains only template type aliases and includes.
+ * Template type aliases do not require implementations in source files
+ * as they are compile-time constructs that simply create new names
+ * for existing template instantiations.
+ * 
+ * Current contents in header file:
+ * - SimradRawPingContainer: Template alias for PingContainer<SimradRawPing<t_ifstream>>
+ * 
+ * This implementation file is intentionally minimal as no function 
+ * implementations are needed for the template aliases defined in the header.
+ */
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace filedatacontainers
 } // namespace simradraw
+} // namespace echosounders
+} // namespace themachinethatgoesping

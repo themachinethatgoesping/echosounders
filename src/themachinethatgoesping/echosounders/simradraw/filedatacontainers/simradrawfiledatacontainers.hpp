@@ -8,7 +8,6 @@
 #include ".docstrings/simradrawfiledatacontainers.doc.hpp"
 
 /* themachinethatgoesping includes */
-#include "../../filetemplates/datacontainers/datagramcontainer.hpp"
 #include "../../filetemplates/datacontainers/pingcontainer.hpp"
 
 #include "../filedatatypes/simradrawping.hpp"
