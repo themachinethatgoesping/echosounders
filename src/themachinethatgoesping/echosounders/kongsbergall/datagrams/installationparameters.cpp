@@ -257,3 +257,8 @@ uint8_t InstallationParameters::get_active_attitude_velocity_sensor() const
 {
     return std::stoi(get_value_string("VSN"));
 }
+
+} // namespace datagrams
+} // namespace kongsbergall
+} // namespace echosounders
+} // namespace themachinethatgoesping
