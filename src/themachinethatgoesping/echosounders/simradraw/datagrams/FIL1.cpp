@@ -181,6 +181,13 @@ tools::classhelper::ObjectPrinter FIL1::__printer__(unsigned int float_precision
     return printer;
 }
 
+// Boost hash function
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_datagrams_hash_value
+std::size_t hash_value(const FIL1& object)
+{
+    return object.binary_hash();
+}
+
 } // namespace datagrams
 } // namespace simradraw
 } // namespace echosounders

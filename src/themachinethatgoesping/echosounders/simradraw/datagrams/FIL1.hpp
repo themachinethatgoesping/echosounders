@@ -95,10 +95,7 @@ class FIL1 : public SimradRawDatagram
 
 // Boost hash function
 // IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_datagrams_hash_value
-inline std::size_t hash_value(const FIL1& object)
-{
-    return object.binary_hash();
-}
+std::size_t hash_value(const FIL1& object);
 
 }
 }
