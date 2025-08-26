@@ -38,6 +38,7 @@ sources = [
   'kongsbergall/datagrams/kongsbergallunknown.cpp',
   'kongsbergall/datagrams/networkattitudevelocitydatagram.cpp',
   'kongsbergall/datagrams/positiondatagram.cpp',
+  'kongsbergall/datagrams/puidoutput.cpp',
   'kongsbergall/datagrams/pustatusoutput.cpp',
   'kongsbergall/datagrams/qualityfactordatagram.cpp',
   'kongsbergall/datagrams/rawrangeandangle.cpp',
