@@ -4,33 +4,42 @@
 
 #include "xml_configuration_sensor.hpp"
 
+// std includes
+#include <cstring>
+#include <iostream>
+
+// external includes
+#include <fmt/format.h>
+
+// themachinethatgoesping includes
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
 
-#include <iostream>
-#include <fmt/format.h>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper/approx.hpp>
-#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
+// ----- constructors -----
 
 void XML_Configuration_Sensor::initialize(const pugi::xml_node& root_node)
 {
-    if (strcmp(root_node.name(), "Sensor"))
+    if (std::strcmp(root_node.name(), "Sensor") != 0)
     {
         throw std::runtime_error(
             std::string("XML_Configuration_Sensor: wrong root node type '") + root_node.name() +
             "'");
     }
     unknown_attributes = 0;
-    unknown_children   = 0; // there should only be TelegramValue nodes
+    unknown_children   = 0;
+    Telegrams.clear();
 
-    // there should only be one child for this node
+    // parse child nodes
     for (const auto& node : root_node.children())
     {
-        if (strcmp(node.name(), "Telegram"))
+        if (std::strcmp(node.name(), "Telegram") != 0)
         {
             std::cerr << "WARNING: [Configuration_Sensor] Unknown child: " << node.name()
                       << std::endl;
@@ -43,6 +52,7 @@ void XML_Configuration_Sensor::initialize(const pugi::xml_node& root_node)
         Telegrams.emplace_back(node);
     }
 
+    // parse attributes
     for (auto& attr : root_node.attributes())
     {
         std::string_view name = attr.name();

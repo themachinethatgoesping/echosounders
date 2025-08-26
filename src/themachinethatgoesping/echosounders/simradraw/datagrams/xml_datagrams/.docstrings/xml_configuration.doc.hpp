@@ -1,4 +1,4 @@
-//sourcehash: f01e57914cd8c2a287419f8688f12bb9775df3369f6a87ae9306948425bf24e0
+//sourcehash: a667569d774f3038b5f3c5c4e52eb81dc16143341b7794eaee0221d333e09544
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration = R"doc(XML base datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration = R"doc(XML Configuration datagram structure.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_ActivePingMode = R"doc()doc";
 

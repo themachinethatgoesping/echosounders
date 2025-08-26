@@ -182,21 +182,21 @@ class SimradRawWaterColumnCalibration
     auto  get_forced_absorption_db_m() const { return _forced_absorption_db_m; }
     float get_absorption_db_m() const;
 
-    int16_t get_filter_stage_1_decimation_factor() const;
-    int16_t get_filter_stage_2_decimation_factor() const;
+    int16_t     get_filter_stage_1_decimation_factor() const;
+    int16_t     get_filter_stage_2_decimation_factor() const;
     const auto& get_filter_stage_1_coefficients() const { return _filter_stage_1_coefficients; }
     const auto& get_filter_stage_2_coefficients() const { return _filter_stage_2_coefficients; }
-    float get_computed_internal_sampling_interval_hz() const;
-    float get_computed_effective_pulse_duration_s() const;
-    auto get_forced_effective_pulse_duration_s() const;
-    float get_effective_pulse_duration_s() const;
+    float       get_computed_internal_sampling_interval_hz() const;
+    float       get_computed_effective_pulse_duration_s() const;
+    std::optional<float> get_forced_effective_pulse_duration_s() const;
+    float                get_effective_pulse_duration_s() const;
 
     float get_wavelength_m() const { return _wavelength_m; }
     float get_corr_transducer_gain_db() const { return _corr_transducer_gain_db; }
     float get_corr_equivalent_beam_angle_db() const { return _corr_equivalent_beam_angle_db; }
 
     std::optional<size_t> get_n_complex_samples() const { return _n_complex_samples; }
-    std::optional<float> get_power_conversion_factor_db() const;
+    std::optional<float>  get_power_conversion_factor_db() const;
 
     std::optional<float> get_rounded_latitude_deg() const { return _rounded_latitude_deg; }
     std::optional<float> get_rounded_longitude_deg() const { return _rounded_longitude_deg; }

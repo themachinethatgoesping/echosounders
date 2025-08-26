@@ -4,16 +4,17 @@
 
 #include "xml_parameter_channel.hpp"
 
+#include <iostream>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
 
-#include <iostream>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper/approx.hpp>
-#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 void XML_Parameter_Channel::initialize_channel_structure(const pugi::xml_node& node)
 {

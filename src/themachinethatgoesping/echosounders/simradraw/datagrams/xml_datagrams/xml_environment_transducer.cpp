@@ -2,6 +2,11 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <iostream>
+#include <themachinethatgoesping/tools/classhelper/stream.hpp>
+#include <themachinethatgoesping/tools/helper/approx.hpp>
+#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
+
 #include "xml_environment_transducer.hpp"
 
 namespace themachinethatgoesping {
@@ -10,18 +15,12 @@ namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
 
-#include <iostream>
-#include <themachinethatgoesping/tools/classhelper/stream.hpp>
-#include <themachinethatgoesping/tools/helper/approx.hpp>
-#include <themachinethatgoesping/tools/helper/stringconversion.hpp>
-
 void XML_Environment_Transducer::initialize(const pugi::xml_node& root_node)
 {
     if (strcmp(root_node.name(), "Transducer"))
     {
-        throw std::runtime_error(
-            std::string("XML_Environment_Transducer: wrong root node type '") +
-            root_node.name() + "'");
+        throw std::runtime_error(std::string("XML_Environment_Transducer: wrong root node type '") +
+                                 root_node.name() + "'");
     }
     unknown_attributes = 0;
     unknown_children   = 0; // there should only be one child for this node
@@ -51,8 +50,7 @@ void XML_Environment_Transducer::initialize(const pugi::xml_node& root_node)
             continue;
         }
 
-        std::cerr << "WARNING: [Environment_Transducer] Unknown attribute: " << name
-                  << std::endl;
+        std::cerr << "WARNING: [Environment_Transducer] Unknown attribute: " << name << std::endl;
         unknown_attributes += 1;
     }
 }
@@ -85,8 +83,9 @@ bool XML_Environment_Transducer::operator==(const XML_Environment_Transducer& ot
 }
 
 // ----- objectprinter -----
-tools::classhelper::ObjectPrinter XML_Environment_Transducer::__printer__(unsigned int float_precision,
-                                              bool         superscript_exponents) const
+tools::classhelper::ObjectPrinter XML_Environment_Transducer::__printer__(
+    unsigned int float_precision,
+    bool         superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
         "EK80 XML0 Transducer [Environment]", float_precision, superscript_exponents);
