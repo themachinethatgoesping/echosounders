@@ -4,15 +4,134 @@
 
 #include "networkattitudevelocitydatagram.hpp"
 
+#include <fmt/core.h>
+#include <stdexcept>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
 
-// Implementation file for networkattitudevelocitydatagram.hpp
-// TODO: Move appropriate implementations from header to this file
+NetworkAttitudeVelocityDatagram NetworkAttitudeVelocityDatagram::from_stream(std::istream& is, KongsbergAllDatagram header)
+{
+    auto start_pos = is.tellg();
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
+    NetworkAttitudeVelocityDatagram datagram(std::move(header));
+
+    if (datagram._datagram_identifier !=
+        t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram)
+        throw std::runtime_error(
+            fmt::format("NetworkAttitudeVelocityDatagram: datagram identifier is not 0x{:02x}, "
+                        "but 0x{:02x}",
+                        uint8_t(t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram),
+                        uint8_t(datagram._datagram_identifier)));
+
+    // read first part of the datagram (until the first beam)
+    is.read(reinterpret_cast<char*>(&(datagram._network_attitude_counter)),
+            8 * sizeof(uint8_t));
+
+    // read the attitude entries
+    datagram._attitudes.reserve(datagram._number_of_entries);
+    for (size_t i = 0; i < datagram._number_of_entries; ++i)
+    {
+        datagram._attitudes.emplace_back(
+            substructures::NetworkAttitudeVelocityDatagramAttitude::from_stream(is));
+    }
+
+    // check if alignment is necessary
+    // if pos difference is even, read the _spar_align field
+    if ((is.tellg() - start_pos) % 2 != 1)
+        is.read(reinterpret_cast<char*>(&(datagram._spare_align)), 4 * sizeof(uint8_t));
+
+    else
+    {
+        is.read(reinterpret_cast<char*>(&(datagram._etx)), 3 * sizeof(uint8_t));
+        // is.read(reinterpret_cast<char*>(&(datagram._etx)), sizeof(uint8_t));
+        // is.read(reinterpret_cast<char*>(&(datagram._checksum)), sizeof(uint16_t));
+    }
+
+    if (datagram._etx != 0x03)
+        throw std::runtime_error(fmt::format(
+            "NetworkAttitudeVelocityDatagram: end identifier is not 0x03, but 0x{:x}",
+            datagram._etx));
+
+    return datagram;
+}
+
+NetworkAttitudeVelocityDatagram NetworkAttitudeVelocityDatagram::from_stream(std::istream& is)
+{
+    return from_stream(is, KongsbergAllDatagram::from_stream(is));
+}
+
+NetworkAttitudeVelocityDatagram NetworkAttitudeVelocityDatagram::from_stream(
+    std::istream&              is,
+    t_KongsbergAllDatagramIdentifier datagram_identifier)
+{
+    return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
+}
+
+void NetworkAttitudeVelocityDatagram::to_stream(std::ostream& os)
+{
+    auto start_pos = os.tellp();
+
+    KongsbergAllDatagram::to_stream(os);
+    _number_of_entries = _attitudes.size();
+
+    // write first part of the datagram (until the first beam)
+    os.write(reinterpret_cast<const char*>(&(_network_attitude_counter)), 8 * sizeof(uint8_t));
+
+    // write the attitude entries
+    for (auto& attitude : _attitudes)
+        attitude.to_stream(os);
+
+    // check if alignment is necessary
+    // if pos difference is even, write the _spar_align field (0)
+    if ((os.tellp() - start_pos) % 2 != 1)
+        os.write(reinterpret_cast<const char*>(&(_spare_align)), 4 * sizeof(uint8_t));
+
+    else
+    {
+        os.write(reinterpret_cast<const char*>(&(_etx)), sizeof(uint8_t));
+        os.write(reinterpret_cast<const char*>(&(_checksum)), sizeof(uint16_t));
+    }
+}
+
+tools::classhelper::ObjectPrinter NetworkAttitudeVelocityDatagram::__printer__(unsigned int float_precision, bool superscript_exponents) const
+{
+    tools::classhelper::ObjectPrinter printer("NetworkAttitudeVelocityDatagram",
+                                              float_precision, superscript_exponents);
+
+    printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
+    printer.register_section("datagram content");
+    printer.register_value("network_attitude_counter", _network_attitude_counter);
+    printer.register_value("system_serial_number", _system_serial_number);
+    printer.register_value("number_of_entries", _number_of_entries);
+    printer.register_string("sensor_system_descriptor",
+                            fmt::format("0b{:08b}", _sensor_system_descriptor));
+    printer.register_value("spare", _spare);
+    printer.register_value("spare_align", _spare_align);
+    printer.register_string("etx", fmt::format("0x{:02x}", _etx));
+    printer.register_value("checksum", _checksum);
+
+    printer.register_section("processed");
+    printer.register_value(
+        "attitude_velocity_sensor_number", get_attitude_velocity_sensor_number(), "1,2");
+    printer.register_value("velocity_sensor_is_active", get_velocity_sensor_is_active());
+    printer.register_value("heading_sensor_is_active", get_heading_sensor_is_active());
+    printer.register_value("roll_sensor_is_active", get_roll_sensor_is_active());
+    printer.register_value("pitch_sensor_is_active", get_pitch_sensor_is_active());
+    printer.register_value("heave_sensor_is_active", get_heave_sensor_is_active());
+    printer.register_value("function_is_used", get_function_is_used());
+
+    printer.register_section("substructures");
+    printer.register_value(
+        "attitudes", _attitudes.size(), "NetworkAttitudeVelocityDatagramAttitude");
+
+    return printer;
+}
+
 } // namespace datagrams
 } // namespace kongsbergall
+} // namespace echosounders
+} // namespace themachinethatgoesping
