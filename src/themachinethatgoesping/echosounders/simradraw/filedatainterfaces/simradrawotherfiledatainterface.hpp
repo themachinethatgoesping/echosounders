@@ -9,8 +9,13 @@
 /* generated doc strings */
 #include ".docstrings/simradrawotherfiledatainterface.doc.hpp"
 
+/* library includes */
+#include <magic_enum/magic_enum.hpp>
+
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+
 
 #include "../types.hpp"
 #include "../datagrams.hpp"
@@ -48,25 +53,15 @@ class SimradRawOtherFileDataInterface
     }
     ~SimradRawOtherFileDataInterface() = default;
 
-    /**
-     * @brief Object printer for this interface
-     * @param float_precision Number of decimal places for floating point values
-     * @param superscript_exponents Whether to use superscript notation for exponents
-     * @return ObjectPrinter instance configured for this object
-     */
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents);
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    {
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
+        return printer;
+    }
 };
-
-// ---- Template function implementations ----
-
-template<typename t_ifstream>
-tools::classhelper::ObjectPrinter SimradRawOtherFileDataInterface<t_ifstream>::__printer__(unsigned int float_precision, bool superscript_exponents)
-{
-    tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
-
-    printer.append(t_base::__printer__(float_precision, superscript_exponents));
-    return printer;
-}
 
 }
 } // namespace simradraw

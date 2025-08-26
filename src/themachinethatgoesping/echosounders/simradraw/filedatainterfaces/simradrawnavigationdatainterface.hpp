@@ -47,55 +47,30 @@ class SimradRawNavigationDataInterface
     }
     ~SimradRawNavigationDataInterface() = default;
 
-    /**
-     * @brief Set minimum GGA quality for navigation data filtering
-     * @param min_gga_quality Minimum quality threshold
-     */
-    void set_min_gga_quality(int min_gga_quality);
+    void set_min_gga_quality(int min_gga_quality)
+    {
+        // const auto just means that the shared_ptr does not get copied
+        // but the object it points is not const
+        for (const auto& inter : this->_interface_per_file)
+            inter->set_min_gga_quality(min_gga_quality);
+    }
+    void set_max_gga_quality(int max_gga_quality)
+    {
+        // const auto just means that the shared_ptr does not get copied
+        // but the object it points is not const
+        for (const auto& inter : this->_interface_per_file)
+            inter->set_max_gga_quality(max_gga_quality);
+    }
 
-    /**
-     * @brief Set maximum GGA quality for navigation data filtering
-     * @param max_gga_quality Maximum quality threshold
-     */
-    void set_max_gga_quality(int max_gga_quality);
+    // ----- objectprinter -----
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
+    {
+        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
-    /**
-     * @brief Object printer for this interface
-     * @param float_precision Number of decimal places for floating point values
-     * @param superscript_exponents Whether to use superscript notation for exponents
-     * @return ObjectPrinter instance configured for this object
-     */
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents);
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
+        return printer;
+    }
 };
-
-// ---- Template function implementations ----
-
-template<typename t_ifstream>
-void SimradRawNavigationDataInterface<t_ifstream>::set_min_gga_quality(int min_gga_quality)
-{
-    // const auto just means that the shared_ptr does not get copied
-    // but the object it points is not const
-    for (const auto& inter : this->_interface_per_file)
-        inter->set_min_gga_quality(min_gga_quality);
-}
-
-template<typename t_ifstream>
-void SimradRawNavigationDataInterface<t_ifstream>::set_max_gga_quality(int max_gga_quality)
-{
-    // const auto just means that the shared_ptr does not get copied
-    // but the object it points is not const
-    for (const auto& inter : this->_interface_per_file)
-        inter->set_max_gga_quality(max_gga_quality);
-}
-
-template<typename t_ifstream>
-tools::classhelper::ObjectPrinter SimradRawNavigationDataInterface<t_ifstream>::__printer__(unsigned int float_precision, bool superscript_exponents)
-{
-    tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
-
-    printer.append(t_base::__printer__(float_precision, superscript_exponents));
-    return printer;
-}
 
 }
 } // namespace simradraw

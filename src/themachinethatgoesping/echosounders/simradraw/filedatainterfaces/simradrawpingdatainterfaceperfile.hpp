@@ -360,32 +360,21 @@ class SimradRawPingDataInterfacePerFile
     // --------------------- simradraw specific functions ---------------------
     /* get infos */
 
-    /**
-     * @brief Object printer for this interface
-     * @param float_precision Number of decimal places for floating point values
-     * @param superscript_exponents Whether to use superscript notation for exponents
-     * @return ObjectPrinter instance configured for this object
-     */
+    // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents);
+                                                  bool         superscript_exponents)
+    {
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
+
+        // printer.register_section("DatagramInterface");
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
+
+        printer.register_section("SimradRawPingDataInterfacePerFile");
+
+        return printer;
+    }
 };
-
-// ---- Template function implementations ----
-
-template<typename t_ifstream>
-tools::classhelper::ObjectPrinter SimradRawPingDataInterfacePerFile<t_ifstream>::__printer__(unsigned int float_precision,
-                                                                                             bool         superscript_exponents)
-{
-    tools::classhelper::ObjectPrinter printer(
-        this->class_name(), float_precision, superscript_exponents);
-
-    // printer.register_section("DatagramInterface");
-    printer.append(t_base::__printer__(float_precision, superscript_exponents));
-
-    printer.register_section("SimradRawPingDataInterfacePerFile");
-
-    return printer;
-}
 
 }
 } // namespace simradraw
