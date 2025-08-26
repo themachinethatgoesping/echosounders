@@ -14,11 +14,6 @@
 #include <unordered_map>
 #include <vector>
 
-// themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
 #include "../types.hpp"
 #include "simradrawdatagram.hpp"
 
