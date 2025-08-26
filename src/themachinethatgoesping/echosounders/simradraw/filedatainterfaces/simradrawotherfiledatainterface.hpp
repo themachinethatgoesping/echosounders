@@ -9,13 +9,8 @@
 /* generated doc strings */
 #include ".docstrings/simradrawotherfiledatainterface.doc.hpp"
 
-/* library includes */
-#include <magic_enum/magic_enum.hpp>
-
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 
 #include "../types.hpp"
 #include "../datagrams.hpp"
