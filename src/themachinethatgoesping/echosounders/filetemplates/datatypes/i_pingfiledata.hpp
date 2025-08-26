@@ -144,21 +144,7 @@ public:
      * @param float_precision The float precision for printing.
      * @return tools::classhelper::ObjectPrinter The ObjectPrinter instance.
      */
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
-
-        printer.register_string("Primary source file", this->get_primary_file_path(),
-                                                        std::to_string(this->get_primary_file_nr()));
-        if (this->get_file_numbers().size() > 1) {
-            auto file_numbers = this->get_file_numbers();
-            auto file_paths = this->get_file_paths();
-            for (size_t i = 1; i < file_numbers.size(); i++) {
-                printer.register_string("Secondary source file", file_paths[i], std::to_string(file_numbers[i]));
-            }
-        }
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)

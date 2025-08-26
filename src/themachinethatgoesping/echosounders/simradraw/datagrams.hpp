@@ -52,26 +52,7 @@ struct SimradRawDatagramVariant
 
     static t_SimradRawDatagramVariant from_stream(std::istream&              is,
                                                t_SimradRawDatagramIdentifier datagram_type,
-                                               bool                       skipped = false)
-    {
-        switch (datagram_type)
-        {
-            case t_SimradRawDatagramIdentifier::MRU0:
-                return t_SimradRawDatagramVariant(MRU0::from_stream(is));
-            case t_SimradRawDatagramIdentifier::NME0:
-                return t_SimradRawDatagramVariant(NME0::from_stream(is));
-            case t_SimradRawDatagramIdentifier::XML0:
-                return t_SimradRawDatagramVariant(XML0::from_stream(is));
-            case t_SimradRawDatagramIdentifier::TAG0:
-                return t_SimradRawDatagramVariant(TAG0::from_stream(is));
-            case t_SimradRawDatagramIdentifier::FIL1:
-                return t_SimradRawDatagramVariant(FIL1::from_stream(is));
-            case t_SimradRawDatagramIdentifier::RAW3:
-                return t_SimradRawDatagramVariant(RAW3::from_stream(is, skipped));
-            default:
-                return t_SimradRawDatagramVariant(SimradRawUnknown::from_stream(is, datagram_type));
-        }
-    }
+                                               bool                       skipped = false);
 
     /**
      * @brief This is the visitor function that  tries to convert the internal variant to the

@@ -9,10 +9,24 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 
-// Implementation file for i_pingfiledata.hpp
-// TODO: Move appropriate implementations from header to this file
+tools::classhelper::ObjectPrinter I_PingFileData::__printer__(unsigned int float_precision, bool superscript_exponents) const
+{
+    tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
+    printer.register_string("Primary source file", this->get_primary_file_path(),
+                                                    std::to_string(this->get_primary_file_nr()));
+    if (this->get_file_numbers().size() > 1) {
+        auto file_numbers = this->get_file_numbers();
+        auto file_paths = this->get_file_paths();
+        for (size_t i = 1; i < file_numbers.size(); i++) {
+            printer.register_string("Secondary source file", file_paths[i], std::to_string(file_numbers[i]));
+        }
+    }
+
+    return printer;
+}
+
 } // namespace datatypes
 } // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping

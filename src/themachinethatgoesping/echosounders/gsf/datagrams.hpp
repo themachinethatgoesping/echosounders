@@ -47,18 +47,7 @@ struct GSFDatagramVariant
 
     static t_GSFDatagramVariant from_stream(std::istream&           is,
                                             t_GSFDatagramIdentifier datagram_type,
-                                            [[maybe_unused]] bool   skip_data = false)
-    {
-        // GSFDATAGRAMTYPEAREA
-        switch (datagram_type)
-        {
-                // case t_GSFDatagramIdentifier::XYZDatagram:
-                //     return t_GSFDatagramVariant(XYZDatagram::from_stream(is));
-
-            default:
-                return t_GSFDatagramVariant(GSFUnknown::from_stream(is, datagram_type));
-        }
-    }
+                                            [[maybe_unused]] bool   skip_data = false);
 
     /**
      * @brief This is the visitor function that  tries to convert the internal variant to the

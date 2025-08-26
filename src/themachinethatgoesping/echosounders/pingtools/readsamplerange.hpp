@@ -71,24 +71,14 @@ class ReadSampleRange
      * @param is input stream
      * @return ReadSampleRange
      */
-    static ReadSampleRange from_stream(std::istream& is)
-    {
-        ReadSampleRange object;
-        is.read(reinterpret_cast<char*>(&object), sizeof(object));
-
-        return object;
-    }
+    static ReadSampleRange from_stream(std::istream& is);
 
     /**
      * @brief Write a ReadSampleRange to a binary stream
      *
      * @param os output stream
      */
-    void to_stream(std::ostream& os) const
-    {
-        // write other variables
-        os.write(reinterpret_cast<const char*>(this), sizeof(ReadSampleRange));
-    }
+    void to_stream(std::ostream& os) const;
 
     // ----- printing -----
     /**
@@ -98,21 +88,7 @@ class ReadSampleRange
      * @param float_precision Precision of floating point numbers
      * @return classhelper::ObjectPrinter
      */
-    auto __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        using themachinethatgoesping::tools::classhelper::ObjectPrinter;
-
-        ObjectPrinter printer("ReadSampleRange", float_precision, superscript_exponents);
-
-        printer.register_value("first_sample_to_read", _first_sample_to_read, "beamlocal");
-        printer.register_value(
-            "number_of_samples_to_read", _number_of_samples_to_read, "beamlocal");
-        printer.register_value(
-            "first_read_sample_offset", _first_read_sample_offset, "swathglobal");
-        printer.register_value("last_read_sample_offset", _last_read_sample_offset, "swathglobal");
-
-        return printer;
-    }
+    auto __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
   public:
     // -- class helper function macros --
