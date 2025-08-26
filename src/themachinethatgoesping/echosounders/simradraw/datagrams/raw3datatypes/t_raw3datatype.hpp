@@ -10,21 +10,7 @@
 #include ".docstrings/t_raw3datatype.doc.hpp"
 
 // std includes
-#include <bitset>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
-#include <boost/algorithm/string.hpp>
-
-// xtensor includes
-#include <xtensor/containers/xadapt.hpp>
-
-#include <xtensor/views/xview.hpp>
-
-// themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
+#include <stdexcept>
 
 #include "../../types.hpp"
 
