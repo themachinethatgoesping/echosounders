@@ -1,4 +1,4 @@
-//sourcehash: 53b1ff535bb937b02cdd53f305cac2cc167394392aa7a5c64eac48f6bbf68f3e
+//sourcehash: a84480464eac886ccf4abc33b5c50f6eddc1e64a8e8a98d7997a1fa969d0de02
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,10 +46,10 @@ when logging is turned off, i.e. at the start and end of a survey
 line. It may also be sent to a remote port as an information datagram.
 It is usually followed by a sound speed profile datagram. In the
 datagram all ASCII fields start with a unique three character
-identifier followed by “=”. This should be used when searching for a
+identifier followed by "=". This should be used when searching for a
 specific field as the position of a field within the datagram is not
 guaranteed. The number or character part following is in a variable
-format with a minus sign and decimal point if needed, and with “,” as
+format with a minus sign and decimal point if needed, and with "," as
 the field delimiter. The format may at any time later be expanded with
 the addition of new fields at any place in the datagram.)doc";
 
@@ -265,6 +265,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_system_serial_number = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_unsupported_option_string = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
