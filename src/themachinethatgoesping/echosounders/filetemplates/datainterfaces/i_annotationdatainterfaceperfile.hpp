@@ -21,8 +21,6 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
 #include "i_datagraminterface.hpp"
 #include "i_filedatainterface.hpp"
 

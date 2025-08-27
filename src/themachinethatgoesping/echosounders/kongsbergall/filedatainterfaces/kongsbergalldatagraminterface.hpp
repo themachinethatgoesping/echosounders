@@ -13,13 +13,13 @@
 #include <unordered_map>
 #include <vector>
 
+/* external includes */
 #include <fmt/core.h>
+#include <magic_enum/magic_enum.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
 
 #include "../../filetemplates/datainterfaces/i_datagraminterface.hpp"
 #include "../types.hpp"
@@ -43,7 +43,6 @@ class KongsbergAllDatagramInterface
     virtual ~KongsbergAllDatagramInterface() = default;
 
     /* virtual function implementations */
-    // void print_fileinfo(std::ostream& os) const;
     std::string datagram_identifier_to_string(
         t_KongsbergAllDatagramIdentifier datagram_identifier) const final
     {
@@ -52,7 +51,6 @@ class KongsbergAllDatagramInterface
 
     std::string datagram_identifier_info(t_KongsbergAllDatagramIdentifier datagram_identifier) const final
     {
-        // this should work, but doesn't
         return std::string(magic_enum::enum_name(datagram_identifier));
     }
 
@@ -72,7 +70,7 @@ class KongsbergAllDatagramInterface
     }
 };
 
-}
-} // namespace filetemplates
+} // namespace filedatainterfaces
+} // namespace kongsbergall
 } // namespace echosounders
 } // namespace themachinethatgoesping
