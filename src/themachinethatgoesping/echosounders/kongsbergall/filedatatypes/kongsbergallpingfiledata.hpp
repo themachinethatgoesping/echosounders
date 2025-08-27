@@ -467,18 +467,7 @@ class KongsbergAllPingFileData
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            this->class_name(), float_precision, superscript_exponents);
-
-        printer.append(t_base1::__printer__(float_precision, superscript_exponents));
-        printer.append(t_base2::__printer__(float_precision, superscript_exponents));
-
-        printer.register_section("Raw data infos");
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
