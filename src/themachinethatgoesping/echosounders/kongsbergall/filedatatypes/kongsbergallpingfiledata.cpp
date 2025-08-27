@@ -9,26 +9,10 @@ namespace echosounders {
 namespace kongsbergall {
 namespace filedatatypes {
 
-template<typename t_ifstream>
-tools::classhelper::ObjectPrinter KongsbergAllPingFileData<t_ifstream>::__printer__(
-    unsigned int float_precision,
-    bool         superscript_exponents) const
-{
-    tools::classhelper::ObjectPrinter printer(
-        this->class_name(), float_precision, superscript_exponents);
+// Implementation file for kongsbergallpingfiledata.hpp
+// TODO: Move appropriate implementations from header to this file
 
-    printer.append(t_base1::__printer__(float_precision, superscript_exponents));
-    printer.append(t_base2::__printer__(float_precision, superscript_exponents));
-
-    printer.register_section("Raw data infos");
-
-    return printer;
-}
-
-// Explicit template instantiation for common stream types
-template class KongsbergAllPingFileData<std::ifstream>;
-
+} // namespace themachinethatgoesping
+} // namespace echosounders
 } // namespace filedatatypes
 } // namespace kongsbergall
-} // namespace echosounders
-} // namespace themachinethatgoesping
