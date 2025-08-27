@@ -210,7 +210,43 @@ class SimradRawConfigurationDataInterfacePerFile
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents);
+                                                  bool         superscript_exponents)
+    {
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
+
+        // printer.register_section("DatagramInterface");
+        printer.append(t_base::__printer__(float_precision, superscript_exponents));
+
+        printer.register_section("SimradRawConfigurationDataInterfacePerFile");
+        auto position_sources = this->get_position_sources();
+        auto heading_sources  = this->get_heading_sources();
+        auto attitude_sources = this->get_attitude_sources();
+        auto depth_sources    = this->get_depth_sources();
+
+        printer.register_string("Position source",
+                                fmt::format("'{}'", position_sources[0].Name),
+                                position_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", position_sources.size() - 1));
+        printer.register_string("Heading source",
+                                fmt::format("'{}'", heading_sources[0].Name),
+                                heading_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", heading_sources.size() - 1));
+        printer.register_string("Attitude source",
+                                fmt::format("'{}'", attitude_sources[0].Name),
+                                attitude_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", attitude_sources.size() - 1));
+        printer.register_string("Depth source",
+                                fmt::format("'{}'", depth_sources[0].Name),
+                                depth_sources.size() < 2
+                                    ? ""
+                                    : fmt::format("Alternatives: {}", depth_sources.size() - 1));
+
+        return printer;
+    }
 };
 
 }
