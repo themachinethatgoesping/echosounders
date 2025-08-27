@@ -1,4 +1,4 @@
-//sourcehash: b586c7b7ff86ae71879f96dea85fbfb58b648a19e4fb3a91e9c072703e99bddd
+//sourcehash: cb48a545aca4627430d9c1832f3d83310c941d18f0107226110d80484496a282
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,21 +38,15 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_gsf_filedatainterfaces_GSFDatagramInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_gsf_filedatainterfaces_GSFDatagramInterface_GSFDatagramInterface = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_gsf_filedatainterfaces_GSFDatagramInterface_datagram_identifier_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_3 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_gsf_filedatainterfaces_GSFDatagramInterface_datagram_identifier_to_string = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_4 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_init_interfaces = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_setup_interfaces = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_gsf_filedatainterfaces_GSFDatagramInterface_per_file = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

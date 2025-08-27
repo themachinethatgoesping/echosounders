@@ -441,6 +441,8 @@ headers = [
   'gsf/datagrams.hpp',
   'gsf/gsffilehandler.hpp',
   'gsf/types.hpp',
+  'gsf/filedatainterfaces/gsfdatagraminterface.hpp',
+  'gsf/filedatainterfaces/.docstrings/gsfdatagraminterface.doc.hpp',
   'gsf/.docstrings/datagrams.doc.hpp',
   'gsf/.docstrings/gsffilehandler.doc.hpp',
   'gsf/.docstrings/types.doc.hpp',
