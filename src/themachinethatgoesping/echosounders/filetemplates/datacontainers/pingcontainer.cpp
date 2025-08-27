@@ -9,9 +9,10 @@ namespace echosounders {
 namespace filetemplates {
 namespace datacontainers {
 
-// Implementation for PingContainer
+// Implementation for PingContainer  
+// NOTE: PingContainer is a template class, so implementations must remain in header
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace datacontainers
 } // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping
