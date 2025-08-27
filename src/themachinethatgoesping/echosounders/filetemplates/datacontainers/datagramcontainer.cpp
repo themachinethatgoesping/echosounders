@@ -10,9 +10,9 @@ namespace filetemplates {
 namespace datacontainers {
 
 // Implementation for DatagramContainer
-// TODO: Move specific function implementations here from header
+// NOTE: DatagramContainer is a template class, so implementations must remain in header
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace datacontainers
 } // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping

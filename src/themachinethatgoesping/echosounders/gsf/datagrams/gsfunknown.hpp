@@ -78,48 +78,17 @@ class GSFUnknown : public GSFDatagram
     // ----- operators -----
     bool operator==(const GSFUnknown& other) const = default;
 
-    static GSFUnknown from_stream(std::istream& is, GSFDatagram header)
-    {
-        GSFUnknown datagram(std::move(header));
+    static GSFUnknown from_stream(std::istream& is, GSFDatagram header);
 
-        datagram._raw_content.resize(size_t(datagram._size_of_data));
+    static GSFUnknown from_stream(std::istream& is);
 
-        // verify the datagram is read correctly by reading the length field at the end
-        is.read(datagram._raw_content.data(), datagram._raw_content.size());
+    static GSFUnknown from_stream(std::istream& is, t_GSFDatagramIdentifier datagram_identifier);
 
-        return datagram;
-    }
-
-    static GSFUnknown from_stream(std::istream& is)
-    {
-        return from_stream(is, GSFDatagram::from_stream(is));
-    }
-
-    static GSFUnknown from_stream(std::istream& is, t_GSFDatagramIdentifier datagram_identifier)
-    {
-        return from_stream(is, GSFDatagram::from_stream(is, datagram_identifier));
-    }
-
-    void to_stream(std::ostream& os)
-    {
-        GSFDatagram::to_stream(os);
-
-        os.write(_raw_content.data(), _raw_content.size());
-    }
+    void to_stream(std::ostream& os);
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "GSFUnknown", float_precision, superscript_exponents);
-
-        printer.append(GSFDatagram::__printer__(float_precision, superscript_exponents));
-        printer.register_section("datagram content");
-        printer.register_value("raw data", _raw_content.size(), "bytes");
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
