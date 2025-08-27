@@ -1,4 +1,4 @@
-//sourcehash: bfc5dd8911fb6487f8773801cc1181c656b39174789d6b467dfb5c7c6f6ed497
+//sourcehash: 245b8321bb74bd3d6b4066e5ae003dfe29a2f13160e4453b689423d32cbfa2e7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,14 +52,14 @@ Parameter ``beam_selection``:)doc";
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_BeamSampleSelection_3 =
 R"doc(Initialize a beam sample selection from a whole swath
 
-Parameter ``beam_nr``:
-    beam number
-
-Parameter ``first_sample_number``:
-    first sample number to select
+Parameter ``first_sample_number_per_beam``:
+    first sample number per beam
 
 Parameter ``last_sample_number_per_beam``:
-    last sample number to select)doc";
+    last sample number per beam
+
+Parameter ``sample_step_ensemble``:
+    sample step size (same for the entire ensemble))doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_add_beam =
 R"doc(Add a beam to the selection
@@ -70,7 +70,7 @@ Parameter ``beam_nr``:
 Parameter ``first_sample_number``:
     first sample number to select
 
-Parameter ``last_sample_number_per_beam``:
+Parameter ``last_sample_number``:
     last sample number to select)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_BeamSampleSelection_empty =

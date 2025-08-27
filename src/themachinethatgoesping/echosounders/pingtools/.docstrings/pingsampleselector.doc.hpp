@@ -1,4 +1,4 @@
-//sourcehash: ae5c1d86a8a3f9a32453ecd3f18cc4d291aafe9ce14911a6a97f6c35d148e972
+//sourcehash: a945ee9daf73aab5409efd22ab885da8c9043a4d829fd444aa35a5af49e305de
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -150,6 +150,8 @@ Returns:
     classhelper::ObjectPrinter)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_register_filter = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_register_filter_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_sample_step = R"doc(< step size for sample numbers)doc";
 
