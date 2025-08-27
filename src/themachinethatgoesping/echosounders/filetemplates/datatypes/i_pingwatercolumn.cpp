@@ -10,9 +10,10 @@ namespace filetemplates {
 namespace datatypes {
 
 // Implementation file for i_pingwatercolumn.hpp
-// TODO: Move appropriate implementations from header to this file
+// Note: This is a template class, so most implementations must remain in header
+// Only explicit template specializations would go here
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace datatypes
 } // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping
