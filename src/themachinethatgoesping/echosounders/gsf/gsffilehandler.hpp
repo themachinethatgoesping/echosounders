@@ -158,7 +158,7 @@ class GSFFileHandler
 
     using t_base::init_interfaces;
     void init_interfaces([[maybe_unused]] bool               force,
-                         tools::progressbars::I_ProgressBar& progress_bar) final
+                         [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar) final
     {
         // auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         // progress_bar.init(
