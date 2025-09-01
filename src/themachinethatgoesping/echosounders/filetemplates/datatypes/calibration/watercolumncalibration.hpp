@@ -75,6 +75,8 @@ class WaterColumnCalibration
     }
     WaterColumnCalibration(const WaterColumnCalibration& other);
 
+    virtual ~WaterColumnCalibration() = default;
+
     // this is used to check if parent classes are initialized
     virtual void check_initialized() const {}
     virtual void check_modifying_base_calibration_allowed() const {}
