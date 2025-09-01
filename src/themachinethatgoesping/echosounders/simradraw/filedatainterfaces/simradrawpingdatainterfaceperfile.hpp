@@ -131,14 +131,18 @@ class SimradRawPingDataInterfacePerFile
         auto transceiver_channels = configuration_datagram.get_transceiver_channels();
 
         // filter datagrams for calibration
+        bool fil1_buffer_verified = false;
+        std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>> fil1_datagrams;
         std::map<std::string, boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>>
-            fil1_datagrams;
-        for (const auto& [channel_id, fil1_datagram_pair] : this->configuration_data_interface()
-                                                                .per_file()
-                                                                .at(this->get_file_nr())
-                                                                ->read_fil1_datagrams())
-            fil1_datagrams[channel_id] =
-                boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>(fil1_datagram_pair);
+            fil1_datagram_buffer;
+
+        // for (const auto& [channel_id, fil1_datagram_pair] : this->configuration_data_interface()
+        //                                                         .per_file()
+        //                                                         .at(this->get_file_nr())
+        //                                                         ->read_fil1_datagram_buffer())
+        //     fil1_datagram_buffer[channel_id] =
+        //         boost::flyweight<std::pair<datagrams::FIL1,
+        //         datagrams::FIL1>>(fil1_datagram_pair);
 
         // cache for transceiver information
         std::map<std::string, boost::flyweight<filedatatypes::_sub::TransceiverInformation>>
@@ -244,6 +248,32 @@ class SimradRawPingDataInterfacePerFile
                     fmt::print(std::cerr, "WARNING: unexpected xml datagram type: {}\n", xml_type);
                     break;
                 }
+                case t_SimradRawDatagramIdentifier::FIL1: {
+                    auto fil1_datagram =
+                        datagram_ptr->template read_datagram_from_file<datagrams::FIL1>();
+
+                    const auto channel_id = std::string(fil1_datagram.get_channel_id_stripped());
+                    const auto stage      = fil1_datagram.get_stage();
+                    switch (stage)
+                    {
+                        case 1:
+                            fil1_datagrams[channel_id].first = fil1_datagram;
+                            break;
+                        case 2:
+                            fil1_datagrams[channel_id].second = fil1_datagram;
+                            break; // ok
+                        default:
+                            throw std::runtime_error(fmt::format(
+                                "read_fil1_datagrams: Invalid stage nr {} for channel {} in "
+                                "{}! (only 1 and 2 are allowed)",
+                                stage,
+                                channel_id,
+                                this->get_file_path()));
+                    }
+
+                    fil1_buffer_verified = false;
+                    break;
+                }
                 case t_SimradRawDatagramIdentifier::RAW3: {
 
                     // load from cache if available
@@ -289,8 +319,40 @@ class SimradRawPingDataInterfacePerFile
                     }
 
                     // set filter information
-                    auto it2 = fil1_datagrams.find(ping_ptr->get_channel_id());
-                    if (it2 != fil1_datagrams.end())
+                    if (!fil1_buffer_verified)
+                        // check that both stages are present for each detected channel_id
+                        for (const auto& [channel_id, stages] : fil1_datagrams)
+                        {
+                            if (stages.first.get_channel_id_stripped().empty())
+                                throw std::runtime_error(
+                                    fmt::format("read_fil1_datagrams: Missing stage {} for "
+                                                "channel {} in {}!",
+                                                0,
+                                                channel_id,
+                                                this->get_file_path()));
+                            if (stages.second.get_channel_id_stripped().empty())
+                                throw std::runtime_error(
+                                    fmt::format("read_fil1_datagrams: Missing stage {} for "
+                                                "channel {} in {}!",
+                                                1,
+                                                channel_id,
+                                                this->get_file_path()));
+                            if (stages.second.get_timestamp() < stages.first.get_timestamp())
+                                throw std::runtime_error(
+                                    fmt::format("read_fil1_datagrams: Stage 2 has earlier "
+                                                "timestamp than stage 1 "
+                                                "for channel {} in {}!",
+                                                channel_id,
+                                                this->get_file_path()));
+
+                            for (const auto& [channel_id, fil1_datagram_pair] : fil1_datagrams)
+                                fil1_datagram_buffer[channel_id] =
+                                    boost::flyweight<std::pair<datagrams::FIL1, datagrams::FIL1>>(
+                                        fil1_datagram_pair);
+                        }
+                    fil1_buffer_verified = true;
+                    auto it2             = fil1_datagram_buffer.find(ping_ptr->get_channel_id());
+                    if (it2 != fil1_datagram_buffer.end())
                     {
                         ping_ptr->file_data().set_filter_stages(it2->second);
                     }
@@ -322,8 +384,6 @@ class SimradRawPingDataInterfacePerFile
                     pings.add_ping(std::move(ping_ptr));
                     break;
                 }
-                case t_SimradRawDatagramIdentifier::FIL1:
-                    [[fallthrough]];
                 case t_SimradRawDatagramIdentifier::TAG0:
                     [[fallthrough]];
                 case t_SimradRawDatagramIdentifier::MRU0:

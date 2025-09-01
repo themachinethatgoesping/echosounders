@@ -66,14 +66,14 @@ void py_create_class_SimradRawConfigurationDataInterfacePerFile(py::module&     
                             filedatainterfaces,
                             SimradRawConfigurationDataInterfacePerFile,
                             get_configuration_datagram))
-                   .def("read_fil1_datagrams",
-                        &T_BaseClass::read_fil1_datagrams,
-                        DOC(themachinethatgoesping,
-                            echosounders,
-                            simradraw,
-                            filedatainterfaces,
-                            SimradRawConfigurationDataInterfacePerFile,
-                            read_fil1_datagrams))
+                //    .def("read_fil1_datagrams",
+                //         &T_BaseClass::read_fil1_datagrams,
+                //         DOC(themachinethatgoesping,
+                //             echosounders,
+                //             simradraw,
+                //             filedatainterfaces,
+                //             SimradRawConfigurationDataInterfacePerFile,
+                //             read_fil1_datagrams))
                    .def("get_position_sources",
                         &T_BaseClass::get_position_sources,
                         DOC(themachinethatgoesping,

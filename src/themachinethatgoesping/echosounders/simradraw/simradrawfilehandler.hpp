@@ -296,7 +296,8 @@ class SimradRawFileHandler
                 break;
             }
             case t_SimradRawDatagramIdentifier::FIL1: {
-                _configuration_interface->add_datagram_info(datagram_info);
+                //_configuration_interface->add_datagram_info(datagram_info);
+                _ping_interface->add_datagram_info(datagram_info);
                 break;
             }
             case t_SimradRawDatagramIdentifier::TAG0: {

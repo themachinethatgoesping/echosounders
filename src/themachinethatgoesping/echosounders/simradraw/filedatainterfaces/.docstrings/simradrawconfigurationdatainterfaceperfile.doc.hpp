@@ -1,4 +1,4 @@
-//sourcehash: 7290e4458b6e5865417a330182c1e25db30f897a2853760fb48f21004ae0d06e
+//sourcehash: 3cbd7a85542d1a826350a276bb4b99d64075338d0f11a1991fa279c03b88ab0f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -73,15 +73,6 @@ Returns:
     std::vector<XML_Configuration_Sensor>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawConfigurationDataInterfacePerFile_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawConfigurationDataInterfacePerFile_read_fil1_datagrams =
-R"doc(Read the fil1 datagrams from the file and return them as a map with
-the channel ID as key and a pair of stage 1 and stage 2 datagrams.
-Function will fail if a channel id does not exactly have two stages or
-if it detects a duplicated channel/stage
-
-Returns:
-    std::map<std::string, std::pair<datagrams::FIL1, datagrams::FIL1>>)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 

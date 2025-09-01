@@ -57,7 +57,6 @@ sources = [
   'kongsbergall/filedatatypes/_sub/systeminformation.cpp',
   'kongsbergall/filedatatypes/_sub/watercolumninformation.cpp',
   'simradraw/datagrams.cpp',
-  'simradraw/simradrawfilehandler.cpp',
   'simradraw/types.cpp',
   'simradraw/datagrams/FIL1.cpp',
   'simradraw/datagrams/MRU0.cpp',
