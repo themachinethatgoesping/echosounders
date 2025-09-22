@@ -47,8 +47,7 @@ void py_create_class_kongsbergallPingFileData(py::module& m, const std::string& 
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
     using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 
-    auto cls = py::class_<t_KongsbergAllPingFileData,
-                          std::shared_ptr<t_KongsbergAllPingFileData>,
+    auto cls = py::classh<t_KongsbergAllPingFileData,
                           datatypes::I_PingFileData>(m,
                                                      (CLASS_NAME).c_str(),
                                                      DOC(themachinethatgoesping,

@@ -27,7 +27,7 @@ using datagrams::SimradRawDatagram;
 
 void init_c_NME0(pybind11::module& m)
 {
-    py::class_<NME0, datagrams::SimradRawDatagram>(
+    py::classh<NME0, datagrams::SimradRawDatagram>(
         m, "NME0", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, NME0))
         .def(py::init<>(), DOC_NME0(NME0))
 

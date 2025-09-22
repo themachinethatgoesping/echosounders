@@ -28,7 +28,7 @@ using datagrams::PUIDOutput;
 
 void init_c_puidoutput(pybind11::module& m)
 {
-    py::class_<PUIDOutput, datagrams::KongsbergAllDatagram>(
+    py::classh<PUIDOutput, datagrams::KongsbergAllDatagram>(
         m, "PUIDOutput", DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, PUIDOutput))
         .def(py::init<>(), DOC_PUIDOutput(PUIDOutput))
 

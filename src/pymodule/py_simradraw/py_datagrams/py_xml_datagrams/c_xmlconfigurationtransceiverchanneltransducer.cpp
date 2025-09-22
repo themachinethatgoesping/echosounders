@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XMLConfigurationTransceiverChannelTransducer;
 
 void init_c_xmlconfigurationtransceiverchanneltransducer(pybind11::module& m)
 {
-    py::class_<XMLConfigurationTransceiverChannelTransducer>(
+    py::classh<XMLConfigurationTransceiverChannelTransducer>(
         m,
         "XMLConfigurationTransceiverChannelTransducer",
         DOC(themachinethatgoesping,

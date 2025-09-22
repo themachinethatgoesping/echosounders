@@ -33,7 +33,7 @@ using datagrams::substructures::RawRangeAndAngleBeam;
 void init_c_rawrangeandanglebeam(pybind11::module& m)
 {
 
-    py::class_<RawRangeAndAngleBeam>(m,
+    py::classh<RawRangeAndAngleBeam>(m,
                                      "RawRangeAndAngleBeam",
                                      DOC(themachinethatgoesping,
                                          echosounders,

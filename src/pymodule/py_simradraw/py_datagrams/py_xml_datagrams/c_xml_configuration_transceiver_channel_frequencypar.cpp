@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel_FrequencyP
 
 void init_c_xml_configuration_transceiver_channel_frequencypar(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver_Channel_FrequencyPar>(
+    py::classh<XML_Configuration_Transceiver_Channel_FrequencyPar>(
         m,
         "XML_Configuration_Transceiver_Channel_FrequencyPar",
         DOC(themachinethatgoesping,

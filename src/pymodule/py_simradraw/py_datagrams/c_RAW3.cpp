@@ -31,7 +31,7 @@ using datagrams::SimradRawDatagram;
 void init_c_RAW3(pybind11::module& m)
 {
 
-    py::class_<RAW3, datagrams::SimradRawDatagram>(
+    py::classh<RAW3, datagrams::SimradRawDatagram>(
         m, "RAW3", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, RAW3))
         .def(py::init<>(), DOC_RAW3(RAW3))
 

@@ -33,7 +33,7 @@ using datagrams::substructures::SeabedImageDataBeam;
 void init_c_seabedimagedatabeam(pybind11::module& m)
 {
 
-    py::class_<SeabedImageDataBeam>(m,
+    py::classh<SeabedImageDataBeam>(m,
                                     "SeabedImageDataBeam",
                                     DOC(themachinethatgoesping,
                                         echosounders,

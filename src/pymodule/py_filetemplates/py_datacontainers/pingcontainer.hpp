@@ -98,7 +98,7 @@ void create_PingContainerType(pybind11::module& m, const std::string& ITERATOR_N
     using T_CONTAINER = PingContainer<T_PingType>;
 
     auto cls_stream =
-        py::class_<T_CONTAINER>(
+        py::classh<T_CONTAINER>(
             m,
             ITERATOR_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer))

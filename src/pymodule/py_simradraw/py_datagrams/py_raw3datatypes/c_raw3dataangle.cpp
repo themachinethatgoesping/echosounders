@@ -32,7 +32,7 @@ using namespace datagrams::raw3datatypes;
 
 void init_c_raw3dataangle(pybind11::module& m)
 {
-    py::class_<RAW3DataAngle, i_RAW3Data>(
+    py::classh<RAW3DataAngle, i_RAW3Data>(
         m,
         "RAW3DataAngle",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, raw3datatypes, RAW3DataAngle))

@@ -28,7 +28,7 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver_Channel;
 
 void init_c_xml_configuration_transceiver_channel(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver_Channel>(
+    py::classh<XML_Configuration_Transceiver_Channel>(
         m, "XML_Configuration_Transceiver_Channel", DOC(LOCAL_CLASS_DOC_PREFIX))
         .def(py::init<>(), DOC(LOCAL_CLASS_DOC_PREFIX, XML_Configuration_Transceiver_Channel))
 

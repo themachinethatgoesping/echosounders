@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Configuration_Sensor_TelegramValue;
 
 void init_c_xml_configuration_sensor_telegramvalue(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Sensor_TelegramValue>(m,
+    py::classh<XML_Configuration_Sensor_TelegramValue>(m,
                                                        "XML_Configuration_Sensor_TelegramValue",
                                                        DOC(themachinethatgoesping,
                                                            echosounders,

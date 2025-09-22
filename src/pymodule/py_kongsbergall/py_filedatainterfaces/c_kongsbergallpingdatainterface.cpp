@@ -48,7 +48,7 @@ void py_create_class_kongsbergallpingdatainterface(py::module& m, const std::str
     using T_BaseClass = filedatainterfaces::KongsbergAllPingDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
         //
         ;
 

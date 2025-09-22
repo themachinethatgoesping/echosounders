@@ -27,7 +27,7 @@ using datagrams::SimradRawDatagram;
 
 void init_c_MRU0(pybind11::module& m)
 {
-    py::class_<MRU0, datagrams::SimradRawDatagram>(
+    py::classh<MRU0, datagrams::SimradRawDatagram>(
         m, "MRU0", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, MRU0))
         .def(py::init<>(), DOC_MRU0(MRU0))
 

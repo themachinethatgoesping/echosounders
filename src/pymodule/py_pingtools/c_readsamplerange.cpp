@@ -22,7 +22,7 @@ using namespace themachinethatgoesping::echosounders::pingtools;
 
 void init_c_readsamplerange(pybind11::module& m)
 {
-    py::class_<ReadSampleRange>(
+    py::classh<ReadSampleRange>(
         m, "ReadSampleRange", DOC(themachinethatgoesping, echosounders, pingtools, ReadSampleRange))
         .def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>(),
              DOC_ReadSampleRange(ReadSampleRange),

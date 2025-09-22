@@ -48,7 +48,7 @@ void py_create_class_SimradRawAnnotationDataInterface(py::module& m, const std::
     using T_BaseClass = filedatainterfaces::SimradRawAnnotationDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
     //----- inherit functions from I_AnnotationDataInterface -----
     AnnotationDataInterface_add_interface<T_BaseClass>(cls);

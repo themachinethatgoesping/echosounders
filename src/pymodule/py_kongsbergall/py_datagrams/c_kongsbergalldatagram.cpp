@@ -24,7 +24,7 @@ using datagrams::KongsbergAllDatagram;
 
 void init_c_kongsbergalldatagram(pybind11::module& m)
 {
-    py::class_<KongsbergAllDatagram>(
+    py::classh<KongsbergAllDatagram>(
         m,
         "KongsbergAllDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, KongsbergAllDatagram))

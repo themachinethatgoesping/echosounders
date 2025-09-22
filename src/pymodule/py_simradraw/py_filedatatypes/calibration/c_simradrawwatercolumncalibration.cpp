@@ -41,9 +41,8 @@ void init_c_simradrawwatercolumncalibration(pybind11::module& m)
 
     // add class
     auto c =
-        py::class_<SimradRawWaterColumnCalibration,
-                   WaterColumnCalibration,
-                   std::shared_ptr<SimradRawWaterColumnCalibration>>(
+        py::classh<SimradRawWaterColumnCalibration,
+                   WaterColumnCalibration>(
             m,
             "SimradRawWaterColumnCalibration",
             DOC(themachinethatgoesping,

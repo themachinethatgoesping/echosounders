@@ -27,7 +27,7 @@ using datagrams::xml_datagrams::XML_Environment;
 
 void init_c_xml_environment(pybind11::module& m)
 {
-    py::class_<XML_Environment>(m, "XML_Environment", DOC(LOCAL_CLASS_DOC_PREFIX))
+    py::classh<XML_Environment>(m, "XML_Environment", DOC(LOCAL_CLASS_DOC_PREFIX))
         .def(py::init<>(), DOC(LOCAL_CLASS_DOC_PREFIX, XML_Environment))
 
         // ----- children -----

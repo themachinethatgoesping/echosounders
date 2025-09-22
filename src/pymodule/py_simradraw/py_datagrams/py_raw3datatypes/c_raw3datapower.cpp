@@ -32,7 +32,7 @@ using namespace datagrams::raw3datatypes;
 
 void init_c_raw3datapower(pybind11::module& m)
 {
-    py::class_<RAW3DataPower, i_RAW3Data>(
+    py::classh<RAW3DataPower, i_RAW3Data>(
         m,
         "RAW3DataPower",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, raw3datatypes, RAW3DataPower))

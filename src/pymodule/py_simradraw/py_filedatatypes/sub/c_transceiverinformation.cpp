@@ -46,7 +46,7 @@ void init_c_transceiverinformation(pybind11::module& m)
     static const std::string CLASS_NAME = "TransceiverInformation";
 
     auto cls =
-        py::class_<t_TransceiverInformation, std::shared_ptr<t_TransceiverInformation>>(
+        py::classh<t_TransceiverInformation>(
             m,
             (CLASS_NAME).c_str(),
             DOC(themachinethatgoesping,

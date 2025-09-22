@@ -32,7 +32,7 @@ using datagrams::SurfaceSoundSpeedDatagram;
 
 void init_c_surfacesoundspeeddatagram(pybind11::module& m)
 {
-    py::class_<SurfaceSoundSpeedDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<SurfaceSoundSpeedDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "SurfaceSoundSpeedDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, SurfaceSoundSpeedDatagram))

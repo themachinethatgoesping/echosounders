@@ -40,7 +40,7 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
     // test hash (should be stable if class is not changed)
-    CHECK(obj.binary_hash() == 3596872097889454741ULL);
+    CHECK(obj.binary_hash() == 6483505769134307231ULL);
     CHECK(obj2.binary_hash() == 770061992534893794ULL);
 
     // test equality

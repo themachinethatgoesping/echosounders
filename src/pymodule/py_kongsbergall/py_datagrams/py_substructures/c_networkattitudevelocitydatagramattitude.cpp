@@ -33,7 +33,7 @@ using datagrams::substructures::NetworkAttitudeVelocityDatagramAttitude;
 void init_c_networkattitudevelocitydatagramattitude(pybind11::module& m)
 {
 
-    py::class_<NetworkAttitudeVelocityDatagramAttitude>(
+    py::classh<NetworkAttitudeVelocityDatagramAttitude>(
         m,
         "NetworkAttitudeVelocityDatagramAttitude",
         DOC(themachinethatgoesping,

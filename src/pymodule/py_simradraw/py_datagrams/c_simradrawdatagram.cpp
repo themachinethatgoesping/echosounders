@@ -27,7 +27,7 @@ using datagrams::SimradRawDatagram;
 
 void init_c_SimradRawDatagram(pybind11::module& m)
 {
-    py::class_<SimradRawDatagram>(
+    py::classh<SimradRawDatagram>(
         m,
         "SimradRawDatagram",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, SimradRawDatagram))

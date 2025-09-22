@@ -33,7 +33,7 @@ using datagrams::substructures::ExtraDetectionsExtraDetections;
 void init_c_extradetectionsextradetections(pybind11::module& m)
 {
 
-    py::class_<ExtraDetectionsExtraDetections>(m,
+    py::classh<ExtraDetectionsExtraDetections>(m,
                                                "ExtraDetectionsExtraDetections",
                                                DOC(themachinethatgoesping,
                                                    echosounders,

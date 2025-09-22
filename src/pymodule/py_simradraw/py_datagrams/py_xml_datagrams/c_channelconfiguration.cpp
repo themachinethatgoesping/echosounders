@@ -24,7 +24,7 @@ using namespace datagrams::xml_datagrams;
 
 void init_c_channelconfiguration(pybind11::module& m)
 {
-    py::class_<ChannelConfiguration>(m,
+    py::classh<ChannelConfiguration>(m,
                                      "ChannelConfiguration",
                                      DOC(themachinethatgoesping,
                                          echosounders,

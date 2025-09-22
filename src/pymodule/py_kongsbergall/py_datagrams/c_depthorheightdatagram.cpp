@@ -28,7 +28,7 @@ using datagrams::DepthOrHeightDatagram;
 
 void init_c_depthorheightdatagram(pybind11::module& m)
 {
-    py::class_<DepthOrHeightDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<DepthOrHeightDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "DepthOrHeightDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, DepthOrHeightDatagram))

@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XMLConfigurationActivePingMode;
 
 void init_c_XMLConfigurationActivePingMode(pybind11::module& m)
 {
-    py::class_<XMLConfigurationActivePingMode>(m,
+    py::classh<XMLConfigurationActivePingMode>(m,
                                                "XMLConfigurationActivePingMode",
                                                DOC(themachinethatgoesping,
                                                    echosounders,

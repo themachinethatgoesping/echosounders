@@ -28,7 +28,7 @@ void init_c_i_pingfiledata(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
     auto cls =
-        py::class_<I_PingFileData, std::shared_ptr<I_PingFileData>>(
+        py::classh<I_PingFileData>(
             m,
             "I_PingFileData",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingFileData))

@@ -28,7 +28,7 @@ using datagrams::SeabedImageData;
 
 void init_c_seabedimagedata(pybind11::module& m)
 {
-    py::class_<SeabedImageData, datagrams::KongsbergAllDatagram>(
+    py::classh<SeabedImageData, datagrams::KongsbergAllDatagram>(
         m,
         "SeabedImageData",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, SeabedImageData))

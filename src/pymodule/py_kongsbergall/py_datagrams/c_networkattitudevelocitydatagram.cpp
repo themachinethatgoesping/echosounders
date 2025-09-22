@@ -33,7 +33,7 @@ using datagrams::NetworkAttitudeVelocityDatagram;
 
 void init_c_networkattitudevelocitydatagram(pybind11::module& m)
 {
-    py::class_<NetworkAttitudeVelocityDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<NetworkAttitudeVelocityDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "NetworkAttitudeVelocityDatagram",
         DOC(themachinethatgoesping,

@@ -33,7 +33,7 @@ using datagrams::xml_datagrams::XML_Configuration_Transceiver;
 
 void init_c_xml_configuration_transceiver(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transceiver>(m,
+    py::classh<XML_Configuration_Transceiver>(m,
                                               "XML_Configuration_Transceiver",
                                               DOC(themachinethatgoesping,
                                                   echosounders,

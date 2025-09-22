@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Configuration;
 
 void init_c_xml_configuration(pybind11::module& m)
 {
-    py::class_<XML_Configuration>(m,
+    py::classh<XML_Configuration>(m,
                                   "XML_Configuration",
                                   DOC(themachinethatgoesping,
                                       echosounders,

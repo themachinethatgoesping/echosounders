@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Environment_Transducer;
 
 void init_c_xml_environment_transducer(pybind11::module& m)
 {
-    py::class_<XML_Environment_Transducer>(m,
+    py::classh<XML_Environment_Transducer>(m,
                                            "XML_Environment_Transducer",
                                            DOC(themachinethatgoesping,
                                                echosounders,

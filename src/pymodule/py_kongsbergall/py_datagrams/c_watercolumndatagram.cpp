@@ -32,7 +32,7 @@ using datagrams::WatercolumnDatagram;
 
 void init_c_watercolumndatagram(pybind11::module& m)
 {
-    py::class_<WatercolumnDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<WatercolumnDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "WatercolumnDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, WatercolumnDatagram))

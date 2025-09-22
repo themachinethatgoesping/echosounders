@@ -28,7 +28,7 @@ using datagrams::ClockDatagram;
 
 void init_c_clockdatagram(pybind11::module& m)
 {
-    py::class_<ClockDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<ClockDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "ClockDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, ClockDatagram))

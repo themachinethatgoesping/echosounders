@@ -47,7 +47,7 @@ void py_create_class_SimradRawAnnotationDataInterfacePerFile(py::module&        
     using T_BaseClass = filedatainterfaces::SimradRawAnnotationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+    auto cls = py::classh<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping,

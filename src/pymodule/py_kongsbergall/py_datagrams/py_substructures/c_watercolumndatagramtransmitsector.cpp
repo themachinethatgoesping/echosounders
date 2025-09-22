@@ -33,7 +33,7 @@ using datagrams::substructures::WatercolumnDatagramTransmitSector;
 void init_c_watercolumndatagramtransmitsector(pybind11::module& m)
 {
 
-    py::class_<WatercolumnDatagramTransmitSector>(m,
+    py::classh<WatercolumnDatagramTransmitSector>(m,
                                                   "WatercolumnDatagramTransmitSector",
                                                   DOC(themachinethatgoesping,
                                                       echosounders,

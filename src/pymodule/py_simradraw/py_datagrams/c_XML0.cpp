@@ -27,7 +27,7 @@ using datagrams::XML0;
 
 void init_c_XML0(pybind11::module& m)
 {
-    py::class_<XML0, datagrams::SimradRawDatagram>(
+    py::classh<XML0, datagrams::SimradRawDatagram>(
         m, "XML0", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, XML0))
         .def(py::init<>(), DOC_XML0(XML0))
         // --- convenient data access ---

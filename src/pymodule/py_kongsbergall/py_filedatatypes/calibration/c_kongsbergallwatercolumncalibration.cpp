@@ -39,9 +39,8 @@ void init_c_kongsbergallwatercolumncalibration(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    auto c = py::class_<KongsbergAllWaterColumnCalibration,
-                        WaterColumnCalibration,
-                        std::shared_ptr<KongsbergAllWaterColumnCalibration>>(
+    auto c = py::classh<KongsbergAllWaterColumnCalibration,
+                        WaterColumnCalibration>(
                  m,
                  "KongsbergAllWaterColumnCalibration",
                  DOC(themachinethatgoesping,

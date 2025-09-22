@@ -48,7 +48,7 @@ void py_create_class_KongsbergAllOtherFileDataInterface(py::module& m, const std
     using T_BaseClass = filedatainterfaces::KongsbergAllOtherFileDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
     //----- inherit functions from I_FileDataInterface -----
     FileDataInterface_add_interface<T_BaseClass>(cls);

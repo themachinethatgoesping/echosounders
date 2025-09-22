@@ -37,7 +37,7 @@ using datagrams::substructures::SampleAmplitudesStructure;
 template<typename t_sample>
 void init_c_sampleamplitudesstructure_per_sample_type(std::string_view name, pybind11::module& m)
 {
-    py::class_<SampleAmplitudesStructure<t_sample>>(m,
+    py::classh<SampleAmplitudesStructure<t_sample>>(m,
                                                     name.data(),
                                                     DOC(themachinethatgoesping,
                                                         echosounders,

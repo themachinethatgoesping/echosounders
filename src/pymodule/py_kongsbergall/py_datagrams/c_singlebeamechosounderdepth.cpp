@@ -28,7 +28,7 @@ using datagrams::SingleBeamEchoSounderDepth;
 
 void init_c_singlebeamechosounderdepth(pybind11::module& m)
 {
-    py::class_<SingleBeamEchoSounderDepth, datagrams::KongsbergAllDatagram>(
+    py::classh<SingleBeamEchoSounderDepth, datagrams::KongsbergAllDatagram>(
         m,
         "SingleBeamEchoSounderDepth",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, SingleBeamEchoSounderDepth))

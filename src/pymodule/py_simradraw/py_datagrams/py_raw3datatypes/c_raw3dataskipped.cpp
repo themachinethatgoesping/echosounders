@@ -38,7 +38,7 @@ using namespace datagrams::raw3datatypes;
 
 void init_c_raw3dataskipped(pybind11::module& m)
 {
-    py::class_<RAW3DataSkipped, i_RAW3Data>(m,
+    py::classh<RAW3DataSkipped, i_RAW3Data>(m,
                                             "RAW3DataSkipped",
                                             DOC(themachinethatgoesping,
                                                 echosounders,

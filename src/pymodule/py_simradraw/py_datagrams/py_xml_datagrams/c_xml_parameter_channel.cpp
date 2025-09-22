@@ -33,7 +33,7 @@ using datagrams::xml_datagrams::XML_Parameter_Channel;
 
 void init_c_xml_parameter_channel(pybind11::module& m)
 {
-    py::class_<XML_Parameter_Channel>(m,
+    py::classh<XML_Parameter_Channel>(m,
                                       "XML_Parameter_Channel",
                                       DOC(themachinethatgoesping,
                                           echosounders,

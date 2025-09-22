@@ -47,16 +47,16 @@ void py_create_class_kongsbergallpingwatercolumn(py::module& m, const std::strin
     using t_KongsbergAllPingWatercolumn = filedatatypes::KongsbergAllPingWatercolumn<T_FileStream>;
 
     auto cls =
-        py::class_<t_KongsbergAllPingWatercolumn,
+        py::classh<t_KongsbergAllPingWatercolumn,
                    datatypes::I_PingWatercolumn,
-                   filedatatypes::KongsbergAllPingCommon<T_FileStream>,
-                   std::shared_ptr<t_KongsbergAllPingWatercolumn>>(m,
-                                                                   CLASS_NAME.c_str(),
-                                                                   DOC(themachinethatgoesping,
-                                                                       echosounders,
-                                                                       kongsbergall,
-                                                                       filedatatypes,
-                                                                       KongsbergAllPingWatercolumn))
+                   filedatatypes::KongsbergAllPingCommon<T_FileStream>>(
+            m,
+            CLASS_NAME.c_str(),
+            DOC(themachinethatgoesping,
+                echosounders,
+                kongsbergall,
+                filedatatypes,
+                KongsbergAllPingWatercolumn))
 
             // --- interface overwrites (necessary when type is changes) ---
             .def("get_watercolumn_calibration",

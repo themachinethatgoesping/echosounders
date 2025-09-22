@@ -31,7 +31,7 @@ using datagrams::SimradRawDatagram;
 void init_c_FIL1(pybind11::module& m)
 {
 
-    py::class_<FIL1, datagrams::SimradRawDatagram>(
+    py::classh<FIL1, datagrams::SimradRawDatagram>(
         m, "FIL1", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, FIL1))
         .def(py::init<>(), DOC_FIL1(FIL1))
 

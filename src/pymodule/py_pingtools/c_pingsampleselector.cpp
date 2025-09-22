@@ -22,7 +22,7 @@ using namespace themachinethatgoesping::echosounders::pingtools;
 
 void init_c_pingsampleselector(pybind11::module& m)
 {
-    py::class_<PingSampleSelector>(
+    py::classh<PingSampleSelector>(
         m,
         "PingSampleSelector",
         DOC(themachinethatgoesping, echosounders, pingtools, PingSampleSelector))

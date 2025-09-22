@@ -29,7 +29,7 @@ using datagrams::RuntimeParameters;
 
 void init_c_runtimeparameters(pybind11::module& m)
 {
-    py::class_<RuntimeParameters, datagrams::KongsbergAllDatagram>(
+    py::classh<RuntimeParameters, datagrams::KongsbergAllDatagram>(
         m,
         "RuntimeParameters",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, RuntimeParameters))

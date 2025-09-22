@@ -27,7 +27,7 @@ using datagrams::SimradRawUnknown;
 
 void init_c_simradrawunknown(pybind11::module& m)
 {
-    py::class_<SimradRawUnknown, datagrams::SimradRawDatagram>(
+    py::classh<SimradRawUnknown, datagrams::SimradRawDatagram>(
         m,
         "SimradRawUnknown",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, SimradRawUnknown))

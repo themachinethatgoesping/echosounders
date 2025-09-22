@@ -33,7 +33,7 @@ using datagrams::substructures::RawRangeAndAngleTransmitSector;
 void init_c_rawrangeandangletransmitsector(pybind11::module& m)
 {
 
-    py::class_<RawRangeAndAngleTransmitSector>(m,
+    py::classh<RawRangeAndAngleTransmitSector>(m,
                                                "RawRangeAndAngleTransmitSector",
                                                DOC(themachinethatgoesping,
                                                    echosounders,

@@ -41,7 +41,7 @@ void init_filepackagecache(pybind11::module& m, const std::string& typestr = "")
     using t_FilePackageCache = FilePackageCache<t_CachedPackage>;
 
     auto cls =
-        py::class_<t_FilePackageCache, std::shared_ptr<t_FilePackageCache>>(
+        py::classh<t_FilePackageCache>(
             m,
             fmt::format("FilePackageCache<{}>", typestr).c_str(),
             DOC(themachinethatgoesping,

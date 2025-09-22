@@ -28,7 +28,7 @@ using namespace datagrams::raw3datatypes;
 
 void init_c_i_raw3data(pybind11::module& m)
 {
-    py::class_<i_RAW3Data>(
+    py::classh<i_RAW3Data>(
         m,
         "i_RAW3Data",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, raw3datatypes, i_RAW3Data))

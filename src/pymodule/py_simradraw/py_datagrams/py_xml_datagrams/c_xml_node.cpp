@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Node;
 
 void init_c_xml_datagram(pybind11::module& m)
 {
-    py::class_<XML_Node>(
+    py::classh<XML_Node>(
         m,
         "XML_Node",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams, XML_Node))

@@ -28,7 +28,7 @@ void init_c_i_pingwatercolumn(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
     auto cls =
-        py::class_<I_PingWatercolumn, I_PingCommon, std::shared_ptr<I_PingWatercolumn>>(
+        py::classh<I_PingWatercolumn, I_PingCommon>(
             m,
             "I_PingWatercolumn",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn))

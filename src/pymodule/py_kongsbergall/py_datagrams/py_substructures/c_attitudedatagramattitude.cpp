@@ -33,7 +33,7 @@ using datagrams::substructures::AttitudeDatagramAttitude;
 void init_c_attitudedatagramattitude(pybind11::module& m)
 {
 
-    py::class_<AttitudeDatagramAttitude>(m,
+    py::classh<AttitudeDatagramAttitude>(m,
                                          "AttitudeDatagramAttitude",
                                          DOC(themachinethatgoesping,
                                              echosounders,

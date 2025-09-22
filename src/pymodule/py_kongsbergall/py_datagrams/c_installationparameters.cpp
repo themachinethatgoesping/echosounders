@@ -32,7 +32,7 @@ using datagrams::InstallationParameters;
 
 void init_c_installationparameters(pybind11::module& m)
 {
-    py::class_<InstallationParameters, datagrams::KongsbergAllDatagram>(
+    py::classh<InstallationParameters, datagrams::KongsbergAllDatagram>(
         m,
         "InstallationParameters",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, InstallationParameters))

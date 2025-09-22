@@ -71,7 +71,7 @@ void init_c_extraparameters(pybind11::module& m)
         tmp_enum);
 
     // then add class
-    py::class_<ExtraParameters, datagrams::KongsbergAllDatagram>(
+    py::classh<ExtraParameters, datagrams::KongsbergAllDatagram>(
         m,
         "ExtraParameters",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, ExtraParameters))

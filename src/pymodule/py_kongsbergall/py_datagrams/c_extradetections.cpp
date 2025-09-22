@@ -28,7 +28,7 @@ using datagrams::ExtraDetections;
 
 void init_c_extradetections(pybind11::module& m)
 {
-    py::class_<ExtraDetections, datagrams::KongsbergAllDatagram>(
+    py::classh<ExtraDetections, datagrams::KongsbergAllDatagram>(
         m,
         "ExtraDetections",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, ExtraDetections))

@@ -37,7 +37,7 @@ using datagrams::substructures::WatercolumnDatagramBeam;
 void init_c_watercolumndatagrambeam(pybind11::module& m)
 {
 
-    py::class_<WatercolumnDatagramBeam>(m,
+    py::classh<WatercolumnDatagramBeam>(m,
                                         "WatercolumnDatagramBeam",
                                         DOC(themachinethatgoesping,
                                             echosounders,

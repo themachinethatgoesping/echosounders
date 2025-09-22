@@ -45,7 +45,7 @@ void py_create_class_simradrawpingdatainterface(py::module& m, const std::string
     using T_BaseClass = filedatainterfaces::SimradRawPingDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
         //
         ;
 

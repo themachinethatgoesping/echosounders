@@ -135,7 +135,7 @@ void init_c_watercolumncalibration(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    auto c = py::class_<WaterColumnCalibration, std::shared_ptr<WaterColumnCalibration>>(
+    auto c = py::classh<WaterColumnCalibration>(
                  m,
                  "WaterColumnCalibration",
                  DOC(themachinethatgoesping,

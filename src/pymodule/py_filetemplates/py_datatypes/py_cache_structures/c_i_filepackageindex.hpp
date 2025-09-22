@@ -29,7 +29,7 @@ void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
 {
     namespace py = pybind11;
 
-    py::class_<t_FilePackageIndex>(m,
+    py::classh<t_FilePackageIndex>(m,
                                    (CLASS_NAME + "_FilePackageIndex").c_str(),
                                    DOC(themachinethatgoesping,
                                        echosounders,

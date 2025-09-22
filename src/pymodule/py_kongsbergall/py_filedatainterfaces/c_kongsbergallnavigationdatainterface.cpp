@@ -49,7 +49,7 @@ void py_create_class_KongsbergAllNavigationDataInterface(py::module&        m,
     using T_BaseClass = filedatainterfaces::KongsbergAllNavigationDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
         //    .def("set_min_gga_quality",
         //         &T_BaseClass::set_min_gga_quality,
         //         DOC(themachinethatgoesping,

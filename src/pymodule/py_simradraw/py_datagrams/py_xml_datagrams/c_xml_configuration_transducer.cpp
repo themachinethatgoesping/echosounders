@@ -28,7 +28,7 @@ using datagrams::xml_datagrams::XML_Configuration_Transducer;
 
 void init_c_xml_configuration_transducer(pybind11::module& m)
 {
-    py::class_<XML_Configuration_Transducer>(
+    py::classh<XML_Configuration_Transducer>(
         m, "XML_Configuration_Transducer", DOC(LOCAL_CLASS_DOC_PREFIX))
         .def(py::init<>(), DOC(LOCAL_CLASS_DOC_PREFIX, XML_Configuration_Transducer))
 

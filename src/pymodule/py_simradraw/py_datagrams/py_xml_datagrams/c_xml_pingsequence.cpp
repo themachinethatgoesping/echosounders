@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_PingSequence;
 
 void init_c_xml_pingsequence(pybind11::module& m)
 {
-    py::class_<XML_PingSequence>(m,
+    py::classh<XML_PingSequence>(m,
                                  "XML_PingSequence",
                                  DOC(themachinethatgoesping,
                                      echosounders,

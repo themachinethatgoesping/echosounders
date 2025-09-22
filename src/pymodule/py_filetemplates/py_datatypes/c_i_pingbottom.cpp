@@ -28,7 +28,7 @@ void init_c_i_pingbottom(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
     auto cls =
-        py::class_<I_PingBottom, I_PingCommon, std::shared_ptr<I_PingBottom>>(
+        py::classh<I_PingBottom, I_PingCommon>(
             m,
             "I_PingBottom",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingBottom))

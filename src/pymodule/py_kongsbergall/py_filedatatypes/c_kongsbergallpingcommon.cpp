@@ -39,8 +39,7 @@ void py_create_class_kongsbergallpingcommon(py::module& m, const std::string& CL
     using t_KongsbergAllPingCommon = filedatatypes::KongsbergAllPingCommon<T_FileStream>;
 
     auto cls =
-        py::class_<t_KongsbergAllPingCommon,
-                   std::shared_ptr<t_KongsbergAllPingCommon>>(
+        py::classh<t_KongsbergAllPingCommon>(
             m,
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingCommon))

@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Parameter;
 
 void init_c_xml_parameter(pybind11::module& m)
 {
-    py::class_<XML_Parameter>(
+    py::classh<XML_Parameter>(
         m,
         "XML_Parameter",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams, XML_Parameter))

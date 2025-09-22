@@ -28,7 +28,7 @@ using datagrams::RawRangeAndAngle;
 
 void init_c_rawrangeandangle(pybind11::module& m)
 {
-    py::class_<RawRangeAndAngle, datagrams::KongsbergAllDatagram>(
+    py::classh<RawRangeAndAngle, datagrams::KongsbergAllDatagram>(
         m,
         "RawRangeAndAngle",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, RawRangeAndAngle))

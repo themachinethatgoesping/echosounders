@@ -47,7 +47,7 @@ void py_create_class_SimradRawEnvironmentDataInterface(py::module& m, const std:
     using T_BaseClass = filedatainterfaces::SimradRawEnvironmentDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
     //----- inherit functions from I_EnvironmentDataInterface -----
     EnvironmentDataInterface_add_interface<T_BaseClass>(cls);

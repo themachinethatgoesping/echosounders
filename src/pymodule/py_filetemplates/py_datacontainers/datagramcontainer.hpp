@@ -156,7 +156,7 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string& CONTA
                                                  T_DatagramFactory>;
 
     auto container_name_stream = CONTAINER_NAME + "_stream";
-    auto cls_stream            = py::class_<T_CONTAINER_STREAM>(
+    auto cls_stream            = py::classh<T_CONTAINER_STREAM>(
         m,
         container_name_stream.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
@@ -171,7 +171,7 @@ void create_DatagramContainerTypes(pybind11::module& m, const std::string& CONTA
         ;
 
     auto container_name_mapped = CONTAINER_NAME;
-    auto cls_mapped            = py::class_<T_CONTAINER_MAPPED>(
+    auto cls_mapped            = py::classh<T_CONTAINER_MAPPED>(
         m,
         container_name_mapped.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))

@@ -38,7 +38,7 @@ void init_c_amplitudecalibration(pybind11::module& m)
 
     // add class
     auto c =
-        py::class_<AmplitudeCalibration>(m,
+        py::classh<AmplitudeCalibration>(m,
                                          "AmplitudeCalibration",
                                          DOC(themachinethatgoesping,
                                              echosounders,
@@ -123,25 +123,24 @@ void init_c_amplitudecalibration(pybind11::module& m)
                  &AmplitudeCalibration::get_interpolator_offset_per_range,
                  DOC_AmplitudeCalibration(get_interpolator_offset_per_range))
 
-            .def("get_offset_per_beamangle",
-                 py::overload_cast<const std::vector<float>&>(
-                     &AmplitudeCalibration::get_offset_per_beamangle),
-                 DOC_AmplitudeCalibration(get_offset_per_beamangle),
-                 py::arg("beamangle"))
-            .def("get_offset_per_beamangle",
-                 py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_beamangle,
-                                          py::const_),
-                 DOC_AmplitudeCalibration(get_offset_per_beamangle),
-                 py::arg("beamangle"))
-            .def("get_offset_per_range",
-                 py::overload_cast<const std::vector<float>&>(
-                     &AmplitudeCalibration::get_offset_per_range),
-                 DOC_AmplitudeCalibration(get_offset_per_range),
-                 py::arg("range"))
-            .def("get_offset_per_range",
-                 py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_range, py::const_),
-                 DOC_AmplitudeCalibration(get_offset_per_range),
-                 py::arg("range"))
+            //   .def("get_offset_per_beamangle",
+            //        py::overload_cast<const std::vector<float>&>(
+            //            &AmplitudeCalibration::get_offset_per_beamangle, py::const_),
+            //        DOC_AmplitudeCalibration(get_offset_per_beamangle),
+            //        py::arg("beamangle"))
+            //   .def("get_offset_per_beamangle",
+            //        py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_beamangle,
+            //                                 py::const_),
+            //        DOC_AmplitudeCalibration(get_offset_per_beamangle),
+            //        py::arg("beamangle"))
+            //   .def("get_offset_per_range",
+            //        py::overload_cast<const std::vector<float>&>(
+            //            &AmplitudeCalibration::get_offset_per_range),
+            //        DOC_AmplitudeCalibration(get_offset_per_range),
+            //      py::arg("range"))
+            //   .def("get_offset_per_range",
+            //        py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_range,
+            //        py::const_), DOC_AmplitudeCalibration(get_offset_per_range), py::arg("range"))
 
             // ----- operators -----
             .def("__eq__",

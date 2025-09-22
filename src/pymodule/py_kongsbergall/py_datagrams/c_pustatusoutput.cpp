@@ -28,7 +28,7 @@ using datagrams::PUStatusOutput;
 
 void init_c_pustatusoutput(pybind11::module& m)
 {
-    py::class_<PUStatusOutput, datagrams::KongsbergAllDatagram>(
+    py::classh<PUStatusOutput, datagrams::KongsbergAllDatagram>(
         m,
         "PUStatusOutput",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, PUStatusOutput))

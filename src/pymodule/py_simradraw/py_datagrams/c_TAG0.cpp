@@ -27,7 +27,7 @@ using datagrams::TAG0;
 
 void init_c_TAG0(pybind11::module& m)
 {
-    py::class_<TAG0, datagrams::SimradRawDatagram>(
+    py::classh<TAG0, datagrams::SimradRawDatagram>(
         m, "TAG0", DOC(themachinethatgoesping, echosounders, simradraw, datagrams, TAG0))
         .def(py::init<>(), DOC_TAG0(TAG0))
 

@@ -40,9 +40,8 @@ void py_create_class_simradrawPingFileData(py::module& m, const std::string& CLA
 {
     using t_SimradRawPingFileData = filedatatypes::SimradRawPingFileData<T_FileStream>;
 
-    auto cls = py::class_<t_SimradRawPingFileData,
-                          datatypes::I_PingFileData,
-                          std::shared_ptr<t_SimradRawPingFileData>>(m,
+    auto cls = py::classh<t_SimradRawPingFileData,
+                          datatypes::I_PingFileData>(m,
                                                                     (CLASS_NAME).c_str(),
                                                                     DOC(themachinethatgoesping,
                                                                         echosounders,

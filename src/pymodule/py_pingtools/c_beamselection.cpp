@@ -23,7 +23,7 @@ using namespace themachinethatgoesping::echosounders::pingtools;
 
 void init_c_beamselection(pybind11::module& m)
 {
-    py::class_<BeamSelection, std::shared_ptr<BeamSelection>>(
+    py::classh<BeamSelection>(
         m, "BeamSelection", DOC(themachinethatgoesping, echosounders, pingtools, BeamSelection))
         .def(py::init<>(), DOC_BeamSelection(BeamSelection))
         .def(py::init<const BeamSampleSelection& >(), DOC_BeamSelection(BeamSelection), py::arg("beam_sample_selection"))

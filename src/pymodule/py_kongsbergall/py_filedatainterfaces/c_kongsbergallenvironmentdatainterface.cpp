@@ -50,7 +50,7 @@ void py_create_class_KongsbergAllEnvironmentDataInterface(py::module&        m,
     using T_BaseClass = filedatainterfaces::KongsbergAllEnvironmentDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
     //----- inherit functions from I_EnvironmentDataInterface -----
     EnvironmentDataInterface_add_interface<T_BaseClass>(cls);

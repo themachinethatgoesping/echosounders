@@ -10,10 +10,19 @@
 /* generated doc strings */
 #include ".docstrings/amplitudecalibration.doc.hpp"
 
-#include <fmt/core.h>
+#include <iosfwd>
+#include <limits>
+#include <optional>
+#include <vector>
+
+#include <xxhash.hpp>
+#include <boost/iostreams/stream.hpp>
+
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
+#include <themachinethatgoesping/tools/helper/xtensor.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/vectorinterpolators/akimainterpolator.hpp>
+#include <themachinethatgoesping/tools/vectorinterpolators/bivectorinterpolator.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -35,30 +44,17 @@ class AmplitudeCalibration
         tools::vectorinterpolators::AkimaInterpolator<float>(
             tools::vectorinterpolators::t_extr_mode::nearest);
 
+    tools::vectorinterpolators::BiVectorInterpolator<tools::vectorinterpolators::AkimaInterpolator<float>>
+        _offset_per_beamangle_and_range = tools::vectorinterpolators::BiVectorInterpolator<
+            tools::vectorinterpolators::AkimaInterpolator<float>>(
+            tools::vectorinterpolators::t_extr_mode::nearest);
+
   public:
     AmplitudeCalibration() {}
-    AmplitudeCalibration(float system_offset)
-        : _system_offset(system_offset)
-    {
-    }
+    AmplitudeCalibration(float system_offset);
 
     // operator overloads
-    bool operator==(const AmplitudeCalibration& other) const
-    {
-        if (_offset_per_beamangle != other._offset_per_beamangle)
-            return false;
-
-        if (_offset_per_range != other._offset_per_range)
-            return false;
-
-        if (std::isnan(_system_offset) && std::isnan(other._system_offset))
-            return true;
-
-        if (_system_offset == other._system_offset)
-            return true;
-
-        return false;
-    }
+    bool operator==(const AmplitudeCalibration& other) const;
 
     template<tools::helper::c_xtensor_1d t_xtensor_1d>
     t_xtensor_1d get_per_beam_offsets(const t_xtensor_1d& beam_angles) const
@@ -173,10 +169,7 @@ class AmplitudeCalibration
     void  set_system_offset(float value) { _system_offset = value; }
 
     void set_offset_per_beamangle(const std::vector<float>& beamangle,
-                                  const std::vector<float>& offset)
-    {
-        _offset_per_beamangle.set_data_XY(beamangle, offset);
-    }
+                                  const std::vector<float>& offset);
 
     template<tools::helper::c_xtensor_1d t_xtensor_1d>
     void set_offset_per_beamangle(const t_xtensor_1d& beamangle, const t_xtensor_1d& offset)
@@ -185,10 +178,7 @@ class AmplitudeCalibration
                                           std::vector<float>(offset.begin(), offset.end()));
     }
 
-    void set_offset_per_range(const std::vector<float>& range, const std::vector<float>& offset)
-    {
-        _offset_per_range.set_data_XY(range, offset);
-    }
+    void set_offset_per_range(const std::vector<float>& range, const std::vector<float>& offset);
 
     template<tools::helper::c_xtensor t_xtensor_1d>
     void set_offset_per_range(const t_xtensor_1d& range, const t_xtensor_1d& offset)
@@ -197,96 +187,63 @@ class AmplitudeCalibration
                                       std::vector<float>(offset.begin(), offset.end()));
     }
 
+    void set_offset_per_beamangle_and_range(const std::vector<float>&              beamangle,
+                                            const std::vector<float>&              range,
+                                            const std::vector<std::vector<float>>& values);
+
+    template<tools::helper::c_xtensor t_xtensor_1d, tools::helper::c_xtensor t_xtensor_2d>
+    void set_offset_per_beamangle_and_range(const t_xtensor_1d& beamangle,
+                                            const t_xtensor_1d& range,
+                                            const t_xtensor_2d& values)
+    {
+        _offset_per_beamangle_and_range.clear();
+        for (unsigned int bi = 0; bi < beamangle.size(); ++bi)
+            _offset_per_beamangle_and_range.append_row(
+                beamangle[bi], std::vector<float>(range.begin(), range.end()), values.row(bi));
+    }
+
     // interpolator access
     bool has_offset_per_beamangle() const { return !_offset_per_beamangle.empty(); }
     bool has_offset_per_range() const { return !_offset_per_range.empty(); }
+    bool has_offset_per_beamangle_and_range() const
+    {
+        return !_offset_per_beamangle_and_range.empty();
+    }
     bool has_system_offset() const { return !std::isnan(_system_offset); }
 
     const auto& get_interpolator_offset_per_beamangle() const { return _offset_per_beamangle; }
     const auto& get_interpolator_offset_per_range() const { return _offset_per_range; }
-
-    auto get_offset_per_beamangle(const std::vector<float>& beamangles)
+    const auto& get_interpolator_offset_per_beamangle_and_range() const
     {
-        return _offset_per_beamangle(beamangles);
+        return _offset_per_beamangle_and_range;
     }
 
-    auto get_offset_per_beamangle(float beamangle) const
-    {
-        return _offset_per_beamangle.get_y(beamangle);
-    }
+    auto get_offset_per_beamangle(const std::vector<float>& beamangles);
 
-    auto get_offset_per_range(const std::vector<float>& ranges)
-    {
-        return _offset_per_range(ranges);
-    }
+    float get_offset_per_beamangle(float beamangle) const;
 
-    auto get_offset_per_range(float range) const { return _offset_per_range.get_y(range); }
+    auto get_offset_per_range(const std::vector<float>& ranges);
 
-    static AmplitudeCalibration from_stream(std::istream& is)
-    {
-        AmplitudeCalibration calibration;
+    float get_offset_per_range(float range) const;
 
-        is.read(reinterpret_cast<char*>(&calibration._system_offset), sizeof(float));
+    auto get_offset_per_beamangle_and_range(const std::vector<float>& beamangles,
+                                            const std::vector<float>& ranges) const;
 
-        calibration._offset_per_beamangle = calibration._offset_per_beamangle.from_stream(is);
-        calibration._offset_per_range     = calibration._offset_per_range.from_stream(is);
+    static AmplitudeCalibration from_stream(std::istream& is);
 
-        return calibration;
-    }
-
-    void to_stream(std::ostream& os) const
-    {
-        os.write(reinterpret_cast<const char*>(&_system_offset), sizeof(float));
-
-        _offset_per_beamangle.to_stream(os);
-        _offset_per_range.to_stream(os);
-    }
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "AmplitudeCalibration", float_precision, superscript_exponents);
+                                                  bool         superscript_exponents) const;
 
-        printer.register_section("System offsets");
-        if (!std::isnan(_system_offset))
-            printer.register_value("system_offset", _system_offset, "dB");
-        if (!_offset_per_beamangle.empty())
-            printer.append(
-                _offset_per_beamangle.__printer__(float_precision, superscript_exponents));
-        if (!_offset_per_range.empty())
-            printer.append(_offset_per_range.__printer__(float_precision, superscript_exponents));
-
-        return printer;
-    }
-
-    xxh::hash_t<64> binary_hash() const
-    {
-        xxh::hash3_state_t<64>               hash;
-        boost::iostreams::stream<XXHashSink> stream(hash);
-
-        add_hash(stream);
-
-        stream.flush();
-        return hash.digest();
-    }
+    xxh::hash_t<64> binary_hash() const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NO_HASH__(AmplitudeCalibration)
 
-    void add_hash(boost::iostreams::stream<XXHashSink>& hash_stream) const
-    {
-        if (has_system_offset())
-            hash_stream.write(reinterpret_cast<const char*>(&_system_offset), sizeof(float));
-
-        if (has_offset_per_beamangle())
-            _offset_per_beamangle.to_stream(hash_stream);
-
-        if (has_offset_per_range())
-            _offset_per_range.to_stream(hash_stream);
-    }
+    void add_hash(boost::iostreams::stream<XXHashSink>& hash_stream) const;
 };
 
 // boost hash

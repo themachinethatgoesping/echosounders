@@ -56,7 +56,7 @@ void py_create_class_KongsbergAllConfigurationDataInterfacePerFile(py::module&  
 
     // initialize class
     auto cls =
-        py::class_<T_BaseClass, std::shared_ptr<T_BaseClass>>(
+        py::classh<T_BaseClass>(
             m,
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping,

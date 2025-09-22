@@ -28,7 +28,7 @@ using datagrams::PositionDatagram;
 
 void init_c_positiondatagram(pybind11::module& m)
 {
-    py::class_<PositionDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<PositionDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "PositionDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, PositionDatagram))

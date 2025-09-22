@@ -35,7 +35,7 @@ TEST_CASE("WaterColumnCalibration should support common functions", TESTTAG)
 
     // test hash (should be stable if class is not changed)
     CHECK(obj.binary_hash() == 14297201401130263458ULL);
-    CHECK(obj2.binary_hash() == 5753520697174627545ULL);
+    CHECK(obj2.binary_hash() == 14588066324697187637ULL);
 
     // test equality
     // test inequality

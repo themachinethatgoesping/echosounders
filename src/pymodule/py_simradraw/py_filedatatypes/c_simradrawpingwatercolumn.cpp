@@ -47,10 +47,9 @@ void py_create_class_simradrawpingwatercolumn(py::module& m, const std::string& 
     using t_SimradRawPingWatercolumn = filedatatypes::SimradRawPingWatercolumn<T_FileStream>;
 
     auto cls =
-        py::class_<t_SimradRawPingWatercolumn,
+        py::classh<t_SimradRawPingWatercolumn,
                    datatypes::I_PingWatercolumn,
-                   filedatatypes::SimradRawPingCommon<T_FileStream>,
-                   std::shared_ptr<t_SimradRawPingWatercolumn>>(m,
+                   filedatatypes::SimradRawPingCommon<T_FileStream>>(m,
                                                                 CLASS_NAME.c_str(),
                                                                 DOC(themachinethatgoesping,
                                                                     echosounders,

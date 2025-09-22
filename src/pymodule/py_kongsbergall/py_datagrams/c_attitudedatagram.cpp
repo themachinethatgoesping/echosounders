@@ -28,7 +28,7 @@ using datagrams::AttitudeDatagram;
 
 void init_c_attitudedatagram(pybind11::module& m)
 {
-    py::class_<AttitudeDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<AttitudeDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "AttitudeDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, AttitudeDatagram))

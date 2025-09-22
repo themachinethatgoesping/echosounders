@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_InitialParameter;
 
 void init_c_xml_initialparameter(pybind11::module& m)
 {
-    py::class_<XML_InitialParameter>(m,
+    py::classh<XML_InitialParameter>(m,
                                      "XML_InitialParameter",
                                      DOC(themachinethatgoesping,
                                          echosounders,

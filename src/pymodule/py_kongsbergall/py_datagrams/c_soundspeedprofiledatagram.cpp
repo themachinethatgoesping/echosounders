@@ -32,7 +32,7 @@ using datagrams::SoundSpeedProfileDatagram;
 
 void init_c_soundspeedprofiledatagram(pybind11::module& m)
 {
-    py::class_<SoundSpeedProfileDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<SoundSpeedProfileDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "SoundSpeedProfileDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, SoundSpeedProfileDatagram))

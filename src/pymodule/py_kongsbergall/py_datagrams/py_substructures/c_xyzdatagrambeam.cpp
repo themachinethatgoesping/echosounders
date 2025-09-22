@@ -33,7 +33,7 @@ using datagrams::substructures::XYZDatagramBeam;
 void init_c_xyzdatagrambeam(pybind11::module& m)
 {
 
-    py::class_<XYZDatagramBeam>(m,
+    py::classh<XYZDatagramBeam>(m,
                                 "XYZDatagramBeam",
                                 DOC(themachinethatgoesping,
                                     echosounders,

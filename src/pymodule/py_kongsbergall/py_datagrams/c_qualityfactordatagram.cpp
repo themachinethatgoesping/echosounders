@@ -32,7 +32,7 @@ using datagrams::QualityFactorDatagram;
 
 void init_c_qualityfactordatagram(pybind11::module& m)
 {
-    py::class_<QualityFactorDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<QualityFactorDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "QualityFactorDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, QualityFactorDatagram))

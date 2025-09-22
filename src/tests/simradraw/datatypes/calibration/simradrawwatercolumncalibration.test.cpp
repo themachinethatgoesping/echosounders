@@ -1094,8 +1094,8 @@ TEST_CASE("SimradRawWaterColumnCalibration should support common functions", TES
     {
         // test hash (should be stable if class is not changed)
         CHECK(cal0.binary_hash() == 11075889885126518596ULL);
-        CHECK(cal_power.binary_hash() == 13047929360210057215ULL);
-        CHECK(cal_cmplx.binary_hash() == 7030752200751467704ULL);
+        CHECK(cal_power.binary_hash() == 13736254984728047744ULL);
+        CHECK(cal_cmplx.binary_hash() == 765458127177245742ULL);
 
         // test equality
         CHECK(cal0 == cal0);

@@ -32,7 +32,7 @@ using datagrams::HeadingDatagram;
 
 void init_c_headingdatagram(pybind11::module& m)
 {
-    py::class_<HeadingDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<HeadingDatagram, datagrams::KongsbergAllDatagram>(
         m,
         "HeadingDatagram",
         DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, HeadingDatagram))

@@ -38,7 +38,7 @@ using namespace datagrams::raw3datatypes;
 
 void init_c_raw3datapowerandangle(pybind11::module& m)
 {
-    py::class_<RAW3DataPowerAndAngle, i_RAW3Data>(m,
+    py::classh<RAW3DataPowerAndAngle, i_RAW3Data>(m,
                                                   "RAW3DataPowerAndAngle",
                                                   DOC(themachinethatgoesping,
                                                       echosounders,

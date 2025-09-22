@@ -70,7 +70,7 @@ void init_c_i_pingcommon(pybind11::module& m)
     tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
 
     auto cls =
-        py::class_<I_PingCommon, std::shared_ptr<I_PingCommon>>(
+        py::classh<I_PingCommon>(
             m,
             "I_PingCommon",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingCommon))

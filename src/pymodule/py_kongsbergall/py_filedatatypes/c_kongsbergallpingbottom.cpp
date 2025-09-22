@@ -38,10 +38,9 @@ void py_create_class_kongsbergallpingbottom(py::module& m, const std::string& CL
 {
     using t_KongsbergAllPingBottom = filedatatypes::KongsbergAllPingBottom<T_FileStream>;
 
-    auto cls = py::class_<t_KongsbergAllPingBottom,
+    auto cls = py::classh<t_KongsbergAllPingBottom,
                           datatypes::I_PingBottom,
-                          filedatatypes::KongsbergAllPingCommon<T_FileStream>,
-                          std::shared_ptr<t_KongsbergAllPingBottom>>(
+                          filedatatypes::KongsbergAllPingCommon<T_FileStream>>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingBottom))

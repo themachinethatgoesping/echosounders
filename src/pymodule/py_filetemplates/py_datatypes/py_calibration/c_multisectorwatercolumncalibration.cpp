@@ -12,7 +12,6 @@
 
 #include <themachinethatgoesping/tools_pybind/classhelper.hpp>
 
-
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp>
 #include <themachinethatgoesping/echosounders/kongsbergall/filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp>
 
@@ -145,16 +144,14 @@ void init_multisectorcalibration(pybind11::module& m, const std::string& name)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-    auto c = py::class_<T_MultiSectorCalibration<t_calibration>,
-                        std::shared_ptr<T_MultiSectorCalibration<t_calibration>>>(
-                 m,
-                 name.c_str(),
-                 DOC(themachinethatgoesping,
-                     echosounders,
-                     filetemplates,
-                     datatypes,
-                     calibration,
-                     T_MultiSectorCalibration))
+    auto c = py::classh<T_MultiSectorCalibration<t_calibration>>(m,
+                                                                 name.c_str(),
+                                                                 DOC(themachinethatgoesping,
+                                                                     echosounders,
+                                                                     filetemplates,
+                                                                     datatypes,
+                                                                     calibration,
+                                                                     T_MultiSectorCalibration))
                  .def(py::init<>(), DOC_T_MultiSectorCalibration(T_MultiSectorCalibration))
                  .def(py::init<std::vector<t_calibration>>(),
                       DOC_T_MultiSectorCalibration(T_MultiSectorCalibration),

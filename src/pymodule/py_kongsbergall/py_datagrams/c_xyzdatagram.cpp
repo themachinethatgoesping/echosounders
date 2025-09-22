@@ -28,7 +28,7 @@ using datagrams::XYZDatagram;
 
 void init_c_xyzdatagram(pybind11::module& m)
 {
-    py::class_<XYZDatagram, datagrams::KongsbergAllDatagram>(
+    py::classh<XYZDatagram, datagrams::KongsbergAllDatagram>(
         m, "XYZDatagram", DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, XYZDatagram))
         .def(py::init<>(), DOC_XYZDatagram(XYZDatagram))
 

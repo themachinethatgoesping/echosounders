@@ -24,7 +24,7 @@ using datagrams::xml_datagrams::XML_Sensor;
 
 void init_c_xml_sensor(pybind11::module& m)
 {
-    py::class_<XML_Sensor>(
+    py::classh<XML_Sensor>(
         m,
         "XML_Sensor",
         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams, XML_Sensor))

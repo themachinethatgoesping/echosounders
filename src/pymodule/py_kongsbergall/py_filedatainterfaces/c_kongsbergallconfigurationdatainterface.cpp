@@ -49,7 +49,7 @@ void py_create_class_KongsbergAllConfigurationDataInterface(py::module& m, const
     using T_BaseClass = filedatainterfaces::KongsbergAllConfigurationDataInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = py::classh<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
 
     //----- inherit functions from I_ConfigurationDataInterface -----
     ConfigurationDataInterface_add_interface<T_BaseClass>(cls);

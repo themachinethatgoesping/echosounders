@@ -27,7 +27,7 @@ void init_c_filecache(pybind11::module& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes;
 
     auto cls =
-        py::class_<FileCache, std::shared_ptr<FileCache>>(
+        py::classh<FileCache>(
             m,
             "FileCache",
             DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, FileCache))

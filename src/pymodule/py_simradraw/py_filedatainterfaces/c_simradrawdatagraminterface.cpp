@@ -44,7 +44,7 @@ void py_create_class_SimradRawDatagramInterface(py::module& m, const std::string
     using T_BaseClass = filedatainterfaces::SimradRawDatagramInterface<T_FileStream>;
 
     // initialize class
-    auto cls = py::class_<T_BaseClass>(m,
+    auto cls = py::classh<T_BaseClass>(m,
                                        CLASS_NAME.c_str(),
                                        DOC(themachinethatgoesping,
                                            echosounders,

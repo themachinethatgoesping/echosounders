@@ -45,7 +45,7 @@ void py_create_class_gsffilehandler(py::module& m, const std::string& CLASS_NAME
     using namespace py_filetemplates; // this holds py_i_inputfilehandler and py_datagramcontainer
 
     // initialize class
-    auto cls = py::class_<GSFFileHandler<T_FileStream>>(
+    auto cls = py::classh<GSFFileHandler<T_FileStream>>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, gsf, GSFFileHandler));
