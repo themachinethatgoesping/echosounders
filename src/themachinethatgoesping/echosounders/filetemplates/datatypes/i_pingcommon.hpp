@@ -38,7 +38,6 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
@@ -46,9 +45,6 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
 
 #include "../../pingtools/beamsampleselection.hpp"
 
@@ -110,6 +106,8 @@ enum class t_pingfeature : uint8_t
     multisectorwatercolumn_calibration
 };
 
+using o_pingfeature = themachinethatgoesping::tools::classhelper::Option<t_pingfeature>;
+
 static const std::vector<t_pingfeature> __empty_features__ = {};
 
 class I_PingCommon
@@ -167,7 +165,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_any_of_features(const std::vector<t_pingfeature>& features) const
+    bool has_any_of_features(const std::vector<o_pingfeature>& features) const
     {
         for (const auto& feature : features)
         {
@@ -184,7 +182,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_all_of_features(const std::vector<t_pingfeature>& features) const
+    bool has_all_of_features(const std::vector<o_pingfeature>& features) const
     {
         for (const auto& feature : features)
         {
@@ -234,20 +232,20 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_feature(t_pingfeature feature) const
+    bool has_feature(o_pingfeature feature) const
     {
         auto features   = this->primary_feature_functions();
-        auto it_primary = features.find(feature);
+        auto it_primary = features.find(feature.value);
         if (it_primary != features.end())
             return it_primary->second();
 
         features          = this->secondary_feature_functions();
-        auto it_secondary = features.find(feature);
+        auto it_secondary = features.find(feature.value);
         if (it_secondary != features.end())
             return it_secondary->second();
 
         features      = this->feature_group_functions();
-        auto it_group = features.find(feature);
+        auto it_group = features.find(feature.value);
         if (it_group != features.end())
             return it_group->second();
 
@@ -255,7 +253,7 @@ class I_PingCommon
                                              "not registered: {}\n Please report!",
                                              class_name(),
                                              __func__,
-                                             magic_enum::enum_name(feature)));
+                                             magic_enum::enum_name(feature.value)));
     }
 
     /**
@@ -514,3 +512,6 @@ class I_PingCommon
 } // namespace filetemplates
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::filetemplates::datatypes::t_pingfeature>;

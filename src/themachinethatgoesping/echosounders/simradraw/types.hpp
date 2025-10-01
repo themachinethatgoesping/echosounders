@@ -10,24 +10,25 @@
 
 #include <complex>
 #include <set>
-#include <vector>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include <magic_enum/magic_enum.hpp>
 
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 #include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace simradraw {
 
-using simradraw_char  = char;
-using simradraw_WORD  = uint16_t;
-using simradraw_short = int16_t;
-using simradraw_Int   = int32_t;
-using simradraw_long  = int32_t;
-using simradraw_float = float;
+using simradraw_char          = char;
+using simradraw_WORD          = uint16_t;
+using simradraw_short         = int16_t;
+using simradraw_Int           = int32_t;
+using simradraw_long          = int32_t;
+using simradraw_float         = float;
 using simradraw_complex_float = std::complex<simradraw_float>;
 using simradraw_double        = double;
 using simradraw_DWORDLON      = int64_t;
@@ -44,6 +45,10 @@ enum class t_SimradRawDatagramIdentifier : simradraw_long
     MRU0 = 810897997, ///< Motion datagram
     RAW3 = 861356370, ///< Raw sample data datagram
 };
+
+using o_SimradRawDatagramIdentifier =
+    themachinethatgoesping::tools::classhelper::Option<t_SimradRawDatagramIdentifier,
+                                                       t_SimradRawDatagramIdentifier::XML0>;
 
 /**
  * @brief Convert datagram type from simradraw_long to string representation.
@@ -79,14 +84,13 @@ inline simradraw_long SimradRawDatagram_type_from_string(std::string_view value)
 
 // ----- interface utility functions -----
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 /**
  * @brief Convert datagram identifier enum to string.
  * @param value Datagram identifier.
  * @return Decimal string representation.
  */
-inline std::string datagram_identifier_to_string(
-    simradraw::t_SimradRawDatagramIdentifier value)
+inline std::string datagram_identifier_to_string(simradraw::t_SimradRawDatagramIdentifier value)
 {
     return tools::helper::int_as_string<simradraw::simradraw_long>(
         simradraw::simradraw_long(value));
@@ -113,8 +117,7 @@ std::vector<std::string> datagram_identifiers_to_string(
  * @param datagram_type Datagram identifier.
  * @return Human-readable description.
  */
-std::string datagram_identifier_info(
-    simradraw::t_SimradRawDatagramIdentifier datagram_type);
+std::string datagram_identifier_info(simradraw::t_SimradRawDatagramIdentifier datagram_type);
 
 } // namespace echosounders
 } // namespace themachinethatgoesping

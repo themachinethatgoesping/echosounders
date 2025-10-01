@@ -1,4 +1,4 @@
-//sourcehash: 600608dba509229d48b69203e21b46d4b09e5a97485a4781a07cd35a11b93f52
+//sourcehash: 92f6d173390aef571555d785c34c3d4a5d2fbd26da4ee104ecf771944e93ec37
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_i_pingcommon_hpp_516_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon = R"doc()doc";
 

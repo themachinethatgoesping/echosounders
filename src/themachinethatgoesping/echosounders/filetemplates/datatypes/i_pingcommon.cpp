@@ -16,3 +16,6 @@ namespace datatypes {
 } // namespace echosounders
 } // namespace datatypes
 } // namespace filetemplates
+
+template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::filetemplates::datatypes::t_pingfeature>;

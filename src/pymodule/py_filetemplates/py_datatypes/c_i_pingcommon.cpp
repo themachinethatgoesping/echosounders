@@ -64,10 +64,9 @@ void init_c_i_pingcommon(pybind11::module& m)
             .value("sv", t_pingfeature::sv)
             .value("watercolumn_calibration", t_pingfeature::watercolumn_calibration)
             .value("multisectorwatercolumn_calibration",
-                   t_pingfeature::multisectorwatercolumn_calibration)
-            .export_values();
+                   t_pingfeature::multisectorwatercolumn_calibration);
 
-    tools::pybind_helper::add_string_to_enum_conversion<t_pingfeature>(pyenum_pingfeature);
+    tools::pybind_helper::make_option_class<o_pingfeature>(m, "o_pingfeature");
 
     auto cls =
         py::classh<I_PingCommon>(
