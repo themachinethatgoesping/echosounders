@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
+//#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>                  // Numpy bindings
 #include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>                  // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
@@ -30,7 +31,7 @@ namespace py_cache_structures {
         ARG)
 
 template<typename t_CachedPackage>
-void init_filepackagecache(nanobind::module& m, const std::string& typestr = "")
+void init_filepackagecache(nanobind::module_& m, const std::string& typestr = "")
 {
     namespace nb = nanobind;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::
