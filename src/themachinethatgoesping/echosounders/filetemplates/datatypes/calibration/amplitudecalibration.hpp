@@ -113,12 +113,21 @@ class AmplitudeCalibration
             if (has_system_offset())
                 beam_correction += get_system_offset();
 
+            if (has_offset_per_beamangle_and_range())
+                return ampcorr::apply_beam_sample_correction(
+                           wci, beam_correction, range_varying_offset, mp_cores) +
+                       _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
+
             return ampcorr::apply_beam_sample_correction(
                 wci, beam_correction, range_varying_offset, mp_cores);
         }
 
         if (has_system_offset())
             range_varying_offset += get_system_offset();
+
+        if (has_offset_per_beamangle_and_range())
+            return ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores) +
+                   _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
 
         return ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores);
     }
@@ -139,8 +148,8 @@ class AmplitudeCalibration
         t_xtensor_1d range_varying_offset =
             ampcorr::compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
 
-        //if (has_offset_per_beamangle_and_range())
-        //    wci += _offset_per_beamangle_and_range(beam_angles, ranges);
+        if (has_offset_per_beamangle_and_range())
+            wci += _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
 
         if (has_offset_per_range())
             range_varying_offset += get_per_sample_offsets(ranges);
@@ -202,8 +211,14 @@ class AmplitudeCalibration
     {
         _offset_per_beamangle_and_range.clear();
         for (unsigned int bi = 0; bi < beamangle.size(); ++bi)
-            _offset_per_beamangle_and_range.append_row(
-                beamangle[bi], std::vector<float>(range.begin(), range.end()), values.row(bi));
+            _offset_per_beamangle_and_range.append_row(beamangle[bi], range, values);
+    }
+
+    void set_offset_per_beamangle_and_range(
+        const tools::vectorinterpolators::BiVectorInterpolator<
+            tools::vectorinterpolators::AkimaInterpolator<float>>& offset_per_beamangle_and_range)
+    {
+        _offset_per_beamangle_and_range = offset_per_beamangle_and_range;
     }
 
     // interpolator access
@@ -232,6 +247,13 @@ class AmplitudeCalibration
 
     auto get_offset_per_beamangle_and_range(const std::vector<float>& beamangles,
                                             const std::vector<float>& ranges) const;
+
+    template<tools::helper::c_xtensor t_xtensor_1d>
+    void get_offset_per_beamangle_and_range(const t_xtensor_1d& beamangles,
+                                            const t_xtensor_1d& ranges) const
+    {
+        return _offset_per_beamangle_and_range(beamangles, ranges);
+    }
 
     static AmplitudeCalibration from_stream(std::istream& is);
 

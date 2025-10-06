@@ -35,6 +35,8 @@ namespace py = pybind11;
 void init_c_amplitudecalibration(pybind11::module& m)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+     using BiVectorOffset = tools::vectorinterpolators::BiVectorInterpolator<
+          tools::vectorinterpolators::AkimaInterpolator<float>>;
 
     // add class
     auto c =
@@ -115,6 +117,25 @@ void init_c_amplitudecalibration(pybind11::module& m)
             .def("has_offset_per_range",
                  &AmplitudeCalibration::has_offset_per_range,
                  DOC_AmplitudeCalibration(has_offset_per_range))
+            .def("set_offset_per_beamangle_and_range",
+                 py::overload_cast<const xt::pytensor<float, 1>&,
+                                   const xt::pytensor<float, 1>&,
+                                   const xt::pytensor<float, 2>&>(
+                     &AmplitudeCalibration::template set_offset_per_beamangle_and_range<
+                         xt::pytensor<float, 1>,
+                         xt::pytensor<float, 2>>),
+                 DOC_AmplitudeCalibration(set_offset_per_beamangle_and_range),
+                 py::arg("beamangles"),
+                 py::arg("ranges"),
+                 py::arg("values"))
+            .def("set_offset_per_beamangle_and_range",
+                     static_cast<void (AmplitudeCalibration::*)(const BiVectorOffset&)>(
+                          &AmplitudeCalibration::set_offset_per_beamangle_and_range),
+                 DOC_AmplitudeCalibration(set_offset_per_beamangle_and_range),
+                 py::arg("offset_per_beamangle_and_range"))
+            .def("has_offset_per_beamangle_and_range",
+                 &AmplitudeCalibration::has_offset_per_beamangle_and_range,
+                 DOC_AmplitudeCalibration(has_offset_per_beamangle_and_range))
 
             .def("get_interpolator_offset_per_beamangle",
                  &AmplitudeCalibration::get_interpolator_offset_per_beamangle,
@@ -122,6 +143,9 @@ void init_c_amplitudecalibration(pybind11::module& m)
             .def("get_interpolator_offset_per_range",
                  &AmplitudeCalibration::get_interpolator_offset_per_range,
                  DOC_AmplitudeCalibration(get_interpolator_offset_per_range))
+            .def("get_interpolator_offset_per_beamangle_and_range",
+                 &AmplitudeCalibration::get_interpolator_offset_per_beamangle_and_range,
+                 DOC_AmplitudeCalibration(get_interpolator_offset_per_beamangle_and_range))
 
             //   .def("get_offset_per_beamangle",
             //        py::overload_cast<const std::vector<float>&>(

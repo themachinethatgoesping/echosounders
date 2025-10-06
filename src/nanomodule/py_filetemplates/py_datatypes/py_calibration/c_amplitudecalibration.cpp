@@ -33,6 +33,8 @@ namespace nb = nanobind;
 void init_c_amplitudecalibration(nanobind::module_& m)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using BiVectorOffset = tools::vectorinterpolators::BiVectorInterpolator<
+        tools::vectorinterpolators::AkimaInterpolator<float>>;
 
     // add class
     auto c =
@@ -61,8 +63,9 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  DOC_AmplitudeCalibration(get_per_sample_offsets),
                  nb::arg("ranges"))
             .def("apply_beam_sample_correction",
-                 &AmplitudeCalibration::apply_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
-                                                                     xt::nanobind::pytensor<float, 1>>,
+                 &AmplitudeCalibration::apply_beam_sample_correction<
+                     xt::nanobind::pytensor<float, 2>,
+                     xt::nanobind::pytensor<float, 1>>,
                  DOC_AmplitudeCalibration(apply_beam_sample_correction),
                  nb::arg("wci"),
                  nb::arg("beam_angles"),
@@ -72,8 +75,9 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  nb::arg("mp_cores") = 1)
 
             .def("inplace_beam_sample_correction",
-                 &AmplitudeCalibration::inplace_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
-                                                                       xt::nanobind::pytensor<float, 1>>,
+                 &AmplitudeCalibration::inplace_beam_sample_correction<
+                     xt::nanobind::pytensor<float, 2>,
+                     xt::nanobind::pytensor<float, 1>>,
                  DOC_AmplitudeCalibration(inplace_beam_sample_correction),
                  nb::arg("wci"),
                  nb::arg("beam_angles"),
@@ -96,8 +100,10 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  DOC_AmplitudeCalibration(set_system_offset),
                  nb::arg("value"))
             .def("set_offset_per_beamangle",
-                 nb::overload_cast<const xt::nanobind::pytensor<float, 1>&, const xt::nanobind::pytensor<float, 1>&>(
-                     &AmplitudeCalibration::set_offset_per_beamangle<const xt::nanobind::pytensor<float, 1>>),
+                 nb::overload_cast<const xt::nanobind::pytensor<float, 1>&,
+                                   const xt::nanobind::pytensor<float, 1>&>(
+                     &AmplitudeCalibration::set_offset_per_beamangle<
+                         const xt::nanobind::pytensor<float, 1>>),
                  DOC_AmplitudeCalibration(set_offset_per_beamangle),
                  nb::arg("beamangle"),
                  nb::arg("offset"))
@@ -105,14 +111,35 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  &AmplitudeCalibration::has_offset_per_beamangle,
                  DOC_AmplitudeCalibration(has_offset_per_beamangle))
             .def("set_offset_per_range",
-                 nb::overload_cast<const xt::nanobind::pytensor<float, 1>&, const xt::nanobind::pytensor<float, 1>&>(
-                     &AmplitudeCalibration::set_offset_per_range<const xt::nanobind::pytensor<float, 1>>),
+                 nb::overload_cast<const xt::nanobind::pytensor<float, 1>&,
+                                   const xt::nanobind::pytensor<float, 1>&>(
+                     &AmplitudeCalibration::set_offset_per_range<
+                         const xt::nanobind::pytensor<float, 1>>),
                  DOC_AmplitudeCalibration(set_offset_per_range),
                  nb::arg("range"),
                  nb::arg("offset"))
             .def("has_offset_per_range",
                  &AmplitudeCalibration::has_offset_per_range,
                  DOC_AmplitudeCalibration(has_offset_per_range))
+            .def("set_offset_per_beamangle_and_range",
+                 nb::overload_cast<const xt::nanobind::pytensor<float, 1>&,
+                                   const xt::nanobind::pytensor<float, 1>&,
+                                   const xt::nanobind::pytensor<float, 2>&>(
+                     &AmplitudeCalibration::template set_offset_per_beamangle_and_range<
+                         xt::nanobind::pytensor<float, 1>,
+                         xt::nanobind::pytensor<float, 2>>),
+                 DOC_AmplitudeCalibration(set_offset_per_beamangle_and_range),
+                 nb::arg("beamangles"),
+                 nb::arg("ranges"),
+                 nb::arg("values"))
+            .def("set_offset_per_beamangle_and_range",
+                 static_cast<void (AmplitudeCalibration::*)(const BiVectorOffset&)>(
+                     &AmplitudeCalibration::set_offset_per_beamangle_and_range),
+                 DOC_AmplitudeCalibration(set_offset_per_beamangle_and_range),
+                 nb::arg("offset_per_beamangle_and_range"))
+            .def("has_offset_per_beamangle_and_range",
+                 &AmplitudeCalibration::has_offset_per_beamangle_and_range,
+                 DOC_AmplitudeCalibration(has_offset_per_beamangle_and_range))
 
             .def("get_interpolator_offset_per_beamangle",
                  &AmplitudeCalibration::get_interpolator_offset_per_beamangle,
@@ -120,6 +147,9 @@ void init_c_amplitudecalibration(nanobind::module_& m)
             .def("get_interpolator_offset_per_range",
                  &AmplitudeCalibration::get_interpolator_offset_per_range,
                  DOC_AmplitudeCalibration(get_interpolator_offset_per_range))
+            .def("get_interpolator_offset_per_beamangle_and_range",
+                 &AmplitudeCalibration::get_interpolator_offset_per_beamangle_and_range,
+                 DOC_AmplitudeCalibration(get_interpolator_offset_per_beamangle_and_range))
 
             //   .def("get_offset_per_beamangle",
             //        py::overload_cast<const std::vector<float>&>(

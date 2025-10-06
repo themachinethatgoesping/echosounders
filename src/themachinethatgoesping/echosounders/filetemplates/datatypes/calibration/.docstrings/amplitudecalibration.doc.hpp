@@ -1,4 +1,4 @@
-//sourcehash: f65fb6ce11f7cc941f0412d319efbcc161c2b53efea4fc15ae3b55142f02b308
+//sourcehash: 022ecd6aa847753d0117b9e41d0201255b1e009d0930ab639ec7f3ca05d8b6c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,6 +64,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_beamangle_and_range = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_beamangle_and_range_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_get_offset_per_range_2 = R"doc()doc";
@@ -99,6 +101,8 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_beamangle_and_range = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_beamangle_and_range_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_beamangle_and_range_3 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_set_offset_per_range = R"doc()doc";
 
