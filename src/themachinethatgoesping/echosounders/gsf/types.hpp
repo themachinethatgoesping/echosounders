@@ -14,7 +14,7 @@
 #include <fmt/core.h>
 #include <magic_enum/magic_enum.hpp>
 
-
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 
 /**
  * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram
@@ -47,6 +47,9 @@ enum class t_GSFDatagramIdentifier : uint32_t
     unspecified            = std::numeric_limits<uint32_t>::max(),
 };
 
+using o_GSFDatagramIdentifier =
+    tools::classhelper::Option<t_GSFDatagramIdentifier, t_GSFDatagramIdentifier::unspecified>;
+
 // ----- other enums -----
 
 // inline std::string datagram_type_to_string(uint8_t value)
@@ -69,13 +72,13 @@ inline t_GSFDatagramIdentifier GSFDatagram_type_from_string(std::string_view val
 } // namespace gsf
 
 // ----- interface? -----
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 inline std::string datagram_identifier_to_string(gsf::t_GSFDatagramIdentifier value)
 {
     return gsf::datagram_type_to_string(value);
 }
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(gsf::t_GSFDatagramIdentifier datagram_type)
 {
     return fmt::format("{:x}", uint8_t(datagram_type));
@@ -83,3 +86,7 @@ inline std::string datagram_identifier_info(gsf::t_GSFDatagramIdentifier datagra
 
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template struct themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::gsf::t_GSFDatagramIdentifier,
+    themachinethatgoesping::echosounders::gsf::t_GSFDatagramIdentifier::unspecified>;

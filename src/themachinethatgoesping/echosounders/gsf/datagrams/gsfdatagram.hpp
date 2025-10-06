@@ -35,6 +35,7 @@ class GSFDatagram
 {
   public:
     using t_DatagramIdentifier = t_GSFDatagramIdentifier;
+    using o_DatagramIdentifier = o_GSFDatagramIdentifier;
 
   protected:
     uint32_t _size_of_data; ///< number of bytes of the data portion of the datagram (excluding the
@@ -44,7 +45,7 @@ class GSFDatagram
 
   public:
     GSFDatagram(uint32_t                size_of_data,
-                t_DatagramIdentifier    datagram_identifier = t_DatagramIdentifier::unspecified,
+                o_DatagramIdentifier    datagram_identifier = t_DatagramIdentifier::unspecified,
                 std::optional<uint32_t> checksum            = std::nullopt)
         : _size_of_data(size_of_data)
         , _record_identifier(datagram_identifier)
@@ -80,11 +81,11 @@ class GSFDatagram
 
     // ----- convenient member access -----
     uint32_t                get_size_of_data() const { return _size_of_data; }
-    t_DatagramIdentifier    get_record_identifier() const { return _record_identifier; }
+    o_DatagramIdentifier    get_record_identifier() const { return _record_identifier; }
     std::optional<uint32_t> get_checksum() const { return _checksum; }
 
     void set_size_of_data(uint32_t size_of_data) { _size_of_data = size_of_data; }
-    void set_record_identifier(t_DatagramIdentifier datagram_identifier)
+    void set_record_identifier(o_DatagramIdentifier datagram_identifier)
     {
         _record_identifier = datagram_identifier;
     }

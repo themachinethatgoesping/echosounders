@@ -1,4 +1,4 @@
-//sourcehash: 0081e25fe299d5f14eab19c34c3d2609ff246784b4bf3e9f8464a64a627681cf
+//sourcehash: d0539c49e7286193d36737307fc31d8888cd7319fde48d750d8494456a70a846
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc__unnamed_struct_at_themachinethatgoesping_echosounders_gsf_types_hpp_90_68 = R"doc()doc";
 
 
 

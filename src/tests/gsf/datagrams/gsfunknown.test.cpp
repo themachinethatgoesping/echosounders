@@ -20,7 +20,7 @@ TEST_CASE("GSFUnknown should support common functions", TESTTAG)
     // initialize class structure
     auto dat = GSFUnknown();
     // data
-    dat.set_record_identifier(t_GSFDatagramIdentifier::SWATH_BATHYMETRY);
+    dat.set_record_identifier(std::string_view("SWATH_BATHYMETRY"));
     dat.set_raw_content(std::string(123, 'a'));
 
     // test inequality
@@ -48,5 +48,5 @@ TEST_CASE("GSFUnknown should support common functions", TESTTAG)
     REQUIRE(std::isnan(dat.get_timestamp()));
 
     // datagram type
-    REQUIRE(dat.get_record_identifier() == t_GSFDatagramIdentifier::SWATH_BATHYMETRY);
+    REQUIRE(dat.get_record_identifier() == "SWATH_BATHYMETRY");
 }

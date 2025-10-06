@@ -97,7 +97,7 @@ void init_filepackagecache(nanobind::module_& m, const std::string& typestr = ""
         ;
 }
 
-void init_c_filepackagecache(nanobind::module& m)
+void init_c_filepackagecache(nanobind::module_& m)
 {
     init_filepackagecache<simradraw::datagrams::xml_datagrams::XML_Parameter_Channel>(
         m, "XML_Parameter_Channel");

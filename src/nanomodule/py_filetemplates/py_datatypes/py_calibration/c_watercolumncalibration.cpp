@@ -36,12 +36,13 @@ template<typename t_float, typename t_pyclass>
 void add_apply_calibration_functions(t_pyclass& c)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+     using themachinethatgoesping::tools_nanobind::pytensor;
 
     c.def("apply_beam_sample_correction_power",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::power,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -50,8 +51,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_rp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::rp,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -60,8 +61,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_rv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::rv,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -70,8 +71,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_pp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::pp,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -80,8 +81,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_pv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::pv,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -90,8 +91,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_ap",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::ap,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -100,8 +101,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_av",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::av,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -110,8 +111,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_sv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::sv,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),
@@ -120,8 +121,8 @@ void add_apply_calibration_functions(t_pyclass& c)
     c.def("apply_beam_sample_correction_sp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
               WaterColumnCalibration::t_calibration_type::sp,
-              pytensor_nanobindensor<t_float, 2>,
-              pytensor_nanobindensor<t_float, 1>>,
+                 pytensor<t_float, 2>,
+                 pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
           nb::arg("wci"),
           nb::arg("beam_angles"),

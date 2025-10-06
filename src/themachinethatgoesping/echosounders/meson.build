@@ -106,6 +106,7 @@ sources = [
   'simradraw/filedatatypes/sub/transceiverinformation.cpp',
   'gsf/datagrams.cpp',
   'gsf/gsffilehandler.cpp',
+  'gsf/types.cpp',
   'gsf/datagrams/gsfdatagram.cpp',
   'gsf/datagrams/gsfunknown.cpp',
   'gsf/datagrams/headerdatagram.cpp',

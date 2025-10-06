@@ -15,12 +15,12 @@
 #include <optional>
 #include <vector>
 
-#include <xxhash.hpp>
 #include <boost/iostreams/stream.hpp>
+#include <xxhash.hpp>
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
-#include <themachinethatgoesping/tools/helper/xtensor.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/helper/xtensor.hpp>
 #include <themachinethatgoesping/tools/vectorinterpolators/akimainterpolator.hpp>
 #include <themachinethatgoesping/tools/vectorinterpolators/bivectorinterpolator.hpp>
 
@@ -44,7 +44,8 @@ class AmplitudeCalibration
         tools::vectorinterpolators::AkimaInterpolator<float>(
             tools::vectorinterpolators::t_extr_mode::nearest);
 
-    tools::vectorinterpolators::BiVectorInterpolator<tools::vectorinterpolators::AkimaInterpolator<float>>
+    tools::vectorinterpolators::BiVectorInterpolator<
+        tools::vectorinterpolators::AkimaInterpolator<float>>
         _offset_per_beamangle_and_range = tools::vectorinterpolators::BiVectorInterpolator<
             tools::vectorinterpolators::AkimaInterpolator<float>>(
             tools::vectorinterpolators::t_extr_mode::nearest);
@@ -137,6 +138,9 @@ class AmplitudeCalibration
 
         t_xtensor_1d range_varying_offset =
             ampcorr::compute_cw_range_correction(ranges, absorption_db_m, tvg_factor);
+
+        //if (has_offset_per_beamangle_and_range())
+        //    wci += _offset_per_beamangle_and_range(beam_angles, ranges);
 
         if (has_offset_per_range())
             range_varying_offset += get_per_sample_offsets(ranges);
