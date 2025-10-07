@@ -280,7 +280,7 @@ class InstallationParameters : public KongsbergAllDatagram
     int get_tx2_serial_number() const { return get_value_int("T2X"); }
     int get_rx1_serial_number() const { return get_value_int("R1S"); }
     int get_rx2_serial_number() const { return get_value_int("R2S"); }
-    t_KongsbergAllSystemTransducerConfiguration get_system_transducer_configuration() const;
+    o_KongsbergAllSystemTransducerConfiguration get_system_transducer_configuration() const;
 
     std::string get_tx_array_size() const;
     std::string get_rx_array_size() const;
@@ -304,11 +304,11 @@ class InstallationParameters : public KongsbergAllDatagram
     /**
      * @brief Get the attitude sensor offsets of sensor 1 or 2
      *
-     * @param sensor_number t_KongsbergAllActiveSensor (enum)
+     * @param sensor_number o_KongsbergAllActiveSensor (enum)
      * @return navigation::datastructures::PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
-        t_KongsbergAllActiveSensor sensor) const;
+        o_KongsbergAllActiveSensor sensor) const;
 
     /**
      * @brief Get the attitude sensor offsets of sensor 1 or 2
@@ -348,23 +348,23 @@ class InstallationParameters : public KongsbergAllDatagram
     /**
      * @brief Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an enum
      *
-     * @return t_KongsbergAllActiveSensor
+     * @return o_KongsbergAllActiveSensor
      */
-    t_KongsbergAllActiveSensor get_active_pitch_roll_sensor() const;
+    o_KongsbergAllActiveSensor get_active_pitch_roll_sensor() const;
 
     /**
      * @brief Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
      *
-     * @return t_KongsbergAllActiveSensor
+     * @return o_KongsbergAllActiveSensor
      */
-    t_KongsbergAllActiveSensor get_active_heave_sensor() const;
+    o_KongsbergAllActiveSensor get_active_heave_sensor() const;
 
     /**
      * @brief Get the active heading sensor (0-9) here returned as an enum
      *
-     * @return t_KongsbergAllActiveSensor
+     * @return o_KongsbergAllActiveSensor
      */
-    t_KongsbergAllActiveSensor get_active_heading_sensor() const;
+    o_KongsbergAllActiveSensor get_active_heading_sensor() const;
 
     /**
      * @brief Get the active attitude velocity sensor (not active, 1 or 2)
@@ -372,7 +372,7 @@ class InstallationParameters : public KongsbergAllDatagram
      * 1: Attitude Velocity Sensor 1 (assumed to be physical equal to Attitude sensor 1)
      * 2: Attitude Velocity Sensor 2 (assumed to be physical equal to Attitude sensor 2)
      *
-     * @return t_KongsbergAllActiveSensor
+     * @return o_KongsbergAllActiveSensor
      */
     uint8_t get_active_attitude_velocity_sensor() const;
 

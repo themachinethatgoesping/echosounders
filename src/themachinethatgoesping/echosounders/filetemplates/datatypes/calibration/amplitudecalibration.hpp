@@ -125,11 +125,11 @@ class AmplitudeCalibration
         if (has_system_offset())
             range_varying_offset += get_system_offset();
 
+        auto ret = ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores);
         if (has_offset_per_beamangle_and_range())
-            return ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores) +
-                   _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
+            ret += _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
 
-        return ampcorr::apply_sample_correction(wci, range_varying_offset, mp_cores);
+        return ret;
     }
 
     template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>

@@ -8,6 +8,7 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/variant.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 

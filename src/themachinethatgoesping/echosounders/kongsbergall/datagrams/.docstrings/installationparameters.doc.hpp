@@ -1,4 +1,4 @@
-//sourcehash: a84480464eac886ccf4abc33b5c50f6eddc1e64a8e8a98d7997a1fa969d0de02
+//sourcehash: 1599eea53f40bcb18e23234c69b2e25e3b8f8ee08ef87bd4075498a47e4c0c36
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -78,26 +78,26 @@ Attitude sensor 1) 2: Attitude Velocity Sensor 2 (assumed to be
 physical equal to Attitude sensor 2)
 
 Returns:
-    t_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_heading_sensor =
 R"doc(Get the active heading sensor (0-9) here returned as an enum
 
 Returns:
-    t_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_heave_sensor =
 R"doc(Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
 
 Returns:
-    t_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_pitch_roll_sensor =
 R"doc(Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an
 enum
 
 Returns:
-    t_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_position_system_number =
 R"doc(Get the active position system number (APS + 1)
@@ -109,7 +109,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagr
 R"doc(Get the attitude sensor offsets of sensor 1 or 2
 
 Parameter ``sensor_number``:
-    t_KongsbergAllActiveSensor (enum)
+    o_KongsbergAllActiveSensor (enum)
 
 Returns:
     navigation::datastructures::PositionalOffsets)doc";

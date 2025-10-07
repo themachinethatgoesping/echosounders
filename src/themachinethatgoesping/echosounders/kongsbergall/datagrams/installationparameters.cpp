@@ -5,8 +5,8 @@
 #include "installationparameters.hpp"
 
 // std includes
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
@@ -27,7 +27,8 @@ namespace kongsbergall {
 namespace datagrams {
 
 // ----- factory functions -----
-InstallationParameters InstallationParameters::merge(InstallationParameters first, InstallationParameters second)
+InstallationParameters InstallationParameters::merge(InstallationParameters first,
+                                                     InstallationParameters second)
 {
     static const std::array<const std::string, 2> uncritical_keys = {
         "RFN", // raw file name
@@ -159,7 +160,7 @@ bool InstallationParameters::is_dual_rx() const
 {
     auto stc = get_system_transducer_configuration();
 
-    switch (stc)
+    switch (stc.value)
     {
         case t_KongsbergAllSystemTransducerConfiguration::SingleHead:
             [[fallthrough]];
@@ -172,15 +173,14 @@ bool InstallationParameters::is_dual_rx() const
         default:
             throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
                                                  "unsupported transducer configuration: {}",
-                                                 magic_enum::enum_name(stc))));
+                                                 stc.name())));
     }
 }
 
 std::string InstallationParameters::build_channel_id() const
 {
     std::string channel_id = "EM" + std::to_string(get_model_number());
-    channel_id +=
-        " " + std::string(magic_enum::enum_name(get_system_transducer_configuration()));
+    channel_id += " " + get_system_transducer_configuration().name();
     channel_id += " " + std::to_string(this->get_system_serial_number());
 
     if (is_dual_rx())
@@ -189,7 +189,8 @@ std::string InstallationParameters::build_channel_id() const
     return channel_id;
 }
 
-t_KongsbergAllSystemTransducerConfiguration InstallationParameters::get_system_transducer_configuration() const
+o_KongsbergAllSystemTransducerConfiguration
+InstallationParameters::get_system_transducer_configuration() const
 {
     unsigned int val = get_value_int("STC", 0);
 
@@ -199,7 +200,7 @@ t_KongsbergAllSystemTransducerConfiguration InstallationParameters::get_system_t
                         "invalid transducer configuration: {}",
                         val)));
 
-    return t_KongsbergAllSystemTransducerConfiguration(val);
+    return o_KongsbergAllSystemTransducerConfiguration(val);
 }
 
 std::string InstallationParameters::get_tx_array_size() const
@@ -238,7 +239,8 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_compas
     return PositionalOffsets("Gyrocompass", 0, 0, 0, get_value_float("GCG", 0.f), 0, 0);
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_depth_sensor_offsets() const
+navigation::datastructures::PositionalOffsets InstallationParameters::get_depth_sensor_offsets()
+    const
 {
     // TODO: this option should be supported
     try
@@ -257,9 +259,9 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_depth_
 }
 
 navigation::datastructures::PositionalOffsets InstallationParameters::get_attitude_sensor_offsets(
-    t_KongsbergAllActiveSensor sensor) const
+    o_KongsbergAllActiveSensor sensor) const
 {
-    switch (sensor)
+    switch (sensor.value)
     {
         case t_KongsbergAllActiveSensor::MotionSensor1:
             [[fallthrough]];
@@ -394,7 +396,7 @@ uint8_t InstallationParameters::get_active_position_system_number() const
     return std::stoi(get_value_string("APS")) + 1;
 }
 
-t_KongsbergAllActiveSensor InstallationParameters::get_active_pitch_roll_sensor() const
+o_KongsbergAllActiveSensor InstallationParameters::get_active_pitch_roll_sensor() const
 {
     std::string active_sensor = get_value_string("ARO");
 
@@ -416,7 +418,7 @@ t_KongsbergAllActiveSensor InstallationParameters::get_active_pitch_roll_sensor(
     }
 }
 
-t_KongsbergAllActiveSensor InstallationParameters::get_active_heave_sensor() const
+o_KongsbergAllActiveSensor InstallationParameters::get_active_heave_sensor() const
 {
     std::string active_sensor = get_value_string("AHE");
 
@@ -438,7 +440,7 @@ t_KongsbergAllActiveSensor InstallationParameters::get_active_heave_sensor() con
     }
 }
 
-t_KongsbergAllActiveSensor InstallationParameters::get_active_heading_sensor() const
+o_KongsbergAllActiveSensor InstallationParameters::get_active_heading_sensor() const
 {
     std::string active_sensor = get_value_string("AHE");
 
@@ -488,7 +490,8 @@ const std::string& InstallationParameters::get_value_string(const std::string& k
     return it->second;
 }
 
-std::string InstallationParameters::get_value_string(const std::string& key, std::string_view default_val) const
+std::string InstallationParameters::get_value_string(const std::string& key,
+                                                     std::string_view   default_val) const
 {
     auto it = _parsed_installation_parameters.find(key);
     if (it == _parsed_installation_parameters.end())
@@ -515,9 +518,9 @@ float InstallationParameters::get_value_float(const std::string& key, float defa
     return tools::helper::string_to_floattype<float>(value);
 }
 
-int InstallationParameters::get_value_int(const std::string& key) const 
-{ 
-    return stoi(get_value_string(key)); 
+int InstallationParameters::get_value_int(const std::string& key) const
+{
+    return stoi(get_value_string(key));
 }
 
 int InstallationParameters::get_value_int(const std::string& key, int default_value) const
@@ -559,7 +562,8 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_sensor
     return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
 }
 
-InstallationParameters InstallationParameters::from_stream(std::istream& is, KongsbergAllDatagram header)
+InstallationParameters InstallationParameters::from_stream(std::istream&        is,
+                                                           KongsbergAllDatagram header)
 {
     InstallationParameters datagram(std::move(header));
 
@@ -606,8 +610,9 @@ InstallationParameters InstallationParameters::from_stream(std::istream& is)
     return from_stream(is, KongsbergAllDatagram::from_stream(is));
 }
 
-InstallationParameters InstallationParameters::from_stream(std::istream&                    is,
-                                          t_KongsbergAllDatagramIdentifier datagram_identifier)
+InstallationParameters InstallationParameters::from_stream(
+    std::istream&                    is,
+    t_KongsbergAllDatagramIdentifier datagram_identifier)
 {
     return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
 }
@@ -636,8 +641,9 @@ void InstallationParameters::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&(_checksum)), sizeof(uint16_t));
 }
 
-tools::classhelper::ObjectPrinter InstallationParameters::__printer__(unsigned int float_precision,
-                                              bool         superscript_exponents) const
+tools::classhelper::ObjectPrinter InstallationParameters::__printer__(
+    unsigned int float_precision,
+    bool         superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
         "InstallationParameters", float_precision, superscript_exponents);
@@ -669,8 +675,8 @@ tools::classhelper::ObjectPrinter InstallationParameters::__printer__(unsigned i
 }
 
 void InstallationParameters::unsupported_option_float(const std::string& option_key,
-                              float              supported_value,
-                              const std::string& function_name) const
+                                                      float              supported_value,
+                                                      const std::string& function_name) const
 {
     // if the option_key does not exist, the function will assume the supported value as default
     // value
@@ -689,8 +695,8 @@ void InstallationParameters::unsupported_option_float(const std::string& option_
 }
 
 void InstallationParameters::unsupported_option_string(const std::string& option_key,
-                               const std::string& supported_value,
-                               const std::string& function_name) const
+                                                       const std::string& supported_value,
+                                                       const std::string& function_name) const
 {
     // if the option_key does not exist, the function will assume the supported value as default
     // value

@@ -126,7 +126,7 @@ class RawRangeAndAngleBeam
      *
      * @return t_DetectionType
      */
-    detection_information::t_DetectionType get_detection_type() const
+    detection_information::o_DetectionType get_detection_type() const
     {
         return detection_information::get_detection_type(_detection_info);
     }
@@ -170,7 +170,7 @@ class RawRangeAndAngleBeam
         printer.register_value("beam_crosstrack_angle", get_beam_crosstrack_angle_in_degrees(), "°");
         printer.register_value("reflectivity", get_reflectivity_in_db(), "dB");
         printer.register_value("detection_is_valid", get_detection_is_valid());
-        printer.register_enum("detection_type", get_detection_type());
+        printer.register_enum("detection_type", get_detection_type().value);
         printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
 
         return printer;

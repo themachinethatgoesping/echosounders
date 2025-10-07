@@ -10,13 +10,13 @@
 #include ".docstrings/extraparameters.doc.hpp"
 
 // std includes
+#include <iosfwd>
 #include <string>
-#include <vector>
+#include <cstdint>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 
 #include "../types.hpp"
 #include "kongsbergalldatagram.hpp"
@@ -26,169 +26,78 @@ namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
 
-/**
- * @brief Clock datagrams
- */
 class ExtraParameters : public KongsbergAllDatagram
 {
-  public:
-    static constexpr auto DatagramIdentifier = t_KongsbergAllDatagramIdentifier::ExtraParameters;
+    public:
+        static constexpr auto DatagramIdentifier = t_KongsbergAllDatagramIdentifier::ExtraParameters;
 
-  public:
-    // ----- enumerator datatypes -----
-    enum class t_ContentIdentifier : uint16_t
-    {
-        CalibTxt                  = 1, ///< Calib.txt file for angle offset
-        LogAllHeights             = 2, ///< Log of all heights
-        SoundVelocityAtTransducer = 3, ///< Sound velocity at transducer
-        SoundVelocityProfile      = 4, ///< Sound velocity profile
-        MultiCastInputStatus      = 5, ///< Multicast input status
-        Bscorr                    = 6, ///< Bscorr.txt file
-    };
+        enum class t_ContentIdentifier : uint16_t
+        {
+                CalibTxt                  = 1, ///< Calib.txt file for angle offset
+                LogAllHeights             = 2, ///< Log of all heights
+                SoundVelocityAtTransducer = 3, ///< Sound velocity at transducer
+                SoundVelocityProfile      = 4, ///< Sound velocity profile
+                MultiCastInputStatus      = 5, ///< Multicast input status
+                Bscorr                    = 6, ///< Bscorr.txt file
+        };
 
-  protected:
-    uint16_t            _ping_counter;
-    uint16_t            _system_serial_number;
-    t_ContentIdentifier _content_identifier;
-    std::string         _raw_content; ///< depends on the content identifier
+        using o_ContentIdentifier = tools::classhelper::Option<t_ContentIdentifier>;
 
-    uint8_t _spare;
+    protected:
+        uint16_t            _ping_counter;
+        uint16_t            _system_serial_number;
+        t_ContentIdentifier _content_identifier;
+        std::string         _raw_content; ///< depends on the content identifier
 
-    uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
-    uint16_t _checksum;
+        uint8_t _spare;
 
-  private:
-    // ----- private constructors -----
-    explicit ExtraParameters(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+        uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
+        uint16_t _checksum;
 
-  public:
-    // ----- public constructors -----
-    ExtraParameters() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::ExtraParameters; }
-    ~ExtraParameters() = default;
+    private:
+        explicit ExtraParameters(KongsbergAllDatagram header);
 
-    // ----- convenient data access -----
-    // getters
-    uint16_t            get_ping_counter() const { return _ping_counter; }
-    uint16_t            get_system_serial_number() const { return _system_serial_number; }
-    t_ContentIdentifier get_content_identifier() const { return _content_identifier; }
-    std::string         get_raw_content() const { return _raw_content; }
-    uint8_t             get_spare() const { return _spare; }
-    uint8_t             get_etx() const { return _etx; }
-    uint16_t            get_checksum() const { return _checksum; }
+    public:
+        ExtraParameters();
+        ~ExtraParameters() = default;
 
-    // setters
-    void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_content_identifier(t_ContentIdentifier content_identifier)
-    {
-        _content_identifier = content_identifier;
-    }
-    void set_raw_content(std::string raw_content) { _raw_content = raw_content; }
-    void set_spare(uint8_t spare) { _spare = spare; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
-    void set_etx(uint8_t etx) { _etx = etx; }
+        uint16_t            get_ping_counter() const;
+        uint16_t            get_system_serial_number() const;
+        t_ContentIdentifier get_content_identifier() const;
+        std::string         get_raw_content() const;
+        uint8_t             get_spare() const;
+        uint8_t             get_etx() const;
+        uint16_t            get_checksum() const;
 
-    // ----- processed data access -----
+        void set_ping_counter(uint16_t ping_counter);
+        void set_system_serial_number(uint16_t system_serial_number);
+        void set_content_identifier(t_ContentIdentifier content_identifier);
+        void set_raw_content(std::string raw_content);
+        void set_spare(uint8_t spare);
+        void set_checksum(uint16_t checksum);
+        void set_etx(uint8_t etx);
 
-    // ----- operators -----
-    bool operator==(const ExtraParameters& other) const = default;
+        bool operator==(const ExtraParameters& other) const = default;
 
-    //----- to/from stream functions -----
-    static ExtraParameters from_stream(std::istream& is, KongsbergAllDatagram header)
-    {
-        ExtraParameters datagram(std::move(header));
+        static ExtraParameters from_stream(std::istream& is, KongsbergAllDatagram header);
+        static ExtraParameters from_stream(std::istream& is);
+        static ExtraParameters from_stream(std::istream&                    is,
+                                                                             t_KongsbergAllDatagramIdentifier datagram_identifier);
 
-        if (datagram._datagram_identifier != t_KongsbergAllDatagramIdentifier::ExtraParameters)
-            throw std::runtime_error(
-                fmt::format("ExtraParameters: datagram identifier is not 0x{:02x}, but 0x{:02x}",
-                            uint8_t(t_KongsbergAllDatagramIdentifier::ExtraParameters),
-                            uint8_t(datagram._datagram_identifier)));
+        void to_stream(std::ostream& os);
 
-        // read first part of the datagram (until the first beam)
-        is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 6 * sizeof(uint8_t));
+        tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                                                                    bool         superscript_exponents) const;
 
-        // size of the content datagram
-        // 22 = size of KongsbergAllDatagram(12) + etx(1) + checksum(2) + spare (1) + 6
-        const static uint8_t tmp = sizeof(uint8_t) * (22);
-
-        // read the raw content datagram
-        datagram._raw_content.resize(datagram.get_bytes() - tmp);
-        is.read(reinterpret_cast<char*>(datagram._raw_content.data()),
-                datagram._raw_content.size());
-
-        // read the rest of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._spare)), 4 * sizeof(uint8_t));
-
-        if (datagram._etx != 0x03)
-            throw std::runtime_error(fmt::format(
-                "ExtraParameters: end identifier is not 0x03, but 0x{:x}", datagram._etx));
-
-        return datagram;
-    }
-
-    static ExtraParameters from_stream(std::istream& is)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is));
-    }
-
-    static ExtraParameters from_stream(std::istream&              is,
-                                       t_KongsbergAllDatagramIdentifier datagram_identifier)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
-    }
-
-    void to_stream(std::ostream& os)
-    {
-        if (_bytes - 22 != _raw_content.size())
-            throw std::runtime_error(
-                fmt::format("ExtraParameters: bytes - 22 ({}) does not match the size of "
-                            "the _raw_content string ({})",
-                            _bytes - 22,
-                            _raw_content.size()));
-
-        KongsbergAllDatagram::to_stream(os);
-
-        // write first part of the datagram (until the first beam)
-        os.write(reinterpret_cast<const char*>(&(_ping_counter)), 6 * sizeof(uint8_t));
-
-        // write the installation paramaters string
-        os.write(reinterpret_cast<const char*>(_raw_content.data()),
-                 _raw_content.size() * sizeof(uint8_t));
-
-        // write the rest of the datagram
-        os.write(reinterpret_cast<const char*>(&(_spare)), 4 * sizeof(uint8_t));
-    }
-
-    // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("ExtraParameters", float_precision, superscript_exponents);
-
-        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
-        printer.register_section("datagram content");
-        printer.register_value("ping_counter", _ping_counter);
-        printer.register_value("system_serial_number", _system_serial_number);
-        printer.register_enum("content_identifier", _content_identifier);
-        printer.register_value("raw_content", _raw_content.size(), "bytes");
-        printer.register_string("etx", fmt::format("0x{:02x}", _etx));
-        printer.register_value("checksum", _checksum);
-
-        // printer.register_section("Processed");
-        return printer;
-    }
-
-    // ----- class helper macros -----
-    __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(ExtraParameters)
+        __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+        __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(ExtraParameters)
 };
 
 } // namespace datagrams
 } // namespace kongsbergall
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::datagrams::ExtraParameters::
+        t_ContentIdentifier>;

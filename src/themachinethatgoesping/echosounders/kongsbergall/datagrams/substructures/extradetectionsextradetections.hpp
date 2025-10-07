@@ -189,7 +189,7 @@ class ExtraDetectionsExtraDetections
      *
      * @return t_DetectionType
      */
-    detection_information::t_DetectionType get_detection_type() const
+    detection_information::o_DetectionType get_detection_type() const
     {
         return detection_information::get_detection_type(_detection_info);
     }
@@ -278,7 +278,7 @@ class ExtraDetectionsExtraDetections
         printer.register_value("ifremer qf threshold", get_qf_threshold(), "0.01 - 1");
         printer.register_value("backscatter", get_backscatter_in_db(), "dB");
         printer.register_value("detection_is_valid", get_detection_is_valid());
-        printer.register_enum("detection_type", get_detection_type());
+        printer.register_enum("detection_type", get_detection_type().value);
         printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
 
         return printer;

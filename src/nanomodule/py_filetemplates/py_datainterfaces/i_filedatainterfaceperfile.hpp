@@ -6,6 +6,7 @@
 #pragma once
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/string.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 

@@ -44,7 +44,7 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
             nb::dict result;
             for (const auto& [key, value] : self.get_trx_sensor_configuration_per_target_id(index))
             {
-                result[nb::str(key)] = value;
+                result[nb::str(key.c_str())] = value;
             }
             return result;
         },

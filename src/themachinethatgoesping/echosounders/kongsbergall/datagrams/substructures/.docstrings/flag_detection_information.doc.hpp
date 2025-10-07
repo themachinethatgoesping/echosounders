@@ -1,4 +1,4 @@
-//sourcehash: 65b4717ebb34b0d16ee6c359bb80455e717624753abd048e2092188c699c7bd0
+//sourcehash: eda8a9ec1689e1af01d089312023729df19e7120abf83a817a42dc7992606664
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_flag_detection_information_hpp_92_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_detection_information_get_backscatter_is_compensated =
 R"doc(This function evaluates the detection information flag. If the 4th bit

@@ -63,7 +63,6 @@ void init_c_i_pingcommon(nanobind::module_& m)
         .value("watercolumn_calibration", t_pingfeature::watercolumn_calibration)
         .value("multisectorwatercolumn_calibration", t_pingfeature::multisectorwatercolumn_calibration);
 
-    using o_pingfeature = themachinethatgoesping::tools::classhelper::Option<t_pingfeature>;
     tools::nanobind_helper::make_option_class<o_pingfeature>(m, "o_pingfeature");
 
     auto cls =

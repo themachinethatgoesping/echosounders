@@ -94,7 +94,7 @@ void init_c_installationparameters(pybind11::module& m)
              &InstallationParameters::get_depth_sensor_offsets,
              DOC_InstallationParameters(get_depth_sensor_offsets))
         .def("get_attitude_sensor_offsets",
-             py::overload_cast<t_KongsbergAllActiveSensor>(
+             py::overload_cast<o_KongsbergAllActiveSensor>(
                  &InstallationParameters::get_attitude_sensor_offsets, py::const_),
              DOC_InstallationParameters(get_attitude_sensor_offsets),
              py::arg("sensor_number"))

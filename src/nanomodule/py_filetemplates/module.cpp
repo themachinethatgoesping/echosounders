@@ -30,8 +30,7 @@ void init_c_amplitudecalibration(
 void init_c_watercolumncalibration(
     nb::module_& m); // py_datatypes/py_calibration/init_c_watercolumncalibration.cpp
 void init_c_multisectorwatercolumncalibration(
-    nb::module_&
-        m); // py_datatypes/py_calibration/init_c_multisectorwatercolumncalibration.cpp
+    nb::module_& m); // py_datatypes/py_calibration/init_c_multisectorwatercolumncalibration.cpp
 }
 }
 

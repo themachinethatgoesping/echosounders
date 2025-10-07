@@ -85,11 +85,11 @@ struct KongsbergAllDatagramVariant
     }
 
     static t_KongsbergAllDatagramVariant from_stream(std::istream&              is,
-                                               t_KongsbergAllDatagramIdentifier datagram_type,
+                                               o_KongsbergAllDatagramIdentifier datagram_type,
                                                bool                       skip_data = false)
     {
         // KongsbergAllDATAGRAMTYPEAREA
-        switch (datagram_type)
+        switch (datagram_type.value)
         {
             case t_KongsbergAllDatagramIdentifier::XYZDatagram:
                 return t_KongsbergAllDatagramVariant(XYZDatagram::from_stream(is));

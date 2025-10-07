@@ -39,11 +39,11 @@ void add_file_index_types(pybind11::module& m, const std::string& CLASS_NAME)
                                        FilePackageIndex))
         .def(py::init<>(), DOC_FilePackageIndex(FilePackageIndex))
         // --- processed data access ---
-        .def_readwrite("file_path", &t_FilePackageIndex::file_path, DOC_FilePackageIndex(file_path))
-        .def_readwrite("file_size", &t_FilePackageIndex::file_size, DOC_FilePackageIndex(file_size))
-        .def_readwrite("datagram_info_data",
-                       &t_FilePackageIndex::datagram_info_data,
-                       DOC_FilePackageIndex(datagram_info_data))
+    .def_readwrite("file_path", &t_FilePackageIndex::file_path, DOC_FilePackageIndex(file_path))
+    .def_readwrite("file_size", &t_FilePackageIndex::file_size, DOC_FilePackageIndex(file_size))
+    .def_readwrite("datagram_info_data",
+               &t_FilePackageIndex::datagram_info_data,
+               DOC_FilePackageIndex(datagram_info_data))
 
         // ----- operators -----
         .def("__eq__",

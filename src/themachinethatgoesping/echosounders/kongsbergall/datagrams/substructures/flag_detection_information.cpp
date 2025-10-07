@@ -18,3 +18,7 @@ namespace substructures {
 } // namespace substructures
 } // namespace datagrams
 } // namespace kongsbergall
+
+template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
+        detection_information::t_DetectionType>;

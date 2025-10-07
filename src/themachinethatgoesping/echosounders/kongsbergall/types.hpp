@@ -15,6 +15,7 @@
 
 #include <fmt/core.h>
 #include <magic_enum/magic_enum.hpp>
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 
 /**
  * @brief Type definitions for kongsberg .all types according to kongsberg em series datagram
@@ -74,6 +75,9 @@ enum class t_KongsbergAllDatagramIdentifier : uint8_t
     unspecified        = 0
 };
 
+using o_KongsbergAllDatagramIdentifier =
+    themachinethatgoesping::tools::classhelper::Option<t_KongsbergAllDatagramIdentifier>;
+
 // ----- other enums -----
 /**
  * @brief This enum is used to identify the active sensor in the InstallationParameters datagram
@@ -95,6 +99,9 @@ enum class t_KongsbergAllActiveSensor : int8_t
     NotSet                  = -1 ///< this is not a valid value
 };
 
+using o_KongsbergAllActiveSensor =
+    themachinethatgoesping::tools::classhelper::Option<t_KongsbergAllActiveSensor>;
+
 /**
  * @brief This enum is used to identify the transducer configuration (STC field) in the
  * InstallationParameters datagram
@@ -110,6 +117,10 @@ enum class t_KongsbergAllSystemTransducerConfiguration : uint8_t
     PortableSingleHead = 5, ///< EM2040P
     Modular            = 6  ///< EM2040M
 };
+
+
+using o_KongsbergAllSystemTransducerConfiguration =
+    themachinethatgoesping::tools::classhelper::Option<t_KongsbergAllSystemTransducerConfiguration>;
 
 /**
  * @brief Convert a t_KongsbergAllActiveSensor to an attitude sensor number
@@ -128,27 +139,34 @@ int t_KongsbergAllActiveSensor_to_attitude_sensor_number(t_KongsbergAllActiveSen
 
 std::string datagram_type_to_string(t_KongsbergAllDatagramIdentifier value);
 
-t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(
-    std::string_view value);
+t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(std::string_view value);
 
 } // namespace kongsbergall
 
 // ----- interface? -----
 
-std::string datagram_identifier_to_string(
-    kongsbergall::t_KongsbergAllDatagramIdentifier value);
+std::string datagram_identifier_to_string(kongsbergall::t_KongsbergAllDatagramIdentifier value);
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
-std::string datagram_identifier_info(
-    kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type);
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+std::string datagram_identifier_info(kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type);
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
 std::vector<std::string> datagram_identifiers_to_string(
     const std::vector<kongsbergall::t_KongsbergAllDatagramIdentifier>& values);
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2
 std::vector<std::string> datagram_identifiers_to_string(
     const std::set<kongsbergall::t_KongsbergAllDatagramIdentifier>& values);
 
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::t_KongsbergAllDatagramIdentifier>;
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::t_KongsbergAllActiveSensor>;
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::t_KongsbergAllSystemTransducerConfiguration>;

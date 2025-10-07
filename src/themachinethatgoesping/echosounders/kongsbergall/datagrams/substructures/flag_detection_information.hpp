@@ -14,6 +14,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 
 
 
@@ -42,6 +43,8 @@ enum class t_DetectionType : uint8_t
     NoDetection            = 0b10000100, ///< Invalid: No detection data is available for this beam
     Invalid
 };
+
+using o_DetectionType = tools::classhelper::Option<t_DetectionType>;
 
 /**
  * @brief This function evaluates a detection information flag. If the most significant bit is set
@@ -85,3 +88,7 @@ inline bool get_backscatter_is_compensated(uint8_t detection_info)
 } // namespace kongsbergall
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::detection_information::
+        t_DetectionType>;

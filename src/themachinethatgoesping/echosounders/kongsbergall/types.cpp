@@ -6,6 +6,16 @@
 
 #include "types.hpp"
 
+template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::t_KongsbergAllDatagramIdentifier>;
+
+template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::t_KongsbergAllActiveSensor>;
+
+template class themachinethatgoesping::tools::classhelper::Option<
+    themachinethatgoesping::echosounders::kongsbergall::
+        t_KongsbergAllSystemTransducerConfiguration>;
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
@@ -33,8 +43,7 @@ std::string datagram_type_to_string(t_KongsbergAllDatagramIdentifier value)
     return std::string(magic_enum::enum_name(value));
 }
 
-t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(
-    std::string_view value)
+t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(std::string_view value)
 {
     // convert to datagram type using magic enum
     return magic_enum::enum_cast<t_KongsbergAllDatagramIdentifier>(value).value_or(
@@ -45,14 +54,12 @@ t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(
 
 // ----- interface functions -----
 
-std::string datagram_identifier_to_string(
-    kongsbergall::t_KongsbergAllDatagramIdentifier value)
+std::string datagram_identifier_to_string(kongsbergall::t_KongsbergAllDatagramIdentifier value)
 {
     return kongsbergall::datagram_type_to_string(value);
 }
 
-std::string datagram_identifier_info(
-    kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type)
+std::string datagram_identifier_info(kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type)
 {
     return fmt::format("{:x}", uint8_t(datagram_type));
 }

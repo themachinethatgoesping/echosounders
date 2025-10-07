@@ -1,4 +1,4 @@
-//sourcehash: 05d96f3fafbecba0f7e1a0a7bd904324601191be53c98316d1c632ca6686f266
+//sourcehash: afdfa88a1ae9147577b7fc8c6aef2fcf8042a8f8119dad8198350289c4026053
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -85,21 +85,21 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_heading_sensor =
 R"doc(Set the active heading sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-t_KongsbergAllActiveSensor
+o_KongsbergAllActiveSensor
 
 Parameter ``sensor``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_heave_sensor =
 R"doc(Set the active heave sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-t_KongsbergAllActiveSensor
+o_KongsbergAllActiveSensor
 
 Parameter ``sensor``:)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_pitch_roll_sensor =
 R"doc(Set the active roll pitch sensor "NotSet": this will be overwritten by
 "read_sensor_configuration" / "init_interface" All other values: see
-t_KongsbergAllActiveSensor
+o_KongsbergAllActiveSensor
 
 Parameter ``sensor``:)doc";
 

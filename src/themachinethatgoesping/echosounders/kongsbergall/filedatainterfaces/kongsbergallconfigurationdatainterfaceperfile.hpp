@@ -74,37 +74,37 @@ class KongsbergAllConfigurationDataInterfacePerFile
     /**
      * @brief Set the active roll pitch sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see t_KongsbergAllActiveSensor
+     * All other values: see o_KongsbergAllActiveSensor
      *
      * @param sensor
      */
-    void set_active_pitch_roll_sensor(t_KongsbergAllActiveSensor sensor)
+    void set_active_pitch_roll_sensor(o_KongsbergAllActiveSensor sensor)
     {
-        _active_pitch_roll_sensor = sensor;
+        _active_pitch_roll_sensor = sensor.value;
     }
 
     /**
      * @brief Set the active heave sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see t_KongsbergAllActiveSensor
+     * All other values: see o_KongsbergAllActiveSensor
      *
      * @param sensor
      */
-    void set_active_heave_sensor(t_KongsbergAllActiveSensor sensor)
+    void set_active_heave_sensor(o_KongsbergAllActiveSensor sensor)
     {
-        _active_heave_sensor = sensor;
+        _active_heave_sensor = sensor.value;
     }
 
     /**
      * @brief Set the active heading sensor
      * "NotSet": this will be overwritten by "read_sensor_configuration" / "init_interface"
-     * All other values: see t_KongsbergAllActiveSensor
+     * All other values: see o_KongsbergAllActiveSensor
      *
      * @param sensor
      */
-    void set_active_heading_sensor(t_KongsbergAllActiveSensor sensor)
+    void set_active_heading_sensor(o_KongsbergAllActiveSensor sensor)
     {
-        _active_heading_sensor = sensor;
+        _active_heading_sensor = sensor.value;
     }
 
     // ----- interface methods -----
@@ -139,7 +139,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 this->get_file_nr(),
                 this->get_file_path()));
 
-        switch (installation_parameters.get_system_transducer_configuration())
+        switch (installation_parameters.get_system_transducer_configuration().value)
         {
             case t_KongsbergAllSystemTransducerConfiguration::SingleTXDualRX:
                 // singleTxDualRx seems to create only one runtime parameter for both systems
