@@ -56,38 +56,38 @@ void py_create_class_gsffilehandler(nb::module_& m, const std::string& CLASS_NAM
     //----- containers  -----
 
     //----- iterators via () operator -----
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "datagramdata_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::datagramdata_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::datagramdata_interface),
     //     DOC_GSFFileHandler(datagramdata_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "configuration_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::configuration_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::configuration_interface),
     //     DOC_GSFFileHandler(configuration_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "navigation_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::navigation_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::navigation_interface),
     //     DOC_GSFFileHandler(navigation_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "environment_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::environment_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::environment_interface),
     //     DOC_GSFFileHandler(environment_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "annotation_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::annotation_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::annotation_interface),
     //     DOC_GSFFileHandler(annotation_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "otherfiledata_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::otherfiledata_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::otherfiledata_interface),
     //     DOC_GSFFileHandler(otherfiledata_interface));
-    // cls.def_property_readonly(
+    // cls.def_prop_ro(
     //     "ping_interface",
-    //     py::overload_cast<>(&GSFFileHandler<T_FileStream>::ping_interface),
+    //     nb::overload_cast<>(&GSFFileHandler<T_FileStream>::ping_interface),
     //     DOC_GSFFileHandler(ping_interface));
 
     // cls.def("get_pings",
-    //         py::overload_cast<bool>(&GSFFileHandler<T_FileStream>::get_pings, py::const_),
-    //         py::arg("sorted_by_time") = true,
+    //         nb::overload_cast<bool>(&GSFFileHandler<T_FileStream>::get_pings, nb::const_),
+    //         nb::arg("sorted_by_time") = true,
     //         DOC_GSFFileHandler(get_pings));
     // cls.def("get_channel_ids",
     //         &GSFFileHandler<T_FileStream>::get_channel_ids,

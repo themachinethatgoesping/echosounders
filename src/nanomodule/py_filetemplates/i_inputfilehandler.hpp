@@ -97,26 +97,26 @@ void add_open_file_interface(T_PyClass& cls)
     // deactivate this for now. The problem with append_file is that it is not clear how to handle
     // the interface updates
     //     cls.def("append_file",
-    //             py::overload_cast<const std::string&, bool>(&T_BaseClass::append_file),
-    //             py::call_guard<py::scoped_ostream_redirect>(),
+    //             nb::overload_cast<const std::string&, bool>(&T_BaseClass::append_file),
+    //             nb::call_guard<nb::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
-    //             append_file), py::arg("file_path"), py::arg("show_progress") = true);
+    //             append_file), nb::arg("file_path"), nb::arg("show_progress") = true);
     //     cls.def("append_file",
-    //             py::overload_cast<const std::string&, I_ProgressBar&>(&T_BaseClass::append_file),
-    //             py::call_guard<py::scoped_ostream_redirect>(),
+    //             nb::overload_cast<const std::string&, I_ProgressBar&>(&T_BaseClass::append_file),
+    //             nb::call_guard<nb::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
-    //             append_file), py::arg("file_path"), py::arg("progress_bar"));
+    //             append_file), nb::arg("file_path"), nb::arg("progress_bar"));
     //     cls.def("append_files",
-    //             py::overload_cast<const std::vector<std::string>&,
-    //             bool>(&T_BaseClass::append_files), py::call_guard<py::scoped_ostream_redirect>(),
+    //             nb::overload_cast<const std::vector<std::string>&,
+    //             bool>(&T_BaseClass::append_files), nb::call_guard<nb::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
-    //             append_file), py::arg("file_path"), py::arg("show_progress") = true);
+    //             append_file), nb::arg("file_path"), nb::arg("show_progress") = true);
     //     cls.def("append_files",
-    //             py::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(
+    //             nb::overload_cast<const std::vector<std::string>&, I_ProgressBar&>(
     //                 &T_BaseClass::append_files),
-    //             py::call_guard<py::scoped_ostream_redirect>(),
+    //             nb::call_guard<nb::scoped_ostream_redirect>(),
     //             DOC(themachinethatgoesping, echosounders, filetemplates, I_InputFileHandler,
-    //             append_file), py::arg("file_path"), py::arg("progress_bar"));
+    //             append_file), nb::arg("file_path"), nb::arg("progress_bar"));
     cls.def("get_index_paths",
             &T_BaseClass::get_index_paths,
             DOC(themachinethatgoesping,

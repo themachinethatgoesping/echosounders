@@ -56,7 +56,7 @@ void py_create_class_KongsbergAllNavigationDataInterface(nanobind::module_& m,
         //             filedatainterfaces,
         //             KongsbergAllNavigationDataInterface,
         //             set_min_gga_quality),
-        //         py::arg("min_gga_quality"))
+        //         nb::arg("min_gga_quality"))
         //    .def("set_max_gga_quality",
         //         &T_BaseClass::set_max_gga_quality,
         //         DOC(themachinethatgoesping,
@@ -65,7 +65,7 @@ void py_create_class_KongsbergAllNavigationDataInterface(nanobind::module_& m,
         //             filedatainterfaces,
         //             KongsbergAllNavigationDataInterface,
         //             set_max_gga_quality),
-        //         py::arg("max_gga_quality"))
+        //         nb::arg("max_gga_quality"))
         //
         ;
 

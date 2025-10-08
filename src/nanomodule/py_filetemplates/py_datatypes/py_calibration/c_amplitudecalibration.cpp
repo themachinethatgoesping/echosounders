@@ -153,23 +153,23 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  DOC_AmplitudeCalibration(get_interpolator_offset_per_beamangle_and_range))
 
             //   .def("get_offset_per_beamangle",
-            //        py::overload_cast<const std::vector<float>&>(
-            //            &AmplitudeCalibration::get_offset_per_beamangle, py::const_),
+            //        nb::overload_cast<const std::vector<float>&>(
+            //            &AmplitudeCalibration::get_offset_per_beamangle, nb::const_),
             //        DOC_AmplitudeCalibration(get_offset_per_beamangle),
-            //        py::arg("beamangle"))
+            //        nb::arg("beamangle"))
             //   .def("get_offset_per_beamangle",
-            //        py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_beamangle,
-            //                                 py::const_),
+            //        nb::overload_cast<float>(&AmplitudeCalibration::get_offset_per_beamangle,
+            //                                 nb::const_),
             //        DOC_AmplitudeCalibration(get_offset_per_beamangle),
-            //        py::arg("beamangle"))
+            //        nb::arg("beamangle"))
             //   .def("get_offset_per_range",
-            //        py::overload_cast<const std::vector<float>&>(
+            //        nb::overload_cast<const std::vector<float>&>(
             //            &AmplitudeCalibration::get_offset_per_range),
             //        DOC_AmplitudeCalibration(get_offset_per_range),
-            //      py::arg("range"))
+            //      nb::arg("range"))
             //   .def("get_offset_per_range",
-            //        py::overload_cast<float>(&AmplitudeCalibration::get_offset_per_range,
-            //        py::const_), DOC_AmplitudeCalibration(get_offset_per_range), py::arg("range"))
+            //        nb::overload_cast<float>(&AmplitudeCalibration::get_offset_per_range,
+            //        nb::const_), DOC_AmplitudeCalibration(get_offset_per_range), nb::arg("range"))
 
             // ----- operators -----
             .def("__eq__",

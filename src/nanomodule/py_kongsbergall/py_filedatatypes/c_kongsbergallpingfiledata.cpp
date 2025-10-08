@@ -141,7 +141,7 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
                // .def("__eq__",
                //      &KongsbergAllPing::operator==,
                //      DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes,
-               //      KongsbergAllPing, operator_eq), py::arg("other"))
+               //      KongsbergAllPing, operator_eq), nb::arg("other"))
                // ----- pybind macros -----
                // default copy functions
                __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingFileData)

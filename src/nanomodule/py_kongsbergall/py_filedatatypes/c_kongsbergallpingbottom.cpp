@@ -63,7 +63,7 @@ void py_create_class_kongsbergallpingbottom(nanobind::module_& m, const std::str
         // .def("__eq__",
         //      &KongsbergAllPingBottom::operator==,
         //      DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes,  KongsbergAllPingBottom,
-        //      operator_eq), py::arg("other"))
+        //      operator_eq), nb::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingBottom)

@@ -1,0 +1,101 @@
+// SPDX-FileCopyrightText: 2022 - 2025 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
+//
+// SPDX-License-Identifier: MPL-2.0
+
+#include <nanobind/nanobind.h>
+#include <nanobind/stl/complex.h>
+#include <nanobind/stl/map.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
+#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
+
+#include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+
+#include <themachinethatgoesping/navigation/nmea_0183.hpp>
+
+#include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+
+#include "../../../themachinethatgoesping/echosounders/filetemplates/datastreams/mappedfilestream.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/datagrams.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawping.hpp"
+#include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
+#include "c_simradrawpingcommon.hpp"
+
+namespace themachinethatgoesping {
+namespace echosounders {
+namespace pymodule {
+namespace py_simradraw {
+namespace py_filedatatypes {
+
+namespace nb = nanobind;
+using namespace themachinethatgoesping::echosounders::simradraw;
+using namespace themachinethatgoesping::echosounders::filetemplates;
+
+#define DOC_SimradRawPing(ARG)                                                                     \
+    DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing, ARG)
+
+#define DOC_SimradRawPingCommon(ARG)                                                               \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simradraw,                                                                                 \
+        filedatatypes,                                                                             \
+        SimradRawPingCommon,                                                                       \
+        ARG)
+
+
+template<typename T_FileStream>
+void py_create_class_simradrawping(nb::module_& m, const std::string& CLASS_NAME)
+{
+    using t_SimradRawPing = filedatatypes::SimradRawPing<T_FileStream>;
+
+    auto cls = nb::class_<t_SimradRawPing, datatypes::I_Ping>(
+        m,
+        CLASS_NAME.c_str(),
+        DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))
+
+        // --- ping interface extension ---
+
+        // --- file_data data access ---
+        // .def("file_data",
+        //      &t_SimradRawPing::file_data,
+        //      DOC_SimradRawPing(file_data),
+        //      nb::rv_policy::reference_internal)
+
+        // --- variable access ---
+
+        // ----- operators -----
+        // .def("__eq__",
+        //      &SimradRawPing::operator==,
+        //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,  SimradRawPing,
+        //      operator_eq), nb::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(t_SimradRawPing)
+        // default binary functions
+        // __PYCLASS_DEFAULT_BINARY__(SimradRawPing)
+        // default printing functions
+        //__PYCLASS_DEFAULT_PRINTING__(SimradRawPing)
+        // end SimradRawPing
+        ;
+
+        //py_filetemplats::py_datatypes::py_i_ping::I_Ping_add_interface<>(cls);
+        py_simradrawpingcommon::SimradRawPingCommon_add_interface<t_SimradRawPing>(cls);
+    
+}
+
+void init_c_simradrawping(nanobind::module_& m)
+{
+    static const std::string name        = "SimradRawPing";
+    static const std::string name_stream = name + "_stream";
+    static const std::string name_mapped = name + "";
+
+    py_create_class_simradrawping<std::ifstream>(m, name_stream);
+    py_create_class_simradrawping<datastreams::MappedFileStream>(m, name_mapped);
+}
+
+}
+}
+}
+}
+}
