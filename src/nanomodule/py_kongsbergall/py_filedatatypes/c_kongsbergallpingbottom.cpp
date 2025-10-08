@@ -44,16 +44,6 @@ void py_create_class_kongsbergallpingbottom(nanobind::module_& m, const std::str
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPingBottom))
 
-        .def_prop_ro("file_data",
-                     nb::overload_cast<>(&t_KongsbergAllPingCommon::file_data),
-                     DOC(themachinethatgoesping,
-                         echosounders,
-                         kongsbergall,
-                         filedatatypes,
-                         KongsbergAllPingCommon,
-                         file_data),
-                     nb::rv_policy::reference_internal)
-
         // --- pingbottom interface extension ---
 
         // --- variable access ---

@@ -58,16 +58,6 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
                 filedatatypes,
                 KongsbergAllPingWatercolumn))
 
-            .def_prop_ro("file_data",
-                         nb::overload_cast<>(&t_KongsbergAllPingCommon::file_data),
-                         DOC(themachinethatgoesping,
-                             echosounders,
-                             kongsbergall,
-                             filedatatypes,
-                             KongsbergAllPingCommon,
-                             file_data),
-                         nb::rv_policy::reference_internal)
-
             // --- interface overwrites (necessary when type is changes) ---
           .def("get_watercolumn_calibration",
               nb::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_watercolumn_calibration,
