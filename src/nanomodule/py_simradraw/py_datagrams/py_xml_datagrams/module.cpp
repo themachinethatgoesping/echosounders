@@ -15,6 +15,15 @@
 
 #include "module.hpp"
 
+#define DOC_ENUM_BEAMTYPE(ENUM_VALUE)                                                              \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        simradraw,                                                                                 \
+        datagrams,                                                                                 \
+        xml_datagrams,                                                                             \
+        t_BeamType,                                                                                \
+        ENUM_VALUE)
+
 namespace nb = nanobind;
 
 namespace themachinethatgoesping {
@@ -63,15 +72,6 @@ void init_m_datagrams_xml(nanobind::module_& m)
     auto subm =
         m.def_submodule("XML0_datagrams", "SimradRaw EK80 XML datagram classes (subtypes of XML0)");
 
-#define DOC_ENUM_BEAMTYPE(ENUM_VALUE)                                                              \
-    DOC(themachinethatgoesping,                                                                    \
-        echosounders,                                                                              \
-        simradraw,                                                                                 \
-        datagrams,                                                                                 \
-        xml_datagrams,                                                                             \
-        t_BeamType,                                                                                \
-        ENUM_VALUE)
-
     auto pyenum_BeamType =
         nb::enum_<t_BeamType>(subm,
                               "t_BeamType",
@@ -99,8 +99,7 @@ void init_m_datagrams_xml(nanobind::module_& m)
         // pybind enum helper
         //
         ;
-
-    tools::nanobind_helper::add_string_to_enum_conversion<t_BeamType>(pyenum_BeamType);
+//    //tools::nanobind_helper::add_string_to_enum_conversion<t_BeamType>(pyenum_BeamType);
 
     // simradraw classes
     init_c_xml_datagram(subm);

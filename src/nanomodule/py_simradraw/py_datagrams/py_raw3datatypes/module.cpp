@@ -73,7 +73,7 @@ void init_m_raw3datatypes(nanobind::module_& m)
         //
         ;
 
-    tools::nanobind_helper::add_string_to_enum_conversion<t_RAW3DataType>(pyenum_raw3_datatype);
+    //tools::nanobind_helper::add_string_to_enum_conversion<t_RAW3DataType>(pyenum_raw3_datatype);
 
     // RAW datatype structures
     init_c_i_raw3data(subm);

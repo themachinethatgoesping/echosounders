@@ -118,6 +118,7 @@ void init_m_simradraw(nanobind::module_& m)
              &SimradRawDatagram_type_from_string,
              DOC(themachinethatgoesping, echosounders, simradraw, SimradRawDatagram_type_from_string),
              nb::arg("datagram_type"));
+       
 
     // datagrams
     py_datagrams::init_m_simradrawdatagrams(subm);

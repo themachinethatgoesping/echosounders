@@ -24,7 +24,6 @@
 #include "py_filedatatypes/module.hpp"
 
 namespace nb = nanobind;
-using themachinethatgoesping::tools::nanobind_helper::add_string_to_enum_conversion;
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -143,7 +142,6 @@ void init_m_kongsbergall(nanobind::module_& m)
 
     tools::nanobind_helper::make_option_class<o_KongsbergAllDatagramIdentifier>(
         m, "o_KongsbergAllDatagramIdentifier");
-    // add_string_to_enum_conversion<t_KongsbergAllDatagramIdentifier>(tmp_enum);
 
     nb::enum_<t_KongsbergAllActiveSensor>(
         subm,

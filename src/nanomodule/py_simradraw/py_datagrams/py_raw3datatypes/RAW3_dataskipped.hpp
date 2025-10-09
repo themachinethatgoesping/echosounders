@@ -14,13 +14,14 @@
 
 #include <boost/algorithm/string.hpp>
 
-
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
 #include "i_raw3data.hpp"
 #include "t_raw3datatype.hpp"
+
+#include <nanobind/nanobind.h>
+#include <nanobind/stl/vector.h>
 
 namespace themachinethatgoesping {
 namespace echosounders {

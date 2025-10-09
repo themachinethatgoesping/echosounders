@@ -26,9 +26,9 @@ class Test_echosounders_gsf_GSFFileHandler:
         self.test_folders = os.path.join(dirname, "../../../unittest_data/")
 
         LOGGER.info(f"findings test files in {self.test_folders}")
-        self.files= theping.echosounders.index_functions.find_files(self.test_folders, ".gsf")
+        self.files= theping.echosounders.find_files(self.test_folders, ".gsf")
         self.files.sort()
-        self.index_files = theping.echosounders.index_functions.get_index_paths(self.files)
+        self.index_files = theping.echosounders.get_index_paths(self.files)
 
         assert len(self.files) > 0
         assert len(self.files_all) > 0

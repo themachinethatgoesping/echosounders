@@ -7,6 +7,7 @@
 #include <nanobind/stl/complex.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/optional.h>
 
 // xtensor python includes
 #include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
