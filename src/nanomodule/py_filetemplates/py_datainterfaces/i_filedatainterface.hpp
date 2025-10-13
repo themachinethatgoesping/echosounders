@@ -6,10 +6,13 @@
 #pragma once
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/vector.h>
+#include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/unordered_map.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <themachinethatgoesping/tools_nanobind/ostream_redirect.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datainterfaces/i_filedatainterface.hpp"
 #include "i_filedatainterfaceperfile.hpp"
@@ -68,6 +71,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             (void(T_BaseClass::*)(const std::unordered_map<std::string, std::string>&, bool, bool))(
                 &T_BaseClass::init_from_file),
             DOC_FileDataInterface(init_from_file),
+            nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             nb::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             nb::arg("force")                      = false,
             nb::arg("show_progress")              = true);
@@ -77,6 +81,7 @@ void FileDataInterface_add_interface(T_PyClass& cls)
                 const std::unordered_map<std::string, std::string>&, bool, I_ProgressBar&, bool))(
                 &T_BaseClass::init_from_file),
             DOC_FileDataInterface(init_from_file_2),
+            nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             nb::arg("index_paths"),
             nb::arg("force"),
             nb::arg("progress_bar"),
