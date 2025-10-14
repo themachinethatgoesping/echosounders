@@ -33,7 +33,6 @@
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
 #include "../datagrams.hpp"
@@ -366,6 +365,13 @@ class KongsbergAllPingWatercolumn
     const calibration::KongsbergAllWaterColumnCalibration& get_watercolumn_calibration() const
     {
         return _file_data->get_watercolumn_calibration();
+    }
+
+    void update_calibration(
+        const boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>&
+            calibration)
+    {
+        _file_data->update_calibration(calibration);
     }
 
     // ----- objectprinter -----

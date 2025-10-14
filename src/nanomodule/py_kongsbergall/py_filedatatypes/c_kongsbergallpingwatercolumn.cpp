@@ -59,13 +59,17 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
                 KongsbergAllPingWatercolumn))
 
             // --- interface overwrites (necessary when type is changes) ---
-          .def("get_watercolumn_calibration",
-              nb::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_watercolumn_calibration,
-                              nb::const_),
+            .def("get_watercolumn_calibration",
+                 nb::overload_cast<>(&t_KongsbergAllPingWatercolumn::get_watercolumn_calibration,
+                                     nb::const_),
                  DOC_I_PingWatercolumn(get_watercolumn_calibration))
             .def("get_multisectorwatercolumn_calibration",
                  &t_KongsbergAllPingWatercolumn::get_multisectorwatercolumn_calibration,
                  DOC_I_PingWatercolumn(get_multisectorwatercolumn_calibration))
+            .def("update_calibration",
+                 &t_KongsbergAllPingWatercolumn::update_calibration,
+                 DOC_KongsbergAllPing(update_calibration),
+                 nb::arg("calibration_flyweight"))
 
             // --- pingwatercolumn interface extension ---
             // --- variable access ---
@@ -79,24 +83,24 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
             .def("has_amplitudes",
                  &t_KongsbergAllPingWatercolumn::has_amplitudes,
                  DOC_KongsbergAllPing(has_amplitudes))
-          .def("get_raw_amplitudes",
-              nb::overload_cast<>(
+            .def("get_raw_amplitudes",
+                 nb::overload_cast<>(
                      &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<int8_t>),
                  DOC_KongsbergAllPing(get_raw_amplitudes))
             .def("get_raw_amplitudes",
-              nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 nb::overload_cast<const pingtools::BeamSampleSelection&>(
                      &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<int8_t>),
                  DOC_KongsbergAllPing(get_raw_amplitudes),
-              nb::arg("beam_selection"))
+                 nb::arg("beam_selection"))
             .def("get_raw_amplitudes_float",
-              nb::overload_cast<>(
+                 nb::overload_cast<>(
                      &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<float>),
                  DOC_KongsbergAllPing(get_raw_amplitudes))
             .def("get_raw_amplitudes_float",
-              nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 nb::overload_cast<const pingtools::BeamSampleSelection&>(
                      &t_KongsbergAllPingWatercolumn::template get_raw_amplitudes<float>),
                  DOC_KongsbergAllPing(get_raw_amplitudes),
-              nb::arg("beam_selection"))
+                 nb::arg("beam_selection"))
 
         // ----- operators -----
         // .def("__eq__",

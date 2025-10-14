@@ -24,12 +24,10 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 
 #include "../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
@@ -109,6 +107,20 @@ class KongsbergAllPingFileData
                 "Calibration not initialized!");
 
         return _multisector_calibration->get();
+    }
+
+    void update_calibration(
+        boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration> calibration)
+    {
+        if (calibration.get().get_number_of_sectors() !=
+            get_sysinfos().get_tx_signal_parameters().size())
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::update_calibration]: Calibration size does not "
+                "match number of transmit sectors!");
+
+        _multisector_calibration = std::make_unique<
+            boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>(
+            calibration);
     }
 
     void set_multisector_calibration(

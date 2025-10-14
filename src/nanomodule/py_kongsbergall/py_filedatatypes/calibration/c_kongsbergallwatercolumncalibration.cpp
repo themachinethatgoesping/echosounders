@@ -11,7 +11,7 @@
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
 
-
+#include "../../../py_filetemplates/py_datatypes/py_calibration/c_multisectorwatercolumncalibration.hpp"
 #include <themachinethatgoesping/echosounders/kongsbergall/filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp>
 
 namespace themachinethatgoesping {
@@ -38,8 +38,7 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
     // add class
-     auto c = nb::class_<KongsbergAllWaterColumnCalibration,
-                        WaterColumnCalibration>(
+    auto c = nb::class_<KongsbergAllWaterColumnCalibration, WaterColumnCalibration>(
                  m,
                  "KongsbergAllWaterColumnCalibration",
                  DOC(themachinethatgoesping,
@@ -87,6 +86,15 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
                       &KongsbergAllWaterColumnCalibration::check_initialization,
                       DOC_KongsbergAllWaterColumnCalibration(check_initialization))
 
+                 .def(
+                     "pre_hashed",
+                     [](const KongsbergAllWaterColumnCalibration& self) {
+                         return boost::flyweight<KongsbergAllMultiSectorWaterColumnCalibration>(
+                             KongsbergAllMultiSectorWaterColumnCalibration({ self }));
+                     },
+                     "Return this class as a flyweight with computed hash. "
+                     "This faster when updating the ping calibration.")
+
                  // ----- operators -----
                  .def("__eq__",
                       &KongsbergAllWaterColumnCalibration::operator==,
@@ -101,6 +109,10 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
              __PYCLASS_DEFAULT_PRINTING__(KongsbergAllWaterColumnCalibration)
         // end KongsbergAllWaterColumnCalibration
         ;
+
+    // add multisector calibration
+    py_filetemplates::py_datatypes::py_calibration::init_multisectorcalibration<
+        KongsbergAllWaterColumnCalibration>(m, "KongsbergAllMultiSectorWaterColumnCalibration");
 }
 }
 }

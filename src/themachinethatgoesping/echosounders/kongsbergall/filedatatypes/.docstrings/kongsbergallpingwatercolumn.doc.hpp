@@ -1,4 +1,4 @@
-//sourcehash: 34cd424a7f84e8c497c894949ef43cc4a33a0f352dd29dc58c74f31291ad88f4
+//sourcehash: fee421718f9da1a00375a04b3443008c5f560a0205bcd298b2296c7eb5d9c2e3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -119,6 +119,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_fileda
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_release = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_update_calibration = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

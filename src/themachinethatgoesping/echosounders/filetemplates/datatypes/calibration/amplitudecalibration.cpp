@@ -6,8 +6,8 @@
 
 #include <cmath>
 #include <istream>
-#include <ostream>
 #include <limits>
+#include <ostream>
 
 #include <boost/iostreams/stream.hpp>
 #include <xxhash.hpp>
@@ -134,8 +134,8 @@ tools::classhelper::ObjectPrinter AmplitudeCalibration::__printer__(
     if (!_offset_per_range.empty())
         printer.append(_offset_per_range.__printer__(float_precision, superscript_exponents));
     if (!_offset_per_beamangle_and_range.empty())
-        printer.append(_offset_per_beamangle_and_range.__printer__(float_precision,
-                                                                   superscript_exponents));
+        printer.append(
+            _offset_per_beamangle_and_range.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }
@@ -161,6 +161,9 @@ void AmplitudeCalibration::add_hash(boost::iostreams::stream<XXHashSink>& hash_s
 
     if (has_offset_per_range())
         _offset_per_range.to_stream(hash_stream);
+
+    if (has_offset_per_beamangle_and_range())
+        _offset_per_beamangle_and_range.to_stream(hash_stream);
 }
 
 } // namespace calibration
