@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 # -- library setup --
-libname   = projectnamespace + '_echosounders'
+libname = projectnamespace + '_echosounders'
 headerdir = projectnamespace + '/echosounders'
 
 # -- source files --
@@ -501,59 +501,39 @@ headers = [
 # -- targets --
 # for now force static linking on windows
 if build_machine.system() != 'linux'
-  echosounders_lib = static_library(libname,sources,
-                        dependencies : [
-                          boost_dep, 
-                          pugixml_dep,
-                          tools_dep,
-                          navigation_dep,
-                          algorithms_dep
-                          ],
-                          # cpp_pch : 'pch/pch.hpp',
-                        override_options: [
-                          'b_lundef=false'
-                      ],
-                        install : true, 
-                        install_tag : 'library'
-                        )
-else  
-  echosounders_lib = library(libname,sources,
-                        dependencies : [
-                          boost_dep, 
-                          pugixml_dep,
-                          tools_dep,
-                          navigation_dep,
-                          algorithms_dep
-                          ],
-                          # cpp_pch : 'pch/pch.hpp',
-                        override_options: [
-                          'b_lundef=false'
-                      ],
-                        install : true, 
-                        install_tag : 'library'
-                        )
+  echosounders_lib = static_library(
+    libname,
+    sources,
+    dependencies: [boost_dep, pugixml_dep, tools_dep, navigation_dep, algorithms_dep],
+    cpp_pch: '../../pch/echosounders_themachinethatgoesping_echosounders.hpp',
+    override_options: ['b_lundef=false'],
+    install: true,
+    install_tag: 'library',
+  )
+else
+  echosounders_lib = library(
+    libname,
+    sources,
+    dependencies: [boost_dep, pugixml_dep, tools_dep, navigation_dep, algorithms_dep],
+    cpp_pch: '../../pch/echosounders_themachinethatgoesping_echosounders.hpp',
+    override_options: ['b_lundef=false'],
+    install: true,
+    install_tag: 'library',
+  )
 endif
-                      
 
 # -- internal dependency --
 echosounders_dep = declare_dependency(
-  dependencies : [
-    boost_dep,
-    pugixml_dep,
-    tools_dep,
-    navigation_dep,
-    algorithms_dep
-  ],
-  link_with : [echosounders_lib],
-  include_directories : ['../../']
-  )
-
+  dependencies: [boost_dep, pugixml_dep, tools_dep, navigation_dep, algorithms_dep],
+  link_with: [echosounders_lib],
+  include_directories: ['../../'],
+)
 
 # -- installation setup --
 
 # install headers
 if headers != ['']
-    install_headers(headers, subdir: headerdir+'/', preserve_path: true)
+  install_headers(headers, subdir: headerdir + '/', preserve_path: true)
 endif
 
 # # create pkgconfig file

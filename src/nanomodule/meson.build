@@ -173,7 +173,7 @@ py_navigation = pymod.extension_module(
         nanobind_dep,
         python3_dep],
     link_language : 'cpp',
-    # cpp_pch : 'pch/pch.hpp',
+    cpp_pch : '../pch/echosounders_echosounders_nanopy.hpp',
     override_options: [
     ],
     cpp_args : ['-DMODULE_NAME='+module_name, '-DMODULE_VERSION=' + '"' + meson.project_version() + '"'],

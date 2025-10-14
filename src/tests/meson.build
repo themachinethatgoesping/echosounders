@@ -82,6 +82,7 @@ foreach source : sources
             override_options: [
             ],
             #install : true
+            #cpp_pch: '../pch/echosounders_testname.hpp',
             cpp_args: [test_data_dir]
             )
 
