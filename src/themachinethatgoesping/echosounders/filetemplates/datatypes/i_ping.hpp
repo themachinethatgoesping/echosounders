@@ -11,26 +11,22 @@
 #include ".docstrings/i_ping.doc.hpp"
 
 /* std includes */
-#include <filesystem>
-#include <fstream>
-#include <set>
-#include <unordered_map>
-#include <vector>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 
 #include <boost/flyweight.hpp>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-#include <themachinethatgoesping/tools/timeconv.hpp>
-
-#include "../../pingtools/beamsampleselection.hpp"
-
 #include "i_pingbottom.hpp"
 #include "i_pingcommon.hpp"
 #include "i_pingwatercolumn.hpp"
+#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
+#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -45,8 +41,8 @@ class I_Ping : public I_PingCommon
   public:
     using t_base = I_PingCommon;
 
-  protected:
-    std::string class_name() const override { return "I_Ping"; }
+    protected:
+        std::string class_name() const override;
 
   public:
     boost::flyweights::flyweight<std::string> _channel_id; ///< channel id of the transducer
@@ -55,65 +51,28 @@ class I_Ping : public I_PingCommon
     boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
         _navigation_interpolator_latlon;
 
-    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
-    {
-        auto features = t_base ::primary_feature_functions();
-
-        features[t_pingfeature::timestamp] = std::bind(&I_Ping::has_timestamp, this);
-        // datetime is a timestamp alias that only exists in the python module (implemented as
-        // lamda)
-        features[t_pingfeature::datetime]   = std::bind(&I_Ping::has_timestamp, this);
-        features[t_pingfeature::channel_id] = std::bind(&I_Ping::has_channel_id, this);
-        features[t_pingfeature::sensor_configuration] =
-            std::bind(&I_Ping::has_sensor_configuration, this);
-        features[t_pingfeature::sensor_data_latlon] =
-            std::bind(&I_Ping::has_sensor_data_latlon, this);
-        features[t_pingfeature::navigation_interpolator_latlon] =
-            std::bind(&I_Ping::has_navigation_interpolator_latlon, this);
-        features[t_pingfeature::geolocation] = std::bind(&I_Ping::has_geolocation, this);
-
-        return features;
-    }
-    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const
-    {
-        return t_base ::secondary_feature_functions();
-    }
-    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const
-    {
-        auto features                        = t_base ::feature_group_functions();
-        features[t_pingfeature::bottom]      = std::bind(&I_Ping::has_bottom, this);
-        features[t_pingfeature::watercolumn] = std::bind(&I_Ping::has_watercolumn, this);
-        return features;
-    }
+    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override;
+    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const;
+    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const;
 
   public:
     I_Ping()          = default;
     virtual ~I_Ping() = default;
 
     //------ features -----
-    bool   has_timestamp() const { return _timestamp > 0; }
-    void   set_timestamp(double timestamp) { _timestamp = timestamp; }
-    double get_timestamp() const { return _timestamp; }
+    bool   has_timestamp() const;
+    void   set_timestamp(double timestamp);
+    double get_timestamp() const;
 
     bool               has_channel_id() const;
     const std::string& get_channel_id() const;
-    void               set_channel_id(const std::string& channel_id) { _channel_id = channel_id; }
+    void               set_channel_id(const std::string& channel_id);
 
-    bool has_geolocation() const
-    {
-        return has_sensor_configuration() && has_navigation_interpolator_latlon();
-    }
+    bool                                          has_geolocation() const;
     navigation::datastructures::GeolocationLatLon get_geolocation(
-        const std::string& target_id = "Transducer") const
-    {
-        return get_sensor_configuration().compute_target_position(target_id,
-                                                                  get_sensor_data_latlon());
-    }
+        const std::string& target_id = "Transducer") const;
 
-    const navigation::SensorConfiguration& get_sensor_configuration() const
-    {
-        return _sensor_configuration.get();
-    }
+    const navigation::SensorConfiguration& get_sensor_configuration() const;
 
     /**
      * @brief Returns the hash of the base sensor configuraiton.
@@ -124,168 +83,48 @@ class I_Ping : public I_PingCommon
      *
      * @return uint64_t
      */
-    uint64_t get_sensor_configuration_base_hash() const
-    {
-        auto sc = get_sensor_configuration();
-        sc.remove_target("Transducer");
-        return sc.binary_hash();
-    }
+    uint64_t get_sensor_configuration_base_hash() const;
 
     bool has_sensor_configuration() const;
-    void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration)
-    {
-        _sensor_configuration     = sensor_configuration;
-        _sensor_configuration_set = true;
-    }
+    void set_sensor_configuration(const navigation::SensorConfiguration& sensor_configuration);
     void set_sensor_configuration_flyweight(
-        boost::flyweight<navigation::SensorConfiguration> sensor_configuration)
-    {
-        _sensor_configuration     = std::move(sensor_configuration); // avoid reference counting
-        _sensor_configuration_set = true;
-    }
+        boost::flyweight<navigation::SensorConfiguration> sensor_configuration);
 
-    bool                                         has_navigation_interpolator_latlon() const;
-    bool                                         has_sensor_data_latlon() const;
-    navigation::datastructures::SensordataLatLon get_sensor_data_latlon() const
-    {
-        return get_navigation_interpolator_latlon().get_sensor_data(get_timestamp());
-    }
-    const navigation::NavigationInterpolatorLatLon& get_navigation_interpolator_latlon() const
-    {
-        return _navigation_interpolator_latlon.get();
-    }
+    bool                                            has_navigation_interpolator_latlon() const;
+    bool                                            has_sensor_data_latlon() const;
+    navigation::datastructures::SensordataLatLon    get_sensor_data_latlon() const;
+    const navigation::NavigationInterpolatorLatLon& get_navigation_interpolator_latlon() const;
 
     void set_navigation_interpolator_latlon(
-        const navigation::NavigationInterpolatorLatLon& nav_interpolator)
-    {
-        _navigation_interpolator_latlon = nav_interpolator;
-        _navigation_interpolator_set    = true;
-    }
+        const navigation::NavigationInterpolatorLatLon& nav_interpolator);
 
     void set_navigation_interpolator_latlon(
-        boost::flyweight<navigation::NavigationInterpolatorLatLon> nav_interpolator)
-    {
-        _navigation_interpolator_latlon = std::move(nav_interpolator); // avoid reference counting
-        _navigation_interpolator_set    = true;
-    }
+        boost::flyweight<navigation::NavigationInterpolatorLatLon> nav_interpolator);
 
-    void load(bool force = false) override
-    {
-        if (has_bottom())
-            bottom().load(force);
-        if (has_watercolumn())
-            watercolumn().load(force);
-    }
-    void release() override
-    {
-        if (has_bottom())
-            bottom().release();
-        if (has_watercolumn())
-            watercolumn().release();
-    }
-    bool loaded() override
-    {
-        if (has_bottom() && !bottom().loaded())
-            return false;
-        if (has_watercolumn() && !watercolumn().loaded())
-            return false;
-        return true;
-    }
+    void load(bool force = false) override;
+    void release() override;
+    bool loaded() override;
 
     // ----- ping interface -----
     virtual I_PingBottom& bottom();
     const I_PingBottom&   bottom() const;
 
-    virtual I_PingWatercolumn& watercolumn()
-    {
-        throw not_implemented("watercolumn", this->class_name());
-    }
-    const I_PingWatercolumn& watercolumn() const
-    {
-        return const_cast<I_Ping*>(this)->watercolumn();
-    }
+    virtual I_PingWatercolumn& watercolumn();
+    const I_PingWatercolumn&   watercolumn() const;
 
-    virtual bool has_bottom() const
-    {
-        try
-        {
-            return bottom().has_primary_features();
-        }
-        catch (const not_implemented& e)
-        {
-            return false;
-        }
-    }
-    virtual bool has_watercolumn() const
-    {
-        try
-        {
-            return watercolumn().has_primary_features();
-        }
-        catch (const not_implemented& e)
-        {
-            return false;
-        }
-    }
+    virtual bool has_bottom() const;
+    virtual bool has_watercolumn() const;
 
   protected:
     struct not_implemented : public std::runtime_error
     {
-        not_implemented(std::string_view method_name, std::string_view name)
-            : std::runtime_error(
-                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
-        {
-        }
+    not_implemented(std::string_view method_name, std::string_view name);
     };
 
   public:
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            this->class_name(), float_precision, superscript_exponents);
-
-        printer.register_section("Ping infos");
-
-        std::string time_str =
-            tools::timeconv::unixtime_to_datestring(this->_timestamp, 2, "%d/%m/%Y %H:%M:%S");
-
-        printer.register_string("Channel id", this->get_channel_id());
-        printer.register_value("Time info", time_str, std::to_string(this->_timestamp));
-
-        // print features
-        printer.append(t_base::__printer__(float_precision, superscript_exponents));
-        if (has_bottom())
-            bottom().print_features(printer, "bottom");
-        if (has_watercolumn())
-            watercolumn().print_features(printer, "watercolumn");
-
-        if (has_geolocation())
-        {
-            printer.register_section("Geolocation");
-            printer.append(
-                get_geolocation("Transducer").__printer__(float_precision, superscript_exponents));
-        }
-        else
-        {
-            printer.register_string(
-                "Geolocation",
-                "not available",
-                fmt::format("Sensor configuration: {}, Sensor data: {}",
-                            has_sensor_configuration() ? "available" : "not available",
-                            has_navigation_interpolator_latlon() ? "available" : "not available"));
-        }
-
-        // printer.register_section("Sensor data");
-        // printer.append(_sensor_data_latlon.__printer__(float_precision, superscript_exponents));
-
-        // printer.register_section("Sensor configuration");
-        // printer.append(get_sensor_configuration().__printer__(float_precision,
-        // superscript_exponents));
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
