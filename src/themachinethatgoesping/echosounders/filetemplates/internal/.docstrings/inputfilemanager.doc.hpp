@@ -1,4 +1,4 @@
-//sourcehash: cc2f26e444f075d66f33d44f4f43cce57813e6374b5bf3eed7e1b243798af48c
+//sourcehash: 520a3fde28651c7e300f4ca402086716f8939f0730ec04091268951d1bf5b3c7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,27 +40,35 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_InputFileManagerBase = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_file_paths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_get_file_path = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_get_file_paths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_get_total_file_size = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManagerBase_total_file_size = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_InputFileManager = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_numbers = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_streams = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_append_file = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_file_paths = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_active_stream = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_file_path = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_file_paths = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_total_file_size = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_max_streams_open = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_printer = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_total_file_size = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

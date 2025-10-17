@@ -23,8 +23,7 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include <xtensor/containers/xadapt.hpp>
-#include <xtensor/views/xview.hpp>
+#include <xtensor/containers/xtensor.hpp>
 
 #include "../../pingtools/beamselection.hpp"
 #include "i_pingcommon.hpp"
