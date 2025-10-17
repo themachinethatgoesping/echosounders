@@ -11,21 +11,20 @@
 #include ".docstrings/i_pingbottom.doc.hpp"
 
 /* std includes */
-#include <filesystem>
-#include <fstream>
-#include <set>
-#include <unordered_map>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <string>
 #include <vector>
-
-#include <fmt/core.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
+#include <xtensor/containers/xadapt.hpp>
+#include <xtensor/views/xview.hpp>
 
 #include "../../pingtools/beamselection.hpp"
 #include "i_pingcommon.hpp"
@@ -42,301 +41,63 @@ namespace datatypes {
 class I_PingBottom : public I_PingCommon
 {
   protected:
-    std::string class_name() const override { return "I_PingBottom"; }
+    std::string class_name() const override;
 
   public:
     using t_base = I_PingCommon;
 
-    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override
-    {
-        auto features = t_base ::primary_feature_functions();
-        features[t_pingfeature::two_way_travel_times] =
-            std::bind(&I_PingBottom::has_two_way_travel_times, this);
-        features[t_pingfeature::xyz] = std::bind(&I_PingBottom::has_xyz, this);
+    I_PingBottom();
+    ~I_PingBottom() override;
 
-        // to be implemented
-        // features[t_pingfeature::beam_numbers_per_tx_sector] =
-        //     std::bind(&I_PingWatercolumn::has_beam_numbers_per_tx_sector, this);
-        // features[t_pingfeature::beam_selection_all] =
-        //     std::bind(&I_PingWatercolumn::has_beam_selection_all, this);
-        // features[t_pingfeature::number_of_beams] =
-        //     std::bind(&I_PingWatercolumn::has_number_of_beams, this);
-        // features[t_pingfeature::tx_sector_per_beam] =
-        //     std::bind(&I_PingWatercolumn::has_tx_sector_per_beam, this);
-        // features[t_pingfeature::tx_sector_information] =
-        //     std::bind(&I_PingWatercolumn::has_tx_sector_information, this);
+    std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const override;
+    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override;
+    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const override;
 
-        return features;
-    }
-    std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override
+    virtual bool has_tx_signal_parameters() const;
+    virtual bool has_number_of_tx_sectors() const;
+    virtual bool has_beam_numbers_per_tx_sector() const;
+    virtual bool has_tx_sector_per_beam() const;
 
-    {
-        auto features = t_base ::secondary_feature_functions();
-        features[t_pingfeature::tx_signal_parameters] =
-            std::bind(&I_PingBottom::has_tx_signal_parameters, this);
-        features[t_pingfeature::number_of_tx_sectors] =
-            std::bind(&I_PingBottom::has_number_of_tx_sectors, this);
-        features[t_pingfeature::beam_crosstrack_angles] =
-            std::bind(&I_PingBottom::has_beam_crosstrack_angles, this);
-        return features;
-    }
-    std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const override
-    {
-        return t_base ::feature_group_functions();
-    }
+    bool         has_beam_selection_all() const;
+    virtual bool has_number_of_beams() const;
+    virtual bool has_beam_crosstrack_angles() const;
 
-    I_PingBottom()          = default;
-    virtual ~I_PingBottom() = default;
+    virtual bool has_two_way_travel_times() const;
+    virtual bool has_xyz() const;
 
-    // ----- has feature functions -----
-    // sectors and beams features
-    virtual bool has_tx_signal_parameters() const { return false; }
-    virtual bool has_number_of_tx_sectors() const { return false; }
-    virtual bool has_beam_numbers_per_tx_sector() const { return false; }
-    virtual bool has_tx_sector_per_beam() const { return false; }
-
-    // per beam information
-    bool         has_beam_selection_all() const { return has_number_of_beams(); }
-    virtual bool has_number_of_beams() const { return false; }
-    virtual bool has_beam_crosstrack_angles() const { return false; }
-
-    // bottom detection features
-    virtual bool has_two_way_travel_times() const { return false; }
-    virtual bool has_xyz() const { return false; }
-
-    // --- transmit sector infos ---
-
-    /**
-     * @brief Get the transmission signal parameters per sector.
-     *
-     * @return const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
-     */
     virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters()
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
+        get_tx_signal_parameters();
+    virtual size_t get_number_of_tx_sectors();
 
-    /**
-     * @brief Get the number of transmission sectors.
-     *
-     * This function returns the number of transmission sectors for the echosounder.
-     *
-     * @return The number of transmission sectors.
-     */
-    virtual size_t get_number_of_tx_sectors()
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam();
+    virtual xt::xtensor<size_t, 1>
+        get_tx_sector_per_beam(const pingtools::BeamSelection& bs);
 
-    // --- sector infos ---
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam()
-    {
-        return get_tx_sector_per_beam(get_beam_selection_all());
-    }
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector();
+    virtual std::vector<std::vector<size_t>>
+        get_beam_numbers_per_tx_sector(const pingtools::BeamSelection& bs);
 
-    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        [[maybe_unused]] const pingtools::BeamSelection& bs)
-    {
-        throw not_implemented(__func__, class_name());
-    }
+    pingtools::BeamSelection get_beam_selection_all();
+    virtual uint32_t get_number_of_beams();
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector()
-    {
-        return get_beam_numbers_per_tx_sector(get_beam_selection_all());
-    }
+    xt::xtensor<float, 1> get_beam_crosstrack_angles();
+    virtual xt::xtensor<float, 1>
+        get_beam_crosstrack_angles(const pingtools::BeamSelection& bs);
 
-    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        [[maybe_unused]] const pingtools::BeamSelection& bs)
-    {
-        throw not_implemented(__func__, class_name());
-    }
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz();
+    virtual algorithms::geoprocessing::datastructures::XYZ<1>
+        get_xyz(const pingtools::BeamSelection& selection);
 
-    //------ interface / accessors -----
-    // std::shared_ptr<T_Ping> get_ping() const { return _ping; }
+    float get_bottom_z();
+    float get_bottom_z(const pingtools::BeamSelection& selection);
 
-    // --- common functions for all ping types ---
-    /**
-     * @brief Get a beam selection object that selects all beams
-     *
-     * @return pingtools::BeamSelection
-     */
-    pingtools::BeamSelection get_beam_selection_all()
-    {
-        return pingtools::BeamSelection(get_number_of_beams());
-    }
+    xt::xtensor<float, 1> get_two_way_travel_times();
+    virtual xt::xtensor<float, 1>
+        get_two_way_travel_times(const pingtools::BeamSelection& selection);
 
-    /**
-     * @brief Get the number of beams for this ping
-     *
-     * @return uint32_t
-     */
-    virtual uint32_t get_number_of_beams() { throw not_implemented(__func__, class_name()); }
-
-    /**
-     * @brief Get the beam crosstrack angles for this ping in °
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    xt::xtensor<float, 1> get_beam_crosstrack_angles()
-    {
-        return get_beam_crosstrack_angles(get_beam_selection_all());
-    }
-
-    /**
-     * @brief Get the beam crosstrack angles for this ping in °
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        [[maybe_unused]] const pingtools::BeamSelection& bs)
-    {
-        throw not_implemented(__func__, class_name());
-    }
-
-    /**
-     * @brief Get an XYZ object containing the XYZ position of the bottom detection
-     * Note: XYZ is in the local coordinate system of the ping!
-     * To convert it use algorithms::geoprocessing::georeferencer class or
-     * - Use get_xyz_utm() to get the bottom detection in UTM coordinates
-     * - Use get_xyz_latlon() to get the bottom detection in Latitude/Longitude coordinates
-     *
-     * @return algorithms::geoprocessing::datastructures::XYZ<1>
-     */
-    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz()
-    {
-        return get_xyz(get_beam_selection_all());
-    }
-
-    /**
-     * @brief Get an XYZ object containing the XYZ position of the bottom detection
-     * Note: XYZ is in the local coordinate system of the ping!
-     * To convert it use algorithms::geoprocessing::georeferencer class or
-     * - Use get_xyz_utm() to get the bottom detection in UTM coordinates
-     * - Use get_xyz_latlon() to get the bottom detection in Latitude/Longitude coordinates
-     *
-     * @param selection structure with selected transducer_ids/beams/samples considered for this
-     * function
-     * @return algorithms::geoprocessing::datastructures::XYZ<1>
-     */
-    virtual algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        [[maybe_unused]] const pingtools::BeamSelection& selection)
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
-
-    /**
-     * @brief Computes closest bottom z value from all beams.
-     *
-     * This function retrieves the z-coordinates of the selected beams and performs
-     * outlier filtering to determine a valid bottom z value. If no valid bottom z
-     * value is found, an exception is thrown.
-     *
-     * @param selection The selection of beams from which to compute the bottom z value.
-     * @return The computed bottom z value.
-     * @throws std::runtime_error If no valid bottom z value is found.
-     */
-    float get_bottom_z() { return get_bottom_z(get_beam_selection_all()); }
-
-    /**
-     * @brief Computes the closest z value from a given selection of beams.
-     *
-     * This function retrieves the z-coordinates of the selected beams and performs
-     * outlier filtering to determine a valid bottom z value. If no valid bottom z
-     * value is found, an exception is thrown.
-     *
-     * @param selection The selection of beams from which to compute the bottom z value.
-     * @return The computed bottom z value.
-     * @throws std::runtime_error If no valid bottom z value is found.
-     */
-    float get_bottom_z(const pingtools::BeamSelection& selection)
-    {
-        auto xyz = get_xyz(selection);
-
-        if (xyz.size() == 0)
-            throw std::runtime_error(fmt::format("Error[{}]: No valid bottom z found", __func__));
-
-        if (xyz.size() == 1)
-            return xyz.z[0];
-
-        // convert to std::vector
-        std::vector<float> bottom_distances(xyz.z.begin(), xyz.z.end());
-
-        // outlier filtering
-        // compute IQR median using nth_element
-        auto median_it = bottom_distances.begin() + bottom_distances.size() / 2;
-        std::nth_element(bottom_distances.begin(), median_it, bottom_distances.end());
-        auto median = *median_it;
-
-        // compute IQR
-        auto q3_it = bottom_distances.begin() + 3 * bottom_distances.size() / 4;
-        std::nth_element(median_it, q3_it, bottom_distances.end());
-        auto q3 = *q3_it;
-
-        auto q1_it = bottom_distances.begin() + bottom_distances.size() / 4;
-        std::nth_element(bottom_distances.begin(), q1_it, median_it);
-        auto q1      = *q1_it;
-        auto min_iqr = median - (q3 - q1) * 1.5;
-
-        // sort the elements till q1 (because the minval should be )
-        std::sort(bottom_distances.begin(), q1_it);
-        float bottom_z = std::numeric_limits<float>::max();
-        // find the first element that is not an outlier
-        for (auto it = bottom_distances.begin(); it != bottom_distances.end(); ++it)
-            if (*it > min_iqr && *it < bottom_z)
-                bottom_z = *it;
-
-        if (bottom_z == std::numeric_limits<float>::max())
-            throw std::runtime_error(fmt::format("Error[{}]: No valid bottom z found", __func__));
-
-        return bottom_z;
-    }
-
-    /**
-     * @brief Get the two way travel times of the bottom detection samples
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    xt::xtensor<float, 1> get_two_way_travel_times()
-    {
-        return get_two_way_travel_times(get_beam_selection_all());
-    }
-
-    /**
-     * @brief Get the two way travel times of the bottom detection samples
-     *
-     * @return xt::xtensor<float, 1>
-     */
-    virtual xt::xtensor<float, 1> get_two_way_travel_times(
-        [[maybe_unused]] const pingtools::BeamSelection& selection)
-    {
-        throw not_implemented(__func__, this->class_name());
-    }
-
-  public:
-    // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            this->class_name(), float_precision, superscript_exponents);
+                                                  bool         superscript_exponents) const;
 
-        // Transducers
-        printer.append(I_PingCommon::__printer__(float_precision, superscript_exponents));
-
-        printer.register_section("Bottom detection infos");
-        auto features     = this->feature_string();
-        auto not_features = this->feature_string(false);
-        if (!not_features.empty())
-            printer.register_string("Features", features, std::string("Not:") + not_features);
-        else
-            printer.register_string("Features", features);
-
-        return printer;
-    }
-
-    // -- class helper function macros --
-    // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 

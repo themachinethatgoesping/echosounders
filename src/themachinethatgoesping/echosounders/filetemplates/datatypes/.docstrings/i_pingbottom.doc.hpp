@@ -1,4 +1,4 @@
-//sourcehash: 2b4afeb0d2084c772389303c863ee3768e16e622b8c362716afa4507745ea7e7
+//sourcehash: 0b75323d738ccd0787d781aab24df98d08c515b8edaef5f269dc503e83c4490b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,123 +46,37 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_group_functions = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles =
-R"doc(Get the beam crosstrack angles for this ping in °
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles = R"doc()doc";
 
-Returns:
-    xt::xtensor<float, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_2 =
-R"doc(Get the beam crosstrack angles for this ping in °
-
-Returns:
-    xt::xtensor<float, 1>)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all =
-R"doc(Get a beam selection object that selects all beams
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all = R"doc()doc";
 
-Returns:
-    pingtools::BeamSelection)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z =
-R"doc(Computes closest bottom z value from all beams.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z_2 = R"doc()doc";
 
-This function retrieves the z-coordinates of the selected beams and
-performs outlier filtering to determine a valid bottom z value. If no
-valid bottom z value is found, an exception is thrown.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams = R"doc()doc";
 
-Parameter ``selection``:
-    The selection of beams from which to compute the bottom z value.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors = R"doc()doc";
 
-Returns:
-    The computed bottom z value.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times = R"doc()doc";
 
-Throws:
-    std::runtime_error If no valid bottom z value is found.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z_2 =
-R"doc(Computes the closest z value from a given selection of beams.
-
-This function retrieves the z-coordinates of the selected beams and
-performs outlier filtering to determine a valid bottom z value. If no
-valid bottom z value is found, an exception is thrown.
-
-Parameter ``selection``:
-    The selection of beams from which to compute the bottom z value.
-
-Returns:
-    The computed bottom z value.
-
-Throws:
-    std::runtime_error If no valid bottom z value is found.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams =
-R"doc(Get the number of beams for this ping
-
-Returns:
-    uint32_t)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors =
-R"doc(Get the number of transmission sectors.
-
-This function returns the number of transmission sectors for the
-echosounder.
-
-Returns:
-    The number of transmission sectors.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times =
-R"doc(Get the two way travel times of the bottom detection samples
-
-Returns:
-    xt::xtensor<float, 1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_2 =
-R"doc(Get the two way travel times of the bottom detection samples
-
-Returns:
-    xt::xtensor<float, 1>)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters =
-R"doc(Get the transmission signal parameters per sector.
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters = R"doc()doc";
 
-Returns:
-    const std::vector<algorithms::signalprocessing::datastructures::Tx
-    SignalParameters>&)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz =
-R"doc(Get an XYZ object containing the XYZ position of the bottom detection
-Note: XYZ is in the local coordinate system of the ping! To convert it
-use algorithms::geoprocessing::georeferencer class or - Use
-get_xyz_utm() to get the bottom detection in UTM coordinates - Use
-get_xyz_latlon() to get the bottom detection in Latitude/Longitude
-coordinates
-
-Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_2 =
-R"doc(Get an XYZ object containing the XYZ position of the bottom detection
-Note: XYZ is in the local coordinate system of the ping! To convert it
-use algorithms::geoprocessing::georeferencer class or - Use
-get_xyz_utm() to get the bottom detection in UTM coordinates - Use
-get_xyz_latlon() to get the bottom detection in Latitude/Longitude
-coordinates
-
-Parameter ``selection``:
-    structure with selected transducer_ids/beams/samples considered
-    for this function
-
-Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles = R"doc()doc";
 

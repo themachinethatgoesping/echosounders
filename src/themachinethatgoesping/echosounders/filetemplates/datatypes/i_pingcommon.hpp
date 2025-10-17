@@ -25,28 +25,17 @@
 #include ".docstrings/i_pingcommon.doc.hpp"
 
 /* std includes */
-#include <filesystem>
-#include <fstream>
-#include <set>
-#include <unordered_map>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <vector>
 
-#include <boost/flyweight.hpp>
-#include <fmt/core.h>
-#include <magic_enum/magic_enum.hpp>
-
-// xtensor includes
-#include <xtensor/containers/xadapt.hpp>
-
-#include <xtensor/views/xview.hpp>
-
 /* themachinethatgoesping includes */
-#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
-#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
-#include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-#include "../../pingtools/beamsampleselection.hpp"
+#include <themachinethatgoesping/tools/classhelper/option.hpp>
 
 /**
  * @namespace themachinethatgoesping
@@ -108,28 +97,16 @@ enum class t_pingfeature : uint8_t
 
 using o_pingfeature = themachinethatgoesping::tools::classhelper::Option<t_pingfeature>;
 
-static const std::vector<t_pingfeature> __empty_features__ = {};
-
 class I_PingCommon
 {
   protected:
-    virtual std::string class_name() const { return "I_PingCommon"; }
-
-    virtual std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const
-    {
-        return std::map<t_pingfeature, std::function<bool()>>();
-    }
-    virtual std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const
-    {
-        return std::map<t_pingfeature, std::function<bool()>>();
-    }
-    virtual std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const
-    {
-        return std::map<t_pingfeature, std::function<bool()>>();
-    }
+    virtual std::string class_name() const;
+    virtual std::map<t_pingfeature, std::function<bool()>> primary_feature_functions() const;
+    virtual std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const;
+    virtual std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const;
 
   public:
-    I_PingCommon() {}
+    I_PingCommon();
     virtual ~I_PingCommon() = default;
 
     // ----- interface functions -----
@@ -142,22 +119,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_features() const
-    {
-        for (const auto& [feature_name, has_feature] : this->primary_feature_functions())
-            if (has_feature())
-                return true;
-
-        for (const auto& [feature_name, has_feature] : this->secondary_feature_functions())
-            if (has_feature())
-                return true;
-
-        for (const auto& [feature_name, has_feature] : this->feature_group_functions())
-            if (has_feature())
-                return true;
-
-        return false;
-    }
+    bool has_features() const;
 
     /**
      * @brief Check if any of the specified features is available
@@ -165,16 +127,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_any_of_features(const std::vector<o_pingfeature>& features) const
-    {
-        for (const auto& feature : features)
-        {
-            if (has_feature(feature))
-                return true;
-        }
-
-        return false;
-    }
+    bool has_any_of_features(const std::vector<o_pingfeature>& features) const;
 
     /**
      * @brief Check if all of the specified features are available
@@ -182,16 +135,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_all_of_features(const std::vector<o_pingfeature>& features) const
-    {
-        for (const auto& feature : features)
-        {
-            if (!has_feature(feature))
-                return false;
-        }
-
-        return true;
-    }
+    bool has_all_of_features(const std::vector<o_pingfeature>& features) const;
 
     /**
      * @brief Check if any of the registered main features is available
@@ -199,32 +143,11 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_primary_features() const
-    {
-        for (const auto& [feature_name, has_feature] : this->primary_feature_functions())
-            if (has_feature())
-                return true;
+    bool has_primary_features() const;
 
-        return false;
-    }
+    bool has_secondary_features() const;
 
-    bool has_secondary_features() const
-    {
-        for (const auto& [feature_name, has_feature] : this->secondary_feature_functions())
-            if (has_feature())
-                return true;
-
-        return false;
-    }
-
-    bool has_feature_groups() const
-    {
-        for (const auto& [feature_name, has_feature] : this->feature_group_functions())
-            if (has_feature())
-                return true;
-
-        return false;
-    }
+    bool has_feature_groups() const;
 
     /**
      * @brief Check if any of the registered features is available
@@ -232,29 +155,7 @@ class I_PingCommon
      * @return true
      * @return false
      */
-    bool has_feature(o_pingfeature feature) const
-    {
-        auto features   = this->primary_feature_functions();
-        auto it_primary = features.find(feature.value);
-        if (it_primary != features.end())
-            return it_primary->second();
-
-        features          = this->secondary_feature_functions();
-        auto it_secondary = features.find(feature.value);
-        if (it_secondary != features.end())
-            return it_secondary->second();
-
-        features      = this->feature_group_functions();
-        auto it_group = features.find(feature.value);
-        if (it_group != features.end())
-            return it_group->second();
-
-        throw std::runtime_error(fmt::format("Error[{}::{}]! The following feature is "
-                                             "not registered: {}\n Please report!",
-                                             class_name(),
-                                             __func__,
-                                             magic_enum::enum_name(feature.value)));
-    }
+    bool has_feature(o_pingfeature feature) const;
 
     /**
      * @brief Get a string of all registered features that are available or not available
@@ -263,71 +164,15 @@ class I_PingCommon
      * features
      * @return std::string
      */
-    std::string feature_string(bool available = true, const std::string& prefix = "") const
-    {
-        std::string features = "";
+    std::string feature_string(bool available = true, const std::string& prefix = "") const;
 
-        for (const auto& features_map :
-             { this->primary_feature_functions(), this->secondary_feature_functions() })
-            for (const auto& [feature, has_feature] : features_map)
-            {
-                if (has_feature() == available)
-                {
-                    if (!features.empty())
-                        features += ", ";
-                    features += prefix;
-                    features += magic_enum::enum_name(feature);
-                }
-            }
+    std::vector<t_pingfeature> possible_features();
 
-        return features;
-    }
+    std::vector<t_pingfeature> possible_feature_groups();
 
-    std::vector<t_pingfeature> possible_features()
-    {
-        std::vector<t_pingfeature> features;
+    std::vector<t_pingfeature> available_features(bool available = true);
 
-        for (const auto& features_map :
-             { this->primary_feature_functions(), this->secondary_feature_functions() })
-            for (const auto& [feature, has_feature] : features_map)
-                features.push_back(feature);
-
-        return features;
-    }
-
-    std::vector<t_pingfeature> possible_feature_groups()
-    {
-        std::vector<t_pingfeature> features;
-
-        for (const auto& [feature, has_feature] : this->feature_group_functions())
-            features.push_back(feature);
-
-        return features;
-    }
-
-    std::vector<t_pingfeature> available_features(bool available = true)
-    {
-        std::vector<t_pingfeature> features;
-
-        for (const auto& features_map :
-             { this->primary_feature_functions(), this->secondary_feature_functions() })
-            for (const auto& [feature, has_feature] : features_map)
-                if (has_feature() == available)
-                    features.push_back(feature);
-
-        return features;
-    }
-
-    std::vector<t_pingfeature> available_feature_groups(bool available = true)
-    {
-        std::vector<t_pingfeature> features;
-
-        for (const auto& [feature, has_feature] : this->feature_group_functions())
-            if (has_feature() == available)
-                features.push_back(feature);
-
-        return features;
-    }
+    std::vector<t_pingfeature> available_feature_groups(bool available = true);
 
     /**
      * @brief Get a string of all registered feature groups that are available or not available
@@ -336,172 +181,57 @@ class I_PingCommon
      * features
      * @return std::string
      */
-    std::string feature_groups_string(bool available = true, const std::string& prefix = "") const
-    {
-        std::string features = "";
-
-        for (const auto& [feature, has_feature] : this->feature_group_functions())
-        {
-            if (has_feature() == available)
-            {
-                if (!features.empty())
-                    features += ", ";
-                features += prefix;
-                features += magic_enum::enum_name(feature);
-            }
-        }
-
-        return features;
-    }
+    std::string feature_groups_string(bool available = true,
+                                      const std::string& prefix = "") const;
 
     /**
      * @brief Get a string of all registered features for this ping class
      *
      * @return std::string
      */
-    std::string registered_features() const
-    {
-        std::string features = primary_features();
-
-        auto secondary_features = this->secondary_feature_functions();
-        if (!secondary_features.empty())
-        {
-            if (!features.empty())
-                features += ", ";
-            features += this->secondary_features();
-        }
-
-        return features;
-    }
+    std::string registered_features() const;
 
     /**
      * @brief Get a string of all registered primary features for this ping class
      *
      * @return std::string
      */
-    std::string primary_features() const
-    {
-        std::string features = "";
-
-        for (const auto& [feature, has_feature] : this->primary_feature_functions())
-        {
-            if (!features.empty())
-                features += ", ";
-            features += magic_enum::enum_name(feature);
-        }
-
-        return features;
-    }
+    std::string primary_features() const;
 
     /**
      * @brief Get a string of all registered secondary features for this ping class
      *
      * @return std::string
      */
-    std::string secondary_features() const
-    {
-        std::string features = "";
-
-        for (const auto& [feature, has_feature] : this->secondary_feature_functions())
-        {
-            if (!features.empty())
-                features += ", ";
-            features += magic_enum::enum_name(feature);
-        }
-
-        return features;
-    }
+    std::string secondary_features() const;
 
     /**
      * @brief Get a string of all registered feature groups for this ping class
      *
      * @return std::string
      */
-    std::string feature_groups() const
-    {
-        std::string features = "";
-
-        for (const auto& [feature, has_feature] : this->feature_group_functions())
-        {
-            if (!features.empty())
-                features += ", ";
-            features += magic_enum::enum_name(feature);
-        }
-
-        return features;
-    }
+    std::string feature_groups() const;
     //------ interface ------//
-    virtual void load([[maybe_unused]] bool force = false)
-    {
-        throw not_implemented("load", this->class_name());
-    }
-    virtual void release() { throw not_implemented("release", this->class_name()); }
-    virtual bool loaded() { throw not_implemented("load", this->class_name()); }
+    virtual void load([[maybe_unused]] bool force = false);
+    virtual void release();
+    virtual bool loaded();
 
   protected:
     struct not_implemented : public std::runtime_error
     {
-        not_implemented(std::string_view method_name, std::string_view name)
-            : std::runtime_error(
-                  fmt::format("method {} not implemented for ping type '{}'", method_name, name))
-        {
-        }
+        not_implemented(std::string_view method_name, std::string_view name);
     };
 
   public:
     void print_features(tools::classhelper::ObjectPrinter& printer,
-                        const std::string&                 prefix = "") const
-    {
-        // std::string prefix_with_points = prefix.empty() ? ".get_" + prefix : ".get_" + prefix +
-        // ".";
-        std::string prefix_with_points = ".get_";
-        std::string feature_header =
-            prefix.empty() ? "Features" : fmt::format("Features(.{})", prefix);
-
-        auto features     = feature_string(true, prefix_with_points);
-        auto not_features = feature_string(false, prefix_with_points);
-
-        if (!prefix.empty())
-            features = "." + prefix + " : " + features;
-
-        if (!not_features.empty())
-        {
-            printer.register_string(feature_header, features, std::string("Not:") + not_features);
-        }
-        else
-        {
-            printer.register_string(feature_header, features);
-        }
-    }
+                        const std::string&                 prefix = "") const;
 
     void print_feature_groups(tools::classhelper::ObjectPrinter& printer,
-                              const std::string&                 prefix = "") const
-    {
-        std::string prefix_with_points = prefix.empty() ? "." + prefix : "." + prefix + ".";
-        std::string feature_header =
-            prefix.empty() ? "Feature groups" : fmt::format("Feature groups(.{})", prefix);
-
-        auto features     = feature_groups_string(true, prefix_with_points);
-        auto not_features = feature_groups_string(false, prefix_with_points);
-        if (!not_features.empty())
-            printer.register_string(feature_header, features, std::string("Not:") + not_features);
-        else
-            printer.register_string(feature_header, features);
-    }
+                              const std::string&                 prefix = "") const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            this->class_name(), float_precision, superscript_exponents);
-
-        print_features(printer);
-        if (!this->feature_group_functions().empty())
-            print_feature_groups(printer);
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)

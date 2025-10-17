@@ -2,7 +2,9 @@
 // Target: echosounders:echosounders_nanopy
 #pragma once
 
-#include <nanobind/nanobind.h>
+#if !defined(__WIN32__) && !defined(_WIN32) && !defined(__WIN64__) && !defined(_WIN64)
+    #include <nanobind/nanobind.h>
+#endif
 #include <nanobind/stl/string.h>
 #include <vector>
 #include <magic_enum/magic_enum.hpp>

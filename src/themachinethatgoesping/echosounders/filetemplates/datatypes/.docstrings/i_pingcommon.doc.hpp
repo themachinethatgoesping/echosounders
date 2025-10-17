@@ -1,4 +1,4 @@
-//sourcehash: 92f6d173390aef571555d785c34c3d4a5d2fbd26da4ee104ecf771944e93ec37
+//sourcehash: 9351e3d1b609a57180c9ef5779711687e355af986c8033e40f8586e3053c8e84
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_i_pingcommon_hpp_516_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_i_pingcommon_hpp_246_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingCommon = R"doc()doc";
 
