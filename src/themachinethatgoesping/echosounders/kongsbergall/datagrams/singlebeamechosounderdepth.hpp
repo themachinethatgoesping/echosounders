@@ -10,8 +10,8 @@
 #include ".docstrings/singlebeamechosounderdepth.doc.hpp"
 
 // std includes
+#include <cstdint>
 #include <string>
-#include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -49,48 +49,33 @@ class SingleBeamEchoSounderDepth : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit SingleBeamEchoSounderDepth(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit SingleBeamEchoSounderDepth(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    SingleBeamEchoSounderDepth()
-    {
-        _datagram_identifier = t_KongsbergAllDatagramIdentifier::SingleBeamEchoSounderDepth;
-    }
+    SingleBeamEchoSounderDepth();
     ~SingleBeamEchoSounderDepth() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_echo_sounder_counter() const { return _echo_sounder_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint32_t get_input_date() const { return _input_date; }
-    uint32_t get_input_time_since_midnight() const { return _input_time_since_midnight; }
-    uint32_t get_echo_sounder_depth() const { return _echo_sounder_depth; }
-    char     get_source_identifier() const { return _source_identifier; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint16_t get_echo_sounder_counter() const;
+    uint16_t get_system_serial_number() const;
+    uint32_t get_input_date() const;
+    uint32_t get_input_time_since_midnight() const;
+    uint32_t get_echo_sounder_depth() const;
+    char     get_source_identifier() const;
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
 
     // setters
-    void set_echo_sounder_counter(uint16_t echo_sounder_counter)
-    {
-        _echo_sounder_counter = echo_sounder_counter;
-    }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_input_date(uint32_t date) { _input_date = date; }
-    void set_input_time_since_midnight(uint32_t time) { _input_time_since_midnight = time; }
-    void set_echo_sounder_depth(uint32_t echo_sounder_depth)
-    {
-        _echo_sounder_depth = echo_sounder_depth;
-    }
-    void set_source_identifier(char source_identifier) { _source_identifier = source_identifier; }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_echo_sounder_counter(uint16_t echo_sounder_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_input_date(uint32_t date);
+    void set_input_time_since_midnight(uint32_t time);
+    void set_echo_sounder_depth(uint32_t echo_sounder_depth);
+    void set_source_identifier(char source_identifier);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // ----- processed data access -----
     /**
@@ -98,15 +83,7 @@ class SingleBeamEchoSounderDepth : public KongsbergAllDatagram
      *
      * @return unixtime as double
      */
-    double get_input_timestamp() const
-    {
-        int y = int(_input_date / 10000);
-        int m = int(_input_date / 100) - y * 100;
-        int d = int(_input_date) - y * 10000 - m * 100;
-
-        return tools::timeconv::year_month_day_to_unixtime(
-            y, m, d, uint64_t(_input_time_since_midnight) * 1000);
-    }
+    double get_input_timestamp() const;
 
     /**
      * @brief Get the time as string
@@ -116,95 +93,30 @@ class SingleBeamEchoSounderDepth : public KongsbergAllDatagram
      * @return std::string
      */
     std::string get_input_date_string(unsigned int       fractionalSecondsDigits = 2,
-                                      const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
-    {
-        return tools::timeconv::unixtime_to_datestring(
-            get_input_timestamp(), fractionalSecondsDigits, format);
-    }
+                                      const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const;
 
     /**
      * @brief Get the echo sounder depth in meters
      *
      * @return _echo_sounder_depth * 0.01f (float)
      */
-    float get_echo_sounder_depth_in_meters() const { return _echo_sounder_depth * 0.01f; }
+    float get_echo_sounder_depth_in_meters() const;
 
     // ----- operators -----
     bool operator==(const SingleBeamEchoSounderDepth& other) const = default;
 
     //----- to/from stream functions -----
-    static SingleBeamEchoSounderDepth from_stream(std::istream& is, KongsbergAllDatagram header)
-    {
-        SingleBeamEchoSounderDepth datagram(std::move(header));
+    static SingleBeamEchoSounderDepth from_stream(std::istream& is, KongsbergAllDatagram header);
 
-        if (datagram._datagram_identifier != t_KongsbergAllDatagramIdentifier::SingleBeamEchoSounderDepth)
-            throw std::runtime_error(fmt::format(
-                "SingleBeamEchoSounderDepth: datagram identifier is not 0x{:02x}, but 0x{:02x}",
-                uint8_t(t_KongsbergAllDatagramIdentifier::SingleBeamEchoSounderDepth),
-                uint8_t(datagram._datagram_identifier)));
-
-        // read first part of the datagram (until the first beam)
-        is.read(reinterpret_cast<char*>(&(datagram._echo_sounder_counter)), 20 * sizeof(uint8_t));
-
-        if (datagram._etx != 0x03)
-            throw std::runtime_error(
-                fmt::format("SingleBeamEchoSounderDepth: end identifier is not 0x03, but 0x{:x}",
-                            datagram._etx));
-
-        return datagram;
-    }
-
-    static SingleBeamEchoSounderDepth from_stream(std::istream& is)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is));
-    }
+    static SingleBeamEchoSounderDepth from_stream(std::istream& is);
 
     static SingleBeamEchoSounderDepth from_stream(std::istream&              is,
-                                                  t_KongsbergAllDatagramIdentifier datagram_identifier)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
-    }
+                                                  t_KongsbergAllDatagramIdentifier datagram_identifier);
 
-    void to_stream(std::ostream& os)
-    {
-        KongsbergAllDatagram::to_stream(os);
-
-        // write first part of the datagram (until the first beam)
-        os.write(reinterpret_cast<const char*>(&(_echo_sounder_counter)), 20 * sizeof(uint8_t));
-    }
+    void to_stream(std::ostream& os);
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        using tools::timeconv::unixtime_to_datestring;
-
-        static const std::string format_date("%d/%m/%Y");
-        static const std::string format_time("%H:%M:%S");
-        auto                     timestamp = get_input_timestamp();
-
-        auto date = unixtime_to_datestring(timestamp, 0, format_date);
-        auto time = unixtime_to_datestring(timestamp, 3, format_time);
-
-        tools::classhelper::ObjectPrinter printer("SingleBeamEchoSounderDepth", float_precision, superscript_exponents);
-
-        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
-        printer.register_section("datagram content");
-        printer.register_value("echo_sounder_counter", _echo_sounder_counter);
-        printer.register_value("system_serial_number", _system_serial_number);
-        printer.register_value("input_date", _input_date, "YYYYMMDD");
-        printer.register_value("input_time_since_midnight", _input_time_since_midnight, "ms");
-        printer.register_value("echo_sounder_depth", _echo_sounder_depth, "m");
-
-        printer.register_string("etx", fmt::format("0x{:02x}", _etx));
-        printer.register_value("checksum", _checksum);
-
-        printer.register_section("processed");
-        printer.register_value("input_timestamp", timestamp, "s");
-        printer.register_string("input_date", date, "MM/DD/YYYY");
-        printer.register_string("input_time", time, "HH:MM:SS");
-        printer.register_value("echo_sounder_depth", get_echo_sounder_depth_in_meters(), "m");
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

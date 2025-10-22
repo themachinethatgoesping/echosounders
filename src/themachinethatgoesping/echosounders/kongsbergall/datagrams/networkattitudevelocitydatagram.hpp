@@ -10,6 +10,7 @@
 #include ".docstrings/networkattitudevelocitydatagram.doc.hpp"
 
 // std includes
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -56,66 +57,39 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit NetworkAttitudeVelocityDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit NetworkAttitudeVelocityDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    NetworkAttitudeVelocityDatagram()
-    {
-        _datagram_identifier = t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram;
-    }
+    NetworkAttitudeVelocityDatagram();
     ~NetworkAttitudeVelocityDatagram() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_network_attitude_counter() const { return _network_attitude_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_number_of_entries() const { return _number_of_entries; }
-    uint8_t  get_sensor_system_descriptor() const { return _sensor_system_descriptor; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
-    uint8_t  get_spare() const { return _spare; }
-    uint8_t  get_spare_align() const { return _spare_align; }
+    uint16_t get_network_attitude_counter() const;
+    uint16_t get_system_serial_number() const;
+    uint16_t get_number_of_entries() const;
+    uint8_t  get_sensor_system_descriptor() const;
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
+    uint8_t  get_spare() const;
+    uint8_t  get_spare_align() const;
 
     // setters
-    void set_network_attitude_counter(uint16_t network_attitude_counter)
-    {
-        _network_attitude_counter = network_attitude_counter;
-    }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_number_of_entries(uint16_t number_of_entries)
-    {
-        _number_of_entries = number_of_entries;
-    }
-    void set_sensor_system_descriptor(uint8_t sensor_system_descriptor)
-    {
-        _sensor_system_descriptor = sensor_system_descriptor;
-    }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
-    void set_spare(uint8_t spare) { _spare = spare; }
-    void set_spare_align(uint8_t spare_align) { _spare_align = spare_align; }
+    void set_network_attitude_counter(uint16_t network_attitude_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_number_of_entries(uint16_t number_of_entries);
+    void set_sensor_system_descriptor(uint8_t sensor_system_descriptor);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
+    void set_spare(uint8_t spare);
+    void set_spare_align(uint8_t spare_align);
 
     // substructures
-    std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& attitudes()
-    {
-        return _attitudes;
-    }
-    const std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& get_attitudes() const
-    {
-        return _attitudes;
-    }
+    std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& attitudes();
+    const std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& get_attitudes() const;
     void set_attitudes(
-        std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude> attitudes)
-    {
-        _attitudes = std::move(attitudes);
-    }
+        std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude> attitudes);
 
     // ----- processed data access -----
     /**
@@ -127,16 +101,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return 1 or 2
      *
      */
-    unsigned int get_attitude_velocity_sensor_number() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b00110000)
-            return 2;
-        else
-            return 1;
-    }
+    unsigned int get_attitude_velocity_sensor_number() const;
 
     /**
      * @brief Evaluate if the velocity sensor is active using sensor system descriptor field.
@@ -150,16 +115,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_velocity_sensor_is_active() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b01000000)
-            return true;
-        else
-            return false;
-    }
+    bool get_velocity_sensor_is_active() const;
 
     /**
      * @brief Evaluate if the heading sensor is active using sensor system descriptor field.
@@ -169,16 +125,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_heading_sensor_is_active() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b00000001)
-            return true;
-        else
-            return false;
-    }
+    bool get_heading_sensor_is_active() const;
 
     /**
      * @brief Evaluate if the roll sensor is active using sensor system descriptor field.
@@ -188,16 +135,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_roll_sensor_is_active() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b00000010)
-            return true;
-        else
-            return false;
-    }
+    bool get_roll_sensor_is_active() const;
 
     /**
      * @brief Evaluate if the pitch sensor is active using sensor system descriptor field.
@@ -207,16 +145,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_pitch_sensor_is_active() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b00000100)
-            return true;
-        else
-            return false;
-    }
+    bool get_pitch_sensor_is_active() const;
 
     /**
      * @brief Evaluate if the heave sensor is active using sensor system descriptor field.
@@ -226,16 +155,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_heave_sensor_is_active() const
-    {
-        if (!get_function_is_used())
-            return false;
-
-        if (_sensor_system_descriptor & 0b00001000)
-            return true;
-        else
-            return false;
-    }
+    bool get_heave_sensor_is_active() const;
 
     /**
      * @brief Evaluate if the function is used.
@@ -244,13 +164,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
      * @return bool
      *
      */
-    bool get_function_is_used() const
-    {
-        if (_sensor_system_descriptor == -1)
-            return false;
-        else
-            return true;
-    }
+    bool get_function_is_used() const;
 
     // ----- operators -----
     bool operator==(const NetworkAttitudeVelocityDatagram& other) const = default;

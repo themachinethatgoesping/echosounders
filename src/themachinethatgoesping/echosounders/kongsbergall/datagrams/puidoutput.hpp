@@ -10,8 +10,9 @@
 #include ".docstrings/puidoutput.doc.hpp"
 
 // std includes
+#include <array>
+#include <cstdint>
 #include <string>
-#include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -58,120 +59,55 @@ class PUIDOutput : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit PUIDOutput(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit PUIDOutput(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    PUIDOutput() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::PUIDOutput; }
+    PUIDOutput();
     ~PUIDOutput() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t    get_byte_order_flag() const { return _byte_order_flag; }
-    uint16_t    get_system_serial_number() const { return _system_serial_number; }
-    uint16_t    get_udp_port_no_1() const { return _udp_port_no_1; }
-    uint16_t    get_udp_port_no_2() const { return _udp_port_no_2; }
-    uint16_t    get_udp_port_no_3() const { return _udp_port_no_3; }
-    uint16_t    get_udp_port_no_4() const { return _udp_port_no_4; }
-    uint32_t    get_system_descriptor() const { return _system_descriptor; }
-    std::string get_pu_software_version() const
-    {
-        return std::string(std::begin(_pu_software_version), std::end(_pu_software_version));
-    }
-    std::string get_bsp_software_date() const
-    {
-        return std::string(std::begin(_bsp_software_date), std::end(_bsp_software_date));
-    }
-    std::string get_sonar_transceiver_1_software_version() const
-    {
-        return std::string(std::begin(_sonar_transceiver_1_software_version),
-                           std::end(_sonar_transceiver_1_software_version));
-    }
-    std::string get_sonar_transceiver_2_software_version() const
-    {
-        return std::string(std::begin(_sonar_transceiver_2_software_version),
-                           std::end(_sonar_transceiver_2_software_version));
-    }
-    std::array<uint8_t, 4> get_host_ip_address() const { return _host_ip_address; }
-    uint8_t                get_tx_opening_angle() const { return _tx_opening_angle; }
-    uint8_t                get_rx_opening_angle() const { return _rx_opening_angle; }
-    std::array<uint8_t, 7> get_spare() const { return _spare; }
+    uint16_t               get_byte_order_flag() const;
+    uint16_t               get_system_serial_number() const;
+    uint16_t               get_udp_port_no_1() const;
+    uint16_t               get_udp_port_no_2() const;
+    uint16_t               get_udp_port_no_3() const;
+    uint16_t               get_udp_port_no_4() const;
+    uint32_t               get_system_descriptor() const;
+    std::string            get_pu_software_version() const;
+    std::string            get_bsp_software_date() const;
+    std::string            get_sonar_transceiver_1_software_version() const;
+    std::string            get_sonar_transceiver_2_software_version() const;
+    std::array<uint8_t, 4> get_host_ip_address() const;
+    uint8_t                get_tx_opening_angle() const;
+    uint8_t                get_rx_opening_angle() const;
+    std::array<uint8_t, 7> get_spare() const;
 
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
 
     // setters
-    void set_byte_order_flag(uint16_t byte_order_flag) { _byte_order_flag = byte_order_flag; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_udp_port_no_1(uint16_t udp_port_no_1) { _udp_port_no_1 = udp_port_no_1; }
-    void set_udp_port_no_2(uint16_t udp_port_no_2) { _udp_port_no_2 = udp_port_no_2; }
-    void set_udp_port_no_3(uint16_t udp_port_no_3) { _udp_port_no_3 = udp_port_no_3; }
-    void set_udp_port_no_4(uint16_t udp_port_no_4) { _udp_port_no_4 = udp_port_no_4; }
-    void set_system_descriptor(uint32_t system_descriptor)
-    {
-        _system_descriptor = system_descriptor;
-    }
-    void set_pu_software_version(const std::string& pu_software_version)
-    {
-        if (pu_software_version.size() != 16)
-            throw std::invalid_argument(fmt::format(
-                "pu_software_version must be 16 characters long, but is {} characters long",
-                pu_software_version.size()));
-
-        std::copy(
-            pu_software_version.begin(), pu_software_version.end(), _pu_software_version.begin());
-    }
-    void set_bsp_software_date(const std::string& bsp_software_date)
-    {
-        if (bsp_software_date.size() != 16)
-            throw std::invalid_argument(fmt::format(
-                "bsp_software_date must be 16 characters long, but is {} characters long",
-                bsp_software_date.size()));
-
-        std::copy(bsp_software_date.begin(), bsp_software_date.end(), _bsp_software_date.begin());
-    }
+    void set_byte_order_flag(uint16_t byte_order_flag);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_udp_port_no_1(uint16_t udp_port_no_1);
+    void set_udp_port_no_2(uint16_t udp_port_no_2);
+    void set_udp_port_no_3(uint16_t udp_port_no_3);
+    void set_udp_port_no_4(uint16_t udp_port_no_4);
+    void set_system_descriptor(uint32_t system_descriptor);
+    void set_pu_software_version(const std::string& pu_software_version);
+    void set_bsp_software_date(const std::string& bsp_software_date);
     void set_sonar_transceiver_1_software_version(
-        const std::string& sonar_transceiver_1_software_version)
-    {
-        if (sonar_transceiver_1_software_version.size() != 16)
-            throw std::invalid_argument(fmt::format(
-                "sonar_transceiver_1_software_version must be 16 characters long, but is {} "
-                "characters long",
-                sonar_transceiver_1_software_version.size()));
-
-        std::copy(sonar_transceiver_1_software_version.begin(),
-                  sonar_transceiver_1_software_version.end(),
-                  _sonar_transceiver_1_software_version.begin());
-    }
+        const std::string& sonar_transceiver_1_software_version);
     void set_sonar_transceiver_2_software_version(
-        const std::string& sonar_transceiver_2_software_version)
-    {
-        if (sonar_transceiver_2_software_version.size() != 16)
-            throw std::invalid_argument(fmt::format(
-                "sonar_transceiver_2_software_version must be 16 characters long, but is {} "
-                "characters long",
-                sonar_transceiver_2_software_version.size()));
+        const std::string& sonar_transceiver_2_software_version);
+    void set_host_ip_address(std::array<uint8_t, 4> host_ip_address);
+    void set_tx_opening_angle(uint8_t tx_opening_angle);
+    void set_rx_opening_angle(uint8_t rx_opening_angle);
+    void set_spare(const std::array<uint8_t, 7>& spare);
 
-        std::copy(sonar_transceiver_2_software_version.begin(),
-                  sonar_transceiver_2_software_version.end(),
-                  _sonar_transceiver_2_software_version.begin());
-    }
-    void set_host_ip_address(std::array<uint8_t, 4> host_ip_address)
-    {
-        _host_ip_address = host_ip_address;
-    }
-    void set_tx_opening_angle(uint8_t tx_opening_angle) { _tx_opening_angle = tx_opening_angle; }
-    void set_rx_opening_angle(uint8_t rx_opening_angle) { _rx_opening_angle = rx_opening_angle; }
-    void set_spare(const std::array<uint8_t, 7>& spare) { _spare = spare; }
-
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // ----- processed data access -----
     /**
@@ -179,47 +115,14 @@ class PUIDOutput : public KongsbergAllDatagram
      *
      * @return std::string
      */
-    std::string get_host_ip_address_as_string() const
-    {
-        // create the ip address by splitting the 32 bit integer in 4 bytes
-        std::string ip_address =
-            std::to_string(_host_ip_address[0]) + "." + std::to_string(_host_ip_address[1]) + "." +
-            std::to_string(_host_ip_address[2]) + "." + std::to_string(_host_ip_address[3]);
-        return ip_address;
-    }
+    std::string get_host_ip_address_as_string() const;
 
     /**
      * @brief Convert the system descriptor flag to a cpu configuration
      *
      * @return std::string
      */
-    std::string get_cpu_configuration() const
-    {
-
-        uint8_t cpu_configuration_flag = (_system_descriptor & 0xFF000000) >> 24;
-
-        switch (cpu_configuration_flag)
-        {
-            case 0:
-                return "Old CPU card";
-            case 1:
-                return "VIPer or CoolMonster";
-            case 2:
-                return "CT7";
-            case 3:
-                return "Kontron";
-            case 4:
-                return "Kontron and BSP67B for EM 710";
-            case 5:
-                return "Concurrent Technologies PP432";
-            case 6:
-                return "EM2000 AUV";
-            case 7:
-                return "Concurrent Technologies PP 833";
-            default:
-                return "Unknown";
-        }
-    }
+    std::string get_cpu_configuration() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system is a dual head system
@@ -227,7 +130,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_dual_head() const { return (_system_descriptor & 0b1); }
+    bool get_has_dual_head() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system is a dual swath system
@@ -235,7 +138,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_dual_swath() const { return (_system_descriptor & 0b10); }
+    bool get_has_dual_swath() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system is a BSP67B system
@@ -245,7 +148,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_bsp67B() const { return !(_system_descriptor & 0b100); }
+    bool get_has_bsp67B() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system is a CBMF system
@@ -255,7 +158,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_cbmf() const { return (_system_descriptor & 0b100); }
+    bool get_has_cbmf() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system is a PTP (IEEE 1588
@@ -264,7 +167,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_ptp_support() const { return (_system_descriptor & 0b1000); }
+    bool get_has_ptp_support() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has a deep water sonar
@@ -273,7 +176,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true (deep water sonar head)
      * @return false (shallow water sonar head)s
      */
-    bool get_has_deep_water_sonar_head() const { return !(_system_descriptor & 0b10000); }
+    bool get_has_deep_water_sonar_head() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has a shallow water
@@ -282,7 +185,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true (shallow water sonar head)
      * @return false (deep water sonar head)
      */
-    bool get_has_shallow_water_sonar_head() const { return (_system_descriptor & 0b10000); }
+    bool get_has_shallow_water_sonar_head() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has extra detections
@@ -291,7 +194,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_extra_detections_support() const { return (_system_descriptor & 0b100000); }
+    bool get_has_extra_detections_support() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine if the system has RS422 serial lines
@@ -300,7 +203,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    bool get_has_rs422_support() const { return (_system_descriptor & 0b1000000); }
+    bool get_has_rs422_support() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine the em2040 flag
@@ -308,24 +211,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    std::string get_which_em2040() const
-    {
-        uint8_t em2040_flag = (_system_descriptor & 0b110000000) >> 7;
-
-        switch (em2040_flag)
-        {
-            case 0:
-                return "EM 2040 Normal";
-            case 1:
-                return "EM 2040 Dual TX (2*TX and 2*RX)";
-            case 2:
-                return "spare";
-            case 3:
-                return "EM 2040P";
-            default:
-                return "This can't happen :-)";
-        }
-    }
+    std::string get_which_em2040() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine the EM710 flag
@@ -333,20 +219,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    std::string get_which_em710() const
-    {
-        uint8_t em710_flag = (_system_descriptor & 0b0000011000000000) >> 9;
-
-        switch (em710_flag)
-        {
-            case 0:
-                return "EM 710";
-            case 1:
-                return "EM 710–MK2";
-            default:
-                return "Unknown";
-        }
-    }
+    std::string get_which_em710() const;
 
     /**
      * @brief Evaluate the system_descriptor flag to determine the old sounder flag
@@ -354,35 +227,7 @@ class PUIDOutput : public KongsbergAllDatagram
      * @return true
      * @return false
      */
-    std::string get_which_old_sounder() const
-    {
-        if ((_system_descriptor & 0x00000F00) > 0)
-        {
-            return "EM 3002 Rx gain not available";
-        }
-
-        uint8_t old_sounder_flag = (_system_descriptor & 0x000000FF);
-
-        switch (old_sounder_flag)
-        {
-            case 1:
-                return "EM 1002S";
-            case 2:
-                return "EM 952";
-            case 3:
-                return "EM 1002: with Hull Unit";
-            case 4:
-                return " EM 1002S: with Hull Unit";
-            case 5:
-                return "EM 952: with Hull Unit";
-            case 8:
-                return "EM 3001";
-            case 9:
-                return "EM 3002 long pulse available";
-            default:
-                return "Unknown";
-        }
-    }
+    std::string get_which_old_sounder() const;
 
     // ----- operators -----
     bool operator==(const PUIDOutput& other) const = default;

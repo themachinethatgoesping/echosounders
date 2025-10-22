@@ -10,15 +10,10 @@
 #include ".docstrings/flag_detection_information.doc.hpp"
 
 // std includes
-#include <string>
+#include <cstdint>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/option.hpp>
-
-
-
-#include "../../types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -53,10 +48,7 @@ using o_DetectionType = tools::classhelper::Option<t_DetectionType>;
  * @return true
  * @return false
  */
-inline bool get_detection_is_valid(uint8_t detection_info)
-{
-    return (detection_info & 0b10000000) == 0b00000000;
-}
+bool get_detection_is_valid(uint8_t detection_info);
 
 /**
  * @brief This function evaluates the detection information flag. The first 3 bits indicate the
@@ -64,10 +56,7 @@ inline bool get_detection_is_valid(uint8_t detection_info)
  *
  * @return t_DetectionType
  */
-inline t_DetectionType get_detection_type(uint8_t detection_info)
-{
-    return t_DetectionType(detection_info & 0b11110111);
-}
+t_DetectionType get_detection_type(uint8_t detection_info);
 
 /**
  * @brief This function evaluates the detection information flag. If the 4th bit is set to 1,
@@ -77,10 +66,7 @@ inline t_DetectionType get_detection_type(uint8_t detection_info)
  * @return true
  * @return false
  */
-inline bool get_backscatter_is_compensated(uint8_t detection_info)
-{
-    return (detection_info & 0b00001000) == 0b00001000;
-}
+bool get_backscatter_is_compensated(uint8_t detection_info);
 
 } // namespace detection_information
 } // namespace substructures

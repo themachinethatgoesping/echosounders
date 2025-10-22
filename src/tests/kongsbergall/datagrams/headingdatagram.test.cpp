@@ -66,7 +66,7 @@ TEST_CASE("HeadingDatagram should support common functions", TESTTAG)
     CHECK(timestamps(0) == 1.234 + dat.get_timestamp());
     CHECK(timestamps(1) == 2.345 + dat.get_timestamp());
     CHECK(headings(0) == 5.67f);
-    CHECK(headings(1) == 6.78f);
+    CHECK(headings(1) == Catch::Approx(6.78f));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::HeadingDatagram);

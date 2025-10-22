@@ -7,6 +7,7 @@
 // std includes
 #include <algorithm>
 #include <iostream>
+#include <utility>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
@@ -25,6 +26,84 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+// ----- constructors -----
+InstallationParameters::InstallationParameters(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+InstallationParameters::InstallationParameters()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::InstallationParametersStart;
+}
+
+// ----- convenient data access -----
+uint16_t InstallationParameters::read_installation_parameters_counter() const
+{
+    return _installation_parameters_counter;
+}
+
+uint16_t InstallationParameters::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t InstallationParameters::get_secondary_system_serial_number() const
+{
+    return _secondary_system_serial_number;
+}
+
+uint8_t InstallationParameters::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t InstallationParameters::get_checksum() const
+{
+    return _checksum;
+}
+
+void InstallationParameters::set_installation_parameters_counter(uint16_t installation_parameters_counter)
+{
+    _installation_parameters_counter = installation_parameters_counter;
+}
+
+void InstallationParameters::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void InstallationParameters::set_secondary_system_serial_number(uint16_t secondary_system_serial_number)
+{
+    _secondary_system_serial_number = secondary_system_serial_number;
+}
+
+void InstallationParameters::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void InstallationParameters::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+const std::string& InstallationParameters::read_installation_parameters() const
+{
+    return _installation_parameters;
+}
+
+const std::map<std::string, std::string>&
+InstallationParameters::read_installation_parameters_parsed()
+{
+    if (_parsed_installation_parameters.empty() && !_installation_parameters.empty())
+    {
+        reparse_installation_parameters();
+    }
+
+    return _parsed_installation_parameters;
+}
 
 // ----- factory functions -----
 InstallationParameters InstallationParameters::merge(InstallationParameters first,
@@ -187,6 +266,36 @@ std::string InstallationParameters::build_channel_id() const
         channel_id += "-" + std::to_string(this->get_secondary_system_serial_number());
 
     return channel_id;
+}
+
+float InstallationParameters::get_water_line_vertical_location_in_meters() const
+{
+    return get_value_float("WLZ", 0.f);
+}
+
+int InstallationParameters::get_system_main_head_serial_number() const
+{
+    return get_value_int("SMH");
+}
+
+int InstallationParameters::get_tx_serial_number() const
+{
+    return get_value_int("TXS");
+}
+
+int InstallationParameters::get_tx2_serial_number() const
+{
+    return get_value_int("T2X");
+}
+
+int InstallationParameters::get_rx1_serial_number() const
+{
+    return get_value_int("R1S");
+}
+
+int InstallationParameters::get_rx2_serial_number() const
+{
+    return get_value_int("R2S");
 }
 
 o_KongsbergAllSystemTransducerConfiguration

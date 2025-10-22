@@ -10,6 +10,7 @@
 #include ".docstrings/pustatusoutput.doc.hpp"
 
 // std includes
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -80,199 +81,97 @@ class PUStatusOutput : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit PUStatusOutput(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit PUStatusOutput(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    PUStatusOutput() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::PUStatusOutput; }
+    PUStatusOutput();
     ~PUStatusOutput() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_status_datagram_counter() const { return _status_datagram_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_ping_rate() const { return _ping_rate; }
-    uint16_t get_ping_counter() const { return _ping_counter; }
-    uint32_t get_distance_between_swath() const { return _distance_between_swath; }
-    uint32_t get_sensor_input_status_udp_port_2() const { return _sensor_input_status_udp_port_2; }
-    uint32_t get_sensor_input_status_serial_port_1() const
-    {
-        return _sensor_input_status_serial_port_1;
-    }
-    uint32_t get_sensor_input_status_serial_port_2() const
-    {
-        return _sensor_input_status_serial_port_2;
-    }
-    uint32_t get_sensor_input_status_serial_port_3() const
-    {
-        return _sensor_input_status_serial_port_3;
-    }
-    uint32_t get_sensor_input_status_serial_port_4() const
-    {
-        return _sensor_input_status_serial_port_4;
-    }
-    int8_t   get_pps_status() const { return _pps_status; }
-    int8_t   get_position_status() const { return _position_status; }
-    int8_t   get_attitude_status() const { return _attitude_status; }
-    int8_t   get_clock_status() const { return _clock_status; }
-    int8_t   get_heading_status() const { return _heading_status; }
-    uint8_t  get_pu_status() const { return _pu_status; }
-    uint16_t get_last_received_heading() const { return _last_received_heading; }
-    int16_t  get_last_received_roll() const { return _last_received_roll; }
-    int16_t  get_last_received_pitch() const { return _last_received_pitch; }
-    int16_t  get_last_received_heave_at_sonar_head() const
-    {
-        return _last_received_heave_at_sonar_head;
-    }
-    uint16_t get_sound_speed_at_transducer() const { return _sound_speed_at_transducer; }
-    uint32_t get_last_received_depth() const { return _last_received_depth; }
-    int16_t  get_along_ship_velocity() const { return _along_ship_velocity; }
-    uint8_t get_attitude_velocity_sensor_status() const { return _attitude_velocity_sensor_status; }
-    uint8_t get_mammal_protection_ramp() const { return _mammal_protection_ramp; }
-    int8_t  get_backscatter_at_oblique_angle() const { return _backscatter_at_oblique_angle; }
-    int8_t  get_backscatter_at_normal_incidence() const { return _backscatter_at_normal_incidence; }
-    int8_t  get_fixed_gain() const { return _fixed_gain; }
-    uint8_t get_depth_to_normal_incidence() const { return _depth_to_normal_incidence; }
-    uint16_t get_range_to_normal_incidence() const { return _range_to_normal_incidence; }
-    uint8_t  get_port_coverage() const { return _port_coverage; }
-    uint8_t  get_starboard_coverage() const { return _starboard_coverage; }
-    uint16_t get_sound_speed_at_transducer_from_profile() const
-    {
-        return _sound_speed_at_transducer_from_profile;
-    }
-    int16_t get_yaw_stabilization_angle() const { return _yaw_stabilization_angle; }
-    int16_t get_across_ship_velocity() const { return _across_ship_velocity; }
-    int16_t get_downward_velocity() const { return _downward_velocity; }
-    int8_t  get_em2040_cpu_temperature() const { return _em2040_cpu_temperature; }
+    uint16_t get_status_datagram_counter() const;
+    uint16_t get_system_serial_number() const;
+    uint16_t get_ping_rate() const;
+    uint16_t get_ping_counter() const;
+    uint32_t get_distance_between_swath() const;
+    uint32_t get_sensor_input_status_udp_port_2() const;
+    uint32_t get_sensor_input_status_serial_port_1() const;
+    uint32_t get_sensor_input_status_serial_port_2() const;
+    uint32_t get_sensor_input_status_serial_port_3() const;
+    uint32_t get_sensor_input_status_serial_port_4() const;
+    int8_t   get_pps_status() const;
+    int8_t   get_position_status() const;
+    int8_t   get_attitude_status() const;
+    int8_t   get_clock_status() const;
+    int8_t   get_heading_status() const;
+    uint8_t  get_pu_status() const;
+    uint16_t get_last_received_heading() const;
+    int16_t  get_last_received_roll() const;
+    int16_t  get_last_received_pitch() const;
+    int16_t  get_last_received_heave_at_sonar_head() const;
+    uint16_t get_sound_speed_at_transducer() const;
+    uint32_t get_last_received_depth() const;
+    int16_t  get_along_ship_velocity() const;
+    uint8_t  get_attitude_velocity_sensor_status() const;
+    uint8_t  get_mammal_protection_ramp() const;
+    int8_t   get_backscatter_at_oblique_angle() const;
+    int8_t   get_backscatter_at_normal_incidence() const;
+    int8_t   get_fixed_gain() const;
+    uint8_t  get_depth_to_normal_incidence() const;
+    uint16_t get_range_to_normal_incidence() const;
+    uint8_t  get_port_coverage() const;
+    uint8_t  get_starboard_coverage() const;
+    uint16_t get_sound_speed_at_transducer_from_profile() const;
+    int16_t  get_yaw_stabilization_angle() const;
+    int16_t  get_across_ship_velocity() const;
+    int16_t  get_downward_velocity() const;
+    int8_t   get_em2040_cpu_temperature() const;
 
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
 
     // setters
-    void set_status_datagram_counter(uint16_t status_datagram_counter)
-    {
-        _status_datagram_counter = status_datagram_counter;
-    }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_ping_rate(uint16_t ping_rate) { _ping_rate = ping_rate; }
-    void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
-    void set_distance_between_swath(uint32_t distance_between_swath)
-    {
-        _distance_between_swath = distance_between_swath;
-    }
-    void set_sensor_input_status_udp_port_2(uint32_t sensor_input_status_udp_port_2)
-    {
-        _sensor_input_status_udp_port_2 = sensor_input_status_udp_port_2;
-    }
-    void set_sensor_input_status_serial_port_1(uint32_t sensor_input_status_serial_port_1)
-    {
-        _sensor_input_status_serial_port_1 = sensor_input_status_serial_port_1;
-    }
-    void set_sensor_input_status_serial_port_2(uint32_t sensor_input_status_serial_port_2)
-    {
-        _sensor_input_status_serial_port_2 = sensor_input_status_serial_port_2;
-    }
-    void set_sensor_input_status_serial_port_3(uint32_t sensor_input_status_serial_port_3)
-    {
-        _sensor_input_status_serial_port_3 = sensor_input_status_serial_port_3;
-    }
-    void set_sensor_input_status_serial_port_4(uint32_t sensor_input_status_serial_port_4)
-    {
-        _sensor_input_status_serial_port_4 = sensor_input_status_serial_port_4;
-    }
-    void set_pps_status(int8_t pps_status) { _pps_status = pps_status; }
-    void set_position_status(int8_t position_status) { _position_status = position_status; }
-    void set_attitude_status(int8_t attitude_status) { _attitude_status = attitude_status; }
-    void set_clock_status(int8_t clock_status) { _clock_status = clock_status; }
-    void set_heading_status(int8_t heading_status) { _heading_status = heading_status; }
-    void set_pu_status(int8_t pu_status) { _pu_status = pu_status; }
-    void set_last_received_heading(uint16_t last_received_heading)
-    {
-        _last_received_heading = last_received_heading;
-    }
-    void set_last_received_roll(int16_t last_received_roll)
-    {
-        _last_received_roll = last_received_roll;
-    }
-    void set_last_received_pitch(int16_t last_received_pitch)
-    {
-        _last_received_pitch = last_received_pitch;
-    }
-    void set_last_received_heave_at_sonar_head(int16_t last_received_heave_at_sonar_head)
-    {
-        _last_received_heave_at_sonar_head = last_received_heave_at_sonar_head;
-    }
-    void set_sound_speed_at_transducer(uint16_t sound_speed_at_transducer)
-    {
-        _sound_speed_at_transducer = sound_speed_at_transducer;
-    }
-    void set_last_received_depth(uint32_t last_received_depth)
-    {
-        _last_received_depth = last_received_depth;
-    }
-    void set_along_ship_velocity(int16_t along_ship_velocity)
-    {
-        _along_ship_velocity = along_ship_velocity;
-    }
-    void set_attitude_velocity_sensor_status(uint8_t attitude_velocity_sensor_status)
-    {
-        _attitude_velocity_sensor_status = attitude_velocity_sensor_status;
-    }
-    void set_mammal_protection_ramp(uint8_t mammal_protection_ramp)
-    {
-        _mammal_protection_ramp = mammal_protection_ramp;
-    }
-    void set_backscatter_at_oblique_angle(int8_t backscatter_at_oblique_angle)
-    {
-        _backscatter_at_oblique_angle = backscatter_at_oblique_angle;
-    }
-    void set_backscatter_at_normal_incidence(int8_t backscatter_at_normal_incidence)
-    {
-        _backscatter_at_normal_incidence = backscatter_at_normal_incidence;
-    }
-    void set_fixed_gain(int8_t fixed_gain) { _fixed_gain = fixed_gain; }
-    void set_depth_to_normal_incidence(uint8_t depth_to_normal_incidence)
-    {
-        _depth_to_normal_incidence = depth_to_normal_incidence;
-    }
-    void set_range_to_normal_incidence(uint16_t range_to_normal_incidence)
-    {
-        _range_to_normal_incidence = range_to_normal_incidence;
-    }
-    void set_port_coverage(uint8_t port_coverage) { _port_coverage = port_coverage; }
-    void set_starboard_coverage(uint8_t starboard_coverage)
-    {
-        _starboard_coverage = starboard_coverage;
-    }
-    void set_sound_speed_at_transducer_from_profile(uint16_t sound_speed_at_transducer_from_profile)
-    {
-        _sound_speed_at_transducer_from_profile = sound_speed_at_transducer_from_profile;
-    }
-    void set_yaw_stabilization_angle(int16_t yaw_stabilization_angle)
-    {
-        _yaw_stabilization_angle = yaw_stabilization_angle;
-    }
-    void set_across_ship_velocity(int16_t across_ship_velocity)
-    {
-        _across_ship_velocity = across_ship_velocity;
-    }
-    void set_downward_velocity(int16_t downward_velocity)
-    {
-        _downward_velocity = downward_velocity;
-    }
-    void set_em2040_cpu_temperature(int8_t em2040_cpu_temperature)
-    {
-        _em2040_cpu_temperature = em2040_cpu_temperature;
-    }
+    void set_status_datagram_counter(uint16_t status_datagram_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_ping_rate(uint16_t ping_rate);
+    void set_ping_counter(uint16_t ping_counter);
+    void set_distance_between_swath(uint32_t distance_between_swath);
+    void set_sensor_input_status_udp_port_2(uint32_t sensor_input_status_udp_port_2);
+    void set_sensor_input_status_serial_port_1(uint32_t sensor_input_status_serial_port_1);
+    void set_sensor_input_status_serial_port_2(uint32_t sensor_input_status_serial_port_2);
+    void set_sensor_input_status_serial_port_3(uint32_t sensor_input_status_serial_port_3);
+    void set_sensor_input_status_serial_port_4(uint32_t sensor_input_status_serial_port_4);
+    void set_pps_status(int8_t pps_status);
+    void set_position_status(int8_t position_status);
+    void set_attitude_status(int8_t attitude_status);
+    void set_clock_status(int8_t clock_status);
+    void set_heading_status(int8_t heading_status);
+    void set_pu_status(int8_t pu_status);
+    void set_last_received_heading(uint16_t last_received_heading);
+    void set_last_received_roll(int16_t last_received_roll);
+    void set_last_received_pitch(int16_t last_received_pitch);
+    void set_last_received_heave_at_sonar_head(int16_t last_received_heave_at_sonar_head);
+    void set_sound_speed_at_transducer(uint16_t sound_speed_at_transducer);
+    void set_last_received_depth(uint32_t last_received_depth);
+    void set_along_ship_velocity(int16_t along_ship_velocity);
+    void set_attitude_velocity_sensor_status(uint8_t attitude_velocity_sensor_status);
+    void set_mammal_protection_ramp(uint8_t mammal_protection_ramp);
+    void set_backscatter_at_oblique_angle(int8_t backscatter_at_oblique_angle);
+    void set_backscatter_at_normal_incidence(int8_t backscatter_at_normal_incidence);
+    void set_fixed_gain(int8_t fixed_gain);
+    void set_depth_to_normal_incidence(uint8_t depth_to_normal_incidence);
+    void set_range_to_normal_incidence(uint16_t range_to_normal_incidence);
+    void set_port_coverage(uint8_t port_coverage);
+    void set_starboard_coverage(uint8_t starboard_coverage);
+    void set_sound_speed_at_transducer_from_profile(uint16_t sound_speed_at_transducer_from_profile);
+    void set_yaw_stabilization_angle(int16_t yaw_stabilization_angle);
+    void set_across_ship_velocity(int16_t across_ship_velocity);
+    void set_downward_velocity(int16_t downward_velocity);
+    void set_em2040_cpu_temperature(int8_t em2040_cpu_temperature);
 
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // ----- processed data access -----
     /**
@@ -280,109 +179,91 @@ class PUStatusOutput : public KongsbergAllDatagram
      *
      * @return _ping_rate * 0.01 Hz (float)
      */
-    float get_ping_rate_hertz() const { return _ping_rate * 0.01f; }
+    float get_ping_rate_hertz() const;
 
     /**
      * @brief Get the distance between swath in percent
      *
      * @return _distance_between_swath * 0.1f (float )
      */
-    float get_distance_between_swath_in_percent() const { return _distance_between_swath * 0.1f; }
+    float get_distance_between_swath_in_percent() const;
 
     /**
      * @brief Get the last received heading in degrees
      *
      * @return _last_received_heading * 0.01f (float )
      */
-    float get_last_received_heading_in_degrees() const { return _last_received_heading * 0.01f; }
+    float get_last_received_heading_in_degrees() const;
 
     /**
      * @brief Get the last received roll in degrees
      *
      * @return _last_received_roll * 0.01f (float )
      */
-    float get_last_received_roll_in_degrees() const { return _last_received_roll * 0.01f; }
+    float get_last_received_roll_in_degrees() const;
 
     /**
      * @brief Get the last received pitch in degrees
      *
      * @return _last_received_pitch * 0.01f (float )
      */
-    float get_last_received_pitch_in_degrees() const { return _last_received_pitch * 0.01f; }
+    float get_last_received_pitch_in_degrees() const;
 
     /**
      * @brief Get the last received heave at sonar head in m
      *
      * @return _last_received_heave_at_sonar_head * 0.01f (float )
      */
-    float get_last_received_heave_at_sonar_head_in_meters() const
-    {
-        return _last_received_heave_at_sonar_head * 0.01f;
-    }
+    float get_last_received_heave_at_sonar_head_in_meters() const;
 
     /**
      * @brief Get the last received heave at sonar head in meters per second
      *
      * @return _sound_speed_at_transducer * 0.1f (float )
      */
-    float get_sound_speed_at_transducer_in_meters_per_second() const
-    {
-        return _sound_speed_at_transducer * 0.1f;
-    }
+    float get_sound_speed_at_transducer_in_meters_per_second() const;
 
     /**
      * @brief Get the last received depth in meters
      *
      * @return _last_received_depth * 0.01f (float )
      */
-    float get_last_received_depth_in_meters() const { return _last_received_depth * 0.01f; }
+    float get_last_received_depth_in_meters() const;
 
     /**
      * @brief Get the along ship velocity in m/s
      *
      * @return _along_ship_velocity * 0.01f (float )
      */
-    float get_along_ship_velocity_in_meters_per_second() const
-    {
-        return _along_ship_velocity * 0.01f;
-    }
+    float get_along_ship_velocity_in_meters_per_second() const;
 
     /**
      * @brief Get the sound speed at transducer (derived from profile) in m/s
      *
      * @return _sound_speed_at_transducer_from_profile * 0.1f (float )
      */
-    float get_sound_speed_at_transducer_from_profile_in_meters_per_second() const
-    {
-        return _sound_speed_at_transducer_from_profile * 0.1f;
-    }
+    float get_sound_speed_at_transducer_from_profile_in_meters_per_second() const;
 
     /**
      * @brief Get the yaw stabilization angle in degrees
      *
      * @return _yaw_stabilization_angle * 0.01f (float )
      */
-    float get_yaw_stabilization_angle_in_degrees() const
-    {
-        return _yaw_stabilization_angle * 0.01f;
-    }
+    float get_yaw_stabilization_angle_in_degrees() const;
 
     /**
      * @brief Get the across ship velocity in m/s
      *
      * @return _across_ship_velocity * 0.01f (float )
      */
-    float get_across_ship_velocity_in_meters_per_second() const
-    {
-        return _across_ship_velocity * 0.01f;
-    }
+    float get_across_ship_velocity_in_meters_per_second() const;
 
     /**
      * @brief Get the downward velocity in m/s
      *
      * @return _downward_velocity * 0.01f (float )
      */
-    float get_downward_velocity_in_meters_per_second() const { return _downward_velocity * 0.01f; }
+    float get_downward_velocity_in_meters_per_second() const;
 
     // ----- operators -----
     bool operator==(const PUStatusOutput& other) const = default;

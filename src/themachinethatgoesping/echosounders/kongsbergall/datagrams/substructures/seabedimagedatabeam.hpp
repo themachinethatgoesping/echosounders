@@ -10,7 +10,7 @@
 #include ".docstrings/seabedimagedatabeam.doc.hpp"
 
 // std includes
-#include <string>
+#include <cstdint>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -46,25 +46,16 @@ class SeabedImageDataBeam
 
     // ----- convenient member access -----
     // get
-    uint16_t get_sorting_direction() const { return _sorting_direction; }
-    uint8_t  get_detection_info() const { return _detection_info; }
-    uint16_t get_number_of_samples() const { return _number_of_samples; }
-    uint16_t get_centre_sample_number() const { return _centre_sample_number; }
+    uint16_t get_sorting_direction() const;
+    uint8_t  get_detection_info() const;
+    uint16_t get_number_of_samples() const;
+    uint16_t get_centre_sample_number() const;
 
     // set
-    void set_sorting_direction(const uint16_t& sorting_direction)
-    {
-        _sorting_direction = sorting_direction;
-    }
-    void set_detection_info(const uint8_t& detection_info) { _detection_info = detection_info; }
-    void set_number_of_samples(const uint16_t& number_of_samples)
-    {
-        _number_of_samples = number_of_samples;
-    }
-    void set_centre_sample_number(const uint16_t& centre_sample_number)
-    {
-        _centre_sample_number = centre_sample_number;
-    }
+    void set_sorting_direction(const uint16_t& sorting_direction);
+    void set_detection_info(const uint8_t& detection_info);
+    void set_number_of_samples(const uint16_t& number_of_samples);
+    void set_centre_sample_number(const uint16_t& centre_sample_number);
 
     // ----- processed member access -----
     /**
@@ -74,10 +65,7 @@ class SeabedImageDataBeam
      * @return true
      * @return false
      */
-    bool get_detection_is_valid() const
-    {
-        return detection_information::get_detection_is_valid(_detection_info);
-    }
+    bool get_detection_is_valid() const;
 
     /**
      * @brief This function evaluates the detection information flag. The first 3 bits indicate the
@@ -85,10 +73,7 @@ class SeabedImageDataBeam
      *
      * @return t_DetectionType
      */
-    detection_information::o_DetectionType get_detection_type() const
-    {
-        return detection_information::get_detection_type(_detection_info);
-    }
+    detection_information::o_DetectionType get_detection_type() const;
 
     /**
      * @brief This function evaluates the detection information flag. If the 4th bit is set to 1,
@@ -98,33 +83,14 @@ class SeabedImageDataBeam
      * @return true
      * @return false
      */
-    bool get_backscatter_is_compensated() const
-    {
-        return detection_information::get_backscatter_is_compensated(_detection_info);
-    }
+    bool get_backscatter_is_compensated() const;
 
     // ----- operators -----
     bool operator==(const SeabedImageDataBeam& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("SeabedImageDataBeam", float_precision, superscript_exponents);
-
-        // raw values
-        printer.register_value("sorting_direction", _sorting_direction);
-        printer.register_value("detection_info", _detection_info);
-        printer.register_value("number_of_samples", _number_of_samples, "per beam");
-        printer.register_value("centre_sample_number", _centre_sample_number);
-
-        // processed values
-        printer.register_section("processed");
-        printer.register_value("detection_is_valid", get_detection_is_valid());
-        printer.register_enum("detection_type", get_detection_type().value);
-        printer.register_value("backscatter_is_compensated", get_backscatter_is_compensated());
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter
+    __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

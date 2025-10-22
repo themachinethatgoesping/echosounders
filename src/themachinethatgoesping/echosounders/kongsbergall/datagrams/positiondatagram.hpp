@@ -10,6 +10,7 @@
 #include ".docstrings/positiondatagram.doc.hpp"
 
 // std includes
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -54,60 +55,45 @@ class PositionDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit PositionDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit PositionDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    PositionDatagram() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::PositionDatagram; }
+    PositionDatagram();
     ~PositionDatagram() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t    get_position_counter() const { return _position_counter; }
-    uint16_t    get_system_serial_number() const { return _system_serial_number; }
-    int32_t     get_latitude() const { return _latitude; }
-    int32_t     get_longitude() const { return _longitude; }
-    uint16_t    get_position_fix_quality() const { return _position_fix_quality; }
-    uint16_t    get_speed() const { return _speed; }
-    uint16_t    get_course() const { return _course; }
-    uint16_t    get_heading() const { return _heading; }
-    uint8_t     get_position_system_descriptor() const { return _position_system_descriptor; }
-    uint8_t     get_size_of_input_datagram() const { return _size_of_input_datagram; }
-    std::string get_input_datagram() const { return _input_datagram; }
-    uint8_t     get_spare() const { return _spare; }
-    uint8_t     get_etx() const { return _etx; }
-    uint16_t    get_checksum() const { return _checksum; }
+    uint16_t    get_position_counter() const;
+    uint16_t    get_system_serial_number() const;
+    int32_t     get_latitude() const;
+    int32_t     get_longitude() const;
+    uint16_t    get_position_fix_quality() const;
+    uint16_t    get_speed() const;
+    uint16_t    get_course() const;
+    uint16_t    get_heading() const;
+    uint8_t     get_position_system_descriptor() const;
+    uint8_t     get_size_of_input_datagram() const;
+    std::string get_input_datagram() const;
+    uint8_t     get_spare() const;
+    uint8_t     get_etx() const;
+    uint16_t    get_checksum() const;
 
     // setters
-    void set_position_counter(uint16_t position_counter) { _position_counter = position_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_latitude(int32_t latitude) { _latitude = latitude; }
-    void set_longitude(int32_t longitude) { _longitude = longitude; }
-    void set_position_fix_quality(uint16_t position_fix_quality)
-    {
-        _position_fix_quality = position_fix_quality;
-    }
-    void set_speed(uint16_t speed) { _speed = speed; }
-    void set_course(uint16_t course) { _course = course; }
-    void set_heading(uint16_t heading) { _heading = heading; }
-    void set_position_system_descriptor(uint8_t position_system_descriptor)
-    {
-        _position_system_descriptor = position_system_descriptor;
-    }
-    void set_size_of_input_datagram(uint8_t size_of_input_datagram)
-    {
-        _size_of_input_datagram = size_of_input_datagram;
-    }
-    void set_input_datagram(std::string input_datagram) { _input_datagram = input_datagram; }
-    void set_spare(uint8_t spare) { _spare = spare; }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_position_counter(uint16_t position_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_latitude(int32_t latitude);
+    void set_longitude(int32_t longitude);
+    void set_position_fix_quality(uint16_t position_fix_quality);
+    void set_speed(uint16_t speed);
+    void set_course(uint16_t course);
+    void set_heading(uint16_t heading);
+    void set_position_system_descriptor(uint8_t position_system_descriptor);
+    void set_size_of_input_datagram(uint8_t size_of_input_datagram);
+    void set_input_datagram(std::string input_datagram);
+    void set_spare(uint8_t spare);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // ----- processed data access -----
     /**
@@ -115,49 +101,49 @@ class PositionDatagram : public KongsbergAllDatagram
      *
      * @return _latitude * 0.00000005° (double)
      */
-    double get_latitude_in_degrees() const { return _latitude * 0.00000005; }
+    double get_latitude_in_degrees() const;
 
     /**
      * @brief Get the longitude in degrees
      *
      * @return _longitude * 0.0000001° (double)
      */
-    double get_longitude_in_degrees() const { return _longitude * 0.0000001; }
+    double get_longitude_in_degrees() const;
 
     /**
      * @brief Get the position fix quality in meters
      *
      * @return _position_fix_quality * 0.01m (float)
      */
-    float get_position_fix_quality_in_meters() const { return _position_fix_quality * 0.01; }
+    float get_position_fix_quality_in_meters() const;
 
     /**
      * @brief Get the speed of vessel in meter per second
      *
      * @return _speed * 0.01m/s (float)
      */
-    float get_speed_in_meters_per_second() const { return _speed * 0.01; }
+    float get_speed_in_meters_per_second() const;
 
     /**
      * @brief Get the course of vessel in degrees
      *
      * @return _course * 0.01° (float)
      */
-    float get_course_in_degrees() const { return _course * 0.01; }
+    float get_course_in_degrees() const;
 
     /**
      * @brief Get the heading of vessel in degrees
      *
      * @return _heading * 0.01° (float)
      */
-    float get_heading_in_degrees() const { return _heading * 0.01; }
+    float get_heading_in_degrees() const;
 
     /**
      * @brief Evaluate if the position_system_descriptor for the used system number
      *
      * @return 1, 2 or 3 (uint8_t )
      */
-    uint8_t get_position_system_number() const { return _position_system_descriptor & 0b00000011; }
+    uint8_t get_position_system_number() const;
 
     /**
      * @brief Evaluate if the position_system_descriptor for the used system number
@@ -167,13 +153,7 @@ class PositionDatagram : public KongsbergAllDatagram
      *
      * @return true or false (bool)
      */
-    bool get_position_system_SIMRAD90_flag() const
-    {
-        if ((_position_system_descriptor & 0b00001000) > 0)
-            return true;
-        else
-            return false;
-    }
+    bool get_position_system_SIMRAD90_flag() const;
 
     /**
      * @brief Evaluate the position_system_descriptor for the used time
@@ -181,13 +161,7 @@ class PositionDatagram : public KongsbergAllDatagram
      * @return true: system time has been used
      * @return false: input datagram time has been used
      */
-    bool get_position_system_system_time_has_been_used() const
-    {
-        if ((_position_system_descriptor & 0b11000000) == 0b10000000)
-            return true;
-        else
-            return false;
-    }
+    bool get_position_system_system_time_has_been_used() const;
 
     // ----- operators -----
     bool operator==(const PositionDatagram& other) const = default;

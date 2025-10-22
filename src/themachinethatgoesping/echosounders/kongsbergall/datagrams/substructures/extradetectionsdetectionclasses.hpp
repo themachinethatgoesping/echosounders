@@ -10,14 +10,10 @@
 #include ".docstrings/extradetectionsdetectionclasses.doc.hpp"
 
 // std includes
-#include <string>
+#include <cstdint>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
-#include "../../types.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -47,28 +43,25 @@ class ExtraDetectionsDetectionClasses
 
 
     // convenient member access
-    uint16_t get_start_depth() const { return _start_depth; }
-    uint16_t get_stop_depth() const { return _stop_depth; }
-    uint16_t get_qf_threshold_100() const { return _qf_threshold_100; }
-    int16_t  get_bs_threshold() const { return _bs_threshold; }
-    uint16_t get_snr_threshold() const { return _snr_threshold; }
-    uint16_t get_alarm_threshold() const { return _alarm_threshold; }
-    uint16_t get_number_of_extra_detections() const { return _number_of_extra_detections; }
-    bool     get_show_class() const { return _show_class; }
-    uint8_t  get_alarm_flag_1() const { return _alarm_flag_1; }
+    uint16_t get_start_depth() const;
+    uint16_t get_stop_depth() const;
+    uint16_t get_qf_threshold_100() const;
+    int16_t  get_bs_threshold() const;
+    uint16_t get_snr_threshold() const;
+    uint16_t get_alarm_threshold() const;
+    uint16_t get_number_of_extra_detections() const;
+    bool     get_show_class() const;
+    uint8_t  get_alarm_flag_1() const;
 
-    void set_start_depth(uint16_t start_depth) { _start_depth = start_depth; }
-    void set_stop_depth(uint16_t stop_depth) { _stop_depth = stop_depth; }
-    void set_qf_threshold_100(uint16_t qf_threshold_100) { _qf_threshold_100 = qf_threshold_100; }
-    void set_bs_threshold(int16_t bs_threshold) { _bs_threshold = bs_threshold; }
-    void set_snr_threshold(uint16_t snr_threshold) { _snr_threshold = snr_threshold; }
-    void set_alarm_threshold(uint16_t alarm_threshold) { _alarm_threshold = alarm_threshold; }
-    void set_number_of_extra_detections(uint16_t number_of_extra_detections)
-    {
-        _number_of_extra_detections = number_of_extra_detections;
-    }
-    void set_show_class(bool show_class) { _show_class = show_class; }
-    void set_alarm_flag_1(uint8_t alarm_flag_1) { _alarm_flag_1 = alarm_flag_1; }
+    void set_start_depth(uint16_t start_depth);
+    void set_stop_depth(uint16_t stop_depth);
+    void set_qf_threshold_100(uint16_t qf_threshold_100);
+    void set_bs_threshold(int16_t bs_threshold);
+    void set_snr_threshold(uint16_t snr_threshold);
+    void set_alarm_threshold(uint16_t alarm_threshold);
+    void set_number_of_extra_detections(uint16_t number_of_extra_detections);
+    void set_show_class(bool show_class);
+    void set_alarm_flag_1(uint8_t alarm_flag_1);
 
     // ----- processed member access -----
     /**
@@ -79,32 +72,14 @@ class ExtraDetectionsDetectionClasses
      *
      * @return qf_threshold_100 * 0.01 (double)
      */
-    double get_qf_threshold() const { return _qf_threshold_100 * 0.01; }
+    double get_qf_threshold() const;
 
     // ----- operators -----
     bool operator==(const ExtraDetectionsDetectionClasses& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("ExtraDetectionsDetectionClasses",
-                                                  float_precision, superscript_exponents);
-
-        printer.register_value("start_depth", _start_depth, "%");
-        printer.register_value("stopt_depth", _stop_depth, "%");
-        printer.register_value("qf_threshold_100", _qf_threshold_100, "1-100");
-        printer.register_value("bs_threshold", _bs_threshold, "dB");
-        printer.register_value("snr_threshold", _snr_threshold, "5-15");
-        printer.register_value("alarm_threshold", _alarm_threshold);
-        printer.register_value("number_of_extra_detections", _number_of_extra_detections);
-        printer.register_value("show_class", _show_class);
-        printer.register_value("alarm_flag_1", _alarm_flag_1);
-
-        printer.register_section("Processed");
-        printer.register_value("IFREMER QF Threshold", get_qf_threshold(), "0.01 - 1");
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter
+    __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

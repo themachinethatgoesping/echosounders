@@ -10,6 +10,8 @@
 #include ".docstrings/attitudedatagram.doc.hpp"
 
 // std includes
+#include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -52,52 +54,34 @@ class AttitudeDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit AttitudeDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+  explicit AttitudeDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    AttitudeDatagram() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::AttitudeDatagram; }
+  AttitudeDatagram();
     ~AttitudeDatagram() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_attitude_counter() const { return _attitude_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_number_of_entries() const { return _number_of_entries; }
-    uint8_t  get_sensor_system_descriptor() const { return _sensor_system_descriptor; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+  uint16_t get_attitude_counter() const;
+  uint16_t get_system_serial_number() const;
+  uint16_t get_number_of_entries() const;
+  uint8_t  get_sensor_system_descriptor() const;
+  uint8_t  get_etx() const;
+  uint16_t get_checksum() const;
 
     // setters
-    void set_attitude_counter(uint16_t attitude_counter) { _attitude_counter = attitude_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_number_of_entries(uint16_t number_of_entries)
-    {
-        _number_of_entries = number_of_entries;
-    }
-    void set_sensor_system_descriptor(uint8_t sensor_system_descriptor)
-    {
-        _sensor_system_descriptor = sensor_system_descriptor;
-    }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+  void set_attitude_counter(uint16_t attitude_counter);
+  void set_system_serial_number(uint16_t system_serial_number);
+  void set_number_of_entries(uint16_t number_of_entries);
+  void set_sensor_system_descriptor(uint8_t sensor_system_descriptor);
+  void set_etx(uint8_t etx);
+  void set_checksum(uint16_t checksum);
 
     // substructures
-    std::vector<substructures::AttitudeDatagramAttitude>&       attitudes() { return _attitudes; }
-    const std::vector<substructures::AttitudeDatagramAttitude>& get_attitudes() const
-    {
-        return _attitudes;
-    }
-    void set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes)
-    {
-        _attitudes = std::move(attitudes);
-    }
+  std::vector<substructures::AttitudeDatagramAttitude>& attitudes();
+  const std::vector<substructures::AttitudeDatagramAttitude>& get_attitudes() const;
+  void set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes);
 
     // ----- processed data access -----
     /**

@@ -10,8 +10,8 @@
 #include ".docstrings/clockdatagram.doc.hpp"
 
 // std includes
+#include <cstdint>
 #include <string>
-#include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -48,40 +48,31 @@ class ClockDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit ClockDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+  explicit ClockDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    ClockDatagram() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::ClockDatagram; }
+  ClockDatagram();
     ~ClockDatagram() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_clock_counter() const { return _clock_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint32_t get_date_external() const { return _date_external; }
-    uint32_t get_time_since_midnight_external() const { return _time_since_midnight_external; }
-    uint8_t  get_pps_active() const { return _pps_active; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+  uint16_t get_clock_counter() const;
+  uint16_t get_system_serial_number() const;
+  uint32_t get_date_external() const;
+  uint32_t get_time_since_midnight_external() const;
+  uint8_t  get_pps_active() const;
+  uint8_t  get_etx() const;
+  uint16_t get_checksum() const;
 
     // setters
-    void set_clock_counter(uint16_t clock_counter) { _clock_counter = clock_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_date_external(uint32_t date_external) { _date_external = date_external; }
-    void set_time_since_midnight_external(uint32_t time_since_midnight_external)
-    {
-        _time_since_midnight_external = time_since_midnight_external;
-    }
-    void set_pps_active(uint8_t pps_active) { _pps_active = pps_active; }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+  void set_clock_counter(uint16_t clock_counter);
+  void set_system_serial_number(uint16_t system_serial_number);
+  void set_date_external(uint32_t date_external);
+  void set_time_since_midnight_external(uint32_t time_since_midnight_external);
+  void set_pps_active(uint8_t pps_active);
+  void set_etx(uint8_t etx);
+  void set_checksum(uint16_t checksum);
 
     // ----- processed data access -----
     /**
@@ -96,11 +87,11 @@ class ClockDatagram : public KongsbergAllDatagram
      *
      * @return timestamp_external - timestamp
      */
-    double get_timestamp_offset() const { return get_timestamp_external() - get_timestamp(); }
+  double get_timestamp_offset() const;
 
     std::string get_date_string_external_clock(
         unsigned int       fractionalSecondsDigits = 2,
-        const std::string& format                  = "%z__%d-%m-%Y__%H:%M:%S") const;
+    const std::string& format                  = "%z__%d-%m-%Y__%H:%M:%S") const;
 
     // ----- operators -----
     bool operator==(const ClockDatagram& other) const = default;
@@ -113,7 +104,7 @@ class ClockDatagram : public KongsbergAllDatagram
     static ClockDatagram from_stream(std::istream&              is,
                                      t_KongsbergAllDatagramIdentifier datagram_identifier);
 
-    void to_stream(std::ostream& os);
+  void to_stream(std::ostream& os);
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;

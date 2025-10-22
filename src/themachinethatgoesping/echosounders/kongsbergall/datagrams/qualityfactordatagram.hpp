@@ -10,8 +10,7 @@
 #include ".docstrings/qualityfactordatagram.doc.hpp"
 
 // std includes
-#include <string>
-#include <vector>
+#include <cstdint>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
@@ -63,56 +62,38 @@ class QualityFactorDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit QualityFactorDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit QualityFactorDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    QualityFactorDatagram()
-    {
-        _datagram_identifier = t_KongsbergAllDatagramIdentifier::QualityFactorDatagram;
-    }
+    QualityFactorDatagram();
     ~QualityFactorDatagram() = default;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_ping_counter() const { return _ping_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_number_of_receive_beams() const { return _number_of_receive_beams; }
-    uint8_t  get_number_of_parameters_per_beam() const { return _number_of_parameters_per_beam; }
-    uint8_t  get_spare() const { return _spare; }
-    uint8_t  get_spare_byte() const { return _spare_byte; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint16_t get_ping_counter() const;
+    uint16_t get_system_serial_number() const;
+    uint16_t get_number_of_receive_beams() const;
+    uint8_t  get_number_of_parameters_per_beam() const;
+    uint8_t  get_spare() const;
+    uint8_t  get_spare_byte() const;
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
 
     // setters
-    void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_number_of_receive_beams(uint16_t number_of_receive_beams)
-    {
-        _number_of_receive_beams = number_of_receive_beams;
-    }
-    void set_number_of_parameters_per_beam(uint8_t number_of_parameters_per_beam)
-    {
-        _number_of_parameters_per_beam = number_of_parameters_per_beam;
-    }
-    void set_spare(uint8_t spare) { _spare = spare; }
-    void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_ping_counter(uint16_t ping_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_number_of_receive_beams(uint16_t number_of_receive_beams);
+    void set_number_of_parameters_per_beam(uint8_t number_of_parameters_per_beam);
+    void set_spare(uint8_t spare);
+    void set_spare_byte(uint8_t spare_byte);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // substrucutre access
-    xt::xtensor<float, 2>        quality_factors() { return _quality_factors; }
-    const xt::xtensor<float, 2>& get_quality_factors() const { return _quality_factors; }
-    void                         set_quality_factors(xt::xtensor<float, 2> quality_factors)
-    {
-        _quality_factors = quality_factors;
-    }
+  xt::xtensor<float, 2>&       quality_factors();
+  const xt::xtensor<float, 2>& get_quality_factors() const;
+  void                         set_quality_factors(xt::xtensor<float, 2> quality_factors);
 
     /**
      * @brief return the shape of the quality factor array
@@ -120,10 +101,7 @@ class QualityFactorDatagram : public KongsbergAllDatagram
      *
      * @return xt::xtensor<float, 2>::shape_type
      */
-    t_Shape qf_shape() const
-    {
-        return { _number_of_receive_beams, _number_of_parameters_per_beam };
-    }
+    t_Shape qf_shape() const;
 
     // ----- processed data access -----
 
@@ -131,87 +109,17 @@ class QualityFactorDatagram : public KongsbergAllDatagram
     bool operator==(const QualityFactorDatagram& other) const = default;
 
     //----- to/from stream functions -----
-    static QualityFactorDatagram from_stream(std::istream& is, KongsbergAllDatagram header)
-    {
-        QualityFactorDatagram datagram(std::move(header));
+    static QualityFactorDatagram from_stream(std::istream& is, KongsbergAllDatagram header);
 
-        if (datagram._datagram_identifier != t_KongsbergAllDatagramIdentifier::QualityFactorDatagram)
-            throw std::runtime_error(fmt::format(
-                "QualityFactorDatagram: datagram identifier is not 0x{:02x}, but 0x{:02x}",
-                uint8_t(t_KongsbergAllDatagramIdentifier::QualityFactorDatagram),
-                uint8_t(datagram._datagram_identifier)));
-
-        // read first part of the datagram (until the first beam)
-        is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 8 * sizeof(uint8_t));
-
-        // read the beams
-        datagram._quality_factors = xt::empty<float>(datagram.qf_shape());
-        is.read(reinterpret_cast<char*>(datagram._quality_factors.data()),
-                datagram._quality_factors.size() * sizeof(float));
-
-        // read the rest of the datagram
-        is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
-
-        if (datagram._etx != 0x03)
-            throw std::runtime_error(fmt::format(
-                "QualityFactorDatagram: end identifier is not 0x03, but 0x{:x}", datagram._etx));
-
-        return datagram;
-    }
-
-    static QualityFactorDatagram from_stream(std::istream& is)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is));
-    }
+    static QualityFactorDatagram from_stream(std::istream& is);
 
     static QualityFactorDatagram from_stream(std::istream&              is,
-                                             t_KongsbergAllDatagramIdentifier datagram_identifier)
-    {
-        return from_stream(is, KongsbergAllDatagram::from_stream(is, datagram_identifier));
-    }
+                                             t_KongsbergAllDatagramIdentifier datagram_identifier);
 
-    void to_stream(std::ostream& os)
-    {
-        KongsbergAllDatagram::to_stream(os);
-        auto shape                     = _quality_factors.shape();
-        _number_of_receive_beams       = shape[0];
-        _number_of_parameters_per_beam = shape[1];
-
-        // write first part of the datagram (until the first beam)
-        os.write(reinterpret_cast<const char*>(&(_ping_counter)), 8 * sizeof(uint8_t));
-
-        // write the beams
-        os.write(reinterpret_cast<const char*>(_quality_factors.data()),
-                 _quality_factors.size() * sizeof(float));
-
-        // write the rest of the datagram
-        os.write(reinterpret_cast<const char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
-    }
+    void to_stream(std::ostream& os);
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("QualityFactorDatagram", float_precision, superscript_exponents);
-
-        printer.append(KongsbergAllDatagram::__printer__(float_precision, superscript_exponents));
-        printer.register_section("datagram content");
-        printer.register_value("ping_counter", _ping_counter);
-        printer.register_value("system_serial_number", _system_serial_number);
-        printer.register_value("number_of_receive_beams", _number_of_receive_beams, "Nrx");
-        printer.register_value(
-            "number_of_parameters_per_beam", _number_of_parameters_per_beam, "Npar");
-        printer.register_value("spare", _spare);
-        printer.register_string("etx", fmt::format("0x{:02x}", _etx));
-        printer.register_value("checksum", _checksum);
-
-        // printer.register_section("processed");
-
-        printer.register_section("substructures");
-        printer.register_value(
-            "quality_factors", _quality_factors.size(), "np.array({Nrx, Npar}, dtype=float)");
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

@@ -5,13 +5,302 @@
 #include "watercolumndatagram.hpp"
 
 #include <fmt/core.h>
+
+#include <algorithm>
+#include <istream>
+#include <limits>
+#include <ostream>
 #include <stdexcept>
-#include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <utility>
+
+#include <xtensor/views/xview.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+WatercolumnDatagram::WatercolumnDatagram(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+WatercolumnDatagram::WatercolumnDatagram()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::WatercolumnDatagram;
+}
+
+size_t WatercolumnDatagram::get_max_number_of_samples() const
+{
+    size_t max_samples = 0;
+    for (const auto& beam : _beams)
+    {
+        max_samples = std::max<size_t>(max_samples, beam.get_number_of_samples());
+    }
+    return max_samples;
+}
+
+xt::xtensor<int8_t, 2> WatercolumnDatagram::read_samples(std::istream& ifs) const
+{
+    using xt::placeholders::_;
+
+    xt::xtensor<int8_t, 2> samples = xt::zeros<int8_t>(
+        xt::xtensor<int8_t, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+
+    for (std::size_t b = 0; b < _beams.size(); ++b)
+    {
+        xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs);
+        beamsamples *= 0.5f;
+        beamsamples -= _tvg_offset_in_db;
+
+        std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
+
+        xt::view(samples, b, xt::range(_beams[b].get_number_of_samples(), _)) =
+            std::numeric_limits<float>::quiet_NaN();
+    }
+
+    return samples;
+}
+
+xt::xtensor<float, 2> WatercolumnDatagram::get_samples() const
+{
+    using xt::placeholders::_;
+
+    xt::xtensor<float, 2> samples = xt::empty<float>(
+        xt::xtensor<float, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+
+    for (std::size_t b = 0; b < _beams.size(); ++b)
+    {
+        xt::xtensor<float, 1> beamsamples = _beams[b].get_samples();
+        beamsamples *= 0.5f;
+        beamsamples -= _tvg_offset_in_db;
+
+        std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
+
+        xt::view(samples, b, xt::range(_beams[b].get_number_of_samples(), _)) =
+            std::numeric_limits<float>::quiet_NaN();
+    }
+
+    return samples;
+}
+
+uint16_t WatercolumnDatagram::get_ping_counter() const
+{
+    return _ping_counter;
+}
+
+uint16_t WatercolumnDatagram::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t WatercolumnDatagram::get_number_of_datagrams() const
+{
+    return _number_of_datagrams;
+}
+
+uint16_t WatercolumnDatagram::get_datagram_number() const
+{
+    return _datagram_number;
+}
+
+uint16_t WatercolumnDatagram::get_number_of_transmit_sectors() const
+{
+    return _number_of_transmit_sectors;
+}
+
+uint16_t WatercolumnDatagram::get_total_no_of_receive_beams() const
+{
+    return _total_no_of_receive_beams;
+}
+
+uint16_t WatercolumnDatagram::get_number_of_beams_in_datagram() const
+{
+    return _number_of_beams_in_datagram;
+}
+
+uint16_t WatercolumnDatagram::get_sound_speed() const
+{
+    return _sound_speed;
+}
+
+uint32_t WatercolumnDatagram::get_sampling_frequency() const
+{
+    return _sampling_frequency;
+}
+
+int16_t WatercolumnDatagram::get_tx_time_heave() const
+{
+    return _tx_time_heave;
+}
+
+uint8_t WatercolumnDatagram::get_tvg_function_applied() const
+{
+    return _tvg_function_applied;
+}
+
+int8_t WatercolumnDatagram::get_tvg_offset_in_db() const
+{
+    return _tvg_offset_in_db;
+}
+
+uint8_t WatercolumnDatagram::get_scanning_info() const
+{
+    return _scanning_info;
+}
+
+std::array<uint8_t, 3> WatercolumnDatagram::get_spare() const
+{
+    return _spare;
+}
+
+uint8_t WatercolumnDatagram::get_spare_byte() const
+{
+    return _spare_byte;
+}
+
+uint8_t WatercolumnDatagram::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t WatercolumnDatagram::get_checksum() const
+{
+    return _checksum;
+}
+
+void WatercolumnDatagram::set_ping_counter(uint16_t ping_counter)
+{
+    _ping_counter = ping_counter;
+}
+
+void WatercolumnDatagram::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void WatercolumnDatagram::set_number_of_datagrams(uint16_t number_of_datagrams)
+{
+    _number_of_datagrams = number_of_datagrams;
+}
+
+void WatercolumnDatagram::set_datagram_number(uint16_t datagram_number)
+{
+    _datagram_number = datagram_number;
+}
+
+void WatercolumnDatagram::set_number_of_transmit_sectors(uint16_t number_of_transmit_sectors)
+{
+    _number_of_transmit_sectors = number_of_transmit_sectors;
+}
+
+void WatercolumnDatagram::set_total_no_of_receive_beams(uint16_t total_no_of_receive_beams)
+{
+    _total_no_of_receive_beams = total_no_of_receive_beams;
+}
+
+void WatercolumnDatagram::set_number_of_beams_in_datagram(uint16_t number_of_beams_in_datagram)
+{
+    _number_of_beams_in_datagram = number_of_beams_in_datagram;
+}
+
+void WatercolumnDatagram::set_sound_speed(uint16_t sound_speed)
+{
+    _sound_speed = sound_speed;
+}
+
+void WatercolumnDatagram::set_sampling_frequency(uint32_t sampling_frequency)
+{
+    _sampling_frequency = sampling_frequency;
+}
+
+void WatercolumnDatagram::set_tx_time_heave(int16_t tx_time_heave)
+{
+    _tx_time_heave = tx_time_heave;
+}
+
+void WatercolumnDatagram::set_tvg_function_applied(uint8_t tvg_function_applied)
+{
+    _tvg_function_applied = tvg_function_applied;
+}
+
+void WatercolumnDatagram::set_tvg_offset_in_db(int8_t tvg_offset_in_db)
+{
+    _tvg_offset_in_db = tvg_offset_in_db;
+}
+
+void WatercolumnDatagram::set_scanning_info(uint8_t scanning_info)
+{
+    _scanning_info = scanning_info;
+}
+
+void WatercolumnDatagram::set_spare(std::array<uint8_t, 3> spare)
+{
+    _spare = spare;
+}
+
+void WatercolumnDatagram::set_spare_byte(uint8_t spare_byte)
+{
+    _spare_byte = spare_byte;
+}
+
+void WatercolumnDatagram::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void WatercolumnDatagram::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+const std::vector<substructures::WatercolumnDatagramTransmitSector>&
+WatercolumnDatagram::get_transmit_sectors() const
+{
+    return _transmit_sectors;
+}
+
+std::vector<substructures::WatercolumnDatagramTransmitSector>&
+WatercolumnDatagram::transmit_sectors()
+{
+    return _transmit_sectors;
+}
+
+void WatercolumnDatagram::set_transmit_sectors(
+    std::vector<substructures::WatercolumnDatagramTransmitSector> transmit_sectors)
+{
+    _transmit_sectors = std::move(transmit_sectors);
+}
+
+const std::vector<substructures::WatercolumnDatagramBeam>& WatercolumnDatagram::get_beams() const
+{
+    return _beams;
+}
+
+std::vector<substructures::WatercolumnDatagramBeam>& WatercolumnDatagram::beams()
+{
+    return _beams;
+}
+
+void WatercolumnDatagram::set_beams(std::vector<substructures::WatercolumnDatagramBeam> beams)
+{
+    _beams = std::move(beams);
+}
+
+float WatercolumnDatagram::get_sound_speed_m_s() const
+{
+    return _sound_speed * 0.1f;
+}
+
+float WatercolumnDatagram::get_sampling_frequency_in_hz() const
+{
+    return _sampling_frequency * 0.01f;
+}
+
+float WatercolumnDatagram::get_tx_time_heave_in_m() const
+{
+    return _tx_time_heave * 0.01f;
+}
 
 WatercolumnDatagram WatercolumnDatagram::from_stream(std::istream&        is,
                                                      KongsbergAllDatagram header,

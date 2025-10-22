@@ -6,6 +6,10 @@
 
 /* std includes */
 #include <fmt/core.h>
+#include <istream>
+#include <ostream>
+#include <stdexcept>
+#include <string>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/timeconv.hpp>
@@ -14,6 +18,122 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+void KongsbergAllDatagram::_verify_datagram_end(std::istream& is) const
+{
+    struct t_EndIdentifier
+    {
+        uint8_t  etx;
+        uint16_t checksum = 0;
+    } etx;
+
+    is.read(reinterpret_cast<char*>(&etx.etx), 3 * sizeof(uint8_t));
+
+    if (etx.etx != 0x03)
+        throw std::runtime_error(fmt::format(
+            "KongsbergAllDatagram: end identifier is not 0x03, but 0x{:x}", etx.etx));
+}
+
+KongsbergAllDatagram::KongsbergAllDatagram(uint32_t             bytes,
+                                           t_DatagramIdentifier datagram_identifier,
+                                           uint16_t             model_number,
+                                           uint16_t             date,
+                                           uint16_t             time_since_midnight)
+    : _bytes(bytes)
+    , _datagram_identifier(datagram_identifier)
+    , _model_number(model_number)
+    , _date(date)
+    , _time_since_midnight(time_since_midnight)
+{
+}
+
+void KongsbergAllDatagram::skip(std::istream& is) const
+{
+    static constexpr uint8_t skipped_bytes = sizeof(uint8_t) * 15;
+
+    is.seekg(_bytes - skipped_bytes, std::ios::cur);
+
+    _verify_datagram_end(is);
+}
+
+size_t KongsbergAllDatagram::skip_and_verify_header(std::istream&                    is,
+                                                    size_t                           stream_pos,
+                                                    t_KongsbergAllDatagramIdentifier identifier)
+{
+    is.seekg(stream_pos + 5, std::ios::beg);
+
+    t_KongsbergAllDatagramIdentifier datagram_identifier;
+    is.read(reinterpret_cast<char*>(&datagram_identifier),
+            sizeof(t_KongsbergAllDatagramIdentifier));
+    if (datagram_identifier != identifier)
+        throw std::runtime_error(
+            fmt::format("KongsbergAllDatagram::skip_and_verify_header: datagram "
+                        "identifier is not {}, but {}",
+                        datagram_type_to_string(identifier),
+                        datagram_type_to_string(datagram_identifier)));
+
+    is.seekg(10, std::ios::cur);
+
+    return is.tellg();
+}
+
+uint32_t KongsbergAllDatagram::get_bytes() const { return _bytes; }
+
+uint8_t KongsbergAllDatagram::get_stx() const { return _stx; }
+
+KongsbergAllDatagram::t_DatagramIdentifier KongsbergAllDatagram::get_datagram_identifier() const
+{
+    return _datagram_identifier;
+}
+
+uint16_t KongsbergAllDatagram::get_model_number() const { return _model_number; }
+
+uint32_t KongsbergAllDatagram::get_date() const { return _date; }
+
+uint32_t KongsbergAllDatagram::get_time_since_midnight() const { return _time_since_midnight; }
+
+void KongsbergAllDatagram::set_bytes(uint32_t bytes) { _bytes = bytes; }
+
+void KongsbergAllDatagram::set_stx(uint8_t stx) { _stx = stx; }
+
+void KongsbergAllDatagram::set_datagram_identifier(t_DatagramIdentifier datagram_identifier)
+{
+    _datagram_identifier = datagram_identifier;
+}
+
+void KongsbergAllDatagram::set_model_number(uint16_t model_number) { _model_number = model_number; }
+
+void KongsbergAllDatagram::set_date(uint32_t date) { _date = date; }
+
+void KongsbergAllDatagram::set_time_since_midnight(uint32_t time_since_midnight)
+{
+    _time_since_midnight = time_since_midnight;
+}
+
+double KongsbergAllDatagram::get_timestamp() const
+{
+    int y = int(_date / 10000);
+    int m = int(_date / 100) - y * 100;
+    int d = int(_date) - y * 10000 - m * 100;
+
+    return tools::timeconv::year_month_day_to_unixtime(
+        y, m, d, static_cast<uint64_t>(_time_since_midnight) * 1000);
+}
+
+std::string KongsbergAllDatagram::get_date_string(unsigned int       fractionalSecondsDigits,
+                                                  const std::string& format) const
+{
+    return tools::timeconv::unixtime_to_datestring(
+        get_timestamp(), fractionalSecondsDigits, format);
+}
+
+std::string KongsbergAllDatagram::get_model_number_as_string() const
+{
+    if (_model_number == 2045)
+        return "EM2040C";
+
+    return "EM" + std::to_string(_model_number);
+}
 
 KongsbergAllDatagram KongsbergAllDatagram::from_stream(std::istream& is)
 {

@@ -4,10 +4,198 @@
 
 #include "rawrangeandangle.hpp"
 
+/* std includes */
+#include <cstddef>
+#include <fmt/core.h>
+#include <limits>
+#include <stdexcept>
+#include <utility>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+RawRangeAndAngle::RawRangeAndAngle(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+RawRangeAndAngle::RawRangeAndAngle()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::RawRangeAndAngle;
+}
+
+xt::xtensor<float, 1> RawRangeAndAngle::get_two_way_travel_times() const
+{
+    auto twtt = xt::xtensor<float, 1>::from_shape({ _beams.size() });
+
+    for (std::size_t bn = 0; bn < _beams.size(); ++bn)
+    {
+        twtt.unchecked(bn) = _beams[bn].get_two_way_travel_time();
+    }
+
+    return twtt;
+}
+
+xt::xtensor<float, 1> RawRangeAndAngle::get_two_way_travel_times(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    auto twtt = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+    for (const auto bn : beam_numbers)
+    {
+        if (bn >= _beams.size())
+            twtt.unchecked(bn) = std::numeric_limits<float>::quiet_NaN();
+        else
+            twtt.unchecked(bn) = _beams[bn].get_two_way_travel_time();
+    }
+
+    return twtt;
+}
+
+xt::xtensor<float, 1> RawRangeAndAngle::get_beam_crosstrack_angles() const
+{
+    auto bpa = xt::xtensor<float, 1>::from_shape({ _beams.size() });
+
+    for (std::size_t bn = 0; bn < _beams.size(); ++bn)
+    {
+        bpa.unchecked(bn) = _beams[bn].get_beam_crosstrack_angle();
+    }
+
+    return bpa;
+}
+
+xt::xtensor<float, 1> RawRangeAndAngle::get_beam_crosstrack_angles(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    auto angles = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+    for (std::size_t i = 0; i < beam_numbers.size(); ++i)
+    {
+        if (beam_numbers[i] >= _beams.size())
+            angles.unchecked(i) = std::numeric_limits<float>::quiet_NaN();
+        else
+            angles.unchecked(i) =
+                _beams[beam_numbers[i]].get_beam_crosstrack_angle_in_degrees();
+    }
+
+    return angles;
+}
+
+uint16_t RawRangeAndAngle::get_ping_counter() const { return _ping_counter; }
+
+uint16_t RawRangeAndAngle::get_system_serial_number() const { return _system_serial_number; }
+
+uint16_t RawRangeAndAngle::get_sound_speed_at_transducer() const
+{
+    return _sound_speed_at_transducer;
+}
+
+uint16_t RawRangeAndAngle::get_number_of_transmit_sectors() const
+{
+    return _number_of_transmit_sectors;
+}
+
+uint16_t RawRangeAndAngle::get_number_of_receiver_beams() const
+{
+    return _number_of_receiver_beams;
+}
+
+uint16_t RawRangeAndAngle::get_number_of_valid_detections() const
+{
+    return _number_of_valid_detections;
+}
+
+float RawRangeAndAngle::get_sampling_frequency() const { return _sampling_frequency; }
+
+uint32_t RawRangeAndAngle::get_d_scale() const { return _d_scale; }
+
+const std::vector<substructures::RawRangeAndAngleTransmitSector>&
+RawRangeAndAngle::get_transmit_sectors() const
+{
+    return _transmit_sectors;
+}
+
+const std::vector<substructures::RawRangeAndAngleBeam>& RawRangeAndAngle::get_beams() const
+{
+    return _beams;
+}
+
+uint8_t RawRangeAndAngle::get_spare() const { return _spare; }
+
+uint8_t RawRangeAndAngle::get_etx() const { return _etx; }
+
+uint16_t RawRangeAndAngle::get_checksum() const { return _checksum; }
+
+std::vector<substructures::RawRangeAndAngleTransmitSector>& RawRangeAndAngle::transmit_sectors()
+{
+    return _transmit_sectors;
+}
+
+std::vector<substructures::RawRangeAndAngleBeam>& RawRangeAndAngle::beams()
+{
+    return _beams;
+}
+
+void RawRangeAndAngle::set_ping_counter(uint16_t ping_counter)
+{
+    _ping_counter = ping_counter;
+}
+
+void RawRangeAndAngle::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void RawRangeAndAngle::set_sound_speed_at_transducer(uint16_t sound_speed_at_transducer)
+{
+    _sound_speed_at_transducer = sound_speed_at_transducer;
+}
+
+void RawRangeAndAngle::set_number_of_transmit_sectors(uint16_t number_of_transmit_sectors)
+{
+    _number_of_transmit_sectors = number_of_transmit_sectors;
+}
+
+void RawRangeAndAngle::set_number_of_receiver_beams(uint16_t number_of_receiver_beams)
+{
+    _number_of_receiver_beams = number_of_receiver_beams;
+}
+
+void RawRangeAndAngle::set_number_of_valid_detections(uint16_t number_of_valid_detections)
+{
+    _number_of_valid_detections = number_of_valid_detections;
+}
+
+void RawRangeAndAngle::set_sampling_frequency(float sampling_frequency)
+{
+    _sampling_frequency = sampling_frequency;
+}
+
+void RawRangeAndAngle::set_d_scale(uint32_t d_scale) { _d_scale = d_scale; }
+
+void RawRangeAndAngle::set_transmit_sectors(
+    const std::vector<substructures::RawRangeAndAngleTransmitSector>& transmit_sector)
+{
+    _transmit_sectors = transmit_sector;
+}
+
+void RawRangeAndAngle::set_beams(const std::vector<substructures::RawRangeAndAngleBeam>& beams)
+{
+    _beams = beams;
+}
+
+void RawRangeAndAngle::set_spare(uint8_t spare) { _spare = spare; }
+
+void RawRangeAndAngle::set_etx(uint8_t etx) { _etx = etx; }
+
+void RawRangeAndAngle::set_checksum(uint16_t checksum) { _checksum = checksum; }
+
+float RawRangeAndAngle::get_sound_speed_at_transducer_in_m_per_s() const
+{
+    return _sound_speed_at_transducer * 0.1F;
+}
 
 RawRangeAndAngle RawRangeAndAngle::from_stream(std::istream& is, KongsbergAllDatagram header)
 {

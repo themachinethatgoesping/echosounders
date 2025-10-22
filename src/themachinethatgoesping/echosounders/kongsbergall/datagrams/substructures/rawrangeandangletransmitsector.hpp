@@ -10,15 +10,13 @@
 #include ".docstrings/rawrangeandangletransmitsector.doc.hpp"
 
 // std includes
-#include <string>
+#include <cstdint>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 
-
-#include "../../types.hpp"
 
 #include "flag_detection_information.hpp"
 
@@ -51,37 +49,25 @@ class RawRangeAndAngleTransmitSector
     ~RawRangeAndAngleTransmitSector() = default;
 
     // convenient member access
-    int16_t  get_tilt_angle() const { return _tilt_angle; }
-    uint16_t get_focus_range() const { return _focus_range; }
-    float    get_signal_length() const { return _signal_length; }
-    float    get_sector_transmit_delay() const { return _sector_transmit_delay; }
-    float    get_center_frequency() const { return _center_frequency; }
-    uint16_t get_mean_absorption_coefficient() const { return _mean_absorption_coefficient; }
-    uint8_t  get_signal_waveform_identifier() const { return _signal_waveform_identifier; }
-    uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
-    float    get_signal_bandwidth() const { return _signal_bandwidth; }
+    int16_t  get_tilt_angle() const;
+    uint16_t get_focus_range() const;
+    float    get_signal_length() const;
+    float    get_sector_transmit_delay() const;
+    float    get_center_frequency() const;
+    uint16_t get_mean_absorption_coefficient() const;
+    uint8_t  get_signal_waveform_identifier() const;
+    uint8_t  get_transmit_sector_number() const;
+    float    get_signal_bandwidth() const;
 
-    void set_tilt_angle(int16_t tilt_angle) { _tilt_angle = tilt_angle; }
-    void set_focus_range(uint16_t focus_range) { _focus_range = focus_range; }
-    void set_signal_length(float signal_length) { _signal_length = signal_length; }
-    void set_sector_transmit_delay(float sector_transmit_delay)
-    {
-        _sector_transmit_delay = sector_transmit_delay;
-    }
-    void set_center_frequency(float center_frequency) { _center_frequency = center_frequency; }
-    void set_mean_absorption_coefficient(uint16_t mean_absorption_coefficient)
-    {
-        _mean_absorption_coefficient = mean_absorption_coefficient;
-    }
-    void set_signal_waveform_identifier(uint8_t signal_waveform_identifier)
-    {
-        _signal_waveform_identifier = signal_waveform_identifier;
-    }
-    void set_transmit_sector_number(uint8_t transmit_sector_number)
-    {
-        _transmit_sector_number = transmit_sector_number;
-    }
-    void set_signal_bandwidth(float signal_bandwidth) { _signal_bandwidth = signal_bandwidth; }
+    void set_tilt_angle(int16_t tilt_angle);
+    void set_focus_range(uint16_t focus_range);
+    void set_signal_length(float signal_length);
+    void set_sector_transmit_delay(float sector_transmit_delay);
+    void set_center_frequency(float center_frequency);
+    void set_mean_absorption_coefficient(uint16_t mean_absorption_coefficient);
+    void set_signal_waveform_identifier(uint8_t signal_waveform_identifier);
+    void set_transmit_sector_number(uint8_t transmit_sector_number);
+    void set_signal_bandwidth(float signal_bandwidth);
 
     // ----- processed member access -----
     /**
@@ -89,73 +75,30 @@ class RawRangeAndAngleTransmitSector
      *
      * @return _tilt_angle * 0.01 (float)
      */
-    float get_tilt_angle_in_degrees() const { return _tilt_angle * 0.01f; }
+    float get_tilt_angle_in_degrees() const;
 
     /**
      * @brief Get the focus range in m
      *
      * @return _focus_range * 0.1 (float)
      */
-    float get_focus_range_in_m() const { return _focus_range * 0.1f; }
+    float get_focus_range_in_m() const;
 
     /**
      * @brief Get the mean absorption coefficient in dB/m
      *
      * @return _mean_absorption_coefficient * 10 (float)
      */
-    float get_mean_absorption_coefficient_in_dB_per_m() const
-    {
-        return _mean_absorption_coefficient * 0.00001f;
-    }
+    float get_mean_absorption_coefficient_in_dB_per_m() const;
 
-    algorithms::signalprocessing::types::t_TxSignalType get_tx_signal_type() const
-    {
-        switch (_signal_waveform_identifier)
-        {
-            case 0:
-                return algorithms::signalprocessing::types::t_TxSignalType::CW;
-            case 1:
-                return algorithms::signalprocessing::types::t_TxSignalType::FM_UP_SWEEP;
-            case 2:
-                return algorithms::signalprocessing::types::t_TxSignalType::FM_DOWN_SWEEP;
-            default:
-                return algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN;
-        }
-    }
+    algorithms::signalprocessing::types::t_TxSignalType get_tx_signal_type() const;
 
     // ----- operators -----
     bool operator==(const RawRangeAndAngleTransmitSector& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("RawRangeAndAngleTransmitSector",
-                                                  float_precision, superscript_exponents);
-
-        // raw values
-        printer.register_value("tilt_angle", _tilt_angle, "0.01°");
-        printer.register_value("focus_range", _focus_range, "0.1m");
-        printer.register_value("signal_length", _signal_length, "s");
-        printer.register_value("sector_transmit_delay", _sector_transmit_delay, "s");
-        printer.register_value("center_frequency", _center_frequency, "Hz");
-        printer.register_value(
-            "mean_absorption_coefficient", _mean_absorption_coefficient, "0.01 dB/km");
-        printer.register_value("signal_waveform_identifier", _signal_waveform_identifier);
-        printer.register_value("transmit_sector_number", _transmit_sector_number);
-        printer.register_value("signal_bandwidth", _signal_bandwidth, "Hz");
-
-        // processed values
-        printer.register_section("processed");
-        printer.register_value("tilt_angle", get_tilt_angle_in_degrees(), "°");
-        printer.register_value("focus_range", get_focus_range_in_m(), "m");
-        printer.register_value(
-            "mean_absorption_coefficient", get_mean_absorption_coefficient_in_dB_per_m(), "dB/m");
-        printer.register_value(
-            "tx_signal_type",
-            algorithms::signalprocessing::types::to_string(get_tx_signal_type()));
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter
+    __printer__(unsigned int float_precision, bool superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

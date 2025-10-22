@@ -5,12 +5,99 @@
 #include "attitudedatagram.hpp"
 
 #include <stdexcept>
+#include <utility>
+
 #include <fmt/format.h>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+AttitudeDatagram::AttitudeDatagram(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+AttitudeDatagram::AttitudeDatagram()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::AttitudeDatagram;
+}
+
+uint16_t AttitudeDatagram::get_attitude_counter() const
+{
+    return _attitude_counter;
+}
+
+uint16_t AttitudeDatagram::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t AttitudeDatagram::get_number_of_entries() const
+{
+    return _number_of_entries;
+}
+
+uint8_t AttitudeDatagram::get_sensor_system_descriptor() const
+{
+    return _sensor_system_descriptor;
+}
+
+uint8_t AttitudeDatagram::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t AttitudeDatagram::get_checksum() const
+{
+    return _checksum;
+}
+
+void AttitudeDatagram::set_attitude_counter(uint16_t attitude_counter)
+{
+    _attitude_counter = attitude_counter;
+}
+
+void AttitudeDatagram::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void AttitudeDatagram::set_number_of_entries(uint16_t number_of_entries)
+{
+    _number_of_entries = number_of_entries;
+}
+
+void AttitudeDatagram::set_sensor_system_descriptor(uint8_t sensor_system_descriptor)
+{
+    _sensor_system_descriptor = sensor_system_descriptor;
+}
+
+void AttitudeDatagram::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void AttitudeDatagram::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+std::vector<substructures::AttitudeDatagramAttitude>& AttitudeDatagram::attitudes()
+{
+    return _attitudes;
+}
+
+const std::vector<substructures::AttitudeDatagramAttitude>& AttitudeDatagram::get_attitudes() const
+{
+    return _attitudes;
+}
+
+void AttitudeDatagram::set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes)
+{
+    _attitudes = std::move(attitudes);
+}
 
 // ----- processed data access -----
 

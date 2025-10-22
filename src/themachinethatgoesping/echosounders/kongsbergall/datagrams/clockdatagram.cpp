@@ -4,14 +4,97 @@
 
 #include "clockdatagram.hpp"
 
-#include <stdexcept>
 #include <fmt/format.h>
+
+#include <stdexcept>
+#include <utility>
+
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+ClockDatagram::ClockDatagram(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+ClockDatagram::ClockDatagram()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::ClockDatagram;
+}
+
+uint16_t ClockDatagram::get_clock_counter() const
+{
+    return _clock_counter;
+}
+
+uint16_t ClockDatagram::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint32_t ClockDatagram::get_date_external() const
+{
+    return _date_external;
+}
+
+uint32_t ClockDatagram::get_time_since_midnight_external() const
+{
+    return _time_since_midnight_external;
+}
+
+uint8_t ClockDatagram::get_pps_active() const
+{
+    return _pps_active;
+}
+
+uint8_t ClockDatagram::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t ClockDatagram::get_checksum() const
+{
+    return _checksum;
+}
+
+void ClockDatagram::set_clock_counter(uint16_t clock_counter)
+{
+    _clock_counter = clock_counter;
+}
+
+void ClockDatagram::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void ClockDatagram::set_date_external(uint32_t date_external)
+{
+    _date_external = date_external;
+}
+
+void ClockDatagram::set_time_since_midnight_external(uint32_t time_since_midnight_external)
+{
+    _time_since_midnight_external = time_since_midnight_external;
+}
+
+void ClockDatagram::set_pps_active(uint8_t pps_active)
+{
+    _pps_active = pps_active;
+}
+
+void ClockDatagram::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void ClockDatagram::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
 
 // ----- processed data access -----
 
@@ -31,6 +114,11 @@ std::string ClockDatagram::get_date_string_external_clock(
 {
     return tools::timeconv::unixtime_to_datestring(
         get_timestamp_external(), fractionalSecondsDigits, format);
+}
+
+double ClockDatagram::get_timestamp_offset() const
+{
+	return get_timestamp_external() - get_timestamp();
 }
 
 // ----- to/from stream functions -----

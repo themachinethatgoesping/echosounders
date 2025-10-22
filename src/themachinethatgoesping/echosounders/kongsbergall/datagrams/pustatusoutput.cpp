@@ -5,13 +5,481 @@
 #include "pustatusoutput.hpp"
 
 #include <fmt/core.h>
+
 #include <stdexcept>
+#include <utility>
+
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+PUStatusOutput::PUStatusOutput(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+PUStatusOutput::PUStatusOutput()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::PUStatusOutput;
+}
+
+uint16_t PUStatusOutput::get_status_datagram_counter() const
+{
+    return _status_datagram_counter;
+}
+
+uint16_t PUStatusOutput::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t PUStatusOutput::get_ping_rate() const
+{
+    return _ping_rate;
+}
+
+uint16_t PUStatusOutput::get_ping_counter() const
+{
+    return _ping_counter;
+}
+
+uint32_t PUStatusOutput::get_distance_between_swath() const
+{
+    return _distance_between_swath;
+}
+
+uint32_t PUStatusOutput::get_sensor_input_status_udp_port_2() const
+{
+    return _sensor_input_status_udp_port_2;
+}
+
+uint32_t PUStatusOutput::get_sensor_input_status_serial_port_1() const
+{
+    return _sensor_input_status_serial_port_1;
+}
+
+uint32_t PUStatusOutput::get_sensor_input_status_serial_port_2() const
+{
+    return _sensor_input_status_serial_port_2;
+}
+
+uint32_t PUStatusOutput::get_sensor_input_status_serial_port_3() const
+{
+    return _sensor_input_status_serial_port_3;
+}
+
+uint32_t PUStatusOutput::get_sensor_input_status_serial_port_4() const
+{
+    return _sensor_input_status_serial_port_4;
+}
+
+int8_t PUStatusOutput::get_pps_status() const
+{
+    return _pps_status;
+}
+
+int8_t PUStatusOutput::get_position_status() const
+{
+    return _position_status;
+}
+
+int8_t PUStatusOutput::get_attitude_status() const
+{
+    return _attitude_status;
+}
+
+int8_t PUStatusOutput::get_clock_status() const
+{
+    return _clock_status;
+}
+
+int8_t PUStatusOutput::get_heading_status() const
+{
+    return _heading_status;
+}
+
+uint8_t PUStatusOutput::get_pu_status() const
+{
+    return _pu_status;
+}
+
+uint16_t PUStatusOutput::get_last_received_heading() const
+{
+    return _last_received_heading;
+}
+
+int16_t PUStatusOutput::get_last_received_roll() const
+{
+    return _last_received_roll;
+}
+
+int16_t PUStatusOutput::get_last_received_pitch() const
+{
+    return _last_received_pitch;
+}
+
+int16_t PUStatusOutput::get_last_received_heave_at_sonar_head() const
+{
+    return _last_received_heave_at_sonar_head;
+}
+
+uint16_t PUStatusOutput::get_sound_speed_at_transducer() const
+{
+    return _sound_speed_at_transducer;
+}
+
+uint32_t PUStatusOutput::get_last_received_depth() const
+{
+    return _last_received_depth;
+}
+
+int16_t PUStatusOutput::get_along_ship_velocity() const
+{
+    return _along_ship_velocity;
+}
+
+uint8_t PUStatusOutput::get_attitude_velocity_sensor_status() const
+{
+    return _attitude_velocity_sensor_status;
+}
+
+uint8_t PUStatusOutput::get_mammal_protection_ramp() const
+{
+    return _mammal_protection_ramp;
+}
+
+int8_t PUStatusOutput::get_backscatter_at_oblique_angle() const
+{
+    return _backscatter_at_oblique_angle;
+}
+
+int8_t PUStatusOutput::get_backscatter_at_normal_incidence() const
+{
+    return _backscatter_at_normal_incidence;
+}
+
+int8_t PUStatusOutput::get_fixed_gain() const
+{
+    return _fixed_gain;
+}
+
+uint8_t PUStatusOutput::get_depth_to_normal_incidence() const
+{
+    return _depth_to_normal_incidence;
+}
+
+uint16_t PUStatusOutput::get_range_to_normal_incidence() const
+{
+    return _range_to_normal_incidence;
+}
+
+uint8_t PUStatusOutput::get_port_coverage() const
+{
+    return _port_coverage;
+}
+
+uint8_t PUStatusOutput::get_starboard_coverage() const
+{
+    return _starboard_coverage;
+}
+
+uint16_t PUStatusOutput::get_sound_speed_at_transducer_from_profile() const
+{
+    return _sound_speed_at_transducer_from_profile;
+}
+
+int16_t PUStatusOutput::get_yaw_stabilization_angle() const
+{
+    return _yaw_stabilization_angle;
+}
+
+int16_t PUStatusOutput::get_across_ship_velocity() const
+{
+    return _across_ship_velocity;
+}
+
+int16_t PUStatusOutput::get_downward_velocity() const
+{
+    return _downward_velocity;
+}
+
+int8_t PUStatusOutput::get_em2040_cpu_temperature() const
+{
+    return _em2040_cpu_temperature;
+}
+
+uint8_t PUStatusOutput::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t PUStatusOutput::get_checksum() const
+{
+    return _checksum;
+}
+
+void PUStatusOutput::set_status_datagram_counter(uint16_t status_datagram_counter)
+{
+    _status_datagram_counter = status_datagram_counter;
+}
+
+void PUStatusOutput::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void PUStatusOutput::set_ping_rate(uint16_t ping_rate)
+{
+    _ping_rate = ping_rate;
+}
+
+void PUStatusOutput::set_ping_counter(uint16_t ping_counter)
+{
+    _ping_counter = ping_counter;
+}
+
+void PUStatusOutput::set_distance_between_swath(uint32_t distance_between_swath)
+{
+    _distance_between_swath = distance_between_swath;
+}
+
+void PUStatusOutput::set_sensor_input_status_udp_port_2(uint32_t sensor_input_status_udp_port_2)
+{
+    _sensor_input_status_udp_port_2 = sensor_input_status_udp_port_2;
+}
+
+void PUStatusOutput::set_sensor_input_status_serial_port_1(uint32_t sensor_input_status_serial_port_1)
+{
+    _sensor_input_status_serial_port_1 = sensor_input_status_serial_port_1;
+}
+
+void PUStatusOutput::set_sensor_input_status_serial_port_2(uint32_t sensor_input_status_serial_port_2)
+{
+    _sensor_input_status_serial_port_2 = sensor_input_status_serial_port_2;
+}
+
+void PUStatusOutput::set_sensor_input_status_serial_port_3(uint32_t sensor_input_status_serial_port_3)
+{
+    _sensor_input_status_serial_port_3 = sensor_input_status_serial_port_3;
+}
+
+void PUStatusOutput::set_sensor_input_status_serial_port_4(uint32_t sensor_input_status_serial_port_4)
+{
+    _sensor_input_status_serial_port_4 = sensor_input_status_serial_port_4;
+}
+
+void PUStatusOutput::set_pps_status(int8_t pps_status)
+{
+    _pps_status = pps_status;
+}
+
+void PUStatusOutput::set_position_status(int8_t position_status)
+{
+    _position_status = position_status;
+}
+
+void PUStatusOutput::set_attitude_status(int8_t attitude_status)
+{
+    _attitude_status = attitude_status;
+}
+
+void PUStatusOutput::set_clock_status(int8_t clock_status)
+{
+    _clock_status = clock_status;
+}
+
+void PUStatusOutput::set_heading_status(int8_t heading_status)
+{
+    _heading_status = heading_status;
+}
+
+void PUStatusOutput::set_pu_status(int8_t pu_status)
+{
+    _pu_status = static_cast<uint8_t>(pu_status);
+}
+
+void PUStatusOutput::set_last_received_heading(uint16_t last_received_heading)
+{
+    _last_received_heading = last_received_heading;
+}
+
+void PUStatusOutput::set_last_received_roll(int16_t last_received_roll)
+{
+    _last_received_roll = last_received_roll;
+}
+
+void PUStatusOutput::set_last_received_pitch(int16_t last_received_pitch)
+{
+    _last_received_pitch = last_received_pitch;
+}
+
+void PUStatusOutput::set_last_received_heave_at_sonar_head(int16_t last_received_heave_at_sonar_head)
+{
+    _last_received_heave_at_sonar_head = last_received_heave_at_sonar_head;
+}
+
+void PUStatusOutput::set_sound_speed_at_transducer(uint16_t sound_speed_at_transducer)
+{
+    _sound_speed_at_transducer = sound_speed_at_transducer;
+}
+
+void PUStatusOutput::set_last_received_depth(uint32_t last_received_depth)
+{
+    _last_received_depth = last_received_depth;
+}
+
+void PUStatusOutput::set_along_ship_velocity(int16_t along_ship_velocity)
+{
+    _along_ship_velocity = along_ship_velocity;
+}
+
+void PUStatusOutput::set_attitude_velocity_sensor_status(uint8_t attitude_velocity_sensor_status)
+{
+    _attitude_velocity_sensor_status = attitude_velocity_sensor_status;
+}
+
+void PUStatusOutput::set_mammal_protection_ramp(uint8_t mammal_protection_ramp)
+{
+    _mammal_protection_ramp = mammal_protection_ramp;
+}
+
+void PUStatusOutput::set_backscatter_at_oblique_angle(int8_t backscatter_at_oblique_angle)
+{
+    _backscatter_at_oblique_angle = backscatter_at_oblique_angle;
+}
+
+void PUStatusOutput::set_backscatter_at_normal_incidence(int8_t backscatter_at_normal_incidence)
+{
+    _backscatter_at_normal_incidence = backscatter_at_normal_incidence;
+}
+
+void PUStatusOutput::set_fixed_gain(int8_t fixed_gain)
+{
+    _fixed_gain = fixed_gain;
+}
+
+void PUStatusOutput::set_depth_to_normal_incidence(uint8_t depth_to_normal_incidence)
+{
+    _depth_to_normal_incidence = depth_to_normal_incidence;
+}
+
+void PUStatusOutput::set_range_to_normal_incidence(uint16_t range_to_normal_incidence)
+{
+    _range_to_normal_incidence = range_to_normal_incidence;
+}
+
+void PUStatusOutput::set_port_coverage(uint8_t port_coverage)
+{
+    _port_coverage = port_coverage;
+}
+
+void PUStatusOutput::set_starboard_coverage(uint8_t starboard_coverage)
+{
+    _starboard_coverage = starboard_coverage;
+}
+
+void PUStatusOutput::set_sound_speed_at_transducer_from_profile(uint16_t sound_speed_at_transducer_from_profile)
+{
+    _sound_speed_at_transducer_from_profile = sound_speed_at_transducer_from_profile;
+}
+
+void PUStatusOutput::set_yaw_stabilization_angle(int16_t yaw_stabilization_angle)
+{
+    _yaw_stabilization_angle = yaw_stabilization_angle;
+}
+
+void PUStatusOutput::set_across_ship_velocity(int16_t across_ship_velocity)
+{
+    _across_ship_velocity = across_ship_velocity;
+}
+
+void PUStatusOutput::set_downward_velocity(int16_t downward_velocity)
+{
+    _downward_velocity = downward_velocity;
+}
+
+void PUStatusOutput::set_em2040_cpu_temperature(int8_t em2040_cpu_temperature)
+{
+    _em2040_cpu_temperature = em2040_cpu_temperature;
+}
+
+void PUStatusOutput::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void PUStatusOutput::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+float PUStatusOutput::get_ping_rate_hertz() const
+{
+    return static_cast<float>(_ping_rate) * 0.01f;
+}
+
+float PUStatusOutput::get_distance_between_swath_in_percent() const
+{
+    return static_cast<float>(_distance_between_swath) * 0.1f;
+}
+
+float PUStatusOutput::get_last_received_heading_in_degrees() const
+{
+    return static_cast<float>(_last_received_heading) * 0.01f;
+}
+
+float PUStatusOutput::get_last_received_roll_in_degrees() const
+{
+    return static_cast<float>(_last_received_roll) * 0.01f;
+}
+
+float PUStatusOutput::get_last_received_pitch_in_degrees() const
+{
+    return static_cast<float>(_last_received_pitch) * 0.01f;
+}
+
+float PUStatusOutput::get_last_received_heave_at_sonar_head_in_meters() const
+{
+    return static_cast<float>(_last_received_heave_at_sonar_head) * 0.01f;
+}
+
+float PUStatusOutput::get_sound_speed_at_transducer_in_meters_per_second() const
+{
+    return static_cast<float>(_sound_speed_at_transducer) * 0.1f;
+}
+
+float PUStatusOutput::get_last_received_depth_in_meters() const
+{
+    return static_cast<float>(_last_received_depth) * 0.01f;
+}
+
+float PUStatusOutput::get_along_ship_velocity_in_meters_per_second() const
+{
+    return static_cast<float>(_along_ship_velocity) * 0.01f;
+}
+
+float PUStatusOutput::get_sound_speed_at_transducer_from_profile_in_meters_per_second() const
+{
+    return static_cast<float>(_sound_speed_at_transducer_from_profile) * 0.1f;
+}
+
+float PUStatusOutput::get_yaw_stabilization_angle_in_degrees() const
+{
+    return static_cast<float>(_yaw_stabilization_angle) * 0.01f;
+}
+
+float PUStatusOutput::get_across_ship_velocity_in_meters_per_second() const
+{
+    return static_cast<float>(_across_ship_velocity) * 0.01f;
+}
+
+float PUStatusOutput::get_downward_velocity_in_meters_per_second() const
+{
+    return static_cast<float>(_downward_velocity) * 0.01f;
+}
 
 PUStatusOutput PUStatusOutput::from_stream(std::istream& is, KongsbergAllDatagram header)
 {

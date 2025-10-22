@@ -1,4 +1,4 @@
-//sourcehash: eda8a9ec1689e1af01d089312023729df19e7120abf83a817a42dc7992606664
+//sourcehash: f0cd24f90366fa5b88c90d68d5b8317340ab31bbf278911631d339ca94c1cfef
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_flag_detection_information_hpp_92_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_flag_detection_information_hpp_78_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_detection_information_get_backscatter_is_compensated =
 R"doc(This function evaluates the detection information flag. If the 4th bit

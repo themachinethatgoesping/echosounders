@@ -6,12 +6,208 @@
 
 #include <fmt/core.h>
 #include <stdexcept>
+#include <utility>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+PositionDatagram::PositionDatagram(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+PositionDatagram::PositionDatagram()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::PositionDatagram;
+}
+
+uint16_t PositionDatagram::get_position_counter() const
+{
+    return _position_counter;
+}
+
+uint16_t PositionDatagram::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+int32_t PositionDatagram::get_latitude() const
+{
+    return _latitude;
+}
+
+int32_t PositionDatagram::get_longitude() const
+{
+    return _longitude;
+}
+
+uint16_t PositionDatagram::get_position_fix_quality() const
+{
+    return _position_fix_quality;
+}
+
+uint16_t PositionDatagram::get_speed() const
+{
+    return _speed;
+}
+
+uint16_t PositionDatagram::get_course() const
+{
+    return _course;
+}
+
+uint16_t PositionDatagram::get_heading() const
+{
+    return _heading;
+}
+
+uint8_t PositionDatagram::get_position_system_descriptor() const
+{
+    return _position_system_descriptor;
+}
+
+uint8_t PositionDatagram::get_size_of_input_datagram() const
+{
+    return _size_of_input_datagram;
+}
+
+std::string PositionDatagram::get_input_datagram() const
+{
+    return _input_datagram;
+}
+
+uint8_t PositionDatagram::get_spare() const
+{
+    return _spare;
+}
+
+uint8_t PositionDatagram::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t PositionDatagram::get_checksum() const
+{
+    return _checksum;
+}
+
+void PositionDatagram::set_position_counter(uint16_t position_counter)
+{
+    _position_counter = position_counter;
+}
+
+void PositionDatagram::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void PositionDatagram::set_latitude(int32_t latitude)
+{
+    _latitude = latitude;
+}
+
+void PositionDatagram::set_longitude(int32_t longitude)
+{
+    _longitude = longitude;
+}
+
+void PositionDatagram::set_position_fix_quality(uint16_t position_fix_quality)
+{
+    _position_fix_quality = position_fix_quality;
+}
+
+void PositionDatagram::set_speed(uint16_t speed)
+{
+    _speed = speed;
+}
+
+void PositionDatagram::set_course(uint16_t course)
+{
+    _course = course;
+}
+
+void PositionDatagram::set_heading(uint16_t heading)
+{
+    _heading = heading;
+}
+
+void PositionDatagram::set_position_system_descriptor(uint8_t position_system_descriptor)
+{
+    _position_system_descriptor = position_system_descriptor;
+}
+
+void PositionDatagram::set_size_of_input_datagram(uint8_t size_of_input_datagram)
+{
+    _size_of_input_datagram = size_of_input_datagram;
+}
+
+void PositionDatagram::set_input_datagram(std::string input_datagram)
+{
+    _input_datagram = std::move(input_datagram);
+}
+
+void PositionDatagram::set_spare(uint8_t spare)
+{
+    _spare = spare;
+}
+
+void PositionDatagram::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void PositionDatagram::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+double PositionDatagram::get_latitude_in_degrees() const
+{
+    return _latitude * 0.00000005;
+}
+
+double PositionDatagram::get_longitude_in_degrees() const
+{
+    return _longitude * 0.0000001;
+}
+
+float PositionDatagram::get_position_fix_quality_in_meters() const
+{
+    return _position_fix_quality * 0.01F;
+}
+
+float PositionDatagram::get_speed_in_meters_per_second() const
+{
+    return _speed * 0.01F;
+}
+
+float PositionDatagram::get_course_in_degrees() const
+{
+    return _course * 0.01F;
+}
+
+float PositionDatagram::get_heading_in_degrees() const
+{
+    return _heading * 0.01F;
+}
+
+uint8_t PositionDatagram::get_position_system_number() const
+{
+    return _position_system_descriptor & 0b00000011;
+}
+
+bool PositionDatagram::get_position_system_SIMRAD90_flag() const
+{
+    return (_position_system_descriptor & 0b00001000) > 0;
+}
+
+bool PositionDatagram::get_position_system_system_time_has_been_used() const
+{
+    return (_position_system_descriptor & 0b11000000) == 0b10000000;
+}
 
 PositionDatagram PositionDatagram::from_stream(std::istream& is, KongsbergAllDatagram header)
 {

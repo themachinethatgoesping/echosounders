@@ -10,13 +10,11 @@
 #include ".docstrings/xyzdatagram.doc.hpp"
 
 // std includes
-#include <string>
+#include <array>
 #include <vector>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
 
@@ -59,14 +57,11 @@ class XYZDatagram : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit XYZDatagram(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit XYZDatagram(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    XYZDatagram() { _datagram_identifier = t_KongsbergAllDatagramIdentifier::XYZDatagram; }
+    XYZDatagram();
     ~XYZDatagram() = default;
 
     // ----- convenience functions -----
@@ -75,19 +70,7 @@ class XYZDatagram : public KongsbergAllDatagram
      *
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    t_XYZ get_xyz() const
-    {
-        t_XYZ xyz({ _beams.size() });
-
-        for (unsigned int bn = 0; bn < _beams.size(); ++bn)
-        {
-            xyz.x.unchecked(bn) = _beams[bn].get_alongtrack_distance();
-            xyz.y.unchecked(bn) = _beams[bn].get_acrosstrack_distance();
-            xyz.z.unchecked(bn) = _beams[bn].get_depth();
-        }
-
-        return xyz;
-    }
+    t_XYZ get_xyz() const;
 
     /**
      * @brief Convert the XYZDatagramBeams for a given beam_number vector to a XYZ structure
@@ -97,77 +80,43 @@ class XYZDatagram : public KongsbergAllDatagram
      *
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    t_XYZ get_xyz(const std::vector<uint32_t>& beam_numbers) const
-    {
-        t_XYZ xyz({ beam_numbers.size() });
-
-        for (unsigned int bi = 0; bi < beam_numbers.size(); ++bi)
-        {
-            auto bn = beam_numbers[bi];
-            if (bn >= _beams.size())
-            {
-                xyz.x.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-                xyz.y.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-                xyz.z.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-            }
-            else
-            {
-                xyz.x.unchecked(bi) = _beams[bn].get_alongtrack_distance();
-                xyz.y.unchecked(bi) = _beams[bn].get_acrosstrack_distance();
-                xyz.z.unchecked(bi) = _beams[bn].get_depth();
-            }
-        }
-
-        return xyz;
-    }
+    t_XYZ get_xyz(const std::vector<uint32_t>& beam_numbers) const;
 
     // ----- convenient data access -----
     // getters
-    uint16_t get_ping_counter() const { return _ping_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_heading() const { return _heading; }
-    uint16_t get_sound_speed() const { return _sound_speed; }
-    float    get_transmit_transducer_depth() const { return _transmit_transducer_depth; }
-    uint16_t get_number_of_beams() const { return _number_of_beams; }
-    uint16_t get_number_of_valid_detections() const { return _number_of_valid_detections; }
-    float    get_sampling_frequency() const { return _sampling_frequency; }
-    uint8_t  get_scanning_info() const { return _scanning_info; }
-    const std::array<uint8_t, 3>& get_spare_bytes() const { return _spare_bytes; }
-    uint8_t                       get_spare_byte() const { return _spare_byte; }
-    uint8_t                       get_etx() const { return _etx; }
-    uint16_t                      get_checksum() const { return _checksum; }
+    uint16_t                     get_ping_counter() const;
+    uint16_t                     get_system_serial_number() const;
+    uint16_t                     get_heading() const;
+    uint16_t                     get_sound_speed() const;
+    float                        get_transmit_transducer_depth() const;
+    uint16_t                     get_number_of_beams() const;
+    uint16_t                     get_number_of_valid_detections() const;
+    float                        get_sampling_frequency() const;
+    uint8_t                      get_scanning_info() const;
+    const std::array<uint8_t, 3>& get_spare_bytes() const;
+    uint8_t                      get_spare_byte() const;
+    uint8_t                      get_etx() const;
+    uint16_t                     get_checksum() const;
 
     // setters
-    void set_ping_counter(uint16_t ping_counter) { _ping_counter = ping_counter; }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_heading(uint16_t heading) { _heading = heading; }
-    void set_sound_speed(uint16_t sound_speed) { _sound_speed = sound_speed; }
-    void set_transmit_transducer_depth(float transmit_transducer_depth)
-    {
-        _transmit_transducer_depth = transmit_transducer_depth;
-    }
-    void set_number_of_beams(uint16_t number_of_beams) { _number_of_beams = number_of_beams; }
-    void set_number_of_valid_detections(uint16_t number_of_valid_detections)
-    {
-        _number_of_valid_detections = number_of_valid_detections;
-    }
-    void set_sampling_frequency(float sampling_frequency)
-    {
-        _sampling_frequency = sampling_frequency;
-    }
-    void set_scanning_info(uint8_t scanning_info) { _scanning_info = scanning_info; }
-    void set_spare_bytes(std::array<uint8_t, 3> spare_bytes) { _spare_bytes = spare_bytes; }
-    void set_spare_byte(uint8_t spare_byte) { _spare_byte = spare_byte; }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_ping_counter(uint16_t ping_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_heading(uint16_t heading);
+    void set_sound_speed(uint16_t sound_speed);
+    void set_transmit_transducer_depth(float transmit_transducer_depth);
+    void set_number_of_beams(uint16_t number_of_beams);
+    void set_number_of_valid_detections(uint16_t number_of_valid_detections);
+    void set_sampling_frequency(float sampling_frequency);
+    void set_scanning_info(uint8_t scanning_info);
+    void set_spare_bytes(std::array<uint8_t, 3> spare_bytes);
+    void set_spare_byte(uint8_t spare_byte);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // substructure access
-    std::vector<substructures::XYZDatagramBeam>&       beams() { return _beams; }
-    const std::vector<substructures::XYZDatagramBeam>& get_beams() const { return _beams; }
-    void set_beams(std::vector<substructures::XYZDatagramBeam> beams) { _beams = std::move(beams); }
+    std::vector<substructures::XYZDatagramBeam>&       beams();
+    const std::vector<substructures::XYZDatagramBeam>& get_beams() const;
+    void set_beams(std::vector<substructures::XYZDatagramBeam> beams);
 
     // ----- processed data access -----
     /**
@@ -175,30 +124,17 @@ class XYZDatagram : public KongsbergAllDatagram
      *
      * @return heading * 0.01 degrees (double)
      */
-    double get_heading_in_degrees() const { return _heading * 0.01; }
+    double get_heading_in_degrees() const;
 
     /**
      * @brief Get the sound speed in meters per seconds
      *
      * @return sound_speed * 0.1 meters per seconds (double)
      */
-    double get_sound_speed_in_m_per_s() const { return _sound_speed * 0.1; }
+    double get_sound_speed_in_m_per_s() const;
 
     // ----- operators -----
-    bool operator==(const XYZDatagram& other) const
-    {
-        return KongsbergAllDatagram::operator==(other) && _ping_counter == other._ping_counter &&
-               _system_serial_number == other._system_serial_number && _heading == other._heading &&
-               _sound_speed == other._sound_speed &&
-               tools::helper::float_equals(_transmit_transducer_depth,
-                                           other._transmit_transducer_depth) &&
-               _number_of_beams == other._number_of_beams &&
-               _number_of_valid_detections == other._number_of_valid_detections &&
-               tools::helper::float_equals(_sampling_frequency, other._sampling_frequency) &&
-               _scanning_info == other._scanning_info && _spare_bytes == other._spare_bytes &&
-               _beams == other._beams && _spare_byte == other._spare_byte && _etx == other._etx &&
-               _checksum == other._checksum;
-    }
+    bool operator==(const XYZDatagram& other) const;
 
     //----- to/from stream functions -----
     static XYZDatagram from_stream(std::istream& is, KongsbergAllDatagram header);

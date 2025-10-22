@@ -6,6 +6,8 @@
 
 // std includes
 #include <iostream>
+#include <stdexcept>
+#include <utility>
 
 // external includes
 #include <fmt/format.h>
@@ -15,8 +17,276 @@ namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
 
-// Implementation file for extradetections.hpp
-// TODO: Move appropriate implementations from header to this file
+ExtraDetections::ExtraDetections(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+ExtraDetections::ExtraDetections()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::ExtraDetections;
+}
+
+uint16_t ExtraDetections::get_ping_counter() const
+{
+    return _ping_counter;
+}
+
+uint16_t ExtraDetections::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t ExtraDetections::get_datagram_counter() const
+{
+    return _datagram_counter;
+}
+
+uint16_t ExtraDetections::get_datagram_version_id() const
+{
+    return _datagram_version_id;
+}
+
+uint16_t ExtraDetections::get_swath_counter() const
+{
+    return _swath_counter;
+}
+
+uint16_t ExtraDetections::get_swath_index() const
+{
+    return _swath_index;
+}
+
+uint16_t ExtraDetections::get_heading() const
+{
+    return _heading;
+}
+
+uint16_t ExtraDetections::get_sound_speed() const
+{
+    return _sound_speed;
+}
+
+float ExtraDetections::get_depth_of_reference_point() const
+{
+    return _depth_of_reference_point;
+}
+
+float ExtraDetections::get_water_column_sample_rate() const
+{
+    return _water_column_sample_rate;
+}
+
+float ExtraDetections::get_raw_amplitude_sample_rate() const
+{
+    return _raw_amplitude_sample_rate;
+}
+
+uint16_t ExtraDetections::get_rx_transducer_index() const
+{
+    return _rx_transducer_index;
+}
+
+uint16_t ExtraDetections::get_number_of_extra_detections() const
+{
+    return _number_of_extra_detections;
+}
+
+uint16_t ExtraDetections::get_number_of_detection_classes() const
+{
+    return _number_of_detection_classes;
+}
+
+uint16_t ExtraDetections::get_number_of_bytes_per_class() const
+{
+    return _number_of_bytes_per_class;
+}
+
+uint16_t ExtraDetections::get_number_of_alarm_flags() const
+{
+    return _number_of_alarm_flags;
+}
+
+uint16_t ExtraDetections::get_number_of_bytes_per_detection() const
+{
+    return _number_of_bytes_per_detection;
+}
+
+const std::vector<substructures::ExtraDetectionsDetectionClasses>&
+ExtraDetections::get_detection_classes() const
+{
+    return _detection_classes;
+}
+
+const std::vector<substructures::ExtraDetectionsExtraDetections>&
+ExtraDetections::get_extra_detections() const
+{
+    return _extra_detections;
+}
+
+const substructures::SampleAmplitudesStructure<int16_t>&
+ExtraDetections::get_raw_amplitude_samples() const
+{
+    return _raw_amplitude_samples;
+}
+
+uint16_t ExtraDetections::get_spare() const
+{
+    return _spare;
+}
+
+uint8_t ExtraDetections::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t ExtraDetections::get_checksum() const
+{
+    return _checksum;
+}
+
+void ExtraDetections::set_ping_counter(uint16_t ping_counter)
+{
+    _ping_counter = ping_counter;
+}
+
+void ExtraDetections::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void ExtraDetections::set_datagram_counter(uint16_t datagram_counter)
+{
+    _datagram_counter = datagram_counter;
+}
+
+void ExtraDetections::set_datagram_version_id(uint16_t datagram_version_id)
+{
+    _datagram_version_id = datagram_version_id;
+}
+
+void ExtraDetections::set_swath_counter(uint16_t swath_counter)
+{
+    _swath_counter = swath_counter;
+}
+
+void ExtraDetections::set_swath_index(uint16_t swath_index)
+{
+    _swath_index = swath_index;
+}
+
+void ExtraDetections::set_heading(uint16_t heading)
+{
+    _heading = heading;
+}
+
+void ExtraDetections::set_sound_speed(uint16_t sound_speed)
+{
+    _sound_speed = sound_speed;
+}
+
+void ExtraDetections::set_depth_of_reference_point(float depth_of_reference_point)
+{
+    _depth_of_reference_point = depth_of_reference_point;
+}
+
+void ExtraDetections::set_water_column_sample_rate(float water_column_sample_rate)
+{
+    _water_column_sample_rate = water_column_sample_rate;
+}
+
+void ExtraDetections::set_raw_amplitude_sample_rate(float raw_amplitude_sample_rate)
+{
+    _raw_amplitude_sample_rate = raw_amplitude_sample_rate;
+}
+
+void ExtraDetections::set_rx_transducer_index(uint16_t rx_transducer_index)
+{
+    _rx_transducer_index = rx_transducer_index;
+}
+
+void ExtraDetections::set_number_of_extra_detections(uint16_t number_of_extra_detections)
+{
+    _number_of_extra_detections = number_of_extra_detections;
+}
+
+void ExtraDetections::set_number_of_detection_classes(uint16_t number_of_detection_classes)
+{
+    _number_of_detection_classes = number_of_detection_classes;
+}
+
+void ExtraDetections::set_number_of_bytes_per_class(uint16_t number_of_bytes_per_class)
+{
+    _number_of_bytes_per_class = number_of_bytes_per_class;
+}
+
+void ExtraDetections::set_number_of_alarm_flags(uint16_t number_of_alarm_flags)
+{
+    _number_of_alarm_flags = number_of_alarm_flags;
+}
+
+void ExtraDetections::set_number_of_bytes_per_detection(uint16_t number_of_bytes_per_detection)
+{
+    _number_of_bytes_per_detection = number_of_bytes_per_detection;
+}
+
+void ExtraDetections::set_detection_classes(
+    const std::vector<substructures::ExtraDetectionsDetectionClasses>& detection_classes)
+{
+    _detection_classes = detection_classes;
+}
+
+void ExtraDetections::set_extra_detections(
+    const std::vector<substructures::ExtraDetectionsExtraDetections>& extra_detections)
+{
+    _extra_detections = extra_detections;
+}
+
+void ExtraDetections::set_raw_amplitude_samples(
+    const substructures::SampleAmplitudesStructure<int16_t>& raw_amplitude_samples)
+{
+    _raw_amplitude_samples = raw_amplitude_samples;
+}
+
+void ExtraDetections::set_spare(uint16_t spare_bytes)
+{
+    _spare = static_cast<uint8_t>(spare_bytes);
+}
+
+void ExtraDetections::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void ExtraDetections::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+std::vector<substructures::ExtraDetectionsDetectionClasses>& ExtraDetections::detection_classes()
+{
+    return _detection_classes;
+}
+
+std::vector<substructures::ExtraDetectionsExtraDetections>& ExtraDetections::extra_detections()
+{
+    return _extra_detections;
+}
+
+substructures::SampleAmplitudesStructure<int16_t>& ExtraDetections::raw_amplitude_samples()
+{
+    return _raw_amplitude_samples;
+}
+
+double ExtraDetections::get_heading_in_degrees() const
+{
+    return static_cast<double>(_heading) * 0.01;
+}
+
+double ExtraDetections::get_sound_speed_in_m_per_s() const
+{
+    return static_cast<double>(_sound_speed) * 0.1;
+}
 
 // ----- operators -----
 bool ExtraDetections::operator==(const ExtraDetections& other) const

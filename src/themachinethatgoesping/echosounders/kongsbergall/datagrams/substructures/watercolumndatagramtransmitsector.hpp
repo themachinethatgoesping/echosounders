@@ -10,16 +10,10 @@
 #include ".docstrings/watercolumndatagramtransmitsector.doc.hpp"
 
 // std includes
-#include <string>
+#include <cstdint>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
-
-
-#include "../../types.hpp"
-
-#include "flag_detection_information.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -44,19 +38,16 @@ class WatercolumnDatagramTransmitSector
 
     // ----- convenient member access -----
     // getters
-    int16_t  get_tilt_angle() const { return _tilt_angle; }
-    uint16_t get_center_frequency() const { return _center_frequency; }
-    uint8_t  get_transmit_sector_number() const { return _transmit_sector_number; }
-    uint8_t  get_spare() const { return _spare; }
+    int16_t  get_tilt_angle() const;
+    uint16_t get_center_frequency() const;
+    uint8_t  get_transmit_sector_number() const;
+    uint8_t  get_spare() const;
 
     // setters
-    void set_tilt_angle(int16_t tilt_angle) { _tilt_angle = tilt_angle; }
-    void set_center_frequency(uint16_t center_frequency) { _center_frequency = center_frequency; }
-    void set_transmit_sector_number(uint8_t transmit_sector_number)
-    {
-        _transmit_sector_number = transmit_sector_number;
-    }
-    void set_spare(uint8_t spare) { _spare = spare; }
+    void set_tilt_angle(int16_t tilt_angle);
+    void set_center_frequency(uint16_t center_frequency);
+    void set_transmit_sector_number(uint8_t transmit_sector_number);
+    void set_spare(uint8_t spare);
 
     // for hashing
 
@@ -66,37 +57,21 @@ class WatercolumnDatagramTransmitSector
      *
      * @return _tilt_angle * 0.01° (float)
      */
-    float get_tilt_angle_in_degrees() const { return _tilt_angle * 0.01f; }
+    float get_tilt_angle_in_degrees() const;
 
     /**
      * @brief get the center frequency in Hz
      *
      * @return _center_frequency * 10 Hz (float)
      */
-    float get_center_frequency_in_hz() const { return _center_frequency * 10.f; }
+    float get_center_frequency_in_hz() const;
 
     // ----- operators -----
     bool operator==(const WatercolumnDatagramTransmitSector& other) const = default;
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer("WatercolumnDatagramTransmitSector",
-                                                  float_precision, superscript_exponents);
-
-        // raw values
-        printer.register_value("tilt_angle", _tilt_angle, "0.01°");
-        printer.register_value("center_frequency", _center_frequency, "10 Hz");
-        printer.register_value("transmit_sector_number", _transmit_sector_number);
-        printer.register_value("spare", _spare);
-
-        // processed values
-        printer.register_section("processed");
-        printer.register_value("tilt_angle", get_tilt_angle_in_degrees(), "°");
-        printer.register_value("center_frequency", get_center_frequency_in_hz(), "Hz");
-
-        return printer;
-    }
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool          superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

@@ -10,7 +10,6 @@
 #include ".docstrings/sampleamplitudesstructure.doc.hpp"
 
 // std includes
-#include <string>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>

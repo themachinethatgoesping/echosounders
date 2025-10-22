@@ -10,7 +10,8 @@
 #include ".docstrings/kongsbergalldatagram.doc.hpp"
 
 // std includes
-#include <iostream>
+#include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -52,21 +53,7 @@ class KongsbergAllDatagram
      * @param is istream. Must be at the end position of the datagram header. Pos will be
      * incremented by 3 bytes (ETX and checksum).
      */
-    void _verify_datagram_end(std::istream& is) const
-    {
-        // read the end identifier and the check sum
-        struct t_EndIdentifier
-        {
-            uint8_t  etx;          // (end identifier)
-            uint16_t checksum = 0; // the sum of all bytes between STX end ETX
-        } etx;
-
-        is.read(reinterpret_cast<char*>(&etx.etx), 3 * sizeof(uint8_t));
-
-        if (etx.etx != 0x03)
-            throw std::runtime_error(fmt::format(
-                "KongsbergAllDatagram: end identifier is not 0x03, but 0x{:x}", etx.etx));
-    }
+    void _verify_datagram_end(std::istream& is) const;
 
   public:
     KongsbergAllDatagram(
@@ -74,29 +61,11 @@ class KongsbergAllDatagram
         t_DatagramIdentifier datagram_identifier = t_DatagramIdentifier::unspecified,
         uint16_t             model_number        = 0,
         uint16_t             date                = 0,
-        uint16_t             time_since_midnight = 0)
-        : _bytes(bytes)
-        , _datagram_identifier(datagram_identifier)
-        , _model_number(model_number)
-        , _date(date)
-        , _time_since_midnight(time_since_midnight)
-    {
-    }
+        uint16_t             time_since_midnight = 0);
     KongsbergAllDatagram()          = default;
     virtual ~KongsbergAllDatagram() = default;
 
-    void skip(std::istream& is) const
-    {
-        // _bytes describes the number of bytes in the datagram, except the bytes field (4 bytes)
-        // skip is called after from_stream so 12 bytes after the bytes field are read already
-        // we want to jump to the end identifier (0x03) so we need to skip _Bytes - 12 - 3 - bytes
-        const static uint8_t tmp = sizeof(uint8_t) * (15);
-
-        is.seekg(_bytes - tmp, std::ios::cur);
-
-        // verify the datagram is read correctly by reading the length field at the end
-        _verify_datagram_end(is);
-    }
+    void skip(std::istream& is) const;
 
     /**
      * @brief This verifies that stream_pos describes the thought datagram and skips to the
@@ -111,46 +80,22 @@ class KongsbergAllDatagram
      */
     static size_t skip_and_verify_header(std::istream&                    is,
                                          size_t                           stream_pos,
-                                         t_KongsbergAllDatagramIdentifier identifier)
-    {
-        is.seekg(stream_pos + 5, std::ios::beg);
-
-        // read the datagram identifier
-        t_KongsbergAllDatagramIdentifier datagram_identifier;
-        is.read(reinterpret_cast<char*>(&datagram_identifier),
-                sizeof(t_KongsbergAllDatagramIdentifier));
-        if (datagram_identifier != identifier)
-            throw std::runtime_error(
-                fmt::format("KongsbergAllDatagram::skip_and_verify_header: datagram "
-                            "identifier is not {}, but {}",
-                            datagram_type_to_string(identifier),
-                            datagram_type_to_string(datagram_identifier)));
-
-        is.seekg(10, std::ios::cur);
-
-        return is.tellg();
-    }
+                                         t_KongsbergAllDatagramIdentifier identifier);
 
     // ----- convenient member access -----
-    uint32_t             get_bytes() const { return _bytes; }
-    uint8_t              get_stx() const { return _stx; }
-    t_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
-    uint16_t             get_model_number() const { return _model_number; }
-    uint32_t             get_date() const { return _date; }
-    uint32_t             get_time_since_midnight() const { return _time_since_midnight; }
+    uint32_t             get_bytes() const;
+    uint8_t              get_stx() const;
+    t_DatagramIdentifier get_datagram_identifier() const;
+    uint16_t             get_model_number() const;
+    uint32_t             get_date() const;
+    uint32_t             get_time_since_midnight() const;
 
-    void set_bytes(uint32_t bytes) { _bytes = bytes; }
-    void set_stx(uint8_t stx) { _stx = stx; }
-    void set_datagram_identifier(t_DatagramIdentifier datagram_identifier)
-    {
-        _datagram_identifier = datagram_identifier;
-    }
-    void set_model_number(uint16_t model_number) { _model_number = model_number; }
-    void set_date(uint32_t date) { _date = date; }
-    void set_time_since_midnight(uint32_t time_since_midnight)
-    {
-        _time_since_midnight = time_since_midnight;
-    }
+    void set_bytes(uint32_t bytes);
+    void set_stx(uint8_t stx);
+    void set_datagram_identifier(t_DatagramIdentifier datagram_identifier);
+    void set_model_number(uint16_t model_number);
+    void set_date(uint32_t date);
+    void set_time_since_midnight(uint32_t time_since_midnight);
 
     // ----- processed member access -----
     /**
@@ -158,15 +103,7 @@ class KongsbergAllDatagram
      *
      * @return unixtime as double
      */
-    double get_timestamp() const
-    {
-        int y = int(_date / 10000);
-        int m = int(_date / 100) - y * 100;
-        int d = int(_date) - y * 10000 - m * 100;
-
-        return tools::timeconv::year_month_day_to_unixtime(
-            y, m, d, uint64_t(_time_since_midnight) * 1000);
-    }
+    double get_timestamp() const;
 
     /**
      * @brief Get the time as string
@@ -176,11 +113,7 @@ class KongsbergAllDatagram
      * @return std::string
      */
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
-                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
-    {
-        return tools::timeconv::unixtime_to_datestring(
-            get_timestamp(), fractionalSecondsDigits, format);
-    }
+                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const;
 
     /**
      * @brief Get the model number as string
@@ -188,14 +121,7 @@ class KongsbergAllDatagram
      *
      * @return std::string
      */
-    std::string get_model_number_as_string() const
-    {
-
-        if (_model_number == 2045)
-            return "EM2040C";
-
-        return "EM" + std::to_string(_model_number);
-    }
+    std::string get_model_number_as_string() const;
 
     // ----- operators -----
     bool operator==(const KongsbergAllDatagram& other) const = default;

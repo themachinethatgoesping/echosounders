@@ -10,10 +10,10 @@
 #include ".docstrings/installationparameters.doc.hpp"
 
 // std includes
-#include <string>
-#include <vector>
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <array>
+#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
@@ -200,17 +200,11 @@ class InstallationParameters : public KongsbergAllDatagram
 
   private:
     // ----- private constructors -----
-    explicit InstallationParameters(KongsbergAllDatagram header)
-        : KongsbergAllDatagram(std::move(header))
-    {
-    }
+    explicit InstallationParameters(KongsbergAllDatagram header);
 
   public:
     // ----- public constructors -----
-    InstallationParameters()
-    {
-        _datagram_identifier = t_KongsbergAllDatagramIdentifier::InstallationParametersStart;
-    }
+    InstallationParameters();
     ~InstallationParameters() = default;
 
     // ----- factory functions -----
@@ -227,37 +221,25 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // ----- convenient data access -----
     // getters
-    uint16_t read_installation_parameters_counter() const { return _installation_parameters_counter; }
-    uint16_t get_system_serial_number() const { return _system_serial_number; }
-    uint16_t get_secondary_system_serial_number() const { return _secondary_system_serial_number; }
-    uint8_t  get_etx() const { return _etx; }
-    uint16_t get_checksum() const { return _checksum; }
+    uint16_t read_installation_parameters_counter() const;
+    uint16_t get_system_serial_number() const;
+    uint16_t get_secondary_system_serial_number() const;
+    uint8_t  get_etx() const;
+    uint16_t get_checksum() const;
 
     // setters
-    void set_installation_parameters_counter(uint16_t installation_parameters_counter)
-    {
-        _installation_parameters_counter = installation_parameters_counter;
-    }
-    void set_system_serial_number(uint16_t system_serial_number)
-    {
-        _system_serial_number = system_serial_number;
-    }
-    void set_secondary_system_serial_number(uint16_t secondary_system_serial_number)
-    {
-        _secondary_system_serial_number = secondary_system_serial_number;
-    }
-    void set_etx(uint8_t etx) { _etx = etx; }
-    void set_checksum(uint16_t checksum) { _checksum = checksum; }
+    void set_installation_parameters_counter(uint16_t installation_parameters_counter);
+    void set_system_serial_number(uint16_t system_serial_number);
+    void set_secondary_system_serial_number(uint16_t secondary_system_serial_number);
+    void set_etx(uint8_t etx);
+    void set_checksum(uint16_t checksum);
 
     // substructures
-    const std::string& read_installation_parameters() const { return _installation_parameters; }
+    const std::string& read_installation_parameters() const;
     void set_installation_parameters(std::string installation_parameters);
 
     // ----- processed data access -----
-    const std::map<std::string, std::string>& read_installation_parameters_parsed()
-    {
-        return _parsed_installation_parameters;
-    }
+    const std::map<std::string, std::string>& read_installation_parameters_parsed();
 
     // ----- public methods -----
     /**
@@ -273,13 +255,13 @@ class InstallationParameters : public KongsbergAllDatagram
     std::string build_channel_id() const;
 
     // ----- high level access to installation parameters -----
-    float get_water_line_vertical_location_in_meters() const { return get_value_float("WLZ", 0.f); }
+  float get_water_line_vertical_location_in_meters() const;
 
-    int get_system_main_head_serial_number() const { return get_value_int("SMH"); }
-    int get_tx_serial_number() const { return get_value_int("TXS"); }
-    int get_tx2_serial_number() const { return get_value_int("T2X"); }
-    int get_rx1_serial_number() const { return get_value_int("R1S"); }
-    int get_rx2_serial_number() const { return get_value_int("R2S"); }
+  int get_system_main_head_serial_number() const;
+  int get_tx_serial_number() const;
+  int get_tx2_serial_number() const;
+  int get_rx1_serial_number() const;
+  int get_rx2_serial_number() const;
     o_KongsbergAllSystemTransducerConfiguration get_system_transducer_configuration() const;
 
     std::string get_tx_array_size() const;

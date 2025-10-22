@@ -6,12 +6,177 @@
 
 #include <fmt/core.h>
 #include <stdexcept>
+#include <utility>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
+
+NetworkAttitudeVelocityDatagram::NetworkAttitudeVelocityDatagram(KongsbergAllDatagram header)
+    : KongsbergAllDatagram(std::move(header))
+{
+}
+
+NetworkAttitudeVelocityDatagram::NetworkAttitudeVelocityDatagram()
+{
+    _datagram_identifier = t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram;
+}
+
+uint16_t NetworkAttitudeVelocityDatagram::get_network_attitude_counter() const
+{
+    return _network_attitude_counter;
+}
+
+uint16_t NetworkAttitudeVelocityDatagram::get_system_serial_number() const
+{
+    return _system_serial_number;
+}
+
+uint16_t NetworkAttitudeVelocityDatagram::get_number_of_entries() const
+{
+    return _number_of_entries;
+}
+
+uint8_t NetworkAttitudeVelocityDatagram::get_sensor_system_descriptor() const
+{
+    return _sensor_system_descriptor;
+}
+
+uint8_t NetworkAttitudeVelocityDatagram::get_etx() const
+{
+    return _etx;
+}
+
+uint16_t NetworkAttitudeVelocityDatagram::get_checksum() const
+{
+    return _checksum;
+}
+
+uint8_t NetworkAttitudeVelocityDatagram::get_spare() const
+{
+    return _spare;
+}
+
+uint8_t NetworkAttitudeVelocityDatagram::get_spare_align() const
+{
+    return _spare_align;
+}
+
+void NetworkAttitudeVelocityDatagram::set_network_attitude_counter(uint16_t network_attitude_counter)
+{
+    _network_attitude_counter = network_attitude_counter;
+}
+
+void NetworkAttitudeVelocityDatagram::set_system_serial_number(uint16_t system_serial_number)
+{
+    _system_serial_number = system_serial_number;
+}
+
+void NetworkAttitudeVelocityDatagram::set_number_of_entries(uint16_t number_of_entries)
+{
+    _number_of_entries = number_of_entries;
+}
+
+void NetworkAttitudeVelocityDatagram::set_sensor_system_descriptor(uint8_t sensor_system_descriptor)
+{
+    _sensor_system_descriptor = sensor_system_descriptor;
+}
+
+void NetworkAttitudeVelocityDatagram::set_etx(uint8_t etx)
+{
+    _etx = etx;
+}
+
+void NetworkAttitudeVelocityDatagram::set_checksum(uint16_t checksum)
+{
+    _checksum = checksum;
+}
+
+void NetworkAttitudeVelocityDatagram::set_spare(uint8_t spare)
+{
+    _spare = spare;
+}
+
+void NetworkAttitudeVelocityDatagram::set_spare_align(uint8_t spare_align)
+{
+    _spare_align = spare_align;
+}
+
+std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>&
+NetworkAttitudeVelocityDatagram::attitudes()
+{
+    return _attitudes;
+}
+
+const std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>&
+NetworkAttitudeVelocityDatagram::get_attitudes() const
+{
+    return _attitudes;
+}
+
+void NetworkAttitudeVelocityDatagram::set_attitudes(
+    std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude> attitudes)
+{
+    _attitudes = std::move(attitudes);
+}
+
+unsigned int NetworkAttitudeVelocityDatagram::get_attitude_velocity_sensor_number() const
+{
+    if (!get_function_is_used())
+        return 0;
+
+    if (_sensor_system_descriptor & 0b00110000)
+        return 2;
+
+    return 1;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_velocity_sensor_is_active() const
+{
+    if (!get_function_is_used())
+        return false;
+
+    return (_sensor_system_descriptor & 0b01000000) != 0;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_heading_sensor_is_active() const
+{
+    if (!get_function_is_used())
+        return false;
+
+    return (_sensor_system_descriptor & 0b00000001) != 0;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_roll_sensor_is_active() const
+{
+    if (!get_function_is_used())
+        return false;
+
+    return (_sensor_system_descriptor & 0b00000010) != 0;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_pitch_sensor_is_active() const
+{
+    if (!get_function_is_used())
+        return false;
+
+    return (_sensor_system_descriptor & 0b00000100) != 0;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_heave_sensor_is_active() const
+{
+    if (!get_function_is_used())
+        return false;
+
+    return (_sensor_system_descriptor & 0b00001000) != 0;
+}
+
+bool NetworkAttitudeVelocityDatagram::get_function_is_used() const
+{
+    return _sensor_system_descriptor != -1;
+}
 
 NetworkAttitudeVelocityDatagram NetworkAttitudeVelocityDatagram::from_stream(std::istream& is, KongsbergAllDatagram header)
 {
