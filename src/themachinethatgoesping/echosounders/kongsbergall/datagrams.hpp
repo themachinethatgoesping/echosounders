@@ -9,6 +9,8 @@
 /* generated doc strings */
 #include ".docstrings/datagrams.doc.hpp"
 
+#include <variant>
+
 #include "datagrams/attitudedatagram.hpp"
 #include "datagrams/clockdatagram.hpp"
 #include "datagrams/depthorheightdatagram.hpp"
@@ -78,69 +80,12 @@ struct KongsbergAllDatagramVariant
     t_KongsbergAllDatagramVariant _datagram_variant;
 
   public:
-    KongsbergAllDatagramVariant() = default;
-    KongsbergAllDatagramVariant(t_KongsbergAllDatagramVariant&& datagram_variant)
-        : _datagram_variant(std::move(datagram_variant))
-    {
-    }
+    KongsbergAllDatagramVariant();
+    explicit KongsbergAllDatagramVariant(t_KongsbergAllDatagramVariant&& datagram_variant);
 
     static t_KongsbergAllDatagramVariant from_stream(std::istream&              is,
-                                               o_KongsbergAllDatagramIdentifier datagram_type,
-                                               bool                       skip_data = false)
-    {
-        // KongsbergAllDATAGRAMTYPEAREA
-        switch (datagram_type.value)
-        {
-            case t_KongsbergAllDatagramIdentifier::XYZDatagram:
-                return t_KongsbergAllDatagramVariant(XYZDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::ExtraDetections:
-                return t_KongsbergAllDatagramVariant(ExtraDetections::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::RawRangeAndAngle:
-                return t_KongsbergAllDatagramVariant(RawRangeAndAngle::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::SeabedImageData:
-                return t_KongsbergAllDatagramVariant(SeabedImageData::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::WatercolumnDatagram:
-                return t_KongsbergAllDatagramVariant(WatercolumnDatagram::from_stream(is, skip_data));
-            case t_KongsbergAllDatagramIdentifier::QualityFactorDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::QualityFactorDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::AttitudeDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::AttitudeDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram:
-                return t_KongsbergAllDatagramVariant(
-                    datagrams::NetworkAttitudeVelocityDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::ClockDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::ClockDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::DepthOrHeightDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::DepthOrHeightDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::HeadingDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::HeadingDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::PositionDatagram:
-                return t_KongsbergAllDatagramVariant(datagrams::PositionDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::SingleBeamEchoSounderDepth:
-                return t_KongsbergAllDatagramVariant(
-                    datagrams::SingleBeamEchoSounderDepth::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::SurfaceSoundSpeedDatagram:
-                return t_KongsbergAllDatagramVariant(
-                    datagrams::SurfaceSoundSpeedDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::SoundSpeedProfileDatagram:
-                return t_KongsbergAllDatagramVariant(
-                    datagrams::SoundSpeedProfileDatagram::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::InstallationParametersStart:
-                return t_KongsbergAllDatagramVariant(datagrams::InstallationParameters::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::InstallationParametersStop:
-                return t_KongsbergAllDatagramVariant(datagrams::InstallationParameters::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
-                return t_KongsbergAllDatagramVariant(datagrams::RuntimeParameters::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::ExtraParameters:
-                return t_KongsbergAllDatagramVariant(datagrams::ExtraParameters::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::PUIDOutput:
-                return t_KongsbergAllDatagramVariant(datagrams::PUIDOutput::from_stream(is));
-            case t_KongsbergAllDatagramIdentifier::PUStatusOutput:
-                return t_KongsbergAllDatagramVariant(datagrams::PUStatusOutput::from_stream(is));
-            default:
-                return t_KongsbergAllDatagramVariant(KongsbergAllUnknown::from_stream(is, datagram_type));
-        }
-    }
+                                                     o_KongsbergAllDatagramIdentifier datagram_type,
+                                                     bool skip_data = false);
 
     /**
      * @brief This is the visitor function that  tries to convert the internal variant to the
