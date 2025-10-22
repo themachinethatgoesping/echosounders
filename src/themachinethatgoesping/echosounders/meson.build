@@ -44,7 +44,6 @@ sources = [
   'kongsbergall/datagrams/substructures/watercolumndatagrambeam.cpp',
   'kongsbergall/datagrams/substructures/watercolumndatagramtransmitsector.cpp',
   'kongsbergall/datagrams/substructures/xyzdatagrambeam.cpp',
-  'kongsbergall/filedatacontainers/kongsbergallpingcontainer.cpp',
   'kongsbergall/filedatatypes/kongsbergallping.cpp',
   'kongsbergall/filedatatypes/kongsbergallpingbottom.cpp',
   'kongsbergall/filedatatypes/kongsbergallpingcommon.cpp',
