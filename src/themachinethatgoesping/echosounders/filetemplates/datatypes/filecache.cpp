@@ -4,10 +4,112 @@
 
 #include "filecache.hpp"
 
+#include <algorithm>
+#include <filesystem>
+#include <fstream>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
+
+FileCache::FileCache(const std::string& file_name, size_t file_size)
+    : _file_name(file_name)
+    , _file_size(file_size)
+{
+}
+
+FileCache::FileCache(const std::string&              index_path,
+                     const std::string&              file_name,
+                     size_t                          file_size,
+                     const std::vector<std::string>& cache_keys)
+    : _file_name(file_name)
+    , _file_size(file_size)
+{
+    if (std::filesystem::exists(index_path))
+    {
+        std::ifstream is(index_path, std::ios::binary);
+
+        read_check_type_id(is);
+        if (read_check_type_version(is))
+        {
+            read_header_content_from_stream(is);
+
+            if (std::filesystem::weakly_canonical(_file_name) !=
+                    std::filesystem::weakly_canonical(file_name) ||
+                _file_size != file_size)
+            {
+                throw std::runtime_error(fmt::format(
+                    "ERROR[FileCache]: File name or size mismatch. Expected: {} {} got {} {}",
+                    file_name,
+                    file_size,
+                    _file_name,
+                    _file_size));
+            }
+
+            if (cache_keys.empty())
+                read_cache_buffer_from_stream(is);
+            else
+                read_cache_buffer_from_stream(is, cache_keys);
+        }
+    }
+}
+
+std::vector<std::string> FileCache::get_cache_names() const
+{
+    std::vector<std::string> keys;
+    keys.reserve(_cache_buffer_header.size());
+    for (const auto& header_entry : _cache_buffer_header)
+        keys.push_back(std::get<0>(header_entry));
+    return keys;
+}
+
+std::vector<std::string> FileCache::get_loaded_cache_names() const
+{
+    std::vector<std::string> keys;
+    keys.reserve(_cache_buffer_header.size());
+    for (const auto& header_entry : _cache_buffer_header)
+    {
+        const auto& key = std::get<0>(header_entry);
+        if (_cache_buffer.find(key) != _cache_buffer.end())
+            keys.push_back(key);
+    }
+    return keys;
+}
+
+std::vector<std::string> FileCache::get_not_loaded_cache_names() const
+{
+    std::vector<std::string> keys;
+    keys.reserve(_cache_buffer_header.size());
+    for (const auto& header_entry : _cache_buffer_header)
+    {
+        const auto& key = std::get<0>(header_entry);
+        if (_cache_buffer.find(key) == _cache_buffer.end())
+            keys.push_back(key);
+    }
+    return keys;
+}
+
+const std::string& FileCache::get_file_name() const
+{
+    return _file_name;
+}
+
+size_t FileCache::get_file_size() const
+{
+    return _file_size;
+}
+
+const std::unordered_map<std::string, std::string>& FileCache::get_cache_buffer() const
+{
+    return _cache_buffer;
+}
+
+const std::vector<std::tuple<std::string, size_t, size_t>>& FileCache::get_cache_buffer_header()
+    const
+{
+    return _cache_buffer_header;
+}
 
 bool FileCache::path_is_valid(const std::string& index_path) const
 {
