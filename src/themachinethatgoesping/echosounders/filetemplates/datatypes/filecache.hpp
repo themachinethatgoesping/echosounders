@@ -10,14 +10,21 @@
 /* generated doc strings */
 #include ".docstrings/filecache.doc.hpp"
 
-#include <cstddef>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <tuple>
+#include <filesystem>
+#include <fstream>
+#include <limits>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
+/* memory mapping */
+#include <boost/iostreams/device/mapped_file.hpp> // for mmap
+#include <boost/iostreams/stream.hpp>             // for stream
+
+// #if defined(__x86_64__) || defined(_M_X64)
+// #else
+// #define _MM_PERM_ENUM int
+// #endif
 #include <xxhash.hpp>
 
 #include <fmt/core.h>
@@ -50,17 +57,82 @@ class FileCache
     std::unordered_map<std::string, std::string>         _cache_buffer;
 
   public:
-    FileCache(const std::string& file_name, size_t file_size);
+    FileCache(const std::string& file_name, size_t file_size)
+        : _file_name(file_name)
+        , _file_size(file_size)
+    {
+    }
     FileCache(const std::string&              index_path,
               const std::string&              file_name,
               size_t                          file_size,
-              const std::vector<std::string>& cache_keys = std::vector<std::string>());
+              const std::vector<std::string>& cache_keys = std::vector<std::string>())
+        : _file_name(file_name)
+        , _file_size(file_size)
+    {
 
-    std::vector<std::string> get_cache_names() const;
+        if (std::filesystem::exists(index_path))
+        {
+            std::ifstream is(index_path, std::ios::binary);
 
-    std::vector<std::string> get_loaded_cache_names() const;
+            read_check_type_id(is);
+            if (read_check_type_version(is))
+            {
+                read_header_content_from_stream(is);
 
-    std::vector<std::string> get_not_loaded_cache_names() const;
+                if (std::filesystem::weakly_canonical(_file_name) !=
+                        std::filesystem::weakly_canonical(file_name) ||
+                    _file_size != file_size)
+                {
+                    throw std::runtime_error(fmt::format(
+                        "ERROR[FileCache]: File name or size mismatch. Expected: {} {} got {} {}",
+                        file_name,
+                        file_size,
+                        _file_name,
+                        _file_size));
+                }
+
+                if (cache_keys.empty())
+                    read_cache_buffer_from_stream(is);
+                else
+                    read_cache_buffer_from_stream(is, cache_keys);
+            }
+        }
+    }
+
+    std::vector<std::string> get_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            keys.push_back(key);
+        }
+        return keys;
+    }
+
+    std::vector<std::string> get_loaded_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            if (_cache_buffer.find(key) != _cache_buffer.end())
+                keys.push_back(key);
+        }
+        return keys;
+    }
+
+    std::vector<std::string> get_not_loaded_cache_names() const
+    {
+        std::vector<std::string> keys;
+        keys.reserve(_cache_buffer_header.size());
+        for (const auto& [key, pos1, pos2] : _cache_buffer_header)
+        {
+            if (_cache_buffer.find(key) == _cache_buffer.end())
+                keys.push_back(key);
+        }
+        return keys;
+    }
 
     /**
      * @brief Check if the index path contains a valid cache file
@@ -82,13 +154,19 @@ class FileCache
 
     // ----- getters -----
 
-    const std::string& get_file_name() const;
+    const std::string& get_file_name() const { return _file_name; }
 
-    size_t get_file_size() const;
+    size_t get_file_size() const { return _file_size; }
 
-    const std::unordered_map<std::string, std::string>& get_cache_buffer() const;
+    const std::unordered_map<std::string, std::string>& get_cache_buffer() const
+    {
+        return _cache_buffer;
+    }
 
-    const std::vector<std::tuple<std::string, size_t, size_t>>& get_cache_buffer_header() const;
+    const std::vector<std::tuple<std::string, size_t, size_t>>& get_cache_buffer_header() const
+    {
+        return _cache_buffer_header;
+    }
 
     // ----- cache handling -----
     template<typename t_Cache>
