@@ -37,8 +37,6 @@ void py_create_class_kongsbergallpingbottom(nanobind::module_& m, const std::str
 {
     using t_KongsbergAllPingBottom = filedatatypes::KongsbergAllPingBottom<T_FileStream>;
 
-    using t_KongsbergAllPingCommon = filedatatypes::KongsbergAllPingCommon<T_FileStream>;
-
     auto cls = nb::class_<t_KongsbergAllPingBottom, datatypes::I_PingBottom>(
         m,
         CLASS_NAME.c_str(),

@@ -14,6 +14,10 @@
 #include <iosfwd>
 #include <map>
 #include <string>
+#include <string_view>
+
+#include <frozen/string.h>
+#include <frozen/unordered_map.h>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
@@ -27,7 +31,7 @@ namespace echosounders {
 namespace kongsbergall {
 namespace datagrams {
 
-static const std::map<std::string, std::string> __parameter_explained__ = {
+static constexpr frozen::unordered_map<frozen::string, std::string_view, 123> __parameter_explained__ = {
     { "WLZ", "Water line vertical location in m" },
     { "SMH", "System main head serial number" },
     { "HUN", "Hull Unit" },
@@ -163,6 +167,7 @@ static const std::map<std::string, std::string> __parameter_explained__ = {
     { "PLL", "Survey line identifier (planned line no)" },
     { "COM", "Comment" }
 };
+//static constexpr auto __parameter_explained__ = frozen::make_unordered_map(__explain_pairs__);
 
 /**
  * @brief This datagram is an ASCII datagram except for the header which is formatted as in all
@@ -217,7 +222,8 @@ class InstallationParameters : public KongsbergAllDatagram
      * @param second
      * @return InstallationParameters
      */
-    static InstallationParameters merge(InstallationParameters first, InstallationParameters second);
+    static InstallationParameters merge(InstallationParameters first,
+                                        InstallationParameters second);
 
     // ----- convenient data access -----
     // getters
@@ -236,7 +242,7 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // substructures
     const std::string& read_installation_parameters() const;
-    void set_installation_parameters(std::string installation_parameters);
+    void               set_installation_parameters(std::string installation_parameters);
 
     // ----- processed data access -----
     const std::map<std::string, std::string>& read_installation_parameters_parsed();
@@ -251,17 +257,17 @@ class InstallationParameters : public KongsbergAllDatagram
     void reparse_installation_parameters();
 
     // ----- flags and ping options -----
-    bool is_dual_rx() const;
+    bool        is_dual_rx() const;
     std::string build_channel_id() const;
 
     // ----- high level access to installation parameters -----
-  float get_water_line_vertical_location_in_meters() const;
+    float get_water_line_vertical_location_in_meters() const;
 
-  int get_system_main_head_serial_number() const;
-  int get_tx_serial_number() const;
-  int get_tx2_serial_number() const;
-  int get_rx1_serial_number() const;
-  int get_rx2_serial_number() const;
+    int                                         get_system_main_head_serial_number() const;
+    int                                         get_tx_serial_number() const;
+    int                                         get_tx2_serial_number() const;
+    int                                         get_rx1_serial_number() const;
+    int                                         get_rx2_serial_number() const;
     o_KongsbergAllSystemTransducerConfiguration get_system_transducer_configuration() const;
 
     std::string get_tx_array_size() const;
@@ -360,11 +366,11 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // ----- processed access to installation parameters (internal functions) -----
     const std::string& get_value_string(const std::string& key) const;
-    std::string get_value_string(const std::string& key, std::string_view default_val) const;
-    float get_value_float(const std::string& key) const;
-    float get_value_float(const std::string& key, float default_value) const;
-    int get_value_int(const std::string& key) const;
-    int get_value_int(const std::string& key, int default_value) const;
+    std::string        get_value_string(const std::string& key, std::string_view default_val) const;
+    float              get_value_float(const std::string& key) const;
+    float              get_value_float(const std::string& key, float default_value) const;
+    int                get_value_int(const std::string& key) const;
+    int                get_value_int(const std::string& key, int default_value) const;
 
     /**
      * @brief Internal function to get the sensor offsets from the installation parameters.

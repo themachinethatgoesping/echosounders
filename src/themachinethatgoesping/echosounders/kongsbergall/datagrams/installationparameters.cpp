@@ -17,6 +17,8 @@
 #include <fmt/format.h>
 #include <magic_enum/magic_enum.hpp>
 
+#include <frozen/string.h>
+
 // themachinethatgoesping includes
 #include <themachinethatgoesping/navigation/sensorconfiguration.hpp>
 #include <themachinethatgoesping/tools/helper/isviewstream.hpp>
@@ -772,8 +774,9 @@ tools::classhelper::ObjectPrinter InstallationParameters::__printer__(
     for (const auto& [key, value] : _parsed_installation_parameters)
     {
         std::string exp;
-        if (__parameter_explained__.find(key) != __parameter_explained__.end())
-            exp = __parameter_explained__.at(key);
+        auto it = __parameter_explained__.find(std::string_view(key));
+        if (it != __parameter_explained__.end())
+            exp = it->second;
         else
             exp = "unknown parameter";
 
@@ -798,7 +801,7 @@ void InstallationParameters::unsupported_option_float(const std::string& option_
                                              function_name,
                                              option_key,
                                              supported_value,
-                                             __parameter_explained__.at(option_key),
+                                             __parameter_explained__.at(std::string_view(option_key)),
                                              value));
     }
 }
@@ -817,7 +820,7 @@ void InstallationParameters::unsupported_option_string(const std::string& option
                                              "{} is supported yet, but {} is {}",
                                              function_name,
                                              option_key,
-                                             __parameter_explained__.at(option_key),
+                                             __parameter_explained__.at(std::string_view(option_key)),
                                              supported_value,
                                              option_key,
                                              value));

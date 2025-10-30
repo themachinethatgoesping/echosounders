@@ -46,8 +46,6 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
 {
     using t_KongsbergAllPingWatercolumn = filedatatypes::KongsbergAllPingWatercolumn<T_FileStream>;
 
-    using t_KongsbergAllPingCommon = filedatatypes::KongsbergAllPingCommon<T_FileStream>;
-
     auto cls =
         nb::class_<t_KongsbergAllPingWatercolumn, datatypes::I_PingWatercolumn>(
             m,

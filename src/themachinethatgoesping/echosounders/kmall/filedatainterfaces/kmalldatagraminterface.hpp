@@ -46,7 +46,7 @@ class KMALLDatagramInterface
     std::string datagram_identifier_to_string(
         t_KMALLDatagramIdentifier datagram_identifier) const final
     {
-        return std::string(o_KMALLDatagramIdentifier(datagram_identifier).name());
+        return std::string(o_KMALLDatagramIdentifier(datagram_identifier).alt_name());
     }
 
     std::string datagram_identifier_info(t_KMALLDatagramIdentifier datagram_identifier) const final
