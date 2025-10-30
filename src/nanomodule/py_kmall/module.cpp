@@ -15,6 +15,8 @@
 
 #include "module.hpp"
 
+#include "py_datagrams/module.hpp"
+#include "py_filedatacontainers/module.hpp"
 #include "py_filedatainterfaces/module.hpp"
 
 // datagram submodules
@@ -107,15 +109,16 @@ void init_m_kmall(nanobind::module_& m)
              nb::arg("datagram_type"));
 
     // datagrams
-    //     py_datagrams::init_m_kmalldatagrams(subm);
     //     py_filedatatypes::init_m_kmallfiledatatypes(subm);
     //     py_filedatacontainers::init_m_kmallfiledatacontainers(subm);
     //     py_filedatainterfaces::init_m_kmallfiledatainterfaces(subm);
 
+    py_datagrams::init_m_kmalldatagrams(subm);
+    py_filedatacontainers::init_m_kmallfiledatacontainers(subm);
+    py_filedatainterfaces::init_m_kmallfiledatainterfaces(subm);
+
     // kmall classes
     init_c_kmallfilehandler(subm);
-
-    py_filedatainterfaces::init_m_kmallfiledatainterfaces(subm);
 
     // init_c_file_test_functions(subm);
 }
