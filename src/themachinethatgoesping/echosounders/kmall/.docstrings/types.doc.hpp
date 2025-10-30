@@ -1,4 +1,4 @@
-//sourcehash: a2dd56118fd7cfde938d3435033ea40538e79076f8992e2b04abd480ed885e60
+//sourcehash: df0db23226db61fb6bd2f6d1514b96b8f6704a36823f029b9e4ebf972707452c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_simradraw_types_hpp_144_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_192_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info =
 R"doc(Get descriptive information about a datagram type.
@@ -68,7 +68,7 @@ Parameter ``values``:
 Returns:
     Vector of decimal string representations (in set iteration order).)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string =
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLDatagram_type_from_string =
 R"doc(Parse datagram type from string representation.
 
 Parameter ``value``:
@@ -77,16 +77,18 @@ Parameter ``value``:
 Returns:
     Parsed datagram type numeric value.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string =
-R"doc(Convert datagram type from simradraw_long to string representation.
+static const char *__doc_themachinethatgoesping_echosounders_kmall_c_DGM2Int = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagram_type_to_string =
+R"doc(Convert datagram type from uint32_t to string representation.
 
 Parameter ``value``:
-    Datagram type as simradraw_long.
+    Datagram type as uint32_t.
 
 Returns:
     String representation (decimal) of the datagram type.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 =
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagram_type_to_string_2 =
 R"doc(Convert datagram type identifier to string representation.
 
 Parameter ``value``:
@@ -95,19 +97,41 @@ Parameter ``value``:
 Returns:
     String representation (decimal) of the datagram type.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc(Datagram identifiers used in Simrad raw (EK60/EK80) files.)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_FIL1 = R"doc(< Filter datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_C_HEAVE = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_MRU0 = R"doc(< Motion datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_C_POSITION = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_F_CALIBRATION_FILE = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_RAW3 = R"doc(< Raw sample data datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_I_INSTALLATION_PARAM = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< Annotation datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_I_OP_RUNTIME = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_M_RANGE_AND_DEPTH = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_M_WATER_COLUMN = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_CLOCK = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_DEPTH = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_HEIGHT = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_KM_BINARY = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_POSITION = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_POSITION_DATUM = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_POSITION_ERROR = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_SOUND_VELOCITY_PROFILE = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_SOUND_VELOCITY_TRANSDUCER = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_unspecified = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

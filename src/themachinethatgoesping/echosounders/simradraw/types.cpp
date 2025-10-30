@@ -35,17 +35,29 @@ std::string datagram_identifier_info(
     using simradraw::t_SimradRawDatagramIdentifier;
     switch (datagram_type)
     {
-        case t_SimradRawDatagramIdentifier::MRU0: return "Motion binary datagram";
-        case t_SimradRawDatagramIdentifier::NME0: return "NMEA text datagram";
-        case t_SimradRawDatagramIdentifier::XML0: return "XML0 text datagram";
-        case t_SimradRawDatagramIdentifier::TAG0: return "Annotation datagram";
-        case t_SimradRawDatagramIdentifier::FIL1: return "Filter binary datagram";
-        case t_SimradRawDatagramIdentifier::RAW3: return "Sample binary datagram";
+        case t_SimradRawDatagramIdentifier::MRU0:
+            return "Motion binary datagram";
+        case t_SimradRawDatagramIdentifier::NME0:
+            return "NMEA text datagram";
+        case t_SimradRawDatagramIdentifier::XML0:
+            return "XML0 text datagram";
+        case t_SimradRawDatagramIdentifier::TAG0:
+            return "Annotation datagram";
+        case t_SimradRawDatagramIdentifier::FIL1:
+            return "Filter binary datagram";
+        case t_SimradRawDatagramIdentifier::RAW3:
+            return "Sample binary datagram";
         default:
-            return "unknown (" +
-                   std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
+            return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
     }
 }
 
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier,
+    6,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_values,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_names,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_alt_names>;

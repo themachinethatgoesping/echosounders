@@ -154,7 +154,7 @@ KongsbergAllDatagram KongsbergAllDatagram::from_stream(std::istream&            
 
     if (d.get_datagram_identifier() != datagram_identifier)
         throw std::runtime_error(
-            fmt::format("KongsbergAllDatagram::skip_and_verify_header: datagram "
+            fmt::format("KongsbergAllDatagram::from_stream: datagram "
                         "identifier is not {}, but {}",
                         datagram_type_to_string(datagram_identifier),
                         datagram_type_to_string(d.get_datagram_identifier())));

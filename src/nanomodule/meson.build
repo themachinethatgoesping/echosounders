@@ -86,6 +86,8 @@ sources = [
   'py_filetemplates/py_datatypes/py_calibration/c_watercolumncalibration.cpp',
   'py_gsf/c_gsffilehandler.cpp',
   'py_gsf/module.cpp',
+  'py_kmall/c_kmallfilehandler.cpp',
+  'py_kmall/module.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',

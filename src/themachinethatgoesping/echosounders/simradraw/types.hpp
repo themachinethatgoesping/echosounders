@@ -8,6 +8,7 @@
 /* generated doc strings */
 #include ".docstrings/types.doc.hpp"
 
+#include <array>
 #include <complex>
 #include <set>
 #include <string>
@@ -16,7 +17,7 @@
 
 #include <magic_enum/magic_enum.hpp>
 
-#include <themachinethatgoesping/tools/classhelper/option.hpp>
+#include <themachinethatgoesping/tools/classhelper/option_frozen.hpp>
 #include <themachinethatgoesping/tools/helper/stringconversion.hpp>
 
 namespace themachinethatgoesping {
@@ -46,9 +47,27 @@ enum class t_SimradRawDatagramIdentifier : simradraw_long
     RAW3 = 861356370, ///< Raw sample data datagram
 };
 
-using o_SimradRawDatagramIdentifier =
-    themachinethatgoesping::tools::classhelper::Option<t_SimradRawDatagramIdentifier,
-                                                       t_SimradRawDatagramIdentifier::XML0>;
+static constexpr std::array<t_SimradRawDatagramIdentifier, 6>
+    t_SimradRawDatagramIdentifier_values = {
+        t_SimradRawDatagramIdentifier::XML0, t_SimradRawDatagramIdentifier::TAG0,
+        t_SimradRawDatagramIdentifier::FIL1, t_SimradRawDatagramIdentifier::NME0,
+        t_SimradRawDatagramIdentifier::MRU0, t_SimradRawDatagramIdentifier::RAW3,
+    };
+
+static constexpr std::array<std::string_view, 6> t_SimradRawDatagramIdentifier_names = {
+    "XML0", "TAG0", "FIL1", "NME0", "MRU0", "RAW3"
+};
+
+static constexpr std::array<std::string_view, 6> t_SimradRawDatagramIdentifier_alt_names = {
+    "Motion binary datagram", "Annotation datagram",    "Filter binary datagram",
+    "NMEA text datagram",     "Motion binary datagram", "Sample binary datagram"
+};
+using o_SimradRawDatagramIdentifier = themachinethatgoesping::tools::classhelper::OptionFrozen<
+    t_SimradRawDatagramIdentifier,
+    t_SimradRawDatagramIdentifier_values.size(),
+    t_SimradRawDatagramIdentifier_values,
+    t_SimradRawDatagramIdentifier_names,
+    t_SimradRawDatagramIdentifier_alt_names>;
 
 /**
  * @brief Convert datagram type from simradraw_long to string representation.
@@ -121,3 +140,10 @@ std::string datagram_identifier_info(simradraw::t_SimradRawDatagramIdentifier da
 
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier,
+    6,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_values,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_names,
+    themachinethatgoesping::echosounders::simradraw::t_SimradRawDatagramIdentifier_alt_names>;
