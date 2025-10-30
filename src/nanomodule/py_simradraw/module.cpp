@@ -15,7 +15,8 @@
 
 #include <fmt/format.h>
 
-#include "../../themachinethatgoesping/echosounders/simradraw/types.hpp"
+#include <themachinethatgoesping/echosounders/simradraw/types.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include "module.hpp"
 
@@ -32,31 +33,6 @@ namespace echosounders {
 namespace pymodule {
 namespace py_simradraw {
 
-namespace {
-
-// simradraw::t_SimradRawDatagramIdentifier
-// SimradRawDatagramIdentifier_from_string(const std::string& str)
-// {
-//        if (str == "XML0")
-//               return simradraw::t_SimradRawDatagramIdentifier::XML0;
-//        if (str == "FIL1")
-//               return simradraw::t_SimradRawDatagramIdentifier::FIL1;
-//        if (str == "NME0")
-//               return simradraw::t_SimradRawDatagramIdentifier::NME0;
-//        if (str == "MRU0")
-//               return simradraw::t_SimradRawDatagramIdentifier::MRU0;
-//        if (str == "TAG0")
-//               return simradraw::t_SimradRawDatagramIdentifier::TAG0;
-//        if (str == "RAW3")
-//               return simradraw::t_SimradRawDatagramIdentifier::RAW3;
-
-//        constexpr std::string_view enum_info = "XML0, FIL1, NME0, MRU0, TAG0, RAW3";
-//        nb::print(fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));
-//        throw std::invalid_argument(
-//               fmt::format("ERROR: unknown value option '{}'! Try: [{}]", str, enum_info));
-// }
-
-} // namespace
 
 // -- submodule declarations --
 void init_c_simradrawfilehandler(nanobind::module_& m); // c_simradrawfilehandler.cpp
@@ -93,7 +69,6 @@ void init_m_simradraw(nanobind::module_& m)
         .value("RAW3",
                t_SimradRawDatagramIdentifier::RAW3,
                DOC(themachinethatgoesping, echosounders, simradraw, t_SimradRawDatagramIdentifier, RAW3))
-        .export_values()
         // pybind enum helper
         // unfortunately magic_enum only works for enums within a specific range that cannot exceed
         // max(uint16_t) therefore we need to use a custom function
@@ -104,7 +79,8 @@ void init_m_simradraw(nanobind::module_& m)
         //
         ;
 
-    //nb::implicitly_convertible<std::string, t_SimradRawDatagramIdentifier>();
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_SimradRawDatagramIdentifier>(
+        subm, "o_SimradRawDatagramIdentifier");
 
     subm.def("datagram_type_to_string",
              nb::overload_cast<simradraw_long>(&datagram_type_to_string),

@@ -88,6 +88,8 @@ sources = [
   'py_gsf/module.cpp',
   'py_kmall/c_kmallfilehandler.cpp',
   'py_kmall/module.cpp',
+  'py_kmall/py_filedatainterfaces/c_kmalldatagraminterface.cpp',
+  'py_kmall/py_filedatainterfaces/module.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',

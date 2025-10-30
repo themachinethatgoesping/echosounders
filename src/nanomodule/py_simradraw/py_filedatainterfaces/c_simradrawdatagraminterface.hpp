@@ -17,12 +17,12 @@ namespace pymodule {
 namespace py_simradraw {
 namespace py_filedatainterfaces {
 
-#define DOC_SimradRawDatagramInterface(ARG)                                                           \
+#define DOC_SimradRawDatagramInterface(ARG)                                                        \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        simradraw,                                                                                    \
+        simradraw,                                                                                 \
         filedatainterfaces,                                                                        \
-        SimradRawDatagramInterface,                                                                   \
+        SimradRawDatagramInterface,                                                                \
         ARG)
 
 #define DOC_I_DatagramInterface(ARG)                                                               \
@@ -48,8 +48,9 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
         "datagrams",
         [](const T_BaseClass& self, bool skip_data) {
             if (skip_data)
-                return nb::cast(self.template datagrams<datagrams::t_SimradRawDatagramVariant,
-                                                        datagrams::SimradRawSkipDataVariantFactory>());
+                return nb::cast(
+                    self.template datagrams<datagrams::t_SimradRawDatagramVariant,
+                                            datagrams::SimradRawSkipDataVariantFactory>());
 
             return nb::cast(self.template datagrams<datagrams::t_SimradRawDatagramVariant,
                                                     datagrams::SimradRawDatagramVariant>());
@@ -58,8 +59,8 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
         nb::arg("skip_data") = false);
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self, t_SimradRawDatagramIdentifier type, bool skip_data) {
-            switch (type)
+        [](const T_BaseClass& self, o_SimradRawDatagramIdentifier type, bool skip_data) {
+            switch (type.value)
             {
                 case t_SimradRawDatagramIdentifier::MRU0:
                     return nb::cast(self.template datagrams<datagrams::MRU0>(type));
@@ -73,9 +74,10 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return nb::cast(self.template datagrams<datagrams::FIL1>(type));
                 case t_SimradRawDatagramIdentifier::RAW3:
                     if (skip_data)
-                        return nb::cast(self.template datagrams<
-                                        datagrams::RAW3,
-                                        datagrams::SimradRawSkipDataFactory<datagrams::RAW3>>(type));
+                        return nb::cast(
+                            self.template datagrams<
+                                datagrams::RAW3,
+                                datagrams::SimradRawSkipDataFactory<datagrams::RAW3>>(type));
                     else
                         return nb::cast(self.template datagrams<datagrams::RAW3>(type));
                 default:
@@ -93,7 +95,7 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
         DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagram_headers",
-        [](const T_BaseClass& self, t_SimradRawDatagramIdentifier type) {
+        [](const T_BaseClass& self, o_SimradRawDatagramIdentifier type) {
             return nb::cast(self.template datagrams<datagrams::SimradRawDatagram>(type));
         },
         DOC_I_DatagramInterface(datagrams_2),
@@ -106,7 +108,7 @@ void SimradRawDatagramInterface_add_interface_functions(T_PyClass& cls)
         DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagrams_raw",
-        [](const T_BaseClass& self, t_SimradRawDatagramIdentifier type) {
+        [](const T_BaseClass& self, o_SimradRawDatagramIdentifier type) {
             return nb::cast(self.template datagrams<datagrams::SimradRawUnknown>(type));
         },
         DOC_I_DatagramInterface(datagrams_2),

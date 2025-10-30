@@ -416,7 +416,7 @@ headers = [
   'kmall/filedatainterfaces/kmalldatagraminterface.hpp',
   'kmall/filedatainterfaces/.docstrings/kmalldatagraminterface.doc.hpp',
   'kmall/.docstrings/datagrams.doc.hpp',
-  'kmall/.docstrings/kmallhandler.doc.hpp',
+  'kmall/.docstrings/kmallfilehandler.doc.hpp',
   'kmall/.docstrings/types.doc.hpp',
   'kmall/datagrams/kmalldatagram.hpp',
   'kmall/datagrams/kmallunknown.hpp',
