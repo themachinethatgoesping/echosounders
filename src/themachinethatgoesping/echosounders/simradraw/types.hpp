@@ -59,8 +59,8 @@ static constexpr std::array<std::string_view, 6> t_SimradRawDatagramIdentifier_n
 };
 
 static constexpr std::array<std::string_view, 6> t_SimradRawDatagramIdentifier_alt_names = {
-    "Motion binary datagram", "Annotation datagram",    "Filter binary datagram",
-    "NMEA text datagram",     "Motion binary datagram", "Sample binary datagram"
+    "XML datagram",       "Annotation datagram",    "Filter binary datagram",
+    "NMEA text datagram", "Motion binary datagram", "Sample binary datagram"
 };
 using o_SimradRawDatagramIdentifier = themachinethatgoesping::tools::classhelper::OptionFrozen<
     t_SimradRawDatagramIdentifier,

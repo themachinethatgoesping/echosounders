@@ -9,6 +9,8 @@
 /* generated doc strings */
 #include ".docstrings/datagrams.doc.hpp"
 
+#include "datagrams/iinstallationparam.hpp"
+#include "datagrams/iopruntime.hpp"
 #include "datagrams/kmalldatagram.hpp"
 #include "datagrams/kmallunknown.hpp"
 #include "types.hpp"
@@ -30,9 +32,8 @@ namespace kmall {
 namespace datagrams {
 
 // KMALLDATAGRAMTYPEAREA
-using t_KMALLDatagramVariant = std::variant<KMALLDatagram, KMALLUnknown
-                                          // XYZDatagram,
-                                          >;
+using t_KMALLDatagramVariant =
+    std::variant<KMALLDatagram, KMALLUnknown, IInstallationParam, IOpRuntime>;
 
 struct KMALLDatagramVariant
 {
@@ -45,9 +46,9 @@ struct KMALLDatagramVariant
     {
     }
 
-    static t_KMALLDatagramVariant from_stream(std::istream&           is,
-                                            t_KMALLDatagramIdentifier datagram_type,
-                                            [[maybe_unused]] bool   skip_data = false);
+    static t_KMALLDatagramVariant from_stream(std::istream&             is,
+                                              t_KMALLDatagramIdentifier datagram_type,
+                                              [[maybe_unused]] bool     skip_data = false);
 
     /**
      * @brief This is the visitor function that  tries to convert the internal variant to the

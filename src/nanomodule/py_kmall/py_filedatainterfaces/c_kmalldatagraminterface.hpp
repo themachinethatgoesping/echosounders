@@ -10,8 +10,8 @@
 #include <nanobind/stl/variant.h>
 #include <nanobind/stl/vector.h>
 
-#include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools/progressbars/i_progressbar.hpp>
+#include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
 #include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 #include "../../py_filetemplates/py_datainterfaces/i_datagraminterface.hpp"
@@ -30,12 +30,12 @@ namespace py_filedatainterfaces {
         I_DatagramInterface,                                                                       \
         ARG)
 
-#define DOC_KMALLDatagramInterface(ARG)                                                           \
+#define DOC_KMALLDatagramInterface(ARG)                                                            \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kmall,                                                                                    \
+        kmall,                                                                                     \
         filedatainterfaces,                                                                        \
-        KMALLDatagramInterface,                                                                   \
+        KMALLDatagramInterface,                                                                    \
         ARG)
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -63,10 +63,18 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
         nb::arg("skip_data") = false);
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self, o_KMALLDatagramIdentifier type, bool skip_data) {
+        [](const T_BaseClass&        self,
+           o_KMALLDatagramIdentifier type,
+           [[maybe_unused]] bool     skip_data) {
             // KMALLDATAGRAMTYPEAREA
             switch (type.value)
             {
+                case t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM:
+                    return nb::cast(
+                        self.template datagrams<datagrams::IInstallationParam>(type));
+                case t_KMALLDatagramIdentifier::I_OP_RUNTIME:
+                    return nb::cast(
+                        self.template datagrams<datagrams::IOpRuntime>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }

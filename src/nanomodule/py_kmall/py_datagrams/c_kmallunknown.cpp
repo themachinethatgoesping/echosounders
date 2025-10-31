@@ -40,6 +40,10 @@ void init_c_kmallunknown(nanobind::module_& m)
              nb::rv_policy::reference_internal)
         .def("set_raw_content", &KMALLUnknown::set_raw_content, DOC_KMALLUnknown(raw_content))
 
+        .def("get_bytes_datagram_check",
+             &KMALLUnknown::get_bytes_datagram_check,
+             DOC_KMALLUnknown(get_bytes_datagram_check))
+
         // ----- operators -----
         .def("__eq__", &KMALLUnknown::operator==, DOC_KMALLUnknown(operator_eq), nb::arg("other"))
         // ----- pybind macros -----

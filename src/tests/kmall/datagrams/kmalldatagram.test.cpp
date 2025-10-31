@@ -22,13 +22,14 @@ TEST_CASE("KMALLDatagram should support common functions", TESTTAG)
     auto dat = KMALLDatagram();
 
     // set some variables
-    dat.set_num_bytes_dgm(100);
-    dat.set_dgm_type(t_KMALLDatagramIdentifier::M_WATER_COLUMN);
-    dat.set_dgm_version(1.2);
+    dat.set_bytes_datagram(100);
+    dat.set_datagram_identifier(t_KMALLDatagramIdentifier::M_WATER_COLUMN);
+    dat.set_datagram_version(1.2);
     dat.set_system_id(123);
     dat.set_echo_sounder_id(2040);
     dat.set_time_sec(1555977823);
     dat.set_time_nanosec(726999998);
+    CHECK(dat.binary_hash() == 5054962465029876691ULL);
 
     // test inequality
     REQUIRE(dat != KMALLDatagram());
@@ -37,7 +38,13 @@ TEST_CASE("KMALLDatagram should support common functions", TESTTAG)
     REQUIRE(dat == KMALLDatagram(dat));
 
     // test binary
-    REQUIRE(dat == KMALLDatagram(dat.from_binary(dat.to_binary())));
+    {
+        auto dat2 = KMALLDatagram(dat.from_binary(dat.to_binary()));
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("From binary: {}", dat2.info_string()));
+        REQUIRE(dat == dat2);
+        CHECK(dat2.binary_hash() == dat.binary_hash());
+    }
 
     // test stream
     std::stringstream buffer;
@@ -49,9 +56,9 @@ TEST_CASE("KMALLDatagram should support common functions", TESTTAG)
 
     //--- datagram concept ---
     // length
-    REQUIRE(dat.get_num_bytes_dgm() == 100);
-    dat.set_num_bytes_dgm(123);
-    REQUIRE(dat.get_num_bytes_dgm() == 123);
+    REQUIRE(dat.get_bytes_datagram() == 100);
+    dat.set_bytes_datagram(123);
+    REQUIRE(dat.get_bytes_datagram() == 123);
 
     // datagram type
     dat.set_datagram_identifier(t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH);
@@ -59,4 +66,5 @@ TEST_CASE("KMALLDatagram should support common functions", TESTTAG)
 
     // timestamp (unixtime)
     REQUIRE(dat.get_timestamp() == Catch::Approx(1555977823.7269999981));
+    CHECK(dat.binary_hash() == 402442181642183149ULL);
 }

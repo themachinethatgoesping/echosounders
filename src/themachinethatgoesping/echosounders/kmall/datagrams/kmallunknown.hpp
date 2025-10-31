@@ -29,6 +29,8 @@ class KMALLUnknown : public KMALLDatagram
 {
     // ----- datagram content -----
     std::string _raw_content;
+    uint32_t    _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
+                                       ///< integrity check
 
   private:
     // ----- private constructors -----
@@ -44,6 +46,7 @@ class KMALLUnknown : public KMALLDatagram
 
     // ----- convenient member access ---
     const std::string& get_raw_content() const { return _raw_content; }
+    uint32_t           get_bytes_datagram_check() const { return _bytes_datagram_check; }
 
     void set_raw_content(const std::string& value);
 

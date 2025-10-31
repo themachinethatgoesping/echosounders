@@ -37,27 +37,29 @@ class KMALLDatagram
     using t_DatagramIdentifier = t_KMALLDatagramIdentifier;
     using o_DatagramIdentifier = o_KMALLDatagramIdentifier;
 
+    static constexpr size_t __size = 20;
+
   protected:
-    uint32_t                  _num_bytes_dgm; ///< Number of bytes in datagram including this field
-    o_KMALLDatagramIdentifier _dgm_type;      ///< Datagram type identifier
-    uint8_t                   _dgm_version;   ///< Datagram version
-    uint8_t                   _system_id;     ///< Echosounder system id (serial number)
+    uint32_t                  _bytes_datagram; ///< Number of bytes in datagram including this field
+    o_KMALLDatagramIdentifier _datagram_identifier; ///< Datagram type identifier
+    uint8_t                   _datagram_version;    ///< Datagram version
+    uint8_t                   _system_id;           ///< Echosounder system id (serial number)
     uint16_t _echo_sounder_id; ///< Echosounder sounder identity (e.g. 124, 304, 712, 2040, 2045 (EM
                                ///< 2040C) )
     uint32_t _time_sec;        ///< unixtime (seconds since 1970-01-01 00:00:00 UTC)
     uint32_t _time_nanosec;    ///< nanoseconds since time_sec
 
   public:
-    KMALLDatagram(uint32_t                  num_bytes_dgm,
-                  o_KMALLDatagramIdentifier dgm_type,
-                  uint8_t                   dgm_version,
+    KMALLDatagram(uint32_t                  bytes_datagram,
+                  o_KMALLDatagramIdentifier datagram_identifier,
+                  uint8_t                   datagram_version,
                   uint8_t                   system_id,
                   uint16_t                  echo_sounder_id,
                   uint32_t                  time_sec,
                   uint32_t                  time_nanosec)
-        : _num_bytes_dgm(num_bytes_dgm)
-        , _dgm_type(dgm_type)
-        , _dgm_version(dgm_version)
+        : _bytes_datagram(bytes_datagram)
+        , _datagram_identifier(datagram_identifier)
+        , _datagram_version(datagram_version)
         , _system_id(system_id)
         , _echo_sounder_id(echo_sounder_id)
         , _time_sec(time_sec)
@@ -66,17 +68,21 @@ class KMALLDatagram
     }
     KMALLDatagram()          = default;
     virtual ~KMALLDatagram() = default;
+    KMALLDatagram(const KMALLDatagram& other) = default;
+    KMALLDatagram(KMALLDatagram&& other)      = default;
 
     void skip(std::istream& is) const
     {
         // _bytes describes the bytes of the data portion including header
-        is.seekg(_num_bytes_dgm - sizeof(KMALLDatagram), std::ios::cur);
+        is.seekg(_bytes_datagram - __size, std::ios::cur);
     }
 
     // interface
-    // t_DatagramIdentifier get_datagram_identifier() const { return _dgm_type; }
-    void set_datagram_identifier(o_DatagramIdentifier dgm_type) { _dgm_type = dgm_type; }
-    o_DatagramIdentifier get_datagram_identifier() const { return _dgm_type; }
+    void set_datagram_identifier(o_DatagramIdentifier datagram_identifier)
+    {
+        _datagram_identifier = datagram_identifier;
+    }
+    o_DatagramIdentifier get_datagram_identifier() const { return _datagram_identifier; }
     virtual double       get_timestamp() const { return _time_sec + _time_nanosec * 1e-9; }
 
     /**
@@ -94,27 +100,21 @@ class KMALLDatagram
     }
 
     // ----- convenient member access -----
-    uint32_t             get_num_bytes_dgm() const { return _num_bytes_dgm; }
-    o_DatagramIdentifier get_dgm_type() const { return _dgm_type; }
-    uint8_t              get_dgm_version() const { return _dgm_version; }
+    uint32_t             get_bytes_datagram() const { return _bytes_datagram; }
+    uint8_t              get_datagram_version() const { return _datagram_version; }
     uint8_t              get_system_id() const { return _system_id; }
     uint16_t             get_echo_sounder_id() const { return _echo_sounder_id; }
     uint32_t             get_time_sec() const { return _time_sec; }
     uint32_t             get_time_nanosec() const { return _time_nanosec; }
-    void set_num_bytes_dgm(uint32_t num_bytes_dgm) { _num_bytes_dgm = num_bytes_dgm; }
-    void set_dgm_type(o_KMALLDatagramIdentifier dgm_type) { _dgm_type = dgm_type.value; }
-    void set_dgm_version(uint8_t dgm_version) { _dgm_version = dgm_version; }
+    void set_bytes_datagram(uint32_t bytes_datagram) { _bytes_datagram = bytes_datagram; }
+    void set_datagram_version(uint8_t datagram_version) { _datagram_version = datagram_version; }
     void set_system_id(uint8_t system_id) { _system_id = system_id; }
     void set_echo_sounder_id(uint16_t echo_sounder_id) { _echo_sounder_id = echo_sounder_id; }
     void set_time_sec(uint32_t time_sec) { _time_sec = time_sec; }
     void set_time_nanosec(uint32_t time_nanosec) { _time_nanosec = time_nanosec; }
 
     // ----- helper -----
-    size_t get_bytes_content() const { return _num_bytes_dgm - sizeof(KMALLDatagram); }
-    void   set_bytes_content(size_t bytes_content)
-    {
-        _num_bytes_dgm = static_cast<uint32_t>(bytes_content + sizeof(KMALLDatagram));
-    }
+    size_t compute_size_content() const { return _bytes_datagram - __size; }
 
     // ----- operators -----
     bool operator==(const KMALLDatagram& other) const = default;

@@ -1,4 +1,4 @@
-//sourcehash: 351289ef6e864db29a2a2baa61d95235443f8e5c2584e8f6cf6afa7746cbdfd0
+//sourcehash: 07fc43138641d2eaac29273536ea90d8f0f052b35c9d4e330d72a3289bf1ceb7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,11 +44,19 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_KMALLDatagram_2 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_KMALLDatagram_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_KMALLDatagram_4 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_dgm_type = R"doc(< Datagram type identifier)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_bytes_datagram = R"doc(< Number of bytes in datagram including this field)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_dgm_version = R"doc(< Datagram version)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_compute_size_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_datagram_identifier = R"doc(< Datagram type identifier)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_datagram_version = R"doc(< Datagram version)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_echo_sounder_id =
 R"doc(< Echosounder sounder identity (e.g. 124, 304, 712, 2040, 2045 (EM <
@@ -58,9 +66,11 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_from_stream_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_bytes_content = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_bytes_datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_datagram_identifier = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_datagram_version = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_date_string =
 R"doc(Get the time as string
@@ -71,13 +81,7 @@ Parameter ``fractionalSecondsDigits``:
 Returns:
     std::string)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_dgm_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_dgm_version = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_echo_sounder_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_num_bytes_dgm = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_system_id = R"doc()doc";
 
@@ -87,23 +91,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_get_timestamp = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_num_bytes_dgm = R"doc(< Number of bytes in datagram including this field)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_bytes_content = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_bytes_datagram = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_datagram_identifier = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_dgm_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_dgm_version = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_datagram_version = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_echo_sounder_id = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_num_bytes_dgm = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagram_set_system_id = R"doc()doc";
 

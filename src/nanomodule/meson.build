@@ -92,6 +92,8 @@ sources = [
   'py_kmall/py_filedatainterfaces/module.cpp',
   'py_kmall/py_filedatacontainers/c_kmalldatagramcontainer.cpp',
   'py_kmall/py_filedatacontainers/module.cpp',
+  'py_kmall/py_datagrams/c_iinstallationparam.cpp',
+  'py_kmall/py_datagrams/c_iopruntime.cpp',
   'py_kmall/py_datagrams/c_kmalldatagram.cpp',
   'py_kmall/py_datagrams/c_kmallunknown.cpp',
   'py_kmall/py_datagrams/module.cpp',

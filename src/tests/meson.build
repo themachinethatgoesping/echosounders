@@ -58,6 +58,8 @@ sources = [
   'simradraw/datatypes/packagecache/cache_xml_parameter.test.cpp',
   'simradraw/datatypes/calibration/simradrawwatercolumncalibration.test.cpp',
   'simradraw/datatypes/sub/transceiverinformation.test.cpp',
+  'kmall/datagrams/iinstallationparam.test.cpp',
+  'kmall/datagrams/iopruntime.test.cpp',
   'kmall/datagrams/kmalldatagram.test.cpp',
   'kmall/datagrams/kmallunknown.test.cpp',
   'gsf/datagrams/gsfunknown.test.cpp',

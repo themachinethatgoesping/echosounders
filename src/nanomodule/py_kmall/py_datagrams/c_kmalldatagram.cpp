@@ -33,23 +33,18 @@ void init_c_kmalldatagram(nanobind::module_& m)
         DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMALLDatagram))
         .def(nb::init<>(), DOC_KMALLDatagram(KMALLDatagram))
         // --- convenient data access ---
-        .def("get_num_bytes_dgm",
-             &KMALLDatagram::get_num_bytes_dgm,
-             DOC_KMALLDatagram(get_num_bytes_dgm))
-        .def("set_num_bytes_dgm",
-             &KMALLDatagram::set_num_bytes_dgm,
-             DOC_KMALLDatagram(set_num_bytes_dgm),
-             nb::arg("num_bytes_dgm"))
-        .def("get_dgm_type", &KMALLDatagram::get_dgm_type, DOC_KMALLDatagram(get_dgm_type))
-        .def("set_dgm_type",
-             &KMALLDatagram::set_dgm_type,
-             DOC_KMALLDatagram(set_dgm_type),
-             nb::arg("dgm_type"))
-        .def("get_dgm_version", &KMALLDatagram::get_dgm_version, DOC_KMALLDatagram(get_dgm_version))
-        .def("set_dgm_version",
-             &KMALLDatagram::set_dgm_version,
-             DOC_KMALLDatagram(set_dgm_version),
-             nb::arg("dgm_version"))
+        .def("get_bytes_datagram",
+             &KMALLDatagram::get_bytes_datagram,
+             DOC_KMALLDatagram(get_bytes_datagram))
+        .def("set_bytes_datagram",
+             &KMALLDatagram::set_bytes_datagram,
+             DOC_KMALLDatagram(set_bytes_datagram),
+             nb::arg("bytes_datagram"))
+        .def("get_datagram_version", &KMALLDatagram::get_datagram_version, DOC_KMALLDatagram(get_datagram_version))
+        .def("set_datagram_version",
+             &KMALLDatagram::set_datagram_version,
+             DOC_KMALLDatagram(set_datagram_version),
+             nb::arg("datagram_version"))
         .def("get_system_id", &KMALLDatagram::get_system_id, DOC_KMALLDatagram(get_system_id))
         .def("set_system_id",
              &KMALLDatagram::set_system_id,
@@ -79,17 +74,13 @@ void init_c_kmalldatagram(nanobind::module_& m)
         .def("set_datagram_identifier",
              &KMALLDatagram::set_datagram_identifier,
              DOC_KMALLDatagram(set_datagram_identifier),
-             nb::arg("dgm_type"))
+             nb::arg("datagram_identifier"))
         .def("get_datagram_identifier",
              &KMALLDatagram::get_datagram_identifier,
              DOC_KMALLDatagram(get_datagram_identifier))
-        .def("get_bytes_content",
-             &KMALLDatagram::get_bytes_content,
-             DOC_KMALLDatagram(get_bytes_content))
-        .def("set_bytes_content",
-             &KMALLDatagram::set_bytes_content,
-             DOC_KMALLDatagram(set_bytes_content),
-             nb::arg("bytes_content"))
+        .def("compute_size_content",
+             &KMALLDatagram::compute_size_content,
+             DOC_KMALLDatagram(compute_size_content))
 
         .def("get_timestamp", &KMALLDatagram::get_timestamp, DOC_KMALLDatagram(get_timestamp))
 
