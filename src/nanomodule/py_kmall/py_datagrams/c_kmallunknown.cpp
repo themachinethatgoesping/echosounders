@@ -34,10 +34,12 @@ void init_c_kmallunknown(nanobind::module_& m)
         DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMALLUnknown))
         .def(nb::init<>(), DOC_KMALLUnknown(KMALLUnknown))
         // --- convenient data access ---
-        .def("get_raw_content",
-             &KMALLUnknown::get_raw_content,
-             DOC_KMALLUnknown(raw_content),
-             nb::rv_policy::reference_internal)
+        .def(
+            "get_raw_content",
+            [](const KMALLUnknown& self) {
+                return nb::bytes(self.get_raw_content().data(), self.get_raw_content().size());
+            },
+            DOC_KMALLUnknown(raw_content))
         .def("set_raw_content", &KMALLUnknown::set_raw_content, DOC_KMALLUnknown(raw_content))
 
         .def("get_bytes_datagram_check",

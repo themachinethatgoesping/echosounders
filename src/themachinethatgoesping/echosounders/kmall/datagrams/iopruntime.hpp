@@ -35,14 +35,10 @@ class IOpRuntime : public KMALLDatagram
   protected:
     uint16_t    _bytes_content;        ///<  bytes of the datagram body
     uint16_t    _info;                 ///< Information. For future use.
-    uint16_t    _status;                ///< Status. For future use.
-    std::string runtime_txt;           ///< Runtime parameters as text format.
+    uint16_t    _status;               ///< Status. For future use.
+    std::string _runtime_txt;          ///< Runtime parameters as text format.
     uint32_t    _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                        ///< integrity check
-
-  private:
-    // ----- private constructors -----
-    explicit IOpRuntime(KMALLDatagram header);
 
   public:
     // ----- public constructors -----
@@ -69,12 +65,11 @@ class IOpRuntime : public KMALLDatagram
     bool operator==(const IOpRuntime& other) const = default;
 
     //----- to/from stream functions -----
-    static IOpRuntime from_stream(std::istream& is, KMALLDatagram header);
+    static IOpRuntime from_stream(std::istream& is, const KMALLDatagram& header);
+
+    static IOpRuntime from_stream(std::istream& is, o_KMALLDatagramIdentifier datagram_identifier);
 
     static IOpRuntime from_stream(std::istream& is);
-
-    static IOpRuntime from_stream(std::istream&             is,
-                                          o_KMALLDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os);
 
@@ -85,6 +80,13 @@ class IOpRuntime : public KMALLDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(IOpRuntime)
+
+  private:
+    explicit IOpRuntime(const KMALLDatagram& header)
+        : KMALLDatagram(header)
+    {
+    }
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

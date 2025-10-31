@@ -24,8 +24,6 @@
 // #include "../misc/DateTime.h"
 // #include "DSMToolsLib/HelperFunctions.h"
 
-#include <boost/endian/conversion.hpp>
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
@@ -37,7 +35,7 @@ class KMALLDatagram
     using t_DatagramIdentifier = t_KMALLDatagramIdentifier;
     using o_DatagramIdentifier = o_KMALLDatagramIdentifier;
 
-    static constexpr size_t __size = 20;
+    static constexpr size_t __size = 20; /// sizeof is incorrect due to virtual functions
 
   protected:
     uint32_t                  _bytes_datagram; ///< Number of bytes in datagram including this field
@@ -66,8 +64,8 @@ class KMALLDatagram
         , _time_nanosec(time_nanosec)
     {
     }
-    KMALLDatagram()          = default;
-    virtual ~KMALLDatagram() = default;
+    KMALLDatagram()                           = default;
+    virtual ~KMALLDatagram()                  = default;
     KMALLDatagram(const KMALLDatagram& other) = default;
     KMALLDatagram(KMALLDatagram&& other)      = default;
 
@@ -100,13 +98,13 @@ class KMALLDatagram
     }
 
     // ----- convenient member access -----
-    uint32_t             get_bytes_datagram() const { return _bytes_datagram; }
-    uint8_t              get_datagram_version() const { return _datagram_version; }
-    uint8_t              get_system_id() const { return _system_id; }
-    uint16_t             get_echo_sounder_id() const { return _echo_sounder_id; }
-    uint32_t             get_time_sec() const { return _time_sec; }
-    uint32_t             get_time_nanosec() const { return _time_nanosec; }
-    void set_bytes_datagram(uint32_t bytes_datagram) { _bytes_datagram = bytes_datagram; }
+    uint32_t get_bytes_datagram() const { return _bytes_datagram; }
+    uint8_t  get_datagram_version() const { return _datagram_version; }
+    uint8_t  get_system_id() const { return _system_id; }
+    uint16_t get_echo_sounder_id() const { return _echo_sounder_id; }
+    uint32_t get_time_sec() const { return _time_sec; }
+    uint32_t get_time_nanosec() const { return _time_nanosec; }
+    void     set_bytes_datagram(uint32_t bytes_datagram) { _bytes_datagram = bytes_datagram; }
     void set_datagram_version(uint8_t datagram_version) { _datagram_version = datagram_version; }
     void set_system_id(uint8_t system_id) { _system_id = system_id; }
     void set_echo_sounder_id(uint16_t echo_sounder_id) { _echo_sounder_id = echo_sounder_id; }
@@ -133,6 +131,22 @@ class KMALLDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(KMALLDatagram)
+
+  protected:
+    inline void __kmalldatagram_read__(std::istream& is)
+    {
+        is.read(reinterpret_cast<char*>(&(_bytes_datagram)), __size);
+    }
+    inline static void __check_datagram_identifier__(const o_KMALLDatagramIdentifier actual,
+                                                     const o_KMALLDatagramIdentifier expected)
+    {
+        if (actual != expected)
+            throw std::runtime_error(
+                fmt::format("KMALLDatagram::__check_datagram_identifier__: datagram "
+                            "identifier is not {}, but {}",
+                            expected.name(),
+                            actual.name()));
+    }
 };
 
 } // namespace datagrams

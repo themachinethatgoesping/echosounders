@@ -1,4 +1,4 @@
-//sourcehash: 5e1e211e9239104e16b8491028ccff28bf73881ca02b902f16d1b7082fbf1538
+//sourcehash: d45a9e09f35288da6a568e5738b1db4658939f581d869555b83e6f8f4671a0f3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,8 +41,6 @@
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam = R"doc(Clock datagrams)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_IInstallationParam = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_IInstallationParam_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 

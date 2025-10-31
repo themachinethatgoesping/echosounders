@@ -9,17 +9,10 @@
 #include <stdexcept>
 #include <utility>
 
-#include <themachinethatgoesping/tools/timeconv.hpp>
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 namespace datagrams {
-
-IInstallationParam::IInstallationParam(KMALLDatagram header)
-    : KMALLDatagram(std::move(header))
-{
-}
 
 IInstallationParam::IInstallationParam()
 {
@@ -74,7 +67,7 @@ void IInstallationParam::set_install_txt(std::string_view install_txt)
 
     _install_txt.assign(install_txt.begin(), install_txt.end());
 
-    //increase _bytes_content to 4 byte alignment
+    // increase _bytes_content to 4 byte alignment
     if (_bytes_content % 4 != 0)
     {
         _bytes_content += 4 - (_bytes_content % 4);
@@ -88,40 +81,42 @@ void IInstallationParam::set_install_txt(std::string_view install_txt)
 // ----- processed data access -----
 
 // ----- to/from stream functions -----
-
-IInstallationParam IInstallationParam::from_stream(std::istream& is, KMALLDatagram header)
+void IInstallationParam::__read__(std::istream& is)
 {
     static constexpr size_t dbytes = 3 * sizeof(uint16_t) + sizeof(uint32_t);
 
-    IInstallationParam datagram(std::move(header));
-
-    if (datagram._datagram_identifier.value != DatagramIdentifier)
-        throw std::runtime_error(
-            fmt::format("IInstallationParam: datagram identifier is not {}, but {}",
-                        o_KMALLDatagramIdentifier::to_alt_name(DatagramIdentifier),
-                        o_KMALLDatagramIdentifier::to_alt_name(datagram._datagram_identifier)));
-
     // read first part of the datagram (until the first beam)
-    is.read(reinterpret_cast<char*>(&(datagram._bytes_content)), 3 * sizeof(uint16_t));
+    is.read(reinterpret_cast<char*>(&(_bytes_content)), 3 * sizeof(uint16_t));
 
-    datagram._install_txt.resize(datagram.compute_size_content() -
-                                dbytes); // minus size of the previous fields
-    is.read(datagram._install_txt.data(), datagram._install_txt.size());
-    is.read(reinterpret_cast<char*>(&(datagram._bytes_datagram_check)),
-            sizeof(datagram._bytes_datagram_check));
-
-    return datagram;
+    _install_txt.resize(compute_size_content() - dbytes); // minus size of the previous fields
+    is.read(_install_txt.data(), _install_txt.size());
+    is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
 }
 
-IInstallationParam IInstallationParam::from_stream(std::istream& is)
+IInstallationParam IInstallationParam::from_stream(std::istream& is, const KMALLDatagram& header)
 {
-    return from_stream(is, KMALLDatagram::from_stream(is));
+    IInstallationParam datagram(header);
+    datagram.__read__(is);
+
+    return datagram;
 }
 
 IInstallationParam IInstallationParam::from_stream(std::istream&             is,
                                                    o_KMALLDatagramIdentifier datagram_identifier)
 {
-    return from_stream(is, KMALLDatagram::from_stream(is, datagram_identifier));
+    IInstallationParam datagram;
+    datagram.__kmalldatagram_read__(is);
+    datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
+    datagram.__read__(is);
+    return datagram;
+}
+
+IInstallationParam IInstallationParam::from_stream(std::istream& is)
+{
+    IInstallationParam datagram;
+    datagram.__kmalldatagram_read__(is);
+    datagram.__read__(is);
+    return datagram;
 }
 
 void IInstallationParam::to_stream(std::ostream& os)
@@ -133,7 +128,8 @@ void IInstallationParam::to_stream(std::ostream& os)
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&_bytes_content), 3 * sizeof(uint16_t));
     // write the installation paramaters string
-    os.write(reinterpret_cast<const char*>(_install_txt.data()), _install_txt.size() * sizeof(char));
+    os.write(reinterpret_cast<const char*>(_install_txt.data()),
+             _install_txt.size() * sizeof(char));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 

@@ -16,30 +16,41 @@ void KMALLUnknown::set_raw_content(const std::string& value)
     _bytes_datagram_check = get_bytes_datagram();
 }
 
-KMALLUnknown KMALLUnknown::from_stream(std::istream& is, KMALLDatagram header)
+void KMALLUnknown::__read__(std::istream& is)
 {
-    KMALLUnknown datagram(std::move(header));
-
-    datagram._raw_content.resize(datagram.compute_size_content() -
-                                 sizeof(datagram._bytes_datagram_check));
+    _raw_content.resize(compute_size_content() - sizeof(_bytes_datagram_check));
 
     // verify the datagram is read correctly by reading the length field at the end
-    is.read(datagram._raw_content.data(), datagram._raw_content.size());
-    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
-            sizeof(datagram._bytes_datagram_check));
+    is.read(_raw_content.data(), _raw_content.size());
+    is.read(reinterpret_cast<char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
+}
+
+KMALLUnknown KMALLUnknown::from_stream(std::istream& is, const KMALLDatagram& header)
+{
+    KMALLUnknown datagram(header);
+    datagram.__read__(is);
 
     return datagram;
 }
 
 KMALLUnknown KMALLUnknown::from_stream(std::istream& is)
 {
-    return from_stream(is, KMALLDatagram::from_stream(is));
+    KMALLUnknown datagram;
+    datagram.__kmalldatagram_read__(is);
+    datagram.__read__(is);
+
+    return datagram;
 }
 
 KMALLUnknown KMALLUnknown::from_stream(std::istream&             is,
                                        o_KMALLDatagramIdentifier datagram_identifier)
 {
-    return from_stream(is, KMALLDatagram::from_stream(is, datagram_identifier));
+    KMALLUnknown datagram;
+    datagram.__kmalldatagram_read__(is);
+    __check_datagram_identifier__(datagram._datagram_identifier, datagram_identifier);
+    datagram.__read__(is);
+
+    return datagram;
 }
 
 void KMALLUnknown::to_stream(std::ostream& os)

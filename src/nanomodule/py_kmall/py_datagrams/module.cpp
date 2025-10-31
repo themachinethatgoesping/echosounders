@@ -20,8 +20,12 @@ namespace py_datagrams {
 // -- submodule declarations --
 void init_c_kmalldatagram(nanobind::module_& m);      // c_kmalldatagram.cpp
 void init_c_kmallunknown(nanobind::module_& m);       // c_kmallunknown.cpp
+
 void init_c_iinstallationparam(nanobind::module_& m); // c_iinstallationparam.cpp
 void init_c_iopruntime(nanobind::module_& m); // c_iopruntime.cpp
+
+void init_c_kmallsensordatagram(nanobind::module_& m); // c_kmallsensordatagram.cpp
+void init_c_sposition(nanobind::module_& m);          // c_sposition.cpp
 
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
@@ -34,8 +38,12 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     // kmall classes
     init_c_kmalldatagram(subm);
     init_c_kmallunknown(subm);
+
     init_c_iinstallationparam(subm);
     init_c_iopruntime(subm);
+
+    init_c_kmallsensordatagram(subm);
+    init_c_sposition(subm);
 }
 
 }

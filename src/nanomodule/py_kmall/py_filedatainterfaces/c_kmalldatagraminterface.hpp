@@ -75,6 +75,8 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_KMALLDatagramIdentifier::I_OP_RUNTIME:
                     return nb::cast(
                         self.template datagrams<datagrams::IOpRuntime>(type));
+                case t_KMALLDatagramIdentifier::S_POSITION:
+                    return nb::cast(self.template datagrams<datagrams::SPosition>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }

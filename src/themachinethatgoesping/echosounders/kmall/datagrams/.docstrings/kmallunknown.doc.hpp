@@ -1,4 +1,4 @@
-//sourcehash: 35ca9131ed3c1cc8ecd22934733e8f6a5d0a632de4a8e9b2cacb697ec7776c51
+//sourcehash: 93dd564d3b1943865b0a88699b0e4fbda283ba864899abe6c391a1d5c163574c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,8 +41,6 @@
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_KMALLUnknown = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_KMALLUnknown_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
 

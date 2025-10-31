@@ -32,13 +32,6 @@ class KMALLUnknown : public KMALLDatagram
     uint32_t    _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                        ///< integrity check
 
-  private:
-    // ----- private constructors -----
-    explicit KMALLUnknown(KMALLDatagram header)
-        : KMALLDatagram(std::move(header))
-    {
-    }
-
   public:
     // ----- public constructors -----
     KMALLUnknown()  = default;
@@ -55,7 +48,7 @@ class KMALLUnknown : public KMALLDatagram
     // ----- operators -----
     bool operator==(const KMALLUnknown& other) const = default;
 
-    static KMALLUnknown from_stream(std::istream& is, KMALLDatagram header);
+    static KMALLUnknown from_stream(std::istream& is, const KMALLDatagram& header);
 
     static KMALLUnknown from_stream(std::istream& is);
 
@@ -71,6 +64,14 @@ class KMALLUnknown : public KMALLDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(KMALLUnknown)
+
+  private:
+    // ----- private constructors -----
+    explicit KMALLUnknown(const KMALLDatagram& header)
+        : KMALLDatagram(header)
+    {
+    }
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

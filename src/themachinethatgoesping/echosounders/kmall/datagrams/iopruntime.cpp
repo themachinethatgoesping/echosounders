@@ -9,17 +9,10 @@
 #include <stdexcept>
 #include <utility>
 
-#include <themachinethatgoesping/tools/timeconv.hpp>
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 namespace datagrams {
-
-IOpRuntime::IOpRuntime(KMALLDatagram header)
-    : KMALLDatagram(std::move(header))
-{
-}
 
 IOpRuntime::IOpRuntime()
 {
@@ -43,7 +36,7 @@ uint16_t IOpRuntime::get_status() const
 
 const std::string& IOpRuntime::get_runtime_txt() const
 {
-    return runtime_txt;
+    return _runtime_txt;
 }
 
 uint32_t IOpRuntime::get_bytes_datagram_check() const
@@ -66,13 +59,13 @@ void IOpRuntime::set_status(uint16_t status)
     _status = status;
 }
 
-void IOpRuntime::set_runtime_txt(std::string_view runtime_txt_)
+void IOpRuntime::set_runtime_txt(std::string_view runtime_txt)
 {
     static constexpr size_t dbytes = 3 * sizeof(uint16_t) + sizeof(uint32_t);
 
-    _bytes_content = dbytes + runtime_txt_.size() * sizeof(char); // size of the string in bytes
+    _bytes_content = dbytes + runtime_txt.size() * sizeof(char); // size of the string in bytes
 
-    runtime_txt.assign(runtime_txt_.begin(), runtime_txt_.end());
+    _runtime_txt.assign(runtime_txt.begin(), runtime_txt.end());
 
     // increase _bytes_content to 4 byte alignment
     if (_bytes_content % 4 != 0)
@@ -80,7 +73,7 @@ void IOpRuntime::set_runtime_txt(std::string_view runtime_txt_)
         _bytes_content += 4 - (_bytes_content % 4);
     }
 
-    runtime_txt.resize(_bytes_content - dbytes, '\0'); // pad with null characters
+    _runtime_txt.resize(_bytes_content - dbytes, '\0'); // pad with null characters
     set_bytes_datagram(KMALLDatagram::__size + _bytes_content);
     _bytes_datagram_check = get_bytes_datagram();
 }
@@ -88,40 +81,41 @@ void IOpRuntime::set_runtime_txt(std::string_view runtime_txt_)
 // ----- processed data access -----
 
 // ----- to/from stream functions -----
-
-IOpRuntime IOpRuntime::from_stream(std::istream& is, KMALLDatagram header)
+void IOpRuntime::__read__(std::istream& is)
 {
     static constexpr size_t dbytes = 3 * sizeof(uint16_t) + sizeof(uint32_t);
 
-    IOpRuntime datagram(std::move(header));
-
-    if (datagram._datagram_identifier.value != DatagramIdentifier)
-        throw std::runtime_error(
-            fmt::format("IOpRuntime: datagram identifier is not {}, but {}",
-                        o_KMALLDatagramIdentifier::to_alt_name(DatagramIdentifier),
-                        o_KMALLDatagramIdentifier::to_alt_name(datagram._datagram_identifier)));
-
     // read first part of the datagram (until the first beam)
-    is.read(reinterpret_cast<char*>(&(datagram._bytes_content)), 3 * sizeof(uint16_t));
+    is.read(reinterpret_cast<char*>(&(_bytes_content)), 3 * sizeof(uint16_t));
 
-    datagram.runtime_txt.resize(datagram.compute_size_content() -
-                                dbytes); // minus size of the previous fields
-    is.read(datagram.runtime_txt.data(), datagram.runtime_txt.size());
-    is.read(reinterpret_cast<char*>(&(datagram._bytes_datagram_check)),
-            sizeof(datagram._bytes_datagram_check));
+    _runtime_txt.resize(compute_size_content() - dbytes); // minus size of the previous fields
+    is.read(_runtime_txt.data(), _runtime_txt.size());
+    is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
+}
 
+IOpRuntime IOpRuntime::from_stream(std::istream& is, const KMALLDatagram& header)
+{
+    IOpRuntime datagram(header);
+    datagram.__read__(is);
+
+    return datagram;
+}
+
+IOpRuntime IOpRuntime::from_stream(std::istream& is, o_KMALLDatagramIdentifier datagram_identifier)
+{
+    IOpRuntime datagram;
+    datagram.__kmalldatagram_read__(is);
+    datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
+    datagram.__read__(is);
     return datagram;
 }
 
 IOpRuntime IOpRuntime::from_stream(std::istream& is)
 {
-    return from_stream(is, KMALLDatagram::from_stream(is));
-}
-
-IOpRuntime IOpRuntime::from_stream(std::istream&             is,
-                                                   o_KMALLDatagramIdentifier datagram_identifier)
-{
-    return from_stream(is, KMALLDatagram::from_stream(is, datagram_identifier));
+    IOpRuntime datagram;
+    datagram.__kmalldatagram_read__(is);
+    datagram.__read__(is);
+    return datagram;
 }
 
 void IOpRuntime::to_stream(std::ostream& os)
@@ -133,17 +127,17 @@ void IOpRuntime::to_stream(std::ostream& os)
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&_bytes_content), 3 * sizeof(uint16_t));
     // write the installation paramaters string
-    os.write(reinterpret_cast<const char*>(runtime_txt.data()), runtime_txt.size() * sizeof(char));
+    os.write(reinterpret_cast<const char*>(_runtime_txt.data()),
+             _runtime_txt.size() * sizeof(char));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
 // ----- objectprinter -----
 
 tools::classhelper::ObjectPrinter IOpRuntime::__printer__(unsigned int float_precision,
-                                                                  bool superscript_exponents) const
+                                                          bool         superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer(
-        "IOpRuntime", float_precision, superscript_exponents);
+    tools::classhelper::ObjectPrinter printer("IOpRuntime", float_precision, superscript_exponents);
 
     printer.append(KMALLDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("datagram content");
@@ -152,7 +146,7 @@ tools::classhelper::ObjectPrinter IOpRuntime::__printer__(unsigned int float_pre
     printer.register_value("status", _status);
     printer.register_value("bytes datagram check", _bytes_datagram_check, "bytes");
     printer.register_section("runtime_txt");
-    printer.register_string("runtime_txt", runtime_txt);
+    printer.register_string("runtime_txt", _runtime_txt);
     return printer;
 }
 

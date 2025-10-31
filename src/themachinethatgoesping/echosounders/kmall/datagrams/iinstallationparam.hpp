@@ -35,15 +35,10 @@ class IInstallationParam : public KMALLDatagram
   protected:
     uint16_t    _bytes_content;        ///<  bytes of the datagram body
     uint16_t    _info;                 ///< Information. For future use.
-    uint16_t    _status;                ///< Status. For future use.
-    std::string _install_txt;           ///< Runtime parameters as text format.
+    uint16_t    _status;               ///< Status. For future use.
+    std::string _install_txt;          ///< Runtime parameters as text format.
     uint32_t    _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                        ///< integrity check
-
-  private:
-    // ----- private constructors -----
-    explicit IInstallationParam(KMALLDatagram header);
-
   public:
     // ----- public constructors -----
     IInstallationParam();
@@ -69,12 +64,12 @@ class IInstallationParam : public KMALLDatagram
     bool operator==(const IInstallationParam& other) const = default;
 
     //----- to/from stream functions -----
-    static IInstallationParam from_stream(std::istream& is, KMALLDatagram header);
-
-    static IInstallationParam from_stream(std::istream& is);
+    static IInstallationParam from_stream(std::istream& is, const KMALLDatagram& header);
 
     static IInstallationParam from_stream(std::istream&             is,
                                           o_KMALLDatagramIdentifier datagram_identifier);
+
+    static IInstallationParam from_stream(std::istream& is);
 
     void to_stream(std::ostream& os);
 
@@ -85,6 +80,13 @@ class IInstallationParam : public KMALLDatagram
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(IInstallationParam)
+
+  private:
+    explicit IInstallationParam(const KMALLDatagram& header)
+        : KMALLDatagram(header)
+    {
+    }
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
