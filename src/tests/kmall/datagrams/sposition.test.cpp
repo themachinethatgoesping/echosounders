@@ -47,7 +47,10 @@ TEST_CASE("SPosition should support common functions", TESTTAG)
     dat.set_ellipsoid_height_re_ref_point_m(5.6f);
     dat.set_pos_data_from_sensor(test_text); // this should modify all size related variables
 
-    CHECK(dat.binary_hash() == 8493679884823457830ULL);
+    {
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        CHECK(dat.binary_hash() == 8493679884823457830ULL);
+    }
 
     // test inequality
     // REQUIRE(dat != SPosition());
@@ -82,6 +85,9 @@ TEST_CASE("SPosition should support common functions", TESTTAG)
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
 
+    INFO(fmt::format("orig: {}", dat.info_string()));
+
+    //REQUIRE(false);
     //--- datagram concept ---
     REQUIRE(dat.get_bytes_content() == KMALLSensorDatagram::__size);
     REQUIRE(dat.get_sensor_system() == 10);

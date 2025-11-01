@@ -1,4 +1,4 @@
-//sourcehash: 0036a216077fc3d1c5d43dcf1932549e64a6fb6b3449aef3c1ca2f77c8e6399f
+//sourcehash: a56a43863927393cb2de77493d2a8c90dad4c73e898e8829472900b03fbccb4e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,26 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition = R"doc(Clock datagrams)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_corrected_lat_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_corrected_lon_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_course_over_ground_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_ellipsoid_height_re_ref_point_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_pos_fix_quality_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_speed_over_ground_m_per_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_time_from_sensor_nanosec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_Content_time_from_sensor_sec = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_SPosition = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
@@ -48,13 +68,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPo
 R"doc(< Each datagram ends with the size of the datagram for < integrity
 check)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_corrected_lat_deg = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_corrected_lon_deg = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_course_over_ground_deg = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_ellipsoid_height_re_ref_point_m = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_from_stream = R"doc()doc";
 
@@ -97,8 +111,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPo
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_pos_data_from_sensor = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_pos_fix_quality_m = R"doc()doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_set_bytes_datagram_check = R"doc()doc";
@@ -120,12 +132,6 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPo
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_set_time_from_sensor_nanosec = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_set_time_from_sensor_sec = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_speed_over_ground_m_per_sec = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_time_from_sensor_nanosec = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_time_from_sensor_sec = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SPosition_to_stream = R"doc()doc";
 

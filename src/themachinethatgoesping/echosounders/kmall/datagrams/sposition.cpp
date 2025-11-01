@@ -44,7 +44,7 @@ void SPosition::set_pos_data_from_sensor(std::string_view pos_data)
 // ----- processed data access -----
 double SPosition::get_sensor_timestamp() const
 {
-    return _time_from_sensor_sec + _time_from_sensor_nanosec * 1e-9;
+    return _content.time_from_sensor_sec + _content.time_from_sensor_nanosec * 1e-9;
 }
 
 std::string SPosition::get_sensor_date_string(unsigned int       fractionalSecondsDigits,
@@ -60,7 +60,7 @@ void SPosition::__read__(std::istream& is)
     static constexpr size_t dbytes = __size + KMALLSensorDatagram::__size + sizeof(uint32_t);
 
     // read first part of the datagram (until the first beam)
-    is.read(reinterpret_cast<char*>(&_time_from_sensor_sec), __size);
+    is.read(reinterpret_cast<char*>(&_content), __size);
 
     // read position data string
     _pos_data_from_sensor.resize(compute_size_content() -
@@ -102,7 +102,7 @@ void SPosition::to_stream(std::ostream& os)
     KMALLDatagram::to_stream(os);
     KMALLSensorDatagram::to_stream(os);
 
-    os.write(reinterpret_cast<char*>(&_time_from_sensor_sec), __size);
+    os.write(reinterpret_cast<char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(_pos_data_from_sensor.data()),
              _pos_data_from_sensor.size() * sizeof(char));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
@@ -116,16 +116,18 @@ tools::classhelper::ObjectPrinter SPosition::__printer__(unsigned int float_prec
     tools::classhelper::ObjectPrinter printer("SPosition", float_precision, superscript_exponents);
 
     printer.append(KMALLSensorDatagram::__printer__(float_precision, superscript_exponents));
-    //printer.register_section("datagram content");
-    printer.register_value("time_from_sensor_sec", _time_from_sensor_sec, "s");
-    printer.register_value("time_from_sensor_nanosec", _time_from_sensor_nanosec, "ns");
-    printer.register_value("pos_fix_quality_m", _pos_fix_quality_m, "m");
-    printer.register_value("corrected_lat_deg", _corrected_lat_deg, "°");
-    printer.register_value("corrected_lon_deg", _corrected_lon_deg, "°");
-    printer.register_value("speed_over_ground_m_per_sec", _speed_over_ground_m_per_sec, "m/s");
-    printer.register_value("course_over_ground_deg", _course_over_ground_deg, "°");
+    // printer.register_section("datagram content");
+    //printer.register_value("content_size", __size, std::to_string(sizeof(Content)));
+    printer.register_value("time_from_sensor_sec", _content.time_from_sensor_sec, "s");
+    printer.register_value("time_from_sensor_nanosec", _content.time_from_sensor_nanosec, "ns");
+    printer.register_value("pos_fix_quality_m", _content.pos_fix_quality_m, "m");
+    printer.register_value("corrected_lat_deg", _content.corrected_lat_deg, "°");
+    printer.register_value("corrected_lon_deg", _content.corrected_lon_deg, "°");
     printer.register_value(
-        "ellipsoid_height_re_ref_point_m", _ellipsoid_height_re_ref_point_m, "m");
+        "speed_over_ground_m_per_sec", _content.speed_over_ground_m_per_sec, "m/s");
+    printer.register_value("course_over_ground_deg", _content.course_over_ground_deg, "°");
+    printer.register_value(
+        "ellipsoid_height_re_ref_point_m", _content.ellipsoid_height_re_ref_point_m, "m");
     printer.register_string("pos_data_from_sensor", _pos_data_from_sensor);
     printer.register_value("bytes_datagram_check", _bytes_datagram_check, "bytes");
 
