@@ -70,7 +70,7 @@ enum class t_KMALLDatagramIdentifier : uint32_t
     unspecified = std::numeric_limits<uint32_t>::max(),
 };
 
-static constexpr std::array<t_KMALLDatagramIdentifier, 16> t_KMALLDatagramIdentifier_values = {
+inline constexpr std::array<t_KMALLDatagramIdentifier, 16> t_KMALLDatagramIdentifier_values = {
     t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM,
     t_KMALLDatagramIdentifier::I_OP_RUNTIME,
     t_KMALLDatagramIdentifier::S_POSITION,
@@ -89,7 +89,7 @@ static constexpr std::array<t_KMALLDatagramIdentifier, 16> t_KMALLDatagramIdenti
     t_KMALLDatagramIdentifier::F_CALIBRATION_FILE
 };
 
-static constexpr std::array<std::string_view, 16> t_KMALLDatagramIdentifier_names = {
+inline constexpr std::array<std::string_view, 16> t_KMALLDatagramIdentifier_names = {
     "I_INSTALLATION_PARAM",
     "I_OP_RUNTIME",
     "S_POSITION",
@@ -107,7 +107,7 @@ static constexpr std::array<std::string_view, 16> t_KMALLDatagramIdentifier_name
     "C_HEAVE",
     "F_CALIBRATION_FILE"
 };
-static constexpr std::array<std::string_view, 16> t_KMALLDatagramIdentifier_alt_names = {
+inline constexpr std::array<std::string_view, 16> t_KMALLDatagramIdentifier_alt_names = {
     "#IIP", "#IOP", "#SPO", "#SPE", "#SPD", "#SKM", "#SVP", "#SVT",
     "#SCL", "#SDE", "#SHI", "#MRZ", "#MWC", "#CPO", "#CHE", "#FCF"
 };
