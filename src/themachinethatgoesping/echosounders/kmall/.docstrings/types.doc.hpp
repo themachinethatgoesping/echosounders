@@ -1,4 +1,4 @@
-//sourcehash: df0db23226db61fb6bd2f6d1514b96b8f6704a36823f029b9e4ebf972707452c
+//sourcehash: eb002f2afd55aca809a1a8192b6a0064a06931db305e7e3cdaf6cf33a3a13a86
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,35 +38,11 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_192_67 = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info =
-R"doc(Get descriptive information about a datagram type.
-
-Parameter ``datagram_type``:
-    Datagram identifier.
-
-Returns:
-    Human-readable description.)doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_196_67 = R"doc()doc";
 
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string =
-R"doc(Convert vector of datagram identifiers to vector of strings.
 
-Parameter ``values``:
-    Vector of identifiers.
 
-Returns:
-    Vector of decimal string representations.)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2 =
-R"doc(Convert set of datagram identifiers to vector of strings.
-
-Parameter ``values``:
-    Set of identifiers.
-
-Returns:
-    Vector of decimal string representations (in set iteration order).)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLDatagram_type_from_string =
 R"doc(Parse datagram type from string representation.
