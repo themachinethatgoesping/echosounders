@@ -26,10 +26,10 @@ tools::classhelper::ObjectPrinter KMALLSensorDatagram::__printer__(unsigned int 
 
     printer.append(KMALLDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("datagram content");
-    printer.register_value("bytes_content", _bytes_content);
-    printer.register_value("sensor_system", _sensor_system);
-    printer.register_value("sensor_status", _sensor_status);
-    printer.register_value("padding", _padding);
+    printer.register_value("bytes_content", _scommon.bytes_content);
+    printer.register_value("sensor_system", _scommon.sensor_system);
+    printer.register_value("sensor_status", _scommon.sensor_status);
+    printer.register_value("padding", _scommon.padding);
     return printer;
 }
 

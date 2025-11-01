@@ -69,9 +69,15 @@ TEST_CASE("SPosition should support common functions", TESTTAG)
     }
 
     // test stream
-    std::stringstream buffer;
-    dat.to_stream(buffer);
-    REQUIRE(dat == SPosition(dat.from_stream(buffer)));
+    {
+        std::stringstream buffer;
+        dat.to_stream(buffer);
+        auto dat2 = SPosition(dat.from_stream(buffer));
+        INFO(fmt::format("orig: {}", dat.info_string()));
+        INFO(fmt::format("From stream: {}", dat2.info_string()));
+        REQUIRE(dat == dat2);
+        CHECK(dat2.binary_hash() == dat.binary_hash());
+    }
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
@@ -81,8 +87,7 @@ TEST_CASE("SPosition should support common functions", TESTTAG)
     REQUIRE(dat.get_sensor_system() == 10);
     REQUIRE(dat.get_sensor_status() == 2);
     REQUIRE(dat.get_padding() == 0);
-    REQUIRE(dat.get_sensor_timestamp() ==
-            Catch::Approx(1555977823.7269999981)); // sensor timestamp
+    REQUIRE(dat.get_sensor_timestamp() == Catch::Approx(1555977823.7269999981)); // sensor timestamp
     REQUIRE(dat.get_pos_fix_quality_m() == Catch::Approx(1.5f));
     REQUIRE(dat.get_corrected_lat_deg() == Catch::Approx(51.0543));
     REQUIRE(dat.get_corrected_lon_deg() == Catch::Approx(3.7174));
@@ -90,7 +95,7 @@ TEST_CASE("SPosition should support common functions", TESTTAG)
     REQUIRE(dat.get_course_over_ground_deg() == Catch::Approx(123.4f));
     REQUIRE(dat.get_ellipsoid_height_re_ref_point_m() == Catch::Approx(5.6f));
 
-     // check pos data string
+    // check pos data string
     REQUIRE(dat.get_pos_data_from_sensor().substr(0, test_text.size()) == test_text);
 
     // datagram type

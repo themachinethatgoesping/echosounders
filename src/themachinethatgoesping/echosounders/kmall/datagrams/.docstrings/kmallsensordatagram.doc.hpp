@@ -1,4 +1,4 @@
-//sourcehash: d4c11249c649505f2505e79e3752ea6394c6e5543dc72618c7900fc86d9d3702
+//sourcehash: d338a914160a0c339be43d7e5caac1ea51595a509aa748107507c3efa4736f67
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,7 +44,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_KMALLSensorDatagram_2 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_bytes_content = R"doc(< bytes of the datagram body (should be __size))doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon_bytes_content = R"doc(< bytes of the datagram body (should be __size))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon_padding = R"doc(< Padding for 4 byte alignment)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon_sensor_status = R"doc(< Sensor status)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_SCommon_sensor_system = R"doc(< Sensor system number)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_get_bytes_content = R"doc()doc";
 
@@ -56,15 +66,11 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_padding = R"doc(< Padding for 4 byte alignment)doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_read_sensordatagram = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_sensor_status = R"doc(< Sensor status)doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_sensor_system = R"doc(< Sensor system number)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_scommon = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSensorDatagram_set_bytes_content = R"doc()doc";
 

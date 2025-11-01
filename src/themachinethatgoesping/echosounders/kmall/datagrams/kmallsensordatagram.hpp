@@ -34,10 +34,15 @@ class KMALLSensorDatagram : public KMALLDatagram
     static constexpr size_t __size             = 4 * sizeof(uint16_t);
 
   protected:
-    uint16_t _bytes_content; ///<  bytes of the datagram body (should be __size)
-    uint16_t _sensor_system; ///< Sensor system number
-    uint16_t _sensor_status; ///< Sensor status
-    uint16_t _padding;       ///< Padding for 4 byte alignment
+    struct SCommon
+    {
+        uint16_t bytes_content; ///<  bytes of the datagram body (should be __size)
+        uint16_t sensor_system; ///< Sensor system number
+        uint16_t sensor_status; ///< Sensor status
+        uint16_t padding;       ///< Padding for 4 byte alignment
+
+        bool operator==(const SCommon& other) const = default;
+    } _scommon;
 
   public:
     // ----- public constructors -----
@@ -46,16 +51,16 @@ class KMALLSensorDatagram : public KMALLDatagram
 
     // ----- convenient data access -----
     // Getters
-    uint16_t get_bytes_content() const { return _bytes_content; }
-    uint16_t get_sensor_system() const { return _sensor_system; }
-    uint16_t get_sensor_status() const { return _sensor_status; }
-    uint16_t get_padding() const { return _padding; }
+    uint16_t get_bytes_content() const { return _scommon.bytes_content; }
+    uint16_t get_sensor_system() const { return _scommon.sensor_system; }
+    uint16_t get_sensor_status() const { return _scommon.sensor_status; }
+    uint16_t get_padding() const { return _scommon.padding; }
 
     // Setters
-    void set_bytes_content(uint16_t value) { _bytes_content = value; }
-    void set_sensor_system(uint16_t value) { _sensor_system = value; }
-    void set_sensor_status(uint16_t value) { _sensor_status = value; }
-    void set_padding(uint16_t value) { _padding = value; }
+    void set_bytes_content(uint16_t value) { _scommon.bytes_content = value; }
+    void set_sensor_system(uint16_t value) { _scommon.sensor_system = value; }
+    void set_sensor_status(uint16_t value) { _scommon.sensor_status = value; }
+    void set_padding(uint16_t value) { _scommon.padding = value; }
 
     // ----- processed data access -----
 
@@ -73,11 +78,11 @@ class KMALLSensorDatagram : public KMALLDatagram
     }
     inline void __read_sensordatagram__(std::istream& is)
     {
-        is.read(reinterpret_cast<char*>(&_bytes_content), __size);
+        is.read(reinterpret_cast<char*>(&_scommon), sizeof(SCommon));
     }
     inline void to_stream(std::ostream& os) const
     {
-        os.write(reinterpret_cast<const char*>(&_bytes_content), __size);
+        os.write(reinterpret_cast<const char*>(&_scommon), sizeof(SCommon));
     }
 };
 
