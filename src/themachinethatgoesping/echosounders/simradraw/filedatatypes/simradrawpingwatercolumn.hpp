@@ -25,12 +25,10 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 
 #include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
 
@@ -91,7 +89,6 @@ class SimradRawPingWatercolumn
         return _file_data->has_watercolumn_calibration();
     }
 
-
     const calibration::SimradRawWaterColumnCalibration& get_watercolumn_calibration() const
     {
         return _file_data->get_watercolumn_calibration();
@@ -144,7 +141,11 @@ class SimradRawPingWatercolumn
     // {
     //     return _file_data->get_wcinfos().get_detected_range_in_samples();
     // }
-    const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers() { return { 0 }; }
+    const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers()
+    {
+        const static xt::xtensor<uint8_t, 1> tx_sectors = { 0 };
+        return tx_sectors;
+    }
 
     float get_sound_speed_at_transducer() override
     {
