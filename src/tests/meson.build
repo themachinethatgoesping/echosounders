@@ -62,6 +62,7 @@ sources = [
   'kmall/datagrams/iopruntime.test.cpp',
   'kmall/datagrams/kmalldatagram.test.cpp',
   'kmall/datagrams/kmallunknown.test.cpp',
+  'kmall/datagrams/sclock.test.cpp',
   'kmall/datagrams/sposition.test.cpp',
   'kmall/datagrams/spositionerror.test.cpp',
   'gsf/datagrams/gsfunknown.test.cpp',

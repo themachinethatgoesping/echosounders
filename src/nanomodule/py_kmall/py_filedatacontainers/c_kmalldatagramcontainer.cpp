@@ -55,6 +55,9 @@ void init_c_kmalldatagramcontainer(nanobind::module_& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SPositionError,
                                                         t_KMALLDatagramIdentifier>(
         m, "KMALLDatagramContainer_SPositionError");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SClock,
+                                                        t_KMALLDatagramIdentifier>(
+        m, "KMALLDatagramContainer_SClock");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_KMALLDatagramVariant,
                                                         t_KMALLDatagramIdentifier,

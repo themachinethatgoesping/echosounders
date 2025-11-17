@@ -97,6 +97,7 @@ sources = [
   'py_kmall/py_datagrams/c_kmalldatagram.cpp',
   'py_kmall/py_datagrams/c_kmallsensordatagram.cpp',
   'py_kmall/py_datagrams/c_kmallunknown.cpp',
+  'py_kmall/py_datagrams/c_sclock.cpp',
   'py_kmall/py_datagrams/c_sposition.cpp',
   'py_kmall/py_datagrams/c_spositionerror.cpp',
   'py_kmall/py_datagrams/module.cpp',
