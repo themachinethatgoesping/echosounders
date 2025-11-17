@@ -64,6 +64,7 @@ sources = [
   'kmall/datagrams/kmallunknown.test.cpp',
   'kmall/datagrams/sclock.test.cpp',
   'kmall/datagrams/soundvelocityprofile.test.cpp',
+  'kmall/datagrams/soundvelocitytransducer.test.cpp',
   'kmall/datagrams/sposition.test.cpp',
   'kmall/datagrams/spositionerror.test.cpp',
   'gsf/datagrams/gsfunknown.test.cpp',

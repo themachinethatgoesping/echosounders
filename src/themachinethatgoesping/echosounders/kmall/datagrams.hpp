@@ -13,10 +13,11 @@
 #include "datagrams/iopruntime.hpp"
 #include "datagrams/kmalldatagram.hpp"
 #include "datagrams/kmallunknown.hpp"
-#include "datagrams/sposition.hpp"
-#include "datagrams/spositionerror.hpp"
 #include "datagrams/sclock.hpp"
 #include "datagrams/soundvelocityprofile.hpp"
+#include "datagrams/soundvelocitytransducer.hpp"
+#include "datagrams/sposition.hpp"
+#include "datagrams/spositionerror.hpp"
 #include "types.hpp"
 
 #include <variant>
@@ -36,8 +37,15 @@ namespace kmall {
 namespace datagrams {
 
 // KMALLDATAGRAMTYPEAREA
-using t_KMALLDatagramVariant =
-    std::variant<KMALLDatagram, KMALLUnknown, IInstallationParam, IOpRuntime, SPosition, SPositionError, SClock, SoundVelocityProfile>;
+using t_KMALLDatagramVariant = std::variant<KMALLDatagram,
+                                            KMALLUnknown,
+                                            IInstallationParam,
+                                            IOpRuntime,
+                                            SPosition,
+                                            SPositionError,
+                                            SClock,
+                                            SoundVelocityProfile,
+                                            SoundVelocityTransducer>;
 
 struct KMALLDatagramVariant
 {

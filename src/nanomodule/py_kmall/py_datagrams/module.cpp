@@ -18,18 +18,19 @@ namespace py_kmall {
 namespace py_datagrams {
 
 // -- submodule declarations --
-void init_c_kmalldatagram(nanobind::module_& m);      // c_kmalldatagram.cpp
-void init_c_kmallunknown(nanobind::module_& m);       // c_kmallunknown.cpp
+void init_c_kmalldatagram(nanobind::module_& m); // c_kmalldatagram.cpp
+void init_c_kmallunknown(nanobind::module_& m);  // c_kmallunknown.cpp
 
 void init_c_iinstallationparam(nanobind::module_& m); // c_iinstallationparam.cpp
-void init_c_iopruntime(nanobind::module_& m); // c_iopruntime.cpp
+void init_c_iopruntime(nanobind::module_& m);         // c_iopruntime.cpp
 
 void init_c_kmallsensordatagram(nanobind::module_& m); // c_kmallsensordatagram.cpp
-void init_c_sposition(nanobind::module_& m);          // c_sposition.cpp
-void init_c_spositionerror(nanobind::module_& m);     // c_spositionerror.cpp
-void init_c_sclock(nanobind::module_& m);             // c_sclock.cpp
+void init_c_sposition(nanobind::module_& m);           // c_sposition.cpp
+void init_c_spositionerror(nanobind::module_& m);      // c_spositionerror.cpp
+void init_c_sclock(nanobind::module_& m);              // c_sclock.cpp
 
-void init_c_soundvelocityprofile(nanobind::module_& m); // c_soundvelocityprofile.cpp
+void init_c_soundvelocityprofile(nanobind::module_& m);    // c_soundvelocityprofile.cpp
+void init_c_soundvelocitytransducer(nanobind::module_& m); // c_soundvelocitytransducer.cpp
 
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
@@ -52,6 +53,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_sclock(subm);
 
     init_c_soundvelocityprofile(subm);
+    init_c_soundvelocitytransducer(subm);
 }
 
 }
