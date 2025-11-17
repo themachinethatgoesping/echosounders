@@ -1,4 +1,4 @@
-//sourcehash: 7201a70e6c4c13e08265c1a015608ed4ef2496cfad1520d3251b124dadc57349
+//sourcehash: a79e68c0c4eabe20abb6da1310d0a104da9260a0cf269d0db1ca7d4d7b578537
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_soundvelocityprofile_hpp_162_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile = R"doc(Clock datagrams)doc";
 
@@ -125,6 +127,12 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_Sou
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_sensor_format = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_svp_time_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_t_sensor_format = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_t_sensor_format_ctd_profile = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_t_sensor_format_sound_velocity_profile = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_to_stream = R"doc()doc";
 

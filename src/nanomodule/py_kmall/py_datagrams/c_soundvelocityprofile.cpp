@@ -8,6 +8,7 @@
 #include <nanobind/stl/vector.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/kmall/datagrams/soundvelocityprofile.hpp>
 
@@ -25,10 +26,34 @@ using datagrams::SoundVelocityProfile;
 
 #define DOC_SoundVelocityProfile(ARG)                                                              \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, SoundVelocityProfile, ARG)
+#define DOC_SoundVelocityProfileSensorFormat(ARG)                                                  \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        kmall,                                                                                     \
+        datagrams,                                                                                 \
+        SoundVelocityProfile,                                                                      \
+        t_sensor_format,                                                                           \
+        ARG)
 
 void init_c_soundvelocityprofile(nanobind::module_& m)
 {
-    using SVPPoint = SoundVelocityProfile::SVPPoint;
+    using SVPPoint        = SoundVelocityProfile::SVPPoint;
+    using t_sensor_format = SoundVelocityProfile::t_sensor_format;
+    using o_sensor_format = SoundVelocityProfile::o_sensor_format;
+
+    nb::enum_<t_sensor_format>(
+        m, "SoundVelocityProfile_t_sensor_format", DOC_SoundVelocityProfile(t_sensor_format))
+        .value("sound_velocity_profile",
+               t_sensor_format::sound_velocity_profile,
+               DOC_SoundVelocityProfileSensorFormat(sound_velocity_profile))
+        .value("ctd_profile",
+               t_sensor_format::ctd_profile,
+               DOC_SoundVelocityProfileSensorFormat(ctd_profile))
+        // end
+        ;
+
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_sensor_format>(
+        m, "SoundVelocityProfile_o_sensor_format");
 
     nb::class_<SVPPoint>(m, "SVPPoint", "Sound velocity profile sample point")
         .def(nb::init<>())

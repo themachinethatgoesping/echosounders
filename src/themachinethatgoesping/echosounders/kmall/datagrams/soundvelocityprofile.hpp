@@ -15,6 +15,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/option_frozen.hpp>
 
 #include "../types.hpp"
 #include "kmalldatagram.hpp"
@@ -32,6 +33,34 @@ class SoundVelocityProfile : public KMALLDatagram
   public:
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_PROFILE;
     static constexpr size_t __size           = 28; // size till _sensor_data
+
+    enum class t_sensor_format : uint32_t
+    {
+        sound_velocity_profile = std::bit_cast<uint32_t>("S00"),
+        ctd_profile            = std::bit_cast<uint32_t>("S01"),
+    };
+
+    static constexpr std::array<t_sensor_format, 2> t_sensor_format_values = {
+        t_sensor_format::sound_velocity_profile,
+        t_sensor_format::ctd_profile,
+    };
+
+    static constexpr std::array<std::string_view, 2> t_sensor_format_names = {
+        "sound_velocity_profile",
+        "ctd_profile",
+    };
+
+    static constexpr std::array<std::string_view, 2> t_sensor_format_alt_names = {
+        "S00",
+        "S01",
+    };
+
+    using o_sensor_format =
+        themachinethatgoesping::tools::classhelper::OptionFrozen<t_sensor_format,
+                                                                 t_sensor_format_values.size(),
+                                                                 t_sensor_format_values,
+                                                                 t_sensor_format_names,
+                                                                 t_sensor_format_alt_names>;
 
 #pragma pack(push, 4) // force 4-byte alignment
     struct SVPPoint
@@ -53,12 +82,12 @@ class SoundVelocityProfile : public KMALLDatagram
 #pragma pack(push, 4) // force 4-byte alignment
     struct Content
     {
-        uint16_t               bytes_content;
-        uint16_t               number_of_samples;
-        std::array<uint8_t, 4> sensor_format;
-        uint32_t               svp_time_sec;
-        double                 latitude_deg;
-        double                 longitude_deg;
+        uint16_t        bytes_content;
+        uint16_t        number_of_samples;
+        o_sensor_format sensor_format;
+        uint32_t        svp_time_sec;
+        double          latitude_deg;
+        double          longitude_deg;
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -75,19 +104,19 @@ class SoundVelocityProfile : public KMALLDatagram
 
     // ----- convenient data access -----
     // Getters
-    uint16_t               get_bytes_content() const { return _content.bytes_content; }
-    uint16_t               get_number_of_samples() const { return _content.number_of_samples; }
-    std::array<uint8_t, 4> get_sensor_format() const { return _content.sensor_format; }
-    uint32_t               get_svp_time_sec() const { return _content.svp_time_sec; }
-    double                 get_latitude_deg() const { return _content.latitude_deg; }
-    double                 get_longitude_deg() const { return _content.longitude_deg; }
+    uint16_t        get_bytes_content() const { return _content.bytes_content; }
+    uint16_t        get_number_of_samples() const { return _content.number_of_samples; }
+    o_sensor_format get_sensor_format() const { return _content.sensor_format; }
+    uint32_t        get_svp_time_sec() const { return _content.svp_time_sec; }
+    double          get_latitude_deg() const { return _content.latitude_deg; }
+    double          get_longitude_deg() const { return _content.longitude_deg; }
     const std::vector<SVPPoint>& get_sensor_data() const { return _sensor_data; }
     uint32_t                     get_bytes_datagram_check() const { return _bytes_datagram_check; }
 
     // Setters
     void set_bytes_content(uint16_t value) { _content.bytes_content = value; }
     void set_number_of_samples(uint16_t value) { _content.number_of_samples = value; }
-    void set_sensor_format(std::array<uint8_t, 4> value) { _content.sensor_format = value; }
+    void set_sensor_format(o_sensor_format value) { _content.sensor_format = value; }
     void set_svp_time_sec(uint32_t value) { _content.svp_time_sec = value; }
     void set_latitude_deg(double value) { _content.latitude_deg = value; }
     void set_longitude_deg(double value) { _content.longitude_deg = value; }
@@ -129,3 +158,14 @@ class SoundVelocityProfile : public KMALLDatagram
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::t_sensor_format,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_values.size(),
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_values,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_names,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_alt_names>;

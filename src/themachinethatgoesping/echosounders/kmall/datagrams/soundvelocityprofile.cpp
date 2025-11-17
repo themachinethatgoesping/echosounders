@@ -111,12 +111,9 @@ tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
     printer.register_section("datagram content");
     printer.register_value("bytes_content", _content.bytes_content);
     printer.register_value("number_of_samples", _content.number_of_samples);
-    printer.register_value("sensor_format",
-                           fmt::format("{:02X}{:02X}{:02X}{:02X}",
-                                       _content.sensor_format[0],
-                                       _content.sensor_format[1],
-                                       _content.sensor_format[2],
-                                       _content.sensor_format[3]));
+    printer.register_string("sensor_format",
+                            _content.sensor_format.name(),
+                            fmt::format("{}", fmt::join(_content.sensor_format.names(), ", ")));
     printer.register_value("svp_time_sec", _content.svp_time_sec, "s");
     printer.register_value("latitude_deg", _content.latitude_deg, "°");
     printer.register_value("longitude_deg", _content.longitude_deg, "°");
@@ -131,3 +128,14 @@ tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::t_sensor_format,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_values.size(),
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_values,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_names,
+    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+        t_sensor_format_alt_names>;

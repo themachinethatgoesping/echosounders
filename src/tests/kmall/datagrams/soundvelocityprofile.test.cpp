@@ -27,10 +27,10 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     dat.set_time_sec(1555977823);
     dat.set_time_nanosec(726999998);
 
-    dat.set_bytes_content(
-        SoundVelocityProfile::__size + 3 * sizeof(SoundVelocityProfile::SVPPoint));
+    dat.set_bytes_content(SoundVelocityProfile::__size +
+                          3 * sizeof(SoundVelocityProfile::SVPPoint));
     dat.set_number_of_samples(3);
-    dat.set_sensor_format({ 0x53, 0x56, 0x50, 0x21 });
+    dat.set_sensor_format(SoundVelocityProfile::o_sensor_format("sound_velocity_profile"));
     dat.set_svp_time_sec(1555977823);
     dat.set_latitude_deg(51.0543);
     dat.set_longitude_deg(3.7174);
@@ -43,7 +43,7 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     dat.set_sensor_data(svp_points);
     dat.set_bytes_datagram_check(KMALLDatagram::__size + dat.get_bytes_content());
 
-    CHECK(dat.binary_hash() == 14887297844200653380ULL);
+    CHECK(dat.binary_hash() == 17463323894861655923ULL);
 
     // test inequality
     // REQUIRE(dat != IOpRuntime());
@@ -78,7 +78,7 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     REQUIRE(dat.get_bytes_content() == expected_body_bytes);
     REQUIRE(dat.get_number_of_samples() == 3);
     auto sensor_format = dat.get_sensor_format();
-    REQUIRE(sensor_format == std::array<uint8_t, 4>{ 0x53, 0x56, 0x50, 0x21 });
+    REQUIRE(sensor_format == SoundVelocityProfile::t_sensor_format::sound_velocity_profile);
     REQUIRE(dat.get_latitude_deg() == Catch::Approx(51.0543));
     REQUIRE(dat.get_longitude_deg() == Catch::Approx(3.7174));
 
@@ -105,5 +105,5 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
 
     REQUIRE(dat.get_bytes_datagram() == dat.get_bytes_datagram_check());
 
-    CHECK(dat.binary_hash() == 14887297844200653380ULL);
+    CHECK(dat.binary_hash() == 17463323894861655923ULL);
 }
