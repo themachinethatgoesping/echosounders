@@ -81,6 +81,8 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return nb::cast(self.template datagrams<datagrams::SPositionError>(type));
                 case t_KMALLDatagramIdentifier::S_CLOCK:
                     return nb::cast(self.template datagrams<datagrams::SClock>(type));
+                case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_PROFILE:
+                    return nb::cast(self.template datagrams<datagrams::SoundVelocityProfile>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }

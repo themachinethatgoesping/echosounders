@@ -1,0 +1,135 @@
+//sourcehash: 7201a70e6c4c13e08265c1a015608ed4ef2496cfad1520d3251b124dadc57349
+
+/*
+  This file contains docstrings for use in the Python bindings.
+  Do not edit! They were automatically extracted by pybind11_mkdoc.
+
+  This is a modified version which allows for more than 8 arguments and includes def-guard
+ */
+
+#pragma once
+
+#ifndef __DOCSTRINGS_HPP__
+
+#define __EXPAND(x)                                                  x
+#define __COUNT(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, COUNT, ...) COUNT
+#define __VA_SIZE(...)                                               __EXPAND(__COUNT(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1))
+#define __CAT1(a, b)                                                 a##b
+#define __CAT2(a, b)                                                 __CAT1(a, b)
+#define __DOC1(n1)                                                   __doc_##n1
+#define __DOC2(n1, n2)                                               __doc_##n1##_##n2
+#define __DOC3(n1, n2, n3)                                           __doc_##n1##_##n2##_##n3
+#define __DOC4(n1, n2, n3, n4)                                       __doc_##n1##_##n2##_##n3##_##n4
+#define __DOC5(n1, n2, n3, n4, n5)                                   __doc_##n1##_##n2##_##n3##_##n4##_##n5
+#define __DOC6(n1, n2, n3, n4, n5, n6)                               __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6
+#define __DOC7(n1, n2, n3, n4, n5, n6, n7)                           __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7
+#define __DOC8(n1, n2, n3, n4, n5, n6, n7, n8)                                                     \
+    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8
+#define __DOC9(n1, n2, n3, n4, n5, n6, n7, n8, n9)                                                 \
+    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9
+#define __DOC10(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10)                                           \
+    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9##_##n10
+#define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
+
+#endif // NEW_DOC_HEADER_HPP
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile = R"doc(Clock datagrams)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_latitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_longitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_sensor_format = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_Content_svp_time_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_depth_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_padding = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_salinity = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_soundVelocity_m_per_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SVPPoint_temp_c = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_SoundVelocityProfile = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_bytes_datagram_check =
+R"doc(< Each datagram ends with the size of the datagram for < integrity
+check)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_from_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_from_stream_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_bytes_datagram_check = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_latitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_longitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_sensor_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_sensor_format = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_time_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_sensor_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_bytes_datagram_check = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_latitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_longitude_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_sensor_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_sensor_format = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_set_svp_time_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_to_stream = R"doc()doc";
+
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
+
+

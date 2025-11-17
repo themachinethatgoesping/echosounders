@@ -58,7 +58,10 @@ void init_c_kmalldatagramcontainer(nanobind::module_& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SClock,
                                                         t_KMALLDatagramIdentifier>(
         m, "KMALLDatagramContainer_SClock");
-
+        
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SoundVelocityProfile,
+                                                        t_KMALLDatagramIdentifier>(
+        m, "KMALLDatagramContainer_SoundVelocityProfile");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_KMALLDatagramVariant,
                                                         t_KMALLDatagramIdentifier,
                                                         datagrams::KMALLDatagramVariant>(
