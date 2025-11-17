@@ -124,6 +124,12 @@ class SoundVelocityProfile : public KMALLDatagram
     void set_bytes_datagram_check(uint32_t val) { _bytes_datagram_check = val; }
 
     // ----- processed data access -----
+    std::vector<float> get_svp_depths() const;
+    std::vector<float> get_svp_sound_velocities() const;
+    std::vector<float> get_svp_sound_velocities_computed() const;
+    std::vector<float> get_svp_absorption_computed(float frequency, float ph = 8) const;
+    std::vector<float> get_svp_salinities() const;
+    std::vector<float> get_svp_temperatures() const;
 
     // ----- operators -----
     bool operator==(const SoundVelocityProfile& other) const = default;

@@ -133,6 +133,28 @@ void init_c_soundvelocityprofile(nanobind::module_& m)
              DOC_SoundVelocityProfile(set_bytes_datagram_check),
              nb::arg("value"))
 
+        // --- processed data access ---
+        .def("get_svp_depths",
+             &SoundVelocityProfile::get_svp_depths,
+             DOC_SoundVelocityProfile(get_svp_depths))
+        .def("get_svp_sound_velocities",
+             &SoundVelocityProfile::get_svp_sound_velocities,
+             DOC_SoundVelocityProfile(get_svp_sound_velocities))
+        .def("get_svp_sound_velocities_computed",
+             &SoundVelocityProfile::get_svp_sound_velocities_computed,
+             DOC_SoundVelocityProfile(get_svp_sound_velocities_computed))
+        .def("get_svp_absorption_computed",
+             &SoundVelocityProfile::get_svp_absorption_computed,
+             DOC_SoundVelocityProfile(get_svp_absorption_computed),
+             nb::arg("frequency"),
+             nb::arg("ph") = 8)
+        .def("get_svp_salinities",
+             &SoundVelocityProfile::get_svp_salinities,
+             DOC_SoundVelocityProfile(get_svp_salinities))
+        .def("get_svp_temperatures",
+             &SoundVelocityProfile::get_svp_temperatures,
+             DOC_SoundVelocityProfile(get_svp_temperatures))
+
         // ----- operators -----
         .def("__eq__",
              &SoundVelocityProfile::operator==,

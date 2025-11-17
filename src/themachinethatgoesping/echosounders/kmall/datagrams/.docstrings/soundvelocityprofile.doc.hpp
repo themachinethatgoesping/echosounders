@@ -1,4 +1,4 @@
-//sourcehash: a79e68c0c4eabe20abb6da1310d0a104da9260a0cf269d0db1ca7d4d7b578537
+//sourcehash: cc8c000c5e37d69ea5e452fdbd3db6c12d5f2e9a9b63b14cb26a9ced26880908
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_soundvelocityprofile_hpp_162_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_soundvelocityprofile_hpp_168_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile = R"doc(Clock datagrams)doc";
 
@@ -103,6 +103,18 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_Sou
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_sensor_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_sensor_format = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_absorption_computed = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_depths = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_salinities = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_sound_velocities = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_sound_velocities_computed = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_temperatures = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SoundVelocityProfile_get_svp_time_sec = R"doc()doc";
 

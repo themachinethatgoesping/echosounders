@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include <themachinethatgoesping/algorithms/amplitudecorrection/functions/absorption.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>
 
 namespace themachinethatgoesping {
@@ -98,6 +99,87 @@ void SoundVelocityProfile::to_stream(std::ostream& os)
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
+// ----- processed values -----
+std::vector<float> SoundVelocityProfile::get_svp_depths() const
+{
+    std::vector<float> depths;
+    depths.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        depths.push_back(point.depth_m);
+    }
+    return depths;
+}
+std::vector<float> SoundVelocityProfile::get_svp_sound_velocities() const
+{
+    std::vector<float> sound_velocities;
+    sound_velocities.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        sound_velocities.push_back(point.soundVelocity_m_per_sec);
+    }
+    return sound_velocities;
+}
+std::vector<float> SoundVelocityProfile::get_svp_sound_velocities_computed() const
+{
+    std::vector<float> sound_velocities;
+    sound_velocities.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        // compute sound velocity using Mackenzie formula
+        float c =
+            algorithms::amplitudecorrection::functions::calc_sound_velocity(point.depth_m,
+                                                                            point.temp_c,
+                                                                            point.salinity,
+                                                                            _content.latitude_deg,
+                                                                            _content.longitude_deg);
+        sound_velocities.push_back(c);
+    }
+    return sound_velocities;
+}
+std::vector<float> SoundVelocityProfile::get_svp_absorption_computed(float frequency,
+                                                                     float ph) const
+{
+    std::vector<float> absorptions;
+    absorptions.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        float c =
+            algorithms::amplitudecorrection::functions::calc_sound_velocity(point.depth_m,
+                                                                            point.temp_c,
+                                                                            point.salinity,
+                                                                            _content.latitude_deg,
+                                                                            _content.longitude_deg);
+
+        // compute absorption using Francois-Garrison formula at 200 kHz
+        float a = algorithms::amplitudecorrection::functions::calc_absorption_coefficient_db_m(
+            frequency, c, point.temp_c, point.salinity, ph);
+        absorptions.push_back(a);
+    }
+    return absorptions;
+}
+
+std::vector<float> SoundVelocityProfile::get_svp_salinities() const
+{
+    std::vector<float> salinities;
+    salinities.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        salinities.push_back(point.salinity);
+    }
+    return salinities;
+}
+std::vector<float> SoundVelocityProfile::get_svp_temperatures() const
+{
+    std::vector<float> temperatures;
+    temperatures.reserve(_sensor_data.size());
+    for (const auto& point : _sensor_data)
+    {
+        temperatures.push_back(point.temp_c);
+    }
+    return temperatures;
+}
+
 // ----- objectprinter -----
 
 tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
@@ -120,6 +202,31 @@ tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
     printer.register_value("sensor_data",
                            fmt::format("vector<SVPPoint> with {} entries", _sensor_data.size()));
     printer.register_value("bytes_datagram_check", _bytes_datagram_check, "bytes");
+
+    // --- processed ---
+    const auto depth       = get_svp_depths();
+    const auto vel         = get_svp_sound_velocities();
+    const auto vel_comp    = get_svp_sound_velocities_computed();
+    const auto salinity    = get_svp_salinities();
+    const auto temperature = get_svp_temperatures();
+    const auto absorption  = get_svp_absorption_computed(200e3);
+    printer.register_section(
+        "processed\n" +
+        fmt::format("[depth (m), sound velocity (m/s), sound velocity [computed] (m/s), "
+                    "salinity (PSU), temperature (°C), absorption at 200 kHz [computed] (dB/m)]"));
+    for (size_t i = 0; i < depth.size(); ++i)
+    {
+        printer.register_string(
+            fmt::format("sample [{}]", i),
+            fmt::format(
+                "{:8.2f} m, {:7.2f} m/s, {:7.2f} m/s, {:7.2f} psu, {:7.3f} °C, {:10.6f} dB/m",
+                depth[i],
+                vel[i],
+                vel_comp[i],
+                salinity[i],
+                temperature[i],
+                absorption[i]));
+    }
 
     return printer;
 }
