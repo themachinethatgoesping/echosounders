@@ -63,6 +63,7 @@ sources = [
   'kmall/datagrams/kmalldatagram.test.cpp',
   'kmall/datagrams/kmallunknown.test.cpp',
   'kmall/datagrams/sposition.test.cpp',
+  'kmall/datagrams/spositionerror.test.cpp',
   'gsf/datagrams/gsfunknown.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',

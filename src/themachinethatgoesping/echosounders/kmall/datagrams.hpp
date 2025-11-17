@@ -14,6 +14,7 @@
 #include "datagrams/kmalldatagram.hpp"
 #include "datagrams/kmallunknown.hpp"
 #include "datagrams/sposition.hpp"
+#include "datagrams/spositionerror.hpp"
 #include "types.hpp"
 
 #include <variant>
@@ -34,7 +35,7 @@ namespace datagrams {
 
 // KMALLDATAGRAMTYPEAREA
 using t_KMALLDatagramVariant =
-    std::variant<KMALLDatagram, KMALLUnknown, IInstallationParam, IOpRuntime, SPosition>;
+    std::variant<KMALLDatagram, KMALLUnknown, IInstallationParam, IOpRuntime, SPosition, SPositionError>;
 
 struct KMALLDatagramVariant
 {
