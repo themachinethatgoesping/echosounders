@@ -9,6 +9,7 @@
 /* generated doc strings */
 #include ".docstrings/datagrams.doc.hpp"
 
+#include "datagrams/cposition.hpp"
 #include "datagrams/iinstallationparam.hpp"
 #include "datagrams/iopruntime.hpp"
 #include "datagrams/kmalldatagram.hpp"
@@ -47,7 +48,8 @@ using t_KMALLDatagramVariant = std::variant<KMALLDatagram,
                                             SClock,
                                             SSoundVelocityProfile,
                                             SSoundVelocityTransducer,
-                                            SKMBinary>;
+                                            SKMBinary,
+                                            CPosition>;
 
 struct KMALLDatagramVariant
 {

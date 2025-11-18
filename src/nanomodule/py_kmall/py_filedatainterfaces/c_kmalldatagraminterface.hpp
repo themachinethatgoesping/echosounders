@@ -87,6 +87,8 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                         self.template datagrams<datagrams::SSoundVelocityTransducer>(type));
                 case t_KMALLDatagramIdentifier::S_KM_BINARY:
                     return nb::cast(self.template datagrams<datagrams::SKMBinary>(type));
+                case t_KMALLDatagramIdentifier::C_POSITION:
+                    return nb::cast(self.template datagrams<datagrams::CPosition>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }
