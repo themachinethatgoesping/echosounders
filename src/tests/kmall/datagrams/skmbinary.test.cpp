@@ -185,4 +185,58 @@ TEST_CASE("SKMBinary should support common functions", TESTTAG)
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KMALLDatagramIdentifier::S_KM_BINARY);
     CHECK(dat.binary_hash() == expected_hash);
+
+    SECTION("status flag helpers should reflect bitfield state")
+    {
+        SKMBinary flags;
+        flags.set_sensor_data_contents(0);
+
+        auto expect_bits = [&](uint16_t value) {
+            CHECK(flags.get_sensor_data_contents() == value);
+        };
+
+        CHECK_FALSE(flags.get_horizontal_position_and_velocity_active());
+        CHECK_FALSE(flags.get_roll_and_pitch_active());
+        CHECK_FALSE(flags.get_heading_active());
+        CHECK_FALSE(flags.get_heave_active());
+        CHECK_FALSE(flags.get_acceleration_active());
+        CHECK_FALSE(flags.get_delayed_heave1_active());
+        CHECK_FALSE(flags.get_delayed_heave2_active());
+
+        flags.set_horizontal_position_and_velocity_active(true);
+        CHECK(flags.get_horizontal_position_and_velocity_active());
+        expect_bits(0b0000001);
+
+        flags.set_roll_and_pitch_active(true);
+        CHECK(flags.get_roll_and_pitch_active());
+        expect_bits(0b0000011);
+
+        flags.set_heading_active(true);
+        CHECK(flags.get_heading_active());
+        expect_bits(0b0000111);
+
+        flags.set_heave_active(true);
+        CHECK(flags.get_heave_active());
+        expect_bits(0b0001111);
+
+        flags.set_acceleration_active(true);
+        CHECK(flags.get_acceleration_active());
+        expect_bits(0b0011111);
+
+        flags.set_delayed_heave1_active(true);
+        CHECK(flags.get_delayed_heave1_active());
+        expect_bits(0b0111111);
+
+        flags.set_delayed_heave2_active(true);
+        CHECK(flags.get_delayed_heave2_active());
+        expect_bits(0b1111111);
+
+        flags.set_heading_active(false);
+        CHECK_FALSE(flags.get_heading_active());
+        expect_bits(0b1111011);
+
+        flags.set_delayed_heave2_active(false);
+        CHECK_FALSE(flags.get_delayed_heave2_active());
+        expect_bits(0b0111011);
+    }
 }

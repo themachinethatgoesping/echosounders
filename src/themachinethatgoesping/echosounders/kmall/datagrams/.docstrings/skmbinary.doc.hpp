@@ -1,4 +1,4 @@
-//sourcehash: 6aad8adb2679fafd0736276573d1c5d55be98e2f8bace96256955be70aef3c5b
+//sourcehash: 2320dc6782d148410c5155840fd80955e700e5685c56ffa8f5334d4fa0a14c54
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_skmbinary_hpp_268_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_skmbinary_hpp_315_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary = R"doc(Clock datagrams)doc";
 
@@ -76,9 +76,39 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKM
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_ellipsoid_height_m = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_acceleration_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_acceleration_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_delayed_heave1_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_delayed_heave1_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_delayed_heave2_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_delayed_heave2_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_heading_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_heading_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_heave_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_heave_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_horizontal_position_and_velocity_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_horizontal_position_and_velocity_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_roll_and_pitch_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_roll_and_pitch_valid = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_sensor_date_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_sensor_timestamp = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_get_status_bits = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_heading_deg = R"doc()doc";
 
@@ -113,6 +143,36 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKM
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_roll_error_deg = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_roll_rate = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_acceleration_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_acceleration_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_delayed_heave1_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_delayed_heave1_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_delayed_heave2_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_delayed_heave2_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_heading_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_heading_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_heave_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_heave_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_horizontal_position_and_velocity_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_horizontal_position_and_velocity_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_roll_and_pitch_reduced_performance = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_roll_and_pitch_valid = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_set_status_bits = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_KMBinary_status = R"doc()doc";
 
@@ -170,17 +230,33 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKM
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_acceleration_active = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_bytes_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_bytes_datagram_check = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_delayed_heave1_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_delayed_heave2_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_heading_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_heave_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_horizontal_position_and_velocity_active = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_number_of_bytes_per_sample = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_number_of_samples = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_roll_and_pitch_active = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_sensor_data = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_sensor_data_contents = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_sensor_data_contents_bits = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_get_sensor_format = R"doc()doc";
 
@@ -194,13 +270,27 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKM
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_sensor_data = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_acceleration_active = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_bytes_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_bytes_datagram_check = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_delayed_heave1_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_delayed_heave2_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_heading_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_heave_active = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_horizontal_position_and_velocity_active = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_number_of_bytes_per_sample = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_number_of_samples = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_roll_and_pitch_active = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_sensor_data = R"doc()doc";
 

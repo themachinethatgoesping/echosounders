@@ -32,8 +32,8 @@ namespace datagrams {
 class SKMBinary : public KMALLDatagram
 {
   public:
-    static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::S_KM_BINARY;
-    static constexpr size_t __size           = 12; // size till _sensor_data
+    static constexpr auto   DatagramIdentifier = t_KMALLDatagramIdentifier::S_KM_BINARY;
+    static constexpr size_t __size             = 12; // size till _sensor_data
 
     enum class t_sensor_format : uint16_t
     {
@@ -120,6 +120,42 @@ class SKMBinary : public KMALLDatagram
         float north_acceleration;
         float east_acceleration;
         float down_acceleration;
+
+        // processed
+        std::bitset<32> get_status_bits() const;
+        void            set_status_bits(std::bitset<32> bits);
+
+        bool get_horizontal_position_and_velocity_valid() const;
+        bool get_roll_and_pitch_valid() const;
+        bool get_heading_valid() const;
+        bool get_heave_valid() const;
+        bool get_acceleration_valid() const;
+        bool get_delayed_heave1_valid() const;
+        bool get_delayed_heave2_valid() const;
+
+        bool get_horizontal_position_and_velocity_reduced_performance() const;
+        bool get_roll_and_pitch_reduced_performance() const;
+        bool get_heading_reduced_performance() const;
+        bool get_heave_reduced_performance() const;
+        bool get_acceleration_reduced_performance() const;
+        bool get_delayed_heave1_reduced_performance() const;
+        bool get_delayed_heave2_reduced_performance() const;
+
+        void set_horizontal_position_and_velocity_valid(bool valid);
+        void set_roll_and_pitch_valid(bool valid);
+        void set_heading_valid(bool valid);
+        void set_heave_valid(bool valid);
+        void set_acceleration_valid(bool valid);
+        void set_delayed_heave1_valid(bool valid);
+        void set_delayed_heave2_valid(bool valid);
+
+        void set_horizontal_position_and_velocity_reduced_performance(bool reduced_performance);
+        void set_roll_and_pitch_reduced_performance(bool reduced_performance);
+        void set_heading_reduced_performance(bool reduced_performance);
+        void set_heave_reduced_performance(bool reduced_performance);
+        void set_acceleration_reduced_performance(bool reduced_performance);
+        void set_delayed_heave1_reduced_performance(bool reduced_performance);
+        void set_delayed_heave2_reduced_performance(bool reduced_performance);
 
         bool operator==(const KMBinary& other) const = default;
 
@@ -225,12 +261,23 @@ class SKMBinary : public KMALLDatagram
     void set_bytes_datagram_check(uint32_t val) { _bytes_datagram_check = val; }
 
     // ----- processed data access -----
-    // std::vector<float> get_svp_depths() const;
-    // std::vector<float> get_svp_sound_velocities() const;
-    // std::vector<float> get_svp_sound_velocities_computed() const;
-    // std::vector<float> get_svp_absorption_computed(float frequency, float ph = 8) const;
-    // std::vector<float> get_svp_salinities() const;
-    // std::vector<float> get_svp_temperatures() const;
+    std::bitset<8> get_sensor_data_contents_bits() const;
+
+    bool get_horizontal_position_and_velocity_active() const;
+    bool get_roll_and_pitch_active() const;
+    bool get_heading_active() const;
+    bool get_heave_active() const;
+    bool get_acceleration_active() const;
+    bool get_delayed_heave1_active() const;
+    bool get_delayed_heave2_active() const;
+
+    void set_horizontal_position_and_velocity_active(bool active);
+    void set_roll_and_pitch_active(bool active);
+    void set_heading_active(bool active);
+    void set_heave_active(bool active);
+    void set_acceleration_active(bool active);
+    void set_delayed_heave1_active(bool active);
+    void set_delayed_heave2_active(bool active);
 
     // ----- operators -----
     bool operator==(const SKMBinary& other) const = default;

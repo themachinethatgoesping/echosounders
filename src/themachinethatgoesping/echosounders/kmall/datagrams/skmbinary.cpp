@@ -18,6 +18,164 @@ namespace kmall {
 namespace datagrams {
 
 // substructures - KMBinary
+std::bitset<32> SKMBinary::KMBinary::get_status_bits() const
+{
+    return std::bitset<32>(status);
+}
+void SKMBinary::KMBinary::set_status_bits(std::bitset<32> bits)
+{
+    status = static_cast<uint32_t>(bits.to_ulong());
+}
+
+// Valid functions: status bits 0-6
+bool SKMBinary::KMBinary::get_horizontal_position_and_velocity_valid() const
+{
+    return !get_status_bits().test(0);
+}
+bool SKMBinary::KMBinary::get_roll_and_pitch_valid() const
+{
+    return !get_status_bits().test(1);
+}
+bool SKMBinary::KMBinary::get_heading_valid() const
+{
+    return !get_status_bits().test(2);
+}
+bool SKMBinary::KMBinary::get_heave_valid() const
+{
+    return !get_status_bits().test(3);
+}
+bool SKMBinary::KMBinary::get_acceleration_valid() const
+{
+    return !get_status_bits().test(4);
+}
+bool SKMBinary::KMBinary::get_delayed_heave1_valid() const
+{
+    return !get_status_bits().test(5);
+}
+bool SKMBinary::KMBinary::get_delayed_heave2_valid() const
+{
+    return !get_status_bits().test(6);
+}
+
+// Reduced performance functions: status bits 16-22
+bool SKMBinary::KMBinary::get_horizontal_position_and_velocity_reduced_performance() const
+{
+    return get_status_bits().test(16);
+}
+bool SKMBinary::KMBinary::get_roll_and_pitch_reduced_performance() const
+{
+    return get_status_bits().test(17);
+}
+bool SKMBinary::KMBinary::get_heading_reduced_performance() const
+{
+    return get_status_bits().test(18);
+}
+bool SKMBinary::KMBinary::get_heave_reduced_performance() const
+{
+    return get_status_bits().test(19);
+}
+bool SKMBinary::KMBinary::get_acceleration_reduced_performance() const
+{
+    return get_status_bits().test(20);
+}
+bool SKMBinary::KMBinary::get_delayed_heave1_reduced_performance() const
+{
+    return get_status_bits().test(21);
+}
+bool SKMBinary::KMBinary::get_delayed_heave2_reduced_performance() const
+{
+    return get_status_bits().test(22);
+}
+
+// Set valid bits
+void SKMBinary::KMBinary::set_horizontal_position_and_velocity_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(0, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_roll_and_pitch_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(1, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_heading_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(2, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_heave_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(3, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_acceleration_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(4, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_delayed_heave1_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(5, !valid);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_delayed_heave2_valid(bool valid)
+{
+    auto bits = get_status_bits();
+    bits.set(6, !valid);
+    set_status_bits(bits);
+}
+
+// Set reduced performance bits
+void SKMBinary::KMBinary::set_horizontal_position_and_velocity_reduced_performance(
+    bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(16, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_roll_and_pitch_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(17, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_heading_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(18, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_heave_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(19, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_acceleration_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(20, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_delayed_heave1_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(21, reduced_performance);
+    set_status_bits(bits);
+}
+void SKMBinary::KMBinary::set_delayed_heave2_reduced_performance(bool reduced_performance)
+{
+    auto bits = get_status_bits();
+    bits.set(22, reduced_performance);
+    set_status_bits(bits);
+}
+
 double SKMBinary::KMBinary::get_sensor_timestamp() const
 {
     return time_sec + time_nanosec * 1e-9;
@@ -43,20 +201,6 @@ tools::classhelper::ObjectPrinter SKMBinary::KMBinary::__printer__(unsigned int 
     printer.register_value("time_sec", time_sec, "s");
     printer.register_value("time_nanosec", time_nanosec, "ns");
     printer.register_value("status", fmt::format("0b{:08b}", status));
-
-    auto timestamp = get_sensor_timestamp();
-    if (std::isfinite(timestamp))
-    {
-        static const std::string format_date("%d/%m/%Y");
-        static const std::string format_time("%H:%M:%S");
-        using tools::timeconv::unixtime_to_datestring;
-        auto date = unixtime_to_datestring(timestamp, 0, format_date);
-        auto time = unixtime_to_datestring(timestamp, 3, format_time);
-
-        printer.register_value("(p)sensor_timestamp", timestamp, "s");
-        printer.register_string("(p)sensor_date", date, "MM/DD/YYYY");
-        printer.register_string("(p)sensor_time", time, "HH:MM:SS");
-    }
 
     printer.register_value("latitude_deg", latitude_deg, "°");
     printer.register_value("longitude_deg", longitude_deg, "°");
@@ -87,6 +231,44 @@ tools::classhelper::ObjectPrinter SKMBinary::KMBinary::__printer__(unsigned int 
     printer.register_value("east_acceleration", east_acceleration, "m/s²");
     printer.register_value("down_acceleration", down_acceleration, "m/s²");
 
+    printer.register_section("processed");
+
+    auto timestamp = get_sensor_timestamp();
+    if (std::isfinite(timestamp))
+    {
+        static const std::string format_date("%d/%m/%Y");
+        static const std::string format_time("%H:%M:%S");
+        using tools::timeconv::unixtime_to_datestring;
+        auto date = unixtime_to_datestring(timestamp, 0, format_date);
+        auto time = unixtime_to_datestring(timestamp, 3, format_time);
+
+        printer.register_value("sensor_timestamp", timestamp, "s");
+        printer.register_string("sensor_date", date, "MM/DD/YYYY");
+        printer.register_string("sensor_time", time, "HH:MM:SS");
+    }
+
+    printer.register_value("horizontal_position_and_velocity_valid",
+                           get_horizontal_position_and_velocity_valid());
+    printer.register_value("roll_and_pitch_valid", get_roll_and_pitch_valid());
+    printer.register_value("heading_valid", get_heading_valid());
+    printer.register_value("heave_valid", get_heave_valid());
+    printer.register_value("acceleration_valid", get_acceleration_valid());
+    printer.register_value("delayed_heave1_valid", get_delayed_heave1_valid());
+    printer.register_value("delayed_heave2_valid", get_delayed_heave2_valid());
+
+    printer.register_value("horizontal_position_and_velocity_reduced_performance",
+                           get_horizontal_position_and_velocity_reduced_performance());
+    printer.register_value("roll_and_pitch_reduced_performance",
+                           get_roll_and_pitch_reduced_performance());
+    printer.register_value("heading_reduced_performance", get_heading_reduced_performance());
+    printer.register_value("heave_reduced_performance", get_heave_reduced_performance());
+    printer.register_value("acceleration_reduced_performance",
+                           get_acceleration_reduced_performance());
+    printer.register_value("delayed_heave1_reduced_performance",
+                           get_delayed_heave1_reduced_performance());
+    printer.register_value("delayed_heave2_reduced_performance",
+                           get_delayed_heave2_reduced_performance());
+
     return printer;
 }
 
@@ -114,6 +296,7 @@ tools::classhelper::ObjectPrinter SKMBinary::KMDelayedHeave::__printer__(
     printer.register_value("time_sec", time_sec, "s");
     printer.register_value("time_nanosec", time_nanosec, "ns");
 
+    printer.register_section("processed");
     auto timestamp = get_sensor_timestamp();
     if (std::isfinite(timestamp))
     {
@@ -123,9 +306,9 @@ tools::classhelper::ObjectPrinter SKMBinary::KMDelayedHeave::__printer__(
         auto date = unixtime_to_datestring(timestamp, 0, format_date);
         auto time = unixtime_to_datestring(timestamp, 3, format_time);
 
-        printer.register_value("(p)sensor_timestamp", timestamp, "s");
-        printer.register_string("(p)sensor_date", date, "MM/DD/YYYY");
-        printer.register_string("(p)sensor_time", time, "HH:MM:SS");
+        printer.register_value("sensor_timestamp", timestamp, "s");
+        printer.register_string("sensor_date", date, "MM/DD/YYYY");
+        printer.register_string("sensor_time", time, "HH:MM:SS");
     }
 
     return printer;
@@ -212,6 +395,84 @@ void SKMBinary::to_stream(std::ostream& os)
 }
 
 // ----- processed values -----
+// Each corresponds to bytes 0-6 in sensor_data_contents
+
+std::bitset<8> SKMBinary::get_sensor_data_contents_bits() const
+{
+    return std::bitset<8>(_content.sensor_data_contents);
+}
+
+bool SKMBinary::get_horizontal_position_and_velocity_active() const
+{
+    return get_sensor_data_contents_bits().test(0);
+}
+bool SKMBinary::get_roll_and_pitch_active() const
+{
+    return get_sensor_data_contents_bits().test(1);
+}
+bool SKMBinary::get_heading_active() const
+{
+    return get_sensor_data_contents_bits().test(2);
+}
+bool SKMBinary::get_heave_active() const
+{
+    return get_sensor_data_contents_bits().test(3);
+}
+bool SKMBinary::get_acceleration_active() const
+{
+    return get_sensor_data_contents_bits().test(4);
+}
+bool SKMBinary::get_delayed_heave1_active() const
+{
+    return get_sensor_data_contents_bits().test(5);
+}
+bool SKMBinary::get_delayed_heave2_active() const
+{
+    return get_sensor_data_contents_bits().test(6);
+}
+
+void SKMBinary::set_horizontal_position_and_velocity_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(0, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_roll_and_pitch_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(1, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_heading_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(2, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_heave_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(3, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_acceleration_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(4, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_delayed_heave1_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(5, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
+void SKMBinary::set_delayed_heave2_active(bool active)
+{
+    std::bitset<8> bits(_content.sensor_data_contents);
+    bits.set(6, active);
+    _content.sensor_data_contents = static_cast<uint8_t>(bits.to_ulong());
+}
 
 // ----- objectprinter -----
 
@@ -236,6 +497,15 @@ tools::classhelper::ObjectPrinter SKMBinary::__printer__(unsigned int float_prec
     printer.register_value("bytes_datagram_check", _bytes_datagram_check, "bytes");
 
     // --- processed ---
+    printer.register_section("processed");
+    printer.register_value("horizontal_position_and_velocity_active",
+                           get_horizontal_position_and_velocity_active());
+    printer.register_value("roll_and_pitch_active", get_roll_and_pitch_active());
+    printer.register_value("heading_active", get_heading_active());
+    printer.register_value("heave_active", get_heave_active());
+    printer.register_value("acceleration_active", get_acceleration_active());
+    printer.register_value("delayed_heave1_active", get_delayed_heave1_active());
+    printer.register_value("delayed_heave2_active", get_delayed_heave2_active());
 
     return printer;
 }

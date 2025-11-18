@@ -60,50 +60,50 @@ SSoundVelocityTransducer::SSoundVelocityTransducer(const KMALLDatagram& header)
 
 bool SSoundVelocityTransducer::get_sound_velocity_active() const
 {
-    return std::bitset<16>(_content.sensor_status).test(0);
+    return std::bitset<16>(_content.sensor_data_contents).test(0);
 }
 
 bool SSoundVelocityTransducer::get_temperature_active() const
 {
-    return std::bitset<16>(_content.sensor_status).test(1);
+    return std::bitset<16>(_content.sensor_data_contents).test(1);
 }
 
 bool SSoundVelocityTransducer::get_pressure_active() const
 {
-    return std::bitset<16>(_content.sensor_status).test(3);
+    return std::bitset<16>(_content.sensor_data_contents).test(3);
 }
 
 bool SSoundVelocityTransducer::get_salinity_active() const
 {
-    return std::bitset<16>(_content.sensor_status).test(4);
+    return std::bitset<16>(_content.sensor_data_contents).test(4);
 }
 
 void SSoundVelocityTransducer::set_sound_velocity_active(bool active)
 {
-    std::bitset<16> status_bits(_content.sensor_status);
+    std::bitset<16> status_bits(_content.sensor_data_contents);
     status_bits.set(0, active);
-    _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
+    _content.sensor_data_contents = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
 void SSoundVelocityTransducer::set_temperature_active(bool active)
 {
-    std::bitset<16> status_bits(_content.sensor_status);
+    std::bitset<16> status_bits(_content.sensor_data_contents);
     status_bits.set(1, active);
-    _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
+    _content.sensor_data_contents = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
 void SSoundVelocityTransducer::set_pressure_active(bool active)
 {
-    std::bitset<16> status_bits(_content.sensor_status);
+    std::bitset<16> status_bits(_content.sensor_data_contents);
     status_bits.set(3, active);
-    _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
+    _content.sensor_data_contents = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
 void SSoundVelocityTransducer::set_salinity_active(bool active)
 {
-    std::bitset<16> status_bits(_content.sensor_status);
+    std::bitset<16> status_bits(_content.sensor_data_contents);
     status_bits.set(4, active);
-    _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
+    _content.sensor_data_contents = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
 void SSoundVelocityTransducer::set_sensor_data(const std::vector<SVTSample>& data)
@@ -130,7 +130,7 @@ void SSoundVelocityTransducer::__read__(std::istream& is)
 }
 
 SSoundVelocityTransducer SSoundVelocityTransducer::from_stream(std::istream&        is,
-                                                             const KMALLDatagram& header)
+                                                               const KMALLDatagram& header)
 {
     SSoundVelocityTransducer datagram(header);
     datagram.__read__(is);
@@ -262,14 +262,13 @@ tools::classhelper::ObjectPrinter SSoundVelocityTransducer::__printer__(
         using tools::timeconv::unixtime_to_datestring;
         auto date = unixtime_to_datestring(times[i], 2, format_date);
 
-        printer.register_string(
-            fmt::format("sample [{}]", i),
-            fmt::format("{}, {:7.2f} m/s, {:7.2f} psu, {:7.3f} °C, {:10.2f} Pa",
-                        date,
-                        vel[i],
-                        salinity[i],
-                        temperature[i],
-                        pressures[i]));
+        printer.register_string(fmt::format("sample [{}]", i),
+                                fmt::format("{}, {:7.2f} m/s, {:7.2f} psu, {:7.3f} °C, {:10.2f} Pa",
+                                            date,
+                                            vel[i],
+                                            salinity[i],
+                                            temperature[i],
+                                            pressures[i]));
     }
 
     return printer;

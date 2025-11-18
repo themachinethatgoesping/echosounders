@@ -49,7 +49,8 @@ TEST_CASE("SSoundVelocityTransducer should support common functions", TESTTAG)
     dat.set_salinity_active(true);
     dat.set_pressure_active(false);
 
-    CHECK(dat.binary_hash() == 8769901069998588250ULL);
+    auto expected_hash = 10173265093942083915ULL;
+    CHECK(dat.binary_hash() == expected_hash);
 
     {
         INFO(fmt::format("orig: {}", dat.info_string()));
@@ -128,5 +129,5 @@ TEST_CASE("SSoundVelocityTransducer should support common functions", TESTTAG)
     }
 
     REQUIRE(dat.get_bytes_datagram() == dat.get_bytes_datagram_check());
-    CHECK(dat.binary_hash() == 8769901069998588250ULL);
+    CHECK(dat.binary_hash() == expected_hash);
 }
