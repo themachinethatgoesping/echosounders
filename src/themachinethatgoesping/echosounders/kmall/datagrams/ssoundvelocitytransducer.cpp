@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "soundvelocitytransducer.hpp"
+#include "ssoundvelocitytransducer.hpp"
 
 #include <fmt/format.h>
 
@@ -18,12 +18,12 @@ namespace echosounders {
 namespace kmall {
 namespace datagrams {
 
-double SoundVelocityTransducer::SVTSample::get_sensor_timestamp() const
+double SSoundVelocityTransducer::SVTSample::get_sensor_timestamp() const
 {
     return time_sec + time_nanosec * 1e-9;
 }
 
-std::string SoundVelocityTransducer::SVTSample::get_sensor_date_string(
+std::string SSoundVelocityTransducer::SVTSample::get_sensor_date_string(
     unsigned int       fractionalSecondsDigits,
     const std::string& format) const
 {
@@ -31,7 +31,7 @@ std::string SoundVelocityTransducer::SVTSample::get_sensor_date_string(
         get_sensor_timestamp(), fractionalSecondsDigits, format);
 }
 
-tools::classhelper::ObjectPrinter SoundVelocityTransducer::SVTSample::__printer__(
+tools::classhelper::ObjectPrinter SSoundVelocityTransducer::SVTSample::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
 {
@@ -48,65 +48,65 @@ tools::classhelper::ObjectPrinter SoundVelocityTransducer::SVTSample::__printer_
     return printer;
 }
 
-SoundVelocityTransducer::SoundVelocityTransducer()
+SSoundVelocityTransducer::SSoundVelocityTransducer()
 {
     _datagram_identifier = DatagramIdentifier;
 }
 
-SoundVelocityTransducer::SoundVelocityTransducer(const KMALLDatagram& header)
+SSoundVelocityTransducer::SSoundVelocityTransducer(const KMALLDatagram& header)
     : KMALLDatagram(header)
 {
 }
 
-bool SoundVelocityTransducer::get_sound_velocity_active() const
+bool SSoundVelocityTransducer::get_sound_velocity_active() const
 {
     return std::bitset<16>(_content.sensor_status).test(0);
 }
 
-bool SoundVelocityTransducer::get_temperature_active() const
+bool SSoundVelocityTransducer::get_temperature_active() const
 {
     return std::bitset<16>(_content.sensor_status).test(1);
 }
 
-bool SoundVelocityTransducer::get_pressure_active() const
+bool SSoundVelocityTransducer::get_pressure_active() const
 {
     return std::bitset<16>(_content.sensor_status).test(3);
 }
 
-bool SoundVelocityTransducer::get_salinity_active() const
+bool SSoundVelocityTransducer::get_salinity_active() const
 {
     return std::bitset<16>(_content.sensor_status).test(4);
 }
 
-void SoundVelocityTransducer::set_sound_velocity_active(bool active)
+void SSoundVelocityTransducer::set_sound_velocity_active(bool active)
 {
     std::bitset<16> status_bits(_content.sensor_status);
     status_bits.set(0, active);
     _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
-void SoundVelocityTransducer::set_temperature_active(bool active)
+void SSoundVelocityTransducer::set_temperature_active(bool active)
 {
     std::bitset<16> status_bits(_content.sensor_status);
     status_bits.set(1, active);
     _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
-void SoundVelocityTransducer::set_pressure_active(bool active)
+void SSoundVelocityTransducer::set_pressure_active(bool active)
 {
     std::bitset<16> status_bits(_content.sensor_status);
     status_bits.set(3, active);
     _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
-void SoundVelocityTransducer::set_salinity_active(bool active)
+void SSoundVelocityTransducer::set_salinity_active(bool active)
 {
     std::bitset<16> status_bits(_content.sensor_status);
     status_bits.set(4, active);
     _content.sensor_status = static_cast<uint16_t>(status_bits.to_ulong());
 }
 
-void SoundVelocityTransducer::set_sensor_data(const std::vector<SVTSample>& data)
+void SSoundVelocityTransducer::set_sensor_data(const std::vector<SVTSample>& data)
 {
     _sensor_data               = data;
     _content.number_of_samples = static_cast<uint16_t>(data.size());
@@ -118,7 +118,7 @@ void SoundVelocityTransducer::set_sensor_data(const std::vector<SVTSample>& data
 }
 
 // ----- to/from stream functions -----
-void SoundVelocityTransducer::__read__(std::istream& is)
+void SSoundVelocityTransducer::__read__(std::istream& is)
 {
     // read first part of the datagram (until the first beam)
     is.read(reinterpret_cast<char*>(&_content), __size);
@@ -129,35 +129,35 @@ void SoundVelocityTransducer::__read__(std::istream& is)
     is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
 }
 
-SoundVelocityTransducer SoundVelocityTransducer::from_stream(std::istream&        is,
+SSoundVelocityTransducer SSoundVelocityTransducer::from_stream(std::istream&        is,
                                                              const KMALLDatagram& header)
 {
-    SoundVelocityTransducer datagram(header);
+    SSoundVelocityTransducer datagram(header);
     datagram.__read__(is);
 
     return datagram;
 }
 
-SoundVelocityTransducer SoundVelocityTransducer::from_stream(
+SSoundVelocityTransducer SSoundVelocityTransducer::from_stream(
     std::istream&             is,
     o_KMALLDatagramIdentifier datagram_identifier)
 {
-    SoundVelocityTransducer datagram;
+    SSoundVelocityTransducer datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
     datagram.__read__(is);
     return datagram;
 }
 
-SoundVelocityTransducer SoundVelocityTransducer::from_stream(std::istream& is)
+SSoundVelocityTransducer SSoundVelocityTransducer::from_stream(std::istream& is)
 {
-    SoundVelocityTransducer datagram;
+    SSoundVelocityTransducer datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__read__(is);
     return datagram;
 }
 
-void SoundVelocityTransducer::to_stream(std::ostream& os)
+void SSoundVelocityTransducer::to_stream(std::ostream& os)
 {
     KMALLDatagram::to_stream(os);
 
@@ -168,7 +168,7 @@ void SoundVelocityTransducer::to_stream(std::ostream& os)
 }
 
 // ----- processed values -----
-std::vector<double> SoundVelocityTransducer::get_svt_timestamps() const
+std::vector<double> SSoundVelocityTransducer::get_svt_timestamps() const
 {
     std::vector<double> timestamps;
     timestamps.reserve(_sensor_data.size());
@@ -178,7 +178,7 @@ std::vector<double> SoundVelocityTransducer::get_svt_timestamps() const
     }
     return timestamps;
 }
-std::vector<float> SoundVelocityTransducer::get_svt_pressures() const
+std::vector<float> SSoundVelocityTransducer::get_svt_pressures() const
 {
     std::vector<float> pressures;
     pressures.reserve(_sensor_data.size());
@@ -188,7 +188,7 @@ std::vector<float> SoundVelocityTransducer::get_svt_pressures() const
     }
     return pressures;
 }
-std::vector<float> SoundVelocityTransducer::get_svt_sound_velocities() const
+std::vector<float> SSoundVelocityTransducer::get_svt_sound_velocities() const
 {
     std::vector<float> sound_velocities;
     sound_velocities.reserve(_sensor_data.size());
@@ -198,7 +198,7 @@ std::vector<float> SoundVelocityTransducer::get_svt_sound_velocities() const
     }
     return sound_velocities;
 }
-std::vector<float> SoundVelocityTransducer::get_svt_salinities() const
+std::vector<float> SSoundVelocityTransducer::get_svt_salinities() const
 {
     std::vector<float> salinities;
     salinities.reserve(_sensor_data.size());
@@ -208,7 +208,7 @@ std::vector<float> SoundVelocityTransducer::get_svt_salinities() const
     }
     return salinities;
 }
-std::vector<float> SoundVelocityTransducer::get_svt_temperatures() const
+std::vector<float> SSoundVelocityTransducer::get_svt_temperatures() const
 {
     std::vector<float> temperatures;
     temperatures.reserve(_sensor_data.size());
@@ -221,12 +221,12 @@ std::vector<float> SoundVelocityTransducer::get_svt_temperatures() const
 
 // ----- objectprinter -----
 
-tools::classhelper::ObjectPrinter SoundVelocityTransducer::__printer__(
+tools::classhelper::ObjectPrinter SSoundVelocityTransducer::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
-        "SoundVelocityTransducer", float_precision, superscript_exponents);
+        "SSoundVelocityTransducer", float_precision, superscript_exponents);
 
     printer.append(KMALLDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("datagram content");
@@ -281,13 +281,13 @@ tools::classhelper::ObjectPrinter SoundVelocityTransducer::__printer__(
 } // namespace themachinethatgoesping
 
 template class themachinethatgoesping::tools::classhelper::OptionFrozen<
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_values.size(),
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_values,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_names,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_alt_names>;

@@ -9,16 +9,16 @@
 
 #include <fmt/format.h>
 
-#include <themachinethatgoesping/echosounders/kmall/datagrams/soundvelocitytransducer.hpp>
+#include <themachinethatgoesping/echosounders/kmall/datagrams/ssoundvelocitytransducer.hpp>
 
 using namespace std;
 using namespace themachinethatgoesping::echosounders::kmall;
 using namespace themachinethatgoesping::echosounders::kmall::datagrams;
 #define TESTTAG "[kmall]"
 
-TEST_CASE("SoundVelocityTransducer should support common functions", TESTTAG)
+TEST_CASE("SSoundVelocityTransducer should support common functions", TESTTAG)
 {
-    auto dat = SoundVelocityTransducer();
+    auto dat = SSoundVelocityTransducer();
 
     dat.set_datagram_version(1.1);
     dat.set_system_id(65);
@@ -27,14 +27,14 @@ TEST_CASE("SoundVelocityTransducer should support common functions", TESTTAG)
     dat.set_time_nanosec(123456789);
 
     dat.set_sensor_status(0);
-    dat.set_sensor_input_format(SoundVelocityTransducer::o_sensor_format("AML_SV"));
+    dat.set_sensor_input_format(SSoundVelocityTransducer::o_sensor_format("AML_SV"));
     dat.set_number_of_bytes_per_sample(
-        static_cast<uint16_t>(sizeof(SoundVelocityTransducer::SVTSample)));
+        static_cast<uint16_t>(sizeof(SSoundVelocityTransducer::SVTSample)));
     dat.set_sensor_data_contents(0b1111);
     dat.set_filter_time_sec(0.5f);
     dat.set_sound_velocity_offset_m_per_sec(0.2f);
 
-    std::vector<SoundVelocityTransducer::SVTSample> samples = {
+    std::vector<SSoundVelocityTransducer::SVTSample> samples = {
         { 1660000000, 111000000, 1490.0f, 4.1f, 101325.0f, 34.0f },
         { 1660000001, 222000000, 1493.0f, 4.0f, 101400.0f, 34.1f },
         { 1660000002, 333000000, 1496.0f, 3.9f, 101450.0f, 34.2f },
@@ -53,12 +53,12 @@ TEST_CASE("SoundVelocityTransducer should support common functions", TESTTAG)
 
     {
         INFO(fmt::format("orig: {}", dat.info_string()));
-        INFO(fmt::format("copy constructor: {}", SoundVelocityTransducer(dat).info_string()));
-        CHECK(dat == SoundVelocityTransducer(dat));
+        INFO(fmt::format("copy constructor: {}", SSoundVelocityTransducer(dat).info_string()));
+        CHECK(dat == SSoundVelocityTransducer(dat));
     }
 
     {
-        auto dat2 = SoundVelocityTransducer(dat.from_binary(dat.to_binary()));
+        auto dat2 = SSoundVelocityTransducer(dat.from_binary(dat.to_binary()));
         INFO(fmt::format("orig: {}", dat.info_string()));
         INFO(fmt::format("From binary: {}", dat2.info_string()));
         REQUIRE(dat == dat2);
@@ -67,15 +67,15 @@ TEST_CASE("SoundVelocityTransducer should support common functions", TESTTAG)
 
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == SoundVelocityTransducer(dat.from_stream(buffer)));
+    REQUIRE(dat == SSoundVelocityTransducer(dat.from_stream(buffer)));
 
     REQUIRE(dat.info_string().size() != 0);
 
-    size_t expected_body_bytes = SoundVelocityTransducer::__size + sizeof(uint32_t) +
-                                 samples.size() * sizeof(SoundVelocityTransducer::SVTSample);
+    size_t expected_body_bytes = SSoundVelocityTransducer::__size + sizeof(uint32_t) +
+                                 samples.size() * sizeof(SSoundVelocityTransducer::SVTSample);
     REQUIRE(dat.get_bytes_content() == expected_body_bytes);
     REQUIRE(dat.get_number_of_samples() == samples.size());
-    REQUIRE(dat.get_sensor_input_format() == SoundVelocityTransducer::t_sensor_format::AML_SV);
+    REQUIRE(dat.get_sensor_input_format() == SSoundVelocityTransducer::t_sensor_format::AML_SV);
     REQUIRE(dat.get_filter_time_sec() == Catch::Approx(0.5f));
     REQUIRE(dat.get_sound_velocity_offset_m_per_sec() == Catch::Approx(0.2f));
 

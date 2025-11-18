@@ -14,8 +14,8 @@
 #include "datagrams/kmalldatagram.hpp"
 #include "datagrams/kmallunknown.hpp"
 #include "datagrams/sclock.hpp"
-#include "datagrams/soundvelocityprofile.hpp"
-#include "datagrams/soundvelocitytransducer.hpp"
+#include "datagrams/ssoundvelocityprofile.hpp"
+#include "datagrams/ssoundvelocitytransducer.hpp"
 #include "datagrams/sposition.hpp"
 #include "datagrams/spositionerror.hpp"
 #include "types.hpp"
@@ -44,8 +44,8 @@ using t_KMALLDatagramVariant = std::variant<KMALLDatagram,
                                             SPosition,
                                             SPositionError,
                                             SClock,
-                                            SoundVelocityProfile,
-                                            SoundVelocityTransducer>;
+                                            SSoundVelocityProfile,
+                                            SSoundVelocityTransducer>;
 
 struct KMALLDatagramVariant
 {

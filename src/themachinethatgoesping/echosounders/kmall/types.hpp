@@ -31,41 +31,52 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 
-// Constexpr function to convert 4-char string to uint32_t at compile time
-constexpr uint32_t c_DGM2Int(const char five_chars[5])
+// Constexpr function to convert char string to uint32_t at compile time
+// we give N because the char may include an automatic null terminator that makes it 5 chars instead
+// of 4 but only the first 4 chars are used for the conversion to uint32_t
+template<typename t_return, size_t N>
+constexpr t_return c_chars2Int(const char chars[N])
 {
+    // test if N is > sizeof t_return
+    static_assert(N >= sizeof(t_return),
+                  "c_chars2Int: N must be more than or equal to the size of t_return");
+
     // Use first 4 bytes, ignore the null terminator
-    std::array<char, 4> four_chars = { five_chars[0], five_chars[1], five_chars[2], five_chars[3] };
-    return std::bit_cast<uint32_t>(four_chars);
+    std::array<char, sizeof(t_return)> chars_array = {};
+    for (size_t i = 0; i < sizeof(t_return); ++i)
+    {
+        chars_array[i] = chars[i];
+    }
+    return std::bit_cast<t_return>(chars_array);
 }
 
 enum class t_KMALLDatagramIdentifier : uint32_t
 {
     // I-datagrams (Installation)
-    I_INSTALLATION_PARAM = c_DGM2Int("#IIP"),
-    I_OP_RUNTIME         = c_DGM2Int("#IOP"),
+    I_INSTALLATION_PARAM = c_chars2Int<uint32_t, 5>("#IIP"),
+    I_OP_RUNTIME         = c_chars2Int<uint32_t, 5>("#IOP"),
 
     // S-datagrams (Sensor)
-    S_POSITION                  = c_DGM2Int("#SPO"),
-    S_POSITION_ERROR            = c_DGM2Int("#SPE"),
-    S_POSITION_DATUM            = c_DGM2Int("#SPD"),
-    S_KM_BINARY                 = c_DGM2Int("#SKM"),
-    S_SOUND_VELOCITY_PROFILE    = c_DGM2Int("#SVP"),
-    S_SOUND_VELOCITY_TRANSDUCER = c_DGM2Int("#SVT"),
-    S_CLOCK                     = c_DGM2Int("#SCL"),
-    S_DEPTH                     = c_DGM2Int("#SDE"),
-    S_HEIGHT                    = c_DGM2Int("#SHI"),
+    S_POSITION                  = c_chars2Int<uint32_t, 5>("#SPO"),
+    S_POSITION_ERROR            = c_chars2Int<uint32_t, 5>("#SPE"),
+    S_POSITION_DATUM            = c_chars2Int<uint32_t, 5>("#SPD"),
+    S_KM_BINARY                 = c_chars2Int<uint32_t, 5>("#SKM"),
+    S_SOUND_VELOCITY_PROFILE    = c_chars2Int<uint32_t, 5>("#SVP"),
+    S_SOUND_VELOCITY_TRANSDUCER = c_chars2Int<uint32_t, 5>("#SVT"),
+    S_CLOCK                     = c_chars2Int<uint32_t, 5>("#SCL"),
+    S_DEPTH                     = c_chars2Int<uint32_t, 5>("#SDE"),
+    S_HEIGHT                    = c_chars2Int<uint32_t, 5>("#SHI"),
 
     // M-datagrams (Multibeam)
-    M_RANGE_AND_DEPTH = c_DGM2Int("#MRZ"),
-    M_WATER_COLUMN    = c_DGM2Int("#MWC"),
+    M_RANGE_AND_DEPTH = c_chars2Int<uint32_t, 5>("#MRZ"),
+    M_WATER_COLUMN    = c_chars2Int<uint32_t, 5>("#MWC"),
 
     // C-datagrams (Compatibility)
-    C_POSITION = c_DGM2Int("#CPO"),
-    C_HEAVE    = c_DGM2Int("#CHE"),
+    C_POSITION = c_chars2Int<uint32_t, 5>("#CPO"),
+    C_HEAVE    = c_chars2Int<uint32_t, 5>("#CHE"),
 
     // F-datagrams (File)
-    F_CALIBRATION_FILE = c_DGM2Int("#FCF"),
+    F_CALIBRATION_FILE = c_chars2Int<uint32_t, 5>("#FCF"),
 
     unspecified = std::numeric_limits<uint32_t>::max(),
 };
@@ -163,7 +174,7 @@ inline std::string datagram_identifier_to_string(kmall::t_KMALLDatagramIdentifie
     return tools::helper::int_as_string<uint32_t>(uint32_t(value));
 }
 
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
 /**
  * @brief Convert vector of datagram identifiers to vector of strings.
  * @param values Vector of identifiers.
@@ -172,8 +183,7 @@ inline std::string datagram_identifier_to_string(kmall::t_KMALLDatagramIdentifie
 std::vector<std::string> datagram_identifiers_to_string(
     const std::vector<kmall::t_KMALLDatagramIdentifier>& values);
 
-
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string2
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string2
 /**
  * @brief Convert set of datagram identifiers to vector of strings.
  * @param values Set of identifiers.
@@ -187,7 +197,7 @@ std::vector<std::string> datagram_identifiers_to_string(
  * @param datagram_type Datagram identifier.
  * @return Human-readable description.
  */
-//IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
 std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_type);
 
 }

@@ -7,7 +7,7 @@
 
 #include <filesystem>
 
-#include <themachinethatgoesping/echosounders/kmall/datagrams/soundvelocityprofile.hpp>
+#include <themachinethatgoesping/echosounders/kmall/datagrams/ssoundvelocityprofile.hpp>
 
 // using namespace testing;
 using namespace std;
@@ -15,10 +15,10 @@ using namespace themachinethatgoesping::echosounders::kmall;
 using namespace themachinethatgoesping::echosounders::kmall::datagrams;
 #define TESTTAG "[kmall]"
 
-TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
+TEST_CASE("SSoundVelocityProfile should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat = SoundVelocityProfile();
+    auto dat = SSoundVelocityProfile();
 
     // set some variables
     dat.set_datagram_version(1.2);
@@ -27,15 +27,15 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     dat.set_time_sec(1555977823);
     dat.set_time_nanosec(726999998);
 
-    dat.set_bytes_content(SoundVelocityProfile::__size +
-                          3 * sizeof(SoundVelocityProfile::SVPPoint));
+    dat.set_bytes_content(SSoundVelocityProfile::__size +
+                          3 * sizeof(SSoundVelocityProfile::SVPPoint));
     dat.set_number_of_samples(3);
-    dat.set_sensor_format(SoundVelocityProfile::o_sensor_format("sound_velocity_profile"));
+    dat.set_sensor_format(SSoundVelocityProfile::o_sensor_format("sound_velocity_profile"));
     dat.set_svp_time_sec(1555977823);
     dat.set_latitude_deg(51.0543);
     dat.set_longitude_deg(3.7174);
 
-    std::vector<SoundVelocityProfile::SVPPoint> svp_points = {
+    std::vector<SSoundVelocityProfile::SVPPoint> svp_points = {
         { 10.0f, 1492.0f, 0u, 4.1f, 34.0f },
         { 20.0f, 1498.0f, 0u, 4.0f, 34.1f },
         { 30.0f, 1502.0f, 0u, 3.9f, 34.2f },
@@ -51,13 +51,13 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     // test copy
     {
         INFO(fmt::format("orig: {}", dat.info_string()));
-        INFO(fmt::format("copy constructor: {}", SoundVelocityProfile(dat).info_string()));
-        CHECK(dat == SoundVelocityProfile(dat));
+        INFO(fmt::format("copy constructor: {}", SSoundVelocityProfile(dat).info_string()));
+        CHECK(dat == SSoundVelocityProfile(dat));
     }
 
     // test binary
     {
-        auto dat2 = SoundVelocityProfile(dat.from_binary(dat.to_binary()));
+        auto dat2 = SSoundVelocityProfile(dat.from_binary(dat.to_binary()));
         INFO(fmt::format("orig: {}", dat.info_string()));
         INFO(fmt::format("From binary: {}", dat2.info_string()));
         REQUIRE(dat == dat2);
@@ -67,18 +67,18 @@ TEST_CASE("SoundVelocityProfile should support common functions", TESTTAG)
     // test stream
     std::stringstream buffer;
     dat.to_stream(buffer);
-    REQUIRE(dat == SoundVelocityProfile(dat.from_stream(buffer)));
+    REQUIRE(dat == SSoundVelocityProfile(dat.from_stream(buffer)));
 
     // test print does not crash
     REQUIRE(dat.info_string().size() != 0);
 
     //--- datagram concept ---
-    static constexpr size_t expected_body_bytes = SoundVelocityProfile::__size + sizeof(uint32_t) +
-                                                  3 * sizeof(SoundVelocityProfile::SVPPoint);
+    static constexpr size_t expected_body_bytes = SSoundVelocityProfile::__size + sizeof(uint32_t) +
+                                                  3 * sizeof(SSoundVelocityProfile::SVPPoint);
     REQUIRE(dat.get_bytes_content() == expected_body_bytes);
     REQUIRE(dat.get_number_of_samples() == 3);
     auto sensor_format = dat.get_sensor_format();
-    REQUIRE(sensor_format == SoundVelocityProfile::t_sensor_format::sound_velocity_profile);
+    REQUIRE(sensor_format == SSoundVelocityProfile::t_sensor_format::sound_velocity_profile);
     REQUIRE(dat.get_latitude_deg() == Catch::Approx(51.0543));
     REQUIRE(dat.get_longitude_deg() == Catch::Approx(3.7174));
 

@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/soundvelocitytransducer.doc.hpp"
+#include ".docstrings/ssoundvelocitytransducer.doc.hpp"
 
 // std includes
 #include <cstdint>
@@ -28,7 +28,7 @@ namespace datagrams {
 /**
  * @brief Clock datagrams
  */
-class SoundVelocityTransducer : public KMALLDatagram
+class SSoundVelocityTransducer : public KMALLDatagram
 {
   public:
     static constexpr auto DatagramIdentifier =
@@ -122,8 +122,8 @@ class SoundVelocityTransducer : public KMALLDatagram
 
   public:
     // ----- public constructors -----
-    SoundVelocityTransducer();
-    ~SoundVelocityTransducer() = default;
+    SSoundVelocityTransducer();
+    ~SSoundVelocityTransducer() = default;
 
     // ----- convenient data access -----
     // Getters
@@ -178,15 +178,15 @@ class SoundVelocityTransducer : public KMALLDatagram
     std::vector<float>  get_svt_salinities() const;
 
     // ----- operators -----
-    bool operator==(const SoundVelocityTransducer& other) const = default;
+    bool operator==(const SSoundVelocityTransducer& other) const = default;
 
     //----- to/from stream functions -----
-    static SoundVelocityTransducer from_stream(std::istream& is, const KMALLDatagram& header);
+    static SSoundVelocityTransducer from_stream(std::istream& is, const KMALLDatagram& header);
 
-    static SoundVelocityTransducer from_stream(std::istream&             is,
+    static SSoundVelocityTransducer from_stream(std::istream&             is,
                                                o_KMALLDatagramIdentifier datagram_identifier);
 
-    static SoundVelocityTransducer from_stream(std::istream& is);
+    static SSoundVelocityTransducer from_stream(std::istream& is);
 
     void to_stream(std::ostream& os);
 
@@ -196,10 +196,10 @@ class SoundVelocityTransducer : public KMALLDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(SoundVelocityTransducer)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(SSoundVelocityTransducer)
 
   protected:
-    explicit SoundVelocityTransducer(const KMALLDatagram& header);
+    explicit SSoundVelocityTransducer(const KMALLDatagram& header);
     void __read__(std::istream& is);
 };
 
@@ -209,13 +209,13 @@ class SoundVelocityTransducer : public KMALLDatagram
 } // namespace themachinethatgoesping
 
 extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_values.size(),
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_values,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_names,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityTransducer::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityTransducer::
         t_sensor_format_alt_names>;

@@ -29,8 +29,8 @@ void init_c_sposition(nanobind::module_& m);           // c_sposition.cpp
 void init_c_spositionerror(nanobind::module_& m);      // c_spositionerror.cpp
 void init_c_sclock(nanobind::module_& m);              // c_sclock.cpp
 
-void init_c_soundvelocityprofile(nanobind::module_& m);    // c_soundvelocityprofile.cpp
-void init_c_soundvelocitytransducer(nanobind::module_& m); // c_soundvelocitytransducer.cpp
+void init_c_ssoundvelocityprofile(nanobind::module_& m);    // c_soundvelocityprofile.cpp
+void init_c_ssoundvelocitytransducer(nanobind::module_& m); // c_soundvelocitytransducer.cpp
 
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
@@ -52,8 +52,8 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_spositionerror(subm);
     init_c_sclock(subm);
 
-    init_c_soundvelocityprofile(subm);
-    init_c_soundvelocitytransducer(subm);
+    init_c_ssoundvelocityprofile(subm);
+    init_c_ssoundvelocitytransducer(subm);
 }
 
 }

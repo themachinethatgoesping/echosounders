@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "soundvelocityprofile.hpp"
+#include "ssoundvelocityprofile.hpp"
 
 #include <fmt/format.h>
 
@@ -17,12 +17,12 @@ namespace echosounders {
 namespace kmall {
 namespace datagrams {
 
-SoundVelocityProfile::SoundVelocityProfile()
+SSoundVelocityProfile::SSoundVelocityProfile()
 {
     _datagram_identifier = DatagramIdentifier;
 }
 
-void SoundVelocityProfile::set_sensor_data(const std::vector<SVPPoint>& data)
+void SSoundVelocityProfile::set_sensor_data(const std::vector<SVPPoint>& data)
 {
     _sensor_data               = data;
     _content.number_of_samples = static_cast<uint16_t>(data.size());
@@ -33,7 +33,7 @@ void SoundVelocityProfile::set_sensor_data(const std::vector<SVPPoint>& data)
     _bytes_datagram_check = get_bytes_datagram();
 }
 
-tools::classhelper::ObjectPrinter SoundVelocityProfile::SVPPoint::__printer__(
+tools::classhelper::ObjectPrinter SSoundVelocityProfile::SVPPoint::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
 {
@@ -50,7 +50,7 @@ tools::classhelper::ObjectPrinter SoundVelocityProfile::SVPPoint::__printer__(
 }
 
 // ----- to/from stream functions -----
-void SoundVelocityProfile::__read__(std::istream& is)
+void SSoundVelocityProfile::__read__(std::istream& is)
 {
     // read first part of the datagram (until the first beam)
     is.read(reinterpret_cast<char*>(&_content), __size);
@@ -61,35 +61,35 @@ void SoundVelocityProfile::__read__(std::istream& is)
     is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
 }
 
-SoundVelocityProfile SoundVelocityProfile::from_stream(std::istream&        is,
+SSoundVelocityProfile SSoundVelocityProfile::from_stream(std::istream&        is,
                                                        const KMALLDatagram& header)
 {
-    SoundVelocityProfile datagram(header);
+    SSoundVelocityProfile datagram(header);
     datagram.__read__(is);
 
     return datagram;
 }
 
-SoundVelocityProfile SoundVelocityProfile::from_stream(
+SSoundVelocityProfile SSoundVelocityProfile::from_stream(
     std::istream&             is,
     o_KMALLDatagramIdentifier datagram_identifier)
 {
-    SoundVelocityProfile datagram;
+    SSoundVelocityProfile datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
     datagram.__read__(is);
     return datagram;
 }
 
-SoundVelocityProfile SoundVelocityProfile::from_stream(std::istream& is)
+SSoundVelocityProfile SSoundVelocityProfile::from_stream(std::istream& is)
 {
-    SoundVelocityProfile datagram;
+    SSoundVelocityProfile datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__read__(is);
     return datagram;
 }
 
-void SoundVelocityProfile::to_stream(std::ostream& os)
+void SSoundVelocityProfile::to_stream(std::ostream& os)
 {
     KMALLDatagram::to_stream(os);
 
@@ -100,7 +100,7 @@ void SoundVelocityProfile::to_stream(std::ostream& os)
 }
 
 // ----- processed values -----
-std::vector<float> SoundVelocityProfile::get_svp_depths() const
+std::vector<float> SSoundVelocityProfile::get_svp_depths() const
 {
     std::vector<float> depths;
     depths.reserve(_sensor_data.size());
@@ -110,7 +110,7 @@ std::vector<float> SoundVelocityProfile::get_svp_depths() const
     }
     return depths;
 }
-std::vector<float> SoundVelocityProfile::get_svp_sound_velocities() const
+std::vector<float> SSoundVelocityProfile::get_svp_sound_velocities() const
 {
     std::vector<float> sound_velocities;
     sound_velocities.reserve(_sensor_data.size());
@@ -120,7 +120,7 @@ std::vector<float> SoundVelocityProfile::get_svp_sound_velocities() const
     }
     return sound_velocities;
 }
-std::vector<float> SoundVelocityProfile::get_svp_sound_velocities_computed() const
+std::vector<float> SSoundVelocityProfile::get_svp_sound_velocities_computed() const
 {
     std::vector<float> sound_velocities;
     sound_velocities.reserve(_sensor_data.size());
@@ -137,7 +137,7 @@ std::vector<float> SoundVelocityProfile::get_svp_sound_velocities_computed() con
     }
     return sound_velocities;
 }
-std::vector<float> SoundVelocityProfile::get_svp_absorption_computed(float frequency,
+std::vector<float> SSoundVelocityProfile::get_svp_absorption_computed(float frequency,
                                                                      float ph) const
 {
     std::vector<float> absorptions;
@@ -159,7 +159,7 @@ std::vector<float> SoundVelocityProfile::get_svp_absorption_computed(float frequ
     return absorptions;
 }
 
-std::vector<float> SoundVelocityProfile::get_svp_salinities() const
+std::vector<float> SSoundVelocityProfile::get_svp_salinities() const
 {
     std::vector<float> salinities;
     salinities.reserve(_sensor_data.size());
@@ -169,7 +169,7 @@ std::vector<float> SoundVelocityProfile::get_svp_salinities() const
     }
     return salinities;
 }
-std::vector<float> SoundVelocityProfile::get_svp_temperatures() const
+std::vector<float> SSoundVelocityProfile::get_svp_temperatures() const
 {
     std::vector<float> temperatures;
     temperatures.reserve(_sensor_data.size());
@@ -182,12 +182,12 @@ std::vector<float> SoundVelocityProfile::get_svp_temperatures() const
 
 // ----- objectprinter -----
 
-tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
+tools::classhelper::ObjectPrinter SSoundVelocityProfile::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
-        "SoundVelocityProfile", float_precision, superscript_exponents);
+        "SSoundVelocityProfile", float_precision, superscript_exponents);
 
     printer.append(KMALLDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("datagram content");
@@ -237,12 +237,12 @@ tools::classhelper::ObjectPrinter SoundVelocityProfile::__printer__(
 } // namespace themachinethatgoesping
 
 template class themachinethatgoesping::tools::classhelper::OptionFrozen<
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::t_sensor_format,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityProfile::t_sensor_format,
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityProfile::
         t_sensor_format_values.size(),
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityProfile::
         t_sensor_format_values,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityProfile::
         t_sensor_format_names,
-    themachinethatgoesping::echosounders::kmall::datagrams::SoundVelocityProfile::
+    themachinethatgoesping::echosounders::kmall::datagrams::SSoundVelocityProfile::
         t_sensor_format_alt_names>;

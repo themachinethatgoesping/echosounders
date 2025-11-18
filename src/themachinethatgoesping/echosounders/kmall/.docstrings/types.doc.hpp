@@ -1,4 +1,4 @@
-//sourcehash: c5ee74711d0045bf780711ed06fcfc875f735b4603da85d18f37ddf8c4c4263f
+//sourcehash: b8f39f887af5ccba383ff5f35a317551c7db477b67ffb242cfd3faabc769f98d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_196_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_206_67 = R"doc()doc";
 
 
 
@@ -53,7 +53,7 @@ Parameter ``value``:
 Returns:
     Parsed datagram type numeric value.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_c_DGM2Int = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_c_chars2Int = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagram_type_to_string =
 R"doc(Convert datagram type from uint32_t to string representation.

@@ -7,12 +7,10 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/soundvelocityprofile.doc.hpp"
-
-/* generated doc strings */
 #include ".docstrings/ssoundvelocityprofile.doc.hpp"
 
 // std includes
+#include <bitset>
 #include <cstdint>
 #include <string>
 
@@ -39,8 +37,8 @@ class SSoundVelocityProfile : public KMALLDatagram
 
     enum class t_sensor_format : uint32_t
     {
-        sound_velocity_profile = std::bit_cast<uint32_t>("S00"),
-        ctd_profile            = std::bit_cast<uint32_t>("S01"),
+        sound_velocity_profile = c_chars2Int<uint32_t, 4>("S00"),
+        ctd_profile            = c_chars2Int<uint32_t, 4>("S01"),
     };
 
     static constexpr std::array<t_sensor_format, 2> t_sensor_format_values = {
@@ -141,7 +139,7 @@ class SSoundVelocityProfile : public KMALLDatagram
     static SSoundVelocityProfile from_stream(std::istream& is, const KMALLDatagram& header);
 
     static SSoundVelocityProfile from_stream(std::istream&             is,
-                                            o_KMALLDatagramIdentifier datagram_identifier);
+                                             o_KMALLDatagramIdentifier datagram_identifier);
 
     static SSoundVelocityProfile from_stream(std::istream& is);
 
