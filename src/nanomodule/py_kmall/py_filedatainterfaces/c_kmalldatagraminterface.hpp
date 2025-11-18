@@ -80,10 +80,13 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                 case t_KMALLDatagramIdentifier::S_CLOCK:
                     return nb::cast(self.template datagrams<datagrams::SClock>(type));
                 case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_PROFILE:
-                    return nb::cast(self.template datagrams<datagrams::SSoundVelocityProfile>(type));
+                    return nb::cast(
+                        self.template datagrams<datagrams::SSoundVelocityProfile>(type));
                 case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_TRANSDUCER:
                     return nb::cast(
                         self.template datagrams<datagrams::SSoundVelocityTransducer>(type));
+                case t_KMALLDatagramIdentifier::S_KM_BINARY:
+                    return nb::cast(self.template datagrams<datagrams::SKMBinary>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }

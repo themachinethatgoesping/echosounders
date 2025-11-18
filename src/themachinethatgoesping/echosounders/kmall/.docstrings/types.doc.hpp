@@ -1,4 +1,4 @@
-//sourcehash: b8f39f887af5ccba383ff5f35a317551c7db477b67ffb242cfd3faabc769f98d
+//sourcehash: 8497cc4286b5150a4bbd8f0c25a1a6c7ecc1baafe1b7413fd406726b7287c824
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,7 +38,7 @@
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_206_67 = R"doc()doc";
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_211_67 = R"doc()doc";
 
 
 
@@ -84,6 +84,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagr
 static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_I_INSTALLATION_PARAM = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_I_OP_RUNTIME = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_KM_BINARY = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_M_RANGE_AND_DEPTH = R"doc()doc";
 

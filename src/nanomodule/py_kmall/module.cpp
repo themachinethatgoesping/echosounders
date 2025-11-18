@@ -94,7 +94,12 @@ void init_m_kmall(nanobind::module_& m)
                DOC_t_KMALLDatagramIdentifier(M_WATER_COLUMN))
         .value("C_POSITION",
                t_KMALLDatagramIdentifier::C_POSITION,
-               DOC_t_KMALLDatagramIdentifier(C_POSITION));
+               DOC_t_KMALLDatagramIdentifier(C_POSITION))
+        .value("KM_BINARY",
+               t_KMALLDatagramIdentifier::KM_BINARY,
+               DOC_t_KMALLDatagramIdentifier(KM_BINARY))
+        //
+        ;
 
     themachinethatgoesping::tools::nanobind_helper::make_option_class<o_KMALLDatagramIdentifier>(
         subm, "o_KMALLDatagramIdentifier");

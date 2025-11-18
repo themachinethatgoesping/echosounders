@@ -31,6 +31,7 @@ void init_c_sclock(nanobind::module_& m);              // c_sclock.cpp
 
 void init_c_ssoundvelocityprofile(nanobind::module_& m);    // c_soundvelocityprofile.cpp
 void init_c_ssoundvelocitytransducer(nanobind::module_& m); // c_soundvelocitytransducer.cpp
+void init_c_skmbinary(nanobind::module_& m);               // c_skmbinary.cpp
 
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
@@ -54,6 +55,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
 
     init_c_ssoundvelocityprofile(subm);
     init_c_ssoundvelocitytransducer(subm);
+    init_c_skmbinary(subm);
 }
 
 }
