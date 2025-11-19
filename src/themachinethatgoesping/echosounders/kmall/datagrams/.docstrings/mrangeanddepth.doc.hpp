@@ -1,4 +1,4 @@
-//sourcehash: ce57ce3a53d473c041ab0b0e6750b418cd4b794bcd4d7717dfc2e7e73c04165a
+//sourcehash: 9cb3f50b302a144c7dc2c0725d35be0012577085df659516ef73a4590ea8c45b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -150,6 +150,52 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZPingInfo_z_water_level_re_ref_point_m = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_MRZSectorInfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_centre_frequency_hz = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_effective_signal_length_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_high_voltage_level_db = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_padding_0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_padding_1 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_pulse_shading = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_read_version_0 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_sector_tracking_corr_db = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_sector_transmit_delay_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_signal_band_width_hz = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_signal_wave_form = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tilt_angle_re_tx_deg = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_total_signal_length_sec = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tx_arrary_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tx_focus_range_m = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tx_nominal_source_level_db = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tx_sector_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_tx_sub_array = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRZSectorInfo_write_version_0 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_MRangeAndDepth = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
@@ -262,6 +308,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_tx_power_db = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_tx_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_tx_transducer_depth_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_x_kmall_to_all_m = R"doc()doc";
@@ -277,6 +325,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_ping_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_printer = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_read_pinginfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_read_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_abs_coeff_db_per_km = R"doc()doc";
 
@@ -376,6 +428,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_tx_power_db = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_tx_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_tx_transducer_depth_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_x_kmall_to_all_m = R"doc()doc";
@@ -388,7 +442,13 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_to_stream = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_tx_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_tx_sectors_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_write_pinginfo = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_write_sectors = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

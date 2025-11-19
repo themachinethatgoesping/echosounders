@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/bind_vector.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
@@ -26,8 +28,51 @@ using datagrams::MRangeAndDepth;
 #define DOC_MRangeAndDepth(ARG)                                                                    \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, MRangeAndDepth, ARG)
 
+#define DOC_MRZSectorInfo(ARG)                                                                     \
+    DOC(themachinethatgoesping, echosounders, kmall, datagrams, MRangeAndDepth, MRZSectorInfo, ARG)
+
 void init_c_mrangeanddepth(nanobind::module_& m)
 {
+    nb::class_<MRangeAndDepth::MRZSectorInfo>(m, "MRZSectorInfo", DOC_MRZSectorInfo(MRZSectorInfo))
+        .def(nb::init<>(), DOC_MRZSectorInfo(MRZSectorInfo))
+        .def("__eq__",
+             &MRangeAndDepth::MRZSectorInfo::operator==,
+             DOC_MRZSectorInfo(operator_eq),
+             nb::arg("other"))
+        .def_rw("tx_sector_number", &MRangeAndDepth::MRZSectorInfo::tx_sector_number)
+        .def_rw("tx_arrary_number", &MRangeAndDepth::MRZSectorInfo::tx_arrary_number)
+        .def_rw("tx_sub_array", &MRangeAndDepth::MRZSectorInfo::tx_sub_array)
+        .def_rw("padding_0", &MRangeAndDepth::MRZSectorInfo::padding_0)
+        .def_rw("sector_transmit_delay_sec",
+                &MRangeAndDepth::MRZSectorInfo::sector_transmit_delay_sec)
+        .def_rw("tilt_angle_re_tx_deg", &MRangeAndDepth::MRZSectorInfo::tilt_angle_re_tx_deg)
+        .def_rw("tx_nominal_source_level_db",
+                &MRangeAndDepth::MRZSectorInfo::tx_nominal_source_level_db)
+        .def_rw("tx_focus_range_m", &MRangeAndDepth::MRZSectorInfo::tx_focus_range_m)
+        .def_rw("centre_frequency_hz", &MRangeAndDepth::MRZSectorInfo::centre_frequency_hz)
+        .def_rw("signal_band_width_hz", &MRangeAndDepth::MRZSectorInfo::signal_band_width_hz)
+        .def_rw("total_signal_length_sec", &MRangeAndDepth::MRZSectorInfo::total_signal_length_sec)
+        .def_rw("pulse_shading", &MRangeAndDepth::MRZSectorInfo::pulse_shading)
+        .def_rw("signal_wave_form", &MRangeAndDepth::MRZSectorInfo::signal_wave_form)
+        .def_rw("padding_1", &MRangeAndDepth::MRZSectorInfo::padding_1)
+        .def_rw("high_voltage_level_db", &MRangeAndDepth::MRZSectorInfo::high_voltage_level_db)
+        .def_rw("sector_tracking_corr_db", &MRangeAndDepth::MRZSectorInfo::sector_tracking_corr_db)
+        .def_rw("effective_signal_length_sec",
+                &MRangeAndDepth::MRZSectorInfo::effective_signal_length_sec)
+
+        // ----- operators -----
+        .def("__eq__",
+             &MRangeAndDepth::MRZSectorInfo::operator==,
+             DOC_MRangeAndDepth(operator_eq),
+             nb::arg("other"))
+        // ----- pybind macros -----
+        // default copy functions
+        __PYCLASS_DEFAULT_COPY__(MRangeAndDepth::MRZSectorInfo)
+        // default printing functions
+        __PYCLASS_DEFAULT_PRINTING__(MRangeAndDepth::MRZSectorInfo)
+        // end
+        ;
+
     nb::class_<MRangeAndDepth, datagrams::KMALLMultibeamDatagram>(
         m,
         "MRangeAndDepth",
@@ -399,6 +444,13 @@ void init_c_mrangeanddepth(nanobind::module_& m)
         .def("set_bytes_datagram_check",
              &MRangeAndDepth::set_bytes_datagram_check,
              DOC_MRangeAndDepth(set_bytes_datagram_check),
+             nb::arg("val"))
+
+        // ----- sectors etc. -----
+        .def("get_tx_sectors", &MRangeAndDepth::get_tx_sectors, DOC_MRangeAndDepth(get_tx_sectors))
+        .def("set_tx_sectors",
+             &MRangeAndDepth::set_tx_sectors,
+             DOC_MRangeAndDepth(set_tx_sectors),
              nb::arg("val"))
 
         // ----- processed -----

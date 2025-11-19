@@ -35,6 +35,41 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
   public:
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH;
 
+#pragma pack(push, 4) // force 4-byte alignment
+    struct MRZSectorInfo
+    {
+        uint8_t  tx_sector_number;
+        uint8_t  tx_arrary_number;
+        uint8_t  tx_sub_array;
+        uint8_t  padding_0;
+        float    sector_transmit_delay_sec;
+        float    tilt_angle_re_tx_deg;
+        float    tx_nominal_source_level_db;
+        float    tx_focus_range_m;
+        float    centre_frequency_hz;
+        float    signal_band_width_hz;
+        float    total_signal_length_sec;
+        uint8_t  pulse_shading;
+        uint8_t  signal_wave_form;
+        uint16_t padding_1;
+
+        // Additional parameters #MRZ Version 1
+        float high_voltage_level_db;
+        float sector_tracking_corr_db;
+        float effective_signal_length_sec;
+
+        MRZSectorInfo()                                   = default;
+        ~MRZSectorInfo()                                  = default;
+        bool operator==(const MRZSectorInfo& other) const = default;
+
+        tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                      bool         superscript_exponents) const;
+
+        static MRZSectorInfo __read_version_0__(std::istream& is);
+        void                 __write_version_0__(std::ostream& os) const;
+    };
+#pragma pack(pop)
+
   protected:
 #pragma pack(push, 4) // force 4-byte alignment
     struct MRZPingInfo
@@ -78,6 +113,7 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         float    tx_power_db;
         uint16_t sl_ramp_up_time_remaining;
         uint16_t padding_2;
+
         float    yaw_angle_deg;
         uint16_t number_of_tx_sectors;
         uint16_t number_of_bytes_per_tx_Sector;
@@ -88,10 +124,11 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         float    x_kmall_to_all_m;
         float    y_kmall_to_all_m;
 
-        uint8_t  lat_long_info;
-        uint8_t  position_sensor_status;
-        uint8_t  attitude_sensor_status;
-        uint8_t  padding_3;
+        uint8_t lat_long_info;
+        uint8_t position_sensor_status;
+        uint8_t attitude_sensor_status;
+        uint8_t padding_3;
+
         double   latitude_deg;
         double   longitude_deg;
         float    ellipsoid_height_re_ref_point_m;
@@ -103,6 +140,8 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         bool operator==(const MRZPingInfo& other) const = default;
     } _ping_info;
 #pragma pack(pop)
+
+    std::vector<MRZSectorInfo> _tx_sectors;
 
     static constexpr size_t __size = sizeof(MRZPingInfo); // size till _bytes_datagram_check
 
@@ -274,6 +313,19 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     void set_active_modes(uint16_t val) { _ping_info.active_modes = val; }
     void set_bytes_datagram_check(uint32_t val) { _bytes_datagram_check = val; }
 
+    const std::vector<MRZSectorInfo>& get_tx_sectors() const { return _tx_sectors; }
+    std::vector<MRZSectorInfo>&       tx_sectors() { return _tx_sectors; }
+    void                              set_tx_sectors(const std::vector<MRZSectorInfo>& sectors)
+    {
+        _tx_sectors = sectors;
+        set_number_of_tx_sectors(_tx_sectors.size());
+        static constexpr size_t dbytes = sizeof(MRZPingInfo) + sizeof(uint32_t);
+        _ping_info.bytes_content       = dbytes + _tx_sectors.size() * sizeof(MRZSectorInfo);
+
+        set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
+                           _ping_info.bytes_content);
+    }
+
     // ----- operators -----
     bool operator==(const MRangeAndDepth& other) const = default;
 
@@ -296,12 +348,11 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(MRangeAndDepth)
 
   private:
-    explicit MRangeAndDepth(const KMALLDatagram& header)
-        : KMALLMultibeamDatagram(header)
-    {
-    }
+    explicit MRangeAndDepth(const KMALLDatagram& header);
     void __read_pinginfo__(std::istream& is);
-    void __write_pinginfo__(std::ostream& os);
+    void __write_pinginfo__(std::ostream& os) const;
+    void __read_sectors__(std::istream& is);
+    void __write_sectors__(std::ostream& os) const;
 };
 
 } // namespace datagrams
