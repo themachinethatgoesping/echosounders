@@ -21,6 +21,7 @@ namespace py_datagrams {
 void init_c_mrzpinginfo(nanobind::module_& m);   // substructs/c_mrzpinginfo.cpp
 void init_c_mrzrxinfo(nanobind::module_& m);     // substructs/c_mrzrxinfo.cpp
 void init_c_mrzsectorinfo(nanobind::module_& m); // substructs/c_mrzsectorinfo.cpp
+void init_c_mrzextradetclassinfo(nanobind::module_& m); // substructs/c_mrzextradetclassinfo.cpp
 
 void init_c_kmalldatagram(nanobind::module_& m); // c_kmalldatagram.cpp
 void init_c_kmallunknown(nanobind::module_& m);  // c_kmallunknown.cpp
@@ -56,6 +57,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_mrzpinginfo(subm);
     init_c_mrzrxinfo(subm);
     init_c_mrzsectorinfo(subm);
+    init_c_mrzextradetclassinfo(subm);
 
     // kmall classes
     init_c_kmalldatagram(subm);

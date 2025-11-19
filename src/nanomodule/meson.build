@@ -108,6 +108,7 @@ sources = [
   'py_kmall/py_datagrams/c_ssoundvelocityprofile.cpp',
   'py_kmall/py_datagrams/c_ssoundvelocitytransducer.cpp',
   'py_kmall/py_datagrams/module.cpp',
+  'py_kmall/py_datagrams/substructs/c_mrzextradetclassinfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mrzpinginfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mrzrxinfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mrzsectorinfo.cpp',

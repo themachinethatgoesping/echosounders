@@ -90,6 +90,23 @@ void MRangeAndDepth::__write_rxinfo__(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_rx_info), sizeof(substructs::MRZRxInfo));
 }
 
+void MRangeAndDepth::__read_extradetclassinfo__(std::istream& is)
+{
+    const auto n_classes = _rx_info.get_number_of_extra_detection_classes();
+    _extra_det_class_info.resize(n_classes);
+
+    // read as block
+    is.read(reinterpret_cast<char*>(_extra_det_class_info.data()),
+            sizeof(substructs::MRZExtraDetClassInfo) * n_classes);
+}
+
+void MRangeAndDepth::__write_extradetclassinfo__(std::ostream& os) const
+{
+    // read as block
+    os.write(reinterpret_cast<const char*>(_extra_det_class_info.data()),
+             sizeof(substructs::MRZExtraDetClassInfo) * _extra_det_class_info.size());
+}
+
 MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is, const KMALLDatagram& header)
 {
     MRangeAndDepth datagram(header);
@@ -97,6 +114,7 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is, const KMALLDatagram
     datagram.__read_ping_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
+    datagram.__read_extradetclassinfo__(is);
 
     return datagram;
 }
@@ -111,6 +129,7 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream&             is,
     datagram.__read_ping_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
+    datagram.__read_extradetclassinfo__(is);
     return datagram;
 }
 
@@ -122,6 +141,7 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is)
     datagram.__read_ping_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
+    datagram.__read_extradetclassinfo__(is);
     return datagram;
 }
 
@@ -133,6 +153,7 @@ void MRangeAndDepth::to_stream(std::ostream& os)
     __write_ping_info__(os);
     __write_sectors__(os);
     __write_rxinfo__(os);
+    __write_extradetclassinfo__(os);
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
@@ -155,13 +176,18 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
         fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.size()));
     for (const auto& sector : _tx_sectors)
     {
-        printer.register_section(
-            fmt::format("Content sector -{}-", sector.get_tx_sector_number()), '.');
+        printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
+                                 '.');
         printer.append(sector.__printer__(float_precision, superscript_exponents));
     }
 
     printer.register_section("Rx info (.rx_info)");
     printer.append(_rx_info.__printer__(float_precision, superscript_exponents));
+
+    printer.register_section("Extra detection classes (.extra_det_class_info)");
+    printer.register_value("extra_det_class_info (vector)",
+                           fmt::format("size={}", _extra_det_class_info.size()),
+                           "classes");
 
     // printer.register_section("processed");
 

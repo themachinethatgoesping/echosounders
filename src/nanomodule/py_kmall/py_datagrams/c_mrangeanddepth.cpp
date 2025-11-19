@@ -55,6 +55,12 @@ void init_c_mrangeanddepth(nanobind::module_& m)
                      DOC_MRangeAndDepth(tx_sectors),
                      nb::rv_policy::reference_internal)
 
+        .def_prop_rw("extra_det_class_info",
+                     &MRangeAndDepth::extra_det_class_info,
+                     &MRangeAndDepth::set_extra_det_class_info,
+                     DOC_MRangeAndDepth(extra_det_class_info),
+                     nb::rv_policy::reference_internal)
+
         // ----- processed -----
 
         // ----- operators -----

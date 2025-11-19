@@ -18,6 +18,7 @@
 
 #include "../types.hpp"
 #include "kmallmultibeamdatagram.hpp"
+#include "substructs/mrzextradetclassinfo.hpp"
 #include "substructs/mrzpinginfo.hpp"
 #include "substructs/mrzrxinfo.hpp"
 #include "substructs/mrzsectorinfo.hpp"
@@ -39,10 +40,10 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH;
 
   protected:
-    substructs::MRZPingInfo                _ping_info;
-    std::vector<substructs::MRZSectorInfo> _tx_sectors;
-
-    substructs::MRZRxInfo _rx_info;
+    substructs::MRZPingInfo                       _ping_info;
+    std::vector<substructs::MRZSectorInfo>        _tx_sectors;
+    substructs::MRZRxInfo                         _rx_info;
+    std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
 
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check
@@ -65,8 +66,8 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         _tx_sectors = sectors;
         _ping_info.set_number_of_tx_sectors(_tx_sectors.size());
         static constexpr size_t dbytes = sizeof(substructs::MRZPingInfo) + sizeof(uint32_t);
-        _ping_info.set_bytes_content(
-            dbytes + _tx_sectors.size() * sizeof(substructs::MRZSectorInfo));
+        _ping_info.set_bytes_content(dbytes +
+                                     _tx_sectors.size() * sizeof(substructs::MRZSectorInfo));
 
         set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
                            _ping_info.get_bytes_content());
@@ -76,6 +77,19 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     const substructs::MRZRxInfo& get_rx_info() const { return _rx_info; }
     substructs::MRZRxInfo&       rx_info() { return _rx_info; }
     void                         set_rx_info(const substructs::MRZRxInfo& info) { _rx_info = info; }
+
+    const std::vector<substructs::MRZExtraDetClassInfo>& get_extra_det_class_info() const
+    {
+        return _extra_det_class_info;
+    }
+    std::vector<substructs::MRZExtraDetClassInfo>& extra_det_class_info()
+    {
+        return _extra_det_class_info;
+    }
+    void set_extra_det_class_info(const std::vector<substructs::MRZExtraDetClassInfo>& info)
+    {
+        _extra_det_class_info = info;
+    }
 
     // ----- operators -----
     bool operator==(const MRangeAndDepth& other) const = default;
@@ -106,6 +120,8 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     void __write_sectors__(std::ostream& os) const;
     void __read_rxinfo__(std::istream& is);
     void __write_rxinfo__(std::ostream& os) const;
+    void __read_extradetclassinfo__(std::istream& is);
+    void __write_extradetclassinfo__(std::ostream& os) const;
 };
 
 } // namespace datagrams

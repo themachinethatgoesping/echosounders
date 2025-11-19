@@ -1,4 +1,4 @@
-//sourcehash: c771a97aec15f9664c4e0dc2db56645441e03af452a73b8a513bde6214ef16a8
+//sourcehash: b19d7218921384a70567cc8a69eb4efdfe69722baa09558603fec39ba3be26b0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,11 +48,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 R"doc(< Each datagram ends with the size of the datagram for < integrity
 check)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_extra_det_class_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_extra_det_class_info_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_from_stream_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_from_stream_3 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_extra_det_class_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_get_ping_info = R"doc()doc";
 
@@ -68,6 +74,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_read_extradetclassinfo = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_read_ping_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_read_rxinfo = R"doc()doc";
@@ -77,6 +85,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_rx_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_rx_info_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_extra_det_class_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_set_ping_info = R"doc()doc";
 
@@ -89,6 +99,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRa
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_tx_sectors_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_write_extradetclassinfo = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MRangeAndDepth_write_ping_info = R"doc()doc";
 
