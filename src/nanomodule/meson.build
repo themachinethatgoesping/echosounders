@@ -96,6 +96,7 @@ sources = [
   'py_kmall/py_datagrams/c_iinstallationparam.cpp',
   'py_kmall/py_datagrams/c_iopruntime.cpp',
   'py_kmall/py_datagrams/c_kmalldatagram.cpp',
+  'py_kmall/py_datagrams/c_kmallmultibeamdatagram.cpp',
   'py_kmall/py_datagrams/c_kmallsensordatagram.cpp',
   'py_kmall/py_datagrams/c_kmallunknown.cpp',
   'py_kmall/py_datagrams/c_sclock.cpp',
