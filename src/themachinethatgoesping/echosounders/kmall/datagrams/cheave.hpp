@@ -35,6 +35,18 @@ namespace datagrams {
  */
 class CHeave : public KMALLMultibeamDatagram
 {
+    // delete unused functions
+    // we derive from KMALLMultibeamDatagram, however #CHE does not have MPartition part
+    // so this must be skipped
+  private:
+    // using KMALLMultibeamDatagram::__read_multibeamdatagram__;
+    // using KMALLMultibeamDatagram::get_datagram_number;
+    // using KMALLMultibeamDatagram::get_number_of_datagrams;
+    // using KMALLMultibeamDatagram::set_datagram_number;
+    // using KMALLMultibeamDatagram::set_number_of_datagrams;
+    // using KMALLMultibeamDatagram::to_stream;
+    // using KMALLMultibeamDatagram::__size;
+
   public:
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::C_HEAVE;
 

@@ -38,6 +38,8 @@ void init_c_skmbinary(nanobind::module_& m);                // c_skmbinary.cpp
 void init_c_cposition(nanobind::module_& m); // c_cposition.cpp
 void init_c_cheave(nanobind::module_& m);    // c_cheave.cpp
 
+void init_c_mrangeanddepth(nanobind::module_& m); // c_mrangeanddepth.cpp
+
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
 {
@@ -66,6 +68,8 @@ void init_m_kmalldatagrams(nanobind::module_& m)
 
     init_c_cposition(subm);
     init_c_cheave(subm);
+
+    init_c_mrangeanddepth(subm);
 }
 
 }

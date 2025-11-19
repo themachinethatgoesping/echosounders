@@ -31,12 +31,18 @@ class KMALLMultibeamDatagram : public KMALLDatagram
 {
   public:
     static constexpr auto   DatagramIdentifier = t_KMALLDatagramIdentifier::I_OP_RUNTIME;
-    static constexpr size_t __size             = 2 * sizeof(uint16_t) + 8 * sizeof(uint8_t);
+    static constexpr size_t __size             = 4 * sizeof(uint16_t) + 8 * sizeof(uint8_t);
+    static constexpr size_t __size_no_mpart    = 2 * sizeof(uint16_t) + 8 * sizeof(uint8_t);
 
   protected:
 #pragma pack(push, 4) // force 4-byte alignment
     struct SCommon
     {
+        // MPartition part (will be skipped if not used (#CHE datagram))
+        uint16_t number_of_datagrams;
+        uint16_t datagram_number;
+
+        // Multibeam common part
         uint16_t bytes_content;            ///<  bytes of the datagram body (should be __size)
         uint16_t ping_count;               ///< Ping number incremented with each ping
         uint8_t  rx_fans_per_ping;         ///< Number of receive fans per ping
@@ -59,6 +65,9 @@ class KMALLMultibeamDatagram : public KMALLDatagram
 
     // ----- convenient data access -----
     // Getters
+    uint16_t get_number_of_datagrams() const { return _scommon.number_of_datagrams; }
+    uint16_t get_datagram_number() const { return _scommon.datagram_number; }
+
     uint16_t get_bytes_content() const { return _scommon.bytes_content; }
     uint16_t get_ping_count() const { return _scommon.ping_count; }
     uint8_t  get_rx_fans_per_ping() const { return _scommon.rx_fans_per_ping; }
@@ -71,6 +80,9 @@ class KMALLMultibeamDatagram : public KMALLDatagram
     uint8_t  get_algorithm_type() const { return _scommon.algorithm_type; }
 
     // Setters
+    void set_number_of_datagrams(uint16_t value) { _scommon.number_of_datagrams = value; }
+    void set_datagram_number(uint16_t value) { _scommon.datagram_number = value; }
+
     void set_bytes_content(uint16_t value) { _scommon.bytes_content = value; }
     void set_ping_count(uint16_t value) { _scommon.ping_count = value; }
     void set_rx_fans_per_ping(uint8_t value) { _scommon.rx_fans_per_ping = value; }
@@ -89,7 +101,8 @@ class KMALLMultibeamDatagram : public KMALLDatagram
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const;
+                                                  bool         superscript_exponents,
+                                                  bool         mpart = true) const;
 
   protected:
     explicit KMALLMultibeamDatagram(const KMALLDatagram& header)
@@ -103,6 +116,14 @@ class KMALLMultibeamDatagram : public KMALLDatagram
     inline void to_stream(std::ostream& os) const
     {
         os.write(reinterpret_cast<const char*>(&_scommon), sizeof(SCommon));
+    }
+    inline void __read_multibeamdatagram_no_mpart__(std::istream& is)
+    {
+        is.read(reinterpret_cast<char*>(&_scommon.bytes_content), __size_no_mpart);
+    }
+    inline void to_stream_no_mpart(std::ostream& os) const
+    {
+        os.write(reinterpret_cast<const char*>(&_scommon.bytes_content), __size_no_mpart);
     }
 };
 

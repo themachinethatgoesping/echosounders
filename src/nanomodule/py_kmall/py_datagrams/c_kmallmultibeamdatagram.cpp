@@ -33,6 +33,15 @@ void init_c_kmallmultibeamdatagram(nanobind::module_& m)
         DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMALLMultibeamDatagram))
 
         // --- convenient data access ---
+        // Getters MPart
+        .def("get_number_of_datagrams",
+             &KMALLMultibeamDatagram::get_number_of_datagrams,
+             DOC_KMALLMultibeamDatagram(get_number_of_datagrams))
+        .def("get_datagram_number",
+             &KMALLMultibeamDatagram::get_datagram_number,
+             DOC_KMALLMultibeamDatagram(get_datagram_number))
+
+        // Getters MCommon
         .def("get_bytes_content",
              &KMALLMultibeamDatagram::get_bytes_content,
              DOC_KMALLMultibeamDatagram(get_bytes_content))
@@ -64,6 +73,17 @@ void init_c_kmallmultibeamdatagram(nanobind::module_& m)
              &KMALLMultibeamDatagram::get_algorithm_type,
              DOC_KMALLMultibeamDatagram(get_algorithm_type))
 
+        // Setters MPart
+        .def("set_number_of_datagrams",
+             &KMALLMultibeamDatagram::set_number_of_datagrams,
+             DOC_KMALLMultibeamDatagram(set_number_of_datagrams),
+             nb::arg("value"))
+        .def("set_datagram_number",
+             &KMALLMultibeamDatagram::set_datagram_number,
+             DOC_KMALLMultibeamDatagram(set_datagram_number),
+             nb::arg("value"))
+
+        // Setters MCommon
         .def("set_bytes_content",
              &KMALLMultibeamDatagram::set_bytes_content,
              DOC_KMALLMultibeamDatagram(set_bytes_content),

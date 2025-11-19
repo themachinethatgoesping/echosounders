@@ -23,13 +23,13 @@ TEST_CASE("CHeave should support common functions", TESTTAG)
 
     // Kongsberg header info
     dat.set_datagram_version(1.2);
-    dat.set_system_id(321);
+    dat.set_system_id(65);
     dat.set_echo_sounder_id(2040);
     dat.set_time_sec(1555977823);
     dat.set_time_nanosec(726999998);
 
     // KMALLMultibeamDatagram content
-    dat.set_bytes_content(KMALLMultibeamDatagram::__size);
+    dat.set_bytes_content(KMALLMultibeamDatagram::__size_no_mpart);
     dat.set_ping_count(42);
     dat.set_rx_fans_per_ping(2);
     dat.set_rx_fan_index(1);
@@ -82,7 +82,7 @@ TEST_CASE("CHeave should support common functions", TESTTAG)
     INFO(fmt::format("orig: {}", dat.info_string()));
 
     // --- KMALLMultibeamDatagram expectations ---
-    REQUIRE(dat.get_bytes_content() == KMALLMultibeamDatagram::__size);
+    REQUIRE(dat.get_bytes_content() == KMALLMultibeamDatagram::__size_no_mpart);
     REQUIRE(dat.get_ping_count() == 42);
     REQUIRE(dat.get_rx_fans_per_ping() == 2);
     REQUIRE(dat.get_rx_fan_index() == 1);

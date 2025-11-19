@@ -100,6 +100,7 @@ sources = [
   'py_kmall/py_datagrams/c_kmallmultibeamdatagram.cpp',
   'py_kmall/py_datagrams/c_kmallsensordatagram.cpp',
   'py_kmall/py_datagrams/c_kmallunknown.cpp',
+  'py_kmall/py_datagrams/c_mrangeanddepth.cpp',
   'py_kmall/py_datagrams/c_sclock.cpp',
   'py_kmall/py_datagrams/c_skmbinary.cpp',
   'py_kmall/py_datagrams/c_sposition.cpp',

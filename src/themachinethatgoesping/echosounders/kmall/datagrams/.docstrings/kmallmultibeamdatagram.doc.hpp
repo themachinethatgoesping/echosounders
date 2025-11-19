@@ -1,4 +1,4 @@
-//sourcehash: 06d1c76e490c73e1d5feeb45df2ff6522527c5b3eed86fa133785d8cd6831e63
+//sourcehash: 6ae43c568c228f9974fff291149e1d03190b85e89323061fc649c28b56b4f30f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_SCommon_bytes_content = R"doc(< bytes of the datagram body (should be __size))doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_SCommon_datagram_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_SCommon_number_of_datagrams = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_SCommon_number_of_rx_transducers = R"doc(< Number of receive transducers)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_SCommon_operator_eq = R"doc()doc";
@@ -71,6 +75,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_get_algorithm_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_get_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_get_datagram_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_get_number_of_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_get_number_of_rx_transducers = R"doc()doc";
 
@@ -94,11 +102,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_read_multibeamdatagram = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_read_multibeamdatagram_no_mpart = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_scommon = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_algorithm_type = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_datagram_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_number_of_datagrams = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_number_of_rx_transducers = R"doc()doc";
 
@@ -117,6 +131,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_set_tx_transducer_ind = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLMultibeamDatagram_to_stream_no_mpart = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

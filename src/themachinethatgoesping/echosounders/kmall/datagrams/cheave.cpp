@@ -40,7 +40,7 @@ void CHeave::__read__(std::istream& is)
 CHeave CHeave::from_stream(std::istream& is, const KMALLDatagram& header)
 {
     CHeave datagram(header);
-    datagram.__read_multibeamdatagram__(is);
+    datagram.__read_multibeamdatagram_no_mpart__(is);
     datagram.__read__(is);
 
     return datagram;
@@ -51,7 +51,7 @@ CHeave CHeave::from_stream(std::istream& is, o_KMALLDatagramIdentifier datagram_
     CHeave datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
-    datagram.__read_multibeamdatagram__(is);
+    datagram.__read_multibeamdatagram_no_mpart__(is);
     datagram.__read__(is);
     return datagram;
 }
@@ -60,7 +60,7 @@ CHeave CHeave::from_stream(std::istream& is)
 {
     CHeave datagram;
     datagram.__kmalldatagram_read__(is);
-    datagram.__read_multibeamdatagram__(is);
+    datagram.__read_multibeamdatagram_no_mpart__(is);
     datagram.__read__(is);
     return datagram;
 }
@@ -68,7 +68,7 @@ CHeave CHeave::from_stream(std::istream& is)
 void CHeave::to_stream(std::ostream& os)
 {
     KMALLDatagram::to_stream(os);
-    KMALLMultibeamDatagram::to_stream(os);
+    KMALLMultibeamDatagram::to_stream_no_mpart(os);
 
     os.write(reinterpret_cast<char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
@@ -81,7 +81,8 @@ tools::classhelper::ObjectPrinter CHeave::__printer__(unsigned int float_precisi
 {
     tools::classhelper::ObjectPrinter printer("CHeave", float_precision, superscript_exponents);
 
-    printer.append(KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents));
+    // false is mpart skipped
+    printer.append(KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents, false));
 
     printer.register_section("datagram content");
     printer.register_value("heave_m", _content.heave_m, "m");

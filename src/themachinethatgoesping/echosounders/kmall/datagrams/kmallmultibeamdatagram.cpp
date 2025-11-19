@@ -18,14 +18,22 @@ namespace datagrams {
 
 // ----- objectprinter -----
 
-tools::classhelper::ObjectPrinter KMALLMultibeamDatagram::__printer__(
-    unsigned int float_precision,
-    bool         superscript_exponents) const
+tools::classhelper::ObjectPrinter KMALLMultibeamDatagram::__printer__(unsigned int float_precision,
+                                                                      bool superscript_exponents,
+                                                                      bool mpart) const
 {
     tools::classhelper::ObjectPrinter printer(
         "KMALLMultibeamDatagram", float_precision, superscript_exponents);
 
     printer.append(KMALLDatagram::__printer__(float_precision, superscript_exponents));
+
+    if (mpart)
+    {
+        printer.register_section("MPartition part");
+        printer.register_value("number_of_datagrams", _scommon.number_of_datagrams);
+        printer.register_value("datagram_number", _scommon.datagram_number);
+    }
+
     printer.register_section("datagram content");
     printer.register_value("bytes_content", _scommon.bytes_content);
     printer.register_value("ping_count", _scommon.ping_count);
