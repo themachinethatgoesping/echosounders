@@ -118,11 +118,8 @@ TEST_CASE("SKMBinary should support common functions", TESTTAG)
     dat.set_number_of_samples(static_cast<uint16_t>(samples.size()));
     dat.set_bytes_datagram_check(KMALLDatagram::__size + dat.get_bytes_content());
 
-    const auto expected_hash = dat.binary_hash();
-
-    {
-        CHECK(expected_hash == 5674553155652528342ULL);
-    }
+    const auto expected_hash = 5674553155652528342ULL;
+    CHECK(dat.binary_hash() == expected_hash);
 
     {
         INFO(fmt::format("orig: {}", dat.info_string()));
@@ -239,4 +236,6 @@ TEST_CASE("SKMBinary should support common functions", TESTTAG)
         CHECK_FALSE(flags.get_delayed_heave2_active());
         expect_bits(0b0111011);
     }
+
+    CHECK(dat.binary_hash() == expected_hash);
 }

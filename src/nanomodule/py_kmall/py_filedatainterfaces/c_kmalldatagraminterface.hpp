@@ -89,6 +89,8 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return nb::cast(self.template datagrams<datagrams::SKMBinary>(type));
                 case t_KMALLDatagramIdentifier::C_POSITION:
                     return nb::cast(self.template datagrams<datagrams::CPosition>(type));
+                case t_KMALLDatagramIdentifier::C_HEAVE:
+                    return nb::cast(self.template datagrams<datagrams::CHeave>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }
