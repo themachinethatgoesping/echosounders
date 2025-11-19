@@ -18,6 +18,10 @@ namespace py_kmall {
 namespace py_datagrams {
 
 // -- submodule declarations --
+void init_c_mrzpinginfo(nanobind::module_& m);   // substructs/c_mrzpinginfo.cpp
+void init_c_mrzrxinfo(nanobind::module_& m);     // substructs/c_mrzrxinfo.cpp
+void init_c_mrzsectorinfo(nanobind::module_& m); // substructs/c_mrzsectorinfo.cpp
+
 void init_c_kmalldatagram(nanobind::module_& m); // c_kmalldatagram.cpp
 void init_c_kmallunknown(nanobind::module_& m);  // c_kmallunknown.cpp
 
@@ -47,6 +51,11 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     auto subm = m.def_submodule("datagrams", "Kongsberg KMALL (.kmall/.kmwcd) datagram classes");
 
     // init submodules
+
+    // substructs
+    init_c_mrzpinginfo(subm);
+    init_c_mrzrxinfo(subm);
+    init_c_mrzsectorinfo(subm);
 
     // kmall classes
     init_c_kmalldatagram(subm);
