@@ -81,7 +81,7 @@ struct RAW3DataSkipped : public i_RAW3Data
             case t_RAW3DataType::PowerAndAngle: {
                 // write _count.size() zeros
                 auto samples = std::vector<simradraw_short>(count, 0);
-                os.write(reinterpret_cast<char*>(samples.data()),
+                os.write(reinterpret_cast<const char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
@@ -89,28 +89,28 @@ struct RAW3DataSkipped : public i_RAW3Data
                 // write _count.size() zeros
                 auto samples =
                     std::vector<simradraw_complex_float>(count * number_of_complex_samples, 0);
-                os.write(reinterpret_cast<char*>(samples.data()),
+                os.write(reinterpret_cast<const char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::Power: {
                 // write _count.size() zeros
                 auto samples = std::vector<simradraw_short>(count, 0);
-                os.write(reinterpret_cast<char*>(samples.data()),
+                os.write(reinterpret_cast<const char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::Angle: {
                 // write _count.size() zeros
                 auto samples = std::vector<uint8_t>(count * 2, 0);
-                os.write(reinterpret_cast<char*>(samples.data()),
+                os.write(reinterpret_cast<const char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }
             case t_RAW3DataType::ComplexFloat16: {
                 // write _count.size() zeros
                 auto samples = std::vector<simradraw_float>(count * number_of_complex_samples, 0);
-                os.write(reinterpret_cast<char*>(samples.data()),
+                os.write(reinterpret_cast<const char*>(samples.data()),
                          samples.size() * get_raw3datatype_size(data_type));
                 break;
             }

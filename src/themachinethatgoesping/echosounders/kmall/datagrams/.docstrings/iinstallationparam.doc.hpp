@@ -1,4 +1,4 @@
-//sourcehash: d45a9e09f35288da6a568e5738b1db4658939f581d869555b83e6f8f4671a0f3
+//sourcehash: 36161d8971e4e804242f0f362cdb1cdad92162df3d20aeb7253a5bafb275e6a0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,7 +42,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IIn
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_IInstallationParam = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_bytes_content = R"doc(< bytes of the datagram body)doc";
 

@@ -65,12 +65,12 @@ CHeave CHeave::from_stream(std::istream& is)
     return datagram;
 }
 
-void CHeave::to_stream(std::ostream& os)
+void CHeave::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
     KMALLMultibeamDatagram::to_stream_no_mpart(os);
 
-    os.write(reinterpret_cast<char*>(&_content), __size);
+    os.write(reinterpret_cast<const char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 

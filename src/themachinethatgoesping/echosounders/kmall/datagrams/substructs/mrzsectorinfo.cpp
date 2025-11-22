@@ -8,11 +8,33 @@
 
 #include <limits>
 
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 namespace datagrams {
 namespace substructs {
+
+bool MRZSectorInfo::operator==(const MRZSectorInfo& other) const
+{
+    using themachinethatgoesping::tools::helper::float_equals;
+    return _tx_sector_number == other._tx_sector_number &&
+           _tx_arrary_number == other._tx_arrary_number && _tx_sub_array == other._tx_sub_array &&
+           _padding_0 == other._padding_0 &&
+           float_equals(_sector_transmit_delay_sec, other._sector_transmit_delay_sec) &&
+           float_equals(_tilt_angle_re_tx_deg, other._tilt_angle_re_tx_deg) &&
+           float_equals(_tx_nominal_source_level_db, other._tx_nominal_source_level_db) &&
+           float_equals(_tx_focus_range_m, other._tx_focus_range_m) &&
+           float_equals(_centre_frequency_hz, other._centre_frequency_hz) &&
+           float_equals(_signal_band_width_hz, other._signal_band_width_hz) &&
+           float_equals(_total_signal_length_sec, other._total_signal_length_sec) &&
+           _pulse_shading == other._pulse_shading && _signal_wave_form == other._signal_wave_form &&
+           _padding_1 == other._padding_1 &&
+           float_equals(_high_voltage_level_db, other._high_voltage_level_db) &&
+           float_equals(_sector_tracking_corr_db, other._sector_tracking_corr_db) &&
+           float_equals(_effective_signal_length_sec, other._effective_signal_length_sec);
+}
 
 // ----- objectprinter -----
 
@@ -38,8 +60,7 @@ tools::classhelper::ObjectPrinter MRZSectorInfo::__printer__(unsigned int float_
     printer.register_value("padding_1", _padding_1);
     printer.register_value("high_voltage_level_db", _high_voltage_level_db, "dB");
     printer.register_value("sector_tracking_corr_db", _sector_tracking_corr_db, "dB");
-    printer.register_value(
-        "effective_signal_length_sec", _effective_signal_length_sec, "s");
+    printer.register_value("effective_signal_length_sec", _effective_signal_length_sec, "s");
 
     return printer;
 }

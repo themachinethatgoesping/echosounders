@@ -1,4 +1,4 @@
-//sourcehash: b8f1ccbbb65e9cfa2a36f32957d808de681a8c0bb4f066e950bdec1b36d5ed72
+//sourcehash: 20d1e67b52fb6ae57910b589ff500198e4437fec7819f314139dc7954de982d1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,7 +55,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CHe
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CHeave_Content_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CHeave_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CHeave_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CHeave_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity

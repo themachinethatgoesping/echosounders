@@ -119,7 +119,7 @@ IInstallationParam IInstallationParam::from_stream(std::istream& is)
     return datagram;
 }
 
-void IInstallationParam::to_stream(std::ostream& os)
+void IInstallationParam::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
 

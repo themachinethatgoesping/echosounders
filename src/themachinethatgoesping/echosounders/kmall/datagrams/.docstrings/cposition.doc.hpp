@@ -1,4 +1,4 @@
-//sourcehash: e9ddaebe662f982d669fc8790c9f231df50d974cd773a42814b059784e4b8a0c
+//sourcehash: 99844a94404a70becfbe3586de1178078f46e444bbfe37920f9566d2346f13a9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -62,7 +62,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CPo
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CPosition_Content_time_from_sensor_sec = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CPosition_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CPosition_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_CPosition_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity

@@ -89,11 +89,11 @@ SSoundVelocityProfile SSoundVelocityProfile::from_stream(std::istream& is)
     return datagram;
 }
 
-void SSoundVelocityProfile::to_stream(std::ostream& os)
+void SSoundVelocityProfile::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
 
-    os.write(reinterpret_cast<char*>(&_content), __size);
+    os.write(reinterpret_cast<const char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(_sensor_data.data()),
              _sensor_data.size() * sizeof(SVPPoint));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));

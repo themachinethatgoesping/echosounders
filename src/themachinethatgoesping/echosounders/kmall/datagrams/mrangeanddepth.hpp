@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <string>
 
+#include <xtensor/containers/xtensor.hpp>
+
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
@@ -22,6 +24,7 @@
 #include "substructs/mrzpinginfo.hpp"
 #include "substructs/mrzrxinfo.hpp"
 #include "substructs/mrzsectorinfo.hpp"
+#include "substructs/mrzsoundingscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -44,6 +47,8 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     std::vector<substructs::MRZSectorInfo>        _tx_sectors;
     substructs::MRZRxInfo                         _rx_info;
     std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
+    substructs::MRZSoundingsContainer             _soundings;
+    xt::xtensor<int16_t, 1>                       _seabed_image_samples_dezi_db;
 
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check
@@ -91,6 +96,32 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         _extra_det_class_info = info;
     }
 
+    // soundings
+    const substructs::MRZSoundingsContainer& get_soundings() const { return _soundings; }
+    substructs::MRZSoundingsContainer&       soundings() { return _soundings; }
+    void set_soundings(const substructs::MRZSoundingsContainer& soundings)
+    {
+        _soundings = soundings;
+    }
+
+    // seabed image samples
+    const xt::xtensor<int16_t, 1>& get_seabed_image_samples_dezi_db() const
+    {
+        return _seabed_image_samples_dezi_db;
+    }
+    void set_seabed_image_samples_dezi_db(const xt::xtensor<int16_t, 1>& samples)
+    {
+        _seabed_image_samples_dezi_db = samples;
+    }
+    const xt::xtensor<float, 1> get_seabed_image_samples_db() const
+    {
+        return _seabed_image_samples_dezi_db * 0.1f;
+    }
+    void set_seabed_image_samples_db(const xt::xtensor<float, 1>& samples)
+    {
+        _seabed_image_samples_dezi_db = xt::cast<int16_t>(xt::round(samples * 10.0f));
+    }
+
     // ----- operators -----
     bool operator==(const MRangeAndDepth& other) const = default;
 
@@ -102,7 +133,7 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
 
     static MRangeAndDepth from_stream(std::istream& is);
 
-    void to_stream(std::ostream& os);
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -110,7 +141,7 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(MRangeAndDepth)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(MRangeAndDepth)
 
   private:
     explicit MRangeAndDepth(const KMALLDatagram& header);
@@ -122,6 +153,10 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     void __write_rxinfo__(std::ostream& os) const;
     void __read_extradetclassinfo__(std::istream& is);
     void __write_extradetclassinfo__(std::ostream& os) const;
+    void __read_soundings__(std::istream& is);
+    void __write_soundings__(std::ostream& os) const;
+    void __read_seabed_image_samples__(std::istream& is);
+    void __write_seabed_image_samples__(std::ostream& os) const;
 };
 
 } // namespace datagrams

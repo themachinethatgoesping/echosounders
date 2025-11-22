@@ -93,7 +93,7 @@ void KongsbergAllUnknown::to_stream(std::ostream& os)
 	KongsbergAllDatagram::to_stream(os);
 
 	os.write(_raw_content.data(), static_cast<std::streamsize>(_raw_content.size()));
-	os.write(reinterpret_cast<char*>(&_etx), 3 * sizeof(uint8_t));
+	os.write(reinterpret_cast<const char*>(&_etx), 3 * sizeof(uint8_t));
 }
 
 tools::classhelper::ObjectPrinter KongsbergAllUnknown::__printer__(unsigned int float_precision,

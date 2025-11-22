@@ -53,7 +53,7 @@ KMALLUnknown KMALLUnknown::from_stream(std::istream&             is,
     return datagram;
 }
 
-void KMALLUnknown::to_stream(std::ostream& os)
+void KMALLUnknown::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
 

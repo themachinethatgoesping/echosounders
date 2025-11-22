@@ -1,4 +1,4 @@
-//sourcehash: efcb8f4e96b3b9b4b76d5d3011fbab2189a995f5e8a81c7d4c0612c12ce39489
+//sourcehash: c31bbcd9691f344a691bf3a725f034207c2d0e0a335ee1da2c563e3d2a4dcc33
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,7 +50,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SCl
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SClock_SClock = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SClock_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SClock_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SClock_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity

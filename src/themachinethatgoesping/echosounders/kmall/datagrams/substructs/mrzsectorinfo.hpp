@@ -86,7 +86,7 @@ class MRZSectorInfo
     void set_sector_tracking_corr_db(float val) { _sector_tracking_corr_db = val; }
     void set_effective_signal_length_sec(float val) { _effective_signal_length_sec = val; }
 
-    bool operator==(const MRZSectorInfo& other) const = default;
+    bool operator==(const MRZSectorInfo& other) const;
 
     static MRZSectorInfo __read_version_0__(std::istream& is);
     void                 __write_version_0__(std::ostream& os) const;

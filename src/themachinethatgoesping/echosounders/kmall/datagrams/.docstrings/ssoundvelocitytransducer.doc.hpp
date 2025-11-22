@@ -1,4 +1,4 @@
-//sourcehash: ae446ac028040537f627ebf1a13089bc911069278fb4fe528e97152ed5359773
+//sourcehash: edfb40e1b96795b4ef26afe38aaa37ed30e72fe445e447ada0965b0b72b3b537
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,7 +64,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SSo
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityTransducer_SSoundVelocityTransducer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityTransducer_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityTransducer_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityTransducer_SVTSample = R"doc()doc";
 

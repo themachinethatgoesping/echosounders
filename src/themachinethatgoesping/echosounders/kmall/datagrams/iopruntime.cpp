@@ -118,7 +118,7 @@ IOpRuntime IOpRuntime::from_stream(std::istream& is)
     return datagram;
 }
 
-void IOpRuntime::to_stream(std::ostream& os)
+void IOpRuntime::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
 

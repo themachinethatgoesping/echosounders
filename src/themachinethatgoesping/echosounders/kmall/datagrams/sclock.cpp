@@ -87,12 +87,12 @@ SClock SClock::from_stream(std::istream& is)
     return datagram;
 }
 
-void SClock::to_stream(std::ostream& os)
+void SClock::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
     KMALLSensorDatagram::to_stream(os);
 
-    os.write(reinterpret_cast<char*>(&_content), __size);
+    os.write(reinterpret_cast<const char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(_clock_data_from_sensor.data()),
              _clock_data_from_sensor.size() * sizeof(char));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));

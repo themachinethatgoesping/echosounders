@@ -10,6 +10,7 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
+#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
 
 #include <themachinethatgoesping/echosounders/kmall/datagrams/mrangeanddepth.hpp>
 
@@ -60,6 +61,27 @@ void init_c_mrangeanddepth(nanobind::module_& m)
                      &MRangeAndDepth::set_extra_det_class_info,
                      DOC_MRangeAndDepth(extra_det_class_info),
                      nb::rv_policy::reference_internal)
+
+        .def_prop_rw("soundings",
+                     &MRangeAndDepth::soundings,
+                     &MRangeAndDepth::set_soundings,
+                     DOC_MRangeAndDepth(soundings),
+                     nb::rv_policy::reference_internal)
+
+        .def("get_seabed_image_samples_dezi_db",
+             &MRangeAndDepth::get_seabed_image_samples_dezi_db,
+             DOC_MRangeAndDepth(get_seabed_image_samples_dezi_db))
+        .def("set_seabed_image_samples_dezi_db",
+             &MRangeAndDepth::set_seabed_image_samples_dezi_db,
+             DOC_MRangeAndDepth(set_seabed_image_samples_dezi_db),
+             nb::arg("samples"))
+        .def("get_seabed_image_samples_db",
+             &MRangeAndDepth::get_seabed_image_samples_db,
+             DOC_MRangeAndDepth(get_seabed_image_samples_db))
+        .def("set_seabed_image_samples_db",
+             &MRangeAndDepth::set_seabed_image_samples_db,
+             DOC_MRangeAndDepth(set_seabed_image_samples_db),
+             nb::arg("samples"))
 
         // ----- processed -----
 

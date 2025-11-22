@@ -91,7 +91,7 @@ class CHeave : public KMALLMultibeamDatagram
 
     static CHeave from_stream(std::istream& is);
 
-    void to_stream(std::ostream& os);
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -99,7 +99,7 @@ class CHeave : public KMALLMultibeamDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(CHeave)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(CHeave)
 
   private:
     explicit CHeave(const KMALLDatagram& header)

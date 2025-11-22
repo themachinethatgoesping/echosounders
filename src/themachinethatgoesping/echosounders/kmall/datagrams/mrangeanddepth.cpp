@@ -107,6 +107,41 @@ void MRangeAndDepth::__write_extradetclassinfo__(std::ostream& os) const
              sizeof(substructs::MRZExtraDetClassInfo) * _extra_det_class_info.size());
 }
 
+void MRangeAndDepth::__read_soundings__(std::istream& is)
+{
+    auto&      soundings = _soundings.soundings();
+    const auto n_soundings =
+        _rx_info.get_number_of_soundings_max_main() + _rx_info.get_number_of_extra_detections();
+
+    soundings.resize(n_soundings);
+
+    // read as block
+    is.read(reinterpret_cast<char*>(soundings.data()),
+            sizeof(substructs::MRZSoundings) * n_soundings);
+}
+
+void MRangeAndDepth::__write_soundings__(std::ostream& os) const
+{
+    const auto& soundings = _soundings.get_soundings();
+    // read as block
+    os.write(reinterpret_cast<const char*>(soundings.data()),
+             sizeof(substructs::MRZSoundings) * soundings.size());
+}
+
+void MRangeAndDepth::__read_seabed_image_samples__(std::istream& is)
+{
+    const size_t n_samples = _soundings.get_number_of_seabed_image_samples();
+    _seabed_image_samples_dezi_db.resize({ n_samples });
+    is.read(reinterpret_cast<char*>(_seabed_image_samples_dezi_db.data()),
+            sizeof(int16_t) * n_samples);
+}
+void MRangeAndDepth::__write_seabed_image_samples__(std::ostream& os) const
+{
+    const size_t n_samples = _seabed_image_samples_dezi_db.size();
+    os.write(reinterpret_cast<const char*>(_seabed_image_samples_dezi_db.data()),
+             sizeof(int16_t) * n_samples);
+}
+
 MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is, const KMALLDatagram& header)
 {
     MRangeAndDepth datagram(header);
@@ -115,6 +150,10 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is, const KMALLDatagram
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
     datagram.__read_extradetclassinfo__(is);
+    datagram.__read_soundings__(is);
+    datagram.__read_seabed_image_samples__(is);
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
 
     return datagram;
 }
@@ -130,6 +169,10 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream&             is,
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
     datagram.__read_extradetclassinfo__(is);
+    datagram.__read_soundings__(is);
+    datagram.__read_seabed_image_samples__(is);
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
     return datagram;
 }
 
@@ -142,10 +185,14 @@ MRangeAndDepth MRangeAndDepth::from_stream(std::istream& is)
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
     datagram.__read_extradetclassinfo__(is);
+    datagram.__read_soundings__(is);
+    datagram.__read_seabed_image_samples__(is);
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
     return datagram;
 }
 
-void MRangeAndDepth::to_stream(std::ostream& os)
+void MRangeAndDepth::to_stream(std::ostream& os) const
 {
     KMALLDatagram::to_stream(os);
     KMALLMultibeamDatagram::to_stream(os);
@@ -154,6 +201,8 @@ void MRangeAndDepth::to_stream(std::ostream& os)
     __write_sectors__(os);
     __write_rxinfo__(os);
     __write_extradetclassinfo__(os);
+    __write_soundings__(os);
+    __write_seabed_image_samples__(os);
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
@@ -188,6 +237,16 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
     printer.register_value("extra_det_class_info (vector)",
                            fmt::format("size={}", _extra_det_class_info.size()),
                            "classes");
+
+    printer.register_section("Soundings (.soundings)");
+    printer.register_value("soundings (vector)",
+                           fmt::format("size={}", _soundings.get_soundings().size()),
+                           "soundings");
+
+    printer.register_section("Seabed image samples");
+    printer.register_container("seabed_image_samples_dezi_db", _seabed_image_samples_dezi_db);
+    printer.register_container("seabed_image_samples_db",
+                               get_seabed_image_samples_db()); // convert to dB
 
     // printer.register_section("processed");
 

@@ -71,7 +71,7 @@ class IOpRuntime : public KMALLDatagram
 
     static IOpRuntime from_stream(std::istream& is);
 
-    void to_stream(std::ostream& os);
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -79,7 +79,7 @@ class IOpRuntime : public KMALLDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(IOpRuntime)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(IOpRuntime)
 
   private:
     explicit IOpRuntime(const KMALLDatagram& header)

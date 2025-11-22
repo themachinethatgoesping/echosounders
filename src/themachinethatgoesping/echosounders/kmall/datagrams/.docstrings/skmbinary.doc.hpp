@@ -1,4 +1,4 @@
-//sourcehash: 2320dc6782d148410c5155840fd80955e700e5685c56ffa8f5334d4fa0a14c54
+//sourcehash: 9533df6ce8244e9fa1a01e7651054c2f0d8765d4fd10941106501426263315d2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -216,7 +216,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKM
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_SKMSample_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity

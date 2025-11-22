@@ -112,6 +112,8 @@ sources = [
   'py_kmall/py_datagrams/substructs/c_mrzpinginfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mrzrxinfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mrzsectorinfo.cpp',
+  'py_kmall/py_datagrams/substructs/c_mrzsoundings.cpp',
+  'py_kmall/py_datagrams/substructs/c_mrzsoundingscontainer.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',

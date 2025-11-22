@@ -1,4 +1,4 @@
-//sourcehash: 93dd564d3b1943865b0a88699b0e4fbda283ba864899abe6c391a1d5c163574c
+//sourcehash: 5e73abf2ae6437e3a7e498b32cee55f09a3ad4d51e75cbeb9d13e1577b640a6f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,7 +42,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMA
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_KMALLUnknown = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLUnknown_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity

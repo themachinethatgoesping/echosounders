@@ -143,7 +143,7 @@ class SSoundVelocityProfile : public KMALLDatagram
 
     static SSoundVelocityProfile from_stream(std::istream& is);
 
-    void to_stream(std::ostream& os);
+    void to_stream(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -151,7 +151,7 @@ class SSoundVelocityProfile : public KMALLDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST__(SSoundVelocityProfile)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SSoundVelocityProfile)
 
   protected:
     explicit SSoundVelocityProfile(const KMALLDatagram& header)

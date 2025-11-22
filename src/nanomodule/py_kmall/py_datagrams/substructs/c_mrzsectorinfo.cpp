@@ -13,8 +13,8 @@
 
 #include "../module.hpp"
 
-NB_MAKE_OPAQUE(std::vector<themachinethatgoesping::echosounders::kmall::datagrams::substructs::MRZSectorInfo>);
-
+NB_MAKE_OPAQUE(
+    std::vector<themachinethatgoesping::echosounders::kmall::datagrams::substructs::MRZSectorInfo>);
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -151,11 +151,11 @@ void init_c_mrzsectorinfo(nanobind::module_& m)
         // ----- operators -----
         .def("__eq__", &MRZSectorInfo::operator==, DOC_MRZSectorInfo(operator_eq), nb::arg("other"))
         // ----- pybind macros -----
-        //copy
+        // copy
         __PYCLASS_DEFAULT_COPY__(MRZSectorInfo)
-        //print
+        // print
         __PYCLASS_DEFAULT_PRINTING__(MRZSectorInfo)
-        //end
+        // end
         ;
 
     nb::bind_vector<std::vector<MRZSectorInfo>>(m, "MRZSectorInfoVector");

@@ -211,13 +211,13 @@ void WatercolumnDatagramBeam::to_stream(std::ostream& os)
 							"does not match the number of samples in the sample amplitude "
 							"array!"));
 
-		os.write(reinterpret_cast<char*>(_samples.data()),
+		os.write(reinterpret_cast<const char*>(_samples.data()),
 				 static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
 	}
 	else
 	{
 		std::vector<int8_t> zeros(_number_of_samples, 0);
-		os.write(reinterpret_cast<char*>(zeros.data()),
+		os.write(reinterpret_cast<const char*>(zeros.data()),
 				 static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
 	}
 }
