@@ -446,7 +446,6 @@ headers = [
   'kmall/datagrams/mrangeanddepth.hpp',
   'kmall/datagrams/sclock.hpp',
   'kmall/datagrams/skmbinary.hpp',
-  'kmall/datagrams/soundvelocityprofile.hpp',
   'kmall/datagrams/sposition.hpp',
   'kmall/datagrams/spositionerror.hpp',
   'kmall/datagrams/ssoundvelocityprofile.hpp',
