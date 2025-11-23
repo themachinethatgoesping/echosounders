@@ -19,6 +19,9 @@ namespace datagrams {
 CHeave::CHeave()
 {
     _datagram_identifier = DatagramIdentifier;
+    // Initialize MPartition fields to 0 (not used by CHeave)
+    _scommon.number_of_datagrams = 0;
+    _scommon.datagram_number = 0;
 }
 
 // ----- setters -----
