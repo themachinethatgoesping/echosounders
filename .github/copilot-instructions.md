@@ -214,11 +214,11 @@ For fast local validation similar to CI quick check:
 
 - **License**: MPL-2.0 (Mozilla Public License 2.0)
 - **SPDX headers**: All files should include SPDX license headers
-- **Copyright**: 2022 - 2023 Peter Urban, Ghent University
+- **Copyright**: 2022 - 2025 Peter Urban, Ghent University
 
 **Example header:**
 ```cpp
-// SPDX-FileCopyrightText: 2022 - 2023 Peter Urban, Ghent University
+// SPDX-FileCopyrightText: 2022 - 2025 Peter Urban, Ghent University
 //
 // SPDX-License-Identifier: MPL-2.0
 ```
