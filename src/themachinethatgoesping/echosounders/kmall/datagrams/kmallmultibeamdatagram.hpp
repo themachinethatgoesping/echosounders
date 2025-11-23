@@ -120,6 +120,8 @@ class KMALLMultibeamDatagram : public KMALLDatagram
     inline void __read_multibeamdatagram_no_mpart__(std::istream& is)
     {
         is.read(reinterpret_cast<char*>(&_scommon.bytes_content), __size_no_mpart);
+        _scommon.number_of_datagrams=0;
+        _scommon.datagram_number=0;
     }
     inline void to_stream_no_mpart(std::ostream& os) const
     {
