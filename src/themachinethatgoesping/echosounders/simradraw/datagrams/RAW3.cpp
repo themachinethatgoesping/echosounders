@@ -90,7 +90,15 @@ RAW3 RAW3::from_stream(std::istream&     is,
     using namespace raw3datatypes;
 
     RAW3 datagram(std::move(header));
-    is.read(datagram._channel_id.data(), 140);
+    
+    // Read fields individually to avoid struct padding issues
+    is.read(datagram._channel_id.data(), 128);
+    is.read(reinterpret_cast<char*>(&datagram._data_type), sizeof(datagram._data_type));
+    is.read(reinterpret_cast<char*>(&datagram._number_of_complex_samples), sizeof(datagram._number_of_complex_samples));
+    is.read(reinterpret_cast<char*>(&datagram._spare_1), sizeof(datagram._spare_1));
+    is.read(reinterpret_cast<char*>(&datagram._spare_2), sizeof(datagram._spare_2));
+    is.read(reinterpret_cast<char*>(&datagram._offset), sizeof(datagram._offset));
+    is.read(reinterpret_cast<char*>(&datagram._count), sizeof(datagram._count));
 
     if (skip_sample_data)
     {
@@ -158,7 +166,14 @@ void RAW3::to_stream(std::ostream& os)
 
     SimradRawDatagram::to_stream(os);
 
-    os.write(_channel_id.data(), 140);
+    // Write fields individually to avoid struct padding issues
+    os.write(_channel_id.data(), 128);
+    os.write(reinterpret_cast<const char*>(&_data_type), sizeof(_data_type));
+    os.write(reinterpret_cast<const char*>(&_number_of_complex_samples), sizeof(_number_of_complex_samples));
+    os.write(reinterpret_cast<const char*>(&_spare_1), sizeof(_spare_1));
+    os.write(reinterpret_cast<const char*>(&_spare_2), sizeof(_spare_2));
+    os.write(reinterpret_cast<const char*>(&_offset), sizeof(_offset));
+    os.write(reinterpret_cast<const char*>(&_count), sizeof(_count));
 
     tools::helper::visit_variant(
         _sample_data,
@@ -220,7 +235,21 @@ RAW3 RAW3::from_stream(std::istream&                                  is,
     if (buffer.size() != 140)
         throw std::runtime_error("RAW3::from_stream: invalid cached buffer size");
 
-    memcpy(datagram._channel_id.data(), buffer.data(), 140);
+    // Copy fields individually to avoid struct padding issues
+    size_t offset = 0;
+    memcpy(datagram._channel_id.data(), buffer.data() + offset, 128);
+    offset += 128;
+    memcpy(&datagram._data_type, buffer.data() + offset, sizeof(datagram._data_type));
+    offset += sizeof(datagram._data_type);
+    memcpy(&datagram._number_of_complex_samples, buffer.data() + offset, sizeof(datagram._number_of_complex_samples));
+    offset += sizeof(datagram._number_of_complex_samples);
+    memcpy(&datagram._spare_1, buffer.data() + offset, sizeof(datagram._spare_1));
+    offset += sizeof(datagram._spare_1);
+    memcpy(&datagram._spare_2, buffer.data() + offset, sizeof(datagram._spare_2));
+    offset += sizeof(datagram._spare_2);
+    memcpy(&datagram._offset, buffer.data() + offset, sizeof(datagram._offset));
+    offset += sizeof(datagram._offset);
+    memcpy(&datagram._count, buffer.data() + offset, sizeof(datagram._count));
 
     datagram._sample_data = raw3datatypes::RAW3DataSkipped();
 
@@ -231,7 +260,22 @@ void RAW3::to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& 
 {
     std::string cache;
     cache.resize(140);
-    memcpy(cache.data(), _channel_id.data(), 140);
+    
+    // Copy fields individually to avoid struct padding issues
+    size_t offset = 0;
+    memcpy(cache.data() + offset, _channel_id.data(), 128);
+    offset += 128;
+    memcpy(cache.data() + offset, &_data_type, sizeof(_data_type));
+    offset += sizeof(_data_type);
+    memcpy(cache.data() + offset, &_number_of_complex_samples, sizeof(_number_of_complex_samples));
+    offset += sizeof(_number_of_complex_samples);
+    memcpy(cache.data() + offset, &_spare_1, sizeof(_spare_1));
+    offset += sizeof(_spare_1);
+    memcpy(cache.data() + offset, &_spare_2, sizeof(_spare_2));
+    offset += sizeof(_spare_2);
+    memcpy(cache.data() + offset, &_offset, sizeof(_offset));
+    offset += sizeof(_offset);
+    memcpy(cache.data() + offset, &_count, sizeof(_count));
 
     size_t hash = xxh::xxhash3<64>(cache);
 
@@ -249,7 +293,14 @@ xxh::hash_t<64> RAW3::hash_content_without_samples() const
 
     // use all variables starting from system_serial number
     // ignore e.g. timestamp and ping_counter to be useful in the deduplicate buffer
-    hash_stream.update(_channel_id.data(), 140);
+    // Hash fields individually to avoid struct padding issues
+    hash_stream.update(_channel_id.data(), 128);
+    hash_stream.update(&_data_type, sizeof(_data_type));
+    hash_stream.update(&_number_of_complex_samples, sizeof(_number_of_complex_samples));
+    hash_stream.update(&_spare_1, sizeof(_spare_1));
+    hash_stream.update(&_spare_2, sizeof(_spare_2));
+    hash_stream.update(&_offset, sizeof(_offset));
+    hash_stream.update(&_count, sizeof(_count));
 
     return hash_stream.digest();
 }
