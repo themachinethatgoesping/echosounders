@@ -77,6 +77,9 @@ void init_c_kmalldatagramcontainer(nanobind::module_& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::MRangeAndDepth,
                                                         t_KMALLDatagramIdentifier>(
         m, "KMALLDatagramContainer_MRangeAndDepth");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::MWaterColumn,
+                                                        t_KMALLDatagramIdentifier>(
+        m, "KMALLDatagramContainer_MWaterColumn");
 
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_KMALLDatagramVariant,
                                                         t_KMALLDatagramIdentifier,

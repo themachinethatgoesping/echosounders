@@ -1,4 +1,4 @@
-//sourcehash: 219f996ee94080ac06f5a6912c53a857523abeb2470d969b0d4130b43a272dc3
+//sourcehash: c00c364f71120502ea7a1fa8e501046dc69ae68a1385dd8b5ddc2eebf1f932a1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,37 +38,39 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant_KMALLDatagramVariant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_MWaterColumn = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant_KMALLDatagramVariant_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant_datagram_variant = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_bytes_datagram_check =
+R"doc(< Each datagram ends with the size of the datagram for < integrity
+check)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_from_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLDatagramVariant_operator_call =
-R"doc(This is the visitor function that tries to convert the internal
-variant to the specified type.
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_from_stream_2 = R"doc()doc";
 
-Template parameter ``t_ProgressBar``:
-    $Parameter ``progress_bar``:
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_from_stream_3 = R"doc()doc";
 
-ProgressBar class that is derived from I_ProgressBar
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_tx_info = R"doc()doc";
 
-Returns:
-    I_ProgressBar&)doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_operator_eq = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSkipDataFactory = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_printer = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSkipDataFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_tx_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSkipDataFactory_from_stream_2 = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_tx_info = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSkipDataVariantFactory = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_to_stream = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_KMALLSkipDataVariantFactory_from_stream = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_info_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_tx_info = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

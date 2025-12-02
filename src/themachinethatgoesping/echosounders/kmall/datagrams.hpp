@@ -16,6 +16,7 @@
 #include "datagrams/kmalldatagram.hpp"
 #include "datagrams/kmallunknown.hpp"
 #include "datagrams/mrangeanddepth.hpp"
+#include "datagrams/mwatercolumn.hpp"
 #include "datagrams/sclock.hpp"
 #include "datagrams/skmbinary.hpp"
 #include "datagrams/sposition.hpp"
@@ -44,6 +45,7 @@ namespace datagrams {
 using t_KMALLDatagramVariant = std::variant<KMALLDatagram,
                                             KMALLUnknown,
                                             MRangeAndDepth,
+                                            MWaterColumn,
                                             IInstallationParam,
                                             IOpRuntime,
                                             SPosition,

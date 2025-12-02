@@ -24,6 +24,7 @@ void init_c_mrzsectorinfo(nanobind::module_& m); // substructs/c_mrzsectorinfo.c
 void init_c_mrzextradetclassinfo(nanobind::module_& m); // substructs/c_mrzextradetclassinfo.cpp
 void init_c_mrzsoundings(nanobind::module_& m); // substructs/c_mrzsoundings.cpp
 void init_c_mrzsoundingscontainer(nanobind::module_& m); // substructs/c_MRZSoundingsContainer.cpp
+void init_c_mwctxinfo(nanobind::module_& m); // substructs/c_mwctxinfo.cpp
 
 void init_c_kmalldatagram(nanobind::module_& m); // c_kmalldatagram.cpp
 void init_c_kmallunknown(nanobind::module_& m);  // c_kmallunknown.cpp
@@ -46,6 +47,7 @@ void init_c_cposition(nanobind::module_& m); // c_cposition.cpp
 void init_c_cheave(nanobind::module_& m);    // c_cheave.cpp
 
 void init_c_mrangeanddepth(nanobind::module_& m); // c_mrangeanddepth.cpp
+void init_c_mwatercolumn(nanobind::module_& m);    // c_mwatercolumn.cpp
 
 // -- create submodule --
 void init_m_kmalldatagrams(nanobind::module_& m)
@@ -62,6 +64,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_mrzextradetclassinfo(subm);
     init_c_mrzsoundings(subm);
     init_c_mrzsoundingscontainer(subm);
+    init_c_mwctxinfo(subm);
 
     // kmall classes
     init_c_kmalldatagram(subm);
@@ -85,6 +88,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_cheave(subm);
 
     init_c_mrangeanddepth(subm);
+    init_c_mwatercolumn(subm);
 }
 
 }

@@ -93,6 +93,8 @@ void KMALLDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return nb::cast(self.template datagrams<datagrams::CHeave>(type));
                 case t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH:
                     return nb::cast(self.template datagrams<datagrams::MRangeAndDepth>(type));
+                case t_KMALLDatagramIdentifier::M_WATER_COLUMN:
+                    return nb::cast(self.template datagrams<datagrams::MWaterColumn>(type));
                 default:
                     return nb::cast(self.template datagrams<datagrams::KMALLUnknown>(type));
             }
