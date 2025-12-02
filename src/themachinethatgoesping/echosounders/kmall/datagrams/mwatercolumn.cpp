@@ -13,7 +13,7 @@ namespace echosounders {
 namespace kmall {
 namespace datagrams {
 
-// using substructs::MRZSectorInfo;
+using substructs::MWCSectorInfo;
 
 MWaterColumn::MWaterColumn(const KMALLDatagram& header)
     : KMALLMultibeamDatagram(header)
@@ -41,43 +41,19 @@ void MWaterColumn::__write_tx_info__(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_tx_info), sizeof(_tx_info));
 }
 
-// void MWaterColumn::__read_sectors__(std::istream& is)
-// {
-//     const auto n_sectors = _ping_info.get_number_of_tx_sectors();
-//     const auto version   = get_datagram_version();
-//     _tx_sectors.resize(n_sectors);
+void MWaterColumn::__read_sectors__(std::istream& is)
+{
+    const auto n_sectors = _tx_info.get_number_of_tx_sectors();
+    _tx_sectors.resize(n_sectors);
 
-//     // if old version read one by one
-//     if (version < 1)
-//     {
-//         for (auto& sector : _tx_sectors)
-//             sector = sector.__read_version_0__(is);
-//     }
-//     else
-//     {
-//         // if latest version read as block
-//         is.read(reinterpret_cast<char*>(_tx_sectors.data()), sizeof(MRZSectorInfo) * n_sectors);
-//     }
-// }
+    is.read(reinterpret_cast<char*>(_tx_sectors.data()), sizeof(MWCSectorInfo) * n_sectors);
+}
 
-// void MWaterColumn::__write_sectors__(std::ostream& os) const
-// {
-//     // const auto n_sectors = get_number_of_tx_sectors();
-//     const auto version = get_datagram_version();
-
-//     // if old version read one by one
-//     if (version < 1)
-//     {
-//         for (const auto& sector : _tx_sectors)
-//             sector.__write_version_0__(os);
-//     }
-//     else
-//     {
-//         // if latest version read as block
-//         os.write(reinterpret_cast<const char*>(_tx_sectors.data()),
-//                  sizeof(MRZSectorInfo) * _tx_sectors.size());
-//     }
-// }
+void MWaterColumn::__write_sectors__(std::ostream& os) const
+{
+    os.write(reinterpret_cast<const char*>(_tx_sectors.data()),
+             sizeof(MWCSectorInfo) * _tx_sectors.size());
+}
 
 // void MWaterColumn::__read_rxinfo__(std::istream& is)
 // {
@@ -147,7 +123,7 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is, const KMALLDatagram& he
     MWaterColumn datagram(header);
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
-    // datagram.__read_sectors__(is);
+    datagram.__read_sectors__(is);
     // datagram.__read_rxinfo__(is);
     // datagram.__read_extradetclassinfo__(is);
     // datagram.__read_soundings__(is);
@@ -159,14 +135,14 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is, const KMALLDatagram& he
 }
 
 MWaterColumn MWaterColumn::from_stream(std::istream&             is,
-                                           o_KMALLDatagramIdentifier datagram_identifier)
+                                       o_KMALLDatagramIdentifier datagram_identifier)
 {
     MWaterColumn datagram;
     datagram.__kmalldatagram_read__(is);
     datagram.__check_datagram_identifier__(datagram_identifier, DatagramIdentifier);
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
-    // datagram.__read_sectors__(is);
+    datagram.__read_sectors__(is);
     // datagram.__read_rxinfo__(is);
     // datagram.__read_extradetclassinfo__(is);
     // datagram.__read_soundings__(is);
@@ -182,7 +158,7 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is)
     datagram.__kmalldatagram_read__(is);
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
-    // datagram.__read_sectors__(is);
+    datagram.__read_sectors__(is);
     // datagram.__read_rxinfo__(is);
     // datagram.__read_extradetclassinfo__(is);
     // datagram.__read_soundings__(is);
@@ -198,18 +174,19 @@ void MWaterColumn::to_stream(std::ostream& os) const
     KMALLMultibeamDatagram::to_stream(os);
 
     __write_tx_info__(os);
-    // __write_sectors__(os);
+    __write_sectors__(os);
     // __write_rxinfo__(os);
     // __write_extradetclassinfo__(os);
     // __write_soundings__(os);
     // __write_seabed_image_samples__(os);
-    // os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
+    // os.write(reinterpret_cast<const char*>(&_bytes_datagram_check),
+    // sizeof(_bytes_datagram_check));
 }
 
 // ----- objectprinter -----
 
 tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_precision,
-                                                              bool superscript_exponents) const
+                                                            bool superscript_exponents) const
 {
     tools::classhelper::ObjectPrinter printer(
         "MWaterColumn", float_precision, superscript_exponents);
@@ -221,14 +198,14 @@ tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_p
     printer.register_section("Tx info (.tx_info)");
     printer.append(_tx_info.__printer__(float_precision, superscript_exponents));
 
-    // printer.register_section(
-    //     fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.size()));
-    // for (const auto& sector : _tx_sectors)
-    // {
-    //     printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
-    //                              '.');
-    //     printer.append(sector.__printer__(float_precision, superscript_exponents));
-    // }
+    printer.register_section(
+        fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.size()));
+    for (const auto& sector : _tx_sectors)
+    {
+        printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
+                                 '.');
+        printer.append(sector.__printer__(float_precision, superscript_exponents));
+    }
 
     // printer.register_section("Rx info (.rx_info)");
     // printer.append(_rx_info.__printer__(float_precision, superscript_exponents));

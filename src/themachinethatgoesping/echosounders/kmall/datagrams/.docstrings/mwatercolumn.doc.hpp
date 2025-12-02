@@ -1,4 +1,4 @@
-//sourcehash: c00c364f71120502ea7a1fa8e501046dc69ae68a1385dd8b5ddc2eebf1f932a1
+//sourcehash: 49e2d523bd7802412456edce7e7c7b14989d3a41e97f10f016372a2b8c5065bc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,19 +56,31 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_tx_info = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_tx_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_operator_eq = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_sectors = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_tx_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_tx_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_info_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_sectors = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_sectors_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_tx_info = R"doc()doc";
 

@@ -28,19 +28,19 @@ void init_c_mwctxinfo(nanobind::module_& m)
 {
     nb::class_<MWCTxInfo>(m, "MWCTxInfo", DOC_MWCTxInfo(MWCTxInfo))
         .def(nb::init<>(), DOC_MWCTxInfo(MWCTxInfo))
-        .def("get_num_bytes_tx_info",
-             &MWCTxInfo::get_num_bytes_tx_info,
-             DOC_MWCTxInfo(get_num_bytes_tx_info))
-        .def("set_num_bytes_tx_info",
-             &MWCTxInfo::set_num_bytes_tx_info,
-             DOC_MWCTxInfo(set_num_bytes_tx_info),
+        .def("get_bytes_content",
+             &MWCTxInfo::get_bytes_content,
+             DOC_MWCTxInfo(get_bytes_content))
+        .def("set_bytes_content",
+             &MWCTxInfo::set_bytes_content,
+             DOC_MWCTxInfo(set_bytes_content),
              nb::arg("val"))
-        .def("get_num_tx_sectors",
-             &MWCTxInfo::get_num_tx_sectors,
-             DOC_MWCTxInfo(get_num_tx_sectors))
-        .def("set_num_tx_sectors",
-             &MWCTxInfo::set_num_tx_sectors,
-             DOC_MWCTxInfo(set_num_tx_sectors),
+        .def("get_number_of_tx_sectors",
+             &MWCTxInfo::get_number_of_tx_sectors,
+             DOC_MWCTxInfo(get_number_of_tx_sectors))
+        .def("set_number_of_tx_sectors",
+             &MWCTxInfo::set_number_of_tx_sectors,
+             DOC_MWCTxInfo(set_number_of_tx_sectors),
              nb::arg("val"))
         .def("get_num_bytes_per_tx_sector",
              &MWCTxInfo::get_num_bytes_per_tx_sector,

@@ -5,7 +5,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/mwctxinfo.doc.hpp"
+#include ".docstrings/mwcsectorinfo.doc.hpp"
 
 // std includes
 #include <cstdint>
@@ -22,31 +22,31 @@ namespace datagrams {
 namespace substructs {
 
 #pragma pack(push, 4) // force 4-byte alignment
-class MWCTxInfo
+class MWCSectorInfo
 {
-    uint16_t _bytes_content;
-    uint16_t _number_of_tx_sectors;
-    uint16_t _num_bytes_per_tx_sector;
+    float    _tilt_angle_re_tx_deg;
+    float    _centre_frequency_hz;
+    float    _tx_beam_width_along_deg;
+    uint16_t _tx_sector_number;
     int16_t  _padding;
-    float    _heave_m;
 
   public:
-    MWCTxInfo()  = default;
-    ~MWCTxInfo() = default;
+    MWCSectorInfo()  = default;
+    ~MWCSectorInfo() = default;
 
-    uint16_t get_bytes_content() const { return _bytes_content; }
-    uint16_t get_number_of_tx_sectors() const { return _number_of_tx_sectors; }
-    uint16_t get_num_bytes_per_tx_sector() const { return _num_bytes_per_tx_sector; }
+    float    get_tilt_angle_re_tx_deg() const { return _tilt_angle_re_tx_deg; }
+    float    get_centre_frequency_hz() const { return _centre_frequency_hz; }
+    float    get_tx_beam_width_along_deg() const { return _tx_beam_width_along_deg; }
+    uint16_t get_tx_sector_number() const { return _tx_sector_number; }
     int16_t  get_padding() const { return _padding; }
-    float    get_heave_m() const { return _heave_m; }
 
-    void set_bytes_content(uint16_t val) { _bytes_content = val; }
-    void set_number_of_tx_sectors(uint16_t val) { _number_of_tx_sectors = val; }
-    void set_num_bytes_per_tx_sector(uint16_t val) { _num_bytes_per_tx_sector = val; }
+    void set_tilt_angle_re_tx_deg(float val) { _tilt_angle_re_tx_deg = val; }
+    void set_centre_frequency_hz(float val) { _centre_frequency_hz = val; }
+    void set_tx_beam_width_along_deg(float val) { _tx_beam_width_along_deg = val; }
+    void set_tx_sector_number(uint16_t val) { _tx_sector_number = val; }
     void set_padding(int16_t val) { _padding = val; }
-    void set_heave_m(float val) { _heave_m = val; }
 
-    bool operator==(const MWCTxInfo& other) const = default;
+    bool operator==(const MWCSectorInfo& other) const;
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const;
@@ -60,3 +60,4 @@ class MWCTxInfo
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
+

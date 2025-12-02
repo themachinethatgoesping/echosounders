@@ -1,4 +1,4 @@
-//sourcehash: 732e11c255a809b963a07eb23b0c808f8c03ab05b22351d95bcbd92f7520fbe4
+//sourcehash: 6a7bea2921f13f67208d93977ccb67d48ddc053ee851f2bfe495614bb1b89bbb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,13 +42,15 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_sub
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_MWCTxInfo = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_bytes_content = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_bytes_content = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_heave_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_num_bytes_per_tx_sector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_num_bytes_tx_info = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_num_tx_sectors = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_number_of_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_get_padding = R"doc()doc";
 
@@ -56,9 +58,7 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_sub
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_num_bytes_per_tx_sector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_num_bytes_tx_info = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_num_tx_sectors = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_number_of_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_operator_eq = R"doc()doc";
 
@@ -66,13 +66,13 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_sub
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_bytes_content = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_heave_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_num_bytes_per_tx_sector = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_num_bytes_tx_info = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_num_tx_sectors = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_number_of_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MWCTxInfo_set_padding = R"doc()doc";
 

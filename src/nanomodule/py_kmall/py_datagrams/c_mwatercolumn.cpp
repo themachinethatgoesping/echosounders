@@ -50,11 +50,11 @@ void init_c_mwatercolumn(nanobind::module_& m)
      //                 nb::rv_policy::reference_internal)
 
      //    // ----- sectors etc. -----
-     //    .def_prop_rw("tx_sectors",
-     //                 &MWaterColumn::tx_sectors,
-     //                 &MWaterColumn::set_tx_sectors,
-     //                 DOC_MWaterColumn(tx_sectors),
-     //                 nb::rv_policy::reference_internal)
+        .def_prop_rw("tx_sectors",
+                     &MWaterColumn::tx_sectors,
+                     &MWaterColumn::set_tx_sectors,
+                     DOC_MWaterColumn(tx_sectors),
+                     nb::rv_policy::reference_internal)
 
      //    .def_prop_rw("extra_det_class_info",
      //                 &MWaterColumn::extra_det_class_info,

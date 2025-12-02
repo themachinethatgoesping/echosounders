@@ -21,6 +21,7 @@
 #include "../types.hpp"
 #include "kmallmultibeamdatagram.hpp"
 #include "substructs/mwctxinfo.hpp"
+#include "substructs/mwcsectorinfo.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -40,7 +41,7 @@ class MWaterColumn : public KMALLMultibeamDatagram
 
   protected:
     substructs::MWCTxInfo _tx_info;
-    // std::vector<substructs::MRZSectorInfo>        _tx_sectors;
+    std::vector<substructs::MWCSectorInfo>        _tx_sectors;
     // substructs::MRZRxInfo                         _rx_info;
     // std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
     // substructs::MRZSoundingsContainer             _soundings;
@@ -60,19 +61,19 @@ class MWaterColumn : public KMALLMultibeamDatagram
     void                         set_tx_info(const substructs::MWCTxInfo& info) { _tx_info = info; }
 
     // // tx sectors
-    // const std::vector<substructs::MRZSectorInfo>& get_tx_sectors() const { return _tx_sectors; }
-    // std::vector<substructs::MRZSectorInfo>&       tx_sectors() { return _tx_sectors; }
-    // void set_tx_sectors(const std::vector<substructs::MRZSectorInfo>& sectors)
-    // {
-    //     _tx_sectors = sectors;
-    //     _ping_info.set_number_of_tx_sectors(_tx_sectors.size());
-    //     static constexpr size_t dbytes = sizeof(substructs::MRZPingInfo) + sizeof(uint32_t);
-    //     _ping_info.set_bytes_content(dbytes +
-    //                                  _tx_sectors.size() * sizeof(substructs::MRZSectorInfo));
+    const std::vector<substructs::MWCSectorInfo>& get_tx_sectors() const { return _tx_sectors; }
+    std::vector<substructs::MWCSectorInfo>&       tx_sectors() { return _tx_sectors; }
+    void set_tx_sectors(const std::vector<substructs::MWCSectorInfo>& sectors)
+    {
+        _tx_sectors = sectors;
+        _tx_info.set_number_of_tx_sectors(_tx_sectors.size());
+        static constexpr size_t dbytes = sizeof(substructs::MWCTxInfo) + sizeof(uint32_t);
+        _tx_info.set_bytes_content(dbytes +
+                                     _tx_sectors.size() * sizeof(substructs::MWCSectorInfo));
 
-    //     set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
-    //                        _ping_info.get_bytes_content());
-    // }
+        set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
+                           _tx_info.get_bytes_content());
+    }
 
     // // rx info
     // const substructs::MRZRxInfo& get_rx_info() const { return _rx_info; }
@@ -144,8 +145,8 @@ class MWaterColumn : public KMALLMultibeamDatagram
     explicit MWaterColumn(const KMALLDatagram& header);
     void __read_tx_info__(std::istream& is);
     void __write_tx_info__(std::ostream& os) const;
-    // void __read_sectors__(std::istream& is);
-    // void __write_sectors__(std::ostream& os) const;
+    void __read_sectors__(std::istream& is);
+    void __write_sectors__(std::ostream& os) const;
     // void __read_rxinfo__(std::istream& is);
     // void __write_rxinfo__(std::ostream& os) const;
     // void __read_extradetclassinfo__(std::istream& is);
