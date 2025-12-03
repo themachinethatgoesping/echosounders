@@ -88,6 +88,8 @@ sources = [
   'py_gsf/module.cpp',
   'py_kmall/c_kmallfilehandler.cpp',
   'py_kmall/module.cpp',
+  'py_kmall/py_filedatainterfaces/c_kmallconfigurationdatainterface.cpp',
+  'py_kmall/py_filedatainterfaces/c_kmallconfigurationdatainterfaceperfile.cpp',
   'py_kmall/py_filedatainterfaces/c_kmalldatagraminterface.cpp',
   'py_kmall/py_filedatainterfaces/module.cpp',
   'py_kmall/py_filedatacontainers/c_kmalldatagramcontainer.cpp',

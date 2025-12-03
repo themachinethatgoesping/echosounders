@@ -14,6 +14,10 @@ namespace nb = nanobind;
 
 // -- submodule declarations --
 void init_c_KMALLDatagramInterface(nanobind::module_& m); // c_kmalldatagraminterface.cpp
+void init_c_kmallconfigurationdatainterfaceperfile(
+    nanobind::module_& m); // c_kmallconfigurationdatainterfaceperfile.cpp
+void init_c_kmallconfigurationdatainterface(
+    nanobind::module_& m); // c_kmallconfigurationdatainterface.cpp
 
 
 // -- create submodule --
@@ -23,6 +27,8 @@ void init_m_kmallfiledatainterfaces(nanobind::module_& m)
                                 "KMALL (kongsberg .kmall/.kmwcd) file data interface classes");
 
     init_c_KMALLDatagramInterface(subm);
+    //init_c_kmallconfigurationdatainterfaceperfile(subm);
+    //init_c_kmallconfigurationdatainterface(subm);
 }
 
 }
