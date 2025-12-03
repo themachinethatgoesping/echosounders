@@ -285,6 +285,7 @@ MRangeAndDepth make_datagram()
     const auto total_size = compute_total_datagram_size(
         sectors.size(), extra_classes.size(), soundings.size(), seabed_samples.size());
     dat.set_bytes_datagram(total_size);
+    dat.set_bytes_content(static_cast<uint16_t>(total_size - KMALLDatagram::__size));
     dat.set_bytes_datagram_check(total_size);
 
     return dat;
@@ -300,7 +301,7 @@ TEST_CASE("MRangeAndDepth should serialize and deserialize without loss", TESTTA
     CHECK(dat.binary_hash() == dat2.binary_hash());
     CHECK(dat == dat2);
 
-    const auto expected_hash = 13099151408610193717ULL;
+    const auto expected_hash = 13222004424447785961ULL;
     CHECK(dat.binary_hash() == expected_hash);
 
 

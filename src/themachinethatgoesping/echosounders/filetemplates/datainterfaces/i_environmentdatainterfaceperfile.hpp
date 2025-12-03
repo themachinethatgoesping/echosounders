@@ -32,7 +32,7 @@ namespace echosounders {
 namespace filetemplates {
 namespace datainterfaces {
 
-// TODO: this should be a c++20 concept
+// TODO: this should be a c++23 concept
 template<typename t_NavigationDataInterface>
 class I_EnvironmentDataInterfacePerFile
     : public I_FileDataInterfacePerFile<typename t_NavigationDataInterface::type_DatagramInterface>
