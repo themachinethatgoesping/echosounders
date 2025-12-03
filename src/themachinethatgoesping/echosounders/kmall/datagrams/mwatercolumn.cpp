@@ -66,14 +66,14 @@ void MWaterColumn::__write_rxinfo__(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_rx_info), sizeof(substructs::MWCRxInfo));
 }
 
-void MWaterColumn::__read_beamdata__(std::istream& is)
+void MWaterColumn::__read_beamdata__(std::istream& is, bool skip_data)
 {
     const auto n_beams = _rx_info.get_number_of_beams();
     _beam_data.beams().reserve(n_beams);
 
     // read per beam
     for (auto i = 0; i < n_beams; ++i)
-        _beam_data.beams().emplace_back(substructs::MWCRxBeamData::from_stream(is));
+        _beam_data.beams().emplace_back(substructs::MWCRxBeamData::from_stream(is, skip_data));
 }
 
 void MWaterColumn::__write_beamdata__(std::ostream& os) const
@@ -117,14 +117,16 @@ void MWaterColumn::__write_beamdata__(std::ostream& os) const
 //              sizeof(int16_t) * n_samples);
 //}
 
-MWaterColumn MWaterColumn::from_stream(std::istream& is, const KMALLDatagram& header)
+MWaterColumn MWaterColumn::from_stream(std::istream&        is,
+                                       const KMALLDatagram& header,
+                                       bool                 skip_data)
 {
     MWaterColumn datagram(header);
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
-    datagram.__read_beamdata__(is);
+    datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
@@ -134,7 +136,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is, const KMALLDatagram& he
 }
 
 MWaterColumn MWaterColumn::from_stream(std::istream&             is,
-                                       o_KMALLDatagramIdentifier datagram_identifier)
+                                       o_KMALLDatagramIdentifier datagram_identifier,
+                                       bool                      skip_data)
 {
     MWaterColumn datagram;
     datagram.__kmalldatagram_read__(is);
@@ -143,7 +146,7 @@ MWaterColumn MWaterColumn::from_stream(std::istream&             is,
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
-    datagram.__read_beamdata__(is);
+    datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
@@ -151,7 +154,7 @@ MWaterColumn MWaterColumn::from_stream(std::istream&             is,
     return datagram;
 }
 
-MWaterColumn MWaterColumn::from_stream(std::istream& is)
+MWaterColumn MWaterColumn::from_stream(std::istream& is, bool skip_data)
 {
     MWaterColumn datagram;
     datagram.__kmalldatagram_read__(is);
@@ -159,7 +162,7 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is)
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
     datagram.__read_rxinfo__(is);
-    datagram.__read_beamdata__(is);
+    datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),

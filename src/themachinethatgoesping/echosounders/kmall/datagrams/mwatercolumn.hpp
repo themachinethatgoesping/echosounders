@@ -113,12 +113,15 @@ class MWaterColumn : public KMALLMultibeamDatagram
     bool operator==(const MWaterColumn& other) const = default;
 
     //----- to/from stream functions -----
-    static MWaterColumn from_stream(std::istream& is, const KMALLDatagram& header);
+    static MWaterColumn from_stream(std::istream&        is,
+                                    const KMALLDatagram& header,
+                                    bool                 skip_data = false);
 
     static MWaterColumn from_stream(std::istream&             is,
-                                    o_KMALLDatagramIdentifier datagram_identifier);
+                                    o_KMALLDatagramIdentifier datagram_identifier,
+                                    bool                      skip_data = false);
 
-    static MWaterColumn from_stream(std::istream& is);
+    static MWaterColumn from_stream(std::istream& is, bool skip_data = false);
 
     void to_stream(std::ostream& os) const;
 
@@ -138,7 +141,7 @@ class MWaterColumn : public KMALLMultibeamDatagram
     void __write_sectors__(std::ostream& os) const;
     void __read_rxinfo__(std::istream& is);
     void __write_rxinfo__(std::ostream& os) const;
-    void __read_beamdata__(std::istream& is);
+    void __read_beamdata__(std::istream& is, bool skip_data = false);
     void __write_beamdata__(std::ostream& os) const;
     // void __read_soundings__(std::istream& is);
     // void __write_soundings__(std::ostream& os) const;
