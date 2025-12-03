@@ -112,6 +112,12 @@ class MWaterColumn : public KMALLMultibeamDatagram
     // ----- operators -----
     bool operator==(const MWaterColumn& other) const = default;
 
+    uint32_t get_bytes_datagram_check() const { return _bytes_datagram_check; }
+    void     set_bytes_datagram_check(uint32_t bytes_datagram_check)
+    {
+      _bytes_datagram_check = bytes_datagram_check;
+    }
+
     //----- to/from stream functions -----
     static MWaterColumn from_stream(std::istream&        is,
                                     const KMALLDatagram& header,

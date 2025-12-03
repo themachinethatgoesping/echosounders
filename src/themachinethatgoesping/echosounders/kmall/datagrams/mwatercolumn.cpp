@@ -129,8 +129,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream&        is,
     datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
-    // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
-    //         sizeof(datagram._bytes_datagram_check));
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
 
     return datagram;
 }
@@ -149,8 +149,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream&             is,
     datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
-    // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
-    //         sizeof(datagram._bytes_datagram_check));
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
     return datagram;
 }
 
@@ -165,8 +165,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is, bool skip_data)
     datagram.__read_beamdata__(is, skip_data);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
-    // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
-    //         sizeof(datagram._bytes_datagram_check));
+    is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
+            sizeof(datagram._bytes_datagram_check));
     return datagram;
 }
 
@@ -181,8 +181,8 @@ void MWaterColumn::to_stream(std::ostream& os) const
     __write_beamdata__(os);
     // __write_soundings__(os);
     // __write_seabed_image_samples__(os);
-    // os.write(reinterpret_cast<const char*>(&_bytes_datagram_check),
-    // sizeof(_bytes_datagram_check));
+    os.write(reinterpret_cast<const char*>(&_bytes_datagram_check),
+    sizeof(_bytes_datagram_check));
 }
 
 // ----- objectprinter -----

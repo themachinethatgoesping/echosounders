@@ -122,6 +122,12 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         _seabed_image_samples_dezi_db = xt::cast<int16_t>(xt::round(samples * 10.0f));
     }
 
+    uint32_t get_bytes_datagram_check() const { return _bytes_datagram_check; }
+    void     set_bytes_datagram_check(uint32_t bytes_datagram_check)
+    {
+        _bytes_datagram_check = bytes_datagram_check;
+    }
+
     // ----- operators -----
     bool operator==(const MRangeAndDepth& other) const = default;
 

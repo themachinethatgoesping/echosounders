@@ -7,6 +7,7 @@
 #include <fmt/format.h>
 
 #include <themachinethatgoesping/tools/timeconv.hpp>
+#include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -14,6 +15,22 @@ namespace kmall {
 namespace datagrams {
 namespace substructs {
 
+
+bool MRZRxInfo::operator==(const MRZRxInfo& other) const
+{
+    return (_bytes_content == other._bytes_content) &&
+           (_number_of_soundings_max_main == other._number_of_soundings_max_main) &&
+           (_number_of_soundings_valid_main == other._number_of_soundings_valid_main) &&
+           (_number_of_bytes_per_sounding == other._number_of_bytes_per_sounding) &&
+           (tools::helper::float_equals(_wc_sample_rate, other._wc_sample_rate)) &&
+           (tools::helper::float_equals(_seabed_image_sample_rate, other._seabed_image_sample_rate)) &&
+           (tools::helper::float_equals(_bs_normal_db, other._bs_normal_db)) &&
+           (tools::helper::float_equals(_bs_oblique_db, other._bs_oblique_db)) &&
+           (_extra_detection_alarm_flag == other._extra_detection_alarm_flag) &&
+           (_number_of_extra_detections == other._number_of_extra_detections) &&
+           (_number_of_extra_detection_classes == other._number_of_extra_detection_classes) &&
+           (_number_of_bytes_per_class == other._number_of_bytes_per_class);
+}
 // ----- objectprinter -----
 
 tools::classhelper::ObjectPrinter MRZRxInfo::__printer__(unsigned int float_precision,

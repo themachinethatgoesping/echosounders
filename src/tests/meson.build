@@ -66,6 +66,8 @@ sources = [
   'kmall/datagrams/kmallunknown.test.cpp',
   'kmall/datagrams/mrangeanddepth.test.cpp',
   'kmall/datagrams/mrangeanddepth_substructs.test.cpp',
+  'kmall/datagrams/mwatercolumn.test.cpp',
+  'kmall/datagrams/mwatercolumn_substructs.test.cpp',
   'kmall/datagrams/sclock.test.cpp',
   'kmall/datagrams/skmbinary.test.cpp',
   'kmall/datagrams/sposition.test.cpp',

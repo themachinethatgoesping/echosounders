@@ -210,7 +210,7 @@ class MRZPingInfo
     void set_active_modes(uint16_t val) { _active_modes = val; }
 
     // ----- operators -----
-    bool operator==(const MRZPingInfo& other) const = default;
+    bool operator==(const MRZPingInfo& other) const;
 
     //----- to/from stream functions -----
 

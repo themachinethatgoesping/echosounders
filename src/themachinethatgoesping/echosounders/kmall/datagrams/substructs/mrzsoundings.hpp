@@ -184,7 +184,7 @@ class MRZSoundings
     void set_si_centre_sample(uint16_t val) { _si_centre_sample = val; }
     void set_si_num_samples(uint16_t val) { _si_num_samples = val; }
 
-    bool operator==(const MRZSoundings& other) const = default;
+    bool operator==(const MRZSoundings& other) const;
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const;

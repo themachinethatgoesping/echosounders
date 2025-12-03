@@ -82,7 +82,7 @@ class MRZRxInfo
     }
     void set_number_of_bytes_per_class(uint16_t val) { _number_of_bytes_per_class = val; }
 
-    bool operator==(const MRZRxInfo& other) const = default;
+    bool operator==(const MRZRxInfo& other) const;
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const;

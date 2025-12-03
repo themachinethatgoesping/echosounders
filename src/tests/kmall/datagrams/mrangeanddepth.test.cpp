@@ -7,7 +7,9 @@
 
 #include <array>
 #include <cstdint>
+#include <cstring>
 #include <sstream>
+#include <type_traits>
 #include <vector>
 
 #include <xtensor/containers/xtensor.hpp>
@@ -33,9 +35,18 @@ constexpr size_t   kTotalSoundings     = kNumMainSoundings + kNumExtraSoundings;
 inline constexpr array<uint16_t, kTotalSoundings> kSeabedSampleCounts = { 2, 3, 1, 2 };
 inline constexpr array<int16_t, 8>                kSeabedSampleValues = { 100, 110, 105, 120, 95, 90, 80, 70 };
 
+template <typename T>
+T make_zeroed()
+{
+    static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable");
+    T value;
+    std::memset(&value, 0, sizeof(T));
+    return value;
+}
+
 MRZPingInfo make_ping_info()
 {
-    MRZPingInfo info;
+    auto info = make_zeroed<MRZPingInfo>();
     info.set_bytes_content(sizeof(MRZPingInfo));
     info.set_ping_rate_hz(1.25F);
     info.set_beam_spacing(1);
@@ -93,7 +104,7 @@ vector<MRZSectorInfo> make_tx_sectors()
     sectors.reserve(kNumSectors);
     for (uint8_t idx = 0; idx < kNumSectors; ++idx)
     {
-        MRZSectorInfo sector;
+        auto sector = make_zeroed<MRZSectorInfo>();
         sector.set_tx_sector_number(idx);
         sector.set_tx_arrary_number(idx + 1);
         sector.set_tx_sub_array(idx % 2);
@@ -116,7 +127,7 @@ vector<MRZSectorInfo> make_tx_sectors()
 
 MRZRxInfo make_rx_info()
 {
-    MRZRxInfo info;
+    auto info = make_zeroed<MRZRxInfo>();
     info.set_bytes_content(sizeof(MRZRxInfo));
     info.set_number_of_soundings_max_main(kNumMainSoundings);
     info.set_number_of_soundings_valid_main(kNumMainSoundings);
@@ -138,7 +149,7 @@ vector<MRZExtraDetClassInfo> make_extra_classes()
     extras.reserve(kNumExtraClasses);
     for (uint16_t i = 0; i < kNumExtraClasses; ++i)
     {
-        MRZExtraDetClassInfo cls;
+        auto cls = make_zeroed<MRZExtraDetClassInfo>();
         cls.set_num_extra_det_in_class(static_cast<uint16_t>(5 + i));
         cls.set_padding(static_cast<int8_t>(i));
         cls.set_alarm_flag(static_cast<uint8_t>(1 + i));
@@ -153,7 +164,7 @@ vector<MRZSoundings> make_soundings()
     soundings.reserve(kTotalSoundings);
     for (size_t i = 0; i < kTotalSoundings; ++i)
     {
-        MRZSoundings sounding;
+        auto sounding = make_zeroed<MRZSoundings>();
         sounding.set_sounding_index(static_cast<uint16_t>(100 + i));
         sounding.set_tx_sector_number(static_cast<uint8_t>(i % kNumSectors));
         sounding.set_detection_type(static_cast<uint8_t>(10 + i));
@@ -274,6 +285,7 @@ MRangeAndDepth make_datagram()
     const auto total_size = compute_total_datagram_size(
         sectors.size(), extra_classes.size(), soundings.size(), seabed_samples.size());
     dat.set_bytes_datagram(total_size);
+    dat.set_bytes_datagram_check(total_size);
 
     return dat;
 }
@@ -283,10 +295,14 @@ MRangeAndDepth make_datagram()
 TEST_CASE("MRangeAndDepth should serialize and deserialize without loss", TESTTAG)
 {
     const auto dat = make_datagram();
+    const auto dat2 = make_datagram();
 
-    const auto expected_hash = dat.binary_hash();
-    REQUIRE(expected_hash != 0);
+    CHECK(dat.binary_hash() == dat2.binary_hash());
+    CHECK(dat == dat2);
+
+    const auto expected_hash = 13099151408610193717ULL;
     CHECK(dat.binary_hash() == expected_hash);
+
 
     {
         auto copy = MRangeAndDepth(dat);
@@ -346,6 +362,8 @@ TEST_CASE("MRangeAndDepth should serialize and deserialize without loss", TESTTA
         }
         offset += kSeabedSampleCounts[sounding_idx];
     }
+
+    CHECK(dat.binary_hash() == expected_hash);
 }
 
 TEST_CASE("MRangeAndDepth exposes soundings metadata", TESTTAG)
