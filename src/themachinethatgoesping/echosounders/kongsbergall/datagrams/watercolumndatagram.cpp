@@ -326,7 +326,7 @@ WatercolumnDatagram WatercolumnDatagram::from_stream(std::istream&        is,
     // read the beams
     datagram._beams.reserve(datagram._number_of_beams_in_datagram);
     for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
-        datagram._beams.push_back(
+        datagram._beams.emplace_back(
             substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
 
     // read the rest of the datagram
@@ -409,7 +409,7 @@ void WatercolumnDatagram::append_from_stream(std::istream& is)
     // read the additional beams
     _beams.reserve(_total_no_of_receive_beams);
     for (auto i = 0; i < data.number_of_beams_in_datagram; ++i)
-        _beams.push_back(substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
+        _beams.emplace_back(substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
 
     // read the rest of the datagram
     is.read(reinterpret_cast<char*>(&(_spare_byte)), 4 * sizeof(uint8_t));

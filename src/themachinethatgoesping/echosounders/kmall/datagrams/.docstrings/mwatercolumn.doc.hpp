@@ -1,4 +1,4 @@
-//sourcehash: 49e2d523bd7802412456edce7e7c7b14989d3a41e97f10f016372a2b8c5065bc
+//sourcehash: 6adb2e22643f2fcef82346f0c25fceea830c4c5c5bdafcf73e2e7eeef2d19983
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,6 +44,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_beam_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_beam_data_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_bytes_datagram_check =
 R"doc(< Each datagram ends with the size of the datagram for < integrity
 check)doc";
@@ -54,6 +58,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_beam_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_rx_info = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_tx_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_get_tx_sectors = R"doc()doc";
@@ -62,9 +70,21 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWa
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_beamdata = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_rxinfo = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_read_tx_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_rx_info = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_rx_info_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_beam_data = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_rx_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_set_tx_info = R"doc()doc";
 
@@ -79,6 +99,10 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWa
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_sectors = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_tx_sectors_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_beamdata = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_rxinfo = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_MWaterColumn_write_sectors = R"doc()doc";
 

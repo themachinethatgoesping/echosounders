@@ -43,11 +43,11 @@ void init_c_mwatercolumn(nanobind::module_& m)
                      &MWaterColumn::set_tx_info,
                      DOC_MWaterColumn(tx_info),
                      nb::rv_policy::reference_internal)
-     //    .def_prop_rw("rx_info",
-     //                 &MWaterColumn::rx_info,
-     //                 &MWaterColumn::set_rx_info,
-     //                 DOC_MWaterColumn(rx_info),
-     //                 nb::rv_policy::reference_internal)
+        .def_prop_rw("rx_info",
+                     &MWaterColumn::rx_info,
+                     &MWaterColumn::set_rx_info,
+                     DOC_MWaterColumn(rx_info),
+                     nb::rv_policy::reference_internal)
 
      //    // ----- sectors etc. -----
         .def_prop_rw("tx_sectors",
@@ -62,11 +62,11 @@ void init_c_mwatercolumn(nanobind::module_& m)
      //                 DOC_MWaterColumn(extra_det_class_info),
      //                 nb::rv_policy::reference_internal)
 
-     //    .def_prop_rw("soundings",
-     //                 &MWaterColumn::soundings,
-     //                 &MWaterColumn::set_soundings,
-     //                 DOC_MWaterColumn(soundings),
-     //                 nb::rv_policy::reference_internal)
+        .def_prop_rw("beam_data",
+                     &MWaterColumn::beam_data,
+                     &MWaterColumn::set_beam_data,
+                     DOC_MWaterColumn(beam_data),
+                     nb::rv_policy::reference_internal)
 
      //    .def("get_seabed_image_samples_dezi_db",
      //         &MWaterColumn::get_seabed_image_samples_dezi_db,

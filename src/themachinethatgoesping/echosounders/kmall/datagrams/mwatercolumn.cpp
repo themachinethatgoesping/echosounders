@@ -55,33 +55,32 @@ void MWaterColumn::__write_sectors__(std::ostream& os) const
              sizeof(MWCSectorInfo) * _tx_sectors.size());
 }
 
-// void MWaterColumn::__read_rxinfo__(std::istream& is)
-// {
-//     // read first part of the datagram (until the first beam)
-//     is.read(reinterpret_cast<char*>(&_rx_info), sizeof(substructs::MRZRxInfo));
-// }
-// void MWaterColumn::__write_rxinfo__(std::ostream& os) const
-// {
-//     // read first part of the datagram (until the first beam)
-//     os.write(reinterpret_cast<const char*>(&_rx_info), sizeof(substructs::MRZRxInfo));
-// }
+void MWaterColumn::__read_rxinfo__(std::istream& is)
+{
+    // read first part of the datagram (until the first beam)
+    is.read(reinterpret_cast<char*>(&_rx_info), sizeof(substructs::MWCRxInfo));
+}
+void MWaterColumn::__write_rxinfo__(std::ostream& os) const
+{
+    // read first part of the datagram (until the first beam)
+    os.write(reinterpret_cast<const char*>(&_rx_info), sizeof(substructs::MWCRxInfo));
+}
 
-// void MWaterColumn::__read_extradetclassinfo__(std::istream& is)
-// {
-//     const auto n_classes = _rx_info.get_number_of_extra_detection_classes();
-//     _extra_det_class_info.resize(n_classes);
+void MWaterColumn::__read_beamdata__(std::istream& is)
+{
+    const auto n_beams = _rx_info.get_number_of_beams();
+    _beam_data.beams().reserve(n_beams);
 
-//     // read as block
-//     is.read(reinterpret_cast<char*>(_extra_det_class_info.data()),
-//             sizeof(substructs::MRZExtraDetClassInfo) * n_classes);
-// }
+    // read per beam
+    for (auto i = 0; i < n_beams; ++i)
+        _beam_data.beams().emplace_back(substructs::MWCRxBeamData::from_stream(is));
+}
 
-// void MWaterColumn::__write_extradetclassinfo__(std::ostream& os) const
-// {
-//     // read as block
-//     os.write(reinterpret_cast<const char*>(_extra_det_class_info.data()),
-//              sizeof(substructs::MRZExtraDetClassInfo) * _extra_det_class_info.size());
-// }
+void MWaterColumn::__write_beamdata__(std::ostream& os) const
+{
+    for (const auto& beam : _beam_data.get_beams())
+        beam.to_stream(os);
+}
 
 // void MWaterColumn::__read_soundings__(std::istream& is)
 // {
@@ -124,8 +123,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is, const KMALLDatagram& he
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
-    // datagram.__read_rxinfo__(is);
-    // datagram.__read_extradetclassinfo__(is);
+    datagram.__read_rxinfo__(is);
+    datagram.__read_beamdata__(is);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
@@ -143,8 +142,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream&             is,
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
-    // datagram.__read_rxinfo__(is);
-    // datagram.__read_extradetclassinfo__(is);
+    datagram.__read_rxinfo__(is);
+    datagram.__read_beamdata__(is);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
@@ -159,8 +158,8 @@ MWaterColumn MWaterColumn::from_stream(std::istream& is)
     datagram.__read_multibeamdatagram__(is);
     datagram.__read_tx_info__(is);
     datagram.__read_sectors__(is);
-    // datagram.__read_rxinfo__(is);
-    // datagram.__read_extradetclassinfo__(is);
+    datagram.__read_rxinfo__(is);
+    datagram.__read_beamdata__(is);
     // datagram.__read_soundings__(is);
     // datagram.__read_seabed_image_samples__(is);
     // is.read(reinterpret_cast<char*>(&datagram._bytes_datagram_check),
@@ -175,8 +174,8 @@ void MWaterColumn::to_stream(std::ostream& os) const
 
     __write_tx_info__(os);
     __write_sectors__(os);
-    // __write_rxinfo__(os);
-    // __write_extradetclassinfo__(os);
+    __write_rxinfo__(os);
+    __write_beamdata__(os);
     // __write_soundings__(os);
     // __write_seabed_image_samples__(os);
     // os.write(reinterpret_cast<const char*>(&_bytes_datagram_check),
@@ -207,18 +206,17 @@ tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_p
         printer.append(sector.__printer__(float_precision, superscript_exponents));
     }
 
-    // printer.register_section("Rx info (.rx_info)");
-    // printer.append(_rx_info.__printer__(float_precision, superscript_exponents));
+    printer.register_section("Rx info (.rx_info)");
+    printer.append(_rx_info.__printer__(float_precision, superscript_exponents));
 
     // printer.register_section("Extra detection classes (.extra_det_class_info)");
     // printer.register_value("extra_det_class_info (vector)",
     //                        fmt::format("size={}", _extra_det_class_info.size()),
     //                        "classes");
 
-    // printer.register_section("Soundings (.soundings)");
-    // printer.register_value("soundings (vector)",
-    //                        fmt::format("size={}", _soundings.get_soundings().size()),
-    //                        "soundings");
+    printer.register_section("Beam data (.beam_data)");
+    printer.register_value(
+        "beam_data (vector)", fmt::format("size={}", _beam_data.get_beams().size()), "beams");
 
     // printer.register_section("Seabed image samples");
     // printer.register_container("seabed_image_samples_dezi_db", _seabed_image_samples_dezi_db);

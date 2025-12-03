@@ -20,8 +20,10 @@
 
 #include "../types.hpp"
 #include "kmallmultibeamdatagram.hpp"
-#include "substructs/mwctxinfo.hpp"
+#include "substructs/mwcrxbeamdatacontainer.hpp"
+#include "substructs/mwcrxinfo.hpp"
 #include "substructs/mwcsectorinfo.hpp"
+#include "substructs/mwctxinfo.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -40,9 +42,10 @@ class MWaterColumn : public KMALLMultibeamDatagram
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::M_WATER_COLUMN;
 
   protected:
-    substructs::MWCTxInfo _tx_info;
-    std::vector<substructs::MWCSectorInfo>        _tx_sectors;
-    // substructs::MRZRxInfo                         _rx_info;
+    substructs::MWCTxInfo                  _tx_info;
+    std::vector<substructs::MWCSectorInfo> _tx_sectors;
+    substructs::MWCRxInfo                  _rx_info;
+    substructs::MWCRxBeamDataContainer     _beam_data;
     // std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
     // substructs::MRZSoundingsContainer             _soundings;
     // xt::xtensor<int16_t, 1>                       _seabed_image_samples_dezi_db;
@@ -68,39 +71,25 @@ class MWaterColumn : public KMALLMultibeamDatagram
         _tx_sectors = sectors;
         _tx_info.set_number_of_tx_sectors(_tx_sectors.size());
         static constexpr size_t dbytes = sizeof(substructs::MWCTxInfo) + sizeof(uint32_t);
-        _tx_info.set_bytes_content(dbytes +
-                                     _tx_sectors.size() * sizeof(substructs::MWCSectorInfo));
+        _tx_info.set_bytes_content(dbytes + _tx_sectors.size() * sizeof(substructs::MWCSectorInfo));
 
         set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
                            _tx_info.get_bytes_content());
     }
 
     // // rx info
-    // const substructs::MRZRxInfo& get_rx_info() const { return _rx_info; }
-    // substructs::MRZRxInfo&       rx_info() { return _rx_info; }
-    // void                         set_rx_info(const substructs::MRZRxInfo& info) { _rx_info =
-    // info; }
+    const substructs::MWCRxInfo& get_rx_info() const { return _rx_info; }
+    substructs::MWCRxInfo&       rx_info() { return _rx_info; }
+    void                         set_rx_info(const substructs::MWCRxInfo& info) { _rx_info = info; }
 
-    // const std::vector<substructs::MRZExtraDetClassInfo>& get_extra_det_class_info() const
-    // {
-    //     return _extra_det_class_info;
-    // }
-    // std::vector<substructs::MRZExtraDetClassInfo>& extra_det_class_info()
-    // {
-    //     return _extra_det_class_info;
-    // }
-    // void set_extra_det_class_info(const std::vector<substructs::MRZExtraDetClassInfo>& info)
-    // {
-    //     _extra_det_class_info = info;
-    // }
-
-    // // soundings
-    // const substructs::MRZSoundingsContainer& get_soundings() const { return _soundings; }
-    // substructs::MRZSoundingsContainer&       soundings() { return _soundings; }
-    // void set_soundings(const substructs::MRZSoundingsContainer& soundings)
-    // {
-    //     _soundings = soundings;
-    // }
+    // beam data
+    const substructs::MWCRxBeamDataContainer& get_beam_data() const { return _beam_data; }
+    substructs::MWCRxBeamDataContainer&       beam_data() { return _beam_data; }
+    void set_beam_data(const substructs::MWCRxBeamDataContainer& beam_data)
+    {
+        _beam_data = beam_data;
+        _rx_info.set_number_of_beams(_beam_data.get_beams().size());
+    }
 
     // // seabed image samples
     // const xt::xtensor<int16_t, 1>& get_seabed_image_samples_dezi_db() const
@@ -147,10 +136,10 @@ class MWaterColumn : public KMALLMultibeamDatagram
     void __write_tx_info__(std::ostream& os) const;
     void __read_sectors__(std::istream& is);
     void __write_sectors__(std::ostream& os) const;
-    // void __read_rxinfo__(std::istream& is);
-    // void __write_rxinfo__(std::ostream& os) const;
-    // void __read_extradetclassinfo__(std::istream& is);
-    // void __write_extradetclassinfo__(std::ostream& os) const;
+    void __read_rxinfo__(std::istream& is);
+    void __write_rxinfo__(std::ostream& os) const;
+    void __read_beamdata__(std::istream& is);
+    void __write_beamdata__(std::ostream& os) const;
     // void __read_soundings__(std::istream& is);
     // void __write_soundings__(std::ostream& os) const;
     // void __read_seabed_image_samples__(std::istream& is);
