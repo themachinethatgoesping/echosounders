@@ -1,4 +1,4 @@
-//sourcehash: 953dd185cfd12ce020c6f1ae8aad8470d7864befe561a955371852126468a5d2
+//sourcehash: b1811201c467f0ca79b94a100728f98bad84360e18068d6808f138831e41a6da
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,6 +45,8 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainter
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramInterface_datagram_identifier_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramInterface_datagram_identifier_to_string = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramInterface_datagram_identifiers_to_string = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramInterface_per_file = R"doc()doc";
 

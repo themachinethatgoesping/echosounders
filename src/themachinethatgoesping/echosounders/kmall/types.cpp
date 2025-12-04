@@ -9,47 +9,25 @@
 namespace themachinethatgoesping {
 namespace echosounders {
 
-std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_type)
+std::vector<std::string> datagram_identifiers_to_string(
+    const std::set<kmall::t_KMALLDatagramIdentifier>& datagram_identifiers)
 {
-    using kmall::t_KMALLDatagramIdentifier;
-    switch (datagram_type)
+    std::vector<std::string> result;
+    result.reserve(datagram_identifiers.size());
+    for (const auto& datagram_identifier : datagram_identifiers)
     {
-        case t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM:
-            return "I_INSTALLATION_PARAM";
-        case t_KMALLDatagramIdentifier::I_OP_RUNTIME:
-            return "I_OP_RUNTIME";
-        case t_KMALLDatagramIdentifier::S_POSITION:
-            return "S_POSITION";
-        case t_KMALLDatagramIdentifier::S_POSITION_ERROR:
-            return "S_POSITION_ERROR";
-        case t_KMALLDatagramIdentifier::S_POSITION_DATUM:
-            return "S_POSITION_DATUM";
-        case t_KMALLDatagramIdentifier::S_KM_BINARY:
-            return "S_KM_BINARY";
-        case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_PROFILE:
-            return "S_SOUND_VELOCITY_PROFILE";
-        case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_TRANSDUCER:
-            return "S_SOUND_VELOCITY_TRANSDUCER";
-        case t_KMALLDatagramIdentifier::S_CLOCK:
-            return "S_CLOCK";
-        case t_KMALLDatagramIdentifier::S_DEPTH:
-            return "S_DEPTH";
-        case t_KMALLDatagramIdentifier::S_HEIGHT:
-            return "S_HEIGHT";
-        case t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH:
-            return "M_RANGE_AND_DEPTH";
-        case t_KMALLDatagramIdentifier::M_WATER_COLUMN:
-            return "M_WATER_COLUMN";
-        case t_KMALLDatagramIdentifier::C_POSITION:
-            return "C_POSITION";
-        case t_KMALLDatagramIdentifier::C_HEAVE:
-            return "C_HEAVE";
-        case t_KMALLDatagramIdentifier::F_CALIBRATION_FILE:
-            return "F_CALIBRATION_FILE";
-        default:
-            return "unknown (" + std::to_string(magic_enum::enum_integer(datagram_type)) + ")";
+        result.push_back(datagram_identifier_to_string(datagram_identifier));
     }
+    return result;
 }
+
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_identifier)
+{
+    // this should work, but doesn't
+    return std::string(kmall::o_KMALLDatagramIdentifier(datagram_identifier).name());
+}
+
 }
 }
 

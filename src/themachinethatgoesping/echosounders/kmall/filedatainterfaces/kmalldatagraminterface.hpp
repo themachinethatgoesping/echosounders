@@ -50,6 +50,17 @@ class KMALLDatagramInterface
         return std::string(o_KMALLDatagramIdentifier(datagram_identifier).alt_name());
     }
 
+    std::vector<std::string > datagram_identifiers_to_string(std::vector<t_KMALLDatagramIdentifier> datagram_identifiers) const
+    {
+        std::vector<std::string> result;
+        result.reserve(datagram_identifiers.size());
+        for (const auto& datagram_identifier : datagram_identifiers)
+        {
+            result.push_back(datagram_identifier_to_string(datagram_identifier));
+        }
+        return result;
+    }
+
     //IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
     std::string datagram_identifier_info(t_KMALLDatagramIdentifier datagram_identifier) const final
     {

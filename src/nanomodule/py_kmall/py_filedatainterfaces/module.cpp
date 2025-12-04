@@ -27,8 +27,8 @@ void init_m_kmallfiledatainterfaces(nanobind::module_& m)
                                 "KMALL (kongsberg .kmall/.kmwcd) file data interface classes");
 
     init_c_KMALLDatagramInterface(subm);
-    //init_c_kmallconfigurationdatainterfaceperfile(subm);
-    //init_c_kmallconfigurationdatainterface(subm);
+    init_c_kmallconfigurationdatainterfaceperfile(subm);
+    init_c_kmallconfigurationdatainterface(subm);
 }
 
 }

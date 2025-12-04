@@ -306,7 +306,6 @@ class I_FileDataInterfacePerFile : public t_datagraminterface
                 printer.register_container(
                     "Ignored",
                     datagram_identifiers_to_string(_ignored_extension_datagram_identifiers));
-
             }
         }
         else
