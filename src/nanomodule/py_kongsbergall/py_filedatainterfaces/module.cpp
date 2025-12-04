@@ -30,9 +30,6 @@ void init_c_kongsbergallenvironmentdatainterface(
     nanobind::module_& m); // c_kongsbergallenvironmentdatainterface.cpp
 void init_c_kongsbergallenvironmentdatainterfaceperfile(
     nanobind::module_& m); // c_kongsbergallenvironmentdatainterfaceperfile.cpp
-void init_c_kongsbergallannotationdatainterface(
-    nanobind::module_& m); // c_kongsbergallannotationdatainterface.cpp
-void init_c_kongsbergallannotationdatainterfaceperfile(nanobind::module_& m);
 void init_c_kongsbergallotherfiledatainterface(nanobind::module_& m); // c_kongsbergallotherfiledatainterface.cpp
 void init_c_kongsbergallotherfiledatainterfaceperfile(
     nanobind::module_& m); // c_kongsbergallotherfiledatainterfaceperfile.cpp
@@ -55,8 +52,6 @@ void init_m_kongsbergallfiledatainterfaces(nanobind::module_& m)
     init_c_kongsbergallnavigationdatainterfaceperfile(subm);
     init_c_kongsbergallenvironmentdatainterface(subm);
     init_c_kongsbergallenvironmentdatainterfaceperfile(subm);
-    init_c_kongsbergallannotationdatainterface(subm);
-    init_c_kongsbergallannotationdatainterfaceperfile(subm);
     init_c_kongsbergallotherfiledatainterface(subm);
     init_c_kongsbergallotherfiledatainterfaceperfile(subm);
 

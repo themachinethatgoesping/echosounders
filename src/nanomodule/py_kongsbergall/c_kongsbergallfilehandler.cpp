@@ -75,10 +75,6 @@ void py_create_class_kongsbergallfilehandler(nanobind::module_& m, const std::st
         nb::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::environment_interface),
         DOC_KongsbergAllFileHandler(environment_interface));
     cls.def_prop_ro(
-        "annotation_interface",
-        nb::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::annotation_interface),
-        DOC_KongsbergAllFileHandler(annotation_interface));
-    cls.def_prop_ro(
         "otherfiledata_interface",
         nb::overload_cast<>(&KongsbergAllFileHandler<T_FileStream>::otherfiledata_interface),
         DOC_KongsbergAllFileHandler(otherfiledata_interface));

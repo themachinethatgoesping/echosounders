@@ -22,7 +22,6 @@
 #include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfilehandler.hpp"
 
-// #include "filedatainterfaces/gsfannotationdatainterface.hpp"
 // #include "filedatainterfaces/gsfconfigurationdatainterface.hpp"
 // #include "filedatainterfaces/gsfdatagramdatainterface.hpp"
 #include "filedatainterfaces/gsfdatagraminterface.hpp"
@@ -50,8 +49,6 @@ class GSFFileHandler
     //     typename filedatainterfaces::GSFDatagramDataInterface<t_ifstream>;
     // using t_OtherFileDataInterface =
     //     typename filedatainterfaces::GSFOtherFileDataInterface<t_ifstream>;
-    // using t_AnnotationDataInterface =
-    //     typename filedatainterfaces::GSFAnnotationDataInterface<t_ifstream>;
     // using t_ConfigurationDataInterface =
     //     typename filedatainterfaces::GSFConfigurationDataInterface<t_ifstream>;
     // using t_NavigationDataInterface =
@@ -70,8 +67,6 @@ class GSFFileHandler
     //     std::make_shared<t_DatagramDataInterface>();
     // std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
     //     std::make_shared<t_OtherFileDataInterface>();
-    // std::shared_ptr<t_AnnotationDataInterface> _annotation_interface =
-    //     std::make_shared<t_AnnotationDataInterface>();
 
     // std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
     //     std::make_shared<t_ConfigurationDataInterface>();
@@ -162,7 +157,7 @@ class GSFFileHandler
     {
         // auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         // progress_bar.init(
-        //     0., number_of_primary_files * 1 + 5, fmt::format("Initializing file interfaces"));
+        //     0., number_of_primary_files * 1 + 4, fmt::format("Initializing file interfaces"));
 
         // progress_bar.set_prefix("Initializing datagramdata interface");
         // _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
@@ -178,9 +173,6 @@ class GSFFileHandler
 
         // progress_bar.set_prefix("Initializing environment");
         // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
-        // progress_bar.set_prefix("Initializing annotation");
-        // _annotation_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         // progress_bar.tick();
         // progress_bar.set_prefix("Initializing other");
         // _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
@@ -198,7 +190,6 @@ class GSFFileHandler
     // auto& configuration_interface() { return *_configuration_interface; }
     // auto& navigation_interface() { return *_navigation_interface; }
     // auto& environment_interface() { return *_environment_interface; }
-    // auto& annotation_interface() { return *_annotation_interface; }
     // auto& otherfiledata_interface() { return *_otherfiledata_interface; }
     // auto& ping_interface() { return *_ping_interface; }
 
@@ -229,8 +220,6 @@ class GSFFileHandler
     //     _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     //
     //     _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     //
     //     _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     // _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());

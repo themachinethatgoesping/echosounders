@@ -85,10 +85,6 @@ void py_create_class_SimradRawFileHandler(nb::module_& m, const std::string& CLA
         nb::overload_cast<>(&SimradRawFileHandler<T_FileStream>::ping_interface),
         DOC_SimradRawFileHandler(ping_interface));
     cls.def_prop_ro(
-        "annotation_interface",
-        nb::overload_cast<>(&SimradRawFileHandler<T_FileStream>::annotation_interface),
-        DOC_SimradRawFileHandler(annotation_interface));
-    cls.def_prop_ro(
         "otherfiledata_interface",
         nb::overload_cast<>(&SimradRawFileHandler<T_FileStream>::otherfiledata_interface),
         DOC_SimradRawFileHandler(otherfiledata_interface));

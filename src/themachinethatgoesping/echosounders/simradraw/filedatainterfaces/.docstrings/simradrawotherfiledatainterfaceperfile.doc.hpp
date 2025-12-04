@@ -1,4 +1,4 @@
-//sourcehash: 1f33bfd4f2b156ca1326ed9a2dbdd6fbeb6e666fc938ecc1fcf292fe0df14483
+//sourcehash: 58a3e629d1c27461c3935381e029b5e168c71ab669f03941f0018b044d826bd8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,8 +40,8 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_init_c_simradrawotherfiledatainterfaceperfile =
 R"doc(FileDataInterface (for single files) for packages that fit neither of
-the other FileDataInterfaces (Configuration, Navigation, Annotation,
-Environment, Ping)
+the other FileDataInterfaces (Configuration, Navigation, Environment,
+Ping)
 
 No datagram caching is implemented for this interface. Accessed
 packages are always read from file

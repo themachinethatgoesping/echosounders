@@ -22,7 +22,6 @@
 #include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfilehandler.hpp"
 
-// #include "filedatainterfaces/kmallannotationdatainterface.hpp"
 // #include "filedatainterfaces/kmallconfigurationdatainterface.hpp"
 // #include "filedatainterfaces/kmalldatagramdatainterface.hpp"
 #include "filedatainterfaces/kmalldatagraminterface.hpp"
@@ -50,10 +49,6 @@ class KMALLFileHandler
     //     typename filedatainterfaces::KMALLDatagramDataInterface<t_ifstream>;
     // using t_OtherFileDataInterface =
     //     typename filedatainterfaces::KMALLOtherFileDataInterface<t_ifstream>;
-    // using t_AnnotationDataInterface =
-    //     typename filedatainterfaces::KMALLAnnotationDataInterface<t_ifstream>;
-    // using t_ConfigurationDataInterface =
-    //     typename filedatainterfaces::KMALLConfigurationDataInterface<t_ifstream>;
     // using t_NavigationDataInterface =
     //     typename filedatainterfaces::KMALLNavigationDataInterface<t_ifstream>;
     // using t_EnvironmentDataInterface =
@@ -70,8 +65,6 @@ class KMALLFileHandler
     //     std::make_shared<t_DatagramDataInterface>();
     // std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
     //     std::make_shared<t_OtherFileDataInterface>();
-    // std::shared_ptr<t_AnnotationDataInterface> _annotation_interface =
-    //     std::make_shared<t_AnnotationDataInterface>();
 
     // std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
     //     std::make_shared<t_ConfigurationDataInterface>();
@@ -179,9 +172,6 @@ class KMALLFileHandler
         // progress_bar.set_prefix("Initializing environment");
         // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         // progress_bar.tick();
-        // progress_bar.set_prefix("Initializing annotation");
-        // _annotation_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
         // progress_bar.set_prefix("Initializing other");
         // _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         // progress_bar.tick();
@@ -198,7 +188,6 @@ class KMALLFileHandler
     // auto& configuration_interface() { return *_configuration_interface; }
     // auto& navigation_interface() { return *_navigation_interface; }
     // auto& environment_interface() { return *_environment_interface; }
-    // auto& annotation_interface() { return *_annotation_interface; }
     // auto& otherfiledata_interface() { return *_otherfiledata_interface; }
     // auto& ping_interface() { return *_ping_interface; }
 
@@ -229,8 +218,6 @@ class KMALLFileHandler
     //     _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     //
     //     _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _annotation_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     //
     //     _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
     //     // _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());

@@ -20,6 +20,5 @@ endif
 # -- python modules --
 if get_option('build_pythonmodule').enabled()
     #put module folders here
-    #subdir('pymodule')
     subdir('nanomodule')
 endif

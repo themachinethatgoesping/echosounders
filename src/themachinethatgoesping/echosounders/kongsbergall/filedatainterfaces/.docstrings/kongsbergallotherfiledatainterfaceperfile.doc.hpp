@@ -1,4 +1,4 @@
-//sourcehash: 598a3926eb64d043433e4be0b7c2039ccd847136d46c679bd7e98e84d7054ddd
+//sourcehash: fbeb72afb4e3753318497afddddf1e3e3fff38a9ca41e95e150fc0746972e13c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,8 +40,8 @@
 
 static const char *__doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllOtherFileDataInterfacePerFile =
 R"doc(FileDataInterface (for single files) for packages that fit neither of
-the other FileDataInterfaces (Configuration, Navigation, Annotation,
-Environment, Ping)
+the other FileDataInterfaces (Configuration, Navigation, Environment,
+Ping)
 
 No datagram caching is implemented for this interface. Accessed
 packages are always read from file

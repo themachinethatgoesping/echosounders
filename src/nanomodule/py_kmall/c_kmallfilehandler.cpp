@@ -73,10 +73,6 @@ void py_create_class_kmallfilehandler(nb::module_& m, const std::string& CLASS_N
     //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::environment_interface),
     //     DOC_KMALLFileHandler(environment_interface));
     // cls.def_prop_ro(
-    //     "annotation_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::annotation_interface),
-    //     DOC_KMALLFileHandler(annotation_interface));
-    // cls.def_prop_ro(
     //     "otherfiledata_interface",
     //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::otherfiledata_interface),
     //     DOC_KMALLFileHandler(otherfiledata_interface));

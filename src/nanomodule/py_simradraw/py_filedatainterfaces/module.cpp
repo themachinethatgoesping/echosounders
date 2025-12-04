@@ -34,9 +34,6 @@ void init_c_simradrawenvironmentdatainterfaceperfile(
 void init_c_simradrawpingdatainterface(nanobind::module_& m); // c_simradrawpingdatainterface.cpp
 void init_c_simradrawpingdatainterfaceperfile(
     nanobind::module_& m); // c_simradrawpingdatainterfaceperfile.cpp
-void init_c_simradrawannotationdatainterface(
-    nanobind::module_& m); // c_simradrawannotationdatainterface.cpp
-void init_c_simradrawannotationdatainterfaceperfile(nanobind::module_& m);
 void init_c_simradrawotherfiledatainterface(nanobind::module_& m); // c_simradrawotherfiledatainterface.cpp
 void init_c_simradrawotherfiledatainterfaceperfile(
     nanobind::module_& m); // c_init_c_simradrawotherfiledatainterfaceperfile.cpp
@@ -58,8 +55,6 @@ void init_m_simradrawfiledatainterfaces(nanobind::module_& m)
     init_c_simradrawenvironmentdatainterfaceperfile(subm);
     init_c_simradrawpingdatainterface(subm);
     init_c_simradrawpingdatainterfaceperfile(subm);
-    init_c_simradrawannotationdatainterface(subm);
-    init_c_simradrawannotationdatainterfaceperfile(subm);
     init_c_simradrawotherfiledatainterface(subm);
     init_c_simradrawotherfiledatainterfaceperfile(subm);
 }

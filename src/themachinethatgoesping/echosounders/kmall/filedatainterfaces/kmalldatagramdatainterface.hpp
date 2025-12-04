@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/kongsbergalldatagramdatainterfaceperfile.doc.hpp"
+#include ".docstrings/kmalldatagramdatainterface.doc.hpp"
 
 /* library includes */
 #include <magic_enum/magic_enum.hpp>
@@ -21,15 +21,16 @@
 #include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
 
 #include "../datagrams.hpp"
-#include "kongsbergalldatagraminterface.hpp"
+#include "kmalldatagraminterface.hpp"
+#include "kmalldatagramdatainterfaceperfile.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace kongsbergall {
+namespace kmall {
 namespace filedatainterfaces {
 
 /**
- * @brief FileDataInterface (for single files) for packages that fit neither of the other
+ * @brief FileDataInterface (for multiple files) for packages that fit neither of the other
  * FileDataInterfaces (Configuration, Navigation, Environment, Ping)
  *
  * No datagram caching is implemented for this interface. Accessed packages are always read from
@@ -38,38 +39,31 @@ namespace filedatainterfaces {
  * @tparam t_ifstream
  */
 template<typename t_ifstream>
-class KongsbergAllDatagramDataInterfacePerFile
-    : public filetemplates::datainterfaces::I_FileDataInterfacePerFile<
-          KongsbergAllDatagramInterface<t_ifstream>>
+class KMALLDatagramDataInterface
+    : public filetemplates::datainterfaces::I_FileDataInterface<
+          KMALLDatagramDataInterfacePerFile<t_ifstream>>
 {
-    using t_base = filetemplates::datainterfaces::I_FileDataInterfacePerFile<
-        KongsbergAllDatagramInterface<t_ifstream>>;
+    using t_base = filetemplates::datainterfaces::I_FileDataInterface<
+        KMALLDatagramDataInterfacePerFile<t_ifstream>>;
 
   public:
-    KongsbergAllDatagramDataInterfacePerFile()
-        : t_base("KongsbergAllDatagramDataInterfacePerFile")
+    KMALLDatagramDataInterface()
+        : t_base("KMALLDatagramDataInterface")
     {
     }
-    ~KongsbergAllDatagramDataInterfacePerFile() = default;
-
-    // --------------------- kongsbergall specific functions ---------------------
-    /* get infos */
+    ~KMALLDatagramDataInterface() = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents)
     {
         tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
 
-        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
-
-        printer.register_section("KongsbergAllDatagramDataInterfacePerFile");
-
         return printer;
     }
 };
 
 }
-} // namespace kongsbergall
+} // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping

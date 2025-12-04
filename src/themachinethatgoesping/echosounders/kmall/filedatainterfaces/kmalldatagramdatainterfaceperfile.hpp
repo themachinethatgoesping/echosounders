@@ -7,7 +7,7 @@
 #pragma once
 
 /* generated doc strings */
-#include ".docstrings/kongsbergalldatagramdatainterfaceperfile.doc.hpp"
+#include ".docstrings/kmalldatagramdatainterfaceperfile.doc.hpp"
 
 /* library includes */
 #include <magic_enum/magic_enum.hpp>
@@ -21,11 +21,11 @@
 #include "../../filetemplates/datainterfaces/i_filedatainterface.hpp"
 
 #include "../datagrams.hpp"
-#include "kongsbergalldatagraminterface.hpp"
+#include "kmalldatagraminterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace kongsbergall {
+namespace kmall {
 namespace filedatainterfaces {
 
 /**
@@ -38,21 +38,21 @@ namespace filedatainterfaces {
  * @tparam t_ifstream
  */
 template<typename t_ifstream>
-class KongsbergAllDatagramDataInterfacePerFile
+class KMALLDatagramDataInterfacePerFile
     : public filetemplates::datainterfaces::I_FileDataInterfacePerFile<
-          KongsbergAllDatagramInterface<t_ifstream>>
+          KMALLDatagramInterface<t_ifstream>>
 {
     using t_base = filetemplates::datainterfaces::I_FileDataInterfacePerFile<
-        KongsbergAllDatagramInterface<t_ifstream>>;
+        KMALLDatagramInterface<t_ifstream>>;
 
   public:
-    KongsbergAllDatagramDataInterfacePerFile()
-        : t_base("KongsbergAllDatagramDataInterfacePerFile")
+    KMALLDatagramDataInterfacePerFile()
+        : t_base("KMALLDatagramDataInterfacePerFile")
     {
     }
-    ~KongsbergAllDatagramDataInterfacePerFile() = default;
+    ~KMALLDatagramDataInterfacePerFile() = default;
 
-    // --------------------- kongsbergall specific functions ---------------------
+    // --------------------- kmall specific functions ---------------------
     /* get infos */
 
     // ----- objectprinter -----
@@ -63,13 +63,13 @@ class KongsbergAllDatagramDataInterfacePerFile
         // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
 
-        printer.register_section("KongsbergAllDatagramDataInterfacePerFile");
+        printer.register_section("KMALLDatagramDataInterfacePerFile");
 
         return printer;
     }
 };
 
 }
-} // namespace kongsbergall
+} // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping

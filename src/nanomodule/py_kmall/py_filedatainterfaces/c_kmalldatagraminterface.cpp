@@ -55,7 +55,7 @@ void py_create_class_KMALLDatagramInterface(nanobind::module_& m,
     KMALLDatagramInterface_add_interface_functions<T_BaseClass>(cls);
 }
 
-void init_c_KMALLDatagramInterface(nanobind::module_& m)
+void init_c_kmalldatagraminterface(nanobind::module_& m)
 {
     static const std::string name        = "KMALLDatagramInterface";
     static const std::string name_stream = name + "_stream";

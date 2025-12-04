@@ -1,4 +1,4 @@
-//sourcehash: d6c3d053c5ab8b66cf210930c70349985b59c96b071585d8f16d5bf089a1550e
+//sourcehash: 440aca1cc9005eb100e17cf0869d3ad649bb7cf8d9db268ed60a58f19653316b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -38,19 +38,19 @@
 #endif
 
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterface =
-R"doc(FileDataInterface (for multiple files) for packages that fit neither
-of the other FileDataInterfaces (Configuration, Navigation,
-Environment, Ping)
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramDataInterfacePerFile =
+R"doc(FileDataInterface (for single files) for packages that fit neither of
+the other FileDataInterfaces (Configuration, Navigation, Environment,
+Ping)
 
 No datagram caching is implemented for this interface. Accessed
 packages are always read from file
 
 Template parameter ``t_ifstream``:)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterface_SimradRawDatagramDataInterface = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramDataInterfacePerFile_KMALLDatagramDataInterfacePerFile = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_filedatainterfaces_SimradRawDatagramDataInterface_printer = R"doc()doc";
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLDatagramDataInterfacePerFile_printer = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

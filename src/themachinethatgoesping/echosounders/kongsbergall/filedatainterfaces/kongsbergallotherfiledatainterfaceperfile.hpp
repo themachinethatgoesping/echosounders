@@ -30,7 +30,7 @@ namespace filedatainterfaces {
 
 /**
  * @brief FileDataInterface (for single files) for packages that fit neither of the other
- * FileDataInterfaces (Configuration, Navigation, Annotation, Environment, Ping)
+ * FileDataInterfaces (Configuration, Navigation, Environment, Ping)
  *
  * No datagram caching is implemented for this interface. Accessed packages are always read from
  * file
