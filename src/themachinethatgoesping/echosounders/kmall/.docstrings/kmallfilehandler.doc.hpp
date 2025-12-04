@@ -1,4 +1,4 @@
-//sourcehash: 64975dd8f9c8896b2267e4eaf840fde4dfb8805418757ed659593c66ead542b4
+//sourcehash: 0618d611655a0e7ed1280c6e7b62550baf23a6bc39137e0d202a03c02451d485
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,7 +48,39 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHand
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_KMALLFileHandler_4 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_callback_scan_new_file_begin = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_callback_scan_new_file_end = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_callback_scan_packet = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_configuration_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_configuration_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_datagramdata_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_datagramdata_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_environment_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_environment_interface_2 = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_init_interfaces = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_link_all_and_wcd_files = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_navigation_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_navigation_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_otherfiledata_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_otherfiledata_interface_2 = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_ping_interface = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_ping_interface_2 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_printer = R"doc()doc";
 

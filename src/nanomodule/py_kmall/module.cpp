@@ -18,12 +18,7 @@
 #include "py_datagrams/module.hpp"
 #include "py_filedatacontainers/module.hpp"
 #include "py_filedatainterfaces/module.hpp"
-
-// datagram submodules
-// #include "py_datagrams/module.hpp"
-// #include "py_filedatacontainers/module.hpp"
-// #include "py_filedatainterfaces/module.hpp"
-// #include "py_filedatatypes/module.hpp"
+#include "py_filedatatypes/module.hpp"
 
 namespace nb = nanobind;
 namespace themachinethatgoesping {
@@ -114,11 +109,8 @@ void init_m_kmall(nanobind::module_& m)
              nb::arg("datagram_type"));
 
     // datagrams
-    //     py_filedatatypes::init_m_kmallfiledatatypes(subm);
-    //     py_filedatacontainers::init_m_kmallfiledatacontainers(subm);
-    //     py_filedatainterfaces::init_m_kmallfiledatainterfaces(subm);
-
     py_datagrams::init_m_kmalldatagrams(subm);
+    py_filedatatypes::init_m_kmallfiledatatypes(subm);
     py_filedatacontainers::init_m_kmallfiledatacontainers(subm);
     py_filedatainterfaces::init_m_kmallfiledatainterfaces(subm);
 

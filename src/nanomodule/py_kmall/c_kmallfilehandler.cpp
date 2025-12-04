@@ -14,9 +14,9 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/kmall/types.hpp"
 #include "../../themachinethatgoesping/echosounders/kmall/datagrams.hpp"
 #include "../../themachinethatgoesping/echosounders/kmall/kmallfilehandler.hpp"
+#include "../../themachinethatgoesping/echosounders/kmall/types.hpp"
 
 #include "module.hpp"
 
@@ -33,7 +33,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::kmall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define DOC_KMALLFileHandler(ARG)                                                           \
+#define DOC_KMALLFileHandler(ARG)                                                                  \
     DOC(themachinethatgoesping, echosounders, kmall, KMALLFileHandler, ARG)
 
 // #define CLASS_KMALLFileHandler(KMALLFileHandler<T_FileStream>, CLASS_NAME)
@@ -44,9 +44,7 @@ void py_create_class_kmallfilehandler(nb::module_& m, const std::string& CLASS_N
 
     // initialize class
     auto cls = nb::class_<KMALLFileHandler<T_FileStream>>(
-        m,
-        CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping, echosounders, kmall, KMALLFileHandler));
+        m, CLASS_NAME.c_str(), DOC(themachinethatgoesping, echosounders, kmall, KMALLFileHandler));
 
     //----- inherit functions from I_InputFileHandler -----
     py_i_inputfilehandler::add_default_constructors<KMALLFileHandler<T_FileStream>>(cls);
@@ -56,30 +54,24 @@ void py_create_class_kmallfilehandler(nb::module_& m, const std::string& CLASS_N
     //----- containers  -----
 
     //----- iterators via () operator -----
-    // cls.def_prop_ro(
-    //     "datagramdata_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::datagramdata_interface),
-    //     DOC_KMALLFileHandler(datagramdata_interface));
-    // cls.def_prop_ro(
-    //     "configuration_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::configuration_interface),
-    //     DOC_KMALLFileHandler(configuration_interface));
-    // cls.def_prop_ro(
-    //     "navigation_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::navigation_interface),
-    //     DOC_KMALLFileHandler(navigation_interface));
-    // cls.def_prop_ro(
-    //     "environment_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::environment_interface),
-    //     DOC_KMALLFileHandler(environment_interface));
-    // cls.def_prop_ro(
-    //     "otherfiledata_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::otherfiledata_interface),
-    //     DOC_KMALLFileHandler(otherfiledata_interface));
-    // cls.def_prop_ro(
-    //     "ping_interface",
-    //     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::ping_interface),
-    //     DOC_KMALLFileHandler(ping_interface));
+    cls.def_prop_ro("datagramdata_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::datagramdata_interface),
+                    DOC_KMALLFileHandler(datagramdata_interface));
+    cls.def_prop_ro("configuration_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::configuration_interface),
+                    DOC_KMALLFileHandler(configuration_interface));
+    cls.def_prop_ro("navigation_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::navigation_interface),
+                    DOC_KMALLFileHandler(navigation_interface));
+    cls.def_prop_ro("environment_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::environment_interface),
+                    DOC_KMALLFileHandler(environment_interface));
+    cls.def_prop_ro("otherfiledata_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::otherfiledata_interface),
+                    DOC_KMALLFileHandler(otherfiledata_interface));
+    cls.def_prop_ro("ping_interface",
+                    nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::ping_interface),
+                    DOC_KMALLFileHandler(ping_interface));
 
     // cls.def("get_pings",
     //         nb::overload_cast<bool>(&KMALLFileHandler<T_FileStream>::get_pings, nb::const_),

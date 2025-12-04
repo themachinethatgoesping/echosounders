@@ -14,6 +14,7 @@ namespace nb = nanobind;
 
 // -- submodule declarations --
 void init_c_kmalldatagramcontainer(nanobind::module_& m); // c_kmalldatagramcontainer.cpp
+void init_c_kmallpingcontainer(nanobind::module_& m); // c_kmallpingcontainer.cpp
 
 // -- create submodule --
 void init_m_kmallfiledatacontainers(nanobind::module_& m)
@@ -22,6 +23,7 @@ void init_m_kmallfiledatacontainers(nanobind::module_& m)
                                 "KMALL (kongsberg .kmall / .kmwcd) file data container classes");
     // kmall classes
     init_c_kmalldatagramcontainer(subm);
+    init_c_kmallpingcontainer(subm);
 }
 
 }

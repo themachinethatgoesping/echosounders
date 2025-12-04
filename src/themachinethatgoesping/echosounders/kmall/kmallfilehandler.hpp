@@ -22,13 +22,13 @@
 #include "../filetemplates/datacontainers/pingcontainer.hpp"
 #include "../filetemplates/i_inputfilehandler.hpp"
 
-// #include "filedatainterfaces/kmallconfigurationdatainterface.hpp"
-// #include "filedatainterfaces/kmalldatagramdatainterface.hpp"
+#include "filedatainterfaces/kmallconfigurationdatainterface.hpp"
+#include "filedatainterfaces/kmalldatagramdatainterface.hpp"
 #include "filedatainterfaces/kmalldatagraminterface.hpp"
-// #include "filedatainterfaces/kmallenvironmentdatainterface.hpp"
-// #include "filedatainterfaces/kmallnavigationdatainterface.hpp"
-// #include "filedatainterfaces/kmallotherfiledatainterface.hpp"
-// #include "filedatainterfaces/kmallpingdatainterface.hpp"
+#include "filedatainterfaces/kmallenvironmentdatainterface.hpp"
+#include "filedatainterfaces/kmallnavigationdatainterface.hpp"
+#include "filedatainterfaces/kmallotherfiledatainterface.hpp"
+#include "filedatainterfaces/kmallpingdatainterface.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -36,8 +36,9 @@ namespace kmall {
 
 template<typename t_ifstream>
 class KMALLFileHandler
-    : public filetemplates::I_InputFileHandler<datagrams::KMALLDatagram,
-                                               filedatainterfaces::KMALLDatagramInterface<t_ifstream>>
+    : public filetemplates::I_InputFileHandler<
+          datagrams::KMALLDatagram,
+          filedatainterfaces::KMALLDatagramInterface<t_ifstream>>
 {
   public:
     using t_base =
@@ -45,35 +46,36 @@ class KMALLFileHandler
                                           filedatainterfaces::KMALLDatagramInterface<t_ifstream>>;
 
     // ----- types -----
-    // using t_DatagramDataInterface =
-    //     typename filedatainterfaces::KMALLDatagramDataInterface<t_ifstream>;
-    // using t_OtherFileDataInterface =
-    //     typename filedatainterfaces::KMALLOtherFileDataInterface<t_ifstream>;
-    // using t_NavigationDataInterface =
-    //     typename filedatainterfaces::KMALLNavigationDataInterface<t_ifstream>;
-    // using t_EnvironmentDataInterface =
-    //     typename filedatainterfaces::KMALLEnvironmentDataInterface<t_ifstream>;
-    // using t_PingDataInterface =
-    //     typename filedatainterfaces::KMALLPingDataInterface<t_ifstream>;
+    using t_DatagramDataInterface =
+        typename filedatainterfaces::KMALLDatagramDataInterface<t_ifstream>;
+    using t_OtherFileDataInterface =
+        typename filedatainterfaces::KMALLOtherFileDataInterface<t_ifstream>;
+    using t_ConfigurationDataInterface =
+        typename filedatainterfaces::KMALLConfigurationDataInterface<t_ifstream>;
+    using t_NavigationDataInterface =
+        typename filedatainterfaces::KMALLNavigationDataInterface<t_ifstream>;
+    using t_EnvironmentDataInterface =
+        typename filedatainterfaces::KMALLEnvironmentDataInterface<t_ifstream>;
+    using t_PingDataInterface = typename filedatainterfaces::KMALLPingDataInterface<t_ifstream>;
 
     using typename t_base::FileInfos;
     using typename t_base::FilePackageIndex;
 
   private:
     // ----- file data interfaces -----
-    // std::shared_ptr<t_DatagramDataInterface> _datagramdata_interface =
-    //     std::make_shared<t_DatagramDataInterface>();
-    // std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
-    //     std::make_shared<t_OtherFileDataInterface>();
+    std::shared_ptr<t_DatagramDataInterface> _datagramdata_interface =
+        std::make_shared<t_DatagramDataInterface>();
+    std::shared_ptr<t_OtherFileDataInterface> _otherfiledata_interface =
+        std::make_shared<t_OtherFileDataInterface>();
 
-    // std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
-    //     std::make_shared<t_ConfigurationDataInterface>();
-    // std::shared_ptr<t_NavigationDataInterface> _navigation_interface =
-    //     std::make_shared<t_NavigationDataInterface>(_configuration_interface);
-    // std::shared_ptr<t_EnvironmentDataInterface> _environment_interface =
-    //     std::make_shared<t_EnvironmentDataInterface>(_navigation_interface);
-    // std::shared_ptr<t_PingDataInterface> _ping_interface =
-    //     std::make_shared<t_PingDataInterface>(_environment_interface);
+    std::shared_ptr<t_ConfigurationDataInterface> _configuration_interface =
+        std::make_shared<t_ConfigurationDataInterface>();
+    std::shared_ptr<t_NavigationDataInterface> _navigation_interface =
+        std::make_shared<t_NavigationDataInterface>(_configuration_interface);
+    std::shared_ptr<t_EnvironmentDataInterface> _environment_interface =
+        std::make_shared<t_EnvironmentDataInterface>(_navigation_interface);
+    std::shared_ptr<t_PingDataInterface> _ping_interface =
+        std::make_shared<t_PingDataInterface>(_environment_interface);
 
   public:
     // inherit constructors
@@ -84,10 +86,10 @@ class KMALLFileHandler
     //     I_InputFileHandler;
 
     KMALLFileHandler(const std::string&                                  file_path,
-                   const std::unordered_map<std::string, std::string>& index_paths =
-                       std::unordered_map<std::string, std::string>(),
-                   bool init          = true,
-                   bool show_progress = true)
+                     const std::unordered_map<std::string, std::string>& index_paths =
+                         std::unordered_map<std::string, std::string>(),
+                     bool init          = true,
+                     bool show_progress = true)
         : t_base(index_paths)
     {
         this->append_file(file_path, show_progress);
@@ -96,9 +98,9 @@ class KMALLFileHandler
             init_interfaces(false, show_progress);
     }
     KMALLFileHandler(const std::string&                                  file_path,
-                   const std::unordered_map<std::string, std::string>& index_paths,
-                   bool                                                init,
-                   tools::progressbars::I_ProgressBar&                 progress_bar)
+                     const std::unordered_map<std::string, std::string>& index_paths,
+                     bool                                                init,
+                     tools::progressbars::I_ProgressBar&                 progress_bar)
         : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
@@ -108,10 +110,10 @@ class KMALLFileHandler
     }
 
     KMALLFileHandler(const std::vector<std::string>&                     file_paths,
-                   const std::unordered_map<std::string, std::string>& index_paths =
-                       std::unordered_map<std::string, std::string>(),
-                   bool init          = true,
-                   bool show_progress = true)
+                     const std::unordered_map<std::string, std::string>& index_paths =
+                         std::unordered_map<std::string, std::string>(),
+                     bool init          = true,
+                     bool show_progress = true)
         : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
@@ -120,9 +122,9 @@ class KMALLFileHandler
             init_interfaces(false, show_progress);
     }
     KMALLFileHandler(const std::vector<std::string>&                     file_paths,
-                   const std::unordered_map<std::string, std::string>& index_paths,
-                   bool                                                init,
-                   tools::progressbars::I_ProgressBar&                 progress_bar)
+                     const std::unordered_map<std::string, std::string>& index_paths,
+                     bool                                                init,
+                     tools::progressbars::I_ProgressBar&                 progress_bar)
         : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
@@ -132,11 +134,124 @@ class KMALLFileHandler
     }
     ~KMALLFileHandler() = default;
 
+    void link_all_and_wcd_files()
+    {
+        std::unordered_map<std::string, std::vector<std::tuple<double, double, size_t>>> wcd_files;
+        std::unordered_map<std::string, std::vector<std::tuple<double, double, size_t>>> all_files;
+        const auto& file_paths = *(this->_input_file_manager->get_file_paths());
+
+        // sort the files into wcd and all files
+        for (unsigned int file_nr = 0; file_nr < file_paths.size(); ++file_nr)
+        {
+            // use std filesystem to get the file name (without extension) and file extension
+            std::filesystem::path file_path(file_paths[file_nr]);
+            std::string           file_name = file_path.stem().string(); // match files per name
+            // std::string file_name = (file_path.parent_path() / file_path.stem()).string();
+            // //match files per path
+            std::string file_ext = file_path.extension().string();
+
+            double start_time =
+                _datagramdata_interface->per_file_ptr(file_nr)->get_timestamp_first();
+            double end_time = _datagramdata_interface->per_file_ptr(file_nr)->get_timestamp_last();
+
+            if (file_ext == ".kmall")
+            {
+                all_files[file_name].push_back(std::make_tuple(start_time, end_time, file_nr));
+            }
+            else if (file_ext == ".kmwcd")
+            {
+                wcd_files[file_name].push_back(std::make_tuple(start_time, end_time, file_nr));
+            }
+            else
+            {
+                throw std::runtime_error(
+                    fmt::format("Unknown file extension: {} [must be .kmall or .kmwcd]", file_ext));
+            }
+        }
+
+        // link the wcd to matching all files
+        for (const auto& [file_name, wcd_file_list] : wcd_files)
+        {
+            using t_filedatainterface =
+                typename filetemplates::datainterfaces::I_FileDataInterfacePerFile<
+                    filedatainterfaces::KMALLDatagramInterface<t_ifstream>>;
+
+            if (wcd_file_list.empty())
+            {
+                continue;
+            }
+
+            for (const auto& [wcd_start_time, wcd_end_time, wcd_file_nr] : wcd_file_list)
+            {
+                auto all_path = all_files.find(file_name);
+
+                // check if there is a matching all file
+                if (all_path != all_files.end())
+                {
+                    auto file_list = all_path->second;
+                    if (file_list.empty())
+                    {
+                        continue;
+                    }
+
+                    double all_start_time = std::get<0>(file_list[0]);
+                    double all_end_time   = std::get<1>(file_list[0]);
+                    size_t all_file_nr    = std::get<2>(file_list[0]);
+                    double time_overlap   = std::min(all_end_time, wcd_end_time) -
+                                          std::max(all_start_time, wcd_start_time);
+
+                    // find the all file with the largest time overlap
+                    for (unsigned int i = 1; i < file_list.size(); ++i)
+                    {
+                        double _start_time   = std::get<0>(file_list[i]);
+                        double _end_time     = std::get<1>(file_list[i]);
+                        size_t _file_nr      = std::get<2>(file_list[i]);
+                        double _time_overlap = std::min(_end_time, wcd_end_time) -
+                                               std::max(_start_time, wcd_start_time);
+
+                        if (_time_overlap > time_overlap)
+                        {
+                            all_start_time = _start_time;
+                            all_end_time   = _end_time;
+                            all_file_nr    = _file_nr;
+                            time_overlap   = _time_overlap;
+                        }
+                    }
+
+                    if (time_overlap < 0)
+                    {
+                        /// TODO: this event should be logged
+                        continue;
+                    }
+
+                    t_filedatainterface::link_file_interfaces(
+                        _datagramdata_interface->per_file_ptr(all_file_nr),
+                        _datagramdata_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _configuration_interface->per_file_ptr(all_file_nr),
+                        _configuration_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _navigation_interface->per_file_ptr(all_file_nr),
+                        _navigation_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _environment_interface->per_file_ptr(all_file_nr),
+                        _environment_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _otherfiledata_interface->per_file_ptr(all_file_nr),
+                        _otherfiledata_interface->per_file_ptr(wcd_file_nr));
+                    t_filedatainterface::link_file_interfaces(
+                        _ping_interface->per_file_ptr(all_file_nr),
+                        _ping_interface->per_file_ptr(wcd_file_nr));
+                }
+            }
+        }
+    }
+
     void setup_interfaces()
     {
         // auto t_start = std::chrono::high_resolution_clock::now();
         //  link wcd/all files
-        // link_all_and_wcd_files();
+        link_all_and_wcd_files();
         // auto t_end = std::chrono::high_resolution_clock::now();
 
         // double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end -
@@ -150,7 +265,7 @@ class KMALLFileHandler
     }
 
     using t_base::init_interfaces;
-    void init_interfaces([[maybe_unused]] bool               force,
+    void init_interfaces([[maybe_unused]] bool                                force,
                          [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar) final
     {
         // auto number_of_primary_files = _configuration_interface->per_primary_file().size();
@@ -184,12 +299,12 @@ class KMALLFileHandler
         // progress_bar.close(std::string("Done"));
     }
 
-    // auto& datagramdata_interface() { return *_datagramdata_interface; }
-    // auto& configuration_interface() { return *_configuration_interface; }
-    // auto& navigation_interface() { return *_navigation_interface; }
-    // auto& environment_interface() { return *_environment_interface; }
-    // auto& otherfiledata_interface() { return *_otherfiledata_interface; }
-    // auto& ping_interface() { return *_ping_interface; }
+    auto& datagramdata_interface() { return *_datagramdata_interface; }
+    auto& configuration_interface() { return *_configuration_interface; }
+    auto& navigation_interface() { return *_navigation_interface; }
+    auto& environment_interface() { return *_environment_interface; }
+    auto& otherfiledata_interface() { return *_otherfiledata_interface; }
+    auto& ping_interface() { return *_ping_interface; }
 
     // filedatacontainers::KMALLPingContainer<t_ifstream> get_pings(
     //     bool sorted_by_time = true) const
@@ -205,132 +320,81 @@ class KMALLFileHandler
     // }
 
   protected:
-    // void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
-    //                                   [[maybe_unused]] size_t             file_paths_cnt) final
-    // {
-    //     // TODO: this is a bit ugly since updates all files and not just the new ones
-    //     // add file info
-    //     //
-    //     _datagramdata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     //
-    //     _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    //     // _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
-    // }
-    // void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
-    //                                 [[maybe_unused]] size_t             file_paths_cnt) final
-    // {
-    // }
+    void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
+                                      [[maybe_unused]] size_t             file_paths_cnt) final
+    {
+        // TODO: this is a bit ugly since updates all files and not just the new ones
+        // add file info
+        _datagramdata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _configuration_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _navigation_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _environment_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _otherfiledata_interface->add_file_information(this->_input_file_manager->get_file_paths());
+        _ping_interface->add_file_information(this->_input_file_manager->get_file_paths());
+    }
+    void callback_scan_new_file_end([[maybe_unused]] const std::string& file_path,
+                                    [[maybe_unused]] size_t             file_paths_cnt) final
+    {
+    }
 
-    // void callback_scan_packet(
-    //     filetemplates::datatypes::DatagramInfo_ptr<t_KMALLDatagramIdentifier, t_ifstream>
-    //         datagram_info) final
-    // {
-    //     _datagramdata_interface->add_datagram_info(datagram_info);
-    //     switch (datagram_info->get_datagram_identifier())
-    //     {
-    //             // Navigation datagrams
-    //         case t_KMALLDatagramIdentifier::AttitudeDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::NetworkAttitudeVelocityDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::ClockDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::DepthOrHeightDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::HeadingDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::PositionDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::SingleBeamEchoSounderDepth: {
-    //             _navigation_interface->add_datagram_info(datagram_info);
-    //             break;
-    //         }
-    //         // multibeam data datagrams
-    //         case t_KMALLDatagramIdentifier::XYZDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::ExtraDetections:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::RawRangeAndAngle:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::SeabedImageData:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::WatercolumnDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::QualityFactorDatagram: {
-    //             if (datagram_info->get_extra_infos().size() != 4)
-    //             {
-    //                 // read the ping counter
-    //                 auto& ifs =
-    //                     datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
+    void callback_scan_packet(
+        filetemplates::datatypes::DatagramInfo_ptr<t_KMALLDatagramIdentifier, t_ifstream>
+            datagram_info) final
+    {
+        _datagramdata_interface->add_datagram_info(datagram_info);
+        switch (datagram_info->get_datagram_identifier())
+        {
+            // Navigation datagrams
+            case t_KMALLDatagramIdentifier::S_POSITION:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_POSITION_ERROR:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_POSITION_DATUM:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_KM_BINARY:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_CLOCK:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_DEPTH:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_HEIGHT:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::C_POSITION:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::C_HEAVE:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::KM_BINARY:
+                _navigation_interface->add_datagram_info(datagram_info);
+                break;
 
-    //                 struct
-    //                 {
-    //                     uint16_t ping_counter;
-    //                     uint16_t serial_number;
-    //                 } counter_snumber;
+            // Ping datagrams
+            case t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::M_WATER_COLUMN:
+                _ping_interface->add_datagram_info(datagram_info);
+                break;
 
-    //                 // ifs.seekg(16, std::ios::cur); // skip header
-    //                 ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
+            // Environment datagrams
+            case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_PROFILE:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::S_SOUND_VELOCITY_TRANSDUCER:
+                _environment_interface->add_datagram_info(datagram_info);
+                break;
 
-    //                 datagram_info->template
-    //                 add_extra_info<uint16_t>(counter_snumber.ping_counter);
-    //                 datagram_info->template
-    //                 add_extra_info<uint16_t>(counter_snumber.serial_number);
-    //             }
-    //             _ping_interface->add_datagram_info(datagram_info);
-    //             break;
-    //         }
-    //             // Environment datagrams
-    //         case t_KMALLDatagramIdentifier::SurfaceSoundSpeedDatagram:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::SoundSpeedProfileDatagram: {
-    //             _environment_interface->add_datagram_info(datagram_info);
-    //             break;
-    //         }
-    //         // Configuration datagrams
-    //         case t_KMALLDatagramIdentifier::RuntimeParameters:
-    //             // this datagram also has ping counter and system serial number
-    //             if (datagram_info->get_extra_infos().size() != 4)
-    //             {
-    //                 // read the ping counter
-    //                 auto& ifs =
-    //                     datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
-
-    //                 struct
-    //                 {
-    //                     uint16_t ping_counter;
-    //                     uint16_t serial_number;
-    //                 } counter_snumber;
-
-    //                 // ifs.seekg(16, std::ios::cur); // skip header
-    //                 ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
-
-    //                 datagram_info->template
-    //                 add_extra_info<uint16_t>(counter_snumber.ping_counter);
-    //                 datagram_info->template
-    //                 add_extra_info<uint16_t>(counter_snumber.serial_number);
-    //             }
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::InstallationParametersStart:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::InstallationParametersStop:
-    //             [[fallthrough]];
-    //         case t_KMALLDatagramIdentifier::ExtraParameters: {
-    //             _configuration_interface->add_datagram_info(datagram_info);
-    //             break;
-    //         }
-    //         default: {
-    //             _otherfiledata_interface->add_datagram_info(datagram_info);
-    //             break;
-    //         }
-    //     }
-    // }
+            // Configuration datagrams
+            case t_KMALLDatagramIdentifier::F_CALIBRATION_FILE:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::I_OP_RUNTIME:
+                [[fallthrough]];
+            case t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM:
+                _configuration_interface->add_datagram_info(datagram_info);
+                break;
+            default: {
+                _otherfiledata_interface->add_datagram_info(datagram_info);
+                break;
+            }
+        }
+    }
 
   public:
     // ----- objectprinter -----
