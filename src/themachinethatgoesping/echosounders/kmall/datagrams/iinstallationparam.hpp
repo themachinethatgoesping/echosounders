@@ -11,7 +11,9 @@
 
 // std includes
 #include <cstdint>
+#include <map>
 #include <string>
+#include <string_view>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -59,6 +61,39 @@ class IInstallationParam : public KMALLDatagram
     void set_install_txt(std::string_view install_txt);
 
     // ----- processed data access -----
+    /**
+     * @brief Decode the install_txt string into a key-value map
+     *
+     * This function parses the KMALL installation parameter text format.
+     * The format contains comma-separated fields with different separators
+     * for different field types (e.g., ':' for OSCV, '_' for PU, '=' for SN).
+     *
+     * @return std::map<std::string, std::string> Map of parameter names to values
+     */
+    std::map<std::string, std::string> get_install_txt_decoded() const;
+
+    /**
+     * @brief Decode an install_txt string into a key-value map (static version)
+     *
+     * @param install_txt The installation parameter text to decode
+     * @return std::map<std::string, std::string> Map of parameter names to values
+     */
+    static std::map<std::string, std::string> decode_install_txt(std::string_view install_txt);
+
+    /**
+     * @brief Get human-readable explanation for an install_txt key
+     *
+     * @param key The key to look up (e.g., "OSCV", "EMXV", "PU")
+     * @return std::string Human-readable explanation, or "Unknown key" if not found
+     */
+    static std::string get_install_txt_key_info(std::string_view key);
+
+    /**
+     * @brief Get all known install_txt key explanations
+     *
+     * @return const std::map<std::string, std::string>& Map of keys to their explanations
+     */
+    static const std::map<std::string, std::string>& get_install_txt_key_infos();
 
     // ----- operators -----
     bool operator==(const IInstallationParam& other) const = default;

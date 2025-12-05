@@ -1,4 +1,4 @@
-//sourcehash: 36161d8971e4e804242f0f362cdb1cdad92162df3d20aeb7253a5bafb275e6a0
+//sourcehash: a29d1e09a0eb693dd9f25273b933e31e2cc7b8b8e15ed01802cf3326e5348ac8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,16 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IIn
 R"doc(< Each datagram ends with the size of the datagram for < integrity
 check)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_decode_install_txt =
+R"doc(Decode an install_txt string into a key-value map (static version)
+
+Parameter ``install_txt``:
+    The installation parameter text to decode
+
+Returns:
+    std::map<std::string, std::string> Map of parameter names to
+    values)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_from_stream_2 = R"doc()doc";
@@ -63,6 +73,34 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IIn
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_decoded =
+R"doc(Decode the install_txt string into a key-value map
+
+This function parses the KMALL installation parameter text format. The
+format contains comma-separated fields with different separators for
+different field types (e.g., ':' for OSCV, '_' for PU, '=' for SN).
+
+Returns:
+    std::map<std::string, std::string> Map of parameter names to
+    values)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_key_info =
+R"doc(Get human-readable explanation for an install_txt key
+
+Parameter ``key``:
+    The key to look up (e.g., "OSCV", "EMXV", "PU")
+
+Returns:
+    std::string Human-readable explanation, or "Unknown key" if not
+    found)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_key_infos =
+R"doc(Get all known install_txt key explanations
+
+Returns:
+    const std::map<std::string, std::string>& Map of keys to their
+    explanations)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_status = R"doc()doc";
 

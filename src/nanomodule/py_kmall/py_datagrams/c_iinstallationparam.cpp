@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/map.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/string_view.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
@@ -58,6 +60,22 @@ void init_c_iinstallationparam(nanobind::module_& m)
         .def("get_bytes_datagram_check",
              &IInstallationParam::get_bytes_datagram_check,
              DOC_IInstallationParam(get_bytes_datagram_check))
+
+        // --- processed data access ---
+        .def("get_install_txt_decoded",
+             &IInstallationParam::get_install_txt_decoded,
+             DOC_IInstallationParam(get_install_txt_decoded))
+        .def_static("decode_install_txt",
+                    &IInstallationParam::decode_install_txt,
+                    DOC_IInstallationParam(decode_install_txt),
+                    nb::arg("install_txt"))
+        .def_static("get_install_txt_key_info",
+                    &IInstallationParam::get_install_txt_key_info,
+                    DOC_IInstallationParam(get_install_txt_key_info),
+                    nb::arg("key"))
+        .def_static("get_install_txt_key_infos",
+                    &IInstallationParam::get_install_txt_key_infos,
+                    DOC_IInstallationParam(get_install_txt_key_infos))
 
         // ----- operators -----
         .def("__eq__",
