@@ -1,4 +1,4 @@
-//sourcehash: 488b37f842ee7a4144d42110855c0be4d4da46b9a0907d761c2d2a2bc85e403f
+//sourcehash: 20181048a0876f410ccdb4fcbae50c6d1fe75ed7a213995eb8ab90ff30919325
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -37,6 +37,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_watercolumncalibration_hpp_454_67 = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration = R"doc()doc";
 
@@ -120,40 +122,42 @@ static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datat
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_sv_calibration = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_ap =
-R"doc(power derived volume scattering (uncalibrated SV without parameter
-compensation))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_av = R"doc(amplitude derived point scattering (uncalibrated TS))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_power = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_pp =
-R"doc(power derived volume scattering (uncalibrated SV without parameter and
-absorption compensation))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_pv =
-R"doc(power derived point scattering (uncalibrated TS without parameter
-compensation))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_rp = R"doc()doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_rv =
-R"doc(power derived point scattering (uncalibrated TS without parameter and
-absorption compensation))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sp = R"doc(amplitude derived volume scattering (uncalibrated SV))doc";
-
-static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_t_calibration_type_sv = R"doc(point scattering (uncompensated TS))doc";
-
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_to_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_tvg_absorption_db_m = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_tvg_factor = R"doc()doc";
 
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type = R"doc(Calibration type for water column data processing)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_ap = R"doc(< amplitude derived point scattering (uncalibrated TS))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_av = R"doc(< amplitude derived volume scattering (uncalibrated SV))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_power =
+R"doc(< power calibration (Received amplitudes computed to power, no
+absorption, no < spreading loss))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_pp =
+R"doc(< power derived point scattering (uncalibrated TS without parameter
+compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_pv =
+R"doc(< power derived volume scattering (uncalibrated SV without parameter
+compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_rp =
+R"doc(< power derived point scattering (uncalibrated TS without parameter
+and absorption < compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_rv =
+R"doc(< power derived volume scattering (uncalibrated SV without parameter
+and absorption < compensation))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_sp = R"doc(< point scattering (uncompensated TS))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type_sv = R"doc(< volume scattering SV)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -26,6 +26,7 @@ namespace py_i_pingwatercolumn {
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
 
 namespace pingtools = themachinethatgoesping::echosounders::pingtools;
+namespace calibration = themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
 template<typename T_BaseClass, typename T_PyClass>
 void I_PingWatercolumn_add_interface(T_PyClass& cls)
@@ -300,6 +301,39 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
                     &T_BaseClass::get_test_mode,
                     &T_BaseClass::set_test_mode,
                     DOC_I_PingWatercolumn(test_mode));
+
+    // --- get_wci_correction functions ---
+    using calibration::o_calibration_type;
+    using calibration::t_calibration_type;
+    cls.def("get_wci_correction",
+            nb::overload_cast<const o_calibration_type, const o_calibration_type, int>(
+                &T_BaseClass::get_wci_correction),
+            DOC_I_PingWatercolumn(get_wci_correction),
+            nb::arg("calibration_type"),
+            nb::arg("calibration_base") = t_calibration_type::power,
+            nb::arg("mp_cores") = 1);
+    cls.def("get_wci_correction",
+            nb::overload_cast<const pingtools::BeamSampleSelection&, const o_calibration_type, const o_calibration_type, int>(
+                &T_BaseClass::get_wci_correction),
+            DOC_I_PingWatercolumn(get_wci_correction),
+            nb::arg("beam_sample_selection"),
+            nb::arg("calibration_type"),
+            nb::arg("calibration_base") = t_calibration_type::power,
+            nb::arg("mp_cores") = 1);
+
+    // --- get_wci functions ---
+    cls.def("get_wci",
+            nb::overload_cast<const o_calibration_type, int>(&T_BaseClass::get_wci),
+            DOC_I_PingWatercolumn(get_wci),
+            nb::arg("calibration_type"),
+            nb::arg("mp_cores") = 1);
+    cls.def("get_wci",
+            nb::overload_cast<const pingtools::BeamSampleSelection&, const o_calibration_type, int>(
+                &T_BaseClass::get_wci),
+            DOC_I_PingWatercolumn(get_wci),
+            nb::arg("beam_sample_selection"),
+            nb::arg("calibration_type"),
+            nb::arg("mp_cores") = 1);
 }
 
 }

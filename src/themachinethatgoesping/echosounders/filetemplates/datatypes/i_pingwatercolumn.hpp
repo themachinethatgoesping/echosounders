@@ -36,9 +36,6 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
-
 #include "../../pingtools/beamsampleselection.hpp"
 #include "i_pingcommon.hpp"
 
@@ -104,46 +101,41 @@ class I_PingWatercolumn : public I_PingCommon
     bool has_sv() const;
 
     virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-        get_tx_signal_parameters() const;
+                   get_tx_signal_parameters() const;
     virtual size_t get_number_of_tx_sectors() const;
 
     virtual const calibration::WaterColumnCalibration& get_watercolumn_calibration() const;
-    const calibration::WaterColumnCalibration&
-        get_watercolumn_calibration(size_t sector_nr) const;
-    virtual const calibration::I_MultiSectorCalibration&
-        get_multisectorwatercolumn_calibration() const;
+    const calibration::WaterColumnCalibration& get_watercolumn_calibration(size_t sector_nr) const;
+    virtual const calibration::I_MultiSectorCalibration& get_multisectorwatercolumn_calibration()
+        const;
 
     virtual float get_sample_interval();
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam();
-    virtual xt::xtensor<size_t, 1>
-        get_tx_sector_per_beam(const pingtools::BeamSelection& bs);
+    xt::xtensor<size_t, 1>         get_tx_sector_per_beam();
+    virtual xt::xtensor<size_t, 1> get_tx_sector_per_beam(const pingtools::BeamSelection& bs);
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector();
-    virtual std::vector<std::vector<size_t>>
-        get_beam_numbers_per_tx_sector(const pingtools::BeamSelection& bs);
+    std::vector<std::vector<size_t>>         get_beam_numbers_per_tx_sector();
+    virtual std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& bs);
 
     pingtools::BeamSelection get_beam_selection_all();
     virtual uint32_t         get_number_of_beams() const;
 
-    xt::xtensor<float, 1> get_beam_crosstrack_angles();
-    virtual xt::xtensor<float, 1>
-        get_beam_crosstrack_angles(const pingtools::BeamSelection& bs);
+    xt::xtensor<float, 1>         get_beam_crosstrack_angles();
+    virtual xt::xtensor<float, 1> get_beam_crosstrack_angles(const pingtools::BeamSelection& bs);
 
-    xt::xtensor<float, 1> get_beam_alongtrack_angles();
-    virtual xt::xtensor<float, 1>
-        get_beam_alongtrack_angles(const pingtools::BeamSelection& bs);
+    xt::xtensor<float, 1>         get_beam_alongtrack_angles();
+    virtual xt::xtensor<float, 1> get_beam_alongtrack_angles(const pingtools::BeamSelection& bs);
 
     virtual xt::xtensor<uint32_t, 1> get_first_sample_offset_per_beam();
 
-    xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam();
-    virtual xt::xtensor<uint32_t, 1>
-        get_number_of_samples_per_beam(const pingtools::BeamSelection& bs);
+    xt::xtensor<uint32_t, 1>         get_number_of_samples_per_beam();
+    virtual xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
+        const pingtools::BeamSelection& bs);
 
     virtual float get_sound_speed_at_transducer();
 
-    xt::xtensor<float, 1>
-        get_approximate_ranges(const pingtools::BeamSampleSelection& selection);
+    xt::xtensor<float, 1> get_approximate_ranges(const pingtools::BeamSampleSelection& selection);
     xt::xtensor<float, 1> get_approximate_ranges();
 
     const pingtools::BeamSampleSelection& get_beam_sample_selection_all();
@@ -159,19 +151,15 @@ class I_PingWatercolumn : public I_PingCommon
     xt::xtensor<float, 2> get_sp(int mp_cores = 1);
     xt::xtensor<float, 2> get_sv(int mp_cores = 1);
 
-    virtual xt::xtensor<float, 2> get_amplitudes(
-        const pingtools::BeamSampleSelection& selection,
-        int                                   mp_cores = 1);
-    xt::xtensor<float, 2> get_rp(const pingtools::BeamSampleSelection& selection,
-                                 int                                   mp_cores = 1);
+    virtual xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection,
+                                                 int mp_cores = 1);
+    xt::xtensor<float, 2> get_rp(const pingtools::BeamSampleSelection& selection, int mp_cores = 1);
     virtual xt::xtensor<float, 2> get_rv(const pingtools::BeamSampleSelection& selection,
                                          int                                   mp_cores = 1);
-    xt::xtensor<float, 2> get_pp(const pingtools::BeamSampleSelection& selection,
-                                 int                                   mp_cores = 1);
+    xt::xtensor<float, 2> get_pp(const pingtools::BeamSampleSelection& selection, int mp_cores = 1);
     virtual xt::xtensor<float, 2> get_pv(const pingtools::BeamSampleSelection& selection,
                                          int                                   mp_cores = 1);
-    xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection,
-                                 int                                   mp_cores = 1);
+    xt::xtensor<float, 2> get_ap(const pingtools::BeamSampleSelection& selection, int mp_cores = 1);
     virtual xt::xtensor<float, 2> get_av(const pingtools::BeamSampleSelection& selection,
                                          int                                   mp_cores = 1);
     virtual xt::xtensor<float, 2> get_power(const pingtools::BeamSampleSelection& selection,
@@ -184,6 +172,57 @@ class I_PingWatercolumn : public I_PingCommon
     int  _test_mode = 0;
     void set_test_mode(int test_test_mode);
     int  get_test_mode();
+
+    xt::xtensor<float, 2> get_wci_correction(
+        const calibration::o_calibration_type calibration1,
+        const calibration::o_calibration_type calibration_base =
+            calibration::t_calibration_type::power,
+        int mp_cores = 1);
+
+    template<calibration::WaterColumnCalibration::t_calibration_type calibration_type>
+    xt::xtensor<float, 2> get_wci_correction(const pingtools::BeamSampleSelection& selection,
+                                             int                                   mp_cores = 1)
+    {
+        auto amplitudes = xt::xtensor<float, 2>::from_shape(
+            { selection.get_number_of_beams(),
+              size_t(selection.get_number_of_samples_ensemble()) });
+        amplitudes.fill(0.0f);
+
+        if (this->get_number_of_tx_sectors() == 1)
+        {
+            get_watercolumn_calibration().template inplace_beam_sample_correction<calibration_type>(
+                amplitudes,
+                get_beam_crosstrack_angles(selection),
+                get_approximate_ranges(selection),
+                mp_cores);
+        }
+        else
+        {
+            get_multisectorwatercolumn_calibration()
+                .template inplace_beam_sample_correction<calibration_type>(
+                    amplitudes,
+                    get_beam_crosstrack_angles(selection),
+                    get_approximate_ranges(selection),
+                    get_beam_numbers_per_tx_sector(selection),
+                    mp_cores);
+        }
+
+        return amplitudes;
+    }
+
+    xt::xtensor<float, 2> get_wci_correction(
+        const pingtools::BeamSampleSelection& selection,
+        const calibration::o_calibration_type calibration1,
+        const calibration::o_calibration_type calibration_base =
+            calibration::t_calibration_type::power,
+        int mp_cores = 1);
+
+    xt::xtensor<float, 2> get_wci(const calibration::o_calibration_type calibration_type,
+                                  int                                   mp_cores = 1);
+
+    xt::xtensor<float, 2> get_wci(const pingtools::BeamSampleSelection& selection,
+                                  const calibration::o_calibration_type calibration_type,
+                                  int                                   mp_cores = 1);
 
     template<calibration::WaterColumnCalibration::t_calibration_type calibration_type>
     xt::xtensor<float, 2> get_calibrated_wci(const pingtools::BeamSampleSelection& selection,
@@ -253,8 +292,8 @@ class I_PingWatercolumn : public I_PingCommon
     }
 
     virtual xt::xtensor<uint32_t, 1> get_bottom_range_samples();
-    virtual xt::xtensor<uint32_t, 1>
-        get_bottom_range_samples(const pingtools::BeamSelection& selection);
+    virtual xt::xtensor<uint32_t, 1> get_bottom_range_samples(
+        const pingtools::BeamSelection& selection);
 
     uint32_t get_minslant_sample_nr();
     uint32_t get_minslant_sample_nr(const pingtools::BeamSelection& selection);

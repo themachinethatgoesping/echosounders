@@ -11,9 +11,8 @@
 #include <fmt/core.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/tools/classhelper/option_frozen.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
-
-
 
 #include "amplitudecalibration.hpp"
 
@@ -22,6 +21,54 @@ namespace echosounders {
 namespace filetemplates {
 namespace datatypes {
 namespace calibration {
+
+/**
+ * @brief Calibration type for water column data processing
+ */
+enum class t_calibration_type : uint8_t
+{
+    power, ///< power calibration (Received amplitudes computed to power, no absorption, no
+           ///< spreading loss)
+    rp,    ///< power derived point scattering (uncalibrated TS without parameter and absorption
+           ///< compensation)
+    rv,    ///< power derived volume scattering (uncalibrated SV without parameter and absorption
+           ///< compensation)
+    pp,    ///< power derived point scattering (uncalibrated TS without parameter compensation)
+    pv,    ///< power derived volume scattering (uncalibrated SV without parameter compensation)
+    ap,    ///< amplitude derived point scattering (uncalibrated TS)
+    av,    ///< amplitude derived volume scattering (uncalibrated SV)
+    sp,    ///< point scattering (uncompensated TS)
+    sv     ///< volume scattering SV
+};
+
+inline constexpr std::array<t_calibration_type, 9> t_calibration_type_values = {
+    t_calibration_type::power, t_calibration_type::rp, t_calibration_type::rv,
+    t_calibration_type::pp,    t_calibration_type::pv, t_calibration_type::ap,
+    t_calibration_type::av,    t_calibration_type::sp, t_calibration_type::sv
+};
+
+inline constexpr std::array<std::string_view, 9> t_calibration_type_names = { "power", "rp", "rv",
+                                                                              "pp",    "pv", "ap",
+                                                                              "av",    "sp", "sv" };
+
+inline constexpr std::array<std::string_view, 9> t_calibration_type_alt_names = {
+    "Power",
+    "Power, no absorption (point backscattering)",
+    "Power, no absorption (volume backscattering)",
+    "Power (point backscattering)",
+    "Power (volume backscattering)",
+    "Point backscattering (uncalibrated TS)",
+    "Volume backscattering (uncalibrated SV)",
+    "Point backscattering (uncompensated TS)",
+    "Volume backscattering (SV)"
+};
+
+using o_calibration_type =
+    themachinethatgoesping::tools::classhelper::OptionFrozen<t_calibration_type,
+                                                             t_calibration_type_values.size(),
+                                                             t_calibration_type_values,
+                                                             t_calibration_type_names,
+                                                             t_calibration_type_alt_names>;
 
 class WaterColumnCalibration
 {
@@ -42,20 +89,9 @@ class WaterColumnCalibration
     float _tvg_factor = 0.0f; // the TVG factor applied to the data (typically 0, 20 or 40 (log(r)))
 
   public:
-    enum class t_calibration_type
-    {
-        power,
-        rp, /// power derived point scattering (uncalibrated TS without parameter and absorption compensation)
-        rv, /// power derived volume scattering (uncalibrated SV without parameter and absorption compensation)
-        pp, /// power derived point scattering (uncalibrated TS without parameter compensation)
-        pv, /// power derived volume scattering (uncalibrated SV without parameter compensation)
-        ap, /// amplitude derived point scattering (uncalibrated TS)
-        av, /// amplitude derived volume scattering (uncalibrated SV)
-        sp, /// point scattering (uncompensated TS)
-        sv  /// volume scattering SV
-    };
+    // Type alias for backwards compatibility (enum is now at namespace level)
+    using t_calibration_type = calibration::t_calibration_type;
 
-  public:
     WaterColumnCalibration(float tvg_absorption_db_m = 0.0f, float tvg_factor = 0.0f)
         : _tvg_absorption_db_m(tvg_absorption_db_m)
         , _tvg_factor(tvg_factor)
@@ -370,7 +406,7 @@ class WaterColumnCalibration
     const AmplitudeCalibration& get_av_calibration() const;
     const AmplitudeCalibration& get_sp_calibration() const;
     const AmplitudeCalibration& get_sv_calibration() const;
-    void set_power_calibration(const AmplitudeCalibration& calibration);
+    void                        set_power_calibration(const AmplitudeCalibration& calibration);
 
     void set_ap_calibration(const AmplitudeCalibration& calibration);
 
@@ -414,3 +450,14 @@ inline std::size_t hash_value(const WaterColumnCalibration& arg)
 }
 }
 }
+
+extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::t_calibration_type,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_values.size(),
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_values,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_names,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_alt_names>;

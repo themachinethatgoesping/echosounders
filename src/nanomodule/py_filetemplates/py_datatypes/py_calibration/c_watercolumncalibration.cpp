@@ -11,6 +11,7 @@
 #include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 
 #include <themachinethatgoesping/echosounders/filetemplates/datatypes/calibration/watercolumncalibration.hpp>
@@ -33,6 +34,15 @@ namespace nb = nanobind;
         WaterColumnCalibration,                                                                    \
         ARG)
 
+#define DOC_t_calibration_type(ARG)                                                                \
+    DOC(themachinethatgoesping,                                                                    \
+        echosounders,                                                                              \
+        filetemplates,                                                                             \
+        datatypes,                                                                                 \
+        calibration,                                                                               \
+        t_calibration_type,                                                                        \
+        ARG)
+
 template<typename t_float, typename t_pyclass>
 void add_apply_calibration_functions(t_pyclass& c)
 {
@@ -41,7 +51,7 @@ void add_apply_calibration_functions(t_pyclass& c)
 
     c.def("apply_beam_sample_correction_power",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::power,
+              t_calibration_type::power,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -51,7 +61,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_rp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::rp,
+              t_calibration_type::rp,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -61,7 +71,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_rv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::rv,
+              t_calibration_type::rv,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -71,7 +81,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_pp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::pp,
+              t_calibration_type::pp,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -81,7 +91,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_pv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::pv,
+              t_calibration_type::pv,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -91,7 +101,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_ap",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::ap,
+              t_calibration_type::ap,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -101,7 +111,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_av",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::av,
+              t_calibration_type::av,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -111,7 +121,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_sv",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::sv,
+              t_calibration_type::sv,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -121,7 +131,7 @@ void add_apply_calibration_functions(t_pyclass& c)
           nb::arg("mp_cores") = 1);
     c.def("apply_beam_sample_correction_sp",
           &WaterColumnCalibration::template apply_beam_sample_correction<
-              WaterColumnCalibration::t_calibration_type::sp,
+              t_calibration_type::sp,
                  pytensor<t_float, 2>,
                  pytensor<t_float, 1>>,
           DOC_WaterColumnCalibration(apply_beam_sample_correction),
@@ -134,6 +144,30 @@ void add_apply_calibration_functions(t_pyclass& c)
 void init_c_watercolumncalibration(nanobind::module_& m)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+
+    // add enum
+    nb::enum_<t_calibration_type>(
+        m,
+        "t_calibration_type",
+        DOC(themachinethatgoesping,
+            echosounders,
+            filetemplates,
+            datatypes,
+            calibration,
+            t_calibration_type))
+        .value("power", t_calibration_type::power, DOC_t_calibration_type(power))
+        .value("rp", t_calibration_type::rp, DOC_t_calibration_type(rp))
+        .value("rv", t_calibration_type::rv, DOC_t_calibration_type(rv))
+        .value("pp", t_calibration_type::pp, DOC_t_calibration_type(pp))
+        .value("pv", t_calibration_type::pv, DOC_t_calibration_type(pv))
+        .value("ap", t_calibration_type::ap, DOC_t_calibration_type(ap))
+        .value("av", t_calibration_type::av, DOC_t_calibration_type(av))
+        .value("sp", t_calibration_type::sp, DOC_t_calibration_type(sp))
+        .value("sv", t_calibration_type::sv, DOC_t_calibration_type(sv));
+
+    // add option class
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_calibration_type>(
+        m, "o_calibration_type");
 
     // add class
     auto c = nb::class_<WaterColumnCalibration>(

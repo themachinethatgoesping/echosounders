@@ -337,8 +337,19 @@ void WaterColumnCalibration::check_calibration_initialized(std::string_view func
             fmt::format("ERROR[{}]:{} not initialized", function_name, calibration_name));
 }
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace calibration
 } // namespace datatypes
 } // namespace filetemplates
+} // namespace echosounders
+} // namespace themachinethatgoesping
+
+template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::t_calibration_type,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_values.size(),
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_values,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_names,
+    themachinethatgoesping::echosounders::filetemplates::datatypes::calibration::
+        t_calibration_type_alt_names>;
