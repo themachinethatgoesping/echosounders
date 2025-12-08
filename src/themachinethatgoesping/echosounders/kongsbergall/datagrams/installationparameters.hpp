@@ -390,6 +390,7 @@ class InstallationParameters : public KongsbergAllDatagram
      * @param sensor_prefix see above
      * @param has_xyz sensor has xyz offsets
      * @param has_ypr sensor has yaw pitch roll offsets
+     * 
      * @return PositionalOffsets
      */
     navigation::datastructures::PositionalOffsets get_sensor_offsets(

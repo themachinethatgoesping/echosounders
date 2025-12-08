@@ -1,4 +1,4 @@
-//sourcehash: 4efa6165752c8ab28926ed16d5df97edbd5f9ed5616053022cc34ba33937e73c
+//sourcehash: f87bd95d2fd70a6b6701b54afcde962e4b5f6bc49185fd866afe8564bf059348
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,9 +42,37 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainter
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_KMALLConfigurationDataInterfacePerFile = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_active_attitude_sensor_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_active_position_system_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_active_attitude_sensor_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_active_position_system_number = R"doc()doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_installation_parameters =
+R"doc(Read the installation parameters from the file
+
+Returns:
+    datagrams::IInstallationParam)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_set_active_attitude_sensor_number =
+R"doc(Set the active attitude sensor number 0: this will be overwritten by
+"read_sensor_configuration" / "init_interface" 1-4: attitude sensor
+1-4
+
+Parameter ``number``:)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_set_active_position_system_number =
+R"doc(Set the active position system number 0: this will be overwritten by
+"read_sensor_configuration" / "init_interface" 1-4: position system
+1-4
+
+Parameter ``number``:)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

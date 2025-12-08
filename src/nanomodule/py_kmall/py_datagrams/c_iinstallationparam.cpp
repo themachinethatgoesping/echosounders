@@ -7,6 +7,7 @@
 #include <nanobind/stl/map.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/string_view.h>
+#include <nanobind/stl/vector.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
@@ -112,6 +113,13 @@ void init_c_iinstallationparam(nanobind::module_& m)
         .def("get_pu_serial_number",
              &IInstallationParam::get_pu_serial_number,
              DOC_IInstallationParam(get_pu_serial_number))
+        .def("get_available_transducer_keys",
+             &IInstallationParam::get_available_transducer_keys,
+             DOC_IInstallationParam(get_available_transducer_keys))
+        .def("has_transducer_key",
+             &IInstallationParam::has_transducer_key,
+             DOC_IInstallationParam(has_transducer_key),
+             nb::arg("key"))
 
         // ----- operators -----
         .def("__eq__",

@@ -188,6 +188,23 @@ class IInstallationParam : public KMALLDatagram
      */
     int get_pu_serial_number() const;
 
+    /**
+     * @brief Get a list of available transducer keys present in the installation parameters
+     *
+     * Checks for TRAI_HD1, TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2
+     *
+     * @return std::vector<std::string> List of available transducer keys
+     */
+    std::vector<std::string> get_available_transducer_keys() const;
+
+    /**
+     * @brief Check if a specific transducer key is present
+     *
+     * @param key Transducer key (e.g., "TRAI_HD1", "TRAI_TX1")
+     * @return bool True if the key is present
+     */
+    bool has_transducer_key(const std::string& key) const;
+
     // ----- operators -----
     bool operator==(const IInstallationParam& other) const = default;
 

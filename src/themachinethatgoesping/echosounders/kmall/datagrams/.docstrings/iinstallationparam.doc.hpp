@@ -1,4 +1,4 @@
-//sourcehash: d184a5fac90d3e1788d08b56599e214c2f006cbdc86c983010c91dc006019377
+//sourcehash: b48d7522fa42d4e51034e639bc5669b3ec7c64158b4e0f97a0e797344b549259
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -93,6 +93,15 @@ Parameter ``sensor_number``:
 Returns:
     navigation::datastructures::PositionalOffsets)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_available_transducer_keys =
+R"doc(Get a list of available transducer keys present in the installation
+parameters
+
+Checks for TRAI_HD1, TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2
+
+Returns:
+    std::vector<std::string> List of available transducer keys)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_bytes_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_bytes_datagram_check = R"doc()doc";
@@ -178,6 +187,15 @@ R"doc(Get the waterline offset (SWLZ from EMXI)
 
 Returns:
     float Waterline offset in meters)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_has_transducer_key =
+R"doc(Check if a specific transducer key is present
+
+Parameter ``key``:
+    Transducer key (e.g., "TRAI_HD1", "TRAI_TX1")
+
+Returns:
+    bool True if the key is present)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_info = R"doc(< Information. For future use.)doc";
 

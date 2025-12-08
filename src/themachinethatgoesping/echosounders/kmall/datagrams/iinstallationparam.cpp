@@ -603,6 +603,33 @@ int IInstallationParam::get_pu_serial_number() const
     return 0;
 }
 
+std::vector<std::string> IInstallationParam::get_available_transducer_keys() const
+{
+    auto decoded = get_install_txt_decoded();
+    std::vector<std::string> keys;
+
+    // Check all possible transducer keys
+    static const std::array<std::string, 5> possible_keys = {
+        "TRAI_HD1", "TRAI_TX1", "TRAI_TX2", "TRAI_RX1", "TRAI_RX2"
+    };
+
+    for (const auto& key : possible_keys)
+    {
+        if (decoded.contains(key))
+        {
+            keys.push_back(key);
+        }
+    }
+
+    return keys;
+}
+
+bool IInstallationParam::has_transducer_key(const std::string& key) const
+{
+    auto decoded = get_install_txt_decoded();
+    return decoded.contains(key);
+}
+
 // ----- to/from stream functions -----
 void IInstallationParam::__read__(std::istream& is)
 {
