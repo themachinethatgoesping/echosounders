@@ -77,6 +77,42 @@ void init_c_iinstallationparam(nanobind::module_& m)
                     &IInstallationParam::get_install_txt_key_infos,
                     DOC_IInstallationParam(get_install_txt_key_infos))
 
+        // --- sensor offset access ---
+        .def_static("parse_sensor_string",
+                    &IInstallationParam::parse_sensor_string,
+                    DOC_IInstallationParam(parse_sensor_string),
+                    nb::arg("sensor_string"))
+        .def("get_transducer_offsets",
+             &IInstallationParam::get_transducer_offsets,
+             DOC_IInstallationParam(get_transducer_offsets),
+             nb::arg("transducer_key"))
+        .def("get_position_system_offsets",
+             &IInstallationParam::get_position_system_offsets,
+             DOC_IInstallationParam(get_position_system_offsets),
+             nb::arg("position_system_number"))
+        .def("get_attitude_sensor_offsets",
+             &IInstallationParam::get_attitude_sensor_offsets,
+             DOC_IInstallationParam(get_attitude_sensor_offsets),
+             nb::arg("sensor_number"))
+        .def("get_depth_sensor_offsets",
+             &IInstallationParam::get_depth_sensor_offsets,
+             DOC_IInstallationParam(get_depth_sensor_offsets))
+        .def("get_water_line_vertical_location_in_meters",
+             &IInstallationParam::get_water_line_vertical_location_in_meters,
+             DOC_IInstallationParam(get_water_line_vertical_location_in_meters))
+        .def("get_active_position_system_number",
+             &IInstallationParam::get_active_position_system_number,
+             DOC_IInstallationParam(get_active_position_system_number))
+        .def("get_active_attitude_sensor_number",
+             &IInstallationParam::get_active_attitude_sensor_number,
+             DOC_IInstallationParam(get_active_attitude_sensor_number))
+        .def("get_system_name",
+             &IInstallationParam::get_system_name,
+             DOC_IInstallationParam(get_system_name))
+        .def("get_pu_serial_number",
+             &IInstallationParam::get_pu_serial_number,
+             DOC_IInstallationParam(get_pu_serial_number))
+
         // ----- operators -----
         .def("__eq__",
              &IInstallationParam::operator==,

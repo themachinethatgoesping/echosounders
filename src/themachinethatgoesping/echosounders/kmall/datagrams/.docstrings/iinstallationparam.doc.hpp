@@ -1,4 +1,4 @@
-//sourcehash: a29d1e09a0eb693dd9f25273b933e31e2cc7b8b8e15ed01802cf3326e5348ac8
+//sourcehash: d184a5fac90d3e1788d08b56599e214c2f006cbdc86c983010c91dc006019377
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -66,9 +66,44 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IIn
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_from_stream_3 = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_attitude_sensor_number =
+R"doc(Get the active attitude sensor number (1-4)
+
+Reads the U=ACTIVE field from ATTI_n entries
+
+Returns:
+    uint8_t Attitude sensor number (1-4), or 0 if none active)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_position_system_number =
+R"doc(Get the active position system number (1-4)
+
+Reads the U=ACTIVE field from POSI_n entries
+
+Returns:
+    uint8_t Position system number (1-4), or 0 if none active)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_attitude_sensor_offsets =
+R"doc(Get the attitude sensor offsets for a given sensor number
+
+Parses ATTI_1, ATTI_2, ATTI_3, or ATTI_4 entries
+
+Parameter ``sensor_number``:
+    Sensor number (1-4)
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_bytes_content = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_bytes_datagram_check = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_depth_sensor_offsets =
+R"doc(Get the depth sensor offsets
+
+Parses DPHI entry
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_info = R"doc()doc";
 
@@ -102,13 +137,65 @@ Returns:
     const std::map<std::string, std::string>& Map of keys to their
     explanations)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_position_system_offsets =
+R"doc(Get the position system offsets for a given position system number
+
+Parses POSI_1, POSI_2, POSI_3, or POSI_4 entries
+
+Parameter ``position_system_number``:
+    Position system number (1-4)
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_pu_serial_number =
+R"doc(Get the PU serial number (SN field)
+
+Returns:
+    int PU serial number)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_status = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_name =
+R"doc(Get the system name (EMXV field)
+
+Returns:
+    std::string System name (e.g., "EM2040P"))doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets =
+R"doc(Get the transducer offsets for a given transducer
+
+Parses TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2, or TRAI_HD1 entries
+
+Parameter ``transducer_key``:
+    Key like "TRAI_HD1", "TRAI_TX1", etc.
+
+Returns:
+    navigation::datastructures::PositionalOffsets)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_water_line_vertical_location_in_meters =
+R"doc(Get the waterline offset (SWLZ from EMXI)
+
+Returns:
+    float Waterline offset in meters)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_info = R"doc(< Information. For future use.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_install_txt = R"doc(< Runtime parameters as text format.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_operator_eq = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_parse_sensor_string =
+R"doc(Parse a semicolon-separated sensor string into key-value pairs
+
+For example: "X=0.000;Y=0.000;Z=0.000;R=0.000;P=0.000;H=0.000"
+
+Parameter ``sensor_string``:
+    The sensor string to parse
+
+Returns:
+    std::map<std::string, std::string> Map of parameter names to
+    values)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_printer = R"doc()doc";
 
