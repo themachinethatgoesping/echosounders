@@ -1,0 +1,143 @@
+Installation parameters and settings
+#IIP datagram —> install_txt
+This is the description of the installation parameters and settings in the #IIP datagram.
+Operator System Controller Versions (OSCV)
+Operator may provide the information about Operator Controller versions. Note
+The text from Operator controller should not be long, maximum is 500 characters.
+Note
+The text may contain name and version for controller and operators name or other relevant
+information.
+Description
+Note
+Operator Controller
+versionOSCV=
+Controller name and
+versiona–a,
+Controller Information
+Multibeam System software versions description
+/
+DescriptionExampleNote
+Multi Beam SystemEMXV:a–a,EM 2040 / EM 2040C / EM 2040PM / EM 712 /
+EM 124 / EM 304
+PU id typePU_0,PU_0 = Stand alone,
+PU_1 = Master,
+PU_2 = Slave
+PU serial numberSN=xxxx,IP address and subnet
+mask157.237.20.40:0xfffff000,
+Command TCPIP portUDP=1997,CPU typeTYPE=a-a,SW versions for the
+systemVERSIONS: a-
+a
+VERSIONS-END,Sonar head or transceiver
+serial numbersSERIALno:
+TX:xxxx
+RX:xxxx,
+SERIALno-END,
+a-a = CPU descriptor
+a-a = A list all SW version as seen in the SW
+Upgrade application
+TX / RX for EM 2040 sonar heads
+1Multi-beam echo sounder system
+The EM 2040 configuration for this installation. Examples for system are “Single Tx
+single Rx”, “Single Rx dual Tx”.
+EM 2040
+SYSTEM:Single Tx single Rx,
+Installations parameter and settings for transducers.
+The distance offset units are meter, positive direction for X (along forwards), Y (starboard
+across) and Z (vertical downwards). The angle offset are degrees for R (roll), P (pitch)
+and H (heading). Time offset is in seconds for D (time delay).
+Example is default setting for install offset and system settings
+TRAI_TX1:N=1234;X=0.00;Y=0.00;Z=0.00;R=0.00;P=0.00;H=0.00;S=0.7;
+IPX=0.00000;IPY=-0.05540;IPZ=-0.01200;
+ICX=0.00000;ICY=0.01315,ICZ=-0.00600;
+ISX=0.00000;ISY=0.05540;ISZ=-0.01200,
+TRAI_TX2:N=1235;X=0.00;Y=0.00;Z=0.00;R=0.00;P=0.00;H=0.00;S=0.7;
+IPX=0.00000;IPY=-0.05540;IPZ=-0.01200;
+ICX=0.00000;ICY=0.01315,ICZ=-0.00600;
+ISX=0.00000;ISY=0.05540;ISZ=-0.01200,
+TRAI_RX1:N=2345;X=0.00;Y=0.00;Z=0.00;R=0.00;P=0.00;H=0.00;G=0.00;
+IX=0.01100;IY=0.00000;IZ=-0.00600,
+TRAI_RX2:N=2456;X=0.00;Y=0.00;Z=0.00;R=0.00;P=0.00;H=0.00;G=0.00;
+IX=0.01100;IY=0.00000;IZ=-0.00600,
+Note
+N = serial number or 0 - unknown.
+V = Item number for unit
+W = Sonar head model information
+X = forwards, in meter.
+Y = attward starboard, in meter.
+Z = vertical down, in meter. R = roll offset, in degrees.
+P = pitch offset, in degrees.
+H = heading offset, in degrees.
+G = gain, in dB.
+S = sounder size in degrees, in degrees.
+Internal lever arms.
+IPX, IPY, IPZ = Array offset for Port side of sonar head in meter.
+ICX, ICY, ICZ = Array offset for Centre of sonar head in meter.
+ISX, ISY, ISZ = Array offset for Starboard side of sonar in meter.
+IX, IY, IX = Array offset for sonar head in meter.
+ITX, ITY, ITZ = TX Array offset for sonar head in meter.
+IRX, IRY, IRZ = RX Array offset for sonar head in meter.
+TRAI_n:H around 0.00, sounder mounted heading forward,
+TRAI_n:H around 180.00, sounder mounted heading backwards.Installations parameter and settings for position.
+POSI_1:X=0.00;Y=0.00;Z=0.00;D=0.00;G=WGS84:T=PU;C=On;
+F=GGA;Q=Off;I=Serial port 1;U=ACTIVE,
+POSI_2:X=0.00;Y=0.00;Z=0.00;D=0.00;G=WGS84:T=PU;C=Off;
+F=GGK-3–12–13–14–15–16–17;Q=On;I=NO;U=PASSIVE,
+POSI_3:U=NOT_SET,
+Note
+X = forwards, in meter.
+Y = athwart starboard, in meter.
+Z = vertical down, in meter.
+D = time delay, in sec.
+G = datum
+T = time stamp from PU / POS
+C = compensation for motion On / Off.
+F = data format, with quality settings from operator (optional).
+Q = Quality check On / Off.(Will be off when operator has set quality settings).
+I = input source
+U = ACTIVE / PASSIVE / NOT_SET
+Installation parameters and settings for Motion sensor
+ATTI_1:X=0.00;Y=0.00;Z=0.00;R=0.00;P=0.00;H=0.00;D=0.00;M=RP;F=EMA;
+I=Serial port 2;U=ACTIVE,
+ATTI_2:NOT_SET,
+Note
+X = forwards, in meter.
+Y = athwart starboard, in meter.
+Z = vertical down, in meter.
+R = roll offset, in degrees.
+P = pitch offset, in degrees.
+H = heading offset, in degrees.
+D = time delay, in sec.
+M = motion ref.plan RP / HO
+F = data format
+I = input source
+U = use ACTIVE / PASSIVE / NOT_SET
+/
+3Installation parameters and settings for Clock sensor and PU time synchronisation.
+CLCK:F=ZDA;S=POS;A=OFF;I=NO;Q=OK,
+Note
+F = data format
+S = synchronisation source for internal clock(1)
+A = 1PPS setting: ON_RISE / ON_FALL / OFF
+I = Clock input source (2)
+Q = OK / NO_SYNC if internal clock has been synchronised or not
+Installations parameter and settings for depth/pressure.
+DPHI:X=0.00;Y=0.00;Z=0.00;D=0.00;O=0.00;S=0.00;A=OFF;F=SIG;I=COM_3;U=PASSIVE
+,
+Note
+X = forwards, in meter.
+Y = athwart starboard, in meter.
+Z = vertical down, in meter.
+D = time delay, in sec.
+O = offset, in meter.
+S = scale, .
+A = added heave ON / OFF
+F = data format
+I = Input source
+U = use ACTIVE / PASSIVE / NOT_SET
+Installation parameters and settings for System
+EMXI:SSNL=NORMAL;SWLZ=0.00,
+Note
+SSNL = ships noise level, NORMAL / HIGH / VERY HIGH
+SWLZ = water line vertical location, in meter.
+
+

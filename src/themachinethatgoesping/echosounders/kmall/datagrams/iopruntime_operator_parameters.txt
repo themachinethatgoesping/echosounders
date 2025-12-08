@@ -1,0 +1,63 @@
+Operator parameters
+#IOP datagram version: 0
+This is the description of the Operators parameters settings in the K-Controller.
+The free text in runtime_txt, lists the current parameter settings.
+The text will reflect the settings in the runtime menus.
+Example of text in #IOP:
+Sector Coverage
+Max Angle (deg): Port 75.000
+Max Angle (deg): Starboard 75.000
+Max Coverage (m): Port 500.000
+Max Coverage (m): Starboard 500.000
+Angular Coverage Mode: AUTO
+Sector Mode: NORMAL
+Beam Spacing: HD EQUIDISTANCE
+RX in use: RX_1 ONLY
+Depth Settings
+Forced Depth (m): 0.000
+Min. Depth (m): 1.000
+Max. Depth (m): 150.000
+Ping Mode: 300kHz
+Pulse Mode: AUTO
+FM disable: OFF
+Detector Mode: NORMAL
+Transmit Control
+Pitch stabilization: ON
+Along Direction (deg): 0.000
+Yaw Stabilisation Mode: OFF
+Yaw Stabilisation Heading: 0.000
+Yaw Stabilisation Heading Filter: MEDIUM
+Max. Ping Freq. (Hz): 50.000
+External Trigger: OFF
+3D Scanning Enable: OFF
+Sound Speed at Transducer
+Sound Speed Manual (m/s): 1500.000
+Temperature Manual (C): 0.000
+Sound Speed Source: PROFILE
+Absorption Coefficient
+200.0 kHz 70.000
+250.0 kHz 85.000
+300.0 kHz 90.000
+/
+1350.0 kHz 100.000
+400.0 kHz 110.000
+Filtering
+Spike Filter Strength: MEDIUM
+Range Gate: NORMAL
+Phase ramp: NORMAL
+Penetration Filter Strength: OFF
+Special TVG: OFF
+Slope: ON
+Aeration: OFF
+Sector Tracking: OFF
+Interference: OFF
+Special amp detection: OFF
+Backscatter Adjustment
+Normal Incidence corr. (deg): 10.000
+Use Lambert's law: OFF
+TX Power Level: Max.
+Special Mode
+Sonar: OFF
+Scope Display
+Beam no. (Display): 0
+Swath no.: 0

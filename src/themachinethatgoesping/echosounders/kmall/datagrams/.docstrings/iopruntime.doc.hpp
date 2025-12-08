@@ -1,4 +1,4 @@
-//sourcehash: 4bae41dbe7c08f2dedb947d73a6d0a1b1d90974764858452a3bfa162039ab57c
+//sourcehash: 6dacd67e24d1ede37be234205ee98b6b1f22c14bc905caa970a03e1401a88787
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,16 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOp
 R"doc(< Each datagram ends with the size of the datagram for < integrity
 check)doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_decode_runtime_txt =
+R"doc(Decode a runtime_txt string into a key-value map (static version)
+
+Parameter ``runtime_txt``:
+    The runtime parameter text to decode
+
+Returns:
+    std::map<std::string, std::string> Map of parameter names to
+    values)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_from_stream = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_from_stream_2 = R"doc()doc";
@@ -63,6 +73,33 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOp
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_info = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_runtime_txt = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_runtime_txt_decoded =
+R"doc(Decode the runtime_txt string into a key-value map
+
+This function parses the KMALL operator runtime parameter text format.
+The format contains newline-separated sections with key: value pairs.
+
+Returns:
+    std::map<std::string, std::string> Map of parameter names to
+    values)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_runtime_txt_key_info =
+R"doc(Get human-readable explanation for a runtime_txt key
+
+Parameter ``key``:
+    The key to look up
+
+Returns:
+    std::string Human-readable explanation, or "Unknown key" if not
+    found)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_runtime_txt_key_infos =
+R"doc(Get all known runtime_txt key explanations
+
+Returns:
+    const std::map<std::string, std::string>& Map of keys to their
+    explanations)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_status = R"doc()doc";
 

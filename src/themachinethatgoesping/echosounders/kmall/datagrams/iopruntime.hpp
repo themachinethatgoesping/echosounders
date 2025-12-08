@@ -1,3 +1,4 @@
+
 // SPDX-FileCopyrightText: 2022 Peter Urban, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 Sven Schorge, GEOMAR Helmholtz Centre for Ocean Research Kiel
 // SPDX-FileCopyrightText: 2022 - 2025 Peter Urban, Ghent University
@@ -11,7 +12,9 @@
 
 // std includes
 #include <cstdint>
+#include <map>
 #include <string>
+#include <string_view>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -60,6 +63,38 @@ class IOpRuntime : public KMALLDatagram
     void set_runtime_txt(std::string_view runtime_txt);
 
     // ----- processed data access -----
+    /**
+     * @brief Decode the runtime_txt string into a key-value map
+     *
+     * This function parses the KMALL operator runtime parameter text format.
+     * The format contains newline-separated sections with key: value pairs.
+     *
+     * @return std::map<std::string, std::string> Map of parameter names to values
+     */
+    std::map<std::string, std::string> get_runtime_txt_decoded() const;
+
+    /**
+     * @brief Decode a runtime_txt string into a key-value map (static version)
+     *
+     * @param runtime_txt The runtime parameter text to decode
+     * @return std::map<std::string, std::string> Map of parameter names to values
+     */
+    static std::map<std::string, std::string> decode_runtime_txt(std::string_view runtime_txt);
+
+    /**
+     * @brief Get human-readable explanation for a runtime_txt key
+     *
+     * @param key The key to look up
+     * @return std::string Human-readable explanation, or "Unknown key" if not found
+     */
+    static std::string get_runtime_txt_key_info(std::string_view key);
+
+    /**
+     * @brief Get all known runtime_txt key explanations
+     *
+     * @return const std::map<std::string, std::string>& Map of keys to their explanations
+     */
+    static const std::map<std::string, std::string>& get_runtime_txt_key_infos();
 
     // ----- operators -----
     bool operator==(const IOpRuntime& other) const = default;

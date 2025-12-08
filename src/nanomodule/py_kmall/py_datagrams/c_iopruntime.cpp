@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/map.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/string_view.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
@@ -58,6 +60,22 @@ void init_c_iopruntime(nanobind::module_& m)
         .def("get_bytes_datagram_check",
              &IOpRuntime::get_bytes_datagram_check,
              DOC_IOpRuntime(get_bytes_datagram_check))
+
+        // --- processed data access ---
+        .def("get_runtime_txt_decoded",
+             &IOpRuntime::get_runtime_txt_decoded,
+             DOC_IOpRuntime(get_runtime_txt_decoded))
+        .def_static("decode_runtime_txt",
+                    &IOpRuntime::decode_runtime_txt,
+                    DOC_IOpRuntime(decode_runtime_txt),
+                    nb::arg("runtime_txt"))
+        .def_static("get_runtime_txt_key_info",
+                    &IOpRuntime::get_runtime_txt_key_info,
+                    DOC_IOpRuntime(get_runtime_txt_key_info),
+                    nb::arg("key"))
+        .def_static("get_runtime_txt_key_infos",
+                    &IOpRuntime::get_runtime_txt_key_infos,
+                    DOC_IOpRuntime(get_runtime_txt_key_infos))
 
         // ----- operators -----
         .def("__eq__",
