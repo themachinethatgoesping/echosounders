@@ -22,10 +22,10 @@ namespace py_filetemplates {
 namespace py_datatypes {
 namespace py_i_pingwatercolumn {
 
-#define DOC_I_PingWatercolumn(ARG)                                                                \
+#define DOC_I_PingWatercolumn(ARG)                                                                 \
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
 
-namespace pingtools = themachinethatgoesping::echosounders::pingtools;
+namespace pingtools   = themachinethatgoesping::echosounders::pingtools;
 namespace calibration = themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -85,14 +85,16 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
             nb::overload_cast<>(&T_BaseClass::get_beam_crosstrack_angles),
             DOC_I_PingWatercolumn(get_beam_crosstrack_angles));
     cls.def("get_beam_crosstrack_angles",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_beam_crosstrack_angles),
+            nb::overload_cast<const pingtools::BeamSelection&>(
+                &T_BaseClass::get_beam_crosstrack_angles),
             DOC_I_PingWatercolumn(get_beam_crosstrack_angles),
             nb::arg("beam_selection"));
     cls.def("get_beam_alongtrack_angles",
             nb::overload_cast<>(&T_BaseClass::get_beam_alongtrack_angles),
             DOC_I_PingWatercolumn(get_beam_alongtrack_angles));
     cls.def("get_beam_alongtrack_angles",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_beam_alongtrack_angles),
+            nb::overload_cast<const pingtools::BeamSelection&>(
+                &T_BaseClass::get_beam_alongtrack_angles),
             DOC_I_PingWatercolumn(get_beam_alongtrack_angles),
             nb::arg("beam_selection"));
 
@@ -107,22 +109,25 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
             nb::overload_cast<>(&T_BaseClass::get_number_of_samples_per_beam),
             DOC_I_PingWatercolumn(get_number_of_samples_per_beam));
     cls.def("get_number_of_samples_per_beam",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_number_of_samples_per_beam),
+            nb::overload_cast<const pingtools::BeamSelection&>(
+                &T_BaseClass::get_number_of_samples_per_beam),
             DOC_I_PingWatercolumn(get_number_of_samples_per_beam_2),
             nb::arg("beam_selection"));
 
     cls.def("get_tx_sector_per_beam",
             nb::overload_cast<>(&T_BaseClass::get_tx_sector_per_beam),
             DOC_I_PingWatercolumn(get_tx_sector_per_beam));
-    cls.def("get_tx_sector_per_beam",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_tx_sector_per_beam),
-            DOC_I_PingWatercolumn(get_tx_sector_per_beam_2),
-            nb::arg("beam_selection"));
+    cls.def(
+        "get_tx_sector_per_beam",
+        nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_tx_sector_per_beam),
+        DOC_I_PingWatercolumn(get_tx_sector_per_beam_2),
+        nb::arg("beam_selection"));
     cls.def("get_beam_numbers_per_tx_sector",
             nb::overload_cast<>(&T_BaseClass::get_beam_numbers_per_tx_sector),
             DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector));
     cls.def("get_beam_numbers_per_tx_sector",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_beam_numbers_per_tx_sector),
+            nb::overload_cast<const pingtools::BeamSelection&>(
+                &T_BaseClass::get_beam_numbers_per_tx_sector),
             DOC_I_PingWatercolumn(get_beam_numbers_per_tx_sector),
             nb::arg("beam_selection"));
 
@@ -130,7 +135,8 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
             nb::overload_cast<>(&T_BaseClass::get_approximate_ranges),
             DOC_I_PingWatercolumn(get_approximate_ranges));
     cls.def("get_approximate_ranges",
-            nb::overload_cast<const pingtools::BeamSampleSelection&>(&T_BaseClass::get_approximate_ranges),
+            nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                &T_BaseClass::get_approximate_ranges),
             DOC_I_PingWatercolumn(get_approximate_ranges),
             nb::arg("beam_sample_selection"));
 
@@ -182,11 +188,12 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
             nb::overload_cast<int>(&T_BaseClass::get_amplitudes),
             DOC_I_PingWatercolumn(get_amplitudes),
             nb::arg("mp_cores") = 1);
-    cls.def("get_amplitudes",
-            nb::overload_cast<const pingtools::BeamSampleSelection&, int>(&T_BaseClass::get_amplitudes),
-            DOC_I_PingWatercolumn(get_amplitudes),
-            nb::arg("beam_selection"),
-            nb::arg("mp_cores") = 1);
+    cls.def(
+        "get_amplitudes",
+        nb::overload_cast<const pingtools::BeamSampleSelection&, int>(&T_BaseClass::get_amplitudes),
+        DOC_I_PingWatercolumn(get_amplitudes),
+        nb::arg("beam_selection"),
+        nb::arg("mp_cores") = 1);
 
     cls.def("get_rp",
             nb::overload_cast<int>(&T_BaseClass::get_rp),
@@ -284,18 +291,20 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
     cls.def("get_bottom_range_samples",
             nb::overload_cast<>(&T_BaseClass::get_bottom_range_samples),
             DOC_I_PingWatercolumn(get_bottom_range_samples));
-    cls.def("get_bottom_range_samples",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_bottom_range_samples),
-            DOC_I_PingWatercolumn(get_bottom_range_samples),
-            nb::arg("beam_selection"));
+    cls.def(
+        "get_bottom_range_samples",
+        nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_bottom_range_samples),
+        DOC_I_PingWatercolumn(get_bottom_range_samples),
+        nb::arg("beam_selection"));
 
     cls.def("get_minslant_sample_nr",
             nb::overload_cast<>(&T_BaseClass::get_minslant_sample_nr),
             DOC_I_PingWatercolumn(get_minslant_sample_nr));
-    cls.def("get_minslant_sample_nr",
-            nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_minslant_sample_nr),
-            DOC_I_PingWatercolumn(get_minslant_sample_nr),
-            nb::arg("beam_selection"));
+    cls.def(
+        "get_minslant_sample_nr",
+        nb::overload_cast<const pingtools::BeamSelection&>(&T_BaseClass::get_minslant_sample_nr),
+        DOC_I_PingWatercolumn(get_minslant_sample_nr),
+        nb::arg("beam_selection"));
 
     cls.def_prop_rw("_test_mode",
                     &T_BaseClass::get_test_mode,
@@ -305,35 +314,55 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
     // --- get_wci_correction functions ---
     using calibration::o_calibration_type;
     using calibration::t_calibration_type;
-    cls.def("get_wci_correction",
-            nb::overload_cast<const o_calibration_type, const o_calibration_type, int>(
-                &T_BaseClass::get_wci_correction),
-            DOC_I_PingWatercolumn(get_wci_correction),
-            nb::arg("calibration_type"),
-            nb::arg("calibration_base") = t_calibration_type::power,
-            nb::arg("mp_cores") = 1);
-    cls.def("get_wci_correction",
-            nb::overload_cast<const pingtools::BeamSampleSelection&, const o_calibration_type, const o_calibration_type, int>(
-                &T_BaseClass::get_wci_correction),
-            DOC_I_PingWatercolumn(get_wci_correction),
-            nb::arg("beam_sample_selection"),
-            nb::arg("calibration_type"),
-            nb::arg("calibration_base") = t_calibration_type::power,
-            nb::arg("mp_cores") = 1);
+    cls.def(
+        "get_wci_correction",
+        [](T_BaseClass&             self,
+           const o_calibration_type calibration_type,
+           const o_calibration_type calibration_base,
+           int                      mp_cores) {
+            return self.get_wci_correction(calibration_type, calibration_base, mp_cores);
+        },
+        DOC_I_PingWatercolumn(get_wci_correction),
+        nb::arg("calibration_type"),
+        nb::arg("calibration_base") = t_calibration_type::power,
+        nb::arg("mp_cores")         = 1);
+    cls.def(
+        "get_wci_correction",
+        [](T_BaseClass&                          self,
+           const pingtools::BeamSampleSelection& beam_sample_selection,
+           const o_calibration_type              calibration_type,
+           const o_calibration_type              calibration_base,
+           int                                   mp_cores) {
+            return self.get_wci_correction(
+                beam_sample_selection, calibration_type, calibration_base, mp_cores);
+        },
+        DOC_I_PingWatercolumn(get_wci_correction),
+        nb::arg("beam_sample_selection"),
+        nb::arg("calibration_type"),
+        nb::arg("calibration_base") = t_calibration_type::power,
+        nb::arg("mp_cores")         = 1);
 
     // --- get_wci functions ---
-    cls.def("get_wci",
-            nb::overload_cast<const o_calibration_type, int>(&T_BaseClass::get_wci),
-            DOC_I_PingWatercolumn(get_wci),
-            nb::arg("calibration_type"),
-            nb::arg("mp_cores") = 1);
-    cls.def("get_wci",
-            nb::overload_cast<const pingtools::BeamSampleSelection&, const o_calibration_type, int>(
-                &T_BaseClass::get_wci),
-            DOC_I_PingWatercolumn(get_wci),
-            nb::arg("beam_sample_selection"),
-            nb::arg("calibration_type"),
-            nb::arg("mp_cores") = 1);
+    cls.def(
+        "get_wci",
+        [](T_BaseClass& self, const o_calibration_type calibration_type, int mp_cores) {
+            return self.get_wci(calibration_type, mp_cores);
+        },
+        DOC_I_PingWatercolumn(get_wci),
+        nb::arg("calibration_type"),
+        nb::arg("mp_cores") = 1);
+    cls.def(
+        "get_wci",
+        [](T_BaseClass&                          self,
+           const pingtools::BeamSampleSelection& beam_sample_selection,
+           const o_calibration_type              calibration_type,
+           int                                   mp_cores) {
+            return self.get_wci(beam_sample_selection, calibration_type, mp_cores);
+        },
+        DOC_I_PingWatercolumn(get_wci),
+        nb::arg("beam_sample_selection"),
+        nb::arg("calibration_type"),
+        nb::arg("mp_cores") = 1);
 }
 
 }

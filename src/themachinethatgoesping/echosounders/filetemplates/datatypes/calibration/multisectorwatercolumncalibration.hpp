@@ -168,7 +168,7 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
   public:
     size_t get_number_of_sectors() const override { return _calibration_per_sector.size(); }
     bool   initialized() const override { return !_calibration_per_sector.empty(); }
-    const t_calibration& calibration_for_sector(size_t sector) const
+    const t_calibration& calibration_for_sector(size_t sector) const override
     {
         if (sector >= get_number_of_sectors())
         {
@@ -177,7 +177,7 @@ class T_MultiSectorCalibration : public I_MultiSectorCalibration
         }
         return _calibration_per_sector[sector];
     }
-    t_calibration& calibration_for_sector(size_t sector)
+    t_calibration& calibration_for_sector(size_t sector) override
     {
         if (sector >= get_number_of_sectors())
         {
