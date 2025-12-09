@@ -113,7 +113,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
      * This function is automatically called by get_runtime_parameters
      *
      */
-    void init_runtime_parameters()
+void init_runtime_parameters()
     {
         // read installation parameters to get the system configuration system serial number(s)
         auto installation_parameters = this->read_installation_parameters();

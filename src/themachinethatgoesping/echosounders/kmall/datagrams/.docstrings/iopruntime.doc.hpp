@@ -1,4 +1,4 @@
-//sourcehash: 6dacd67e24d1ede37be234205ee98b6b1f22c14bc905caa970a03e1401a88787
+//sourcehash: de6442df41e4bb9ff57f6e8850cb4bf56fdcea9a3ccc2875650b337d1aff60ea
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -103,6 +103,13 @@ Returns:
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_get_status = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_hash_content_only =
+R"doc(Hash the content of the IOpRuntime datagram (excluding header
+timestamp)
+
+Returns:
+    xxh::hash_t<64> 64-bit hash value)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_info = R"doc(< Information. For future use.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_operator_eq = R"doc()doc";
@@ -120,6 +127,17 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOp
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_status = R"doc(< Status. For future use.)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_IOpRuntime_to_stream = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_datagrams_hash_value =
+R"doc(Provide a boost hash function for IOpRuntime - Note: this is needed to
+use IOpRuntime as boost::flyweight - IMPORTANT: this hash function
+only uses the content of the IOpRuntime for hashing (not information
+from header e.g. timestamp, etc.)
+
+Parameter ``data``:
+    $Returns:
+
+std::size_t)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

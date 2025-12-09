@@ -18,6 +18,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <xxhash.hpp>
 
 #include "../types.hpp"
 #include "kmalldatagram.hpp"
@@ -112,6 +113,14 @@ class IOpRuntime : public KMALLDatagram
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const;
 
+    // ----- hash function -----
+    /**
+     * @brief Hash the content of the IOpRuntime datagram (excluding header timestamp)
+     *
+     * @return xxh::hash_t<64> 64-bit hash value
+     */
+    xxh::hash_t<64> hash_content_only() const;
+
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(IOpRuntime)
@@ -123,6 +132,18 @@ class IOpRuntime : public KMALLDatagram
     }
     void __read__(std::istream& is);
 };
+
+/**
+ * @brief Provide a boost hash function for IOpRuntime
+ * - Note: this is needed to use IOpRuntime as boost::flyweight
+ * - IMPORTANT: this hash function only uses the content of the IOpRuntime for hashing
+ * (not information from header e.g. timestamp, etc.)
+ *
+ * @param data
+ * @return std::size_t
+ */
+// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_kmall_hash_value
+size_t hash_value(const IOpRuntime& data);
 
 } // namespace datagrams
 } // namespace kmall

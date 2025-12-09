@@ -9,8 +9,12 @@
 /* generated doc strings */
 #include ".docstrings/kmallconfigurationdatainterfaceperfile.doc.hpp"
 
+/* library includes */
+#include <boost/flyweight.hpp>
+
 /* std includes */
 #include <fstream>
+#include <map>
 #include <unordered_map>
 #include <vector>
 
@@ -41,6 +45,10 @@ class KMALLConfigurationDataInterfacePerFile
 
     uint8_t _active_position_system_number = 0;
     uint8_t _active_attitude_sensor_number = 0;
+
+    bool _runtime_parameters_initialized = false;
+    std::map<int, std::vector<boost::flyweight<datagrams::IOpRuntime>>>
+        _runtime_parameters_by_pu_serial_number;
 
   public:
     KMALLConfigurationDataInterfacePerFile()
@@ -76,6 +84,99 @@ class KMALLConfigurationDataInterfacePerFile
     void set_active_attitude_sensor_number(uint8_t number)
     {
         _active_attitude_sensor_number = number;
+    }
+
+    // ----- runtime parameters -----
+    /**
+     * @brief Read the runtime parameters from the file and save them in the internal map
+     * This function is automatically called by get_runtime_parameters
+     *
+     */
+    void init_runtime_parameters()
+    {
+        // read installation parameters to get the PU serial number
+        auto installation_parameters = this->read_installation_parameters();
+        int  pu_serial_number        = installation_parameters.get_pu_serial_number();
+
+        // iterate over all I_OP_RUNTIME datagrams
+        if (this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::I_OP_RUNTIME))
+        {
+            for (const auto& datagram_ptr :
+                 this->_datagram_infos_by_type[t_KMALLDatagramIdentifier::I_OP_RUNTIME])
+            {
+                _runtime_parameters_by_pu_serial_number[pu_serial_number].emplace_back(
+                    datagram_ptr->template read_datagram_from_file<datagrams::IOpRuntime>());
+            }
+        }
+
+        // Throw an error if no runtime parameters were found
+        if (!_runtime_parameters_by_pu_serial_number.contains(pu_serial_number) ||
+            _runtime_parameters_by_pu_serial_number[pu_serial_number].empty())
+            throw std::runtime_error(
+                fmt::format("init_runtime_parameters: No runtime parameters found for PU serial "
+                            "number '{}' in file nr {} [{}]!",
+                            pu_serial_number,
+                            this->get_file_nr(),
+                            this->get_file_path()));
+
+        _runtime_parameters_initialized = true;
+    }
+
+    /**
+     * @brief Get the runtime parameters for a specific ping
+     *
+     * This function searches for the runtime parameters that were active at the given ping time.
+     * It uses last_index as an optimization to avoid searching from the beginning each time.
+     *
+     * @param pu_serial_number The PU serial number to search for
+     * @param ping_time The timestamp of the ping
+     * @param last_index Shared pointer to the last index used for optimization (will be updated)
+     * @return boost::flyweight<datagrams::IOpRuntime> The runtime parameters for the ping
+     */
+    boost::flyweight<datagrams::IOpRuntime> get_runtime_parameters(
+        int                     pu_serial_number,
+        double                  ping_time,
+        std::shared_ptr<size_t> last_index = std::make_shared<size_t>(0))
+    {
+        if (!_runtime_parameters_initialized)
+            this->init_runtime_parameters();
+
+        // catch uninitialized last_index pointer
+        if (!last_index)
+            last_index = std::make_shared<size_t>(0);
+
+        auto& runtime_parameter_vector =
+            _runtime_parameters_by_pu_serial_number[pu_serial_number];
+
+        if (runtime_parameter_vector.empty())
+            throw std::runtime_error(
+                fmt::format("get_runtime_parameters: No runtime parameters found for PU serial "
+                            "number '{}' at time {}",
+                            pu_serial_number,
+                            ping_time));
+
+        if (*last_index >= runtime_parameter_vector.size())
+            throw std::runtime_error(
+                fmt::format("get_runtime_parameters: last_index '{}' is out of bounds for PU "
+                            "serial number '{}' at time {}",
+                            *last_index,
+                            pu_serial_number,
+                            ping_time));
+
+        size_t i = *last_index;
+        // search for time
+        for (; i < runtime_parameter_vector.size() - 1; ++i)
+        {
+            double rt_next_time = runtime_parameter_vector[i + 1].get().get_timestamp();
+
+            if (rt_next_time > ping_time)
+                break;
+        }
+
+        *last_index = i;
+
+        // return the runtime parameter
+        return runtime_parameter_vector[i];
     }
 
     // ----- interface methods -----
@@ -247,6 +348,9 @@ class KMALLConfigurationDataInterfacePerFile
         printer.register_section("KMALLConfigurationDataInterfacePerFile");
         printer.register_value("_active_position_system_number", _active_position_system_number);
         printer.register_value("_active_attitude_sensor_number", _active_attitude_sensor_number);
+        printer.register_value("_runtime_parameters_initialized", _runtime_parameters_initialized);
+        printer.register_value("Number of PU serial numbers with runtime parameters",
+                               _runtime_parameters_by_pu_serial_number.size());
 
         return printer;
     }

@@ -268,17 +268,17 @@ class KMALLFileHandler
     void init_interfaces([[maybe_unused]] bool                                force,
                          [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar) final
     {
-        // auto number_of_primary_files = _configuration_interface->per_primary_file().size();
-        // progress_bar.init(
-        //     0., number_of_primary_files * 1 + 5, fmt::format("Initializing file interfaces"));
+        auto number_of_primary_files = _datagramdata_interface->per_primary_file().size();
+        progress_bar.init(
+            0., number_of_primary_files * 1 + 5, fmt::format("Initializing file interfaces"));
 
-        // progress_bar.set_prefix("Initializing datagramdata interface");
-        // _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
+        progress_bar.set_prefix("Initializing datagramdata interface");
+        _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
 
-        // progress_bar.set_prefix("Initializing configuration");
-        // _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
+        progress_bar.set_prefix("Initializing configuration");
+        _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
 
         // progress_bar.set_prefix("Initializing navigation");
         // _navigation_interface->init_from_file(

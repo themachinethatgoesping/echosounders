@@ -63,67 +63,44 @@ void py_create_class_KMALLConfigurationDataInterfacePerFile(nanobind::module_& m
                 filedatainterfaces,
                 KMALLConfigurationDataInterfacePerFile))
 
-            // .def("read_installation_parameters",
-            //      &T_BaseClass::read_installation_parameters,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(read_installation_parameters))
+            .def("read_installation_parameters",
+                 &T_BaseClass::read_installation_parameters,
+                 DOC_KMALLConfigurationDataInterfacePerFile(read_installation_parameters))
 
-            // // ----- runtime parameters -----
-            // .def("init_runtime_parameters",
-            //      &T_BaseClass::init_runtime_parameters,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(init_runtime_parameters))
-            // .def(
-            //     "get_runtime_parameters",
-            //     [](T_BaseClass& self,
-            //        uint16_t     system_serial_number,
-            //        size_t       ping_counter,
-            //        double       ping_time,
-            //        size_t       last_index) {
-            //         return self
-            //             .get_runtime_parameters(system_serial_number,
-            //                                    ping_counter,
-            //                                    ping_time,
-            //                                    std::make_shared<size_t>(last_index))
-            //             .get();
-            //     },
-            //     DOC_KMALLConfigurationDataInterfacePerFile(get_runtime_parameters),
-            //     nb::arg("system_serial_number"),
-            //     nb::arg("ping_counter"),
-            //     nb::arg("ping_time"),
-            //     nb::arg("last_index") = 0)
+            // ----- runtime parameters -----
+            .def("init_runtime_parameters",
+                 &T_BaseClass::init_runtime_parameters,
+                 DOC_KMALLConfigurationDataInterfacePerFile(init_runtime_parameters))
+            .def(
+                "get_runtime_parameters",
+                [](T_BaseClass& self, int pu_serial_number, double ping_time, size_t last_index) {
+                    return self
+                        .get_runtime_parameters(
+                            pu_serial_number, ping_time, std::make_shared<size_t>(last_index))
+                        .get();
+                },
+                DOC_KMALLConfigurationDataInterfacePerFile(get_runtime_parameters),
+                nb::arg("pu_serial_number"),
+                nb::arg("ping_time"),
+                nb::arg("last_index") = 0)
 
-            // // ----- getters -----
-            // .def("get_active_position_system_number",
-            //      &T_BaseClass::get_active_position_system_number,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(
-            //          get_active_position_system_number))
-            // .def("get_active_pitch_roll_sensor",
-            //      &T_BaseClass::get_active_pitch_roll_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(get_active_pitch_roll_sensor))
-            // .def("get_active_heave_sensor",
-            //      &T_BaseClass::get_active_heave_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(get_active_heave_sensor))
-            // .def("get_active_heading_sensor",
-            //      &T_BaseClass::get_active_heading_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(get_active_heading_sensor))
+            // ----- getters -----
+            .def("get_active_position_system_number",
+                 &T_BaseClass::get_active_position_system_number,
+                 DOC_KMALLConfigurationDataInterfacePerFile(get_active_position_system_number))
+            .def("get_active_attitude_sensor_number",
+                 &T_BaseClass::get_active_attitude_sensor_number,
+                 DOC_KMALLConfigurationDataInterfacePerFile(get_active_attitude_sensor_number))
 
-            // // ----- setters -----
-            // .def("set_active_position_system_number",
-            //      &T_BaseClass::set_active_position_system_number,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(
-            //          set_active_position_system_number),
-            //      nb::arg("number"))
-            // .def("set_active_pitch_roll_sensor",
-            //      &T_BaseClass::set_active_pitch_roll_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(set_active_pitch_roll_sensor),
-            //      nb::arg("sensor"))
-            // .def("set_active_heave_sensor",
-            //      &T_BaseClass::set_active_heave_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(set_active_heave_sensor),
-            //      nb::arg("sensor"))
-            // .def("set_active_heading_sensor",
-            //      &T_BaseClass::set_active_heading_sensor,
-            //      DOC_KMALLConfigurationDataInterfacePerFile(set_active_heading_sensor),
-            //      nb::arg("sensor"))
+            // ----- setters -----
+            .def("set_active_position_system_number",
+                 &T_BaseClass::set_active_position_system_number,
+                 DOC_KMALLConfigurationDataInterfacePerFile(set_active_position_system_number),
+                 nb::arg("number"))
+            .def("set_active_attitude_sensor_number",
+                 &T_BaseClass::set_active_attitude_sensor_number,
+                 DOC_KMALLConfigurationDataInterfacePerFile(set_active_attitude_sensor_number),
+                 nb::arg("number"))
 
         ;
 

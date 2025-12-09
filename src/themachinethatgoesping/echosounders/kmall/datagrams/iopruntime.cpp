@@ -363,6 +363,29 @@ tools::classhelper::ObjectPrinter IOpRuntime::__printer__(unsigned int float_pre
     return printer;
 }
 
+// ----- hash function -----
+
+xxh::hash_t<64> IOpRuntime::hash_content_only() const
+{
+    // Hash the content of the runtime parameters (runtime_txt)
+    // This is used for deduplication in boost::flyweight
+    xxh::hash_state_t<64> hash;
+
+    // Hash the info and status fields
+    hash.update(&_info, sizeof(_info));
+    hash.update(&_status, sizeof(_status));
+
+    // Hash the runtime_txt content
+    hash.update(_runtime_txt.data(), _runtime_txt.size());
+
+    return hash.digest();
+}
+
+size_t hash_value(const IOpRuntime& data)
+{
+    return data.hash_content_only();
+}
+
 } // namespace datagrams
 } // namespace kmall
 } // namespace echosounders

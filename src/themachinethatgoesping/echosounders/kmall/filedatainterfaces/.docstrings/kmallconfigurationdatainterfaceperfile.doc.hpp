@@ -1,4 +1,4 @@
-//sourcehash: f87bd95d2fd70a6b6701b54afcde962e4b5f6bc49185fd866afe8564bf059348
+//sourcehash: 30ecc977a9812b9bc071a8409615f00b0cba4e50c02e8abd1206bc457863a5fe
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,32 @@ static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainter
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_active_position_system_number = R"doc()doc";
 
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_runtime_parameters =
+R"doc(Get the runtime parameters for a specific ping
+
+This function searches for the runtime parameters that were active at
+the given ping time. It uses last_index as an optimization to avoid
+searching from the beginning each time.
+
+Parameter ``pu_serial_number``:
+    The PU serial number to search for
+
+Parameter ``ping_time``:
+    The timestamp of the ping
+
+Parameter ``last_index``:
+    Shared pointer to the last index used for optimization (will be
+    updated)
+
+Returns:
+    boost::flyweight<datagrams::IOpRuntime> The runtime parameters for
+    the ping)doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_init_runtime_parameters =
+R"doc(Read the runtime parameters from the file and save them in the
+internal map This function is automatically called by
+get_runtime_parameters)doc";
+
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_installation_parameters =
@@ -59,6 +85,10 @@ Returns:
     datagrams::IInstallationParam)doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_by_pu_serial_number = R"doc()doc";
+
+static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
 
 static const char *__doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_set_active_attitude_sensor_number =
 R"doc(Set the active attitude sensor number 0: this will be overwritten by
