@@ -104,7 +104,7 @@ class TransceiverInformation
  * @return std::size_t
  */
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_sub_hash_value
 inline size_t hash_value(const TransceiverInformation& data)
 {
     return data.binary_hash();

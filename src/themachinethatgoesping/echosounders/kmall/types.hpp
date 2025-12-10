@@ -168,7 +168,7 @@ inline uint32_t KMALLDatagram_type_from_string(std::string_view value)
 
 // ----- interface utility functions -----
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 /**
  * @brief Convert datagram identifier enum to string.
  * @param value Datagram identifier.
@@ -179,7 +179,7 @@ inline std::string datagram_identifier_to_string(kmall::t_KMALLDatagramIdentifie
     return tools::helper::int_as_string<uint32_t>(uint32_t(value));
 }
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
 /**
  * @brief Convert vector of datagram identifiers to vector of strings.
  * @param values Vector of identifiers.
@@ -188,7 +188,7 @@ inline std::string datagram_identifier_to_string(kmall::t_KMALLDatagramIdentifie
 std::vector<std::string> datagram_identifiers_to_string(
     const std::vector<kmall::t_KMALLDatagramIdentifier>& values);
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string2
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string2
 /**
  * @brief Convert set of datagram identifiers to vector of strings.
  * @param values Set of identifiers.
@@ -202,7 +202,7 @@ std::vector<std::string> datagram_identifiers_to_string(
  * @param datagram_type Datagram identifier.
  * @return Human-readable description.
  */
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_type);
 
 }

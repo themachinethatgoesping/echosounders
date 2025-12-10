@@ -513,7 +513,7 @@ class RuntimeParameters : public KongsbergAllDatagram
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_pingtools_hash_value
 size_t hash_value(const RuntimeParameters& data);
 
 } // namespace datagrams

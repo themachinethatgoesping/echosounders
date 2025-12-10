@@ -63,7 +63,7 @@ struct HashCacheKey
     bool operator==(const HashCacheKey& other) const { return (hash == other.hash); }
 };
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_hash_value
 /**
  * @brief Boost hash function
  *

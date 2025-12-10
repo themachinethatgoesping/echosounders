@@ -21,7 +21,7 @@ std::vector<std::string> datagram_identifiers_to_string(
     return result;
 }
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_identifier)
 {
     // this should work, but doesn't

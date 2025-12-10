@@ -52,46 +52,23 @@ void py_create_class_KMALLNavigationDataInterfacePerFile(nanobind::module_& m,
     auto cls = nb::class_<T_BaseClass>(
         m,
         CLASS_NAME.c_str(),
-        DOC(themachinethatgoesping,
-            echosounders,
-            kmall,
-            filedatainterfaces,
-            KMALLNavigationDataInterfacePerFile))
+        mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile)
 
-        //    .def("set_min_gga_quality",
-        //         &T_BaseClass::set_min_gga_quality,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             kmall,
-        //             filedatainterfaces,
-        //             KMALLNavigationDataInterfacePerFile,
-        //             set_min_gga_quality),
-        //         nb::arg("min_gga_quality"))
-        //    .def("set_max_gga_quality",
-        //         &T_BaseClass::set_max_gga_quality,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             kmall,
-        //             filedatainterfaces,
-        //             KMALLNavigationDataInterfacePerFile,
-        //             set_max_gga_quality),
-        //         nb::arg("max_gga_quality"))
-        //    .def("get_min_gga_quality",
-        //         &T_BaseClass::get_min_gga_quality,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             kmall,
-        //             filedatainterfaces,
-        //             KMALLNavigationDataInterfacePerFile,
-        //             get_min_gga_quality))
-        //    .def("get_max_gga_quality",
-        //         &T_BaseClass::get_max_gga_quality,
-        //         DOC(themachinethatgoesping,
-        //             echosounders,
-        //             kmall,
-        //             filedatainterfaces,
-        //             KMALLNavigationDataInterfacePerFile,
-        //             get_max_gga_quality))
+        // ----- datagram preference settings -----
+        .def("get_prefer_spo_over_cpo",
+             &T_BaseClass::get_prefer_spo_over_cpo,
+             mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_get_prefer_spo_over_cpo)
+        .def("set_prefer_spo_over_cpo",
+             &T_BaseClass::set_prefer_spo_over_cpo,
+             mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_set_prefer_spo_over_cpo,
+             nb::arg("prefer"))
+        .def("get_prefer_skm_over_che",
+             &T_BaseClass::get_prefer_skm_over_che,
+             mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_get_prefer_skm_over_che)
+        .def("set_prefer_skm_over_che",
+             &T_BaseClass::set_prefer_skm_over_che,
+             mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_set_prefer_skm_over_che,
+             nb::arg("prefer"))
 
         //
         ;

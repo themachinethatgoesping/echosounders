@@ -43,7 +43,7 @@ class KMALLDatagramInterface
 
     /* virtual function implementations */
     // void print_fileinfo(std::ostream& os) const;
-    //IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+    //IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
     std::string datagram_identifier_to_string(
         t_KMALLDatagramIdentifier datagram_identifier) const final
     {
@@ -61,7 +61,7 @@ class KMALLDatagramInterface
         return result;
     }
 
-    //IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+    //IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
     std::string datagram_identifier_info(t_KMALLDatagramIdentifier datagram_identifier) const final
     {
         // this should work, but doesn't

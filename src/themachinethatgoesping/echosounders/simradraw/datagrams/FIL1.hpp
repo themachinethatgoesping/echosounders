@@ -94,7 +94,7 @@ class FIL1 : public SimradRawDatagram
 };
 
 // Boost hash function
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_simradraw_datagrams_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_hash_value
 std::size_t hash_value(const FIL1& object);
 
 }

@@ -216,7 +216,7 @@ class BeamSampleSelection : public BeamSelection
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_pingtools_hash_value
 inline size_t hash_value(const BeamSampleSelection& data)
 {
     return data.binary_hash();

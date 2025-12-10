@@ -103,7 +103,7 @@ inline simradraw_long SimradRawDatagram_type_from_string(std::string_view value)
 
 // ----- interface utility functions -----
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 /**
  * @brief Convert datagram identifier enum to string.
  * @param value Datagram identifier.

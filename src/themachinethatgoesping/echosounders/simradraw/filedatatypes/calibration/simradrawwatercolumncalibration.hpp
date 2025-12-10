@@ -309,7 +309,7 @@ class SimradRawWaterColumnCalibration
 };
 
 // boost hash
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
 inline std::size_t hash_value(const SimradRawWaterColumnCalibration& arg)
 {
     return arg.binary_hash();

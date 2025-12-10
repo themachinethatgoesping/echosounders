@@ -36,6 +36,9 @@ class KMALLNavigationDataInterfacePerFile
     using t_base = filetemplates::datainterfaces::I_NavigationDataInterfacePerFile<
         KMALLConfigurationDataInterface<t_ifstream>>;
 
+    bool _prefer_spo_over_cpo = true; ///< Prefer S_POSITION over C_POSITION
+    bool _prefer_skm_over_che = true; ///< Prefer S_KM_BINARY over C_HEAVE for heave
+
   public:
     KMALLNavigationDataInterfacePerFile()
         : t_base("KMALLNavigationDataInterfacePerFile")
@@ -48,146 +51,104 @@ class KMALLNavigationDataInterfacePerFile
     }
     ~KMALLNavigationDataInterfacePerFile() = default;
 
-    // navigation::NavigationInterpolatorLatLon read_navigation_data() const final
-    // {
-    // navigation::NavigationInterpolatorLatLon navi(
-    //     this->configuration_data_interface_const().get_sensor_configuration(
-    //         this->get_file_nr()));
+    // ----- getters/setters for datagram preference -----
+    /**
+     * @brief Get whether S_POSITION is preferred over C_POSITION
+     * @return true if S_POSITION is preferred (default)
+     */
+    bool get_prefer_spo_over_cpo() const { return _prefer_spo_over_cpo; }
 
-    // const auto& config =
-    //     this->configuration_data_interface_const().per_file_const(this->get_file_nr());
+    /**
+     * @brief Get whether S_KM_BINARY is preferred over C_HEAVE for heave data
+     * @return true if S_KM_BINARY is preferred (default)
+     */
+    bool get_prefer_skm_over_che() const { return _prefer_skm_over_che; }
 
-    // /* ----- scan through position datagrams ----- */
-    // std::vector<double> headings_pos, latitudes, longitudes, qualities;
-    // std::vector<double> times_pos;
-    // for (auto& packet : this->_datagram_infos_by_type.at_const(
-    //          t_KMALLDatagramIdentifier::PositionDatagram))
-    // {
-    //     auto datagram = packet->template read_datagram_from_file<datagrams::PositionDatagram>();
+    /**
+     * @brief Set whether S_POSITION is preferred over C_POSITION
+     * @param prefer true to prefer S_POSITION (default), false to prefer C_POSITION
+     */
+    void set_prefer_spo_over_cpo(bool prefer) { _prefer_spo_over_cpo = prefer; }
 
-    //     double     timestamp     = datagram.get_timestamp();
-    //     const auto sensor_number = datagram.get_position_system_number();
+    /**
+     * @brief Set whether S_KM_BINARY is preferred over C_HEAVE for heave data
+     * @param prefer true to prefer S_KM_BINARY (default), false to prefer C_HEAVE
+     */
+    void set_prefer_skm_over_che(bool prefer) { _prefer_skm_over_che = prefer; }
 
-    //     // only use the position data if the correct position system is active
-    //     if (sensor_number != config.get_active_position_system_number())
-    //         continue;
+    navigation::NavigationInterpolatorLatLon read_navigation_data() const final
+    {
+        navigation::NavigationInterpolatorLatLon navi(
+            this->configuration_data_interface_const().get_sensor_configuration(
+                this->get_file_nr()));
 
-    //     if (!times_pos.empty())
-    //         if (!(times_pos.back() < timestamp))
-    //             throw std::runtime_error(fmt::format(
-    //                 "ERROR in file [{}]: {} "
-    //                 "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
-    //                 "timestamps are not strictly increasing. This is not supported yet.",
-    //                 this->get_file_nr(),
-    //                 this->get_file_path()));
+        const auto& config =
+            this->configuration_data_interface_const().per_file_const(this->get_file_nr());
 
-    //     times_pos.push_back(timestamp);
-    //     latitudes.push_back(datagram.get_latitude_in_degrees());
-    //     longitudes.push_back(datagram.get_longitude_in_degrees());
+        /* ----- scan through position datagrams ----- */
+        std::vector<double> latitudes, longitudes;
+        std::vector<double> times_pos;
 
-    //     headings_pos.push_back(datagram.get_heading_in_degrees());
-    //     qualities.push_back(datagram.get_position_fix_quality_in_meters());
-    // }
+        // Determine which position datagram to use based on preference and availability
+        bool use_spo = _prefer_spo_over_cpo;
+        bool has_spo =
+            this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::S_POSITION) &&
+            !this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_POSITION).empty();
+        bool has_cpo =
+            this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::C_POSITION) &&
+            !this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_POSITION).empty();
 
-    // /* ----- scan through depth/height datagrams ----- */
-    // // for now ignore depth datagrams
-    // // std::vector<double> depths;
-    // // std::vector<double> times_depth;
-    // // for (auto& packet : this->_datagram_infos_by_type.at_const(
-    // //          t_KMALLDatagramIdentifier::DepthOrHeightDatagram))
-    // // {
-    // //     auto datagram =
-    // //         packet->template read_datagram_from_file<datagrams::DepthOrHeightDatagram>();
+        if (use_spo && !has_spo && has_cpo)
+            use_spo = false;
+        if (!use_spo && !has_cpo && has_spo)
+            use_spo = true;
 
-    // //     double timestamp = datagram.get_timestamp();
+        if (use_spo && has_spo)
+        {
+            read_position_from_spo(times_pos, latitudes, longitudes, config);
+        }
+        else if (has_cpo)
+        {
+            read_position_from_cpo(times_pos, latitudes, longitudes, config);
+        }
 
-    // //     if (!times_depth.empty())
-    // //         if (!(times_depth.back() < timestamp))
-    // //             throw std::runtime_error(fmt::format(
-    // //                 "ERROR in file [{}]: {} "
-    // //                 "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
-    // //                 "timestamps are not strictly increasing. This is not supported yet.",
-    // //                 this->get_file_nr(),
-    // //                 this->get_file_path()));
+        /* ----- scan through attitude datagrams (S_KM_BINARY) ----- */
+        std::vector<float>  headings, pitchs, rolls;
+        std::vector<double> heaves;
+        std::vector<double> times_pitch_roll, times_heading, times_heave;
 
-    // //     times_depth.push_back(timestamp);
-    // //     depths.push_back(-datagram.get_height_in_meters());
-    // // }
+        // S_KM_BINARY provides all attitude data
+        if (this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::S_KM_BINARY))
+        {
+            read_attitude_from_skm(headings,
+                                   pitchs,
+                                   rolls,
+                                   heaves,
+                                   times_heading,
+                                   times_pitch_roll,
+                                   times_heave);
+        }
 
-    // /* ----- scan through attitude datagrams ----- */
-    // std::vector<float>  headings_attitudes, pitchs, rolls;
-    // std::vector<double> heaves;
-    // std::vector<double> times_pitch_roll, times_heading_attitude, times_heave;
+        // Optionally use C_HEAVE for heave if S_KM_BINARY heave not available or not preferred
+        if (!_prefer_skm_over_che || times_heave.empty())
+        {
+            if (this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::C_HEAVE))
+            {
+                // Only use C_HEAVE if we don't have heave data yet
+                if (times_heave.empty())
+                {
+                    read_heave_from_che(heaves, times_heave);
+                }
+            }
+        }
 
-    // this->add_attitudes<datagrams::AttitudeDatagram>(
-    //     t_KMALLDatagramIdentifier::AttitudeDatagram,
-    //     headings_attitudes,
-    //     pitchs,
-    //     rolls,
-    //     heaves,
-    //     times_heading_attitude,
-    //     times_pitch_roll,
-    //     times_heave);
+        navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
+        navi.set_data_heading(std::move(times_heading), std::move(headings));
+        navi.set_data_heave(std::move(times_heave), std::move(heaves));
+        navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
 
-    // this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
-    //     t_KMALLDatagramIdentifier::NetworkAttitudeVelocityDatagram,
-    //     headings_attitudes,
-    //     pitchs,
-    //     rolls,
-    //     heaves,
-    //     times_heading_attitude,
-    //     times_pitch_roll,
-    //     times_heave,
-    //     times_heading_attitude.empty(),
-    //     times_pitch_roll.empty(),
-    //     times_heave.empty());
-
-    // // if heading, pitchs or heaves are still not found, fall back to inactive sensors from
-    // // existing datagrams
-    // // TODO: this should generate a warning within a log file
-    // this->add_attitudes<datagrams::AttitudeDatagram>(
-    //     t_KMALLDatagramIdentifier::AttitudeDatagram,
-    //     headings_attitudes,
-    //     pitchs,
-    //     rolls,
-    //     heaves,
-    //     times_heading_attitude,
-    //     times_pitch_roll,
-    //     times_heave,
-    //     headings_attitudes.empty(),
-    //     pitchs.empty(),
-    //     heaves.empty(),
-    //     headings_attitudes.empty(),
-    //     pitchs.empty(),
-    //     heaves.empty());
-
-    // // if heading, pitchs or heaves are still not found, fall back to inactive sensors from
-    // // existing datagrams
-    // // TODO: this should generate a warning within a log file
-    // this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
-    //     t_KMALLDatagramIdentifier::NetworkAttitudeVelocityDatagram,
-    //     headings_attitudes,
-    //     pitchs,
-    //     rolls,
-    //     heaves,
-    //     times_heading_attitude,
-    //     times_pitch_roll,
-    //     times_heave,
-    //     headings_attitudes.empty(),
-    //     pitchs.empty(),
-    //     heaves.empty(),
-    //     headings_attitudes.empty(),
-    //     pitchs.empty(),
-    //     heaves.empty());
-
-    // navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
-    // navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
-    // navi.set_data_heave(std::move(times_heave), std::move(heaves));
-    // navi.set_data_position(std::move(times_pos), std::move(latitudes), std::move(longitudes));
-    // // navi.set_data_depth(std::move(times_depth), std::move(depths));
-
-    // return navi;
-    // }
+        return navi;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -196,135 +157,198 @@ class KMALLNavigationDataInterfacePerFile
         tools::classhelper::ObjectPrinter printer(
             this->class_name(), float_precision, superscript_exponents);
 
-        // printer.register_section("DatagramInterface");
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("KMALLNavigationDataInterfacePerFile");
+        printer.register_value("prefer_spo_over_cpo", _prefer_spo_over_cpo);
+        printer.register_value("prefer_skm_over_che", _prefer_skm_over_che);
 
         return printer;
     }
 
   private:
-    // /**
-    //  * @brief Internat function to check if a attitude timestamp is within the allowed time range
-    //  (>
-    //  * then previous attitude) If the timestamp is equal than the previous one, it is ignored
-    //  * (return false). If the timestamp is smaller than the previous one, an exception is thrown.
-    //  *
-    //  * @param times vector with previous packet time_stamps of this attitude type
-    //  * @param packet_timestamp packet timestamp to check
-    //  * @param attitude_name name of the attitude type (heading, pitch, roll, heave)
-    //  * @return true
-    //  * @return false
-    //  */
-    // bool packet_timestamp_in_range(const std::vector<double>& times,
-    //                                double                     packet_timestamp,
-    //                                std::string_view           attitude_name) const
-    // {
-    //     if (times.empty())
-    //         return true;
+    /**
+     * @brief Internal function to check if a timestamp is within the allowed time range
+     * If the timestamp is equal to the previous one, it is ignored (return false).
+     * If the timestamp is smaller than the previous one, an exception is thrown.
+     *
+     * @param times vector with previous timestamps
+     * @param packet_timestamp timestamp to check
+     * @param data_name name of the data type for error messages
+     * @return true if timestamp is valid and should be added
+     * @return false if timestamp should be ignored (duplicate)
+     */
+    bool packet_timestamp_in_range(const std::vector<double>& times,
+                                   double                     packet_timestamp,
+                                   std::string_view           data_name) const
+    {
+        if (times.empty())
+            return true;
 
-    //     // TODO: this silently ignores datagrams with the same timestamp as the previous one
-    //     (e.g.
-    //     // time distance < 1ms) This should generate a warning within a log file
-    //     if (times.back() == packet_timestamp)
-    //         return false;
+        // Silently ignore datagrams with the same timestamp as the previous one
+        if (times.back() == packet_timestamp)
+            return false;
 
-    //     if (times.back() > packet_timestamp)
-    //         throw std::runtime_error(
-    //             fmt::format("ERROR in file [{}]: {} "
-    //                         "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
-    //                         "{} datagrams are not in chronological order.",
-    //                         this->get_file_nr(),
-    //                         this->get_file_path(),
-    //                         attitude_name));
+        if (times.back() > packet_timestamp)
+            throw std::runtime_error(
+                fmt::format("ERROR in file [{}]: {} "
+                            "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
+                            "{} datagrams are not in chronological order.",
+                            this->get_file_nr(),
+                            this->get_file_path(),
+                            data_name));
 
-    //     return true;
-    // }
+        return true;
+    }
 
-    // template<typename t_attitude_datagram>
-    // void add_attitudes(t_KMALLDatagramIdentifier datagram_identifier,
-    //                    std::vector<float>&              headings_attitudes,
-    //                    std::vector<float>&              pitchs,
-    //                    std::vector<float>&              rolls,
-    //                    std::vector<double>&             heaves,
-    //                    std::vector<double>&             times_heading_attitude,
-    //                    std::vector<double>&             times_pitch_roll,
-    //                    std::vector<double>&             times_heave,
-    //                    bool                             look_for_heading_sensor        = true,
-    //                    bool                             look_for_roll_pitch_sensor     = true,
-    //                    bool                             look_for_heave_sensor          = true,
-    //                    bool                             use_inactive_heading_sensor    = false,
-    //                    bool                             use_inactive_roll_pitch_sensor = false,
-    //                    bool                             use_inactive_heave_sensor = false) const
-    // {
-    //     for (auto& packet : this->_datagram_infos_by_type.at_const(datagram_identifier))
-    //     {
-    //         auto datagram = packet->template read_datagram_from_file<t_attitude_datagram>();
+    /**
+     * @brief Read position data from S_POSITION datagrams
+     */
+    void read_position_from_spo(
+        std::vector<double>&                                                     times_pos,
+        std::vector<double>&                                                     latitudes,
+        std::vector<double>&                                                     longitudes,
+        const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
+    {
+        uint8_t active_pos_system = config.get_active_position_system_number();
 
-    //         bool use_heading_sensor =
-    //             (datagram.get_heading_sensor_is_active() || use_inactive_heading_sensor) &&
-    //             look_for_heading_sensor;
-    //         bool use_roll_sensor =
-    //             (datagram.get_roll_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
-    //             look_for_roll_pitch_sensor;
-    //         bool use_pitch_sensor =
-    //             (datagram.get_pitch_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
-    //             look_for_roll_pitch_sensor;
-    //         bool use_heave_sensor =
-    //             (datagram.get_heave_sensor_is_active() || use_inactive_heave_sensor) &&
-    //             look_for_heave_sensor;
+        for (const auto& packet :
+             this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_POSITION))
+        {
+            auto datagram = packet->template read_datagram_from_file<datagrams::SPosition>();
 
-    //         // const auto sensor_number      = datagram.get_attitude_sensor_number();
+            // Only use data from the active position system
+            if (datagram.get_sensor_system() != active_pos_system)
+                continue;
 
-    //         if (use_roll_sensor != use_pitch_sensor)
-    //             throw std::runtime_error(fmt::format(
-    //                 "ERROR in file [{}]: {} "
-    //                 "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: roll and "
-    //                 "pitch sensor are not active at the same time. This is not supported yet.",
-    //                 this->get_file_nr(),
-    //                 this->get_file_path()));
+            double timestamp = datagram.get_timestamp();
 
-    //         double base_time = datagram.get_timestamp();
+            if (!packet_timestamp_in_range(times_pos, timestamp, "S_POSITION"))
+                continue;
 
-    //         for (const auto& attitude : datagram.get_attitudes())
-    //         {
-    //             double packet_timestamp = base_time + attitude.get_time_in_seconds();
+            times_pos.push_back(timestamp);
+            latitudes.push_back(datagram.get_corrected_lat_deg());
+            longitudes.push_back(datagram.get_corrected_lon_deg());
+        }
+    }
 
-    //             if (use_pitch_sensor)
-    //             {
-    //                 if (packet_timestamp_in_range(times_pitch_roll, packet_timestamp, "pitch"))
-    //                 {
-    //                     times_pitch_roll.push_back(packet_timestamp);
-    //                     pitchs.push_back(attitude.get_pitch_in_degrees());
-    //                     rolls.push_back(attitude.get_roll_in_degrees());
-    //                 }
-    //             }
+    /**
+     * @brief Read position data from C_POSITION datagrams
+     */
+    void read_position_from_cpo(
+        std::vector<double>&                                                     times_pos,
+        std::vector<double>&                                                     latitudes,
+        std::vector<double>&                                                     longitudes,
+        const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
+    {
+        uint8_t active_pos_system = config.get_active_position_system_number();
 
-    //             if (use_heading_sensor)
-    //             {
-    //                 if (packet_timestamp_in_range(
-    //                         times_heading_attitude, packet_timestamp, "heading"))
-    //                 {
-    //                     times_heading_attitude.push_back(packet_timestamp);
-    //                     headings_attitudes.push_back(attitude.get_heading_in_degrees());
-    //                 }
-    //             }
+        for (const auto& packet :
+             this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_POSITION))
+        {
+            auto datagram = packet->template read_datagram_from_file<datagrams::CPosition>();
 
-    //             if (use_heave_sensor)
-    //             {
-    //                 if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
-    //                 {
-    //                     times_heave.push_back(packet_timestamp);
-    //                     // TODO heave: heave should be positive upwards, but it seems it is
-    //                     positive
-    //                     // downwards for the belgica data
-    //                     heaves.push_back(-attitude.get_heave_in_meters());
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+            // Only use data from the active position system
+            if (datagram.get_sensor_system() != active_pos_system)
+                continue;
+
+            double timestamp = datagram.get_timestamp();
+
+            if (!packet_timestamp_in_range(times_pos, timestamp, "C_POSITION"))
+                continue;
+
+            times_pos.push_back(timestamp);
+            latitudes.push_back(datagram.get_corrected_lat_deg());
+            longitudes.push_back(datagram.get_corrected_lon_deg());
+        }
+    }
+
+    /**
+     * @brief Read attitude data from S_KM_BINARY datagrams
+     *
+     * S_KM_BINARY contains multiple samples per datagram with:
+     * - Position (lat, lon, height)
+     * - Attitude (roll, pitch, heading, heave)
+     * - Velocities and accelerations
+     * - Validity flags for each data type
+     */
+    void read_attitude_from_skm(std::vector<float>&  headings,
+                                std::vector<float>&  pitchs,
+                                std::vector<float>&  rolls,
+                                std::vector<double>& heaves,
+                                std::vector<double>& times_heading,
+                                std::vector<double>& times_pitch_roll,
+                                std::vector<double>& times_heave) const
+    {
+        for (const auto& packet :
+             this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_KM_BINARY))
+        {
+            auto datagram = packet->template read_datagram_from_file<datagrams::SKMBinary>();
+
+            // Check which data types are active in this datagram
+            bool heading_active    = datagram.get_heading_active();
+            bool roll_pitch_active = datagram.get_roll_and_pitch_active();
+            bool heave_active      = datagram.get_heave_active();
+
+            // Iterate through all samples in the datagram
+            for (const auto& sample : datagram.get_sensor_data())
+            {
+                const auto& km_binary = sample.km_binary;
+                double      timestamp = km_binary.get_sensor_timestamp();
+
+                // Roll and pitch
+                if (roll_pitch_active && km_binary.get_roll_and_pitch_valid())
+                {
+                    if (packet_timestamp_in_range(times_pitch_roll, timestamp, "pitch/roll"))
+                    {
+                        times_pitch_roll.push_back(timestamp);
+                        pitchs.push_back(km_binary.pitch_deg);
+                        rolls.push_back(km_binary.roll_deg);
+                    }
+                }
+
+                // Heading
+                if (heading_active && km_binary.get_heading_valid())
+                {
+                    if (packet_timestamp_in_range(times_heading, timestamp, "heading"))
+                    {
+                        times_heading.push_back(timestamp);
+                        headings.push_back(km_binary.heading_deg);
+                    }
+                }
+
+                // Heave
+                if (heave_active && km_binary.get_heave_valid())
+                {
+                    if (packet_timestamp_in_range(times_heave, timestamp, "heave"))
+                    {
+                        times_heave.push_back(timestamp);
+                        // Heave sign convention: positive upwards
+                        heaves.push_back(km_binary.heave_m);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief Read heave data from C_HEAVE datagrams
+     */
+    void read_heave_from_che(std::vector<double>& heaves, std::vector<double>& times_heave) const
+    {
+        for (const auto& packet :
+             this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_HEAVE))
+        {
+            auto   datagram  = packet->template read_datagram_from_file<datagrams::CHeave>();
+            double timestamp = datagram.get_timestamp();
+
+            if (!packet_timestamp_in_range(times_heave, timestamp, "C_HEAVE"))
+                continue;
+
+            times_heave.push_back(timestamp);
+            heaves.push_back(datagram.get_heave_m());
+        }
+    }
 };
 
 }

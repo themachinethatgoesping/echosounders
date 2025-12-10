@@ -261,7 +261,7 @@ xxh::hash_t<64> RAW3::hash_content_without_samples() const
  * @param data
  * @return std::size_t
  */
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_pingtools_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_pingtools_hash_value
 size_t hash_value(const RAW3& data)
 {
     return data.hash_content_without_samples();

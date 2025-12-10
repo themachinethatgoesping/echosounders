@@ -6,6 +6,8 @@
 #pragma once
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/unordered_map.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
@@ -67,6 +69,11 @@ void NavigationDataInterface_add_interface(T_PyClass& cls)
             nb::overload_cast<uint64_t>(&T_BaseClass::get_channel_ids, nb::const_),
             DOC_I_NavigationDataInterface(get_channel_ids_2),
             nb::arg("sensor_configuration_hash"));
+    cls.def("get_navigation_data",
+            &T_BaseClass::get_navigation_data,
+            DOC_I_NavigationDataInterface(get_navigation_data),
+            nb::arg("downsample_interval_sec") = 1.0,
+            nb::arg("max_gap_sec") = -1.0);
 }
 
 }

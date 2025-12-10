@@ -1,4 +1,4 @@
-//sourcehash: a9103b931d843b2ec10a4f66c52f0a6e8a67c28a1218fca2f9554362aff92fdb
+//sourcehash: 2a83ad18d297baf515d9049e7f8396e5547420c6781649a25496a0c47b8b7188
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -10,104 +10,101 @@
 #pragma once
 
 #ifndef __DOCSTRINGS_HPP__
+#define __DOCSTRINGS_HPP__
 
-#define __EXPAND(x)                                                  x
-#define __COUNT(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, COUNT, ...) COUNT
-#define __VA_SIZE(...)                                               __EXPAND(__COUNT(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1))
-#define __CAT1(a, b)                                                 a##b
-#define __CAT2(a, b)                                                 __CAT1(a, b)
-#define __DOC1(n1)                                                   __doc_##n1
-#define __DOC2(n1, n2)                                               __doc_##n1##_##n2
-#define __DOC3(n1, n2, n3)                                           __doc_##n1##_##n2##_##n3
-#define __DOC4(n1, n2, n3, n4)                                       __doc_##n1##_##n2##_##n3##_##n4
-#define __DOC5(n1, n2, n3, n4, n5)                                   __doc_##n1##_##n2##_##n3##_##n4##_##n5
-#define __DOC6(n1, n2, n3, n4, n5, n6)                               __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6
-#define __DOC7(n1, n2, n3, n4, n5, n6, n7)                           __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7
-#define __DOC8(n1, n2, n3, n4, n5, n6, n7, n8)                                                     \
-    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8
-#define __DOC9(n1, n2, n3, n4, n5, n6, n7, n8, n9)                                                 \
-    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9
-#define __DOC10(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10)                                           \
-    __doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9##_##n10
-#define DOC(...) __EXPAND(__EXPAND(__CAT2(__DOC, __VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
+#define MKD_EXPAND(x)                                      x
+#define MKD_COUNT(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, COUNT, ...)  COUNT
+#define MKD_VA_SIZE(...)                                   MKD_EXPAND(MKD_COUNT(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
+#define MKD_CAT1(a, b)                                     a ## b
+#define MKD_CAT2(a, b)                                     MKD_CAT1(a, b)
+#define MKD_DOC1(n1)                                       mkd_doc_##n1
+#define MKD_DOC2(n1, n2)                                   mkd_doc_##n1##_##n2
+#define MKD_DOC3(n1, n2, n3)                               mkd_doc_##n1##_##n2##_##n3
+#define MKD_DOC4(n1, n2, n3, n4)                           mkd_doc_##n1##_##n2##_##n3##_##n4
+#define MKD_DOC5(n1, n2, n3, n4, n5)                       mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5
+#define MKD_DOC6(n1, n2, n3, n4, n5, n6)                   mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6
+#define MKD_DOC7(n1, n2, n3, n4, n5, n6, n7)               mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7
+#define MKD_DOC8(n1, n2, n3, n4, n5, n6, n7, n8)           mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8
+#define MKD_DOC9(n1, n2, n3, n4, n5, n6, n7, n8, n9)       mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9
+#define MKD_DOC10(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10) mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9##_##n10
+#define DOC(...)                                           MKD_EXPAND(MKD_EXPAND(MKD_CAT2(MKD_DOC, MKD_VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
 
-#endif // NEW_DOC_HEADER_HPP
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+#endif // __DOCSTRINGS_HPP__
 #if defined(__GNUG__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
 
-static const char *__doc__unnamed_class_at_themachinethatgoesping_echosounders_simradraw_types_hpp_144_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_simradraw_types_hpp_144_67 = R"doc()doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifier_info =
+static const char *mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info =
 R"doc(Get descriptive information about a datagram type.
-
-Parameter ``datagram_type``:
-    Datagram identifier.
+Args:
+    datagram_type: Datagram identifier.
 
 Returns:
     Human-readable description.)doc";
 
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string =
+static const char *mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string =
 R"doc(Convert vector of datagram identifiers to vector of strings.
-
-Parameter ``values``:
-    Vector of identifiers.
+Args:
+    values: Vector of identifiers.
 
 Returns:
     Vector of decimal string representations.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2 =
+static const char *mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2 =
 R"doc(Convert set of datagram identifiers to vector of strings.
-
-Parameter ``values``:
-    Set of identifiers.
+Args:
+    values: Set of identifiers.
 
 Returns:
     Vector of decimal string representations (in set iteration order).)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string =
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawDatagram_type_from_string =
 R"doc(Parse datagram type from string representation.
-
-Parameter ``value``:
-    String view containing decimal representation.
+Args:
+    value: String view containing decimal representation.
 
 Returns:
     Parsed datagram type numeric value.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string =
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string =
 R"doc(Convert datagram type from simradraw_long to string representation.
-
-Parameter ``value``:
-    Datagram type as simradraw_long.
+Args:
+    value: Datagram type as simradraw_long.
 
 Returns:
     String representation (decimal) of the datagram type.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 =
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagram_type_to_string_2 =
 R"doc(Convert datagram type identifier to string representation.
-
-Parameter ``value``:
-    Datagram type identifier enum.
+Args:
+    value: Datagram type identifier enum.
 
 Returns:
     String representation (decimal) of the datagram type.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc(Datagram identifiers used in Simrad raw (EK60/EK80) files.)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier = R"doc(Datagram identifiers used in Simrad raw (EK60/EK80) files.)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_FIL1 = R"doc(< Filter datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_FIL1 = R"doc(Filter datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_MRU0 = R"doc(< Motion datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_MRU0 = R"doc(Motion datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_NME0 = R"doc(< Unspecified (unknown) NMEA datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_NME0 = R"doc(Unspecified (unknown) NMEA datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_RAW3 = R"doc(< Raw sample data datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_RAW3 = R"doc(Raw sample data datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(< Annotation datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_TAG0 = R"doc(Annotation datagram)doc";
 
-static const char *__doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(< Unspecified (unknown) XML datagram)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_t_SimradRawDatagramIdentifier_XML0 = R"doc(Unspecified (unknown) XML datagram)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

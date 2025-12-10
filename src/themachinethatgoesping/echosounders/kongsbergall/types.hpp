@@ -147,14 +147,14 @@ t_KongsbergAllDatagramIdentifier KongsbergAllDatagram_type_from_string(std::stri
 
 std::string datagram_identifier_to_string(kongsbergall::t_KongsbergAllDatagramIdentifier value);
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 std::string datagram_identifier_info(kongsbergall::t_KongsbergAllDatagramIdentifier datagram_type);
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
 std::vector<std::string> datagram_identifiers_to_string(
     const std::vector<kongsbergall::t_KongsbergAllDatagramIdentifier>& values);
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string_2
 std::vector<std::string> datagram_identifiers_to_string(
     const std::set<kongsbergall::t_KongsbergAllDatagramIdentifier>& values);
 

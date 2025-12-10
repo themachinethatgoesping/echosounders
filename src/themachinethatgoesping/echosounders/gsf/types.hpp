@@ -72,13 +72,13 @@ inline t_GSFDatagramIdentifier GSFDatagram_type_from_string(std::string_view val
 } // namespace gsf
 
 // ----- interface? -----
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 inline std::string datagram_identifier_to_string(gsf::t_GSFDatagramIdentifier value)
 {
     return gsf::datagram_type_to_string(value);
 }
 
-// IGNORE_DOC:__doc_themachinethatgoesping_echosounders_datagram_identifier_info
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(gsf::t_GSFDatagramIdentifier datagram_type)
 {
     return fmt::format("{:x}", uint8_t(datagram_type));
