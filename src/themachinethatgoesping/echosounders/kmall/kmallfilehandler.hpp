@@ -284,12 +284,12 @@ class KMALLFileHandler
         _navigation_interface->init_from_file(
             this->get_index_paths(), force, progress_bar, true);
 
-        // progress_bar.set_prefix("Initializing environment");
-        // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
-        // progress_bar.set_prefix("Initializing other");
-        // _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // progress_bar.tick();
+        progress_bar.set_prefix("Initializing environment");
+        _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
+        progress_bar.set_prefix("Initializing other");
+        _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
 
         // // std::cout << std::endl; // TODO: remove this workaround
         // progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping
