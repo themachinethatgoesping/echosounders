@@ -1,4 +1,4 @@
-//sourcehash: 0397c712687381f252682fd895b3e94bc406c1be630459f87e4b3299837c672f
+//sourcehash: aee6a0de4503d33e14549aaa4b466d6485a3ceff1ee0cce39d7f43cc75d95c7d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,12 +71,11 @@ Args:
     downsample_interval_sec: Time interval between samples in seconds.
                              Use 0 or negative to disable downsampling
                              (use all original timestamps)
-    max_gap_sec: Maximum allowed gap in the original data before
-                 considering it a data gap. Points that would require
-                 interpolating across a gap larger than this are
-                 skipped. If <= 0, defaults to 2x
-                 downsample_interval_sec (or 10 seconds if no
-                 downsampling)
+    max_gap: Maximum allowed gap in the original data before
+             considering it a data gap. Points that would require
+             interpolating across a gap larger than this are skipped.
+             If <= 0, defaults to 2x downsample_interval (or 10
+             seconds if no downsampling)
 
 Returns:
     std::unordered_map<std::string,

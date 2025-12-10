@@ -102,6 +102,15 @@ class KMALLNavigationDataInterfacePerFile
             use_spo = false;
         if (!use_spo && !has_cpo && has_spo)
             use_spo = true;
+        
+        // std::cerr << fmt::format(
+        //                  "KMALLNavigationDataInterfacePerFile::read_navigation_data [file {}]: "
+        //                  "has_spo={} has_cpo={} use_spo={}\n",
+        //                  this->get_file_nr(),
+        //                  has_spo,
+        //                  has_cpo,
+        //                  use_spo)
+        //           << std::flush;
 
         if (use_spo && has_spo)
         {

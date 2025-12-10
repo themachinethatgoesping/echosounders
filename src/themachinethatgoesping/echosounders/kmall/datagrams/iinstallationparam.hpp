@@ -163,7 +163,7 @@ class IInstallationParam : public KMALLDatagram
      *
      * @return uint8_t Position system number (1-4), or 0 if none active
      */
-    uint8_t get_active_position_system_number() const;
+    int8_t get_active_position_system_number() const;
 
     /**
      * @brief Get the active attitude sensor number (1-4)
@@ -172,7 +172,7 @@ class IInstallationParam : public KMALLDatagram
      *
      * @return uint8_t Attitude sensor number (1-4), or 0 if none active
      */
-    uint8_t get_active_attitude_sensor_number() const;
+    int8_t get_active_attitude_sensor_number() const;
 
     /**
      * @brief Get the system name (EMXV field)

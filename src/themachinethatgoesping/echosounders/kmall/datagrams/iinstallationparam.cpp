@@ -355,8 +355,8 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_transducer
 
     auto params = parse_sensor_string(it->second);
 
-    float x     = 0.f, y = 0.f, z = 0.f;
-    float yaw   = 0.f, pitch = 0.f, roll = 0.f;
+    float       x = 0.f, y = 0.f, z = 0.f;
+    float       yaw = 0.f, pitch = 0.f, roll = 0.f;
     std::string name = transducer_key;
 
     // Get name from N field if available (serial number)
@@ -395,7 +395,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_position_s
             position_system_number));
     }
 
-    std::string key = fmt::format("POSI_{}", position_system_number);
+    std::string key     = fmt::format("POSI_{}", position_system_number);
     auto        decoded = get_install_txt_decoded();
 
     auto it = decoded.find(key);
@@ -408,13 +408,13 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_position_s
     // Check if set
     if (it->second == "U=NOT_SET" || it->second.find("NOT_SET") != std::string::npos)
     {
-        throw std::invalid_argument(
-            fmt::format("get_position_system_offsets: Position system {} is not set", position_system_number));
+        throw std::invalid_argument(fmt::format(
+            "get_position_system_offsets: Position system {} is not set", position_system_number));
     }
 
     auto params = parse_sensor_string(it->second);
 
-    float x = 0.f, y = 0.f, z = 0.f;
+    float       x = 0.f, y = 0.f, z = 0.f;
     std::string name = fmt::format("Position system {}", position_system_number);
 
     if (params.count("X"))
@@ -435,12 +435,11 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_attitude_s
 
     if (sensor_number < 1 || sensor_number > 4)
     {
-        throw std::invalid_argument(
-            fmt::format("get_attitude_sensor_offsets: Invalid sensor number: {} (must be 1-4)",
-                        sensor_number));
+        throw std::invalid_argument(fmt::format(
+            "get_attitude_sensor_offsets: Invalid sensor number: {} (must be 1-4)", sensor_number));
     }
 
-    std::string key = fmt::format("ATTI_{}", sensor_number);
+    std::string key     = fmt::format("ATTI_{}", sensor_number);
     auto        decoded = get_install_txt_decoded();
 
     auto it = decoded.find(key);
@@ -454,14 +453,14 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_attitude_s
     if (it->second == "NOT_SET" || it->second == "U=NOT_SET" ||
         it->second.find("NOT_SET") != std::string::npos)
     {
-        throw std::invalid_argument(
-            fmt::format("get_attitude_sensor_offsets: Attitude sensor {} is not set", sensor_number));
+        throw std::invalid_argument(fmt::format(
+            "get_attitude_sensor_offsets: Attitude sensor {} is not set", sensor_number));
     }
 
     auto params = parse_sensor_string(it->second);
 
-    float x     = 0.f, y = 0.f, z = 0.f;
-    float yaw   = 0.f, pitch = 0.f, roll = 0.f;
+    float       x = 0.f, y = 0.f, z = 0.f;
+    float       yaw = 0.f, pitch = 0.f, roll = 0.f;
     std::string name = fmt::format("Attitude sensor {}", sensor_number);
 
     if (params.count("X"))
@@ -533,7 +532,7 @@ float IInstallationParam::get_water_line_vertical_location_in_meters() const
     return 0.f;
 }
 
-uint8_t IInstallationParam::get_active_position_system_number() const
+int8_t IInstallationParam::get_active_position_system_number() const
 {
     auto decoded = get_install_txt_decoded();
 
@@ -547,15 +546,15 @@ uint8_t IInstallationParam::get_active_position_system_number() const
             auto params = parse_sensor_string(it->second);
             if (params.count("U") && params["U"] == "ACTIVE")
             {
-                return i;
+                return i - 1;
             }
         }
     }
 
-    return 0; // None active
+    return -1; // None active
 }
 
-uint8_t IInstallationParam::get_active_attitude_sensor_number() const
+int8_t IInstallationParam::get_active_attitude_sensor_number() const
 {
     auto decoded = get_install_txt_decoded();
 
@@ -569,12 +568,12 @@ uint8_t IInstallationParam::get_active_attitude_sensor_number() const
             auto params = parse_sensor_string(it->second);
             if (params.count("U") && params["U"] == "ACTIVE")
             {
-                return i;
+                return i - 1;
             }
         }
     }
 
-    return 0; // None active
+    return -1; // None active
 }
 
 std::string IInstallationParam::get_system_name() const
@@ -605,7 +604,7 @@ int IInstallationParam::get_pu_serial_number() const
 
 std::vector<std::string> IInstallationParam::get_available_transducer_keys() const
 {
-    auto decoded = get_install_txt_decoded();
+    auto                     decoded = get_install_txt_decoded();
     std::vector<std::string> keys;
 
     // Check all possible transducer keys

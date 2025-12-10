@@ -280,9 +280,9 @@ class KMALLFileHandler
         _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
-        // progress_bar.set_prefix("Initializing navigation");
-        // _navigation_interface->init_from_file(
-        //     this->get_index_paths(), force, progress_bar, true);
+        progress_bar.set_prefix("Initializing navigation");
+        _navigation_interface->init_from_file(
+            this->get_index_paths(), force, progress_bar, true);
 
         // progress_bar.set_prefix("Initializing environment");
         // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);

@@ -31,7 +31,6 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/downsampling.hpp>
 
-
 #include "../datatypes/filecache.hpp"
 #include "i_configurationdatainterface.hpp"
 #include "i_datagraminterface.hpp"
@@ -295,14 +294,15 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
      * @param downsample_interval_sec Time interval between samples in seconds.
      *                                 Use 0 or negative to disable downsampling (use all original
      * timestamps)
-     * @param max_gap_sec Maximum allowed gap in the original data before considering it a data gap.
+     * @param max_gap Maximum allowed gap in the original data before considering it a data gap.
      *                    Points that would require interpolating across a gap larger than this are
-     * skipped. If <= 0, defaults to 2x downsample_interval_sec (or 10 seconds if no downsampling)
+     * skipped. If <= 0, defaults to 2x downsample_interval (or 10 seconds if no downsampling)
      * @return std::unordered_map<std::string, navigation::datastructures::GeolocationLatLonVector>
      *         Map from channel_id to GeolocationLatLonVector containing timestamps and positions
      */
     std::unordered_map<std::string, navigation::datastructures::GeolocationLatLonVector>
-    get_navigation_data(double downsample_interval_sec = 1.0, double max_gap_sec = -1.0) const
+    get_navigation_data(double downsample_interval = std::numeric_limits<double>::quiet_NaN(),
+                        double max_gap             = std::numeric_limits<double>::quiet_NaN()) const
     {
         std::unordered_map<std::string, navigation::datastructures::GeolocationLatLonVector> result;
 
@@ -311,20 +311,6 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         {
             const auto& navigation_interpolator = navigation_interpolator_fw.get();
 
-            // Get the original position timestamps to determine time range and gaps
-            const auto& position_timestamps =
-                navigation_interpolator.interpolator_latitude().get_data_X();
-
-            if (position_timestamps.empty())
-                continue;
-
-            // Use the downsampling utility to compute indices
-            auto downsampling_result = tools::helper::compute_downsampling_indices(
-                position_timestamps, downsample_interval_sec, max_gap_sec);
-
-            if (downsampling_result.empty())
-                continue;
-
             // Get all target IDs for this sensor configuration
             const auto& sensor_config = navigation_interpolator.get_sensor_configuration();
             auto        target_ids    = sensor_config.get_target_ids();
@@ -332,30 +318,15 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             // For each target, compute positions at valid timestamps
             for (const auto& target_id : target_ids)
             {
-                navigation::datastructures::GeolocationLatLonVector geolocations;
-                geolocations.reserve(downsampling_result.size());
+                auto output_id = target_id;
+                int  i         = 2;
 
-                for (size_t idx : downsampling_result.indices)
-                {
-                    double timestamp = position_timestamps[idx];
+                while (result.contains(output_id))
+                    output_id += fmt::format("{}[{}]", target_id, i++);
 
-                    try
-                    {
-                        auto geolocation =
-                            navigation_interpolator.compute_target_position(target_id, timestamp);
-                        geolocations.push_back(timestamp, std::move(geolocation));
-                    }
-                    catch (const std::exception&)
-                    {
-                        // Skip timestamps that fail to interpolate (e.g., outside range)
-                        continue;
-                    }
-                }
-
-                if (!geolocations.empty())
-                {
-                    result[target_id] = std::move(geolocations);
-                }
+                result[output_id] = navigation_interpolator.compute_target_position(
+                    target_id,
+                    navigation_interpolator.get_sampled_timestamps(downsample_interval, max_gap));
             }
         }
 

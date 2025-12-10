@@ -58,8 +58,8 @@ class KMALLConfigurationDataInterfacePerFile
     ~KMALLConfigurationDataInterfacePerFile() = default;
 
     // ----- getters -----
-    uint8_t get_active_position_system_number() const { return _active_position_system_number; }
-    uint8_t get_active_attitude_sensor_number() const { return _active_attitude_sensor_number; }
+    int8_t get_active_position_system_number() const { return _active_position_system_number; }
+    int8_t get_active_attitude_sensor_number() const { return _active_attitude_sensor_number; }
 
     // ----- setters -----
     /**
