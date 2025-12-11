@@ -65,10 +65,6 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
                         DOC_KMALLPingFileData(get_runtime_parameters))
 
                //     // --- file_data data access ---
-               //     .def("read_merged_watercolumndatagram",
-               //          &t_KMALLPingFileData::read_merged_watercolumndatagram,
-               //          DOC_KMALLPingFileData(read_merged_watercolumndatagram),
-               //          nb::arg("skip_data") = false)
 
                //     // --- watercolumncalibration access ---
                //     .def("init_watercolumn_calibration",

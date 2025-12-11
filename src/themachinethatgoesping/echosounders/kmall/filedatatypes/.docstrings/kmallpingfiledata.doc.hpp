@@ -1,4 +1,4 @@
-//sourcehash: 6b95a81232c53976f3748db861008889dcf1f696f8d47c53652d95f3adde337f
+//sourcehash: bfa3fcde67a713b1ecf5b21b4e3c93034ec0cf54086efc434bab2ff9624a5380
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,11 +49,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_class_name = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_datagram_infos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_file_numbers = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_file_paths = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_ifs =
+R"doc(Return the filestream associated with the first datagram of the
+specified type
+
+Args:
+    datagram_identifier: 
+
+Returns:
+    std::istream&)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_primary_file_path = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_runtime_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_any_of_datagram_types = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_datagram_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_datagram_type_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_runtime_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_must_have_datagrams = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_first_datagram = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_runtime_parameters = R"doc()doc";
 

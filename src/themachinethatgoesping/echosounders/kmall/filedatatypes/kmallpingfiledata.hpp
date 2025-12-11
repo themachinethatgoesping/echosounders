@@ -287,56 +287,31 @@ class KMALLPingFileData
             return _runtime_parameters->get();
         }
 
-    //     bool has_datagram_type(t_KMALLDatagramIdentifier datagram_identifier) const
-    //     {
-    //         return this->_datagram_infos_by_type.at_const(datagram_identifier).size() > 0;
-    //     }
+        bool has_datagram_type(t_KMALLDatagramIdentifier datagram_identifier) const
+        {
+            return this->_datagram_infos_by_type.at_const(datagram_identifier).size() > 0;
+        }
 
-    //     bool has_any_of_datagram_types(
-    //         const std::vector<t_KMALLDatagramIdentifier>& datagram_identifiers) const
-    //     {
-    //         for (const auto& datagram_identifier : datagram_identifiers)
-    //         {
-    //             if (this->has_datagram_type(datagram_identifier))
-    //                 return true;
-    //         }
+        bool has_any_of_datagram_types(
+            const std::vector<t_KMALLDatagramIdentifier>& datagram_identifiers) const
+        {
+            for (const auto& datagram_identifier : datagram_identifiers)
+            {
+                if (this->has_datagram_type(datagram_identifier))
+                    return true;
+            }
 
-    //         return false;
-    //     }
+            return false;
+        }
 
-    //     auto& get_datagram_infos(t_KMALLDatagramIdentifier datagram_identifier)
-    //     {
-    //         auto& datagram_infos = this->_datagram_infos_by_type.at(datagram_identifier);
+        auto& get_datagram_infos(t_KMALLDatagramIdentifier datagram_identifier)
+        {
+            auto& datagram_infos = this->_datagram_infos_by_type.at(datagram_identifier);
 
-    //         return datagram_infos;
-    //     }
-
-    //     datagrams::WatercolumnDatagram read_merged_watercolumndatagram(bool skip_data = false)
-    //     {
-    //         auto& datagram_infos =
-    //             get_datagram_infos(t_KMALLDatagramIdentifier::WatercolumnDatagram);
-
-    //         if (datagram_infos.empty())
-    //             throw std::runtime_error(fmt::format(
-    //                 "Error[KMALLPingFileData::read_merged_watercolumndatagram]: No {} datagram "
-    //                 "in ping!",
-    //                 datagram_type_to_string(t_KMALLDatagramIdentifier::WatercolumnDatagram)));
-
-    //         auto datagram =
-    //             datagram_infos.at(0)->template
-    //             read_datagram_from_file<datagrams::WatercolumnDatagram>(
-    //                 skip_data);
-
-    //         for (size_t i = 1; i < datagram_infos.size(); ++i)
-    //         {
-    //             datagram.append_from_stream(datagram_infos[i]->get_stream_and_seek());
-    //         }
-
-    //         return datagram;
-    //     }
+            return datagram_infos;
+        }
 
   protected:
-    // std::shared_ptr<datagrams::xml_datagrams::XML_Parameter_Channel> _ping_parameter;
     std::string class_name() const override { return "KMALLPingFileData"; }
 
   public:
@@ -373,37 +348,37 @@ class KMALLPingFileData
         //         : nullptr;
     }
 
-    // /**
-    //  * @brief Return the filestream associated with the first datagram of the specified type
-    //  *
-    //  * @param datagram_identifier
-    //  * @return std::istream&
-    //  */
-    // auto& get_ifs(t_KMALLDatagramIdentifier datagram_identifier) const
-    // {
-    //     return this->_datagram_infos_by_type.at_const(datagram_identifier).at(0)->get_stream();
-    // }
+    /**
+     * @brief Return the filestream associated with the first datagram of the specified type
+     *
+     * @param datagram_identifier
+     * @return std::istream&
+     */
+    auto& get_ifs(t_KMALLDatagramIdentifier datagram_identifier) const
+    {
+        return this->_datagram_infos_by_type.at_const(datagram_identifier).at(0)->get_stream();
+    }
 
-    // template<typename t_datagram>
-    // auto has_datagram_type()
-    // {
-    //     auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
+    template<typename t_datagram>
+    auto has_datagram_type()
+    {
+        auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
 
-    //     return !datagram_infos.empty();
-    // }
+        return !datagram_infos.empty();
+    }
 
-    // template<typename t_datagram>
-    // auto read_first_datagram()
-    // {
-    //     auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
+    template<typename t_datagram>
+    auto read_first_datagram()
+    {
+        auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
 
-    //     if (datagram_infos.empty())
-    //         throw std::runtime_error(fmt::format(
-    //             "Error[KMALLPingFileData::read_datagram]: No {} datagram in ping!",
-    //             datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
+        if (datagram_infos.empty())
+            throw std::runtime_error(fmt::format(
+                "Error[KMALLPingFileData::read_datagram]: No {} datagram in ping!",
+                datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
 
-    //     return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
-    // }
+        return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
+    }
 
     // // I_PingBottom functions
     // /**
@@ -434,52 +409,53 @@ class KMALLPingFileData
     //     return datagram.get_xyz(bs.get_beam_numbers());
     // }
 
-    // // ----- I_PingFileData Interface -----
-    // std::vector<size_t> get_file_numbers() const final
-    // {
-    //     std::vector<size_t> fnr     = { get_primary_file_nr() };
-    //     std::set<size_t>    fnr_set = { get_primary_file_nr() };
+    // ----- I_PingFileData Interface -----
+    std::vector<size_t> get_file_numbers() const final
+    {
+        std::vector<size_t> fnr     = { get_primary_file_nr() };
+        std::set<size_t>    fnr_set = { get_primary_file_nr() };
 
-    //     for (const auto& datagram_info : this->_datagram_infos_all)
-    //     {
-    //         auto nr = datagram_info->get_file_nr();
-    //         if (!fnr_set.contains(nr))
-    //         {
-    //             fnr.push_back(nr);
-    //             fnr_set.insert(nr);
-    //         }
-    //     }
+        for (const auto& datagram_info : this->_datagram_infos_all)
+        {
+            auto nr = datagram_info->get_file_nr();
+            if (!fnr_set.contains(nr))
+            {
+                fnr.push_back(nr);
+                fnr_set.insert(nr);
+            }
+        }
 
-    //     return fnr;
-    // }
-    // std::string get_primary_file_path() const final
-    // {
-    //     must_have_datagrams("get_primary_file_path");
+        return fnr;
+    }
+    std::string get_primary_file_path() const final
+    {
+        must_have_datagrams("get_primary_file_path");
 
-    //     return this->_datagram_infos_all.at(0)->file_nr_to_file_path(get_primary_file_nr());
-    // }
-    // std::vector<std::string> get_file_paths() const final
-    // {
-    //     must_have_datagrams("get_file_paths");
+        return this->_datagram_infos_all.at(0)->file_nr_to_file_path(get_primary_file_nr());
+    }
 
-    //     auto fnrs = get_file_numbers();
+    std::vector<std::string> get_file_paths() const final
+    {
+        must_have_datagrams("get_file_paths");
 
-    //     std::vector<std::string> fps;
+        auto fnrs = get_file_numbers();
 
-    //     for (const auto& fnr : fnrs)
-    //     {
-    //         fps.push_back(this->_datagram_infos_all.at(0)->file_nr_to_file_path(fnr));
-    //     }
+        std::vector<std::string> fps;
 
-    //     return fps;
-    // }
+        for (const auto& fnr : fnrs)
+        {
+            fps.push_back(this->_datagram_infos_all.at(0)->file_nr_to_file_path(fnr));
+        }
 
-    // void must_have_datagrams(std::string_view method_name) const
-    // {
-    //     if (this->_datagram_infos_all.empty())
-    //         throw std::runtime_error(
-    //             fmt::format("{}: No datagram in ping!", __func__, method_name));
-    // }
+        return fps;
+    }
+
+    void must_have_datagrams(std::string_view method_name) const
+    {
+        if (this->_datagram_infos_all.empty())
+            throw std::runtime_error(
+                fmt::format("{}: No datagram in ping!", __func__, method_name));
+    }
 
   public:
     // ----- objectprinter -----

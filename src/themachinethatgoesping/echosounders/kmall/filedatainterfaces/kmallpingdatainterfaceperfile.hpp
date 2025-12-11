@@ -104,7 +104,7 @@ class KMALLPingDataInterfacePerFile
                     {
                         uint16_t ping_counter, serial_number;
                         this->read_extra_infos(datagram_ptr, ping_counter);
-                        serial_number=40;
+                        serial_number = 40;
 
                         // create a new ping if it does not exist
                         auto ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
@@ -135,19 +135,19 @@ class KMALLPingDataInterfacePerFile
             }
         }
 
-        //     // get sensor configurations for all channels
-        //     auto sensor_configurations_per_trx_channel =
-        //         this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
-        //             this->get_file_nr());
-        //     auto base_sensor_configuration =
-        //         this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+        // get sensor configurations for all channels
+        auto sensor_configurations_per_trx_channel =
+            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
+                this->get_file_nr());
+        auto base_sensor_configuration =
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
 
-        //     // get navigation data for this file
-        //     boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
-        //         navigation_data_interpolator =
-        //             this->navigation_data_interface().get_navigation_interpolator_flyweight(
-        //                 base_sensor_configuration.binary_hash());
-        //     bool navigation_is_valid = navigation_data_interpolator.get().valid();
+        // get navigation data for this file
+        boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
+            navigation_data_interpolator =
+                this->navigation_data_interface().get_navigation_interpolator_flyweight(
+                    base_sensor_configuration.binary_hash());
+        bool navigation_is_valid = navigation_data_interpolator.get().valid();
 
         // loop through map and copy pings to vector
         t_pingcontainer pings;
@@ -155,43 +155,41 @@ class KMALLPingDataInterfacePerFile
         {
             for (auto [id, ping_ptr] : pings_by_id)
             {
-                // // check if runtime parameters are available
-                // if (!ping_ptr->file_data().has_runtime_parameters())
-                //     throw std::runtime_error(
-                //         fmt::format("KMALLPingDataInterfacePerFile::read_pings: "
-                //                     "RuntimeParameters: No runtime parameters found "
-                //                     "for ping '{}'",
-                //                     ping_counter));
+                // check if runtime parameters are available
+                if (!ping_ptr->file_data().has_runtime_parameters())
+                    throw std::runtime_error(
+                        fmt::format("KMALLPingDataInterfacePerFile::read_pings: "
+                                    "RuntimeParameters: No runtime parameters found "
+                                    "for ping '{}'",
+                                    ping_counter));
 
-                // // load transducer locations from navigation
-                // try
-                // {
-                //     if (base_sensor_configuration.has_target(channel_id))
-                //         ping_ptr->set_sensor_configuration_flyweight(
-                //             sensor_configurations_per_trx_channel.at(channel_id));
+                // load transducer locations from navigation
+                try
+                {
+                    if (base_sensor_configuration.has_target(ping_ptr->get_channel_id()))
+                        ping_ptr->set_sensor_configuration_flyweight(
+                            sensor_configurations_per_trx_channel.at(ping_ptr->get_channel_id()));
 
-                //     if (navigation_is_valid)
-                //         ping_ptr->set_navigation_interpolator_latlon(navigation_data_interpolator);
-                // }
-                // catch (std::exception& e)
-                // {
-                //     std::string linked_file_path = "None";
-                //     if (this->has_linked_file())
-                //         linked_file_path = this->get_linked_file_path();
-                //     // throw more precise error
-                //     throw std::runtime_error(
-                //         fmt::format("ERROR[KMALLPingDataInterfacePerFile::read_pings]: For "
-                //                     "files\n-Primary:'{}'\n-Secondary'{}'\n could not "
-                //                     "set geolocation for ping nr {} transducer id {} at time
-                //                     {}\n"
-                //                     "--- ERROR was ---\n{}",
-                //                     this->get_file_path(),
-                //                     linked_file_path,
-                //                     ping_counter,
-                //                     id,
-                //                     ping_ptr->get_timestamp(),
-                //                     e.what()));
-                // }
+                    if (navigation_is_valid)
+                        ping_ptr->set_navigation_interpolator_latlon(navigation_data_interpolator);
+                }
+                catch (std::exception& e)
+                {
+                    std::string linked_file_path = "None";
+                    if (this->has_linked_file())
+                        linked_file_path = this->get_linked_file_path();
+                    // throw more precise error
+                    throw std::runtime_error(fmt::format(
+                        "ERROR[KMALLPingDataInterfacePerFile::read_pings]: For "
+                        "files\n-Primary:'{}'\n-Secondary'{}'\n could not set geolocation for ping "
+                        "nr {} transducer id {} at time {}\n --- ERROR was ---\n{}",
+                        this->get_file_path(),
+                        linked_file_path,
+                        ping_counter,
+                        id,
+                        ping_ptr->get_timestamp(),
+                        e.what()));
+                }
 
                 // // load water column data
                 // if (ping_ptr->has_watercolumn())
@@ -270,7 +268,7 @@ class KMALLPingDataInterfacePerFile
                             datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
                             datagram_ptr->get_file_pos()));
 
-        ping_counter  = datagram_ptr->template get_extra_info<uint16_t>(0);
+        ping_counter = datagram_ptr->template get_extra_info<uint16_t>(0);
     }
 
     class KMALLPingCacheHandler
