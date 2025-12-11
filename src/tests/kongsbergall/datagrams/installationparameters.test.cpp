@@ -188,7 +188,6 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
     SECTION("computed configuration")
     {
         CHECK(dat.is_dual_rx() == true);
-        CHECK(dat.build_channel_id() == "EM710 SingleTXDualRX 100-102");
     }
     // SECTION("SensorConfiguration")
     // {

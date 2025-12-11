@@ -258,18 +258,6 @@ bool InstallationParameters::is_dual_rx() const
     }
 }
 
-std::string InstallationParameters::build_channel_id() const
-{
-    std::string channel_id = "EM" + std::to_string(get_model_number());
-    channel_id += " " + get_system_transducer_configuration().name();
-    channel_id += " " + std::to_string(this->get_system_serial_number());
-
-    if (is_dual_rx())
-        channel_id += "-" + std::to_string(this->get_secondary_system_serial_number());
-
-    return channel_id;
-}
-
 float InstallationParameters::get_water_line_vertical_location_in_meters() const
 {
     return get_value_float("WLZ", 0.f);

@@ -1,4 +1,4 @@
-//sourcehash: fe2e31d3c19b15f676592286acbda8e6e17f661bdac077ba00940baaf4a45b04
+//sourcehash: 79a947d55bb38579ef570085136a7e0484bc556aaff5d43797054ed3347d8c71
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_Kong
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_KongsbergAllFileHandler_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_KongsbergAllFileHandler_4 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_add_ping_counter_extra_info =
+R"doc(Read ping counter and serial number from datagram and add as extra
+info
+Args:
+    datagram_info: The datagram info to read from and add extra info
+                   to)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_callback_scan_new_file_begin = R"doc()doc";
 

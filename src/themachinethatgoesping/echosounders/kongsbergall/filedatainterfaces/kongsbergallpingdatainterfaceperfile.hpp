@@ -91,7 +91,7 @@ class KongsbergAllPingDataInterfacePerFile
 
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 
-        t_ping base_ping(param);
+        t_ping base_ping;
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
 
         for (const auto& datagram_ptr : this->_datagram_infos_all)

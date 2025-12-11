@@ -22,13 +22,11 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
-
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
@@ -63,14 +61,12 @@ class KongsbergAllPing
     using typename t_base2::t_rawdata;
 
   public:
-    KongsbergAllPing(const datagrams::InstallationParameters& param)
+    KongsbergAllPing()
         : t_base1()
         , t_base2()
         , _bottom(_file_data)
         , _watercolumn(_file_data)
     {
-        /* set i_ping parameters */
-        set_channel_id(param.build_channel_id());
     }
     virtual ~KongsbergAllPing() = default;
 
@@ -112,9 +108,11 @@ class KongsbergAllPing
     KongsbergAllPingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer(this->class_name(), float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            this->class_name(), float_precision, superscript_exponents);
 
         printer.append(t_base1::__printer__(float_precision, superscript_exponents));
         // printer.append(t_base1::__printer__(float_precision, superscript_exponents));

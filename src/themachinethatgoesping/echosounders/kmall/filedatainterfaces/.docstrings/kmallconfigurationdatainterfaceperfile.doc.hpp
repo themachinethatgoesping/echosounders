@@ -1,4 +1,4 @@
-//sourcehash: 75eac6c9e28e3c7a8b1a1a7c3855d990d490247e41643ee0115d7650d315e1dc
+//sourcehash: 3056c0cccecaf079a1f4fd829b00b22fca46b300a6bae462e95c274d25eb22b1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,6 +69,8 @@ Args:
 Returns:
     boost::flyweight<datagrams::IOpRuntime> The runtime parameters for
           the ping)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_transducer_id = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_init_runtime_parameters =
 R"doc(Read the runtime parameters from the file and save them in the

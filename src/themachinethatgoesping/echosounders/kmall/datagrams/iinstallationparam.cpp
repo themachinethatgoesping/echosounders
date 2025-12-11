@@ -51,6 +51,27 @@ uint32_t IInstallationParam::get_bytes_datagram_check() const
     return _bytes_datagram_check;
 }
 
+const std::map<std::string, std::string>& IInstallationParam::get_install_txt_decoded_cached() const
+{
+    if (!_cached_install_txt_decoded.has_value())
+        throw(std::runtime_error("IInstallationParam::get_install_txt_decoded_cached: cached value "
+                                 "not available. Call cache_install_txt() first"));
+
+    return *_cached_install_txt_decoded;
+}
+
+const std::map<std::string, std::string>& IInstallationParam::get_install_txt_decoded_cached()
+{
+    if (!_cached_install_txt_decoded.has_value())
+        cache_install_txt_decoded();
+
+    return *_cached_install_txt_decoded;
+}
+
+void IInstallationParam::cache_install_txt_decoded()
+{
+    _cached_install_txt_decoded = get_install_txt_decoded();
+}
 // setters
 // void IInstallationParam::set_bytes_content(uint16_t bytes_content) {
 //     _bytes_content = bytes_content;
@@ -83,6 +104,129 @@ void IInstallationParam::set_install_txt(std::string_view install_txt)
     _install_txt.resize(_bytes_content - dbytes, '\0'); // pad with null characters
     set_bytes_datagram(KMALLDatagram::__size + _bytes_content);
     _bytes_datagram_check = get_bytes_datagram();
+
+    cache_install_txt_decoded();
+}
+
+o_KMALLSystemTransducerConfiguration IInstallationParam::get_system_transducer_configuration() const
+{
+    const auto& install_txt_map = get_install_txt_decoded_cached();
+
+    auto it = install_txt_map.find("SYSTEM");
+    if (it == install_txt_map.end())
+    {
+        throw(std::runtime_error("InstallationParameters::get_system_transducer_configuration: "
+                                 "missing SYSTEM key in install_txt"));
+    }
+
+    // split on '-' and take last token (like Python split('-')[-1]) then trim whitespace
+    std::string              system_value = it->second;
+    std::vector<std::string> parts;
+    boost::split(parts, system_value, boost::is_any_of("-"));
+    system_value =
+        boost::trim_copy(boost::split(parts, system_value, boost::is_any_of("-")).back());
+
+    return o_KMALLSystemTransducerConfiguration::to_value(system_value);
+}
+
+std::map<std::string, std::string> IInstallationParam::get_transducer_serial_numbers() const
+{
+    std::map<std::string, std::string> serial_numbers;
+
+    for (const auto& [key, value] : get_install_txt_decoded_cached())
+    {
+        if (key.find("SERIALno|") != std::string::npos)
+        {
+            // Extract suffix after '|' (e.g. "SERIALno|RX" becomes "RX")
+            std::vector<std::string> fields;
+            boost::split(fields, key, boost::is_any_of("|"));
+
+            serial_numbers[fields.back()] = value;
+        }
+    }
+
+    // check for validity
+    auto stc = get_system_transducer_configuration();
+
+    switch (stc.value)
+    {
+        case t_KMALLSystemTransducerConfiguration::SingleHead:
+            [[fallthrough]];
+        case t_KMALLSystemTransducerConfiguration::PortableSingleHead:
+            if (serial_numbers.size() == 2 && serial_numbers.contains("TX") &&
+                serial_numbers.contains("RX"))
+            {
+                return { { "TRX", serial_numbers["TX"] } };
+            }
+            throw(std::runtime_error(
+                fmt::format("InstallationParameters::get_transducer_serial_numbers: "
+                            "invalid serial numbers for SingleHead configuration: {}",
+                            fmt::join(serial_numbers, ", "))));
+        case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx:
+            if (serial_numbers.size() == 2 && serial_numbers.contains("TX") &&
+                serial_numbers.contains("RX"))
+            {
+                return serial_numbers;
+            }
+        default:
+            throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
+                                                 "unsupported transducer configuration: {}",
+                                                 stc.name())));
+    }
+}
+
+bool IInstallationParam::is_dual_rx() const
+{
+    auto stc = get_system_transducer_configuration();
+
+    switch (stc.value)
+    {
+        case t_KMALLSystemTransducerConfiguration::SingleHead:
+            [[fallthrough]];
+        case t_KMALLSystemTransducerConfiguration::PortableSingleHead:
+            [[fallthrough]];
+        case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx:
+            return false;
+        case t_KMALLSystemTransducerConfiguration::SingleTxDualRx:
+            return true;
+        default:
+            throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
+                                                 "unsupported transducer configuration: {}",
+                                                 stc.name())));
+    }
+}
+
+std::map<std::string, navigation::datastructures::PositionalOffsets>
+IInstallationParam::get_transducer_offsets() const
+{
+    std::map<std::string, navigation::datastructures::PositionalOffsets> offsets;
+
+    for (auto& [key, value] : get_transducer_serial_numbers())
+    {
+        if (key == "TRX") // single head transceiver
+        {
+            offsets["TRX"] = get_transducer_offsets("TRAI_HD1");
+            offsets["TRX"].name = fmt::format("TRX-{}", value);
+        }
+        else if (key == "TX")
+        {
+            offsets["TX"] = get_transducer_offsets("TRAI_TX1");
+            offsets["TX"].name = fmt::format("TX-{}", value);
+        }
+        else if (key == "RX")
+        {
+            offsets["RX"] = get_transducer_offsets("TRAI_RX1");
+            offsets["RX"].name = fmt::format("RX-{}", value);
+        }
+        else
+        {
+            throw(std::runtime_error(fmt::format(
+                "Installation Parameters::get_transducer_offsets: unknown transducer key: {}",
+                key)));
+        }
+    }
+
+    return offsets;
 }
 
 // ----- processed data access -----
@@ -280,6 +424,14 @@ std::map<std::string, std::string> IInstallationParam::decode_install_txt(
                     }
                 }
 
+                // if prefix does not end with :, we need to get the value from the same line
+                if (is_prefix_marker && !value.empty())
+                {
+                    boost::trim(value);
+                    std::tie(name, value) = split_fields(value, ':', std::nullopt, i);
+                    is_prefix_marker      = false;
+                }
+
                 if (!is_prefix_marker)
                 {
                     if (value.empty())
@@ -344,7 +496,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_transducer
     using navigation::datastructures::PositionalOffsets;
     using tools::helper::string_to_floattype;
 
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find(transducer_key);
     if (it == decoded.end())
@@ -396,7 +548,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_position_s
     }
 
     std::string key     = fmt::format("POSI_{}", position_system_number);
-    auto        decoded = get_install_txt_decoded();
+    auto        decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find(key);
     if (it == decoded.end())
@@ -440,7 +592,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_attitude_s
     }
 
     std::string key     = fmt::format("ATTI_{}", sensor_number);
-    auto        decoded = get_install_txt_decoded();
+    auto        decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find(key);
     if (it == decoded.end())
@@ -484,7 +636,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_depth_sens
     using navigation::datastructures::PositionalOffsets;
     using tools::helper::string_to_floattype;
 
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find("DPHI");
     if (it == decoded.end())
@@ -516,7 +668,7 @@ float IInstallationParam::get_water_line_vertical_location_in_meters() const
 {
     using tools::helper::string_to_floattype;
 
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find("EMXI");
     if (it == decoded.end())
@@ -534,7 +686,7 @@ float IInstallationParam::get_water_line_vertical_location_in_meters() const
 
 int8_t IInstallationParam::get_active_position_system_number() const
 {
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     // Check each position system for U=ACTIVE
     for (uint8_t i = 1; i <= 4; ++i)
@@ -556,7 +708,7 @@ int8_t IInstallationParam::get_active_position_system_number() const
 
 int8_t IInstallationParam::get_active_attitude_sensor_number() const
 {
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     // Check each attitude sensor for U=ACTIVE
     for (uint8_t i = 1; i <= 4; ++i)
@@ -578,7 +730,7 @@ int8_t IInstallationParam::get_active_attitude_sensor_number() const
 
 std::string IInstallationParam::get_system_name() const
 {
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find("EMXV");
     if (it != decoded.end())
@@ -591,7 +743,7 @@ std::string IInstallationParam::get_system_name() const
 
 int IInstallationParam::get_pu_serial_number() const
 {
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
 
     auto it = decoded.find("SN");
     if (it != decoded.end())
@@ -604,7 +756,7 @@ int IInstallationParam::get_pu_serial_number() const
 
 std::vector<std::string> IInstallationParam::get_available_transducer_keys() const
 {
-    auto                     decoded = get_install_txt_decoded();
+    auto                     decoded = get_install_txt_decoded_cached();
     std::vector<std::string> keys;
 
     // Check all possible transducer keys
@@ -625,7 +777,7 @@ std::vector<std::string> IInstallationParam::get_available_transducer_keys() con
 
 bool IInstallationParam::has_transducer_key(const std::string& key) const
 {
-    auto decoded = get_install_txt_decoded();
+    auto decoded = get_install_txt_decoded_cached();
     return decoded.contains(key);
 }
 
@@ -640,6 +792,8 @@ void IInstallationParam::__read__(std::istream& is)
     _install_txt.resize(compute_size_content() - dbytes); // minus size of the previous fields
     is.read(_install_txt.data(), _install_txt.size());
     is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
+
+    cache_install_txt_decoded();
 }
 
 IInstallationParam IInstallationParam::from_stream(std::istream& is, const KMALLDatagram& header)
@@ -698,6 +852,16 @@ tools::classhelper::ObjectPrinter IInstallationParam::__printer__(unsigned int f
     printer.register_value("bytes datagram check", _bytes_datagram_check, "bytes");
     printer.register_section("install_txt");
     printer.register_string("install_txt", _install_txt);
+
+    if (_cached_install_txt_decoded.has_value())
+    {
+        printer.register_section("decoded install_txt");
+        for (const auto& [key, value] : *_cached_install_txt_decoded)
+        {
+            printer.register_string(key, value);
+        }
+    }
+
     return printer;
 }
 

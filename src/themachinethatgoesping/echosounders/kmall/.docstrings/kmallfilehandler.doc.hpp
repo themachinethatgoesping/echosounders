@@ -1,4 +1,4 @@
-//sourcehash: 9837211ebc1d86f7d04eaa823f7fe1a52a3d7690917b712ee052ba56cc1d2945
+//sourcehash: d083de00bb40f1086386405c59ddc2d2f1c853cff5b4cc9310e52cbfa8ec817c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,6 +68,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHa
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_environment_interface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_environment_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_get_channel_ids = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_get_pings = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_init_interfaces = R"doc()doc";
 

@@ -259,7 +259,6 @@ class InstallationParameters : public KongsbergAllDatagram
 
     // ----- flags and ping options -----
     bool        is_dual_rx() const;
-    std::string build_channel_id() const;
 
     // ----- high level access to installation parameters -----
     float get_water_line_vertical_location_in_meters() const;

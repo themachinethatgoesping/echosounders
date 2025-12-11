@@ -134,6 +134,46 @@ using o_KMALLDatagramIdentifier = themachinethatgoesping::tools::classhelper::Op
     t_KMALLDatagramIdentifier_values,
     t_KMALLDatagramIdentifier_names,
     t_KMALLDatagramIdentifier_alt_names>;
+
+enum class t_KMALLSystemTransducerConfiguration : uint8_t
+{
+    SingleTxSingleRx   = 0, ///< EM122, EM302, EM710, EM2040 Single
+    SingleHead         = 1, ///< EM3002 Single Head, EM2040C Single Head
+    DualHead           = 2, ///< EM3002 Dual Head, EM2040C Dual Head
+    SingleTxDualRx     = 3, ///< EM2040 Dual RX
+    DualTxDualRx       = 4, ///< EM2040 Dual TX
+    PortableSingleHead = 5, ///< EM2040P
+    Modular            = 6  ///< EM2040M
+};
+
+inline constexpr std::array<t_KMALLSystemTransducerConfiguration, 7>
+    t_KMALLSystemTransducerConfiguration_values = {
+        t_KMALLSystemTransducerConfiguration::SingleTxSingleRx,
+        t_KMALLSystemTransducerConfiguration::SingleHead,
+        t_KMALLSystemTransducerConfiguration::DualHead,
+        t_KMALLSystemTransducerConfiguration::SingleTxDualRx,
+        t_KMALLSystemTransducerConfiguration::DualTxDualRx,
+        t_KMALLSystemTransducerConfiguration::PortableSingleHead,
+        t_KMALLSystemTransducerConfiguration::Modular
+    };
+
+inline constexpr std::array<std::string_view, 7> t_KMALLSystemTransducerConfiguration_names = {
+    "SingleTxSingleRx", "SingleHead",         "DualHead", "SingleTxDualRx",
+    "DualTxDualRx",     "PortableSingleHead", "Modular"
+};
+inline constexpr std::array<std::string_view, 7> t_KMALLSystemTransducerConfiguration_alt_names = {
+    "Single Tx single Rx", "Single head",          "Dual head",   "Single Tx dual Rx",
+    "Dual Tx dual Rx",     "Portable head", "Modular head"
+};
+
+using o_KMALLSystemTransducerConfiguration =
+    themachinethatgoesping::tools::classhelper::OptionFrozen<
+        t_KMALLSystemTransducerConfiguration,
+        t_KMALLSystemTransducerConfiguration_values.size(),
+        t_KMALLSystemTransducerConfiguration_values,
+        t_KMALLSystemTransducerConfiguration_names,
+        t_KMALLSystemTransducerConfiguration_alt_names>;
+
 /**
  * @brief Convert datagram type from uint32_t to string representation.
  * @param value Datagram type as uint32_t.
@@ -214,3 +254,10 @@ extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_names,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names>;
+
+extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_values.size(),
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_values,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_names,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_alt_names>;

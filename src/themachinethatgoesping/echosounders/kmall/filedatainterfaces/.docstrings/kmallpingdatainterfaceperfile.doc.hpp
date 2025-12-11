@@ -1,4 +1,4 @@
-//sourcehash: 1077d5f165057286925827d5a386d24d05e16e984f8e69680ba4d3b58357062e
+//sourcehash: 2d504184b340f714ab6fc716f6b23cac8337a727a08c9aef4560718dd414ee71
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -43,11 +43,31 @@
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_KMALLPingCacheHandler = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_KMALLPingCacheHandler_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_file_cache = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_index_path = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_operator_bool = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_update_index = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_update_index_file = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingDataInterfacePerFile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingDataInterfacePerFile_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_read_extra_infos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_read_pings = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

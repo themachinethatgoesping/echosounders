@@ -1,4 +1,4 @@
-//sourcehash: bdbd62e595659e1591c62f9c489f70ed1620ca06a46c94f01fc5df176e628d48
+//sourcehash: fd2e841645a0761c0397feaf32168dd0ec5c43f0051377328eec98cc4d6f3c07
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,6 +50,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_I
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_bytes_content = R"doc(bytes of the datagram body)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_bytes_datagram_check = R"doc(Each datagram ends with the size of the datagram for integrity check)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_cache_install_txt_decoded = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_cached_install_txt_decoded = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_decode_install_txt =
 R"doc(Decode an install_txt string into a key-value map (static version)
@@ -130,6 +134,10 @@ Returns:
     std::map<std::string, std::string> Map of parameter names to
         values)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_decoded_cached = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_decoded_cached_2 = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_key_info =
 R"doc(Get human-readable explanation for an install_txt key
 
@@ -172,7 +180,11 @@ R"doc(Get the system name (EMXV field)
 Returns:
     std::string System name (e.g., "EM2040P"))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets =
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_transducer_configuration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets_2 =
 R"doc(Get the transducer offsets for a given transducer
 
 Parses TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2, or TRAI_HD1 entries
@@ -182,6 +194,8 @@ Args:
 
 Returns:
     navigation::datastructures::PositionalOffsets)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_serial_numbers = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_water_line_vertical_location_in_meters =
 R"doc(Get the waterline offset (SWLZ from EMXI)
@@ -201,6 +215,8 @@ Returns:
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_info = R"doc(Information. For future use.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_install_txt = R"doc(Runtime parameters as text format.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_is_dual_rx = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_operator_eq = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 322907e8d232e005c5332db0a403faa61f91ca01c199e8fc7be5412e57001095
+//sourcehash: f462c259be0bb5f8a310d406ac275958bd7a3e6ddaa249e64802059b30ebc569
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,8 +61,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_InstallationParameters_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_build_channel_id = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_checksum = R"doc()doc";
 

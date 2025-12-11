@@ -86,6 +86,23 @@ class KMALLConfigurationDataInterfacePerFile
         _active_attitude_sensor_number = number;
     }
 
+    auto get_transducer_id() const
+    {
+        for (const auto& target_id : this->get_sensor_configuration().get_target_ids())
+        {
+            if (target_id.starts_with("TRX"))
+            {
+                return target_id;
+            }
+        }
+
+        throw std::runtime_error(
+            fmt::format("get_transducer_id: No transducer found in sensor configuration for file "
+                        "nr {} [{}]!",
+                        this->get_file_nr(),
+                        this->get_file_path()));
+    }
+
     // ----- runtime parameters -----
     /**
      * @brief Read the runtime parameters from the file and save them in the internal map
@@ -145,8 +162,7 @@ class KMALLConfigurationDataInterfacePerFile
         if (!last_index)
             last_index = std::make_shared<size_t>(0);
 
-        auto& runtime_parameter_vector =
-            _runtime_parameters_by_pu_serial_number[pu_serial_number];
+        auto& runtime_parameter_vector = _runtime_parameters_by_pu_serial_number[pu_serial_number];
 
         if (runtime_parameter_vector.empty())
             throw std::runtime_error(
@@ -195,70 +211,36 @@ class KMALLConfigurationDataInterfacePerFile
         if (_active_attitude_sensor_number == 0)
             _active_attitude_sensor_number = param.get_active_attitude_sensor_number();
 
-        // Get available transducer keys to determine configuration
-        bool has_hd1 = param.has_transducer_key("TRAI_HD1");
-        bool has_tx1 = param.has_transducer_key("TRAI_TX1");
-        bool has_tx2 = param.has_transducer_key("TRAI_TX2");
-        bool has_rx1 = param.has_transducer_key("TRAI_RX1");
-        bool has_rx2 = param.has_transducer_key("TRAI_RX2");
+        auto transducer_offsets = param.get_transducer_offsets();
+        // std::string system_name = param.get_system_name();
+        // int pu_serial = param.get_pu_serial_number();
 
-        std::string system_name = param.get_system_name();
-        int pu_serial = param.get_pu_serial_number();
-
-        if (has_hd1)
+        switch (param.get_system_transducer_configuration().value)
         {
-            // Single head configuration (combined TX/RX)
-            auto trx = param.get_transducer_offsets("TRAI_HD1");
-            trx.name = fmt::format("TRX-{}", pu_serial);
-            config.add_target(trx.name, std::move(trx));
-        }
-        else if (has_tx1 && has_rx1)
-        {
-            // Has at least TX1 and RX1
-            auto tx1 = param.get_transducer_offsets("TRAI_TX1");
-            auto rx1 = param.get_transducer_offsets("TRAI_RX1");
-            tx1.name = fmt::format("TX1-{}", pu_serial);
-            rx1.name = fmt::format("RX1-{}", pu_serial);
-
-            // Create combined TRX for primary system
-            auto trx1 = PositionalOffsets::from_txrx(tx1, rx1, fmt::format("TRX-{}", pu_serial));
-
-            config.add_target(tx1.name, std::move(tx1));
-            config.add_target(rx1.name, std::move(rx1));
-            config.add_target(trx1.name, std::move(trx1));
-
-            // Check for dual TX configuration
-            if (has_tx2)
-            {
-                auto tx2 = param.get_transducer_offsets("TRAI_TX2");
-                tx2.name = fmt::format("TX2-{}", pu_serial);
-                config.add_target(tx2.name, std::move(tx2));
+            case t_KMALLSystemTransducerConfiguration::SingleHead:
+                [[fallthrough]];
+            case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
+                auto trx = transducer_offsets["TRX"];
+                config.add_target(trx.name, std::move(trx));
+                break;
             }
-
-            // Check for dual RX configuration
-            if (has_rx2)
-            {
-                auto rx2 = param.get_transducer_offsets("TRAI_RX2");
-                rx2.name = fmt::format("RX2-{}", pu_serial);
-
-                // Create combined TRX for secondary system
-                auto tx_for_trx2 = has_tx2 ? param.get_transducer_offsets("TRAI_TX2")
-                                           : param.get_transducer_offsets("TRAI_TX1");
-                auto trx2 = PositionalOffsets::from_txrx(
-                    tx_for_trx2, rx2, fmt::format("TRX2-{}", pu_serial));
-
-                config.add_target(rx2.name, std::move(rx2));
-                config.add_target(trx2.name, std::move(trx2));
+            case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
+                auto tx  = transducer_offsets["TX"];
+                auto rx  = transducer_offsets["RX"];
+                auto trx = PositionalOffsets::from_txrx(tx, rx, "T" + rx.name);
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx.name, std::move(rx));
+                config.add_target(trx.name, std::move(trx));
+                break;
             }
-        }
-        else
-        {
-            throw std::runtime_error(
-                fmt::format("read_sensor_configuration: No valid transducer configuration found "
-                            "in file nr {} [{}]! Available keys: {}",
-                            this->get_file_nr(),
-                            this->get_file_path(),
-                            fmt::join(param.get_available_transducer_keys(), ", ")));
+            default:
+
+                throw std::runtime_error(
+                    fmt::format("read_sensor_configuration \n"
+                                "in file nr {} [{}]! unsupported transducer configuration: {}",
+                                this->get_file_nr(),
+                                this->get_file_path(),
+                                param.get_system_transducer_configuration().name()));
         }
 
         // add the depth sensor (if available)
@@ -314,7 +296,8 @@ class KMALLConfigurationDataInterfacePerFile
     datagrams::IInstallationParam read_installation_parameters() const
     {
         // check that there is at least one installation parameters datagram
-        if (!this->_datagram_infos_by_type.contains(t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM))
+        if (!this->_datagram_infos_by_type.contains(
+                t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM))
             throw std::runtime_error(
                 fmt::format("read_installation_parameters: There is no "
                             "installation parameters datagram in file nr {} [{}]!",
@@ -331,9 +314,15 @@ class KMALLConfigurationDataInterfacePerFile
                             this->get_file_nr(),
                             this->get_file_path()));
 
+        if (datagram_infos.size() > 1)
+            throw std::runtime_error(
+                fmt::format("read_installation_parameters: There are multiple "
+                            "installation parameters datagrams in file nr {} [{}]!",
+                            this->get_file_nr(),
+                            this->get_file_path()));
+
         // Return the first installation parameters datagram
-        return datagram_infos[0]
-            ->template read_datagram_from_file<datagrams::IInstallationParam>();
+        return datagram_infos[0]->template read_datagram_from_file<datagrams::IInstallationParam>();
     }
 
     // ----- objectprinter -----

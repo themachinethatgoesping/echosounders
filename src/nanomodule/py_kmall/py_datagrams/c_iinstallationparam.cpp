@@ -66,6 +66,9 @@ void init_c_iinstallationparam(nanobind::module_& m)
         .def("get_install_txt_decoded",
              &IInstallationParam::get_install_txt_decoded,
              DOC_IInstallationParam(get_install_txt_decoded))
+        .def("get_install_txt_decoded_cached",
+             nb::overload_cast<>(&IInstallationParam::get_install_txt_decoded_cached),
+             DOC_IInstallationParam(get_install_txt_decoded_cached))
         .def_static("decode_install_txt",
                     &IInstallationParam::decode_install_txt,
                     DOC_IInstallationParam(decode_install_txt),
@@ -84,7 +87,8 @@ void init_c_iinstallationparam(nanobind::module_& m)
                     DOC_IInstallationParam(parse_sensor_string),
                     nb::arg("sensor_string"))
         .def("get_transducer_offsets",
-             &IInstallationParam::get_transducer_offsets,
+             nb::overload_cast<const std::string&>(&IInstallationParam::get_transducer_offsets,
+                                                   nb::const_),
              DOC_IInstallationParam(get_transducer_offsets),
              nb::arg("transducer_key"))
         .def("get_position_system_offsets",
@@ -120,6 +124,18 @@ void init_c_iinstallationparam(nanobind::module_& m)
              &IInstallationParam::has_transducer_key,
              DOC_IInstallationParam(has_transducer_key),
              nb::arg("key"))
+
+        // --- flags and ping options ---
+        .def("is_dual_rx", &IInstallationParam::is_dual_rx, DOC_IInstallationParam(is_dual_rx))
+        .def("get_system_transducer_configuration",
+             &IInstallationParam::get_system_transducer_configuration,
+             DOC_IInstallationParam(get_system_transducer_configuration))
+        .def("get_transducer_serial_numbers",
+             &IInstallationParam::get_transducer_serial_numbers,
+             DOC_IInstallationParam(get_transducer_serial_numbers))
+        .def("get_transducer_offsets",
+             nb::overload_cast<>(&IInstallationParam::get_transducer_offsets, nb::const_),
+             DOC_IInstallationParam(get_transducer_offsets))
 
         // ----- operators -----
         .def("__eq__",

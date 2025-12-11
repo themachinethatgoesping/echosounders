@@ -281,8 +281,7 @@ class KMALLFileHandler
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
-        _navigation_interface->init_from_file(
-            this->get_index_paths(), force, progress_bar, true);
+        _navigation_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
         _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
@@ -291,12 +290,11 @@ class KMALLFileHandler
         _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
-        // // std::cout << std::endl; // TODO: remove this workaround
-        // progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping
-        // interface")); _ping_interface->init_from_file(this->get_index_paths(), force,
-        // progress_bar, true);
+        // std::cout << std::endl; // TODO: remove this workaround
+        progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
+        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
 
-        // progress_bar.close(std::string("Done"));
+        progress_bar.close(std::string("Done"));
     }
 
     auto& datagramdata_interface() { return *_datagramdata_interface; }
@@ -306,18 +304,16 @@ class KMALLFileHandler
     auto& otherfiledata_interface() { return *_otherfiledata_interface; }
     auto& ping_interface() { return *_ping_interface; }
 
-    // filedatacontainers::KMALLPingContainer<t_ifstream> get_pings(
-    //     bool sorted_by_time = true) const
-    // {
-    //     if (sorted_by_time)
-    //     {
-    //         return _ping_interface->get_pings().get_sorted_by_time();
-    //     }
-    //     return _ping_interface->get_pings();
-    // }
+    filedatacontainers::KMALLPingContainer<t_ifstream> get_pings(bool sorted_by_time = true) const
+    {
+        if (sorted_by_time)
+        {
+            return _ping_interface->get_pings().get_sorted_by_time();
+        }
+        return _ping_interface->get_pings();
+    }
 
-    // std::vector<std::string> get_channel_ids() const { return _ping_interface->get_channel_ids();
-    // }
+    std::vector<std::string> get_channel_ids() const { return _ping_interface->get_channel_ids(); }
 
   protected:
     void callback_scan_new_file_begin([[maybe_unused]] const std::string& file_path,
@@ -371,6 +367,7 @@ class KMALLFileHandler
             case t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH:
                 [[fallthrough]];
             case t_KMALLDatagramIdentifier::M_WATER_COLUMN:
+                add_ping_counter_extra_info(datagram_info, 26);
                 _ping_interface->add_datagram_info(datagram_info);
                 break;
 
@@ -408,11 +405,11 @@ class KMALLFileHandler
 
         printer.append(interface_printer);
 
-        // printer.register_section("Detected Pings");
-        // printer.append(
-        //     _ping_interface->get_pings().__printer__(float_precision, superscript_exponents),
-        //     false,
-        //     '^');
+        printer.register_section("Detected Pings");
+        printer.append(
+            _ping_interface->get_pings().__printer__(float_precision, superscript_exponents),
+            false,
+            '^');
 
         return printer;
     }
@@ -421,6 +418,27 @@ class KMALLFileHandler
     // -- class helper function macros --
     // define info_string and print functions (needs the __printer__ function)
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
+
+  private:
+    /**
+     * @brief Read ping counter and serial number from datagram and add as extra info
+     * @param datagram_info The datagram info to read from and add extra info to
+     */
+    static void add_ping_counter_extra_info(
+        filetemplates::datatypes::DatagramInfo_ptr<t_KMALLDatagramIdentifier, t_ifstream>
+               datagram_info,
+        size_t offset)
+    {
+        if (datagram_info->get_extra_infos().size() != 2)
+        {
+            // read the ping counter
+            auto& ifs = datagram_info->get_stream_and_seek(offset); // offset=16 bytes (header size)
+            uint16_t ping_counter;
+            ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(ping_counter));
+
+            datagram_info->template add_extra_info<uint16_t>(ping_counter);
+        }
+    }
 };
 
 } // namespace kmall

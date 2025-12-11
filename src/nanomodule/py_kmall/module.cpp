@@ -99,6 +99,37 @@ void init_m_kmall(nanobind::module_& m)
     themachinethatgoesping::tools::nanobind_helper::make_option_class<o_KMALLDatagramIdentifier>(
         subm, "o_KMALLDatagramIdentifier");
 
+    nb::enum_<t_KMALLSystemTransducerConfiguration>(
+        subm,
+        "t_KMALLSystemTransducerConfiguration",
+        DOC(themachinethatgoesping, echosounders, kmall, t_KMALLSystemTransducerConfiguration))
+        .value("SingleTxSingleRx",
+               t_KMALLSystemTransducerConfiguration::SingleTxSingleRx,
+               DOC_t_KMALLSystemTransducerConfiguration(SingleTxSingleRx))
+        .value("SingleHead",
+               t_KMALLSystemTransducerConfiguration::SingleHead,
+               DOC_t_KMALLSystemTransducerConfiguration(SingleHead))
+        .value("DualHead",
+               t_KMALLSystemTransducerConfiguration::DualHead,
+               DOC_t_KMALLSystemTransducerConfiguration(DualHead))
+        .value("SingleTxDualRx",
+               t_KMALLSystemTransducerConfiguration::SingleTxDualRx,
+               DOC_t_KMALLSystemTransducerConfiguration(SingleTxDualRx))
+        .value("DualTxDualRx",
+               t_KMALLSystemTransducerConfiguration::DualTxDualRx,
+               DOC_t_KMALLSystemTransducerConfiguration(DualTxDualRx))
+        .value("PortableSingleHead",
+               t_KMALLSystemTransducerConfiguration::PortableSingleHead,
+               DOC_t_KMALLSystemTransducerConfiguration(PortableSingleHead))
+        .value("Modular",
+               t_KMALLSystemTransducerConfiguration::Modular,
+               DOC_t_KMALLSystemTransducerConfiguration(Modular))
+        //
+        ;
+
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<
+        o_KMALLSystemTransducerConfiguration>(subm, "o_KMALLSystemTransducerConfiguration");
+
     subm.def("datagram_type_to_string",
              nb::overload_cast<t_KMALLDatagramIdentifier>(&datagram_type_to_string),
              DOC(themachinethatgoesping, echosounders, kmall, datagram_type_to_string),

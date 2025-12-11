@@ -73,13 +73,13 @@ void py_create_class_kmallfilehandler(nb::module_& m, const std::string& CLASS_N
                     nb::overload_cast<>(&KMALLFileHandler<T_FileStream>::ping_interface),
                     DOC_KMALLFileHandler(ping_interface));
 
-    // cls.def("get_pings",
-    //         nb::overload_cast<bool>(&KMALLFileHandler<T_FileStream>::get_pings, nb::const_),
-    //         nb::arg("sorted_by_time") = true,
-    //         DOC_KMALLFileHandler(get_pings));
-    // cls.def("get_channel_ids",
-    //         &KMALLFileHandler<T_FileStream>::get_channel_ids,
-    //         DOC_KMALLFileHandler(get_channel_ids));
+    cls.def("get_pings",
+            nb::overload_cast<bool>(&KMALLFileHandler<T_FileStream>::get_pings, nb::const_),
+            nb::arg("sorted_by_time") = true,
+            DOC_KMALLFileHandler(get_pings));
+    cls.def("get_channel_ids",
+            &KMALLFileHandler<T_FileStream>::get_channel_ids,
+            DOC_KMALLFileHandler(get_channel_ids));
 
     // ----- ping convenience functions -----
     /* default copy functions */

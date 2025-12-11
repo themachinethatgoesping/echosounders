@@ -42,6 +42,10 @@ class IInstallationParam : public KMALLDatagram
     std::string _install_txt;          ///< Runtime parameters as text format.
     uint32_t    _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                        ///< integrity check
+
+    // cached decoded install txt
+    std::optional<std::map<std::string, std::string>> _cached_install_txt_decoded;
+
   public:
     // ----- public constructors -----
     IInstallationParam();
@@ -55,11 +59,21 @@ class IInstallationParam : public KMALLDatagram
     const std::string& get_install_txt() const;
     uint32_t           get_bytes_datagram_check() const;
 
+    const std::map<std::string, std::string>& get_install_txt_decoded_cached();
+    const std::map<std::string, std::string>& get_install_txt_decoded_cached() const;
+    void                                      cache_install_txt_decoded();
+
     // setters
     // void set_bytes_content(uint16_t bytes_content);
     void set_info(uint16_t info);
     void set_status(uint16_t status);
     void set_install_txt(std::string_view install_txt);
+
+    // ----- flags and ping options -----
+    bool                                 is_dual_rx() const;
+    o_KMALLSystemTransducerConfiguration get_system_transducer_configuration() const;
+    std::map<std::string, std::string>   get_transducer_serial_numbers() const;
+    std::map<std::string, navigation::datastructures::PositionalOffsets> get_transducer_offsets() const;
 
     // ----- processed data access -----
     /**

@@ -1,4 +1,4 @@
-//sourcehash: 28825bb6987418f93e6c676469a74ec545a09cdb237800773f1c384c01fe76c0
+//sourcehash: b4e0afa2f9713f37632d4cae0589ae1e286beb14828ab927f2ab632b69f2669c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,9 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_211_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_251_67 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_258_67 = R"doc()doc";
 
 
 
@@ -110,6 +112,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLData
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_S_SOUND_VELOCITY_TRANSDUCER = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLDatagramIdentifier_unspecified = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_DualHead = R"doc(EM3002 Dual Head, EM2040C Dual Head)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_DualTxDualRx = R"doc(EM2040 Dual TX)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_Modular = R"doc(EM2040M)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_PortableSingleHead = R"doc(EM2040P)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_SingleHead = R"doc(EM3002 Single Head, EM2040C Single Head)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_SingleTxDualRx = R"doc(EM2040 Dual RX)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_SingleTxSingleRx = R"doc(EM122, EM302, EM710, EM2040 Single)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

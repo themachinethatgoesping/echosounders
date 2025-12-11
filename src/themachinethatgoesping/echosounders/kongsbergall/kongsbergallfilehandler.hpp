@@ -63,6 +63,34 @@ class KongsbergAllFileHandler
     using typename t_base::FilePackageIndex;
 
   private:
+    // ----- helper functions -----
+    /**
+     * @brief Read ping counter and serial number from datagram and add as extra info
+     * @param datagram_info The datagram info to read from and add extra info to
+     */
+    static void add_ping_counter_extra_info(
+        filetemplates::datatypes::DatagramInfo_ptr<t_KongsbergAllDatagramIdentifier, t_ifstream>
+            datagram_info)
+    {
+        if (datagram_info->get_extra_infos().size() != 4)
+        {
+            // read the ping counter
+            auto& ifs =
+                datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
+
+            struct
+            {
+                uint16_t ping_counter;
+                uint16_t serial_number;
+            } counter_snumber;
+
+            ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
+
+            datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
+            datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
+        }
+    }
+
     // ----- file data interfaces -----
     std::shared_ptr<t_DatagramDataInterface> _datagramdata_interface =
         std::make_shared<t_DatagramDataInterface>();
@@ -370,24 +398,7 @@ class KongsbergAllFileHandler
             case t_KongsbergAllDatagramIdentifier::WatercolumnDatagram:
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::QualityFactorDatagram: {
-                if (datagram_info->get_extra_infos().size() != 4)
-                {
-                    // read the ping counter
-                    auto& ifs =
-                        datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
-
-                    struct
-                    {
-                        uint16_t ping_counter;
-                        uint16_t serial_number;
-                    } counter_snumber;
-
-                    // ifs.seekg(16, std::ios::cur); // skip header
-                    ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
-
-                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
-                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
-                }
+                add_ping_counter_extra_info(datagram_info);
                 _ping_interface->add_datagram_info(datagram_info);
                 break;
             }
@@ -401,24 +412,7 @@ class KongsbergAllFileHandler
             // Configuration datagrams
             case t_KongsbergAllDatagramIdentifier::RuntimeParameters:
                 // this datagram also has ping counter and system serial number
-                if (datagram_info->get_extra_infos().size() != 4)
-                {
-                    // read the ping counter
-                    auto& ifs =
-                        datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
-
-                    struct
-                    {
-                        uint16_t ping_counter;
-                        uint16_t serial_number;
-                    } counter_snumber;
-
-                    // ifs.seekg(16, std::ios::cur); // skip header
-                    ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
-
-                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
-                    datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
-                }
+                add_ping_counter_extra_info(datagram_info);
                 [[fallthrough]];
             case t_KongsbergAllDatagramIdentifier::InstallationParametersStart:
                 [[fallthrough]];

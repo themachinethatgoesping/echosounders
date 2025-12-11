@@ -60,15 +60,12 @@ class KMALLPing
     using typename t_base2::t_rawdata;
 
   public:
-    KMALLPing( // const datagrams::InstallationParameters& param
-        )
+    KMALLPing()
         : t_base1()
         , t_base2()
         , _bottom(_file_data)
         , _watercolumn(_file_data)
     {
-        /* set i_ping parameters */
-        // set_channel_id(param.build_channel_id());
     }
     virtual ~KMALLPing() = default;
 

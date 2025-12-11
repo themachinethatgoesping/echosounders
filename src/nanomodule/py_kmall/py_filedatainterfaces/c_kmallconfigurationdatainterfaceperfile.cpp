@@ -34,34 +34,32 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
 using namespace themachinethatgoesping::echosounders::kmall;
 using themachinethatgoesping::tools::progressbars::I_ProgressBar;
 
-#define DOC_KMALLConfigurationDataInterfacePerFile(ARG)                                     \
+#define DOC_KMALLConfigurationDataInterfacePerFile(ARG)                                            \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kmall,                                                                              \
+        kmall,                                                                                     \
         filedatainterfaces,                                                                        \
-        KMALLConfigurationDataInterfacePerFile,                                             \
+        KMALLConfigurationDataInterfacePerFile,                                                    \
         ARG)
 
 template<typename T_FileStream>
 void py_create_class_KMALLConfigurationDataInterfacePerFile(nanobind::module_& m,
-                                                                   const std::string& CLASS_NAME)
+                                                            const std::string& CLASS_NAME)
 {
     using namespace py_filetemplates::py_datainterfaces; // this holds py_i_DatagramInterface and
                                                          // py_i_DatagramInterface
 
-    using T_BaseClass =
-        filedatainterfaces::KMALLConfigurationDataInterfacePerFile<T_FileStream>;
+    using T_BaseClass = filedatainterfaces::KMALLConfigurationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
     auto cls =
-        nb::class_<T_BaseClass>(
-            m,
-            CLASS_NAME.c_str(),
-            DOC(themachinethatgoesping,
-                echosounders,
-                kmall,
-                filedatainterfaces,
-                KMALLConfigurationDataInterfacePerFile))
+        nb::class_<T_BaseClass>(m,
+                                CLASS_NAME.c_str(),
+                                DOC(themachinethatgoesping,
+                                    echosounders,
+                                    kmall,
+                                    filedatainterfaces,
+                                    KMALLConfigurationDataInterfacePerFile))
 
             .def("read_installation_parameters",
                  &T_BaseClass::read_installation_parameters,
@@ -83,6 +81,9 @@ void py_create_class_KMALLConfigurationDataInterfacePerFile(nanobind::module_& m
                 nb::arg("pu_serial_number"),
                 nb::arg("ping_time"),
                 nb::arg("last_index") = 0)
+            .def("get_transducer_id",
+                 &T_BaseClass::get_transducer_id,
+                 DOC_KMALLConfigurationDataInterfacePerFile(get_transducer_id))
 
             // ----- getters -----
             .def("get_active_position_system_number",

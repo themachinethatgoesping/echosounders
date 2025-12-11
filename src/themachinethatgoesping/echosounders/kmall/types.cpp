@@ -37,3 +37,10 @@ template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_names,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names>;
+    
+template class themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_values.size(),
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_values,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_names,
+    themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration_alt_names>;
