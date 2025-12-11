@@ -115,14 +115,14 @@ class KMALLPingDataInterfacePerFile
 
                             ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
 
-                            // ping_it->second->file_data().set_file_ping_counter(ping_counter);
+                            ping_it->second->file_data().set_file_ping_counter(ping_counter);
 
-                            // ping_it->second->file_data().set_runtime_parameters(
-                            //     configuration_data_interface_for_file.get_runtime_parameters(
-                            //         serial_number,
-                            //         ping_counter,
-                            //         ping_it->second->get_timestamp(),
-                            //         last_runtime_parameter_index_per_serial_number[serial_number]));
+                            ping_it->second->file_data().set_runtime_parameters(
+                                configuration_data_interface_for_file.get_runtime_parameters(
+                                    serial_number,
+                                    ping_counter,
+                                    ping_it->second->get_timestamp(),
+                                    last_runtime_parameter_index_per_serial_number[serial_number]));
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);

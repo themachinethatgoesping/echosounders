@@ -1,4 +1,4 @@
-//sourcehash: fd4be447625ff212cd38ca34c8e3f3732904c0f779824e938b2eeb0c28c0b955
+//sourcehash: 6b95a81232c53976f3748db861008889dcf1f696f8d47c53652d95f3adde337f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,7 +49,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_class_name = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_runtime_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_runtime_parameters = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_runtime_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_set_runtime_parameters = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

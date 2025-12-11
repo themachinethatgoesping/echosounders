@@ -71,14 +71,21 @@ void py_create_class_KMALLConfigurationDataInterfacePerFile(nanobind::module_& m
                  DOC_KMALLConfigurationDataInterfacePerFile(init_runtime_parameters))
             .def(
                 "get_runtime_parameters",
-                [](T_BaseClass& self, int pu_serial_number, double ping_time, size_t last_index) {
+                [](T_BaseClass& self,
+                   int          system_serial_number,
+                   size_t       ping_counter,
+                   double       ping_time,
+                   size_t       last_index) {
                     return self
-                        .get_runtime_parameters(
-                            pu_serial_number, ping_time, std::make_shared<size_t>(last_index))
+                        .get_runtime_parameters(system_serial_number,
+                                                ping_counter,
+                                                ping_time,
+                                                std::make_shared<size_t>(last_index))
                         .get();
                 },
                 DOC_KMALLConfigurationDataInterfacePerFile(get_runtime_parameters),
-                nb::arg("pu_serial_number"),
+                nb::arg("system_serial_number"),
+                nb::arg("ping_counter"),
                 nb::arg("ping_time"),
                 nb::arg("last_index") = 0)
             .def("get_transducer_id",

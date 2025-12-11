@@ -56,13 +56,13 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
                                                          KMALLPingFileData))
 
                //     // --- substructure access ---
-               //     .def("set_runtime_parameters",
-               //          &t_KMALLPingFileData::set_runtime_parameters,
-               //          DOC_KMALLPingFileData(set_runtime_parameters),
-               //          nb::arg("runtime_parameters"))
-               //     .def("get_runtime_parameters",
-               //          &t_KMALLPingFileData::get_runtime_parameters,
-               //          DOC_KMALLPingFileData(get_runtime_parameters))
+                   .def("set_runtime_parameters",
+                        &t_KMALLPingFileData::set_runtime_parameters,
+                        DOC_KMALLPingFileData(set_runtime_parameters),
+                        nb::arg("runtime_parameters"))
+                   .def("get_runtime_parameters",
+                        &t_KMALLPingFileData::get_runtime_parameters,
+                        DOC_KMALLPingFileData(get_runtime_parameters))
 
                //     // --- file_data data access ---
                //     .def("read_merged_watercolumndatagram",

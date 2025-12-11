@@ -1,4 +1,4 @@
-//sourcehash: 3056c0cccecaf079a1f4fd829b00b22fca46b300a6bae462e95c274d25eb22b1
+//sourcehash: 71d8257f9518974330d06ad8222469743fe4117d935698134ec092a1ac386b2f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,7 +61,7 @@ the given ping time. It uses last_index as an optimization to avoid
 searching from the beginning each time.
 
 Args:
-    pu_serial_number: The PU serial number to search for
+    system_serial_number: The PU serial number to search for
     ping_time: The timestamp of the ping
     last_index: Shared pointer to the last index used for optimization
                 (will be updated)
@@ -87,7 +87,7 @@ Returns:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_by_pu_serial_number = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_by_system_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
 
