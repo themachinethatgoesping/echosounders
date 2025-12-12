@@ -177,6 +177,124 @@ class AmplitudeCalibration
             wci, range_varying_offset, min_beam_index, max_beam_index, mp_cores);
     }
 
+    /**
+     * @brief Apply beam and sample corrections with per-beam absorption coefficients.
+     *
+     * This overload supports per-beam absorption coefficients for multi-sector sonars
+     * (e.g., Kongsberg) where each transmit sector may have a different absorption value.
+     *
+     * @tparam t_xtensor_2d Type of the 2D water column image tensor.
+     * @tparam t_xtensor_1d Type of the 1D tensor for beam angles, ranges, and absorption.
+     * @param wci The input 2D tensor (beams x samples).
+     * @param beam_angles A 1D tensor of beam angles (size = number of beams).
+     * @param ranges A 1D tensor of ranges in meters (size = number of samples).
+     * @param absorption_db_m_per_beam A 1D tensor of absorption coefficients in dB/m per beam.
+     * @param tvg_factor Optional time-varying gain factor.
+     * @param mp_cores Number of parallel cores (default = 1).
+     * @return Corrected 2D tensor.
+     */
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    t_xtensor_2d apply_beam_sample_correction(
+        const t_xtensor_2d&                                                         wci,
+        const t_xtensor_1d&                                                         beam_angles,
+        const t_xtensor_1d&                                                         ranges,
+        const t_xtensor_1d& absorption_db_m_per_beam,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> tvg_factor,
+        int mp_cores = 1) const
+    {
+        namespace ampcorr = algorithms::amplitudecorrection::functions;
+
+        // Compute per-sample offset from TVG only (absorption handled per-beam)
+        t_xtensor_1d range_varying_offset =
+            ampcorr::compute_cw_range_correction(ranges, std::nullopt, tvg_factor);
+
+        if (has_offset_per_range())
+            range_varying_offset += get_per_sample_offsets(ranges);
+
+        t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
+
+        if (has_system_offset())
+            beam_correction += get_system_offset();
+
+        auto result = ampcorr::apply_beam_sample_correction_with_absorption(
+            wci, beam_correction, range_varying_offset, ranges, absorption_db_m_per_beam, mp_cores);
+
+        if (has_offset_per_beamangle_and_range())
+            result += _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
+
+        return result;
+    }
+
+    /**
+     * @brief Inplace apply beam and sample corrections with per-beam absorption coefficients.
+     *
+     * This overload supports per-beam absorption coefficients for multi-sector sonars
+     * (e.g., Kongsberg) where each transmit sector may have a different absorption value.
+     *
+     * @tparam t_xtensor_2d Type of the 2D water column image tensor.
+     * @tparam t_xtensor_1d Type of the 1D tensor for beam angles, ranges, and absorption.
+     * @param wci The input 2D tensor to be modified in-place (beams x samples).
+     * @param beam_angles A 1D tensor of beam angles (size = number of beams).
+     * @param ranges A 1D tensor of ranges in meters (size = number of samples).
+     * @param absorption_db_m_per_beam A 1D tensor of absorption coefficients in dB/m per beam.
+     * @param tvg_factor Optional time-varying gain factor.
+     * @param min_beam_index Optional minimum beam index.
+     * @param max_beam_index Optional maximum beam index.
+     * @param mp_cores Number of parallel cores (default = 1).
+     */
+    template<tools::helper::c_xtensor t_xtensor_2d, tools::helper::c_xtensor t_xtensor_1d>
+    void inplace_beam_sample_correction(
+        [[maybe_unused]] t_xtensor_2d& wci,
+        const t_xtensor_1d&            beam_angles,
+        const t_xtensor_1d&            ranges,
+        const t_xtensor_1d&            absorption_db_m_per_beam,
+        std::optional<typename tools::helper::xtensor_datatype<t_xtensor_1d>::type> tvg_factor,
+        std::optional<size_t> min_beam_index = std::nullopt,
+        std::optional<size_t> max_beam_index = std::nullopt,
+        int                   mp_cores       = 1) const
+    {
+        namespace ampcorr = algorithms::amplitudecorrection::functions;
+
+        // Compute per-sample offset from TVG only (absorption handled per-beam)
+        t_xtensor_1d range_varying_offset =
+            ampcorr::compute_cw_range_correction(ranges, std::nullopt, tvg_factor);
+
+        if (has_offset_per_beamangle_and_range())
+            wci += _offset_per_beamangle_and_range(beam_angles, ranges, mp_cores);
+
+        if (has_offset_per_range())
+            range_varying_offset += get_per_sample_offsets(ranges);
+
+        if (has_offset_per_beamangle())
+        {
+            t_xtensor_1d beam_correction = get_per_beam_offsets(beam_angles);
+
+            if (has_system_offset())
+                beam_correction += get_system_offset();
+
+            ampcorr::inplace_beam_sample_correction_with_absorption(wci,
+                                                                    beam_correction,
+                                                                    range_varying_offset,
+                                                                    ranges,
+                                                                    absorption_db_m_per_beam,
+                                                                    min_beam_index,
+                                                                    max_beam_index,
+                                                                    mp_cores);
+            return;
+        }
+
+        if (has_system_offset())
+            range_varying_offset += get_system_offset();
+
+        ampcorr::inplace_sample_correction_with_absorption(wci,
+                                                           range_varying_offset,
+                                                           ranges,
+                                                           absorption_db_m_per_beam,
+                                                           min_beam_index,
+                                                           max_beam_index,
+                                                           mp_cores);
+    }
+
     // getters / setters
     float get_system_offset() const { return _system_offset; }
     void  set_system_offset(float value) { _system_offset = value; }

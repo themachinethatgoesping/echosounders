@@ -63,31 +63,121 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  &AmplitudeCalibration::get_per_sample_offsets<xt::nanobind::pytensor<float, 1>>,
                  DOC_AmplitudeCalibration(get_per_sample_offsets),
                  nb::arg("ranges"))
-            .def("apply_beam_sample_correction",
-                 &AmplitudeCalibration::apply_beam_sample_correction<
-                     xt::nanobind::pytensor<float, 2>,
-                     xt::nanobind::pytensor<float, 1>>,
-                 DOC_AmplitudeCalibration(apply_beam_sample_correction),
-                 nb::arg("wci"),
-                 nb::arg("beam_angles"),
-                 nb::arg("ranges"),
-                 nb::arg("absorption_db_m"),
-                 nb::arg("tvg_factor"),
-                 nb::arg("mp_cores") = 1)
 
-            .def("inplace_beam_sample_correction",
-                 &AmplitudeCalibration::inplace_beam_sample_correction<
-                     xt::nanobind::pytensor<float, 2>,
-                     xt::nanobind::pytensor<float, 1>>,
-                 DOC_AmplitudeCalibration(inplace_beam_sample_correction),
-                 nb::arg("wci"),
-                 nb::arg("beam_angles"),
-                 nb::arg("ranges"),
-                 nb::arg("absorption_db_m"),
-                 nb::arg("tvg_factor"),
-                 nb::arg("min_beam_index") = std::nullopt,
-                 nb::arg("max_beam_index") = std::nullopt,
-                 nb::arg("mp_cores")       = 1)
+            // --- apply_beam_sample_correction with scalar absorption ---
+            .def(
+                "apply_beam_sample_correction",
+                [](const AmplitudeCalibration&              self,
+                   const xt::nanobind::pytensor<float, 2>&  wci,
+                   const xt::nanobind::pytensor<float, 1>&  beam_angles,
+                   const xt::nanobind::pytensor<float, 1>&  ranges,
+                   std::optional<float>                     absorption_db_m,
+                   std::optional<float>                     tvg_factor,
+                   int                                      mp_cores) {
+                    return self.apply_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
+                                                             xt::nanobind::pytensor<float, 1>>(
+                        wci, beam_angles, ranges, absorption_db_m, tvg_factor, mp_cores);
+                },
+                DOC_AmplitudeCalibration(apply_beam_sample_correction),
+                nb::arg("wci"),
+                nb::arg("beam_angles"),
+                nb::arg("ranges"),
+                nb::arg("absorption_db_m"),
+                nb::arg("tvg_factor"),
+                nb::arg("mp_cores") = 1)
+
+            // --- apply_beam_sample_correction with per-beam absorption ---
+            .def(
+                "apply_beam_sample_correction_per_beam",
+                [](const AmplitudeCalibration&              self,
+                   const xt::nanobind::pytensor<float, 2>&  wci,
+                   const xt::nanobind::pytensor<float, 1>&  beam_angles,
+                   const xt::nanobind::pytensor<float, 1>&  ranges,
+                   const xt::nanobind::pytensor<float, 1>&  absorption_db_m_per_beam,
+                   std::optional<float>                     tvg_factor,
+                   int                                      mp_cores) {
+                    return self.apply_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
+                                                             xt::nanobind::pytensor<float, 1>>(
+                        wci,
+                        beam_angles,
+                        ranges,
+                        absorption_db_m_per_beam,
+                        tvg_factor,
+                        mp_cores);
+                },
+                DOC_AmplitudeCalibration(apply_beam_sample_correction_2),
+                nb::arg("wci"),
+                nb::arg("beam_angles"),
+                nb::arg("ranges"),
+                nb::arg("absorption_db_m_per_beam"),
+                nb::arg("tvg_factor"),
+                nb::arg("mp_cores") = 1)
+
+            // --- inplace_beam_sample_correction with scalar absorption ---
+            .def(
+                "inplace_beam_sample_correction",
+                [](const AmplitudeCalibration&             self,
+                   xt::nanobind::pytensor<float, 2>&       wci,
+                   const xt::nanobind::pytensor<float, 1>& beam_angles,
+                   const xt::nanobind::pytensor<float, 1>& ranges,
+                   std::optional<float>                    absorption_db_m,
+                   std::optional<float>                    tvg_factor,
+                   std::optional<size_t>                   min_beam_index,
+                   std::optional<size_t>                   max_beam_index,
+                   int                                     mp_cores) {
+                    self.inplace_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
+                                                        xt::nanobind::pytensor<float, 1>>(
+                        wci,
+                        beam_angles,
+                        ranges,
+                        absorption_db_m,
+                        tvg_factor,
+                        min_beam_index,
+                        max_beam_index,
+                        mp_cores);
+                },
+                DOC_AmplitudeCalibration(inplace_beam_sample_correction),
+                nb::arg("wci"),
+                nb::arg("beam_angles"),
+                nb::arg("ranges"),
+                nb::arg("absorption_db_m"),
+                nb::arg("tvg_factor"),
+                nb::arg("min_beam_index") = std::nullopt,
+                nb::arg("max_beam_index") = std::nullopt,
+                nb::arg("mp_cores")       = 1)
+
+            // --- inplace_beam_sample_correction with per-beam absorption ---
+            .def(
+                "inplace_beam_sample_correction_per_beam",
+                [](const AmplitudeCalibration&             self,
+                   xt::nanobind::pytensor<float, 2>&       wci,
+                   const xt::nanobind::pytensor<float, 1>& beam_angles,
+                   const xt::nanobind::pytensor<float, 1>& ranges,
+                   const xt::nanobind::pytensor<float, 1>& absorption_db_m_per_beam,
+                   std::optional<float>                    tvg_factor,
+                   std::optional<size_t>                   min_beam_index,
+                   std::optional<size_t>                   max_beam_index,
+                   int                                     mp_cores) {
+                    self.inplace_beam_sample_correction<xt::nanobind::pytensor<float, 2>,
+                                                        xt::nanobind::pytensor<float, 1>>(
+                        wci,
+                        beam_angles,
+                        ranges,
+                        absorption_db_m_per_beam,
+                        tvg_factor,
+                        min_beam_index,
+                        max_beam_index,
+                        mp_cores);
+                },
+                DOC_AmplitudeCalibration(inplace_beam_sample_correction_2),
+                nb::arg("wci"),
+                nb::arg("beam_angles"),
+                nb::arg("ranges"),
+                nb::arg("absorption_db_m_per_beam"),
+                nb::arg("tvg_factor"),
+                nb::arg("min_beam_index") = std::nullopt,
+                nb::arg("max_beam_index") = std::nullopt,
+                nb::arg("mp_cores")       = 1)
 
             // --- convenient data access ---
             .def("get_system_offset",

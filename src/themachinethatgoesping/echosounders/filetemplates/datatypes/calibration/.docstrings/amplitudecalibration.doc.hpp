@@ -1,4 +1,4 @@
-//sourcehash: dcd3a9e18005ca512e64c5874924a81be5f14e91ff5a55c21d6e5c415dab82d1
+//sourcehash: 1c884863436885f22bf64f4c67082125b481260bdf390f50b8f6982caf7c24a5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,32 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_apply_beam_sample_correction = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_apply_beam_sample_correction_2 =
+R"doc(Apply beam and sample corrections with per-beam absorption
+coefficients.
+
+This overload supports per-beam absorption coefficients for multi-
+sector sonars (e.g., Kongsberg) where each transmit sector may have a
+different absorption value.
+
+Args:
+    wci: The input 2D tensor (beams x samples).
+    beam_angles: A 1D tensor of beam angles (size = number of beams).
+    ranges: A 1D tensor of ranges in meters (size = number of
+            samples).
+    absorption_db_m_per_beam: A 1D tensor of absorption coefficients
+                              in dB/m per beam.
+    tvg_factor: Optional time-varying gain factor.
+    mp_cores: Number of parallel cores (default = 1).
+
+Template Args:
+    t_xtensor_2d: Type of the 2D water column image tensor.
+    t_xtensor_1d: Type of the 1D tensor for beam angles, ranges, and
+                  absorption.
+
+Returns:
+    Corrected 2D tensor.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_binary_hash = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_from_stream = R"doc()doc";
@@ -88,6 +114,32 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_has_system_offset = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_inplace_beam_sample_correction = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_inplace_beam_sample_correction_2 =
+R"doc(Inplace apply beam and sample corrections with per-beam absorption
+coefficients.
+
+This overload supports per-beam absorption coefficients for multi-
+sector sonars (e.g., Kongsberg) where each transmit sector may have a
+different absorption value.
+
+Args:
+    wci: The input 2D tensor to be modified in-place (beams x
+         samples).
+    beam_angles: A 1D tensor of beam angles (size = number of beams).
+    ranges: A 1D tensor of ranges in meters (size = number of
+            samples).
+    absorption_db_m_per_beam: A 1D tensor of absorption coefficients
+                              in dB/m per beam.
+    tvg_factor: Optional time-varying gain factor.
+    min_beam_index: Optional minimum beam index.
+    max_beam_index: Optional maximum beam index.
+    mp_cores: Number of parallel cores (default = 1).
+
+Template Args:
+    t_xtensor_2d: Type of the 2D water column image tensor.
+    t_xtensor_1d: Type of the 1D tensor for beam angles, ranges, and
+                  absorption.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_AmplitudeCalibration_offset_per_beamangle = R"doc()doc";
 
