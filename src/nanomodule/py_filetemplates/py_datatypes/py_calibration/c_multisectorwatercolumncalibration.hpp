@@ -47,96 +47,287 @@ void add_apply_calibration_functions(t_pyclass& c)
 {
     namespace nb = nanobind;
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using pytensor1d = xt::nanobind::pytensor<t_float, 1>;
+    using pytensor2d = xt::nanobind::pytensor<t_float, 2>;
+    using t_calib_type = typename t_calibration::t_calibration_type;
+    using t_multi_calib = T_MultiSectorCalibration<t_calibration>;
 
-    c.def("apply_beam_sample_correction_power",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::power,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_pp",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::pp,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_pv",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::pv,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_ap",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::ap,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_av",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::av,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_sp",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::sp,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_sv",
-          &T_MultiSectorCalibration<t_calibration>::template apply_beam_sample_correction<
-              t_calibration::t_calibration_type::sv,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
+    // Standard apply_beam_sample_correction methods (absorption from calibration)
+    // Using lambda wrappers to disambiguate overloads
+    c.def(
+        "apply_beam_sample_correction_power",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::power>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pp",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::pp>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pv",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::pv>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_ap",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::ap>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_av",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::av>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sp",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::sp>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sv",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::sv>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
 
-    c.def("inplace_beam_sample_correction_av",
-          &T_MultiSectorCalibration<t_calibration>::template inplace_beam_sample_correction<
-              t_calibration::t_calibration_type::av,
-              xt::nanobind::pytensor<t_float, 2>,
-              xt::nanobind::pytensor<t_float, 1>>,
-          DOC_I_MultiSectorCalibration(inplace_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("beam_numbers_per_tx_sector"),
-          nb::arg("mp_cores") = 1);
+    c.def(
+        "inplace_beam_sample_correction_av",
+        [](const t_multi_calib&                     self,
+           pytensor2d&                              wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            self.template inplace_beam_sample_correction<t_calib_type::av>(
+                wci, beam_angles, ranges, beam_numbers_per_tx_sector, mp_cores);
+        },
+        DOC_I_MultiSectorCalibration(inplace_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+
+    // Per-beam absorption apply_beam_sample_correction methods
+    c.def(
+        "apply_beam_sample_correction_pp_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::pp>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply pp calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pv_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::pv>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply pv calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_ap_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::ap>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply ap calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_av_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::av>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply av calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sp_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::sp>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply sp calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sv_per_beam",
+        [](const t_multi_calib&                     self,
+           const pytensor2d&                        wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            return self.template apply_beam_sample_correction<t_calib_type::sv>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Apply sv calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
+
+    // Per-beam absorption inplace_beam_sample_correction methods
+    c.def(
+        "inplace_beam_sample_correction_av_per_beam",
+        [](const t_multi_calib&                     self,
+           pytensor2d&                              wci,
+           const pytensor1d&                        beam_angles,
+           const pytensor1d&                        ranges,
+           const pytensor1d&                        absorption_db_m_per_beam,
+           const std::vector<std::vector<size_t>>&  beam_numbers_per_tx_sector,
+           int                                      mp_cores) {
+            self.template inplace_beam_sample_correction<t_calib_type::av>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers_per_tx_sector, mp_cores);
+        },
+        "Inplace apply av calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("beam_numbers_per_tx_sector"),
+        nb::arg("mp_cores") = 1);
 }
 
 template<typename t_calibration>

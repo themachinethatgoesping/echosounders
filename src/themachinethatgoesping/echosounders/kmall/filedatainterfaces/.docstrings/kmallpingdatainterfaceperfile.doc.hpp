@@ -1,4 +1,4 @@
-//sourcehash: a6ca87e4b0a244582927651048758593516c85dedb9d32fbcc37fedf7a786269
+//sourcehash: 4d888e36c15ebf87b35436248d16d1a793991891ac1e7d897ed0bd5414d5a9b2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedataint
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_buffer_systeminformation = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_buffer_watercolumninformation = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_file_cache = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_index_path = R"doc()doc";
@@ -58,6 +60,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedataint
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_operator_bool = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_read_or_get_systeminformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_read_or_get_watercoumninformation = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLPingDataInterfacePerFile_KMALLPingCacheHandler_update_index = R"doc()doc";
 

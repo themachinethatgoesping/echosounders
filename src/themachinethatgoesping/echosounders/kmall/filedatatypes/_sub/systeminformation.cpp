@@ -139,6 +139,7 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
     TxSignalParameterVector tx_signal_parameters;
 
     const auto& transmit_sectors = mrz_datagram.get_tx_sectors();
+    const auto  nsectors         = transmit_sectors.size();
 
     for (const auto& ts : transmit_sectors)
     {
@@ -171,6 +172,10 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
     }
 
     _tx_signal_parameters = tx_signal_parameters;
+
+    // Compute mean absorption per sector from soundings
+    _mean_absorption_coefficient_in_dB_per_m =
+        mrz_datagram.get_soundings().get_mean_absorption_db_per_m_per_sector(nsectors);
 }
 
 SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
@@ -191,18 +196,44 @@ SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
                                     algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
     }
 
+    _mean_absorption_coefficient_in_dB_per_m =
+        xt::xtensor<float, 1>::from_shape({ tx_signal_parameters.size() });
+    _mean_absorption_coefficient_in_dB_per_m.fill(NAN);
     _tx_signal_parameters = tx_signal_parameters;
 }
 
 bool SystemInformation::operator==(const SystemInformation& other) const
 {
-    return _tx_signal_parameters.get() == other._tx_signal_parameters.get();
+    if (_tx_signal_parameters.get() != other._tx_signal_parameters.get())
+        return false;
+
+    if (_mean_absorption_coefficient_in_dB_per_m.shape() !=
+        other._mean_absorption_coefficient_in_dB_per_m.shape())
+        return false;
+
+    for (size_t i = 0; i < _mean_absorption_coefficient_in_dB_per_m.size(); ++i)
+    {
+        const auto a = _mean_absorption_coefficient_in_dB_per_m.unchecked(i);
+        const auto b = other._mean_absorption_coefficient_in_dB_per_m.unchecked(i);
+        // handle NaN comparison
+        if (std::isnan(a) && std::isnan(b))
+            continue;
+        if (a != b)
+            return false;
+    }
+
+    return true;
 }
 
 const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
 SystemInformation::get_tx_signal_parameters() const
 {
     return _tx_signal_parameters.get();
+}
+
+const xt::xtensor<float, 1>& SystemInformation::get_mean_absorption_coefficient_in_dB_per_m() const
+{
+    return _mean_absorption_coefficient_in_dB_per_m;
 }
 
 void SystemInformation::to_stream(std::ostream&                            os,
@@ -218,6 +249,10 @@ void SystemInformation::to_stream(std::ostream&                            os,
     // write hashes to stream
     os.write(reinterpret_cast<const char*>(hashes.data()), hashes.size() * sizeof(size_t));
     os.write(reinterpret_cast<const char*>(sizes.data()), sizes.size() * sizeof(size_t));
+
+    // write mean absorption coefficients
+    os.write(reinterpret_cast<const char*>(_mean_absorption_coefficient_in_dB_per_m.data()),
+             _mean_absorption_coefficient_in_dB_per_m.size() * sizeof(float));
 }
 
 SystemInformation SystemInformation::from_stream(
@@ -231,8 +266,13 @@ SystemInformation SystemInformation::from_stream(
     is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
     is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
+    // read mean absorption coefficients
+    auto mean_absorption = xt::xtensor<float, 1>::from_shape({ sizes[0] });
+    is.read(reinterpret_cast<char*>(mean_absorption.data()), mean_absorption.size() * sizeof(float));
+
     // create SystemInformation
-    return SystemInformation(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]));
+    return SystemInformation(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]),
+                             mean_absorption);
 }
 
 } // namespace _sub

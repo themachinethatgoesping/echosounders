@@ -1,4 +1,4 @@
-//sourcehash: e9e9bb56e1c087206ec07143c1b11e9eccdf51c93ae4153c30380c683879a700
+//sourcehash: 9c7bbcc72548fa79ce9eab13eb28f12f4714b0fead4feaac59e3a338a03059a3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -76,6 +76,19 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_echo_length_sec_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_mean_abs_coeff_db_per_km_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_mean_absorption_db_per_m_per_sector =
+R"doc(Compute the mean absorption coefficient per transmit sector.
+
+This function computes the mean of the absorption coefficients (dB/m)
+for all soundings belonging to each transmit sector.
+
+Args:
+    number_of_tx_sectors: The number of transmit sectors in the ping
+
+Returns:
+    xt::xtensor<float, 1> Mean absorption coefficient in dB/m for each
+       sector)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_number_of_seabed_image_samples = R"doc()doc";
 

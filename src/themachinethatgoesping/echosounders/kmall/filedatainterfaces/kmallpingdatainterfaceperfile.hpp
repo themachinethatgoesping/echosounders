@@ -191,21 +191,21 @@ class KMALLPingDataInterfacePerFile
                         e.what()));
                 }
 
-                // // load water column data
-                // if (ping_ptr->has_watercolumn())
-                // {
-                //     // this assumes that all watercolumndatagrams are from the same file
-                //     auto file_nr = ping_ptr->file_data()
-                //                        .get_datagram_infos(
-                //                            t_KMALLDatagramIdentifier::WatercolumnDatagram)
-                //                        .at(0)
-                //                        ->get_file_nr();
+                // load water column data
+                if (ping_ptr->has_watercolumn())
+                {
+                    // this assumes that all watercolumndatagrams are from the same file
+                    auto file_nr =
+                        ping_ptr->file_data()
+                            .get_datagram_infos(t_KMALLDatagramIdentifier::M_WATER_COLUMN)
+                            .at(0)
+                            ->get_file_nr();
 
-                //     // add runtime parameters (will be deduplicated as boost flyweight)
-                //     ping_ptr->file_data().set_watercolumninformation(
-                //         index_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
-                //             *ping_ptr));
-                // }
+                    // add runtime parameters (will be deduplicated as boost flyweight)
+                    ping_ptr->file_data().set_watercolumninformation(
+                        index_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
+                            *ping_ptr));
+                }
 
                 // load system information (if M_RANGE_AND_DEPTH is available)
                 if (ping_ptr->file_data()
@@ -277,9 +277,9 @@ class KMALLPingDataInterfacePerFile
         using t_cache_SystemInformation =
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::SystemInformation>;
-        // using t_cache_WaterColumnInformation =
-        //     filetemplates::datatypes::cache_structures::FilePackageCache<
-        //         filedatatypes::_sub::WaterColumnInformation>;
+        using t_cache_WaterColumnInformation =
+            filetemplates::datatypes::cache_structures::FilePackageCache<
+                filedatatypes::_sub::WaterColumnInformation>;
 
         bool                         _update_index = false;
         std::string                  _index_path;
@@ -287,8 +287,8 @@ class KMALLPingDataInterfacePerFile
 
       public:
         // cache_structures
-        t_cache_SystemInformation _buffer_systeminformation;
-        // t_cache_WaterColumnInformation _buffer_watercolumninformation;
+        t_cache_SystemInformation      _buffer_systeminformation;
+        t_cache_WaterColumnInformation _buffer_watercolumninformation;
 
       public:
         KMALLPingCacheHandler() = default;
@@ -309,48 +309,48 @@ class KMALLPingDataInterfacePerFile
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<WaterColumnInformation>",
-                              "FilePackageCache<SystemInformation_V1>" }));
+                              "FilePackageCache<SystemInformation_V2>" }));
 
-            // if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
-            //     _buffer_watercolumninformation =
-            //         _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
-            //             "FilePackageCache<WaterColumnInformation>");
+            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
+                _buffer_watercolumninformation =
+                    _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
+                        "FilePackageCache<WaterColumnInformation>");
 
-            if (_file_cache->has_cache("FilePackageCache<SystemInformation_V1>"))
+            if (_file_cache->has_cache("FilePackageCache<SystemInformation_V2>"))
                 _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
-                    "FilePackageCache<SystemInformation_V1>");
+                    "FilePackageCache<SystemInformation_V2>");
         }
 
         operator bool() const { return bool(_file_cache); }
 
-        // template<typename t_ping>
-        // std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
-        // read_or_get_watercoumninformation(t_ping& ping)
-        // {
-        //     if (!_file_cache)
-        //         return std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
-        //             ping.file_data().read_merged_watercolumndatagram(true));
+        template<typename t_ping>
+        std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
+        read_or_get_watercoumninformation(t_ping& ping)
+        {
+            if (!_file_cache)
+                return std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
+                    ping.file_data().template read_first_datagram<datagrams::MWaterColumn, true>());
 
-        //     const auto& datagram_info =
-        //         ping.file_data()
-        //             .get_datagram_infos(t_KMALLDatagramIdentifier::WatercolumnDatagram)
-        //             .at(0);
+            const auto& datagram_info =
+                ping.file_data()
+                    .get_datagram_infos(t_KMALLDatagramIdentifier::M_WATER_COLUMN)
+                    .at(0);
 
-        //     if (_buffer_watercolumninformation.has_package(datagram_info->get_file_pos()))
-        //         return _buffer_watercolumninformation.get_package(datagram_info->get_file_pos(),
-        //                                                           datagram_info->get_timestamp());
+            if (_buffer_watercolumninformation.has_package(datagram_info->get_file_pos()))
+                return _buffer_watercolumninformation.get_package(datagram_info->get_file_pos(),
+                                                                  datagram_info->get_timestamp());
 
-        //     _update_index = true;
-        //     auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
-        //         ping.file_data().read_merged_watercolumndatagram(true));
+            _update_index = true;
+            auto dat      = std::make_unique<filedatatypes::_sub::WaterColumnInformation>(
+                ping.file_data().template read_first_datagram<datagrams::MWaterColumn, true>());
 
-        //     _buffer_watercolumninformation.add_package(
-        //         datagram_info->get_file_pos(),
-        //         datagram_info->get_timestamp(),
-        //         std::make_unique<filedatatypes::_sub::WaterColumnInformation>(*dat));
+            _buffer_watercolumninformation.add_package(
+                datagram_info->get_file_pos(),
+                datagram_info->get_timestamp(),
+                std::make_unique<filedatatypes::_sub::WaterColumnInformation>(*dat));
 
-        //     return dat;
-        // }
+            return dat;
+        }
 
         template<typename t_ping>
         std::unique_ptr<filedatatypes::_sub::SystemInformation> read_or_get_systeminformation(
@@ -388,9 +388,9 @@ class KMALLPingDataInterfacePerFile
 
             if (_update_index)
             {
-                // _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
-                //                           _buffer_watercolumninformation);
-                _file_cache->add_to_cache("FilePackageCache<SystemInformation_V1>",
+                _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
+                                          _buffer_watercolumninformation);
+                _file_cache->add_to_cache("FilePackageCache<SystemInformation_V2>",
                                           _buffer_systeminformation);
                 _file_cache->update_file(_index_path);
             }

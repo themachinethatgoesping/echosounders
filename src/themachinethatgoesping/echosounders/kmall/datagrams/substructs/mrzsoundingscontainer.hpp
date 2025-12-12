@@ -88,6 +88,17 @@ class MRZSoundingsContainer
     size_t get_number_of_seabed_image_samples() const;
     xt::xtensor<uint16_t, 1> get_seabed_image_sounding_index_tensor() const;
 
+    /**
+     * @brief Compute the mean absorption coefficient per transmit sector.
+     *
+     * This function computes the mean of the absorption coefficients (dB/m) for all
+     * soundings belonging to each transmit sector.
+     *
+     * @param number_of_tx_sectors The number of transmit sectors in the ping
+     * @return xt::xtensor<float, 1> Mean absorption coefficient in dB/m for each sector
+     */
+    xt::xtensor<float, 1> get_mean_absorption_db_per_m_per_sector(size_t number_of_tx_sectors) const;
+
     bool operator==(const MRZSoundingsContainer& other) const = default;
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

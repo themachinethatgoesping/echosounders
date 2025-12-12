@@ -1,4 +1,4 @@
-//sourcehash: aa90751756adfbbeaff093a2cd4287556c83fa79a48ef5dba2bcdcfba6fb3618
+//sourcehash: 4732c15983b039c96d20e9b6bde95e25acd4466cf959ea83e72f0b6470d2a052
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,25 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_apply_beam_sample_correction = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_apply_beam_sample_correction_2 =
+R"doc(Apply beam/sample correction with per-beam absorption coefficients.
+
+This overload supports per-beam absorption for multi-sector sonars
+(e.g., Kongsberg) where each transmit sector may have a different
+absorption value.
+
+Args:
+    wci: Water column image to correct.
+    beam_angles: Beam angles for each beam.
+    ranges: Sample ranges in meters.
+    absorption_db_m_per_beam: Per-beam absorption coefficients in
+                              dB/m.
+    beam_numbers_per_tx_sector: Beam indices for each transmit sector.
+    mp_cores: Number of parallel cores.
+
+Returns:
+    Corrected water column image.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_calibration_for_sector = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_calibration_for_sector_2 = R"doc()doc";
@@ -68,6 +87,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_initialized = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_inplace_beam_sample_correction = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_inplace_beam_sample_correction_2 =
+R"doc(Inplace apply beam/sample correction with per-beam absorption
+coefficients.
+
+This overload supports per-beam absorption for multi-sector sonars
+(e.g., Kongsberg) where each transmit sector may have a different
+absorption value.
+
+Args:
+    wci: Water column image to correct in-place.
+    beam_angles: Beam angles for each beam.
+    ranges: Sample ranges in meters.
+    absorption_db_m_per_beam: Per-beam absorption coefficients in
+                              dB/m.
+    beam_numbers_per_tx_sector: Beam indices for each transmit sector.
+    mp_cores: Number of parallel cores.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_I_MultiSectorCalibration_operator_eq = R"doc()doc";
 

@@ -47,98 +47,252 @@ template<typename t_float, typename t_pyclass>
 void add_apply_calibration_functions(t_pyclass& c)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
-     using themachinethatgoesping::tools_nanobind::pytensor;
+    using themachinethatgoesping::tools_nanobind::pytensor;
+    using pytensor1d = pytensor<t_float, 1>;
+    using pytensor2d = pytensor<t_float, 2>;
 
-    c.def("apply_beam_sample_correction_power",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::power,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_rp",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::rp,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_rv",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::rv,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_pp",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::pp,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_pv",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::pv,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_ap",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::ap,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_av",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::av,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_sv",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::sv,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
-    c.def("apply_beam_sample_correction_sp",
-          &WaterColumnCalibration::template apply_beam_sample_correction<
-              t_calibration_type::sp,
-                 pytensor<t_float, 2>,
-                 pytensor<t_float, 1>>,
-          DOC_WaterColumnCalibration(apply_beam_sample_correction),
-          nb::arg("wci"),
-          nb::arg("beam_angles"),
-          nb::arg("ranges"),
-          nb::arg("mp_cores") = 1);
+    // Standard apply_beam_sample_correction methods (absorption from calibration)
+    // Using lambda wrappers to disambiguate overloads
+    c.def(
+        "apply_beam_sample_correction_power",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::power>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_rp",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::rp>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_rv",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::rv>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pp",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::pp>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pv",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::pv>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_ap",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::ap>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_av",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::av>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sv",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::sv>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sp",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::sp>(
+                wci, beam_angles, ranges, mp_cores);
+        },
+        DOC_WaterColumnCalibration(apply_beam_sample_correction),
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("mp_cores") = 1);
+
+    // Per-beam absorption apply_beam_sample_correction methods
+    // (for calibration types that apply absorption: pp, pv, ap, av, sp, sv)
+    c.def(
+        "apply_beam_sample_correction_pp_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::pp>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply pp calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_pv_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::pv>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply pv calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_ap_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::ap>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply ap calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_av_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::av>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply av calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sp_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::sp>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply sp calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
+    c.def(
+        "apply_beam_sample_correction_sv_per_beam",
+        [](const WaterColumnCalibration& self,
+           const pytensor2d&             wci,
+           const pytensor1d&             beam_angles,
+           const pytensor1d&             ranges,
+           const pytensor1d&             absorption_db_m_per_beam,
+           int                           mp_cores) {
+            return self.template apply_beam_sample_correction<t_calibration_type::sv>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        },
+        "Apply sv calibration with per-beam absorption coefficients.",
+        nb::arg("wci"),
+        nb::arg("beam_angles"),
+        nb::arg("ranges"),
+        nb::arg("absorption_db_m_per_beam"),
+        nb::arg("mp_cores") = 1);
 }
 
 void init_c_watercolumncalibration(nanobind::module_& m)

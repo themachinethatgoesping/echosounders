@@ -138,7 +138,7 @@ sources = [
   'py_kmall/py_filedatatypes/c_kmallpingfiledata.cpp',
   'py_kmall/py_filedatatypes/c_kmallpingwatercolumn.cpp',
   'py_kmall/py_filedatatypes/module.cpp',
-  'py_kmall/py_filedatatypes/calibration/c_kongsbergallwatercolumncalibration.cpp',
+  'py_kmall/py_filedatatypes/calibration/c_kmallwatercolumncalibration.cpp',
   'py_pingtools/c_beamsampleselection.cpp',
   'py_pingtools/c_beamselection.cpp',
   'py_pingtools/c_pingsampleselector.cpp',

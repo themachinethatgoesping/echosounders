@@ -4,6 +4,8 @@
 
 #include "mrzsoundingscontainer.hpp"
 
+#include <limits>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
@@ -296,6 +298,46 @@ xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_seabed_image_sounding_index_
     }
 
     return beam_numbers;
+}
+
+xt::xtensor<float, 1> MRZSoundingsContainer::get_mean_absorption_db_per_m_per_sector(
+    size_t number_of_tx_sectors) const
+{
+    // Result tensor for mean absorption per sector (in dB/m)
+    auto mean_absorption = xt::xtensor<float, 1>::from_shape({ number_of_tx_sectors });
+    mean_absorption.fill(0.0f);
+
+    // Count soundings per sector for averaging
+    auto counts = std::vector<size_t>(number_of_tx_sectors, 0);
+
+    // Accumulate absorption values per sector
+    // Note: soundings store absorption in dB/km, we need to convert to dB/m
+    for (const auto& sounding : _soundings)
+    {
+        const auto sector = sounding.get_tx_sector_number();
+        if (sector < number_of_tx_sectors)
+        {
+            // Convert from dB/km to dB/m (divide by 1000)
+            mean_absorption.unchecked(sector) += sounding.get_mean_abs_coeff_db_per_km();
+            ++counts[sector];
+        }
+    }
+
+    // Compute mean for each sector
+    for (size_t i = 0; i < number_of_tx_sectors; ++i)
+    {
+        if (counts[i] > 0)
+        {
+            float tmp = 0.001f / static_cast<float>(counts[i]);
+            mean_absorption.unchecked(i) *= tmp;
+        }
+        else
+        {
+            mean_absorption.unchecked(i) = std::numeric_limits<float>::quiet_NaN();
+        }
+    }
+
+    return mean_absorption;
 }
 
 tools::classhelper::ObjectPrinter MRZSoundingsContainer::__printer__(

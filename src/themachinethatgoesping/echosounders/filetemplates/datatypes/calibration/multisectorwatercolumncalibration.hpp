@@ -47,6 +47,10 @@ class I_MultiSectorCalibration
     bool operator==(const I_MultiSectorCalibration& other) const = default;
 
   public:
+    // ============================================================================
+    // Standard correction methods (absorption from calibration)
+    // ============================================================================
+
     template<WaterColumnCalibration::t_calibration_type calibration_type,
              tools::helper::c_xtensor                   t_xtensor_2d,
              tools::helper::c_xtensor                   t_xtensor_1d>
@@ -121,6 +125,118 @@ class I_MultiSectorCalibration
 
             calibration.template inplace_beam_sample_correction<calibration_type>(
                 result, beam_angles, ranges, beam_numbers.front(), beam_numbers.back(), mp_cores);
+        }
+
+        return result;
+    }
+
+    // ============================================================================
+    // Per-beam absorption correction methods
+    // ============================================================================
+
+    /**
+     * @brief Inplace apply beam/sample correction with per-beam absorption coefficients.
+     *
+     * This overload supports per-beam absorption for multi-sector sonars (e.g., Kongsberg)
+     * where each transmit sector may have a different absorption value.
+     *
+     * @param wci Water column image to correct in-place.
+     * @param beam_angles Beam angles for each beam.
+     * @param ranges Sample ranges in meters.
+     * @param absorption_db_m_per_beam Per-beam absorption coefficients in dB/m.
+     * @param beam_numbers_per_tx_sector Beam indices for each transmit sector.
+     * @param mp_cores Number of parallel cores.
+     */
+    template<WaterColumnCalibration::t_calibration_type calibration_type,
+             tools::helper::c_xtensor                   t_xtensor_2d,
+             tools::helper::c_xtensor                   t_xtensor_1d>
+    void inplace_beam_sample_correction(
+        [[maybe_unused]] t_xtensor_2d&          wci,
+        const t_xtensor_1d&                     beam_angles,
+        const t_xtensor_1d&                     ranges,
+        const t_xtensor_1d&                     absorption_db_m_per_beam,
+        const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector,
+        int                                     mp_cores = 1) const
+    {
+        if (get_number_of_sectors() == 1)
+        {
+            calibration_for_sector(0).template inplace_beam_sample_correction<calibration_type>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, std::nullopt, std::nullopt, mp_cores);
+            return;
+        }
+
+        for (size_t tx_sector = 0; tx_sector < beam_numbers_per_tx_sector.size(); ++tx_sector)
+        {
+            const auto& beam_numbers = beam_numbers_per_tx_sector[tx_sector];
+
+            if (beam_numbers.empty())
+                continue;
+
+            if (tx_sector >= get_number_of_sectors())
+            {
+                throw std::runtime_error(fmt::format("ERROR[{}]:Sector nr {} out of range {}",
+                                                     __func__,
+                                                     tx_sector,
+                                                     get_number_of_sectors()));
+            }
+
+            const auto& calibration = calibration_for_sector(tx_sector);
+
+            calibration.template inplace_beam_sample_correction<calibration_type>(
+                wci, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers.front(), beam_numbers.back(), mp_cores);
+        }
+    }
+
+    /**
+     * @brief Apply beam/sample correction with per-beam absorption coefficients.
+     *
+     * This overload supports per-beam absorption for multi-sector sonars (e.g., Kongsberg)
+     * where each transmit sector may have a different absorption value.
+     *
+     * @param wci Water column image to correct.
+     * @param beam_angles Beam angles for each beam.
+     * @param ranges Sample ranges in meters.
+     * @param absorption_db_m_per_beam Per-beam absorption coefficients in dB/m.
+     * @param beam_numbers_per_tx_sector Beam indices for each transmit sector.
+     * @param mp_cores Number of parallel cores.
+     * @return Corrected water column image.
+     */
+    template<WaterColumnCalibration::t_calibration_type calibration_type,
+             tools::helper::c_xtensor                   t_xtensor_2d,
+             tools::helper::c_xtensor                   t_xtensor_1d>
+    t_xtensor_2d apply_beam_sample_correction(
+        const t_xtensor_2d&                     wci,
+        const t_xtensor_1d&                     beam_angles,
+        const t_xtensor_1d&                     ranges,
+        const t_xtensor_1d&                     absorption_db_m_per_beam,
+        const std::vector<std::vector<size_t>>& beam_numbers_per_tx_sector,
+        int                                     mp_cores = 1) const
+    {
+        if (get_number_of_sectors() == 1)
+        {
+            return calibration_for_sector(0)
+                .template apply_beam_sample_correction<calibration_type>(
+                    wci, beam_angles, ranges, absorption_db_m_per_beam, mp_cores);
+        }
+
+        auto result = wci;
+        for (size_t tx_sector = 0; tx_sector < beam_numbers_per_tx_sector.size(); ++tx_sector)
+        {
+            const auto& beam_numbers = beam_numbers_per_tx_sector[tx_sector];
+
+            if (beam_numbers.empty())
+                continue;
+
+            if (tx_sector >= get_number_of_sectors())
+            {
+                throw std::runtime_error(
+                    fmt::format("ERROR[{}]:Sector {} out of range", __func__, tx_sector));
+            }
+
+            const auto& calibration = calibration_for_sector(tx_sector);
+
+            calibration.template inplace_beam_sample_correction<calibration_type>(
+                result, beam_angles, ranges, absorption_db_m_per_beam, beam_numbers.front(), beam_numbers.back(), mp_cores);
         }
 
         return result;

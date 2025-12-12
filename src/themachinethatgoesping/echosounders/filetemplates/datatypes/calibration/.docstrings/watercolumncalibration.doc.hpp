@@ -1,4 +1,4 @@
-//sourcehash: ce633a9f2cf0c005f587f5f95cc6ef5b708ca8ec277918b96dc406d29e40d464
+//sourcehash: 82964c983ab5f7ffb3a416fb7163c8142f2e09bae0fe6b16e189b4d83b4110dc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,7 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_watercolumncalibration_hpp_454_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_watercolumncalibration_hpp_481_67 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration = R"doc()doc";
 
@@ -59,6 +59,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_apply_beam_sample_correction = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_apply_beam_sample_correction_2 =
+R"doc(Apply beam and sample correction with per-beam absorption
+coefficients.
+
+This overload supports per-beam absorption for multi-sector sonars
+(e.g., Kongsberg) where each transmit sector may have a different
+absorption value.
+
+
+
+$.. note::
+
+For calibration types that don't apply absorption (power, rp, rv),
+this
+      function ignores the per-beam absorption parameter.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_av_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_check_initialized = R"doc()doc";
@@ -74,6 +90,14 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_ap_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_av_calibration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_calibration_ptr =
+R"doc(Get the calibration pointer for a given calibration kind. Template
+Args:
+    kind: The calibration kind (constexpr).
+
+Returns:
+    Reference to the unique_ptr for that calibration.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_get_power_calibration = R"doc()doc";
 
@@ -100,6 +124,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_has_valid_absorption_db_m = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_inplace_beam_sample_correction = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_inplace_beam_sample_correction_2 =
+R"doc(Inplace apply beam and sample correction with per-beam absorption
+coefficients.
+
+This overload supports per-beam absorption for multi-sector sonars
+(e.g., Kongsberg) where each transmit sector may have a different
+absorption value.
+
+
+
+$.. note::
+
+For calibration types that don't apply absorption (power, rp, rv),
+this
+      function ignores the per-beam absorption parameter.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_operator_assign = R"doc()doc";
 
@@ -131,6 +171,55 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_WaterColumnCalibration_tvg_factor = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_applies_absorption =
+R"doc(Check if absorption should be applied for a given calibration type.
+
+For power, rp, rv: absorption is explicitly NOT applied (use 0). For
+all others: absorption is applied.
+
+Args:
+    ct: The calibration type.
+
+Returns:
+    true if absorption should be applied, false otherwise.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_get_calibration_kind =
+R"doc(Get the calibration kind (which AmplitudeCalibration pointer) for a
+given calibration type.
+Args:
+    ct: The calibration type.
+
+Returns:
+    The calibration kind.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_get_calibration_kind_name =
+R"doc(Get the name of a calibration kind for error messages.
+Args:
+    ck: The calibration kind.
+
+Returns:
+    Human-readable name.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_get_target_tvg_factor =
+R"doc(Get the target TVG factor for a given calibration type.
+Args:
+    ct: The calibration type.
+
+Returns:
+    The TVG factor (0, 20, or 40).)doc";
+
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind = R"doc(Calibration kind enum for selecting which AmplitudeCalibration to use.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind_ap = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind_av = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind_power = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind_sp = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_kind_sv = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_t_calibration_type = R"doc(Calibration type for water column data processing)doc";
 

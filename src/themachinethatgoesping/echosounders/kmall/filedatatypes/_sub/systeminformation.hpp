@@ -12,6 +12,7 @@
 
 /* boost includes */
 #include <boost/flyweight.hpp>
+#include <xtensor/containers/xtensor.hpp>
 
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 
@@ -98,10 +99,13 @@ class SystemInformation
 {
     // transmit signal parameters per sector
     boost::flyweights::flyweight<TxSignalParameterVector> _tx_signal_parameters;
+    xt::xtensor<float, 1>                                 _mean_absorption_coefficient_in_dB_per_m;
 
     SystemInformation() = default;
-    SystemInformation(const HashCacheKey& hash_cache_key)
+    SystemInformation(const HashCacheKey&       hash_cache_key,
+                      const xt::xtensor<float, 1>& mean_absorption)
         : _tx_signal_parameters(hash_cache_key)
+        , _mean_absorption_coefficient_in_dB_per_m(mean_absorption)
     {
     }
 
@@ -115,6 +119,8 @@ class SystemInformation
     // ----- getters -----
     const std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>&
     get_tx_signal_parameters() const;
+
+    const xt::xtensor<float, 1>& get_mean_absorption_coefficient_in_dB_per_m() const;
 
     // ----- functions used for PackageCache -----
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const;

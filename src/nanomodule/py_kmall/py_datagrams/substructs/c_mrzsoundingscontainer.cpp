@@ -176,6 +176,10 @@ void init_c_mrzsoundingscontainer(nanobind::module_& m)
         .def("get_seabed_image_sounding_index_tensor",
              &MRZSoundingsContainer::get_seabed_image_sounding_index_tensor,
              DOC_MRZSoundingsContainer(get_seabed_image_sounding_index_tensor))
+        .def("get_mean_absorption_db_per_m_per_sector",
+             &MRZSoundingsContainer::get_mean_absorption_db_per_m_per_sector,
+             DOC_MRZSoundingsContainer(get_mean_absorption_db_per_m_per_sector),
+             nb::arg("number_of_tx_sectors"))
 
         // ----- operators -----
         .def("__eq__",
