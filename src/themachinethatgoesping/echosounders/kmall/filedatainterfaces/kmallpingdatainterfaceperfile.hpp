@@ -308,13 +308,13 @@ class KMALLPingDataInterfacePerFile
                 t_FileCache(_index_path,
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
-                            { "FilePackageCache<WaterColumnInformation>",
+                            { "FilePackageCache<WaterColumnInformation_V1>",
                               "FilePackageCache<SystemInformation_V2>" }));
 
-            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
+            if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation_V1>"))
                 _buffer_watercolumninformation =
                     _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
-                        "FilePackageCache<WaterColumnInformation>");
+                        "FilePackageCache<WaterColumnInformation_V1>");
 
             if (_file_cache->has_cache("FilePackageCache<SystemInformation_V2>"))
                 _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
@@ -388,7 +388,7 @@ class KMALLPingDataInterfacePerFile
 
             if (_update_index)
             {
-                _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
+                _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation_V1>",
                                           _buffer_watercolumninformation);
                 _file_cache->add_to_cache("FilePackageCache<SystemInformation_V2>",
                                           _buffer_systeminformation);
