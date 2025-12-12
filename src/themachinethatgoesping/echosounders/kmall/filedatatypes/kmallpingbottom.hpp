@@ -66,9 +66,8 @@ class KMALLPingBottom
     // --- sector infos ---
     bool has_tx_signal_parameters() const override
     {
-        return _file_data->has_any_of_datagram_types({
-            t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH
-        });
+        return _file_data->has_any_of_datagram_types(
+            { t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH });
     }
     bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
 
@@ -115,73 +114,60 @@ class KMALLPingBottom
     void release() override { _file_data->release_sys(); }
     bool loaded() override { return _file_data->sys_loaded(); }
 
-    // uint32_t get_number_of_beams() override
-    // {
-    //     if (has_xyz())
-    //         return this->file_data()
-    //             .template read_first_datagram<datagrams::XYZDatagram>()
-    //             .get_number_of_beams();
+    uint32_t get_number_of_beams() override
+    {
+        if (has_xyz())
+            return this->file_data()
+                .template read_first_datagram<datagrams::MRangeAndDepth>()
+                .get_soundings()
+                .get_number_of_soundings();
 
-    //     if (has_two_way_travel_times())
-    //         return this->file_data()
-    //             .template read_first_datagram<datagrams::RawRangeAndAngle>()
-    //             .get_number_of_receiver_beams();
-
-    //     return 0;
-    // }
+        return 0;
+    }
 
     // // ----- I_PingBottom interface -----
     // // using t_base1::has_xyz;
     // using t_base2::file_data;
 
-    // bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
+    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
 
-    // bool has_xyz() const override
-    // {
-    //     return file_data()
-    //                .get_datagram_infos_by_type(t_KMALLDatagramIdentifier::XYZDatagram)
-    //                .size() > 0;
-    // }
+    bool has_xyz() const override
+    {
+        return this->file_data()
+                   .get_datagram_infos_by_type(t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH)
+                   .size() > 0;
+    }
 
-    // virtual bool has_two_way_travel_times() const
-    // {
-    //     return file_data()
-    //                .get_datagram_infos_by_type(t_KMALLDatagramIdentifier::RawRangeAndAngle)
-    //                .size() > 0;
-    // }
+    virtual bool has_two_way_travel_times() const
+    {
+        return this->file_data()
+                   .get_datagram_infos_by_type(t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH)
+                   .size() > 0;
+    }
 
-    // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     return _file_data->read_xyz(selection);
-    // }
+    algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
+        const pingtools::BeamSelection& selection) override
+    {
+        return this->file_data().read_xyz(selection);
+    }
 
-    // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     return _file_data->read_xyz(selection);
-    // }
+    xt::xtensor<float, 1> get_two_way_travel_times(
+        [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    {
+        auto datagram = this->file_data().template read_first_datagram<datagrams::MRangeAndDepth>();
 
-    // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw()
-    // {
-    //     return get_xyz_raw(get_beam_selection_all());
-    // }
+        return datagram.get_soundings().get_beam_angle_re_rx_deg_tensor(
+            selection.get_beam_numbers());
+    }
 
-    // xt::xtensor<float, 1> get_two_way_travel_times(
-    //     [[maybe_unused]] const pingtools::BeamSelection& selection) override
-    // {
-    //     auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(
+        const pingtools::BeamSelection& selection) override
+    {
+        auto datagram = this->file_data().template read_first_datagram<datagrams::MRangeAndDepth>();
 
-    //     return datagram.get_two_way_travel_times(selection.get_beam_numbers());
-    // }
-
-    // xt::xtensor<float, 1> get_beam_crosstrack_angles(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
-
-    //     return datagram.get_beam_crosstrack_angles(selection.get_beam_numbers());
-    // }
+        return datagram.get_soundings().get_beam_angle_re_rx_deg_tensor(
+            selection.get_beam_numbers());
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

@@ -1,4 +1,4 @@
-//sourcehash: 9c7bbcc72548fa79ce9eab13eb28f12f4714b0fead4feaac59e3a338a03059a3
+//sourcehash: 9366b6adf6fa364fcd4c9902c5274ff2ed401e4021b930a4ecb83e7492ac1468
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -143,6 +143,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_wc_range_samples_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_x_re_ref_point_m_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_xyz = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_xyz_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_y_re_ref_point_m_tensor = R"doc()doc";
 

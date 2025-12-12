@@ -1,4 +1,4 @@
-//sourcehash: 81bcdcf3050a2860180b78ba9df5218e62cdd9ffa16fcea696a2136f31e1b47d
+//sourcehash: e9ba27f359ac1989b799d5c589d385c2a2a53c389d51e92c8be1eaa5a3bcf4eb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,17 +47,31 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_class_name = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_crosstrack_angles = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_beams = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_two_way_travel_times = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_xyz = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_number_of_tx_sectors = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_two_way_travel_times = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_tx_signal_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_xyz = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_load = R"doc()doc";
 

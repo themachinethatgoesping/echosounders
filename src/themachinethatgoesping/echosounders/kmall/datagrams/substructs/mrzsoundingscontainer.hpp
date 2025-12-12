@@ -18,6 +18,8 @@
 
 #include "mrzsoundings.hpp"
 
+#include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
@@ -27,6 +29,7 @@ namespace substructs {
 class MRZSoundingsContainer
 {
   public:
+    using t_XYZ              = algorithms::geoprocessing::datastructures::XYZ<1>;
     MRZSoundingsContainer()  = default;
     ~MRZSoundingsContainer() = default;
 
@@ -34,59 +37,101 @@ class MRZSoundingsContainer
     std::vector<MRZSoundings>&       soundings();
     void                             set_soundings(const std::vector<MRZSoundings>& soundings);
 
-    xt::xtensor<uint16_t, 1> get_sounding_index_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_tx_sector_number_tensor() const;
+    xt::xtensor<uint16_t, 1> get_sounding_index_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_tx_sector_number_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<uint8_t, 1>  get_detection_type_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_detection_method_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_rejection_info_1_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_rejection_info_2_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_post_processing_info_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_detection_class_tensor() const;
-    xt::xtensor<uint8_t, 1>  get_detection_confidence_level_tensor() const;
-    xt::xtensor<uint16_t, 1> get_padding_tensor() const;
+    xt::xtensor<uint8_t, 1> get_detection_type_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_detection_method_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_rejection_info_1_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_rejection_info_2_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_post_processing_info_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_detection_class_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_detection_confidence_level_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint16_t, 1> get_padding_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<float, 1> get_range_factor_tensor() const;
-    xt::xtensor<float, 1> get_quality_factor_tensor() const;
-    xt::xtensor<float, 1> get_detection_uncertainty_ver_m_tensor() const;
-    xt::xtensor<float, 1> get_detection_uncertainty_hor_m_tensor() const;
-    xt::xtensor<float, 1> get_detection_window_length_sec_tensor() const;
-    xt::xtensor<float, 1> get_echo_length_sec_tensor() const;
+    xt::xtensor<float, 1> get_range_factor_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_quality_factor_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_detection_uncertainty_ver_m_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_detection_uncertainty_hor_m_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_detection_window_length_sec_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_echo_length_sec_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<uint16_t, 1> get_wc_beam_number_tensor() const;
-    xt::xtensor<uint16_t, 1> get_wc_range_samples_tensor() const;
-    xt::xtensor<float, 1>    get_wc_nom_beam_angle_across_deg_tensor() const;
+    xt::xtensor<uint16_t, 1> get_wc_beam_number_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint16_t, 1> get_wc_range_samples_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_wc_nom_beam_angle_across_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<float, 1> get_mean_abs_coeff_db_per_km_tensor() const;
-    xt::xtensor<float, 1> get_reflectivity_1_db_tensor() const;
-    xt::xtensor<float, 1> get_reflectivity_2_db_tensor() const;
-    xt::xtensor<float, 1> get_receiver_sensitivity_applied_db_tensor() const;
-    xt::xtensor<float, 1> get_source_level_applied_db_tensor() const;
-    xt::xtensor<float, 1> get_bs_calibration_db_tensor() const;
-    xt::xtensor<float, 1> get_tvg_db_tensor() const;
+    xt::xtensor<float, 1> get_mean_abs_coeff_db_per_km_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_reflectivity_1_db_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_reflectivity_2_db_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_receiver_sensitivity_applied_db_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_source_level_applied_db_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_bs_calibration_db_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_tvg_db_tensor(const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<float, 1> get_beam_angle_re_rx_deg_tensor() const;
-    xt::xtensor<float, 1> get_beam_angle_correction_deg_tensor() const;
-    xt::xtensor<float, 1> get_two_way_travel_time_sec_tensor() const;
-    xt::xtensor<float, 1> get_two_way_travel_time_correction_sec_tensor() const;
+    xt::xtensor<float, 1> get_beam_angle_re_rx_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_beam_angle_correction_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_two_way_travel_time_sec_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_two_way_travel_time_correction_sec_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<float, 1> get_delta_latitude_deg_tensor() const;
-    xt::xtensor<float, 1> get_delta_longitude_deg_tensor() const;
-    xt::xtensor<float, 1> get_z_re_ref_point_m_tensor() const;
-    xt::xtensor<float, 1> get_y_re_ref_point_m_tensor() const;
-    xt::xtensor<float, 1> get_x_re_ref_point_m_tensor() const;
-    xt::xtensor<float, 1> get_beam_inc_angle_adj_deg_tensor() const;
+    xt::xtensor<float, 1> get_delta_latitude_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_delta_longitude_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_z_re_ref_point_m_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_y_re_ref_point_m_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_x_re_ref_point_m_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_beam_inc_angle_adj_deg_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<uint16_t, 1> get_real_time_clean_info_tensor() const;
+    xt::xtensor<uint16_t, 1> get_real_time_clean_info_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<uint16_t, 1> get_si_start_range_samples_tensor() const;
-    xt::xtensor<uint16_t, 1> get_si_centre_sample_tensor() const;
-    xt::xtensor<uint16_t, 1> get_si_num_samples_tensor() const;
+    xt::xtensor<uint16_t, 1> get_si_start_range_samples_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint16_t, 1> get_si_centre_sample_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<uint16_t, 1> get_si_num_samples_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
     // --- processed ---
-    size_t get_number_of_soundings() const;
-    size_t get_number_of_seabed_image_samples() const;
+    size_t                   get_number_of_soundings() const;
+    size_t                   get_number_of_seabed_image_samples() const;
     xt::xtensor<uint16_t, 1> get_seabed_image_sounding_index_tensor() const;
+
+    t_XYZ get_xyz() const;
+    t_XYZ get_xyz(const std::vector<uint32_t>& beam_numbers) const;
 
     /**
      * @brief Compute the mean absorption coefficient per transmit sector.
@@ -97,7 +142,8 @@ class MRZSoundingsContainer
      * @param number_of_tx_sectors The number of transmit sectors in the ping
      * @return xt::xtensor<float, 1> Mean absorption coefficient in dB/m for each sector
      */
-    xt::xtensor<float, 1> get_mean_absorption_db_per_m_per_sector(size_t number_of_tx_sectors) const;
+    xt::xtensor<float, 1> get_mean_absorption_db_per_m_per_sector(
+        size_t number_of_tx_sectors) const;
 
     bool operator==(const MRZSoundingsContainer& other) const = default;
 
@@ -110,14 +156,38 @@ class MRZSoundingsContainer
     std::vector<MRZSoundings> _soundings;
 
     template<typename ValueType, typename Getter>
-    xt::xtensor<ValueType, 1> build_tensor(Getter&& getter) const
+    xt::xtensor<ValueType, 1> build_tensor(Getter&&                         getter,
+                                           const std::vector<uint32_t>& beam_numbers) const
     {
-        auto tensor = xt::xtensor<ValueType, 1>::from_shape({ _soundings.size() });
-        for (std::size_t idx = 0; idx < _soundings.size(); ++idx)
+        if (beam_numbers.empty())
         {
-            tensor.unchecked(idx) = static_cast<ValueType>(getter(_soundings[idx]));
+            // Return all soundings
+            auto tensor = xt::xtensor<ValueType, 1>::from_shape({ _soundings.size() });
+            for (std::size_t idx = 0; idx < _soundings.size(); ++idx)
+            {
+                tensor.unchecked(idx) = static_cast<ValueType>(getter(_soundings[idx]));
+            }
+            return tensor;
         }
-        return tensor;
+        else
+        {
+            // Return selected soundings
+            auto tensor = xt::xtensor<ValueType, 1>::from_shape({ beam_numbers.size() });
+            for (std::size_t bi = 0; bi < beam_numbers.size(); ++bi)
+            {
+                auto bn = beam_numbers[bi];
+                if (bn >= _soundings.size())
+                {
+                    tensor.unchecked(bi) =
+                        static_cast<ValueType>(std::numeric_limits<float>::quiet_NaN());
+                }
+                else
+                {
+                    tensor.unchecked(bi) = static_cast<ValueType>(getter(_soundings[bn]));
+                }
+            }
+            return tensor;
+        }
     }
 };
 

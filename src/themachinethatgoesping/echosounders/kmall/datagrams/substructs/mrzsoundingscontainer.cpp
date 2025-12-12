@@ -27,245 +27,309 @@ void MRZSoundingsContainer::set_soundings(const std::vector<MRZSoundings>& sound
     _soundings = soundings;
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_sounding_index_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_sounding_index_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_sounding_index(); });
+        [](const MRZSoundings& sounding) { return sounding.get_sounding_index(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_tx_sector_number_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_tx_sector_number_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_tx_sector_number(); });
+        [](const MRZSoundings& sounding) { return sounding.get_tx_sector_number(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_type_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_type_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_type(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_type(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_method_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_method_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_method(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_method(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_rejection_info_1_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_rejection_info_1_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_rejection_info_1(); });
+        [](const MRZSoundings& sounding) { return sounding.get_rejection_info_1(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_rejection_info_2_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_rejection_info_2_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_rejection_info_2(); });
+        [](const MRZSoundings& sounding) { return sounding.get_rejection_info_2(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_post_processing_info_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_post_processing_info_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_post_processing_info(); });
+        [](const MRZSoundings& sounding) { return sounding.get_post_processing_info(); },
+        beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_class_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_class_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_class(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_class(); }, beam_numbers);
 }
 
-xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_confidence_level_tensor() const
+xt::xtensor<uint8_t, 1> MRZSoundingsContainer::get_detection_confidence_level_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint8_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_confidence_level(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_confidence_level(); },
+        beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_padding_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_padding_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_padding(); });
+        [](const MRZSoundings& sounding) { return sounding.get_padding(); }, beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_range_factor_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_range_factor_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_range_factor(); });
+        [](const MRZSoundings& sounding) { return sounding.get_range_factor(); }, beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_quality_factor_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_quality_factor_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_quality_factor(); });
+        [](const MRZSoundings& sounding) { return sounding.get_quality_factor(); }, beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_uncertainty_ver_m_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_uncertainty_ver_m_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_uncertainty_ver_m(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_uncertainty_ver_m(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_uncertainty_hor_m_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_uncertainty_hor_m_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_uncertainty_hor_m(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_uncertainty_hor_m(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_window_length_sec_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_detection_window_length_sec_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_detection_window_length_sec(); });
+        [](const MRZSoundings& sounding) { return sounding.get_detection_window_length_sec(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_echo_length_sec_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_echo_length_sec_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_echo_length_sec(); });
+        [](const MRZSoundings& sounding) { return sounding.get_echo_length_sec(); }, beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_wc_beam_number_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_wc_beam_number_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_wc_beam_number(); });
+        [](const MRZSoundings& sounding) { return sounding.get_wc_beam_number(); }, beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_wc_range_samples_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_wc_range_samples_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_wc_range_samples(); });
+        [](const MRZSoundings& sounding) { return sounding.get_wc_range_samples(); }, beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_wc_nom_beam_angle_across_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_wc_nom_beam_angle_across_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_wc_nom_beam_angle_across_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_wc_nom_beam_angle_across_deg(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_mean_abs_coeff_db_per_km_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_mean_abs_coeff_db_per_km_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_mean_abs_coeff_db_per_km(); });
+        [](const MRZSoundings& sounding) { return sounding.get_mean_abs_coeff_db_per_km(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_reflectivity_1_db_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_reflectivity_1_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_reflectivity_1_db(); });
+        [](const MRZSoundings& sounding) { return sounding.get_reflectivity_1_db(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_reflectivity_2_db_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_reflectivity_2_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_reflectivity_2_db(); });
+        [](const MRZSoundings& sounding) { return sounding.get_reflectivity_2_db(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_receiver_sensitivity_applied_db_tensor() const
-{
-    return build_tensor<float>([](const MRZSoundings& sounding) {
-        return sounding.get_receiver_sensitivity_applied_db();
-    });
-}
-
-xt::xtensor<float, 1> MRZSoundingsContainer::get_source_level_applied_db_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_receiver_sensitivity_applied_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_source_level_applied_db(); });
+        [](const MRZSoundings& sounding) {
+            return sounding.get_receiver_sensitivity_applied_db();
+        },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_bs_calibration_db_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_source_level_applied_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_bs_calibration_db(); });
+        [](const MRZSoundings& sounding) { return sounding.get_source_level_applied_db(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_tvg_db_tensor() const
-{
-    return build_tensor<float>([](const MRZSoundings& sounding) { return sounding.get_tvg_db(); });
-}
-
-xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_angle_re_rx_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_bs_calibration_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_beam_angle_re_rx_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_bs_calibration_db(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_angle_correction_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_tvg_db_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_beam_angle_correction_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_tvg_db(); }, beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_two_way_travel_time_sec_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_angle_re_rx_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_two_way_travel_time_sec(); });
+        [](const MRZSoundings& sounding) { return sounding.get_beam_angle_re_rx_deg(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_two_way_travel_time_correction_sec_tensor() const
-{
-    return build_tensor<float>([](const MRZSoundings& sounding) {
-        return sounding.get_two_way_travel_time_correction_sec();
-    });
-}
-
-xt::xtensor<float, 1> MRZSoundingsContainer::get_delta_latitude_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_angle_correction_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_delta_latitude_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_beam_angle_correction_deg(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_delta_longitude_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_two_way_travel_time_sec_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_delta_longitude_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_two_way_travel_time_sec(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_z_re_ref_point_m_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_two_way_travel_time_correction_sec_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_z_re_ref_point_m(); });
+        [](const MRZSoundings& sounding) {
+            return sounding.get_two_way_travel_time_correction_sec();
+        },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_y_re_ref_point_m_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_delta_latitude_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_y_re_ref_point_m(); });
+        [](const MRZSoundings& sounding) { return sounding.get_delta_latitude_deg(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_x_re_ref_point_m_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_delta_longitude_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_x_re_ref_point_m(); });
+        [](const MRZSoundings& sounding) { return sounding.get_delta_longitude_deg(); },
+        beam_numbers);
 }
 
-xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_inc_angle_adj_deg_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_z_re_ref_point_m_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_beam_inc_angle_adj_deg(); });
+        [](const MRZSoundings& sounding) { return sounding.get_z_re_ref_point_m(); }, beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_real_time_clean_info_tensor() const
+xt::xtensor<float, 1> MRZSoundingsContainer::get_y_re_ref_point_m_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    return build_tensor<float>(
+        [](const MRZSoundings& sounding) { return sounding.get_y_re_ref_point_m(); }, beam_numbers);
+}
+
+xt::xtensor<float, 1> MRZSoundingsContainer::get_x_re_ref_point_m_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    return build_tensor<float>(
+        [](const MRZSoundings& sounding) { return sounding.get_x_re_ref_point_m(); }, beam_numbers);
+}
+
+xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_inc_angle_adj_deg_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    return build_tensor<float>(
+        [](const MRZSoundings& sounding) { return sounding.get_beam_inc_angle_adj_deg(); },
+        beam_numbers);
+}
+
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_real_time_clean_info_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_real_time_clean_info(); });
+        [](const MRZSoundings& sounding) { return sounding.get_real_time_clean_info(); },
+        beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_start_range_samples_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_start_range_samples_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_si_start_range_samples(); });
+        [](const MRZSoundings& sounding) { return sounding.get_si_start_range_samples(); },
+        beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_centre_sample_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_centre_sample_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_si_centre_sample(); });
+        [](const MRZSoundings& sounding) { return sounding.get_si_centre_sample(); }, beam_numbers);
 }
 
-xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_num_samples_tensor() const
+xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_si_num_samples_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<uint16_t>(
-        [](const MRZSoundings& sounding) { return sounding.get_si_num_samples(); });
+        [](const MRZSoundings& sounding) { return sounding.get_si_num_samples(); }, beam_numbers);
 }
 
 // ----- processed -----
@@ -338,6 +402,44 @@ xt::xtensor<float, 1> MRZSoundingsContainer::get_mean_absorption_db_per_m_per_se
     }
 
     return mean_absorption;
+}
+
+MRZSoundingsContainer::t_XYZ MRZSoundingsContainer::get_xyz() const
+{
+    MRZSoundingsContainer::t_XYZ xyz({ _soundings.size() });
+
+    for (unsigned int bn = 0; bn < _soundings.size(); ++bn)
+    {
+        xyz.x.unchecked(bn) = _soundings[bn].get_x_re_ref_point_m();
+        xyz.y.unchecked(bn) = _soundings[bn].get_y_re_ref_point_m();
+        xyz.z.unchecked(bn) = _soundings[bn].get_z_re_ref_point_m();
+    }
+
+    return xyz;
+}
+
+MRZSoundingsContainer::t_XYZ MRZSoundingsContainer::get_xyz(const std::vector<uint32_t>& beam_numbers) const
+{
+    t_XYZ xyz({ beam_numbers.size() });
+
+    for (unsigned int bi = 0; bi < beam_numbers.size(); ++bi)
+    {
+        auto bn = beam_numbers[bi];
+        if (bn >= _soundings.size())
+        {
+            xyz.x.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
+            xyz.y.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
+            xyz.z.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
+        }
+        else
+        {
+            xyz.x.unchecked(bi) = _soundings[bn].get_x_re_ref_point_m();
+            xyz.y.unchecked(bi) = _soundings[bn].get_y_re_ref_point_m();
+            xyz.z.unchecked(bi) = _soundings[bn].get_z_re_ref_point_m();
+        }
+    }
+
+    return xyz;
 }
 
 tools::classhelper::ObjectPrinter MRZSoundingsContainer::__printer__(

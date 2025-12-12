@@ -128,6 +128,8 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
         _bytes_datagram_check = bytes_datagram_check;
     }
 
+    // ----- convenience access -----
+
     // ----- operators -----
     bool operator==(const MRangeAndDepth& other) const = default;
 

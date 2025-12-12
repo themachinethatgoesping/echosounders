@@ -1,4 +1,4 @@
-//sourcehash: 3da3e6ef46a888fbffd464daf0aceb2e1cd72fc08aab9f72303fd1b022872133
+//sourcehash: de7c138bef49ad419f4c4fdc64521af9877b0c5c0bb89b3cd6f573dc0e4543d0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -108,6 +108,24 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_first_datagram = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_xyz =
+R"doc(read XYZ for the bottom detection datagram
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_xyz_2 =
+R"doc(read XYZ for the specified beams from the bottom detection datagram
+Note: if the beam numbers from the beam selection exceed the number of
+      beams in the
+datagram, the corresponding XYZ values will be NaN
+
+Args:
+    bs: beam selection
+
+Returns:
+    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_release_multisector_calibration = R"doc()doc";
 

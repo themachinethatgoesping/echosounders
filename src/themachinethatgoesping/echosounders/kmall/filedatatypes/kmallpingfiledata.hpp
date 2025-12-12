@@ -377,34 +377,33 @@ class KMALLPingFileData
             return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
     }
 
-    // // I_PingBottom functions
-    // /**
-    //  * @brief read XYZ for the bottom detection datagram
-    //  *
-    //  * @return algorithms::geoprocessing::datastructures::XYZ<1>
-    //  */
-    // algorithms::geoprocessing::datastructures::XYZ<1> read_xyz()
-    // {
-    //     auto datagram = read_first_datagram<datagrams::XYZDatagram>();
+    // I_PingBottom functions
+    /**
+     * @brief read XYZ for the bottom detection datagram
+     *
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz()
+    {
+        auto datagram = read_first_datagram<datagrams::MRangeAndDepth>();
 
-    //     return datagram.get_xyz();
-    // }
+        return datagram.get_soundings().get_xyz();
+    }
 
-    // /**
-    //  * @brief read XYZ for the specified beams from the bottom detection datagram
-    //  * Note: if the beam numbers from the beam selection exceed the number of beams in the
-    //  * datagram, the corresponding XYZ values will be NaN
-    //  *
-    //  * @param bs beam selection
-    //  * @return algorithms::geoprocessing::datastructures::XYZ<1>
-    //  */
-    // algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const pingtools::BeamSelection&
-    // bs)
-    // {
-    //     auto datagram = read_first_datagram<datagrams::XYZDatagram>();
+    /**
+     * @brief read XYZ for the specified beams from the bottom detection datagram
+     * Note: if the beam numbers from the beam selection exceed the number of beams in the
+     * datagram, the corresponding XYZ values will be NaN
+     *
+     * @param bs beam selection
+     * @return algorithms::geoprocessing::datastructures::XYZ<1>
+     */
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const pingtools::BeamSelection& bs)
+    {
+        auto datagram = read_first_datagram<datagrams::MRangeAndDepth>();
 
-    //     return datagram.get_xyz(bs.get_beam_numbers());
-    // }
+        return datagram.get_soundings().get_xyz(bs.get_beam_numbers());
+    }
 
     // ----- I_PingFileData Interface -----
     std::vector<size_t> get_file_numbers() const final

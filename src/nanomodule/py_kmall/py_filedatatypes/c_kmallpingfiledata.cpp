@@ -92,15 +92,14 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
                  DOC_KMALLPingFileData(set_multisector_calibration),
                  nb::arg("calibration"))
 
-            //     // --- bottom detection ---
-            //     .def("read_xyz",
-            //          nb::overload_cast<>(&t_KMALLPingFileData::read_xyz),
-            //          DOC_KMALLPingFileData(read_xyz))
-            //     .def("read_xyz",
-            //                nb::overload_cast<const pingtools::BeamSelection&>(
-            //              &t_KMALLPingFileData::read_xyz),
-            //          DOC_KMALLPingFileData(read_xyz_2),
-            //                nb::arg("selection"))
+            // --- bottom detection ---
+            .def("read_xyz",
+                 nb::overload_cast<>(&t_KMALLPingFileData::read_xyz),
+                 DOC_KMALLPingFileData(read_xyz))
+            .def("read_xyz",
+                 nb::overload_cast<const pingtools::BeamSelection&>(&t_KMALLPingFileData::read_xyz),
+                 DOC_KMALLPingFileData(read_xyz_2),
+                 nb::arg("selection"))
 
             // load/release
             .def("release_wci",
