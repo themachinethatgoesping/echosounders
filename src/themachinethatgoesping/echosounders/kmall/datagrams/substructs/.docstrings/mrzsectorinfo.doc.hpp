@@ -1,4 +1,4 @@
-//sourcehash: 69f1767c2ea1deebffcb30e8662c551e85c2c2dad5fd97b3b8bd213f2309934e
+//sourcehash: e1035f19f80f31e5e6549a6cdc53ef0a881bedb4da1599533cf2fe0e6a44ff37
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -80,6 +80,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSectorInfo_get_tx_nominal_source_level_db = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSectorInfo_get_tx_sector_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSectorInfo_get_tx_signal_type = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSectorInfo_get_tx_sub_array = R"doc()doc";
 

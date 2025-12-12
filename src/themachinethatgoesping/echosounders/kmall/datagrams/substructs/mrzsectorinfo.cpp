@@ -16,6 +16,24 @@ namespace kmall {
 namespace datagrams {
 namespace substructs {
 
+// -- processed data access --
+algorithms::signalprocessing::types::o_TxSignalType MRZSectorInfo::get_tx_signal_type() const
+{
+    using algorithms::signalprocessing::types::t_TxSignalType;
+
+    switch (_signal_wave_form)
+    {
+        case 0:
+            return t_TxSignalType::CW;
+        case 1:
+            return t_TxSignalType::FM_UP_SWEEP;
+        case 2:
+            return t_TxSignalType::FM_DOWN_SWEEP;
+        default:
+            return t_TxSignalType::UNKNOWN;
+    }
+}
+
 bool MRZSectorInfo::operator==(const MRZSectorInfo& other) const
 {
     using themachinethatgoesping::tools::helper::float_equals;
@@ -61,6 +79,9 @@ tools::classhelper::ObjectPrinter MRZSectorInfo::__printer__(unsigned int float_
     printer.register_value("high_voltage_level_db", _high_voltage_level_db, "dB");
     printer.register_value("sector_tracking_corr_db", _sector_tracking_corr_db, "dB");
     printer.register_value("effective_signal_length_sec", _effective_signal_length_sec, "s");
+
+    printer.register_section("processed");
+    printer.register_value("tx_signal_type", get_tx_signal_type().name());
 
     return printer;
 }

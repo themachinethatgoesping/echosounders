@@ -14,6 +14,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
+#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 
 #include "../../types.hpp"
 
@@ -50,19 +51,19 @@ class MRZSectorInfo
     MRZSectorInfo()  = default;
     ~MRZSectorInfo() = default;
 
-    uint8_t get_tx_sector_number() const { return _tx_sector_number; }
-    uint8_t get_tx_arrary_number() const { return _tx_arrary_number; }
-    uint8_t get_tx_sub_array() const { return _tx_sub_array; }
-    uint8_t get_padding_0() const { return _padding_0; }
-    float   get_sector_transmit_delay_sec() const { return _sector_transmit_delay_sec; }
-    float   get_tilt_angle_re_tx_deg() const { return _tilt_angle_re_tx_deg; }
-    float   get_tx_nominal_source_level_db() const { return _tx_nominal_source_level_db; }
-    float   get_tx_focus_range_m() const { return _tx_focus_range_m; }
-    float   get_centre_frequency_hz() const { return _centre_frequency_hz; }
-    float   get_signal_band_width_hz() const { return _signal_band_width_hz; }
-    float   get_total_signal_length_sec() const { return _total_signal_length_sec; }
-    uint8_t get_pulse_shading() const { return _pulse_shading; }
-    uint8_t get_signal_wave_form() const { return _signal_wave_form; }
+    uint8_t  get_tx_sector_number() const { return _tx_sector_number; }
+    uint8_t  get_tx_arrary_number() const { return _tx_arrary_number; }
+    uint8_t  get_tx_sub_array() const { return _tx_sub_array; }
+    uint8_t  get_padding_0() const { return _padding_0; }
+    float    get_sector_transmit_delay_sec() const { return _sector_transmit_delay_sec; }
+    float    get_tilt_angle_re_tx_deg() const { return _tilt_angle_re_tx_deg; }
+    float    get_tx_nominal_source_level_db() const { return _tx_nominal_source_level_db; }
+    float    get_tx_focus_range_m() const { return _tx_focus_range_m; }
+    float    get_centre_frequency_hz() const { return _centre_frequency_hz; }
+    float    get_signal_band_width_hz() const { return _signal_band_width_hz; }
+    float    get_total_signal_length_sec() const { return _total_signal_length_sec; }
+    uint8_t  get_pulse_shading() const { return _pulse_shading; }
+    uint8_t  get_signal_wave_form() const { return _signal_wave_form; }
     uint16_t get_padding_1() const { return _padding_1; }
     float    get_high_voltage_level_db() const { return _high_voltage_level_db; }
     float    get_sector_tracking_corr_db() const { return _sector_tracking_corr_db; }
@@ -85,6 +86,9 @@ class MRZSectorInfo
     void set_high_voltage_level_db(float val) { _high_voltage_level_db = val; }
     void set_sector_tracking_corr_db(float val) { _sector_tracking_corr_db = val; }
     void set_effective_signal_length_sec(float val) { _effective_signal_length_sec = val; }
+
+    // processed
+    algorithms::signalprocessing::types::o_TxSignalType get_tx_signal_type() const;
 
     bool operator==(const MRZSectorInfo& other) const;
 

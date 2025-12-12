@@ -1,4 +1,4 @@
-//sourcehash: 68fdc49bc94262e42e5ee2609ca3a1cfd270af5813405b0642150c315d3ef7bb
+//sourcehash: a95609f5be8e20bf90f1e2dc5f90eb91bdd153890cf5234222ab364ccab81254
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,28 +40,6 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_KMALLPingBottom = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_class_name = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_number_of_tx_sectors = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_tx_signal_parameters = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_load = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_loaded = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_printer = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_release = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

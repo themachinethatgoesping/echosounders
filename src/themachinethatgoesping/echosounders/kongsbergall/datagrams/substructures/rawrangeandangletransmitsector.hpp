@@ -91,7 +91,7 @@ class RawRangeAndAngleTransmitSector
      */
     float get_mean_absorption_coefficient_in_dB_per_m() const;
 
-    algorithms::signalprocessing::types::t_TxSignalType get_tx_signal_type() const;
+    algorithms::signalprocessing::types::o_TxSignalType get_tx_signal_type() const;
 
     // ----- operators -----
     bool operator==(const RawRangeAndAngleTransmitSector& other) const = default;

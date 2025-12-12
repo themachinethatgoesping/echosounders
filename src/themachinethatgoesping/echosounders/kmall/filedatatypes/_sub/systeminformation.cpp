@@ -13,7 +13,7 @@
 
 namespace themachinethatgoesping {
 namespace echosounders {
-namespace kongsbergall {
+namespace kmall {
 namespace filedatatypes {
 namespace _sub {
 
@@ -130,14 +130,14 @@ size_t TxSignalParameterVector::binary_hash() const
 
 // ----- SystemInformation implementations -----
 
-SystemInformation::SystemInformation(const datagrams::RawRangeAndAngle& raw_range_and_angle_datagram)
+SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagram)
 {
     using algorithms::signalprocessing::types::t_TxSignalType;
     using namespace algorithms::signalprocessing::datastructures;
 
     TxSignalParameterVector tx_signal_parameters;
 
-    const auto& transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+    const auto& transmit_sectors = mrz_datagram.get_tx_sectors();
 
     for (const auto& ts : transmit_sectors)
     {
@@ -146,17 +146,17 @@ SystemInformation::SystemInformation(const datagrams::RawRangeAndAngle& raw_rang
         switch (tx_signal_type.value)
         {
             case t_TxSignalType::CW: {
-                tx_signal_parameters.push_back(CWSignalParameters(ts.get_center_frequency(),
-                                                                  ts.get_signal_bandwidth(),
-                                                                  ts.get_signal_length()));
+                tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency_hz(),
+                                                                  ts.get_signal_band_width_hz(),
+                                                                  ts.get_effective_signal_length_sec()));
                 break;
             }
             case t_TxSignalType::FM_UP_SWEEP:
                 [[fallthrough]];
             case t_TxSignalType::FM_DOWN_SWEEP: {
-                tx_signal_parameters.push_back(FMSignalParameters(ts.get_center_frequency(),
-                                                                  ts.get_signal_bandwidth(),
-                                                                  ts.get_signal_length(),
+                tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency_hz(),
+                                                                  ts.get_signal_band_width_hz(),
+                                                                  ts.get_effective_signal_length_sec(),
                                                                   tx_signal_type));
                 break;
             }
@@ -170,26 +170,26 @@ SystemInformation::SystemInformation(const datagrams::RawRangeAndAngle& raw_rang
     _tx_signal_parameters = tx_signal_parameters;
 }
 
-SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
-{
-    using algorithms::signalprocessing::types::t_TxSignalType;
-    using namespace algorithms::signalprocessing::datastructures;
+// SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
+// {
+//     using algorithms::signalprocessing::types::t_TxSignalType;
+//     using namespace algorithms::signalprocessing::datastructures;
 
-    TxSignalParameterVector tx_signal_parameters;
+//     TxSignalParameterVector tx_signal_parameters;
 
-    const auto& transmit_sectors = wci_infos.get_transmit_sectors();
+//     const auto& transmit_sectors = wci_infos.get_transmit_sectors();
 
-    for (const auto& ts : transmit_sectors)
-    {
-        tx_signal_parameters.push_back(GenericSignalParameters(
-            ts.get_center_frequency(),
-            NAN,
-            NAN,
-            algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
-    }
+//     for (const auto& ts : transmit_sectors)
+//     {
+//         tx_signal_parameters.push_back(GenericSignalParameters(
+//             ts.get_center_frequency(),
+//             NAN,
+//             NAN,
+//             algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
+//     }
 
-    _tx_signal_parameters = tx_signal_parameters;
-}
+//     _tx_signal_parameters = tx_signal_parameters;
+// }
 
 bool SystemInformation::operator==(const SystemInformation& other) const
 {
@@ -234,6 +234,6 @@ SystemInformation SystemInformation::from_stream(
 
 } // namespace _sub
 } // namespace filedatatypes
-} // namespace kongsbergall
+} // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping

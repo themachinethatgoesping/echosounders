@@ -38,7 +38,7 @@
 #include "../filedatainterfaces/kmalldatagraminterface.hpp"
 #include "../filedatatypes/calibration/kmallwatercolumncalibration.hpp"
 
-// #include "_sub/systeminformation.hpp"
+#include "_sub/systeminformation.hpp"
 // #include "_sub/watercolumninformation.hpp"
 
 namespace themachinethatgoesping {
@@ -61,7 +61,7 @@ class KMALLPingFileData
 
   private:
     // std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
-    // std::unique_ptr<_sub::SystemInformation>      _systeminformation;
+    std::unique_ptr<_sub::SystemInformation> _systeminformation;
 
   public:
     //     void init_watercolumn_calibration(bool force = false)
@@ -202,10 +202,10 @@ class KMALLPingFileData
     //     // {
     //     //     _watercolumninformation = std::move(wci);
     //     // }
-    //     // void set_systeminformation(std::unique_ptr<_sub::SystemInformation> syi)
-    //     // {
-    //     //     _systeminformation = std::move(syi);
-    //     // }
+    void set_systeminformation(std::unique_ptr<_sub::SystemInformation> syi)
+    {
+        _systeminformation = std::move(syi);
+    }
 
     //     void load_wci(bool force = false)
     //     {
@@ -215,26 +215,26 @@ class KMALLPingFileData
     //         _watercolumninformation =
     //             std::make_unique<_sub::WaterColumnInformation>(read_merged_watercolumndatagram(true));
     //     }
-    //     void load_sys(bool force = false)
-    //     {
-    //         if (sys_loaded() && !force)
-    //             return;
+    void load_sys(bool force = false)
+    {
+        if (sys_loaded() && !force)
+            return;
 
-    //         if (has_datagram_type<datagrams::RawRangeAndAngle>())
-    //         {
-    //             _systeminformation = std::make_unique<_sub::SystemInformation>(
-    //                 read_first_datagram<datagrams::RawRangeAndAngle>());
-    //         }
-    //         else if (has_datagram_type<datagrams::WatercolumnDatagram>())
-    //         {
-    //             _systeminformation = std::make_unique<_sub::SystemInformation>(get_wcinfos());
-    //         }
-    //     }
+        if (has_datagram_type<datagrams::MRangeAndDepth>())
+        {
+            _systeminformation = std::make_unique<_sub::SystemInformation>(
+                read_first_datagram<datagrams::MRangeAndDepth>());
+        }
+        // else if (has_datagram_type<datagrams::WatercolumnDatagram>())
+        // {
+        //     _systeminformation = std::make_unique<_sub::SystemInformation>(get_wcinfos());
+        // }
+    }
     //     void release_wci() { _watercolumninformation.reset(); }
-    //     void release_sys() { _systeminformation.reset(); }
+    void release_sys() { _systeminformation.reset(); }
     //     void release_multisector_calibration() { _multisector_calibration.reset(); }
     //     bool wci_loaded() const { return _watercolumninformation != nullptr; }
-    //     bool sys_loaded() const { return _systeminformation != nullptr; }
+    bool sys_loaded() const { return _systeminformation != nullptr; }
     //     bool multisector_calibration_loaded() const { return _multisector_calibration != nullptr;
     //     }
 
@@ -245,12 +245,12 @@ class KMALLPingFileData
     //         return *_watercolumninformation;
     //     }
 
-    //     const _sub::SystemInformation& get_sysinfos()
-    //     {
-    //         load_sys();
+    const _sub::SystemInformation& get_sysinfos()
+    {
+        load_sys();
 
-    //         return *_systeminformation;
-    //     }
+        return *_systeminformation;
+    }
 
     //     const _sub::WaterColumnInformation& get_wcinfos_const() const
     //     {
@@ -261,14 +261,14 @@ class KMALLPingFileData
     //         return *_watercolumninformation;
     //     }
 
-    //     const _sub::SystemInformation& get_sysinfos_const() const
-    //     {
-    //         if (!sys_loaded())
-    //             throw std::runtime_error("Error[KMALLPingFileData::get_sysinfos_const]: System "
-    //                                      "information not loaded!");
+    const _sub::SystemInformation& get_sysinfos_const() const
+    {
+        if (!sys_loaded())
+            throw std::runtime_error("Error[KMALLPingFileData::get_sysinfos_const]: System "
+                                     "information not loaded!");
 
-    //         return *_systeminformation;
-    //     }
+        return *_systeminformation;
+    }
 
     //   public:
     bool has_runtime_parameters() const { return bool(_runtime_parameters); }
@@ -277,39 +277,39 @@ class KMALLPingFileData
     {
         _runtime_parameters = std::make_unique<boost::flyweight<datagrams::IOpRuntime>>(arg);
     }
-        const datagrams::IOpRuntime& get_runtime_parameters() const
-        {
-            if (!_runtime_parameters)
-                throw std::runtime_error(
-                    "Error[KMALLPingFileData::get_runtime_parameters]: No runtime parameters "
-                    "available!");
+    const datagrams::IOpRuntime& get_runtime_parameters() const
+    {
+        if (!_runtime_parameters)
+            throw std::runtime_error(
+                "Error[KMALLPingFileData::get_runtime_parameters]: No runtime parameters "
+                "available!");
 
-            return _runtime_parameters->get();
+        return _runtime_parameters->get();
+    }
+
+    bool has_datagram_type(t_KMALLDatagramIdentifier datagram_identifier) const
+    {
+        return this->_datagram_infos_by_type.at_const(datagram_identifier).size() > 0;
+    }
+
+    bool has_any_of_datagram_types(
+        const std::vector<t_KMALLDatagramIdentifier>& datagram_identifiers) const
+    {
+        for (const auto& datagram_identifier : datagram_identifiers)
+        {
+            if (this->has_datagram_type(datagram_identifier))
+                return true;
         }
 
-        bool has_datagram_type(t_KMALLDatagramIdentifier datagram_identifier) const
-        {
-            return this->_datagram_infos_by_type.at_const(datagram_identifier).size() > 0;
-        }
+        return false;
+    }
 
-        bool has_any_of_datagram_types(
-            const std::vector<t_KMALLDatagramIdentifier>& datagram_identifiers) const
-        {
-            for (const auto& datagram_identifier : datagram_identifiers)
-            {
-                if (this->has_datagram_type(datagram_identifier))
-                    return true;
-            }
+    auto& get_datagram_infos(t_KMALLDatagramIdentifier datagram_identifier)
+    {
+        auto& datagram_infos = this->_datagram_infos_by_type.at(datagram_identifier);
 
-            return false;
-        }
-
-        auto& get_datagram_infos(t_KMALLDatagramIdentifier datagram_identifier)
-        {
-            auto& datagram_infos = this->_datagram_infos_by_type.at(datagram_identifier);
-
-            return datagram_infos;
-        }
+        return datagram_infos;
+    }
 
   protected:
     std::string class_name() const override { return "KMALLPingFileData"; }
@@ -327,11 +327,10 @@ class KMALLPingFileData
         : t_base1(other)
         , t_base2(other)
     {
-        _runtime_parameters =
-            other._runtime_parameters
-                ? std::make_unique<boost::flyweight<datagrams::IOpRuntime>>(
-                      *other._runtime_parameters)
-                : nullptr;
+        _runtime_parameters = other._runtime_parameters
+                                  ? std::make_unique<boost::flyweight<datagrams::IOpRuntime>>(
+                                        *other._runtime_parameters)
+                                  : nullptr;
         // _multisector_calibration =
         //     other._multisector_calibration
         //         ? std::make_unique<
@@ -342,10 +341,10 @@ class KMALLPingFileData
         //     other._watercolumninformation
         //         ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
         //         : nullptr;
-        // _systeminformation =
-        //     other._systeminformation
-        //         ? std::make_unique<_sub::SystemInformation>(*other._systeminformation)
-        //         : nullptr;
+        _systeminformation =
+            other._systeminformation
+                ? std::make_unique<_sub::SystemInformation>(*other._systeminformation)
+                : nullptr;
     }
 
     /**
@@ -373,9 +372,9 @@ class KMALLPingFileData
         auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
 
         if (datagram_infos.empty())
-            throw std::runtime_error(fmt::format(
-                "Error[KMALLPingFileData::read_datagram]: No {} datagram in ping!",
-                datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
+            throw std::runtime_error(
+                fmt::format("Error[KMALLPingFileData::read_datagram]: No {} datagram in ping!",
+                            datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
 
         return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
     }

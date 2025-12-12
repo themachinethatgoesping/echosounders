@@ -1,4 +1,4 @@
-//sourcehash: 94076347804f68e26d992a84bacf9875280bf828ea03da7a1352f67afbcd4968
+//sourcehash: c7d1287007bddc4e86548f499bf7cafcc6ade667e385a689c20617fa8e06e190
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,7 +47,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_class_name = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_signal_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_tx_signal_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_load = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_loaded = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_release = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -70,29 +70,30 @@ class KMALLPingWatercolumn
 
     // --- sector infos ---
 
-    // bool has_tx_signal_parameters() const override
-    // {
-    //     return _file_data->has_any_of_datagram_types(
-    //         { t_KMALLDatagramIdentifier::RawRangeAndAngle,
-    //           t_KMALLDatagramIdentifier::WatercolumnDatagram });
-    // }
-    // bool has_number_of_tx_sectors() const { return has_tx_signal_parameters(); }
+    bool has_tx_signal_parameters() const override
+    {
+        return _file_data->has_any_of_datagram_types(
+            { t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH,
+              //t_KMALLDatagramIdentifier::WatercolumnDatagram 
+            });
+    }
+    bool has_number_of_tx_sectors() const { return has_tx_signal_parameters(); }
     // bool has_beam_numbers_per_tx_sector() const { return has_tx_signal_parameters(); }
     // bool has_tx_sector_per_beam() const { return has_tx_signal_parameters(); }
     // bool has_number_of_beams() const { return has_tx_signal_parameters(); }
 
     // bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
 
-    // std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    // get_tx_signal_parameters() const override
-    // {
-    //     return file_data().get_sysinfos_const().get_tx_signal_parameters();
-    // }
+    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+    get_tx_signal_parameters() const override
+    {
+        return this->file_data().get_sysinfos_const().get_tx_signal_parameters();
+    }
 
-    // size_t get_number_of_tx_sectors() const override
-    // {
-    //     return file_data().get_sysinfos_const().get_tx_signal_parameters().size();
-    // }
+    size_t get_number_of_tx_sectors() const override
+    {
+        return this->file_data().get_sysinfos_const().get_tx_signal_parameters().size();
+    }
 
     // xt::xtensor<size_t, 1> get_tx_sector_per_beam(
     //     const pingtools::BeamSelection& selection) override
@@ -122,22 +123,23 @@ class KMALLPingWatercolumn
     // }
 
     // // ----- I_PingCommon interface -----
-    // void load(bool force = false) override
-    // {
-    //     _file_data->load_wci(force);
-    //     _file_data->load_sys(force);
-    //     _file_data->init_watercolumn_calibration(force);
-    // }
-    // void release() override
-    // {
-    //     _file_data->release_wci();
-    //     _file_data->release_sys();
-    // }
-    // bool loaded() override
-    // {
-    //     return _file_data->wci_loaded() && _file_data->sys_loaded() &&
-    //            _file_data->has_watercolumn_calibration();
-    // }
+    void load(bool force = false) override
+    {
+        //_file_data->load_wci(force);
+        _file_data->load_sys(force);
+        //_file_data->init_watercolumn_calibration(force);
+    }
+    void release() override
+    {
+        //_file_data->release_wci();
+        _file_data->release_sys();
+    }
+    bool loaded() override
+    {
+        return _file_data->sys_loaded();
+        // return _file_data->wci_loaded() && _file_data->sys_loaded() &&
+        //        _file_data->has_watercolumn_calibration();
+    }
 
     // uint32_t get_number_of_beams() const override
     // {
@@ -239,7 +241,8 @@ class KMALLPingWatercolumn
     //     return _file_data->get_wcinfos().get_sound_speed_at_transducer();
     // }
 
-    // float get_sample_interval() override { return _file_data->get_wcinfos().get_sample_interval(); }
+    // float get_sample_interval() override { return
+    // _file_data->get_wcinfos().get_sample_interval(); }
 
     // uint8_t get_tvg_factor_applied() const
     // {
@@ -385,7 +388,8 @@ class KMALLPingWatercolumn
 
         // auto& wcinfos = _file_data->get_wcinfos();
 
-        // printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles());
+        // printer.register_container("beam_crosstrack_angles",
+        // wcinfos.get_beam_crosstrack_angles());
         // printer.register_container("start_range_sample_numbers",
         //                            wcinfos.get_start_range_sample_numbers());
         // printer.register_container("number_of_samples_per_bean",

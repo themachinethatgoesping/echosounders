@@ -1,4 +1,4 @@
-//sourcehash: 68fdc49bc94262e42e5ee2609ca3a1cfd270af5813405b0642150c315d3ef7bb
+//sourcehash: 6641d13618d511708ea33352ecb33846d5513f89ae6f6bd7eb4f4f3587f53e2a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,27 +41,12 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SYSInfos = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_KMALLPingBottom = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SYSInfos_SYSInfos = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_class_name = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SYSInfos_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_number_of_tx_sectors = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_tx_signal_parameters = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_load = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_loaded = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_printer = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_release = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

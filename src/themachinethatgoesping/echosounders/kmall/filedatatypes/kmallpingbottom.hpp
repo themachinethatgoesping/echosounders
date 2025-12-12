@@ -22,13 +22,11 @@
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>
 
-
-#include <xtensor/views/xview.hpp>
 #include <xtensor/views/xindex_view.hpp>
+#include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-
 
 #include "../../filetemplates/datatypes/i_pingbottom.hpp"
 
@@ -66,24 +64,25 @@ class KMALLPingBottom
     virtual ~KMALLPingBottom() = default;
 
     // --- sector infos ---
-    // bool has_tx_signal_parameters() const override
-    // {
-    //     return _file_data->has_any_of_datagram_types(
-    //         { t_KMALLDatagramIdentifier::RawRangeAndAngle,
-    //           t_KMALLDatagramIdentifier::WatercolumnDatagram });
-    // }
-    // bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
+    bool has_tx_signal_parameters() const override
+    {
+        return _file_data->has_any_of_datagram_types({
+            t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH,
+            // t_KMALLDatagramIdentifier::WatercolumnDatagram
+        });
+    }
+    bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
 
-    // std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    // get_tx_signal_parameters() override
-    // {
-    //     return file_data().get_sysinfos().get_tx_signal_parameters();
-    // }
+    std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
+    get_tx_signal_parameters() override
+    {
+        return this->file_data().get_sysinfos().get_tx_signal_parameters();
+    }
 
-    // size_t get_number_of_tx_sectors() override
-    // {
-    //     return file_data().get_sysinfos().get_tx_signal_parameters().size();
-    // }
+    size_t get_number_of_tx_sectors() override
+    {
+        return this->file_data().get_sysinfos().get_tx_signal_parameters().size();
+    }
 
     // xt::xtensor<size_t, 1> get_tx_sector_per_beam(
     //     const pingtools::BeamSelection& selection) override
@@ -113,9 +112,9 @@ class KMALLPingBottom
     // }
 
     // // ----- I_PingCommon interface -----
-    // void load(bool force = false) override { _file_data->load_sys(force); }
-    // void release() override { _file_data->release_sys(); }
-    // bool loaded() override { return _file_data->sys_loaded(); }
+    void load(bool force = false) override { _file_data->load_sys(force); }
+    void release() override { _file_data->release_sys(); }
+    bool loaded() override { return _file_data->sys_loaded(); }
 
     // uint32_t get_number_of_beams() override
     // {
@@ -163,7 +162,6 @@ class KMALLPingBottom
     // {
     //     return _file_data->read_xyz(selection);
     // }
-
 
     // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw()
     // {

@@ -18,7 +18,8 @@ bool MRZSoundings::operator==(const MRZSoundings& other) const
 {
     using themachinethatgoesping::tools::helper::float_equals;
     return _sounding_index == other._sounding_index &&
-           _tx_sector_number == other._tx_sector_number && _detection_type == other._detection_type &&
+           _tx_sector_number == other._tx_sector_number &&
+           _detection_type == other._detection_type &&
            _detection_method == other._detection_method &&
            _rejection_info_1 == other._rejection_info_1 &&
            _rejection_info_2 == other._rejection_info_2 &&
@@ -45,7 +46,7 @@ bool MRZSoundings::operator==(const MRZSoundings& other) const
            float_equals(_beam_angle_correction_deg, other._beam_angle_correction_deg) &&
            float_equals(_two_way_travel_time_sec, other._two_way_travel_time_sec) &&
            float_equals(_two_way_travel_time_correction_sec,
-                         other._two_way_travel_time_correction_sec) &&
+                        other._two_way_travel_time_correction_sec) &&
            float_equals(_delta_latitude_deg, other._delta_latitude_deg) &&
            float_equals(_delta_longitude_deg, other._delta_longitude_deg) &&
            float_equals(_z_re_ref_point_m, other._z_re_ref_point_m) &&
@@ -54,8 +55,7 @@ bool MRZSoundings::operator==(const MRZSoundings& other) const
            float_equals(_beam_inc_angle_adj_deg, other._beam_inc_angle_adj_deg) &&
            _real_time_clean_info == other._real_time_clean_info &&
            _si_start_range_samples == other._si_start_range_samples &&
-           _si_centre_sample == other._si_centre_sample &&
-           _si_num_samples == other._si_num_samples;
+           _si_centre_sample == other._si_centre_sample && _si_num_samples == other._si_num_samples;
 }
 
 // ----- objectprinter -----
