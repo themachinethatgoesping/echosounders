@@ -27,8 +27,6 @@
 
 #include "../../../pingtools/readsamplerange.hpp"
 
-#ifdef PETER
-
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -43,12 +41,12 @@ class _WCIInfos
     uint8_t _tvg_function_applied       = 0;
     int8_t  _tvg_offset_in_db           = 0;
     uint8_t _number_of_transmit_sectors = 0;
-    std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector> _transmit_sectors;
+    std::vector<datagrams::substructs::MWCSectorInfo> _transmit_sectors;
 
   public:
     _WCIInfos() = default;
 
-    _WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram);
+    _WCIInfos(const datagrams::MWaterColumn& water_column_datagram);
 
     bool operator==(_WCIInfos const& other) const = default;
 
@@ -58,7 +56,7 @@ class _WCIInfos
     int8_t  get_tvg_offset_in_db() const { return _tvg_offset_in_db; }
     float   get_sampling_interval() const { return _sampling_interval; }
     uint8_t get_number_of_transmit_sectors() const { return _transmit_sectors.size(); }
-    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
+    const std::vector<datagrams::substructs::MWCSectorInfo>&
     get_transmit_sectors() const;
 
     void set_sound_speed_at_transducer(float sound_speed_at_transducer);
@@ -66,7 +64,7 @@ class _WCIInfos
     void set_tvg_offset_in_db(int8_t tvg_offset_in_db) { _tvg_offset_in_db = tvg_offset_in_db; }
     void set_sampling_interval(float sampling_interval) { _sampling_interval = sampling_interval; }
     void set_transmit_sectors(
-        const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
+        const std::vector<datagrams::substructs::MWCSectorInfo>&
             transmit_sectors);
 
     // ----- functions used for PackageCache -----
@@ -87,7 +85,7 @@ inline std::size_t hash_value(const _WCIInfos& data)
 
     stream.write(reinterpret_cast<const char*>(data.get_transmit_sectors().data()),
                  data.get_transmit_sectors().size() *
-                     sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+                     sizeof(datagrams::substructs::MWCSectorInfo));
     stream.flush();
     return hash.digest();
 }
@@ -98,5 +96,3 @@ inline std::size_t hash_value(const _WCIInfos& data)
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
-
-#endif

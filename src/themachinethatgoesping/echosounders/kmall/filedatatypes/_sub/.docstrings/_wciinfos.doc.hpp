@@ -1,4 +1,4 @@
-//sourcehash: f5c8e9e0a2afcca321913b913f511bf7fd71c304e0ef29392e6afc517c82e50e
+//sourcehash: 770f1b0de64db0d327bedbfd5fc039944f4e07e49be8b2a0d912258a7ce59319
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -39,6 +39,53 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
+
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_WCIInfos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_WCIInfos_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_from_binary = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_number_of_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_sampling_interval = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_sound_speed_at_transducer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_tvg_function_applied = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_get_tvg_offset_in_db = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_number_of_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_sampling_interval = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_set_sampling_interval = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_set_sound_speed_at_transducer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_set_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_set_tvg_function_applied = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_set_tvg_offset_in_db = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_sound_speed_at_transducer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_to_binary = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_tvg_function_applied = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WCIInfos_tvg_offset_in_db = R"doc()doc";
 
 
 #if defined(__GNUG__)

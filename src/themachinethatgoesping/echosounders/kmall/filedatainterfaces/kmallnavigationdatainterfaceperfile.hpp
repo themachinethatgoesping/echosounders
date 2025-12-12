@@ -332,8 +332,8 @@ class KMALLNavigationDataInterfacePerFile
                     if (packet_timestamp_in_range(times_heave, timestamp, "heave"))
                     {
                         times_heave.push_back(timestamp);
-                        // Heave sign convention: positive upwards
-                        heaves.push_back(km_binary.heave_m);
+                        // km binary heave is positive downwards, convert to positive upwards
+                        heaves.push_back(-km_binary.heave_m);
                     }
                 }
             }
@@ -355,7 +355,8 @@ class KMALLNavigationDataInterfacePerFile
                 continue;
 
             times_heave.push_back(timestamp);
-            heaves.push_back(datagram.get_heave_m());
+            // km CHE heave is positive downwards, convert to positive upwards
+            heaves.push_back(-datagram.get_heave_m());
         }
     }
 };

@@ -69,27 +69,31 @@ class KongsbergAllPingFileData
         if (_multisector_calibration && !force)
             return;
 
-        const auto& runtime_parameters = get_runtime_parameters();
+        // const auto& runtime_parameters = get_runtime_parameters();
 
         // TODO: use sound velocity profile
         auto        sound_velocity = this->get_wcinfos().get_sound_speed_at_transducer();
         const auto& signal_parameters =
             this->get_sysinfos().get_tx_signal_parameters(); // this is a vector that represents the
                                                              // number of sectors
+        const auto& absorptions_db_m =
+            this->get_sysinfos()
+                .get_mean_absorption_coefficient_in_dB_per_m(); // this is a vector that represents
+                                                                // the number of sectors
         auto tvg_offset = this->get_wcinfos().get_tvg_offset_in_db();
         auto tvg_factor = this->get_wcinfos().get_tvg_factor_applied();
 
         std::vector<calibration::KongsbergAllWaterColumnCalibration> calibrations;
         for (size_t sector_nr = 0; sector_nr < signal_parameters.size(); ++sector_nr)
         {
-            const auto& signal_param = signal_parameters[sector_nr];
+            const auto& signal_param = signal_parameters.at(sector_nr);
 
             calibrations.push_back(calibration::KongsbergAllWaterColumnCalibration(
                 sound_velocity,
                 std::visit([](const auto& param) { return param.get_effective_pulse_duration(); },
                            signal_param),
                 tvg_offset,
-                runtime_parameters.get_absorption_coefficient_in_db_per_meter(),
+                absorptions_db_m(sector_nr),
                 tvg_factor));
         }
 

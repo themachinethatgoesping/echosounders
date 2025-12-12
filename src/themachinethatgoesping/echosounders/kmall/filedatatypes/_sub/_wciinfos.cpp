@@ -8,22 +8,20 @@
 
 #include <cstring>
 
-#ifdef PETER
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 namespace filedatatypes {
 namespace _sub {
 
-_WCIInfos::_WCIInfos(const datagrams::WatercolumnDatagram& water_column_datagram)
+_WCIInfos::_WCIInfos(const datagrams::MWaterColumn& water_column_datagram)
 {
-    _sound_speed_at_transducer = water_column_datagram.get_sound_speed_m_s();
-    _tvg_function_applied      = water_column_datagram.get_tvg_function_applied();
-    _tvg_offset_in_db          = water_column_datagram.get_tvg_offset_in_db();
-    _sampling_interval         = 1 / water_column_datagram.get_sampling_frequency_in_hz();
+    _sound_speed_at_transducer = water_column_datagram.get_rx_info().get_sound_velocity_m_per_sec();
+    _tvg_function_applied      = water_column_datagram.get_rx_info().get_tvg_function_applied();
+    _tvg_offset_in_db          = water_column_datagram.get_rx_info().get_tvg_offset_db();
+    _sampling_interval         = 1 / water_column_datagram.get_rx_info().get_sample_freq_hz();
 
-    _transmit_sectors           = water_column_datagram.get_transmit_sectors();
+    _transmit_sectors           = water_column_datagram.get_tx_sectors();
     _number_of_transmit_sectors = _transmit_sectors.size();
 }
 
@@ -38,8 +36,7 @@ void _WCIInfos::set_tvg_function_applied(uint8_t tvg_function_applied)
 }
 
 void _WCIInfos::set_transmit_sectors(
-    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
-        transmit_sectors)
+    const std::vector<datagrams::substructs::MWCSectorInfo>& transmit_sectors)
 {
     _transmit_sectors           = transmit_sectors;
     _number_of_transmit_sectors = transmit_sectors.size();
@@ -56,8 +53,7 @@ _WCIInfos _WCIInfos::from_binary(std::string_view buffer)
 
     std::memcpy(dat._transmit_sectors.data(),
                 buffer.data() + size_bytes,
-                dat._number_of_transmit_sectors *
-                    sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+                dat._number_of_transmit_sectors * sizeof(datagrams::substructs::MWCSectorInfo));
 
     return dat;
 }
@@ -69,20 +65,17 @@ std::string _WCIInfos::to_binary() const
     std::string buffer;
 
     buffer.resize(size_bytes +
-                  _transmit_sectors.size() *
-                      sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+                  _transmit_sectors.size() * sizeof(datagrams::substructs::MWCSectorInfo));
 
     std::memcpy(buffer.data(), this, size_bytes);
     std::memcpy(buffer.data() + size_bytes,
                 _transmit_sectors.data(),
-                _transmit_sectors.size() *
-                    sizeof(datagrams::substructures::WatercolumnDatagramTransmitSector));
+                _transmit_sectors.size() * sizeof(datagrams::substructs::MWCSectorInfo));
 
     return buffer;
 }
 
-const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
-_WCIInfos::get_transmit_sectors() const
+const std::vector<datagrams::substructs::MWCSectorInfo>& _WCIInfos::get_transmit_sectors() const
 {
     return _transmit_sectors;
 }
@@ -92,5 +85,3 @@ _WCIInfos::get_transmit_sectors() const
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
-
-#endif

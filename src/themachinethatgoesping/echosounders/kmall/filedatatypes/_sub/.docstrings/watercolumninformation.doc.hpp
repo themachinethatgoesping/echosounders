@@ -1,4 +1,4 @@
-//sourcehash: a95609f5be8e20bf90f1e2dc5f90eb91bdd153890cf5234222ab364ccab81254
+//sourcehash: 786be254f772effc545ae80e1eca6f51a84d777910fe666bca5939138c343c10
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,58 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation =
+R"doc(This is a substructure of the KMALLPingWaterColumn class. It is used
+to store information necessary to efficiently read water column data
+from the file. It does not hold the actual water column samples
+
+Note this is a private substructure and is thus not part of the public
+API or pybind11 interface.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples_high_resolution = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_beam_crosstrack_angles = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_detected_range_in_samples = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_detected_range_in_samples_high_resolution = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_number_of_samples_per_beam = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_sample_interval = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_sample_positions = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_sound_speed_at_transducer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_start_range_sample_numbers = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_transmit_sector_numbers = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_tvg_factor_applied = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_tvg_offset_in_db = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_read_beam_samples = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_sample_positions = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_to_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_wci_infos = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

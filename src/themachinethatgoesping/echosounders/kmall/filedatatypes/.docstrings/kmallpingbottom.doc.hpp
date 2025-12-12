@@ -1,4 +1,4 @@
-//sourcehash: 68fdc49bc94262e42e5ee2609ca3a1cfd270af5813405b0642150c315d3ef7bb
+//sourcehash: 81bcdcf3050a2860180b78ba9df5218e62cdd9ffa16fcea696a2136f31e1b47d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,7 +47,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_class_name = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_sector_per_beam = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters = R"doc()doc";
 

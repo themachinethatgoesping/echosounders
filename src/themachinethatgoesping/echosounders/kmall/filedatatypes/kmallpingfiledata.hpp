@@ -56,165 +56,159 @@ class KMALLPingFileData
 
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::IOpRuntime>> _runtime_parameters;
-    // std::unique_ptr<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>
-    //     _multisector_calibration;
+    std::unique_ptr<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>
+        _multisector_calibration;
 
   private:
-    // std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
-    std::unique_ptr<_sub::SystemInformation> _systeminformation;
+    std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
+    std::unique_ptr<_sub::SystemInformation>      _systeminformation;
 
   public:
-    //     void init_watercolumn_calibration(bool force = false)
-    //     {
-    //         if (_multisector_calibration && !force)
-    //             return;
+    void init_watercolumn_calibration(bool force = false)
+    {
+        if (_multisector_calibration && !force)
+            return;
 
-    //         const auto& runtime_parameters = get_runtime_parameters();
+        const auto& runtime_parameters = get_runtime_parameters();
 
-    //         // TODO: use sound velocity profile
-    //         auto        sound_velocity = this->get_wcinfos().get_sound_speed_at_transducer();
-    //         const auto& signal_parameters =
-    //             this->get_sysinfos().get_tx_signal_parameters(); // this is a vector that
-    //             represents the
-    //                                                              // number of sectors
-    //         auto tvg_offset = this->get_wcinfos().get_tvg_offset_in_db();
-    //         auto tvg_factor = this->get_wcinfos().get_tvg_factor_applied();
+        // TODO: use sound velocity profile
+        auto        sound_velocity = this->get_wcinfos().get_sound_speed_at_transducer();
+        const auto& signal_parameters =
+            this->get_sysinfos().get_tx_signal_parameters(); // this is a vector that represents the
+                                                             // number of sectors
+        auto tvg_offset = this->get_wcinfos().get_tvg_offset_in_db();
+        auto tvg_factor = this->get_wcinfos().get_tvg_factor_applied();
 
-    //         std::vector<calibration::KMALLWaterColumnCalibration> calibrations;
-    //         for (size_t sector_nr = 0; sector_nr < signal_parameters.size(); ++sector_nr)
-    //         {
-    //             const auto& signal_param = signal_parameters[sector_nr];
+        std::vector<calibration::KMALLWaterColumnCalibration> calibrations;
+        for (size_t sector_nr = 0; sector_nr < signal_parameters.size(); ++sector_nr)
+        {
+            const auto& signal_param = signal_parameters[sector_nr];
 
-    //             calibrations.push_back(calibration::KMALLWaterColumnCalibration(
-    //                 sound_velocity,
-    //                 std::visit([](const auto& param) { return
-    //                 param.get_effective_pulse_duration(); },
-    //                            signal_param),
-    //                 tvg_offset,
-    //                 runtime_parameters.get_absorption_coefficient_in_db_per_meter(),
-    //                 tvg_factor));
-    //         }
+            calibrations.push_back(calibration::KMALLWaterColumnCalibration(
+                sound_velocity,
+                std::visit([](const auto& param) { return param.get_effective_pulse_duration(); },
+                           signal_param),
+                tvg_offset,
+                //runtime_parameters.get_absorption_coefficient_in_db_per_meter(),
+                0,
+                tvg_factor));
+        }
 
-    //         _multisector_calibration = std::make_unique<
-    //             boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-    //             std::move(calibrations));
-    //     }
-    //     bool has_watercolumn_calibration() const { return bool(_multisector_calibration); }
-    //     const calibration::KMALLMultiSectorWaterColumnCalibration& get_multisector_calibration()
-    //         const
-    //     {
-    //         if (!_multisector_calibration)
-    //             throw std::runtime_error(
-    //                 "Error[KMALLPingFileData::get_watercolumn_calibration]: "
-    //                 "Calibration not initialized!");
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                std::move(calibrations));
+    }
+    bool has_watercolumn_calibration() const { return bool(_multisector_calibration); }
+    const calibration::KMALLMultiSectorWaterColumnCalibration& get_multisector_calibration() const
+    {
+        if (!_multisector_calibration)
+            throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_calibration]: "
+                                     "Calibration not initialized!");
 
-    //         return _multisector_calibration->get();
-    //     }
+        return _multisector_calibration->get();
+    }
 
-    //     void update_calibration(
-    //         boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration> calibration)
-    //     {
-    //         if (calibration.get().get_number_of_sectors() !=
-    //             get_sysinfos().get_tx_signal_parameters().size())
-    //             throw std::runtime_error(
-    //                 "Error[KMALLPingFileData::update_calibration]: Calibration size does not "
-    //                 "match number of transmit sectors!");
+    void update_calibration(
+        boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration> calibration)
+    {
+        if (calibration.get().get_number_of_sectors() !=
+            get_sysinfos().get_tx_signal_parameters().size())
+            throw std::runtime_error(
+                "Error[KMALLPingFileData::update_calibration]: Calibration size does not "
+                "match number of transmit sectors!");
 
-    //         _multisector_calibration = std::make_unique<
-    //             boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-    //             calibration);
-    //     }
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                calibration);
+    }
 
-    //     void set_multisector_calibration(
-    //         const calibration::KMALLMultiSectorWaterColumnCalibration& multisector_calibration)
-    //     {
-    //         if (multisector_calibration.get_number_of_sectors() !=
-    //             get_sysinfos().get_tx_signal_parameters().size())
-    //             throw std::runtime_error(
-    //                 "Error[KMALLPingFileData::set_watercolumn_calibration]: Calibration size "
-    //                 "does not match number of transmit sectors!");
+    void set_multisector_calibration(
+        const calibration::KMALLMultiSectorWaterColumnCalibration& multisector_calibration)
+    {
+        if (multisector_calibration.get_number_of_sectors() !=
+            get_sysinfos().get_tx_signal_parameters().size())
+            throw std::runtime_error(
+                "Error[KMALLPingFileData::set_watercolumn_calibration]: Calibration size "
+                "does not match number of transmit sectors!");
 
-    //         _multisector_calibration = std::make_unique<
-    //             boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-    //             multisector_calibration);
-    //     }
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                multisector_calibration);
+    }
 
-    //     const calibration::KMALLWaterColumnCalibration& get_watercolumn_calibration(
-    //         size_t tx_sector) const
-    //     {
-    //         if (!_multisector_calibration)
-    //             throw std::runtime_error(
-    //                 "Error[KMALLPingFileData::get_watercolumn_calibration]: "
-    //                 "Calibration not initialized!");
+    const calibration::KMALLWaterColumnCalibration& get_watercolumn_calibration(
+        size_t tx_sector) const
+    {
+        if (!_multisector_calibration)
+            throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_calibration]: "
+                                     "Calibration not initialized!");
 
-    //         if (get_multisector_calibration().get_number_of_sectors() <= tx_sector)
-    //             throw std::runtime_error(fmt::format(
-    //                 "Error[KMALLPingFileData::get_watercolumn_calibration]: Sector {} out of "
-    //                 "range",
-    //                 tx_sector));
+        if (get_multisector_calibration().get_number_of_sectors() <= tx_sector)
+            throw std::runtime_error(fmt::format(
+                "Error[KMALLPingFileData::get_watercolumn_calibration]: Sector {} out of "
+                "range",
+                tx_sector));
 
-    //         return get_multisector_calibration().calibration_for_sector(tx_sector);
-    //     }
+        return get_multisector_calibration().calibration_for_sector(tx_sector);
+    }
 
-    //     const calibration::KMALLWaterColumnCalibration& get_watercolumn_calibration() const
-    //     {
-    //         if (!_multisector_calibration)
-    //             throw std::runtime_error(
-    //                 "Error[KMALLPingFileData::get_watercolumn_calibration]: "
-    //                 "Calibration not initialized!");
+    const calibration::KMALLWaterColumnCalibration& get_watercolumn_calibration() const
+    {
+        if (!_multisector_calibration)
+            throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_calibration]: "
+                                     "Calibration not initialized!");
 
-    //         if (get_multisector_calibration().get_number_of_sectors() != 1)
-    //             throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_"
-    //                                      "calibration]: Multiple transmit "
-    //                                      "sectors available, but no sector specified!");
+        if (get_multisector_calibration().get_number_of_sectors() != 1)
+            throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_"
+                                     "calibration]: Multiple transmit "
+                                     "sectors available, but no sector specified!");
 
-    //         return get_watercolumn_calibration(0);
-    //     }
+        return get_watercolumn_calibration(0);
+    }
 
-    //     void set_watercolumn_calibration(
-    //         const calibration::KMALLWaterColumnCalibration& calibration)
-    //     {
-    //         if (get_sysinfos().get_tx_signal_parameters().size() != 1)
-    //             throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_"
-    //                                      "calibration]: Multiple transmit "
-    //                                      "sectors available, but only one supplied!");
+    void set_watercolumn_calibration(const calibration::KMALLWaterColumnCalibration& calibration)
+    {
+        if (get_sysinfos().get_tx_signal_parameters().size() != 1)
+            throw std::runtime_error("Error[KMALLPingFileData::get_watercolumn_"
+                                     "calibration]: Multiple transmit "
+                                     "sectors available, but only one supplied!");
 
-    //         _multisector_calibration = std::make_unique<
-    //             boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-    //             calibration::KMALLMultiSectorWaterColumnCalibration({ calibration }));
-    //     }
-    //     void set_watercolumn_calibration(
-    //         const std::vector<calibration::KMALLWaterColumnCalibration>& calibrations)
-    //     {
-    //         if (get_sysinfos().get_tx_signal_parameters().size() != calibrations.size())
-    //             throw std::runtime_error(fmt::format(
-    //                 "Error[KMALLPingFileData::get_watercolumn_calibration]: Calibration size "
-    //                 "does not match number of transmit sectors! ({} != {})",
-    //                 calibrations.size(),
-    //                 get_sysinfos().get_tx_signal_parameters().size()));
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                calibration::KMALLMultiSectorWaterColumnCalibration({ calibration }));
+    }
+    void set_watercolumn_calibration(
+        const std::vector<calibration::KMALLWaterColumnCalibration>& calibrations)
+    {
+        if (get_sysinfos().get_tx_signal_parameters().size() != calibrations.size())
+            throw std::runtime_error(fmt::format(
+                "Error[KMALLPingFileData::get_watercolumn_calibration]: Calibration size "
+                "does not match number of transmit sectors! ({} != {})",
+                calibrations.size(),
+                get_sysinfos().get_tx_signal_parameters().size()));
 
-    //         _multisector_calibration = std::make_unique<
-    //             boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-    //             calibrations);
-    //     }
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                calibrations);
+    }
 
-    //     // void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
-    //     // {
-    //     //     _watercolumninformation = std::move(wci);
-    //     // }
+    void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
+    {
+        _watercolumninformation = std::move(wci);
+    }
     void set_systeminformation(std::unique_ptr<_sub::SystemInformation> syi)
     {
         _systeminformation = std::move(syi);
     }
 
-    //     void load_wci(bool force = false)
-    //     {
-    //         if (wci_loaded() && !force)
-    //             return;
+    void load_wci(bool force = false)
+    {
+        if (wci_loaded() && !force)
+            return;
 
-    //         _watercolumninformation =
-    //             std::make_unique<_sub::WaterColumnInformation>(read_merged_watercolumndatagram(true));
-    //     }
+        _watercolumninformation = std::make_unique<_sub::WaterColumnInformation>(
+            read_first_datagram<datagrams::MWaterColumn, true>());
+    }
     void load_sys(bool force = false)
     {
         if (sys_loaded() && !force)
@@ -225,25 +219,24 @@ class KMALLPingFileData
             _systeminformation = std::make_unique<_sub::SystemInformation>(
                 read_first_datagram<datagrams::MRangeAndDepth>());
         }
-        // else if (has_datagram_type<datagrams::WatercolumnDatagram>())
-        // {
-        //     _systeminformation = std::make_unique<_sub::SystemInformation>(get_wcinfos());
-        // }
+        else if (has_datagram_type<datagrams::MWaterColumn>())
+        {
+            _systeminformation = std::make_unique<_sub::SystemInformation>(this->get_wcinfos());
+        }
     }
-    //     void release_wci() { _watercolumninformation.reset(); }
+    void release_wci() { _watercolumninformation.reset(); }
     void release_sys() { _systeminformation.reset(); }
-    //     void release_multisector_calibration() { _multisector_calibration.reset(); }
-    //     bool wci_loaded() const { return _watercolumninformation != nullptr; }
+    void release_multisector_calibration() { _multisector_calibration.reset(); }
+    bool wci_loaded() const { return _watercolumninformation != nullptr; }
     bool sys_loaded() const { return _systeminformation != nullptr; }
-    //     bool multisector_calibration_loaded() const { return _multisector_calibration != nullptr;
-    //     }
+    bool multisector_calibration_loaded() const { return _multisector_calibration != nullptr; }
 
-    //     const _sub::WaterColumnInformation& get_wcinfos()
-    //     {
-    //         load_wci();
+    const _sub::WaterColumnInformation& get_wcinfos()
+    {
+        load_wci();
 
-    //         return *_watercolumninformation;
-    //     }
+        return *_watercolumninformation;
+    }
 
     const _sub::SystemInformation& get_sysinfos()
     {
@@ -252,14 +245,14 @@ class KMALLPingFileData
         return *_systeminformation;
     }
 
-    //     const _sub::WaterColumnInformation& get_wcinfos_const() const
-    //     {
-    //         if (!wci_loaded())
-    //             throw std::runtime_error("Error[KMALLPingFileData::get_wcinfos_const]: "
-    //                                      "Watercolumn information not loaded!");
+    const _sub::WaterColumnInformation& get_wcinfos_const() const
+    {
+        if (!wci_loaded())
+            throw std::runtime_error("Error[KMALLPingFileData::get_wcinfos_const]: "
+                                     "Watercolumn information not loaded!");
 
-    //         return *_watercolumninformation;
-    //     }
+        return *_watercolumninformation;
+    }
 
     const _sub::SystemInformation& get_sysinfos_const() const
     {
@@ -331,16 +324,16 @@ class KMALLPingFileData
                                   ? std::make_unique<boost::flyweight<datagrams::IOpRuntime>>(
                                         *other._runtime_parameters)
                                   : nullptr;
-        // _multisector_calibration =
-        //     other._multisector_calibration
-        //         ? std::make_unique<
-        //               boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
-        //               *other._multisector_calibration)
-        //         : nullptr;
-        // _watercolumninformation =
-        //     other._watercolumninformation
-        //         ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
-        //         : nullptr;
+        _multisector_calibration =
+            other._multisector_calibration
+                ? std::make_unique<
+                      boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>>(
+                      *other._multisector_calibration)
+                : nullptr;
+        _watercolumninformation =
+            other._watercolumninformation
+                ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
+                : nullptr;
         _systeminformation =
             other._systeminformation
                 ? std::make_unique<_sub::SystemInformation>(*other._systeminformation)
@@ -366,7 +359,7 @@ class KMALLPingFileData
         return !datagram_infos.empty();
     }
 
-    template<typename t_datagram>
+    template<typename t_datagram, bool skip_data = false>
     auto read_first_datagram()
     {
         auto& datagram_infos = this->_datagram_infos_by_type.at(t_datagram::DatagramIdentifier);
@@ -376,7 +369,10 @@ class KMALLPingFileData
                 fmt::format("Error[KMALLPingFileData::read_datagram]: No {} datagram in ping!",
                             datagram_identifier_to_string(t_datagram::DatagramIdentifier)));
 
-        return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
+        if constexpr (skip_data)
+            return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>(skip_data);
+        else
+            return datagram_infos.at(0)->template read_datagram_from_file<t_datagram>();
     }
 
     // // I_PingBottom functions

@@ -108,7 +108,7 @@ class SystemInformation
   public:
     SystemInformation(const datagrams::MRangeAndDepth& mrz_datagram);
 
-    //SystemInformation(const WaterColumnInformation& wci_infos);
+    SystemInformation(const WaterColumnInformation& wci_infos);
 
     bool operator==(const SystemInformation& other) const;
 

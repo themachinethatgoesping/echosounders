@@ -67,8 +67,7 @@ class KMALLPingBottom
     bool has_tx_signal_parameters() const override
     {
         return _file_data->has_any_of_datagram_types({
-            t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH,
-            // t_KMALLDatagramIdentifier::WatercolumnDatagram
+            t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH
         });
     }
     bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
@@ -84,32 +83,32 @@ class KMALLPingBottom
         return this->file_data().get_sysinfos().get_tx_signal_parameters().size();
     }
 
-    // xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     return xt::index_view(file_data().get_wcinfos().get_transmit_sector_numbers(),
-    //                           selection.get_beam_numbers());
-    // }
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
+    {
+        return xt::index_view(this->file_data().get_wcinfos().get_transmit_sector_numbers(),
+                              selection.get_beam_numbers());
+    }
 
-    // std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-    //     const pingtools::BeamSelection& selection) override
-    // {
-    //     std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
-    //     beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
+    {
+        std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
+        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
 
-    //     auto sector_per_beam = get_tx_sector_per_beam(selection);
+        auto sector_per_beam = get_tx_sector_per_beam(selection);
 
-    //     for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
-    //     {
-    //         if (sector_per_beam[i] >= beam_numbers_per_tx_sector.size())
-    //             throw std::runtime_error(
-    //                 fmt::format("Invalid transmit sector number: {}", sector_per_beam[i]));
+        for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
+        {
+            if (sector_per_beam[i] >= beam_numbers_per_tx_sector.size())
+                throw std::runtime_error(
+                    fmt::format("Invalid transmit sector number: {}", sector_per_beam[i]));
 
-    //         beam_numbers_per_tx_sector[sector_per_beam[i]].push_back(i);
-    //     }
+            beam_numbers_per_tx_sector[sector_per_beam[i]].push_back(i);
+        }
 
-    //     return beam_numbers_per_tx_sector;
-    // }
+        return beam_numbers_per_tx_sector;
+    }
 
     // // ----- I_PingCommon interface -----
     void load(bool force = false) override { _file_data->load_sys(force); }
@@ -119,12 +118,12 @@ class KMALLPingBottom
     // uint32_t get_number_of_beams() override
     // {
     //     if (has_xyz())
-    //         return file_data()
+    //         return this->file_data()
     //             .template read_first_datagram<datagrams::XYZDatagram>()
     //             .get_number_of_beams();
 
     //     if (has_two_way_travel_times())
-    //         return file_data()
+    //         return this->file_data()
     //             .template read_first_datagram<datagrams::RawRangeAndAngle>()
     //             .get_number_of_receiver_beams();
 

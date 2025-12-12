@@ -20,7 +20,6 @@
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
 #include "../../filetemplates/datainterfaces/i_pingdatainterface.hpp"
 #include "../../filetemplates/datatypes/cache_structures/filepackagecache.hpp"
 #include "../../filetemplates/datatypes/cache_structures/structpackage.hpp"
@@ -74,8 +73,7 @@ class KongsbergAllPingDataInterfacePerFile
         std::map<size_t, KongsbergPingCacheHandler> index_path_per_file_nr;
 
         // -- create package cache_structures --
-        index_path_per_file_nr[this->get_file_nr()] =
-            KongsbergPingCacheHandler(index_paths, *this);
+        index_path_per_file_nr[this->get_file_nr()] = KongsbergPingCacheHandler(index_paths, *this);
 
         if (this->has_linked_file())
             index_path_per_file_nr[this->get_linked_file_nr()] =
@@ -223,21 +221,21 @@ class KongsbergAllPingDataInterfacePerFile
                 }
 
                 // load system information (if RawRangeAndAngle is available)
-                if (ping_ptr->has_bottom())
-                    if (ping_ptr->bottom().has_two_way_travel_times())
-                    {
-                        // this assumes that there is one RawRangeAndAngle datagram per ping
-                        auto file_nr = ping_ptr->file_data()
-                                           .get_datagram_infos(
-                                               t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
-                                           .at(0)
-                                           ->get_file_nr();
+                if (ping_ptr->file_data()
+                        .get_datagram_infos(t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
+                        .size() > 0)
+                {
+                    // this assumes that there is one RawRangeAndAngle datagram per ping
+                    auto file_nr =
+                        ping_ptr->file_data()
+                            .get_datagram_infos(t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
+                            .at(0)
+                            ->get_file_nr();
 
-                        // add runtime parameters (will be deduplicated as boost flyweight)
-                        ping_ptr->file_data().set_systeminformation(
-                            index_path_per_file_nr[file_nr].read_or_get_systeminformation(
-                                *ping_ptr));
-                    }
+                    // add runtime parameters (will be deduplicated as boost flyweight)
+                    ping_ptr->file_data().set_systeminformation(
+                        index_path_per_file_nr[file_nr].read_or_get_systeminformation(*ping_ptr));
+                }
 
                 // load information that has not been cached
                 ping_ptr->load();
@@ -311,9 +309,8 @@ class KongsbergAllPingDataInterfacePerFile
         KongsbergPingCacheHandler() = default;
 
         template<typename t_FileDataInterface>
-        KongsbergPingCacheHandler(
-            const std::unordered_map<std::string, std::string>& index_paths,
-            const t_FileDataInterface&                          PingDataInterface)
+        KongsbergPingCacheHandler(const std::unordered_map<std::string, std::string>& index_paths,
+                                  const t_FileDataInterface& PingDataInterface)
         {
             const auto index_file_it = index_paths.find(PingDataInterface.get_file_path());
             if (index_file_it == index_paths.end())
@@ -327,16 +324,16 @@ class KongsbergAllPingDataInterfacePerFile
                             PingDataInterface.get_file_path(),
                             PingDataInterface.get_file_size(),
                             { "FilePackageCache<WaterColumnInformation>",
-                              "FilePackageCache<SystemInformation>" }));
+                              "FilePackageCache<SystemInformation_V1>" }));
 
             if (_file_cache->has_cache("FilePackageCache<WaterColumnInformation>"))
                 _buffer_watercolumninformation =
                     _file_cache->get_from_cache<t_cache_WaterColumnInformation>(
                         "FilePackageCache<WaterColumnInformation>");
 
-            if (_file_cache->has_cache("FilePackageCache<SystemInformation>"))
+            if (_file_cache->has_cache("FilePackageCache<SystemInformation_V1>"))
                 _buffer_systeminformation = _file_cache->get_from_cache<t_cache_SystemInformation>(
-                    "FilePackageCache<SystemInformation>");
+                    "FilePackageCache<SystemInformation_V1>");
         }
 
         operator bool() const { return bool(_file_cache); }
@@ -408,7 +405,7 @@ class KongsbergAllPingDataInterfacePerFile
             {
                 _file_cache->add_to_cache("FilePackageCache<WaterColumnInformation>",
                                           _buffer_watercolumninformation);
-                _file_cache->add_to_cache("FilePackageCache<SystemInformation>",
+                _file_cache->add_to_cache("FilePackageCache<SystemInformation_V1>",
                                           _buffer_systeminformation);
                 _file_cache->update_file(_index_path);
             }

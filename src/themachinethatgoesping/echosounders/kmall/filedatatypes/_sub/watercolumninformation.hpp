@@ -22,7 +22,6 @@
 #include "../../../pingtools/readsamplerange.hpp"
 
 #include "_wciinfos.hpp"
-#ifdef PETER
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
@@ -43,8 +42,9 @@ class WaterColumnInformation
     boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _start_range_sample_numbers;
     boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>> _number_of_samples_per_beam;
     xt::xtensor<uint16_t, 1>                               _detected_range_in_samples;
-    boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>  _transmit_sector_numbers;
-    xt::xtensor<size_t, 1>                                 _sample_positions;
+    xt::xtensor<float, 1> _detected_range_in_samples_high_resolution;
+    boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>> _transmit_sector_numbers;
+    xt::xtensor<size_t, 1>                                _sample_positions;
 
     boost::flyweights::flyweight<_WCIInfos> _wci_infos;
     // datagrams::WatercolumnDatagram
@@ -53,7 +53,7 @@ class WaterColumnInformation
     WaterColumnInformation() = default; // for to/from stream
 
   public:
-    WaterColumnInformation(const datagrams::WatercolumnDatagram& water_column_datagram);
+    WaterColumnInformation(const datagrams::MWaterColumn& water_column_datagram);
 
     bool operator==(const WaterColumnInformation& other) const = default;
 
@@ -62,7 +62,7 @@ class WaterColumnInformation
                            const pingtools::ReadSampleRange& rsr,
                            t_ifstream&                       ifs) const
     {
-        return datagrams::substructures::WatercolumnDatagramBeam::read_samples(
+        return datagrams::substructs::MWCRxBeamData::read_sample_amplitudes_05dB(
             ifs,
             _sample_positions.unchecked(bn),
             rsr.get_first_sample_to_read(),
@@ -87,6 +87,10 @@ class WaterColumnInformation
     {
         return _detected_range_in_samples;
     }
+    const xt::xtensor<float, 1>& get_detected_range_in_samples_high_resolution() const
+    {
+        return _detected_range_in_samples_high_resolution;
+    }
     const xt::xtensor<uint8_t, 1>& get_transmit_sector_numbers() const
     {
         return _transmit_sector_numbers.get();
@@ -99,12 +103,8 @@ class WaterColumnInformation
     }
     uint8_t get_tvg_factor_applied() const { return _wci_infos.get().get_tvg_function_applied(); }
     int8_t  get_tvg_offset_in_db() const { return _wci_infos.get().get_tvg_offset_in_db(); }
-    const std::vector<datagrams::substructures::WatercolumnDatagramTransmitSector>&
-    get_transmit_sectors() const
-    {
-        return _wci_infos.get().get_transmit_sectors();
-    }
-    float get_sample_interval() const { return _wci_infos.get().get_sampling_interval(); }
+    const auto& get_transmit_sectors() const { return _wci_infos.get().get_transmit_sectors(); }
+    float       get_sample_interval() const { return _wci_infos.get().get_sampling_interval(); }
 
     // ----- functions used for PackageCache -----
     void to_stream(std::ostream& os, std::unordered_map<size_t, std::string>& hash_cache) const;
@@ -119,4 +119,3 @@ class WaterColumnInformation
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
-#endif

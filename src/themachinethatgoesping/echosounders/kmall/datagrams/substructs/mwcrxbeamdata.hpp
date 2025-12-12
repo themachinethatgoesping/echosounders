@@ -50,7 +50,7 @@ class MWCRxBeamData
 
     // ----- convenient member access -----
     // getters
-    int16_t get_beam_pointing_angle_re_vertical_deg() const
+    float get_beam_pointing_angle_re_vertical_deg() const
     {
         return _beam_pointing_angle_re_vertical_deg;
     }

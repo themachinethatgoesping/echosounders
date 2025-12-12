@@ -1,4 +1,4 @@
-//sourcehash: f5e6aaf42c8895ca79184b7f751956d1d2dd7b7069f6f4c747291ec1a51e4a5d
+//sourcehash: 8afc15b165871f4943b8ff390471204317e5edec66197195d4b2c0833dfc0494
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -75,7 +75,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_from_stream = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_mean_absorption_coefficient_in_dB_per_m = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_mean_absorption_coefficient_in_dB_per_m = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_sub_SystemInformation_operator_eq = R"doc()doc";
 

@@ -46,9 +46,6 @@ class MWaterColumn : public KMALLMultibeamDatagram
     std::vector<substructs::MWCSectorInfo> _tx_sectors;
     substructs::MWCRxInfo                  _rx_info;
     substructs::MWCRxBeamDataContainer     _beam_data;
-    // std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
-    // substructs::MRZSoundingsContainer             _soundings;
-    // xt::xtensor<int16_t, 1>                       _seabed_image_samples_dezi_db;
 
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check

@@ -48,8 +48,9 @@ TxSignalParameterVector::TxSignalParameterVector(const HashCacheKey& hash_cache_
                     break;
                 }
                 case 'g': {
-                    this->push_back(GenericSignalParameters::from_binary(hash_cache_key.buffer.substr(
-                        offset, GenericSignalParameters::binary_size())));
+                    this->push_back(
+                        GenericSignalParameters::from_binary(hash_cache_key.buffer.substr(
+                            offset, GenericSignalParameters::binary_size())));
                     offset += GenericSignalParameters::binary_size();
                     break;
                 }
@@ -59,28 +60,28 @@ TxSignalParameterVector::TxSignalParameterVector(const HashCacheKey& hash_cache_
         }
         catch (std::exception& e)
         {
-            throw std::runtime_error(fmt::format(
-                "Error while parsing transmit signal parameters: {}\n\n--- Some error"
-                "infos---\n- type: {}\n- types: {}\n- offset: {}\n- this.size: {}\n- "
-                "hash.size: {}\n- hash.buffer.size(): {}"
-                "\n- sizeof(CWSignalParameters): {}/{}\n- "
-                "sizeof(FMSignalParameters): {}/{}\n- sizeof(GenericSignalParameters): "
-                "{}/{}\n- "
-                "hash.buffer: -{}-",
-                e.what(),
-                type,
-                types,
-                offset,
-                this->size(),
-                hash_cache_key.size,
-                hash_cache_key.buffer.size(),
-                sizeof(CWSignalParameters),
-                CWSignalParameters::binary_size(),
-                sizeof(FMSignalParameters),
-                FMSignalParameters::binary_size(),
-                sizeof(GenericSignalParameters),
-                GenericSignalParameters::binary_size(),
-                hash_cache_key.buffer));
+            throw std::runtime_error(
+                fmt::format("Error while parsing transmit signal parameters: {}\n\n--- Some error"
+                            "infos---\n- type: {}\n- types: {}\n- offset: {}\n- this.size: {}\n- "
+                            "hash.size: {}\n- hash.buffer.size(): {}"
+                            "\n- sizeof(CWSignalParameters): {}/{}\n- "
+                            "sizeof(FMSignalParameters): {}/{}\n- sizeof(GenericSignalParameters): "
+                            "{}/{}\n- "
+                            "hash.buffer: -{}-",
+                            e.what(),
+                            type,
+                            types,
+                            offset,
+                            this->size(),
+                            hash_cache_key.size,
+                            hash_cache_key.buffer.size(),
+                            sizeof(CWSignalParameters),
+                            CWSignalParameters::binary_size(),
+                            sizeof(FMSignalParameters),
+                            FMSignalParameters::binary_size(),
+                            sizeof(GenericSignalParameters),
+                            GenericSignalParameters::binary_size(),
+                            hash_cache_key.buffer));
         }
     }
 }
@@ -146,18 +147,20 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
         switch (tx_signal_type.value)
         {
             case t_TxSignalType::CW: {
-                tx_signal_parameters.push_back(CWSignalParameters(ts.get_centre_frequency_hz(),
-                                                                  ts.get_signal_band_width_hz(),
-                                                                  ts.get_effective_signal_length_sec()));
+                tx_signal_parameters.push_back(
+                    CWSignalParameters(ts.get_centre_frequency_hz(),
+                                       ts.get_signal_band_width_hz(),
+                                       ts.get_effective_signal_length_sec()));
                 break;
             }
             case t_TxSignalType::FM_UP_SWEEP:
                 [[fallthrough]];
             case t_TxSignalType::FM_DOWN_SWEEP: {
-                tx_signal_parameters.push_back(FMSignalParameters(ts.get_centre_frequency_hz(),
-                                                                  ts.get_signal_band_width_hz(),
-                                                                  ts.get_effective_signal_length_sec(),
-                                                                  tx_signal_type));
+                tx_signal_parameters.push_back(
+                    FMSignalParameters(ts.get_centre_frequency_hz(),
+                                       ts.get_signal_band_width_hz(),
+                                       ts.get_effective_signal_length_sec(),
+                                       tx_signal_type));
                 break;
             }
             default:
@@ -170,26 +173,26 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
     _tx_signal_parameters = tx_signal_parameters;
 }
 
-// SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
-// {
-//     using algorithms::signalprocessing::types::t_TxSignalType;
-//     using namespace algorithms::signalprocessing::datastructures;
+SystemInformation::SystemInformation(const WaterColumnInformation& wci_infos)
+{
+    using algorithms::signalprocessing::types::t_TxSignalType;
+    using namespace algorithms::signalprocessing::datastructures;
 
-//     TxSignalParameterVector tx_signal_parameters;
+    TxSignalParameterVector tx_signal_parameters;
 
-//     const auto& transmit_sectors = wci_infos.get_transmit_sectors();
+    const auto& transmit_sectors = wci_infos.get_transmit_sectors();
 
-//     for (const auto& ts : transmit_sectors)
-//     {
-//         tx_signal_parameters.push_back(GenericSignalParameters(
-//             ts.get_center_frequency(),
-//             NAN,
-//             NAN,
-//             algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
-//     }
+    for (const auto& ts : transmit_sectors)
+    {
+        tx_signal_parameters.push_back(
+            GenericSignalParameters(ts.get_centre_frequency_hz(),
+                                    NAN,
+                                    NAN,
+                                    algorithms::signalprocessing::types::t_TxSignalType::UNKNOWN));
+    }
 
-//     _tx_signal_parameters = tx_signal_parameters;
-// }
+    _tx_signal_parameters = tx_signal_parameters;
+}
 
 bool SystemInformation::operator==(const SystemInformation& other) const
 {

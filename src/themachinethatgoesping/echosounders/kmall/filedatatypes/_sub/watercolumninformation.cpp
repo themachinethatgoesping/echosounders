@@ -8,34 +8,34 @@
 
 #include <xxhash.hpp>
 
-#ifdef PETER
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kmall {
 namespace filedatatypes {
 namespace _sub {
 
-WaterColumnInformation::WaterColumnInformation(
-    const datagrams::WatercolumnDatagram& water_column_datagram)
+WaterColumnInformation::WaterColumnInformation(const datagrams::MWaterColumn& water_column_datagram)
 {
-    auto nbeams = water_column_datagram.get_beams().size();
+    auto nbeams = water_column_datagram.get_beam_data().get_number_of_beams();
 
     // initialize arrays using from shape function
     auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ nbeams });
     auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
     auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
     auto detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ nbeams });
-    auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
-    auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
+    auto detected_range_in_samples_high_resolution = xt::xtensor<float, 1>::from_shape({ nbeams });
+    auto transmit_sector_numbers = xt::xtensor<uint8_t, 1>::from_shape({ nbeams });
+    auto sample_positions        = xt::xtensor<size_t, 1>::from_shape({ nbeams });
 
     size_t bn = 0;
-    for (const auto& b : water_column_datagram.get_beams())
+    for (const auto& b : water_column_datagram.get_beam_data().get_beams())
     {
         sample_positions.unchecked(bn) = b.get_sample_position();
 
-        beam_crosstrack_angles.unchecked(bn)     = b.get_beam_crosstrack_angle_in_degrees();
-        detected_range_in_samples.unchecked(bn)  = b.get_detected_range_in_samples();
+        beam_crosstrack_angles.unchecked(bn)    = b.get_beam_pointing_angle_re_vertical_deg();
+        detected_range_in_samples.unchecked(bn) = b.get_detected_range_in_samples();
+        detected_range_in_samples_high_resolution.unchecked(bn) =
+            b.get_detected_range_in_samples_high_resolution();
         start_range_sample_numbers.unchecked(bn) = b.get_start_range_sample_number();
         number_of_samples_per_beam.unchecked(bn) = b.get_number_of_samples();
         transmit_sector_numbers.unchecked(bn)    = b.get_transmit_sector_number();
@@ -48,7 +48,9 @@ WaterColumnInformation::WaterColumnInformation(
     _start_range_sample_numbers = std::move(start_range_sample_numbers);
     _number_of_samples_per_beam = std::move(number_of_samples_per_beam);
     _detected_range_in_samples  = std::move(detected_range_in_samples);
-    _transmit_sector_numbers    = std::move(transmit_sector_numbers);
+    _detected_range_in_samples_high_resolution =
+        std::move(detected_range_in_samples_high_resolution);
+    _transmit_sector_numbers = std::move(transmit_sector_numbers);
 
     _wci_infos = _WCIInfos(water_column_datagram);
 }
@@ -58,8 +60,8 @@ void WaterColumnInformation::to_stream(std::ostream&                            
 {
     std::string         buffer;
     std::vector<size_t> hashes, sizes;
-    hashes.reserve(5); // all except _detected_range_in_samples and _sample_positions
-    sizes.reserve(6);  // all except _wci_infos
+    hashes.reserve(6); // all except _detected_range_in_samples and _sample_positions
+    sizes.reserve(7);  // all except _wci_infos
 
     // _beam_crosstrack_angles
     hashes.push_back(xxh::xxhash3<64>(_beam_crosstrack_angles.get().data(),
@@ -77,9 +79,8 @@ void WaterColumnInformation::to_stream(std::ostream&                            
     }
 
     // _start_range_sample_numbers
-    hashes.push_back(
-        xxh::xxhash3<64>(_start_range_sample_numbers.get().data(),
-                         _start_range_sample_numbers.get().size() * sizeof(uint16_t)));
+    hashes.push_back(xxh::xxhash3<64>(_start_range_sample_numbers.get().data(),
+                                      _start_range_sample_numbers.get().size() * sizeof(uint16_t)));
     sizes.push_back(_start_range_sample_numbers.get().size());
 
     if (!hash_cache.contains(hashes.back()))
@@ -109,6 +110,7 @@ void WaterColumnInformation::to_stream(std::ostream&                            
 
     // _detected_range_in_samples (write directly to stream, safe size here)
     sizes.push_back(_detected_range_in_samples.size());
+    sizes.push_back(_detected_range_in_samples_high_resolution.size());
 
     // _transmit_sector_numbers
     hashes.push_back(xxh::xxhash3<64>(_transmit_sector_numbers.get().data(),
@@ -143,6 +145,8 @@ void WaterColumnInformation::to_stream(std::ostream&                            
     // write detected_range_in_samples to stream
     os.write(reinterpret_cast<const char*>(_detected_range_in_samples.data()),
              _detected_range_in_samples.size() * sizeof(uint16_t));
+    os.write(reinterpret_cast<const char*>(_detected_range_in_samples_high_resolution.data()),
+             _detected_range_in_samples_high_resolution.size() * sizeof(float));
 
     // write sample_positions to stream
     os.write(reinterpret_cast<const char*>(_sample_positions.data()),
@@ -156,9 +160,8 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     // create WaterColumnInformation
     WaterColumnInformation dat;
 
-    std::vector<size_t> hashes(
-        5);                       // all except _detected_range_in_samples and _sample_positions
-    std::vector<size_t> sizes(6); // all except _wci_infos
+    std::vector<size_t> hashes(6); // all except _detected_range_in_samples and _sample_positions
+    std::vector<size_t> sizes(7);  // all except _wci_infos
 
     // read hashes and sizes from stream
     is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
@@ -169,12 +172,16 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
     auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
     dat._detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
-    auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
-    dat._sample_positions           = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
+    dat._detected_range_in_samples_high_resolution =
+        xt::xtensor<float, 1>::from_shape({ sizes[3] });
+    auto transmit_sector_numbers = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
+    dat._sample_positions        = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
 
     // read detected_range_in_samples from stream
     is.read(reinterpret_cast<char*>(dat._detected_range_in_samples.data()),
             dat._detected_range_in_samples.size() * sizeof(uint16_t));
+    is.read(reinterpret_cast<char*>(dat._detected_range_in_samples_high_resolution.data()),
+            dat._detected_range_in_samples_high_resolution.size() * sizeof(float));
 
     // read sample_positions from stream
     is.read(reinterpret_cast<char*>(dat._sample_positions.data()),
@@ -215,5 +222,3 @@ WaterColumnInformation WaterColumnInformation::from_stream(
 } // namespace kmall
 } // namespace echosounders
 } // namespace themachinethatgoesping
-
-#endif
