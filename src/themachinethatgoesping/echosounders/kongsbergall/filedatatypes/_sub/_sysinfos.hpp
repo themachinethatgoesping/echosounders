@@ -10,26 +10,7 @@
 /* generated doc strings */
 #include ".docstrings/_sysinfos.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/systeminformation.doc.hpp"
-
-/* boost includes */
-#include <boost/flyweight.hpp>
-
-// xtensor includes
-#include <xtensor/containers/xadapt.hpp>
-
-
-#include <xtensor/views/xview.hpp>
-
-#include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
-#include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/classhelper/xxhashhelper.hpp>
-
-
-#include "../../datagrams.hpp"
-#include "../../types.hpp"
-#include "watercolumninformation.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -59,7 +40,7 @@ inline std::size_t hash_value([[maybe_unused]] const _SYSInfos& data)
 }
 
 
-} // namespace substructures
+} // namespace _sub
 } // namespace filedatatypes
 } // namespace kongsbergall
 } // namespace echosounders

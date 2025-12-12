@@ -10,11 +10,10 @@ namespace kongsbergall {
 namespace filedatatypes {
 namespace _sub {
 
-// Implementation file for _sysinfos.hpp
-// TODO: Move appropriate implementations from header to this file
+// _SYSInfos is a minimal struct - no implementations needed
 
-} // namespace themachinethatgoesping
-} // namespace echosounders
 } // namespace _sub
 } // namespace filedatatypes
 } // namespace kongsbergall
+} // namespace echosounders
+} // namespace themachinethatgoesping
