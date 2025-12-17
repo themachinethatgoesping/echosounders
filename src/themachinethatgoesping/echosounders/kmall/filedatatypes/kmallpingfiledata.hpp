@@ -208,8 +208,13 @@ class KMALLPingFileData
         if (wci_loaded() && !force)
             return;
 
-        _watercolumninformation = std::make_unique<_sub::WaterColumnInformation>(
-            read_first_datagram<datagrams::MWaterColumn, true>());
+        if (has_datagram_type<datagrams::MWaterColumn>())
+        {
+            //auto wci = read_first_datagram<datagrams::MWaterColumn>();
+
+            // _watercolumninformation = std::make_unique<_sub::WaterColumnInformation>(
+            //     read_first_datagram<datagrams::MWaterColumn, true>());
+        }
     }
     void load_sys(bool force = false)
     {

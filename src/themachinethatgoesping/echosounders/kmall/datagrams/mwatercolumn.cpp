@@ -71,51 +71,29 @@ void MWaterColumn::__read_beamdata__(std::istream& is, bool skip_data)
     const auto n_beams = _rx_info.get_number_of_beams();
     _beam_data.beams().reserve(n_beams);
 
+    const auto nbytes_per_beam = _rx_info.get_number_bytes_per_beam_entry();
+    const auto phase_data      = (_rx_info.get_phase_flag() != 0);
+
     // read per beam
     for (auto i = 0; i < n_beams; ++i)
-        _beam_data.beams().emplace_back(substructs::MWCRxBeamData::from_stream(is, skip_data));
+    {
+        _beam_data.beams().emplace_back(
+            substructs::MWCRxBeamData::from_stream(is, skip_data, nbytes_per_beam, phase_data));
+        if (nbytes_per_beam < 16)
+        {
+            _beam_data.beams().back().set_detected_range_in_samples_high_resolution(
+                std::numeric_limits<float>::quiet_NaN());
+        }
+    }
 }
 
 void MWaterColumn::__write_beamdata__(std::ostream& os) const
 {
+    const auto nbytes_per_beam = _rx_info.get_number_bytes_per_beam_entry();
+
     for (const auto& beam : _beam_data.get_beams())
-        beam.to_stream(os);
+        beam.to_stream(os, nbytes_per_beam);
 }
-
-// void MWaterColumn::__read_soundings__(std::istream& is)
-// {
-//     auto&      soundings = _soundings.soundings();
-//     const auto n_soundings =
-//         _rx_info.get_number_of_soundings_max_main() + _rx_info.get_number_of_extra_detections();
-
-//     soundings.resize(n_soundings);
-
-//     // read as block
-//     is.read(reinterpret_cast<char*>(soundings.data()),
-//             sizeof(substructs::MRZSoundings) * n_soundings);
-// }
-
-// void MWaterColumn::__write_soundings__(std::ostream& os) const
-// {
-//     const auto& soundings = _soundings.get_soundings();
-//     // read as block
-//     os.write(reinterpret_cast<const char*>(soundings.data()),
-//              sizeof(substructs::MRZSoundings) * soundings.size());
-// }
-
-// void MWaterColumn::__read_seabed_image_samples__(std::istream& is)
-// {
-//     const size_t n_samples = _soundings.get_number_of_seabed_image_samples();
-//     _seabed_image_samples_dezi_db.resize({ n_samples });
-//     is.read(reinterpret_cast<char*>(_seabed_image_samples_dezi_db.data()),
-//             sizeof(int16_t) * n_samples);
-// }
-// void MWaterColumn::__write_seabed_image_samples__(std::ostream& os) const
-// {
-//     const size_t n_samples = _seabed_image_samples_dezi_db.size();
-//     os.write(reinterpret_cast<const char*>(_seabed_image_samples_dezi_db.data()),
-//              sizeof(int16_t) * n_samples);
-//}
 
 MWaterColumn MWaterColumn::from_stream(std::istream&        is,
                                        const KMALLDatagram& header,
@@ -181,8 +159,7 @@ void MWaterColumn::to_stream(std::ostream& os) const
     __write_beamdata__(os);
     // __write_soundings__(os);
     // __write_seabed_image_samples__(os);
-    os.write(reinterpret_cast<const char*>(&_bytes_datagram_check),
-    sizeof(_bytes_datagram_check));
+    os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
 // ----- objectprinter -----

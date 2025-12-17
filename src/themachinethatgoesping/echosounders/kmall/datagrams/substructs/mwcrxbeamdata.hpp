@@ -158,9 +158,12 @@ class MWCRxBeamData
     xt::xtensor<float, 1> get_sample_amplitudes_in_db(float db_offset = 0.0f) const;
 
     //----- to/from stream functions -----
-    static MWCRxBeamData from_stream(std::istream& is, bool skip_data = false);
+    static MWCRxBeamData from_stream(std::istream& is,
+                                     bool          skip_data            = false,
+                                     const size_t  header_bytes_to_read = 16,
+                                     const bool    phase_data           = true);
 
-    void to_stream(std::ostream& os) const;
+    void to_stream(std::ostream& os, const size_t header_bytes_to_write = 16) const;
 
     // ----- operators -----
     bool operator==(const MWCRxBeamData& other) const;

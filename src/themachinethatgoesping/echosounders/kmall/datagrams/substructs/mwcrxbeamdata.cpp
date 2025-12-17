@@ -61,12 +61,15 @@ xt::xtensor<float, 1> MWCRxBeamData::get_sample_amplitudes_in_db(float db_offset
     return xt::xtensor<float, 1>(xt::eval(_sample_amplitudes_05dB.value() * 0.5f - db_offset));
 }
 
-MWCRxBeamData MWCRxBeamData::from_stream(std::istream& is, bool skip_data)
+MWCRxBeamData MWCRxBeamData::from_stream(std::istream& is,
+                                         bool          skip_data,
+                                         const size_t  header_bytes_to_read,
+                                         bool          phase_data)
 {
     MWCRxBeamData data;
 
     is.read(reinterpret_cast<char*>(&data._beam_pointing_angle_re_vertical_deg),
-            16 * sizeof(uint8_t));
+            header_bytes_to_read * sizeof(uint8_t));
 
     data._sample_pos = static_cast<size_t>(is.tellg());
 
@@ -74,8 +77,12 @@ MWCRxBeamData MWCRxBeamData::from_stream(std::istream& is, bool skip_data)
     {
         data._sample_amplitudes_05dB = std::nullopt;
         data._rx_beam_phase          = std::nullopt;
-        is.seekg(static_cast<std::streamoff>(data._number_of_samples * sizeof(int8_t)),
-                 std::ios_base::cur);
+        if (phase_data)
+            is.seekg(static_cast<std::streamoff>(data._number_of_samples * sizeof(int8_t) * 2),
+                     std::ios_base::cur);
+        else
+            is.seekg(static_cast<std::streamoff>(data._number_of_samples * sizeof(int8_t)),
+                     std::ios_base::cur);
     }
     else
     {
@@ -83,15 +90,23 @@ MWCRxBeamData MWCRxBeamData::from_stream(std::istream& is, bool skip_data)
             xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ data._number_of_samples }));
         is.read(reinterpret_cast<char*>(data._sample_amplitudes_05dB.value().data()),
                 static_cast<std::streamsize>(data._number_of_samples * sizeof(int8_t)));
+
+        if (phase_data)
+        {
+            data._rx_beam_phase =
+                xt::empty<int8_t>(xt::xtensor<int8_t, 1>::shape_type({ data._number_of_samples }));
+            is.read(reinterpret_cast<char*>(data._rx_beam_phase.value().data()),
+                    static_cast<std::streamsize>(data._number_of_samples * sizeof(int8_t)));
+        }
     }
 
     return data;
 }
 
-void MWCRxBeamData::to_stream(std::ostream& os) const
+void MWCRxBeamData::to_stream(std::ostream& os, const size_t header_bytes_to_write) const
 {
     os.write(reinterpret_cast<const char*>(&_beam_pointing_angle_re_vertical_deg),
-             16 * sizeof(uint8_t));
+             header_bytes_to_write * sizeof(uint8_t));
 
     if (!get_samples_are_skipped())
     {
@@ -103,19 +118,37 @@ void MWCRxBeamData::to_stream(std::ostream& os) const
 
         os.write(reinterpret_cast<const char*>(_sample_amplitudes_05dB.value().data()),
                  static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
+
+        if (_rx_beam_phase != std::nullopt)
+        {
+            if (_rx_beam_phase.value().size() != _number_of_samples)
+                throw std::runtime_error(
+                    fmt::format("ERROR[MWCRxBeamData::to_stream]: The number of samples "
+                                "does not match the number of samples in the rx beam phase "
+                                "array!"));
+
+            os.write(reinterpret_cast<const char*>(_rx_beam_phase.value().data()),
+                     static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
+        }
     }
     else
     {
         std::vector<int8_t> zeros(_number_of_samples, 0);
         os.write(reinterpret_cast<const char*>(zeros.data()),
                  static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
+
+        if (_rx_beam_phase != std::nullopt)
+        {
+            os.write(reinterpret_cast<const char*>(zeros.data()),
+                     static_cast<std::streamsize>(_number_of_samples * sizeof(int8_t)));
+        }
     }
 }
 
 bool MWCRxBeamData::operator==(const MWCRxBeamData& other) const
 {
     return tools::helper::float_equals(_beam_pointing_angle_re_vertical_deg,
-                                        other._beam_pointing_angle_re_vertical_deg) &&
+                                       other._beam_pointing_angle_re_vertical_deg) &&
            _start_range_sample_number == other._start_range_sample_number &&
            _detected_range_in_samples == other._detected_range_in_samples &&
            _transmit_sector_number == other._transmit_sector_number &&

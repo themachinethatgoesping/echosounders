@@ -223,6 +223,8 @@ class KMALLConfigurationDataInterfacePerFile
         {
             case t_KMALLSystemTransducerConfiguration::SingleHead:
                 [[fallthrough]];
+            case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
+                [[fallthrough]];
             case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
                 auto trx = transducer_offsets["TRX"];
                 config.add_target(trx.name, std::move(trx));

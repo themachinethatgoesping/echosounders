@@ -1,4 +1,4 @@
-//sourcehash: b4e0afa2f9713f37632d4cae0589ae1e286beb14828ab927f2ab632b69f2669c
+//sourcehash: 907fbcdf965dc59b8211f596d21c36daaed14b89315d4f7d0550f3d999cc50f2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,9 +41,9 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_251_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_253_67 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_258_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_260_67 = R"doc()doc";
 
 
 
@@ -120,6 +120,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSyst
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_DualTxDualRx = R"doc(EM2040 Dual TX)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_Modular = R"doc(EM2040M)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_PortableMKIIHead = R"doc(EM2042P?)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_t_KMALLSystemTransducerConfiguration_PortableSingleHead = R"doc(EM2040P)doc";
 

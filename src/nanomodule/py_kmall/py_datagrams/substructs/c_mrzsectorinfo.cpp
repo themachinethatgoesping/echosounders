@@ -148,6 +148,11 @@ void init_c_mrzsectorinfo(nanobind::module_& m)
              DOC_MRZSectorInfo(set_effective_signal_length_sec),
              nb::arg("val"))
 
+        // ----- processed -----
+        .def("get_tx_signal_type",
+             &MRZSectorInfo::get_tx_signal_type,
+             DOC_MRZSectorInfo(get_tx_signal_type))
+
         // ----- operators -----
         .def("__eq__", &MRZSectorInfo::operator==, DOC_MRZSectorInfo(operator_eq), nb::arg("other"))
         // ----- pybind macros -----

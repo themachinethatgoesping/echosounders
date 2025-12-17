@@ -32,11 +32,36 @@ MRangeAndDepth::MRangeAndDepth()
 // ----- to/from stream functions -----
 void MRangeAndDepth::__read_ping_info__(std::istream& is)
 {
+    const auto version = get_datagram_version();
+
+    if (version < 1)
+    {
+        _ping_info = substructs::MRZPingInfo::__read_version_0__(is);
+        return;
+    }
+    if (version == 1)
+    {
+        _ping_info = substructs::MRZPingInfo::__read_version_1__(is);
+        return;
+    }
+
     // read first part of the datagram (until the first beam)
     is.read(reinterpret_cast<char*>(&_ping_info), sizeof(_ping_info));
 }
 void MRangeAndDepth::__write_ping_info__(std::ostream& os) const
 {
+    const auto version = get_datagram_version();
+    if (version < 1)
+    {
+        _ping_info.__write_version_0__(os);
+        return;
+    }
+    if (version == 1)
+    {
+        _ping_info.__write_version_1__(os);
+        return;
+    }
+
     // read first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&_ping_info), sizeof(_ping_info));
 }

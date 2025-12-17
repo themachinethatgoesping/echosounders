@@ -25,11 +25,11 @@ using namespace themachinethatgoesping::echosounders::kmall::datagrams::substruc
 #define TESTTAG "[kmall]"
 
 namespace {
-constexpr uint16_t kNumSectors = 2;
-constexpr uint16_t kNumBeams   = 3;
+constexpr uint16_t                   kNumSectors   = 2;
+constexpr uint16_t                   kNumBeams     = 3;
 constexpr array<uint16_t, kNumBeams> kSampleCounts = { 4, 3, 2 };
 
-template <typename T>
+template<typename T>
 T make_zeroed()
 {
     static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable");
@@ -72,7 +72,7 @@ MWCRxInfo make_rx_info()
     info.set_bytes_content(sizeof(MWCRxInfo));
     info.set_number_of_beams(kNumBeams);
     info.set_number_bytes_per_beam_entry(16);
-    info.set_phase_flag(1);
+    info.set_phase_flag(0);
     info.set_tvg_function_applied(2);
     info.set_tvg_offset_db(-3);
     info.set_sample_freq_hz(10000.0F);
@@ -165,13 +165,13 @@ MWaterColumn make_datagram()
 
 TEST_CASE("MWaterColumn serializes and exposes beam metadata", TESTTAG)
 {
-    const auto dat = make_datagram();
+    const auto dat  = make_datagram();
     const auto dat2 = make_datagram();
 
     REQUIRE(dat == dat2);
     REQUIRE(dat.binary_hash() == dat2.binary_hash());
 
-    const auto expected_hash = 6535527905040477869ULL;
+    const auto expected_hash = 5521613355589993351ULL;
     CHECK(dat.binary_hash() == expected_hash);
 
     {

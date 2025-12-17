@@ -46,14 +46,14 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
     using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 
-     auto cls = nb::class_<t_KongsbergAllPingFileData,
-                          datatypes::I_PingFileData>(m,
-                                                     (CLASS_NAME).c_str(),
-                                                     DOC(themachinethatgoesping,
-                                                         echosounders,
-                                                         kongsbergall,
-                                                         filedatatypes,
-                                                         KongsbergAllPingFileData))
+    auto cls = nb::class_<t_KongsbergAllPingFileData, datatypes::I_PingFileData>(
+                   m,
+                   (CLASS_NAME).c_str(),
+                   DOC(themachinethatgoesping,
+                       echosounders,
+                       kongsbergall,
+                       filedatatypes,
+                       KongsbergAllPingFileData))
 
                    // --- substructure access ---
                    .def("set_runtime_parameters",
@@ -78,25 +78,25 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
                         &t_KongsbergAllPingFileData::has_watercolumn_calibration,
                         DOC_KongsbergAllPingFileData(has_watercolumn_calibration))
                    .def("set_watercolumn_calibration",
-                              nb::overload_cast<
+                        nb::overload_cast<
                             const filedatatypes::calibration::KongsbergAllWaterColumnCalibration&>(
                             &t_KongsbergAllPingFileData::set_watercolumn_calibration),
                         DOC_KongsbergAllPingFileData(set_watercolumn_calibration),
-                              nb::arg("calibration"))
+                        nb::arg("calibration"))
                    .def("set_watercolumn_calibration",
-                              nb::overload_cast<const std::vector<
+                        nb::overload_cast<const std::vector<
                             filedatatypes::calibration::KongsbergAllWaterColumnCalibration>&>(
                             &t_KongsbergAllPingFileData::set_watercolumn_calibration),
                         DOC_KongsbergAllPingFileData(set_watercolumn_calibration_2),
-                              nb::arg("calibrations"))
+                        nb::arg("calibrations"))
                    .def("get_watercolumn_calibration",
-                              nb::overload_cast<size_t>(
-                                   &t_KongsbergAllPingFileData::get_watercolumn_calibration, nb::const_),
+                        nb::overload_cast<size_t>(
+                            &t_KongsbergAllPingFileData::get_watercolumn_calibration, nb::const_),
                         DOC_KongsbergAllPingFileData(get_watercolumn_calibration),
-                              nb::arg("tx_sector"))
+                        nb::arg("tx_sector"))
                    .def("get_watercolumn_calibration",
-                              nb::overload_cast<>(
-                                   &t_KongsbergAllPingFileData::get_watercolumn_calibration, nb::const_),
+                        nb::overload_cast<>(
+                            &t_KongsbergAllPingFileData::get_watercolumn_calibration, nb::const_),
                         DOC_KongsbergAllPingFileData(get_watercolumn_calibration_2))
                    .def("get_multisector_calibration",
                         &t_KongsbergAllPingFileData::get_multisector_calibration,
@@ -111,12 +111,20 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
                         nb::overload_cast<>(&t_KongsbergAllPingFileData::read_xyz),
                         DOC_KongsbergAllPingFileData(read_xyz))
                    .def("read_xyz",
-                              nb::overload_cast<const pingtools::BeamSelection&>(
+                        nb::overload_cast<const pingtools::BeamSelection&>(
                             &t_KongsbergAllPingFileData::read_xyz),
                         DOC_KongsbergAllPingFileData(read_xyz_2),
-                              nb::arg("selection"))
+                        nb::arg("selection"))
 
                    // load/release
+                   .def("load_wci",
+                        &t_KongsbergAllPingFileData::load_wci,
+                        DOC_KongsbergAllPingFileData(load_wci),
+                        nb::arg("force") = false)
+                   .def("load_sys",
+                        &t_KongsbergAllPingFileData::load_sys,
+                        DOC_KongsbergAllPingFileData(load_sys),
+                        nb::arg("force") = false)
                    .def("release_wci",
                         &t_KongsbergAllPingFileData::release_wci,
                         DOC_KongsbergAllPingFileData(release_wci))

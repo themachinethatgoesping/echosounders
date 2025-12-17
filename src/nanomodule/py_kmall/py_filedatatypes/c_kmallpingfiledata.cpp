@@ -102,6 +102,14 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
                  nb::arg("selection"))
 
             // load/release
+            .def("load_wci",
+                 &t_KMALLPingFileData::load_wci,
+                 DOC_KMALLPingFileData(load_wci),
+                 nb::arg("force") = false)
+            .def("load_sys",
+                 &t_KMALLPingFileData::load_sys,
+                 DOC_KMALLPingFileData(load_sys),
+                 nb::arg("force") = false)
             .def("release_wci",
                  &t_KMALLPingFileData::release_wci,
                  DOC_KMALLPingFileData(release_wci))

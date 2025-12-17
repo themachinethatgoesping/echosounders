@@ -11,6 +11,8 @@
 
 // std includes
 #include <cstdint>
+#include <istream>
+#include <ostream>
 #include <string>
 
 // themachinethatgoesping import
@@ -85,9 +87,13 @@ class MRZPingInfo
     double   _latitude_deg;
     double   _longitude_deg;
     float    _ellipsoid_height_re_ref_point_m;
+
+    // version >= 1
     float    _bs_correction_offset_db;
     uint8_t  _lamberts_law_applied;
     uint8_t  _ice_window;
+
+    // version >= 2
     uint16_t _active_modes;
 
   public:
@@ -213,6 +219,10 @@ class MRZPingInfo
     bool operator==(const MRZPingInfo& other) const;
 
     //----- to/from stream functions -----
+    static MRZPingInfo __read_version_0__(std::istream& is);
+    void               __write_version_0__(std::ostream& os) const;
+    static MRZPingInfo __read_version_1__(std::istream& is);
+    void               __write_version_1__(std::ostream& os) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int _float_precision,

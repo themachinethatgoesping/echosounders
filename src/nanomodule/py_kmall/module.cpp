@@ -124,6 +124,9 @@ void init_m_kmall(nanobind::module_& m)
         .value("Modular",
                t_KMALLSystemTransducerConfiguration::Modular,
                DOC_t_KMALLSystemTransducerConfiguration(Modular))
+        .value("PortableMKIIHead",
+               t_KMALLSystemTransducerConfiguration::PortableMKIIHead,
+               DOC_t_KMALLSystemTransducerConfiguration(PortableMKIIHead))
         //
         ;
 

@@ -66,8 +66,7 @@ class KMALLPingBottom
     // --- sector infos ---
     bool has_tx_signal_parameters() const override
     {
-        return _file_data->has_any_of_datagram_types(
-            { t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH });
+        return !_file_data->get_sysinfos().get_tx_signal_parameters().empty();
     }
     bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
 

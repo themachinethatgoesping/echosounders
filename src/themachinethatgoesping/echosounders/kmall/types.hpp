@@ -143,10 +143,11 @@ enum class t_KMALLSystemTransducerConfiguration : uint8_t
     SingleTxDualRx     = 3, ///< EM2040 Dual RX
     DualTxDualRx       = 4, ///< EM2040 Dual TX
     PortableSingleHead = 5, ///< EM2040P
-    Modular            = 6  ///< EM2040M
+    Modular            = 6, ///< EM2040M
+    PortableMKIIHead   = 7, ///< EM2042P?
 };
 
-inline constexpr std::array<t_KMALLSystemTransducerConfiguration, 7>
+inline constexpr std::array<t_KMALLSystemTransducerConfiguration, 8>
     t_KMALLSystemTransducerConfiguration_values = {
         t_KMALLSystemTransducerConfiguration::SingleTxSingleRx,
         t_KMALLSystemTransducerConfiguration::SingleHead,
@@ -154,16 +155,17 @@ inline constexpr std::array<t_KMALLSystemTransducerConfiguration, 7>
         t_KMALLSystemTransducerConfiguration::SingleTxDualRx,
         t_KMALLSystemTransducerConfiguration::DualTxDualRx,
         t_KMALLSystemTransducerConfiguration::PortableSingleHead,
-        t_KMALLSystemTransducerConfiguration::Modular
+        t_KMALLSystemTransducerConfiguration::Modular,
+        t_KMALLSystemTransducerConfiguration::PortableMKIIHead
     };
 
-inline constexpr std::array<std::string_view, 7> t_KMALLSystemTransducerConfiguration_names = {
+inline constexpr std::array<std::string_view, 8> t_KMALLSystemTransducerConfiguration_names = {
     "SingleTxSingleRx", "SingleHead",         "DualHead", "SingleTxDualRx",
-    "DualTxDualRx",     "PortableSingleHead", "Modular"
+    "DualTxDualRx",     "PortableSingleHead", "Modular", "PortableMKIIHead"
 };
-inline constexpr std::array<std::string_view, 7> t_KMALLSystemTransducerConfiguration_alt_names = {
-    "Single Tx single Rx", "Single head",          "Dual head",   "Single Tx dual Rx",
-    "Dual Tx dual Rx",     "Portable head", "Modular head"
+inline constexpr std::array<std::string_view, 8> t_KMALLSystemTransducerConfiguration_alt_names = {
+    "Single Tx single Rx", "Single head",   "Dual head",   "Single Tx dual Rx",
+    "Dual Tx dual Rx",     "Portable head", "Modular head", "Portable MKII head"
 };
 
 using o_KMALLSystemTransducerConfiguration =

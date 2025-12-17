@@ -120,11 +120,11 @@ o_KMALLSystemTransducerConfiguration IInstallationParam::get_system_transducer_c
     }
 
     // split on '-' and take last token (like Python split('-')[-1]) then trim whitespace
-    std::string              system_value = it->second;
     std::vector<std::string> parts;
-    boost::split(parts, system_value, boost::is_any_of("-"));
-    system_value =
-        boost::trim_copy(boost::split(parts, system_value, boost::is_any_of("-")).back());
+    boost::split(parts, it->second, boost::is_any_of("-"));
+    std::string system_value = boost::trim_copy(parts.back());
+
+    
 
     return o_KMALLSystemTransducerConfiguration::to_value(system_value);
 }
@@ -152,6 +152,8 @@ std::map<std::string, std::string> IInstallationParam::get_transducer_serial_num
     {
         case t_KMALLSystemTransducerConfiguration::SingleHead:
             [[fallthrough]];
+        case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
+            [[fallthrough]];
         case t_KMALLSystemTransducerConfiguration::PortableSingleHead:
             if (serial_numbers.size() == 2 && serial_numbers.contains("TX") &&
                 serial_numbers.contains("RX"))
@@ -168,6 +170,10 @@ std::map<std::string, std::string> IInstallationParam::get_transducer_serial_num
             {
                 return serial_numbers;
             }
+            throw(std::runtime_error(
+                fmt::format("InstallationParameters::get_transducer_serial_numbers: "
+                            "invalid serial numbers for SingleTxSingleRx configuration: {}",
+                            fmt::join(serial_numbers, ", "))));
         default:
             throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
                                                  "unsupported transducer configuration: {}",
@@ -182,6 +188,8 @@ bool IInstallationParam::is_dual_rx() const
     switch (stc.value)
     {
         case t_KMALLSystemTransducerConfiguration::SingleHead:
+            [[fallthrough]];
+        case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
             [[fallthrough]];
         case t_KMALLSystemTransducerConfiguration::PortableSingleHead:
             [[fallthrough]];
@@ -341,9 +349,10 @@ std::map<std::string, std::string> IInstallationParam::decode_install_txt(
                                                               "SERIALno" };
     std::string                                  current_prefix;
 
-    // Split by comma
+    // Split by comma (convert string_view to string for boost::split compatibility)
+    std::string              install_txt_str(install_txt);
     std::vector<std::string> lines;
-    boost::split(lines, install_txt, boost::is_any_of(","));
+    boost::split(lines, install_txt_str, boost::is_any_of(","));
 
     for (size_t i = 0; i < lines.size(); ++i)
     {

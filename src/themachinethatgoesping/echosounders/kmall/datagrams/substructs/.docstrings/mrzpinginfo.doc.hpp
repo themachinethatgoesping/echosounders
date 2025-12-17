@@ -1,4 +1,4 @@
-//sourcehash: d1f5ee885f8d815fdaba70075826dd62f306438208bc23514a4fc851c62536aa
+//sourcehash: fc5628e19f849bd3121965583df33355ad331951fbd823b98796eb6736ef1e42
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -229,6 +229,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_pulse_form = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_read_version_0 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_read_version_1 = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_runtime_filter_1 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_runtime_filter_2 = R"doc()doc";
@@ -358,6 +362,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_tx_power_db = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_tx_transducer_depth_m = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_write_version_0 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_write_version_1 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZPingInfo_x_kmall_to_all_m = R"doc()doc";
 

@@ -72,8 +72,7 @@ class KMALLPingWatercolumn
 
     bool has_tx_signal_parameters() const override
     {
-        return _file_data->has_any_of_datagram_types({ t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH,
-                                                       t_KMALLDatagramIdentifier::M_WATER_COLUMN });
+        return !_file_data->get_sysinfos_const().get_tx_signal_parameters().empty();
     }
     bool has_number_of_tx_sectors() const { return has_tx_signal_parameters(); }
     bool has_beam_numbers_per_tx_sector() const { return has_tx_signal_parameters(); }

@@ -55,7 +55,9 @@ TxSignalParameterVector::TxSignalParameterVector(const HashCacheKey& hash_cache_
                     break;
                 }
                 default:
-                    throw std::runtime_error("Unknown transmit signal type");
+                    throw std::runtime_error(fmt::format("TxSignalParameterVector initialization: "
+                                                         "Unknown signal parameter type: {}",
+                                                         type));
             }
         }
         catch (std::exception& e)
@@ -167,7 +169,9 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
             default:
                 // this should not happen since the get_tx_signal_type should return a valid
                 // type
-                throw std::runtime_error("Unknown transmit signal type");
+                throw std::runtime_error(fmt::format("SystemInformation initialization: "
+                                                     "Unknown signal parameter type: {}",
+                                                     static_cast<int>(tx_signal_type.value)));
         }
     }
 
@@ -268,7 +272,8 @@ SystemInformation SystemInformation::from_stream(
 
     // read mean absorption coefficients
     auto mean_absorption = xt::xtensor<float, 1>::from_shape({ sizes[0] });
-    is.read(reinterpret_cast<char*>(mean_absorption.data()), mean_absorption.size() * sizeof(float));
+    is.read(reinterpret_cast<char*>(mean_absorption.data()),
+            mean_absorption.size() * sizeof(float));
 
     // create SystemInformation
     return SystemInformation(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]),

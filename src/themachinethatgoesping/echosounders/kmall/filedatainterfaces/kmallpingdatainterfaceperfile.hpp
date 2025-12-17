@@ -192,7 +192,9 @@ class KMALLPingDataInterfacePerFile
                 }
 
                 // load water column data
-                if (ping_ptr->has_watercolumn())
+                if (ping_ptr->file_data()
+                        .get_datagram_infos(t_KMALLDatagramIdentifier::M_WATER_COLUMN)
+                        .size() > 0)
                 {
                     // this assumes that all watercolumndatagrams are from the same file
                     auto file_nr =
@@ -201,7 +203,6 @@ class KMALLPingDataInterfacePerFile
                             .at(0)
                             ->get_file_nr();
 
-                    // add runtime parameters (will be deduplicated as boost flyweight)
                     ping_ptr->file_data().set_watercolumninformation(
                         index_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
                             *ping_ptr));
@@ -219,7 +220,6 @@ class KMALLPingDataInterfacePerFile
                             .at(0)
                             ->get_file_nr();
 
-                    // add runtime parameters (will be deduplicated as boost flyweight)
                     ping_ptr->file_data().set_systeminformation(
                         index_path_per_file_nr[file_nr].read_or_get_systeminformation(*ping_ptr));
                 }
