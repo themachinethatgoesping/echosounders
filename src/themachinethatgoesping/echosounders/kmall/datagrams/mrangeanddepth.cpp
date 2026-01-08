@@ -241,7 +241,7 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
 
     // false is mpart skipped
     printer.append(
-        KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents, false));
+        KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents, true));
 
     printer.register_section("Ping info (.ping_info)");
     printer.append(_ping_info.__printer__(float_precision, superscript_exponents));

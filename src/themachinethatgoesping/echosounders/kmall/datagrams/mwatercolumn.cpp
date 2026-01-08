@@ -172,7 +172,7 @@ tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_p
 
     // false is mpart skipped
     printer.append(
-        KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents, false));
+        KMALLMultibeamDatagram::__printer__(float_precision, superscript_exponents, true));
 
     printer.register_section("Tx info (.tx_info)");
     printer.append(_tx_info.__printer__(float_precision, superscript_exponents));

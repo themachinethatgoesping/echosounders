@@ -22,6 +22,14 @@ BeamSampleSelection PingSampleSelector::apply_selection(
 
     // select beams according to the options
     const auto number_of_beams            = ping_watercolumn.get_number_of_beams();
+    
+    // Handle empty beams case - return empty selection
+    if (number_of_beams == 0)
+    {
+        selection.set_sample_step_ensemble(_sample_step);
+        return selection;
+    }
+    
     auto       number_of_samples_per_beam = ping_watercolumn.get_number_of_samples_per_beam();
     auto       min_sample_nr_per_beam     = xt::zeros_like(number_of_samples_per_beam);
 
@@ -135,6 +143,10 @@ BeamSelection PingSampleSelector::apply_selection(filetemplates::datatypes::I_Pi
 
     // select beams according to the options
     const auto number_of_beams = ping_bottom.get_number_of_beams();
+
+    // Handle empty beams case - return empty selection
+    if (number_of_beams == 0)
+        return selection;
 
     const auto beam_crosstrack_angles = ping_bottom.get_beam_crosstrack_angles();
     if (beam_crosstrack_angles.size() < number_of_beams)
