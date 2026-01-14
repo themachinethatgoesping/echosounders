@@ -16,7 +16,7 @@ globals().update(expose_submodules(echosounders_nanopy, 'themachinethatgoesping.
 del echosounders_nanopy, expose_submodules
 
 # python only modules
-from .index_functions import get_index_paths, find_files  # flake8: noqa
+from .index_functions import get_index_paths, find_files, find_files_and_index  # flake8: noqa
 from .evaluate.evaluate_ping_features import evaluate_ping_features_can_be_called  # flake8: noqa
 
 __version__ = "@PROJECT_VERSION@"
