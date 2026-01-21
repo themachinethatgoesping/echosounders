@@ -56,6 +56,14 @@ class RAW3 : public SimradRawDatagram
     // ----- public constructors -----
     explicit RAW3(SimradRawDatagram header)
         : SimradRawDatagram(std::move(header))
+        , _channel_id()
+        , _data_type(raw3datatypes::t_RAW3DataType(0))
+        , _number_of_complex_samples(0)
+        , _spare_1('\x00')
+        , _spare_2('\x00')
+        , _offset(0)
+        , _count(0)
+        , _sample_data()
     {
     }
 
