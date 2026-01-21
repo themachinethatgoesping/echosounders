@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
+#include <nanobind/operators.h>
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/vector.h>
 
@@ -195,10 +196,7 @@ void init_c_pingsampleselector(nanobind::module_& m)
              nb::arg("beam_step"))
 
         // ----- operators -----
-        .def("__eq__",
-             &PingSampleSelector::operator==,
-             DOC_PingSampleSelector(operator_eq),
-             nb::arg("other"))
+        .def(nanobind::self == nanobind::self, DOC_PingSampleSelector(operator_eq))
 
         // ----- pybind macros -----
         // default copy functions
