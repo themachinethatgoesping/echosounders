@@ -110,6 +110,12 @@ RAW3 RAW3::from_stream(std::istream&     is,
         throw std::runtime_error(fmt::format(
             "RAW3::from_stream: Invalid sample count: {}", datagram._count));
     }
+    
+    // Additional debug logging for Linux CI issues
+    std::cerr << fmt::format("RAW3::from_stream: Successfully read - count={}, data_type={}, num_complex={}\n",
+                             datagram._count, static_cast<int>(datagram._data_type), 
+                             static_cast<int>(datagram._number_of_complex_samples));
+
 
     if (skip_sample_data)
     {
