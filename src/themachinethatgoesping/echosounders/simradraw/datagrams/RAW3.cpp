@@ -100,6 +100,16 @@ RAW3 RAW3::from_stream(std::istream&     is,
     is.read(reinterpret_cast<char*>(&datagram._spare_2), sizeof(datagram._spare_2));
     is.read(reinterpret_cast<char*>(&datagram._offset), sizeof(datagram._offset));
     is.read(reinterpret_cast<char*>(&datagram._count), sizeof(datagram._count));
+    
+    // Validate the read succeeded and count is reasonable
+    if (!is.good()) {
+        throw std::runtime_error(fmt::format(
+            "RAW3::from_stream: Failed to read datagram fields"));
+    }
+    if (datagram._count < 0 || datagram._count > 1000000) {
+        throw std::runtime_error(fmt::format(
+            "RAW3::from_stream: Invalid sample count: {}", datagram._count));
+    }
 
     if (skip_sample_data)
     {
