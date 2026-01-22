@@ -243,6 +243,8 @@ tools::classhelper::ObjectPrinter RAW3::__printer__(unsigned int float_precision
 RAW3 RAW3::from_stream(std::istream&                                  is,
                        const std::unordered_map<size_t, std::string>& hash_cache)
 {
+    std::cerr << "RAW3::from_stream(cached): ENTERED cached read path\n" << std::flush;
+    
     RAW3 datagram(SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::RAW3));
 
     size_t hash;
