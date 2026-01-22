@@ -93,7 +93,7 @@ jobs:
       if: ${{ matrix.ccache }}
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-        key: super-ci-${{ matrix.container }}-v3  # name for the cache - bumped to v3 for debug logging
+        key: super-ci-${{ matrix.container }}-v4  # name for the cache - bumped to v4 for cached read debug logging
 
     - name: install dependencies (c++)
       if:  ${{matrix.dep}}

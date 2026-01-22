@@ -267,6 +267,17 @@ RAW3 RAW3::from_stream(std::istream&                                  is,
     memcpy(&datagram._offset, buffer.data() + offset, sizeof(datagram._offset));
     offset += sizeof(datagram._offset);
     memcpy(&datagram._count, buffer.data() + offset, sizeof(datagram._count));
+    
+    // Debug logging for Linux CI issues
+    std::cerr << fmt::format("RAW3::from_stream(cached): Successfully read - count={}, data_type={}, num_complex={}\n",
+                             datagram._count, static_cast<int>(datagram._data_type), 
+                             static_cast<int>(datagram._number_of_complex_samples));
+    
+    // Validate count is reasonable
+    if (datagram._count < 0 || datagram._count > 1000000) {
+        throw std::runtime_error(fmt::format(
+            "RAW3::from_stream(cached): Invalid sample count: {}", datagram._count));
+    }
 
     datagram._sample_data = raw3datatypes::RAW3DataSkipped();
 
