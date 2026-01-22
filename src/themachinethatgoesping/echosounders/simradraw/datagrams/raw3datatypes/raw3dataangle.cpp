@@ -29,17 +29,6 @@ RAW3DataAngle RAW3DataAngle::from_stream(std::istream& is,
                                          simradraw_long   input_count,
                                          simradraw_long   output_count)
 {
-    // Debug logging for Linux CI issues
-    std::cerr << "RAW3DataAngle::from_stream: input_count=" << input_count 
-              << ", output_count=" << output_count << "\n";
-    std::cerr.flush();
-    
-    if (output_count < 0) {
-        std::cerr << "ERROR: RAW3DataAngle::from_stream: Invalid output_count: " << output_count << "\n";
-        std::cerr.flush();
-        throw std::runtime_error("RAW3DataAngle::from_stream: Invalid negative output_count");
-    }
-    
     using xt_shape = xt::xtensor<int8_t, 2>::shape_type;
     RAW3DataAngle data(xt::empty<int8_t>(xt_shape({ unsigned(output_count), 2 })));
 

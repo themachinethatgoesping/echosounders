@@ -60,12 +60,6 @@ raw3datatypes::RAW3DataVariant RAW3::read_skipped_sample_data(std::istream& is,
 raw3datatypes::RAW3DataVariant RAW3::read_sample_data(std::istream& is) const
 {
     using namespace raw3datatypes;
-    
-    // Debug logging to trace which data type is being used
-    std::cerr << "RAW3::read_sample_data: ENTERED - count=" << this->_count 
-              << ", data_type=" << static_cast<int>(this->_data_type)
-              << ", num_complex=" << static_cast<int>(this->get_number_of_complex_samples()) << "\n";
-    std::cerr.flush();
 
     switch (this->_data_type)
     {
@@ -106,23 +100,10 @@ RAW3 RAW3::from_stream(std::istream&     is,
     is.read(reinterpret_cast<char*>(&datagram._offset), sizeof(datagram._offset));
     is.read(reinterpret_cast<char*>(&datagram._count), sizeof(datagram._count));
     
-    // Validate the read succeeded and count is reasonable
+    // Validate the read succeeded
     if (!is.good()) {
-        std::cerr << "ERROR: RAW3::from_stream: Failed to read datagram fields\n";
-        std::cerr.flush();
         throw std::runtime_error("RAW3::from_stream: Failed to read datagram fields");
     }
-    if (datagram._count < 0 || datagram._count > 1000000) {
-        std::cerr << "ERROR: RAW3::from_stream: Invalid sample count: " << datagram._count << "\n";
-        std::cerr.flush();
-        throw std::runtime_error("RAW3::from_stream: Invalid sample count");
-    }
-    
-    // Additional debug logging for Linux CI issues
-    std::cerr << "RAW3::from_stream: Successfully read - count=" << datagram._count 
-              << ", data_type=" << static_cast<int>(datagram._data_type)
-              << ", num_complex=" << static_cast<int>(datagram._number_of_complex_samples) << "\n";
-    std::cerr.flush();
 
 
     if (skip_sample_data)
@@ -251,8 +232,6 @@ tools::classhelper::ObjectPrinter RAW3::__printer__(unsigned int float_precision
 RAW3 RAW3::from_stream(std::istream&                                  is,
                        const std::unordered_map<size_t, std::string>& hash_cache)
 {
-    std::cerr << "RAW3::from_stream(cached): ENTERED cached read path\n" << std::flush;
-    
     RAW3 datagram(SimradRawDatagram::from_stream(is, t_SimradRawDatagramIdentifier::RAW3));
 
     size_t hash;
@@ -277,19 +256,6 @@ RAW3 RAW3::from_stream(std::istream&                                  is,
     memcpy(&datagram._offset, buffer.data() + offset, sizeof(datagram._offset));
     offset += sizeof(datagram._offset);
     memcpy(&datagram._count, buffer.data() + offset, sizeof(datagram._count));
-    
-    // Debug logging for Linux CI issues
-    std::cerr << "RAW3::from_stream(cached): Successfully read - count=" << datagram._count 
-              << ", data_type=" << static_cast<int>(datagram._data_type)
-              << ", num_complex=" << static_cast<int>(datagram._number_of_complex_samples) << "\n";
-    std::cerr.flush();
-    
-    // Validate count is reasonable
-    if (datagram._count < 0 || datagram._count > 1000000) {
-        std::cerr << "ERROR: RAW3::from_stream(cached): Invalid sample count: " << datagram._count << "\n";
-        std::cerr.flush();
-        throw std::runtime_error("RAW3::from_stream(cached): Invalid sample count");
-    }
 
     datagram._sample_data = raw3datatypes::RAW3DataSkipped();
 

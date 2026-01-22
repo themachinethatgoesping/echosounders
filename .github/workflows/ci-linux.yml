@@ -93,7 +93,7 @@ jobs:
       if: ${{ matrix.ccache }}
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-        key: super-ci-${{ matrix.container }}-v9  # name for the cache - bumped to v9 with debug in read_sample_data + fixed fmt
+        key: super-ci-${{ matrix.container }}-v10  # name for the cache - clean version with individual field reading only
 
     - name: install dependencies (c++)
       if:  ${{matrix.dep}}
