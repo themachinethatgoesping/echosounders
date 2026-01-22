@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cmath>
 #include <sstream>
+#include <iostream>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -42,6 +43,17 @@ RAW3DataPower RAW3DataPower::from_stream(std::istream& is,
                                          simradraw_long   input_count,
                                          simradraw_long   output_count)
 {
+    // Debug logging for Linux CI issues
+    std::cerr << "RAW3DataPower::from_stream: input_count=" << input_count 
+              << ", output_count=" << output_count << "\n";
+    std::cerr.flush();
+    
+    if (output_count < 0) {
+        std::cerr << "ERROR: RAW3DataPower::from_stream: Invalid output_count: " << output_count << "\n";
+        std::cerr.flush();
+        throw std::runtime_error("RAW3DataPower::from_stream: Invalid negative output_count");
+    }
+    
     using xt_shape = xt::xtensor<simradraw_short, 1>::shape_type;
     RAW3DataPower data(xt::empty<simradraw_short>(xt_shape({ unsigned(output_count) })));
 
