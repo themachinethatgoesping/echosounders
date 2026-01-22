@@ -203,6 +203,15 @@ RAW3DataComplexFloat32 RAW3DataComplexFloat32::from_stream(std::istream&  is,
                                           simradraw_long output_count,
                                           uint8_t        number_of_complex_samples)
 {
+    // Debug logging for Linux CI issues
+    std::cerr << fmt::format("RAW3DataComplexFloat32::from_stream: input_count={}, output_count={}, num_complex={}\n",
+                             input_count, output_count, static_cast<int>(number_of_complex_samples));
+    
+    if (output_count < 0) {
+        throw std::runtime_error(fmt::format(
+            "RAW3DataComplexFloat32::from_stream: Invalid output_count: {}", output_count));
+    }
+    
     using xt_shape = xt::xtensor<simradraw_float, 3>::shape_type;
     RAW3DataComplexFloat32 data(xt::empty<simradraw_float>(
         xt_shape({ unsigned(output_count), number_of_complex_samples, 2 })));
