@@ -60,6 +60,12 @@ raw3datatypes::RAW3DataVariant RAW3::read_skipped_sample_data(std::istream& is,
 raw3datatypes::RAW3DataVariant RAW3::read_sample_data(std::istream& is) const
 {
     using namespace raw3datatypes;
+    
+    // Debug logging to trace which data type is being used
+    std::cerr << "RAW3::read_sample_data: ENTERED - count=" << this->_count 
+              << ", data_type=" << static_cast<int>(this->_data_type)
+              << ", num_complex=" << static_cast<int>(this->get_number_of_complex_samples()) << "\n";
+    std::cerr.flush();
 
     switch (this->_data_type)
     {
@@ -74,9 +80,8 @@ raw3datatypes::RAW3DataVariant RAW3::read_sample_data(std::istream& is) const
         case t_RAW3DataType::Angle:
             return RAW3DataAngle::from_stream(is, this->_count, this->_count);
         default:
-            std::cerr << fmt::format("WARNING: RAW3 data type [{}] not yet implemented!",
-                                     magic_enum::enum_name(this->_data_type))
-                      << std::endl;
+            std::cerr << "WARNING: RAW3 data type [" << static_cast<int>(this->_data_type) 
+                      << "] not yet implemented!" << std::endl;
             return RAW3DataSkipped::from_stream(
                 is, this->_count, this->get_data_type(), this->get_number_of_complex_samples());
     }
@@ -103,18 +108,21 @@ RAW3 RAW3::from_stream(std::istream&     is,
     
     // Validate the read succeeded and count is reasonable
     if (!is.good()) {
-        throw std::runtime_error(fmt::format(
-            "RAW3::from_stream: Failed to read datagram fields"));
+        std::cerr << "ERROR: RAW3::from_stream: Failed to read datagram fields\n";
+        std::cerr.flush();
+        throw std::runtime_error("RAW3::from_stream: Failed to read datagram fields");
     }
     if (datagram._count < 0 || datagram._count > 1000000) {
-        throw std::runtime_error(fmt::format(
-            "RAW3::from_stream: Invalid sample count: {}", datagram._count));
+        std::cerr << "ERROR: RAW3::from_stream: Invalid sample count: " << datagram._count << "\n";
+        std::cerr.flush();
+        throw std::runtime_error("RAW3::from_stream: Invalid sample count");
     }
     
     // Additional debug logging for Linux CI issues
-    std::cerr << fmt::format("RAW3::from_stream: Successfully read - count={}, data_type={}, num_complex={}\n",
-                             datagram._count, static_cast<int>(datagram._data_type), 
-                             static_cast<int>(datagram._number_of_complex_samples));
+    std::cerr << "RAW3::from_stream: Successfully read - count=" << datagram._count 
+              << ", data_type=" << static_cast<int>(datagram._data_type)
+              << ", num_complex=" << static_cast<int>(datagram._number_of_complex_samples) << "\n";
+    std::cerr.flush();
 
 
     if (skip_sample_data)
@@ -271,14 +279,16 @@ RAW3 RAW3::from_stream(std::istream&                                  is,
     memcpy(&datagram._count, buffer.data() + offset, sizeof(datagram._count));
     
     // Debug logging for Linux CI issues
-    std::cerr << fmt::format("RAW3::from_stream(cached): Successfully read - count={}, data_type={}, num_complex={}\n",
-                             datagram._count, static_cast<int>(datagram._data_type), 
-                             static_cast<int>(datagram._number_of_complex_samples));
+    std::cerr << "RAW3::from_stream(cached): Successfully read - count=" << datagram._count 
+              << ", data_type=" << static_cast<int>(datagram._data_type)
+              << ", num_complex=" << static_cast<int>(datagram._number_of_complex_samples) << "\n";
+    std::cerr.flush();
     
     // Validate count is reasonable
     if (datagram._count < 0 || datagram._count > 1000000) {
-        throw std::runtime_error(fmt::format(
-            "RAW3::from_stream(cached): Invalid sample count: {}", datagram._count));
+        std::cerr << "ERROR: RAW3::from_stream(cached): Invalid sample count: " << datagram._count << "\n";
+        std::cerr.flush();
+        throw std::runtime_error("RAW3::from_stream(cached): Invalid sample count");
     }
 
     datagram._sample_data = raw3datatypes::RAW3DataSkipped();
