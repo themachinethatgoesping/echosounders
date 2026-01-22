@@ -9,6 +9,7 @@
 #include <cmath>
 #include <limits>
 #include <sstream>
+#include <iostream>
 
 // xtensor includes
 #include <xtensor/io/xio.hpp>
@@ -204,12 +205,15 @@ RAW3DataComplexFloat32 RAW3DataComplexFloat32::from_stream(std::istream&  is,
                                           uint8_t        number_of_complex_samples)
 {
     // Debug logging for Linux CI issues
-    std::cerr << fmt::format("RAW3DataComplexFloat32::from_stream: input_count={}, output_count={}, num_complex={}\n",
-                             input_count, output_count, static_cast<int>(number_of_complex_samples));
+    std::cerr << "RAW3DataComplexFloat32::from_stream: input_count=" << input_count 
+              << ", output_count=" << output_count 
+              << ", num_complex=" << static_cast<int>(number_of_complex_samples) << "\n";
+    std::cerr.flush();
     
     if (output_count < 0) {
-        throw std::runtime_error(fmt::format(
-            "RAW3DataComplexFloat32::from_stream: Invalid output_count: {}", output_count));
+        std::cerr << "ERROR: RAW3DataComplexFloat32::from_stream: Invalid output_count: " << output_count << "\n";
+        std::cerr.flush();
+        throw std::runtime_error("RAW3DataComplexFloat32::from_stream: Invalid negative output_count");
     }
     
     using xt_shape = xt::xtensor<simradraw_float, 3>::shape_type;
