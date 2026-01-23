@@ -121,10 +121,23 @@ class KongsbergAllFileHandler
                             bool show_progress = true)
         : t_base(index_paths)
     {
-        this->append_file(file_path, show_progress);
-        setup_interfaces();
-        if (init)
-            init_interfaces(false, show_progress);
+        std::cerr << "DEBUG KongsbergAllFileHandler: entering constructor for " << file_path << std::endl;
+        try {
+            std::cerr << "DEBUG: calling append_file" << std::endl;
+            this->append_file(file_path, show_progress);
+            std::cerr << "DEBUG: append_file done, calling setup_interfaces" << std::endl;
+            setup_interfaces();
+            std::cerr << "DEBUG: setup_interfaces done" << std::endl;
+            if (init) {
+                std::cerr << "DEBUG: calling init_interfaces" << std::endl;
+                init_interfaces(false, show_progress);
+                std::cerr << "DEBUG: init_interfaces done" << std::endl;
+            }
+            std::cerr << "DEBUG: constructor complete" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "DEBUG EXCEPTION in KongsbergAllFileHandler constructor: " << e.what() << std::endl;
+            throw;
+        }
     }
     KongsbergAllFileHandler(const std::string&                                  file_path,
                             const std::unordered_map<std::string, std::string>& index_paths,
