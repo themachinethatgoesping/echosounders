@@ -8,7 +8,7 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/string_view.h>
 #include <nanobind/stl/vector.h>
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
+#include <xtensor-python/nanobind/pytensor.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 

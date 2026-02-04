@@ -7,8 +7,8 @@
 #include <nanobind/stl/optional.h>
 
 // xtensor python includes
-//#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
+//#include <xtensor-python/nanobind/pytensor.hpp> // Numpy bindings
+#include <xtensor-python/nanobind/pytensor.hpp> // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
@@ -47,7 +47,7 @@ template<typename t_float, typename t_pyclass>
 void add_apply_calibration_functions(t_pyclass& c)
 {
     using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
-    using themachinethatgoesping::tools_nanobind::pytensor;
+    using xt::nanobind::pytensor;
     using pytensor1d = pytensor<t_float, 1>;
     using pytensor2d = pytensor<t_float, 2>;
 

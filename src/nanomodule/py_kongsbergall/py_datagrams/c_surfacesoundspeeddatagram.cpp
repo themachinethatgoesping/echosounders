@@ -6,7 +6,7 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/vector.h>
 
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
 

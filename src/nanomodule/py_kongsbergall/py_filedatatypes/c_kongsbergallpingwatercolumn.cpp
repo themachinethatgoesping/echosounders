@@ -10,7 +10,7 @@
 #include <nanobind/stl/vector.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include <themachinethatgoesping/navigation/nmea_0183.hpp>
 

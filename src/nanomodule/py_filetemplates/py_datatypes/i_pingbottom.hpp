@@ -11,7 +11,7 @@
 #include <nanobind/stl/variant.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_pingbottom.hpp"
 #include "i_pingcommon.hpp"

@@ -57,7 +57,11 @@ static inline t_xtensor_val compute_hann_window_weights(const int length)
     if (length <= 0) // return empty tensor
         return t_xtensor_val::from_shape({ 0u });
     else if (length == 1) // return 1
-        return t_xtensor_val({ 1 }, t_float(1.0));
+    {
+        auto result = t_xtensor_val::from_shape({ 1u });
+        result.fill(t_float(1.0));
+        return result;
+    }
 
     auto n = xt::arange<t_float>(t_float(0.), static_cast<t_float>(length));
     return t_float(0.5) * (t_float(1.0) - xt::cos(t_float(2.0) * std::numbers::pi_v<t_float> * n /

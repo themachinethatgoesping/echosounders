@@ -11,7 +11,7 @@
 #include <fstream>
 #include <string>
 
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp> // Numpy bindings
+#include <xtensor-python/nanobind/pytensor.hpp> // Numpy bindings
           // xtensor import for the C++ universal functions
 
 #include <themachinethatgoesping/navigation/nmea_0183.hpp>

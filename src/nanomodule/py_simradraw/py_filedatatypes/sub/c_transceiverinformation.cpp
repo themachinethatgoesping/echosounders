@@ -6,7 +6,7 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/complex.h>
 #include <nanobind/stl/string.h>
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>                 // Numpy bindings
+#include <xtensor-python/nanobind/pytensor.hpp>                 // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 

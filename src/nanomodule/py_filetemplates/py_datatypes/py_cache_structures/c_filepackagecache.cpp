@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
-//#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>                  // Numpy bindings
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>                  // Numpy bindings
+//#include <xtensor-python/nanobind/pytensor.hpp>                  // Numpy bindings
+#include <xtensor-python/nanobind/pytensor.hpp>                  // Numpy bindings
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>

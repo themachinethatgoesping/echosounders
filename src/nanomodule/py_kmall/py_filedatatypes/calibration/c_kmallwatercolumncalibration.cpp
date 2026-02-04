@@ -9,7 +9,7 @@
 #include <nanobind/stl/string_view.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
-#include <themachinethatgoesping/tools_nanobind/pytensor_nanobind.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include "../../../py_filetemplates/py_datatypes/py_calibration/c_multisectorwatercolumncalibration.hpp"
 #include <themachinethatgoesping/echosounders/kmall/filedatatypes/calibration/kmallwatercolumncalibration.hpp>
