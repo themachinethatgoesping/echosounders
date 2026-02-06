@@ -7,6 +7,7 @@
 #include <nanobind/stl/vector.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <themachinethatgoesping/tools_nanobind/datetime.hpp>
 #include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/kmall/datagrams/skmbinary.hpp>
@@ -23,6 +24,8 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::kmall;
 using datagrams::SKMBinary;
 
+#define DOC_SKMBinary(ARG)                                                                         \
+    DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMBinary, ARG)
 #define DOC_SKMBinary(ARG)                                                                         \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, SKMBinary, ARG)
 #define DOC_SKMBinarySensorFormat(ARG)                                                             \
@@ -92,6 +95,23 @@ void init_c_skmbinary(nanobind::module_& m)
         .def_rw("north_acceleration", &KMBinary::north_acceleration)
         .def_rw("east_acceleration", &KMBinary::east_acceleration)
         .def_rw("down_acceleration", &KMBinary::down_acceleration)
+
+        // time
+        .def("get_sensor_timestamp", &KMBinary::get_sensor_timestamp)
+
+        .def(
+            "get_sensor_datetime",
+            [](const KMBinary& self, double timezone_offset_hours) {
+                return tools::nanobind_helper::unixtime_to_datetime(self.get_sensor_timestamp(),
+                                                                    timezone_offset_hours);
+            },
+            nb::arg("timezone_offset_hours") = 0.,
+            "Return the timestamp as datetime object")
+
+        .def("get_sensor_date_string",
+             &KMBinary::get_sensor_date_string,
+             nb::arg("fractional_seconds_digits") = 2,
+             nb::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
 
         // processed
         // .def("get_status_bits", &KMBinary::get_status_bits)
@@ -163,6 +183,22 @@ void init_c_skmbinary(nanobind::module_& m)
         .def_rw("time_sec", &KMDelayedHeave::time_sec)
         .def_rw("time_nanosec", &KMDelayedHeave::time_nanosec)
         .def_rw("delayed_heave_m", &KMDelayedHeave::delayed_heave_m)
+
+        .def("get_sensor_timestamp", &KMDelayedHeave::get_sensor_timestamp)
+
+        .def(
+            "get_sensor_datetime",
+            [](const KMDelayedHeave& self, double timezone_offset_hours) {
+                return tools::nanobind_helper::unixtime_to_datetime(self.get_sensor_timestamp(),
+                                                                    timezone_offset_hours);
+            },
+            nb::arg("timezone_offset_hours") = 0.,
+            "Return the timestamp as datetime object")
+
+        .def("get_sensor_date_string",
+             &KMDelayedHeave::get_sensor_date_string,
+             nb::arg("fractional_seconds_digits") = 2,
+             nb::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
 
         // copy
         __PYCLASS_DEFAULT_COPY__(KMDelayedHeave)
