@@ -102,7 +102,7 @@ class KMALLNavigationDataInterfacePerFile
             use_spo = false;
         if (!use_spo && !has_cpo && has_spo)
             use_spo = true;
-        
+
         // std::cerr << fmt::format(
         //                  "KMALLNavigationDataInterfacePerFile::read_navigation_data [file {}]: "
         //                  "has_spo={} has_cpo={} use_spo={}\n",
@@ -135,7 +135,8 @@ class KMALLNavigationDataInterfacePerFile
                                    heaves,
                                    times_heading,
                                    times_pitch_roll,
-                                   times_heave);
+                                   times_heave,
+                                   config);
         }
 
         // Optionally use C_HEAVE for heave if S_KM_BINARY heave not available or not preferred
@@ -214,9 +215,9 @@ class KMALLNavigationDataInterfacePerFile
      * @brief Read position data from S_POSITION datagrams
      */
     void read_position_from_spo(
-        std::vector<double>&                                                     times_pos,
-        std::vector<double>&                                                     latitudes,
-        std::vector<double>&                                                     longitudes,
+        std::vector<double>&                                      times_pos,
+        std::vector<double>&                                      latitudes,
+        std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
         uint8_t active_pos_system = config.get_active_position_system_number();
@@ -245,9 +246,9 @@ class KMALLNavigationDataInterfacePerFile
      * @brief Read position data from C_POSITION datagrams
      */
     void read_position_from_cpo(
-        std::vector<double>&                                                     times_pos,
-        std::vector<double>&                                                     latitudes,
-        std::vector<double>&                                                     longitudes,
+        std::vector<double>&                                      times_pos,
+        std::vector<double>&                                      latitudes,
+        std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
         uint8_t active_pos_system = config.get_active_position_system_number();
@@ -281,18 +282,26 @@ class KMALLNavigationDataInterfacePerFile
      * - Velocities and accelerations
      * - Validity flags for each data type
      */
-    void read_attitude_from_skm(std::vector<float>&  headings,
-                                std::vector<float>&  pitchs,
-                                std::vector<float>&  rolls,
-                                std::vector<double>& heaves,
-                                std::vector<double>& times_heading,
-                                std::vector<double>& times_pitch_roll,
-                                std::vector<double>& times_heave) const
+    void read_attitude_from_skm(
+        std::vector<float>&                                       headings,
+        std::vector<float>&                                       pitchs,
+        std::vector<float>&                                       rolls,
+        std::vector<double>&                                      heaves,
+        std::vector<double>&                                      times_heading,
+        std::vector<double>&                                      times_pitch_roll,
+        std::vector<double>&                                      times_heave,
+        const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
+        int8_t active_attitude_sensor_number = config.get_active_attitude_sensor_number();
+
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_KM_BINARY))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::SKMBinary>();
+
+            // Only use data from the active attitude system
+            if (datagram.get_sensor_system() != active_attitude_sensor_number)
+                continue;
 
             // Check which data types are active in this datagram
             bool heading_active    = datagram.get_heading_active();
