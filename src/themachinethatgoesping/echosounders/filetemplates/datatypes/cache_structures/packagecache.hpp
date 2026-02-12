@@ -34,6 +34,7 @@
 
 
 #include <themachinethatgoesping/tools/helper/isviewstream.hpp>
+#include <themachinethatgoesping/tools/helper/osstream.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -107,10 +108,11 @@ class PackageCache
 
     std::string to_binary(std::unordered_map<size_t, std::string>& hash_cache) const
     {
-        std::stringstream buffer_stream;
+        std::string result;
+        tools::helper::osstream buffer_stream(result);
 
         to_stream(buffer_stream, hash_cache);
-        return buffer_stream.str();
+        return result;
     };
 
     static auto from_binary(std::string_view                               buffer,

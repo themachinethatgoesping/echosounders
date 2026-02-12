@@ -160,13 +160,12 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 auto it = navigation_interpolators.find(sensor_configuration_hash);
                 if (it == navigation_interpolators.end())
                 {
-                    /// TODO: move to avoid copy?
-                    navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
+                    navigation_interpolators[sensor_configuration_hash] =
+                        std::move(navigation_interpolator);
                 }
                 else
                 {
-                    /// TODO: move to avoid copy?
-                    it->second.merge(navigation_interpolator);
+                    it->second.merge(std::move(navigation_interpolator));
                 }
             }
             catch (std::exception& e)
@@ -187,10 +186,11 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
         progress_bar.set_postfix(fmt::format("Copying files to navigation interpolators"));
         _navigation_interpolators.clear();
-        for (const auto& [sensor_configuration_hash, navigation_interpolator] :
+        for (auto& [sensor_configuration_hash, navigation_interpolator] :
              navigation_interpolators)
         {
-            _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
+            _navigation_interpolators[sensor_configuration_hash] =
+                std::move(navigation_interpolator);
         }
 
         _is_initialized_navigation_interpolators = true;
