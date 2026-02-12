@@ -165,7 +165,9 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
                 }
                 else
                 {
-                    it->second.merge(std::move(navigation_interpolator));
+                    // Use deferred merge: append raw data without sorting/spline rebuild.
+                    // finalize() is called after the loop to sort and rebuild once.
+                    it->second.merge_unfinalized(std::move(navigation_interpolator));
                 }
             }
             catch (std::exception& e)
@@ -182,6 +184,15 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
             }
             if (!existing_progressbar || external_progress_tick)
                 progress_bar.tick();
+        }
+
+        progress_bar.set_postfix(fmt::format("Finalizing navigation interpolators"));
+        // Sort and rebuild all interpolators once after all data has been appended.
+        // This is O(N*log(N)) total vs O(N*F*log(N)) if done per-merge.
+        for (auto& [sensor_configuration_hash, navigation_interpolator] :
+             navigation_interpolators)
+        {
+            navigation_interpolator.finalize();
         }
 
         progress_bar.set_postfix(fmt::format("Copying files to navigation interpolators"));
