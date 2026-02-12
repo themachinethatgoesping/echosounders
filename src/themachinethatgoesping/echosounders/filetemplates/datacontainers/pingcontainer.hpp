@@ -87,13 +87,46 @@ class PingContainer
         this->_pyindexer.reset(this->_pings.size());
     }
 
+    void add_pings(PingVector<type_Ping>&& ping)
+    {
+        if (this->_pings.empty())
+        {
+            this->_pings = std::move(ping);
+        }
+        else
+        {
+            this->_pings.insert(this->_pings.end(),
+                                std::make_move_iterator(ping.begin()),
+                                std::make_move_iterator(ping.end()));
+        }
+        this->_pyindexer.reset(this->_pings.size());
+    }
+
+    /**
+     * @brief Add a ping without resetting the pyindexer.
+     * Call reindex() after all pings have been added.
+     */
+    void add_ping_no_reindex(std::shared_ptr<type_Ping> ping)
+    {
+        this->_pings.push_back(std::move(ping));
+    }
+
+    /**
+     * @brief Reset the pyindexer after batch additions via add_ping_no_reindex.
+     */
+    void reindex()
+    {
+        this->_pyindexer.reset(this->_pings.size());
+    }
+
     void set_pings(PingVector<type_Ping> pings)
     {
         _pings = std::move(pings);
         _pyindexer.reset(_pings.size());
     }
 
-    const PingVector<type_Ping>& get_pings() const { return _pings; }
+    const PingVector<type_Ping>& get_pings() const& { return _pings; }
+    PingVector<type_Ping> get_pings() && { return std::move(_pings); }
 
     // ----- compute ping information -----
     size_t max_number_of_samples() const

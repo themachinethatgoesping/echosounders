@@ -153,8 +153,8 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
                     std::string(""));
 
                 primary_interfaces_per_file[i]->init_from_file("", force);
-                _ping_container.add_pings(
-                    primary_interfaces_per_file[i]->read_pings(index_paths).get_pings());
+                auto file_pings = primary_interfaces_per_file[i]->read_pings(index_paths);
+                _ping_container.add_pings(std::move(file_pings).get_pings());
             }
             catch (std::exception& e)
             {
@@ -168,10 +168,16 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
                 progress_bar.tick();
         }
 
+        // Batch channel grouping: use add_ping_no_reindex and reindex once per channel
         progress_bar.set_postfix("Merging pings by channel");
         for (const auto& ping : _ping_container.get_pings())
         {
-            _ping_container_by_channel.at(ping->get_channel_id())->add_ping(ping);
+            _ping_container_by_channel.at(ping->get_channel_id())->add_ping_no_reindex(ping);
+        }
+        // reindex all channel containers once
+        for (auto& [channel_id, container_ptr] : _ping_container_by_channel)
+        {
+            container_ptr->reindex();
         }
 
         if (!existing_progressbar)

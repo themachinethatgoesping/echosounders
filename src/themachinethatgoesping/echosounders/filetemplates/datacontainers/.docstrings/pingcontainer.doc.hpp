@@ -1,4 +1,4 @@
-//sourcehash: cb78782d5a47a9e085190ff3c346b605b83e2567392d690b959ca45b2016a7fd
+//sourcehash: d4731c8b89fbd42d60cc5214382baf2ac80374a6bb87e48a2790d22c617ad8ac
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -53,7 +53,13 @@ Args:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping_no_reindex =
+R"doc(Add a ping without resetting the pyindexer. Call reindex() after all
+pings have been added.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_pings = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_pings_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_at = R"doc()doc";
 
@@ -62,6 +68,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_find_channel_ids = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_pings = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_pings_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_sorted_by_time = R"doc()doc";
 
@@ -90,6 +98,8 @@ R"doc(Construct a new PingContainer object from a vector of pings
 
 Args:
     pings:: vector of pings)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_reindex = R"doc(Reset the pyindexer after batch additions via add_ping_no_reindex.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_reversed = R"doc()doc";
 

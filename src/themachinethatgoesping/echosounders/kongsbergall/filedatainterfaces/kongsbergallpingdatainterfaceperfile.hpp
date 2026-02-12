@@ -114,13 +114,13 @@ class KongsbergAllPingDataInterfacePerFile
                         this->read_extra_infos(datagram_ptr, ping_counter, serial_number);
 
                         // create a new ping if it does not exist
-                        auto ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
-                        if (ping_it == pings_by_counter_by_id[ping_counter].end())
+                        auto& pings_for_counter = pings_by_counter_by_id[ping_counter];
+                        auto ping_it = pings_for_counter.find(serial_number);
+                        if (ping_it == pings_for_counter.end())
                         {
-                            pings_by_counter_by_id[ping_counter][serial_number] =
-                                std::make_shared<t_ping>(base_ping.deep_copy());
-
-                            ping_it = pings_by_counter_by_id[ping_counter].find(serial_number);
+                            auto [inserted_it, _] = pings_for_counter.emplace(
+                                serial_number, std::make_shared<t_ping>(base_ping.deep_copy()));
+                            ping_it = inserted_it;
 
                             ping_it->second->file_data().set_file_ping_counter(ping_counter);
 
@@ -159,9 +159,9 @@ class KongsbergAllPingDataInterfacePerFile
 
         // loop through map and copy pings to vector
         t_pingcontainer pings;
-        for (auto [ping_counter, pings_by_id] : pings_by_counter_by_id)
+        for (auto& [ping_counter, pings_by_id] : pings_by_counter_by_id)
         {
-            for (auto [id, ping_ptr] : pings_by_id)
+            for (auto& [id, ping_ptr] : pings_by_id)
             {
                 std::string channel_id = fmt::format("TRX-{}", id);
 

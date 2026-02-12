@@ -73,7 +73,12 @@ void _PingContainer_add_interface(T_PyClass& cls)
     /* datagram reading */
     cls.def("size", &T_BaseClass::size, DOC_PingContainer(size));
     cls.def("__len__", &T_BaseClass::size, DOC_PingContainer(size));
-    cls.def("get_pings", &T_BaseClass::get_pings, DOC_PingContainer(get_pings));
+    cls.def("get_pings",
+            [](const T_BaseClass& self) -> decltype(auto) {
+                return self.get_pings();
+            },
+            DOC_PingContainer(get_pings),
+            nanobind::rv_policy::reference_internal);
     cls.def("__getitem__",
             &T_BaseClass::at,
             DOC_PingContainer(at),

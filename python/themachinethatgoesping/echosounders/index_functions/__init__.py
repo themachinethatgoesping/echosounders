@@ -14,6 +14,7 @@ def find_files_and_index(
     endings: Union[str, List[str]],
     followlinks: bool = False,
     remove_duplicated_files: bool = True,
+    hash_fraction: float = 0.1,
     verbose: bool = True,
     index_file_ending: str = '.tmtgp.index',
     index_root: str = 'index',
@@ -33,6 +34,10 @@ def find_files_and_index(
         If True, follows symbolic links. Defaults to False.
     remove_duplicated_files : bool, optional
         If True, removes any duplicate files found. Defaults to True.
+    hash_fraction : float, optional
+        Fraction of the file bytes to hash when checking for duplicates (0 < hash_fraction <= 1).
+        Lower values are faster but have a (very small) chance of treating non-identical files
+        with the same name and size as duplicates. By default, 0.1 (hash 1/10th of bytes).
     verbose : bool, optional
         If True, prints progress messages. Defaults to True.
     index_file_ending : str, optional
@@ -54,6 +59,7 @@ def find_files_and_index(
         endings=endings,
         followlinks=followlinks,
         remove_duplicated_files=remove_duplicated_files,
+        hash_fraction=hash_fraction,
         verbose=verbose,
     )
     
