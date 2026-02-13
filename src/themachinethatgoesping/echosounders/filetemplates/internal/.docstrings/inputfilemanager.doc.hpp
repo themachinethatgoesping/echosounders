@@ -1,4 +1,4 @@
-//sourcehash: 520a3fde28651c7e300f4ca402086716f8939f0730ec04091268951d1bf5b3c7
+//sourcehash: c5f9cac0cd9f733290749a82d28494a4799fcf855b91d6942f02b6fd512f8901
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_int
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_InputFileManager = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_StreamPool = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_StreamPool_numbers = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_StreamPool_streams = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_numbers = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_active_file_streams = R"doc()doc";
@@ -69,9 +75,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_int
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_active_stream = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_active_stream_member = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_get_active_stream_tl = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_max_streams_open = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_owning_thread_id = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_internal_InputFileManager_tl_pools = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

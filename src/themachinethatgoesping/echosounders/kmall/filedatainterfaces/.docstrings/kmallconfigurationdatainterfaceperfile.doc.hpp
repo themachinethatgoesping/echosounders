@@ -1,4 +1,4 @@
-//sourcehash: b635935cf90cf78359bf25976ed07afe9872bc55c2a9843ebecedda2a989ae28
+//sourcehash: 48b6bc7a4c1873ce6795f0d9f05042d030deb1365589329afe97af84cf9b9568
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,6 +48,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedataint
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_active_attitude_sensor_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_active_position_system_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_cached_installation_parameters = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_active_attitude_sensor_number = R"doc()doc";
 

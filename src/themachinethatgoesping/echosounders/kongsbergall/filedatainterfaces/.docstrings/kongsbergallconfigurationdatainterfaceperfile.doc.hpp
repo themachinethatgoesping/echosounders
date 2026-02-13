@@ -1,4 +1,4 @@
-//sourcehash: 633f398ab8a4d417b26bb9c2af876fb14fef9934f08975d0816dfbf40de77bdc
+//sourcehash: e3b87dda72c5ac3902d4347a6f6859f2817f43ce1d95530f94729a70ae27ab70
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,6 +52,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_active_pitch_roll_sensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_active_position_system_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_cached_installation_parameters = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_active_heading_sensor = R"doc()doc";
 

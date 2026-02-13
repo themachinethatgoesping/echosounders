@@ -89,7 +89,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
                         bool                                                force,
                         tools::progressbars::I_ProgressBar&                 progress_bar,
-                        bool external_progress_tick = false) final
+                        bool external_progress_tick = false,
+                        [[maybe_unused]] int  mp_cores = 1) final
     {
         // navigation data interface needs configuraiton data interface to be initialized
         if (!this->_configuration_data_interface.lock()->is_initialized())

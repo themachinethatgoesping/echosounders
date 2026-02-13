@@ -15,6 +15,7 @@
 /* std includes */
 #include <fstream>
 #include <map>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
@@ -49,6 +50,9 @@ class KMALLConfigurationDataInterfacePerFile
     bool _runtime_parameters_initialized = false;
     std::map<int, std::vector<boost::flyweight<datagrams::IOpRuntime>>>
         _runtime_parameters_by_system_serial_number;
+
+    // cached installation parameters to avoid redundant file reads
+    mutable std::optional<datagrams::IInstallationParam> _cached_installation_parameters;
 
   public:
     KMALLConfigurationDataInterfacePerFile()
@@ -111,8 +115,7 @@ class KMALLConfigurationDataInterfacePerFile
      */
     void init_runtime_parameters()
     {
-        // read installation parameters to get the PU serial number
-        auto        installation_parameters = this->read_installation_parameters();
+        // system serial number is always 40 for KMALL
         int system_serial_number           = 40;
 
         // iterate over all I_OP_RUNTIME datagrams
@@ -301,6 +304,10 @@ class KMALLConfigurationDataInterfacePerFile
      */
     datagrams::IInstallationParam read_installation_parameters() const
     {
+        // return cached result if available (avoids redundant data file reads)
+        if (_cached_installation_parameters.has_value())
+            return *_cached_installation_parameters;
+
         // check that there is at least one installation parameters datagram
         if (!this->_datagram_infos_by_type.contains(
                 t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM))
@@ -327,8 +334,10 @@ class KMALLConfigurationDataInterfacePerFile
                             this->get_file_nr(),
                             this->get_file_path()));
 
-        // Return the first installation parameters datagram
-        return datagram_infos[0]->template read_datagram_from_file<datagrams::IInstallationParam>();
+        // Read from file and cache the result
+        _cached_installation_parameters.emplace(
+            datagram_infos[0]->template read_datagram_from_file<datagrams::IInstallationParam>());
+        return *_cached_installation_parameters;
     }
 
     // ----- objectprinter -----

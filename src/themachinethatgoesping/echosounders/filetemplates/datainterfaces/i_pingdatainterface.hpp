@@ -13,6 +13,8 @@
 /* std includes */
 #include <filesystem>
 #include <fstream>
+#include <future>
+#include <thread>
 #include <unordered_map>
 #include <vector>
 
@@ -107,7 +109,8 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
     void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
                         bool                                                force,
                         tools::progressbars::I_ProgressBar&                 progress_bar,
-                        bool external_progress_tick = false) final
+                        bool external_progress_tick = false,
+                        int  mp_cores              = 1) final
     {
         auto primary_interfaces_per_file = this->per_primary_file();
 
@@ -116,7 +119,7 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             return;
         }
 
-        // init navigation interface
+        // init navigation interface (must be done before read_pings)
         if (!this->navigation_data_interface().is_initialized())
         {
             this->navigation_data_interface().init_from_file(index_paths, false, progress_bar);
@@ -132,49 +135,124 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             existing_progressbar = false;
         }
 
-        std::string index_path = tools::helper::get_from_map_with_default(
-            index_paths,
-            primary_interfaces_per_file.front()->get_file_path(),
-            std::string(""));
+        // Clamp mp_cores to [1, n_files]
+        if (mp_cores < 1)
+            mp_cores = 1;
+        const size_t n_files = primary_interfaces_per_file.size();
+        const size_t n_threads =
+            std::min(static_cast<size_t>(mp_cores), n_files);
 
-        primary_interfaces_per_file.front()->init_from_file(index_path, force);
-        _ping_container = primary_interfaces_per_file.front()->read_pings(index_paths);
+        // Lambda: process a single file and return its ping container
+        auto process_file = [&](size_t i) -> type_PingContainer {
+            std::string index_path = tools::helper::get_from_map_with_default(
+                index_paths,
+                primary_interfaces_per_file[i]->get_file_path(),
+                std::string(""));
 
-        for (size_t i = 1; i < primary_interfaces_per_file.size(); ++i)
+            primary_interfaces_per_file[i]->init_from_file(
+                i == 0 ? index_path : std::string(""), force);
+            return primary_interfaces_per_file[i]->read_pings(index_paths);
+        };
+
+        if (n_threads <= 1)
         {
-            progress_bar.set_postfix(fmt::format("{}/{}", i, primary_interfaces_per_file.size()));
+            // ---- Single-threaded path (default, zero overhead) ----
+            _ping_container = process_file(0);
 
-            try
+            for (size_t i = 1; i < n_files; ++i)
             {
+                progress_bar.set_postfix(
+                    fmt::format("{}/{}", i, n_files));
 
-                index_path = tools::helper::get_from_map_with_default(
-                    index_paths,
-                    primary_interfaces_per_file[i]->get_file_path(),
-                    std::string(""));
-
-                primary_interfaces_per_file[i]->init_from_file("", force);
-                auto file_pings = primary_interfaces_per_file[i]->read_pings(index_paths);
-                _ping_container.add_pings(std::move(file_pings).get_pings());
+                try
+                {
+                    auto file_pings = process_file(i);
+                    _ping_container.add_pings(std::move(file_pings).get_pings());
+                }
+                catch (std::exception& e)
+                {
+                    fmt::print(
+                        std::cerr,
+                        "WARNING[{}::init_from_file]: Could not merge file ping data ({}): {}\n",
+                        this->class_name(),
+                        i,
+                        e.what());
+                }
+                if (!existing_progressbar || external_progress_tick)
+                    progress_bar.tick();
             }
-            catch (std::exception& e)
+        }
+        else
+        {
+            // ---- Multi-threaded path ----
+            // Process all files in parallel using a thread pool pattern.
+            // Each file is independent: own per-file interface, own file streams
+            // (thread_local in InputFileManager), own cache handler.
+
+            std::vector<std::future<type_PingContainer>> futures(n_files);
+            std::vector<std::string>                     errors(n_files);
+
+            // Simple work-stealing: launch up to n_threads async tasks at a time
+            // Using std::async with launch::async to get real threads
+            size_t launched = 0;
+            size_t merged   = 0;
+
+            // Launch all tasks, n_threads at a time
+            while (launched < n_files)
             {
-                fmt::print(std::cerr,
-                           "WARNING[{}::init_from_file]: Could not merge file ping data ({}): {}\n",
-                           this->class_name(),
-                           i,
-                           e.what());
+                // Launch a batch of tasks
+                size_t batch_end = std::min(launched + n_threads, n_files);
+                for (size_t i = launched; i < batch_end; ++i)
+                {
+                    futures[i] = std::async(std::launch::async, [&, i]() {
+                        return process_file(i);
+                    });
+                }
+
+                // Wait for and merge this batch in order
+                for (size_t i = launched; i < batch_end; ++i)
+                {
+                    try
+                    {
+                        auto file_pings = futures[i].get();
+
+                        if (merged == 0)
+                        {
+                            _ping_container = std::move(file_pings);
+                        }
+                        else
+                        {
+                            _ping_container.add_pings(
+                                std::move(file_pings).get_pings());
+                        }
+                    }
+                    catch (std::exception& e)
+                    {
+                        fmt::print(
+                            std::cerr,
+                            "WARNING[{}::init_from_file]: Could not merge file ping data "
+                            "({}): {}\n",
+                            this->class_name(),
+                            i,
+                            e.what());
+                    }
+
+                    ++merged;
+                    progress_bar.set_postfix(
+                        fmt::format("{}/{}", merged, n_files));
+                    if (!existing_progressbar || external_progress_tick)
+                        progress_bar.tick();
+                }
+                launched = batch_end;
             }
-            if (!existing_progressbar || external_progress_tick)
-                progress_bar.tick();
         }
 
-        // Batch channel grouping: use add_ping_no_reindex and reindex once per channel
+        // Group pings by channel
         progress_bar.set_postfix("Merging pings by channel");
         for (const auto& ping : _ping_container.get_pings())
         {
             _ping_container_by_channel.at(ping->get_channel_id())->add_ping_no_reindex(ping);
         }
-        // reindex all channel containers once
         for (auto& [channel_id, container_ptr] : _ping_container_by_channel)
         {
             container_ptr->reindex();

@@ -118,61 +118,52 @@ class KongsbergAllFileHandler
                             const std::unordered_map<std::string, std::string>& index_paths =
                                 std::unordered_map<std::string, std::string>(),
                             bool init          = true,
-                            bool show_progress = true)
+                            bool show_progress = true,
+                            int  mp_cores      = 1)
         : t_base(index_paths)
     {
-        std::cerr << "DEBUG KongsbergAllFileHandler: entering constructor for " << file_path << std::endl;
-        try {
-            std::cerr << "DEBUG: calling append_file" << std::endl;
-            this->append_file(file_path, show_progress);
-            std::cerr << "DEBUG: append_file done, calling setup_interfaces" << std::endl;
-            setup_interfaces();
-            std::cerr << "DEBUG: setup_interfaces done" << std::endl;
-            if (init) {
-                std::cerr << "DEBUG: calling init_interfaces" << std::endl;
-                init_interfaces(false, show_progress);
-                std::cerr << "DEBUG: init_interfaces done" << std::endl;
-            }
-            std::cerr << "DEBUG: constructor complete" << std::endl;
-        } catch (const std::exception& e) {
-            std::cerr << "DEBUG EXCEPTION in KongsbergAllFileHandler constructor: " << e.what() << std::endl;
-            throw;
-        }
+        this->append_file(file_path, show_progress);
+        setup_interfaces();
+        if (init)
+            init_interfaces(false, show_progress, mp_cores);
     }
     KongsbergAllFileHandler(const std::string&                                  file_path,
                             const std::unordered_map<std::string, std::string>& index_paths,
                             bool                                                init,
-                            tools::progressbars::I_ProgressBar&                 progress_bar)
+                            tools::progressbars::I_ProgressBar&                 progress_bar,
+                            int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
         setup_interfaces();
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
 
     KongsbergAllFileHandler(const std::vector<std::string>&                     file_paths,
                             const std::unordered_map<std::string, std::string>& index_paths =
                                 std::unordered_map<std::string, std::string>(),
                             bool init          = true,
-                            bool show_progress = true)
+                            bool show_progress = true,
+                            int  mp_cores      = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
         setup_interfaces();
         if (init)
-            init_interfaces(false, show_progress);
+            init_interfaces(false, show_progress, mp_cores);
     }
     KongsbergAllFileHandler(const std::vector<std::string>&                     file_paths,
                             const std::unordered_map<std::string, std::string>& index_paths,
                             bool                                                init,
-                            tools::progressbars::I_ProgressBar&                 progress_bar)
+                            tools::progressbars::I_ProgressBar&                 progress_bar,
+                            int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
         setup_interfaces();
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
     ~KongsbergAllFileHandler() = default;
 
@@ -306,7 +297,8 @@ class KongsbergAllFileHandler
 
     using t_base::init_interfaces;
     void init_interfaces([[maybe_unused]] bool               force,
-                         tools::progressbars::I_ProgressBar& progress_bar) final
+                         tools::progressbars::I_ProgressBar& progress_bar,
+                         int mp_cores = 1) final
     {
         auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
@@ -333,7 +325,7 @@ class KongsbergAllFileHandler
 
         // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
-        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
+        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true, mp_cores);
 
         progress_bar.close(std::string("Done"));
     }

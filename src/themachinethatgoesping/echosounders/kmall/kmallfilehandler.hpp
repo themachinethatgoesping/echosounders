@@ -89,48 +89,52 @@ class KMALLFileHandler
                      const std::unordered_map<std::string, std::string>& index_paths =
                          std::unordered_map<std::string, std::string>(),
                      bool init          = true,
-                     bool show_progress = true)
+                     bool show_progress = true,
+                     int  mp_cores      = 1)
         : t_base(index_paths)
     {
         this->append_file(file_path, show_progress);
         setup_interfaces();
         if (init)
-            init_interfaces(false, show_progress);
+            init_interfaces(false, show_progress, mp_cores);
     }
     KMALLFileHandler(const std::string&                                  file_path,
                      const std::unordered_map<std::string, std::string>& index_paths,
                      bool                                                init,
-                     tools::progressbars::I_ProgressBar&                 progress_bar)
+                     tools::progressbars::I_ProgressBar&                 progress_bar,
+                     int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
         setup_interfaces();
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
 
     KMALLFileHandler(const std::vector<std::string>&                     file_paths,
                      const std::unordered_map<std::string, std::string>& index_paths =
                          std::unordered_map<std::string, std::string>(),
                      bool init          = true,
-                     bool show_progress = true)
+                     bool show_progress = true,
+                     int  mp_cores      = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
         setup_interfaces();
         if (init)
-            init_interfaces(false, show_progress);
+            init_interfaces(false, show_progress, mp_cores);
     }
     KMALLFileHandler(const std::vector<std::string>&                     file_paths,
                      const std::unordered_map<std::string, std::string>& index_paths,
                      bool                                                init,
-                     tools::progressbars::I_ProgressBar&                 progress_bar)
+                     tools::progressbars::I_ProgressBar&                 progress_bar,
+                     int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
         setup_interfaces();
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
     ~KMALLFileHandler() = default;
 
@@ -266,7 +270,8 @@ class KMALLFileHandler
 
     using t_base::init_interfaces;
     void init_interfaces([[maybe_unused]] bool                                force,
-                         [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar) final
+                         [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar,
+                         int mp_cores = 1) final
     {
         auto number_of_primary_files = _datagramdata_interface->per_primary_file().size();
         progress_bar.init(
@@ -292,7 +297,7 @@ class KMALLFileHandler
 
         // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
-        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
+        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true, mp_cores);
 
         progress_bar.close(std::string("Done"));
     }

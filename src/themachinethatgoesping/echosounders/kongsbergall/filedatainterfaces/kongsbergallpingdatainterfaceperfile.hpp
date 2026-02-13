@@ -83,9 +83,8 @@ class KongsbergAllPingDataInterfacePerFile
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
             pings_by_counter_by_id;
 
-        // read the file installation parameters and build a base ping
+        // build a base ping using configuration data interface (already initialized)
         auto& configuration_data_interface_for_file = this->configuration_data_interface_for_file();
-        auto  param = configuration_data_interface_for_file.read_installation_parameters();
 
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 

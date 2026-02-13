@@ -12,6 +12,9 @@
 /* library includes */
 #include <magic_enum/magic_enum.hpp>
 
+/* std includes */
+#include <optional>
+
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -44,6 +47,9 @@ class KongsbergAllConfigurationDataInterfacePerFile
     bool _runtime_parameters_initialized = false;
     std::map<uint16_t, std::vector<boost::flyweight<datagrams::RuntimeParameters>>>
         _runtime_parameters_by_system_serial_number;
+
+    // cached installation parameters to avoid redundant file reads
+    mutable std::optional<datagrams::InstallationParameters> _cached_installation_parameters;
 
   public:
     KongsbergAllConfigurationDataInterfacePerFile()
@@ -398,6 +404,10 @@ void init_runtime_parameters()
      */
     datagrams::InstallationParameters read_installation_parameters() const
     {
+        // return cached result if available (avoids redundant data file reads)
+        if (_cached_installation_parameters.has_value())
+            return *_cached_installation_parameters;
+
         // check that there is only one installation parameters datagram
         if (this->_datagram_infos_by_type
                 .at_const(t_KongsbergAllDatagramIdentifier::InstallationParametersStart)
@@ -471,8 +481,9 @@ void init_runtime_parameters()
             }
         }
 
-        // return the installation parameters
-        return start;
+        // Cache the result and return
+        _cached_installation_parameters.emplace(std::move(start));
+        return *_cached_installation_parameters;
     }
 
     // /* get other possible sensor sources */

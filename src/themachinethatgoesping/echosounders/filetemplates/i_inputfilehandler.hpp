@@ -129,13 +129,13 @@ class I_InputFileHandler
 
     virtual ~I_InputFileHandler() = default;
 
-    void init_interfaces(bool force = false, bool show_progress = true)
+    void init_interfaces(bool force = false, bool show_progress = true, int mp_cores = 1)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_interfaces(force, progress_bar.get());
+        this->init_interfaces(force, progress_bar.get(), mp_cores);
     }
 
-    virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) = 0;
+    virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar, int mp_cores = 1) = 0;
 
     /* access containers */
     const auto& datagram_interface() const { return _datagram_interface; }

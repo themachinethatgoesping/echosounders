@@ -108,6 +108,12 @@ class SystemInformation
         , _mean_absorption_coefficient_in_dB_per_m(mean_absorption)
     {
     }
+    SystemInformation(boost::flyweights::flyweight<TxSignalParameterVector> tx_params,
+                      xt::xtensor<float, 1>                                mean_absorption)
+        : _tx_signal_parameters(std::move(tx_params))
+        , _mean_absorption_coefficient_in_dB_per_m(std::move(mean_absorption))
+    {
+    }
 
   public:
     SystemInformation(const datagrams::MRangeAndDepth& mrz_datagram);

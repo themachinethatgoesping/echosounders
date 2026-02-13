@@ -42,11 +42,11 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
         for file in self.index_files:
             os.remove(file)
 
-    def open_files_and_loop_through_pings(self, file, cache=False):
+    def open_files_and_loop_through_pings(self, file, cache=False, mp_cores=1):
         if cache:
-            fm = kongsbergall.KongsbergAllFileHandler(file, index_paths=self.index_files, show_progress=False)
+            fm = kongsbergall.KongsbergAllFileHandler(file, index_paths=self.index_files, show_progress=False, mp_cores=mp_cores)
         else:
-            fm = kongsbergall.KongsbergAllFileHandler(file, show_progress=False)
+            fm = kongsbergall.KongsbergAllFileHandler(file, show_progress=False, mp_cores=mp_cores)
 
         for d in fm.datagram_interface.datagrams():
             d.get_timestamp()
@@ -79,3 +79,20 @@ class Test_echosounders_kongsbergall_KongsbergAllFileHandler:
             assert len(self.open_files_and_loop_through_pings(files, cache=True)) > 0
             assert len(self.open_files_and_loop_through_pings(files, cache=True)) > 0
             assert len(self.open_files_and_loop_through_pings(files, cache=False)) > 0
+
+    def test_open_files_mp_cores(self):
+        """Test that opening files with mp_cores=2 produces the same results."""
+        self.find_files()
+
+        # individually open files with mp_cores=2
+        for file in self.files:
+            LOGGER.info(f"Opening {file} with mp_cores=2")
+            pings_st = self.open_files_and_loop_through_pings(file, cache=True, mp_cores=1)
+            pings_mt = self.open_files_and_loop_through_pings(file, cache=True, mp_cores=2)
+            assert len(pings_st) == len(pings_mt)
+
+        # open all files at once with mp_cores=2
+        for files in [self.files_all, self.files_wcd, self.files]:
+            pings_st = self.open_files_and_loop_through_pings(files, cache=True, mp_cores=1)
+            pings_mt = self.open_files_and_loop_through_pings(files, cache=True, mp_cores=2)
+            assert len(pings_st) == len(pings_mt)

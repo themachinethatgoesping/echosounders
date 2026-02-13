@@ -263,21 +263,36 @@ SystemInformation SystemInformation::from_stream(
     std::istream&                                  is,
     const std::unordered_map<size_t, std::string>& hash_cache)
 {
-    std::vector<size_t> hashes(1);
-    std::vector<size_t> sizes(1);
+    size_t hash_val;
+    size_t size_val;
 
-    // read hashes and sizes from stream
-    is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
-    is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
+    // read hash and size from stream
+    is.read(reinterpret_cast<char*>(&hash_val), sizeof(size_t));
+    is.read(reinterpret_cast<char*>(&size_val), sizeof(size_t));
 
     // read mean absorption coefficients
-    auto mean_absorption = xt::xtensor<float, 1>::from_shape({ sizes[0] });
+    auto mean_absorption = xt::xtensor<float, 1>::from_shape({ size_val });
     is.read(reinterpret_cast<char*>(mean_absorption.data()),
             mean_absorption.size() * sizeof(float));
 
-    // create SystemInformation
-    return SystemInformation(HashCacheKey(hash_cache.at(hashes[0]), sizes[0], hashes[0]),
+    // Flyweight cache: reuse previously constructed flyweights by xxhash key.
+    // Avoids TxSignalParameterVector construction + boost::hash + set lookup for repeated configs.
+    static thread_local std::unordered_map<
+        size_t,
+        boost::flyweights::flyweight<TxSignalParameterVector>>
+        fw_cache_txparams;
+
+    auto it = fw_cache_txparams.find(hash_val);
+    if (it != fw_cache_txparams.end())
+    {
+        return SystemInformation(it->second, std::move(mean_absorption));
+    }
+
+    // create SystemInformation via HashCacheKey (normal path)
+    SystemInformation result(HashCacheKey(hash_cache.at(hash_val), size_val, hash_val),
                              mean_absorption);
+    fw_cache_txparams.emplace(hash_val, result._tx_signal_parameters);
+    return result;
 }
 
 } // namespace _sub

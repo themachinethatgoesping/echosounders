@@ -1,4 +1,4 @@
-//sourcehash: cf7b50f01cf2841f2e67d795a0208887a327f8b00d1cad87c582e03625fc626f
+//sourcehash: c9a3d1fe3d19f1720c999aba6b74592319ecd47b159a647dc96a688e446399b9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,6 +72,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SystemInformation_SystemInformation_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SystemInformation_SystemInformation_4 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SystemInformation_SystemInformation_5 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_SystemInformation_from_stream = R"doc()doc";
 

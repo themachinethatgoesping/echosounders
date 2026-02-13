@@ -19,6 +19,8 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <thread>
+#include <unordered_map>
 #include <vector>
 
 /* themachinethatgoesping includes */
@@ -54,18 +56,38 @@ class InputFileManager : public InputFileManagerBase
 {
 
     protected:
-        /* the actual input file stream */
-        const size_t                                  _max_streams_open = 3;
+        /* Max open streams in the LRU cache (per-thread) */
+        const size_t _max_streams_open = 3;
+
+        /* Thread ID of the thread that created this InputFileManager.
+         * Streams on this thread use the fast member-variable path (original
+         * proven behaviour).  Worker threads spawned by std::async get their
+         * own thread_local stream pools — no mutex needed. */
+        std::thread::id _owning_thread_id;
+
+        /* Member-variable stream pool — used ONLY by the owning thread */
         std::map<size_t, std::unique_ptr<t_ifstream>> _active_file_streams;
         std::deque<size_t>                            _active_file_numbers;
 
-    // std::unique_ptr<t_ifstream> _input_file_stream;
-    // int64_t                        active_file_nr = -1;
+        /* Thread-local stream pool for worker threads */
+        struct StreamPool
+        {
+            std::map<size_t, std::unique_ptr<t_ifstream>> streams;
+            std::deque<size_t>                            numbers;
+        };
 
-    // datatypes::DatagramInfo_ptr<t_DatagramIdentifier, t_ifstream>
+        static auto& tl_pools()
+        {
+            static thread_local std::unordered_map<const InputFileManager*, StreamPool> pools;
+            return pools;
+        }
 
   public:
-    InputFileManager()  = default;
+    InputFileManager()
+        : _owning_thread_id(std::this_thread::get_id())
+    {
+    }
+
     ~InputFileManager() = default;
 
     t_ifstream& append_file(const std::string& file_path)
@@ -74,46 +96,18 @@ class InputFileManager : public InputFileManagerBase
         if (!ifi->is_open())
             throw std::runtime_error("Could not open file: " + file_path);
 
-        //_input_file_stream = std::move(ifi);
-        // active_file_nr     = _file_paths->size() - 1;
-
-    _total_file_size += std::filesystem::file_size(file_path);
-    _file_paths->push_back(file_path);
+        _total_file_size += std::filesystem::file_size(file_path);
+        _file_paths->push_back(file_path);
 
         return get_active_stream(_file_paths->size() - 1);
-
-        // return *_input_file_stream;
     }
 
     t_ifstream& get_active_stream(size_t file_nr)
     {
-    auto afs_iterator = _active_file_streams.find(file_nr);
-
-        if (afs_iterator != _active_file_streams.end())
-        {
-            return *afs_iterator->second;
-        }
-
-        _active_file_streams[file_nr] =
-            std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
-        _active_file_numbers.push_back(file_nr);
-
-        while (_active_file_numbers.size() > _max_streams_open)
-        {
-            _active_file_streams.erase(_active_file_numbers[0]);
-            _active_file_numbers.pop_front();
-        }
-
-    return *_active_file_streams.at(file_nr);
-
-        //     if (int64_t(file_nr) != active_file_nr)
-        //     {
-        //         active_file_nr = int64_t(file_nr);
-        //         _input_file_stream =
-        //             std::make_unique<t_ifstream>(_file_paths->at(file_nr),
-        //             std::ios_base::binary);
-        //     }
-        //     return *_input_file_stream;
+        if (std::this_thread::get_id() == _owning_thread_id)
+            return get_active_stream_member(file_nr);
+        else
+            return get_active_stream_tl(file_nr);
     }
 
     // static void reset_ifstream(t_ifstream& ifs)
@@ -126,6 +120,50 @@ class InputFileManager : public InputFileManagerBase
                                                   bool         superscript_exponents) const
     {
         return InputFileManagerBase::__printer__(float_precision, superscript_exponents);
+    }
+
+  private:
+    /* Fast path: owning thread uses member variables (original behaviour) */
+    t_ifstream& get_active_stream_member(size_t file_nr)
+    {
+        auto it = _active_file_streams.find(file_nr);
+        if (it != _active_file_streams.end())
+            return *it->second;
+
+        _active_file_streams[file_nr] =
+            std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
+        _active_file_numbers.push_back(file_nr);
+
+        while (_active_file_numbers.size() > _max_streams_open)
+        {
+            _active_file_streams.erase(_active_file_numbers[0]);
+            _active_file_numbers.pop_front();
+        }
+
+        return *_active_file_streams.at(file_nr);
+    }
+
+    /* Worker-thread path: each thread gets its own stream pool via thread_local.
+     * The pool is automatically destroyed when the thread exits. */
+    t_ifstream& get_active_stream_tl(size_t file_nr)
+    {
+        auto& pool = tl_pools()[this];
+
+        auto it = pool.streams.find(file_nr);
+        if (it != pool.streams.end())
+            return *it->second;
+
+        pool.streams[file_nr] =
+            std::make_unique<t_ifstream>(_file_paths->at(file_nr), std::ios_base::binary);
+        pool.numbers.push_back(file_nr);
+
+        while (pool.numbers.size() > _max_streams_open)
+        {
+            pool.streams.erase(pool.numbers[0]);
+            pool.numbers.pop_front();
+        }
+
+        return *pool.streams.at(file_nr);
     }
 };
 

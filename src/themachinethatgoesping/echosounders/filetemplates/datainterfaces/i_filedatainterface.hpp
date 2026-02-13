@@ -166,16 +166,18 @@ class I_FileDataInterface
 
     void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
                         bool                                                force         = false,
-                        bool                                                show_progress = true)
+                        bool                                                show_progress = true,
+                        int                                                 mp_cores      = 1)
     {
         tools::progressbars::ProgressBarChooser progress_bar(show_progress);
-        this->init_from_file(index_paths, force, progress_bar.get());
+        this->init_from_file(index_paths, force, progress_bar.get(), false, mp_cores);
     }
 
     virtual void init_from_file(const std::unordered_map<std::string, std::string>& index_paths,
                                 bool                                                force,
                                 tools::progressbars::I_ProgressBar&                 progress_bar,
-                                bool external_progress_tick = false)
+                                bool external_progress_tick = false,
+                                int  mp_cores              = 1)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const

@@ -10,6 +10,8 @@
 #include ".docstrings/kmallpingdatainterfaceperfile.doc.hpp"
 
 /* std includes */
+#include <filesystem>
+#include <fstream>
 #include <map>
 #include <memory>
 
@@ -68,7 +70,6 @@ class KMALLPingDataInterfacePerFile
         using t_ping          = filedatatypes::KMALLPing<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        // -- get cache file path for primary and secondary file --
         std::map<size_t, KMALLPingCacheHandler> index_path_per_file_nr;
 
         // -- create package cache_structures --
@@ -82,9 +83,8 @@ class KMALLPingDataInterfacePerFile
         std::unordered_map<uint16_t, std::unordered_map<uint16_t, t_ping_ptr>>
             pings_by_counter_by_id;
 
-        // read the file installation parameters and build a base ping
+        // build a base ping using configuration data interface (already initialized)
         auto& configuration_data_interface_for_file = this->configuration_data_interface_for_file();
-        auto  param = configuration_data_interface_for_file.read_installation_parameters();
 
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 
@@ -190,40 +190,38 @@ class KMALLPingDataInterfacePerFile
                         ping_ptr->get_timestamp(),
                         e.what()));
                 }
-
                 // load water column data
                 if (ping_ptr->file_data()
                         .get_datagram_infos(t_KMALLDatagramIdentifier::M_WATER_COLUMN)
                         .size() > 0)
                 {
-                    // this assumes that all watercolumndatagrams are from the same file
                     auto file_nr =
                         ping_ptr->file_data()
                             .get_datagram_infos(t_KMALLDatagramIdentifier::M_WATER_COLUMN)
                             .at(0)
                             ->get_file_nr();
 
-                    ping_ptr->file_data().set_watercolumninformation(
-                        index_path_per_file_nr[file_nr].read_or_get_watercoumninformation(
-                            *ping_ptr));
-                }
+                    auto& handler = index_path_per_file_nr[file_nr];
 
+                    ping_ptr->file_data().set_watercolumninformation(
+                        handler.read_or_get_watercoumninformation(*ping_ptr));
+                }
                 // load system information (if M_RANGE_AND_DEPTH is available)
                 if (ping_ptr->file_data()
                         .get_datagram_infos(t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH)
                         .size() > 0)
                 {
-                    // this assumes that there is one M_RANGE_AND_DEPTH datagram per ping
                     auto file_nr =
                         ping_ptr->file_data()
                             .get_datagram_infos(t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH)
                             .at(0)
                             ->get_file_nr();
 
-                    ping_ptr->file_data().set_systeminformation(
-                        index_path_per_file_nr[file_nr].read_or_get_systeminformation(*ping_ptr));
-                }
+                    auto& handler = index_path_per_file_nr[file_nr];
 
+                    ping_ptr->file_data().set_systeminformation(
+                        handler.read_or_get_systeminformation(*ping_ptr));
+                }
                 // load information that has not been cached
                 ping_ptr->load();
 

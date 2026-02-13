@@ -68,24 +68,26 @@ void FileDataInterface_add_interface(T_PyClass& cls)
             // nb::overload_cast<bool>(void(T_BaseClass::*)(bool)(&T_BaseClass::init_from_file), //
             // compiler error on windows, but cstyle cast works
             // (https://github.com/pybind/pybind11/issues/1153)
-            (void(T_BaseClass::*)(const std::unordered_map<std::string, std::string>&, bool, bool))(
+            (void(T_BaseClass::*)(const std::unordered_map<std::string, std::string>&, bool, bool, int))(
                 &T_BaseClass::init_from_file),
             DOC_FileDataInterface(init_from_file),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             nb::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             nb::arg("force")                      = false,
-            nb::arg("show_progress")              = true);
+            nb::arg("show_progress")              = true,
+            nb::arg("mp_cores")                   = 1);
     cls.def("init_from_file",
             // nb::overload_cast<I_ProgressBar&>(&T_BaseClass::init_from_file),
             (void(T_BaseClass::*)(
-                const std::unordered_map<std::string, std::string>&, bool, I_ProgressBar&, bool))(
+                const std::unordered_map<std::string, std::string>&, bool, I_ProgressBar&, bool, int))(
                 &T_BaseClass::init_from_file),
             DOC_FileDataInterface(init_from_file_2),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             nb::arg("index_paths"),
             nb::arg("force"),
             nb::arg("progress_bar"),
-            nb::arg("external_progress_tick") = false);
+            nb::arg("external_progress_tick") = false,
+            nb::arg("mp_cores")               = 1);
 
     cls.def("deinitialize", &T_BaseClass::deinitialize, DOC_FileDataInterface(deinitialize));
     cls.def("is_initialized", &T_BaseClass::is_initialized, DOC_FileDataInterface(is_initialized));

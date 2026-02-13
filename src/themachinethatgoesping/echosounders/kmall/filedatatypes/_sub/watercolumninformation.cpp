@@ -4,6 +4,7 @@
 
 #include "watercolumninformation.hpp"
 
+#include <array>
 #include <cstring>
 
 #include <xxhash.hpp>
@@ -164,10 +165,10 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     // create WaterColumnInformation
     WaterColumnInformation dat;
 
-    std::vector<size_t> hashes(5); // _beam_crosstrack_angles, _start_range_sample_numbers,
+    std::array<size_t, 5> hashes; // _beam_crosstrack_angles, _start_range_sample_numbers,
                                    // _number_of_samples_per_beam, _transmit_sector_numbers,
                                    // _wci_infos
-    std::vector<size_t> sizes(7);  // _beam_crosstrack_angles, _start_range_sample_numbers,
+    std::array<size_t, 7> sizes;   // _beam_crosstrack_angles, _start_range_sample_numbers,
                                    // _number_of_samples_per_beam, _detected_range_in_samples,
                                    // _detected_range_in_samples_high_resolution,
                                    // _transmit_sector_numbers, _sample_positions
@@ -184,14 +185,12 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     // sizes[4] = _detected_range_in_samples_high_resolution
     // sizes[5] = _transmit_sector_numbers
     // sizes[6] = _sample_positions
-    auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ sizes[0] });
-    auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
-    auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
-    dat._detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
+
+    // Per-ping data (unique per ping, always read from stream)
+    dat._detected_range_in_samples = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
     dat._detected_range_in_samples_high_resolution =
         xt::xtensor<float, 1>::from_shape({ sizes[4] });
-    auto transmit_sector_numbers = xt::xtensor<uint8_t, 1>::from_shape({ sizes[5] });
-    dat._sample_positions        = xt::xtensor<size_t, 1>::from_shape({ sizes[6] });
+    dat._sample_positions = xt::xtensor<size_t, 1>::from_shape({ sizes[6] });
 
     // read detected_range_in_samples from stream
     is.read(reinterpret_cast<char*>(dat._detected_range_in_samples.data()),
@@ -203,32 +202,95 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     is.read(reinterpret_cast<char*>(dat._sample_positions.data()),
             dat._sample_positions.size() * sizeof(size_t));
 
-    // read _beam_crosstrack_angles from hash_cache (hashes[0])
-    std::memcpy(beam_crosstrack_angles.data(),
-                hash_cache.at(hashes[0]).data(),
-                beam_crosstrack_angles.size() * sizeof(float));
-    dat._beam_crosstrack_angles = std::move(beam_crosstrack_angles);
+    // Flyweight cache: reuse previously constructed flyweights by xxhash key.
+    // For repeated beam configurations (the common case), this avoids:
+    //   - xtensor heap allocation
+    //   - memcpy from hash_cache
+    //   - boost::hash computation over full array
+    //   - flyweight factory set lookup + potential discard
+    // Cost is just an unordered_map lookup (size_t key) + flyweight copy (refcount increment).
+    static thread_local std::unordered_map<size_t,
+                                           boost::flyweights::flyweight<xt::xtensor<float, 1>>>
+        fw_cache_float;
+    static thread_local std::unordered_map<size_t,
+                                           boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>>>
+        fw_cache_uint16;
+    static thread_local std::unordered_map<size_t,
+                                           boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>>
+        fw_cache_uint8;
+    static thread_local std::unordered_map<size_t, boost::flyweights::flyweight<_WCIInfos>>
+        fw_cache_wciinfos;
 
-    // read _start_range_sample_numbers from hash_cache (hashes[1])
-    std::memcpy(start_range_sample_numbers.data(),
-                hash_cache.at(hashes[1]).data(),
-                start_range_sample_numbers.size() * sizeof(uint16_t));
-    dat._start_range_sample_numbers = std::move(start_range_sample_numbers);
+    // _beam_crosstrack_angles (hashes[0])
+    if (auto it = fw_cache_float.find(hashes[0]); it != fw_cache_float.end())
+    {
+        dat._beam_crosstrack_angles = it->second;
+    }
+    else
+    {
+        auto beam_crosstrack_angles = xt::xtensor<float, 1>::from_shape({ sizes[0] });
+        std::memcpy(beam_crosstrack_angles.data(),
+                    hash_cache.at(hashes[0]).data(),
+                    beam_crosstrack_angles.size() * sizeof(float));
+        dat._beam_crosstrack_angles = std::move(beam_crosstrack_angles);
+        fw_cache_float.emplace(hashes[0], dat._beam_crosstrack_angles);
+    }
 
-    // read _number_of_samples_per_beam from hash_cache (hashes[2])
-    std::memcpy(number_of_samples_per_beam.data(),
-                hash_cache.at(hashes[2]).data(),
-                number_of_samples_per_beam.size() * sizeof(uint16_t));
-    dat._number_of_samples_per_beam = std::move(number_of_samples_per_beam);
+    // _start_range_sample_numbers (hashes[1])
+    if (auto it = fw_cache_uint16.find(hashes[1]); it != fw_cache_uint16.end())
+    {
+        dat._start_range_sample_numbers = it->second;
+    }
+    else
+    {
+        auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
+        std::memcpy(start_range_sample_numbers.data(),
+                    hash_cache.at(hashes[1]).data(),
+                    start_range_sample_numbers.size() * sizeof(uint16_t));
+        dat._start_range_sample_numbers = std::move(start_range_sample_numbers);
+        fw_cache_uint16.emplace(hashes[1], dat._start_range_sample_numbers);
+    }
 
-    // read _transmit_sector_numbers from hash_cache (hashes[3])
-    std::memcpy(transmit_sector_numbers.data(),
-                hash_cache.at(hashes[3]).data(),
-                transmit_sector_numbers.size() * sizeof(uint8_t));
-    dat._transmit_sector_numbers = std::move(transmit_sector_numbers);
+    // _number_of_samples_per_beam (hashes[2])
+    if (auto it = fw_cache_uint16.find(hashes[2]); it != fw_cache_uint16.end())
+    {
+        dat._number_of_samples_per_beam = it->second;
+    }
+    else
+    {
+        auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
+        std::memcpy(number_of_samples_per_beam.data(),
+                    hash_cache.at(hashes[2]).data(),
+                    number_of_samples_per_beam.size() * sizeof(uint16_t));
+        dat._number_of_samples_per_beam = std::move(number_of_samples_per_beam);
+        fw_cache_uint16.emplace(hashes[2], dat._number_of_samples_per_beam);
+    }
 
-    // read _wci_infos from hash_cache (hashes[4])
-    dat._wci_infos = _WCIInfos::from_binary(hash_cache.at(hashes[4]));
+    // _transmit_sector_numbers (hashes[3])
+    if (auto it = fw_cache_uint8.find(hashes[3]); it != fw_cache_uint8.end())
+    {
+        dat._transmit_sector_numbers = it->second;
+    }
+    else
+    {
+        auto transmit_sector_numbers = xt::xtensor<uint8_t, 1>::from_shape({ sizes[5] });
+        std::memcpy(transmit_sector_numbers.data(),
+                    hash_cache.at(hashes[3]).data(),
+                    transmit_sector_numbers.size() * sizeof(uint8_t));
+        dat._transmit_sector_numbers = std::move(transmit_sector_numbers);
+        fw_cache_uint8.emplace(hashes[3], dat._transmit_sector_numbers);
+    }
+
+    // _wci_infos (hashes[4])
+    if (auto it = fw_cache_wciinfos.find(hashes[4]); it != fw_cache_wciinfos.end())
+    {
+        dat._wci_infos = it->second;
+    }
+    else
+    {
+        dat._wci_infos = _WCIInfos::from_binary(hash_cache.at(hashes[4]));
+        fw_cache_wciinfos.emplace(hashes[4], dat._wci_infos);
+    }
 
     return dat;
 }

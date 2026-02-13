@@ -102,49 +102,54 @@ class SimradRawFileHandler
                          const std::unordered_map<std::string, std::string>& index_paths =
                              std::unordered_map<std::string, std::string>(),
                          bool init          = true,
-                         bool show_progress = true)
+                         bool show_progress = true,
+                         int  mp_cores      = 1)
         : t_base(index_paths)
     {
         this->append_file(file_path, show_progress);
         if (init)
-            init_interfaces(false, show_progress);
+            init_interfaces(false, show_progress, mp_cores);
     }
     SimradRawFileHandler(const std::string&                                  file_path,
                          const std::unordered_map<std::string, std::string>& index_paths,
                          bool                                                init,
-                         tools::progressbars::I_ProgressBar&                 progress_bar)
+                         tools::progressbars::I_ProgressBar&                 progress_bar,
+                         int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_file(file_path, progress_bar);
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
 
     SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
                          const std::unordered_map<std::string, std::string>& index_paths =
                              std::unordered_map<std::string, std::string>(),
                          bool init          = true,
-                         bool show_progress = true)
+                         bool show_progress = true,
+                         int  mp_cores      = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, show_progress);
         if (init)
-            init_interfaces(false, show_progress);
+            init_interfaces(false, show_progress, mp_cores);
     }
     SimradRawFileHandler(const std::vector<std::string>&                     file_paths,
                          const std::unordered_map<std::string, std::string>& index_paths,
                          bool                                                init,
-                         tools::progressbars::I_ProgressBar&                 progress_bar)
+                         tools::progressbars::I_ProgressBar&                 progress_bar,
+                         int                                                 mp_cores = 1)
         : t_base(index_paths)
     {
         this->append_files(file_paths, progress_bar);
         if (init)
-            init_interfaces(false, progress_bar);
+            init_interfaces(false, progress_bar, mp_cores);
     }
     ~SimradRawFileHandler() = default;
 
     using t_base::init_interfaces;
-    void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar) final
+    void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar,
+                         int mp_cores = 1) final
     {
         auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
@@ -175,7 +180,7 @@ class SimradRawFileHandler
 
         progress_bar.set_prefix("Initializing ping interface");
         _ping_interface->init_from_file(
-            this->get_index_paths(), force, progress_bar, true);
+            this->get_index_paths(), force, progress_bar, true, mp_cores);
 
         progress_bar.close(std::string("Done"));
     }

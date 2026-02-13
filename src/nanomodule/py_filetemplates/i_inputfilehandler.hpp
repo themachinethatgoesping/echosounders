@@ -33,7 +33,8 @@ void add_default_constructors(T_PyClass& cls)
     cls.def(nb::init<const std::string&,
                      const std::unordered_map<std::string, std::string>&,
                      bool,
-                     bool>(),
+                     bool,
+                     int>(),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -43,11 +44,13 @@ void add_default_constructors(T_PyClass& cls)
             nb::arg("file_path"),
             nb::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             nb::arg("init")                       = true,
-            nb::arg("show_progress")              = true);
+            nb::arg("show_progress")              = true,
+            nb::arg("mp_cores")                   = 1);
     cls.def(nb::init<const std::string&,
                      const std::unordered_map<std::string, std::string>&,
                      bool,
-                     I_ProgressBar&>(),
+                     I_ProgressBar&,
+                     int>(),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -57,11 +60,13 @@ void add_default_constructors(T_PyClass& cls)
             nb::arg("file_path"),
             nb::arg("index_paths"),
             nb::arg("init"),
-            nb::arg("progress_bar"));
+            nb::arg("progress_bar"),
+            nb::arg("mp_cores") = 1);
     cls.def(nb::init<const std::vector<std::string>&,
                      const std::unordered_map<std::string, std::string>&,
                      bool,
-                     bool>(),
+                     bool,
+                     int>(),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -71,11 +76,13 @@ void add_default_constructors(T_PyClass& cls)
             nb::arg("file_path"),
             nb::arg("index_paths") = std::unordered_map<std::string, std::string>(),
             nb::arg("init")                       = true,
-            nb::arg("show_progress")              = true);
+            nb::arg("show_progress")              = true,
+            nb::arg("mp_cores")                   = 1);
     cls.def(nb::init<const std::vector<std::string>&,
                      const std::unordered_map<std::string, std::string>&,
                      bool,
-                     I_ProgressBar&>(),
+                     I_ProgressBar&,
+                     int>(),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -85,7 +92,8 @@ void add_default_constructors(T_PyClass& cls)
             nb::arg("file_paths"),
             nb::arg("index_paths"),
             nb::arg("init"),
-            nb::arg("progress_bar"));
+            nb::arg("progress_bar"),
+            nb::arg("mp_cores") = 1);
 }
 
 template<typename T_BaseClass, typename T_PyClass>
@@ -127,7 +135,7 @@ void add_open_file_interface(T_PyClass& cls)
 
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)
-            (void(T_BaseClass::*)(bool, bool))(&T_BaseClass::init_interfaces),
+            (void(T_BaseClass::*)(bool, bool, int))(&T_BaseClass::init_interfaces),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -135,10 +143,11 @@ void add_open_file_interface(T_PyClass& cls)
                 I_InputFileHandler,
                 init_interfaces),
             nb::arg("force")         = false,
-            nb::arg("show_progress") = true);
+            nb::arg("show_progress") = true,
+            nb::arg("mp_cores")      = 1);
     cls.def("init_interfaces",
             // (https://github.com/pybind/pybind11/issues/1153)
-            (void(T_BaseClass::*)(bool, I_ProgressBar&))(&T_BaseClass::init_interfaces),
+            (void(T_BaseClass::*)(bool, I_ProgressBar&, int))(&T_BaseClass::init_interfaces),
             nb::call_guard<themachinethatgoesping::tools::nanobind_helper::ostream_redirect>(),
             DOC(themachinethatgoesping,
                 echosounders,
@@ -146,7 +155,8 @@ void add_open_file_interface(T_PyClass& cls)
                 I_InputFileHandler,
                 init_interfaces_2),
             nb::arg("force"),
-            nb::arg("progress_bar"));
+            nb::arg("progress_bar"),
+            nb::arg("mp_cores") = 1);
 }
 
 template<typename T_BaseClass, typename T_PyClass>
