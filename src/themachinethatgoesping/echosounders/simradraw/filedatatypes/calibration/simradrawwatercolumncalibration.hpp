@@ -16,6 +16,7 @@
 #include "../../datagrams.hpp"
 #include "../sub/transceiverinformation.hpp"
 #include "functions.hpp"
+#include "simradrawcalibrationinfo.hpp"
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
@@ -29,7 +30,7 @@ namespace calibration {
 /** TODO: Check the range correction
  * - implement correct sound speed / sound velocity profile
  * - check range computation (beginning or middle of sample?)
- * - chack TVG range correction
+ * - check TVG range correction
  *     - Echopype implements the following (mod is substracted from the range)
  *          - mod_ek60 = float(2 * beam["sample_interval"] * ds_Sv['sound_speed'] / 2)
  *          - mod_ek80 = float(ds_Sv['sound_speed'] * beam["transmit_duration_nominal"] / 4)
@@ -109,6 +110,9 @@ class SimradRawWaterColumnCalibration
 
     bool _initialized = false;
 
+    // calibration documentation / provenance
+    SimradRawCalibrationInfo _cal_info;
+
   public:
     SimradRawWaterColumnCalibration();
     SimradRawWaterColumnCalibration(const t_base& other);
@@ -156,6 +160,10 @@ class SimradRawWaterColumnCalibration
     void force_sound_velocity_m_s(std::optional<float> forced_sound_velocity_m_s);
     void force_absorption_db_m(std::optional<float> forced_absorption_db_m);
     void force_effective_pulse_duration_s(std::optional<float> forced_effective_pulse_duration_s);
+
+    /** @brief Access the calibration provenance/documentation info. */
+    const SimradRawCalibrationInfo& get_calibration_info() const { return _cal_info; }
+    SimradRawCalibrationInfo&       get_calibration_info() { return _cal_info; }
 
     // trivial getters remain inline
     float get_transducer_gain_db() const { return _transducer_gain_db; }

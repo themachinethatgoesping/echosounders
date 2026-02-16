@@ -1,4 +1,4 @@
-//sourcehash: ee6e66ae55269c34fe46fbfbe378e006f221f9e8f6324d3722bfb30632742ac1
+//sourcehash: 39d9f24def04df3a002eb9040ef8f4ba5665957a810e5fc7fc1ee0e6a57b27be
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,6 +54,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_SimradRawWaterColumnCalibration_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_acidity_ph = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_cal_info = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_check_can_be_initialized = R"doc()doc";
 
@@ -178,6 +180,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_absorption_db_m = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_acidity_ph = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_calibration_info = R"doc(Access the calibration provenance/documentation info.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_calibration_info_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_absorption_db_m = R"doc()doc";
 
