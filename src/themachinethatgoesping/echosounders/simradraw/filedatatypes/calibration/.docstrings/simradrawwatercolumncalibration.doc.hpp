@@ -1,4 +1,4 @@
-//sourcehash: 39d9f24def04df3a002eb9040ef8f4ba5665957a810e5fc7fc1ee0e6a57b27be
+//sourcehash: d322439a3d27e724c37d8c241b93380f571856af84be064c977578d79ad07ef5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,7 +55,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_acidity_ph = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_cal_info = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_build_calibration_info =
+R"doc(Lazily build calibration provenance/documentation info.
+
+This is NOT stored as a member — it is constructed on demand from the
+current parameter values, keeping the hot construction path zero-cost.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_check_can_be_initialized = R"doc()doc";
 
@@ -180,10 +184,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_absorption_db_m = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_acidity_ph = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_calibration_info = R"doc(Access the calibration provenance/documentation info.)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_calibration_info_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_computed_absorption_db_m = R"doc()doc";
 

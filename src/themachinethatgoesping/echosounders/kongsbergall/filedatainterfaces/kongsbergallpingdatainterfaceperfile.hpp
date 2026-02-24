@@ -239,7 +239,7 @@ class KongsbergAllPingDataInterfacePerFile
                 // load information that has not been cached
                 ping_ptr->load();
 
-                pings.add_ping(std::move(ping_ptr));
+                pings.add_ping_no_reindex(std::move(ping_ptr));
             }
         }
 
@@ -247,6 +247,7 @@ class KongsbergAllPingDataInterfacePerFile
         for (auto& [file_nr, cache_handler] : index_path_per_file_nr)
             cache_handler.update_index_file();
 
+        pings.reindex();
         return pings;
     }
 

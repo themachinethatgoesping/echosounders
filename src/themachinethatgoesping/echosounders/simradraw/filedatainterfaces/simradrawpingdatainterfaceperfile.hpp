@@ -381,7 +381,7 @@ class SimradRawPingDataInterfacePerFile
 
                     // load remaining data structures
                     ping_ptr->load();
-                    pings.add_ping(std::move(ping_ptr));
+                    pings.add_ping_no_reindex(std::move(ping_ptr));
                     break;
                 }
                 case t_SimradRawDatagramIdentifier::TAG0:
@@ -415,6 +415,7 @@ class SimradRawPingDataInterfacePerFile
         // package_buffer_xml.print(std::cerr);
         // package_buffer_raw3.print(std::cerr);
 
+        pings.reindex();
         return pings;
     }
     // --------------------- simradraw specific functions ---------------------

@@ -16,7 +16,11 @@
 #include "../../datagrams.hpp"
 #include "../sub/transceiverinformation.hpp"
 #include "functions.hpp"
-#include "simradrawcalibrationinfo.hpp"
+
+// forward declaration — only needed for the lazy build_calibration_info() factory
+namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::calibration {
+class SimradRawCalibrationInfo;
+}
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
@@ -110,9 +114,6 @@ class SimradRawWaterColumnCalibration
 
     bool _initialized = false;
 
-    // calibration documentation / provenance
-    SimradRawCalibrationInfo _cal_info;
-
   public:
     SimradRawWaterColumnCalibration();
     SimradRawWaterColumnCalibration(const t_base& other);
@@ -161,11 +162,15 @@ class SimradRawWaterColumnCalibration
     void force_absorption_db_m(std::optional<float> forced_absorption_db_m);
     void force_effective_pulse_duration_s(std::optional<float> forced_effective_pulse_duration_s);
 
-    /** @brief Access the calibration provenance/documentation info. */
-    const SimradRawCalibrationInfo& get_calibration_info() const { return _cal_info; }
-    SimradRawCalibrationInfo&       get_calibration_info() { return _cal_info; }
-
     // trivial getters remain inline
+
+    /**
+     * @brief Lazily build calibration provenance/documentation info.
+     *
+     * This is NOT stored as a member — it is constructed on demand from the
+     * current parameter values, keeping the hot construction path zero-cost.
+     */
+    SimradRawCalibrationInfo build_calibration_info() const;
     float get_transducer_gain_db() const { return _transducer_gain_db; }
     float get_sa_correction_db() const { return _sa_correction_db; }
     float get_equivalent_beam_angle_db() const { return _equivalent_beam_angle_db; }

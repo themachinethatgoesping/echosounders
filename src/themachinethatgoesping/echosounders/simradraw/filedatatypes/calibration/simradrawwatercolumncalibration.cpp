@@ -1,4 +1,5 @@
 #include "simradrawwatercolumncalibration.hpp"
+#include "simradrawcalibrationinfo.hpp"
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
@@ -74,12 +75,6 @@ void SimradRawWaterColumnCalibration::set_transducer_parameters(
     const datagrams::xml_datagrams::XMLConfigurationTransceiverChannelTransducer& transducer,
     size_t pulse_duration_index)
 {
-    _cal_info.on_set_transducer_from_object(transducer.Gain.at(pulse_duration_index),
-                                            transducer.SaCorrection.at(pulse_duration_index),
-                                            transducer.EquivalentBeamAngle,
-                                            transducer.Frequency,
-                                            pulse_duration_index);
-    auto guard = _cal_info.suppress();
     set_transducer_parameters(transducer.Gain.at(pulse_duration_index),
                               transducer.SaCorrection.at(pulse_duration_index),
                               transducer.EquivalentBeamAngle,
@@ -91,8 +86,6 @@ void SimradRawWaterColumnCalibration::set_transducer_parameters(float transducer
                                                                 float equivalent_beam_angle_db,
                                                                 float frequency_nominal_hz)
 {
-    _cal_info.on_set_transducer_from_values(
-        transducer_gain_db, sa_correction_db, equivalent_beam_angle_db, frequency_nominal_hz);
     _transducer_gain_db       = transducer_gain_db;
     _sa_correction_db         = sa_correction_db;
     _equivalent_beam_angle_db = equivalent_beam_angle_db;
@@ -103,9 +96,6 @@ void SimradRawWaterColumnCalibration::set_transducer_parameters(float transducer
 void SimradRawWaterColumnCalibration::set_environment_parameters(
     const datagrams::xml_datagrams::XML_Environment& environment)
 {
-    _cal_info.on_set_environment_from_xml(
-        environment.Depth, environment.Temperature, environment.Salinity, environment.Acidity);
-    auto guard = _cal_info.suppress();
     set_environment_parameters(
         environment.Depth, environment.Temperature, environment.Salinity, environment.Acidity);
 }
@@ -115,8 +105,6 @@ void SimradRawWaterColumnCalibration::set_environment_parameters(float reference
                                                                  float salinity_psu,
                                                                  float acidity_ph)
 {
-    _cal_info.on_set_environment_from_values(
-        reference_depth_m, temperature_c, salinity_psu, acidity_ph);
     _reference_depth_m = reference_depth_m;
     _temperature_c     = temperature_c;
     _salinity_psu      = salinity_psu;
@@ -127,7 +115,6 @@ void SimradRawWaterColumnCalibration::set_environment_parameters(float reference
 void SimradRawWaterColumnCalibration::set_environment_parameters(float forced_sound_velocity_m_s,
                                                                  float forced_absorption_db_m)
 {
-    _cal_info.on_set_environment_forced(forced_sound_velocity_m_s, forced_absorption_db_m);
     _forced_sound_velocity_m_s = forced_sound_velocity_m_s;
     _forced_absorption_db_m    = forced_absorption_db_m;
     _initialized               = false;
@@ -136,12 +123,6 @@ void SimradRawWaterColumnCalibration::set_environment_parameters(float forced_so
 void SimradRawWaterColumnCalibration::set_runtime_parameters(
     const datagrams::xml_datagrams::XML_Parameter_Channel& parameters)
 {
-    _cal_info.on_set_runtime_from_xml(parameters.Frequency,
-                                      parameters.TransmitPower,
-                                      parameters.get_pulse_duration(),
-                                      parameters.Slope,
-                                      parameters.SampleInterval);
-    auto guard = _cal_info.suppress();
     set_runtime_parameters(parameters.Frequency,
                            parameters.TransmitPower,
                            parameters.get_pulse_duration(),
@@ -155,8 +136,6 @@ void SimradRawWaterColumnCalibration::set_runtime_parameters(float frequency_hz,
                                                              float slope_factor,
                                                              float sample_interval_s)
 {
-    _cal_info.on_set_runtime_from_values(
-        frequency_hz, transmit_power_w, nominal_pulse_duration_s, slope_factor, sample_interval_s);
     _frequency_hz             = frequency_hz;
     _transmit_power_w         = transmit_power_w;
     _nominal_pulse_duration_s = nominal_pulse_duration_s;
@@ -168,12 +147,6 @@ void SimradRawWaterColumnCalibration::set_runtime_parameters(float frequency_hz,
 void SimradRawWaterColumnCalibration::set_filter_parameters(
     const std::pair<datagrams::FIL1, datagrams::FIL1>& filter_stages)
 {
-    _cal_info.on_set_filter_from_object(
-        filter_stages.first.get_decimation_factor(),
-        filter_stages.first.get_coefficients().size(),
-        filter_stages.second.get_decimation_factor(),
-        filter_stages.second.get_coefficients().size());
-    auto guard = _cal_info.suppress();
     set_filter_parameters(filter_stages.first.get_decimation_factor(),
                           filter_stages.first.get_coefficients(),
                           filter_stages.second.get_decimation_factor(),
@@ -186,10 +159,6 @@ void SimradRawWaterColumnCalibration::set_filter_parameters(
     int16_t                                    stage2_decimation_factor,
     const xt::xtensor<std::complex<float>, 1>& stage2_coefficients)
 {
-    _cal_info.on_set_filter_from_values(stage1_decimation_factor,
-                                        stage1_coefficients.size(),
-                                        stage2_decimation_factor,
-                                        stage2_coefficients.size());
     _filter_stage_1_decimation_factor = stage1_decimation_factor;
     _filter_stage_2_decimation_factor = stage2_decimation_factor;
     _filter_stage_1_coefficients      = stage1_coefficients;
@@ -201,7 +170,6 @@ void SimradRawWaterColumnCalibration::set_power_calibration_parameters(
     size_t               n_complex_samples,
     std::optional<float> impedance_factor)
 {
-    _cal_info.on_set_power_calibration_parameters(n_complex_samples, impedance_factor);
     if (n_complex_samples == 0)
     {
         if (impedance_factor.has_value())
@@ -232,7 +200,6 @@ void SimradRawWaterColumnCalibration::set_optional_parameters(
     std::optional<float> rounded_latitude_deg,
     std::optional<float> rounded_longitude_deg)
 {
-    _cal_info.on_set_optional_parameters(rounded_latitude_deg, rounded_longitude_deg);
     if (rounded_latitude_deg.has_value())
     {
         if (std::isfinite(rounded_latitude_deg.value()))
@@ -249,7 +216,6 @@ void SimradRawWaterColumnCalibration::set_optional_parameters(
 void SimradRawWaterColumnCalibration::force_sound_velocity_m_s(
     std::optional<float> forced_sound_velocity_m_s)
 {
-    _cal_info.on_force_sound_velocity(forced_sound_velocity_m_s);
     _forced_sound_velocity_m_s = forced_sound_velocity_m_s;
     _initialized               = false;
 }
@@ -257,7 +223,6 @@ void SimradRawWaterColumnCalibration::force_sound_velocity_m_s(
 void SimradRawWaterColumnCalibration::force_absorption_db_m(
     std::optional<float> forced_absorption_db_m)
 {
-    _cal_info.on_force_absorption(forced_absorption_db_m);
     _forced_absorption_db_m = forced_absorption_db_m;
     _initialized            = false;
 }
@@ -265,7 +230,6 @@ void SimradRawWaterColumnCalibration::force_absorption_db_m(
 void SimradRawWaterColumnCalibration::force_effective_pulse_duration_s(
     std::optional<float> effective_pulse_duration_s)
 {
-    _cal_info.on_force_effective_pulse_duration(effective_pulse_duration_s);
     _forced_effective_pulse_duration_s = effective_pulse_duration_s;
     _initialized                       = false;
 }
@@ -364,22 +328,61 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
     // if unsucessful, power_calibraiton and/or _ap_calibration and/or _av_calibration will be empty
     _initialized = true;
     check_initialization();
+}
 
-    // --- register calibration formula documentation ---
+// ----- lazy calibration info builder -----
+SimradRawCalibrationInfo SimradRawWaterColumnCalibration::build_calibration_info() const
+{
+    SimradRawCalibrationInfo info;
+
+    // register value-based steps (we only have values at this point, not the
+    // original XML objects, so we use the *_from_values variants throughout)
+    info.on_set_transducer_from_values(
+        _transducer_gain_db, _sa_correction_db, _equivalent_beam_angle_db, _frequency_nominal_hz);
+    info.on_set_environment_from_values(
+        _reference_depth_m, _temperature_c, _salinity_psu, _acidity_ph);
+    if (_forced_sound_velocity_m_s.has_value() || _forced_absorption_db_m.has_value())
+        info.on_set_environment_forced(
+            _forced_sound_velocity_m_s.value_or(std::numeric_limits<float>::quiet_NaN()),
+            _forced_absorption_db_m.value_or(std::numeric_limits<float>::quiet_NaN()));
+    info.on_set_runtime_from_values(
+        _frequency_hz, _transmit_power_w, _nominal_pulse_duration_s, _slope_factor,
+        _sample_interval_s);
+    info.on_set_filter_from_values(
+        _filter_stage_1_decimation_factor, _filter_stage_1_coefficients.size(),
+        _filter_stage_2_decimation_factor, _filter_stage_2_coefficients.size());
+    info.on_set_power_calibration_parameters(
+        _n_complex_samples.value_or(0),
+        // reverse impedance_factor from stored pcf: pcf = 10*log10(Z/n) => Z = n * 10^(pcf/10)
+        (_n_complex_samples.value_or(0) > 0 && _power_conversion_factor_db.has_value())
+            ? std::optional<float>(_n_complex_samples.value() *
+                                   std::pow(10.f, _power_conversion_factor_db.value() / 10.f))
+            : std::nullopt);
+    info.on_set_optional_parameters(_rounded_latitude_deg, _rounded_longitude_deg);
+
+    if (_forced_sound_velocity_m_s.has_value())
+        info.on_force_sound_velocity(_forced_sound_velocity_m_s);
+    if (_forced_absorption_db_m.has_value())
+        info.on_force_absorption(_forced_absorption_db_m);
+    if (_forced_effective_pulse_duration_s.has_value())
+        info.on_force_effective_pulse_duration(_forced_effective_pulse_duration_s);
+
+    // formulas (only when initialized)
+    if (_initialized)
     {
-        float pcf             = _power_conversion_factor_db.value_or(0.f);
-        float sound_vel       = get_sound_velocity_m_s();
-        float abs_db_m        = get_absorption_db_m();
-        float freq_corr       = std::isfinite(_corr_transducer_gain_db)
-                                    ? 20.f * std::log10(_frequency_hz / _frequency_nominal_hz)
-                                    : std::numeric_limits<float>::quiet_NaN();
-        float sp_off          = std::numeric_limits<float>::quiet_NaN();
-        float sv_off          = std::numeric_limits<float>::quiet_NaN();
+        float pcf       = _power_conversion_factor_db.value_or(0.f);
+        float sound_vel = get_sound_velocity_m_s();
+        float abs_db_m  = get_absorption_db_m();
+        float freq_corr = std::isfinite(_corr_transducer_gain_db)
+                              ? 20.f * std::log10(_frequency_hz / _frequency_nominal_hz)
+                              : std::numeric_limits<float>::quiet_NaN();
+        float sp_off    = std::numeric_limits<float>::quiet_NaN();
+        float sv_off    = std::numeric_limits<float>::quiet_NaN();
 
         if (has_ap_calibration())
         {
             static const float pi_factor =
-                -10.f * std::log10(16.f * std::numbers::pi * std::numbers::pi);
+                -10.f * std::log10(16.f * std::numbers::pi_v<float> * std::numbers::pi_v<float>);
             sp_off = -2 * _corr_transducer_gain_db - pi_factor -
                      10.f * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
         }
@@ -389,22 +392,24 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
                      10.f * std::log10(sound_vel * get_effective_pulse_duration_s() * 0.5f);
         }
 
-        _cal_info.on_setup_simrad_calibration(pcf,
-                                              sound_vel,
-                                              abs_db_m,
-                                              _wavelength_m,
-                                              freq_corr,
-                                              _corr_transducer_gain_db,
-                                              _corr_equivalent_beam_angle_db,
-                                              _transmit_power_w,
-                                              _sa_correction_db,
-                                              get_effective_pulse_duration_s(),
-                                              sp_off,
-                                              sv_off,
-                                              has_power_calibration(),
-                                              has_ap_calibration(),
-                                              has_av_calibration());
+        info.on_setup_simrad_calibration(pcf,
+                                         sound_vel,
+                                         abs_db_m,
+                                         _wavelength_m,
+                                         freq_corr,
+                                         _corr_transducer_gain_db,
+                                         _corr_equivalent_beam_angle_db,
+                                         _transmit_power_w,
+                                         _sa_correction_db,
+                                         get_effective_pulse_duration_s(),
+                                         sp_off,
+                                         sv_off,
+                                         has_power_calibration(),
+                                         has_ap_calibration(),
+                                         has_av_calibration());
     }
+
+    return info;
 }
 
 // ----- ops -----
