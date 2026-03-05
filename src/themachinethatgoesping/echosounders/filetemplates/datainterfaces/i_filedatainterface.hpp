@@ -64,7 +64,7 @@ class I_FileDataInterface
         }
     }
 
-    virtual void add_file_interface(size_t file_nr)
+    virtual void add_file_interface(const size_t file_nr)
     {
         if (file_nr >= this->_interface_per_file.size())
         {
@@ -83,11 +83,11 @@ class I_FileDataInterface
     template<typename t_DatagramInfo_ptr>
     void add_datagram_info(const t_DatagramInfo_ptr& datagram_info)
     {
-        auto file_nr = datagram_info->get_file_nr();
+        const auto file_nr = datagram_info->get_file_nr();
         add_file_interface(file_nr);
 
         this->_interface_per_file[file_nr]->add_datagram_info(datagram_info);
-        deinitialize();
+        this->_interface_per_file[file_nr]->deinitialize();
     }
 
     static std::vector<std::shared_ptr<t_filedatainterface_perfile>> sort_by_time(

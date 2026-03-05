@@ -96,7 +96,7 @@ class I_DatagramInterface
         _datagram_infos_by_type.at(datagram_info->get_datagram_identifier())
             .push_back(datagram_info);
 
-        auto timestamp = datagram_info->get_timestamp();
+        const auto timestamp = datagram_info->get_timestamp();
 
         if (timestamp > 0)
         {
