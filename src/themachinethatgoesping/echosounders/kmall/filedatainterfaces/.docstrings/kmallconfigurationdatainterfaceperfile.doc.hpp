@@ -1,4 +1,4 @@
-//sourcehash: 48b6bc7a4c1873ce6795f0d9f05042d030deb1365589329afe97af84cf9b9568
+//sourcehash: 24d89680d8a4d3bc33d9be13543d59b075619a73415721dc7febdc955109fd6c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -92,6 +92,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedataint
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_by_system_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_timestamps_by_ssn = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_set_active_attitude_sensor_number =
 R"doc(Set the active attitude sensor number

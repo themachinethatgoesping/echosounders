@@ -10,6 +10,7 @@
 #include ".docstrings/simradrawpingdatainterfaceperfile.doc.hpp"
 
 /* std includes */
+#include <fstream>
 #include <map>
 
 /* library includes */
@@ -153,7 +154,6 @@ class SimradRawPingDataInterfacePerFile
                 filedatatypes::_sub::TransceiverInformation(transceiver,
                                                             transceiver_channels.at(channel_id));
         }
-
         for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
             auto type = datagram_ptr->get_datagram_identifier();
@@ -412,10 +412,8 @@ class SimradRawPingDataInterfacePerFile
             }
         }
 
-        // package_buffer_xml.print(std::cerr);
-        // package_buffer_raw3.print(std::cerr);
-
         pings.reindex();
+
         return pings;
     }
     // --------------------- simradraw specific functions ---------------------

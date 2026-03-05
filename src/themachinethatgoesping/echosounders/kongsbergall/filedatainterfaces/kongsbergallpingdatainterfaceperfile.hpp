@@ -86,6 +86,9 @@ class KongsbergAllPingDataInterfacePerFile
         // build a base ping using configuration data interface (already initialized)
         auto& configuration_data_interface_for_file = this->configuration_data_interface_for_file();
 
+        // Pre-init runtime params to avoid lazy init during the datagram loop
+        configuration_data_interface_for_file.init_runtime_parameters();
+
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
 
         t_ping base_ping;
@@ -120,15 +123,21 @@ class KongsbergAllPingDataInterfacePerFile
                             auto [inserted_it, _] = pings_for_counter.emplace(
                                 serial_number, std::make_shared<t_ping>(base_ping.deep_copy()));
                             ping_it = inserted_it;
-
                             ping_it->second->file_data().set_file_ping_counter(ping_counter);
 
-                            ping_it->second->file_data().set_runtime_parameters(
-                                configuration_data_interface_for_file.get_runtime_parameters(
+                            // ensure last_index is pre-initialized (fix: null shared_ptr was
+                            // never updated by get_runtime_parameters)
+                            auto& last_idx = last_runtime_parameter_index_per_serial_number[serial_number];
+                            if (!last_idx)
+                                last_idx = std::make_shared<size_t>(0);
+
+                            auto rp = configuration_data_interface_for_file.get_runtime_parameters(
                                     serial_number,
                                     ping_counter,
                                     ping_it->second->get_timestamp(),
-                                    last_runtime_parameter_index_per_serial_number[serial_number]));
+                                    last_idx);
+
+                            ping_it->second->file_data().set_runtime_parameters(std::move(rp));
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);
@@ -248,6 +257,7 @@ class KongsbergAllPingDataInterfacePerFile
             cache_handler.update_index_file();
 
         pings.reindex();
+
         return pings;
     }
 

@@ -13,6 +13,7 @@
 #include <boost/flyweight.hpp>
 
 /* std includes */
+#include <algorithm>
 #include <fstream>
 #include <map>
 #include <optional>
@@ -50,6 +51,9 @@ class KMALLConfigurationDataInterfacePerFile
     bool _runtime_parameters_initialized = false;
     std::map<int, std::vector<boost::flyweight<datagrams::IOpRuntime>>>
         _runtime_parameters_by_system_serial_number;
+
+    // Cached search keys for fast lookup (avoid flyweight dereference in hot path)
+    std::map<int, std::vector<double>> _runtime_timestamps_by_ssn;
 
     // cached installation parameters to avoid redundant file reads
     mutable std::optional<datagrams::IInstallationParam> _cached_installation_parameters;
@@ -139,6 +143,16 @@ class KMALLConfigurationDataInterfacePerFile
                             this->get_file_nr(),
                             this->get_file_path()));
 
+        // Build cached lookup vectors for fast search (avoid flyweight dereference)
+        _runtime_timestamps_by_ssn.clear();
+        for (const auto& [ssn, vec] : _runtime_parameters_by_system_serial_number)
+        {
+            auto& ts = _runtime_timestamps_by_ssn[ssn];
+            ts.reserve(vec.size());
+            for (const auto& fw : vec)
+                ts.push_back(fw.get().get_timestamp());
+        }
+
         _runtime_parameters_initialized = true;
     }
 
@@ -186,15 +200,16 @@ class KMALLConfigurationDataInterfacePerFile
                             ping_time,
                             ping_counter));
 
-        size_t i = *last_index;
-        // search for time
-        for (; i < runtime_parameter_vector.size() - 1; ++i)
-        {
-            double rt_next_time = runtime_parameter_vector[i + 1].get().get_timestamp();
+        const auto& timestamps = _runtime_timestamps_by_ssn[system_serial_number];
 
-            if (rt_next_time > ping_time)
-                break;
-        }
+        // Binary search for time: find last RT param with timestamp <= ping_time
+        auto it = std::upper_bound(
+            timestamps.begin() + static_cast<ptrdiff_t>(*last_index), timestamps.end(), ping_time);
+        size_t i;
+        if (it == timestamps.begin() + static_cast<ptrdiff_t>(*last_index))
+            i = *last_index;
+        else
+            i = static_cast<size_t>(std::distance(timestamps.begin(), it)) - 1;
 
         *last_index = i;
 

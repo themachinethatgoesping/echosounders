@@ -13,6 +13,7 @@
 #include <magic_enum/magic_enum.hpp>
 
 /* std includes */
+#include <algorithm>
 #include <optional>
 
 /* themachinethatgoesping includes */
@@ -47,6 +48,10 @@ class KongsbergAllConfigurationDataInterfacePerFile
     bool _runtime_parameters_initialized = false;
     std::map<uint16_t, std::vector<boost::flyweight<datagrams::RuntimeParameters>>>
         _runtime_parameters_by_system_serial_number;
+
+    // Cached search keys for fast lookup (avoid flyweight dereference in hot path)
+    std::map<uint16_t, std::vector<double>> _runtime_timestamps_by_ssn;
+    std::map<uint16_t, std::vector<size_t>> _runtime_ping_counters_by_ssn;
 
     // cached installation parameters to avoid redundant file reads
     mutable std::optional<datagrams::InstallationParameters> _cached_installation_parameters;
@@ -183,6 +188,22 @@ void init_runtime_parameters()
                 break;
         }
 
+        // Build cached lookup vectors for fast search (avoid flyweight dereference)
+        _runtime_timestamps_by_ssn.clear();
+        _runtime_ping_counters_by_ssn.clear();
+        for (const auto& [ssn, vec] : _runtime_parameters_by_system_serial_number)
+        {
+            auto& ts = _runtime_timestamps_by_ssn[ssn];
+            auto& pc = _runtime_ping_counters_by_ssn[ssn];
+            ts.reserve(vec.size());
+            pc.reserve(vec.size());
+            for (const auto& fw : vec)
+            {
+                ts.push_back(fw.get().get_timestamp());
+                pc.push_back(fw.get().get_ping_counter());
+            }
+        }
+
         _runtime_parameters_initialized = true;
     }
 
@@ -218,24 +239,24 @@ void init_runtime_parameters()
                             system_serial_number,
                             ping_counter));
 
-        size_t i = *last_index;
-        // search for time first
-        for (; i < runtime_parameter_vector.size() - 1; ++i)
-        {
-            // double rt_time      = runtime_parameter_vector[i].get().get_timestamp();
-            double rt_next_time = runtime_parameter_vector[i + 1].get().get_timestamp();
+        const auto& timestamps = _runtime_timestamps_by_ssn[system_serial_number];
+        const auto& pc_cache   = _runtime_ping_counters_by_ssn[system_serial_number];
 
-            if (rt_next_time > ping_time)
-                break;
-        }
+        // Binary search for time: find last RT param with timestamp <= ping_time
+        auto it = std::upper_bound(
+            timestamps.begin() + static_cast<ptrdiff_t>(*last_index), timestamps.end(), ping_time);
+        size_t i;
+        if (it == timestamps.begin() + static_cast<ptrdiff_t>(*last_index))
+            i = *last_index;
+        else
+            i = static_cast<size_t>(std::distance(timestamps.begin(), it)) - 1;
 
         // find the runtime parameter with the closest ping counter
         // Note: the counter is overflowing at 65535
-        for (; i < runtime_parameter_vector.size() - 1; ++i)
+        for (; i < pc_cache.size() - 1; ++i)
         {
-            size_t rt_ping_counter      = runtime_parameter_vector[i].get().get_ping_counter();
-            size_t rt_next_ping_counter = runtime_parameter_vector[i + 1].get().get_ping_counter();
-            // search for time first
+            size_t rt_ping_counter      = pc_cache[i];
+            size_t rt_next_ping_counter = pc_cache[i + 1];
 
             // the rt_counter is overflown:
             if (rt_next_ping_counter < rt_ping_counter)

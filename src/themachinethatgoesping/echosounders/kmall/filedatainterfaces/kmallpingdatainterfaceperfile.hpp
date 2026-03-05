@@ -11,7 +11,6 @@
 
 /* std includes */
 #include <filesystem>
-#include <fstream>
 #include <map>
 #include <memory>
 
@@ -223,7 +222,9 @@ class KMALLPingDataInterfacePerFile
                         handler.read_or_get_systeminformation(*ping_ptr));
                 }
                 // load information that has not been cached
-                ping_ptr->load();
+                {
+                    ping_ptr->load();
+                }
 
                 pings.add_ping_no_reindex(std::move(ping_ptr));
             }
@@ -234,6 +235,7 @@ class KMALLPingDataInterfacePerFile
             cache_handler.update_index_file();
 
         pings.reindex();
+
         return pings;
     }
 

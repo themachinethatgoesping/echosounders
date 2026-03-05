@@ -1,4 +1,4 @@
-//sourcehash: e3b87dda72c5ac3902d4347a6f6859f2817f43ce1d95530f94729a70ae27ab70
+//sourcehash: df845fdbe77cfea64b2a6eb91742d31ff2b1ea89db5851ba38f5b53991e050f1
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -86,6 +86,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_parameters_by_system_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_ping_counters_by_ssn = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_runtime_timestamps_by_ssn = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_heading_sensor =
 R"doc(Set the active heading sensor "NotSet": this will be overwritten by

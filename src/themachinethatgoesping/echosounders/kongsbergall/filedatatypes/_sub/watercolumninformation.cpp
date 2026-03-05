@@ -151,7 +151,6 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     std::istream&                                  is,
     const std::unordered_map<size_t, std::string>& hash_cache)
 {
-    // create WaterColumnInformation
     WaterColumnInformation dat;
 
     std::vector<size_t> hashes(
@@ -162,48 +161,89 @@ WaterColumnInformation WaterColumnInformation::from_stream(
     is.read(reinterpret_cast<char*>(hashes.data()), hashes.size() * sizeof(size_t));
     is.read(reinterpret_cast<char*>(sizes.data()), sizes.size() * sizeof(size_t));
 
-    // resize arrays
-    auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ sizes[0] });
-    auto start_range_sample_numbers = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
-    auto number_of_samples_per_beam = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
-    dat._detected_range_in_samples  = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
-    auto transmit_sector_numbers    = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
-    dat._sample_positions           = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
-
-    // read detected_range_in_samples from stream
+    // Read per-ping unique data (always needed, cannot be cached)
+    dat._detected_range_in_samples = xt::xtensor<uint16_t, 1>::from_shape({ sizes[3] });
     is.read(reinterpret_cast<char*>(dat._detected_range_in_samples.data()),
             dat._detected_range_in_samples.size() * sizeof(uint16_t));
 
-    // read sample_positions from stream
+    dat._sample_positions = xt::xtensor<size_t, 1>::from_shape({ sizes[5] });
     is.read(reinterpret_cast<char*>(dat._sample_positions.data()),
             dat._sample_positions.size() * sizeof(size_t));
 
-    // read _beam_crosstrack_angles from hash_cache
-    std::memcpy(beam_crosstrack_angles.data(),
-                hash_cache.at(hashes[0]).data(),
-                beam_crosstrack_angles.size() * sizeof(float));
-    dat._beam_crosstrack_angles = std::move(beam_crosstrack_angles);
+    // Flyweight cache: reuse previously constructed flyweight objects by their xxhash key.
+    // Most pings within a file share identical beam geometry, so this avoids repeated
+    // xtensor allocation + memcpy + flyweight factory lookup for ~99% of pings.
+    struct FlyweightCache {
+        std::unordered_map<size_t, boost::flyweights::flyweight<xt::xtensor<float, 1>>>    beam_crosstrack;
+        std::unordered_map<size_t, boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>>> start_range;
+        std::unordered_map<size_t, boost::flyweights::flyweight<xt::xtensor<uint16_t, 1>>> num_samples;
+        std::unordered_map<size_t, boost::flyweights::flyweight<xt::xtensor<uint8_t, 1>>>  tx_sectors;
+        std::unordered_map<size_t, boost::flyweights::flyweight<_WCIInfos>>                wci_infos;
+    };
+    static thread_local FlyweightCache fw_cache;
 
-    // read _start_range_sample_numbers from hash_cache
-    std::memcpy(start_range_sample_numbers.data(),
-                hash_cache.at(hashes[1]).data(),
-                start_range_sample_numbers.size() * sizeof(uint16_t));
-    dat._start_range_sample_numbers = std::move(start_range_sample_numbers);
+    // _beam_crosstrack_angles
+    {
+        auto it = fw_cache.beam_crosstrack.find(hashes[0]);
+        if (it != fw_cache.beam_crosstrack.end()) {
+            dat._beam_crosstrack_angles = it->second;
+        } else {
+            auto arr = xt::xtensor<float, 1>::from_shape({ sizes[0] });
+            std::memcpy(arr.data(), hash_cache.at(hashes[0]).data(), sizes[0] * sizeof(float));
+            dat._beam_crosstrack_angles = std::move(arr);
+            fw_cache.beam_crosstrack.emplace(hashes[0], dat._beam_crosstrack_angles);
+        }
+    }
 
-    // read _number_of_samples_per_beam from hash_cache
-    std::memcpy(number_of_samples_per_beam.data(),
-                hash_cache.at(hashes[2]).data(),
-                number_of_samples_per_beam.size() * sizeof(uint16_t));
-    dat._number_of_samples_per_beam = std::move(number_of_samples_per_beam);
+    // _start_range_sample_numbers
+    {
+        auto it = fw_cache.start_range.find(hashes[1]);
+        if (it != fw_cache.start_range.end()) {
+            dat._start_range_sample_numbers = it->second;
+        } else {
+            auto arr = xt::xtensor<uint16_t, 1>::from_shape({ sizes[1] });
+            std::memcpy(arr.data(), hash_cache.at(hashes[1]).data(), sizes[1] * sizeof(uint16_t));
+            dat._start_range_sample_numbers = std::move(arr);
+            fw_cache.start_range.emplace(hashes[1], dat._start_range_sample_numbers);
+        }
+    }
 
-    // read _transmit_sector_numbers from hash_cache
-    std::memcpy(transmit_sector_numbers.data(),
-                hash_cache.at(hashes[3]).data(),
-                transmit_sector_numbers.size() * sizeof(uint8_t));
-    dat._transmit_sector_numbers = std::move(transmit_sector_numbers);
+    // _number_of_samples_per_beam
+    {
+        auto it = fw_cache.num_samples.find(hashes[2]);
+        if (it != fw_cache.num_samples.end()) {
+            dat._number_of_samples_per_beam = it->second;
+        } else {
+            auto arr = xt::xtensor<uint16_t, 1>::from_shape({ sizes[2] });
+            std::memcpy(arr.data(), hash_cache.at(hashes[2]).data(), sizes[2] * sizeof(uint16_t));
+            dat._number_of_samples_per_beam = std::move(arr);
+            fw_cache.num_samples.emplace(hashes[2], dat._number_of_samples_per_beam);
+        }
+    }
 
-    // read _wci_infos from hash_cache
-    dat._wci_infos = _WCIInfos::from_binary(hash_cache.at(hashes[4]));
+    // _transmit_sector_numbers
+    {
+        auto it = fw_cache.tx_sectors.find(hashes[3]);
+        if (it != fw_cache.tx_sectors.end()) {
+            dat._transmit_sector_numbers = it->second;
+        } else {
+            auto arr = xt::xtensor<uint8_t, 1>::from_shape({ sizes[4] });
+            std::memcpy(arr.data(), hash_cache.at(hashes[3]).data(), sizes[4] * sizeof(uint8_t));
+            dat._transmit_sector_numbers = std::move(arr);
+            fw_cache.tx_sectors.emplace(hashes[3], dat._transmit_sector_numbers);
+        }
+    }
+
+    // _wci_infos
+    {
+        auto it = fw_cache.wci_infos.find(hashes[4]);
+        if (it != fw_cache.wci_infos.end()) {
+            dat._wci_infos = it->second;
+        } else {
+            dat._wci_infos = _WCIInfos::from_binary(hash_cache.at(hashes[4]));
+            fw_cache.wci_infos.emplace(hashes[4], dat._wci_infos);
+        }
+    }
 
     return dat;
 }
