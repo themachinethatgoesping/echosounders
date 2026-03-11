@@ -1,4 +1,4 @@
-//sourcehash: fe1211f96a6c073990e6b1b046fd79dfa7084b5c014936aee7e24992e5e82afa
+//sourcehash: ec07e584683d9379aba9e761887215ad13565469589efd89f263ff93dca3adb3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,12 +60,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_file_cache = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_index_path = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_ms_filecache_io = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_ms_sysinfo_deser = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_ms_wci_deser = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_operator_bool = R"doc()doc";
 
