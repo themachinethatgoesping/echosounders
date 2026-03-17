@@ -4,6 +4,7 @@
 
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/vector.h>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include "../../themachinethatgoesping/echosounders/pingtools/beamsampleselection.hpp"
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
