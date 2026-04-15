@@ -18,6 +18,8 @@
 #include "functions.hpp"
 
 // forward declaration — only needed for the lazy build_calibration_info() factory
+
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawCalibrationInfo
 namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::calibration {
 class SimradRawCalibrationInfo;
 }

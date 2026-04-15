@@ -28,10 +28,6 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
-
-
 #include "packagecache.hpp"
 
 namespace themachinethatgoesping {
