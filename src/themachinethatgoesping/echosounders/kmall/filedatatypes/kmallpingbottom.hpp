@@ -155,7 +155,7 @@ class KMALLPingBottom
     {
         auto datagram = this->file_data().template read_first_datagram<datagrams::MRangeAndDepth>();
 
-        return datagram.get_soundings().get_beam_angle_re_rx_deg_tensor(
+        return datagram.get_soundings().get_two_way_travel_time_sec_tensor(
             selection.get_beam_numbers());
     }
 
