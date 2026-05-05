@@ -146,17 +146,17 @@ void SeabedImageData::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
-const std::vector<substructures::SeabedImageDataBeam>& SeabedImageData::get_beams() const
+const substructures::SeabedImageDataBeamsContainer& SeabedImageData::get_beams() const
 {
     return _beams;
 }
 
-void SeabedImageData::set_beams(const std::vector<substructures::SeabedImageDataBeam>& beams)
+void SeabedImageData::set_beams(const substructures::SeabedImageDataBeamsContainer& beams)
 {
     _beams = beams;
 }
 
-std::vector<substructures::SeabedImageDataBeam>& SeabedImageData::beams()
+substructures::SeabedImageDataBeamsContainer& SeabedImageData::beams()
 {
     return _beams;
 }
@@ -229,16 +229,19 @@ SeabedImageData SeabedImageData::from_stream(std::istream& is, KongsbergAllDatag
     is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 20 * sizeof(uint8_t));
 
     // read the beams
-    datagram._beams.resize(datagram._number_of_valid_beams);
-    is.read(reinterpret_cast<char*>(datagram._beams.data()),
-            datagram._number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
+    {
+        auto& beams = datagram._beams.beams();
+        beams.resize(datagram._number_of_valid_beams);
+        is.read(reinterpret_cast<char*>(beams.data()),
+                datagram._number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
+    }
 
     uint16_t              total_samples = 0;
     std::vector<uint16_t> samples_per_beam;
     std::vector<uint16_t> start_index_per_beam;
     samples_per_beam.reserve(datagram._number_of_valid_beams);
 
-    for (const auto& beam : datagram._beams)
+    for (const auto& beam : datagram._beams.get_beams())
     {
         start_index_per_beam.push_back(total_samples);
         samples_per_beam.push_back(beam.get_number_of_samples());
@@ -273,14 +276,17 @@ SeabedImageData SeabedImageData::from_stream(std::istream&                    is
 void SeabedImageData::to_stream(std::ostream& os)
 {
     KongsbergAllDatagram::to_stream(os);
-    _number_of_valid_beams = _beams.size();
+    _number_of_valid_beams = _beams.get_number_of_beams();
 
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&(_ping_counter)), 20 * sizeof(uint8_t));
 
     // write the beams
-    os.write(reinterpret_cast<const char*>(_beams.data()),
-             _number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
+    {
+        const auto& beams = _beams.get_beams();
+        os.write(reinterpret_cast<const char*>(beams.data()),
+                 _number_of_valid_beams * sizeof(substructures::SeabedImageDataBeam));
+    }
 
     // write the sample amplitudes
     _sample_amplitudes.to_stream(os);
@@ -327,7 +333,7 @@ tools::classhelper::ObjectPrinter SeabedImageData::__printer__(unsigned int floa
         "tvg_law_crossover_angle", get_tvg_law_crossover_angle_in_degrees(), "°");
 
     printer.register_section("substructures");
-    printer.register_value("beams", _beams.size(), "SeabedImageDataBeams");
+    printer.register_value("beams", _beams.get_number_of_beams(), "SeabedImageDataBeams");
     printer.register_value(
         "sample_amplitudes", _sample_amplitudes.size(), "SampleAmplitudesStructure");
 

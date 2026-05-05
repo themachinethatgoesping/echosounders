@@ -38,11 +38,19 @@ TEST_CASE("ExtraDetections should support common functions", TESTTAG)
 
     detection_classes.set_start_depth(101);
     detection_classes.set_qf_threshold_100(191);
-    dat.set_detection_classes({ detection_classes });
+    {
+        substructures::ExtraDetectionsDetectionClassesContainer dc_container;
+        dc_container.set_detection_classes({ detection_classes });
+        dat.set_detection_classes(dc_container);
+    }
 
     extra_detections.set_qf_10(101);
     extra_detections.set_two_way_travel_time(191);
-    dat.set_extra_detections({ extra_detections });
+    {
+        substructures::ExtraDetectionsExtraDetectionsContainer ed_container;
+        ed_container.set_extra_detections({ extra_detections });
+        dat.set_extra_detections(ed_container);
+    }
 
     // test inequality
     // REQUIRE(dat != ExtraDetections());
@@ -74,10 +82,10 @@ TEST_CASE("ExtraDetections should support common functions", TESTTAG)
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
     REQUIRE(dat.get_sound_speed_in_m_per_s() == Catch::Approx(20.1));
     REQUIRE(dat.get_heading_in_degrees() == Catch::Approx(2.05));
-    REQUIRE(dat.detection_classes()[0].get_start_depth() == Catch::Approx(101));
-    REQUIRE(dat.detection_classes()[0].get_qf_threshold() == Catch::Approx(1.91));
-    REQUIRE(dat.extra_detections()[0].get_qf_threshold() == Catch::Approx(10.1));
-    REQUIRE(dat.extra_detections()[0].get_two_way_travel_time() == Catch::Approx(191));
+    REQUIRE(dat.detection_classes().get_detection_classes()[0].get_start_depth() == Catch::Approx(101));
+    REQUIRE(dat.detection_classes().get_detection_classes()[0].get_qf_threshold() == Catch::Approx(1.91));
+    REQUIRE(dat.extra_detections().get_extra_detections()[0].get_qf_threshold() == Catch::Approx(10.1));
+    REQUIRE(dat.extra_detections().get_extra_detections()[0].get_two_way_travel_time() == Catch::Approx(191));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::ExtraDetections);

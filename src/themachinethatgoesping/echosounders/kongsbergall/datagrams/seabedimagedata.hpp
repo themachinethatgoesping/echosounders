@@ -23,6 +23,7 @@
 
 #include "substructures/sampleamplitudesstructure.hpp"
 #include "substructures/seabedimagedatabeam.hpp"
+#include "substructures/seabedimagedatabeamscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -50,7 +51,7 @@ class SeabedImageData : public KongsbergAllDatagram
     uint16_t _tvg_law_crossover_angle;      ///< in 0.1 degree
     uint16_t _number_of_valid_beams;
 
-    std::vector<substructures::SeabedImageDataBeam> _beams;
+    substructures::SeabedImageDataBeamsContainer    _beams;
 
     // std::vector<std::vector<int16_t>>
     //     _sample_amplitudes;
@@ -98,9 +99,9 @@ class SeabedImageData : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum);
 
     // ----- substructure access -----
-    const std::vector<substructures::SeabedImageDataBeam>& get_beams() const;
-    void set_beams(const std::vector<substructures::SeabedImageDataBeam>& beams);
-    std::vector<substructures::SeabedImageDataBeam>& beams();
+    const substructures::SeabedImageDataBeamsContainer& get_beams() const;
+    void set_beams(const substructures::SeabedImageDataBeamsContainer& beams);
+    substructures::SeabedImageDataBeamsContainer& beams();
 
     const substructures::SampleAmplitudesStructure<int16_t>& get_sample_amplitudes() const;
     void set_sample_amplitudes(

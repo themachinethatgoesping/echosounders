@@ -70,37 +70,39 @@ void MRangeAndDepth::__read_sectors__(std::istream& is)
 {
     const auto n_sectors = _ping_info.get_number_of_tx_sectors();
     const auto version   = get_datagram_version();
-    _tx_sectors.resize(n_sectors);
+    auto&      sectors   = _tx_sectors.tx_sectors();
+    sectors.resize(n_sectors);
 
     // if old version read one by one
     if (version < 1)
     {
-        for (auto& sector : _tx_sectors)
+        for (auto& sector : sectors)
             sector = sector.__read_version_0__(is);
     }
     else
     {
         // if latest version read as block
-        is.read(reinterpret_cast<char*>(_tx_sectors.data()), sizeof(MRZSectorInfo) * n_sectors);
+        is.read(reinterpret_cast<char*>(sectors.data()), sizeof(MRZSectorInfo) * n_sectors);
     }
 }
 
 void MRangeAndDepth::__write_sectors__(std::ostream& os) const
 {
     // const auto n_sectors = get_number_of_tx_sectors();
-    const auto version = get_datagram_version();
+    const auto  version = get_datagram_version();
+    const auto& sectors = _tx_sectors.get_tx_sectors();
 
     // if old version read one by one
     if (version < 1)
     {
-        for (const auto& sector : _tx_sectors)
+        for (const auto& sector : sectors)
             sector.__write_version_0__(os);
     }
     else
     {
         // if latest version read as block
-        os.write(reinterpret_cast<const char*>(_tx_sectors.data()),
-                 sizeof(MRZSectorInfo) * _tx_sectors.size());
+        os.write(reinterpret_cast<const char*>(sectors.data()),
+                 sizeof(MRZSectorInfo) * sectors.size());
     }
 }
 
@@ -118,18 +120,20 @@ void MRangeAndDepth::__write_rxinfo__(std::ostream& os) const
 void MRangeAndDepth::__read_extradetclassinfo__(std::istream& is)
 {
     const auto n_classes = _rx_info.get_number_of_extra_detection_classes();
-    _extra_det_class_info.resize(n_classes);
+    auto&      info      = _extra_det_class_info.extra_det_class_info();
+    info.resize(n_classes);
 
     // read as block
-    is.read(reinterpret_cast<char*>(_extra_det_class_info.data()),
+    is.read(reinterpret_cast<char*>(info.data()),
             sizeof(substructs::MRZExtraDetClassInfo) * n_classes);
 }
 
 void MRangeAndDepth::__write_extradetclassinfo__(std::ostream& os) const
 {
+    const auto& info = _extra_det_class_info.get_extra_det_class_info();
     // read as block
-    os.write(reinterpret_cast<const char*>(_extra_det_class_info.data()),
-             sizeof(substructs::MRZExtraDetClassInfo) * _extra_det_class_info.size());
+    os.write(reinterpret_cast<const char*>(info.data()),
+             sizeof(substructs::MRZExtraDetClassInfo) * info.size());
 }
 
 void MRangeAndDepth::__read_soundings__(std::istream& is)
@@ -247,8 +251,8 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
     printer.append(_ping_info.__printer__(float_precision, superscript_exponents));
 
     printer.register_section(
-        fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.size()));
-    for (const auto& sector : _tx_sectors)
+        fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.get_number_of_tx_sectors()));
+    for (const auto& sector : _tx_sectors.get_tx_sectors())
     {
         printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
                                  '.');
@@ -260,7 +264,7 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
 
     printer.register_section("Extra detection classes (.extra_det_class_info)");
     printer.register_value("extra_det_class_info (vector)",
-                           fmt::format("size={}", _extra_det_class_info.size()),
+                           fmt::format("size={}", _extra_det_class_info.get_number_of_extra_det_class_info()),
                            "classes");
 
     printer.register_section("Soundings (.soundings)");

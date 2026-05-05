@@ -33,7 +33,7 @@ WatercolumnDatagram::WatercolumnDatagram()
 size_t WatercolumnDatagram::get_max_number_of_samples() const
 {
     size_t max_samples = 0;
-    for (const auto& beam : _beams)
+    for (const auto& beam : _beams.get_beams())
     {
         max_samples = std::max<size_t>(max_samples, beam.get_number_of_samples());
     }
@@ -44,18 +44,20 @@ xt::xtensor<int8_t, 2> WatercolumnDatagram::read_samples(std::istream& ifs) cons
 {
     using xt::placeholders::_;
 
-    xt::xtensor<int8_t, 2> samples = xt::zeros<int8_t>(
-        xt::xtensor<int8_t, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+    const auto& beams = _beams.get_beams();
 
-    for (std::size_t b = 0; b < _beams.size(); ++b)
+    xt::xtensor<int8_t, 2> samples = xt::zeros<int8_t>(
+        xt::xtensor<int8_t, 2>::shape_type({ beams.size(), get_max_number_of_samples() }));
+
+    for (std::size_t b = 0; b < beams.size(); ++b)
     {
-        xt::xtensor<float, 1> beamsamples = _beams[b].read_samples(ifs);
+        xt::xtensor<float, 1> beamsamples = beams[b].read_samples(ifs);
         beamsamples *= 0.5f;
         beamsamples -= _tvg_offset_in_db;
 
         std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
 
-        xt::view(samples, b, xt::range(_beams[b].get_number_of_samples(), _)) =
+        xt::view(samples, b, xt::range(beams[b].get_number_of_samples(), _)) =
             std::numeric_limits<float>::quiet_NaN();
     }
 
@@ -66,18 +68,20 @@ xt::xtensor<float, 2> WatercolumnDatagram::get_samples() const
 {
     using xt::placeholders::_;
 
-    xt::xtensor<float, 2> samples = xt::empty<float>(
-        xt::xtensor<float, 2>::shape_type({ _beams.size(), get_max_number_of_samples() }));
+    const auto& beams = _beams.get_beams();
 
-    for (std::size_t b = 0; b < _beams.size(); ++b)
+    xt::xtensor<float, 2> samples = xt::empty<float>(
+        xt::xtensor<float, 2>::shape_type({ beams.size(), get_max_number_of_samples() }));
+
+    for (std::size_t b = 0; b < beams.size(); ++b)
     {
-        xt::xtensor<float, 1> beamsamples = _beams[b].get_samples();
+        xt::xtensor<float, 1> beamsamples = beams[b].get_samples();
         beamsamples *= 0.5f;
         beamsamples -= _tvg_offset_in_db;
 
         std::copy(beamsamples.cbegin(), beamsamples.cend(), xt::row(samples, b).begin());
 
-        xt::view(samples, b, xt::range(_beams[b].get_number_of_samples(), _)) =
+        xt::view(samples, b, xt::range(beams[b].get_number_of_samples(), _)) =
             std::numeric_limits<float>::quiet_NaN();
     }
 
@@ -254,37 +258,37 @@ void WatercolumnDatagram::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
-const std::vector<substructures::WatercolumnDatagramTransmitSector>&
+const substructures::WatercolumnDatagramTransmitSectorsContainer&
 WatercolumnDatagram::get_transmit_sectors() const
 {
     return _transmit_sectors;
 }
 
-std::vector<substructures::WatercolumnDatagramTransmitSector>&
+substructures::WatercolumnDatagramTransmitSectorsContainer&
 WatercolumnDatagram::transmit_sectors()
 {
     return _transmit_sectors;
 }
 
 void WatercolumnDatagram::set_transmit_sectors(
-    std::vector<substructures::WatercolumnDatagramTransmitSector> transmit_sectors)
+    const substructures::WatercolumnDatagramTransmitSectorsContainer& transmit_sectors)
 {
-    _transmit_sectors = std::move(transmit_sectors);
+    _transmit_sectors = transmit_sectors;
 }
 
-const std::vector<substructures::WatercolumnDatagramBeam>& WatercolumnDatagram::get_beams() const
+const substructures::WatercolumnDatagramBeamsContainer& WatercolumnDatagram::get_beams() const
 {
     return _beams;
 }
 
-std::vector<substructures::WatercolumnDatagramBeam>& WatercolumnDatagram::beams()
+substructures::WatercolumnDatagramBeamsContainer& WatercolumnDatagram::beams()
 {
     return _beams;
 }
 
-void WatercolumnDatagram::set_beams(std::vector<substructures::WatercolumnDatagramBeam> beams)
+void WatercolumnDatagram::set_beams(const substructures::WatercolumnDatagramBeamsContainer& beams)
 {
-    _beams = std::move(beams);
+    _beams = beams;
 }
 
 float WatercolumnDatagram::get_sound_speed_m_s() const
@@ -318,16 +322,22 @@ WatercolumnDatagram WatercolumnDatagram::from_stream(std::istream&        is,
     is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 28 * sizeof(uint8_t));
 
     // read the transmit_sectors
-    datagram._transmit_sectors.resize(datagram._number_of_transmit_sectors);
-    is.read(reinterpret_cast<char*>(datagram._transmit_sectors.data()),
-            datagram._number_of_transmit_sectors *
-                sizeof(substructures::WatercolumnDatagramTransmitSector));
+    {
+        auto& sectors = datagram._transmit_sectors.transmit_sectors();
+        sectors.resize(datagram._number_of_transmit_sectors);
+        is.read(reinterpret_cast<char*>(sectors.data()),
+                datagram._number_of_transmit_sectors *
+                    sizeof(substructures::WatercolumnDatagramTransmitSector));
+    }
 
     // read the beams
-    datagram._beams.reserve(datagram._number_of_beams_in_datagram);
-    for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
-        datagram._beams.emplace_back(
-            substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
+    {
+        auto& beams = datagram._beams.beams();
+        beams.reserve(datagram._number_of_beams_in_datagram);
+        for (auto i = 0; i < datagram._number_of_beams_in_datagram; ++i)
+            beams.emplace_back(
+                substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
+    }
 
     // read the rest of the datagram
     is.read(reinterpret_cast<char*>(&(datagram._spare_byte)), 4 * sizeof(uint8_t));
@@ -354,7 +364,7 @@ WatercolumnDatagram WatercolumnDatagram::from_stream(std::istream&              
 
 void WatercolumnDatagram::append_from_stream(std::istream& is)
 {
-    bool skip_data = _beams.at(0).get_samples_are_skipped();
+    bool skip_data = _beams.beams().at(0).get_samples_are_skipped();
 
     /* skip header + ping_counter - number of datagrams*/
     is.seekg(22, std::ios_base::cur);
@@ -407,9 +417,13 @@ void WatercolumnDatagram::append_from_stream(std::istream& is)
     _number_of_beams_in_datagram += data.number_of_beams_in_datagram;
 
     // read the additional beams
-    _beams.reserve(_total_no_of_receive_beams);
-    for (auto i = 0; i < data.number_of_beams_in_datagram; ++i)
-        _beams.emplace_back(substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
+    {
+        auto& beams = _beams.beams();
+        beams.reserve(_total_no_of_receive_beams);
+        for (auto i = 0; i < data.number_of_beams_in_datagram; ++i)
+            beams.emplace_back(
+                substructures::WatercolumnDatagramBeam::from_stream(is, skip_data));
+    }
 
     // read the rest of the datagram
     is.read(reinterpret_cast<char*>(&(_spare_byte)), 4 * sizeof(uint8_t));
@@ -422,19 +436,22 @@ void WatercolumnDatagram::append_from_stream(std::istream& is)
 void WatercolumnDatagram::to_stream(std::ostream& os)
 {
     KongsbergAllDatagram::to_stream(os);
-    _number_of_transmit_sectors  = _transmit_sectors.size();
-    _number_of_beams_in_datagram = _beams.size();
+    _number_of_transmit_sectors  = _transmit_sectors.get_number_of_transmit_sectors();
+    _number_of_beams_in_datagram = _beams.get_number_of_beams();
 
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&(_ping_counter)), 28 * sizeof(uint8_t));
 
     // write the transmit sector
-    os.write(reinterpret_cast<const char*>(_transmit_sectors.data()),
-             _number_of_transmit_sectors *
-                 sizeof(substructures::WatercolumnDatagramTransmitSector));
+    {
+        const auto& sectors = _transmit_sectors.get_transmit_sectors();
+        os.write(reinterpret_cast<const char*>(sectors.data()),
+                 _number_of_transmit_sectors *
+                     sizeof(substructures::WatercolumnDatagramTransmitSector));
+    }
 
     // write the beams
-    for (auto beam : _beams)
+    for (auto beam : _beams.get_beams())
         beam.to_stream(os);
 
     // write the rest of the datagram
@@ -470,9 +487,10 @@ tools::classhelper::ObjectPrinter WatercolumnDatagram::__printer__(unsigned int 
     printer.register_value("tx_time_heave", get_tx_time_heave_in_m(), "m");
 
     printer.register_section("substructures");
-    printer.register_value(
-        "transmit_sectors", _transmit_sectors.size(), "WatercolumnDatagramTransmitSector");
-    printer.register_value("beams", _beams.size(), "WatercolumnDatagramBeams");
+    printer.register_value("transmit_sectors",
+                           _transmit_sectors.get_number_of_transmit_sectors(),
+                           "WatercolumnDatagramTransmitSector");
+    printer.register_value("beams", _beams.get_number_of_beams(), "WatercolumnDatagramBeams");
 
     return printer;
 }

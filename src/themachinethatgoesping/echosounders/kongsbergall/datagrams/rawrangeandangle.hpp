@@ -27,7 +27,9 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/rawrangeandanglebeam.hpp"
+#include "substructures/rawrangeandanglebeamscontainer.hpp"
 #include "substructures/rawrangeandangletransmitsector.hpp"
+#include "substructures/rawrangeandangletransmitsectorscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -54,8 +56,8 @@ class RawRangeAndAngle : public KongsbergAllDatagram
     float    _sampling_frequency;
     uint32_t _d_scale;
 
-    std::vector<substructures::RawRangeAndAngleTransmitSector> _transmit_sectors;
-    std::vector<substructures::RawRangeAndAngleBeam>           _beams;
+    substructures::RawRangeAndAngleTransmitSectorsContainer _transmit_sectors;
+    substructures::RawRangeAndAngleBeamsContainer           _beams;
 
     uint8_t  _spare = 0;
     uint8_t  _etx   = 0x03; ///< end identifier (always 0x03)
@@ -115,16 +117,16 @@ class RawRangeAndAngle : public KongsbergAllDatagram
     float    get_sampling_frequency() const;
     uint32_t get_d_scale() const;
 
-    const std::vector<substructures::RawRangeAndAngleTransmitSector>& get_transmit_sectors() const;
-    const std::vector<substructures::RawRangeAndAngleBeam>&           get_beams() const;
+    const substructures::RawRangeAndAngleTransmitSectorsContainer& get_transmit_sectors() const;
+    const substructures::RawRangeAndAngleBeamsContainer&           get_beams() const;
 
     uint8_t  get_spare() const;
     uint8_t  get_etx() const;
     uint16_t get_checksum() const;
 
     // read/write access to structures
-    std::vector<substructures::RawRangeAndAngleTransmitSector>& transmit_sectors();
-    std::vector<substructures::RawRangeAndAngleBeam>&           beams();
+    substructures::RawRangeAndAngleTransmitSectorsContainer& transmit_sectors();
+    substructures::RawRangeAndAngleBeamsContainer&           beams();
 
     // set
     void set_ping_counter(uint16_t ping_counter);
@@ -137,8 +139,8 @@ class RawRangeAndAngle : public KongsbergAllDatagram
     void set_d_scale(uint32_t d_scale);
 
     void set_transmit_sectors(
-        const std::vector<substructures::RawRangeAndAngleTransmitSector>& transmit_sector);
-    void set_beams(const std::vector<substructures::RawRangeAndAngleBeam>& beams);
+        const substructures::RawRangeAndAngleTransmitSectorsContainer& transmit_sectors);
+    void set_beams(const substructures::RawRangeAndAngleBeamsContainer& beams);
 
     void set_spare(uint8_t spare);
     void set_etx(uint8_t etx);

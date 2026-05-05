@@ -140,7 +140,7 @@ SystemInformation::SystemInformation(const datagrams::MRangeAndDepth& mrz_datagr
 
     TxSignalParameterVector tx_signal_parameters;
 
-    const auto& transmit_sectors = mrz_datagram.get_tx_sectors();
+    const auto& transmit_sectors = mrz_datagram.get_tx_sectors().get_tx_sectors();
     const auto  nsectors         = transmit_sectors.size();
 
     for (const auto& ts : transmit_sectors)

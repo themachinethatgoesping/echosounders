@@ -273,9 +273,17 @@ MRangeAndDepth make_datagram()
     auto seabed_samples = make_seabed_samples();
 
     dat.set_ping_info(ping_info);
-    dat.set_tx_sectors(sectors);
+    {
+        substructs::MRZTxSectorsContainer ts_container;
+        ts_container.set_tx_sectors(sectors);
+        dat.set_tx_sectors(ts_container);
+    }
     dat.set_rx_info(rx_info);
-    dat.set_extra_det_class_info(extra_classes);
+    {
+        substructs::MRZExtraDetClassInfoContainer edci_container;
+        edci_container.set_extra_det_class_info(extra_classes);
+        dat.set_extra_det_class_info(edci_container);
+    }
 
     MRZSoundingsContainer container;
     container.set_soundings(soundings);
@@ -322,9 +330,9 @@ TEST_CASE("MRangeAndDepth should serialize and deserialize without loss", TESTTA
         CHECK(from_stream == dat);
     }
 
-    CHECK(dat.get_tx_sectors().size() == kNumSectors);
+    CHECK(dat.get_tx_sectors().get_tx_sectors().size() == kNumSectors);
     CHECK(dat.get_soundings().get_soundings().size() == kTotalSoundings);
-    CHECK(dat.get_extra_det_class_info().size() == kNumExtraClasses);
+    CHECK(dat.get_extra_det_class_info().get_extra_det_class_info().size() == kNumExtraClasses);
 
     const auto seabed_dezi = dat.get_seabed_image_samples_dezi_db();
     const auto seabed_db   = dat.get_seabed_image_samples_db();

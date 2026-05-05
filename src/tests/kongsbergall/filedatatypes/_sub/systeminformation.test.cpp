@@ -42,7 +42,11 @@ datagrams::WatercolumnDatagram make_wcd()
 
     transmit_sector.set_tilt_angle(101);
     transmit_sector.set_center_frequency(191);
-    dat.set_transmit_sectors({ transmit_sector });
+    {
+        datagrams::substructures::WatercolumnDatagramTransmitSectorsContainer ts_container;
+        ts_container.set_transmit_sectors({ transmit_sector });
+        dat.set_transmit_sectors(ts_container);
+    }
 
     beam1.set_beam_crosstrack_angle(101);
     beam1.set_transmit_sector_number(191);
@@ -59,7 +63,11 @@ datagrams::WatercolumnDatagram make_wcd()
     beam2.set_beam_number(2);
     beam2.set_detected_range_in_samples(54);
     beam2._set_sample_are_skipped(1234);
-    dat.set_beams({ beam1, beam2 });
+    {
+        datagrams::substructures::WatercolumnDatagramBeamsContainer beams_container;
+        beams_container.set_beams({ beam1, beam2 });
+        dat.set_beams(beams_container);
+    }
 
     // check the required functions do not throw
     // CHECK(dat.get_beams().size() == 1);
@@ -92,11 +100,11 @@ datagrams::RawRangeAndAngle make_rra()
     transmit_sector.set_signal_length(121);
     transmit_sector.set_tilt_angle(191);
     transmit_sector.set_signal_waveform_identifier(1); // FM_UP_SWEEP
-    dat.set_transmit_sectors({ transmit_sector });
+    dat.transmit_sectors().set_transmit_sectors({ transmit_sector });
 
     beam.set_quality_factor(101);
     beam.set_reflectivity(191);
-    dat.set_beams({ beam });
+    dat.beams().set_beams({ beam });
 
     return dat;
 }

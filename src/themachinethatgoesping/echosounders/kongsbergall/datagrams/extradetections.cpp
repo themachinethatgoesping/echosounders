@@ -112,13 +112,13 @@ uint16_t ExtraDetections::get_number_of_bytes_per_detection() const
     return _number_of_bytes_per_detection;
 }
 
-const std::vector<substructures::ExtraDetectionsDetectionClasses>&
+const substructures::ExtraDetectionsDetectionClassesContainer&
 ExtraDetections::get_detection_classes() const
 {
     return _detection_classes;
 }
 
-const std::vector<substructures::ExtraDetectionsExtraDetections>&
+const substructures::ExtraDetectionsExtraDetectionsContainer&
 ExtraDetections::get_extra_detections() const
 {
     return _extra_detections;
@@ -231,13 +231,13 @@ void ExtraDetections::set_number_of_bytes_per_detection(uint16_t number_of_bytes
 }
 
 void ExtraDetections::set_detection_classes(
-    const std::vector<substructures::ExtraDetectionsDetectionClasses>& detection_classes)
+    const substructures::ExtraDetectionsDetectionClassesContainer& detection_classes)
 {
     _detection_classes = detection_classes;
 }
 
 void ExtraDetections::set_extra_detections(
-    const std::vector<substructures::ExtraDetectionsExtraDetections>& extra_detections)
+    const substructures::ExtraDetectionsExtraDetectionsContainer& extra_detections)
 {
     _extra_detections = extra_detections;
 }
@@ -263,12 +263,12 @@ void ExtraDetections::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
-std::vector<substructures::ExtraDetectionsDetectionClasses>& ExtraDetections::detection_classes()
+substructures::ExtraDetectionsDetectionClassesContainer& ExtraDetections::detection_classes()
 {
     return _detection_classes;
 }
 
-std::vector<substructures::ExtraDetectionsExtraDetections>& ExtraDetections::extra_detections()
+substructures::ExtraDetectionsExtraDetectionsContainer& ExtraDetections::extra_detections()
 {
     return _extra_detections;
 }
@@ -330,16 +330,22 @@ ExtraDetections ExtraDetections::from_stream(std::istream& is, KongsbergAllDatag
     is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 40 * sizeof(uint8_t));
 
     // read detection classes
-    datagram._detection_classes.resize(datagram._number_of_detection_classes);
-    is.read(reinterpret_cast<char*>(datagram._detection_classes.data()),
-            datagram._number_of_detection_classes *
-                sizeof(substructures::ExtraDetectionsDetectionClasses));
+    {
+        auto& classes = datagram._detection_classes.detection_classes();
+        classes.resize(datagram._number_of_detection_classes);
+        is.read(reinterpret_cast<char*>(classes.data()),
+                datagram._number_of_detection_classes *
+                    sizeof(substructures::ExtraDetectionsDetectionClasses));
+    }
 
     // read extra detections
-    datagram._extra_detections.resize(datagram._number_of_extra_detections);
-    is.read(reinterpret_cast<char*>(datagram._extra_detections.data()),
-            datagram._number_of_extra_detections *
-                sizeof(substructures::ExtraDetectionsExtraDetections));
+    {
+        auto& dets = datagram._extra_detections.extra_detections();
+        dets.resize(datagram._number_of_extra_detections);
+        is.read(reinterpret_cast<char*>(dets.data()),
+                datagram._number_of_extra_detections *
+                    sizeof(substructures::ExtraDetectionsExtraDetections));
+    }
 
     // read raw amplitude samples
     uint16_t              total_samples = 0;
@@ -347,7 +353,7 @@ ExtraDetections ExtraDetections::from_stream(std::istream& is, KongsbergAllDatag
     std::vector<uint16_t> start_index_per_beam;
     samples_per_beam.reserve(datagram._number_of_extra_detections);
 
-    for (const auto& beam : datagram._extra_detections)
+    for (const auto& beam : datagram._extra_detections.get_extra_detections())
     {
         start_index_per_beam.push_back(total_samples);
         samples_per_beam.push_back(beam.get_number_of_raw_amplitude_samples());
@@ -378,21 +384,27 @@ ExtraDetections ExtraDetections::from_stream(std::istream&                    is
 void ExtraDetections::to_stream(std::ostream& os)
 {
     KongsbergAllDatagram::to_stream(os);
-    _number_of_detection_classes = _detection_classes.size();
-    _number_of_extra_detections  = _extra_detections.size();
+    _number_of_detection_classes = _detection_classes.get_number_of_detection_classes();
+    _number_of_extra_detections  = _extra_detections.get_number_of_extra_detections();
 
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&(_ping_counter)), 40 * sizeof(uint8_t));
 
     // write the detection classes
-    os.write(reinterpret_cast<const char*>(_detection_classes.data()),
-             _number_of_detection_classes *
-                 sizeof(substructures::ExtraDetectionsDetectionClasses));
+    {
+        const auto& classes = _detection_classes.get_detection_classes();
+        os.write(reinterpret_cast<const char*>(classes.data()),
+                 _number_of_detection_classes *
+                     sizeof(substructures::ExtraDetectionsDetectionClasses));
+    }
 
     // write the extra detections
-    os.write(reinterpret_cast<const char*>(_extra_detections.data()),
-             _number_of_extra_detections *
-                 sizeof(substructures::ExtraDetectionsExtraDetections));
+    {
+        const auto& dets = _extra_detections.get_extra_detections();
+        os.write(reinterpret_cast<const char*>(dets.data()),
+                 _number_of_extra_detections *
+                     sizeof(substructures::ExtraDetectionsExtraDetections));
+    }
 
     // write the raw amplitude samples
     _raw_amplitude_samples.to_stream(os);
@@ -435,10 +447,12 @@ tools::classhelper::ObjectPrinter ExtraDetections::__printer__(unsigned int floa
     printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
     printer.register_section("substructures");
-    printer.register_value(
-        "detection_classes", _detection_classes.size(), "ExtraDetectionsDetectionClasses");
-    printer.register_value(
-        "extra_detections", _extra_detections.size(), "ExtraDetectionsExtraDetections");
+    printer.register_value("detection_classes",
+                           _detection_classes.get_number_of_detection_classes(),
+                           "ExtraDetectionsDetectionClasses");
+    printer.register_value("extra_detections",
+                           _extra_detections.get_number_of_extra_detections(),
+                           "ExtraDetectionsExtraDetections");
     printer.register_value(
         "raw_amplitude_samples", _raw_amplitude_samples.size(), "SampleAmplitudesStructure");
 

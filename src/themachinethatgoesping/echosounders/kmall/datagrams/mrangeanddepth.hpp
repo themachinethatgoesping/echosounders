@@ -21,9 +21,11 @@
 #include "../types.hpp"
 #include "kmallmultibeamdatagram.hpp"
 #include "substructs/mrzextradetclassinfo.hpp"
+#include "substructs/mrzextradetclassinfocontainer.hpp"
 #include "substructs/mrzpinginfo.hpp"
 #include "substructs/mrzrxinfo.hpp"
 #include "substructs/mrzsectorinfo.hpp"
+#include "substructs/mrztxsectorscontainer.hpp"
 #include "substructs/mrzsoundingscontainer.hpp"
 
 namespace themachinethatgoesping {
@@ -43,12 +45,12 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     static constexpr auto DatagramIdentifier = t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH;
 
   protected:
-    substructs::MRZPingInfo                       _ping_info;
-    std::vector<substructs::MRZSectorInfo>        _tx_sectors;
-    substructs::MRZRxInfo                         _rx_info;
-    std::vector<substructs::MRZExtraDetClassInfo> _extra_det_class_info;
-    substructs::MRZSoundingsContainer             _soundings;
-    xt::xtensor<int16_t, 1>                       _seabed_image_samples_dezi_db;
+    substructs::MRZPingInfo               _ping_info;
+    substructs::MRZTxSectorsContainer     _tx_sectors;
+    substructs::MRZRxInfo                 _rx_info;
+    substructs::MRZExtraDetClassInfoContainer _extra_det_class_info;
+    substructs::MRZSoundingsContainer     _soundings;
+    xt::xtensor<int16_t, 1>               _seabed_image_samples_dezi_db;
 
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check
@@ -64,15 +66,15 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     void set_ping_info(const substructs::MRZPingInfo& info) { _ping_info = info; }
 
     // tx sectors
-    const std::vector<substructs::MRZSectorInfo>& get_tx_sectors() const { return _tx_sectors; }
-    std::vector<substructs::MRZSectorInfo>&       tx_sectors() { return _tx_sectors; }
-    void set_tx_sectors(const std::vector<substructs::MRZSectorInfo>& sectors)
+    const substructs::MRZTxSectorsContainer& get_tx_sectors() const { return _tx_sectors; }
+    substructs::MRZTxSectorsContainer&       tx_sectors() { return _tx_sectors; }
+    void set_tx_sectors(const substructs::MRZTxSectorsContainer& sectors)
     {
         _tx_sectors = sectors;
-        _ping_info.set_number_of_tx_sectors(_tx_sectors.size());
+        const size_t n = _tx_sectors.tx_sectors().size();
+        _ping_info.set_number_of_tx_sectors(n);
         static constexpr size_t dbytes = sizeof(substructs::MRZPingInfo) + sizeof(uint32_t);
-        _ping_info.set_bytes_content(dbytes +
-                                     _tx_sectors.size() * sizeof(substructs::MRZSectorInfo));
+        _ping_info.set_bytes_content(dbytes + n * sizeof(substructs::MRZSectorInfo));
 
         set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
                            _ping_info.get_bytes_content());
@@ -83,15 +85,15 @@ class MRangeAndDepth : public KMALLMultibeamDatagram
     substructs::MRZRxInfo&       rx_info() { return _rx_info; }
     void                         set_rx_info(const substructs::MRZRxInfo& info) { _rx_info = info; }
 
-    const std::vector<substructs::MRZExtraDetClassInfo>& get_extra_det_class_info() const
+    const substructs::MRZExtraDetClassInfoContainer& get_extra_det_class_info() const
     {
         return _extra_det_class_info;
     }
-    std::vector<substructs::MRZExtraDetClassInfo>& extra_det_class_info()
+    substructs::MRZExtraDetClassInfoContainer& extra_det_class_info()
     {
         return _extra_det_class_info;
     }
-    void set_extra_det_class_info(const std::vector<substructs::MRZExtraDetClassInfo>& info)
+    void set_extra_det_class_info(const substructs::MRZExtraDetClassInfoContainer& info)
     {
         _extra_det_class_info = info;
     }

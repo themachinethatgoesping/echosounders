@@ -38,11 +38,11 @@ TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
     transmit_sector.set_mean_absorption_coefficient(101);
     transmit_sector.set_tilt_angle(191);
     transmit_sector.set_signal_waveform_identifier(1); // FM_UP_SWEEP
-    dat.set_transmit_sectors({ transmit_sector });
+    dat.transmit_sectors().set_transmit_sectors({ transmit_sector });
 
     beam.set_quality_factor(101);
     beam.set_reflectivity(191);
-    dat.set_beams({ beam });
+    dat.beams().set_beams({ beam });
 
     // test inequality
     // REQUIRE(dat != RawRangeAndAngle());
@@ -67,12 +67,12 @@ TEST_CASE("RawRangeAndAngle should support common functions", TESTTAG)
         100); // this is of cause wrong because bytes was not adapted to the actual number of bytes
     CHECK(dat.get_sound_speed_at_transducer_in_m_per_s() == Catch::Approx(20.1));
     CHECK(dat.get_sampling_frequency() == Catch::Approx(204.f));
-    CHECK(dat.transmit_sectors()[0].get_mean_absorption_coefficient_in_dB_per_m() ==
+    CHECK(dat.transmit_sectors().transmit_sectors()[0].get_mean_absorption_coefficient_in_dB_per_m() ==
           Catch::Approx(0.001010f));
-    CHECK(dat.transmit_sectors()[0].get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
-    CHECK(dat.transmit_sectors()[0].get_tilt_angle_in_degrees() == Catch::Approx(1.91));
-    CHECK(dat.beams()[0].get_quality_factor() == Catch::Approx(101));
-    CHECK(dat.beams()[0].get_reflectivity_in_db() == Catch::Approx(19.1f));
+    CHECK(dat.transmit_sectors().transmit_sectors()[0].get_tx_signal_type() == t_TxSignalType::FM_UP_SWEEP);
+    CHECK(dat.transmit_sectors().transmit_sectors()[0].get_tilt_angle_in_degrees() == Catch::Approx(1.91));
+    CHECK(dat.beams().beams()[0].get_quality_factor() == Catch::Approx(101));
+    CHECK(dat.beams().beams()[0].get_reflectivity_in_db() == Catch::Approx(19.1f));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::RawRangeAndAngle);

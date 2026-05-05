@@ -138,7 +138,7 @@ SystemInformation::SystemInformation(
     using algorithms::signalprocessing::types::t_TxSignalType;
     using namespace algorithms::signalprocessing::datastructures;
 
-    const auto& transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors();
+    const auto& transmit_sectors = raw_range_and_angle_datagram.get_transmit_sectors().get_transmit_sectors();
     const auto  nsectors         = transmit_sectors.size();
 
     TxSignalParameterVector tx_signal_parameters;

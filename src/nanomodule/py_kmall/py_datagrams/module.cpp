@@ -22,8 +22,10 @@ void init_c_mrzpinginfo(nanobind::module_& m);   // substructs/c_mrzpinginfo.cpp
 void init_c_mrzrxinfo(nanobind::module_& m);     // substructs/c_mrzrxinfo.cpp
 void init_c_mrzsectorinfo(nanobind::module_& m); // substructs/c_mrzsectorinfo.cpp
 void init_c_mrzextradetclassinfo(nanobind::module_& m); // substructs/c_mrzextradetclassinfo.cpp
+void init_c_mrzextradetclassinfocontainer(nanobind::module_& m); // substructs/c_mrzextradetclassinfocontainer.cpp
 void init_c_mrzsoundings(nanobind::module_& m); // substructs/c_mrzsoundings.cpp
 void init_c_mrzsoundingscontainer(nanobind::module_& m); // substructs/c_MRZSoundingsContainer.cpp
+void init_c_mrztxsectorscontainer(nanobind::module_& m); // substructs/c_mrztxsectorscontainer.cpp
 void init_c_mwcrxbeamdata(nanobind::module_& m); // substructs/c_mwcrxbeamdata.cpp
 void init_c_mwcrxbeamdatacontainer(nanobind::module_& m); // substructs/c_mwcrxbeamdatacontainer.cpp
 void init_c_mwctxinfo(nanobind::module_& m); // substructs/c_mwctxinfo.cpp
@@ -66,8 +68,10 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_mrzrxinfo(subm);
     init_c_mrzsectorinfo(subm);
     init_c_mrzextradetclassinfo(subm);
+    init_c_mrzextradetclassinfocontainer(subm);
     init_c_mrzsoundings(subm);
     init_c_mrzsoundingscontainer(subm);
+    init_c_mrztxsectorscontainer(subm);
     init_c_mwcrxbeamdata(subm);
     init_c_mwcrxbeamdatacontainer(subm);
     init_c_mwctxinfo(subm);

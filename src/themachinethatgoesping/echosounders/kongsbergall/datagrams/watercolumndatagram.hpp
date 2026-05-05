@@ -24,7 +24,9 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/watercolumndatagrambeam.hpp"
+#include "substructures/watercolumndatagrambeamscontainer.hpp"
 #include "substructures/watercolumndatagramtransmitsector.hpp"
+#include "substructures/watercolumndatagramtransmitsectorscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -56,8 +58,8 @@ class WatercolumnDatagram : public KongsbergAllDatagram
     int8_t                 _tvg_offset_in_db;
     uint8_t                _scanning_info;
     std::array<uint8_t, 3> _spare;
-    std::vector<substructures::WatercolumnDatagramTransmitSector> _transmit_sectors;
-    std::vector<substructures::WatercolumnDatagramBeam>           _beams;
+    substructures::WatercolumnDatagramTransmitSectorsContainer _transmit_sectors;
+    substructures::WatercolumnDatagramBeamsContainer           _beams;
 
     uint8_t  _spare_byte = 0;
     uint8_t  _etx        = 0x03; ///< end identifier (always 0x03)
@@ -121,15 +123,15 @@ class WatercolumnDatagram : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum);
 
     // ----- substructure access -----
-    const std::vector<substructures::WatercolumnDatagramTransmitSector>& get_transmit_sectors()
+    const substructures::WatercolumnDatagramTransmitSectorsContainer& get_transmit_sectors()
         const;
-    std::vector<substructures::WatercolumnDatagramTransmitSector>& transmit_sectors();
+    substructures::WatercolumnDatagramTransmitSectorsContainer& transmit_sectors();
     void set_transmit_sectors(
-        std::vector<substructures::WatercolumnDatagramTransmitSector> transmit_sectors);
+        const substructures::WatercolumnDatagramTransmitSectorsContainer& transmit_sectors);
 
-    const std::vector<substructures::WatercolumnDatagramBeam>& get_beams() const;
-    std::vector<substructures::WatercolumnDatagramBeam>&       beams();
-    void set_beams(std::vector<substructures::WatercolumnDatagramBeam> beams);
+    const substructures::WatercolumnDatagramBeamsContainer& get_beams() const;
+    substructures::WatercolumnDatagramBeamsContainer&       beams();
+    void set_beams(const substructures::WatercolumnDatagramBeamsContainer& beams);
 
     // ----- processed data access -----
     /**

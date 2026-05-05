@@ -23,7 +23,9 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/extradetectionsdetectionclasses.hpp"
+#include "substructures/extradetectionsdetectionclassescontainer.hpp"
 #include "substructures/extradetectionsextradetections.hpp"
+#include "substructures/extradetectionsextradetectionscontainer.hpp"
 #include "substructures/sampleamplitudesstructure.hpp"
 
 namespace themachinethatgoesping {
@@ -58,9 +60,9 @@ class ExtraDetections : public KongsbergAllDatagram
     uint16_t _number_of_alarm_flags;         ///<
     uint16_t _number_of_bytes_per_detection; ///<
 
-    std::vector<substructures::ExtraDetectionsDetectionClasses>
+    substructures::ExtraDetectionsDetectionClassesContainer
         _detection_classes; ///< substructure 1
-    std::vector<substructures::ExtraDetectionsExtraDetections>
+    substructures::ExtraDetectionsExtraDetectionsContainer
         _extra_detections; ///< substructure 2
 
     substructures::SampleAmplitudesStructure<int16_t> _raw_amplitude_samples; ///< 0.1 dB
@@ -96,8 +98,8 @@ class ExtraDetections : public KongsbergAllDatagram
     uint16_t get_number_of_bytes_per_class() const;
     uint16_t get_number_of_alarm_flags() const;
     uint16_t get_number_of_bytes_per_detection() const;
-    const std::vector<substructures::ExtraDetectionsDetectionClasses>& get_detection_classes() const;
-    const std::vector<substructures::ExtraDetectionsExtraDetections>& get_extra_detections() const;
+    const substructures::ExtraDetectionsDetectionClassesContainer& get_detection_classes() const;
+    const substructures::ExtraDetectionsExtraDetectionsContainer& get_extra_detections() const;
     const substructures::SampleAmplitudesStructure<int16_t>& get_raw_amplitude_samples() const;
     uint16_t get_spare() const;
     uint8_t  get_etx() const;
@@ -122,9 +124,9 @@ class ExtraDetections : public KongsbergAllDatagram
     void set_number_of_bytes_per_detection(uint16_t number_of_bytes_per_detection);
 
     void set_detection_classes(
-        const std::vector<substructures::ExtraDetectionsDetectionClasses>& detection_classes);
+        const substructures::ExtraDetectionsDetectionClassesContainer& detection_classes);
     void set_extra_detections(
-        const std::vector<substructures::ExtraDetectionsExtraDetections>& extra_detections);
+        const substructures::ExtraDetectionsExtraDetectionsContainer& extra_detections);
     void set_raw_amplitude_samples(
         const substructures::SampleAmplitudesStructure<int16_t>& raw_amplitude_samples);
     void set_spare(uint16_t spare_bytes);
@@ -132,8 +134,8 @@ class ExtraDetections : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum);
 
     // ----- datastrucuture access -----
-    std::vector<substructures::ExtraDetectionsDetectionClasses>& detection_classes();
-    std::vector<substructures::ExtraDetectionsExtraDetections>& extra_detections();
+    substructures::ExtraDetectionsDetectionClassesContainer& detection_classes();
+    substructures::ExtraDetectionsExtraDetectionsContainer&  extra_detections();
     substructures::SampleAmplitudesStructure<int16_t>& raw_amplitude_samples();
 
     // ----- processed data access -----

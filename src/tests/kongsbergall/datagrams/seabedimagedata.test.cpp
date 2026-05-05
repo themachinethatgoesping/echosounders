@@ -35,7 +35,11 @@ TEST_CASE("SeabedImageData should support common functions", TESTTAG)
 
     beam.set_sorting_direction(101);
     beam.set_centre_sample_number(191);
-    dat.set_beams({ beam });
+    {
+        substructures::SeabedImageDataBeamsContainer beams_container;
+        beams_container.set_beams({ beam });
+        dat.set_beams(beams_container);
+    }
 
     // test inequality
     // REQUIRE(dat != SeabedImageData());
@@ -61,8 +65,8 @@ TEST_CASE("SeabedImageData should support common functions", TESTTAG)
     CHECK(dat.get_normal_incidence_backscatter_in_db() == Catch::Approx(2.01));
     CHECK(dat.get_tx_beamwidth_along_in_degrees() == Catch::Approx(20.4));
     CHECK(dat.get_tvg_law_crossover_angle_in_degrees() == Catch::Approx(20.5));
-    CHECK(dat.beams()[0].get_sorting_direction() == Catch::Approx(101));
-    CHECK(dat.beams()[0].get_centre_sample_number() == Catch::Approx(191));
+    CHECK(dat.beams().get_beams()[0].get_sorting_direction() == Catch::Approx(101));
+    CHECK(dat.beams().get_beams()[0].get_centre_sample_number() == Catch::Approx(191));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::SeabedImageData);

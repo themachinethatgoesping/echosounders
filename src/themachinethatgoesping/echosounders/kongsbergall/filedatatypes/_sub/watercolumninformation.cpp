@@ -17,7 +17,7 @@ namespace _sub {
 WaterColumnInformation::WaterColumnInformation(
     const datagrams::WatercolumnDatagram& water_column_datagram)
 {
-    auto nbeams = water_column_datagram.get_beams().size();
+    auto nbeams = water_column_datagram.get_beams().get_beams().size();
 
     // initialize arrays using from shape function
     auto beam_crosstrack_angles     = xt::xtensor<float, 1>::from_shape({ nbeams });
@@ -28,7 +28,7 @@ WaterColumnInformation::WaterColumnInformation(
     auto sample_positions           = xt::xtensor<size_t, 1>::from_shape({ nbeams });
 
     size_t bn = 0;
-    for (const auto& b : water_column_datagram.get_beams())
+    for (const auto& b : water_column_datagram.get_beams().get_beams())
     {
         sample_positions.unchecked(bn) = b.get_sample_position();
 
