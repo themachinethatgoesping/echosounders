@@ -56,6 +56,7 @@ class KongsbergAllPingFileData
 
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
+    std::unique_ptr<boost::flyweight<datagrams::SoundSpeedProfileDatagram>> _soundspeed_profile;
     std::unique_ptr<boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>
         _multisector_calibration;
 
@@ -286,6 +287,23 @@ class KongsbergAllPingFileData
                 "available!");
 
         return _runtime_parameters->get();
+    }
+
+    bool has_soundspeed_profile() const { return bool(_soundspeed_profile); }
+
+    void set_soundspeed_profile(boost::flyweight<datagrams::SoundSpeedProfileDatagram> arg)
+    {
+        _soundspeed_profile =
+            std::make_unique<boost::flyweight<datagrams::SoundSpeedProfileDatagram>>(arg);
+    }
+    const datagrams::SoundSpeedProfileDatagram& get_soundspeed_profile() const
+    {
+        if (!_soundspeed_profile)
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_soundspeed_profile]: No sound speed profile "
+                "available!");
+
+        return _soundspeed_profile->get();
     }
 
     bool has_datagram_type(t_KongsbergAllDatagramIdentifier datagram_identifier) const

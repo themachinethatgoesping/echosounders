@@ -1,4 +1,4 @@
-//sourcehash: 1629b1e4c356fa5975f3049bf704f0db895272caf887642be98d9c79756c0a8c
+//sourcehash: 96f8be29a1518d4676cf02b720eab819d39773b4c73ac574a5a65dc7492cc540
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,7 +47,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_KongsbergAllEnvironmentDataInterfacePerFile_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_get_soundspeed_profile =
+R"doc(Return the latest SoundSpeedProfileDatagram with profile timestamp <=
+ping_time.
+
+If all known profiles are newer than ping_time, the first (oldest)
+profile is returned. Throws if no profile is available for this file.
+
+Args:
+    ping_time: Ping timestamp (unix seconds).
+    last_index: Stateful search hint (per ping stream) to avoid re-
+                scanning.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_has_soundspeed_profiles =
+R"doc(Check whether at least one SoundSpeedProfileDatagram is available for
+this file.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_init_soundspeed_profiles =
+R"doc(Read all SoundSpeedProfileDatagrams registered for this file and cache
+them sorted by their profile timestamp.
+
+This function is automatically called by get_soundspeed_profile.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_soundspeed_profile_timestamps =
+R"doc(Cached profile timestamps for fast binary search (avoid flyweight
+dereference))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_soundspeed_profiles =
+R"doc(Sound speed profile datagrams found in this file, sorted by profile
+timestamp)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_soundspeed_profiles_initialized = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

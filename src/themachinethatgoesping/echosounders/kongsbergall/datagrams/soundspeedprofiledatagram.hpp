@@ -157,6 +157,16 @@ class SoundSpeedProfileDatagram : public KongsbergAllDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SoundSpeedProfileDatagram)
 };
 
+/**
+ * @brief Provide a boost hash function for SoundSpeedProfileDatagram
+ * - Note: this is needed to use SoundSpeedProfileDatagram as boost::flyweight
+ *
+ * @param data
+ * @return std::size_t
+ */
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_hash_value
+size_t hash_value(const SoundSpeedProfileDatagram& data);
+
 } // namespace datagrams
 } // namespace kongsbergall
 } // namespace echosounders

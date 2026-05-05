@@ -275,6 +275,11 @@ tools::classhelper::ObjectPrinter SoundSpeedProfileDatagram::__printer__(
 	return printer;
 }
 
+size_t hash_value(const SoundSpeedProfileDatagram& data)
+{
+    return data.binary_hash();
+}
+
 } // namespace datagrams
 } // namespace kongsbergall
 } // namespace echosounders

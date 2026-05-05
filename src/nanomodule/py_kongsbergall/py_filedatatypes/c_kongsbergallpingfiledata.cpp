@@ -64,6 +64,17 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
                         &t_KongsbergAllPingFileData::get_runtime_parameters,
                         DOC_KongsbergAllPingFileData(get_runtime_parameters))
 
+                   .def("has_soundspeed_profile",
+                        &t_KongsbergAllPingFileData::has_soundspeed_profile,
+                        DOC_KongsbergAllPingFileData(has_soundspeed_profile))
+                   .def("set_soundspeed_profile",
+                        &t_KongsbergAllPingFileData::set_soundspeed_profile,
+                        DOC_KongsbergAllPingFileData(set_soundspeed_profile),
+                        nb::arg("soundspeed_profile"))
+                   .def("get_soundspeed_profile",
+                        &t_KongsbergAllPingFileData::get_soundspeed_profile,
+                        DOC_KongsbergAllPingFileData(get_soundspeed_profile))
+
                    // --- file_data data access ---
                    .def("read_merged_watercolumndatagram",
                         &t_KongsbergAllPingFileData::read_merged_watercolumndatagram,

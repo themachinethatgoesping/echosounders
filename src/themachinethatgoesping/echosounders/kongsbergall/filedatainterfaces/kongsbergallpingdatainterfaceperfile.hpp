@@ -89,7 +89,17 @@ class KongsbergAllPingDataInterfacePerFile
         // Pre-init runtime params to avoid lazy init during the datagram loop
         configuration_data_interface_for_file.init_runtime_parameters();
 
+        // Pre-init sound speed profiles for this file (located on the env interface, since
+        // SoundSpeedProfileDatagrams are routed there).
+        auto& environment_data_interface_for_file =
+            this->environment_data_interface().per_file(this->get_file_nr());
+        environment_data_interface_for_file.init_soundspeed_profiles();
+        const bool soundspeed_profiles_available =
+            environment_data_interface_for_file.has_soundspeed_profiles();
+
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
+        std::map<uint16_t, std::shared_ptr<size_t>>
+            last_soundspeed_profile_index_per_serial_number;
 
         t_ping base_ping;
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
@@ -138,6 +148,25 @@ class KongsbergAllPingDataInterfacePerFile
                                     last_idx);
 
                             ping_it->second->file_data().set_runtime_parameters(std::move(rp));
+
+                            // attach the latest sound speed profile (if any are available
+                            // in this file). We don't throw if none are present - SSP datagrams
+                            // are optional in .all files.
+                            if (soundspeed_profiles_available)
+                            {
+                                auto& last_ssp_idx =
+                                    last_soundspeed_profile_index_per_serial_number[serial_number];
+                                if (!last_ssp_idx)
+                                    last_ssp_idx = std::make_shared<size_t>(0);
+
+                                auto ssp = environment_data_interface_for_file
+                                               .get_soundspeed_profile(
+                                                   ping_it->second->get_timestamp(),
+                                                   last_ssp_idx);
+
+                                ping_it->second->file_data().set_soundspeed_profile(
+                                    std::move(ssp));
+                            }
                         }
 
                         ping_it->second->add_datagram_info(datagram_ptr);

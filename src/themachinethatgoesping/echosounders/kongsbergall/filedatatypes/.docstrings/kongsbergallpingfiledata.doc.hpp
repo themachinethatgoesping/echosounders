@@ -1,4 +1,4 @@
-//sourcehash: c14a4f42491eb61ab40f5d0d3de4b7f0b4fdcf4efac6f336a49bafc2bc7b2e6c
+//sourcehash: 6fc649f2491c46397cfc233e1ec564a9c986cf85876ae434c2fd728ddd49f3ab
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,6 +71,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_runtime_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_soundspeed_profile = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_sysinfos = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_sysinfos_const = R"doc()doc";
@@ -90,6 +92,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_datagram_type_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_runtime_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_soundspeed_profile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_watercolumn_calibration = R"doc()doc";
 
@@ -141,6 +145,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_runtime_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_soundspeed_profile = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_systeminformation = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_watercolumn_calibration = R"doc()doc";
@@ -148,6 +154,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_watercolumn_calibration_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_set_watercolumninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_soundspeed_profile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_sys_loaded = R"doc()doc";
 
