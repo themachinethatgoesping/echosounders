@@ -61,7 +61,20 @@ tools::classhelper::ObjectPrinter MRZExtraDetClassInfoContainer::__printer__(
 {
     tools::classhelper::ObjectPrinter printer(
         "MRZExtraDetClassInfoContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_extra_det_class_info", _extra_det_class_info.size());
+
+    printer.register_section("ExtraDetClassInfo (.extra_det_class_info)");
+    printer.register_value("extra_det_class_info (vector)",
+                           fmt::format("size={}", get_number_of_extra_det_class_info()),
+                           "classes");
+
+    printer.register_container("num_extra_det_in_class", get_num_extra_det_in_class_tensor());
+    printer.register_container("padding", get_padding_tensor());
+    printer.register_container("alarm_flag", get_alarm_flag_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_extra_det_class_info",
+                           get_number_of_extra_det_class_info());
+
     return printer;
 }
 

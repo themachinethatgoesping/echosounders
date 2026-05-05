@@ -122,27 +122,17 @@ void init_c_watercolumndatagram(nanobind::module_& m)
         .def("get_spare", &WatercolumnDatagram::get_spare, DOC_WatercolumnDatagram(spare))
 
         // --- data structure access ---
-        .def("get_beams",
-             &WatercolumnDatagram::get_beams,
-             DOC_WatercolumnDatagram(beams),
-             nb::rv_policy::reference_internal)
-        .def("set_beams", &WatercolumnDatagram::set_beams, DOC_WatercolumnDatagram(beams))
-        .def("beams",
-             &WatercolumnDatagram::beams,
-             DOC_WatercolumnDatagram(beams),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw("beams",
+                     &WatercolumnDatagram::beams,
+                     &WatercolumnDatagram::set_beams,
+                     DOC_WatercolumnDatagram(beams),
+                     nb::rv_policy::reference_internal)
 
-        .def("get_transmit_sectors",
-             &WatercolumnDatagram::get_transmit_sectors,
-             DOC_WatercolumnDatagram(transmit_sectors),
-             nb::rv_policy::reference_internal)
-        .def("set_transmit_sectors",
-             &WatercolumnDatagram::set_transmit_sectors,
-             DOC_WatercolumnDatagram(transmit_sectors))
-        .def("transmit_sectors",
-             &WatercolumnDatagram::transmit_sectors,
-             DOC_WatercolumnDatagram(transmit_sectors),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw("transmit_sectors",
+                     &WatercolumnDatagram::transmit_sectors,
+                     &WatercolumnDatagram::set_transmit_sectors,
+                     DOC_WatercolumnDatagram(transmit_sectors),
+                     nb::rv_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_sound_speed_m_s",

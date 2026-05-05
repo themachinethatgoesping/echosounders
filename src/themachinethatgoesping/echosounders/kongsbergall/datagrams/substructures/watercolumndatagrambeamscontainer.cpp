@@ -93,7 +93,26 @@ tools::classhelper::ObjectPrinter WatercolumnDatagramBeamsContainer::__printer__
 {
     tools::classhelper::ObjectPrinter printer(
         "WatercolumnDatagramBeamsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_beams", _beams.size());
+
+    printer.register_section("Beams (.beams)");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+
+    printer.register_container("beam_crosstrack_angle", get_beam_crosstrack_angle_tensor());
+    printer.register_container("start_range_sample_number",
+                               get_start_range_sample_number_tensor());
+    printer.register_container("number_of_samples", get_number_of_samples_tensor());
+    printer.register_container("detected_range_in_samples",
+                               get_detected_range_in_samples_tensor());
+    printer.register_container("transmit_sector_number", get_transmit_sector_number_tensor());
+    printer.register_container("beam_number", get_beam_number_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_beams", get_number_of_beams());
+    printer.register_container("beam_crosstrack_angle_in_degrees",
+                               get_beam_crosstrack_angle_in_degrees_tensor(),
+                               "deg");
+
     return printer;
 }
 

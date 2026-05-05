@@ -92,15 +92,11 @@ void init_c_seabedimagedata(nanobind::module_& m)
         .def("get_spare_byte", &SeabedImageData::get_spare_byte, DOC_SeabedImageData(spare_byte))
 
         // --- data structure access ---
-        .def("get_beams",
-             &SeabedImageData::get_beams,
-             DOC_SeabedImageData(beams),
-             nb::rv_policy::reference_internal)
-        .def("set_beams", &SeabedImageData::set_beams, DOC_SeabedImageData(beams))
-        .def("beams",
-             &SeabedImageData::beams,
-             DOC_SeabedImageData(beams),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw("beams",
+                     &SeabedImageData::beams,
+                     &SeabedImageData::set_beams,
+                     DOC_SeabedImageData(beams),
+                     nb::rv_policy::reference_internal)
         .def("get_sample_amplitudes",
              &SeabedImageData::get_sample_amplitudes,
              DOC_SeabedImageData(sample_amplitudes),

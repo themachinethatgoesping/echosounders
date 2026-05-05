@@ -154,7 +154,35 @@ tools::classhelper::ObjectPrinter RawRangeAndAngleBeamsContainer::__printer__(
 {
     tools::classhelper::ObjectPrinter printer(
         "RawRangeAndAngleBeamsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_beams", _beams.size());
+
+    printer.register_section("Beams (.beams)");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+
+    printer.register_container("beam_crosstrack_angle", get_beam_crosstrack_angle_tensor());
+    printer.register_container("transmit_sector_number", get_transmit_sector_number_tensor());
+    printer.register_container("detection_info", get_detection_info_tensor());
+    printer.register_container("detection_window_length_in_samples",
+                               get_detection_window_length_in_samples_tensor(),
+                               "samples");
+    printer.register_container("quality_factor", get_quality_factor_tensor());
+    printer.register_container("d_corr", get_d_corr_tensor());
+    printer.register_container("two_way_travel_time", get_two_way_travel_time_tensor(), "s");
+    printer.register_container("reflectivity", get_reflectivity_tensor());
+    printer.register_container("realtime_cleaning_info", get_realtime_cleaning_info_tensor());
+    printer.register_container("spare", get_spare_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_beams", get_number_of_beams());
+    printer.register_container("beam_crosstrack_angle_in_degrees",
+                               get_beam_crosstrack_angle_in_degrees_tensor(),
+                               "deg");
+    printer.register_container("reflectivity_in_db", get_reflectivity_in_db_tensor(), "dB");
+    printer.register_container("detection_is_valid", get_detection_is_valid_tensor());
+    printer.register_container("detection_type", get_detection_type_tensor());
+    printer.register_container("backscatter_is_compensated",
+                               get_backscatter_is_compensated_tensor());
+
     return printer;
 }
 

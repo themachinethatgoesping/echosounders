@@ -71,7 +71,27 @@ tools::classhelper::ObjectPrinter ExtraDetectionsDetectionClassesContainer::__pr
 {
     tools::classhelper::ObjectPrinter printer(
         "ExtraDetectionsDetectionClassesContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_detection_classes", _detection_classes.size());
+
+    printer.register_section("DetectionClasses (.detection_classes)");
+    printer.register_value("detection_classes (vector)",
+                           fmt::format("size={}", get_number_of_detection_classes()),
+                           "classes");
+
+    printer.register_container("start_depth", get_start_depth_tensor());
+    printer.register_container("stop_depth", get_stop_depth_tensor());
+    printer.register_container("qf_threshold_100", get_qf_threshold_100_tensor());
+    printer.register_container("bs_threshold", get_bs_threshold_tensor());
+    printer.register_container("snr_threshold", get_snr_threshold_tensor());
+    printer.register_container("alarm_threshold", get_alarm_threshold_tensor());
+    printer.register_container("number_of_extra_detections",
+                               get_number_of_extra_detections_tensor());
+    printer.register_container("show_class", get_show_class_tensor());
+    printer.register_container("alarm_flag_1", get_alarm_flag_1_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_detection_classes", get_number_of_detection_classes());
+    printer.register_container("qf_threshold", get_qf_threshold_tensor());
+
     return printer;
 }
 

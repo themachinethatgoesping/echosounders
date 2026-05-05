@@ -99,26 +99,16 @@ void init_c_rawrangeandangle(nanobind::module_& m)
         .def("get_d_scale", &RawRangeAndAngle::get_d_scale, DOC_RawRangeAndAngle(d_scale))
 
         // substructures access
-        .def("set_transmit_sectors",
-             &RawRangeAndAngle::set_transmit_sectors,
-             DOC_RawRangeAndAngle(transmit_sectors),
-             nb::rv_policy::reference_internal)
-        .def("get_transmit_sectors",
-             &RawRangeAndAngle::get_transmit_sectors,
-             DOC_RawRangeAndAngle(transmit_sectors))
-        .def("transmit_sectors",
-             &RawRangeAndAngle::transmit_sectors,
-             DOC_RawRangeAndAngle(transmit_sectors_2),
-             nb::rv_policy::reference_internal)
-        .def("set_beams",
-             &RawRangeAndAngle::set_beams,
-             DOC_RawRangeAndAngle(beams),
-             nb::rv_policy::reference_internal)
-        .def("get_beams", &RawRangeAndAngle::get_beams, DOC_RawRangeAndAngle(beams))
-        .def("beams",
-             &RawRangeAndAngle::beams,
-             DOC_RawRangeAndAngle(beams_2),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw("transmit_sectors",
+                     &RawRangeAndAngle::transmit_sectors,
+                     &RawRangeAndAngle::set_transmit_sectors,
+                     DOC_RawRangeAndAngle(transmit_sectors),
+                     nb::rv_policy::reference_internal)
+        .def_prop_rw("beams",
+                     &RawRangeAndAngle::beams,
+                     &RawRangeAndAngle::set_beams,
+                     DOC_RawRangeAndAngle(beams),
+                     nb::rv_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_sound_speed_at_transducer_in_m_per_s",

@@ -127,28 +127,16 @@ void init_c_extradetections(nanobind::module_& m)
              DOC_ExtraDetections(number_of_bytes_per_detection))
 
         // --- substructure member access ---
-        .def("set_detection_classes",
-             &ExtraDetections::set_detection_classes,
-             DOC_ExtraDetections(detection_classes))
-        .def("get_detection_classes",
-             &ExtraDetections::get_detection_classes,
-             DOC_ExtraDetections(detection_classes),
-             nb::rv_policy::reference_internal)
-        .def("detection_classes",
-             &ExtraDetections::detection_classes,
-             DOC_ExtraDetections(detection_classes_2),
-             nb::rv_policy::reference_internal)
-        .def("set_extra_detections",
-             &ExtraDetections::set_extra_detections,
-             DOC_ExtraDetections(extra_detections))
-        .def("get_extra_detections",
-             &ExtraDetections::get_extra_detections,
-             DOC_ExtraDetections(extra_detections),
-             nb::rv_policy::reference_internal)
-        .def("extra_detections",
-             &ExtraDetections::extra_detections,
-             DOC_ExtraDetections(extra_detections_2),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw("detection_classes",
+                     &ExtraDetections::detection_classes,
+                     &ExtraDetections::set_detection_classes,
+                     DOC_ExtraDetections(detection_classes),
+                     nb::rv_policy::reference_internal)
+        .def_prop_rw("extra_detections",
+                     &ExtraDetections::extra_detections,
+                     &ExtraDetections::set_extra_detections,
+                     DOC_ExtraDetections(extra_detections),
+                     nb::rv_policy::reference_internal)
         .def("set_raw_amplitude_samples",
              &ExtraDetections::set_raw_amplitude_samples,
              DOC_ExtraDetections(raw_amplitude_samples))

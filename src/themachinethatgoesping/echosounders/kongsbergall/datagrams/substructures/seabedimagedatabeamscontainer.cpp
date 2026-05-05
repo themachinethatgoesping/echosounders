@@ -96,7 +96,23 @@ tools::classhelper::ObjectPrinter SeabedImageDataBeamsContainer::__printer__(
 {
     tools::classhelper::ObjectPrinter printer(
         "SeabedImageDataBeamsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_beams", _beams.size());
+
+    printer.register_section("Beams (.beams)");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+
+    printer.register_container("sorting_direction", get_sorting_direction_tensor());
+    printer.register_container("detection_info", get_detection_info_tensor());
+    printer.register_container("number_of_samples", get_number_of_samples_tensor());
+    printer.register_container("centre_sample_number", get_centre_sample_number_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_beams", get_number_of_beams());
+    printer.register_container("detection_is_valid", get_detection_is_valid_tensor());
+    printer.register_container("detection_type", get_detection_type_tensor());
+    printer.register_container("backscatter_is_compensated",
+                               get_backscatter_is_compensated_tensor());
+
     return printer;
 }
 

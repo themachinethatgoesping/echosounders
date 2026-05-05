@@ -67,7 +67,41 @@ tools::classhelper::ObjectPrinter MRZTxSectorsContainer::__printer__(
 {
     tools::classhelper::ObjectPrinter printer(
         "MRZTxSectorsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_tx_sectors", _tx_sectors.size());
+
+    printer.register_section("TxSectors (.tx_sectors)");
+    printer.register_value("tx_sectors (vector)",
+                           fmt::format("size={}", get_number_of_tx_sectors()),
+                           "sectors");
+
+    printer.register_container("tx_sector_number", get_tx_sector_number_tensor());
+    printer.register_container("tx_arrary_number", get_tx_arrary_number_tensor());
+    printer.register_container("tx_sub_array", get_tx_sub_array_tensor());
+    printer.register_container("padding_0", get_padding_0_tensor());
+    printer.register_container(
+        "sector_transmit_delay_sec", get_sector_transmit_delay_sec_tensor(), "s");
+    printer.register_container(
+        "tilt_angle_re_tx_deg", get_tilt_angle_re_tx_deg_tensor(), "deg");
+    printer.register_container(
+        "tx_nominal_source_level_db", get_tx_nominal_source_level_db_tensor(), "dB");
+    printer.register_container("tx_focus_range_m", get_tx_focus_range_m_tensor(), "m");
+    printer.register_container("centre_frequency_hz", get_centre_frequency_hz_tensor(), "Hz");
+    printer.register_container("signal_band_width_hz", get_signal_band_width_hz_tensor(), "Hz");
+    printer.register_container(
+        "total_signal_length_sec", get_total_signal_length_sec_tensor(), "s");
+    printer.register_container("pulse_shading", get_pulse_shading_tensor());
+    printer.register_container("signal_wave_form", get_signal_wave_form_tensor());
+    printer.register_container("padding_1", get_padding_1_tensor());
+    printer.register_container(
+        "high_voltage_level_db", get_high_voltage_level_db_tensor(), "dB");
+    printer.register_container(
+        "sector_tracking_corr_db", get_sector_tracking_corr_db_tensor(), "dB");
+    printer.register_container(
+        "effective_signal_length_sec", get_effective_signal_length_sec_tensor(), "s");
+
+    printer.register_section("processed");
+    printer.register_value("number_of_tx_sectors", get_number_of_tx_sectors());
+    printer.register_container("tx_signal_type", get_tx_signal_type_tensor());
+
     return printer;
 }
 

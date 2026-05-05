@@ -4,6 +4,8 @@
 
 #include "rawrangeandangletransmitsectorscontainer.hpp"
 
+#include <fmt/core.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace kongsbergall {
@@ -155,7 +157,34 @@ tools::classhelper::ObjectPrinter RawRangeAndAngleTransmitSectorsContainer::__pr
 {
     tools::classhelper::ObjectPrinter printer(
         "RawRangeAndAngleTransmitSectorsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_transmit_sectors", _transmit_sectors.size());
+
+    printer.register_section("TransmitSectors (.transmit_sectors)");
+    printer.register_value("transmit_sectors (vector)",
+                           fmt::format("size={}", get_number_of_transmit_sectors()),
+                           "sectors");
+
+    printer.register_container("tilt_angle", get_tilt_angle_tensor());
+    printer.register_container("focus_range", get_focus_range_tensor());
+    printer.register_container("signal_length", get_signal_length_tensor(), "s");
+    printer.register_container("sector_transmit_delay", get_sector_transmit_delay_tensor(), "s");
+    printer.register_container("center_frequency", get_center_frequency_tensor(), "Hz");
+    printer.register_container("mean_absorption_coefficient",
+                               get_mean_absorption_coefficient_tensor());
+    printer.register_container("signal_waveform_identifier",
+                               get_signal_waveform_identifier_tensor());
+    printer.register_container("transmit_sector_number", get_transmit_sector_number_tensor());
+    printer.register_container("signal_bandwidth", get_signal_bandwidth_tensor(), "Hz");
+
+    printer.register_section("processed");
+    printer.register_value("number_of_transmit_sectors", get_number_of_transmit_sectors());
+    printer.register_container(
+        "tilt_angle_in_degrees", get_tilt_angle_in_degrees_tensor(), "deg");
+    printer.register_container("focus_range_in_m", get_focus_range_in_m_tensor(), "m");
+    printer.register_container("mean_absorption_coefficient_in_dB_per_m",
+                               get_mean_absorption_coefficient_in_dB_per_m_tensor(),
+                               "dB/m");
+    printer.register_container("tx_signal_type", get_tx_signal_type_tensor());
+
     return printer;
 }
 

@@ -93,7 +93,24 @@ tools::classhelper::ObjectPrinter WatercolumnDatagramTransmitSectorsContainer::_
 {
     tools::classhelper::ObjectPrinter printer(
         "WatercolumnDatagramTransmitSectorsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_transmit_sectors", _transmit_sectors.size());
+
+    printer.register_section("TransmitSectors (.transmit_sectors)");
+    printer.register_value("transmit_sectors (vector)",
+                           fmt::format("size={}", get_number_of_transmit_sectors()),
+                           "sectors");
+
+    printer.register_container("tilt_angle", get_tilt_angle_tensor());
+    printer.register_container("center_frequency", get_center_frequency_tensor());
+    printer.register_container("transmit_sector_number", get_transmit_sector_number_tensor());
+    printer.register_container("spare", get_spare_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_transmit_sectors", get_number_of_transmit_sectors());
+    printer.register_container(
+        "tilt_angle_in_degrees", get_tilt_angle_in_degrees_tensor(), "deg");
+    printer.register_container(
+        "center_frequency_in_hz", get_center_frequency_in_hz_tensor(), "Hz");
+
     return printer;
 }
 

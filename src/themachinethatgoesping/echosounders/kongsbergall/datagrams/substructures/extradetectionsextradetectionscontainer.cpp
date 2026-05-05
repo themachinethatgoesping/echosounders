@@ -110,7 +110,56 @@ tools::classhelper::ObjectPrinter ExtraDetectionsExtraDetectionsContainer::__pri
 {
     tools::classhelper::ObjectPrinter printer(
         "ExtraDetectionsExtraDetectionsContainer", float_precision, superscript_exponents);
-    printer.register_value("number_of_extra_detections", _extra_detections.size());
+
+    printer.register_section("ExtraDetections (.extra_detections)");
+    printer.register_value("extra_detections (vector)",
+                           fmt::format("size={}", get_number_of_extra_detections()),
+                           "detections");
+
+    printer.register_container("depth", get_depth_tensor(), "m");
+    printer.register_container("across", get_across_tensor(), "m");
+    printer.register_container("along", get_along_tensor(), "m");
+    printer.register_container("delta_latitude", get_delta_latitude_tensor(), "deg");
+    printer.register_container("delta_longitude", get_delta_longitude_tensor(), "deg");
+    printer.register_container(
+        "beam_crosstrack_angle", get_beam_crosstrack_angle_tensor(), "deg");
+    printer.register_container("applied_pointing_angle_correction",
+                               get_applied_pointing_angle_correction_tensor(),
+                               "deg");
+    printer.register_container("two_way_travel_time", get_two_way_travel_time_tensor(), "s");
+    printer.register_container("applied_two_way_travel_time_corrections",
+                               get_applied_two_way_travel_time_corrections_tensor(),
+                               "s");
+    printer.register_container("backscatter", get_backscatter_tensor());
+    printer.register_container("beam_incidence_angle_adjustment",
+                               get_beam_incidence_angle_adjustment_tensor());
+    printer.register_container("detection_info", get_detection_info_tensor());
+    printer.register_container("spare", get_spare_tensor());
+    printer.register_container("tx_sector_number", get_tx_sector_number_tensor());
+    printer.register_container("detection_window_length",
+                               get_detection_window_length_tensor());
+    printer.register_container("quality_factor_old", get_quality_factor_old_tensor());
+    printer.register_container("real_time_cleaning_info", get_real_time_cleaning_info_tensor());
+    printer.register_container("range_factor", get_range_factor_tensor());
+    printer.register_container("detection_class_number", get_detection_class_number_tensor());
+    printer.register_container("confidence_level", get_confidence_level_tensor());
+    printer.register_container("qf_10", get_qf_10_tensor());
+    printer.register_container("water_column_beam_number",
+                               get_water_column_beam_number_tensor());
+    printer.register_container("beam_angle_across", get_beam_angle_across_tensor(), "deg");
+    printer.register_container("detected_range", get_detected_range_tensor());
+    printer.register_container("number_of_raw_amplitude_samples",
+                               get_number_of_raw_amplitude_samples_tensor());
+
+    printer.register_section("processed");
+    printer.register_value("number_of_extra_detections", get_number_of_extra_detections());
+    printer.register_container("qf_threshold", get_qf_threshold_tensor());
+    printer.register_container("backscatter_in_db", get_backscatter_in_db_tensor(), "dB");
+    printer.register_container("detection_is_valid", get_detection_is_valid_tensor());
+    printer.register_container("detection_type", get_detection_type_tensor());
+    printer.register_container("backscatter_is_compensated",
+                               get_backscatter_is_compensated_tensor());
+
     return printer;
 }
 
