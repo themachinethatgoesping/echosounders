@@ -1,4 +1,4 @@
-//sourcehash: df845fdbe77cfea64b2a6eb91742d31ff2b1ea89db5851ba38f5b53991e050f1
+//sourcehash: e4a5b6b50875845e4c986b05ef7718b05f0375a6eebe78b00f15114324f572f9
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,6 +65,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_runtime_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_get_txrx_target_names_per_trx_channel =
+R"doc(Per-TRX-channel mapping to the (TX, RX) target ids in the file's
+SensorConfiguration. For STC modes that only register a single
+combined transducer (single-head, dual-head with merged TRX), both
+entries point at the TRX target itself.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_init_runtime_parameters =
 R"doc(read the runtime parameters from the file and save them in the
 internal map This function is automatically called by
@@ -123,6 +129,8 @@ R"doc(Set the active position system number
 
 Args:
     number:)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_txrx_target_names_per_trx_channel = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -20,6 +20,7 @@
 #include <magic_enum/magic_enum.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/geoprocessing/raytracers2/soundvelocityprofile.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 
@@ -48,6 +49,10 @@ class KongsbergAllEnvironmentDataInterfacePerFile
 
     /// Sound speed profile datagrams found in this file, sorted by profile timestamp
     std::vector<boost::flyweight<datagrams::SoundSpeedProfileDatagram>> _soundspeed_profiles;
+
+    /// SoundVelocityProfile (raytracers2) flyweights, parallel to _soundspeed_profiles.
+    std::vector<boost::flyweight<algorithms::geoprocessing::raytracers2::SoundVelocityProfile>>
+        _sound_speed_profiles;
 
     /// Cached profile timestamps for fast binary search (avoid flyweight dereference)
     std::vector<double> _soundspeed_profile_timestamps;
@@ -84,6 +89,7 @@ class KongsbergAllEnvironmentDataInterfacePerFile
             return;
 
         _soundspeed_profiles.clear();
+        _sound_speed_profiles.clear();
         _soundspeed_profile_timestamps.clear();
 
         for (const auto& datagram_ptr :
@@ -101,8 +107,20 @@ class KongsbergAllEnvironmentDataInterfacePerFile
                   });
 
         _soundspeed_profile_timestamps.reserve(_soundspeed_profiles.size());
+        _sound_speed_profiles.reserve(_soundspeed_profiles.size());
         for (const auto& fw : _soundspeed_profiles)
-            _soundspeed_profile_timestamps.push_back(fw.get().get_profile_timestamp());
+        {
+            const auto& dg = fw.get();
+            _soundspeed_profile_timestamps.push_back(dg.get_profile_timestamp());
+
+            // Convert datagram -> raytracers2::SoundVelocityProfile (absolute depth).
+            xt::xtensor<float, 1> z = xt::cast<float>(dg.get_depths_in_meters());
+            xt::xtensor<float, 1> c = dg.get_sound_speeds_in_meters_per_second();
+            algorithms::geoprocessing::raytracers2::SoundVelocityProfile svp(
+                std::move(z), std::move(c));
+            svp.set_timestamp(dg.get_profile_timestamp());
+            _sound_speed_profiles.emplace_back(std::move(svp));
+        }
 
         _soundspeed_profiles_initialized = true;
     }
@@ -161,6 +179,59 @@ class KongsbergAllEnvironmentDataInterfacePerFile
 
         *last_index = i;
         return _soundspeed_profiles[i];
+    }
+
+    /**
+     * @brief Same as ``get_soundspeed_profile``; explicit "datagram" naming for users who
+     * also want the converted ``SoundVelocityProfile`` (raytracers2) form.
+     */
+    boost::flyweight<datagrams::SoundSpeedProfileDatagram> get_sound_speed_profile_datagram(
+        double                  ping_time,
+        std::shared_ptr<size_t> last_index = std::make_shared<size_t>(0))
+    {
+        return get_soundspeed_profile(ping_time, std::move(last_index));
+    }
+
+    /**
+     * @brief Return the SoundVelocityProfile (raytracers2) flyweight matching the
+     * latest profile with timestamp <= ping_time. Same selection logic as
+     * ``get_soundspeed_profile``; depths are absolute (m below sea surface).
+     */
+    boost::flyweight<algorithms::geoprocessing::raytracers2::SoundVelocityProfile>
+    get_sound_speed_profile(
+        double                  ping_time,
+        std::shared_ptr<size_t> last_index = std::make_shared<size_t>(0))
+    {
+        if (!_soundspeed_profiles_initialized)
+            this->init_soundspeed_profiles();
+
+        if (!last_index)
+            last_index = std::make_shared<size_t>(0);
+
+        if (_sound_speed_profiles.empty())
+            throw std::runtime_error(fmt::format(
+                "get_sound_speed_profile: No SoundSpeedProfileDatagram available in file nr {} [{}]",
+                this->get_file_nr(),
+                this->get_file_path()));
+
+        if (*last_index >= _sound_speed_profiles.size())
+            *last_index = 0;
+
+        auto it = std::upper_bound(
+            _soundspeed_profile_timestamps.begin() + static_cast<ptrdiff_t>(*last_index),
+            _soundspeed_profile_timestamps.end(),
+            ping_time);
+
+        size_t i;
+        if (it == _soundspeed_profile_timestamps.begin())
+            i = 0;
+        else
+            i = static_cast<size_t>(
+                    std::distance(_soundspeed_profile_timestamps.begin(), it)) -
+                1;
+
+        *last_index = i;
+        return _sound_speed_profiles[i];
     }
 
     // ----- objectprinter -----

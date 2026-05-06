@@ -56,6 +56,14 @@ class KongsbergAllConfigurationDataInterfacePerFile
     // cached installation parameters to avoid redundant file reads
     mutable std::optional<datagrams::InstallationParameters> _cached_installation_parameters;
 
+    // Mapping from TRX channel id to the (TX, RX) target ids that compose it.
+    // Populated by read_sensor_configuration() so that consumers (e.g. ping
+    // raytracing) can resolve the *correct* per-head TX and RX mounts for
+    // dual-head / dual-RX systems where the TRX target is a synthetic merge
+    // and looking up "TX" / "RX" by global name picks the wrong head.
+    std::map<std::string, std::pair<std::string, std::string>>
+        _txrx_target_names_per_trx_channel;
+
   public:
     KongsbergAllConfigurationDataInterfacePerFile()
         : t_base("KongsbergAllConfigurationDataInterfacePerFile")
@@ -64,6 +72,17 @@ class KongsbergAllConfigurationDataInterfacePerFile
     ~KongsbergAllConfigurationDataInterfacePerFile() = default;
 
     // ----- getters -----
+    /**
+     * @brief Per-TRX-channel mapping to the (TX, RX) target ids in the file's
+     * SensorConfiguration. For STC modes that only register a single combined
+     * transducer (single-head, dual-head with merged TRX), both entries point
+     * at the TRX target itself.
+     */
+    const std::map<std::string, std::pair<std::string, std::string>>&
+    get_txrx_target_names_per_trx_channel() const
+    {
+        return _txrx_target_names_per_trx_channel;
+    }
     int8_t get_active_position_system_number() const { return _active_position_system_number; }
     auto    get_active_pitch_roll_sensor() const { return _active_pitch_roll_sensor; }
     auto    get_active_heave_sensor() const { return _active_heave_sensor; }
@@ -286,6 +305,9 @@ void init_runtime_parameters()
         navigation::SensorConfiguration config;
         using navigation::datastructures::PositionalOffsets;
 
+        // Reset the per-TRX TX/RX name map; populated below per STC case.
+        _txrx_target_names_per_trx_channel.clear();
+
         /* get the installation parameters datagram */
         auto param = this->read_installation_parameters();
 
@@ -313,6 +335,8 @@ void init_runtime_parameters()
                 auto trx = PositionalOffsets::from_txrx(
                     tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
 
+                _txrx_target_names_per_trx_channel[trx.name] = { tx.name, rx.name };
+
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
                 config.add_target(trx.name, std::move(trx));
@@ -327,6 +351,8 @@ void init_runtime_parameters()
                 auto trx = param.get_transducer_offsets(
                     1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
 
+                _txrx_target_names_per_trx_channel[trx.name] = { trx.name, trx.name };
+
                 config.add_target(trx.name, std::move(trx));
                 break;
             }
@@ -337,6 +363,9 @@ void init_runtime_parameters()
                     1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
                 auto trx2 = param.get_transducer_offsets(
                     2, "TRX-" + std::to_string(param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { trx1.name, trx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { trx2.name, trx2.name };
 
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
@@ -355,6 +384,9 @@ void init_runtime_parameters()
                     tx, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
                 auto trx2 = PositionalOffsets::from_txrx(
                     tx, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { tx.name, rx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { tx.name, rx2.name };
 
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx1.name, std::move(rx1));
@@ -379,6 +411,9 @@ void init_runtime_parameters()
                     tx1, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
                 auto trx2 = PositionalOffsets::from_txrx(
                     tx2, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { tx1.name, rx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { tx2.name, rx2.name };
 
                 config.add_target(tx1.name, std::move(tx1));
                 config.add_target(tx2.name, std::move(tx2));

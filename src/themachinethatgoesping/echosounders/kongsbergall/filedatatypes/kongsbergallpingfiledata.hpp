@@ -27,6 +27,7 @@
 #include <xtensor/views/xview.hpp>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/algorithms/geoprocessing/raytracers2/soundvelocityprofile.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../../filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp"
@@ -57,6 +58,9 @@ class KongsbergAllPingFileData
     // parameters (read when adding datagram infos)
     std::unique_ptr<boost::flyweight<datagrams::RuntimeParameters>> _runtime_parameters;
     std::unique_ptr<boost::flyweight<datagrams::SoundSpeedProfileDatagram>> _soundspeed_profile;
+    std::unique_ptr<
+        boost::flyweight<algorithms::geoprocessing::raytracers2::SoundVelocityProfile>>
+        _sound_speed_profile;
     std::unique_ptr<boost::flyweight<calibration::KongsbergAllMultiSectorWaterColumnCalibration>>
         _multisector_calibration;
 
@@ -304,6 +308,34 @@ class KongsbergAllPingFileData
                 "available!");
 
         return _soundspeed_profile->get();
+    }
+
+    /// Alias for has_soundspeed_profile (matches get_sound_speed_profile_datagram naming).
+    bool has_sound_speed_profile_datagram() const { return has_soundspeed_profile(); }
+    /// Alias for get_soundspeed_profile (matches sound_speed_profile naming).
+    const datagrams::SoundSpeedProfileDatagram& get_sound_speed_profile_datagram() const
+    {
+        return get_soundspeed_profile();
+    }
+
+    /// Whether a converted SoundVelocityProfile (raytracers2) is attached.
+    bool has_sound_speed_profile() const { return bool(_sound_speed_profile); }
+
+    void set_sound_speed_profile(
+        boost::flyweight<algorithms::geoprocessing::raytracers2::SoundVelocityProfile> arg)
+    {
+        _sound_speed_profile = std::make_unique<
+            boost::flyweight<algorithms::geoprocessing::raytracers2::SoundVelocityProfile>>(arg);
+    }
+    const algorithms::geoprocessing::raytracers2::SoundVelocityProfile&
+    get_sound_speed_profile() const
+    {
+        if (!_sound_speed_profile)
+            throw std::runtime_error(
+                "Error[KongsbergAllPingFileData::get_sound_speed_profile]: No sound speed profile "
+                "available!");
+
+        return _sound_speed_profile->get();
     }
 
     bool has_datagram_type(t_KongsbergAllDatagramIdentifier datagram_identifier) const

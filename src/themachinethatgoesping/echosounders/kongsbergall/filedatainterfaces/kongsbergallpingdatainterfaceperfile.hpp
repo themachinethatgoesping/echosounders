@@ -166,6 +166,17 @@ class KongsbergAllPingDataInterfacePerFile
 
                                 ping_it->second->file_data().set_soundspeed_profile(
                                     std::move(ssp));
+
+                                // Also attach the converted SoundVelocityProfile
+                                // (raytracers2 form, absolute depth). Reuses the
+                                // same selection logic / shared search index.
+                                auto svp =
+                                    environment_data_interface_for_file
+                                        .get_sound_speed_profile(
+                                            ping_it->second->get_timestamp(),
+                                            last_ssp_idx);
+                                ping_it->second->file_data().set_sound_speed_profile(
+                                    std::move(svp));
                             }
                         }
 

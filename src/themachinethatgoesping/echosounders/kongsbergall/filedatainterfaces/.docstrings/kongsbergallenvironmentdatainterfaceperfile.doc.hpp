@@ -1,4 +1,4 @@
-//sourcehash: 96f8be29a1518d4676cf02b720eab819d39773b4c73ac574a5a65dc7492cc540
+//sourcehash: 08528c8236055e415e74bcb4883c34afaa2a1fb65b4d1cc242d7481430b602ab
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,6 +47,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_KongsbergAllEnvironmentDataInterfacePerFile_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_get_sound_speed_profile =
+R"doc(Return the SoundVelocityProfile (raytracers2) flyweight matching the
+latest profile with timestamp <= ping_time. Same selection logic as
+``get_soundspeed_profile``; depths are absolute (m below sea surface).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_get_sound_speed_profile_datagram =
+R"doc(Same as ``get_soundspeed_profile``; explicit "datagram" naming for
+users who also want the converted ``SoundVelocityProfile``
+(raytracers2) form.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_get_soundspeed_profile =
 R"doc(Return the latest SoundSpeedProfileDatagram with profile timestamp <=
 ping_time.
@@ -70,6 +80,10 @@ them sorted by their profile timestamp.
 This function is automatically called by get_soundspeed_profile.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_sound_speed_profiles =
+R"doc(SoundVelocityProfile (raytracers2) flyweights, parallel to
+_soundspeed_profiles.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_soundspeed_profile_timestamps =
 R"doc(Cached profile timestamps for fast binary search (avoid flyweight
