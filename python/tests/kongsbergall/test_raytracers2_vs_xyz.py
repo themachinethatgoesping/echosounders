@@ -138,7 +138,15 @@ class TestRaytracers2VsXYZ:
             fm = kongsbergall.KongsbergAllFileHandler(
                 [file_path], show_progress=False
             )
-            all_pings = fm.get_pings()
+
+            #filter pings by features
+            all_pings = []
+            for ping in theping.pingprocessing.filter_pings.by_features(fm.get_pings(), ['bottom.xyz']):
+                if not ping.file_data.has_soundspeed_profile():
+                    continue
+
+                all_pings.append(ping)
+
             # Select pings by motion magnitude: rank pings by max|pitch-rate|
             # + max|roll-rate| over a small window centred on the ping time
             # (proxy for the angular motion that drives our TX-vs-RX time
@@ -187,14 +195,6 @@ class TestRaytracers2VsXYZ:
                 if pings_in_file >= max_pings_per_file:
                     break
 
-                if not ping.file_data.has_soundspeed_profile():
-                    continue
-                if not ping.bottom.has_xyz():
-                    continue
-                if not ping.bottom.has_two_way_travel_times():
-                    continue
-                if not ping.bottom.has_beam_crosstrack_angles():
-                    continue
 
                 sc = ping.get_sensor_configuration()
                 target_ids = sc.get_target_ids()
@@ -300,23 +300,17 @@ class TestRaytracers2VsXYZ:
                 #   * crosstrack is "re RX array", positive starboard.
                 # Kongsberg's beam crosstrack angle in the RAA datagram is
                 # positive to port -> negate.
-                tilt_deg = tilt_deg_per_sector[sector_per_beam]
-                crosstrack_deg = -crosstrack_deg_kongsberg[:n]
-                tx_delay_per_beam = sector_delay[sector_per_beam]
+                tilt_deg = tilt_deg_per_sector[sector_per_beam].astype(np.float32)
+                crosstrack_deg = (-crosstrack_deg_kongsberg[:n]).astype(np.float32)
+                tx_delay_per_beam = sector_delay[sector_per_beam].astype(np.float32)
+                twtt32 = twtt.astype(np.float32)
 
-                # Body-frame offset from positioning system to TX transducer.
-                ps_off = sc.get_position_source()
-                tx_off = sc.get_target(tx_target_id)
-                tx_minus_ps_x = float(tx_off.x) - float(ps_off.x)
-                tx_minus_ps_y = float(tx_off.y) - float(ps_off.y)
-
-                # Dual-array (Kongsberg-style) fan-plane intersection in the
-                # body frame. The per-ping SensorConfiguration now exposes
-                # \"TX\" and \"RX\" aliases that resolve to the *correct*
-                # per-head TX and RX mounts (populated by
+                # Resolve TX/RX mounts. The per-ping SensorConfiguration now
+                # exposes "TX"/"RX" aliases that resolve to the *correct*
+                # per-head mounts (populated by
                 # KongsbergAllConfigurationDataInterface). This handles
-                # dual-head and dual-RX systems where the global \"RX\" /
-                # \"RX-*\" lookup would pick the wrong head for half of the
+                # dual-head and dual-RX systems where the global "RX" /
+                # "RX-*" lookup would pick the wrong head for half of the
                 # pings.
                 if sc.has_target("TX") and sc.has_target("RX"):
                     tx_mount = sc.get_target("TX")
@@ -348,95 +342,51 @@ class TestRaytracers2VsXYZ:
                         float(rx_mount.x), float(rx_mount.y), float(rx_mount.z),
                         float(rx_mount.yaw), float(rx_mount.pitch), float(rx_mount.roll),
                     )
-                R_tx_mount = _ypr_matrix(tx_mount.yaw, tx_mount.pitch, tx_mount.roll)
-                R_rx_mount = _ypr_matrix(rx_mount.yaw, rx_mount.pitch, rx_mount.roll)
 
-                # Per-beam motion compensation. Two physical effects are
-                # corrected:
-                #
-                # 1) Frame mismatch between TX and RX time.  The recorded
-                #    "tilt re TX array" is body-frame at TX time, but the
-                #    "beam pointing angle re RX array" is recorded at RX
-                #    time -- and Kongsberg roll-stabilizes that pointing
-                #    angle (the array's electrical steering removes roll).
-                #    So the RX cone is naturally expressed in a frame that
-                #    has *roll-at-RX-time removed* but is otherwise body-
-                #    at-RX-time (pitch_RX, heading_RX retained).  To do a
-                #    static fan-plane intersection consistently in body-
-                #    at-TX-time we apply
-                #        R_eff = R_v_TX^T  ·  R_yaw(dyaw)·R_pitch(pitch_RX)
-                #        R_rx_mount_eff   = R_eff · R_rx_mount
-                #    where dyaw = heading_RX - heading_TX. This brings the
-                #    roll-stabilized RX cone into the TX-time body frame
-                #    while preserving roll stabilization (no roll on the
-                #    RX side; roll_TX is undone via R_v_TX^T).
-                #
-                # 2) Output rotation across propagation. We sample vessel
-                #    attitude at 3 knots (TX, mid, RX) so rt2's multi-knot
-                #    trace_at_times rotates the world-frame output between
-                #    TX-time and RX-time vessel attitudes; the bottom is
-                #    reached at the mid knot (one-way travel time t/2),
-                #    which is the index we read out.
-                x_pred = np.full(n, np.nan, dtype=np.float64)
-                y_pred = np.full(n, np.nan, dtype=np.float64)
-                z_pred = np.full(n, np.nan, dtype=np.float64)
-                for i in range(n):
-                    t = float(twtt[i])
-                    if not np.isfinite(t) or t <= 0.0:
-                        continue
-                    t_tx_eff = t_tx + float(tx_delay_per_beam[i])
-                    sd_tx_i = nav_interp.get_sensor_data(t_tx_eff)
-                    sd_rx_i = nav_interp.get_sensor_data(t_tx_eff + t)
-                    heading_tx = float(sd_tx_i.heading)
-                    dyaw = float(sd_rx_i.heading) - heading_tx
-                    dyaw = (dyaw + 180.0) % 360.0 - 180.0
-
-                    # Body frame at TX vs RX time. The recorded RX
-                    # pointing angle is body-frame at RX time (Kongsberg
-                    # does NOT roll-stabilize the recorded angle in this
-                    # data; empirically removing roll on the RX side made
-                    # errors much larger). To intersect a static fan-plane
-                    # in body-at-TX frame we rotate the RX cone:
-                    #     R_inter = R_v_TX^T · R_v_RX
-                    R_v_TX = _ypr_matrix(0.0, float(sd_tx_i.pitch),
-                                         float(sd_tx_i.roll))
-                    R_v_RX = _ypr_matrix(dyaw, float(sd_rx_i.pitch),
-                                         float(sd_rx_i.roll))
-                    R_inter = R_v_TX.T @ R_v_RX
-                    R_rx_mount_eff = R_inter @ R_rx_mount
-
-                    ld = _body_launch_dirs_dual_array(
-                        tilt_deg[i:i + 1],
-                        crosstrack_deg[i:i + 1],
-                        R_tx_mount,
-                        R_rx_mount_eff,
+                # All dual-array fan-plane / cone intersection, multi-sector
+                # TX delay handling and per-beam TX/RX-time motion
+                # compensation are now done inside rt2.trace_to_xyz. Output
+                # is in TX-body-at-t_tx_ping frame, origin = TX face.
+                xyz_traced = np.asarray(
+                    rt.trace_to_xyz(
+                        tilt_deg,
+                        crosstrack_deg,
+                        twtt32,
+                        tx_delay_per_beam,
+                        tx_mount,
+                        rx_mount,
+                        np.float32(tx_face_depth),
+                        n_knots=2,
+                        nav=nav_interp,
+                        t_tx_ping=t_tx,
                     )
+                )[1]  # bottom = highest-time knot
 
-                    n_knots = 3  # TX, mid, RX -> bottom is at the mid knot
-                    knot_times = np.linspace(0.0, t, n_knots, dtype=np.float32)
-                    tx_poses = []
-                    rx_poses = []
-                    for k_t in knot_times:
-                        sd_k = nav_interp.get_sensor_data(t_tx_eff + float(k_t))
-                        h_k = float(sd_k.heading) - heading_tx
-                        h_k = (h_k + 180.0) % 360.0 - 180.0
-                        gp = Geolocation()
-                        gp.yaw = h_k
-                        gp.pitch = float(sd_k.pitch)
-                        gp.roll = float(sd_k.roll)
-                        # Absolute pose depth: rt2 launches the ray at this
-                        # absolute world depth; the SVP is in absolute coords.
-                        gp.z = tx_face_depth
-                        tx_poses.append(gp)
-                        rx_poses.append(gp)
-
-                    out = rt.trace_at_times(ld, knot_times, tx_poses, rx_poses)
-                    pos = np.asarray(out)[1, 0]  # mid knot = bottom arrival
-                    x_pred[i] = float(pos[0]) + tx_minus_ps_x
-                    y_pred[i] = float(pos[1]) + tx_minus_ps_y
-                    # rt2 z is absolute world depth; XYZDatagram z is depth
-                    # from the TX face -> subtract the TX face depth.
-                    z_pred[i] = float(pos[2]) - tx_face_depth
+                # Convert from body-at-t_tx_ping to the XYZDatagram (XYZ88)
+                # frame: heading-stripped, pitch/roll-corrected (level).
+                # XYZ88 = R_y(pitch_ping) · R_x(roll_ping) · rt2_body
+                # Origin convention per Kongsberg .all spec:
+                #   * x, y measured from position reference point,
+                #   * z measured from transmit transducer face.
+                # rt2 outputs (x, y, z) relative to the TX face. So we shift
+                # x and y by the body-frame position-source-to-TX offset
+                # (rotated to the level XYZ88 frame), but leave z untouched.
+                sd_ping = nav_interp.get_sensor_data(t_tx)
+                R_xyz88 = _ypr_matrix(0.0, float(sd_ping.pitch), float(sd_ping.roll))
+                ps_off = sc.get_position_source()
+                tx_minus_ps_body = np.array([
+                    float(tx_mount.x) - float(ps_off.x),
+                    float(tx_mount.y) - float(ps_off.y),
+                    float(tx_mount.z) - float(ps_off.z),
+                ])
+                tx_minus_ps_xyz88 = R_xyz88 @ tx_minus_ps_body
+                xyz_pred = xyz_traced @ R_xyz88.T
+                xyz_pred[:, 0] += tx_minus_ps_xyz88[0]
+                xyz_pred[:, 1] += tx_minus_ps_xyz88[1]
+                # do NOT shift z: XYZ88 z is already relative to TX face
+                x_pred = xyz_pred[:, 0].astype(np.float64)
+                y_pred = xyz_pred[:, 1].astype(np.float64)
+                z_pred = xyz_pred[:, 2].astype(np.float64)
 
                 valid = (
                     np.isfinite(xyz_x)

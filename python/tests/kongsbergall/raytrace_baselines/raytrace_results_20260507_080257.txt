@@ -1,0 +1,219 @@
+/home/peurban/.local/share/mamba/envs/dev/bin/pytest:10: DeprecationWarning: Parsing dates involving a day of month without a year specified is ambiguous
+and fails to parse leap day. The default behavior will change in Python 3.15
+to either always raise an exception or to use a different default year (TBD).
+To avoid trouble, add a specific year to the input & format.
+See https://github.com/python/cpython/issues/70647.
+  sys.exit(console_main())
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0 -- /home/peurban/.local/share/mamba/envs/dev/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /ssd/src/themachinethatgoesping/themachinethatgoesping/subprojects/echosounders
+configfile: pytest.ini
+plugins: napari-plugin-engine-0.2.1, anyio-4.13.0, nbmake-1.5.5, zarr-3.1.6
+collecting ... collected 2 items
+
+subprojects/echosounders/python/tests/kongsbergall/test_raytracers2_vs_xyz.py::TestRaytracers2VsXYZ::test_ssp_is_loaded PASSED [ 50%]
+subprojects/echosounders/python/tests/kongsbergall/test_raytracers2_vs_xyz.py::TestRaytracers2VsXYZ::test_raytrace_matches_xyz 
+-------------------------------- live log call ---------------------------------
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['2.50', '2.50'], high=['2.95', '3.00', '3.00']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: 519880139284219668.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(0.00,0.00,0.00) ypr=(0.19,1.79,0.51)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(-0.01,-0.33,-0.17) ypr=(178.84,-1.91,-35.44)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #0: depth_med=55.86 m slant_med=69.08 m, max |dx|=2.9594, |dy|=0.2861, |dz|=0.1273, median |dx|=0.8799, |dy|=0.2282, |dz|=0.0800
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=1.13 deg twtt=0.0929 s xyz=(-0.17,-41.61,55.87) pred=(0.76,-41.35,56.00)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=126, median xyz_z=55.87 m, max |dz|=0.0767 m, max |dx|=2.9594 m, max |dy|=0.2463 m, tilt=-3.38 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=274, median xyz_z=55.86 m, max |dz|=0.1273 m, max |dx|=1.9194 m, max |dy|=0.2861 m, tilt=-4.49 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #1: depth_med=55.77 m slant_med=69.53 m, max |dx|=4.0366, |dy|=0.2912, |dz|=0.1126, median |dx|=0.9397, |dy|=0.2272, |dz|=0.0767
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=4.90 deg twtt=0.0856 s xyz=(0.40,31.85,55.73) pred=(0.94,31.58,55.84)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=274, median xyz_z=55.78 m, max |dz|=0.1126 m, max |dx|=4.0366 m, max |dy|=0.2912 m, tilt=-4.13 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=126, median xyz_z=55.68 m, max |dz|=0.0834 m, max |dx|=2.2031 m, max |dy|=0.2489 m, tilt=-2.32 deg
+WARNING  test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:512   TOLERANCE EXCEEDED: max x error 4.0366 m > 5.00 % of slant (3.4767 m) at slant 69.5 m
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #2: depth_med=55.82 m slant_med=69.09 m, max |dx|=2.7372, |dy|=0.2945, |dz|=0.1253, median |dx|=0.8013, |dy|=0.2388, |dz|=0.0775
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=1.13 deg twtt=0.0929 s xyz=(0.27,-41.63,55.85) pred=(1.11,-41.36,55.98)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=126, median xyz_z=55.84 m, max |dz|=0.0764 m, max |dx|=2.7372 m, max |dy|=0.2518 m, tilt=-3.14 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=274, median xyz_z=55.82 m, max |dz|=0.1253 m, max |dx|=1.7585 m, max |dy|=0.2945 m, tilt=-4.13 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #3: depth_med=55.84 m slant_med=69.60 m, max |dx|=4.0751, |dy|=0.3311, |dz|=0.1571, median |dx|=1.0554, |dy|=0.2572, |dz|=0.1147
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-2.06 deg twtt=0.0920 s xyz=(0.07,40.55,55.84) pred=(1.08,40.26,56.00)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=274, median xyz_z=55.86 m, max |dz|=0.1571 m, max |dx|=4.0751 m, max |dy|=0.3311 m, tilt=-3.97 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=126, median xyz_z=55.75 m, max |dz|=0.1352 m, max |dx|=2.7748 m, max |dy|=0.2667 m, tilt=-2.72 deg
+WARNING  test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:512   TOLERANCE EXCEEDED: max x error 4.0751 m > 5.00 % of slant (3.4801 m) at slant 69.6 m
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #4: depth_med=55.88 m slant_med=69.20 m, max |dx|=2.2690, |dy|=0.2590, |dz|=0.1076, median |dx|=0.8568, |dy|=0.2178, |dz|=0.0718
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-51.71 deg twtt=0.0773 s xyz=(0.95,15.13,55.82) pred=(1.13,15.16,55.93)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=126, median xyz_z=55.88 m, max |dz|=0.0563 m, max |dx|=2.2690 m, max |dy|=0.2441 m, tilt=-2.53 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=274, median xyz_z=55.88 m, max |dz|=0.1076 m, max |dx|=1.7631 m, max |dy|=0.2590 m, tilt=-3.97 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['2.00', '2.00'], high=['4.45', '4.52', '4.54']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: 6516408039690331208.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(16.51,-0.20,3.35) ypr=(0.31,0.40,-0.78)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(14.96,-0.13,3.36) ypr=(0.20,0.36,-0.78)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #5: depth_med=206.57 m slant_med=240.74 m, max |dx|=3.2388, |dy|=0.5529, |dz|=0.0790, median |dx|=1.5554, |dy|=0.4806, |dz|=0.0405
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-48.24 deg twtt=0.3962 s xyz=(22.25,-206.15,204.90) pred=(19.69,-205.67,204.82)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 59, median xyz_z=204.28 m, max |dz|=0.0790 m, max |dx|=3.2008 m, max |dy|=0.4879 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=282, median xyz_z=206.61 m, max |dz|=0.0577 m, max |dx|=2.7056 m, max |dy|=0.5529 m, tilt=1.80 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 59, median xyz_z=206.94 m, max |dz|=0.0159 m, max |dx|=3.2388 m, max |dy|=0.4273 m, tilt=1.53 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #6: depth_med=206.86 m slant_med=241.71 m, max |dx|=2.1846, |dy|=0.2886, |dz|=0.0721, median |dx|=0.8612, |dy|=0.2477, |dz|=0.0377
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-46.61 deg twtt=0.3896 s xyz=(23.97,-199.85,204.39) pred=(22.69,-199.62,204.32)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 59, median xyz_z=204.36 m, max |dz|=0.0721 m, max |dx|=1.7190 m, max |dy|=0.2754 m, tilt=0.74 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=282, median xyz_z=206.90 m, max |dz|=0.0456 m, max |dx|=1.5550 m, max |dy|=0.2886 m, tilt=1.18 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 59, median xyz_z=207.23 m, max |dz|=0.0642 m, max |dx|=2.1846 m, max |dy|=0.2685 m, tilt=1.08 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #7: depth_med=206.86 m slant_med=241.35 m, max |dx|=1.5504, |dy|=0.2856, |dz|=0.1072, median |dx|=0.5994, |dy|=0.2457, |dz|=0.0502
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-46.94 deg twtt=0.3913 s xyz=(22.32,-201.87,204.16) pred=(21.54,-201.66,204.05)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 59, median xyz_z=204.35 m, max |dz|=0.1072 m, max |dx|=1.0067 m, max |dy|=0.2556 m, tilt=0.40 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=282, median xyz_z=206.88 m, max |dz|=0.0799 m, max |dx|=1.0347 m, max |dy|=0.2756 m, tilt=0.74 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 59, median xyz_z=207.36 m, max |dz|=0.1029 m, max |dx|=1.5504 m, max |dy|=0.2856 m, tilt=0.74 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #8: depth_med=206.86 m slant_med=241.49 m, max |dx|=1.8942, |dy|=0.7261, |dz|=0.4066, median |dx|=0.7143, |dy|=0.6037, |dz|=0.2936
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-41.40 deg twtt=0.3656 s xyz=(25.35,-173.52,204.48) pred=(24.23,-172.99,204.89)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 59, median xyz_z=204.29 m, max |dz|=0.3994 m, max |dx|=0.7079 m, max |dy|=0.5232 m, tilt=0.07 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=282, median xyz_z=206.87 m, max |dz|=0.4066 m, max |dx|=1.1204 m, max |dy|=0.7261 m, tilt=0.49 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 59, median xyz_z=207.41 m, max |dz|=0.3295 m, max |dx|=1.8942 m, max |dy|=0.5117 m, tilt=0.69 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #9: depth_med=206.82 m slant_med=241.23 m, max |dx|=1.2244, |dy|=0.7280, |dz|=0.3924, median |dx|=0.5688, |dy|=0.6136, |dz|=0.3097
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-43.35 deg twtt=0.3763 s xyz=(21.85,-185.50,204.45) pred=(21.64,-184.99,204.84)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 59, median xyz_z=204.36 m, max |dz|=0.3924 m, max |dx|=0.2427 m, max |dy|=0.5175 m, tilt=-0.27 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=282, median xyz_z=206.83 m, max |dz|=0.3836 m, max |dx|=0.6079 m, max |dy|=0.7280 m, tilt=0.05 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 59, median xyz_z=207.52 m, max |dz|=0.3606 m, max |dx|=1.2244 m, max |dy|=0.5268 m, tilt=0.35 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['3.12', '3.47'], high=['5.94', '5.98', '6.00']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: -1333931979274893952.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(0.00,0.00,0.00) ypr=(359.61,0.00,0.00)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(0.00,0.00,0.00) ypr=(0.00,0.00,0.00)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #10: depth_med=10.43 m slant_med=11.08 m, max |dx|=0.0453, |dy|=0.0243, |dz|=0.0203, median |dx|=0.0152, |dy|=0.0190, |dz|=0.0137
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-38.58 deg twtt=0.0167 s xyz=(-0.06,-7.52,10.14) pred=(-0.02,-7.51,10.16)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=10.43 m, max |dz|=0.0203 m, max |dx|=0.0453 m, max |dy|=0.0243 m, tilt=-1.32 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #11: depth_med=10.43 m slant_med=11.03 m, max |dx|=0.0438, |dy|=0.0213, |dz|=0.0268, median |dx|=0.0154, |dy|=0.0160, |dz|=0.0116
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=34.27 deg twtt=0.0176 s xyz=(0.04,7.94,10.75) pred=(0.07,7.95,10.72)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=10.43 m, max |dz|=0.0268 m, max |dx|=0.0438 m, max |dy|=0.0213 m, tilt=-1.39 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #12: depth_med=10.45 m slant_med=11.11 m, max |dx|=0.0353, |dy|=0.0308, |dz|=0.0263, median |dx|=0.0130, |dy|=0.0243, |dz|=0.0119
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=35.16 deg twtt=0.0177 s xyz=(0.05,7.96,10.79) pred=(0.08,7.98,10.77)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=10.45 m, max |dz|=0.0263 m, max |dx|=0.0353 m, max |dy|=0.0308 m, tilt=-1.12 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #13: depth_med=10.33 m slant_med=10.98 m, max |dx|=0.0334, |dy|=0.0089, |dz|=0.0215, median |dx|=0.0107, |dy|=0.0048, |dz|=0.0134
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=33.13 deg twtt=0.0175 s xyz=(0.04,7.88,10.65) pred=(0.05,7.87,10.63)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=10.33 m, max |dz|=0.0215 m, max |dx|=0.0334 m, max |dy|=0.0089 m, tilt=-0.91 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #14: depth_med=10.32 m slant_med=10.93 m, max |dx|=0.0327, |dy|=0.0087, |dz|=0.0215, median |dx|=0.0105, |dy|=0.0048, |dz|=0.0134
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=33.09 deg twtt=0.0174 s xyz=(0.04,7.86,10.63) pred=(0.06,7.86,10.61)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=10.32 m, max |dz|=0.0215 m, max |dx|=0.0327 m, max |dy|=0.0087 m, tilt=-0.89 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['0.00', '0.58'], high=['1.00', '1.00', '1.00']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: -7041029013895133878.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(12.34,-0.91,7.01) ypr=(0.06,0.37,0.10)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(11.62,-0.81,7.01) ypr=(179.98,-0.36,-0.08)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #15: depth_med=122.43 m slant_med=178.91 m, max |dx|=0.5136, |dy|=1.3094, |dz|=2.7088, median |dx|=0.1868, |dy|=0.6370, |dz|=0.6959
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.10 deg twtt=0.3839 s xyz=(11.91,254.79,120.07) pred=(12.43,253.49,122.78)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=122, median xyz_z=122.33 m, max |dz|=2.7057 m, max |dx|=0.5136 m, max |dy|=1.2328 m, tilt=-0.18 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=156, median xyz_z=122.80 m, max |dz|=0.4445 m, max |dx|=0.2005 m, max |dy|=0.5624 m, tilt=-0.31 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=122, median xyz_z=120.73 m, max |dz|=2.7088 m, max |dx|=0.5124 m, max |dy|=1.3094 m, tilt=-0.18 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #16: depth_med=122.45 m slant_med=179.07 m, max |dx|=0.6238, |dy|=1.2918, |dz|=2.7417, median |dx|=0.2342, |dy|=0.6359, |dz|=0.6893
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=64.95 deg twtt=0.3897 s xyz=(12.37,-260.41,121.97) pred=(12.99,-259.16,124.71)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=122, median xyz_z=122.38 m, max |dz|=2.7417 m, max |dx|=0.6238 m, max |dy|=1.2483 m, tilt=-0.21 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=156, median xyz_z=122.82 m, max |dz|=0.4412 m, max |dx|=0.2428 m, max |dy|=0.5657 m, tilt=-0.34 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=122, median xyz_z=120.76 m, max |dz|=2.6571 m, max |dx|=0.6198 m, max |dy|=1.2918 m, tilt=-0.21 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #17: depth_med=122.42 m slant_med=178.96 m, max |dx|=0.5098, |dy|=1.3101, |dz|=2.7203, median |dx|=0.1950, |dy|=0.6456, |dz|=0.7059
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.05 deg twtt=0.3845 s xyz=(11.90,255.20,120.26) pred=(12.40,253.89,122.98)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=122, median xyz_z=122.36 m, max |dz|=2.7187 m, max |dx|=0.5098 m, max |dy|=1.2392 m, tilt=-0.17 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=156, median xyz_z=122.81 m, max |dz|=0.4511 m, max |dx|=0.2025 m, max |dy|=0.5620 m, tilt=-0.28 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=122, median xyz_z=120.82 m, max |dz|=2.7203 m, max |dx|=0.5055 m, max |dy|=1.3101 m, tilt=-0.17 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #18: depth_med=122.39 m slant_med=179.05 m, max |dx|=0.4946, |dy|=1.3108, |dz|=2.7226, median |dx|=0.1645, |dy|=0.6403, |dz|=0.7068
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-64.96 deg twtt=0.3847 s xyz=(11.91,255.36,120.33) pred=(12.41,254.05,123.05)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=122, median xyz_z=122.31 m, max |dz|=2.7214 m, max |dx|=0.4933 m, max |dy|=1.2395 m, tilt=-0.18 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=156, median xyz_z=122.79 m, max |dz|=0.4564 m, max |dx|=0.1768 m, max |dy|=0.5638 m, tilt=-0.31 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=122, median xyz_z=120.73 m, max |dz|=2.7226 m, max |dx|=0.4946 m, max |dy|=1.3108 m, tilt=-0.18 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #19: depth_med=122.42 m slant_med=179.00 m, max |dx|=0.6139, |dy|=1.3144, |dz|=2.7203, median |dx|=0.2079, |dy|=0.6391, |dz|=0.7016
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.13 deg twtt=0.3847 s xyz=(11.88,255.37,120.35) pred=(12.50,254.06,123.07)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=122, median xyz_z=122.36 m, max |dz|=2.7093 m, max |dx|=0.6104 m, max |dy|=1.2314 m, tilt=-0.22 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=156, median xyz_z=122.82 m, max |dz|=0.4513 m, max |dx|=0.2224 m, max |dy|=0.5663 m, tilt=-0.37 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=122, median xyz_z=120.87 m, max |dz|=2.7203 m, max |dx|=0.6139 m, max |dy|=1.3144 m, tilt=-0.22 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['1.01', '1.02'], high=['3.40', '3.45', '3.50']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: -3092155654265012286.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(17.71,1.04,4.96) ypr=(0.00,0.21,-0.02)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(16.99,1.16,4.96) ypr=(0.54,0.28,0.04)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #20: depth_med=105.43 m slant_med=155.52 m, max |dx|=0.5580, |dy|=0.1037, |dz|=0.4189, median |dx|=0.2215, |dy|=0.0269, |dz|=0.1777
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.52 deg twtt=0.3348 s xyz=(13.82,-227.60,104.38) pred=(13.26,-227.64,103.97)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 39, median xyz_z=104.78 m, max |dz|=0.4189 m, max |dx|=0.5580 m, max |dy|=0.0367 m, tilt=0.21 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n= 50, median xyz_z=106.48 m, max |dz|=0.1836 m, max |dx|=0.2256 m, max |dy|=0.0689 m, tilt=0.34 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 39, median xyz_z=102.73 m, max |dz|=0.2547 m, max |dx|=0.5423 m, max |dy|=0.1037 m, tilt=0.22 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #21: depth_med=105.41 m slant_med=155.48 m, max |dx|=0.2586, |dy|=0.1094, |dz|=0.4176, median |dx|=0.1104, |dy|=0.0265, |dz|=0.1821
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.52 deg twtt=0.3343 s xyz=(13.32,-227.28,104.23) pred=(13.06,-227.31,103.81)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 39, median xyz_z=104.97 m, max |dz|=0.4176 m, max |dx|=0.2586 m, max |dy|=0.0348 m, tilt=0.09 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n= 50, median xyz_z=106.47 m, max |dz|=0.1859 m, max |dx|=0.1094 m, max |dy|=0.0735 m, tilt=0.14 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 39, median xyz_z=102.68 m, max |dz|=0.2735 m, max |dx|=0.2416 m, max |dy|=0.1094 m, tilt=0.09 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #22: depth_med=105.93 m slant_med=156.61 m, max |dx|=0.2712, |dy|=0.0636, |dz|=0.3108, median |dx|=0.1388, |dy|=0.0305, |dz|=0.1241
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.50 deg twtt=0.3362 s xyz=(16.20,-228.52,104.70) pred=(15.94,-228.55,104.39)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 39, median xyz_z=105.30 m, max |dz|=0.3108 m, max |dx|=0.2622 m, max |dy|=0.0377 m, tilt=0.21 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n= 50, median xyz_z=106.94 m, max |dz|=0.1319 m, max |dx|=0.2712 m, max |dy|=0.0354 m, tilt=0.34 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 39, median xyz_z=103.37 m, max |dz|=0.1564 m, max |dx|=0.2527 m, max |dy|=0.0636 m, tilt=0.22 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #23: depth_med=105.62 m slant_med=156.15 m, max |dx|=0.7580, |dy|=0.0964, |dz|=0.3392, median |dx|=0.7017, |dy|=0.0334, |dz|=0.1409
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.28 deg twtt=0.3363 s xyz=(16.04,-228.77,104.16) pred=(16.65,-228.68,104.50)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 39, median xyz_z=104.94 m, max |dz|=0.3392 m, max |dx|=0.7234 m, max |dy|=0.0964 m, tilt=0.06 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n= 50, median xyz_z=106.52 m, max |dz|=0.1305 m, max |dx|=0.7580 m, max |dy|=0.0734 m, tilt=0.10 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 39, median xyz_z=102.92 m, max |dz|=0.2362 m, max |dx|=0.7187 m, max |dy|=0.0394 m, tilt=0.06 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #24: depth_med=105.47 m slant_med=156.26 m, max |dx|=0.7580, |dy|=0.0888, |dz|=0.3351, median |dx|=0.5393, |dy|=0.0389, |dz|=0.1484
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-65.28 deg twtt=0.3364 s xyz=(16.82,-228.83,104.19) pred=(16.98,-228.75,104.52)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n= 39, median xyz_z=104.84 m, max |dz|=0.3351 m, max |dx|=0.6123 m, max |dy|=0.0888 m, tilt=0.24 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n= 50, median xyz_z=106.50 m, max |dz|=0.1328 m, max |dx|=0.7580 m, max |dy|=0.0697 m, tilt=0.39 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n= 39, median xyz_z=102.98 m, max |dz|=0.2691 m, max |dx|=0.6049 m, max |dy|=0.0473 m, tilt=0.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['0.25', '1.28'], high=['1.55', '1.61', '1.61']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: 7287506659992808476.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(0.05,-0.37,2.17) ypr=(180.24,-0.81,-0.25)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(0.05,-0.06,2.15) ypr=(0.32,-2.22,0.30)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #25: depth_med=22.40 m slant_med=38.22 m, max |dx|=0.2450, |dy|=0.1233, |dz|=0.0984, median |dx|=0.0801, |dy|=0.0428, |dz|=0.0626
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=47.70 deg twtt=0.0451 s xyz=(-0.50,24.46,22.23) pred=(-0.40,24.41,22.33)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=118, median xyz_z=22.80 m, max |dz|=0.0672 m, max |dx|=0.2450 m, max |dy|=0.0463 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=164, median xyz_z=22.35 m, max |dz|=0.0984 m, max |dx|=0.1025 m, max |dy|=0.1233 m, tilt=0.68 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=118, median xyz_z=22.24 m, max |dz|=0.0860 m, max |dx|=0.2324 m, max |dy|=0.0653 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #26: depth_med=22.38 m slant_med=38.23 m, max |dx|=0.2552, |dy|=0.1891, |dz|=0.0904, median |dx|=0.0927, |dy|=0.1025, |dz|=0.0687
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=46.19 deg twtt=0.0433 s xyz=(-0.45,22.77,22.11) pred=(-0.35,22.66,22.20)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=118, median xyz_z=22.79 m, max |dz|=0.0767 m, max |dx|=0.2552 m, max |dy|=0.0734 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=164, median xyz_z=22.36 m, max |dz|=0.0904 m, max |dx|=0.1150 m, max |dy|=0.1891 m, tilt=0.68 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=118, median xyz_z=22.28 m, max |dz|=0.0793 m, max |dx|=0.2475 m, max |dy|=0.1295 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #27: depth_med=22.38 m slant_med=38.34 m, max |dx|=0.2548, |dy|=0.1648, |dz|=0.0964, median |dx|=0.0901, |dy|=0.0805, |dz|=0.0629
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=47.19 deg twtt=0.0442 s xyz=(-0.47,23.70,22.11) pred=(-0.37,23.61,22.21)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=118, median xyz_z=22.81 m, max |dz|=0.0700 m, max |dx|=0.2548 m, max |dy|=0.0489 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=164, median xyz_z=22.34 m, max |dz|=0.0964 m, max |dx|=0.1111 m, max |dy|=0.1648 m, tilt=0.68 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=118, median xyz_z=22.27 m, max |dz|=0.0859 m, max |dx|=0.2436 m, max |dy|=0.1089 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #28: depth_med=22.33 m slant_med=38.06 m, max |dx|=0.2430, |dy|=0.1724, |dz|=0.3224, median |dx|=0.0743, |dy|=0.0910, |dz|=0.1921
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=68.96 deg twtt=0.0874 s xyz=(-0.67,60.53,22.19) pred=(-0.45,60.46,22.52)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=118, median xyz_z=22.80 m, max |dz|=0.2761 m, max |dx|=0.2430 m, max |dy|=0.0543 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=164, median xyz_z=22.30 m, max |dz|=0.1982 m, max |dx|=0.0984 m, max |dy|=0.1724 m, tilt=0.68 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=118, median xyz_z=22.20 m, max |dz|=0.3224 m, max |dx|=0.2239 m, max |dy|=0.1162 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #29: depth_med=22.34 m slant_med=38.20 m, max |dx|=0.2424, |dy|=0.1541, |dz|=0.2872, median |dx|=0.0741, |dy|=0.0735, |dz|=0.1744
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=68.99 deg twtt=0.0871 s xyz=(-0.67,60.29,22.11) pred=(-0.45,60.23,22.40)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=118, median xyz_z=22.79 m, max |dz|=0.2437 m, max |dx|=0.2424 m, max |dy|=0.0396 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 1: n=164, median xyz_z=22.30 m, max |dz|=0.1857 m, max |dx|=0.0993 m, max |dy|=0.1541 m, tilt=0.68 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 2: n=118, median xyz_z=22.22 m, max |dz|=0.2872 m, max |dx|=0.2233 m, max |dy|=0.1007 m, tilt=0.36 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['0.00', '0.00'], high=['1.00', '1.00', '1.00']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: 6641182978793103390.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(0.38,0.01,0.43) ypr=(180.52,-1.68,-0.84)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(0.25,-0.37,0.30) ypr=(0.32,3.21,35.66)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #30: depth_med=25.85 m slant_med=29.71 m, max |dx|=0.5578, |dy|=0.2668, |dz|=0.1302, median |dx|=0.0445, |dy|=0.2295, |dz|=0.0857
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-0.16 deg twtt=0.0428 s xyz=(8.72,-20.32,25.40) pred=(8.84,-20.08,25.53)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=256, median xyz_z=25.85 m, max |dz|=0.1302 m, max |dx|=0.5578 m, max |dy|=0.2668 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #31: depth_med=26.15 m slant_med=29.59 m, max |dx|=0.5682, |dy|=0.5190, |dz|=0.3098, median |dx|=0.0383, |dy|=0.4786, |dz|=0.1243
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=25.45 deg twtt=0.0692 s xyz=(7.56,43.61,26.21) pred=(8.13,43.24,26.52)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=256, median xyz_z=26.15 m, max |dz|=0.3098 m, max |dx|=0.5682 m, max |dy|=0.5190 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #32: depth_med=25.86 m slant_med=29.73 m, max |dx|=0.5521, |dy|=0.2776, |dz|=0.1313, median |dx|=0.0342, |dy|=0.2411, |dz|=0.0860
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-1.91 deg twtt=0.0440 s xyz=(8.56,-21.46,25.57) pred=(8.69,-21.22,25.70)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=256, median xyz_z=25.86 m, max |dz|=0.1313 m, max |dx|=0.5521 m, max |dy|=0.2776 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #33: depth_med=26.16 m slant_med=29.78 m, max |dx|=0.5718, |dy|=0.5490, |dz|=0.3198, median |dx|=0.0391, |dy|=0.5061, |dz|=0.1262
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=25.82 deg twtt=0.0685 s xyz=(7.87,43.13,25.99) pred=(8.44,42.73,26.31)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=256, median xyz_z=26.16 m, max |dz|=0.3198 m, max |dx|=0.5718 m, max |dy|=0.5490 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #34: depth_med=25.92 m slant_med=29.85 m, max |dx|=0.5430, |dy|=0.2492, |dz|=0.1199, median |dx|=0.0351, |dy|=0.2132, |dz|=0.0817
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=0.32 deg twtt=0.0432 s xyz=(8.88,-20.31,25.72) pred=(8.99,-20.09,25.84)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=256, median xyz_z=25.92 m, max |dz|=0.1199 m, max |dx|=0.5430 m, max |dy|=0.2492 m, tilt=1.25 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:187   motion scores (deg/s): low=['0.00', '0.00'], high=['1.00', '1.00', '1.00']
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:193 file: 9142459809945665151.all
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:333   tx_target=TX xyz=(0.38,0.01,0.43) ypr=(180.52,-1.68,-0.84)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:339   rx_target=RX xyz=(0.25,-0.37,0.30) ypr=(0.32,3.21,35.66)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #35: depth_med=30.96 m slant_med=41.83 m, max |dx|=0.7079, |dy|=0.2810, |dz|=0.1447, median |dx|=0.1660, |dy|=0.2461, |dz|=0.1291
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-8.11 deg twtt=0.0584 s xyz=(8.51,-31.51,30.69) pred=(8.75,-31.27,30.83)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=30.96 m, max |dz|=0.1447 m, max |dx|=0.7079 m, max |dy|=0.2810 m, tilt=1.32 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #36: depth_med=31.16 m slant_med=39.55 m, max |dx|=0.6983, |dy|=0.5312, |dz|=0.4033, median |dx|=0.1758, |dy|=0.4905, |dz|=0.2669
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=25.49 deg twtt=0.0822 s xyz=(7.34,51.64,30.96) pred=(8.04,51.23,31.36)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=31.16 m, max |dz|=0.4033 m, max |dx|=0.6983 m, max |dy|=0.5312 m, tilt=1.32 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #37: depth_med=30.97 m slant_med=41.92 m, max |dx|=0.7065, |dy|=0.2782, |dz|=0.1370, median |dx|=0.1663, |dy|=0.2429, |dz|=0.1233
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-6.15 deg twtt=0.0570 s xyz=(8.53,-29.79,30.99) pred=(8.75,-29.55,31.13)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=30.97 m, max |dz|=0.1370 m, max |dx|=0.7065 m, max |dy|=0.2782 m, tilt=1.32 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #38: depth_med=31.22 m slant_med=39.84 m, max |dx|=0.7249, |dy|=0.5008, |dz|=0.3556, median |dx|=0.1921, |dy|=0.4615, |dz|=0.2527
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=25.55 deg twtt=0.0830 s xyz=(7.31,52.18,31.30) pred=(8.03,51.80,31.66)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=31.22 m, max |dz|=0.3556 m, max |dx|=0.7249 m, max |dy|=0.5008 m, tilt=1.33 deg
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:426 ping #39: depth_med=31.00 m slant_med=42.13 m, max |dx|=0.7184, |dy|=0.3074, |dz|=0.1690, median |dx|=0.1812, |dy|=0.2726, |dz|=0.1568
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:440   worst-z beam: cross=-11.17 deg twtt=0.0618 s xyz=(8.48,-35.01,30.68) pred=(8.79,-34.76,30.85)
+INFO     test_raytracers2_vs_xyz:test_raytracers2_vs_xyz.py:463   sector 0: n=400, median xyz_z=31.00 m, max |dz|=0.1690 m, max |dx|=0.7184 m, max |dy|=0.3074 m, tilt=1.33 deg
+PASSED                                                                   [100%]
+
+============================== 2 passed in 1.68s ===============================
