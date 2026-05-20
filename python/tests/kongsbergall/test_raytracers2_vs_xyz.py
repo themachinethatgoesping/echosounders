@@ -141,7 +141,11 @@ class TestRaytracers2VsXYZ:
 
             #filter pings by features
             all_pings = []
-            for ping in theping.pingprocessing.filter_pings.by_features(fm.get_pings(), ['bottom.xyz']):
+            for ping in fm.get_pings():
+                try:
+                    ping.bottom.get_xyz()
+                except Exception:
+                    continue
                 if not ping.file_data.has_soundspeed_profile():
                     continue
 
