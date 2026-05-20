@@ -143,7 +143,7 @@ class TestRaytracers2VsXYZ:
             all_pings = []
             for ping in fm.get_pings():
                 try:
-                    ping.bottom.get_xyz()
+                    _ = ping.bottom.get_xyz()
                 except (AttributeError, RuntimeError, ValueError):
                     continue
                 if not ping.file_data.has_soundspeed_profile():
