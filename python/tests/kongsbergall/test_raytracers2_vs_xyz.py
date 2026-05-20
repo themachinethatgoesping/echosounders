@@ -144,7 +144,7 @@ class TestRaytracers2VsXYZ:
             for ping in fm.get_pings():
                 try:
                     ping.bottom.get_xyz()
-                except Exception:
+                except (AttributeError, RuntimeError, ValueError):
                     continue
                 if not ping.file_data.has_soundspeed_profile():
                     continue
