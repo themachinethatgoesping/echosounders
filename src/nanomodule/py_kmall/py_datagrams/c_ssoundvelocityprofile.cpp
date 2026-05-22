@@ -24,14 +24,14 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::kmall;
 using datagrams::SSoundVelocityProfile;
 
-#define DOC_SSoundVelocityProfile(ARG)                                                              \
+#define DOC_SSoundVelocityProfile(ARG)                                                             \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, SSoundVelocityProfile, ARG)
-#define DOC_SSoundVelocityProfileSensorFormat(ARG)                                                  \
+#define DOC_SSoundVelocityProfileSensorFormat(ARG)                                                 \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
         kmall,                                                                                     \
         datagrams,                                                                                 \
-        SSoundVelocityProfile,                                                                      \
+        SSoundVelocityProfile,                                                                     \
         t_sensor_format,                                                                           \
         ARG)
 
@@ -125,6 +125,13 @@ void init_c_ssoundvelocityprofile(nanobind::module_& m)
              &SSoundVelocityProfile::set_sensor_data,
              DOC_SSoundVelocityProfile(set_sensor_data),
              nb::arg("data"))
+        .def("set_padding",
+             &SSoundVelocityProfile::set_padding,
+             DOC_SSoundVelocityProfile(set_padding),
+             nb::arg("padding"))
+        .def("get_padding",
+             &SSoundVelocityProfile::get_padding,
+             DOC_SSoundVelocityProfile(get_padding))
         .def("get_bytes_datagram_check",
              &SSoundVelocityProfile::get_bytes_datagram_check,
              DOC_SSoundVelocityProfile(get_bytes_datagram_check))

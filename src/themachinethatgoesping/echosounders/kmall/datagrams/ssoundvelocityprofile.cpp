@@ -58,11 +58,18 @@ void SSoundVelocityProfile::__read__(std::istream& is)
     // read position data string
     _sensor_data.resize(get_number_of_samples()); // minus size of the previous fields
     is.read(reinterpret_cast<char*>(_sensor_data.data()), _sensor_data.size() * sizeof(SVPPoint));
+
+    // read padding bytes (if any)
+    _padding.resize(get_bytes_datagram() - KMALLDatagram::__size - sizeof(Content) -
+                    _sensor_data.size() * sizeof(SVPPoint) - sizeof(_bytes_datagram_check));
+    if (!_padding.empty())
+        is.read(&_padding[0], _padding.size());
+
     is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
 }
 
 SSoundVelocityProfile SSoundVelocityProfile::from_stream(std::istream&        is,
-                                                       const KMALLDatagram& header)
+                                                         const KMALLDatagram& header)
 {
     SSoundVelocityProfile datagram(header);
     datagram.__read__(is);
@@ -96,6 +103,8 @@ void SSoundVelocityProfile::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_content), __size);
     os.write(reinterpret_cast<const char*>(_sensor_data.data()),
              _sensor_data.size() * sizeof(SVPPoint));
+    if (!_padding.empty())
+        os.write(_padding.data(), _padding.size());
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
@@ -138,7 +147,7 @@ std::vector<float> SSoundVelocityProfile::get_svp_sound_velocities_computed() co
     return sound_velocities;
 }
 std::vector<float> SSoundVelocityProfile::get_svp_absorption_computed(float frequency,
-                                                                     float ph) const
+                                                                      float ph) const
 {
     std::vector<float> absorptions;
     absorptions.reserve(_sensor_data.size());
@@ -201,6 +210,10 @@ tools::classhelper::ObjectPrinter SSoundVelocityProfile::__printer__(
     printer.register_value("longitude_deg", _content.longitude_deg, "°");
     printer.register_value("sensor_data",
                            fmt::format("vector<SVPPoint> with {} entries", _sensor_data.size()));
+
+    if (!_padding.empty())
+        printer.register_value("padding", fmt::format("{} bytes", _padding.size()));
+
     printer.register_value("bytes_datagram_check", _bytes_datagram_check, "bytes");
 
     // --- processed ---

@@ -95,6 +95,9 @@ class SSoundVelocityProfile : public KMALLDatagram
 #pragma pack(pop)
 
     std::vector<SVPPoint> _sensor_data;
+    std::string _padding; ///< this package seems to contain unreported bytes, we store the in
+                          ///< string for reading/writing, performance does not matter for this
+                          ///< datagram since it is not written often
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check
 
@@ -113,6 +116,7 @@ class SSoundVelocityProfile : public KMALLDatagram
     double          get_longitude_deg() const { return _content.longitude_deg; }
     const std::vector<SVPPoint>& get_sensor_data() const { return _sensor_data; }
     uint32_t                     get_bytes_datagram_check() const { return _bytes_datagram_check; }
+    const std::string&           get_padding() const { return _padding; }
 
     // Setters
     void set_bytes_content(uint16_t value) { _content.bytes_content = value; }
@@ -123,6 +127,7 @@ class SSoundVelocityProfile : public KMALLDatagram
     void set_longitude_deg(double value) { _content.longitude_deg = value; }
     void set_sensor_data(const std::vector<SVPPoint>& data);
     void set_bytes_datagram_check(uint32_t val) { _bytes_datagram_check = val; }
+    void set_padding(const std::string& padding) { _padding = padding; }
 
     // ----- processed data access -----
     std::vector<float> get_svp_depths() const;

@@ -1,4 +1,4 @@
-//sourcehash: 9632595f580364922844495db3df4388eadd4bc4cc171602bf0da257e3f9a243
+//sourcehash: 4c20e741a82c6bf6627d3b949af826775aaba8e93f97ef0e6c8e01ed26fe72b4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,7 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_ssoundvelocityprofile_hpp_169_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_ssoundvelocityprofile_hpp_174_67 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile = R"doc(Clock datagrams)doc";
 
@@ -101,6 +101,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_S
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_get_number_of_samples = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_get_padding = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_get_sensor_data = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_get_sensor_format = R"doc()doc";
@@ -121,6 +123,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_S
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_operator_eq = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_padding =
+R"doc(this package seems to contain unreported bytes, we store the in string
+for reading/writing, performance does not matter for this datagram
+since it is not written often)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_sensor_data = R"doc()doc";
@@ -134,6 +141,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_S
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_set_longitude_deg = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_set_number_of_samples = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_set_padding = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SSoundVelocityProfile_set_sensor_data = R"doc()doc";
 
