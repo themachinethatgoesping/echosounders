@@ -9,6 +9,7 @@
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
 #include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include <themachinethatgoesping/echosounders/kmall/datagrams/skmbinary.hpp>
 
@@ -36,6 +37,7 @@ void init_c_skmbinary(nanobind::module_& m)
     using KMBinary        = SKMBinary::KMBinary;
     using KMDelayedHeave  = SKMBinary::KMDelayedHeave;
     using SKMSample       = SKMBinary::SKMSample;
+     using SKMSamplesContainer = SKMBinary::SKMSamplesContainer;
     using t_sensor_format = SKMBinary::t_sensor_format;
     using o_sensor_format = SKMBinary::o_sensor_format;
 
@@ -219,6 +221,169 @@ void init_c_skmbinary(nanobind::module_& m)
         // end
         ;
 
+    nb::class_<SKMSamplesContainer>(
+        m, "SKMSamplesContainer", "Container for SKMSample with vectorized tensor access")
+        .def(nb::init<>())
+        .def_prop_rw("sensor_data",
+                     &SKMSamplesContainer::sensor_data,
+                     &SKMSamplesContainer::set_sensor_data,
+                     nb::rv_policy::reference_internal)
+        .def("get_sensor_data", &SKMSamplesContainer::get_sensor_data)
+        .def("set_sensor_data", &SKMSamplesContainer::set_sensor_data, nb::arg("data"))
+
+        .def("get_datagram_identifier_tensor",
+             &SKMSamplesContainer::get_datagram_identifier_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_bytes_content_tensor",
+             &SKMSamplesContainer::get_bytes_content_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_dgm_version_tensor",
+             &SKMSamplesContainer::get_dgm_version_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_time_sec_tensor",
+             &SKMSamplesContainer::get_time_sec_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_time_nanosec_tensor",
+             &SKMSamplesContainer::get_time_nanosec_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_status_tensor",
+             &SKMSamplesContainer::get_status_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_latitude_deg_tensor",
+             &SKMSamplesContainer::get_latitude_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_longitude_deg_tensor",
+             &SKMSamplesContainer::get_longitude_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_ellipsoid_height_m_tensor",
+             &SKMSamplesContainer::get_ellipsoid_height_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_roll_deg_tensor",
+             &SKMSamplesContainer::get_roll_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_pitch_deg_tensor",
+             &SKMSamplesContainer::get_pitch_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heading_deg_tensor",
+             &SKMSamplesContainer::get_heading_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heave_m_tensor",
+             &SKMSamplesContainer::get_heave_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_roll_rate_tensor",
+             &SKMSamplesContainer::get_roll_rate_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_pitch_rate_tensor",
+             &SKMSamplesContainer::get_pitch_rate_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_yaw_rate_tensor",
+             &SKMSamplesContainer::get_yaw_rate_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_vel_north_tensor",
+             &SKMSamplesContainer::get_vel_north_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_vel_east_tensor",
+             &SKMSamplesContainer::get_vel_east_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_vel_down_tensor",
+             &SKMSamplesContainer::get_vel_down_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_latitude_error_m_tensor",
+             &SKMSamplesContainer::get_latitude_error_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_longitude_error_m_tensor",
+             &SKMSamplesContainer::get_longitude_error_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_ellipsoid_height_error_m_tensor",
+             &SKMSamplesContainer::get_ellipsoid_height_error_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_roll_error_deg_tensor",
+             &SKMSamplesContainer::get_roll_error_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_pitch_error_deg_tensor",
+             &SKMSamplesContainer::get_pitch_error_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heading_error_deg_tensor",
+             &SKMSamplesContainer::get_heading_error_deg_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heave_error_m_tensor",
+             &SKMSamplesContainer::get_heave_error_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_north_acceleration_tensor",
+             &SKMSamplesContainer::get_north_acceleration_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_east_acceleration_tensor",
+             &SKMSamplesContainer::get_east_acceleration_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_down_acceleration_tensor",
+             &SKMSamplesContainer::get_down_acceleration_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave_time_sec_tensor",
+             &SKMSamplesContainer::get_delayed_heave_time_sec_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave_time_nanosec_tensor",
+             &SKMSamplesContainer::get_delayed_heave_time_nanosec_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave_m_tensor",
+             &SKMSamplesContainer::get_delayed_heave_m_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+
+        .def("get_sensor_timestamp_tensor",
+             &SKMSamplesContainer::get_sensor_timestamp_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_horizontal_position_and_velocity_valid_tensor",
+             &SKMSamplesContainer::get_horizontal_position_and_velocity_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_roll_and_pitch_valid_tensor",
+             &SKMSamplesContainer::get_roll_and_pitch_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heading_valid_tensor",
+             &SKMSamplesContainer::get_heading_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heave_valid_tensor",
+             &SKMSamplesContainer::get_heave_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_acceleration_valid_tensor",
+             &SKMSamplesContainer::get_acceleration_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave1_valid_tensor",
+             &SKMSamplesContainer::get_delayed_heave1_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave2_valid_tensor",
+             &SKMSamplesContainer::get_delayed_heave2_valid_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_horizontal_position_and_velocity_reduced_performance_tensor",
+             &SKMSamplesContainer::get_horizontal_position_and_velocity_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_roll_and_pitch_reduced_performance_tensor",
+             &SKMSamplesContainer::get_roll_and_pitch_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heading_reduced_performance_tensor",
+             &SKMSamplesContainer::get_heading_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_heave_reduced_performance_tensor",
+             &SKMSamplesContainer::get_heave_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_acceleration_reduced_performance_tensor",
+             &SKMSamplesContainer::get_acceleration_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave1_reduced_performance_tensor",
+             &SKMSamplesContainer::get_delayed_heave1_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave2_reduced_performance_tensor",
+             &SKMSamplesContainer::get_delayed_heave2_reduced_performance_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+        .def("get_delayed_heave_timestamp_tensor",
+             &SKMSamplesContainer::get_delayed_heave_timestamp_tensor,
+             nb::arg("indices") = std::vector<uint32_t>{})
+
+        .def("get_number_of_samples", &SKMSamplesContainer::get_number_of_samples)
+
+        .def("__eq__", &SKMSamplesContainer::operator==, nb::arg("other"))
+        __PYCLASS_DEFAULT_COPY__(SKMSamplesContainer)
+            __PYCLASS_DEFAULT_PRINTING__(SKMSamplesContainer)
+                ;
+
     nb::class_<SKMBinary, datagrams::KMALLDatagram>(
         m, "SKMBinary", DOC(themachinethatgoesping, echosounders, kmall, datagrams, SKMBinary))
         .def(nb::init<>(), DOC_SKMBinary(SKMBinary))
@@ -238,6 +403,11 @@ void init_c_skmbinary(nanobind::module_& m)
              &SKMBinary::get_sensor_data_contents,
              DOC_SKMBinary(get_sensor_data_contents))
         .def("get_sensor_data", &SKMBinary::get_sensor_data, DOC_SKMBinary(get_sensor_data))
+     .def_prop_rw("sensor_data",
+               &SKMBinary::sensor_data,
+               nb::overload_cast<const SKMSamplesContainer&>(&SKMBinary::set_sensor_data),
+                     DOC_SKMBinary(get_sensor_data),
+               nb::rv_policy::reference_internal)
         .def("get_bytes_datagram_check",
              &SKMBinary::get_bytes_datagram_check,
              DOC_SKMBinary(get_bytes_datagram_check))
@@ -270,7 +440,11 @@ void init_c_skmbinary(nanobind::module_& m)
              DOC_SKMBinary(set_sensor_data_contents),
              nb::arg("value"))
         .def("set_sensor_data",
-             &SKMBinary::set_sensor_data,
+             nb::overload_cast<const std::vector<SKMSample>&>(&SKMBinary::set_sensor_data),
+             DOC_SKMBinary(set_sensor_data),
+             nb::arg("data"))
+        .def("set_sensor_data",
+             nb::overload_cast<const SKMSamplesContainer&>(&SKMBinary::set_sensor_data),
              DOC_SKMBinary(set_sensor_data),
              nb::arg("data"))
         .def("set_bytes_datagram_check",

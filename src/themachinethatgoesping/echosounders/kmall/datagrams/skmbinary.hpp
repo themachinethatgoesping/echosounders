@@ -20,6 +20,7 @@
 
 #include "../types.hpp"
 #include "kmalldatagram.hpp"
+#include "substructs/skmsamplescontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -209,6 +210,8 @@ class SKMBinary : public KMALLDatagram
     };
 #pragma pack(pop)
 
+    using SKMSamplesContainer = substructs::SKMSamplesContainerT<SKMSample>;
+
   protected:
 #pragma pack(push, 4) // force 4-byte alignment
     struct Content
@@ -225,7 +228,7 @@ class SKMBinary : public KMALLDatagram
     } _content;
 #pragma pack(pop)
 
-    std::vector<SKMSample> _sensor_data;
+    SKMSamplesContainer _sensor_data;
     uint32_t _bytes_datagram_check; ///< Each datagram ends with the size of the datagram for
                                     ///< integrity check
 
@@ -243,7 +246,8 @@ class SKMBinary : public KMALLDatagram
     uint16_t        get_number_of_samples() const { return _content.number_of_samples; }
     uint16_t get_number_of_bytes_per_sample() const { return _content.number_of_bytes_per_sample; }
     uint16_t get_sensor_data_contents() const { return _content.sensor_data_contents; }
-    const std::vector<SKMSample>& get_sensor_data() const { return _sensor_data; }
+    const SKMSamplesContainer& get_sensor_data() const { return _sensor_data; }
+    SKMSamplesContainer&       sensor_data() { return _sensor_data; }
     uint32_t                      get_bytes_datagram_check() const { return _bytes_datagram_check; }
 
     // Setters
@@ -258,6 +262,7 @@ class SKMBinary : public KMALLDatagram
     }
     void set_sensor_data_contents(uint16_t value) { _content.sensor_data_contents = value; }
     void set_sensor_data(const std::vector<SKMSample>& data);
+    void set_sensor_data(const SKMSamplesContainer& data);
     void set_bytes_datagram_check(uint32_t val) { _bytes_datagram_check = val; }
 
     // ----- processed data access -----

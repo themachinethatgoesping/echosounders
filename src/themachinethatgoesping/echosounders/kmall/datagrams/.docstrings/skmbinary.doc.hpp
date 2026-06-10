@@ -1,4 +1,4 @@
-//sourcehash: 9533df6ce8244e9fa1a01e7651054c2f0d8765d4fd10941106501426263315d2
+//sourcehash: 20964bae6d793095f55162a5d0b65dd3d7fdc2c2b6e79476dc91419221ac2a14
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,7 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_skmbinary_hpp_315_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_datagrams_skmbinary_hpp_320_67 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary = R"doc(Clock datagrams)doc";
 
@@ -271,6 +271,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_S
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_sensor_data = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_sensor_data_2 = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_acceleration_active = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_bytes_content = R"doc()doc";
@@ -294,6 +296,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_S
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_roll_and_pitch_active = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_sensor_data = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_sensor_data_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_SKMBinary_set_sensor_data_contents = R"doc()doc";
 

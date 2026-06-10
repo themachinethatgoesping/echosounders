@@ -1,4 +1,4 @@
-//sourcehash: 49df50a09761919fbed1312902070ebc557499bb2dd49f4d5ff06dbac4f727d1
+//sourcehash: d91d2c1193da73adf208c5ffc9cb80a18b855c5e73fbc94cb2347f3c70dd2265
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -131,6 +131,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_AttitudeDatagram_set_attitude_counter = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_AttitudeDatagram_set_attitudes = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_AttitudeDatagram_set_attitudes_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_AttitudeDatagram_set_checksum = R"doc()doc";
 

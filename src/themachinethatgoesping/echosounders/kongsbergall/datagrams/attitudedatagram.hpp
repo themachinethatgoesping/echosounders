@@ -24,6 +24,7 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/attitudedatagramattitude.hpp"
+#include "substructures/attitudedatagramattitudescontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -46,7 +47,7 @@ class AttitudeDatagram : public KongsbergAllDatagram
     uint16_t _number_of_entries; ///< N
 
     // Number_of_entries x Attitude
-    std::vector<substructures::AttitudeDatagramAttitude> _attitudes; ///< N x Attitude data
+    substructures::AttitudeDatagramAttitudesContainer _attitudes; ///< N x Attitude data
 
     uint8_t  _sensor_system_descriptor;
     uint8_t  _etx = 0x03; ///< end identifier (always 0x03)
@@ -79,8 +80,9 @@ class AttitudeDatagram : public KongsbergAllDatagram
   void set_checksum(uint16_t checksum);
 
     // substructures
-  std::vector<substructures::AttitudeDatagramAttitude>& attitudes();
-  const std::vector<substructures::AttitudeDatagramAttitude>& get_attitudes() const;
+  substructures::AttitudeDatagramAttitudesContainer& attitudes();
+  const substructures::AttitudeDatagramAttitudesContainer& get_attitudes() const;
+  void set_attitudes(const substructures::AttitudeDatagramAttitudesContainer& attitudes);
   void set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes);
 
     // ----- processed data access -----

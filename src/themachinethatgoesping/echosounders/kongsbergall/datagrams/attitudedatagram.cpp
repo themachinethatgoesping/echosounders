@@ -84,19 +84,25 @@ void AttitudeDatagram::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
-std::vector<substructures::AttitudeDatagramAttitude>& AttitudeDatagram::attitudes()
+substructures::AttitudeDatagramAttitudesContainer& AttitudeDatagram::attitudes()
 {
     return _attitudes;
 }
 
-const std::vector<substructures::AttitudeDatagramAttitude>& AttitudeDatagram::get_attitudes() const
+const substructures::AttitudeDatagramAttitudesContainer& AttitudeDatagram::get_attitudes() const
 {
     return _attitudes;
+}
+
+void AttitudeDatagram::set_attitudes(
+    const substructures::AttitudeDatagramAttitudesContainer& attitudes)
+{
+    _attitudes = attitudes;
 }
 
 void AttitudeDatagram::set_attitudes(std::vector<substructures::AttitudeDatagramAttitude> attitudes)
 {
-    _attitudes = std::move(attitudes);
+    _attitudes.set_attitudes(attitudes);
 }
 
 // ----- processed data access -----
@@ -157,8 +163,8 @@ AttitudeDatagram AttitudeDatagram::from_stream(std::istream& is, KongsbergAllDat
     is.read(reinterpret_cast<char*>(&(datagram._attitude_counter)), 6 * sizeof(uint8_t));
 
     // read the attitude data
-    datagram._attitudes.resize(datagram._number_of_entries);
-    is.read(reinterpret_cast<char*>(datagram._attitudes.data()),
+    datagram._attitudes.attitudes().resize(datagram._number_of_entries);
+    is.read(reinterpret_cast<char*>(datagram._attitudes.attitudes().data()),
             datagram._number_of_entries * sizeof(substructures::AttitudeDatagramAttitude));
 
     // read the rest of the datagram
@@ -186,13 +192,13 @@ AttitudeDatagram AttitudeDatagram::from_stream(std::istream&              is,
 void AttitudeDatagram::to_stream(std::ostream& os)
 {
     KongsbergAllDatagram::to_stream(os);
-    _number_of_entries = _attitudes.size();
+    _number_of_entries = _attitudes.get_number_of_attitudes();
 
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&(_attitude_counter)), 6 * sizeof(uint8_t));
 
     // write the beams
-    os.write(reinterpret_cast<const char*>(_attitudes.data()),
+    os.write(reinterpret_cast<const char*>(_attitudes.get_attitudes().data()),
              _number_of_entries * sizeof(substructures::AttitudeDatagramAttitude));
 
     // write the rest of the datagram
@@ -223,7 +229,9 @@ tools::classhelper::ObjectPrinter AttitudeDatagram::__printer__(unsigned int flo
     printer.register_value("heave_sensor_is_active", get_heave_sensor_is_active());
 
     printer.register_section("substructures");
-    printer.register_value("attitudes", _attitudes.size(), "AttitudeDatagramAttitude");
+    printer.register_value("attitudes",
+                           _attitudes.get_number_of_attitudes(),
+                           "AttitudeDatagramAttitude");
 
     return printer;
 }

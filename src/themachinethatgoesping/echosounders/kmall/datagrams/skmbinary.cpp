@@ -338,11 +338,22 @@ SKMBinary::SKMBinary()
 
 void SKMBinary::set_sensor_data(const std::vector<SKMSample>& data)
 {
-    _sensor_data               = data;
+    _sensor_data.set_sensor_data(data);
     _content.number_of_samples = static_cast<uint16_t>(data.size());
 
     static constexpr size_t dbytes = __size + sizeof(uint32_t);
-    _content.bytes_content         = dbytes + _sensor_data.size() * sizeof(SKMSample);
+    _content.bytes_content = dbytes + _sensor_data.get_number_of_samples() * sizeof(SKMSample);
+    set_bytes_datagram(KMALLDatagram::__size + _content.bytes_content);
+    _bytes_datagram_check = get_bytes_datagram();
+}
+
+void SKMBinary::set_sensor_data(const SKMSamplesContainer& data)
+{
+    _sensor_data               = data;
+    _content.number_of_samples = static_cast<uint16_t>(_sensor_data.get_number_of_samples());
+
+    static constexpr size_t dbytes = __size + sizeof(uint32_t);
+    _content.bytes_content = dbytes + _sensor_data.get_number_of_samples() * sizeof(SKMSample);
     set_bytes_datagram(KMALLDatagram::__size + _content.bytes_content);
     _bytes_datagram_check = get_bytes_datagram();
 }
@@ -354,8 +365,9 @@ void SKMBinary::__read__(std::istream& is)
     is.read(reinterpret_cast<char*>(&_content), __size);
 
     // read position data string
-    _sensor_data.resize(get_number_of_samples()); // minus size of the previous fields
-    is.read(reinterpret_cast<char*>(_sensor_data.data()), _sensor_data.size() * sizeof(SKMSample));
+        _sensor_data.sensor_data().resize(get_number_of_samples()); // minus size of previous fields
+        is.read(reinterpret_cast<char*>(_sensor_data.sensor_data().data()),
+            _sensor_data.get_number_of_samples() * sizeof(SKMSample));
     is.read(reinterpret_cast<char*>(&(_bytes_datagram_check)), sizeof(_bytes_datagram_check));
 }
 
@@ -389,8 +401,8 @@ void SKMBinary::to_stream(std::ostream& os) const
     KMALLDatagram::to_stream(os);
 
     os.write(reinterpret_cast<const char*>(&_content), __size);
-    os.write(reinterpret_cast<const char*>(_sensor_data.data()),
-             _sensor_data.size() * sizeof(SKMSample));
+    os.write(reinterpret_cast<const char*>(_sensor_data.get_sensor_data().data()),
+             _sensor_data.get_number_of_samples() * sizeof(SKMSample));
     os.write(reinterpret_cast<const char*>(&_bytes_datagram_check), sizeof(_bytes_datagram_check));
 }
 
@@ -493,7 +505,8 @@ tools::classhelper::ObjectPrinter SKMBinary::__printer__(unsigned int float_prec
     printer.register_value("number_of_bytes_per_sample", _content.number_of_bytes_per_sample);
     printer.register_value("sensor_data_contents", _content.sensor_data_contents);
     printer.register_value("sensor_data",
-                           fmt::format("vector<SKMSample> with {} entries", _sensor_data.size()));
+                           fmt::format("vector<SKMSample> with {} entries",
+                                       _sensor_data.get_number_of_samples()));
     printer.register_value("bytes_datagram_check", _bytes_datagram_check, "bytes");
 
     // --- processed ---

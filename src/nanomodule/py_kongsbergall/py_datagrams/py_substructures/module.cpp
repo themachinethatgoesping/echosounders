@@ -49,6 +49,8 @@ void init_c_watercolumndatagrambeam(nanobind::module_& m); // c_watercolumndatag
 void init_c_watercolumndatagrambeamscontainer(
     nanobind::module_& m); // c_watercolumndatagrambeamscontainer.cpp
 void init_c_attitudedatagramattitude(nanobind::module_& m); // c_attitudedatagramattitude.cpp
+void init_c_attitudedatagramattitudescontainer(
+    nanobind::module_& m); // c_attitudedatagramattitudescontainer.cpp
 void init_c_networkattitudevelocitydatagramattitude(
     nanobind::module_& m); // c_networkattitudevelocitydatagramattitude.cpp
 
@@ -81,6 +83,7 @@ void init_m_kongsbergalldatagramsSubstructures(nanobind::module_& m)
     init_c_watercolumndatagrambeam(subm);
     init_c_watercolumndatagrambeamscontainer(subm);
     init_c_attitudedatagramattitude(subm);
+    init_c_attitudedatagramattitudescontainer(subm);
     init_c_networkattitudevelocitydatagramattitude(subm);
 }
 

@@ -66,7 +66,16 @@ void init_c_attitudedatagram(nanobind::module_& m)
              &AttitudeDatagram::get_attitudes,
              DOC_AttitudeDatagram(attitudes),
              nb::rv_policy::reference_internal)
-        .def("set_attitudes", &AttitudeDatagram::set_attitudes, DOC_AttitudeDatagram(attitudes))
+        .def("set_attitudes",
+             nb::overload_cast<
+                 const themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
+                     AttitudeDatagramAttitudesContainer&>(&AttitudeDatagram::set_attitudes),
+             DOC_AttitudeDatagram(attitudes))
+        .def("set_attitudes",
+             nb::overload_cast<std::vector<
+                 themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
+                     AttitudeDatagramAttitude>>(&AttitudeDatagram::set_attitudes),
+             DOC_AttitudeDatagram(attitudes))
         .def("attitudes",
              &AttitudeDatagram::attitudes,
              DOC_AttitudeDatagram(attitudes),

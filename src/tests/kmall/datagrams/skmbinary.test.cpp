@@ -153,6 +153,15 @@ TEST_CASE("SKMBinary should support common functions", TESTTAG)
     const auto& sensor_data = dat.get_sensor_data();
     REQUIRE(sensor_data.size() == samples.size());
 
+    const auto heading_tensor = sensor_data.get_heading_deg_tensor();
+    const auto status_tensor  = sensor_data.get_status_tensor();
+    REQUIRE(heading_tensor.size() == samples.size());
+    REQUIRE(status_tensor.size() == samples.size());
+    CHECK(heading_tensor[0] == Catch::Approx(samples[0].km_binary.heading_deg));
+    CHECK(heading_tensor[1] == Catch::Approx(samples[1].km_binary.heading_deg));
+    CHECK(status_tensor[0] == samples[0].km_binary.status);
+    CHECK(status_tensor[1] == samples[1].km_binary.status);
+
     for (size_t i = 0; i < sensor_data.size(); ++i)
     {
         INFO(fmt::format("sample[{}]", i));

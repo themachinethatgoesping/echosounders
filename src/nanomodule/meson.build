@@ -51,6 +51,7 @@ sources = [
   'py_kongsbergall/py_datagrams/c_xyzdatagram.cpp',
   'py_kongsbergall/py_datagrams/module.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_attitudedatagramattitude.cpp',
+  'py_kongsbergall/py_datagrams/py_substructures/c_attitudedatagramattitudescontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_extradetectionsdetectionclasses.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_extradetectionsdetectionclassescontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_extradetectionsextradetections.cpp',
