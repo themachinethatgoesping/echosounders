@@ -1,4 +1,4 @@
-//sourcehash: f89c6aeb093006295da438753f6deef11c2c831cc6714972239949da3963333a
+//sourcehash: 30e7ae27de698629546d164e460dbc07a533c12fdf6259389546aa69a6bfdfbf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_AttitudeDatagramAttitudesContainer_get_heave_in_meters_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_AttitudeDatagramAttitudesContainer_get_heave_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_AttitudeDatagramAttitudesContainer_get_indices_sorted_by_time = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_AttitudeDatagramAttitudesContainer_get_number_of_attitudes = R"doc()doc";
 

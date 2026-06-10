@@ -124,13 +124,14 @@ tools::classhelper::ObjectPrinter AttitudeDatagramAttitudesContainer::__printer_
 
     printer.register_container("time", get_time_tensor(), "ms");
     printer.register_container("sensor_status", get_sensor_status_tensor());
-    printer.register_container("roll", get_roll_tensor(), "0.01deg");
-    printer.register_container("pitch", get_pitch_tensor(), "0.01deg");
+    printer.register_container("roll", get_roll_tensor(), "0.01 deg");
+    printer.register_container("pitch", get_pitch_tensor(), "0.01 deg");
     printer.register_container("heave", get_heave_tensor(), "cm");
-    printer.register_container("heading", get_heading_tensor(), "0.01deg");
+    printer.register_container("heading", get_heading_tensor(), "0.01 deg");
 
     printer.register_section("processed");
     printer.register_value("number_of_attitudes", get_number_of_attitudes());
+    printer.register_container("indices_sorted_by_time", get_indices_sorted_by_time());
     printer.register_container("time_in_seconds", get_time_in_seconds_tensor(), "s");
     printer.register_container("roll_in_degrees", get_roll_in_degrees_tensor(), "deg");
     printer.register_container("pitch_in_degrees", get_pitch_in_degrees_tensor(), "deg");

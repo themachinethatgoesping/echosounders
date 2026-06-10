@@ -7,9 +7,12 @@
 /* generated doc strings */
 #include ".docstrings/skmsamplescontainer.doc.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <cmath>
 #include <limits>
+#include <numeric>
 #include <type_traits>
 #include <vector>
 
@@ -50,6 +53,51 @@ class SKMSamplesContainerT
     auto end() const { return _sensor_data.end(); }
     auto cbegin() const { return _sensor_data.cbegin(); }
     auto cend() const { return _sensor_data.cend(); }
+
+    // Build a reusable permutation once, then pass it into tensor getters.
+    // This avoids repeated sort work when fetching many fields in timestamp order.
+    std::vector<uint32_t> get_indices_sorted_by_sensor_timestamp(
+        const std::vector<uint32_t>& indices = {}) const
+    {
+        std::vector<uint32_t> sorted_indices;
+        if (indices.empty())
+        {
+            sorted_indices.resize(_sensor_data.size());
+            std::iota(sorted_indices.begin(), sorted_indices.end(), uint32_t{ 0 });
+        }
+        else
+        {
+            sorted_indices = indices;
+        }
+
+        std::stable_sort(sorted_indices.begin(),
+                         sorted_indices.end(),
+                         [this](uint32_t a, uint32_t b) {
+                             const bool valid_a = a < _sensor_data.size();
+                             const bool valid_b = b < _sensor_data.size();
+
+                             if (!valid_a || !valid_b)
+                             {
+                                 if (!valid_a && !valid_b)
+                                     return a < b;
+                                 return valid_a;
+                             }
+
+                             const double ta = _sensor_data[a].km_binary.get_sensor_timestamp();
+                             const double tb = _sensor_data[b].km_binary.get_sensor_timestamp();
+                             const bool   fa = std::isfinite(ta);
+                             const bool   fb = std::isfinite(tb);
+
+                             if (fa != fb)
+                                 return fa;
+                             if (!fa && !fb)
+                                 return a < b;
+
+                             return ta < tb;
+                         });
+
+        return sorted_indices;
+    }
 
     // ----- KMBinary raw fields -----
     xt::xtensor<uint32_t, 1> get_datagram_identifier_tensor(
@@ -384,10 +432,77 @@ class SKMSamplesContainerT
                                fmt::format("size={}", get_number_of_samples()),
                                "samples");
 
+        printer.register_container("datagram_identifier", get_datagram_identifier_tensor());
+        printer.register_container("bytes_content", get_bytes_content_tensor(), "bytes");
+        printer.register_container("dgm_version", get_dgm_version_tensor());
+        printer.register_container("time_sec", get_time_sec_tensor(), "s");
+        printer.register_container("time_nanosec", get_time_nanosec_tensor(), "ns");
+        printer.register_container("status", get_status_tensor());
+        printer.register_container("latitude_deg", get_latitude_deg_tensor(), "deg");
+        printer.register_container("longitude_deg", get_longitude_deg_tensor(), "deg");
+        printer.register_container("ellipsoid_height_m", get_ellipsoid_height_m_tensor(), "m");
+        printer.register_container("roll_deg", get_roll_deg_tensor(), "deg");
+        printer.register_container("pitch_deg", get_pitch_deg_tensor(), "deg");
+        printer.register_container("heading_deg", get_heading_deg_tensor(), "deg");
+        printer.register_container("heave_m", get_heave_m_tensor(), "m");
+        printer.register_container("roll_rate", get_roll_rate_tensor(), "deg/s");
+        printer.register_container("pitch_rate", get_pitch_rate_tensor(), "deg/s");
+        printer.register_container("yaw_rate", get_yaw_rate_tensor(), "deg/s");
+        printer.register_container("vel_north", get_vel_north_tensor(), "m/s");
+        printer.register_container("vel_east", get_vel_east_tensor(), "m/s");
+        printer.register_container("vel_down", get_vel_down_tensor(), "m/s");
+        printer.register_container("latitude_error_m", get_latitude_error_m_tensor(), "m");
+        printer.register_container("longitude_error_m", get_longitude_error_m_tensor(), "m");
+        printer.register_container(
+            "ellipsoid_height_error_m", get_ellipsoid_height_error_m_tensor(), "m");
+        printer.register_container("roll_error_deg", get_roll_error_deg_tensor(), "deg");
+        printer.register_container("pitch_error_deg", get_pitch_error_deg_tensor(), "deg");
+        printer.register_container("heading_error_deg", get_heading_error_deg_tensor(), "deg");
+        printer.register_container("heave_error_m", get_heave_error_m_tensor(), "m");
+        printer.register_container(
+            "north_acceleration", get_north_acceleration_tensor(), "m/s^2");
+        printer.register_container(
+            "east_acceleration", get_east_acceleration_tensor(), "m/s^2");
+        printer.register_container(
+            "down_acceleration", get_down_acceleration_tensor(), "m/s^2");
+        printer.register_container(
+            "delayed_heave_time_sec", get_delayed_heave_time_sec_tensor(), "s");
+        printer.register_container(
+            "delayed_heave_time_nanosec", get_delayed_heave_time_nanosec_tensor(), "ns");
+        printer.register_container("delayed_heave_m", get_delayed_heave_m_tensor(), "m");
+
         printer.register_section("processed");
         printer.register_value("number_of_samples", get_number_of_samples());
+        printer.register_container(
+            "indices_sorted_by_sensor_timestamp", get_indices_sorted_by_sensor_timestamp());
         printer.register_container("sensor_timestamp", get_sensor_timestamp_tensor(), "s");
-        printer.register_container("delayed_heave_timestamp", get_delayed_heave_timestamp_tensor(), "s");
+        printer.register_container(
+            "delayed_heave_timestamp", get_delayed_heave_timestamp_tensor(), "s");
+        printer.register_container("horizontal_position_and_velocity_valid",
+                                   get_horizontal_position_and_velocity_valid_tensor());
+        printer.register_container("roll_and_pitch_valid", get_roll_and_pitch_valid_tensor());
+        printer.register_container("heading_valid", get_heading_valid_tensor());
+        printer.register_container("heave_valid", get_heave_valid_tensor());
+        printer.register_container("acceleration_valid", get_acceleration_valid_tensor());
+        printer.register_container("delayed_heave1_valid", get_delayed_heave1_valid_tensor());
+        printer.register_container("delayed_heave2_valid", get_delayed_heave2_valid_tensor());
+        printer.register_container(
+            "horizontal_position_and_velocity_reduced_performance",
+            get_horizontal_position_and_velocity_reduced_performance_tensor());
+        printer.register_container("roll_and_pitch_reduced_performance",
+                                   get_roll_and_pitch_reduced_performance_tensor());
+        printer.register_container("heading_reduced_performance",
+                                   get_heading_reduced_performance_tensor());
+        printer.register_container("heave_reduced_performance",
+                                   get_heave_reduced_performance_tensor());
+        printer.register_container("acceleration_reduced_performance",
+                                   get_acceleration_reduced_performance_tensor());
+        printer.register_container(
+            "delayed_heave1_reduced_performance",
+            get_delayed_heave1_reduced_performance_tensor());
+        printer.register_container(
+            "delayed_heave2_reduced_performance",
+            get_delayed_heave2_reduced_performance_tensor());
 
         return printer;
     }

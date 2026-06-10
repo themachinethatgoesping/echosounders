@@ -7,9 +7,12 @@
 /* generated doc strings */
 #include ".docstrings/attitudedatagramattitudescontainer.doc.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <cmath>
 #include <limits>
+#include <numeric>
 #include <type_traits>
 #include <vector>
 
@@ -46,6 +49,51 @@ class AttitudeDatagramAttitudesContainer
     auto end() const { return _attitudes.end(); }
     auto cbegin() const { return _attitudes.cbegin(); }
     auto cend() const { return _attitudes.cend(); }
+
+    // Build a reusable permutation once, then pass it into tensor getters.
+    // This avoids repeated sort work when fetching many fields in time order.
+    std::vector<uint32_t> get_indices_sorted_by_time(
+        const std::vector<uint32_t>& indices = {}) const
+    {
+        std::vector<uint32_t> sorted_indices;
+        if (indices.empty())
+        {
+            sorted_indices.resize(_attitudes.size());
+            std::iota(sorted_indices.begin(), sorted_indices.end(), uint32_t{ 0 });
+        }
+        else
+        {
+            sorted_indices = indices;
+        }
+
+        std::stable_sort(sorted_indices.begin(),
+                         sorted_indices.end(),
+                         [this](uint32_t a, uint32_t b) {
+                             const bool valid_a = a < _attitudes.size();
+                             const bool valid_b = b < _attitudes.size();
+
+                             if (!valid_a || !valid_b)
+                             {
+                                 if (!valid_a && !valid_b)
+                                     return a < b;
+                                 return valid_a;
+                             }
+
+                             const float ta = _attitudes[a].get_time();
+                             const float tb = _attitudes[b].get_time();
+                             const bool  fa = std::isfinite(ta);
+                             const bool  fb = std::isfinite(tb);
+
+                             if (fa != fb)
+                                 return fa;
+                             if (!fa && !fb)
+                                 return a < b;
+
+                             return ta < tb;
+                         });
+
+        return sorted_indices;
+    }
 
     // ----- raw fields -----
     xt::xtensor<float, 1> get_time_tensor(const std::vector<uint32_t>& indices = {}) const;

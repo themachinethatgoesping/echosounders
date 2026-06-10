@@ -230,6 +230,9 @@ void init_c_skmbinary(nanobind::module_& m)
                      nb::rv_policy::reference_internal)
         .def("get_sensor_data", &SKMSamplesContainer::get_sensor_data)
         .def("set_sensor_data", &SKMSamplesContainer::set_sensor_data, nb::arg("data"))
+        .def("get_indices_sorted_by_sensor_timestamp",
+             &SKMSamplesContainer::get_indices_sorted_by_sensor_timestamp,
+             nb::arg("indices") = std::vector<uint32_t>{})
 
         .def("get_datagram_identifier_tensor",
              &SKMSamplesContainer::get_datagram_identifier_tensor,

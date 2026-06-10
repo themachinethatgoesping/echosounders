@@ -20,6 +20,7 @@ TEST_CASE("AttitudeDatagram should support common functions", TESTTAG)
     // initialize class structure
     auto dat      = AttitudeDatagram();
     auto attitude = substructures::AttitudeDatagramAttitude();
+    auto attitude2 = substructures::AttitudeDatagramAttitude();
 
     // set some variables
     dat.set_bytes(100);
@@ -32,7 +33,9 @@ TEST_CASE("AttitudeDatagram should support common functions", TESTTAG)
 
     attitude.set_time(101);
     attitude.set_pitch(191);
-    dat.set_attitudes({ attitude });
+    attitude2.set_time(51);
+    attitude2.set_pitch(300);
+    dat.set_attitudes({ attitude, attitude2 });
 
     // test inequality
     // REQUIRE(dat != AttitudeDatagram());
@@ -62,10 +65,20 @@ TEST_CASE("AttitudeDatagram should support common functions", TESTTAG)
 
     const auto time_tensor  = dat.get_attitudes().get_time_tensor();
     const auto pitch_tensor = dat.get_attitudes().get_pitch_in_degrees_tensor();
-    REQUIRE(time_tensor.size() == 1);
-    REQUIRE(pitch_tensor.size() == 1);
+    REQUIRE(time_tensor.size() == 2);
+    REQUIRE(pitch_tensor.size() == 2);
     REQUIRE(time_tensor[0] == Catch::Approx(101.0));
     REQUIRE(pitch_tensor[0] == Catch::Approx(1.91));
+
+    const auto sorted_idx = dat.get_attitudes().get_indices_sorted_by_time({ 0, 1 });
+    REQUIRE(sorted_idx.size() == 2);
+    CHECK(sorted_idx[0] == 1);
+    CHECK(sorted_idx[1] == 0);
+
+    const auto pitch_sorted = dat.get_attitudes().get_pitch_in_degrees_tensor(sorted_idx);
+    REQUIRE(pitch_sorted.size() == 2);
+    CHECK(pitch_sorted[0] == Catch::Approx(3.0));
+    CHECK(pitch_sorted[1] == Catch::Approx(1.91));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::AttitudeDatagram);

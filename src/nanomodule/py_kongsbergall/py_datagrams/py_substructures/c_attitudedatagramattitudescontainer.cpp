@@ -39,6 +39,9 @@ void init_c_attitudedatagramattitudescontainer(nanobind::module_& m)
         .def("set_attitudes",
              &AttitudeDatagramAttitudesContainer::set_attitudes,
              nb::arg("attitudes"))
+        .def("get_indices_sorted_by_time",
+             &AttitudeDatagramAttitudesContainer::get_indices_sorted_by_time,
+             nb::arg("indices") = std::vector<uint32_t>{})
 
         .def("get_time_tensor",
              &AttitudeDatagramAttitudesContainer::get_time_tensor,

@@ -1,4 +1,4 @@
-//sourcehash: d318a45d252986dfe31d0d2ce1455c2d1ba1c1774a076fcd6c16608db3ea2fed
+//sourcehash: b90e1bcb4f3cd5aad0bb554babd7bde4301e9807d2e73f880bb4fef820b6051f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -112,6 +112,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_SKMSamplesContainerT_get_horizontal_position_and_velocity_reduced_performance_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_SKMSamplesContainerT_get_horizontal_position_and_velocity_valid_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_SKMSamplesContainerT_get_indices_sorted_by_sensor_timestamp = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_SKMSamplesContainerT_get_latitude_deg_tensor = R"doc()doc";
 
