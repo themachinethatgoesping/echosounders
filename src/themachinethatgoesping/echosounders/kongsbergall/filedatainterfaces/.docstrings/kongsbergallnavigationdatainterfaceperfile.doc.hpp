@@ -1,4 +1,4 @@
-//sourcehash: b91d5108085ab8f273b605262bcdfb3429fc1266c0dfbad5aac89ab7d6a5afe7
+//sourcehash: a612e180e7632123db881f436015278b55d5ee2810a6cb154d2caf521ba89380
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,25 +49,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_add_attitudes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_packet_timestamp_in_range =
-R"doc(Internat function to check if a attitude timestamp is within the
-allowed time range (> then previous attitude) If the timestamp is
-equal than the previous one, it is ignored (return false). If the
-timestamp is smaller than the previous one, an exception is thrown.
-
-Args:
-    times: vector with previous packet time_stamps of this attitude
-           type
-    packet_timestamp: packet timestamp to check
-    attitude_name: name of the attitude type (heading, pitch, roll,
-                   heave)
-
-Returns:
-    true false)doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_read_navigation_data = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_sort_and_deduplicate_time_series =
+R"doc(Sort a time series, drop invalid timestamps, and retain the first
+sample for duplicates.)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

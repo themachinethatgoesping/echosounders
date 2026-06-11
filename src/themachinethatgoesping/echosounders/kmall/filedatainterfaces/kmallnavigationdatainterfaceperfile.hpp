@@ -10,7 +10,10 @@
 #include ".docstrings/kmallnavigationdatainterfaceperfile.doc.hpp"
 
 /* library includes */
+#include <algorithm>
+#include <cmath>
 #include <fmt/core.h>
+#include <numeric>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -177,6 +180,66 @@ class KMALLNavigationDataInterfacePerFile
     }
 
   private:
+    template<typename... ValueVectors>
+    void sort_and_deduplicate_time_series(std::vector<double>& times,
+                                          ValueVectors&... values) const
+    {
+        if (times.empty())
+            return;
+
+        std::vector<size_t> order(times.size());
+        std::iota(order.begin(), order.end(), size_t{ 0 });
+
+        std::stable_sort(order.begin(), order.end(), [&times](size_t a, size_t b) {
+            const double ta = times[a];
+            const double tb = times[b];
+            const bool   va = std::isfinite(ta) && ta > 0.0;
+            const bool   vb = std::isfinite(tb) && tb > 0.0;
+
+            if (va != vb)
+                return va;
+            if (!va && !vb)
+                return a < b;
+
+            return ta < tb;
+        });
+
+        std::vector<size_t> keep_indices;
+        keep_indices.reserve(order.size());
+
+        double last_time = 0.0;
+        bool   have_last = false;
+
+        for (const auto idx : order)
+        {
+            const double timestamp = times[idx];
+            if (!std::isfinite(timestamp) || timestamp <= 0.0)
+                continue;
+
+            if (have_last && timestamp == last_time)
+                continue;
+
+            keep_indices.push_back(idx);
+            last_time = timestamp;
+            have_last = true;
+        }
+
+        auto rebuild = [&keep_indices](auto& series) {
+            using value_type = typename std::decay_t<decltype(series)>::value_type;
+
+            std::vector<value_type> reordered;
+            reordered.reserve(keep_indices.size());
+
+            for (const auto idx : keep_indices)
+                reordered.push_back(series[idx]);
+
+            series = std::move(reordered);
+        };
+
+        rebuild(times);
+        (rebuild(values), ...);
+    }
+
     /**
      * @brief Internal function to check if a timestamp is within the allowed time range
      * If the timestamp is equal to the previous one, it is ignored (return false).
@@ -317,36 +380,31 @@ class KMALLNavigationDataInterfacePerFile
                 // Roll and pitch
                 if (roll_pitch_active && km_binary.get_roll_and_pitch_valid())
                 {
-                    if (packet_timestamp_in_range(times_pitch_roll, timestamp, "pitch/roll"))
-                    {
-                        times_pitch_roll.push_back(timestamp);
-                        pitchs.push_back(km_binary.pitch_deg);
-                        rolls.push_back(km_binary.roll_deg);
-                    }
+                    times_pitch_roll.push_back(timestamp);
+                    pitchs.push_back(km_binary.pitch_deg);
+                    rolls.push_back(km_binary.roll_deg);
                 }
 
                 // Heading
                 if (heading_active && km_binary.get_heading_valid())
                 {
-                    if (packet_timestamp_in_range(times_heading, timestamp, "heading"))
-                    {
-                        times_heading.push_back(timestamp);
-                        headings.push_back(km_binary.heading_deg);
-                    }
+                    times_heading.push_back(timestamp);
+                    headings.push_back(km_binary.heading_deg);
                 }
 
                 // Heave
                 if (heave_active && km_binary.get_heave_valid())
                 {
-                    if (packet_timestamp_in_range(times_heave, timestamp, "heave"))
-                    {
-                        times_heave.push_back(timestamp);
-                        // km binary heave is positive downwards, convert to positive upwards
-                        heaves.push_back(-km_binary.heave_m);
-                    }
+                    times_heave.push_back(timestamp);
+                    // km binary heave is positive downwards, convert to positive upwards
+                    heaves.push_back(-km_binary.heave_m);
                 }
             }
         }
+
+        sort_and_deduplicate_time_series(times_pitch_roll, pitchs, rolls);
+        sort_and_deduplicate_time_series(times_heading, headings);
+        sort_and_deduplicate_time_series(times_heave, heaves);
     }
 
     /**

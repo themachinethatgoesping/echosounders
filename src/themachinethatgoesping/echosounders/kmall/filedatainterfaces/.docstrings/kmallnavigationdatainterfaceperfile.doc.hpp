@@ -1,4 +1,4 @@
-//sourcehash: b37a0941f9efa5147b057b151db3af194ae1f0082b7c7c313272ee092ca05f79
+//sourcehash: 544d247baee03b3f138cc757040d36e1450b996179faf96ec6eb84f0a119c100
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -104,6 +104,8 @@ R"doc(Set whether S_POSITION is preferred over C_POSITION
 Args:
     prefer: true to prefer S_POSITION (default), false to prefer
             C_POSITION)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_sort_and_deduplicate_time_series = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

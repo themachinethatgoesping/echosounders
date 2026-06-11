@@ -10,7 +10,10 @@
 #include ".docstrings/kongsbergallnavigationdatainterfaceperfile.doc.hpp"
 
 /* library includes */
+#include <algorithm>
+#include <cmath>
 #include <fmt/core.h>
+#include <numeric>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
@@ -74,15 +77,6 @@ class KongsbergAllNavigationDataInterfacePerFile
             // only use the position data if the correct position system is active
             if (sensor_number != config.get_active_position_system_number())
                 continue;
-
-            if (!times_pos.empty())
-                if (!(times_pos.back() < timestamp))
-                    throw std::runtime_error(fmt::format(
-                        "ERROR in file [{}]: {} "
-                        "\nKongsbergAllNavigationDataInterfacePerFile::read_navigation_data: "
-                        "timestamps are not strictly increasing. This is not supported yet.",
-                        this->get_file_nr(),
-                        this->get_file_path()));
 
             times_pos.push_back(timestamp);
             latitudes.push_back(datagram.get_latitude_in_degrees());
@@ -183,6 +177,12 @@ class KongsbergAllNavigationDataInterfacePerFile
             pitchs.empty(),
             heaves.empty());
 
+        sort_and_deduplicate_time_series(
+            times_pos, latitudes, longitudes, headings_pos, qualities);
+        sort_and_deduplicate_time_series(times_pitch_roll, pitchs, rolls);
+        sort_and_deduplicate_time_series(times_heading_attitude, headings_attitudes);
+        sort_and_deduplicate_time_series(times_heave, heaves);
+
         navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
         navi.set_data_heading(std::move(times_heading_attitude), std::move(headings_attitudes));
         navi.set_data_heave(std::move(times_heave), std::move(heaves));
@@ -209,38 +209,66 @@ class KongsbergAllNavigationDataInterfacePerFile
 
   private:
     /**
-     * @brief Internat function to check if a attitude timestamp is within the allowed time range (>
-     * then previous attitude) If the timestamp is equal than the previous one, it is ignored
-     * (return false). If the timestamp is smaller than the previous one, an exception is thrown.
-     *
-     * @param times vector with previous packet time_stamps of this attitude type
-     * @param packet_timestamp packet timestamp to check
-     * @param attitude_name name of the attitude type (heading, pitch, roll, heave)
-     * @return true
-     * @return false
+     * @brief Sort a time series, drop invalid timestamps, and retain the first sample for duplicates.
      */
-    bool packet_timestamp_in_range(const std::vector<double>& times,
-                                   double                     packet_timestamp,
-                                   std::string_view           attitude_name) const
+    template<typename... ValueVectors>
+    void sort_and_deduplicate_time_series(std::vector<double>& times,
+                                          ValueVectors&... values) const
     {
         if (times.empty())
-            return true;
+            return;
 
-        // TODO: this silently ignores datagrams with the same timestamp as the previous one (e.g.
-        // time distance < 1ms) This should generate a warning within a log file
-        if (times.back() == packet_timestamp)
-            return false;
+        std::vector<size_t> order(times.size());
+        std::iota(order.begin(), order.end(), size_t{ 0 });
 
-        if (times.back() > packet_timestamp)
-            throw std::runtime_error(
-                fmt::format("ERROR in file [{}]: {} "
-                            "\nKongsbergAllNavigationDataInterfacePerFile::read_navigation_data: "
-                            "{} datagrams are not in chronological order.",
-                            this->get_file_nr(),
-                            this->get_file_path(),
-                            attitude_name));
+        std::stable_sort(order.begin(), order.end(), [&times](size_t a, size_t b) {
+            const double ta = times[a];
+            const double tb = times[b];
+            const bool   va = std::isfinite(ta) && ta > 0.0;
+            const bool   vb = std::isfinite(tb) && tb > 0.0;
 
-        return true;
+            if (va != vb)
+                return va;
+            if (!va && !vb)
+                return a < b;
+
+            return ta < tb;
+        });
+
+        std::vector<size_t> keep_indices;
+        keep_indices.reserve(order.size());
+
+        double last_time = 0.0;
+        bool   have_last = false;
+
+        for (const auto idx : order)
+        {
+            const double timestamp = times[idx];
+            if (!std::isfinite(timestamp) || timestamp <= 0.0)
+                continue;
+
+            if (have_last && timestamp == last_time)
+                continue;
+
+            keep_indices.push_back(idx);
+            last_time = timestamp;
+            have_last = true;
+        }
+
+        auto rebuild = [&keep_indices](auto& series) {
+            using value_type = typename std::decay_t<decltype(series)>::value_type;
+
+            std::vector<value_type> reordered;
+            reordered.reserve(keep_indices.size());
+
+            for (const auto idx : keep_indices)
+                reordered.push_back(series[idx]);
+
+            series = std::move(reordered);
+        };
+
+        rebuild(times);
+        (rebuild(values), ...);
     }
 
     template<typename t_attitude_datagram>
@@ -294,33 +322,23 @@ class KongsbergAllNavigationDataInterfacePerFile
 
                 if (use_pitch_sensor)
                 {
-                    if (packet_timestamp_in_range(times_pitch_roll, packet_timestamp, "pitch"))
-                    {
-                        times_pitch_roll.push_back(packet_timestamp);
-                        pitchs.push_back(attitude.get_pitch_in_degrees());
-                        rolls.push_back(attitude.get_roll_in_degrees());
-                    }
+                    times_pitch_roll.push_back(packet_timestamp);
+                    pitchs.push_back(attitude.get_pitch_in_degrees());
+                    rolls.push_back(attitude.get_roll_in_degrees());
                 }
 
                 if (use_heading_sensor)
                 {
-                    if (packet_timestamp_in_range(
-                            times_heading_attitude, packet_timestamp, "heading"))
-                    {
-                        times_heading_attitude.push_back(packet_timestamp);
-                        headings_attitudes.push_back(attitude.get_heading_in_degrees());
-                    }
+                    times_heading_attitude.push_back(packet_timestamp);
+                    headings_attitudes.push_back(attitude.get_heading_in_degrees());
                 }
 
                 if (use_heave_sensor)
                 {
-                    if (packet_timestamp_in_range(times_heave, packet_timestamp, "heave"))
-                    {
-                        times_heave.push_back(packet_timestamp);
-                        // TODO heave: heave should be positive upwards, but it seems it is positive
-                        // downwards for the belgica data
-                        heaves.push_back(-attitude.get_heave_in_meters());
-                    }
+                    times_heave.push_back(packet_timestamp);
+                    // TODO heave: heave should be positive upwards, but it seems it is positive
+                    // downwards for the belgica data
+                    heaves.push_back(-attitude.get_heave_in_meters());
                 }
             }
         }
