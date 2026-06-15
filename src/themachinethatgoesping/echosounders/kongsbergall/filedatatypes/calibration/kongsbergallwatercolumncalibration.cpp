@@ -68,8 +68,11 @@ void KongsbergAllWaterColumnCalibration::setup_kongsberg_em_calibrations()
     // TODO: this should issue a warning in the log
     float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
     if (std::isfinite(av_factor))
-        _av_calibration = std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) -
+    {
+        _av_calibration     = std::make_unique<AmplitudeCalibration>(-10 * std::log10(av_factor) -
                                                                  _system_gain_offset);
+        _av_calibration_old = -std::log10(av_factor) - _system_gain_offset;
+    }
     else
         _av_calibration.reset();
 
@@ -144,16 +147,19 @@ void KongsbergAllWaterColumnCalibration::to_stream(std::ostream& os) const
 }
 
 tools::classhelper::ObjectPrinter KongsbergAllWaterColumnCalibration::__printer__(
-    unsigned int float_precision, bool superscript_exponents) const
+    unsigned int float_precision,
+    bool         superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("KongsbergAllWaterColumnCalibration",
-                                               float_precision,
-                                               superscript_exponents);
+    tools::classhelper::ObjectPrinter printer(
+        "KongsbergAllWaterColumnCalibration", float_precision, superscript_exponents);
 
     printer.register_section("Kongsberg EM calibration");
     printer.register_value("Sound velocity", _sound_velocity, "m/s");
     printer.register_value("Effective pulse duration", _effective_pulse_duration, "s");
     printer.register_value("System gain offset", _system_gain_offset, "dB");
+    printer.register_value("AV Calibration old", _av_calibration_old, "dB");
+    printer.register_value(
+        "AV Calibration diff", _av_calibration->get_system_offset() - _av_calibration_old, "dB");
 
     printer.register_section("Generic calibration");
     printer.append(WaterColumnCalibration::__printer__(float_precision, superscript_exponents));
@@ -161,8 +167,9 @@ tools::classhelper::ObjectPrinter KongsbergAllWaterColumnCalibration::__printer_
     return printer;
 }
 
-void KongsbergAllWaterColumnCalibration::throw_because_value_is_note_finite(std::string_view value_name,
-                                                                            float value)
+void KongsbergAllWaterColumnCalibration::throw_because_value_is_note_finite(
+    std::string_view value_name,
+    float            value)
 {
     throw std::runtime_error(fmt::format("ERROR[KongsbergAllWaterColumnCalibration]:"
                                          "Calibration not initialized because {} is {}!",

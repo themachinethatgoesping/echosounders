@@ -34,6 +34,7 @@ class KongsbergAllWaterColumnCalibration
     float _sound_velocity           = std::numeric_limits<float>::quiet_NaN();
     float _effective_pulse_duration = std::numeric_limits<float>::quiet_NaN();
     float _system_gain_offset       = std::numeric_limits<float>::quiet_NaN();
+    float _av_calibration_old       = std::numeric_limits<float>::quiet_NaN();
 
     bool _initialized = false;
     // // different types of offsets
@@ -76,6 +77,7 @@ class KongsbergAllWaterColumnCalibration
     float get_sound_velocity() const { return _sound_velocity; }
     float get_effective_pulse_duration() const { return _effective_pulse_duration; }
     float get_system_gain_offset() const { return _system_gain_offset; }
+    float get_av_calibration_old() const { return _av_calibration_old; }
 
     // ----- setup calibration for kongsberg em systems ----
     void modify_kongsberg_em_calibrations(

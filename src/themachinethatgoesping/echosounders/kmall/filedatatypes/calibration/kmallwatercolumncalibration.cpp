@@ -68,7 +68,7 @@ void KMALLWaterColumnCalibration::setup_kongsberg_em_calibrations()
     // TODO: this should issue a warning in the log
     float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
     if (std::isfinite(av_factor))
-        _av_calibration = std::make_unique<AmplitudeCalibration>(-std::log10(av_factor) -
+        _av_calibration = std::make_unique<AmplitudeCalibration>(-10*std::log10(av_factor) -
                                                                  _system_gain_offset);
     else
         _av_calibration.reset();

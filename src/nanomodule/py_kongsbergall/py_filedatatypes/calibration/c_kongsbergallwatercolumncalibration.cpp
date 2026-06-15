@@ -75,6 +75,9 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
                  .def("get_system_gain_offset",
                       &KongsbergAllWaterColumnCalibration::get_system_gain_offset,
                       DOC_KongsbergAllWaterColumnCalibration(get_system_gain_offset))
+                 .def("get_av_calibration_old",
+                      &KongsbergAllWaterColumnCalibration::get_av_calibration_old,
+                      DOC_KongsbergAllWaterColumnCalibration(get_av_calibration_old))
 
                  .def("initialized",
                       &KongsbergAllWaterColumnCalibration::initialized,
