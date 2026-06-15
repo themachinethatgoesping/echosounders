@@ -40,7 +40,7 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     auto obj2 = KongsbergAllWaterColumnCalibration();
 
     // test hash (should be stable if class is not changed)
-    CHECK(obj.binary_hash() == 6483505769134307231ULL);
+    CHECK(obj.binary_hash() == 4906824668532635174ULL);
     CHECK(obj2.binary_hash() == 770061992534893794ULL);
 
     // test equality
@@ -189,7 +189,7 @@ TEST_CASE("KongsbergAllWaterColumnCalibration should support common functions", 
     // system already
     float av_sample_size_correction = effective_pulse_duration * sound_velocity * 0.5f;
     CHECK(obj.get_av_calibration().get_system_offset() ==
-          -system_gain_offset - std::log10(av_sample_size_correction)); // C = -system_gain_offset
+          -system_gain_offset - 10*std::log10(av_sample_size_correction)); // C = -system_gain_offset
     CHECK(obj.get_av_calibration().has_offset_per_beamangle() == false);
     CHECK(obj.get_av_calibration().has_offset_per_range() == false);
 }
