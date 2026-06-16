@@ -10,7 +10,7 @@
 #include <ostream>
 #include <stdexcept>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
 

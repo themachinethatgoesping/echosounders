@@ -10,7 +10,7 @@
 #include <ranges>
 
 /* external includes */
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <xtensor/views/xview.hpp>
 
 /* ping includes */

@@ -20,7 +20,7 @@
 
 #include <xxhash.hpp>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 

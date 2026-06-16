@@ -16,7 +16,7 @@
 
 /* library includes */
 #include <boost/flyweight.hpp>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <magic_enum/magic_enum.hpp>
 
 /* themachinethatgoesping includes */

@@ -8,7 +8,7 @@
 /* generated doc strings */
 #include ".docstrings/watercolumncalibration.doc.hpp"
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/classhelper/option_frozen.hpp>

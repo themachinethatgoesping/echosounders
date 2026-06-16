@@ -12,7 +12,7 @@
 #include <map>
 
 /* external includes */
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 /* ping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

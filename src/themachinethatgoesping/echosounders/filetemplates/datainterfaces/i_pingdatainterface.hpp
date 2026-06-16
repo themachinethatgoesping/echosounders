@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 

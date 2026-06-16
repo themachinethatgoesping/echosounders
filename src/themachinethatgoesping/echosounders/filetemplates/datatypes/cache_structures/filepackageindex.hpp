@@ -20,7 +20,7 @@
 #include <boost/iostreams/device/mapped_file.hpp> // for mmap
 #include <boost/iostreams/stream.hpp>             // for stream
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/exceptions/version_error.hpp>
 

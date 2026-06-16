@@ -18,7 +18,7 @@
 
 #include <boost/flyweight.hpp>
 #include <boost/unordered_map.hpp>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

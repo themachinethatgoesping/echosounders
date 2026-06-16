@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>

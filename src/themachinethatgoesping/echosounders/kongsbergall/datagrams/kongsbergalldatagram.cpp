@@ -5,7 +5,7 @@
 #include "kongsbergalldatagram.hpp"
 
 /* std includes */
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <istream>
 #include <ostream>
 #include <stdexcept>

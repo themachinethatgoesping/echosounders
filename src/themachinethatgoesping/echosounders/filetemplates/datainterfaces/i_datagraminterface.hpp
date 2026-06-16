@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>

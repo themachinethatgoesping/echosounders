@@ -6,7 +6,7 @@
 
 #include <sstream>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <themachinethatgoesping/algorithms/signalprocessing/types.hpp>
 #include <themachinethatgoesping/tools/helper/variant.hpp>

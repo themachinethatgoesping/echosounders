@@ -19,7 +19,7 @@
 
 /* external library includes */
 #include <boost/flyweight.hpp>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 // xtensor includes
 #include <xtensor/containers/xadapt.hpp>

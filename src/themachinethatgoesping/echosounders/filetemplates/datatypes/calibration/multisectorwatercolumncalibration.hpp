@@ -8,7 +8,7 @@
 /* generated doc strings */
 #include ".docstrings/multisectorwatercolumncalibration.doc.hpp"
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <xtensor/containers/xadapt.hpp>
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>

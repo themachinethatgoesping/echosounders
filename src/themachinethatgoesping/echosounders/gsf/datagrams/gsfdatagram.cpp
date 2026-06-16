@@ -5,7 +5,7 @@
 #include "gsfdatagram.hpp"
 
 /* std includes */
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 /* external includes */
 #include <boost/endian/conversion.hpp>

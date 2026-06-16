@@ -4,7 +4,7 @@
 
 #include "transceiverinformation.hpp"
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <cmath>
 #include <stdexcept>
 #include <limits>

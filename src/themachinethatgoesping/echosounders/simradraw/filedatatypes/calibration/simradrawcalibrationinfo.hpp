@@ -15,7 +15,7 @@
 #include <optional>
 #include <string>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 #include "../../../filetemplates/datatypes/calibration/calibrationinfo.hpp"
 

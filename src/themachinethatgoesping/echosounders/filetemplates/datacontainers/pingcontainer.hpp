@@ -17,7 +17,7 @@
 #include <vector>
 
 /* third party libraries */
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <xtensor/containers/xtensor.hpp> 
 
 // boost includes

@@ -11,7 +11,7 @@
 
 #include <complex>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <magic_enum/magic_enum.hpp>
 
 #include <themachinethatgoesping/tools/classhelper/option.hpp>

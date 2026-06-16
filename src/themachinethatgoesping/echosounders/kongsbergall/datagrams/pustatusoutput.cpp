@@ -4,7 +4,7 @@
 
 #include "pustatusoutput.hpp"
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <stdexcept>
 #include <utility>

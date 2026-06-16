@@ -13,7 +13,7 @@
 #endif
 
 #include <cmath>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <numbers>
 #include <utility>
 

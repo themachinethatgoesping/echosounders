@@ -12,7 +12,7 @@
 /* library includes */
 #include <algorithm>
 #include <cmath>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <numeric>
 
 /* themachinethatgoesping includes */

@@ -6,7 +6,7 @@
 
 /* std includes */
 #include <cstddef>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <limits>
 #include <stdexcept>
 #include <utility>

@@ -4,7 +4,7 @@
 
 #include "networkattitudevelocitydatagram.hpp"
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <stdexcept>
 #include <utility>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>

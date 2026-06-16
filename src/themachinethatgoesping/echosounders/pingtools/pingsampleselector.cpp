@@ -5,7 +5,7 @@
 #include "pingsampleselector.hpp"
 
 #include <algorithm>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <limits>
 #include <stdexcept>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>

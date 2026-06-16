@@ -21,7 +21,7 @@
 #include <boost/iostreams/stream.hpp>             // for stream
 #include <boost/sort/sort.hpp>                    // for sort
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
 #include <themachinethatgoesping/tools/timeconv.hpp>

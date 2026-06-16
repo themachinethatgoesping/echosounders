@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 namespace themachinethatgoesping {
 namespace echosounders {
