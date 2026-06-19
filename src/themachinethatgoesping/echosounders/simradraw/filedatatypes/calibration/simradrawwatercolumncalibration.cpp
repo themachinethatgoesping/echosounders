@@ -345,12 +345,15 @@ SimradRawCalibrationInfo SimradRawWaterColumnCalibration::build_calibration_info
         info.on_set_environment_forced(
             _forced_sound_velocity_m_s.value_or(std::numeric_limits<float>::quiet_NaN()),
             _forced_absorption_db_m.value_or(std::numeric_limits<float>::quiet_NaN()));
-    info.on_set_runtime_from_values(
-        _frequency_hz, _transmit_power_w, _nominal_pulse_duration_s, _slope_factor,
-        _sample_interval_s);
-    info.on_set_filter_from_values(
-        _filter_stage_1_decimation_factor, _filter_stage_1_coefficients.size(),
-        _filter_stage_2_decimation_factor, _filter_stage_2_coefficients.size());
+    info.on_set_runtime_from_values(_frequency_hz,
+                                    _transmit_power_w,
+                                    _nominal_pulse_duration_s,
+                                    _slope_factor,
+                                    _sample_interval_s);
+    info.on_set_filter_from_values(_filter_stage_1_decimation_factor,
+                                   _filter_stage_1_coefficients.size(),
+                                   _filter_stage_2_decimation_factor,
+                                   _filter_stage_2_coefficients.size());
     info.on_set_power_calibration_parameters(
         _n_complex_samples.value_or(0),
         // reverse impedance_factor from stored pcf: pcf = 10*log10(Z/n) => Z = n * 10^(pcf/10)
@@ -625,6 +628,9 @@ tools::classhelper::ObjectPrinter SimradRawWaterColumnCalibration::__printer__(
     printer.register_value("corr_transducer_gain_db", _corr_transducer_gain_db, "dB");
     printer.register_value("corr_equivalent_beam_angle_db", _corr_equivalent_beam_angle_db, "dB");
     printer.register_value(
+        "corr_equivalent_beam_angle_deg", get_corr_equivalent_beam_angle_deg(), "°");
+    printer.register_value("equivalent_beam_angle_deg", get_equivalent_beam_angle_deg(), "°");
+    printer.register_value(
         "computed_internal_sampling_interval_hz", _computed_internal_sampling_interval_hz, "Hz");
     printer.register_value(
         "computed_effective_pulse_duration_s", _computed_effective_pulse_duration_s, "s");
@@ -670,6 +676,32 @@ float SimradRawWaterColumnCalibration::get_sound_velocity_m_s() const
 float SimradRawWaterColumnCalibration::get_absorption_db_m() const
 {
     return _forced_absorption_db_m.value_or(_computed_absorption_db_m);
+}
+
+float SimradRawWaterColumnCalibration::get_equivalent_beam_angle_deg() const
+{
+    // beam_width_deg = 4.0 * std::asin(std::sqrt(std::pow(10.0, 0.1 * eba) / (4.0 * M_PI))) *
+    // (180.0 / M_PI);
+
+    static constexpr float rad_to_deg_4 = 4.0f * 180.0f / std::numbers::pi_v<float>;
+    static constexpr float log_4_pi     = 10 * std::log10(4.0f * std::numbers::pi_v<float>);
+
+    float psi        = std::pow(10.0f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
+    float beam_width = rad_to_deg_4 * std::asin(psi);
+    return beam_width;
+}
+
+float SimradRawWaterColumnCalibration::get_corr_equivalent_beam_angle_deg() const
+{
+    // beam_width_deg = 4.0 * std::asin(std::sqrt(std::pow(10.0, 0.1 * eba) / (4.0 * M_PI))) *
+    // (180.0 / M_PI);
+
+    static constexpr float rad_to_deg_4 = 4.0f * 180.0f / std::numbers::pi_v<float>;
+    static constexpr float log_4_pi     = 10 * std::log10(4.0f * std::numbers::pi_v<float>);
+
+    float psi        = std::pow(10.0f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
+    float beam_width = rad_to_deg_4 * std::asin(psi);
+    return beam_width;
 }
 
 int16_t SimradRawWaterColumnCalibration::get_filter_stage_1_decimation_factor() const

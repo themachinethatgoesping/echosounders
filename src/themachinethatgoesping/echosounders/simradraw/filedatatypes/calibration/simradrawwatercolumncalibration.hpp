@@ -173,9 +173,10 @@ class SimradRawWaterColumnCalibration
      * current parameter values, keeping the hot construction path zero-cost.
      */
     SimradRawCalibrationInfo build_calibration_info() const;
-    float get_transducer_gain_db() const { return _transducer_gain_db; }
-    float get_sa_correction_db() const { return _sa_correction_db; }
+    float                    get_transducer_gain_db() const { return _transducer_gain_db; }
+    float                    get_sa_correction_db() const { return _sa_correction_db; }
     float get_equivalent_beam_angle_db() const { return _equivalent_beam_angle_db; }
+    float get_equivalent_beam_angle_deg() const;
     float get_frequency_nominal_hz() const { return _frequency_nominal_hz; }
 
     float get_reference_depth_m() const { return _reference_depth_m; }
@@ -209,6 +210,7 @@ class SimradRawWaterColumnCalibration
     float get_wavelength_m() const { return _wavelength_m; }
     float get_corr_transducer_gain_db() const { return _corr_transducer_gain_db; }
     float get_corr_equivalent_beam_angle_db() const { return _corr_equivalent_beam_angle_db; }
+    float get_corr_equivalent_beam_angle_deg() const;
 
     std::optional<size_t> get_n_complex_samples() const { return _n_complex_samples; }
     std::optional<float>  get_power_conversion_factor_db() const;

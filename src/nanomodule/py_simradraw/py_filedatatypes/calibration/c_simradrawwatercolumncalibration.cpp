@@ -184,6 +184,9 @@ void init_c_simradrawwatercolumncalibration(nanobind::module_& m)
             .def("get_equivalent_beam_angle_db",
                  &SimradRawWaterColumnCalibration::get_equivalent_beam_angle_db,
                  DOC_SimradRawWaterColumnCalibration(get_equivalent_beam_angle_db))
+            .def("get_equivalent_beam_angle_deg",
+                 &SimradRawWaterColumnCalibration::get_equivalent_beam_angle_deg,
+                 DOC_SimradRawWaterColumnCalibration(get_equivalent_beam_angle_deg))
             .def("get_frequency_nominal_hz",
                  &SimradRawWaterColumnCalibration::get_frequency_nominal_hz,
                  DOC_SimradRawWaterColumnCalibration(get_frequency_nominal_hz))
@@ -247,6 +250,9 @@ void init_c_simradrawwatercolumncalibration(nanobind::module_& m)
             .def("get_corr_equivalent_beam_angle_db",
                  &SimradRawWaterColumnCalibration::get_corr_equivalent_beam_angle_db,
                  DOC_SimradRawWaterColumnCalibration(get_corr_equivalent_beam_angle_db))
+            .def("get_corr_equivalent_beam_angle_deg",
+                 &SimradRawWaterColumnCalibration::get_corr_equivalent_beam_angle_deg,
+                 DOC_SimradRawWaterColumnCalibration(get_corr_equivalent_beam_angle_deg))
 
             .def("get_filter_stage_1_decimation_factor",
                  &SimradRawWaterColumnCalibration::get_filter_stage_1_decimation_factor,

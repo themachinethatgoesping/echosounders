@@ -1,4 +1,4 @@
-//sourcehash: d1b90431032fde4e16979fc82e0840c4dd4d76448dce08bf9356a2022c8d17c5
+//sourcehash: f02bf7a479b0f9f4a11c67ee63dab135e04e2b762ac70f813eee942ca71dd6ad
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -196,11 +196,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_corr_equivalent_beam_angle_db = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_corr_equivalent_beam_angle_deg = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_corr_transducer_gain_db = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_effective_pulse_duration_s = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_equivalent_beam_angle_db = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_equivalent_beam_angle_deg = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_filter_stage_1_coefficients = R"doc()doc";
 
