@@ -683,10 +683,11 @@ float SimradRawWaterColumnCalibration::get_equivalent_beam_angle_deg() const
     // beam_width_deg = 4.0 * std::asin(std::sqrt(std::pow(10.0, 0.1 * eba) / (4.0 * M_PI))) *
     // (180.0 / M_PI);
 
-    static constexpr float rad_to_deg_4 = 4.0f * 180.0f / std::numbers::pi_v<float>;
-    static constexpr float log_4_pi     = 10 * std::log10(4.0f * std::numbers::pi_v<float>);
+    static constexpr float rad_to_deg_4 = 4.f * 180.f / std::numbers::pi_v<float>;
+    static const float     log_4_pi =
+        10 * std::log10(4.f * std::numbers::pi_v<float>); // log10 is only constexpr in after c++26
 
-    float psi        = std::pow(10.0f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
+    float psi        = std::pow(10.f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
     float beam_width = rad_to_deg_4 * std::asin(psi);
     return beam_width;
 }
@@ -696,10 +697,10 @@ float SimradRawWaterColumnCalibration::get_corr_equivalent_beam_angle_deg() cons
     // beam_width_deg = 4.0 * std::asin(std::sqrt(std::pow(10.0, 0.1 * eba) / (4.0 * M_PI))) *
     // (180.0 / M_PI);
 
-    static constexpr float rad_to_deg_4 = 4.0f * 180.0f / std::numbers::pi_v<float>;
-    static constexpr float log_4_pi     = 10 * std::log10(4.0f * std::numbers::pi_v<float>);
+    static constexpr float rad_to_deg_4 = 4.f * 180.f / std::numbers::pi_v<float>;
+    static const float     log_4_pi     = 10.f * std::log10(4.f * std::numbers::pi_v<float>);
 
-    float psi        = std::pow(10.0f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
+    float psi        = std::pow(10.f, 0.05f * (_corr_equivalent_beam_angle_db - log_4_pi));
     float beam_width = rad_to_deg_4 * std::asin(psi);
     return beam_width;
 }
