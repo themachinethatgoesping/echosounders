@@ -23,13 +23,13 @@ namespace py_calibration {
 
 namespace nb = nanobind;
 
-#define DOC_KMALLWaterColumnCalibration(ARG)                                                \
+#define DOC_KMALLWaterColumnCalibration(ARG)                                                       \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kmall,                                                                              \
+        kmall,                                                                                     \
         filedatatypes,                                                                             \
         calibration,                                                                               \
-        KMALLWaterColumnCalibration,                                                        \
+        KMALLWaterColumnCalibration,                                                               \
         ARG)
 
 void init_c_kmallwatercolumncalibration(nanobind::module_& m)
@@ -56,44 +56,44 @@ void init_c_kmallwatercolumncalibration(nanobind::module_& m)
                       nb::arg("tvg_factor"))
 
                  // --- modify calibration ---
-               //   .def("modify_kongsberg_em_calibrations",
-               //        &KMALLWaterColumnCalibration::modify_kongsberg_em_calibrations,
-               //        DOC_KMALLWaterColumnCalibration(modify_kongsberg_em_calibrations),
-               //        nb::arg("sound_velocity")           = std::nullopt,
-               //        nb::arg("effective_pulse_duration") = std::nullopt,
-               //        nb::arg("system_gain_offset")       = std::nullopt,
-               //        nb::arg("tvg_absorption_db_m")      = std::nullopt,
-               //        nb::arg("tvg_factor")               = std::nullopt)
+                 .def("modify_kongsberg_em_calibrations",
+                      &KMALLWaterColumnCalibration::modify_kongsberg_em_calibrations,
+                      DOC_KMALLWaterColumnCalibration(modify_kongsberg_em_calibrations),
+                      nb::arg("sound_velocity")           = std::nullopt,
+                      nb::arg("effective_pulse_duration") = std::nullopt,
+                      nb::arg("system_gain_offset")       = std::nullopt,
+                      nb::arg("tvg_absorption_db_m")      = std::nullopt,
+                      nb::arg("tvg_factor")               = std::nullopt)
 
-               //   //--- getters ---
-               //   .def("get_sound_velocity",
-               //        &KMALLWaterColumnCalibration::get_sound_velocity,
-               //        DOC_KMALLWaterColumnCalibration(get_sound_velocity))
-               //   .def("get_effective_pulse_duration",
-               //        &KMALLWaterColumnCalibration::get_effective_pulse_duration,
-               //        DOC_KMALLWaterColumnCalibration(get_effective_pulse_duration))
-               //   .def("get_system_gain_offset",
-               //        &KMALLWaterColumnCalibration::get_system_gain_offset,
-               //        DOC_KMALLWaterColumnCalibration(get_system_gain_offset))
+                 //--- getters ---
+                 .def("get_sound_velocity",
+                      &KMALLWaterColumnCalibration::get_sound_velocity,
+                      DOC_KMALLWaterColumnCalibration(get_sound_velocity))
+                 .def("get_effective_pulse_duration",
+                      &KMALLWaterColumnCalibration::get_effective_pulse_duration,
+                      DOC_KMALLWaterColumnCalibration(get_effective_pulse_duration))
+                 .def("get_system_gain_offset",
+                      &KMALLWaterColumnCalibration::get_system_gain_offset,
+                      DOC_KMALLWaterColumnCalibration(get_system_gain_offset))
 
-               //   .def("initialized",
-               //        &KMALLWaterColumnCalibration::initialized,
-               //        DOC_KMALLWaterColumnCalibration(initialized))
-               //   .def("check_initialized",
-               //        &KMALLWaterColumnCalibration::check_initialized,
-               //        DOC_KMALLWaterColumnCalibration(check_initialized))
-               //   .def("check_initialization",
-               //        &KMALLWaterColumnCalibration::check_initialization,
-               //        DOC_KMALLWaterColumnCalibration(check_initialization))
+                 .def("initialized",
+                      &KMALLWaterColumnCalibration::initialized,
+                      DOC_KMALLWaterColumnCalibration(initialized))
+                 .def("check_initialized",
+                      &KMALLWaterColumnCalibration::check_initialized,
+                      DOC_KMALLWaterColumnCalibration(check_initialized))
+                 .def("check_initialization",
+                      &KMALLWaterColumnCalibration::check_initialization,
+                      DOC_KMALLWaterColumnCalibration(check_initialization))
 
-               //   .def(
-               //       "pre_hashed",
-               //       [](const KMALLWaterColumnCalibration& self) {
-               //           return boost::flyweight<KMALLMultiSectorWaterColumnCalibration>(
-               //               KMALLMultiSectorWaterColumnCalibration({ self }));
-               //       },
-               //       "Return this class as a flyweight with computed hash. "
-               //       "This faster when updating the ping calibration.")
+                 .def(
+                     "pre_hashed",
+                     [](const KMALLWaterColumnCalibration& self) {
+                         return boost::flyweight<KMALLMultiSectorWaterColumnCalibration>(
+                             KMALLMultiSectorWaterColumnCalibration({ self }));
+                     },
+                     "Return this class as a flyweight with computed hash. "
+                     "This faster when updating the ping calibration.")
 
                  // ----- operators -----
                  .def("__eq__",

@@ -20,12 +20,11 @@ namespace kmall {
 namespace filedatatypes {
 namespace calibration {
 
-KMALLWaterColumnCalibration::KMALLWaterColumnCalibration(
-    float sound_velocity,
-    float effective_pulse_duration,
-    float system_gain_offset,
-    float tvg_absorption_db_m,
-    float tvg_factor)
+KMALLWaterColumnCalibration::KMALLWaterColumnCalibration(float sound_velocity,
+                                                         float effective_pulse_duration,
+                                                         float system_gain_offset,
+                                                         float tvg_absorption_db_m,
+                                                         float tvg_factor)
     : t_base(tvg_absorption_db_m, tvg_factor)
     , _sound_velocity(sound_velocity)
     , _effective_pulse_duration(effective_pulse_duration)
@@ -68,7 +67,7 @@ void KMALLWaterColumnCalibration::setup_kongsberg_em_calibrations()
     // TODO: this should issue a warning in the log
     float av_factor = _effective_pulse_duration * _sound_velocity * 0.5f;
     if (std::isfinite(av_factor))
-        _av_calibration = std::make_unique<AmplitudeCalibration>(-10*std::log10(av_factor) -
+        _av_calibration = std::make_unique<AmplitudeCalibration>(-10 * std::log10(av_factor) -
                                                                  _system_gain_offset);
     else
         _av_calibration.reset();
@@ -77,8 +76,7 @@ void KMALLWaterColumnCalibration::setup_kongsberg_em_calibrations()
     check_initialization();
 }
 
-bool KMALLWaterColumnCalibration::operator==(
-    const KMALLWaterColumnCalibration& other) const
+bool KMALLWaterColumnCalibration::operator==(const KMALLWaterColumnCalibration& other) const
 {
     if (!WaterColumnCalibration::operator==(other))
         return false;
@@ -144,11 +142,11 @@ void KMALLWaterColumnCalibration::to_stream(std::ostream& os) const
 }
 
 tools::classhelper::ObjectPrinter KMALLWaterColumnCalibration::__printer__(
-    unsigned int float_precision, bool superscript_exponents) const
+    unsigned int float_precision,
+    bool         superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("KMALLWaterColumnCalibration",
-                                               float_precision,
-                                               superscript_exponents);
+    tools::classhelper::ObjectPrinter printer(
+        "KMALLWaterColumnCalibration", float_precision, superscript_exponents);
 
     printer.register_section("Kongsberg EM calibration");
     printer.register_value("Sound velocity", _sound_velocity, "m/s");
@@ -162,7 +160,7 @@ tools::classhelper::ObjectPrinter KMALLWaterColumnCalibration::__printer__(
 }
 
 void KMALLWaterColumnCalibration::throw_because_value_is_note_finite(std::string_view value_name,
-                                                                            float value)
+                                                                     float            value)
 {
     throw std::runtime_error(fmt::format("ERROR[KMALLWaterColumnCalibration]:"
                                          "Calibration not initialized because {} is {}!",
