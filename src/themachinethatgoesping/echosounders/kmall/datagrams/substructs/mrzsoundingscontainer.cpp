@@ -5,6 +5,7 @@
 #include "mrzsoundingscontainer.hpp"
 
 #include <limits>
+#include <xtensor/core/xmath.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -194,9 +195,7 @@ xt::xtensor<float, 1> MRZSoundingsContainer::get_receiver_sensitivity_applied_db
     const std::vector<uint32_t>& beam_numbers) const
 {
     return build_tensor<float>(
-        [](const MRZSoundings& sounding) {
-            return sounding.get_receiver_sensitivity_applied_db();
-        },
+        [](const MRZSoundings& sounding) { return sounding.get_receiver_sensitivity_applied_db(); },
         beam_numbers);
 }
 
@@ -219,8 +218,8 @@ xt::xtensor<float, 1> MRZSoundingsContainer::get_bs_calibration_db_tensor(
 xt::xtensor<float, 1> MRZSoundingsContainer::get_tvg_db_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<float>(
-        [](const MRZSoundings& sounding) { return sounding.get_tvg_db(); }, beam_numbers);
+    return build_tensor<float>([](const MRZSoundings& sounding) { return sounding.get_tvg_db(); },
+                               beam_numbers);
 }
 
 xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_angle_re_rx_deg_tensor(
@@ -300,6 +299,19 @@ xt::xtensor<float, 1> MRZSoundingsContainer::get_beam_inc_angle_adj_deg_tensor(
     return build_tensor<float>(
         [](const MRZSoundings& sounding) { return sounding.get_beam_inc_angle_adj_deg(); },
         beam_numbers);
+}
+
+xt::xtensor<float, 1>
+MRZSoundingsContainer::get_beam_incidence_angle_horizontal_plane_in_degrees_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+
+    constexpr float to_degrees         = 180.0f / static_cast<float>(M_PI);
+    auto            depth_tensor       = get_z_re_ref_point_m_tensor(beam_numbers);
+    auto            acrosstrack_tensor = get_x_re_ref_point_m_tensor(beam_numbers);
+    auto            adjustment_tensor  = get_beam_inc_angle_adj_deg_tensor(beam_numbers);
+
+    return xt::atan(acrosstrack_tensor / xt::abs(depth_tensor)) * to_degrees + adjustment_tensor;
 }
 
 xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_real_time_clean_info_tensor(
@@ -418,7 +430,8 @@ MRZSoundingsContainer::t_XYZ MRZSoundingsContainer::get_xyz() const
     return xyz;
 }
 
-MRZSoundingsContainer::t_XYZ MRZSoundingsContainer::get_xyz(const std::vector<uint32_t>& beam_numbers) const
+MRZSoundingsContainer::t_XYZ MRZSoundingsContainer::get_xyz(
+    const std::vector<uint32_t>& beam_numbers) const
 {
     t_XYZ xyz({ beam_numbers.size() });
 
@@ -501,6 +514,9 @@ tools::classhelper::ObjectPrinter MRZSoundingsContainer::__printer__(
     printer.register_container("x_re_ref_point_m", get_x_re_ref_point_m_tensor(), "m");
     printer.register_container(
         "beam_inc_angle_adj_deg", get_beam_inc_angle_adj_deg_tensor(), "deg");
+    printer.register_container("beam_incidence_angle_horizontal_plane_in_degrees",
+                               get_beam_incidence_angle_horizontal_plane_in_degrees_tensor(),
+                               "deg");
     printer.register_container("real_time_clean_info", get_real_time_clean_info_tensor());
     printer.register_container("si_start_range_samples", get_si_start_range_samples_tensor());
     printer.register_container("si_centre_sample", get_si_centre_sample_tensor());

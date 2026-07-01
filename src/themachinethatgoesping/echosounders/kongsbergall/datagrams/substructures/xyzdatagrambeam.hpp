@@ -66,7 +66,7 @@ class XYZDatagramBeam
     void set_alongtrack_distance(float alongtrack_distance);
     void set_detection_window_length(uint16_t detection_window_length);
     void set_quality_factor(uint8_t quality_factor);
-    void set_beam_incidence_angle_adjustment(double beam_incidence_angle_adjustment);
+    void set_beam_incidence_angle_adjustment(float beam_incidence_angle_adjustment);
     void set_detection_info(uint8_t detection_info);
     void set_realtime_cleaning_information(int8_t realtime_cleaning_information);
     void set_reflectivity(int16_t reflectivity);
@@ -76,16 +76,16 @@ class XYZDatagramBeam
      * @brief convert reflectivity to backscatter
      * (_reflectivity * 0.1 dB)
      *
-     * @return double
+     * @return float
      */
-    double get_backscatter() const;
+    float get_backscatter() const;
 
     /**
      * @brief Returns the beam incidence angle adjustment in degrees. (IBA * 0.1 degree)
      *
-     * @return double
+     * @return float
      */
-    double get_beam_incidence_angle_adjustment_in_degrees() const;
+    float get_beam_incidence_angle_adjustment_in_degrees() const;
 
     /**
      * @brief This function evaluates the detection information flag. If the last bit is set to 1,
@@ -103,6 +103,14 @@ class XYZDatagramBeam
      * @return t_DetectionType
      */
     detection_information::o_DetectionType get_detection_type() const;
+
+    /**
+     * @brief Get the beam incidence angle horizontal plane (BAC) in degrees
+     * 
+     * @return float 
+     */
+    float get_beam_incidence_angle_horizontal_plane_in_degrees() const;
+
 
     /**
      * @brief This function evaluates the detection information flag. If the 4th bit is set to 1,

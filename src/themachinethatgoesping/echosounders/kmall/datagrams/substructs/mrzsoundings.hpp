@@ -122,6 +122,7 @@ class MRZSoundings
     float get_y_re_ref_point_m() const { return _y_re_ref_point_m; }
     float get_x_re_ref_point_m() const { return _x_re_ref_point_m; }
     float get_beam_inc_angle_adj_deg() const { return _beam_inc_angle_adj_deg; }
+    float get_beam_incidence_angle_horizontal_plane_in_degrees() const;
 
     uint16_t get_real_time_clean_info() const { return _real_time_clean_info; }
 

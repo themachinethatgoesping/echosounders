@@ -36,9 +36,7 @@ using datagrams::substructures::XYZDatagramBeamsContainer;
 void init_c_xyzdatagrambeamscontainer(nanobind::module_& m)
 {
     nb::class_<XYZDatagramBeamsContainer>(
-        m,
-        "XYZDatagramBeamsContainer",
-        DOC_XYZDatagramBeamsContainer(XYZDatagramBeamsContainer))
+        m, "XYZDatagramBeamsContainer", DOC_XYZDatagramBeamsContainer(XYZDatagramBeamsContainer))
         .def(nb::init<>(), DOC_XYZDatagramBeamsContainer(XYZDatagramBeamsContainer))
 
         .def_prop_rw("beams",
@@ -123,14 +121,18 @@ void init_c_xyzdatagrambeamscontainer(nanobind::module_& m)
                                                              nb::const_),
              DOC_XYZDatagramBeamsContainer(get_xyz_2),
              nb::arg("beam_numbers"))
+        .def(
+            "get_beam_incidence_angle_horizontal_plane_in_degrees_tensor",
+            &XYZDatagramBeamsContainer::get_beam_incidence_angle_horizontal_plane_in_degrees_tensor,
+            DOC_XYZDatagramBeamsContainer(
+                get_beam_incidence_angle_horizontal_plane_in_degrees_tensor),
+            nb::arg("beam_numbers") = std::vector<uint32_t>{})
 
         .def("__eq__",
              &XYZDatagramBeamsContainer::operator==,
              DOC_XYZDatagramBeamsContainer(operator_eq),
-             nb::arg("other"))
-        __PYCLASS_DEFAULT_COPY__(XYZDatagramBeamsContainer)
-        __PYCLASS_DEFAULT_PRINTING__(XYZDatagramBeamsContainer)
-        ;
+             nb::arg("other")) __PYCLASS_DEFAULT_COPY__(XYZDatagramBeamsContainer)
+            __PYCLASS_DEFAULT_PRINTING__(XYZDatagramBeamsContainer);
 }
 
 }

@@ -1,4 +1,4 @@
-//sourcehash: e04bcd2052af3821ab511cf6bf48e74b8f00d1e4a7b81f4b67e5456f3f8f2975
+//sourcehash: 783f88ede726301754703f08fccf10294a60923608b07e1de86932baa3cbb74d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeamsContainer_get_beam_incidence_angle_adjustment_in_degrees_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeamsContainer_get_beam_incidence_angle_adjustment_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeamsContainer_get_beam_incidence_angle_horizontal_plane_in_degrees_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeamsContainer_get_beams = R"doc()doc";
 

@@ -38,8 +38,7 @@ class XYZDatagramBeamsContainer
     std::vector<XYZDatagramBeam>&       beams();
     void                                set_beams(const std::vector<XYZDatagramBeam>& beams);
 
-    xt::xtensor<float, 1> get_depth_tensor(
-        const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_depth_tensor(const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<float, 1> get_acrosstrack_distance_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<float, 1> get_alongtrack_distance_tensor(
@@ -57,15 +56,18 @@ class XYZDatagramBeamsContainer
     xt::xtensor<int16_t, 1> get_reflectivity_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
 
-    xt::xtensor<double, 1> get_backscatter_tensor(
+    xt::xtensor<float, 1> get_backscatter_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
-    xt::xtensor<double, 1> get_beam_incidence_angle_adjustment_in_degrees_tensor(
+    xt::xtensor<float, 1> get_beam_incidence_angle_adjustment_in_degrees_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<uint8_t, 1> get_detection_is_valid_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<uint8_t, 1> get_detection_type_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<uint8_t, 1> get_backscatter_is_compensated_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+
+    xt::xtensor<float, 1> get_beam_incidence_angle_horizontal_plane_in_degrees_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
 
     size_t get_number_of_beams() const;

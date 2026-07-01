@@ -5,6 +5,7 @@
 #include "xyzdatagrambeamscontainer.hpp"
 
 #include <fmt/format.h>
+#include <xtensor/core/xmath.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -66,9 +67,9 @@ xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_quality_factor_tensor(
 xt::xtensor<int8_t, 1> XYZDatagramBeamsContainer::get_beam_incidence_angle_adjustment_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<int8_t>([](const XYZDatagramBeam& beam) {
-        return beam.get_beam_incidence_angle_adjustment();
-    }, beam_numbers);
+    return build_tensor<int8_t>(
+        [](const XYZDatagramBeam& beam) { return beam.get_beam_incidence_angle_adjustment(); },
+        beam_numbers);
 }
 
 xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_detection_info_tensor(
@@ -78,13 +79,12 @@ xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_detection_info_tensor(
         [](const XYZDatagramBeam& beam) { return beam.get_detection_info(); }, beam_numbers);
 }
 
-xt::xtensor<int8_t, 1>
-XYZDatagramBeamsContainer::get_realtime_cleaning_information_tensor(
+xt::xtensor<int8_t, 1> XYZDatagramBeamsContainer::get_realtime_cleaning_information_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<int8_t>([](const XYZDatagramBeam& beam) {
-        return beam.get_realtime_cleaning_information();
-    }, beam_numbers);
+    return build_tensor<int8_t>(
+        [](const XYZDatagramBeam& beam) { return beam.get_realtime_cleaning_information(); },
+        beam_numbers);
 }
 
 xt::xtensor<int16_t, 1> XYZDatagramBeamsContainer::get_reflectivity_tensor(
@@ -94,44 +94,50 @@ xt::xtensor<int16_t, 1> XYZDatagramBeamsContainer::get_reflectivity_tensor(
         [](const XYZDatagramBeam& beam) { return beam.get_reflectivity(); }, beam_numbers);
 }
 
-xt::xtensor<double, 1> XYZDatagramBeamsContainer::get_backscatter_tensor(
+xt::xtensor<float, 1> XYZDatagramBeamsContainer::get_backscatter_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<double>(
-        [](const XYZDatagramBeam& beam) { return beam.get_backscatter(); }, beam_numbers);
+    return build_tensor<float>([](const XYZDatagramBeam& beam) { return beam.get_backscatter(); },
+                               beam_numbers);
 }
 
-xt::xtensor<double, 1>
+xt::xtensor<float, 1>
 XYZDatagramBeamsContainer::get_beam_incidence_angle_adjustment_in_degrees_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<double>([](const XYZDatagramBeam& beam) {
-        return beam.get_beam_incidence_angle_adjustment_in_degrees();
-    }, beam_numbers);
+    return build_tensor<float>(
+        [](const XYZDatagramBeam& beam) {
+            return beam.get_beam_incidence_angle_adjustment_in_degrees();
+        },
+        beam_numbers);
 }
 
 xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_detection_is_valid_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<uint8_t>([](const XYZDatagramBeam& beam) {
-        return static_cast<uint8_t>(beam.get_detection_is_valid());
-    }, beam_numbers);
+    return build_tensor<uint8_t>(
+        [](const XYZDatagramBeam& beam) {
+            return static_cast<uint8_t>(beam.get_detection_is_valid());
+        },
+        beam_numbers);
 }
 
 xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_detection_type_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<uint8_t>([](const XYZDatagramBeam& beam) {
-        return static_cast<uint8_t>(beam.get_detection_type());
-    }, beam_numbers);
+    return build_tensor<uint8_t>(
+        [](const XYZDatagramBeam& beam) { return static_cast<uint8_t>(beam.get_detection_type()); },
+        beam_numbers);
 }
 
 xt::xtensor<uint8_t, 1> XYZDatagramBeamsContainer::get_backscatter_is_compensated_tensor(
     const std::vector<uint32_t>& beam_numbers) const
 {
-    return build_tensor<uint8_t>([](const XYZDatagramBeam& beam) {
-        return static_cast<uint8_t>(beam.get_backscatter_is_compensated());
-    }, beam_numbers);
+    return build_tensor<uint8_t>(
+        [](const XYZDatagramBeam& beam) {
+            return static_cast<uint8_t>(beam.get_backscatter_is_compensated());
+        },
+        beam_numbers);
 }
 
 size_t XYZDatagramBeamsContainer::get_number_of_beams() const
@@ -160,7 +166,7 @@ XYZDatagramBeamsContainer::t_XYZ XYZDatagramBeamsContainer::get_xyz(
 
     for (std::size_t bi = 0; bi < beam_numbers.size(); ++bi)
     {
-        auto bn = beam_numbers[bi];
+        const auto bn = beam_numbers[bi];
         if (bn >= _beams.size())
         {
             xyz.x.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
@@ -178,6 +184,18 @@ XYZDatagramBeamsContainer::t_XYZ XYZDatagramBeamsContainer::get_xyz(
     return xyz;
 }
 
+xt::xtensor<float, 1>
+XYZDatagramBeamsContainer::get_beam_incidence_angle_horizontal_plane_in_degrees_tensor(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    constexpr float to_degrees         = 180.0f / static_cast<float>(M_PI);
+    auto            depth_tensor       = get_depth_tensor(beam_numbers);
+    auto            acrosstrack_tensor = get_acrosstrack_distance_tensor(beam_numbers);
+    auto adjustment_tensor = get_beam_incidence_angle_adjustment_in_degrees_tensor(beam_numbers);
+
+    return xt::atan(acrosstrack_tensor / xt::abs(depth_tensor)) * to_degrees + adjustment_tensor;
+}
+
 tools::classhelper::ObjectPrinter XYZDatagramBeamsContainer::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
@@ -186,7 +204,8 @@ tools::classhelper::ObjectPrinter XYZDatagramBeamsContainer::__printer__(
         "XYZDatagramBeamsContainer", float_precision, superscript_exponents);
 
     printer.register_section("Beams (.beams)");
-    printer.register_value("beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
 
     printer.register_container("depth", get_depth_tensor(), "m");
     printer.register_container("acrosstrack_distance", get_acrosstrack_distance_tensor(), "m");
@@ -194,9 +213,8 @@ tools::classhelper::ObjectPrinter XYZDatagramBeamsContainer::__printer__(
     printer.register_container(
         "detection_window_length", get_detection_window_length_tensor(), "samples");
     printer.register_container("quality_factor", get_quality_factor_tensor());
-    printer.register_container("beam_incidence_angle_adjustment",
-                               get_beam_incidence_angle_adjustment_tensor(),
-                               "0.1 deg");
+    printer.register_container(
+        "beam_incidence_angle_adjustment", get_beam_incidence_angle_adjustment_tensor(), "0.1 deg");
     printer.register_container("detection_info", get_detection_info_tensor());
     printer.register_container("realtime_cleaning_information",
                                get_realtime_cleaning_information_tensor());

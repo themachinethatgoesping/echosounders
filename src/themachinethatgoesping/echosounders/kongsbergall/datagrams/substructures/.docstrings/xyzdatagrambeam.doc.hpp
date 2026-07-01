@@ -1,4 +1,4 @@
-//sourcehash: 8c4c553f0df58af82cffa53257d71cae7bc3f03cea67ca07690f625954ba3a3a
+//sourcehash: 5a7e049293bf9d41f98d09b7ccb3cc1a0de1b3b866563ef26065d94b44e7f00d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,7 +69,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 R"doc(convert reflectivity to backscatter (_reflectivity * 0.1 dB)
 
 Returns:
-    double)doc";
+    float)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeam_get_backscatter_is_compensated =
 R"doc(This function evaluates the detection information flag. If the 4th bit
@@ -87,7 +87,13 @@ R"doc(Returns the beam incidence angle adjustment in degrees. (IBA * 0.1
 degree)
 
 Returns:
-    double)doc";
+    float)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeam_get_beam_incidence_angle_horizontal_plane_in_degrees =
+R"doc(Get the beam incidence angle horizontal plane (BAC) in degrees
+
+Returns:
+    float)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_XYZDatagramBeam_get_depth = R"doc()doc";
 

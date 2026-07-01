@@ -114,6 +114,8 @@ class MRZSoundingsContainer
         const std::vector<uint32_t>& beam_numbers = {}) const;
     xt::xtensor<float, 1> get_beam_inc_angle_adj_deg_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
+    xt::xtensor<float, 1> get_beam_incidence_angle_horizontal_plane_in_degrees_tensor(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
 
     xt::xtensor<uint16_t, 1> get_real_time_clean_info_tensor(
         const std::vector<uint32_t>& beam_numbers = {}) const;
@@ -156,7 +158,7 @@ class MRZSoundingsContainer
     std::vector<MRZSoundings> _soundings;
 
     template<typename ValueType, typename Getter>
-    xt::xtensor<ValueType, 1> build_tensor(Getter&&                         getter,
+    xt::xtensor<ValueType, 1> build_tensor(Getter&&                     getter,
                                            const std::vector<uint32_t>& beam_numbers) const
     {
         if (beam_numbers.empty())

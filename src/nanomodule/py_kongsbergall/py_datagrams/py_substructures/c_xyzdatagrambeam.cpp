@@ -23,7 +23,7 @@ using datagrams::substructures::XYZDatagramBeam;
 #define DOC_XYZDatagramBeam(ARG)                                                                   \
     DOC(themachinethatgoesping,                                                                    \
         echosounders,                                                                              \
-        kongsbergall,                                                                                    \
+        kongsbergall,                                                                              \
         datagrams,                                                                                 \
         substructures,                                                                             \
         XYZDatagramBeam,                                                                           \
@@ -32,7 +32,7 @@ using datagrams::substructures::XYZDatagramBeam;
 void init_c_xyzdatagrambeam(nanobind::module_& m)
 {
 
-     nb::class_<XYZDatagramBeam>(m,
+    nb::class_<XYZDatagramBeam>(m,
                                 "XYZDatagramBeam",
                                 DOC(themachinethatgoesping,
                                     echosounders,
@@ -40,7 +40,7 @@ void init_c_xyzdatagrambeam(nanobind::module_& m)
                                     datagrams,
                                     substructures,
                                     XYZDatagramBeam))
-     .def(nb::init<>(), DOC_XYZDatagramBeam(XYZDatagramBeam))
+        .def(nb::init<>(), DOC_XYZDatagramBeam(XYZDatagramBeam))
         // --- convenient data access ---
         .def("set_depth", &XYZDatagramBeam::set_depth, DOC_XYZDatagramBeam(depth))
         .def("get_depth", &XYZDatagramBeam::get_depth, DOC_XYZDatagramBeam(depth))
@@ -109,6 +109,9 @@ void init_c_xyzdatagrambeam(nanobind::module_& m)
         .def("get_beam_incidence_angle_adjustment_in_degrees",
              &XYZDatagramBeam::get_beam_incidence_angle_adjustment_in_degrees,
              DOC_XYZDatagramBeam(get_beam_incidence_angle_adjustment_in_degrees))
+        .def("get_beam_incidence_angle_horizontal_plane_in_degrees",
+             &XYZDatagramBeam::get_beam_incidence_angle_horizontal_plane_in_degrees,
+             DOC_XYZDatagramBeam(get_beam_incidence_angle_horizontal_plane_in_degrees))
 
         // ----- operators -----
         .def("__eq__",

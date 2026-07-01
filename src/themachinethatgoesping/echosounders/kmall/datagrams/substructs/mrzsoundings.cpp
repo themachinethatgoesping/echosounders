@@ -14,6 +14,13 @@ namespace kmall {
 namespace datagrams {
 namespace substructs {
 
+float MRZSoundings::get_beam_incidence_angle_horizontal_plane_in_degrees() const
+{
+    constexpr float to_degrees = 180.0f / static_cast<float>(M_PI);
+    return std::atan(_y_re_ref_point_m / std::abs(_z_re_ref_point_m)) * to_degrees +
+           _beam_inc_angle_adj_deg;
+}
+
 bool MRZSoundings::operator==(const MRZSoundings& other) const
 {
     using themachinethatgoesping::tools::helper::float_equals;
@@ -110,6 +117,9 @@ tools::classhelper::ObjectPrinter MRZSoundings::__printer__(unsigned int float_p
     printer.register_value("y_re_ref_point_m", _y_re_ref_point_m, "m");
     printer.register_value("x_re_ref_point_m", _x_re_ref_point_m, "m");
     printer.register_value("beam_inc_angle_adj_deg", _beam_inc_angle_adj_deg, "deg");
+    printer.register_value("beam_incidence_angle_horizontal_plane_in_degrees",
+                           get_beam_incidence_angle_horizontal_plane_in_degrees(),
+                           "deg");
 
     printer.register_value("real_time_clean_info", _real_time_clean_info);
 

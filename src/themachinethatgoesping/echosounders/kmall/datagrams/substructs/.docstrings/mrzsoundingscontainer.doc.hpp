@@ -1,4 +1,4 @@
-//sourcehash: 9366b6adf6fa364fcd4c9902c5274ff2ed401e4021b930a4ecb83e7492ac1468
+//sourcehash: 476abea4572aef93102126592da3f1cdc4d681fd58146dc792c1177adaad6d59
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,6 +52,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_s
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_beam_angle_re_rx_deg_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_beam_inc_angle_adj_deg_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_beam_incidence_angle_horizontal_plane_in_degrees_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_substructs_MRZSoundingsContainer_get_bs_calibration_db_tensor = R"doc()doc";
 

@@ -189,6 +189,10 @@ void init_c_mrzsoundingscontainer(nanobind::module_& m)
              &MRZSoundingsContainer::get_beam_inc_angle_adj_deg_tensor,
              DOC_MRZSoundingsContainer(get_beam_inc_angle_adj_deg_tensor),
              nb::arg("beam_numbers") = std::vector<uint32_t>{})
+        .def("get_beam_incidence_angle_horizontal_plane_in_degrees_tensor",
+             &MRZSoundingsContainer::get_beam_incidence_angle_horizontal_plane_in_degrees_tensor,
+             DOC_MRZSoundingsContainer(get_beam_incidence_angle_horizontal_plane_in_degrees_tensor),
+             nb::arg("beam_numbers") = std::vector<uint32_t>{})
         .def("get_real_time_clean_info_tensor",
              &MRZSoundingsContainer::get_real_time_clean_info_tensor,
              DOC_MRZSoundingsContainer(get_real_time_clean_info_tensor),
