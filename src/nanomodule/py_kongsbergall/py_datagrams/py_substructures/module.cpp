@@ -22,6 +22,8 @@ namespace py_substructures {
 // -- submodule declarations --
 void init_enum_detectiontype(nanobind::module_& m); // enum_detectiontype.cpp
 void init_c_xyzdatagrambeam(nanobind::module_& m);  // c_xyzdatagrambeam.cpp
+void init_c_xyzdatagrambeamscontainer(
+    nanobind::module_& m); // c_xyzdatagrambeamscontainer.cpp
 void init_c_extradetectionsdetectionclasses(
     nanobind::module_& m); // c_extradetectionsdetectionclasses.cpp
 void init_c_extradetectionsdetectionclassescontainer(
@@ -67,6 +69,7 @@ void init_m_kongsbergalldatagramsSubstructures(nanobind::module_& m)
     // kongsbergall substructures
     init_enum_detectiontype(subm);
     init_c_xyzdatagrambeam(subm);
+    init_c_xyzdatagrambeamscontainer(subm);
     init_c_extradetectionsdetectionclasses(subm);
     init_c_extradetectionsdetectionclassescontainer(subm);
     init_c_extradetectionsextradetections(subm);

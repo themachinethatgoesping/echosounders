@@ -29,40 +29,12 @@ XYZDatagram::XYZDatagram()
 
 XYZDatagram::t_XYZ XYZDatagram::get_xyz() const
 {
-    t_XYZ xyz({ _beams.size() });
-
-    for (unsigned int bn = 0; bn < _beams.size(); ++bn)
-    {
-        xyz.x.unchecked(bn) = _beams[bn].get_alongtrack_distance();
-        xyz.y.unchecked(bn) = _beams[bn].get_acrosstrack_distance();
-        xyz.z.unchecked(bn) = _beams[bn].get_depth();
-    }
-
-    return xyz;
+    return _beams.get_xyz();
 }
 
 XYZDatagram::t_XYZ XYZDatagram::get_xyz(const std::vector<uint32_t>& beam_numbers) const
 {
-    t_XYZ xyz({ beam_numbers.size() });
-
-    for (unsigned int bi = 0; bi < beam_numbers.size(); ++bi)
-    {
-        auto bn = beam_numbers[bi];
-        if (bn >= _beams.size())
-        {
-            xyz.x.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-            xyz.y.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-            xyz.z.unchecked(bi) = std::numeric_limits<float>::quiet_NaN();
-        }
-        else
-        {
-            xyz.x.unchecked(bi) = _beams[bn].get_alongtrack_distance();
-            xyz.y.unchecked(bi) = _beams[bn].get_acrosstrack_distance();
-            xyz.z.unchecked(bi) = _beams[bn].get_depth();
-        }
-    }
-
-    return xyz;
+    return _beams.get_xyz(beam_numbers);
 }
 
 uint16_t XYZDatagram::get_ping_counter() const
@@ -195,19 +167,19 @@ void XYZDatagram::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
-std::vector<substructures::XYZDatagramBeam>& XYZDatagram::beams()
+substructures::XYZDatagramBeamsContainer& XYZDatagram::beams()
 {
     return _beams;
 }
 
-const std::vector<substructures::XYZDatagramBeam>& XYZDatagram::get_beams() const
+const substructures::XYZDatagramBeamsContainer& XYZDatagram::get_beams() const
 {
     return _beams;
 }
 
-void XYZDatagram::set_beams(std::vector<substructures::XYZDatagramBeam> beams)
+void XYZDatagram::set_beams(const substructures::XYZDatagramBeamsContainer& beams)
 {
-    _beams = std::move(beams);
+    _beams = beams;
 }
 
 double XYZDatagram::get_heading_in_degrees() const
@@ -250,8 +222,9 @@ XYZDatagram XYZDatagram::from_stream(std::istream& is, KongsbergAllDatagram head
     is.read(reinterpret_cast<char*>(&(datagram._ping_counter)), 24 * sizeof(uint8_t));
 
     // read the beams
-    datagram._beams.resize(datagram._number_of_beams);
-    is.read(reinterpret_cast<char*>(datagram._beams.data()),
+    auto& beams = datagram._beams.beams();
+    beams.resize(datagram._number_of_beams);
+    is.read(reinterpret_cast<char*>(beams.data()),
             datagram._number_of_beams * sizeof(substructures::XYZDatagramBeam));
 
     // read the rest of the datagram
@@ -278,13 +251,14 @@ XYZDatagram XYZDatagram::from_stream(std::istream&                    is,
 void XYZDatagram::to_stream(std::ostream& os)
 {
     KongsbergAllDatagram::to_stream(os);
-    _number_of_beams = _beams.size();
+    _number_of_beams = _beams.get_number_of_beams();
 
     // write first part of the datagram (until the first beam)
     os.write(reinterpret_cast<const char*>(&(_ping_counter)), 24 * sizeof(uint8_t));
 
     // write the beams
-    os.write(reinterpret_cast<const char*>(_beams.data()),
+    const auto& beams = _beams.get_beams();
+    os.write(reinterpret_cast<const char*>(beams.data()),
              _number_of_beams * sizeof(substructures::XYZDatagramBeam));
 
     // write the rest of the datagram
@@ -316,7 +290,7 @@ tools::classhelper::ObjectPrinter XYZDatagram::__printer__(unsigned int float_pr
     printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
     printer.register_section("substructures");
-    printer.register_value("beams", _beams.size(), "XYZDatagramBeams");
+    printer.register_value("beams", _beams.get_number_of_beams(), "XYZDatagramBeams");
 
     return printer;
 }

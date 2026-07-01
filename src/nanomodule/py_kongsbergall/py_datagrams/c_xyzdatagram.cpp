@@ -4,10 +4,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/vector.h>
-
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
-
 
 #include "../../../themachinethatgoesping/echosounders/kongsbergall/datagrams/xyzdatagram.hpp"
 
@@ -28,9 +25,11 @@ using datagrams::XYZDatagram;
 
 void init_c_xyzdatagram(nanobind::module_& m)
 {
-     nb::class_<XYZDatagram, datagrams::KongsbergAllDatagram>(
-        m, "XYZDatagram", DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, XYZDatagram))
-     .def(nb::init<>(), DOC_XYZDatagram(XYZDatagram))
+    nb::class_<XYZDatagram, datagrams::KongsbergAllDatagram>(
+        m,
+        "XYZDatagram",
+        DOC(themachinethatgoesping, echosounders, kongsbergall, datagrams, XYZDatagram))
+        .def(nb::init<>(), DOC_XYZDatagram(XYZDatagram))
 
         // --- convenience functions ---
         .def("get_xyz",
@@ -82,15 +81,8 @@ void init_c_xyzdatagram(nanobind::module_& m)
         .def("get_scanning_info", &XYZDatagram::get_scanning_info, DOC_XYZDatagram(scanning_info))
 
         // --- data structure access ---
-        .def("get_beams",
-             &XYZDatagram::get_beams,
-             DOC_XYZDatagram(beams),
-             nb::rv_policy::reference_internal)
-        .def("set_beams", &XYZDatagram::set_beams, DOC_XYZDatagram(beams))
-        .def("beams",
-             &XYZDatagram::beams,
-             DOC_XYZDatagram(beams),
-             nb::rv_policy::reference_internal)
+        .def_prop_rw(
+            "beams", &XYZDatagram::beams, &XYZDatagram::set_beams, DOC_XYZDatagram(beams), nb::rv_policy::reference_internal)
 
         // --- processed member access ---
         .def("get_heading_in_degrees",
@@ -111,7 +103,7 @@ void init_c_xyzdatagram(nanobind::module_& m)
         .def("set_checksum", &XYZDatagram::set_checksum, DOC_XYZDatagram(checksum))
 
         // ----- operators -----
-     .def("__eq__", &XYZDatagram::operator==, DOC_XYZDatagram(operator_eq), nb::arg("other"))
+        .def("__eq__", &XYZDatagram::operator==, DOC_XYZDatagram(operator_eq), nb::arg("other"))
         // ----- pybind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XYZDatagram)

@@ -69,6 +69,7 @@ sources = [
   'py_kongsbergall/py_datagrams/py_substructures/c_watercolumndatagramtransmitsector.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_watercolumndatagramtransmitsectorscontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_xyzdatagrambeam.cpp',
+  'py_kongsbergall/py_datagrams/py_substructures/c_xyzdatagrambeamscontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/enum_detectiontype.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/module.cpp',
   'py_kongsbergall/py_filedatatypes/c_kongsbergallfileinfodata.cpp',

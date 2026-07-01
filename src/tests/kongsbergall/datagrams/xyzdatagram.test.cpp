@@ -18,8 +18,9 @@ using namespace themachinethatgoesping::echosounders::kongsbergall::datagrams;
 TEST_CASE("XYZDatagram should support common functions", TESTTAG)
 {
     // initialize class structure
-    auto dat  = XYZDatagram();
-    auto beam = substructures::XYZDatagramBeam();
+    auto dat            = XYZDatagram();
+    auto beam           = substructures::XYZDatagramBeam();
+    auto beams_container = substructures::XYZDatagramBeamsContainer();
 
     // set some variables
     dat.set_bytes(100);
@@ -35,7 +36,8 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
 
     beam.set_beam_incidence_angle_adjustment(101);
     beam.set_reflectivity(191);
-    dat.set_beams({ beam });
+    beams_container.set_beams({ beam });
+    dat.set_beams(beams_container);
 
     // test inequality
     // REQUIRE(dat != XYZDatagram());
@@ -62,8 +64,10 @@ TEST_CASE("XYZDatagram should support common functions", TESTTAG)
     REQUIRE(dat.get_heading_in_degrees() == Catch::Approx(2.05));
     REQUIRE(beam.get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
     REQUIRE(beam.get_backscatter() == Catch::Approx(19.1));
-    REQUIRE(dat.beams()[0].get_beam_incidence_angle_adjustment_in_degrees() == Catch::Approx(10.1));
-    REQUIRE(dat.beams()[0].get_backscatter() == Catch::Approx(19.1));
+        REQUIRE(dat.beams().get_beams()[0].get_beam_incidence_angle_adjustment_in_degrees() ==
+            Catch::Approx(10.1));
+        REQUIRE(dat.beams().get_beams()[0].get_backscatter() == Catch::Approx(19.1));
+        REQUIRE(dat.beams().get_backscatter_tensor().unchecked(0) == Catch::Approx(19.1));
 
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::XYZDatagram);

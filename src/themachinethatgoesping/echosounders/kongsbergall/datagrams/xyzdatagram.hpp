@@ -22,6 +22,7 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/xyzdatagrambeam.hpp"
+#include "substructures/xyzdatagrambeamscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -50,7 +51,7 @@ class XYZDatagram : public KongsbergAllDatagram
     float    _sampling_frequency; ///< in Hz
     uint8_t  _scanning_info;      ///< only used by em2040. 0 means scanning is not used.
     std::array<uint8_t, 3>                      _spare_bytes = { 0, 0, 0 };
-    std::vector<substructures::XYZDatagramBeam> _beams; ///< beam detection information
+    substructures::XYZDatagramBeamsContainer    _beams; ///< beam detection information
     uint8_t                                     _spare_byte = 0;
     uint8_t                                     _etx = 0x03; ///< end identifier (always 0x03)
     uint16_t                                    _checksum;
@@ -114,9 +115,9 @@ class XYZDatagram : public KongsbergAllDatagram
     void set_checksum(uint16_t checksum);
 
     // substructure access
-    std::vector<substructures::XYZDatagramBeam>&       beams();
-    const std::vector<substructures::XYZDatagramBeam>& get_beams() const;
-    void set_beams(std::vector<substructures::XYZDatagramBeam> beams);
+    substructures::XYZDatagramBeamsContainer&       beams();
+    const substructures::XYZDatagramBeamsContainer& get_beams() const;
+    void set_beams(const substructures::XYZDatagramBeamsContainer& beams);
 
     // ----- processed data access -----
     /**
