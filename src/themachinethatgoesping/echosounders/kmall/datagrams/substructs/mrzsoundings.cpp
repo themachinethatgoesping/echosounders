@@ -17,7 +17,7 @@ namespace substructs {
 float MRZSoundings::get_beam_incidence_angle_horizontal_plane_in_degrees() const
 {
     constexpr float to_degrees = 180.0f / static_cast<float>(M_PI);
-    return std::atan(_y_re_ref_point_m / std::abs(_z_re_ref_point_m)) * to_degrees +
+    return std::atan2(_y_re_ref_point_m, std::abs(_z_re_ref_point_m)) * to_degrees +
            _beam_inc_angle_adj_deg;
 }
 

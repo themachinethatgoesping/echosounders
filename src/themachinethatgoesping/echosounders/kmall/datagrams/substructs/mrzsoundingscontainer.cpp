@@ -308,10 +308,10 @@ MRZSoundingsContainer::get_beam_incidence_angle_horizontal_plane_in_degrees_tens
 
     constexpr float to_degrees         = 180.0f / static_cast<float>(M_PI);
     auto            depth_tensor       = get_z_re_ref_point_m_tensor(beam_numbers);
-    auto            acrosstrack_tensor = get_x_re_ref_point_m_tensor(beam_numbers);
+    auto            acrosstrack_tensor = get_y_re_ref_point_m_tensor(beam_numbers);
     auto            adjustment_tensor  = get_beam_inc_angle_adj_deg_tensor(beam_numbers);
 
-    return xt::atan(acrosstrack_tensor / xt::abs(depth_tensor)) * to_degrees + adjustment_tensor;
+    return xt::atan2(acrosstrack_tensor, xt::abs(depth_tensor)) * to_degrees + adjustment_tensor;
 }
 
 xt::xtensor<uint16_t, 1> MRZSoundingsContainer::get_real_time_clean_info_tensor(
