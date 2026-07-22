@@ -53,6 +53,24 @@ void ConfigurationDataInterfacePerFile_add_interface(T_PyClass& cls)
                 I_ConfigurationDataInterfacePerFile,
                 set_sensor_configuration),
             nb::arg("sensor_configuration"));
+
+    cls.def("get_use_surface_sound_speed_in_sound_velocity_profile",
+            &T_BaseClass::get_use_surface_sound_speed_in_sound_velocity_profile,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_ConfigurationDataInterfacePerFile,
+                get_use_surface_sound_speed_in_sound_velocity_profile));
+    cls.def("set_use_surface_sound_speed_in_sound_velocity_profile",
+            &T_BaseClass::set_use_surface_sound_speed_in_sound_velocity_profile,
+            DOC(themachinethatgoesping,
+                echosounders,
+                filetemplates,
+                datainterfaces,
+                I_ConfigurationDataInterfacePerFile,
+                set_use_surface_sound_speed_in_sound_velocity_profile),
+            nb::arg("use_surface_sound_speed"));
 }
 
 }

@@ -263,6 +263,13 @@ float InstallationParameters::get_water_line_vertical_location_in_meters() const
     return get_value_float("WLZ", 0.f);
 }
 
+int InstallationParameters::get_transducer_depth_sound_speed_source() const
+{
+    // SHC: 0 = surface sound speed used as profile value at the transducer depth (default),
+    //      1 = surface sound speed NOT used for ray tracing. Absent -> 0 (used).
+    return get_value_int("SHC", 0);
+}
+
 int InstallationParameters::get_system_main_head_serial_number() const
 {
     return get_value_int("SMH");

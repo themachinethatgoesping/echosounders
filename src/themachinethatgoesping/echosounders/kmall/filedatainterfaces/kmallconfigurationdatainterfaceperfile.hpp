@@ -308,6 +308,10 @@ class KMALLConfigurationDataInterfacePerFile
             }
         }
 
+        // NOTE: the .kmall IIP installation text has no field equivalent to the .all "SHC"
+        // (transducer depth sound speed source), so use_surface_sound_speed_in_sound_velocity_profile
+        // is left at its default (true = use the measured surface sound speed).
+
         return config;
     }
 

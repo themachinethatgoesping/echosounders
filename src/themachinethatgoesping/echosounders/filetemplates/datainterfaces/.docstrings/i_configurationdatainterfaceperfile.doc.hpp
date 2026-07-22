@@ -1,4 +1,4 @@
-//sourcehash: 435e717f71e55b5e9139aaf1995a3636483ce23b16f299167da6bd6d3d5620f8
+//sourcehash: 4d0918f66f755fc4242d44753368d5b824d48a37367051b02747b7182e9e6d6a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,6 +49,19 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_get_sensor_configuration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_get_use_surface_sound_speed_in_sound_velocity_profile =
+R"doc(Whether the measured transducer/surface sound speed is integrated into
+the sound velocity profile at the transducer depth when ray tracing.
+
+This is read from the file's installation parameters when the
+interface is initialized (e.g. from the Kongsberg .all "SHC" field: 0
+-> true, 1 -> false). Formats that do not specify it default to true.
+It can be overridden with
+set_use_surface_sound_speed_in_sound_velocity_profile().
+
+Returns:
+    true if the surface sound speed should be used, false otherwise.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_init_from_file = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_is_initialized = R"doc()doc";
@@ -64,6 +77,25 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_sensor_configuration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_set_sensor_configuration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_set_use_surface_sound_speed_in_sound_velocity_profile =
+R"doc(Set whether the measured transducer/surface sound speed is integrated
+into the sound velocity profile at the transducer depth when ray
+tracing.
+
+Args:
+    use_surface_sound_speed: true to use the surface sound speed,
+                             false to raytrace the archived profile as
+                             is.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterfacePerFile_use_surface_sound_speed_in_sound_velocity_profile =
+R"doc(Whether the measured transducer/surface sound speed should be
+integrated into the sound velocity profile at the transducer depth
+when ray tracing. Read and stored from the file's installation
+parameters on initialization (format-specific, e.g. the Kongsberg .all
+"SHC"
+field: 0 = used [default], 1 = not used); defaults to true for formats
+       that do not specify.)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

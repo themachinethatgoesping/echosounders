@@ -138,6 +138,9 @@ void init_c_installationparameters(nanobind::module_& m)
         .def("get_water_line_vertical_location_in_meters",
              &InstallationParameters::get_water_line_vertical_location_in_meters,
              DOC_InstallationParameters(get_water_line_vertical_location_in_meters))
+        .def("get_transducer_depth_sound_speed_source",
+             &InstallationParameters::get_transducer_depth_sound_speed_source,
+             DOC_InstallationParameters(get_transducer_depth_sound_speed_source))
         .def("get_system_main_head_serial_number",
              &InstallationParameters::get_system_main_head_serial_number,
              DOC_InstallationParameters(get_system_main_head_serial_number))

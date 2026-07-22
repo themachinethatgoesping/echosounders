@@ -448,6 +448,12 @@ void init_runtime_parameters()
         config.set_position_source(
             param.get_position_system_offsets(_active_position_system_number));
 
+        // store whether the measured transducer/surface sound speed should be integrated into the
+        // sound velocity profile for ray tracing (SHC installation parameter: 0 = used [default],
+        // 1 = not used)
+        this->set_use_surface_sound_speed_in_sound_velocity_profile(
+            param.get_transducer_depth_sound_speed_source() != 1);
+
         return config;
     }
 

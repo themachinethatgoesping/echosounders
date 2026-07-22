@@ -45,6 +45,12 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
 
     bool _is_initialized_sensor_configuration = false;
 
+    /// Whether the measured transducer/surface sound speed should be integrated into the sound
+    /// velocity profile at the transducer depth when ray tracing. Read and stored from the file's
+    /// installation parameters on initialization (format-specific, e.g. the Kongsberg .all "SHC"
+    /// field: 0 = used [default], 1 = not used); defaults to true for formats that do not specify.
+    bool _use_surface_sound_speed_in_sound_velocity_profile = true;
+
   public:
     I_ConfigurationDataInterfacePerFile(
         std::string_view name = "I_ConfigurationDataInterfacePerFile")
@@ -80,6 +86,34 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
                             this->get_file_path()));
 
         return _sensor_configuration;
+    }
+
+    /**
+     * @brief Whether the measured transducer/surface sound speed is integrated into the sound
+     * velocity profile at the transducer depth when ray tracing.
+     *
+     * This is read from the file's installation parameters when the interface is initialized
+     * (e.g. from the Kongsberg .all "SHC" field: 0 -> true, 1 -> false). Formats that do not
+     * specify it default to true. It can be overridden with
+     * set_use_surface_sound_speed_in_sound_velocity_profile().
+     *
+     * @return true if the surface sound speed should be used, false otherwise.
+     */
+    bool get_use_surface_sound_speed_in_sound_velocity_profile() const
+    {
+        return _use_surface_sound_speed_in_sound_velocity_profile;
+    }
+
+    /**
+     * @brief Set whether the measured transducer/surface sound speed is integrated into the sound
+     * velocity profile at the transducer depth when ray tracing.
+     *
+     * @param use_surface_sound_speed true to use the surface sound speed, false to raytrace the
+     *        archived profile as is.
+     */
+    void set_use_surface_sound_speed_in_sound_velocity_profile(bool use_surface_sound_speed)
+    {
+        _use_surface_sound_speed_in_sound_velocity_profile = use_surface_sound_speed;
     }
 
     void init_from_file([[maybe_unused]] const std::string& index_path = "",
@@ -124,6 +158,8 @@ class I_ConfigurationDataInterfacePerFile : public I_FileDataInterfacePerFile<t_
         printer.append(t_base::__printer__(float_precision, superscript_exponents));
 
         printer.register_section("ConfigurationDataInterfacePerFile");
+        printer.register_value("use_surface_sound_speed_in_sound_velocity_profile",
+                               _use_surface_sound_speed_in_sound_velocity_profile);
         return printer;
     }
 };

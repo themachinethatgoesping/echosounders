@@ -1,4 +1,4 @@
-//sourcehash: f462c259be0bb5f8a310d406ac275958bd7a3e6ddaa249e64802059b30ebc569
+//sourcehash: 3ee6e499450ac38588e89b251be2a940c10563e9e4cf2426ffa5e04aad0f1495
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -181,6 +181,25 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_system_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_system_transducer_configuration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_transducer_depth_sound_speed_source =
+R"doc(Get the transducer depth sound speed source (SHC field).
+
+Indicates whether the transducer/surface sound speed (SSV, measured in
+real time at the transducer) is used as the sound velocity profile
+value at the transducer depth for beam forming and ray tracing:
+- 0: the surface sound speed IS used (the profile is effectively
+  extended to the transducer
+     depth with the measured SSV; Kongsberg default).
+- 1: the surface sound speed is NOT used for ray tracing (the archived
+  profile is used as is).
+
+The field is optional in the datagram; when it is absent 0 ("used") is
+returned.
+
+Returns:
+    int SHC value (0 = use surface sound speed, 1 = do not use for ray
+    tracing))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_transducer_offsets =
 R"doc(Get the transducer offsets of transducer 0, 1, 2 or 3
