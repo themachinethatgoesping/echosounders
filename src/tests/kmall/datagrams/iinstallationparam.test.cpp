@@ -86,6 +86,16 @@ TEST_CASE("IInstallationParam should support common functions", TESTTAG)
             t_KMALLSystemTransducerConfiguration::SingleTxSingleRx);
     REQUIRE(dat.is_dual_rx() == false);
 
+    // active sensor numbers are 1-based (POSI_n / ATTI_n), 0 = none active. Regression guard for the
+    // off-by-one selection bug: the returned number must be directly usable with the (1-based)
+    // get_*_offsets(n) getters, i.e. get_*_offsets(get_active_*_number()) selects the active sensor.
+    REQUIRE(dat.get_active_position_system_number() == 1); // POSI_1:U=ACTIVE
+    REQUIRE(dat.get_active_attitude_sensor_number() == 1); // ATTI_1:U=ACTIVE
+    REQUIRE(dat.get_position_system_offsets(dat.get_active_position_system_number()).name ==
+            "Position system 1");
+    REQUIRE(dat.get_attitude_sensor_offsets(dat.get_active_attitude_sensor_number()).name ==
+            "Attitude sensor 1");
+
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM);
 

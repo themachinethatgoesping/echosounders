@@ -45,6 +45,9 @@ class KMALLConfigurationDataInterfacePerFile
     using t_base = filetemplates::datainterfaces::I_ConfigurationDataInterfacePerFile<
         KMALLDatagramInterface<t_ifstream>>;
 
+    // Active systems, 1-based to match the IIP POSI_n / ATTI_n keys and get_*_offsets(n); 0 = none
+    // or "not yet read". The #SPO/#CPO/#SKM sensorSystem data field is 0-based, so the navigation
+    // data interface converts these to 0-based (value - 1) when selecting datagrams.
     uint8_t _active_position_system_number = 0;
     uint8_t _active_attitude_sensor_number = 0;
 
@@ -281,6 +284,11 @@ class KMALLConfigurationDataInterfacePerFile
         config.set_waterline_offset(param.get_water_line_vertical_location_in_meters());
 
         // add the attitude sensor (if available)
+        // Note: unlike the .all format, the kmall #SKM (KM binary) attitude samples are logged
+        // uncorrected ("All parameters are uncorrected. For processing of data, installation
+        // offsets, installation angles and attitude values are needed to correct the data for
+        // motion." - kmall #SKM datagram spec). We therefore leave PositionalOffsets::
+        // ypr_offsets_applied at its default (false) so the SensorConfiguration applies the offsets.
         if (_active_attitude_sensor_number > 0)
         {
             try

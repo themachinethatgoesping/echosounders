@@ -283,15 +283,16 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        uint8_t active_pos_system = config.get_active_position_system_number();
+        // config active number is 1-based (POSI_n, 0 = none); the #SPO sensorSystem field is 0-based.
+        int active_pos_system = int(config.get_active_position_system_number()) - 1;
 
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_POSITION))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::SPosition>();
 
-            // Only use data from the active position system
-            if (datagram.get_sensor_system() != active_pos_system)
+            // Only use data from the active position system (skip all if none active, i.e. -1)
+            if (int(datagram.get_sensor_system()) != active_pos_system)
                 continue;
 
             double timestamp = datagram.get_timestamp();
@@ -314,15 +315,16 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        uint8_t active_pos_system = config.get_active_position_system_number();
+        // config active number is 1-based (POSI_n, 0 = none); the #CPO sensorSystem field is 0-based.
+        int active_pos_system = int(config.get_active_position_system_number()) - 1;
 
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_POSITION))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::CPosition>();
 
-            // Only use data from the active position system
-            if (datagram.get_sensor_system() != active_pos_system)
+            // Only use data from the active position system (skip all if none active, i.e. -1)
+            if (int(datagram.get_sensor_system()) != active_pos_system)
                 continue;
 
             double timestamp = datagram.get_timestamp();
@@ -355,15 +357,16 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      times_heave,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        int8_t active_attitude_sensor_number = config.get_active_attitude_sensor_number();
+        // config active number is 1-based (ATTI_n, 0 = none); the #SKM sensorSystem field is 0-based.
+        int active_attitude_sensor_number = int(config.get_active_attitude_sensor_number()) - 1;
 
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_KM_BINARY))
         {
             auto datagram = packet->template read_datagram_from_file<datagrams::SKMBinary>();
 
-            // Only use data from the active attitude system
-            if (datagram.get_sensor_system() != active_attitude_sensor_number)
+            // Only use data from the active attitude system (skip all if none active, i.e. -1)
+            if (int(datagram.get_sensor_system()) != active_attitude_sensor_number)
                 continue;
 
             // Check which data types are active in this datagram

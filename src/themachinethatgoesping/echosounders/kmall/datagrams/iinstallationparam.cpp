@@ -707,12 +707,12 @@ int8_t IInstallationParam::get_active_position_system_number() const
             auto params = parse_sensor_string(it->second);
             if (params.count("U") && params["U"] == "ACTIVE")
             {
-                return i - 1;
+                return i;
             }
         }
     }
 
-    return -1; // None active
+    return 0; // None active
 }
 
 int8_t IInstallationParam::get_active_attitude_sensor_number() const
@@ -729,12 +729,12 @@ int8_t IInstallationParam::get_active_attitude_sensor_number() const
             auto params = parse_sensor_string(it->second);
             if (params.count("U") && params["U"] == "ACTIVE")
             {
-                return i - 1;
+                return i;
             }
         }
     }
 
-    return -1; // None active
+    return 0; // None active
 }
 
 std::string IInstallationParam::get_system_name() const

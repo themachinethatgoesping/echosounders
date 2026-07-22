@@ -433,7 +433,12 @@ void init_runtime_parameters()
         }
 
         // add the compass
-        config.set_heading_source(param.get_compass_offsets());
+        // The .all format logs the heading already corrected for the heading offset entered by the
+        // operator (see EM datagram spec), so flag the offset as pre-applied to avoid a second
+        // correction in the SensorConfiguration.
+        auto compass_offsets                = param.get_compass_offsets();
+        compass_offsets.ypr_offsets_applied = true;
+        config.set_heading_source(compass_offsets);
 
         // add the depth sensor
         config.set_depth_source(param.get_depth_sensor_offsets());
@@ -442,7 +447,11 @@ void init_runtime_parameters()
         config.set_waterline_offset(param.get_water_line_vertical_location_in_meters());
 
         // add the gyro
-        config.set_attitude_source(param.get_attitude_sensor_offsets(_active_pitch_roll_sensor));
+        // The .all format logs the attitude already corrected for the sensor mounting offsets (roll,
+        // pitch, heading bias) by the PU, so flag the offset as pre-applied to avoid re-applying it.
+        auto attitude_offsets                = param.get_attitude_sensor_offsets(_active_pitch_roll_sensor);
+        attitude_offsets.ypr_offsets_applied = true;
+        config.set_attitude_source(attitude_offsets);
 
         // add the position sensor
         config.set_position_source(

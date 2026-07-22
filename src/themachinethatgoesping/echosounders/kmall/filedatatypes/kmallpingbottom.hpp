@@ -84,8 +84,19 @@ class KMALLPingBottom
     xt::xtensor<size_t, 1> get_tx_sector_per_beam(
         const pingtools::BeamSelection& selection) override
     {
-        return xt::index_view(this->file_data().get_wcinfos().get_transmit_sector_numbers(),
-                              selection.get_beam_numbers());
+        // The transmit sector number per beam is stored per sounding in the bottom detection
+        // (#MRZ) datagram. Do NOT read it from the water column information (get_wcinfos()) here:
+        // that information is only populated when #MWC datagrams are present and would otherwise
+        // dereference a null pointer / index out of bounds.
+        auto datagram = this->file_data().template read_first_datagram<datagrams::MRangeAndDepth>();
+        auto sector_per_beam_u8 =
+            datagram.get_soundings().get_tx_sector_number_tensor(selection.get_beam_numbers());
+
+        auto sector_per_beam = xt::xtensor<size_t, 1>::from_shape({ sector_per_beam_u8.size() });
+        for (std::size_t i = 0; i < sector_per_beam_u8.size(); ++i)
+            sector_per_beam.unchecked(i) = static_cast<size_t>(sector_per_beam_u8.unchecked(i));
+
+        return sector_per_beam;
     }
 
     std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
