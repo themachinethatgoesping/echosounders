@@ -1,4 +1,4 @@
-//sourcehash: 4561f33f7cdbe8362b3b7352f6b80bd217cf7795ecdd3cf64bf7e754173b9736
+//sourcehash: 63d2bdea72d5e46ad7cb24f99ee32727c8ac962574d54d7b8c1eea752cbbebd6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,6 +46,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_KongsbergAllNavigationDataInterfacePerFile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_KongsbergAllNavigationDataInterfacePerFile_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_active_sensor_number =
+R"doc(Map an active-sensor enum (from the installation parameters
+ARO/AHS/AHE) to the motion sensor number (1 or 2) as encoded in the
+attitude datagram sensor system descriptor. Returns -1 if the active
+sensor is not a motion / attitude-velocity sensor, in which case no
+sensor filtering is applied (legacy behaviour).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllNavigationDataInterfacePerFile_add_attitudes = R"doc()doc";
 

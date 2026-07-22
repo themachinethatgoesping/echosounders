@@ -116,6 +116,16 @@ class KongsbergAllNavigationDataInterfacePerFile
         std::vector<double> heaves;
         std::vector<double> times_pitch_roll, times_heading_attitude, times_heave;
 
+        // Only use the attitude records that originate from the sensor that the operator marked as
+        // active in the installation parameters (ARO/AHS/AHE). Some vessels log two motion sensors
+        // (e.g. the Belgica) whose data differ by their mounting calibration; without this filter the
+        // deduplication would arbitrarily pick either sensor depending on the datagram order in the
+        // file. -1 means "no active sensor identified" -> legacy behaviour (accept any sensor).
+        const int active_pitch_roll_sensor =
+            active_sensor_number(config.get_active_pitch_roll_sensor());
+        const int active_heading_sensor = active_sensor_number(config.get_active_heading_sensor());
+        const int active_heave_sensor   = active_sensor_number(config.get_active_heave_sensor());
+
         this->add_attitudes<datagrams::AttitudeDatagram>(
             t_KongsbergAllDatagramIdentifier::AttitudeDatagram,
             headings_attitudes,
@@ -124,7 +134,16 @@ class KongsbergAllNavigationDataInterfacePerFile
             heaves,
             times_heading_attitude,
             times_pitch_roll,
-            times_heave);
+            times_heave,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            active_heading_sensor,
+            active_pitch_roll_sensor,
+            active_heave_sensor);
 
         this->add_attitudes<datagrams::NetworkAttitudeVelocityDatagram>(
             t_KongsbergAllDatagramIdentifier::NetworkAttitudeVelocityDatagram,
@@ -137,7 +156,13 @@ class KongsbergAllNavigationDataInterfacePerFile
             times_heave,
             times_heading_attitude.empty(),
             times_pitch_roll.empty(),
-            times_heave.empty());
+            times_heave.empty(),
+            false,
+            false,
+            false,
+            active_heading_sensor,
+            active_pitch_roll_sensor,
+            active_heave_sensor);
 
         // if heading, pitchs or heaves are still not found, fall back to inactive sensors from
         // existing datagrams
@@ -271,6 +296,27 @@ class KongsbergAllNavigationDataInterfacePerFile
         (rebuild(values), ...);
     }
 
+    /**
+     * @brief Map an active-sensor enum (from the installation parameters ARO/AHS/AHE) to the
+     * motion sensor number (1 or 2) as encoded in the attitude datagram sensor system descriptor.
+     * Returns -1 if the active sensor is not a motion / attitude-velocity sensor, in which case no
+     * sensor filtering is applied (legacy behaviour).
+     */
+    static int active_sensor_number(t_KongsbergAllActiveSensor sensor)
+    {
+        switch (sensor)
+        {
+            case t_KongsbergAllActiveSensor::MotionSensor1:
+            case t_KongsbergAllActiveSensor::AttitudeVelocitySensor1:
+                return 1;
+            case t_KongsbergAllActiveSensor::MotionSensor2:
+            case t_KongsbergAllActiveSensor::AttitudeVelocitySensor2:
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
     template<typename t_attitude_datagram>
     void add_attitudes(t_KongsbergAllDatagramIdentifier datagram_identifier,
                        std::vector<float>&              headings_attitudes,
@@ -285,24 +331,40 @@ class KongsbergAllNavigationDataInterfacePerFile
                        bool                             look_for_heave_sensor          = true,
                        bool                             use_inactive_heading_sensor    = false,
                        bool                             use_inactive_roll_pitch_sensor = false,
-                       bool                             use_inactive_heave_sensor = false) const
+                       bool                             use_inactive_heave_sensor      = false,
+                       int                              required_heading_sensor        = -1,
+                       int                              required_roll_pitch_sensor     = -1,
+                       int                              required_heave_sensor          = -1) const
     {
         for (auto& packet : this->_datagram_infos_by_type.at_const(datagram_identifier))
         {
             auto datagram = packet->template read_datagram_from_file<t_attitude_datagram>();
 
+            // Motion sensor number (1 or 2) encoded in bit 4 of the sensor system descriptor (bit 5
+            // selects the serial vs network interface, so it must be masked out here). Used to keep
+            // only the sensor that the operator marked as active (ARO/AHS/AHE); records of a second,
+            // inactive motion sensor (logged e.g. by the Belgica) are skipped so the deduplication
+            // cannot mix two differently-calibrated sensors depending on datagram order.
+            const int record_sensor =
+                int((static_cast<unsigned>(datagram.get_sensor_system_descriptor()) >> 4) & 0x1u) +
+                1;
+
             bool use_heading_sensor =
                 (datagram.get_heading_sensor_is_active() || use_inactive_heading_sensor) &&
-                look_for_heading_sensor;
+                look_for_heading_sensor &&
+                (required_heading_sensor < 0 || record_sensor == required_heading_sensor);
             bool use_roll_sensor =
                 (datagram.get_roll_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
-                look_for_roll_pitch_sensor;
+                look_for_roll_pitch_sensor &&
+                (required_roll_pitch_sensor < 0 || record_sensor == required_roll_pitch_sensor);
             bool use_pitch_sensor =
                 (datagram.get_pitch_sensor_is_active() || use_inactive_roll_pitch_sensor) &&
-                look_for_roll_pitch_sensor;
+                look_for_roll_pitch_sensor &&
+                (required_roll_pitch_sensor < 0 || record_sensor == required_roll_pitch_sensor);
             bool use_heave_sensor =
                 (datagram.get_heave_sensor_is_active() || use_inactive_heave_sensor) &&
-                look_for_heave_sensor;
+                look_for_heave_sensor &&
+                (required_heave_sensor < 0 || record_sensor == required_heave_sensor);
 
             // const auto sensor_number      = datagram.get_attitude_sensor_number();
 
