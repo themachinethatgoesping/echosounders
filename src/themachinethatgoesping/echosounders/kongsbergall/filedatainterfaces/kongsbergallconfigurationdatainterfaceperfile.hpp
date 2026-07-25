@@ -145,6 +145,9 @@ class KongsbergAllConfigurationDataInterfacePerFile
      */
 void init_runtime_parameters()
     {
+        if (_runtime_parameters_initialized)
+            return;
+
         // read installation parameters to get the system configuration system serial number(s)
         auto installation_parameters = this->read_installation_parameters();
 
