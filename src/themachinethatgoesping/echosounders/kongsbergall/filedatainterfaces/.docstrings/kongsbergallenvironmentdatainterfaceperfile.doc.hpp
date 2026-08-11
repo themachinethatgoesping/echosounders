@@ -1,4 +1,4 @@
-//sourcehash: 98f1dcce19f3a7279d83a4cce95575225fb886e727dd6757c600cd3c3f15d07f
+//sourcehash: 1bb05ec97e3b6ea52edabce8d96aeafd1ec8ff6ac65686b9e2eb69845d9c9098
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,6 +72,15 @@ Args:
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_has_soundspeed_profiles =
 R"doc(Check whether at least one SoundSpeedProfileDatagram is available for
 this file.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_init_from_file =
+R"doc(Pre-initialize per-file data on the calling thread.
+
+Overrides the base-class no-op so that sound-speed profiles are
+eagerly loaded when the environment interface is initialized (which
+always happens on the owning thread, before any parallel ping-reading
+tasks are launched).  This prevents concurrent flyweight construction
+and file I/O in the multi-threaded ping-init path.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllEnvironmentDataInterfacePerFile_init_soundspeed_profiles =
 R"doc(Read all SoundSpeedProfileDatagrams registered for this file and cache

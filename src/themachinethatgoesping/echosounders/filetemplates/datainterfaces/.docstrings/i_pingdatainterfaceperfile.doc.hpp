@@ -1,4 +1,4 @@
-//sourcehash: 34096821bc6c90774f1dacca9f7fb46326fd6aeb7619039fdcd48e232d7cba01
+//sourcehash: a9ec18b7ab18d7ead3bcf5fd7dc3caebfda6c0cee820b052f4244ad56be7c632
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterfacePerFile_environment_data_interface_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterfacePerFile_environment_data_interface_const = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterfacePerFile_init_file_interface_data =
+R"doc(Hook called on the owning thread for each primary file before any
+parallel ping-reading workers are launched.
+
+Derived classes may override this to eagerly load per-file data (e.g.
+runtime parameters, sound-speed profiles) on the owning thread,
+ensuring that their initialization is sequential and therefore avoids
+concurrent file I/O or concurrent flyweight-factory access.
+
+The default implementation is a no-op.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_PingDataInterfacePerFile_init_from_file = R"doc()doc";
 

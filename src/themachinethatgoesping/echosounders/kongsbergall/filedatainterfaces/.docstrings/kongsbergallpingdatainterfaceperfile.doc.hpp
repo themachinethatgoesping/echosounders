@@ -1,4 +1,4 @@
-//sourcehash: 92c8208a084e194e28625ef3ab2a001d36295a91a811c27de1a2e524a75cca9b
+//sourcehash: b45641ef814b82e59144f8a858a2774536aad77c83e4643d371c89b7cf2a876f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,18 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_update_index = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_KongsbergPingCacheHandler_update_index_file = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_init_file_interface_data =
+R"doc(Pre-initialize per-file data on the owning thread before any parallel
+workers are launched.
+
+Called by I_PingDataInterface::init_from_file for every primary file,
+sequentially on the owning thread, *before* std::async tasks start.
+This ensures that runtime-parameter and sound-speed-profile flyweights
+are created (and the initialization-done flags are set) on a single
+thread, avoiding concurrent file I/O and concurrent boost::flyweight-
+factory access that can cause data corruption on some platforms (e.g.
+MSVC / Windows).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_printer = R"doc()doc";
 
