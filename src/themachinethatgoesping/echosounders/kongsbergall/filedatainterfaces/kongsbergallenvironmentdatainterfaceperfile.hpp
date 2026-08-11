@@ -74,6 +74,25 @@ class KongsbergAllEnvironmentDataInterfacePerFile
     //     return navi;
     // }
 
+    // ----- interface methods -----
+
+    /**
+     * @brief Pre-initialize per-file data on the calling thread.
+     *
+     * Overrides the base-class no-op so that sound-speed profiles are eagerly
+     * loaded when the environment interface is initialized (which always
+     * happens on the owning thread, before any parallel ping-reading tasks are
+     * launched).  This prevents concurrent flyweight construction and file I/O
+     * in the multi-threaded ping-init path.
+     */
+    void init_from_file([[maybe_unused]] const std::string& index_path,
+                        bool                                force = false) override
+    {
+        if (force)
+            _soundspeed_profiles_initialized = false;
+        init_soundspeed_profiles();
+    }
+
     // --------------------- kongsbergall specific functions ---------------------
     /* get infos */
 

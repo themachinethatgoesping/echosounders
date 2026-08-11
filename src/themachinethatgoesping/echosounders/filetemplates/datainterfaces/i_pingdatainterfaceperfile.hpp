@@ -126,6 +126,19 @@ class I_PingDataInterfacePerFile
         return;
     }
 
+    /**
+     * @brief Hook called on the owning thread for each primary file before any
+     * parallel ping-reading workers are launched.
+     *
+     * Derived classes may override this to eagerly load per-file data
+     * (e.g. runtime parameters, sound-speed profiles) on the owning thread,
+     * ensuring that their initialization is sequential and therefore avoids
+     * concurrent file I/O or concurrent flyweight-factory access.
+     *
+     * The default implementation is a no-op.
+     */
+    virtual void init_file_interface_data() {}
+
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
     {

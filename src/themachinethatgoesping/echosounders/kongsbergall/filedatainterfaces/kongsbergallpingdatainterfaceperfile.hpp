@@ -61,6 +61,26 @@ class KongsbergAllPingDataInterfacePerFile
     }
     ~KongsbergAllPingDataInterfacePerFile() = default;
 
+    /**
+     * @brief Pre-initialize per-file data on the owning thread before any parallel
+     * workers are launched.
+     *
+     * Called by I_PingDataInterface::init_from_file for every primary file,
+     * sequentially on the owning thread, *before* std::async tasks start.
+     * This ensures that runtime-parameter and sound-speed-profile flyweights are
+     * created (and the initialization-done flags are set) on a single thread,
+     * avoiding concurrent file I/O and concurrent boost::flyweight-factory access
+     * that can cause data corruption on some platforms (e.g. MSVC / Windows).
+     */
+    void init_file_interface_data() override
+    {
+        // Initialize runtime parameters (idempotent; guarded by _runtime_parameters_initialized)
+        this->configuration_data_interface_for_file().init_runtime_parameters();
+
+        // Initialize sound-speed profiles (idempotent; guarded by _soundspeed_profiles_initialized)
+        this->environment_data_interface().per_file(this->get_file_nr()).init_soundspeed_profiles();
+    }
+
     filedatacontainers::KongsbergAllPingContainer<t_ifstream> read_pings(
         const std::unordered_map<std::string, std::string>& index_paths =
             std::unordered_map<std::string, std::string>()) override

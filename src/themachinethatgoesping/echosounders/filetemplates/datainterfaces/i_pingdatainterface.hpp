@@ -154,6 +154,17 @@ class I_PingDataInterface : public I_FileDataInterface<t_PingDataInterfacePerFil
             return primary_interfaces_per_file[i]->read_pings(index_paths);
         };
 
+        // Pre-initialize file-specific interface data (e.g. runtime parameters, sound-speed
+        // profiles) sequentially on the owning thread *before* any async workers are launched.
+        // This avoids concurrent file I/O and concurrent flyweight-factory access, which can
+        // cause subtle data corruption on some platforms (notably MSVC / Windows) when the same
+        // data is initialised simultaneously from two threads.  The idempotency guards inside the
+        // init methods make the subsequent calls from read_pings() no-ops.
+        for (size_t i = 0; i < n_files; ++i)
+        {
+            primary_interfaces_per_file[i]->init_file_interface_data();
+        }
+
         if (n_threads <= 1)
         {
             // ---- Single-threaded path (default, zero overhead) ----
