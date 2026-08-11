@@ -177,7 +177,7 @@ class I_FileDataInterface
                                 bool                                                force,
                                 tools::progressbars::I_ProgressBar&                 progress_bar,
                                 bool external_progress_tick = false,
-                                int  mp_cores              = 1)
+                                [[maybe unused]] int  mp_cores              = 1)
     {
         // const auto just means that the shared_ptr does not get copied
         // but the object it points is not const
